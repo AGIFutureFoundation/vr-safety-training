@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-24",
+  "generated": "2026-09-26",
   "weights": {
     "variety": 0.18,
     "decisions": 0.2,
@@ -680,67 +680,15 @@
           "got": 10
         },
         "scene": {
-          "score": 0.985,
-          "meshes": 174,
-          "materials": 92,
+          "score": 1,
+          "meshes": 214,
+          "materials": 99,
           "interactables": 24
         },
         "originality": {
           "score": 0.46712328767123307,
           "nearest": "tdl-pallet-jack-and-racking",
           "similarity": 0.2465753424657534
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "dental-lab-bench",
-      "name": "Dental Laboratory Bench",
-      "category": "Dental & Oral Health",
-      "steps": 15,
-      "score": 91,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.9166666666666666,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 373,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 7
-        },
-        "standards": {
-          "score": 0.5625,
-          "cited": 8,
-          "inScope": 5,
-          "outOfScope": 1,
-          "unregistered": 2
-        },
-        "feedback": {
-          "score": 1,
-          "want": 11,
-          "got": 11
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 227,
-          "materials": 140,
-          "interactables": 28
-        },
-        "originality": {
-          "score": 0.5495092693565976,
-          "nearest": "denture-delivery-and-adjustment",
-          "similarity": 0.2300981461286805
         }
       }
     },
@@ -845,6 +793,58 @@
           "score": 0.35806451612903245,
           "nearest": "ambulance-scene-safety",
           "similarity": 0.26838709677419353
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "vapor-mitigation",
+      "name": "Vapor Mitigation",
+      "category": "Building Systems & Facilities",
+      "steps": 15,
+      "score": 91,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 267,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 0.5,
+          "cited": 7,
+          "inScope": 4,
+          "outOfScope": 1,
+          "unregistered": 2
+        },
+        "feedback": {
+          "score": 1,
+          "want": 14,
+          "got": 14
+        },
+        "scene": {
+          "score": 0.9825,
+          "meshes": 173,
+          "materials": 104,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.6103362391033624,
+          "nearest": "bridge-lead-containment",
+          "similarity": 0.21793275217932753
         }
       }
     },
@@ -1318,58 +1318,6 @@
     },
     {
       "app": "smartcity",
-      "id": "parcel-status-walk",
-      "name": "Parcel Status Walk",
-      "category": "Community Environmental Justice",
-      "steps": 13,
-      "score": 92,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.9884615384615384,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 271,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 5
-        },
-        "standards": {
-          "score": 0.6666666666666666,
-          "cited": 3,
-          "inScope": 2,
-          "outOfScope": 0,
-          "unregistered": 1
-        },
-        "feedback": {
-          "score": 1,
-          "want": 10,
-          "got": 10
-        },
-        "scene": {
-          "score": 0.9840909090909091,
-          "meshes": 189,
-          "materials": 95,
-          "interactables": 21
-        },
-        "originality": {
-          "score": 0.10000000000000009,
-          "nearest": "retest-witnessing",
-          "similarity": 0.32
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "keg-cellar-co2",
       "name": "Keg Cellar CO2",
       "category": "Culinary & Hospitality",
@@ -1514,7 +1462,7 @@
         "scene": {
           "score": 0.9249999999999999,
           "meshes": 150,
-          "materials": 80,
+          "materials": 79,
           "interactables": 22
         },
         "originality": {
@@ -2098,6 +2046,58 @@
     },
     {
       "app": "smartcity",
+      "id": "dental-lab-bench",
+      "name": "Dental Laboratory Bench",
+      "category": "Dental & Oral Health",
+      "steps": 15,
+      "score": 93,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 373,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 0.7222222222222222,
+          "cited": 9,
+          "inScope": 7,
+          "outOfScope": 1,
+          "unregistered": 1
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 227,
+          "materials": 140,
+          "interactables": 28
+        },
+        "originality": {
+          "score": 0.5495092693565976,
+          "nearest": "denture-delivery-and-adjustment",
+          "similarity": 0.2300981461286805
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "hazmat-container-inspection",
       "name": "Hazmat Container Inspection",
       "category": "Maritime & Ports",
@@ -2197,6 +2197,58 @@
           "score": 0.5026315789473685,
           "nearest": "sensor-colocation-check",
           "similarity": 0.2394736842105263
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "parcel-status-walk",
+      "name": "Parcel Status Walk",
+      "category": "Community Environmental Justice",
+      "steps": 13,
+      "score": 93,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 271,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 0.75,
+          "cited": 4,
+          "inScope": 3,
+          "outOfScope": 0,
+          "unregistered": 1
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9840909090909091,
+          "meshes": 189,
+          "materials": 95,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.10000000000000009,
+          "nearest": "retest-witnessing",
+          "similarity": 0.32
         }
       }
     },
@@ -2773,58 +2825,6 @@
       }
     },
     {
-      "app": "smartcity",
-      "id": "dredge-barge",
-      "name": "Dredge Barge",
-      "category": "Maritime & Ports",
-      "steps": 13,
-      "score": 93,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 311,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 7
-        },
-        "standards": {
-          "score": 0.8,
-          "cited": 5,
-          "inScope": 4,
-          "outOfScope": 0,
-          "unregistered": 1
-        },
-        "feedback": {
-          "score": 1,
-          "want": 12,
-          "got": 12
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 212,
-          "materials": 97,
-          "interactables": 23
-        },
-        "originality": {
-          "score": 0,
-          "nearest": "sediment-cap",
-          "similarity": 0.34558823529411764
-        }
-      }
-    },
-    {
       "app": "trades",
       "id": "devops",
       "name": "Deploy Bay",
@@ -3020,9 +3020,9 @@
           "got": 10
         },
         "scene": {
-          "score": 0.7029545454545455,
-          "meshes": 93,
-          "materials": 51,
+          "score": 0.7654545454545454,
+          "meshes": 118,
+          "materials": 59,
           "interactables": 17
         },
         "originality": {
@@ -3161,12 +3161,12 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 7
+          "authorities": 8
         },
         "standards": {
-          "score": 0.7142857142857143,
-          "cited": 7,
-          "inScope": 5,
+          "score": 0.75,
+          "cited": 8,
+          "inScope": 6,
           "outOfScope": 0,
           "unregistered": 2
         },
@@ -3442,9 +3442,9 @@
           "interactables": 25
         },
         "originality": {
-          "score": 0.6153439153439155,
-          "nearest": "bridge-lead-containment",
-          "similarity": 0.21693121693121692
+          "score": 0.4851851851851853,
+          "nearest": "bt-masonry-wall-layout-and-mortar",
+          "similarity": 0.24296296296296296
         }
       }
     },
@@ -3497,58 +3497,6 @@
           "score": 0.42212692967409954,
           "nearest": "discharge-photo-doc",
           "similarity": 0.2555746140651801
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "garden-soil-screen",
-      "name": "Garden Soil Screen",
-      "category": "Community Environmental Justice",
-      "steps": 12,
-      "score": 94,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 6,
-          "longestRun": 1
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 262,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "standards": {
-          "score": 0.6666666666666666,
-          "cited": 3,
-          "inScope": 2,
-          "outOfScope": 0,
-          "unregistered": 1
-        },
-        "feedback": {
-          "score": 1,
-          "want": 10,
-          "got": 10
-        },
-        "scene": {
-          "score": 0.9425,
-          "meshes": 157,
-          "materials": 82,
-          "interactables": 26
-        },
-        "originality": {
-          "score": 0.6253731343283583,
-          "nearest": "rad-survey",
-          "similarity": 0.21492537313432836
         }
       }
     },
@@ -3681,12 +3629,12 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 5
+          "authorities": 6
         },
         "standards": {
           "score": 1,
-          "cited": 3,
-          "inScope": 3,
+          "cited": 4,
+          "inScope": 4,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -4201,12 +4149,12 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 6
+          "authorities": 7
         },
         "standards": {
-          "score": 0.8571428571428571,
-          "cited": 7,
-          "inScope": 6,
+          "score": 0.875,
+          "cited": 8,
+          "inScope": 7,
           "outOfScope": 0,
           "unregistered": 1
         },
@@ -4225,58 +4173,6 @@
           "score": 0,
           "nearest": "dredge-barge",
           "similarity": 0.34558823529411764
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "vapor-mitigation",
-      "name": "Vapor Mitigation",
-      "category": "Building Systems & Facilities",
-      "steps": 15,
-      "score": 94,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 1
-        },
-        "decisions": {
-          "score": 0.9166666666666666,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 267,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 6
-        },
-        "standards": {
-          "score": 0.8,
-          "cited": 5,
-          "inScope": 4,
-          "outOfScope": 0,
-          "unregistered": 1
-        },
-        "feedback": {
-          "score": 1,
-          "want": 14,
-          "got": 14
-        },
-        "scene": {
-          "score": 0.9825,
-          "meshes": 173,
-          "materials": 104,
-          "interactables": 27
-        },
-        "originality": {
-          "score": 0.6103362391033624,
-          "nearest": "bridge-lead-containment",
-          "similarity": 0.21793275217932753
         }
       }
     },
@@ -4329,6 +4225,58 @@
           "score": 0,
           "nearest": "building-rad-scan",
           "similarity": 0.3774436090225564
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "dredge-barge",
+      "name": "Dredge Barge",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 311,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 0.8333333333333334,
+          "cited": 6,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 1
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 212,
+          "materials": 97,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "sediment-cap",
+          "similarity": 0.34558823529411764
         }
       }
     },
@@ -4854,58 +4802,6 @@
     },
     {
       "app": "smartcity",
-      "id": "dental-careers-pathway",
-      "name": "Dental Careers Pathway",
-      "category": "Dental & Oral Health",
-      "steps": 15,
-      "score": 95,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.9666666666666667,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 404,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 6
-        },
-        "standards": {
-          "score": 0.8333333333333334,
-          "cited": 6,
-          "inScope": 5,
-          "outOfScope": 0,
-          "unregistered": 1
-        },
-        "feedback": {
-          "score": 1,
-          "want": 11,
-          "got": 11
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 224,
-          "materials": 146,
-          "interactables": 31
-        },
-        "originality": {
-          "score": 0.569949494949495,
-          "nearest": "apprenticeship-application-and-test",
-          "similarity": 0.22601010101010102
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "crisis-intervention-call",
       "name": "Crisis Intervention Call",
       "category": "Emergency Services",
@@ -5010,6 +4906,58 @@
     },
     {
       "app": "smartcity",
+      "id": "garden-soil-screen",
+      "name": "Garden Soil Screen",
+      "category": "Community Environmental Justice",
+      "steps": 12,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 262,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 0.75,
+          "cited": 4,
+          "inScope": 3,
+          "outOfScope": 0,
+          "unregistered": 1
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9425,
+          "meshes": 157,
+          "materials": 82,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.6253731343283583,
+          "nearest": "rad-survey",
+          "similarity": 0.21492537313432836
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "fenceline-dust-monitor",
       "name": "Fenceline Dust Monitor",
       "category": "Community Environmental Justice",
@@ -5033,12 +4981,12 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 5
+          "authorities": 6
         },
         "standards": {
           "score": 1,
-          "cited": 3,
-          "inScope": 3,
+          "cited": 4,
+          "inScope": 4,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -5673,14 +5621,14 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 269,
+          "meshes": 264,
           "materials": 83,
           "interactables": 28
         },
         "originality": {
-          "score": 0.5601823708206688,
-          "nearest": "isco-injection",
-          "similarity": 0.22796352583586627
+          "score": 0.42478386167147,
+          "nearest": "br-tidal-marsh-grading-amphibious-excavator",
+          "similarity": 0.25504322766570603
         }
       }
     },
@@ -6518,6 +6466,162 @@
     },
     {
       "app": "smartcity",
+      "id": "br-cold-water-immersion-and-mob-recovery",
+      "name": "Cold Water Immersion & MOB Recovery",
+      "category": "Maritime & Ports",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 349,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 0.8333333333333334,
+          "cited": 9,
+          "inScope": 8,
+          "outOfScope": 1,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 195,
+          "materials": 101,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.48065395095367863,
+          "nearest": "br-boom-towing-between-two-vessels",
+          "similarity": 0.2438692098092643
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "bus-yard-fuelling-and-brake-check",
+      "name": "Bus Yard Fuelling & Brake Check",
+      "category": "Mobility & Transit",
+      "steps": 15,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9666666666666667,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 402,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 10
+        },
+        "standards": {
+          "score": 0.8888888888888888,
+          "cited": 9,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 1
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 193,
+          "materials": 105,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.42340425531914916,
+          "nearest": "tdl-air-brake-test",
+          "similarity": 0.2553191489361702
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "manhole-entry-and-atmospheric-monitoring",
+      "name": "Manhole Entry & Atmospheric Monitoring",
+      "category": "Water & Environmental",
+      "steps": 15,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9666666666666667,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 462,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 9
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 214,
+          "materials": 107,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.2705289672544081,
+          "nearest": "cs-non-entry-retrieval-and-tripod",
+          "similarity": 0.2858942065491184
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "mw-diver-emergency-and-recovery",
       "name": "Diver Emergency & Recovery",
       "category": "Maritime & Ports",
@@ -6934,6 +7038,58 @@
     },
     {
       "app": "smartcity",
+      "id": "tdl-backing-and-docking",
+      "name": "Backing and Docking",
+      "category": "Mobility & Transit",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 351,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9525,
+          "meshes": 161,
+          "materials": 83,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.14680851063829797,
+          "nearest": "drive-backing-serpentine-and-alley-dock",
+          "similarity": 0.31063829787234043
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "emergency-savings-and-predatory-lending",
       "name": "Emergency Savings & Predatory Lending",
       "category": "Community Environmental Justice",
@@ -7142,6 +7298,58 @@
     },
     {
       "app": "smartcity",
+      "id": "dental-careers-pathway",
+      "name": "Dental Careers Pathway",
+      "category": "Dental & Oral Health",
+      "steps": 15,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9666666666666667,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 404,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 0.8571428571428571,
+          "cited": 7,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 1
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 224,
+          "materials": 146,
+          "interactables": 31
+        },
+        "originality": {
+          "score": 0.569949494949495,
+          "nearest": "apprenticeship-application-and-test",
+          "similarity": 0.22601010101010102
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "ambulance-scene-safety",
       "name": "Ambulance Scene Safety",
       "category": "Emergency Services",
@@ -7273,8 +7481,8 @@
         },
         "standards": {
           "score": 1,
-          "cited": 7,
-          "inScope": 7,
+          "cited": 8,
+          "inScope": 8,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -7377,8 +7585,8 @@
         },
         "standards": {
           "score": 1,
-          "cited": 6,
-          "inScope": 6,
+          "cited": 7,
+          "inScope": 7,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -7441,8 +7649,8 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 225,
-          "materials": 98,
+          "meshes": 269,
+          "materials": 113,
           "interactables": 24
         },
         "originality": {
@@ -7605,6 +7813,58 @@
           "score": 0.42197309417040363,
           "nearest": "steel-erector",
           "similarity": 0.2556053811659193
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "formwork-shoring",
+      "name": "Formwork Shoring",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 328,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 197,
+          "materials": 84,
+          "interactables": 34
+        },
+        "originality": {
+          "score": 0.370605612998523,
+          "nearest": "bt-formwork-stripping-and-reshoring",
+          "similarity": 0.2658788774002954
         }
       }
     },
@@ -7789,12 +8049,12 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 5
+          "authorities": 6
         },
         "standards": {
           "score": 1,
-          "cited": 3,
-          "inScope": 3,
+          "cited": 4,
+          "inScope": 4,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -8365,8 +8625,8 @@
         },
         "standards": {
           "score": 1,
-          "cited": 5,
-          "inScope": 5,
+          "cited": 6,
+          "inScope": 6,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -8417,8 +8677,8 @@
         },
         "standards": {
           "score": 1,
-          "cited": 6,
-          "inScope": 6,
+          "cited": 7,
+          "inScope": 7,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -8533,7 +8793,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 262,
+          "meshes": 254,
           "materials": 92,
           "interactables": 29
         },
@@ -9013,6 +9273,474 @@
       }
     },
     {
+      "app": "smartcity",
+      "id": "drive-backing-serpentine-and-alley-dock",
+      "name": "Backing Serpentine and Alley Dock",
+      "category": "Mobility & Transit",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 369,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 280,
+          "materials": 75,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.14680851063829797,
+          "nearest": "tdl-backing-and-docking",
+          "similarity": 0.31063829787234043
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "drive-night-fog-and-rail-crossing",
+      "name": "Night Fog and Rail Crossing",
+      "category": "Mobility & Transit",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 9,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 336,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.9681818181818183,
+          "meshes": 265,
+          "materials": 80,
+          "interactables": 20
+        },
+        "originality": {
+          "score": 0.30615883306320923,
+          "nearest": "drive-city-route-and-turns",
+          "similarity": 0.2787682333873582
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "drive-mountain-grade-and-engine-brake",
+      "name": "Mountain Grade and Engine Brake",
+      "category": "Mobility & Transit",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 345,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9681818181818183,
+          "meshes": 267,
+          "materials": 79,
+          "interactables": 20
+        },
+        "originality": {
+          "score": 0.3443381180223287,
+          "nearest": "drive-city-route-and-turns",
+          "similarity": 0.2711323763955343
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "drive-freeway-merge-and-following-distance",
+      "name": "Freeway Merge and Following Distance",
+      "category": "Mobility & Transit",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 9,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 350,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.9840909090909091,
+          "meshes": 277,
+          "materials": 79,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.25769230769230794,
+          "nearest": "drive-city-route-and-turns",
+          "similarity": 0.28846153846153844
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "drive-city-route-and-turns",
+      "name": "City Route and Turns",
+      "category": "Mobility & Transit",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 9,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 369,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.9681818181818183,
+          "meshes": 271,
+          "materials": 93,
+          "interactables": 20
+        },
+        "originality": {
+          "score": 0.25769230769230794,
+          "nearest": "drive-freeway-merge-and-following-distance",
+          "similarity": 0.28846153846153844
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "bs-bearing-replacement-and-jacking",
+      "name": "Bearing Replacement & Jacking",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 398,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 221,
+          "materials": 105,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.39127516778523497,
+          "nearest": "bs-tandem-lift-girder-set",
+          "similarity": 0.26174496644295303
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "bs-tandem-lift-girder-set",
+      "name": "Tandem Lift & Girder Set",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 395,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 275,
+          "materials": 105,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.39127516778523497,
+          "nearest": "bs-bearing-replacement-and-jacking",
+          "similarity": 0.26174496644295303
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-derelict-gear-recovery-dive",
+      "name": "Derelict Gear Recovery Dive",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 377,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 189,
+          "materials": 66,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.20000000000000018,
+          "nearest": "mw-diver-emergency-and-recovery",
+          "similarity": 0.3
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "hz-level-b-entry-and-scba-change-out",
+      "name": "Level B Entry & SCBA Change-Out",
+      "category": "Environmental Monitoring",
+      "steps": 15,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 383,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9840909090909091,
+          "meshes": 186,
+          "materials": 89,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.48928987194412116,
+          "nearest": "drum-sampling-and-overpack",
+          "similarity": 0.2421420256111758
+        }
+      }
+    },
+    {
       "app": "trades",
       "id": "paint-sprayer",
       "name": "Coatings Bay",
@@ -9370,9 +10098,9 @@
           "interactables": 16
         },
         "originality": {
-          "score": 0.5946587537091989,
-          "nearest": "tdl-pick-pack-and-scan",
-          "similarity": 0.22106824925816024
+          "score": 0.5525835866261399,
+          "nearest": "hw-flatwork-ironer-and-folder-guarding",
+          "similarity": 0.22948328267477203
         }
       }
     },
@@ -9638,6 +10366,110 @@
     },
     {
       "app": "smartcity",
+      "id": "cs-non-entry-retrieval-and-tripod",
+      "name": "Non-Entry Retrieval & Tripod",
+      "category": "Water & Environmental",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 365,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 198,
+          "materials": 102,
+          "interactables": 31
+        },
+        "originality": {
+          "score": 0.2705289672544081,
+          "nearest": "manhole-entry-and-atmospheric-monitoring",
+          "similarity": 0.2858942065491184
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cs-ventilation-and-air-monitoring-plan",
+      "name": "Ventilation & Air Monitoring Plan",
+      "category": "Water & Environmental",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 363,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 198,
+          "materials": 110,
+          "interactables": 31
+        },
+        "originality": {
+          "score": 0.3978508217446272,
+          "nearest": "manhole-entry-and-atmospheric-monitoring",
+          "similarity": 0.2604298356510746
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "battery-storage-container-commissioning",
       "name": "Battery Storage Container Commissioning",
       "category": "Energy & Power",
@@ -9690,9 +10522,9 @@
     },
     {
       "app": "smartcity",
-      "id": "bus-yard-fuelling-and-brake-check",
-      "name": "Bus Yard Fuelling & Brake Check",
-      "category": "Mobility & Transit",
+      "id": "drum-sampling-and-overpack",
+      "name": "Drum Sampling & Overpack",
+      "category": "Environmental Monitoring",
       "steps": 15,
       "score": 97,
       "d": {
@@ -9708,12 +10540,12 @@
         },
         "explanation": {
           "score": 1,
-          "medianWhy": 402,
+          "medianWhy": 410,
           "thin": 0
         },
         "grounding": {
           "score": 1,
-          "authorities": 9
+          "authorities": 8
         },
         "standards": {
           "score": 1,
@@ -9729,14 +10561,14 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 193,
-          "materials": 105,
-          "interactables": 23
+          "meshes": 247,
+          "materials": 110,
+          "interactables": 25
         },
         "originality": {
-          "score": 0.42340425531914916,
-          "nearest": "tdl-air-brake-test",
-          "similarity": 0.2553191489361702
+          "score": 0.48928987194412116,
+          "nearest": "hz-level-b-entry-and-scba-change-out",
+          "similarity": 0.2421420256111758
         }
       }
     },
@@ -9846,58 +10678,6 @@
     },
     {
       "app": "smartcity",
-      "id": "manhole-entry-and-atmospheric-monitoring",
-      "name": "Manhole Entry & Atmospheric Monitoring",
-      "category": "Water & Environmental",
-      "steps": 15,
-      "score": 97,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.9666666666666667,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 462,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 9
-        },
-        "standards": {
-          "score": 1,
-          "cited": 8,
-          "inScope": 8,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 12,
-          "got": 12
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 214,
-          "materials": 107,
-          "interactables": 24
-        },
-        "originality": {
-          "score": 0.35546218487394976,
-          "nearest": "valve-vault",
-          "similarity": 0.2689075630252101
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "mw-underwater-welding-and-cutting",
       "name": "Underwater Welding & Cutting",
       "category": "Maritime & Ports",
@@ -9945,6 +10725,58 @@
           "score": 0.3799410029498526,
           "nearest": "mw-pier-pile-inspection-dive",
           "similarity": 0.2640117994100295
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "mw-workboat-towing-and-line-handling",
+      "name": "Workboat Towing & Line Handling",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 410,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 185,
+          "materials": 96,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.35937072503419987,
+          "nearest": "br-boom-towing-between-two-vessels",
+          "similarity": 0.26812585499316005
         }
       }
     },
@@ -10306,9 +11138,9 @@
           "interactables": 23
         },
         "originality": {
-          "score": 0.4219101123595506,
-          "nearest": "gg-pile-driver-fender-repair",
-          "similarity": 0.2556179775280899
+          "score": 0.41577574967405495,
+          "nearest": "bs-tandem-lift-girder-set",
+          "similarity": 0.25684485006518903
         }
       }
     },
@@ -10612,9 +11444,9 @@
           "got": 12
         },
         "scene": {
-          "score": 0.9800000000000001,
-          "meshes": 172,
-          "materials": 84,
+          "score": 1,
+          "meshes": 286,
+          "materials": 94,
           "interactables": 25
         },
         "originality": {
@@ -10626,8 +11458,8 @@
     },
     {
       "app": "smartcity",
-      "id": "tdl-pretrip-inspection",
-      "name": "Pre-Trip Inspection",
+      "id": "tdl-pallet-jack-and-racking",
+      "name": "Pallet Jack and Racking",
       "category": "Mobility & Transit",
       "steps": 13,
       "score": 97,
@@ -10644,7 +11476,7 @@
         },
         "explanation": {
           "score": 1,
-          "medianWhy": 337,
+          "medianWhy": 345,
           "thin": 0
         },
         "grounding": {
@@ -10660,19 +11492,19 @@
         },
         "feedback": {
           "score": 1,
-          "want": 11,
-          "got": 11
+          "want": 12,
+          "got": 12
         },
         "scene": {
-          "score": 0.9774999999999999,
-          "meshes": 171,
-          "materials": 85,
-          "interactables": 29
+          "score": 1,
+          "meshes": 216,
+          "materials": 104,
+          "interactables": 27
         },
         "originality": {
-          "score": 0.438738738738739,
-          "nearest": "bus-yard-fuelling-and-brake-check",
-          "similarity": 0.25225225225225223
+          "score": 0.40967741935483887,
+          "nearest": "drive-light-vehicle-fleet-and-forklift-course",
+          "similarity": 0.25806451612903225
         }
       }
     },
@@ -11190,9 +12022,9 @@
           "interactables": 31
         },
         "originality": {
-          "score": 0.41134020618556727,
-          "nearest": "community-listening-session",
-          "similarity": 0.25773195876288657
+          "score": 0.28808290155440425,
+          "nearest": "cv-open-meeting-law-and-agenda-notice",
+          "similarity": 0.2823834196891192
         }
       }
     },
@@ -11433,8 +12265,8 @@
         },
         "standards": {
           "score": 1,
-          "cited": 7,
-          "inScope": 7,
+          "cited": 8,
+          "inScope": 8,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -11485,8 +12317,8 @@
         },
         "standards": {
           "score": 1,
-          "cited": 6,
-          "inScope": 6,
+          "cited": 7,
+          "inScope": 7,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -11762,61 +12594,9 @@
           "interactables": 25
         },
         "originality": {
-          "score": 0.5961038961038962,
-          "nearest": "mass-timber-panel-set",
-          "similarity": 0.22077922077922077
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "formwork-shoring",
-      "name": "Formwork Shoring",
-      "category": "Construction & Structural Trades",
-      "steps": 14,
-      "score": 97,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 7,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.95,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 328,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "standards": {
-          "score": 1,
-          "cited": 5,
-          "inScope": 5,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 11,
-          "got": 11
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 197,
-          "materials": 84,
-          "interactables": 34
-        },
-        "originality": {
-          "score": 0.4625178826895566,
-          "nearest": "mass-timber-panel-set",
-          "similarity": 0.2474964234620887
+          "score": 0.5107752956636006,
+          "nearest": "hw-banquet-room-flip-and-staging",
+          "similarity": 0.2378449408672799
         }
       }
     },
@@ -12265,8 +13045,8 @@
         },
         "standards": {
           "score": 1,
-          "cited": 4,
-          "inScope": 4,
+          "cited": 5,
+          "inScope": 5,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -12317,8 +13097,8 @@
         },
         "standards": {
           "score": 1,
-          "cited": 6,
-          "inScope": 6,
+          "cited": 7,
+          "inScope": 7,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -12369,8 +13149,8 @@
         },
         "standards": {
           "score": 1,
-          "cited": 6,
-          "inScope": 6,
+          "cited": 7,
+          "inScope": 7,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -12421,8 +13201,8 @@
         },
         "standards": {
           "score": 1,
-          "cited": 4,
-          "inScope": 4,
+          "cited": 5,
+          "inScope": 5,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -12521,12 +13301,12 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 5
+          "authorities": 6
         },
         "standards": {
           "score": 1,
-          "cited": 4,
-          "inScope": 4,
+          "cited": 5,
+          "inScope": 5,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -12577,8 +13357,8 @@
         },
         "standards": {
           "score": 1,
-          "cited": 3,
-          "inScope": 3,
+          "cited": 4,
+          "inScope": 4,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -12857,6 +13637,1618 @@
           "score": 0.48157503714710265,
           "nearest": "decon-line",
           "similarity": 0.2436849925705795
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "drive-light-vehicle-fleet-and-forklift-course",
+      "name": "Light Vehicle Fleet and Forklift Course",
+      "category": "Mobility & Transit",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 334,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 14,
+          "got": 14
+        },
+        "scene": {
+          "score": 0.9840909090909091,
+          "meshes": 207,
+          "materials": 83,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.40967741935483887,
+          "nearest": "tdl-pallet-jack-and-racking",
+          "similarity": 0.25806451612903225
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-scrimmage-and-sportsmanship-debrief",
+      "name": "Scrimmage and Sportsmanship Debrief",
+      "category": "Youth Sports & Coaching",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 327,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 219,
+          "materials": 125,
+          "interactables": 32
+        },
+        "originality": {
+          "score": 0.39230769230769236,
+          "nearest": "bb-passing-and-catching",
+          "similarity": 0.26153846153846155
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-team-offense-spacing-and-screens",
+      "name": "Team Offense: Spacing and Screens",
+      "category": "Youth Sports & Coaching",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 304,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 233,
+          "materials": 126,
+          "interactables": 34
+        },
+        "originality": {
+          "score": 0.32600536193029495,
+          "nearest": "bb-rebounding-and-boxing-out",
+          "similarity": 0.27479892761394104
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-rebounding-and-boxing-out",
+      "name": "Rebounding and Boxing Out",
+      "category": "Youth Sports & Coaching",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 315,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 233,
+          "materials": 131,
+          "interactables": 33
+        },
+        "originality": {
+          "score": 0.32600536193029495,
+          "nearest": "bb-team-offense-spacing-and-screens",
+          "similarity": 0.27479892761394104
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-defensive-stance-and-closeouts",
+      "name": "Defensive Stance and Closeouts",
+      "category": "Youth Sports & Coaching",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 323,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 217,
+          "materials": 116,
+          "interactables": 32
+        },
+        "originality": {
+          "score": 0.20597609561752994,
+          "nearest": "bb-stance-and-ball-handling",
+          "similarity": 0.29880478087649404
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-free-throw-routine",
+      "name": "Free Throw Routine",
+      "category": "Youth Sports & Coaching",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 339,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 240,
+          "materials": 136,
+          "interactables": 34
+        },
+        "originality": {
+          "score": 0.2401974612129762,
+          "nearest": "bb-shooting-form-and-arc",
+          "similarity": 0.2919605077574048
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-shooting-form-and-arc",
+      "name": "Shooting Form and Arc",
+      "category": "Youth Sports & Coaching",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 324,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 200,
+          "materials": 113,
+          "interactables": 32
+        },
+        "originality": {
+          "score": 0.2401974612129762,
+          "nearest": "bb-free-throw-routine",
+          "similarity": 0.2919605077574048
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-passing-and-catching",
+      "name": "Passing and Catching",
+      "category": "Youth Sports & Coaching",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 329,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 236,
+          "materials": 129,
+          "interactables": 33
+        },
+        "originality": {
+          "score": 0.3151797603195741,
+          "nearest": "bb-stance-and-ball-handling",
+          "similarity": 0.2769640479360852
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-footwork-pivots-and-jump-stops",
+      "name": "Footwork: Pivots and Jump Stops",
+      "category": "Youth Sports & Coaching",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 334,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 228,
+          "materials": 123,
+          "interactables": 37
+        },
+        "originality": {
+          "score": 0.28237547892720316,
+          "nearest": "bb-defensive-stance-and-closeouts",
+          "similarity": 0.2835249042145594
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-stance-and-ball-handling",
+      "name": "Stance and Ball Handling",
+      "category": "Youth Sports & Coaching",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 342,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 224,
+          "materials": 120,
+          "interactables": 33
+        },
+        "originality": {
+          "score": 0.20597609561752994,
+          "nearest": "bb-defensive-stance-and-closeouts",
+          "similarity": 0.29880478087649404
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-warmup-injury-prevention-and-hydration",
+      "name": "Warm-Up, Injury Prevention and Hydration",
+      "category": "Youth Sports & Coaching",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 361,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 241,
+          "materials": 129,
+          "interactables": 35
+        },
+        "originality": {
+          "score": 0.36342648845686526,
+          "nearest": "bb-footwork-pivots-and-jump-stops",
+          "similarity": 0.267314702308627
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cv-difficult-conversation-across-difference",
+      "name": "Difficult Conversation Across Difference",
+      "category": "Community Environmental Justice",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 434,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 202,
+          "materials": 118,
+          "interactables": 34
+        },
+        "originality": {
+          "score": 0.3623067776456601,
+          "nearest": "cv-restorative-justice-circle-facilitation",
+          "similarity": 0.267538644470868
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cv-restorative-justice-circle-facilitation",
+      "name": "Restorative Justice Circle",
+      "category": "Community Environmental Justice",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 420,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 229,
+          "materials": 125,
+          "interactables": 35
+        },
+        "originality": {
+          "score": 0.3623067776456601,
+          "nearest": "cv-difficult-conversation-across-difference",
+          "similarity": 0.267538644470868
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cv-open-meeting-law-and-agenda-notice",
+      "name": "Open Meeting Law and Agenda Notice",
+      "category": "Community Environmental Justice",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 436,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 268,
+          "materials": 147,
+          "interactables": 34
+        },
+        "originality": {
+          "score": 0.28808290155440425,
+          "nearest": "public-meeting-chair",
+          "similarity": 0.2823834196891192
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "bt-masonry-wall-layout-and-mortar",
+      "name": "Masonry Wall Layout & Mortar",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 379,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 195,
+          "materials": 102,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.4851851851851853,
+          "nearest": "masonry-silica-scaffold",
+          "similarity": 0.24296296296296296
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "bt-rebar-tying-and-impalement-protection",
+      "name": "Rebar Tying & Impalement Protection",
+      "category": "Construction & Structural Trades",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 381,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 200,
+          "materials": 84,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.486008230452675,
+          "nearest": "bs-tandem-lift-girder-set",
+          "similarity": 0.24279835390946503
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "bt-formwork-stripping-and-reshoring",
+      "name": "Formwork Stripping & Reshoring",
+      "category": "Construction & Structural Trades",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 361,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 196,
+          "materials": 82,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.370605612998523,
+          "nearest": "formwork-shoring",
+          "similarity": 0.2658788774002954
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "bs-structural-bolting-and-torque",
+      "name": "Structural Bolting & Torque",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 393,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 276,
+          "materials": 128,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.5707571801566581,
+          "nearest": "gg-main-cable-band-inspection",
+          "similarity": 0.2258485639686684
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-dive-tender-and-umbilical-management",
+      "name": "Dive Tender & Umbilical Management",
+      "category": "Maritime & Ports",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 383,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 215,
+          "materials": 111,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.3363636363636366,
+          "nearest": "mw-diver-emergency-and-recovery",
+          "similarity": 0.2727272727272727
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-underwater-sediment-core-sampling",
+      "name": "Underwater Sediment Core Sampling",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 383,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 191,
+          "materials": 75,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.3718750000000001,
+          "nearest": "br-derelict-gear-recovery-dive",
+          "similarity": 0.265625
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-underwater-debris-survey-and-mapping",
+      "name": "Underwater Debris Survey & Mapping",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 385,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 184,
+          "materials": 75,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.23766617429837544,
+          "nearest": "br-derelict-gear-recovery-dive",
+          "similarity": 0.29246676514032494
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-boom-towing-between-two-vessels",
+      "name": "Boom Towing Between Two Vessels",
+      "category": "Maritime & Ports",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 346,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 10
+        },
+        "standards": {
+          "score": 1,
+          "cited": 10,
+          "inScope": 10,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 188,
+          "materials": 97,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.35937072503419987,
+          "nearest": "mw-workboat-towing-and-line-handling",
+          "similarity": 0.26812585499316005
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-workboat-crane-lift-from-water",
+      "name": "Workboat Crane Lift From Water",
+      "category": "Maritime & Ports",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 354,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 180,
+          "materials": 100,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.23727144866385386,
+          "nearest": "br-derelict-vessel-salvage-rigging",
+          "similarity": 0.29254571026722925
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-derelict-vessel-salvage-rigging",
+      "name": "Derelict Vessel Salvage Rigging",
+      "category": "Maritime & Ports",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 407,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 10
+        },
+        "standards": {
+          "score": 1,
+          "cited": 13,
+          "inScope": 13,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 234,
+          "materials": 119,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.23727144866385386,
+          "nearest": "br-workboat-crane-lift-from-water",
+          "similarity": 0.29254571026722925
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-dredge-material-screening-and-disposal-decision",
+      "name": "Dredge Material Screening & Disposal Decision",
+      "category": "Environmental Monitoring",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 340,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 10
+        },
+        "standards": {
+          "score": 1,
+          "cited": 10,
+          "inScope": 10,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 230,
+          "materials": 110,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.4146892655367232,
+          "nearest": "dredge-barge",
+          "similarity": 0.2570621468926554
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-legacy-mercury-and-pcb-hotspot-handling",
+      "name": "Legacy Mercury & PCB Hotspot Handling",
+      "category": "Environmental Monitoring",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 354,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 229,
+          "materials": 112,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.36915422885572147,
+          "nearest": "br-dredge-spoils-dewatering-pad",
+          "similarity": 0.26616915422885573
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-turbidity-curtain-deployment",
+      "name": "Turbidity Curtain Deployment",
+      "category": "Environmental Monitoring",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 362,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 9
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 251,
+          "materials": 117,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.4272727272727275,
+          "nearest": "creosote-pile-removal",
+          "similarity": 0.2545454545454545
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-dredge-spoils-dewatering-pad",
+      "name": "Dredge Spoils Dewatering Pad",
+      "category": "Environmental Monitoring",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 353,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 9
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 212,
+          "materials": 116,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.36915422885572147,
+          "nearest": "br-legacy-mercury-and-pcb-hotspot-handling",
+          "similarity": 0.26616915422885573
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "le-crowd-barricade-and-show-stop-call",
+      "name": "Crowd Barricade & Show-Stop Call",
+      "category": "Entertainment & Live Events",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 396,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.9840909090909091,
+          "meshes": 269,
+          "materials": 87,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.4288135593220341,
+          "nearest": "le-followspot-and-truss-access-at-height",
+          "similarity": 0.2542372881355932
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "le-followspot-and-truss-access-at-height",
+      "name": "Followspot & Truss Access at Height",
+      "category": "Entertainment & Live Events",
+      "steps": 12,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 409,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9522727272727273,
+          "meshes": 233,
+          "materials": 84,
+          "interactables": 19
+        },
+        "originality": {
+          "score": 0.4288135593220341,
+          "nearest": "le-crowd-barricade-and-show-stop-call",
+          "similarity": 0.2542372881355932
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-tidal-marsh-grading-amphibious-excavator",
+      "name": "Tidal Marsh Grading — Amphibious Excavator",
+      "category": "Water & Environmental",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 299,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 234,
+          "materials": 101,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.24861111111111112,
+          "nearest": "living-shoreline",
+          "similarity": 0.2902777777777778
         }
       }
     },
@@ -13253,8 +15645,8 @@
         },
         "standards": {
           "score": 1,
-          "cited": 6,
-          "inScope": 6,
+          "cited": 7,
+          "inScope": 7,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -13330,25 +15722,25 @@
     },
     {
       "app": "smartcity",
-      "id": "drum-sampling-and-overpack",
-      "name": "Drum Sampling & Overpack",
-      "category": "Environmental Monitoring",
-      "steps": 15,
+      "id": "cs-permit-entry-and-attendant-duties",
+      "name": "Permit Entry & Attendant Duties",
+      "category": "Water & Environmental",
+      "steps": 13,
       "score": 98,
       "d": {
         "variety": {
           "score": 1,
-          "distinct": 8,
+          "distinct": 7,
           "longestRun": 2
         },
         "decisions": {
-          "score": 0.9666666666666667,
+          "score": 1,
           "hazards": 4,
           "interrupts": 2
         },
         "explanation": {
           "score": 1,
-          "medianWhy": 410,
+          "medianWhy": 371,
           "thin": 0
         },
         "grounding": {
@@ -13357,8 +15749,8 @@
         },
         "standards": {
           "score": 1,
-          "cited": 8,
-          "inScope": 8,
+          "cited": 9,
+          "inScope": 9,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -13369,14 +15761,170 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 247,
-          "materials": 110,
-          "interactables": 25
+          "meshes": 219,
+          "materials": 120,
+          "interactables": 28
         },
         "originality": {
-          "score": 0.6324487334137515,
-          "nearest": "gg-paint-containment-on-the-deck",
-          "similarity": 0.2135102533172497
+          "score": 0.58328530259366,
+          "nearest": "cs-ventilation-and-air-monitoring-plan",
+          "similarity": 0.22334293948126802
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "hw-flatwork-ironer-and-folder-guarding",
+      "name": "Flatwork Ironer & Folder Guarding",
+      "category": "Culinary & Hospitality",
+      "steps": 13,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 381,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9925,
+          "meshes": 177,
+          "materials": 101,
+          "interactables": 30
+        },
+        "originality": {
+          "score": 0.522341857335128,
+          "nearest": "sm-shop-layout-and-shear",
+          "similarity": 0.23553162853297444
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "hw-banquet-room-flip-and-staging",
+      "name": "Banquet Room Flip & Staging",
+      "category": "Culinary & Hospitality",
+      "steps": 14,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 380,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 14,
+          "got": 14
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 187,
+          "materials": 97,
+          "interactables": 30
+        },
+        "originality": {
+          "score": 0.5107752956636006,
+          "nearest": "banquet-setup-lift",
+          "similarity": 0.2378449408672799
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "hw-housekeeping-cart-and-chemical-safety",
+      "name": "Housekeeping Cart & Chemical Safety",
+      "category": "Culinary & Hospitality",
+      "steps": 14,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 404,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 180,
+          "materials": 122,
+          "interactables": 28
+        },
+        "originality": {
+          "score": 0.5930348258706469,
+          "nearest": "dish-pit",
+          "similarity": 0.22139303482587064
         }
       }
     },
@@ -13426,9 +15974,9 @@
           "interactables": 22
         },
         "originality": {
-          "score": 0.5199181446111869,
-          "nearest": "pilot-transfer",
-          "similarity": 0.23601637107776263
+          "score": 0.5196286472148542,
+          "nearest": "br-workboat-crane-lift-from-water",
+          "similarity": 0.23607427055702918
         }
       }
     },
@@ -13481,58 +16029,6 @@
           "score": 0.511881188118812,
           "nearest": "bunkering-watch",
           "similarity": 0.2376237623762376
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "mw-workboat-towing-and-line-handling",
-      "name": "Workboat Towing & Line Handling",
-      "category": "Maritime & Ports",
-      "steps": 13,
-      "score": 98,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 410,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 7
-        },
-        "standards": {
-          "score": 1,
-          "cited": 6,
-          "inScope": 6,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 10,
-          "got": 10
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 185,
-          "materials": 96,
-          "interactables": 23
-        },
-        "originality": {
-          "score": 0.4598425196850395,
-          "nearest": "mw-ferry-deckhand-and-passenger-safety",
-          "similarity": 0.24803149606299213
         }
       }
     },
@@ -14045,65 +16541,13 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 190,
-          "materials": 80,
+          "meshes": 298,
+          "materials": 102,
           "interactables": 26
         },
         "originality": {
           "score": 0.5579387186629527,
           "nearest": "tdl-backing-and-docking",
-          "similarity": 0.22841225626740946
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "tdl-backing-and-docking",
-      "name": "Backing and Docking",
-      "category": "Mobility & Transit",
-      "steps": 13,
-      "score": 98,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 351,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 6
-        },
-        "standards": {
-          "score": 1,
-          "cited": 6,
-          "inScope": 6,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 12,
-          "got": 12
-        },
-        "scene": {
-          "score": 0.9525,
-          "meshes": 161,
-          "materials": 83,
-          "interactables": 24
-        },
-        "originality": {
-          "score": 0.5579387186629527,
-          "nearest": "tdl-cargo-securement-and-hours",
           "similarity": 0.22841225626740946
         }
       }
@@ -14148,15 +16592,67 @@
           "got": 12
         },
         "scene": {
-          "score": 0.9675,
-          "meshes": 167,
-          "materials": 84,
+          "score": 1,
+          "meshes": 247,
+          "materials": 90,
           "interactables": 28
         },
         "originality": {
           "score": 0.5033536585365855,
           "nearest": "tdl-air-brake-test",
           "similarity": 0.23932926829268292
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "tdl-pretrip-inspection",
+      "name": "Pre-Trip Inspection",
+      "category": "Mobility & Transit",
+      "steps": 13,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 337,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 280,
+          "materials": 91,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.438738738738739,
+          "nearest": "bus-yard-fuelling-and-brake-check",
+          "similarity": 0.25225225225225223
         }
       }
     },
@@ -14258,9 +16754,9 @@
           "interactables": 26
         },
         "originality": {
-          "score": 0.6600470035252645,
-          "nearest": "drum-sampling-and-overpack",
-          "similarity": 0.20799059929494712
+          "score": 0.6324487334137515,
+          "nearest": "hw-housekeeping-cart-and-chemical-safety",
+          "similarity": 0.2135102533172497
         }
       }
     },
@@ -14305,8 +16801,8 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 201,
-          "materials": 93,
+          "meshes": 275,
+          "materials": 109,
           "interactables": 27
         },
         "originality": {
@@ -14365,58 +16861,6 @@
           "score": 0.5456090651558074,
           "nearest": "walk-in-cooler",
           "similarity": 0.23087818696883852
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "tdl-pallet-jack-and-racking",
-      "name": "Pallet Jack and Racking",
-      "category": "Mobility & Transit",
-      "steps": 13,
-      "score": 98,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 345,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "standards": {
-          "score": 1,
-          "cited": 6,
-          "inScope": 6,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 12,
-          "got": 12
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 216,
-          "materials": 104,
-          "interactables": 27
-        },
-        "originality": {
-          "score": 0.4552447552447554,
-          "nearest": "tdl-lifting-and-ergonomics",
-          "similarity": 0.24895104895104894
         }
       }
     },
@@ -15194,9 +17638,9 @@
           "interactables": 24
         },
         "originality": {
-          "score": 0.6578005115089515,
-          "nearest": "pm-lobby-and-front-desk",
-          "similarity": 0.20843989769820973
+          "score": 0.5827160493827162,
+          "nearest": "hw-banquet-room-flip-and-staging",
+          "similarity": 0.2234567901234568
         }
       }
     },
@@ -15905,8 +18349,8 @@
         },
         "standards": {
           "score": 1,
-          "cited": 7,
-          "inScope": 7,
+          "cited": 8,
+          "inScope": 8,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -15957,8 +18401,8 @@
         },
         "standards": {
           "score": 1,
-          "cited": 8,
-          "inScope": 8,
+          "cited": 9,
+          "inScope": 9,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -16009,8 +18453,8 @@
         },
         "standards": {
           "score": 1,
-          "cited": 10,
-          "inScope": 10,
+          "cited": 11,
+          "inScope": 11,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -16061,8 +18505,8 @@
         },
         "standards": {
           "score": 1,
-          "cited": 7,
-          "inScope": 7,
+          "cited": 8,
+          "inScope": 8,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -16113,8 +18557,8 @@
         },
         "standards": {
           "score": 1,
-          "cited": 7,
-          "inScope": 7,
+          "cited": 8,
+          "inScope": 8,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -16161,12 +18605,12 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 6
+          "authorities": 7
         },
         "standards": {
           "score": 1,
-          "cited": 6,
-          "inScope": 6,
+          "cited": 8,
+          "inScope": 8,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -16217,8 +18661,8 @@
         },
         "standards": {
           "score": 1,
-          "cited": 5,
-          "inScope": 5,
+          "cited": 6,
+          "inScope": 6,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -16269,8 +18713,8 @@
         },
         "standards": {
           "score": 1,
-          "cited": 6,
-          "inScope": 6,
+          "cited": 7,
+          "inScope": 7,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -16390,9 +18834,9 @@
           "interactables": 24
         },
         "originality": {
-          "score": 0.5983050847457628,
-          "nearest": "concrete-pour",
-          "similarity": 0.22033898305084745
+          "score": 0.594878706199461,
+          "nearest": "bs-bearing-replacement-and-jacking",
+          "similarity": 0.2210242587601078
         }
       }
     },
@@ -16525,12 +18969,12 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 4
+          "authorities": 5
         },
         "standards": {
           "score": 1,
-          "cited": 2,
-          "inScope": 2,
+          "cited": 3,
+          "inScope": 3,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -16962,9 +19406,9 @@
           "interactables": 24
         },
         "originality": {
-          "score": 0.5848396501457727,
-          "nearest": "mw-oil-transfer-watch-and-boom",
-          "similarity": 0.2230320699708455
+          "score": 0.4983425414364642,
+          "nearest": "br-boom-towing-between-two-vessels",
+          "similarity": 0.24033149171270718
         }
       }
     },
@@ -17170,9 +19614,841 @@
           "interactables": 28
         },
         "originality": {
-          "score": 0.6114658925979682,
-          "nearest": "creosote-pile-removal",
-          "similarity": 0.21770682148040638
+          "score": 0.6012517385257302,
+          "nearest": "bs-bearing-replacement-and-jacking",
+          "similarity": 0.21974965229485396
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cv-grant-application-and-nonprofit-compliance",
+      "name": "Grant Application and Nonprofit Compliance",
+      "category": "Community Environmental Justice",
+      "steps": 14,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 449,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 184,
+          "materials": 117,
+          "interactables": 34
+        },
+        "originality": {
+          "score": 0.5176033934252386,
+          "nearest": "cv-voter-registration-drive-and-nonpartisan-conduct",
+          "similarity": 0.23647932131495228
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cv-voter-registration-drive-and-nonpartisan-conduct",
+      "name": "Voter Registration Drive",
+      "category": "Community Environmental Justice",
+      "steps": 14,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 432,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 193,
+          "materials": 123,
+          "interactables": 35
+        },
+        "originality": {
+          "score": 0.5176033934252386,
+          "nearest": "cv-grant-application-and-nonprofit-compliance",
+          "similarity": 0.23647932131495228
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "dn-public-health-dentistry-and-fluoridation-advocacy",
+      "name": "Public Health Dentistry & Fluoridation Advocacy",
+      "category": "Dental & Oral Health",
+      "steps": 14,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 480,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 13
+        },
+        "standards": {
+          "score": 1,
+          "cited": 12,
+          "inScope": 12,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 191,
+          "materials": 114,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.6446185997910137,
+          "nearest": "cv-difficult-conversation-across-difference",
+          "similarity": 0.2110762800417973
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "dn-dental-coding-billing-and-preauthorisation",
+      "name": "Dental Coding, Billing & Pre-authorisation",
+      "category": "Dental & Oral Health",
+      "steps": 14,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 464,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 9
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 182,
+          "materials": 103,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.5664421997755332,
+          "nearest": "front-office-treatment-coordination",
+          "similarity": 0.22671156004489337
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "dn-oral-hygiene-instruction-and-motivational-interviewing",
+      "name": "Oral Hygiene Instruction & Motivational Interviewing",
+      "category": "Dental & Oral Health",
+      "steps": 14,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 453,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 12
+        },
+        "standards": {
+          "score": 1,
+          "cited": 11,
+          "inScope": 11,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 181,
+          "materials": 117,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.44589266155531215,
+          "nearest": "dn-medical-history-and-medication-review",
+          "similarity": 0.2508214676889376
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "dn-medical-history-and-medication-review",
+      "name": "Medical History & Medication Review",
+      "category": "Dental & Oral Health",
+      "steps": 13,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 469,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 11
+        },
+        "standards": {
+          "score": 1,
+          "cited": 10,
+          "inScope": 10,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 182,
+          "materials": 120,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.44589266155531215,
+          "nearest": "dn-oral-hygiene-instruction-and-motivational-interviewing",
+          "similarity": 0.2508214676889376
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "dn-dental-trauma-and-avulsed-tooth-response",
+      "name": "Dental Trauma & Avulsed Tooth Response",
+      "category": "Dental & Oral Health",
+      "steps": 14,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 464,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 11
+        },
+        "standards": {
+          "score": 1,
+          "cited": 10,
+          "inScope": 10,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 181,
+          "materials": 121,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.6171974522292994,
+          "nearest": "dn-medical-history-and-medication-review",
+          "similarity": 0.21656050955414013
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "dn-digital-intraoral-scanning-and-cad-cam",
+      "name": "Digital Intraoral Scanning & CAD/CAM",
+      "category": "Dental & Oral Health",
+      "steps": 14,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 488,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 11
+        },
+        "standards": {
+          "score": 1,
+          "cited": 10,
+          "inScope": 10,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9974999999999999,
+          "meshes": 179,
+          "materials": 122,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.6165763813651138,
+          "nearest": "four-handed-dentistry",
+          "similarity": 0.21668472372697725
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-hyperbaric-chamber-standby",
+      "name": "Hyperbaric Chamber Standby",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 380,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 231,
+          "materials": 123,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.4692307692307693,
+          "nearest": "mw-dive-supervisor-and-dive-plan",
+          "similarity": 0.24615384615384617
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-surface-supplied-dive-station-setup",
+      "name": "Surface-Supplied Dive Station Setup",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 395,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 234,
+          "materials": 126,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.5124156545209178,
+          "nearest": "mw-dive-supervisor-and-dive-plan",
+          "similarity": 0.23751686909581646
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-dive-site-hazard-assessment-and-jsa",
+      "name": "Dive Site Hazard Assessment & JSA",
+      "category": "Maritime & Ports",
+      "steps": 14,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 409,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 214,
+          "materials": 128,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.465743073047859,
+          "nearest": "mw-dive-supervisor-and-dive-plan",
+          "similarity": 0.24685138539042822
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-barge-loading-of-contaminated-sediment",
+      "name": "Barge Loading of Contaminated Sediment",
+      "category": "Maritime & Ports",
+      "steps": 14,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 344,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 201,
+          "materials": 96,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.47038043478260877,
+          "nearest": "br-boom-towing-between-two-vessels",
+          "similarity": 0.24592391304347827
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-debris-skimmer-vessel-operations",
+      "name": "Debris Skimmer Vessel Operations",
+      "category": "Maritime & Ports",
+      "steps": 14,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 371,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 10,
+          "inScope": 10,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 196,
+          "materials": 116,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.46693766937669384,
+          "nearest": "br-workboat-crane-lift-from-water",
+          "similarity": 0.24661246612466126
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-trash-capture-device-service",
+      "name": "Trash Capture Device Service",
+      "category": "Environmental Monitoring",
+      "steps": 14,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 321,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 10
+        },
+        "standards": {
+          "score": 1,
+          "cited": 12,
+          "inScope": 12,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 197,
+          "materials": 102,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.5151041666666668,
+          "nearest": "br-debris-skimmer-vessel-operations",
+          "similarity": 0.23697916666666666
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-water-quality-sonde-calibration-and-deploy",
+      "name": "Water Quality Sonde Calibration & Deploy",
+      "category": "Environmental Monitoring",
+      "steps": 14,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 350,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 243,
+          "materials": 117,
+          "interactables": 28
+        },
+        "originality": {
+          "score": 0.5575268817204302,
+          "nearest": "br-turbidity-curtain-deployment",
+          "similarity": 0.22849462365591397
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-sediment-chain-of-custody-and-lab-prep",
+      "name": "Sediment Chain of Custody & Lab Prep",
+      "category": "Environmental Monitoring",
+      "steps": 14,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 344,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 209,
+          "materials": 119,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.4858032378580325,
+          "nearest": "br-dredge-spoils-dewatering-pad",
+          "similarity": 0.24283935242839352
         }
       }
     },
@@ -17537,6 +20813,58 @@
           "score": 0.7797940797940798,
           "nearest": "pm-mail-and-package-room",
           "similarity": 0.18404118404118405
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cv-neighborhood-emergency-block-captain",
+      "name": "Neighborhood Emergency Block Captain",
+      "category": "Community Environmental Justice",
+      "steps": 14,
+      "score": 99,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 395,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 231,
+          "materials": 142,
+          "interactables": 35
+        },
+        "originality": {
+          "score": 0.7161104718066744,
+          "nearest": "damage-assessment-team",
+          "similarity": 0.19677790563866512
         }
       }
     },
