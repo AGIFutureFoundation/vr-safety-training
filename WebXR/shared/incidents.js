@@ -62,6 +62,12 @@ const GENERIC = new Set([
   // before it is the forklift course, so it names nothing on its own. It
   // became reachable with drive-light-vehicle-fleet-and-forklift-course.
   "course",
+  // "miss" is what this whole feature is built to report — "we had a near
+  // miss" — so it cannot also be what points the report at a station. It
+  // became reachable with bb-reset-routine-after-a-miss, and without it here
+  // "we had a near miss in the car park yesterday" scored as a report
+  // against that station.
+  "miss",
 ]);
 
 const STOP = new Set([

@@ -578,9 +578,9 @@ export const PROGRAMME_COMPETENCIES = [
     stations: [
       "bb-warmup-injury-prevention-and-hydration", "bb-stance-and-ball-handling", "bb-footwork-pivots-and-jump-stops", "bb-passing-and-catching",
       "bb-shooting-form-and-arc", "bb-free-throw-routine", "bb-defensive-stance-and-closeouts", "bb-rebounding-and-boxing-out",
-      "bb-team-offense-spacing-and-screens", "bb-scrimmage-and-sportsmanship-debrief"
+      "bb-team-offense-spacing-and-screens", "bb-scrimmage-and-sportsmanship-debrief", "bb-reset-routine-after-a-miss", "bb-pre-game-routine-and-visualisation"
     ],
-    require: 5,
+    require: 6,
   },
   {
     id: "bay-restoration-maritime-underwater",
