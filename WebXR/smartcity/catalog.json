@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 423
+      "stations": 425
     },
     "trades": {
       "entry": "trades/index.html",
@@ -44,6 +44,7 @@
         "line-truck",
         "substation-switching",
         "battery-yard",
+        "or-solar-farm-tracker-row-maintenance",
         "or-transmission-line-right-of-way-patrol",
         "battery-storage-container-commissioning",
         "temporary-site-power",
@@ -228,6 +229,7 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "or-ranch-road-grading-and-culvert",
         "leading-edge-and-horizontal-lifeline",
         "gg-pile-driver-fender-repair",
         "gg-fog-and-wind-work-stop",
@@ -1145,13 +1147,23 @@
           "app": "smartcity",
           "id": "et-ev-fleet-depot-charging-and-arc-flash",
           "why": "The depot row at the panel a whole fleet plugs into: zero energy proven before the lockout, a cut cable and a live ground fault both caught before the vans ever see them."
+        },
+        {
+          "app": "smartcity",
+          "id": "or-transmission-line-right-of-way-patrol",
+          "why": "The corridor these stations feed and draw from, walked and driven on open range, where a downed conductor is treated as energised from the first look at it, not judged safe by what it looks like lying in the grass."
+        },
+        {
+          "app": "smartcity",
+          "id": "or-solar-farm-tracker-row-maintenance",
+          "why": "The array itself serviced under a real combiner lockout, with the manual override never turning a row until the meter, not the switch position, says the DC is actually dead."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1700,
-        "tasks": 140,
+        "lessons": 1642,
+        "tasks": 130,
         "atBar": 20,
         "partial": 0,
         "stationsNeeded": 0,
@@ -2871,12 +2883,17 @@
           "app": "smartcity",
           "id": "bt-masonry-wall-layout-and-mortar",
           "why": "Where a bricklayer's wall begins: laid out square off the gridlines, dry-bonded, batched to the specification's proportions with the dust kept wet, and braced per the bracing plan inside its limited access zone."
+        },
+        {
+          "app": "smartcity",
+          "id": "or-ranch-road-grading-and-culvert",
+          "why": "The operating engineer's own station, off the slab entirely: a crown cut to the plan on open range, a culvert set in a trench respected as an excavation, and a school bus on the same road escorted through on the flagger's call."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1620,
+        "lessons": 1633,
         "tasks": 120,
         "atBar": 20,
         "partial": 0,
@@ -2972,12 +2989,17 @@
           "app": "smartcity",
           "id": "psychological-first-aid",
           "why": "Look, listen, link at the family assistance centre: practical needs met first, a person's own words reflected, and a reporter turned away from a family that never agreed to be quoted."
+        },
+        {
+          "app": "smartcity",
+          "id": "or-wildland-fireline-construction-and-lookout",
+          "why": "The wildland edge from the crew's own side of it: LCES named before a tool moves, and a wind shift or a spot fire across the line answered by the radio instead of by someone deciding alone to keep cutting."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1705,
+        "lessons": 1703,
         "tasks": 120,
         "atBar": 20,
         "partial": 0,
@@ -7647,6 +7669,172 @@
     },
     {
       "app": "smartcity",
+      "id": "or-ranch-road-grading-and-culvert",
+      "name": "Ranch Road Grading & Culvert",
+      "title": "SmartCiti.X~ Ranch Road Grading & Culvert VR",
+      "tagline": "A ranch access road regraded and a culvert set under it: the work zone flagged first, the crown and cross-slope checked against the plan, the trench respected as an excavation, and a school bus on the same road escorted through on the flagger's call",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Operating engineer — IUOE",
+      "union": null,
+      "certification": "IUOE operating engineers — grading and heavy equipment; OSHA 29 CFR 1926 safety and health regulations for construction; OSHA 29 CFR 1926 Subpart P Excavations for the culvert trench; OSHA 29 CFR 1926.21 safety training and education in construction; the Manual on Uniform Traffic Control Devices (MUTCD) for the work zone on the access road",
+      "accent": "#c9a36b",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": "open-range",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "turn",
+        "hold",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "road-restored",
+        "name": "Road Restored",
+        "note": "A crown cut to the plan, a culvert set and backfilled in a respected trench, and a school bus escorted through the work zone without anyone in its path"
+      },
+      "meshes": 187,
+      "lights": 0,
+      "overBudget": false,
+      "index": "263",
+      "flat": false,
+      "system": "Grade Crew",
+      "currency": "GRADE",
+      "ranks": [
+        "Ground Hand",
+        "Grader Operator",
+        "Lead Operator",
+        "Grade Foreman",
+        "Grade Certified"
+      ],
+      "awards": [
+        {
+          "id": "zone-flagged-first",
+          "name": "Zone Flagged First",
+          "note": "The work zone set before the blade ever moved"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcut",
+          "note": "No unsafe action anywhere in the run"
+        },
+        {
+          "id": "grade-to-plan",
+          "name": "Grade to Plan",
+          "note": "Held the crown and cross-slope reading in band"
+        },
+        {
+          "id": "clean-grade",
+          "name": "Clean Grade",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "grade-fast",
+          "name": "Grade Fast",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "crew-streak",
+          "name": "Crew Streak",
+          "note": "Eight correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=or-ranch-road-grading-and-culvert"
+    },
+    {
+      "app": "smartcity",
+      "id": "or-solar-farm-tracker-row-maintenance",
+      "name": "Solar Tracker Row Maintenance",
+      "title": "SmartCiti.X~ Solar Tracker Row Maintenance VR",
+      "tagline": "A tracker row serviced under a real combiner lockout: zero energy proven before the manual override turns the row, a worn bearing found and replaced, the full sweep watched before sign-off, and a rattlesnake in the row handled without anyone reaching near it",
+      "category": "Energy & Power",
+      "domain": "Energy",
+      "trade": "Solar technician — IBEW",
+      "union": null,
+      "certification": "IBEW outside line and solar technicians; NFPA 70 (NEC) Article 690 photovoltaic systems; OSHA 29 CFR 1910.147 control of hazardous energy for the combiner lockout; NFPA 70E electrical safety in the workplace; NABCEP PV commissioning and maintenance practice",
+      "accent": "#9fd84f",
+      "parSeconds": 300,
+      "weather": "heat-haze",
+      "indoor": null,
+      "district": "open-range",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "turn",
+        "drag",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "row-returned",
+        "name": "Row Returned",
+        "note": "A tracker row locked out, its bearing replaced, swept clean through its range and returned to production with the lock removed last"
+      },
+      "meshes": 166,
+      "lights": 0,
+      "overBudget": false,
+      "index": "262",
+      "flat": false,
+      "system": "Array Command",
+      "currency": "WATT",
+      "ranks": [
+        "Field Tech",
+        "Solar Technician",
+        "Lead Technician",
+        "Site Supervisor",
+        "Array Certified"
+      ],
+      "awards": [
+        {
+          "id": "locked-first",
+          "name": "Locked First",
+          "note": "The combiner locked and proven dead before the manual override ever turned"
+        },
+        {
+          "id": "torque-held",
+          "name": "Torque Held",
+          "note": "Held the bearing bolt torque the full count"
+        },
+        {
+          "id": "sweep-clean",
+          "name": "Sweep Clean",
+          "note": "The function test held in band the whole sweep"
+        },
+        {
+          "id": "clean-row",
+          "name": "Clean Row",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "row-fast",
+          "name": "Row Fast",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "tech-streak",
+          "name": "Tech Streak",
+          "note": "Eight correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=or-solar-farm-tracker-row-maintenance"
+    },
+    {
+      "app": "smartcity",
       "id": "or-wildland-fireline-construction-and-lookout",
       "name": "Wildland Fireline Construction",
       "title": "SmartCiti.X~ Wildland Fireline Construction VR",
@@ -7678,7 +7866,7 @@
         "name": "Line Holds",
         "note": "A fireline cut to mineral soil, tied into its anchor, with LCES named first and the wind shift answered the instant it was called"
       },
-      "meshes": 162,
+      "meshes": 164,
       "lights": 0,
       "overBudget": false,
       "index": "261",
@@ -27751,7 +27939,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 254,
+      "meshes": 264,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -28411,7 +28599,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",

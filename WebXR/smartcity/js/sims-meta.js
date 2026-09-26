@@ -18046,5 +18046,89 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "or-solar-farm-tracker-row-maintenance",
+    "index": "262",
+    "domain": "Energy",
+    "trade": "Solar technician — IBEW",
+    "category": "Energy & Power",
+    "certification": "IBEW outside line and solar technicians; NFPA 70 (NEC) Article 690 photovoltaic systems; OSHA 29 CFR 1910.147 control of hazardous energy for the combiner lockout; NFPA 70E electrical safety in the workplace; NABCEP PV commissioning and maintenance practice",
+    "name": "Solar Tracker Row Maintenance",
+    "weather": "heat-haze",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Solar Tracker Row Maintenance VR",
+    "tagline": "A tracker row serviced under a real combiner lockout: zero energy proven before the manual override turns the row, a worn bearing found and replaced, the full sweep watched before sign-off, and a rattlesnake in the row handled without anyone reaching near it",
+    "accent": 10475599,
+    "accentCss": "#9fd84f",
+    "parSeconds": 300,
+    "badge": {
+      "id": "row-returned",
+      "name": "Row Returned",
+      "note": "A tracker row locked out, its bearing replaced, swept clean through its range and returned to production with the lock removed last"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Array Command",
+      "currency": "WATT",
+      "ranks": [
+        "Field Tech",
+        "Solar Technician",
+        "Lead Technician",
+        "Site Supervisor",
+        "Array Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "or-ranch-road-grading-and-culvert",
+    "index": "263",
+    "domain": "Construction",
+    "trade": "Operating engineer — IUOE",
+    "category": "Construction & Structural Trades",
+    "certification": "IUOE operating engineers — grading and heavy equipment; OSHA 29 CFR 1926 safety and health regulations for construction; OSHA 29 CFR 1926 Subpart P Excavations for the culvert trench; OSHA 29 CFR 1926.21 safety training and education in construction; the Manual on Uniform Traffic Control Devices (MUTCD) for the work zone on the access road",
+    "name": "Ranch Road Grading & Culvert",
+    "weather": "wind",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Ranch Road Grading & Culvert VR",
+    "tagline": "A ranch access road regraded and a culvert set under it: the work zone flagged first, the crown and cross-slope checked against the plan, the trench respected as an excavation, and a school bus on the same road escorted through on the flagger's call",
+    "accent": 13214571,
+    "accentCss": "#c9a36b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "road-restored",
+      "name": "Road Restored",
+      "note": "A crown cut to the plan, a culvert set and backfilled in a respected trench, and a school bus escorted through the work zone without anyone in its path"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Grade Crew",
+      "currency": "GRADE",
+      "ranks": [
+        "Ground Hand",
+        "Grader Operator",
+        "Lead Operator",
+        "Grade Foreman",
+        "Grade Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

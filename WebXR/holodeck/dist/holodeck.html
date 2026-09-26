@@ -9618,9 +9618,10 @@ const PROGRAMME_COMPETENCIES = [
     standards: ["nfpa-70e", "nfpa-855", "nfpa-70-art-690"],
     stations: [
       "solar-deck", "battery-yard", "charge-point", "substation-switching",
-      "cell-site-battery", "battery-storage-container-commissioning", "et-ev-fleet-depot-charging-and-arc-flash"
+      "cell-site-battery", "battery-storage-container-commissioning", "et-ev-fleet-depot-charging-and-arc-flash", "or-transmission-line-right-of-way-patrol",
+      "or-solar-farm-tracker-row-maintenance"
     ],
-    require: 4,
+    require: 5,
   },
   {
     id: "live-events",
@@ -9836,7 +9837,7 @@ const PROGRAMME_COMPETENCIES = [
     standards: ["osha-1926-subpart-q", "osha-1926-subpart-l", "osha-1926-1153", "ansi-a10-9"],
     stations: [
       "concrete-pour", "formwork-shoring", "mass-timber-panel-set", "masonry-silica-scaffold",
-      "bt-formwork-stripping-and-reshoring", "bt-rebar-tying-and-impalement-protection", "bt-masonry-wall-layout-and-mortar"
+      "bt-formwork-stripping-and-reshoring", "bt-rebar-tying-and-impalement-protection", "bt-masonry-wall-layout-and-mortar", "or-ranch-road-grading-and-culvert"
     ],
     require: 4,
   },
@@ -9849,7 +9850,8 @@ const PROGRAMME_COMPETENCIES = [
       "triage-point", "structure-fire-sizeup", "firefighter-rehab-sector", "wildland-urban-interface",
       "cardiac-arrest-pit-crew", "overdose-response-naloxone", "ambulance-scene-safety", "crisis-intervention-call",
       "critical-incident-debrief", "traffic-incident-management", "trauma-informed-intake", "crisis-line-shift",
-      "home-visit-safety", "shelter-intake-operations", "damage-assessment-team", "psychological-first-aid"
+      "home-visit-safety", "shelter-intake-operations", "damage-assessment-team", "psychological-first-aid",
+      "or-wildland-fireline-construction-and-lookout"
     ],
     require: 6,
   },
@@ -32451,6 +32453,90 @@ const SIMS_META = [
         "Crew Boss",
         "Division Supervisor",
         "Fireline Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "or-solar-farm-tracker-row-maintenance",
+    "index": "262",
+    "domain": "Energy",
+    "trade": "Solar technician — IBEW",
+    "category": "Energy & Power",
+    "certification": "IBEW outside line and solar technicians; NFPA 70 (NEC) Article 690 photovoltaic systems; OSHA 29 CFR 1910.147 control of hazardous energy for the combiner lockout; NFPA 70E electrical safety in the workplace; NABCEP PV commissioning and maintenance practice",
+    "name": "Solar Tracker Row Maintenance",
+    "weather": "heat-haze",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Solar Tracker Row Maintenance VR",
+    "tagline": "A tracker row serviced under a real combiner lockout: zero energy proven before the manual override turns the row, a worn bearing found and replaced, the full sweep watched before sign-off, and a rattlesnake in the row handled without anyone reaching near it",
+    "accent": 10475599,
+    "accentCss": "#9fd84f",
+    "parSeconds": 300,
+    "badge": {
+      "id": "row-returned",
+      "name": "Row Returned",
+      "note": "A tracker row locked out, its bearing replaced, swept clean through its range and returned to production with the lock removed last"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Array Command",
+      "currency": "WATT",
+      "ranks": [
+        "Field Tech",
+        "Solar Technician",
+        "Lead Technician",
+        "Site Supervisor",
+        "Array Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "or-ranch-road-grading-and-culvert",
+    "index": "263",
+    "domain": "Construction",
+    "trade": "Operating engineer — IUOE",
+    "category": "Construction & Structural Trades",
+    "certification": "IUOE operating engineers — grading and heavy equipment; OSHA 29 CFR 1926 safety and health regulations for construction; OSHA 29 CFR 1926 Subpart P Excavations for the culvert trench; OSHA 29 CFR 1926.21 safety training and education in construction; the Manual on Uniform Traffic Control Devices (MUTCD) for the work zone on the access road",
+    "name": "Ranch Road Grading & Culvert",
+    "weather": "wind",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Ranch Road Grading & Culvert VR",
+    "tagline": "A ranch access road regraded and a culvert set under it: the work zone flagged first, the crown and cross-slope checked against the plan, the trench respected as an excavation, and a school bus on the same road escorted through on the flagger's call",
+    "accent": 13214571,
+    "accentCss": "#c9a36b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "road-restored",
+      "name": "Road Restored",
+      "note": "A crown cut to the plan, a culvert set and backfilled in a respected trench, and a school bus escorted through the work zone without anyone in its path"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Grade Crew",
+      "currency": "GRADE",
+      "ranks": [
+        "Ground Hand",
+        "Grader Operator",
+        "Lead Operator",
+        "Grade Foreman",
+        "Grade Certified"
       ],
       "rankAt": [
         0,
