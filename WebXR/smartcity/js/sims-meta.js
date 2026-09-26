@@ -18130,5 +18130,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "op-compactor-lift-thickness-and-edge",
+    "index": "op-5",
+    "domain": "Construction",
+    "trade": "Compactor operator — IUOE Local 3 operating engineer",
+    "category": "Construction & Structural Trades",
+    "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926.602 Material handling equipment and 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on rollover incidents near unsupported edges",
+    "name": "Compactor Lift Thickness & Edge",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Compactor Lift Thickness & Edge VR",
+    "tagline": "Single-drum compactor rolling a fill in lifts: the loose lift measured against the spec, the edge marked and kept back from, a spotter watching the drum's distance from it, and every lift proven with a density reading",
+    "accent": 9071151,
+    "accentCss": "#8a6a2f",
+    "parSeconds": 260,
+    "badge": {
+      "id": "lift-control",
+      "name": "Lift Control",
+      "note": "Every lift measured before rolling, the edge kept back from, and the density proven before the next lift went on"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Lift Control",
+      "currency": "LIFT",
+      "ranks": [
+        "Ground Hand",
+        "Compactor Hand",
+        "Lift Certified",
+        "Edge Authority",
+        "Lift Control Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

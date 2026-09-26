@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 425
+      "stations": 426
     },
     "trades": {
       "entry": "trades/index.html",
@@ -226,6 +226,7 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "op-compactor-lift-thickness-and-edge",
         "op-grader-fine-grade-and-crown",
         "op-loader-truck-loading-and-blind-spots",
         "op-dozer-slope-work-and-rollover-protection",
@@ -7648,6 +7649,94 @@
     },
     {
       "app": "smartcity",
+      "id": "op-compactor-lift-thickness-and-edge",
+      "name": "Compactor Lift Thickness & Edge",
+      "title": "SmartCiti.X~ Compactor Lift Thickness & Edge VR",
+      "tagline": "Single-drum compactor rolling a fill in lifts: the loose lift measured against the spec, the edge marked and kept back from, a spotter watching the drum's distance from it, and every lift proven with a density reading",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Compactor operator — IUOE Local 3 operating engineer",
+      "union": null,
+      "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926.602 Material handling equipment and 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on rollover incidents near unsupported edges",
+      "accent": "#8a6a2f",
+      "parSeconds": 260,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "turn",
+        "drag",
+        "hold",
+        "track",
+        "gauge"
+      ],
+      "badge": {
+        "id": "lift-control",
+        "name": "Lift Control",
+        "note": "Every lift measured before rolling, the edge kept back from, and the density proven before the next lift went on"
+      },
+      "meshes": 171,
+      "lights": 0,
+      "overBudget": false,
+      "index": "op-5",
+      "flat": false,
+      "system": "Lift Control",
+      "currency": "LIFT",
+      "ranks": [
+        "Ground Hand",
+        "Compactor Hand",
+        "Lift Certified",
+        "Edge Authority",
+        "Lift Control Certified"
+      ],
+      "awards": [
+        {
+          "id": "edge-held",
+          "name": "Edge Held",
+          "note": "Never rolled the drum inside the marked edge setback"
+        },
+        {
+          "id": "belted-every-pass",
+          "name": "Belted Every Pass",
+          "note": "Never started a pass without the seatbelt buckled"
+        },
+        {
+          "id": "steady-density",
+          "name": "Steady Density",
+          "note": "Held the gauge readings near band centre all shift"
+        },
+        {
+          "id": "lift-clean",
+          "name": "Lift Measured Clean",
+          "note": "Measure the lift thickness clean, first try"
+        },
+        {
+          "id": "quick-lift",
+          "name": "Quick Lift",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "lift-streak",
+          "name": "Lift Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=op-compactor-lift-thickness-and-edge"
+    },
+    {
+      "app": "smartcity",
       "id": "op-grader-fine-grade-and-crown",
       "name": "Grader Fine Grade & Crown",
       "title": "SmartCiti.X~ Grader Fine Grade & Crown VR",
@@ -7680,8 +7769,8 @@
         "name": "Grade Authority",
         "note": "Subgrade walked, the crown cut clean to the stringline, and the finished surface checked before it was called done"
       },
-      "meshes": null,
-      "lights": null,
+      "meshes": 203,
+      "lights": 0,
       "overBudget": false,
       "index": "op-4",
       "flat": false,
@@ -27941,7 +28030,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 264,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -28601,7 +28690,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",
