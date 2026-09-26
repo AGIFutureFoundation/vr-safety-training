@@ -17878,5 +17878,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bb-layups-and-finishing-at-the-rim",
+    "index": "349",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on teaching finishing footwork with both hands rather than only a player's dominant side; NFHS basketball rules on legal footwork at the rim and its sportsmanship expectations for a crowded finishing line; CDC Heads Up for a knock to the head taken in contact under the rim; the U.S. Center for SafeSport for calm, observable correction of a footwork fault rather than a fault called out in front of the line; the American Red Cross first aid course for a player down after a hard finish",
+    "name": "Layups and Finishing at the Rim",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Layups and Finishing at the Rim VR",
+    "tagline": "The easiest drill on the practice plan is also the most collision-prone: gather, plant, drive, soft touch, and a controlled approach that keeps the line under the rim from becoming a pile-up",
+    "accent": 5234848,
+    "accentCss": "#4fe0a0",
+    "parSeconds": 325,
+    "badge": {
+      "id": "soft-touch-clean-line",
+      "name": "Soft Touch, Clean Line",
+      "note": "A finishing line run with clean footwork, a controlled approach and nobody colliding under the rim"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Finishing Line Board",
+      "currency": "SOFT-TOUCH POINTS",
+      "ranks": [
+        "Bench Helper",
+        "Line Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Finishing Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
