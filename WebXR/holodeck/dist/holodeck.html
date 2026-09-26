@@ -9231,9 +9231,9 @@ const PROGRAMME_COMPETENCIES = [
     stations: [
       "bb-warmup-injury-prevention-and-hydration", "bb-stance-and-ball-handling", "bb-footwork-pivots-and-jump-stops", "bb-passing-and-catching",
       "bb-shooting-form-and-arc", "bb-free-throw-routine", "bb-defensive-stance-and-closeouts", "bb-rebounding-and-boxing-out",
-      "bb-team-offense-spacing-and-screens", "bb-scrimmage-and-sportsmanship-debrief"
+      "bb-team-offense-spacing-and-screens", "bb-scrimmage-and-sportsmanship-debrief", "bb-reset-routine-after-a-miss"
     ],
-    require: 5,
+    require: 6,
   },
   {
     id: "bay-restoration-maritime-underwater",
@@ -11126,6 +11126,12 @@ const GENERIC = new Set([
   // before it is the forklift course, so it names nothing on its own. It
   // became reachable with drive-light-vehicle-fleet-and-forklift-course.
   "course",
+  // "miss" is what this whole feature is built to report — "we had a near
+  // miss" — so it cannot also be what points the report at a station. It
+  // became reachable with bb-reset-routine-after-a-miss, and without it here
+  // "we had a near miss in the car park yesterday" scored as a report
+  // against that station.
+  "miss",
 ]);
 
 const STOP = new Set([
@@ -30597,6 +30603,48 @@ const SIMS_META = [
         "Radio Watch",
         "Lead Deckhand",
         "Work Zone Watch Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bb-reset-routine-after-a-miss",
+    "index": "343",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on positive, mistake-tolerant coaching that keeps young players engaged after an error; the Association for Applied Sport Psychology's guidance on a short mental reset after a mistake — a breath, a cue word, and a return of attention to the next play; NFHS basketball rules and its sportsmanship expectations for how teammates treat each other after a miss; CDC Heads Up for a knock to the head taken in the scramble that follows a loose ball; the U.S. Center for SafeSport for calm, private, non-shaming correction; the American Red Cross first aid course for a player hurt in that scramble",
+    "name": "Reset Routine After a Miss",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Reset Routine After a Miss VR",
+    "tagline": "One slow breath, a one-word cue, a physical let-it-go and eyes up for the next play — a routine short enough to actually use between one possession and the next",
+    "accent": 7321855,
+    "accentCss": "#6fb8ff",
+    "parSeconds": 320,
+    "badge": {
+      "id": "next-play",
+      "name": "Next Play",
+      "note": "A miss met with the routine instead of a spiral, and the whole bench kept calm around it"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Next Play Board",
+      "currency": "RESETS",
+      "ranks": [
+        "Bench Helper",
+        "Line Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Mindset Mentor"
       ],
       "rankAt": [
         0,

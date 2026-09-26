@@ -8845,7 +8845,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 250,
+          "meshes": 268,
           "materials": 92,
           "interactables": 29
         },
@@ -10413,6 +10413,58 @@
           "score": 0.7517241379310347,
           "nearest": "sterilisation-technician-cycle",
           "similarity": 0.1896551724137931
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-reset-routine-after-a-miss",
+      "name": "Reset Routine After a Miss",
+      "category": "Youth Sports & Coaching",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 311,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 200,
+          "materials": 117,
+          "interactables": 30
+        },
+        "originality": {
+          "score": 0.31111111111111117,
+          "nearest": "bb-free-throw-routine",
+          "similarity": 0.2777777777777778
         }
       }
     },
@@ -13790,9 +13842,9 @@
           "interactables": 32
         },
         "originality": {
-          "score": 0.39230769230769236,
-          "nearest": "bb-passing-and-catching",
-          "similarity": 0.26153846153846155
+          "score": 0.3227154046997391,
+          "nearest": "bb-reset-routine-after-a-miss",
+          "similarity": 0.2754569190600522
         }
       }
     },

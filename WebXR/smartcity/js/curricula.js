@@ -749,6 +749,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "bb-rebounding-and-boxing-out", why: "The first real contact, introduced by size: the box-out built and sealed, contact kept controlled, and the signs of a concussion recognised and removed from play." },
       { app: "smartcity", id: "bb-team-offense-spacing-and-screens", why: "Five players moving together: spacing that keeps the paint clear, screens that are legal and still, and a rotation with water in it for everyone." },
       { app: "smartcity", id: "bb-scrimmage-and-sportsmanship-debrief", why: "Everything at game speed and then the close of the programme: fair teams, a game kept hard and fair, a handshake line, a debrief in order and a check-in on how everyone is." },
+      { app: "smartcity", id: "bb-reset-routine-after-a-miss", why: "The seconds right after a mistake: one slow breath, a one-word cue and a physical let-it-go that turns a miss back into the next play instead of a spiral." },
     ],
   },
   {

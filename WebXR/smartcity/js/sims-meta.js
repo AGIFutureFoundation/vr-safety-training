@@ -16870,5 +16870,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bb-reset-routine-after-a-miss",
+    "index": "343",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on positive, mistake-tolerant coaching that keeps young players engaged after an error; the Association for Applied Sport Psychology's guidance on a short mental reset after a mistake — a breath, a cue word, and a return of attention to the next play; NFHS basketball rules and its sportsmanship expectations for how teammates treat each other after a miss; CDC Heads Up for a knock to the head taken in the scramble that follows a loose ball; the U.S. Center for SafeSport for calm, private, non-shaming correction; the American Red Cross first aid course for a player hurt in that scramble",
+    "name": "Reset Routine After a Miss",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Reset Routine After a Miss VR",
+    "tagline": "One slow breath, a one-word cue, a physical let-it-go and eyes up for the next play — a routine short enough to actually use between one possession and the next",
+    "accent": 7321855,
+    "accentCss": "#6fb8ff",
+    "parSeconds": 320,
+    "badge": {
+      "id": "next-play",
+      "name": "Next Play",
+      "note": "A miss met with the routine instead of a spiral, and the whole bench kept calm around it"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Next Play Board",
+      "currency": "RESETS",
+      "ranks": [
+        "Bench Helper",
+        "Line Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Mindset Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
