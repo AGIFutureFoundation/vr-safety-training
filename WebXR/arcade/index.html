@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Break Room Arcade</title>
-<meta name="description" content="The training platform's other Easter egg: a row of three retro cabinets in the crew break room, each an original 2D canvas game — a climbing platformer, a side-scrolling runner and a falling-block stacker — with pixel art, a chiptune soundtrack and local high scores.">
+<meta name="description" content="The training platform's other Easter egg: a row of four retro cabinets in the crew break room, each an original 2D canvas game — a climbing platformer, a side-scrolling runner, a falling-block stacker and a lane-crossing dodger — with pixel art, a chiptune soundtrack and local high scores.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;1,700&family=Barlow:wght@400;500;600&display=swap">
@@ -42,7 +42,7 @@
   a.btn{display:inline-block;text-decoration:none;color:var(--text)}
 
   /* ---------- cabinet row ---------- */
-  .cab-row{display:grid;gap:18px;grid-template-columns:repeat(3,minmax(180px,1fr));margin:14px 0 6px}
+  .cab-row{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin:14px 0 6px}
   @media (max-width:760px){ .cab-row{grid-template-columns:1fr} }
   .cabinet{text-align:left;cursor:pointer;background:linear-gradient(180deg,#20232c,#14161c);border:2px solid #2c303b;
     border-radius:10px 10px 4px 4px;padding:10px;position:relative;box-shadow:0 10px 26px rgba(0,0,0,.45), inset 0 0 0 3px #0a0b0e}
@@ -69,6 +69,20 @@
   #hud-top{position:fixed;top:calc(8px + env(safe-area-inset-top,0px));right:10px;z-index:8;display:flex;gap:8px}
   #hud-top .btn{padding:6px 10px;font-size:12px}
 
+  /* ---------- touch d-pad (solo cabinets only) ---------- */
+  #touch-pad{position:fixed;left:0;right:0;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:9;
+    display:none;justify-content:center;pointer-events:none}
+  #touch-pad[data-on]{display:flex}
+  #touch-pad .tpad-grid{display:grid;grid-template-columns:56px 56px 56px;grid-template-rows:52px 52px;gap:6px;pointer-events:auto}
+  #touch-pad button{grid-column:auto;background:rgba(20,23,30,.72);border:1px solid var(--edge-strong);border-radius:10px;
+    color:var(--text);font-size:20px;line-height:1;touch-action:none;-webkit-user-select:none;user-select:none}
+  #touch-pad button:active{background:rgba(79,209,255,.35)}
+  #tp-up{grid-column:2;grid-row:1}
+  #tp-left{grid-column:1;grid-row:2}
+  #tp-down{grid-column:2;grid-row:2}
+  #tp-right{grid-column:3;grid-row:2}
+  @media (hover:hover) and (any-pointer:fine){ #touch-pad{display:none !important} }
+
   #toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:30;background:var(--glass);border:1px solid var(--edge-strong);border-radius:8px;
     padding:10px 16px;font-size:14px;color:var(--text);max-width:min(620px,calc(100vw - 32px));text-align:center;opacity:0;transition:opacity .25s;pointer-events:none}
   #toast.on{opacity:1}
@@ -91,6 +105,14 @@
 
 <div id="stage-wrap" hidden><canvas id="game" width="256" height="224"></canvas></div>
 <div id="crt" hidden></div>
+<div id="touch-pad" aria-hidden="true">
+  <div class="tpad-grid">
+    <button type="button" id="tp-up" aria-label="Up">&#9650;</button>
+    <button type="button" id="tp-left" aria-label="Left">&#9664;</button>
+    <button type="button" id="tp-down" aria-label="Down">&#9660;</button>
+    <button type="button" id="tp-right" aria-label="Right">&#9654;</button>
+  </div>
+</div>
 <div id="hud-top">
   <button class="btn ghost" id="btn-crt" aria-pressed="true">CRT scanlines: on</button>
 </div>
@@ -101,13 +123,13 @@
     <p class="eyebrow">The crew's other Easter egg</p>
     <h1 class="logo" id="t-menu">BREAK ROOM ARCADE</h1>
     <div class="stripe"></div>
-    <p class="lead">Three retro cabinets against the break-room wall, each an original game in the spirit of a classic arcade genre — pixel art drawn in code, a chiptune soundtrack synthesised live, and a high-score table kept in this browser. Pick a cabinet.</p>
+    <p class="lead">Four retro cabinets against the break-room wall, each an original game in the spirit of a classic arcade genre — pixel art drawn in code, a chiptune soundtrack synthesised live, and a high-score table kept in this browser. Pick a cabinet.</p>
     <div class="cab-row" id="cab-row"></div>
     <div class="row" style="margin-top:14px">
       <button class="btn" id="btn-scores">High scores</button>
       <a class="btn ghost" href="../index.html">Back to the training platform</a>
     </div>
-    <p class="note">Keyboard and gamepad both work on every cabinet (pad 1 is player 1, pad 2 is player 2). Esc pauses, M mutes. Every sprite, sound and tune here is original to this platform.</p>
+    <p class="note">Keyboard and gamepad both work on every cabinet (pad 1 is player 1, pad 2 is player 2); Forklift Aisle also plays on a touch screen with an on-screen d-pad. Esc pauses, M mutes. Every sprite, sound and tune here is original to this platform.</p>
   </div>
 </section>
 

@@ -62,6 +62,7 @@ import { mountUI, stripHtml, introMenu, diveReadout, courtReadout } from "./reac
 // lookup mountSmartCityEggs needs to caption a photo with the station's own
 // union abbreviation — everything else it does is self-contained.
 import { mountSmartCityEggs } from "../../shared/eggs-app.js";
+import { recordLedgerFind } from "../../shared/eggs.js";
 import { UNIONS_BY_ID } from "../../shared/unions.js";
 
 // The 20 sims are lazy-loaded: SIMS_META (see tools/gen_sims_meta.mjs) is the
@@ -4899,6 +4900,7 @@ state.paused = true;
 // sign (shared/signage.js, built inside buildStage) already carries the
 // union id — this just turns it into the abbreviation a photo caption reads.
 mountSmartCityEggs({
-  THREE, renderer, camera, worldRoot, state, store, SIMS_META,
+  THREE, renderer, camera, worldRoot, state, store, SIMS_META, TrainingRecords,
   unionAbbrev: () => UNIONS_BY_ID[state.stage?.signage?.plan?.unionId]?.abbrev ?? "",
+  onEggFound: (id, programme) => recordLedgerFind(id, programme),
 });

@@ -48,6 +48,7 @@ function assert(ok, message) { if (!ok) throw new Error(message); }
 const SY = await import(pathToFileURL(join(ARCADE, "js", "games", "spoolyard.js")).href);
 const CR = await import(pathToFileURL(join(ARCADE, "js", "games", "crewrun.js")).href);
 const PS = await import(pathToFileURL(join(ARCADE, "js", "games", "palletstacker.js")).href);
+const FA = await import(pathToFileURL(join(ARCADE, "js", "games", "forkliftaisle.js")).href);
 const SCORES = await import(pathToFileURL(join(ARCADE, "js", "scores.js")).href);
 const CAB = await import(pathToFileURL(join(ARCADE, "js", "cabinets.js")).href);
 
@@ -86,6 +87,12 @@ function scriptedInput(id, i, extra) {
     if (extra?.players !== 2) return one;
     const two = { left: Math.cos(t * 1.3) > 0.2, right: Math.cos(t * 1.3) < -0.2, down: (i % 7) === 0, rotate: (i % 29) === 0, hardDrop: (i % 113) === 0 };
     return { 0: one, 1: two };
+  }
+  if (id === "forkliftaisle") {
+    // Mostly forward, with the occasional sidestep and a retreat now and then —
+    // exercises crossings, sweeps, the kit pickup and a hit or two alike,
+    // without being scripted to win.
+    return { up: (i % 5) !== 0, left: (i % 17) === 0, right: (i % 23) === 0, down: (i % 61) === 0 };
   }
   return {};
 }
@@ -198,6 +205,58 @@ await check("Pallet Stacker: a leaning stack shifts without creating or losing a
   for (const row of board.grid) for (const cell of row) assert(Number.isInteger(cell) && cell >= 0 && cell <= 7, "shift produced a bad cell value");
 });
 
+// ------------------------------------------------------------ Forklift Aisle
+
+await check("Forklift Aisle: 30 s scripted session, no NaN, score/level/lives hold, and every round is capped at 60 s", () => {
+  const state = FA.faCreate({ seed: 7 });
+  assert(state.timeLeft === FA.FA_TIME_LIMIT, "a fresh round should start at the time cap");
+  assert(FA.FA_TIME_LIMIT <= 60, "a Forklift Aisle round must be capped at a minute or less");
+  let lastScore = 0, lastLevel = state.level, kits = 0, crossings = 0, docks = 0;
+  for (let i = 0; i < STEPS; i++) {
+    const events = FA.faStep(state, 1 / 60, scriptedInput("forkliftaisle", i));
+    assertFinite(state, `forkliftaisle step ${i}`);
+    assert(state.score >= lastScore, `score dropped from ${lastScore} to ${state.score} at step ${i}`);
+    lastScore = state.score;
+    assert(state.level >= lastLevel && state.level >= 1 && state.level <= FA.FA_BOARDS.length, `level ${state.level} out of range at step ${i}`);
+    lastLevel = state.level;
+    assert(state.lives >= 0 && state.lives <= 3, `lives ${state.lives} out of range at step ${i}`);
+    assert(state.timeLeft >= 0 && state.timeLeft <= FA.FA_TIME_LIMIT, `timeLeft ${state.timeLeft} out of range at step ${i}`);
+    for (const e of events) { if (e.type === "kit") kits += 1; if (e.type === "right-of-way") crossings += 1; if (e.type === "dock") docks += 1; }
+    if (state.over) {
+      const before = JSON.stringify(state);
+      const again = FA.faStep(state, 1 / 60, { up: true, left: true });
+      assert(again.length === 0, "stepping a finished game produced events");
+      assert(JSON.stringify(state) === before, "stepping a finished game changed its state");
+    }
+  }
+  assert(docks > 0, "the player never reached a single dock in 30 s of mostly-forward scripted input");
+  console.log(`      final score ${Math.round(state.score)}, board ${state.level}, ${docks} dock(s), ${kits} kit(s), ${crossings} clean crossing(s), over=${state.over}`);
+});
+
+await check("Forklift Aisle: a marked crossing lane closes and reopens, and a lane never blocks every column at once outside one", () => {
+  const state = FA.faCreate({ seed: 13 });
+  assert(FA.FA_BOARDS[0].lanes >= 4, "the first board should have at least one marked crossing lane (every 4th)");
+  // Run the clock across several crossing cycles and sample every lane's
+  // blocked state at each column, so a genuine "closed the whole lane" only
+  // ever happens on a lane this module calls a crossing.
+  for (let step = 0; step < 600; step++) {
+    const t = step / 30;
+    for (let laneIdx = 0; laneIdx < state.lanes.length; laneIdx++) {
+      const lane = state.lanes[laneIdx];
+      const blockedCols = [0, 1, 2].filter((c) => FA.laneBlocked(lane, c, t));
+      if (lane.kind !== "crossing") assert(blockedCols.length <= 1, `sweep lane ${laneIdx} blocked more than one column at once`);
+    }
+  }
+  // The first crossing lane (index 3, the 4th lane) must be red at some
+  // sampled time and green at another — a light that never changes teaches
+  // nothing about waiting for it.
+  const crossingIdx = state.lanes.findIndex((l) => l.kind === "crossing");
+  assert(crossingIdx >= 0, "no crossing lane was built for a board with 4+ lanes");
+  const seen = new Set();
+  for (let step = 0; step < 400; step++) seen.add(FA.laneBlocked(state.lanes[crossingIdx], 0, step / 30));
+  assert(seen.size === 2, "a crossing lane should be observed both open and closed over several cycles");
+});
+
 // ------------------------------------------------------------ high scores
 
 await check("high scores round-trip through a stubbed localStorage", () => {
@@ -225,11 +284,11 @@ await check("high scores round-trip through a stubbed localStorage", () => {
 
 // ------------------------------------------------------------ cabinets and wiring
 
-await check("three cabinets are registered, each with a genre, teaching line, controls and a working engine", () => {
-  assert(CAB.ARCADE_CABINETS.length === 3, `expected 3 cabinets, found ${CAB.ARCADE_CABINETS.length}`);
+await check("four cabinets are registered, each with a genre, teaching line, controls and a working engine", () => {
+  assert(CAB.ARCADE_CABINETS.length === 4, `expected 4 cabinets, found ${CAB.ARCADE_CABINETS.length}`);
   const ids = CAB.ARCADE_CABINETS.map((c) => c.id);
-  assert(new Set(ids).size === 3, "two cabinets share an id");
-  assert(["spoolyard", "crewrun", "palletstacker"].every((id) => ids.includes(id)), `unexpected cabinet ids: ${ids.join(", ")}`);
+  assert(new Set(ids).size === 4, "two cabinets share an id");
+  assert(["spoolyard", "crewrun", "palletstacker", "forkliftaisle"].every((id) => ids.includes(id)), `unexpected cabinet ids: ${ids.join(", ")}`);
   for (const cab of CAB.ARCADE_CABINETS) {
     assert(cab.name && cab.genre && cab.blurb && cab.teaches && cab.controls, `${cab.id} is missing a name, genre, blurb, teaches or controls line`);
     assert(typeof cab.engine?.create === "function" && typeof cab.engine?.step === "function" && typeof cab.engine?.render === "function", `${cab.id}'s engine is missing create/step/render`);
@@ -244,7 +303,7 @@ await check("the arcade app is in the bundler's list with every module, and its 
   const block = /"arcade":\s*\{[\s\S]*?"modules":\s*\[([\s\S]*?)\]/.exec(bundler)?.[1] ?? "";
   const bundled = [...block.matchAll(/(SHARED|WEBXR)\s*\/\s*"([^"]+)"/g)].map((m) => (m[1] === "SHARED" ? `shared/${m[2]}` : m[2]));
   assert(bundled.length > 0, 'tools/bundle_webxr.py has no "arcade" app');
-  for (const f of ["scores.js", "audio.js", "cabinets.js", "app.js", "games/spoolyard.js", "games/crewrun.js", "games/palletstacker.js"]) {
+  for (const f of ["scores.js", "audio.js", "cabinets.js", "app.js", "games/spoolyard.js", "games/crewrun.js", "games/palletstacker.js", "games/forkliftaisle.js"]) {
     assert(bundled.includes(`arcade/js/${f}`), `arcade/js/${f} is not in the bundle`);
   }
   assert(/"arcade":\s*"arcade\.html"/.test(bundler), "arcade.html is not copied into the combined WebXR/dist folder");
@@ -265,10 +324,22 @@ await check("check_all.mjs runs this checker, and the docs describe the arcade",
   assert(all.includes('"check_arcade.mjs"'), "check_all.mjs does not run check_arcade.mjs");
   const doc = readFileSync(join(ROOT, "docs", "easter-egg.md"), "utf8");
   assert(/break room arcade/i.test(doc), "docs/easter-egg.md does not mention the Break Room Arcade");
-  for (const name of ["Spool Yard", "Crew Run", "Pallet Stacker"]) assert(doc.includes(name), `docs/easter-egg.md does not mention ${name}`);
+  for (const name of ["Spool Yard", "Crew Run", "Pallet Stacker", "Forklift Aisle"]) assert(doc.includes(name), `docs/easter-egg.md does not mention ${name}`);
   assert(/arcade\.html/.test(doc), "docs/easter-egg.md does not say how to open arcade.html");
   assert(existsSync(join(ROOT, "docs", "screenshots", "arcade")), "docs/screenshots/arcade is missing");
 });
 
-console.log(failures ? `\n${failures} check(s) failed.` : "\nAll Break Room Arcade checks pass: three cabinets run 30 s headless sessions clean; scores and the stack-lean mechanic hold.");
+await check("Forklift Aisle plays by touch: the cabinet says so, and the app carries an on-screen d-pad", () => {
+  const cab = CAB.ARCADE_CABINETS.find((c) => c.id === "forkliftaisle");
+  assert(cab.touch === true, "the forkliftaisle cabinet does not declare touch support");
+  const html = readFileSync(join(ARCADE, "index.html"), "utf8");
+  for (const id of ["touch-pad", "tp-up", "tp-down", "tp-left", "tp-right"]) {
+    assert(html.includes(`id="${id}"`), `WebXR/arcade/index.html has no #${id} touch control`);
+  }
+  const app = readFileSync(join(ARCADE, "js", "app.js"), "utf8");
+  assert(/AA_TOUCH_KEYS/.test(app), "arcade/js/app.js has no touch-to-key wiring for the d-pad");
+  assert(/cabinet\?\.touch === true/.test(app), "arcade/js/app.js never gates the touch pad on a cabinet's own touch flag");
+});
+
+console.log(failures ? `\n${failures} check(s) failed.` : "\nAll Break Room Arcade checks pass: four cabinets run 30 s headless sessions clean; scores and the stack-lean mechanic hold.");
 process.exit(failures ? 1 : 0);

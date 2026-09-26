@@ -37107,9 +37107,9 @@ function mountUI(store, actions) {
 /* ===== shared/eggs-app.js ===== */
 /**
  * In-app Easter eggs — Photo Mode, the Golden Wrench, the Crane Claw
- * minigame (SmartCiti.X), the Scaffold Climber arcade cabinet (Holodeck) and
- * Toolbox Talk Bingo (the instructor console). See docs/easter-egg.md,
- * section "Inside the apps".
+ * minigame, six training-behaviour Field Notes (SmartCiti.X), the Scaffold
+ * Climber arcade cabinet (Holodeck) and Toolbox Talk Bingo (the instructor
+ * console). See docs/easter-egg.md, section "Inside the apps".
  *
  * This module takes NO imports of its own — every three.js class, DOM
  * reference and app slice it touches is handed in through the `ctx` object
@@ -37127,6 +37127,21 @@ function mountUI(store, actions) {
  * this module remembers (a best claw score, which tool was golden today, a
  * night-shift check-in) lives in its own small localStorage keys, never in
  * the platform's real records.
+ *
+ * The six Field Notes eggs are the exception worth spelling out: they are
+ * the only eggs here that WATCH the real record (`ctx.TrainingRecords`, read
+ * only, never written) and the live session's own read-only fields
+ * (`state.session.interruptLog`) to notice a training habit — a hazard-free
+ * run, an interruption answered in its own step, a level ladder climbed with
+ * no level ever repeated, three passes in a row, a run with no correction at
+ * all, or stations passed across several categories. Each is a pure
+ * predicate over that data (see the `fieldNote*` functions and the
+ * `_internal` test hatch below), so a checker can prove the rule without a
+ * browser. Finding one shows a HUD badge and a toast in this browser, and —
+ * through `ctx.onEggFound`, which the app implements by calling
+ * shared/eggs.js's recordLedgerFind() — a row in the egg ledger the homepage
+ * reads (docs/easter-egg.md, "Egg ledger"). Nothing here changes a step, a
+ * score, or the record it is reading.
  */
 
 // --------------------------------------------------------------- utilities
@@ -37292,6 +37307,108 @@ function eggButton(label, { primary = false } = {}) {
 }
 
 // =====================================================================
+// Field notes — six training-behaviour eggs (SmartCiti.X)
+// =====================================================================
+//
+// Each entry's `hint` and `lesson` must read the same as shared/eggs.js's
+// IN_APP_EGGS entry for the same id — tools/check_eggs.mjs holds the two to
+// that, since this module cannot import eggs.js to read it directly (see
+// this file's own header).
+const FIELD_NOTES = [
+  {
+    id: "clean-sweep", name: "Clean Sweep",
+    hint: "An empty bracket sits under this station's sign — a hazard sweep that comes back with nothing to flag gets a plate mounted there.",
+    lesson: "A hazard-free, top-mark run is what a real site's OSHA 300A summary is posted to show: a clean day gets logged, not just remembered.",
+  },
+  {
+    id: "radio-check", name: "Radio Check",
+    hint: "A handheld radio sits clipped to the rail here, its light dark — answer the next call-in fast enough and it lights up.",
+    lesson: "A fire watch or a confined-space attendant has to notice a check-in without ever putting the job down — answering one in the step, not after it, is that same habit.",
+  },
+  {
+    id: "no-reset", name: "No Reset Needed",
+    hint: "An empty flagpole stands by this programme's kiosk — climb every rung of its ladder clean, with no level ever repeated, and a pennant goes up.",
+    lesson: "A registered apprenticeship credits a stage once, not once per attempt — climbing every rung without a repeat is what that progression schedule assumes of you.",
+  },
+  {
+    id: "hot-streak", name: "Hot Streak",
+    hint: "Three passing runs back to back, anywhere on the campus, chalk a tally mark nobody erases.",
+    lesson: "A crew's own safety board tracks consecutive incident-free shifts for the same reason: a streak is what a real habit looks like from the outside.",
+  },
+  {
+    id: "first-pass", name: "First Pass",
+    hint: "Finish a run with no correction of any kind and the ledger notices — most stations ask for it eventually.",
+    lesson: "A work order tracks 'first-pass' or 'right first time' quality for a plain reason: redone work costs the crew twice — getting it right first is the cheaper habit.",
+  },
+  {
+    id: "cross-trained", name: "Cross-Trained",
+    hint: "Pass stations in enough different categories and this campus starts calling you cross-trained.",
+    lesson: "Registered apprenticeships pair on-the-job hours with related instruction across more than one skill area — working stations from several categories, the way you just did, is what that instruction is for.",
+  },
+];
+
+/** How many distinct passed categories earn Cross-Trained — an internal game
+ *  threshold, not a claimed real-world figure. */
+const FIELD_NOTE_CROSS_TRAINED_MIN = 5;
+
+const fieldNoteRecordsFor = (records, stationId) => records.filter((r) => r?.simId === stationId);
+
+/** A perfect hazard sweep: the station's own latest run, top marks, nothing unsafe. */
+function fieldNoteCleanSweep(records, stationId) {
+  const list = fieldNoteRecordsFor(records, stationId);
+  const last = list[list.length - 1];
+  return !!last && (last.hazardHits | 0) === 0 && (last.stars | 0) >= 3;
+}
+
+/** A run finished with no correction at all, hazard or otherwise — "right first time". */
+function fieldNoteFirstPass(records, stationId) {
+  const list = fieldNoteRecordsFor(records, stationId);
+  const last = list[list.length - 1];
+  return !!last && (last.errors | 0) === 0 && (last.hazardHits | 0) === 0;
+}
+
+/** The last three attempts anywhere, all passed — a real streak, not just one good run. */
+function fieldNoteHotStreak(records) {
+  if (records.length < 3) return false;
+  return records.slice(-3).every((r) => r?.passed === true);
+}
+
+/** A passed attempt in enough distinct categories to call it cross-training. */
+function fieldNoteCrossTrained(records, min = FIELD_NOTE_CROSS_TRAINED_MIN) {
+  const cats = new Set(records.filter((r) => r?.passed).map((r) => r?.category).filter(Boolean));
+  return cats.size >= min;
+}
+
+/**
+ * Every programme whose level-20 capstone has passed with no level of its
+ * ladder ever repeated — shared/ladder.js's levelTag() stamps each attempt
+ * `{ programme, level, run, task }`; one trip through a level shares one
+ * `run` id across its tasks, so more than one distinct run id under the same
+ * level means that level was retried at least once.
+ */
+function fieldNoteNoResetProgrammes(records) {
+  const perProgramme = new Map(); // programme -> level -> Set(run id)
+  for (const r of records) {
+    const tag = r?.ladder;
+    if (!tag?.programme || !tag.level || !tag.run) continue;
+    if (!perProgramme.has(tag.programme)) perProgramme.set(tag.programme, new Map());
+    const perLevel = perProgramme.get(tag.programme);
+    if (!perLevel.has(tag.level)) perLevel.set(tag.level, new Set());
+    perLevel.get(tag.level).add(tag.run);
+  }
+  const out = [];
+  for (const [programme, perLevel] of perProgramme) {
+    const capstonePassed = records.some((r) => r?.passed && r.ladder?.programme === programme && r.ladder?.level === 20);
+    if (!capstonePassed || perLevel.size < 20) continue;
+    if ([...perLevel.values()].every((runs) => runs.size === 1)) out.push(programme);
+  }
+  return out;
+}
+
+/** An interruption resolved inside its own step — the live session's own read-only log entry. */
+function fieldNoteRadioAnswered(entry) { return !!entry && entry.outcome === "answered"; }
+
+// =====================================================================
 // SmartCiti.X — Photo Mode, the Golden Wrench, the Crane Claw, Night Shift
 // =====================================================================
 
@@ -37324,9 +37441,15 @@ function eggWrenchNote(entry) {
  *   unionAbbrev(room) — returns the union abbreviation the station's own
  *           sign already carries (e.g. "IBEW"), or "" when none; keeps this
  *           module from needing its own copy of the union registry.
+ *   TrainingRecords — shared/records.js's own object, read only (`.list()`)
+ *           — the six Field Notes eggs watch it, never write to it.
+ *   onEggFound(id, programme) — optional; called once per training-behaviour
+ *           egg per programme it is earned in. The app implements it by
+ *           calling shared/eggs.js's recordLedgerFind(), so this module never
+ *           has to import that file itself.
  */
 function mountSmartCityEggs(ctx) {
-  const { THREE, renderer, camera, worldRoot, state, store, SIMS_META, unionAbbrev } = ctx;
+  const { THREE, renderer, camera, worldRoot, state, store, SIMS_META, unionAbbrev, TrainingRecords, onEggFound } = ctx;
   const canvas = renderer.domElement;
 
   // ------------------------------------------------------------ Photo Mode
@@ -37642,22 +37765,156 @@ function mountSmartCityEggs(ctx) {
     setTimeout(() => { lights.forEach((l, i) => { l.intensity = orig[i]; }); }, 90);
   }
 
+  // ------------------------------------------------------- Field notes
+  // Six training-behaviour eggs, each a pure predicate (above) over
+  // TrainingRecords and the live session's own read-only interrupt log.
+  // Every one shows the same way: a HUD badge (the panel below), and a
+  // one-time toast with the lesson it teaches, the first time this browser
+  // session sees it earned. The ledger write (ctx.onEggFound) is idempotent
+  // on its own (shared/eggs.js's recordLedgerFind), so calling it again here
+  // costs nothing — the `unlocked` set below only keeps this session's toast
+  // from repeating on every poll while parked at a qualifying station.
+  function trList() { try { return TrainingRecords?.list?.() ?? []; } catch (_) { return []; } }
+
+  const fnUnlocked = new Set(); // FIELD_NOTES ids ever shown found THIS page load
+  const fnLoggedKeys = new Set(); // "id::programme" pairs already sent to onEggFound
+  let fnBtn = null, fnList = null, fnToastEl = null;
+
+  function buildFieldNotesPanel() {
+    if (typeof document === "undefined") return;
+    fnBtn = document.createElement("button");
+    fnBtn.type = "button";
+    fnBtn.id = "field-notes-btn";
+    fnBtn.style.cssText = "position:fixed;left:16px;bottom:16px;z-index:9989;"
+      + "font:600 13px 'Barlow',Arial,sans-serif;padding:9px 14px;border-radius:20px;cursor:pointer;"
+      + "background:#182430;color:#eaf1f7;border:1px solid #3a4a58;box-shadow:0 4px 14px rgba(0,0,0,0.35);";
+    const panel = document.createElement("div");
+    panel.id = "field-notes-panel";
+    panel.hidden = true;
+    panel.style.cssText = "position:fixed;left:16px;bottom:60px;z-index:9989;max-width:320px;"
+      + "background:#101b27;border:1px solid #3a4a58;border-radius:8px;padding:12px 14px;"
+      + "font:13px/1.4 'Barlow',Arial,sans-serif;color:#eaf1f7;box-shadow:0 20px 50px rgba(0,0,0,0.5);"
+      + "max-height:60vh;overflow:auto;";
+    const title = document.createElement("div");
+    title.textContent = "Field notes — training habits this campus rewards";
+    title.style.cssText = "font:700 12px 'Barlow Condensed',Arial,sans-serif;color:#9fb0bf;"
+      + "margin-bottom:8px;text-transform:uppercase;letter-spacing:.03em;";
+    fnList = document.createElement("ul");
+    fnList.style.cssText = "list-style:none;margin:0;padding:0;";
+    panel.append(title, fnList);
+    fnBtn.addEventListener("click", () => { panel.hidden = !panel.hidden; });
+    document.body.append(fnBtn, panel);
+    renderFieldNotes();
+  }
+
+  function renderFieldNotes() {
+    if (!fnList) return;
+    fnList.textContent = "";
+    for (const note of FIELD_NOTES) {
+      const found = fnUnlocked.has(note.id);
+      const li = document.createElement("li");
+      li.style.cssText = `margin:0 0 8px;padding-left:20px;position:relative;color:${found ? "#eaf1f7" : "#6d7488"};`;
+      const mark = document.createElement("span");
+      mark.style.cssText = "position:absolute;left:0;";
+      mark.textContent = found ? "✓" : "\u{1F512}";
+      const label = document.createElement("b");
+      label.textContent = note.name;
+      const body = document.createElement("div");
+      body.textContent = found ? note.lesson : note.hint;
+      li.append(mark, label, body);
+      fnList.appendChild(li);
+    }
+    if (fnBtn) fnBtn.textContent = `\u{1F5D2} Field notes (${fnUnlocked.size}/${FIELD_NOTES.length})`;
+  }
+
+  function fieldNoteToast(text) {
+    if (typeof document === "undefined") return;
+    if (!fnToastEl) {
+      fnToastEl = document.createElement("div");
+      fnToastEl.setAttribute("role", "status");
+      fnToastEl.id = "field-notes-toast";
+      fnToastEl.style.cssText = "position:fixed;left:16px;bottom:104px;z-index:9991;max-width:320px;"
+        + "background:#101b27;border:1px solid #f2c14b;border-radius:6px;padding:10px 14px;"
+        + "font:13px/1.4 'Barlow',Arial,sans-serif;color:#edf6fb;box-shadow:0 24px 60px rgba(0,0,0,0.55);"
+        + "transition:opacity .25s;opacity:0;pointer-events:none;";
+      document.body.appendChild(fnToastEl);
+    }
+    fnToastEl.textContent = text;
+    fnToastEl.style.opacity = "1";
+    clearTimeout(fnToastEl._t);
+    fnToastEl._t = setTimeout(() => { if (fnToastEl) fnToastEl.style.opacity = "0"; }, 4200);
+  }
+
+  function unlockFieldNote(id, programme) {
+    // The panel and its toast fire once per id per page load — finding the
+    // same habit again is not news. The ledger call is keyed by (id,
+    // programme) instead, so a NEW programme still earns its own row (that
+    // is what makes the homepage's ledger read "per programme") without
+    // resending the same pair on every 300 ms poll while the learner stays
+    // parked at a qualifying station; shared/eggs.js's recordLedgerFind() is
+    // idempotent on its own, so this guard is only about not calling it for
+    // no reason, not about correctness.
+    if (!fnUnlocked.has(id)) {
+      fnUnlocked.add(id);
+      renderFieldNotes();
+      const note = FIELD_NOTES.find((n) => n.id === id);
+      if (note) {
+        fieldNoteToast(`Field note — ${note.name}: ${note.lesson}`);
+        eggPlayNotes([659.25, 880, 987.77], { each: 0.09, wave: "square", gain: 0.13 });
+      }
+    }
+    const key = `${id}::${programme}`;
+    if (!fnLoggedKeys.has(key)) { fnLoggedKeys.add(key); onEggFound?.(id, programme); }
+  }
+
+  function armCleanSweep(room) { if (fieldNoteCleanSweep(trList(), room.id)) unlockFieldNote("clean-sweep", room.category ?? "General"); }
+  function armFirstPass(room) { if (fieldNoteFirstPass(trList(), room.id)) unlockFieldNote("first-pass", room.category ?? "General"); }
+  function evaluateGlobalFieldNotes(room) {
+    const list = trList();
+    if (fieldNoteHotStreak(list)) unlockFieldNote("hot-streak", list[list.length - 1]?.category ?? room?.category ?? "General");
+    if (fieldNoteCrossTrained(list)) unlockFieldNote("cross-trained", "Cross-programme");
+    for (const programme of fieldNoteNoResetProgrammes(list)) unlockFieldNote("no-reset", programme);
+  }
+
+  buildFieldNotesPanel();
+
   // ------------------------------------------------------ the one poller
   // Every SmartCiti.X station-enter is detected here (rather than app.js
   // calling back into this module at several points) — one cheap interval
   // watching state.room.id, so this module has exactly one seam with app.js:
-  // the mount call and the live `state` reference it reads.
+  // the mount call and the live `state` reference it reads. The same
+  // interval also watches state.session.interruptLog for Radio Check, since
+  // that egg fires mid-run rather than on a room change.
   goldenStationId = pickGoldenStationId();
-  let lastRoomId = null;
+  // A sentinel distinct from every real room id AND from the hub's own null,
+  // so the very first poll always counts as a transition — including one
+  // that starts already sitting at the hub, which is exactly when the
+  // global field notes (Hot Streak, No Reset Needed, Cross-Trained) most
+  // need their first chance to run.
+  let lastRoomId = Symbol("unset");
+  let lastInterruptSession = null;
+  let lastInterruptLen = 0;
   setInterval(() => {
+    const session = state.session ?? null;
+    if (session !== lastInterruptSession) { lastInterruptSession = session; lastInterruptLen = session?.interruptLog?.length ?? 0; }
+    const curLen = session?.interruptLog?.length ?? 0;
+    if (curLen > lastInterruptLen) {
+      const entry = session.interruptLog[curLen - 1];
+      if (fieldNoteRadioAnswered(entry)) unlockFieldNote("radio-check", state.room?.category ?? "General");
+    }
+    lastInterruptLen = curLen;
+
     const id = state.room?.id ?? null;
     if (id === lastRoomId) return;
     lastRoomId = id;
     craneHook = null;
     goldenObj = null;
+    evaluateGlobalFieldNotes(state.room);
     if (!id) return; // back at the hub
     armGoldenWrench(state.room);
     armCraneClaw(state.room);
+    armCleanSweep(state.room);
+    armFirstPass(state.room);
     if (isNightShift()) {
       flickerMasts();
       const hud = store.get().hud;
@@ -37673,6 +37930,7 @@ function mountSmartCityEggs(ctx) {
     pressPhotoModeKey: () => window.dispatchEvent(new KeyboardEvent("keydown", { key: "p" })),
     clickCraneHook: (times = 1) => { for (let i = 0; i < times; i++) craneHookClicked(); },
     craneArmed: () => !!craneHook,
+    fieldNotesFound: () => [...fnUnlocked],
   };
 }
 
@@ -37954,6 +38212,9 @@ function mountInstructorEggs(ctx) {
 // an app — mount*Eggs() above is the real public surface.
 const _internal = {
   eggLocalDateKey, eggHash, eggSeededIndex, eggBingoCells, eggHazardsFromRoster, EGG_HAZARD_PADDING,
+  FIELD_NOTES,
+  fieldNoteCleanSweep, fieldNoteFirstPass, fieldNoteHotStreak, fieldNoteCrossTrained,
+  fieldNoteNoResetProgrammes, fieldNoteRadioAnswered,
 };
 
 

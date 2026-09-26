@@ -183,7 +183,7 @@ A 20-second clip of AI racing is at `screenshots/race/race-clip.webm`.
 
 # The other Easter egg: Break Room Arcade
 
-There is a second hidden page: a crew break room with three retro cabinets against the wall, each running an original 2D canvas game in the spirit of a classic arcade genre. Every sprite is chunky pixel art drawn in code, every sound and the backing loop are synthesised live with WebAudio, and each cabinet keeps its own high-score table in this browser. A CRT scanline overlay can be toggled on or off from the header.
+There is a second hidden page: a crew break room with four retro cabinets against the wall, each running an original 2D canvas game in the spirit of a classic arcade genre. Every sprite is chunky pixel art drawn in code, every sound and the backing loop are synthesised live with WebAudio, and each cabinet keeps its own high-score table in this browser. A CRT scanline overlay can be toggled on or off from the header.
 
 ## How to open it
 
@@ -191,31 +191,41 @@ Open `WebXR/arcade/index.html` directly from source, or `WebXR/dist/arcade.html`
 
 ## The cabinets
 
+<details><summary>Spoiler — the four cabinets and what each one is</summary>
+
 | Cabinet | Genre | Players | What it is |
 |---|---|---|---|
 | **Spool Yard** | Climbing platformer | 1 | Climb ladders and girders up a steel frame while cable spools roll down off the loading ramps. Tie off at each level's anchor point for a bonus, then reach the crane cab at the top. Four boards, each with a tighter ladder layout and faster spools than the last. |
 | **Crew Run** | Side-scrolling platformer | 1 | A hard-hatted apprentice runs a jobsite: jump the trenches, duck the swinging loads, stomp the hazard icons, and pick up PPE along the way. A foreman checks your PPE count at the end of each of three stages. |
 | **Pallet Stacker** | Falling-block stacker | 1–2 (split screen) | Pallets of different shapes drop into the truck bed; complete a row to ship it. The load shifts if the stack leans too far to one side, and levels speed up. Two players get one independent board each, side by side. |
+| **Forklift Aisle** | Lane-crossing dodger | 1 | Cross a warehouse aisle one marked lane at a time, from the marshalling pad to the shipping dock. Some lanes sweep a forklift or pallet jack back and forth across the aisle; a few are painted, marked crossings with their own stop/go beacon — the whole lane closes while it's red. Grab the hi-vis kit before the dock. Three boards, tighter crossings each time, and every round is capped at a minute. Plays by keyboard, gamepad, or an on-screen d-pad on a touch screen. |
 
 Each cabinet opens on a title card with its genre, controls and a "what this teaches" line, and every run ends on a game-over card with the run's score and, if it qualifies, an entry onto that cabinet's high-score table.
 
+</details>
+
 ## What each one teaches
+
+<details><summary>Spoiler — the real habit behind each cabinet</summary>
 
 - **Spool Yard** — tie off before you climb: an anchored line turns a slip into a stop, not a fall.
 - **Crew Run** — PPE only helps if you're still wearing it when you need it: pick it up, keep it on, get checked.
 - **Pallet Stacker** — a leaning load is an unstable load: keep the stack square, or it comes down on its own schedule, not yours.
+- **Forklift Aisle** — a marked aisle crossing gets right-of-way for a reason: wait for the light, keep your hi-vis on, and the operator can actually see you coming.
+
+</details>
 
 ## Controls
 
-Keyboard and gamepad both work on every cabinet; pad 1 is player 1 and pad 2 is player 2, read through `WebXR/shared/input.js` on the standard gamepad mapping.
+Keyboard and gamepad both work on every cabinet; pad 1 is player 1 and pad 2 is player 2, read through `WebXR/shared/input.js` on the standard gamepad mapping. Forklift Aisle also plays on a touch screen: an on-screen d-pad (up/down/left/right) appears automatically on a coarse-pointer device and drives the very same keys the keyboard does.
 
-| | Spool Yard | Crew Run | Pallet Stacker — P1 | Pallet Stacker — P2 |
-|---|---|---|---|---|
-| Move | ← → or A/D | — | A / D | ← / → |
-| Climb / jump / rotate | ↑ ↓ or W/S (against a ladder) | ↑ / W / Space to jump | W to rotate | ↑ to rotate |
-| Duck / soft drop | — | ↓ / S (hold under a swinging load) | S | ↓ |
-| Hard drop | — | — | Space | Enter |
-| Gamepad | Left stick or D-pad | A jumps, B ducks, D-pad down ducks | Left stick/D-pad move, A rotates, RT hard drops | (pad 2) same buttons |
+| | Spool Yard | Crew Run | Pallet Stacker — P1 | Pallet Stacker — P2 | Forklift Aisle |
+|---|---|---|---|---|---|
+| Move | ← → or A/D | — | A / D | ← / → | ← / → or A/D, or the touch d-pad |
+| Climb / jump / rotate / cross | ↑ ↓ or W/S (against a ladder) | ↑ / W / Space to jump | W to rotate | ↑ to rotate | ↑ or W to cross a lane |
+| Duck / soft drop / step back | — | ↓ / S (hold under a swinging load) | S | ↓ | ↓ or S to step back a lane |
+| Hard drop | — | — | Space | Enter | — |
+| Gamepad | Left stick or D-pad | A jumps, B ducks, D-pad down ducks | Left stick/D-pad move, A rotates, RT hard drops | (pad 2) same buttons | Left stick or D-pad |
 
 Esc pauses any cabinet, and M mutes. The CRT scanline overlay toggle sits in the header and applies while a game is running.
 
@@ -225,7 +235,7 @@ Every cabinet keeps its own top-eight table in this browser under one `localStor
 
 ## Originality
 
-Every sprite, sound, tune, level layout and name in this game is original to this platform. The three genres — a climbing platformer, a side-scrolling runner and a falling-block stacker — are generic arcade genres, not any specific existing game, and no other game's names, characters, sprites, level layouts, music or sounds appear here.
+Every sprite, sound, tune, level layout and name in this game is original to this platform. The four genres — a climbing platformer, a side-scrolling runner, a falling-block stacker and a lane-crossing dodger — are generic arcade genres, not any specific existing game, and no other game's names, characters, sprites, level layouts, music or sounds appear here.
 
 ## Checks
 
@@ -234,14 +244,15 @@ Every sprite, sound, tune, level layout and name in this game is original to thi
 - Each cabinet's engine runs a scripted 30-second session (1800 steps at 1/60 s) with no exception and no non-finite value anywhere in its state.
 - Score never decreases and is never negative; level (board or stage) stays in range and never decreases; lives never go negative; stepping a finished game is a no-op.
 - Pallet Stacker's two boards run independently in split screen, and a deliberately lopsided stack triggers a shift that moves a block without creating, losing or corrupting one.
+- Forklift Aisle's round is capped at 60 seconds; a sweep lane blocks at most one aisle slot at a time, and a marked crossing lane is observed both open and closed over several beacon cycles.
 - The high-score table round-trips through a stubbed `localStorage`, including ranking, the eight-row cap, and a corrupt value falling back to fresh, empty tables.
-- All three cabinets are registered with a genre, a teaching line, controls text and a working engine, and the app is bundled and registered in `check_all`.
+- All four cabinets are registered with a genre, a teaching line, controls text and a working engine, Forklift Aisle declares touch support and the app carries the on-screen d-pad, and the app is bundled and registered in `check_all`.
 
 ## Screenshots
 
 | | |
 |---|---|
-| <img src="screenshots/arcade/row.png" width="420" alt="the three cabinets in the break room"> | <img src="screenshots/arcade/spoolyard.png" width="420" alt="Spool Yard mid-climb"> |
+| <img src="screenshots/arcade/row.png" width="420" alt="the cabinets in the break room"> | <img src="screenshots/arcade/spoolyard.png" width="420" alt="Spool Yard mid-climb"> |
 | <img src="screenshots/arcade/crewrun.png" width="420" alt="Crew Run mid-stage"> | <img src="screenshots/arcade/palletstacker.png" width="420" alt="Pallet Stacker two-player split screen"> |
 
 A 20-second clip of play is at `screenshots/arcade/arcade-clip.webm`.
@@ -484,6 +495,59 @@ the EI guide's opening line for that station quietly adds a rest reminder —
 nothing about the station, its steps or its scoring changes; the run plays
 exactly the same either way.
 
+## Field notes: six more, tied to your own record
+
+<details><summary>Spoiler — what each field note is and how to earn it</summary>
+
+A small **🗒 Field notes** button sits in the corner of every SmartCiti.X
+screen. Click it and it lists six training habits, each locked behind a hint
+until you actually do the thing, unlocked with a lesson once you have. Unlike
+the six eggs above, these six watch `shared/records.js`'s own
+`TrainingRecords` — the real, auditable attempt log — and the live session's
+own read-only interrupt log, **read only**. Nothing here ever writes to a
+record, changes a step, or touches a score; see `shared/eggs-app.js`'s own
+header for exactly what each one reads.
+
+| Field note | Earned by | What it teaches |
+|---|---|---|
+| **Clean Sweep** | A station's latest run: no unsafe action, top marks. | A hazard-free, top-mark run is what a real site's OSHA 300A summary is posted to show: a clean day gets logged, not just remembered. |
+| **Radio Check** | Answering an interruption inside its own step, live. | A fire watch or a confined-space attendant has to notice a check-in without ever putting the job down — answering one in the step, not after it, is that same habit. |
+| **No Reset Needed** | A programme's level-20 capstone passed, with no level of its ladder ever repeated (`shared/ladder.js`'s `levelTag()` — see below). | A registered apprenticeship credits a stage once, not once per attempt — climbing every rung without a repeat is what that progression schedule assumes of you. |
+| **Hot Streak** | The last three attempts anywhere, all passed. | A crew's own safety board tracks consecutive incident-free shifts for the same reason: a streak is what a real habit looks like from the outside. |
+| **First Pass** | A run finished with no correction of any kind — hazard or otherwise. | A work order tracks "first-pass" or "right first time" quality for a plain reason: redone work costs the crew twice — getting it right first is the cheaper habit. |
+| **Cross-Trained** | A passed attempt in several distinct categories. | Registered apprenticeships pair on-the-job hours with related instruction across more than one skill area — working stations from several categories is what that instruction is for. |
+
+**No Reset Needed, honestly:** one trip through a level shares one `run` id
+across every task in it (`shared/ladder.js`'s `levelTag()`); retrying a level
+starts a new `run` id under the same level number. The rule reads that
+straight off the record: for every level 1-20 of the programme, at most one
+`run` id ever appears, and level 20 has a passed attempt.
+
+Each unlock shows a HUD badge (the field-notes panel itself, plus a one-time
+toast naming the lesson) and — through the app's own call to
+`shared/eggs.js`'s `recordLedgerFind()` — a row in the [egg
+ledger](#egg-ledger) below, filed under the programme (its own `category`)
+that earned it.
+
+</details>
+
+## Egg ledger
+
+<details><summary>Spoiler — where the ledger lives and what it shows</summary>
+
+The homepage's hard-hat counter has company: once this browser has earned at
+least one field note, an **Egg ledger** button appears in the footer next to
+it. Opening it lists every field note found so far, grouped by the programme
+that earned it, with the lesson it taught — the same six lessons the
+in-app panel shows, read back from one small localStorage key,
+`vr-training-egg-ledger-v1` (`shared/eggs.js`'s `ledgerByProgramme()`). The
+dialog says plainly that it is a running list of what this browser has
+noticed, not a training record: nothing it shows is written back into
+`TrainingRecords`, and finding the same field note again in a programme
+that already has it changes nothing.
+
+</details>
+
 ## Checks
 
 `node tools/check_eggs_app.mjs` (part of `tools/check_all.mjs`) proves:
@@ -499,3 +563,16 @@ crane hook only opens the claw on its third real hit (a miss lets the
 station's own click through), Night Shift only ever changes anything inside
 its four-hour window, the Holodeck cabinet opens its game the same way, and
 the printed bingo card escapes untrusted text.
+
+It also proves the six field notes: each `fieldNote*` predicate is checked
+directly against hand-built `TrainingRecords` fixtures (a hazard-free top-mark
+run, a run with a correction, three passes and a miss, several categories,
+and a ladder played clean against one played with a retried level), so the
+rule is proven without a browser; `shared/eggs-app.js`'s `FIELD_NOTES` list
+matches `shared/eggs.js`'s `IN_APP_EGGS` id for id, name for name, lesson for
+lesson; and the Field Notes button, panel and toast appear and update against
+the same DOM stub once a fixture's condition is met, without ever writing to
+`TrainingRecords`. `node tools/check_eggs.mjs` proves the ledger itself:
+`recordLedgerFind()` is idempotent per `(id, programme)` pair but adds a new
+row for a new programme, `ledgerByProgramme()` groups and sorts it, and the
+homepage carries the Egg ledger button, dialog and the ledger's storage key.

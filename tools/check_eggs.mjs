@@ -236,9 +236,50 @@ await check("a capstone livery unlocks only for a passed level-20 attempt on its
   assert(full[0].unlocked, "Hard Hat Gold should unlock once all twelve hard hats are reported found");
 });
 
+// --------------------------------------------------------------- 3b. Egg ledger
+
+await check("shared/eggs.js exports the six field notes and their ledger helpers", () => {
+  const src = readFileSync(join(SHARED, "eggs.js"), "utf8");
+  assert(/export const IN_APP_EGGS/.test(src), "eggs.js does not export IN_APP_EGGS");
+  assert(/export function recordLedgerFind/.test(src), "eggs.js does not export recordLedgerFind");
+  assert(/export function ledgerByProgramme/.test(src), "eggs.js does not export ledgerByProgramme");
+  assert(/export function ledgerFound/.test(src), "eggs.js does not export ledgerFound");
+  assert(/export function clearLedger/.test(src), "eggs.js does not export clearLedger");
+});
+
+await check("recordLedgerFind is idempotent per (id, programme), and unknown ids are ignored", async () => {
+  const { recordLedgerFind, ledgerFound, ledgerByProgramme, clearLedger, IN_APP_EGGS } = await import(pathToFileURL(join(SHARED, "eggs.js")));
+  eq(IN_APP_EGGS.length, 6, "IN_APP_EGGS should list exactly the six field notes");
+  for (const e of IN_APP_EGGS) {
+    assert(e.id && e.name && e.hint && e.lesson, `IN_APP_EGGS entry ${JSON.stringify(e)} is missing a field`);
+  }
+  const storage = fakeStorage();
+  eq(ledgerFound(storage).length, 0, "a fresh store starts empty");
+  let r = recordLedgerFind("clean-sweep", "Energy & Power", storage);
+  eq(r.added, true, "a first find should be new");
+  eq(ledgerFound(storage).length, 1, "one row after one find");
+  r = recordLedgerFind("clean-sweep", "Energy & Power", storage);
+  eq(r.added, false, "the same (id, programme) again must not add a row");
+  eq(ledgerFound(storage).length, 1, "a repeated find must not duplicate the row");
+  r = recordLedgerFind("clean-sweep", "Maritime & Ports", storage);
+  eq(r.added, true, "the SAME egg in a NEW programme must add its own row");
+  eq(ledgerFound(storage).length, 2, "a new programme's row was not added");
+  r = recordLedgerFind("not-a-real-egg", "Somewhere", storage);
+  eq(r.added, false, "an id outside IN_APP_EGGS must not be recorded");
+  eq(ledgerFound(storage).length, 2, "an unknown id changed the ledger anyway");
+  recordLedgerFind("radio-check", "Maritime & Ports", storage);
+  const byProgramme = ledgerByProgramme(storage);
+  eq(byProgramme.length, 2, "two distinct programmes should each get their own group");
+  const maritime = byProgramme.find((g) => g.programme === "Maritime & Ports");
+  eq(maritime.entries.length, 2, "Maritime & Ports should carry both of its finds");
+  assert(maritime.entries.every((e) => e.lesson && e.name), "a ledger row is missing its own name or lesson");
+  clearLedger(storage);
+  eq(ledgerFound(storage).length, 0, "clearLedger did not empty the store");
+});
+
 // ------------------------------------------------------------ 4. wired up
 
-await check("the homepage carries both eggs' trigger strings", () => {
+await check("the homepage carries both eggs' trigger strings, plus the egg ledger", () => {
   for (const [file, page] of [["WebXR/index.html", readFileSync(join(WEBXR, "index.html"), "utf8")], ["WebXR/home.html", readFileSync(join(WEBXR, "home.html"), "utf8")]]) {
     assert(page.includes('"KeyR", "KeyA", "KeyD", "KeyI", "KeyO"'), `${file} is missing the "radio" key sequence`);
     assert(page.includes('import("./shared/radio-quiz.js")'), `${file} never opens the Foreman's Radio quiz`);
@@ -246,6 +287,9 @@ await check("the homepage carries both eggs' trigger strings", () => {
     assert(page.includes("hard hats found:"), `${file}'s hard-hat counter has no label`);
     // The existing race egg's trigger must still be intact alongside the new one.
     assert(page.includes('"ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown"'), `${file} lost the race egg's key sequence`);
+    assert(page.includes('id="egg-ledger-btn"'), `${file} is missing the egg-ledger button`);
+    assert(page.includes('id="egg-ledger-dialog"'), `${file} is missing the egg-ledger dialog`);
+    assert(page.includes("vr-training-egg-ledger-v1"), `${file} never reads the egg-ledger storage key`);
   }
 });
 
@@ -258,10 +302,10 @@ await check("the new shared files are wired into the bundler and check_all.mjs",
   const all = readFileSync(join(ROOT, "tools", "check_all.mjs"), "utf8");
   assert(all.includes('"check_eggs.mjs"'), "check_all.mjs does not run check_eggs.mjs");
   const doc = readFileSync(join(ROOT, "docs", "easter-egg.md"), "utf8");
-  for (const word of ["Hard Hat Hunt", "Foreman's Radio", "Capstone skins"]) {
+  for (const word of ["Hard Hat Hunt", "Foreman's Radio", "Capstone skins", "Egg ledger"]) {
     assert(doc.includes(word), `docs/easter-egg.md never documents ${word}`);
   }
 });
 
-console.log(failures ? `\n${failures} check(s) failed.` : `\nAll checks pass: twelve hard-hat hosts, a ten-question honest quiz, and the capstone unlock rule.`);
+console.log(failures ? `\n${failures} check(s) failed.` : `\nAll checks pass: twelve hard-hat hosts, a ten-question honest quiz, the capstone unlock rule, and the egg ledger.`);
 process.exit(failures ? 1 : 0);

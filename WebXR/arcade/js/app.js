@@ -59,6 +59,30 @@ window.addEventListener("keyup", (e) => aaKeys.delete(e.code));
 window.addEventListener("blur", () => aaKeys.clear());
 window.addEventListener("pointerdown", () => aaAudio.resume(), { passive: true });
 
+// ------------------------------------------------------------- touch d-pad
+// A solo cabinet (spoolyard, crewrun, forkliftaisle) reads up/down/left/right
+// through the very same AA_SOLO_SETS arrow-key entry aaReadSolo() already
+// checks, so a touch button just needs to hold that key "down" in aaKeys for
+// as long as a finger is on it — no separate touch input path to keep in
+// sync with the keyboard one. Palletstacker's two independent key sets have
+// no on-screen pad; it stays keyboard/gamepad only, same as today.
+const AA_TOUCH_KEYS = { "tp-up": "ArrowUp", "tp-down": "ArrowDown", "tp-left": "ArrowLeft", "tp-right": "ArrowRight" };
+for (const [id, code] of Object.entries(AA_TOUCH_KEYS)) {
+  const btn = $(id);
+  if (!btn) continue;
+  const press = (e) => { e.preventDefault(); aaAudio.resume(); aaKeys.add(code); };
+  const release = (e) => { e.preventDefault(); aaKeys.delete(code); };
+  btn.addEventListener("pointerdown", press);
+  btn.addEventListener("pointerup", release);
+  btn.addEventListener("pointercancel", release);
+  btn.addEventListener("pointerleave", release);
+}
+function aaUpdateTouchPad() {
+  const pad = $("touch-pad");
+  const show = aa.screen === "playing" && aa.cabinet?.touch === true;
+  if (show) pad.setAttribute("data-on", ""); else pad.removeAttribute("data-on");
+}
+
 const aaPads = [0, 1].map((i) => createGamepad({
   getGamepads: () => {
     const all = navigator.getGamepads ? navigator.getGamepads() : [];
@@ -179,6 +203,8 @@ function aaShow(name) {
   for (const s of AA_SCREENS) $(`scr-${s}`).hidden = s !== name;
   $("stage-wrap").hidden = !(name === "playing" || name === "pause");
   $("crt").hidden = !(name === "playing" || name === "pause") || !aa.crt;
+  aaUpdateTouchPad();
+  if (name !== "playing") for (const code of Object.values(AA_TOUCH_KEYS)) aaKeys.delete(code);
   if (name === "menu") aaRenderMenu();
   if (name === "title") aaRenderTitle();
   if (name === "scores") aaRenderScores(null);
@@ -223,6 +249,7 @@ function aaRenderMenu() {
 function aaAttractInput(id, t) {
   if (id === "spoolyard") return { left: Math.sin(t * 0.7) > 0.25, right: Math.sin(t * 0.7) < -0.25, up: Math.sin(t * 1.3) > 0.55, down: Math.sin(t * 1.3 + 1) > 0.85 };
   if (id === "crewrun") return { up: Math.sin(t * 1.05) > 0.88, down: Math.sin(t * 1.7 + 2) < -0.9 };
+  if (id === "forkliftaisle") return { up: Math.sin(t * 1.4) > 0.15, left: Math.sin(t * 0.6) > 0.6, right: Math.sin(t * 0.6) < -0.6 };
   return { 0: { left: Math.sin(t * 0.9) > 0.35, right: Math.sin(t * 0.9) < -0.35, rotate: Math.sin(t * 2.3) > 0.92, down: Math.sin(t * 1.6) > 0.8 } };
 }
 
@@ -376,6 +403,7 @@ const AA_EVENT_SOUND = {
   floor: "step", anchor: "anchor", "board-complete": "levelup",
   hit: "hit", ppe: "ppe", stomp: "stomp", checkpoint: "checkpoint",
   ship: "ship", shift: "shift", lock: null,
+  kit: "ppe", "right-of-way": "anchor", dock: "checkpoint",
 };
 function aaOnEvent(e) {
   if (e.type === "ship" && e.rows >= 4) return aaAudio.play("tetris");
