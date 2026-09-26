@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 426
+      "stations": 434
     },
     "trades": {
       "entry": "trades/index.html",
@@ -81,7 +81,15 @@
         "drive-mountain-grade-and-engine-brake",
         "drive-freeway-merge-and-following-distance",
         "drive-city-route-and-turns",
-        "tr-wheelchair-lift-and-securement-on-a-bus"
+        "tr-wheelchair-lift-and-securement-on-a-bus",
+        "ra-blue-flag-protection-in-the-yard",
+        "ra-locomotive-cab-startup-and-alerter",
+        "ra-crossing-signal-maintenance-and-flagging",
+        "ra-hand-brake-and-securement-on-a-grade",
+        "ra-air-brake-test-and-train-inspection",
+        "ra-switch-inspection-and-lubrication",
+        "ra-tie-and-rail-replacement-with-track-machines",
+        "ra-roadway-worker-protection-and-job-briefing"
       ]
     },
     {
@@ -3546,6 +3554,67 @@
         "levels": 20,
         "lessons": 1641,
         "tasks": 117,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
+    },
+    {
+      "id": "railroad-crafts",
+      "name": "Railroad Crafts — Track, Car and Cab",
+      "union": "BLET, SMART-TD and BMWED",
+      "certification": "FRA 49 CFR Part 213 track safety standards, Part 214 roadway worker protection, Part 218 blue signal protection of workers and Part 232 brake system safety standards, worked the way BLET, SMART-TD and BMWED train their own crafts to work them",
+      "summary": "Eight of the jobs a freight railroad runs on every day: the roadway gang's own protection and briefing, a tie and rail change-out with the machines that do the lifting, a switch locked out and proven by gauge, a full air brake test walked car by car, a cut secured on a grade and proven by test, a grade crossing taken down and proven against a shunt, a locomotive proven ready before it moves, and the blue flag that lets two crews share one cut of equipment without either one trusting the other's protection instead of their own.",
+      "accent": "#d63b3b",
+      "stations": [
+        {
+          "app": "smartcity",
+          "id": "ra-roadway-worker-protection-and-job-briefing",
+          "why": "Every job on the railroad starts with the same habit: a briefing everyone actually signs onto, working limits requested and read back, and a watchman posted at a sighting distance worked back from the timetable speed rather than chosen for convenience."
+        },
+        {
+          "app": "smartcity",
+          "id": "ra-tie-and-rail-replacement-with-track-machines",
+          "why": "The machines that do the actual lifting on a tie and rail change-out — a crane, a saw, a tamper — each carry their own hazard zone, and the gang's protection is proving the crew stayed outside every one of them, not just that the track measures right afterward."
+        },
+        {
+          "app": "smartcity",
+          "id": "ra-switch-inspection-and-lubrication",
+          "why": "A hand-thrown switch gets locked and tagged before a hand goes near the points, and the heater that keeps it free of ice gets proven dead by a hold, not assumed safe from a breaker position."
+        },
+        {
+          "app": "smartcity",
+          "id": "ra-air-brake-test-and-train-inspection",
+          "why": "A brake test is walked and looked at car by car — a set confirmed by eye, not trusted from a gauge in the cab — because a shoe that never actually seated against the wheel reads exactly like a normal brake pipe pressure until somebody looks."
+        },
+        {
+          "app": "smartcity",
+          "id": "ra-hand-brake-and-securement-on-a-grade",
+          "why": "A cut left standing on a grade is held by hand brakes proven by a push-pull test with the air released, never assumed from a count of turns on a wheel, with chocks behind them for the one thing a hand brake alone cannot promise."
+        },
+        {
+          "app": "smartcity",
+          "id": "ra-crossing-signal-maintenance-and-flagging",
+          "why": "Taking a grade crossing's automatic protection down for a test means the road gets protected by hand for as long as the gates and lights cannot be trusted, and the crossing is proven with a real shunt before it goes back to drivers who never knew it was down."
+        },
+        {
+          "app": "smartcity",
+          "id": "ra-locomotive-cab-startup-and-alerter",
+          "why": "A locomotive gets a walk-around before it gets a cab, both brakes tested before the first mile, and the alerter answered on its own schedule for the whole trip because it is the one device built to notice an engineer who has stopped noticing anything else."
+        },
+        {
+          "app": "smartcity",
+          "id": "ra-blue-flag-protection-in-the-yard",
+          "why": "Two crews sharing one cut of equipment both need their own blue flag at every point it could be moved from, because a flag protects the worker who displayed it — never the next person who assumes it also covers them."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1741,
+        "tasks": 120,
         "atBar": 20,
         "partial": 0,
         "stationsNeeded": 0,
@@ -28029,7 +28098,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 262,
+      "meshes": 253,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -28689,7 +28758,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 257,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",
@@ -38844,6 +38913,669 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=br-marine-mammal-observer-during-pile-driving"
+    },
+    {
+      "app": "smartcity",
+      "id": "ra-blue-flag-protection-in-the-yard",
+      "name": "Blue Flag Protection in the Yard",
+      "title": "SmartCiti.X~ Blue Flag Protection in the Yard VR",
+      "tagline": "The flag board checked before anything is assumed clear, your own blue flag displayed at every point that could move this equipment, a second crew's flag confirmed rather than trusted, and every flag down only by the hand that put it up",
+      "category": "Mobility & Transit",
+      "domain": "Rail",
+      "trade": "Car inspector / mechanical department utility worker",
+      "union": null,
+      "certification": "Blue signal protection of workers under FRA 49 CFR Part 218 Subpart B, on equipment shared with another mechanical department crew, backed by a locked derail under BMWED practice and respected by every hostler, a BLET-qualified engineer and a SMART-TD-qualified conductor alike before touching a control that could move it",
+      "accent": "#3f7bd1",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "turn",
+        "hold",
+        "drag",
+        "gauge",
+        "track",
+        "find"
+      ],
+      "badge": {
+        "id": "flag-is-yours",
+        "name": "Flag Is Yours",
+        "note": "Every flag placed and removed by the hand that put it up, and never assumed clear on someone else's say-so"
+      },
+      "meshes": 157,
+      "lights": 0,
+      "overBudget": false,
+      "index": "429",
+      "flat": false,
+      "system": "Blue Flag Authority",
+      "currency": "FLAG",
+      "ranks": [
+        "Mechanical Helper",
+        "Qualified Car Inspector",
+        "Lead Inspector",
+        "Car Foreman",
+        "Blue Flag Certified"
+      ],
+      "awards": [
+        {
+          "id": "never-borrowed",
+          "name": "Never Borrowed",
+          "note": "Never once relied on somebody else's flag instead of your own"
+        },
+        {
+          "id": "reading-true",
+          "name": "Reading True",
+          "note": "Every gauge reading near band centre"
+        },
+        {
+          "id": "flags-clean",
+          "name": "Clean Flags",
+          "note": "Placement and radio steps worked with no correction"
+        },
+        {
+          "id": "yard-time",
+          "name": "Yard Time",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "first-flag",
+          "name": "First Flag",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "ten-clear",
+          "name": "Ten Clear",
+          "note": "Ten correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ra-blue-flag-protection-in-the-yard"
+    },
+    {
+      "app": "smartcity",
+      "id": "ra-locomotive-cab-startup-and-alerter",
+      "name": "Locomotive Cab Startup & Alerter",
+      "title": "SmartCiti.X~ Locomotive Cab Startup & Alerter VR",
+      "tagline": "The walk-around done on foot, the reverser handle carried and seated, both brakes tested from the cab, movement authority confirmed over the radio, and the alerter answered on its own schedule the whole way to highball",
+      "category": "Mobility & Transit",
+      "domain": "Rail",
+      "trade": "Locomotive engineer",
+      "union": null,
+      "certification": "BLET-qualified locomotive engineer working to FRA 49 CFR Part 232 brake system standards for the independent and automatic brake tests, movement authority confirmed over the radio the way the dispatcher and a SMART-TD-qualified conductor both expect it worked, with roadway worker protection under FRA 49 CFR Part 214 respected the whole time the walk-around is underway",
+      "accent": "#3d6fae",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drag",
+        "turn",
+        "gauge",
+        "hold",
+        "track",
+        "find"
+      ],
+      "badge": {
+        "id": "highball-clean",
+        "name": "Clean Highball",
+        "note": "Startup, both brake tests and every alerter cycle answered with nothing skipped"
+      },
+      "meshes": 151,
+      "lights": 0,
+      "overBudget": false,
+      "index": "428",
+      "flat": false,
+      "system": "Cab Authority",
+      "currency": "THROTTLE",
+      "ranks": [
+        "Hostler",
+        "Qualified Engineer",
+        "Road Engineer",
+        "Road Foreman",
+        "Cab Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "never-early",
+          "name": "Never Early",
+          "note": "Never touched the throttle or reverser before movement authority was confirmed"
+        },
+        {
+          "id": "gauge-true",
+          "name": "Gauge True",
+          "note": "Every gauge reading near band centre"
+        },
+        {
+          "id": "brakes-clean",
+          "name": "Clean Brakes",
+          "note": "Independent and automatic brake tests worked with no correction"
+        },
+        {
+          "id": "highball-time",
+          "name": "Highball Time",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "first-highball",
+          "name": "First Highball",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "ten-clear",
+          "name": "Ten Clear",
+          "note": "Ten correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ra-locomotive-cab-startup-and-alerter"
+    },
+    {
+      "app": "smartcity",
+      "id": "ra-crossing-signal-maintenance-and-flagging",
+      "name": "Crossing Signal Maintenance & Flagging",
+      "title": "SmartCiti.X~ Crossing Signal Maintenance & Flagging VR",
+      "tagline": "The dispatcher told before the automatic warning goes quiet, the road protected by hand while it's out, the island circuit proven dead, the gates and lights proven against a test shunt, and every bit of it restored and confirmed before the crossing goes back to drivers who never knew it was down",
+      "category": "Mobility & Transit",
+      "domain": "Track",
+      "trade": "Signal maintainer",
+      "union": null,
+      "certification": "BMWED-qualified signal maintenance, working a crossing whose automatic protection is out of service under FRA 49 CFR Part 214 roadway worker protection, with the dispatcher's own record of the outage the only thing standing between this crossing and a movement a BLET engineer or a SMART-TD conductor would otherwise expect it to warn for",
+      "accent": "#d63b3b",
+      "parSeconds": 330,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "hold",
+        "sequence",
+        "turn",
+        "gauge",
+        "drag",
+        "track",
+        "find"
+      ],
+      "badge": {
+        "id": "crossing-proven",
+        "name": "Crossing Proven",
+        "note": "Every gate, light and circuit tested against a real shunt, and the road never once left unprotected while the automatic warning was down"
+      },
+      "meshes": 154,
+      "lights": 0,
+      "overBudget": false,
+      "index": "427",
+      "flat": false,
+      "system": "Crossing Authority",
+      "currency": "SIGNAL",
+      "ranks": [
+        "Signal Helper",
+        "Qualified Signal Maintainer",
+        "Lead Maintainer",
+        "Signal Supervisor",
+        "Crossing Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "never-live",
+          "name": "Never Live",
+          "note": "Never once touched a circuit before proving it dead"
+        },
+        {
+          "id": "timing-true",
+          "name": "Timing True",
+          "note": "Every gauge reading near band centre"
+        },
+        {
+          "id": "restore-clean",
+          "name": "Clean Restore",
+          "note": "Shunt test and restoration steps worked with no correction"
+        },
+        {
+          "id": "crossing-time",
+          "name": "Crossing Time",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "first-crossing",
+          "name": "First Crossing",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "ten-clear",
+          "name": "Ten Clear",
+          "note": "Ten correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ra-crossing-signal-maintenance-and-flagging"
+    },
+    {
+      "app": "smartcity",
+      "id": "ra-hand-brake-and-securement-on-a-grade",
+      "name": "Hand Brake & Securement on a Grade",
+      "title": "SmartCiti.X~ Hand Brake & Securement on a Grade VR",
+      "tagline": "Enough hand brakes applied from the downgrade end first, wound up hard, backed by chocks, tested by releasing the air and watching for the one thing that says it didn't hold, and the locomotive parted only once three-step is confirmed",
+      "category": "Mobility & Transit",
+      "domain": "Track",
+      "trade": "Conductor / trainman",
+      "union": null,
+      "certification": "Securement worked to FRA 49 CFR Part 232, including the effectiveness test that has to prove hand brakes hold before the air is trusted for anything else, on a cut protected by three-step under FRA 49 CFR Part 214 before anyone goes near the coupler, called and confirmed with the dispatcher the way a BLET-qualified engineer and a SMART-TD conductor both expect a securement report to read",
+      "accent": "#4f9d5c",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "turn",
+        "drag",
+        "hold",
+        "track",
+        "find"
+      ],
+      "badge": {
+        "id": "held-on-the-grade",
+        "name": "Held On The Grade",
+        "note": "Securement proved by test, not assumed from a count of turns on a wheel"
+      },
+      "meshes": 162,
+      "lights": 0,
+      "overBudget": false,
+      "index": "426",
+      "flat": false,
+      "system": "Securement Authority",
+      "currency": "GRADE",
+      "ranks": [
+        "Trainman",
+        "Qualified Conductor",
+        "Lead Conductor",
+        "Trainmaster",
+        "Securement Certified"
+      ],
+      "awards": [
+        {
+          "id": "never-below",
+          "name": "Never Below",
+          "note": "Never once standing in the rollaway path during the test"
+        },
+        {
+          "id": "calc-true",
+          "name": "Calc True",
+          "note": "Every securement calculation and test reading near band centre"
+        },
+        {
+          "id": "test-clean",
+          "name": "Clean Test",
+          "note": "Release and push-pull test steps worked with no correction"
+        },
+        {
+          "id": "grade-time",
+          "name": "Grade Time",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "first-secure",
+          "name": "First Secure",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "ten-clear",
+          "name": "Ten Clear",
+          "note": "Ten correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ra-hand-brake-and-securement-on-a-grade"
+    },
+    {
+      "app": "smartcity",
+      "id": "ra-air-brake-test-and-train-inspection",
+      "name": "Air Brake Test & Train Inspection",
+      "title": "SmartCiti.X~ Air Brake Test & Train Inspection VR",
+      "tagline": "The cut charged, a set called and confirmed car by car, the rigging and wheels walked end to end, a defect tagged the moment it is found, and the release confirmed the same way the set was — never a hand between the cars until the blue signal says so",
+      "category": "Mobility & Transit",
+      "domain": "Track",
+      "trade": "Freight car inspector / carman",
+      "union": null,
+      "certification": "Carman qualification under FRA 49 CFR Part 232 brake system safety standards, working a cut protected by its own blue signal under FRA 49 CFR Part 214 before anyone goes between the cars, with the engineer's brake application called and confirmed over the radio the way a BLET-qualified engineer and a SMART-TD conductor both expect a car inspector to work a terminal test",
+      "accent": "#c0453f",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "turn",
+        "find",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "test-sheet-clean",
+        "name": "Clean Test Sheet",
+        "note": "Every car set, confirmed, inspected and released with the blue signal up the whole time"
+      },
+      "meshes": 153,
+      "lights": 0,
+      "overBudget": false,
+      "index": "425",
+      "flat": false,
+      "system": "Car Inspection Authority",
+      "currency": "BRAKE",
+      "ranks": [
+        "Car Inspector Trainee",
+        "Qualified Carman",
+        "Lead Inspector",
+        "Car Foreman",
+        "Brake Test Certified"
+      ],
+      "awards": [
+        {
+          "id": "never-between",
+          "name": "Never Between",
+          "note": "Never once between the cars without the blue signal up"
+        },
+        {
+          "id": "gauge-true",
+          "name": "Gauge True",
+          "note": "Every gauge reading near band centre"
+        },
+        {
+          "id": "test-clean",
+          "name": "Clean Test",
+          "note": "Set and release steps worked with no correction"
+        },
+        {
+          "id": "yard-time",
+          "name": "Yard Time",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "first-test",
+          "name": "First Test",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "ten-clear",
+          "name": "Ten Clear",
+          "note": "Ten correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ra-air-brake-test-and-train-inspection"
+    },
+    {
+      "app": "smartcity",
+      "id": "ra-switch-inspection-and-lubrication",
+      "name": "Switch Inspection & Lubrication",
+      "title": "SmartCiti.X~ Switch Inspection & Lubrication VR",
+      "tagline": "The switch locked and tagged out of service, the points measured and greased, the heater proved dead before a hand goes near the element, and the whole thing thrown, tested and handed back with the target indicator reading true",
+      "category": "Mobility & Transit",
+      "domain": "Track",
+      "trade": "Switch and turnout maintainer",
+      "union": null,
+      "certification": "BMWED-qualified switch and turnout maintenance, worked to FRA 49 CFR Part 213 track safety standards for point closure and gauge at the switch, with the switch itself locked out and tagged under FRA 49 CFR Part 214 before any hand goes near the points, and the dispatcher's own record of the switch's position the only thing a BLET engineer or a SMART-TD conductor has to go on before they reach it",
+      "accent": "#b8a13a",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "turn",
+        "gauge",
+        "hold",
+        "drag",
+        "track",
+        "find"
+      ],
+      "badge": {
+        "id": "points-true",
+        "name": "Points True",
+        "note": "Switch locked out, points measured and greased, and handed back seating tight in both positions"
+      },
+      "meshes": 153,
+      "lights": 0,
+      "overBudget": false,
+      "index": "424",
+      "flat": false,
+      "system": "Switch Authority",
+      "currency": "POINT",
+      "ranks": [
+        "Trackman",
+        "Switch Maintainer",
+        "Lead Maintainer",
+        "Track Supervisor",
+        "Switch Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "never-pinched",
+          "name": "Never Pinched",
+          "note": "Never once with a hand near the points while they moved"
+        },
+        {
+          "id": "gap-true",
+          "name": "Gap True",
+          "note": "Every gauge reading near band centre"
+        },
+        {
+          "id": "lockout-clean",
+          "name": "Clean Lockout",
+          "note": "Lockout and restoration steps worked with no correction"
+        },
+        {
+          "id": "gang-time",
+          "name": "Gang Time",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "first-switch",
+          "name": "First Switch",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "ten-clear",
+          "name": "Ten Clear",
+          "note": "Ten correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ra-switch-inspection-and-lubrication"
+    },
+    {
+      "app": "smartcity",
+      "id": "ra-tie-and-rail-replacement-with-track-machines",
+      "name": "Tie & Rail Replacement with Track Machines",
+      "title": "SmartCiti.X~ Tie & Rail Replacement VR",
+      "tagline": "A crane swings a tie out and a new one in, a saw parts the old rail, a new length is dressed to the joint, and a tamper closes the ballast back around all of it — with a swing radius, a hot cut and a pinching bank in play the whole time",
+      "category": "Mobility & Transit",
+      "domain": "Track",
+      "trade": "Track maintenance machine operator / gang laborer",
+      "union": null,
+      "certification": "BMWED-qualified roadway equipment operator, working inside FRA 49 CFR Part 214 roadway maintenance machine protection; the finished tie and rail work is held to FRA 49 CFR Part 213 track safety standards for the class of track being restored, and the dispatcher's working limits are the only thing keeping a BLET-qualified engineer or a SMART-TD-qualified conductor off this section while the gang has it apart",
+      "accent": "#6b8fa3",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "turn",
+        "track",
+        "drag",
+        "gauge",
+        "hold",
+        "find"
+      ],
+      "badge": {
+        "id": "cut-closed-clean",
+        "name": "Cut Closed Clean",
+        "note": "Tie and rail changed out, the ballast tamped back and the crew never once inside a machine's own hazard zone"
+      },
+      "meshes": 153,
+      "lights": 0,
+      "overBudget": false,
+      "index": "423",
+      "flat": false,
+      "system": "Machine Gang Authority",
+      "currency": "LIMIT",
+      "ranks": [
+        "Track Laborer",
+        "Machine Operator",
+        "Gang Leader",
+        "Track Supervisor",
+        "Machine Gang Certified"
+      ],
+      "awards": [
+        {
+          "id": "clear-of-swing",
+          "name": "Clear Of Swing",
+          "note": "Never once inside a machine's own working radius"
+        },
+        {
+          "id": "gauge-true",
+          "name": "Gauge True",
+          "note": "Every gauge and torque reading near band centre"
+        },
+        {
+          "id": "cut-clean",
+          "name": "Clean Cut",
+          "note": "Crane, saw and tamper steps worked with no correction"
+        },
+        {
+          "id": "gang-time",
+          "name": "Gang Time",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "first-cut",
+          "name": "First Cut",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "ten-clear",
+          "name": "Ten Clear",
+          "note": "Ten correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ra-tie-and-rail-replacement-with-track-machines"
+    },
+    {
+      "app": "smartcity",
+      "id": "ra-roadway-worker-protection-and-job-briefing",
+      "name": "Roadway Worker Protection & Job Briefing",
+      "title": "SmartCiti.X~ Roadway Worker Protection & Job Briefing VR",
+      "tagline": "The briefing signed, the limits requested and read back, the watchman posted at a sighting distance worked from the timetable speed, the work done inside the limits, and every piece of it handed back before anyone walks away",
+      "category": "Mobility & Transit",
+      "domain": "Track",
+      "trade": "Roadway worker / track inspector",
+      "union": null,
+      "certification": "BMWED roadway worker qualification under FRA 49 CFR Part 214 on-track safety, read against the territory's own FRA 49 CFR Part 213 track safety standards; working limits are requested from and released back to the train dispatcher, whose authority is the only thing that keeps a BLET engineer or a SMART-TD conductor on an approaching train from running through this worksite",
+      "accent": "#e0862c",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "turn",
+        "hold",
+        "drag",
+        "track",
+        "find"
+      ],
+      "badge": {
+        "id": "limits-closed-clean",
+        "name": "Limits Closed Clean",
+        "note": "Working limits requested, worked inside and handed back with nothing skipped and nobody left out of the count"
+      },
+      "meshes": 157,
+      "lights": 0,
+      "overBudget": false,
+      "index": "422",
+      "flat": false,
+      "system": "On-Track Authority",
+      "currency": "LIMIT",
+      "ranks": [
+        "Trackman",
+        "Qualified Roadway Worker",
+        "Watchman",
+        "Person In Charge",
+        "On-Track Safety Certified"
+      ],
+      "awards": [
+        {
+          "id": "never-fouled",
+          "name": "Never Fouled",
+          "note": "Never once inside the fouling zone or past the limits unprotected"
+        },
+        {
+          "id": "sighting-true",
+          "name": "Sighting True",
+          "note": "Sighting distance, gauge reading and every measurement near band centre"
+        },
+        {
+          "id": "briefing-clean",
+          "name": "Clean Briefing",
+          "note": "Briefing, limits and handback all worked with no correction"
+        },
+        {
+          "id": "gang-time",
+          "name": "Gang Time",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "first-limits",
+          "name": "First Limits",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "ten-clear",
+          "name": "Ten Clear",
+          "note": "Ten correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ra-roadway-worker-protection-and-job-briefing"
     },
     {
       "app": "trades",

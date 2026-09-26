@@ -1,6 +1,6 @@
 # SmartCiti.X training series
 
-_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-26. 426 SmartCiti.X stations across 17 categories and 31 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
+_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-26. 434 SmartCiti.X stations across 17 categories and 32 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
 Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 42 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
@@ -37,6 +37,7 @@ Every station is a real union procedure sited generically, built on the shared e
 - [Situational Awareness — Interruption Drill](#situational-awareness)
 - [Basketball Fundamentals](#basketball-fundamentals)
 - [SF Bay Restoration & Cleanup — Maritime and Underwater](#bay-restoration-maritime-underwater)
+- [Railroad Crafts — Track, Car and Cab](#railroad-crafts)
 
 <a id="hunters-point-bay-restoration"></a>
 ## Hunters Point Clean-up and Bay Restoration
@@ -1094,6 +1095,26 @@ Thirty-five more jobs the deep restoration and clean-up of San Francisco Bay wil
 | 347 | [Restoration Data QA & Public Reporting](../../WebXR/smartcity/index.html?sim=br-restoration-data-qa-and-public-reporting) | Restoration data QA technician, moving field sheets into the shared database and preparing the public dashboard summary for the restoration programme's agency scientists | overcast, Environmental Monitoring | 15 | 2 | 96 | Every field sheet is checked before it's scanned and every suspect value is flagged rather than typed straight in, so the one line the public dashboard is allowed to say about the Bay is a line the reviewed data actually backs up. |
 | 348 | [Beach Seine Fish Survey & Handling](../../WebXR/smartcity/index.html?sim=br-beach-seine-fish-survey-and-handling) | Fisheries technician, running a beach seine survey and skiff set for a restoration monitoring programme under a CDFW permit | clear, Water & Environmental | 14 | 2 | 95 | The net is set from the skiff and hauled as one crew, every fish is named and counted at the generic level the reference calls for, and none of them spends longer out of the water than the permit's handling window allows. |
 | 349 | [Benthic Grab & Invertebrate Sorting](../../WebXR/smartcity/index.html?sim=br-benthic-grab-and-invertebrate-sorting) | Benthic monitoring technician, taking grab samples from a workboat and sorting invertebrates for a restoration monitoring programme | fog, Maritime & Ports | 15 | 2 | 95 | The grab comes up from the workboat's rail with hands clear of its live jaws, the sample is sieved and sorted into generic taxonomic groups, and every jar is in custody before the organisms inside it have any chance to degrade. |
+
+<a id="railroad-crafts"></a>
+## Railroad Crafts — Track, Car and Cab
+
+**Union:** BLET, SMART-TD and BMWED
+
+**Certifications and standards:** FRA 49 CFR Part 213 track safety standards, Part 214 roadway worker protection, Part 218 blue signal protection of workers and Part 232 brake system safety standards, worked the way BLET, SMART-TD and BMWED train their own crafts to work them
+
+Eight of the jobs a freight railroad runs on every day: the roadway gang's own protection and briefing, a tie and rail change-out with the machines that do the lifting, a switch locked out and proven by gauge, a full air brake test walked car by car, a cut secured on a grade and proven by test, a grade crossing taken down and proven against a shunt, a locomotive proven ready before it moves, and the blue flag that lets two crews share one cut of equipment without either one trusting the other's protection instead of their own.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| 422 | [Roadway Worker Protection & Job Briefing](../../WebXR/smartcity/index.html?sim=ra-roadway-worker-protection-and-job-briefing) | Roadway worker / track inspector | overcast | 14 | 2 | — | Every job on the railroad starts with the same habit: a briefing everyone actually signs onto, working limits requested and read back, and a watchman posted at a sighting distance worked back from the timetable speed rather than chosen for convenience. |
+| 423 | [Tie & Rail Replacement with Track Machines](../../WebXR/smartcity/index.html?sim=ra-tie-and-rail-replacement-with-track-machines) | Track maintenance machine operator / gang laborer | clear | 14 | 2 | — | The machines that do the actual lifting on a tie and rail change-out — a crane, a saw, a tamper — each carry their own hazard zone, and the gang's protection is proving the crew stayed outside every one of them, not just that the track measures right afterward. |
+| 424 | [Switch Inspection & Lubrication](../../WebXR/smartcity/index.html?sim=ra-switch-inspection-and-lubrication) | Switch and turnout maintainer | clear | 15 | 2 | — | A hand-thrown switch gets locked and tagged before a hand goes near the points, and the heater that keeps it free of ice gets proven dead by a hold, not assumed safe from a breaker position. |
+| 425 | [Air Brake Test & Train Inspection](../../WebXR/smartcity/index.html?sim=ra-air-brake-test-and-train-inspection) | Freight car inspector / carman | overcast | 15 | 2 | — | A brake test is walked and looked at car by car — a set confirmed by eye, not trusted from a gauge in the cab — because a shoe that never actually seated against the wheel reads exactly like a normal brake pipe pressure until somebody looks. |
+| 426 | [Hand Brake & Securement on a Grade](../../WebXR/smartcity/index.html?sim=ra-hand-brake-and-securement-on-a-grade) | Conductor / trainman | clear | 14 | 2 | — | A cut left standing on a grade is held by hand brakes proven by a push-pull test with the air released, never assumed from a count of turns on a wheel, with chocks behind them for the one thing a hand brake alone cannot promise. |
+| 427 | [Crossing Signal Maintenance & Flagging](../../WebXR/smartcity/index.html?sim=ra-crossing-signal-maintenance-and-flagging) | Signal maintainer | overcast | 15 | 2 | — | Taking a grade crossing's automatic protection down for a test means the road gets protected by hand for as long as the gates and lights cannot be trusted, and the crossing is proven with a real shunt before it goes back to drivers who never knew it was down. |
+| 428 | [Locomotive Cab Startup & Alerter](../../WebXR/smartcity/index.html?sim=ra-locomotive-cab-startup-and-alerter) | Locomotive engineer | clear | 14 | 2 | — | A locomotive gets a walk-around before it gets a cab, both brakes tested before the first mile, and the alerter answered on its own schedule for the whole trip because it is the one device built to notice an engineer who has stopped noticing anything else. |
+| 429 | [Blue Flag Protection in the Yard](../../WebXR/smartcity/index.html?sim=ra-blue-flag-protection-in-the-yard) | Car inspector / mechanical department utility worker | clear | 15 | 2 | — | Two crews sharing one cut of equipment both need their own blue flag at every point it could be moved from, because a flag protects the worker who displayed it — never the next person who assumes it also covers them. |
 
 ## Real-world environments
 

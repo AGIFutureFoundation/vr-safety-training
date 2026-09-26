@@ -1,6 +1,6 @@
 # SmartCiti.X compliance matrix
 
-_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-26: 435 procedures, 228 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
+_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-26: 443 procedures, 229 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
 
 ## How a procedure earns its place
 
@@ -47,6 +47,7 @@ Every station names the union and the certification a worker in that role holds,
 | 29 CFR 1910.138 | 8: Colour Studio, Debris Skimmer Vessel Operations, Duct Fabrication and Seams, Housekeeping Cart & Chemical Safety, Knife Skills, Shop Layout and Shear, Slicer Lockout, Trash and Recycling Room |
 | 29 CFR 1910.36 | 8: Banquet Room Flip & Staging, Community Room & Events, Laundry Room, Leasing Office and Fair Housing, Lobby and Front Desk, Mail & Package Room, Storage & Bike Room, Walk-In Cooler |
 | 29 CFR 1926.501 | 8: Anchor Selection & Rescue Plan, Architectural Panels at Height, Duct Hanging and Seismic Bracing, Jobsite Orientation & OSHA 10, Leading Edge & Horizontal Lifeline, Mass Timber Panel Set, Solar Deck, Tower Climb & Tie-Off |
+| 49 CFR 214 | 8: Air Brake Test & Train Inspection, Crossing Signal Maintenance & Flagging, Hand Brake & Securement on a Grade, Locomotive Cab Startup & Alerter, Roadway Worker Protection & Job Briefing, Switch Inspection & Lubrication, Tie & Rail Replacement with Track Machines, Track Access |
 | ASME B30.5 | 8: Crane Yard, Critical Lift Plan & Signalperson, Dock Fender & Bollard Inspection, Leading Edge & Horizontal Lifeline, Pile Driver Fender Repair, Steel Erector, Tandem Lift & Girder Set, Trash Capture Device Service |
 | 29 CFR 1910.133 | 7: Denture Delivery & Adjustment, Draught Line Cleaning, Endodontic Assisting, Landscaping & Irrigation, Pool & Spa Chemistry, Trash and Recycling Room, Wash-Down Yard |
 | 29 CFR 1910.23 | 7: Air Balancing and Testing, Fire Alarm Panel Room, Neighbourhood Air Sensor, Playground & Courtyard, Roof and Drains, Signal Cabinet, Storage & Bike Room |
@@ -85,6 +86,7 @@ Every station names the union and the certification a worker in that role holds,
 | 29 CFR 1926.703 | 4: Concrete Pour, Formwork Shoring, Formwork Stripping & Reshoring, Rebar Tying & Impalement Protection |
 | 40 CFR 261 | 4: Bridge Blast, Bridge Lead Containment, Drum Sampling & Overpack, Shoreline Cleanup — Sharps And Hazardous Debris |
 | 40 CFR 745 | 4: Coatings Bay, Leasing Office and Fair Housing, Playground & Courtyard, Unit Turnover |
+| 49 CFR 232 | 4: Air Brake Test & Train Inspection, Hand Brake & Securement on a Grade, Locomotive Cab Startup & Alerter, RCL Switching |
 | ANSI A10.9 | 4: Formwork Shoring, Formwork Stripping & Reshoring, Masonry Wall Layout & Mortar, Rebar Tying & Impalement Protection |
 | ANSI A92 | 4: Aerial Lashing, Followspot & Truss Access at Height, Tandem Lift & Girder Set, Terminal Lighting Mast Service |
 | ASSE 5110 | 4: Backflow Test, Domestic Water & Backflow, Landscaping & Irrigation, Rough-In Bay |
@@ -102,6 +104,7 @@ Every station names the union and the certification a worker in that role holds,
 | 40 CFR 122.26 | 3: Stormwater Outfall, Stormwater at the Terminal, Trash Capture Device Service |
 | 40 CFR 300 | 3: Boom Towing Between Two Vessels, Dust Plan Review, Spill Boom Deploy |
 | 46 CFR 160 | 3: Beach Seine Fish Survey & Handling, Benthic Grab & Invertebrate Sorting, Cold Water Immersion & MOB Recovery |
+| 49 CFR 213 | 3: Roadway Worker Protection & Job Briefing, Switch Inspection & Lubrication, Tie & Rail Replacement with Track Machines |
 | 8 CCR 5110 | 3: Colour Studio, Sewing Ergonomics, Special Needs & Geriatric Dentistry |
 | ACGIH TLVs | 3: Loading Dock & Moves, Manhole Entry & Atmospheric Monitoring, Plasma Table and Fume |
 | ANSI B11 | 3: Cutting Table and Rotary Knife, Duct Fabrication and Seams, Shop Layout and Shear |
@@ -131,6 +134,7 @@ Every station names the union and the certification a worker in that role holds,
 | 33 CFR 156.150 | 2: Bunkering Watch, Oil Transfer Watch & Boom |
 | 40 CFR 761 | 2: Legacy Mercury & PCB Hotspot Handling, PCB Equipment Removal |
 | 49 CFR 177 | 2: Hazmat Labeling and Segregation, Night Fog and Rail Crossing |
+| 49 CFR 218 | 2: Blue Flag Protection in the Yard, RCL Switching |
 | 8 CCR 3345 | 2: Housekeeping Cart & Chemical Safety, Housekeeping Room Turn |
 | 8 CCR 5141 | 2: Denture Delivery & Adjustment, Network Data Review |
 | 8 CCR 5194 | 2: Draught Line Cleaning, Opening the Well |
@@ -188,9 +192,6 @@ Every station names the union and the certification a worker in that role holds,
 | 40 CFR 280 | 1: UST Removal |
 | 40 CFR 441 | 1: Amalgam Waste Handling |
 | 49 CFR 192 | 1: Gas Leak Survey |
-| 49 CFR 214 | 1: Track Access |
-| 49 CFR 218 | 1: RCL Switching |
-| 49 CFR 232 | 1: RCL Switching |
 | 49 CFR 242 | 1: RCL Switching |
 | 8 CCR 3395 | 1: Volunteer Cleanup Day Safety Lead |
 | ANSI A10.34 | 1: Paint Containment on the Deck |
@@ -911,6 +912,21 @@ Every station names the union and the certification a worker in that role holds,
 | Beach Seine Fish Survey & Handling | Fisheries technician, running a beach seine survey and skiff set for a restoration monitoring programme under a CDFW permit | 29 CFR 1910.132, 46 CFR 160 |
 | Benthic Grab & Invertebrate Sorting | Benthic monitoring technician, taking grab samples from a workboat and sorting invertebrates for a restoration monitoring programme | 29 CFR 1910.132, 46 CFR 160 |
 
+### Railroad Crafts — Track, Car and Cab
+
+**Certification frame:** FRA 49 CFR Part 213 track safety standards, Part 214 roadway worker protection, Part 218 blue signal protection of workers and Part 232 brake system safety standards, worked the way BLET, SMART-TD and BMWED train their own crafts to work them
+
+| Station | Trade | Standards cited |
+|---|---|---|
+| Roadway Worker Protection & Job Briefing | Roadway worker / track inspector | 49 CFR 213, 49 CFR 214 |
+| Tie & Rail Replacement with Track Machines | Track maintenance machine operator / gang laborer | 49 CFR 213, 49 CFR 214 |
+| Switch Inspection & Lubrication | Switch and turnout maintainer | 49 CFR 213, 49 CFR 214 |
+| Air Brake Test & Train Inspection | Freight car inspector / carman | 49 CFR 214, 49 CFR 232 |
+| Hand Brake & Securement on a Grade | Conductor / trainman | 49 CFR 214, 49 CFR 232 |
+| Crossing Signal Maintenance & Flagging | Signal maintainer | 49 CFR 214 |
+| Locomotive Cab Startup & Alerter | Locomotive engineer | 49 CFR 214, 49 CFR 232 |
+| Blue Flag Protection in the Yard | Car inspector / mechanical department utility worker | 49 CFR 218 |
+
 ## Stations citing fewer than two standards
 
 - Flight Deck (smartcity): 14 CFR 107
@@ -1037,6 +1053,8 @@ Every station names the union and the certification a worker in that role holds,
 - Reset Routine After a Miss (smartcity): none
 - Bird Nesting Buffer & Work Window (smartcity): none
 - Marine Mammal Observer During Pile Driving (smartcity): 29 CFR 1910.95
+- Blue Flag Protection in the Yard (smartcity): 49 CFR 218
+- Crossing Signal Maintenance & Flagging (smartcity): 49 CFR 214
 - Deploy Bay (trades): IEC 27001
 - Wash-Down Yard (trades): 29 CFR 1910.133
 
