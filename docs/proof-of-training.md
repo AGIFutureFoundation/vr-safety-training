@@ -139,6 +139,18 @@ Straight from `WebXR/shared/game.js`; `check_competency.mjs` asserts the numbers
 | **Stars** | 3 stars: no corrections at all and finished inside par. 2 stars: at most one correction and finished inside 1.5x par. 1 star: anything else. Stars, not score, decide whether a run counts. |
 | **Why a high score can still fail** | Score rewards speed and streaks. Mastery asks a different question — was it safe and complete — so a fast run with one unsafe action scores well and counts for nothing. |
 
+## Course tracking, refreshers and instructor sign-off
+
+Everything above is what a hall can *prove*. A separate layer, `WebXR/shared/tracking.js`, answers the blunter accountability question a union rep asks day to day: is this member training regularly, is anything of theirs going stale, and can an instructor put their name on a level a learner claims. It reads the same training record and ladders this page describes — never a second store — and adds:
+
+- **My Training**, a card per programme with levels and lessons completed, measured time on task, the last station and next level, badges earned and standards evidenced;
+- **refreshers due**, a station whose last *clean* run (this page's own pass rule) is older than a per-programme interval that defaults to 90 days — labelled a **platform default**, never a union rule, unless a programme declares its own;
+- a printable **transcript** and a JSON export in the training record's own shape, headed plainly "a record of simulator activity on this platform, not a certification";
+- **instructor sign-off**: a name, a date and a note attesting a level, shown on the transcript as "instructor attestation" and never as a credential;
+- accountability gamification — streak and on-time-refresher XP bonuses, a clean-run badge series, a hazard-free-week badge, and a programme leaderboard by lessons completed, all computed straight from the record.
+
+See [course-tracking.md](course-tracking.md) for the full layer. It never changes who passes a station, a level or a competency — those verdicts stay exactly as this page states them.
+
 ## What this is not
 
 A demonstrated competency evidences readiness against the standards it names, under the mastery rule. It is **not** a licence, and not a certification issued by OSHA, NFPA, ANSI, a state board or a union — those bodies certify people, and a simulator cannot. Every export says so in its own text. Records are held in the learner's own browser until they export them; nothing here is uploaded unless a hall has connected an LRS or the page is embedded by an LMS that asked who the learner is.

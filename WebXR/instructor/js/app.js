@@ -2,6 +2,9 @@ import { createConsole, reduceRoster, COMMAND_LABELS, relayFromSearch } from "..
 import { validateFlow, flowFromJSON } from "../../shared/flowhub.js";
 import { DEVICES, PROFILES } from "../../shared/devices.js";
 import { buildRoster, matchStation, matchProgramme } from "./roster.js";
+// Instructor sign-off (shared/tracking.js, docs/course-tracking.md): a name,
+// a date and a note attesting a learner's level, never a credential.
+import { SignOffs } from "../../shared/tracking.js";
 // Toolbox Talk Bingo (docs/easter-egg.md, "Inside the apps") — a printable
 // card for the room, generated from this console's own live roster.
 import { mountInstructorEggs } from "../../shared/eggs-app.js";
@@ -84,7 +87,7 @@ function logEvent(ev) {
 
 const shownRows = () => (showHeartbeats ? logRows : logRows.filter((r) => r.kind !== "state"));
 
-function csvCell(v) {
+function logCsvCell(v) {
   const s = v == null ? "" : String(v);
   return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 }
@@ -93,7 +96,7 @@ function exportCsv() {
   const head = ["at", "direction", "kind", "learner", "station", "detail"];
   const lines = [head.join(",")];
   for (const r of shownRows()) {
-    lines.push([new Date(r.at).toISOString(), r.dir, r.kind, r.learner, r.station, r.detail].map(csvCell).join(","));
+    lines.push([new Date(r.at).toISOString(), r.dir, r.kind, r.learner, r.station, r.detail].map(logCsvCell).join(","));
   }
   const blob = new Blob([lines.join("\r\n") + "\r\n"], { type: "text/csv" });
   const a = document.createElement("a");
@@ -239,7 +242,58 @@ function renderPanel(row) {
   $("hazard-mode-now").textContent = row.hazardMode === "coach" ? "coaching — hazards warn once" : "assessed — hazards count";
   $("coach").classList.toggle("on", row.hazardMode === "coach");
   $("assess").classList.toggle("on", row.hazardMode !== "coach");
+  renderSignOffs();
 }
+
+// -------------------------------------------------------------- sign-off
+//
+// An instructor's attestation of a learner's level: a name, a date and a
+// note, stored by shared/tracking.js's SignOffs the same append-only way the
+// training record itself is stored — never a credential, never scored. Built
+// entirely from el()/textContent, like every other list on this page: a
+// learner's own crew tag and an instructor's own typed note are both
+// untrusted input by the time they reach here.
+
+/** Sign-offs on file for the selected learner, the chosen programme and
+ *  level — read fresh on every render so a sign-off just added shows up
+ *  without a page reload. */
+function renderSignOffs() {
+  const list = $("signoff-list");
+  list.replaceChildren();
+  if (!selected) return;
+  const row = roster.get(selected);
+  const programme = $("programme")?.value;
+  const level = Number($("signoff-level")?.value);
+  if (!programme || !level) return;
+  const offs = SignOffs.forLevel(programme, level, row?.learner || null);
+  if (!offs.length) {
+    list.append(el("li", "muted", "No sign-off on file yet for this learner, programme and level."));
+    return;
+  }
+  for (const s of offs) {
+    const li = el("li", "int");
+    li.append(el("p", "int-kind", `Level ${s.level}, attested by ${s.instructor} on ${new Date(s.at).toLocaleDateString()}`));
+    if (s.note) li.append(el("p", null, s.note));
+    list.append(li);
+  }
+}
+
+$("signoff-btn").addEventListener("click", () => {
+  if (!selected) { toast("Select a learner on the Live class view first."); return; }
+  const programme = $("programme").value;
+  const level = Number($("signoff-level").value);
+  const instructor = $("signoff-instructor").value.trim();
+  if (!programme) { toast("Pick a programme above to sign off."); return; }
+  if (!level || level < 1) { toast("Enter the level number you watched."); return; }
+  if (!instructor) { toast("Enter your name to sign the attestation."); return; }
+  const row = roster.get(selected);
+  SignOffs.add({ programme, level, learner: row?.learner || null, instructor, note: $("signoff-note").value });
+  $("signoff-note").value = "";
+  toast(`Signed off ${learnerName(selected)} on ${programme}, level ${level}.`);
+  renderSignOffs();
+});
+$("programme").addEventListener("change", renderSignOffs);
+$("signoff-level").addEventListener("input", renderSignOffs);
 
 // -------------------------------------------------------------- catalog views
 

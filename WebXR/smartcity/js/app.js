@@ -34,6 +34,10 @@ import {
   LADDER_LEVELS, LESSON_BAR, CONDITION_KEYS, conditionParams, conditionFromQuery, conditionLabel,
 } from "../../shared/ladder.js";
 import { makeVariant } from "../../shared/variants.js";
+import {
+  allMyTraining, refresherLabel, trainingStreak, buildTranscript, transcriptHtml, SignOffs,
+  streakBonusXp, cleanRunBadges, hazardFreeWeekBadge, onTimeRefreshers, programmeLeaderboard,
+} from "../../shared/tracking.js";
 import { environmentFor, loadEnvironment } from "../../shared/environment.js";
 import { WEATHER_KINDS, buildWeather } from "../../shared/weather.js";
 import { eventsFromQuery, eventsEnabled, varyInterruptTiming, createEventScheduler } from "../../shared/events.js";
@@ -288,6 +292,14 @@ const store = createStore({
     lrs: { configured: false, host: null, authed: false, pending: 0, last: null, endpointDraft: "", authDraft: "", busy: false, error: null },
   },
   programs: { visible: false, rows: [], assigned: null, assignedBy: null },
+  // My Training (shared/tracking.js, docs/course-tracking.md): one card per
+  // touched programme — levels, lessons, measured time on task, refreshers
+  // due, badges and standards evidenced — plus the platform-wide streak and
+  // the accountability bonuses/badges it earns.
+  training: {
+    visible: false, rows: [], streak: { days: 0, active: false, lastDay: null },
+    streakBonusXp: 0, hazardFreeWeek: null,
+  },
   // Sign-in (shared/auth.js): only the options this deployment configured and
   // this browser can actually do, plus the one line that says where the
   // credential is verified — which is never here.
@@ -2105,6 +2117,78 @@ function programStart(app, id) {
   enterSim(id);
 }
 
+// ------------------------------------------------------------- my training
+//
+// The union-accountability card (shared/tracking.js, docs/course-tracking.md):
+// one row per programme the learner has touched, read from the same records
+// and ladders the Programmes card already reads — levels, lessons, measured
+// time on task, the last station, the next level, badges, standards
+// evidenced, refreshers due, and any instructor sign-off on file — plus the
+// platform-wide streak and the accountability bonuses/badges it earns.
+
+/** Every LADDER_BY_PROGRAMME entry, as a plain array (curricula.js keys
+ *  programmes by id; tracking.js takes a list). */
+function allLadders() { return Object.values(LADDER_BY_PROGRAMME); }
+
+function renderMyTraining() {
+  const list = TrainingRecords.list();
+  const ladders = allLadders();
+  const rows = allMyTraining(list, { curricula: CURRICULA, ladders, standardsById: LADDER_STANDARDS }).map((p) => {
+    const curriculum = CURRICULA.find((c) => c.id === p.id);
+    const ladder = LADDER_BY_PROGRAMME[p.id];
+    const due = p.refreshersDue;
+    return {
+      ...p,
+      dueLabel: due.length ? refresherLabel({ days: due[0].dueDays, isDefault: due[0].isDefaultInterval }) : null,
+      cleanRunBadges: cleanRunBadges(list, curriculum),
+      onTimeRefreshers: onTimeRefreshers(list, { curriculum, ladder }),
+      signOffs: SignOffs.list().filter((s) => s.programme === p.id)
+        .sort((a, b) => String(b.at ?? "").localeCompare(String(a.at ?? ""))),
+      leaderboard: programmeLeaderboard(list, { curriculum, ladder }).slice(0, 5),
+    };
+  });
+  const streak = trainingStreak(list);
+  store.patch("training", {
+    rows, streak, streakBonusXp: streakBonusXp(streak.days),
+    hazardFreeWeek: hazardFreeWeekBadge(list),
+  });
+}
+function viewMyTraining() {
+  pausedBeforeOverlay = state.paused;
+  state.paused = true;
+  renderMyTraining();
+  store.patch("training", { visible: true });
+}
+function closeMyTraining() { state.paused = pausedBeforeOverlay; store.patch("training", { visible: false }); }
+
+/** JSON export — the same shape records.js stores, plus the roll-up above. */
+function exportTranscriptJson() {
+  const list = TrainingRecords.list();
+  if (!list.length) return;
+  const data = buildTranscript(list, { learner: Identity.current?.name ?? Progress.playerName, curricula: CURRICULA, ladders: allLadders(), standardsById: LADDER_STANDARDS });
+  download(`smartcitix-training-activity-${stamp()}.json`, JSON.stringify(data, null, 2), "application/json");
+}
+
+/**
+ * Print the training activity record — attempts, levels, badges, standards
+ * and time on task, plainly labelled "a record of simulator activity on
+ * this platform, not a certification." transcriptHtml() escapes every
+ * learner-, note- and station-supplied value before it is written, the same
+ * guarantee printTranscript() above gets from building the DOM by hand.
+ */
+function printTrainingTranscript() {
+  const list = TrainingRecords.list();
+  if (!list.length) return;
+  const data = buildTranscript(list, { learner: Identity.current?.name ?? Progress.playerName, curricula: CURRICULA, ladders: allLadders(), standardsById: LADDER_STANDARDS });
+  const win = window.open("", "_blank");
+  if (!win) { announce("The transcript window was blocked. Allow pop-ups for this page, or export the JSON instead."); return; }
+  win.document.open();
+  win.document.write(transcriptHtml(data));
+  win.document.close();
+  win.focus();
+  setTimeout(() => { try { win.print(); } catch (_) { /* the learner can print it themselves */ } }, 120);
+}
+
 // ---------------------------------------------------------------- ladders
 //
 // Every programme is a twenty-level ladder (smartcity/js/ladders.js, generated by
@@ -3316,6 +3400,7 @@ function backAction() {
   if (ui.controls.visible) { closeControls(); return true; }
   if (ui.prebrief.visible) { prebriefClose(); return true; }
   if (ui.records.visible) { closeRecords(); return true; }
+  if (ui.training.visible) { closeMyTraining(); return true; }
   if (ui.leaderboard.visible) { closeLeaderboard(); return true; }
   if (ui.programs.visible) { closePrograms(); return true; }
   if (ui.flows.visible) { closeFlows(); return true; }
@@ -4455,6 +4540,7 @@ const uiActions = {
   viewLeaderboard, closeLeaderboard,
   viewRecords, closeRecords, exportRecordsCsv, exportRecordsXapi, exportCredentials, clearRecords,
   setRecordsTab, exportProofCsv, exportCompetencyBadges, printTranscript,
+  viewMyTraining, closeMyTraining, exportTranscriptJson, printTrainingTranscript,
   viewPrograms, closePrograms, programStart, toggleLadder, startLevel,
   viewSignIn, closeSignIn, signInWith, setSignInField, signOutOfAuth,
   startRobotTraining, stopRobotTraining,
@@ -4582,6 +4668,15 @@ window.__smartcityTest = {
   // The keyboard cursor, so an accessibility test can assert that Tab walks
   // the controls the procedure names rather than the scene-graph order.
   keyboard: () => ({ ids: kbCursor.ids, index: kbCursor.index, current: kbCursor.current, active: kbActive }),
+  // Course tracking (shared/tracking.js, docs/course-tracking.md): seed an
+  // attempt or an instructor sign-off straight into the training record for
+  // a verification screenshot, without playing a whole station. Same pattern
+  // as every other hook here — it calls the real functions the UI itself
+  // calls, so a seeded run exercises the same maths a played one would.
+  seedRecord: (entry) => { const r = TrainingRecords.record(entry); if (store.get().training.visible) renderMyTraining(); return r; },
+  seedSignOff: (entry) => { const r = SignOffs.add(entry); if (store.get().training.visible) renderMyTraining(); return r; },
+  myTraining: () => store.get().training,
+  openMyTraining: () => viewMyTraining(),
 };
 Perf.mountOverlay();
 

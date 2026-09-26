@@ -92,6 +92,14 @@
   }
   .devices a{color:var(--accent-2)}
 
+  /* ---- continue where you left off ---- */
+  .continue{
+    margin:22px 0 0; padding:14px 16px; background:var(--panel); border:1px solid var(--edge);
+    border-left:2px solid var(--good); border-radius:0 var(--r-md) var(--r-md) 0; max-width:78ch;
+  }
+  .continue .cont-line{margin:4px 0 10px; font-size:14px; color:var(--text)}
+  .continue .cont-due{margin:10px 0 0; font-size:13px; color:var(--warn)}
+
   /* ---- app cards ---- */
   .apps{display:grid; gap:12px; margin:26px 0 0; grid-template-columns:1fr}
   .app{
@@ -302,6 +310,13 @@
     <p class="aside">Also here: <a href="portal/index.html">the app map</a>,
     <a href="verify/index.html">the credential verifier</a> for an exported badge, and
     <a href="campus/index.html">Safety Campus</a>, the hazard-spotting web companion to the Unity headset build.</p>
+  </section>
+
+  <section class="continue" id="continue" hidden>
+    <p class="eyebrow">Continue where you left off</p>
+    <p class="cont-line" id="continue-line"></p>
+    <a class="btn primary" id="continue-link" href="#"></a>
+    <p class="cont-due" id="continue-due" hidden></p>
   </section>
 
   <section class="find">
@@ -4330,6 +4345,67 @@
     }
     render();
   }
+
+  // "Continue where you left off": the last station this browser actually
+  // trained and a consecutive-day streak, read straight from the training
+  // record's own localStorage key (WebXR/shared/records.js RECORDS_KEY) —
+  // never synced, never estimated — the same direct-read pattern as the hard
+  // hat counter above. "Due a refresher" mirrors shared/tracking.js's own
+  // rule (a station whose last CLEAN run — two or more stars, no unsafe
+  // action — is older than 90 days) without importing that module and its
+  // procedure-engine dependencies onto the homepage.
+  (function continueStrip() {
+    var RECORDS_KEY = "vr-training-records-v1", REFRESHER_DAYS = 90, DAY_MS = 86400000;
+    var list;
+    try { list = JSON.parse(localStorage.getItem(RECORDS_KEY) || "[]"); } catch (_) { list = []; }
+    if (!Array.isArray(list) || !list.length) return;
+    var last = list[list.length - 1];
+    var href = (last.app === "trades" ? "trades/index.html?room=" : "smartcity/index.html?sim=") + encodeURIComponent(last.simId || "");
+    var label = last.simName || last.simId || "a station";
+
+    var days = {};
+    for (var i = 0; i < list.length; i++) {
+      var at = String(list[i].at || "");
+      if (/^\d{4}-\d{2}-\d{2}/.test(at)) days[at.slice(0, 10)] = true;
+    }
+    var dayKeys = Object.keys(days).sort();
+    var streakDays = 0;
+    if (dayKeys.length) {
+      streakDays = 1;
+      var cursor = new Date(dayKeys[dayKeys.length - 1] + "T00:00:00.000Z");
+      for (;;) {
+        cursor.setUTCDate(cursor.getUTCDate() - 1);
+        if (days[cursor.toISOString().slice(0, 10)]) streakDays += 1; else break;
+      }
+    }
+
+    var lastClean = {};
+    for (var j = 0; j < list.length; j++) {
+      var r = list[j];
+      if (!r.passed || !r.simId) continue;
+      var prev = lastClean[r.simId];
+      if (!prev || String(r.at) > prev) lastClean[r.simId] = String(r.at);
+    }
+    var now = Date.now(), dueCount = 0;
+    for (var stationId in lastClean) {
+      var ageDays = Math.floor((now - new Date(lastClean[stationId]).getTime()) / DAY_MS);
+      if (ageDays > REFRESHER_DAYS) dueCount += 1;
+    }
+
+    var line = document.getElementById("continue-line");
+    var text = "Last station: " + label;
+    if (streakDays > 1) text += " \u00b7 " + streakDays + "-day training streak";
+    line.textContent = text;
+    var link = document.getElementById("continue-link");
+    link.href = href;
+    link.textContent = "Resume " + label;
+    if (dueCount) {
+      var dueEl = document.getElementById("continue-due");
+      dueEl.hidden = false;
+      dueEl.textContent = dueCount + " station" + (dueCount === 1 ? "" : "s") + " due a refresher (platform default: " + REFRESHER_DAYS + " days since the last clean run).";
+    }
+    document.getElementById("continue").hidden = false;
+  })();
 </script>
 </body>
 </html>

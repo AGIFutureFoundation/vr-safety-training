@@ -643,6 +643,24 @@
   .lrs-row{ margin:0 }
   .lrs-error{ color:var(--danger); font-size:12.5px; margin:8px 0 0 }
 
+  /* -------------------------------------------------------- my training */
+  /* Union-accountability card (shared/tracking.js, docs/course-tracking.md):
+     one card per programme touched, with a due-refresher callout and the
+     instructor's attestation set apart in their own colour so neither reads
+     as a pass/fail verdict. */
+  .training-list{ display:grid; gap:12px; margin:6px 0 16px }
+  .training-card{ background:var(--surface-raised); border:1px solid var(--edge); border-radius:12px; padding:14px 16px }
+  .training-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px }
+  .training-head h2{ font-family:var(--cond); font-weight:600; letter-spacing:.01em; font-size:18px; margin:0 }
+  .training-count{ font-family:var(--cond); font-weight:600; font-size:18px; color:var(--accent); white-space:nowrap }
+  .training-meta{ font-size:12.5px; color:var(--muted); margin:4px 0 }
+  .training-line{ font-size:12.5px; margin:6px 0 }
+  .training-due{ font-size:12.5px; margin:6px 0; padding:6px 10px; border-radius:8px; background:rgba(242,193,75,.14); color:var(--warn) }
+  .training-attest{ margin-top:8px; padding:8px 10px; border-radius:8px; background:rgba(89,201,123,.1); border-left:3px solid var(--good) }
+  .training-attest ul{ margin:4px 0 0; padding-left:16px; font-size:12px; line-height:1.5 }
+  .training-board{ margin-top:8px }
+  .training-board ol{ margin:4px 0 0; padding-left:18px; font-size:12px; line-height:1.6 }
+
   /* ------------------------------------------------------------ editor */
   .ed-row{ margin:12px 0 }
   .ed-row label{ display:block; margin-bottom:6px }
