@@ -2814,7 +2814,7 @@
         "scene": {
           "score": 0.9275,
           "meshes": 151,
-          "materials": 79,
+          "materials": 80,
           "interactables": 22
         },
         "originality": {
@@ -5010,6 +5010,58 @@
     },
     {
       "app": "smartcity",
+      "id": "rf-torch-applied-membrane-and-fire-watch",
+      "name": "Torch-Applied Membrane & Fire Watch",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 333,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9340909090909091,
+          "meshes": 160,
+          "materials": 79,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.1854497354497356,
+          "nearest": "rf-single-ply-tpo-heat-welding-and-seam-probe",
+          "similarity": 0.3029100529100529
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "bb-dribble-moves-and-change-of-pace",
       "name": "Dribble Moves and Change of Pace",
       "category": "Youth Sports & Coaching",
@@ -7085,6 +7137,58 @@
           "score": 0.47037037037037044,
           "nearest": "formwork-shoring",
           "similarity": 0.24592592592592594
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "rf-single-ply-tpo-heat-welding-and-seam-probe",
+      "name": "Single-Ply TPO Heat Welding & Seam Probe",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 308,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.9725,
+          "meshes": 169,
+          "materials": 90,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.1854497354497356,
+          "nearest": "rf-torch-applied-membrane-and-fire-watch",
+          "similarity": 0.3029100529100529
         }
       }
     },
@@ -9625,7 +9729,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 240,
+          "meshes": 259,
           "materials": 92,
           "interactables": 29
         },
@@ -11661,58 +11765,6 @@
           "score": 0.7517241379310347,
           "nearest": "sterilisation-technician-cycle",
           "similarity": 0.1896551724137931
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "rf-torch-applied-membrane-and-fire-watch",
-      "name": "Torch-Applied Membrane & Fire Watch",
-      "category": "Construction & Structural Trades",
-      "steps": 14,
-      "score": 97,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.95,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 333,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 5
-        },
-        "standards": {
-          "score": 1,
-          "cited": 9,
-          "inScope": 9,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 11,
-          "got": 11
-        },
-        "scene": {
-          "score": 0.9340909090909091,
-          "meshes": 160,
-          "materials": 79,
-          "interactables": 21
-        },
-        "originality": {
-          "score": 0.5874680306905372,
-          "nearest": "pm-roof-and-drains",
-          "similarity": 0.22250639386189258
         }
       }
     },

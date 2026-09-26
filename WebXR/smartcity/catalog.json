@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 422
+      "stations": 423
     },
     "trades": {
       "entry": "trades/index.html",
@@ -226,6 +226,7 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "rf-single-ply-tpo-heat-welding-and-seam-probe",
         "rf-torch-applied-membrane-and-fire-watch",
         "leading-edge-and-horizontal-lifeline",
         "gg-pile-driver-fender-repair",
@@ -7642,6 +7643,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "rf-single-ply-tpo-heat-welding-and-seam-probe",
+      "name": "Single-Ply TPO Heat Welding & Seam Probe",
+      "title": "SmartCiti.X~ Single-Ply TPO Heat Welding & Seam Probe VR",
+      "tagline": "The fastening plan read, harness clipped, the welder and a staged sheet inspected, the welder's nozzle brought to temperature, a sheet dragged out and fastened to the wind-uplift pattern, the seam welded at a steady pace and probed clean, the primer capped, scrap hauled off, the perimeter checked and the day logged, with a gust testing an unfinished edge and fumes pooling behind the parapet along the way",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction & Structural Trades",
+      "trade": "Roofer heat-welding a mechanically-attached TPO membrane and probing every seam before it is signed off",
+      "union": null,
+      "certification": "OSHA 29 CFR 1926.501 and 29 CFR 1926.502 fall protection at the roof edge and around the open hatch, and 29 CFR 1926 Subpart M Fall protection generally; ANSI Z359 for the harness and anchor; 29 CFR 1926.1153 for any cutting or grinding dust nearby; NRCA single-ply installation and wind-uplift practice; Roofers Local 40 apprenticeship and training",
+      "accent": "#f2c14b",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "drag",
+        "turn",
+        "track",
+        "hold"
+      ],
+      "badge": {
+        "id": "seam-probed-clean",
+        "name": "Seam Probed Clean",
+        "note": "Every seam probed fused, the perimeter fastened to the wind-uplift pattern, and nobody caught a lungful of fumes doing it"
+      },
+      "meshes": 170,
+      "lights": 0,
+      "overBudget": false,
+      "index": "rf2",
+      "flat": false,
+      "system": "Probe Line",
+      "currency": "FUSE",
+      "ranks": [
+        "Apprentice",
+        "Welder Hand",
+        "Seam Prober",
+        "Lead Mechanic",
+        "Wind-Uplift Certified"
+      ],
+      "awards": [
+        {
+          "id": "plan-first",
+          "name": "Plan First",
+          "note": "The fastening plan read before the first plate was driven"
+        },
+        {
+          "id": "steady-weld",
+          "name": "Steady Weld",
+          "note": "The welder swept the whole seam without a break in pace"
+        },
+        {
+          "id": "no-lungful",
+          "name": "No Lungful",
+          "note": "No hand at the hot nozzle, no open primer can, no unfastened edge left for the wind"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections anywhere on the roof"
+        },
+        {
+          "id": "fully-fused",
+          "name": "Fully Fused",
+          "note": "The seam probe committed inside the fused band first time"
+        },
+        {
+          "id": "sheet-closed",
+          "name": "Sheet Closed",
+          "note": "Log written inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=rf-single-ply-tpo-heat-welding-and-seam-probe"
     },
     {
       "app": "smartcity",
@@ -27669,7 +27753,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 262,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "92",

@@ -18004,5 +18004,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "rf-single-ply-tpo-heat-welding-and-seam-probe",
+    "index": "rf2",
+    "domain": "Construction & Structural Trades",
+    "trade": "Roofer heat-welding a mechanically-attached TPO membrane and probing every seam before it is signed off",
+    "category": "Construction & Structural Trades",
+    "certification": "OSHA 29 CFR 1926.501 and 29 CFR 1926.502 fall protection at the roof edge and around the open hatch, and 29 CFR 1926 Subpart M Fall protection generally; ANSI Z359 for the harness and anchor; 29 CFR 1926.1153 for any cutting or grinding dust nearby; NRCA single-ply installation and wind-uplift practice; Roofers Local 40 apprenticeship and training",
+    "name": "Single-Ply TPO Heat Welding & Seam Probe",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Single-Ply TPO Heat Welding & Seam Probe VR",
+    "tagline": "The fastening plan read, harness clipped, the welder and a staged sheet inspected, the welder's nozzle brought to temperature, a sheet dragged out and fastened to the wind-uplift pattern, the seam welded at a steady pace and probed clean, the primer capped, scrap hauled off, the perimeter checked and the day logged, with a gust testing an unfinished edge and fumes pooling behind the parapet along the way",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "seam-probed-clean",
+      "name": "Seam Probed Clean",
+      "note": "Every seam probed fused, the perimeter fastened to the wind-uplift pattern, and nobody caught a lungful of fumes doing it"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Probe Line",
+      "currency": "FUSE",
+      "ranks": [
+        "Apprentice",
+        "Welder Hand",
+        "Seam Prober",
+        "Lead Mechanic",
+        "Wind-Uplift Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
