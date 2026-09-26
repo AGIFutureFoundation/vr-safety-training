@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 424
+      "stations": 427
     },
     "trades": {
       "entry": "trades/index.html",
@@ -356,6 +356,9 @@
     {
       "name": "Healthcare Support",
       "stations": [
+        "hc-code-response-support-and-crash-cart-check",
+        "hc-linen-and-regulated-waste-handling",
+        "hc-dietary-tray-line-and-allergy-flags",
         "hc-patient-transport-and-safe-handling",
         "hc-sterile-processing-decontamination-and-assembly",
         "hc-environmental-services-isolation-room-turnover"
@@ -7649,6 +7652,252 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "hc-code-response-support-and-crash-cart-check",
+      "name": "Code Response Support & Crash Cart Check",
+      "title": "SmartCiti.X~ Code Response Support & Crash Cart Check VR",
+      "tagline": "A crash cart proven ready every day, and the logistics of a real code run by someone who never touches the patient — the hallway kept clear, family redirected, a backup cart delivered, and the room's cart restocked and resealed the moment it clears",
+      "category": "Healthcare Support",
+      "domain": "Healthcare Support",
+      "trade": "Clinical support technician",
+      "union": null,
+      "certification": "NFPA 101 Life Safety Code for the egress path a code response keeps clear; OSHA 29 CFR 1910.1030 bloodborne pathogens for any contact with a used device or a sharp on the cart; the CDC's general infection-prevention guidance for equipment turned over between patients; SEIU-UHW and NUHW as the training bodies for clinical support staff",
+      "accent": "#e0525f",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "gauge",
+        "sequence",
+        "turn",
+        "hold",
+        "drag"
+      ],
+      "badge": {
+        "id": "cart-always-ready",
+        "name": "Cart Always Ready",
+        "note": "A crash cart checked, sealed and logged ready every single day, and a real code supported without ever touching the patient"
+      },
+      "meshes": 157,
+      "lights": 0,
+      "overBudget": false,
+      "index": "357",
+      "flat": false,
+      "system": "Cart Readiness",
+      "currency": "CART",
+      "ranks": [
+        "New Support Tech",
+        "Cart Certified",
+        "Lead Tech",
+        "Response Supervisor",
+        "Cart Readiness Certified"
+      ],
+      "awards": [
+        {
+          "id": "seal-verified",
+          "name": "Seal Verified",
+          "note": "The cart's tamper seal checked and logged every single day"
+        },
+        {
+          "id": "hallway-held",
+          "name": "Hallway Held",
+          "note": "The egress path held clear for the full response"
+        },
+        {
+          "id": "cart-exchanged",
+          "name": "Cart Exchanged",
+          "note": "A fresh backup cart delivered and the used one restocked and resealed"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "No corrections anywhere in the shift"
+        },
+        {
+          "id": "steady-watch",
+          "name": "Steady Watch",
+          "note": "Held the hallway clear the whole response, first try"
+        },
+        {
+          "id": "fast-check",
+          "name": "Fast Check",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=hc-code-response-support-and-crash-cart-check"
+    },
+    {
+      "app": "smartcity",
+      "id": "hc-linen-and-regulated-waste-handling",
+      "name": "Linen & Regulated Waste Handling",
+      "title": "SmartCiti.X~ Linen & Regulated Waste Handling VR",
+      "tagline": "Bags checked for a leak on arrival, three waste streams kept apart, a container weighed and sealed to its own limit, a spill met with its kit, and a washed cart never mixed back with a soiled one",
+      "category": "Healthcare Support",
+      "domain": "Healthcare Support",
+      "trade": "Linen and regulated waste handler",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.1030 bloodborne pathogens for regulated waste and soiled linen; OSHA 29 CFR 1910.1200 hazard communication for the labelling every stream carries; the CDC's general infection-prevention guidance for handling contaminated laundry and waste; SEIU-UHW and NUHW as the training bodies for linen and waste handling staff",
+      "accent": "#5f8fd6",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "service",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "gauge",
+        "hold",
+        "drag",
+        "turn"
+      ],
+      "badge": {
+        "id": "streams-clean",
+        "name": "Streams Clean",
+        "note": "A shift's linen and waste handled without a single stream crossing another"
+      },
+      "meshes": 138,
+      "lights": 0,
+      "overBudget": false,
+      "index": "356",
+      "flat": false,
+      "system": "Waste Room Standard",
+      "currency": "STREAM",
+      "ranks": [
+        "New Handler",
+        "Waste Room Certified",
+        "Lead Handler",
+        "Waste Room Supervisor",
+        "Streams Certified"
+      ],
+      "awards": [
+        {
+          "id": "leak-caught",
+          "name": "Leak Caught",
+          "note": "Every leaking bag double-bagged before it moved any further"
+        },
+        {
+          "id": "streams-sorted",
+          "name": "Streams Sorted",
+          "note": "General, regulated and sharps never mixed"
+        },
+        {
+          "id": "cart-integrity",
+          "name": "Cart Integrity",
+          "note": "A washed cart never released back into service wet or mixed with a soiled one"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "No corrections anywhere in the shift"
+        },
+        {
+          "id": "steady-spill",
+          "name": "Steady Spill Response",
+          "note": "Held the spill kit application the whole time, first try"
+        },
+        {
+          "id": "fast-room",
+          "name": "Fast Room",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=hc-linen-and-regulated-waste-handling"
+    },
+    {
+      "app": "smartcity",
+      "id": "hc-dietary-tray-line-and-allergy-flags",
+      "name": "Dietary Tray Line & Allergy Flags",
+      "title": "SmartCiti.X~ Dietary Tray Line & Allergy Flags VR",
+      "tagline": "The ticket matched to the room, the flags that change this tray sorted from the ones that don't, the right texture and thickener, a dedicated utensil, and a bedside ID check before the tray is ever left behind",
+      "category": "Healthcare Support",
+      "domain": "Healthcare Support",
+      "trade": "Dietary aide",
+      "union": null,
+      "certification": "The FDA Food Code as adopted by the state's retail food code for the tray line's own food-safety practice; ServSafe food-handler training; HIPAA's privacy rule for a ticket carrying a patient's name and room number in a shared line; the CDC's general infection-prevention guidance; SEIU-UHW and NUHW as the training bodies for hospital dietary staff",
+      "accent": "#e0a23f",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "kitchen",
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "gauge",
+        "drag",
+        "hold",
+        "turn"
+      ],
+      "badge": {
+        "id": "tray-cleared",
+        "name": "Tray Cleared",
+        "note": "A tray built to its ticket, held safe, and checked against the patient's own ID band before delivery"
+      },
+      "meshes": 135,
+      "lights": 0,
+      "overBudget": false,
+      "index": "355",
+      "flat": false,
+      "system": "Tray Line Standard",
+      "currency": "TRAY",
+      "ranks": [
+        "New Aide",
+        "Tray Line Certified",
+        "Lead Aide",
+        "Dietary Supervisor",
+        "Tray Line Certified Trainer"
+      ],
+      "awards": [
+        {
+          "id": "flags-caught",
+          "name": "Flags Caught",
+          "note": "Every flag that changes the tray found before it was built"
+        },
+        {
+          "id": "dedicated-utensil",
+          "name": "Dedicated Utensil",
+          "note": "The allergy tray never touched by a shared serving tool"
+        },
+        {
+          "id": "bedside-verified",
+          "name": "Bedside Verified",
+          "note": "The ID band checked against the ticket before the tray was left"
+        },
+        {
+          "id": "clean-tray",
+          "name": "Clean Tray",
+          "note": "No corrections anywhere in the build"
+        },
+        {
+          "id": "steady-hold",
+          "name": "Steady Hold",
+          "note": "Held the cart at temperature the whole window, first try"
+        },
+        {
+          "id": "fast-tray",
+          "name": "Fast Tray",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=hc-dietary-tray-line-and-allergy-flags"
     },
     {
       "app": "smartcity",
@@ -27837,7 +28086,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 263,
+      "meshes": 257,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -28497,7 +28746,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "100",
