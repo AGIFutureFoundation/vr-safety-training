@@ -165,5 +165,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "railroad-crafts",
     "name": "Railroad Crafts — Track, Car and Cab",
     "accent": "#d63b3b"
+  },
+  {
+    "programme": "heavy-equipment-operators",
+    "name": "Heavy Equipment Operators — IUOE Local 3",
+    "accent": "#dba428"
   }
 ];

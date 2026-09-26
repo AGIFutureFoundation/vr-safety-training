@@ -618,6 +618,10 @@ export const PROGRAMME_COMPETENCIES = [
     stations: [
       "ra-roadway-worker-protection-and-job-briefing", "ra-tie-and-rail-replacement-with-track-machines", "ra-switch-inspection-and-lubrication", "ra-air-brake-test-and-train-inspection",
       "ra-hand-brake-and-securement-on-a-grade", "ra-crossing-signal-maintenance-and-flagging", "ra-locomotive-cab-startup-and-alerter", "ra-blue-flag-protection-in-the-yard"
+    ],
+    require: 4,
+  },
+  {
     id: "heavy-equipment-operators",
     title: "Run the machine, prove the assembly and hold the crew's own controls before the load moves",
     kind: "programme",

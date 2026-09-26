@@ -428,8 +428,6 @@ const SIM_MODULES = [
   "smartcity/js/sims/ra-crossing-signal-maintenance-and-flagging.js",
   "smartcity/js/sims/ra-locomotive-cab-startup-and-alerter.js",
   "smartcity/js/sims/ra-blue-flag-protection-in-the-yard.js",
-];
-const MODULES = ["shared/kit.js", "shared/textures.js", "shared/fleet.js", "shared/equipment.js", "shared/toolkit.js", "shared/game.js", "smartcity/js/citykit.js", "smartcity/js/gamify.js", ...SIM_MODULES];
   "smartcity/js/sims/op-excavator-trench-and-utility-locate.js",
   "smartcity/js/sims/op-dozer-slope-work-and-rollover-protection.js",
   "smartcity/js/sims/op-loader-truck-loading-and-blind-spots.js",
@@ -439,7 +437,7 @@ const MODULES = ["shared/kit.js", "shared/textures.js", "shared/fleet.js", "shar
   "smartcity/js/sims/op-pile-driving-rig-and-lead-setup.js",
   "smartcity/js/sims/op-equipment-daily-walkaround-and-fluids.js",
 ];
-const MODULES = ["shared/kit.js", "shared/fleet.js", "shared/equipment.js", "shared/toolkit.js", "shared/props.js", "shared/game.js", "smartcity/js/citykit.js", "smartcity/js/gamify.js", ...SIM_MODULES];
+const MODULES = ["shared/kit.js", "shared/textures.js", "shared/fleet.js", "shared/equipment.js", "shared/toolkit.js", "shared/game.js", "smartcity/js/citykit.js", "smartcity/js/gamify.js", ...SIM_MODULES, "shared/props.js"];
 
 // A trimmed three.js stub — gen_sims_meta only calls each sim's own header
 // fields, never build(), so this needs far less than check_smartcity.mjs's.

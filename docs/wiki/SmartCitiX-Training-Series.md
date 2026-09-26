@@ -1,6 +1,6 @@
 # SmartCiti.X training series
 
-_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-26. 434 SmartCiti.X stations across 17 categories and 32 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
+_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-26. 442 SmartCiti.X stations across 17 categories and 33 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
 Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 42 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
@@ -38,6 +38,7 @@ Every station is a real union procedure sited generically, built on the shared e
 - [Basketball Fundamentals](#basketball-fundamentals)
 - [SF Bay Restoration & Cleanup — Maritime and Underwater](#bay-restoration-maritime-underwater)
 - [Railroad Crafts — Track, Car and Cab](#railroad-crafts)
+- [Heavy Equipment Operators — IUOE Local 3](#heavy-equipment-operators)
 
 <a id="hunters-point-bay-restoration"></a>
 ## Hunters Point Clean-up and Bay Restoration
@@ -1115,6 +1116,26 @@ Eight of the jobs a freight railroad runs on every day: the roadway gang's own p
 | 427 | [Crossing Signal Maintenance & Flagging](../../WebXR/smartcity/index.html?sim=ra-crossing-signal-maintenance-and-flagging) | Signal maintainer | overcast | 15 | 2 | — | Taking a grade crossing's automatic protection down for a test means the road gets protected by hand for as long as the gates and lights cannot be trusted, and the crossing is proven with a real shunt before it goes back to drivers who never knew it was down. |
 | 428 | [Locomotive Cab Startup & Alerter](../../WebXR/smartcity/index.html?sim=ra-locomotive-cab-startup-and-alerter) | Locomotive engineer | clear | 14 | 2 | — | A locomotive gets a walk-around before it gets a cab, both brakes tested before the first mile, and the alerter answered on its own schedule for the whole trip because it is the one device built to notice an engineer who has stopped noticing anything else. |
 | 429 | [Blue Flag Protection in the Yard](../../WebXR/smartcity/index.html?sim=ra-blue-flag-protection-in-the-yard) | Car inspector / mechanical department utility worker | clear | 15 | 2 | — | Two crews sharing one cut of equipment both need their own blue flag at every point it could be moved from, because a flag protects the worker who displayed it — never the next person who assumes it also covers them. |
+
+<a id="heavy-equipment-operators"></a>
+## Heavy Equipment Operators — IUOE Local 3
+
+**Union:** IUOE — International Union of Operating Engineers Local 3 operating engineer training
+
+**Certifications and standards:** IUOE Local 3 operating engineer training; OSHA 29 CFR 1926 Subparts O, P, CC and W (motor vehicles and mechanized equipment, excavations, cranes and derricks, and rollover protective structures) and material-handling and pile-driving sections 1926.601 through .603; 29 CFR 1926.21 safety training; NIOSH fatality-investigation findings on struck-by, rollover and crane-assembly incidents; ASME B30.5 for the crawler crane
+
+Eight machines, eight IUOE jobs: an excavator trenching over a located utility, a dozer cutting a bench with its ROPS and seatbelt proven, a wheel loader working around its own blind zones, a grader cutting a road's crown to a stringline, a compactor rolling a fill lift by lift at the edge, a crawler crane's assembly closed out against its own load chart, a pile rig plumbed in two planes before the first blow, and the daily walkaround that keeps every one of them honest. Every station ends with a spotter, a checker or a tender who is doing a job the seat itself cannot do alone.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| op-1 | [Excavator Trench & Utility Locate](../../WebXR/smartcity/index.html?sim=op-excavator-trench-and-utility-locate) | Excavator operator — IUOE Local 3 operating engineer | clear | 14 | 2 | — | The excavator only earns the cut once the locate ticket is checked against the paint, the swing radius is barricaded, the coupler is locked, and the last foot over the marked line is exposed by hand. |
+| op-2 | [Dozer Slope Work & Rollover Protection](../../WebXR/smartcity/index.html?sim=op-dozer-slope-work-and-rollover-protection) | Dozer operator — IUOE Local 3 operating engineer | overcast | 15 | 2 | — | A dozer cutting a bench into a slope lives or dies on the ROPS and the seatbelt actually being used, so this station walks the slope for an undercut before the blade ever gets there. |
+| op-3 | [Loader Truck Loading & Blind Spots](../../WebXR/smartcity/index.html?sim=op-loader-truck-loading-and-blind-spots) | Wheel loader operator — IUOE Local 3 operating engineer | clear | 14 | 2 | — | A wheel loader's blind zones are fixed facts of the machine, not something attention can compensate for, so this station maps them before the first bucket ever swings toward the truck. |
+| op-4 | [Grader Fine Grade & Crown](../../WebXR/smartcity/index.html?sim=op-grader-fine-grade-and-crown) | Motor grader operator — IUOE Local 3 operating engineer | clear | 14 | 2 | — | A road's crown is only as good as the stringline it was cut against, so this station sets that reference and barricades the lane before the moldboard ever touches the surface. |
+| op-5 | [Compactor Lift Thickness & Edge](../../WebXR/smartcity/index.html?sim=op-compactor-lift-thickness-and-edge) | Compactor operator — IUOE Local 3 operating engineer | clear | 14 | 2 | — | A fill is only as sound as the lift it was built in, so this station measures the lift before rolling it and holds the drum back from the edge the whole pass. |
+| op-6 | [Crawler Crane Assembly & Load Chart](../../WebXR/smartcity/index.html?sim=op-crawler-crane-assembly-and-load-chart) | Crawler crane operator — IUOE Local 3 operating engineer | wind | 14 | 2 | — | An assembly that looks finished from the ground is not the same as one inspected pin by pin, so this station proves it with a barricaded swing, a chart reading and a held test lift before the first real pick. |
+| op-7 | [Pile Driving Rig & Lead Setup](../../WebXR/smartcity/index.html?sim=op-pile-driving-rig-and-lead-setup) | Pile driving rig operator — IUOE Local 3 operating engineer | overcast | 14 | 2 | — | A pile that starts out of plumb never corrects itself, so this station plumbs the leads in two planes and starts the first blows on low energy where a lean can still be caught. |
+| op-8 | [Equipment Daily Walkaround & Fluids](../../WebXR/smartcity/index.html?sim=op-equipment-daily-walkaround-and-fluids) | Heavy equipment operator — IUOE Local 3 operating engineer | clear | 14 | 2 | — | Every machine in this pack starts its day the same way: walked for a defect, its fluids read against their own gauges, chocked before anyone works near it, and its brakes and hydraulics proved before the first real load. |
 
 ## Real-world environments
 

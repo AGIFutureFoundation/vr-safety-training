@@ -18508,5 +18508,341 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "op-excavator-trench-and-utility-locate",
+    "index": "op-1",
+    "domain": "Construction",
+    "trade": "Excavator operator — IUOE Local 3 operating engineer",
+    "category": "Construction & Structural Trades",
+    "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926 Subpart P Excavations and 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on struck-by and utility-strike incidents",
+    "name": "Excavator Trench & Utility Locate",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Excavator Trench & Utility Locate VR",
+    "tagline": "Excavator trenching over a located utility: the ticket verified against the paint, the swing radius barricaded, the coupler locked, the line hand-exposed, and a spotter and grade checker both doing their own job",
+    "accent": 14394408,
+    "accentCss": "#dba428",
+    "parSeconds": 280,
+    "badge": {
+      "id": "dig-command",
+      "name": "Dig Command",
+      "note": "Locate verified, swing radius held, coupler locked, and the line exposed before the bucket ever went near it"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Dig Command",
+      "currency": "DIG",
+      "ranks": [
+        "Ground Hand",
+        "Excavator Hand",
+        "Locate Certified",
+        "Swing Authority",
+        "Dig Command Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "op-dozer-slope-work-and-rollover-protection",
+    "index": "op-2",
+    "domain": "Construction",
+    "trade": "Dozer operator — IUOE Local 3 operating engineer",
+    "category": "Construction & Structural Trades",
+    "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926 Subpart W Rollover protective structures; overhead protection and 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on rollover incidents",
+    "name": "Dozer Slope Work & Rollover Protection",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Dozer Slope Work & Rollover Protection VR",
+    "tagline": "Crawler dozer cutting a bench into a slope: ROPS inspected, seatbelt buckled, the slope walked for an undercut edge, an escape route flagged, and the ripper kept up for the whole crossing",
+    "accent": 11882538,
+    "accentCss": "#b5502a",
+    "parSeconds": 275,
+    "badge": {
+      "id": "slope-control",
+      "name": "Slope Control",
+      "note": "ROPS inspected, seatbelt buckled, the edge walked and flagged, and the cut held clean the whole crossing"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Slope Control",
+      "currency": "SLOPE",
+      "ranks": [
+        "Ground Hand",
+        "Dozer Hand",
+        "Slope Certified",
+        "Bench Authority",
+        "Slope Control Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "op-loader-truck-loading-and-blind-spots",
+    "index": "op-3",
+    "domain": "Construction",
+    "trade": "Wheel loader operator — IUOE Local 3 operating engineer",
+    "category": "Construction & Structural Trades",
+    "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926.602 Material handling equipment and 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on struck-by incidents around loading equipment",
+    "name": "Loader Truck Loading & Blind Spots",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Loader Truck Loading & Blind Spots VR",
+    "tagline": "Wheel loader loading a haul truck: blind zones mapped, the spotter positioned where the cab can see them, the driver clear before the bucket swings, the truck chocked, and every pass counted against the scale",
+    "accent": 3116895,
+    "accentCss": "#2f8f5f",
+    "parSeconds": 265,
+    "badge": {
+      "id": "load-watch",
+      "name": "Load Watch",
+      "note": "Blind zones mapped, the driver clear of the swing path every pass, the truck chocked, and the load weighed against the ticket"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Load Watch",
+      "currency": "LOAD",
+      "ranks": [
+        "Ground Hand",
+        "Loader Hand",
+        "Blind-Spot Certified",
+        "Load Authority",
+        "Load Watch Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "op-grader-fine-grade-and-crown",
+    "index": "op-4",
+    "domain": "Construction",
+    "trade": "Motor grader operator — IUOE Local 3 operating engineer",
+    "category": "Construction & Structural Trades",
+    "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926.602 Material handling equipment and 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on struck-by incidents in active work lanes",
+    "name": "Grader Fine Grade & Crown",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Grader Fine Grade & Crown VR",
+    "tagline": "Motor grader fine-grading a road surface to its crown: the subgrade walked, a stringline set, the circle angled, the lane barricaded, and the finished crown checked with a straightedge before the drainage outlet is confirmed clear",
+    "accent": 4161456,
+    "accentCss": "#3f7fb0",
+    "parSeconds": 270,
+    "badge": {
+      "id": "grade-authority",
+      "name": "Grade Authority",
+      "note": "Subgrade walked, the crown cut clean to the stringline, and the finished surface checked before it was called done"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Grade Authority",
+      "currency": "GRADE",
+      "ranks": [
+        "Ground Hand",
+        "Grader Hand",
+        "Crown Certified",
+        "Grade Authority",
+        "Grade Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "op-compactor-lift-thickness-and-edge",
+    "index": "op-5",
+    "domain": "Construction",
+    "trade": "Compactor operator — IUOE Local 3 operating engineer",
+    "category": "Construction & Structural Trades",
+    "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926.602 Material handling equipment and 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on rollover incidents near unsupported edges",
+    "name": "Compactor Lift Thickness & Edge",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Compactor Lift Thickness & Edge VR",
+    "tagline": "Single-drum compactor rolling a fill in lifts: the loose lift measured against the spec, the edge marked and kept back from, a spotter watching the drum's distance from it, and every lift proven with a density reading",
+    "accent": 9071151,
+    "accentCss": "#8a6a2f",
+    "parSeconds": 260,
+    "badge": {
+      "id": "lift-control",
+      "name": "Lift Control",
+      "note": "Every lift measured before rolling, the edge kept back from, and the density proven before the next lift went on"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Lift Control",
+      "currency": "LIFT",
+      "ranks": [
+        "Ground Hand",
+        "Compactor Hand",
+        "Lift Certified",
+        "Edge Authority",
+        "Lift Control Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "op-crawler-crane-assembly-and-load-chart",
+    "index": "op-6",
+    "domain": "Construction",
+    "trade": "Crawler crane operator — IUOE Local 3 operating engineer",
+    "category": "Construction & Structural Trades",
+    "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926 Subpart CC Cranes and derricks in construction and ASME B30.5; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on crane assembly and struck-by incidents",
+    "name": "Crawler Crane Assembly & Load Chart",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Crawler Crane Assembly & Load Chart VR",
+    "tagline": "Crawler crane assembly closed out and proved before the first pick: ground bearing confirmed, every pin and lacing member inspected, the backstop engaged, the chart read at the planned radius, and a test lift held before anything real goes on the hook",
+    "accent": 3825604,
+    "accentCss": "#3a5fc4",
+    "parSeconds": 285,
+    "badge": {
+      "id": "boom-authority",
+      "name": "Boom Authority",
+      "note": "Assembly inspected and pinned, the chart read at the planned radius, and a test lift proved before the first real pick"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Boom Authority",
+      "currency": "BOOM",
+      "ranks": [
+        "Ground Hand",
+        "Rigger",
+        "Signal Person",
+        "Load Chart Certified",
+        "Boom Authority"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "op-pile-driving-rig-and-lead-setup",
+    "index": "op-7",
+    "domain": "Construction",
+    "trade": "Pile driving rig operator — IUOE Local 3 operating engineer",
+    "category": "Construction & Structural Trades",
+    "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926.603 Pile driving equipment and 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on struck-by incidents around pile driving rigs",
+    "name": "Pile Driving Rig & Lead Setup",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Pile Driving Rig & Lead Setup VR",
+    "tagline": "Pile driving rig set up and proved before the first pile: the rig inspected, the drop zone barricaded, the leads plumbed in two planes, overhead clearance confirmed, and the pile started on low energy under a tender's signal",
+    "accent": 6967216,
+    "accentCss": "#6a4fb0",
+    "parSeconds": 280,
+    "badge": {
+      "id": "pile-command",
+      "name": "Pile Command",
+      "note": "Leads plumbed in two planes, the drop zone held clear, and the pile started on low energy before full driving began"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Pile Command",
+      "currency": "PILE",
+      "ranks": [
+        "Ground Hand",
+        "Rig Hand",
+        "Lead Certified",
+        "Drive Authority",
+        "Pile Command Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "op-equipment-daily-walkaround-and-fluids",
+    "index": "op-8",
+    "domain": "Construction",
+    "trade": "Heavy equipment operator — IUOE Local 3 operating engineer",
+    "category": "Construction & Structural Trades",
+    "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations and 29 CFR 1926.602 Material handling equipment; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on struck-by and caught-in incidents during equipment servicing",
+    "name": "Equipment Daily Walkaround & Fluids",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Equipment Daily Walkaround & Fluids VR",
+    "tagline": "Daily pre-op walkaround on a loader backhoe: the checklist read, the machine walked for a leak or a defect, every fluid checked against its own gauge, a chock set before working underneath it, and the brakes and hydraulics proved before the first bucket of the day",
+    "accent": 5214112,
+    "accentCss": "#4f8fa0",
+    "parSeconds": 255,
+    "badge": {
+      "id": "fleet-readiness",
+      "name": "Fleet Readiness",
+      "note": "Walked, fluids checked, chocked before working underneath, and the brakes and hydraulics proved before the first bucket"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Fleet Readiness",
+      "currency": "READY",
+      "ranks": [
+        "Ground Hand",
+        "Equipment Hand",
+        "Walkaround Certified",
+        "Readiness Authority",
+        "Fleet Readiness Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
