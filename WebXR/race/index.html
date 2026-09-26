@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Night Highway Circuit</title>
-<meta name="description" content="The training platform's Easter egg: an arcade racer on five original courses, driven in the platform's own fleet. Local multiplayer only: split-screen on one machine, or two tabs in one browser.">
+<meta name="description" content="The training platform's Easter egg: an arcade racer on ten original courses (plus a Mirror class and a Battle Arena), driven in the platform's own fleet. Local multiplayer only: split-screen on one machine, or two tabs in one browser.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
@@ -45,6 +45,7 @@
   .btn:hover{background:var(--raised-2)}
   .btn.primary{background:linear-gradient(180deg,#ffd862,var(--amber));color:#1b1300;border-color:transparent}
   .btn.ghost{background:transparent}
+  .btn.ghost.on{border-color:var(--amber);color:var(--amber)}
   a.btn{display:inline-block;text-decoration:none;color:var(--text)}
   .btn[disabled]{opacity:.45;cursor:not-allowed}
   .modes{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin:6px 0 4px}
@@ -145,12 +146,13 @@
     <p class="eyebrow">You found the Easter egg</p>
     <h1 class="logo" id="t-menu">Night Highway Circuit</h1>
     <div class="stripe"></div>
-    <p class="lead">An arcade racer in the fleet the training stations use: sedans and pickups, a bobtail tractor, a forklift, a skid steer, a dump truck, a bucket truck and the night bus. Five original courses, boost pads, supply crates, six construction-site items, and real traffic. Signal and check your mirrors before a lane change for a safety boost — the joke still teaches.</p>
+    <p class="lead">An arcade racer in the fleet the training stations use: sedans and pickups, a bobtail tractor, a forklift, a skid steer, a dump truck, a bucket truck and the night bus. Ten original courses, boost pads, supply crates, six construction-site items, and real traffic. Signal and check your mirrors before a lane change for a safety boost — the joke still teaches. Finish a Master Grand Prix in the top three to open the Mirror class: every course flipped.</p>
     <div class="modes" role="list">
       <button class="mode" data-go="race" role="listitem"><b>Single race</b><span>Pick a class and a course. One to four players split-screen on this machine; AI drivers fill the grid of eight.</span></button>
       <button class="mode" data-go="gp" role="listitem"><b>Grand Prix</b><span>All five courses in a row for points. Finish in the top three to open the next engine class.</span></button>
       <button class="mode" data-go="tt" role="listitem"><b>Time trial</b><span>Alone on an empty course against the ghost of your best lap, kept in this browser.</span></button>
       <button class="mode" data-go="net" role="listitem"><b>Two-tab race</b><span>Two tabs of this browser race each other through a local channel. Not online play: there is no server.</span></button>
+      <button class="mode" data-go="battle" role="listitem"><b>Battle Arena</b><span>An enclosed construction-site pit, items only. Three hard-hat lives each — last one standing wins. Four local players or AI.</span></button>
     </div>
     <div class="row" style="margin-top:12px">
       <button class="btn" data-go="help">Controls and items</button>
@@ -176,6 +178,7 @@
   <div class="card">
     <p class="eyebrow" id="track-step">Step 2 · course</p>
     <h2 id="t-track">Choose a course</h2>
+    <div class="row" id="mirror-row" style="margin-bottom:10px"></div>
     <div class="grid" id="track-list"></div>
     <div class="row" style="margin-top:14px"><button class="btn ghost" data-back>Back</button><button class="btn primary" id="track-next">Next</button></div>
   </div>

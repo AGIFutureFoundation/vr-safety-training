@@ -61,7 +61,7 @@ export const RC_STORAGE_KEY = "night-highway-circuit-v1";
 export const RC_TRAFFIC_DIMS = {
   sedan: [2.23, 4.92], tractorTrailer: [3.02, 20.71], yardHustler: [2.91, 5.61],
   pickup: [2.39, 5.92], dumpTruck: [3.02, 9.57], bucketTruck: [3.3, 9.6],
-  straddleCarrier: [5.2, 9.5], haulTruck: [4.8, 15.3],
+  straddleCarrier: [5.2, 9.5], haulTruck: [4.8, 15.3], forklift: [1.12, 3.57],
 };
 
 const RC_NAMES = ["Rosa", "Dev", "Mika", "Tomas", "Ines", "Kofi", "Lena", "Arlo", "Priya", "Sol", "Wren", "Otto"];
@@ -141,7 +141,7 @@ export function rcCreateRace({ track, cls, laps = 3, racers = [], field = 8, mod
   const klass = typeof cls === "string" ? RC_CLASSES.find((c) => c.id === cls) : (cls ?? RC_CLASSES[1]);
   const race = {
     track: tr, cls: klass, laps, mode, seed, rng, t: 0, count: 3.5, phase: "countdown",
-    racers: [], traffic: [], crossings: [], statics: [], slicks: [], drops: [], boxes: [], events: [],
+    racers: [], traffic: [], crossings: [], statics: [], slicks: [], floods: [], drops: [], boxes: [], events: [],
     finished: 0, endAt: null, nextId: 1, items: items && mode !== "timetrial",
   };
   const list = racers.slice(0, field).map((r) => ({ ...r }));
@@ -214,9 +214,31 @@ export function rcCreateRace({ track, cls, laps = 3, racers = [], field = 8, mod
       }
     } else if (hz.kind === "slick") {
       race.slicks.push({ s0: hz.s0, s1: hz.s1, d: hz.d ?? 0, w: hz.w ?? 6, what: hz.what ?? "slick" });
+    } else if (hz.kind === "gate") {
+      // A door across the lane that opens and closes on a timer (a freezer
+      // door, say): a normal solid static, except rcMoveTraffic flips its
+      // `solid` flag each frame from the gate's own clock, so the existing
+      // collision code (which already reads `solid` live) needs no change.
+      rcAddStatic(race, {
+        kind: "gate", s: hz.s, d: hz.d ?? 0, w: hz.w ?? tr.width * 0.7, l: hz.l ?? 1.0, solid: true,
+        gate: { period: hz.period ?? 9, openFor: hz.openFor ?? 4, phase: hz.phase ?? 0 },
+      });
+    } else if (hz.kind === "tidegate") {
+      // A dip that floods on a timer (a tide gate, say): a slick zone that is
+      // only live while the gate is open.
+      race.floods.push({
+        s0: hz.s0, s1: hz.s1, d: hz.d ?? 0, w: hz.w ?? 8,
+        period: hz.period ?? 14, openFor: hz.openFor ?? 6, phase: hz.phase ?? 0,
+      });
     }
   }
   return race;
+}
+
+/** Is a timed zone (a gate or a flood) open right now? */
+function rcGateOpen(t, phase, period, openFor) {
+  const ph = (((t + phase) % period) + period) % period;
+  return ph < openFor;
 }
 
 function rcAddStatic(race, o) {
@@ -488,7 +510,9 @@ function rcDrive(race, r, inp, dt) {
   const brk = rcClamp(Number(inp.brake) || 0, 0, 1);
   if (r.spinT > 0) { steer = 0; thr = 0; }
   const surf = tr.def.surface === "dirt" ? 0.94 : 1;
-  const slick = race.slicks.some((z) => rcAhead(tr, z.s0, r.s) >= 0 && rcAhead(tr, r.s, z.s1) >= 0 && Math.abs(r.d - z.d) < z.w / 2);
+  const onSlick = (z) => rcAhead(tr, z.s0, r.s) >= 0 && rcAhead(tr, r.s, z.s1) >= 0 && Math.abs(r.d - z.d) < z.w / 2;
+  const slick = race.slicks.some(onSlick)
+    || race.floods.some((z) => rcGateOpen(race.t, z.phase, z.period, z.openFor) && onSlick(z));
   if (slick) r.slickT = Math.max(r.slickT, 0.25);
 
   if (race.phase === "countdown") {
@@ -833,7 +857,10 @@ function rcMoveTraffic(race, dt) {
     c.h = rcWrapAngle(f.head + (c.dir > 0 ? -Math.PI / 2 : Math.PI / 2));
     c.warn = Math.abs(c.pos) < tr.half + c.l / 2 + 10;
   }
-  for (const s of race.statics) if (s.down > 0) s.down = Math.max(0, s.down - dt);
+  for (const s of race.statics) {
+    if (s.down > 0) s.down = Math.max(0, s.down - dt);
+    if (s.gate) s.solid = !rcGateOpen(race.t, s.gate.phase, s.gate.period, s.gate.openFor);
+  }
   for (const b of race.boxes) if (b.t > 0) b.t = Math.max(0, b.t - dt);
   for (let k = race.drops.length - 1; k >= 0; k--) {
     const h = race.drops[k];
@@ -952,7 +979,7 @@ export function rcRacePoints(race) {
 
 /** The whole saved state, under RC_STORAGE_KEY. */
 export function rcNewSave() {
-  return { v: 1, unlocked: ["apprentice"], gp: {}, tt: {}, settings: { music: true } };
+  return { v: 1, unlocked: ["apprentice"], mirror: false, gp: {}, tt: {}, settings: { music: true } };
 }
 
 export function rcLoadSave(storage) {
@@ -964,6 +991,7 @@ export function rcLoadSave(storage) {
     const clean = rcNewSave();
     clean.unlocked = RC_CLASSES.map((c) => c.id).filter((id) => s.unlocked.includes(id));
     if (!clean.unlocked.includes("apprentice")) clean.unlocked.unshift("apprentice");
+    clean.mirror = !!s.mirror;
     clean.gp = typeof s.gp === "object" && s.gp ? s.gp : {};
     clean.tt = typeof s.tt === "object" && s.tt ? s.tt : {};
     clean.settings = { ...clean.settings, ...(s.settings ?? {}) };
@@ -983,19 +1011,26 @@ export function rcClassUnlocked(save, clsId) {
 
 /**
  * The unlock rule: finishing a Grand Prix in the top three on a class opens
- * the next class. Returns a new save and the id it unlocked (or null).
+ * the next class. Finishing one on the top class, Master, also opens the
+ * Mirror class (every course flipped, tracks.js RACE_TRACKS_MIRROR) — the
+ * same top-three rule, one step further up the same ladder. Returns a new
+ * save, the class id it unlocked (or null) and whether it opened Mirror.
  */
 export function rcApplyGrandPrix(save, clsId, place) {
   const next = JSON.parse(JSON.stringify(save ?? rcNewSave()));
   const prev = next.gp[clsId]?.best;
   next.gp[clsId] = { best: prev == null ? place : Math.min(prev, place), runs: (next.gp[clsId]?.runs ?? 0) + 1 };
-  let unlocked = null;
+  let unlocked = null, mirrorUnlocked = false;
   const i = RC_CLASSES.findIndex((c) => c.id === clsId);
   if (i >= 0 && place >= 1 && place <= 3 && i + 1 < RC_CLASSES.length) {
     const id = RC_CLASSES[i + 1].id;
     if (!next.unlocked.includes(id)) { next.unlocked.push(id); unlocked = id; }
   }
-  return { save: next, unlocked };
+  if (i === RC_CLASSES.length - 1 && place >= 1 && place <= 3 && !next.mirror) {
+    next.mirror = true;
+    mirrorUnlocked = true;
+  }
+  return { save: next, unlocked, mirrorUnlocked };
 }
 
 // ------------------------------------------------------------------ ghosts

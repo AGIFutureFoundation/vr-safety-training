@@ -4,8 +4,9 @@ import {
   sedan, pickup, semiTractor, forkliftCounterbalance, bucketTruck, busTransit, tractorTrailer, yardHustler, trailer,
 } from "../../shared/fleet.js";
 import { skidSteer, dumpTruck, craneSpreader, concretePump } from "../../shared/equipment.js";
-import { rcFrame, rcPointAt } from "./track.js";
+import { rcFrame, rcPointAt, rcAhead } from "./track.js";
 import { RC_VEHICLES } from "./sim.js";
+import { unionSign } from "../../shared/signage.js";
 
 // Night Highway Circuit — the world.
 //
@@ -341,10 +342,15 @@ function rcBarriers(root, tr) {
     rail: [[0, 0.55], [0, 0.95], [0.18, 0.95], [0.18, 0.55]],
   };
   const prof = profiles[kind] ?? profiles.jersey;
+  // A track can name a stretch with no rail on one edge (Aurora Skyway's
+  // maintenance sweep): a gap in an otherwise continuous run of barrier.
+  const noRail = (def.noRailZones ?? []).map((z) => ({ s0: tr.uToS(z.from), s1: tr.uToS(z.to), side: z.side }));
+  const gapped = (sg, s) => noRail.some((z) => z.side === sg && rcAhead(tr, z.s0, s) >= 0 && rcAhead(tr, s, z.s1) >= 0);
   const m = new RcMesh();
   for (const sg of [1, -1]) {
     for (let i = 0; i < tr.n; i++) {
       const s0 = i * tr.ds, s1 = (i + 1) * tr.ds;
+      if (gapped(sg, s0)) continue;
       for (let j = 0; j < prof.length - 1; j++) {
         const [o0, y0] = prof[j], [o1, y1] = prof[j + 1];
         const A = rcP(tr, s0, sg * (tr.half + o0), y0), B = rcP(tr, s0, sg * (tr.half + o1), y1);
@@ -358,6 +364,7 @@ function rcBarriers(root, tr) {
   if (kind === "rail") {
     const posts = new RcMesh();
     for (const sg of [1, -1]) for (let s = 0; s < tr.L; s += 4) {
+      if (gapped(sg, s)) continue;
       const q = rcPointAt(tr, s, sg * (tr.half + 0.25));
       posts.box(q.x, q.y, q.z, 0.14, 0.95, 0.14, q.head, [1, 1]);
     }
@@ -983,6 +990,114 @@ function rcPour(root, tr, race, sc) {
   concretePump(root, q.x, q.y, q.z, { ry: q.head + Math.PI / 2 });
 }
 
+/** A small beach lifeguard tower: a raised cabin on four legs with a ladder. */
+function rcLifeguardTower(root, sc) {
+  const g = group(root, sc.x, 0, sc.z, sc.ry ?? 0);
+  const h = 3.2;
+  for (const [lx, lz] of [[1, 1], [1, -1], [-1, 1], [-1, -1]]) box(g, 0.16, h, 0.16, lx, h / 2, lz, 0xe8e6df, { finish: "painted" });
+  box(g, 2.6, 1.9, 2.2, 0, h + 0.95, 0, 0xf4f6f8, { finish: "painted" });
+  box(g, 2.8, 0.14, 2.4, 0, h, 0, 0xe8742a, { finish: "painted" });
+  box(g, 0.5, h, 0.08, 1.6, h / 2, 0, 0xc9d1da, { finish: "galvanised", metal: 0.3 });
+  mergeStatic(g, { local: true });
+}
+
+/** A small sluice-gate structure beside the road, at the mouth of a flood zone. */
+function rcTideGate(root, tr, sc) {
+  const q = rcPointAt(tr, tr.uToS(sc.u), (sc.d ?? 0) + Math.sign((sc.d ?? -1) || -1) * (tr.half + 2.2));
+  const g = group(root, q.x, q.y, q.z, q.head);
+  box(g, 0.4, 2.6, 3.6, 0, 1.3, 0, 0x6d747b, { finish: "galvanised", metal: 0.4 });
+  box(g, 0.32, 1.9, 3.0, 0.1, 0.95, 0, 0x2d6fa8, { finish: "painted" });
+  box(g, 0.9, 0.7, 0.9, 0, 2.9, 0, 0xf2c230, { finish: "painted" });
+  mergeStatic(g, { local: true });
+}
+
+/**
+ * A small flock of birds (gulls, egrets…): drawn as a point sprite so it
+ * never touches the mesh budget. It rises and scatters once every `period`
+ * seconds, then settles back — a signature bit of motion, not a hazard.
+ */
+function rcFlock(root, sc) {
+  const n = sc.count ?? 12;
+  const [x0, z0, x1, z1] = sc.area;
+  const rnd = rcSeeded((sc.seed ?? 61) >>> 0);
+  const base = [];
+  for (let i = 0; i < n; i++) base.push({ x: x0 + rnd() * (x1 - x0), z: z0 + rnd() * (z1 - z0), ph: rnd() });
+  const arr = new Float32Array(n * 3);
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute("position", new THREE.BufferAttribute(arr, 3));
+  const points = new THREE.Points(geo, new THREE.PointsMaterial({ color: new THREE.Color(sc.colour ?? "#f4f4f0"), size: 1.4, sizeAttenuation: true }));
+  points.frustumCulled = false;
+  root.add(points);
+  return {
+    points, arr, base, y: sc.y ?? 12, period: sc.period ?? 10,
+    update(now) {
+      const p = this.period;
+      for (let i = 0; i < n; i++) {
+        const b = base[i];
+        const t = ((now / p + b.ph) % 1);
+        const lift = t < 0.35 ? t / 0.35 : t < 0.7 ? 1 : 1 - (t - 0.7) / 0.3;
+        const spread = lift * 6;
+        arr[i * 3] = b.x + Math.sin(now * 0.6 + i) * spread;
+        arr[i * 3 + 1] = this.y * 0.35 + lift * this.y;
+        arr[i * 3 + 2] = b.z + Math.cos(now * 0.5 + i) * spread;
+      }
+      geo.attributes.position.needsUpdate = true;
+    },
+  };
+}
+
+/**
+ * A construction gantry crane sliding back and forth along a span of the
+ * course (Aurora Skyway's next-span build) — purely decorative, ping-ponging
+ * between `from` and `to` (u) once every `period` seconds.
+ */
+function rcMovingGantry(root, tr, sc) {
+  const g = new THREE.Group();
+  root.add(g);
+  const H = sc.height ?? 12, W = tr.width + 4;
+  for (const sx of [1, -1]) box(g, 0.6, H, 0.6, sx * W / 2, H / 2, 0, 0x8e969d, { finish: "galvanised", metal: 0.4 });
+  box(g, W + 0.6, 0.7, 0.7, 0, H, 0, 0xffb020, { finish: "painted", emissive: 0x804000, ei: 0.3 });
+  box(g, 0.5, H * 0.28, 0.5, 0, H - H * 0.14, 0, 0x3b4046, { finish: "painted" });
+  const beacon = box(g, 0.3, 0.3, 0.3, W / 2 + 0.4, H + 0.2, 0, 0xff3a2a, { emissive: 0xff2010, ei: 1.4 });
+  return {
+    group: g, beacon,
+    s0: tr.uToS(sc.from), s1: tr.uToS(sc.to), d: sc.d ?? 0, period: sc.period ?? 20,
+    update(tr2, now) {
+      const ph = (now % this.period) / this.period;
+      const tri = ph < 0.5 ? ph * 2 : (1 - ph) * 2;
+      const s = this.s0 + (this.s1 - this.s0) * tri;
+      const f = rcFrame(tr2, s);
+      this.group.position.set(f.x + f.lx * this.d, f.y, f.z + f.lz * this.d);
+      this.group.rotation.y = f.head;
+    },
+  };
+}
+
+// ------------------------------------------------------------ track-side signage
+
+// A trackside union sign (WebXR/shared/signage.js, "the union wordmarks
+// style"), so the courses read as this platform's world rather than a
+// generic circuit. Never a real logo — always the typeset wordmark — and
+// picked once per course, thematically, not per race.
+const RC_TRACK_UNION = {
+  "night-highway": "iuoe", "port-terminal": "ilwu", "bay-fog-span": "ironworkers", "quarry-haul": "iuoe",
+  "downtown-site": "carpenters", "beach-boardwalk": "carpenters", "cold-storage": "teamsters",
+  "aurora-skyway": "atu", "marsh-levee": "liuna", "quarry-night-shift": "teamsters",
+};
+
+function rcTrackSignage(root, tr) {
+  const baseId = tr.def.mirrorOf ?? tr.id;
+  const unionId = RC_TRACK_UNION[baseId];
+  if (!unionId) return;
+  const spots = [[18, tr.half + 3.6, -0.3], [tr.L - 26, -(tr.half + 3.6), 0.3]];
+  for (const [s, d, ry] of spots) {
+    try {
+      const q = rcPointAt(tr, s, d);
+      unionSign(root, q.x, q.y, q.z, unionId, { ry: q.head + ry, height: 2.4, w: 1.3, h: 0.85 });
+    } catch { /* an unknown union id would throw; every id above is real */ }
+  }
+}
+
 // ------------------------------------------------------------ the world
 
 /**
@@ -1000,6 +1115,7 @@ export function rcBuildWorld(root, race, opts = {}) {
   rcBarriers(root, tr);
   rcSupports(root, tr);
   let startLamps = [], arrow = null;
+  const flocks = [], gantries = [];
   for (const sc of def.scenery ?? []) {
     if (sc.kind === "skyline") rcSkyline(root, tr, sc, mats);
     else if (sc.kind === "tunnel") rcTunnel(root, tr, sc, mats);
@@ -1027,7 +1143,12 @@ export function rcBuildWorld(root, race, opts = {}) {
     else if (sc.kind === "frames") rcFrames(root, tr, sc);
     else if (sc.kind === "pour") rcPour(root, tr, race, sc);
     else if (sc.kind === "haulSigns") for (const u of sc.u) rcGantry(root, tr, tr.uToS(u), "HAUL TRUCK CROSSING · YIELD", { bg: "#c8871a", fg: "#101010", edge: "#101010", px: 44, w: 768 });
+    else if (sc.kind === "lifeguardTower") rcLifeguardTower(root, sc);
+    else if (sc.kind === "tideGate") rcTideGate(root, tr, sc);
+    else if (sc.kind === "flock") flocks.push(rcFlock(root, sc));
+    else if (sc.kind === "movingGantry") gantries.push(rcMovingGantry(root, tr, sc));
   }
+  rcTrackSignage(root, tr);
   startLamps = rcGantry(root, tr, 0, def.name.toUpperCase(), { bg: "#141a24", fg: "#ffd23a", edge: "#ffd23a", lights: true, px: 50, w: 768 });
 
   // Boost pads: one mesh, animated chevrons.
@@ -1094,6 +1215,17 @@ export function rcBuildWorld(root, race, opts = {}) {
       }
       return null;
     }
+    if (s.kind === "gate") {
+      // A roll-up door across the lane: a fixed frame and a panel that lifts
+      // clear when the sim's timer opens the gate (sim.js rcMoveTraffic).
+      const g = group(root, s.x, s.y, s.z, s.h);
+      const doorH = 3.0;
+      box(g, s.w + 0.5, doorH + 0.4, 0.3, 0, (doorH + 0.4) / 2, -0.05, 0x8a939c, { finish: "galvanised", metal: 0.35 });
+      const panel = box(g, s.w - 0.15, doorH, 0.22, 0, doorH / 2, 0.05, 0xd8b23a, { finish: "painted" });
+      const beacon = box(g, 0.22, 0.22, 0.22, s.w / 2 + 0.35, doorH + 0.25, 0, 0xff3a2a, { emissive: 0xff2010, ei: 1.3 });
+      g.userData = { panel, beacon, doorY0: doorH / 2, doorH };
+      return g;
+    }
     return null;
   });
 
@@ -1102,8 +1234,24 @@ export function rcBuildWorld(root, race, opts = {}) {
     const colour = t.kind === "sedan" || t.kind === "pickup" ? RC_CIVILIAN[i % RC_CIVILIAN.length] : t.kind === "yardHustler" ? 0xf0a31c : t.kind === "dumpTruck" ? 0xf0b323 : 0xe8e6df;
     return rcBuildVehicle(root, t.kind, 1, { colour, fleetName: t.kind === "tractorTrailer" ? "HIGHWAY FREIGHT" : t.kind === "yardHustler" ? "YARD" : "CITY", unitNumber: String(100 + i) });
   });
-  const crossingModels = race.crossings.map((c) => (c.kind === "haulTruck" ? rcHaulTruck(root) : rcStraddleCarrier(root)));
+  const crossingModels = race.crossings.map((c) => (
+    c.kind === "haulTruck" ? rcHaulTruck(root)
+      : c.kind === "forklift" ? rcBuildVehicle(root, "forkliftCounterbalance", 1, { colour: 0xf2b21c, fleetName: "COLD CHAIN", unitNumber: "F-2" })
+        : rcStraddleCarrier(root)
+  ));
   const racerModels = race.racers.map((r) => rcRacerModel(root, r, night));
+
+  // Flood zones (Marsh Levee Loop's tide gate): a wet-slab plane over each
+  // one, following the road's own curvature, shown only while its timer says
+  // the gate is open.
+  const floodMeshes = (race.floods ?? []).map((z) => {
+    const m = new RcMesh();
+    for (let s = z.s0; s < z.s1; s += tr.ds) {
+      const b = Math.min(z.s1, s + tr.ds);
+      m.quad(rcP(tr, s, z.d + z.w / 2, 0.05), rcP(tr, s, z.d - z.w / 2, 0.05), rcP(tr, b, z.d - z.w / 2, 0.05), rcP(tr, b, z.d + z.w / 2, 0.05));
+    }
+    return m.build(new THREE.MeshStandardMaterial({ color: 0x2f5468, roughness: 0.1, metalness: 0.35, transparent: true, opacity: 0.88 }), root);
+  });
 
   // Dropped item pools.
   const dropCone = new THREE.CylinderGeometry(0.08, 0.42, 1.0, 12);
@@ -1145,6 +1293,7 @@ export function rcBuildWorld(root, race, opts = {}) {
 
   const handle = {
     racerModels, trafficModels, crossingModels, crates, staticMeshes, startLamps, sky, ground, dust, arrow,
+    flocks, gantries, floodMeshes,
     ghost: null,
     update(race, dt, now) {
       const blink = Math.floor(now * 2.5) % 2 === 0;
@@ -1181,7 +1330,23 @@ export function rcBuildWorld(root, race, opts = {}) {
         m.rotation.y = now * 1.6 + i; m.rotation.x = 0.4;
         m.position.y = b.y + 1.3 + Math.sin(now * 3 + i) * 0.18;
       });
-      race.statics.forEach((s, i) => { const m = staticMeshes[i]; if (m) m.visible = !(s.down > 0); });
+      race.statics.forEach((s, i) => {
+        const m = staticMeshes[i];
+        if (!m) return;
+        if (s.kind === "gate") {
+          m.userData.panel.position.y = s.solid ? m.userData.doorY0 : m.userData.doorY0 + m.userData.doorH * 0.94;
+          m.userData.beacon.visible = s.solid || blink;
+        } else m.visible = !(s.down > 0);
+      });
+      for (const fl of flocks) fl.update(now);
+      for (const gc of gantries) gc.update(race.track, now);
+      if (floodMeshes.length) {
+        race.floods.forEach((z, i) => {
+          const ph = (((race.t + z.phase) % z.period) + z.period) % z.period;
+          const m = floodMeshes[i];
+          if (m) m.visible = ph < z.openFor;
+        });
+      }
       const used = { cone: 0, paint: 0 };
       for (const h of race.drops) {
         const kind = h.kind === "paint" ? "paint" : "cone";

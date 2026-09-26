@@ -1,6 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { createGamepad, GAMEPAD_DEADZONE, detectPadVendor } from "../../shared/input.js";
-import { RACE_TRACKS, rcTrackDef } from "./tracks.js";
+import { RACE_TRACKS, rcTrackDef, rcMirrorId } from "./tracks.js";
 import { rcCompileTrack } from "./track.js";
 import {
   RC_VEHICLES, RC_CLASSES, RC_ITEMS, RC_POINTS, rcCreateRace, rcStep, rcStandings, rcRacePoints,
@@ -10,6 +10,7 @@ import {
 import { rcBuildWorld, rcEnvironment, rcBuildVehicle, RC_PLAYER_COLOURS } from "./world.js";
 import { rcCreateAudio } from "./audio.js";
 import { rcOpenLink } from "./net.js";
+import { rcCreateBattle, rcBattleStep, rcBattleStandings, rcBuildBattleWorld } from "./battle.js";
 
 // Night Highway Circuit — the app: menus, input, split-screen cameras, HUD,
 // Grand Prix, time trial and the two-tab link. The game itself is sim.js;
@@ -67,6 +68,7 @@ const app = {
   screen: "menu", mode: "race", cls: RC_Q.get("class") ?? rcSave.settings.cls ?? "apprentice",
   trackId: RC_Q.get("track") ?? rcSave.settings.track ?? RACE_TRACKS[0].id,
   nPlayers: 1, players: [0, 1, 2, 3].map((i) => ({ vehicle: rcSave.settings.vehicles?.[i] ?? RC_VEHICLES[i].id })),
+  mirror: false, battle: null,
   scene: null, world: null, race: null, views: [], gp: null, tt: null, net: null, paused: false,
   timeScale: Math.max(0.1, Math.min(40, Number(RC_Q.get("fast")) || 1)), demo: 0, acc: 0, backdrop: false, showroom: null,
   msgs: [], lastEvents: [], history: [],
@@ -205,13 +207,14 @@ function rcToast(text, ms = 2600) {
   rcToastT = setTimeout(() => t.classList.remove("on"), ms);
 }
 
-const rcFlow = () => (app.mode === "gp" ? ["class", "garage"] : app.mode === "tt" ? ["class", "track", "garage"] : ["class", "track", "garage"]);
+const rcFlow = () => (app.mode === "battle" ? ["garage"] : app.mode === "gp" ? ["class", "garage"] : app.mode === "tt" ? ["class", "track", "garage"] : ["class", "track", "garage"]);
 
 document.querySelectorAll("[data-go]").forEach((b) => b.addEventListener("click", () => {
   const go = b.dataset.go;
   rcAudio.resume();
   if (go === "help") return rcShow("help");
   if (go === "net") { app.mode = "net"; return rcShow("net"); }
+  if (go === "battle") { app.mode = "battle"; return rcShow("garage"); }
   app.mode = go;
   if (go === "tt" || go === "net") app.nPlayers = 1;
   rcShow("class");
@@ -288,33 +291,51 @@ function rcDrawTrackPreview(canvas, tr) {
   g.fillStyle = "#fff"; g.fillRect(sx - 4, sy - 4, 8, 8);
 }
 
+function rcRenderMirrorToggle() {
+  const row = $("mirror-row");
+  if (!row) return;
+  row.textContent = "";
+  if (!rcSave.mirror) {
+    row.innerHTML = `<span class="eyebrow">Mirror class locked · finish a Master Grand Prix in the top three to open it</span>`;
+    return;
+  }
+  const b = document.createElement("button");
+  b.className = `btn ghost${app.mirror ? " on" : ""}`;
+  b.setAttribute("aria-pressed", String(app.mirror));
+  b.textContent = app.mirror ? "Mirror: on (every course flipped)" : "Mirror: off";
+  b.addEventListener("click", () => { app.mirror = !app.mirror; rcAudio.play("select"); rcRenderMirrorToggle(); rcRenderTracks(); });
+  row.append(b);
+}
+
 function rcRenderTracks() {
   $("track-step").textContent = app.mode === "tt" ? "Time trial · step 2 of 3" : "Single race · step 2 of 3";
+  rcRenderMirrorToggle();
   const list = $("track-list");
   list.textContent = "";
   for (const def of RACE_TRACKS) {
-    const tr = rcTrack(def.id);
+    const shownId = app.mirror ? rcMirrorId(def.id) : def.id;
+    const tr = rcTrack(shownId);
     const b = document.createElement("button");
     b.className = `pick${app.trackId === def.id ? " on" : ""}`;
     b.setAttribute("aria-pressed", String(app.trackId === def.id));
     const cv = document.createElement("canvas");
     cv.width = 320; cv.height = 180;
     rcDrawTrackPreview(cv, tr);
-    const best = rcSave.tt[`${def.id}|${app.cls}`]?.best;
+    const best = rcSave.tt[`${shownId}|${app.cls}`]?.best;
     b.append(cv);
-    const t = document.createElement("b"); t.textContent = def.name;
+    const t = document.createElement("b"); t.textContent = tr.name;
     const d = document.createElement("span"); d.textContent = def.blurb;
     const m = document.createElement("span"); m.textContent = `${(tr.L / 1000).toFixed(2)} km lap · 3 laps${best ? ` · best lap ${rcTime(best)}` : ""}`;
     b.append(t, d, m);
-    b.addEventListener("click", () => { app.trackId = def.id; rcRenderTracks(); rcBackdrop(def.id); });
+    b.addEventListener("click", () => { app.trackId = def.id; rcRenderTracks(); rcBackdrop(shownId); });
     list.append(b);
   }
 }
 $("track-next").addEventListener("click", () => rcShow("garage"));
 
 function rcRenderGarage() {
-  const tt = app.mode === "tt", net = app.mode === "net";
-  $("garage-step").textContent = app.mode === "gp" ? "Grand Prix · step 2 of 2" : tt ? "Time trial · step 3 of 3" : "Single race · step 3 of 3";
+  const tt = app.mode === "tt", net = app.mode === "net", battle = app.mode === "battle";
+  $("garage-step").textContent = battle ? "Battle arena · drivers" : app.mode === "gp" ? "Grand Prix · step 2 of 2" : tt ? "Time trial · step 3 of 3" : "Single race · step 3 of 3";
   const seg = $("pcount");
   seg.textContent = "";
   $("count-row").hidden = tt || net;
@@ -345,6 +366,7 @@ function rcRenderGarage() {
     c.querySelectorAll("[data-d]").forEach((btn) => btn.addEventListener("click", () => rcCycleVehicle(i, Number(btn.dataset.d))));
     cards.append(c);
   }
+  $("garage-go").textContent = battle ? "Into the arena" : "To the grid";
   rcShowroom();
 }
 
@@ -371,9 +393,11 @@ $("garage-go").addEventListener("click", () => {
   rcSave.settings.vehicles = app.players.map((p) => p.vehicle);
   rcSave.settings.cls = app.cls; rcSave.settings.track = app.trackId;
   rcStoreSave(rcStore, rcSave);
-  if (app.mode === "gp") rcStartGrandPrix();
-  else if (app.mode === "tt") rcStartRace({ trackId: app.trackId, mode: "tt", humans: 1 });
-  else rcStartRace({ trackId: app.trackId, mode: "race", humans: app.nPlayers });
+  const tid = app.mirror && rcSave.mirror ? rcMirrorId(app.trackId) : app.trackId;
+  if (app.mode === "battle") rcStartBattle();
+  else if (app.mode === "gp") rcStartGrandPrix();
+  else if (app.mode === "tt") rcStartRace({ trackId: tid, mode: "tt", humans: 1 });
+  else rcStartRace({ trackId: tid, mode: "race", humans: app.nPlayers });
 });
 
 function rcRenderHelp() {
@@ -504,7 +528,7 @@ function rcStartDemo(n = 1) {
 }
 
 function rcTogglePause() {
-  if (!app.race || app.net) return;
+  if ((!app.race && !app.battle) || app.net) return;
   app.paused = !app.paused;
   if (app.paused) { rcShow("pause"); rcAudio.stopEngines(); }
   else rcShow("race");
@@ -512,13 +536,14 @@ function rcTogglePause() {
 $("pause-resume").addEventListener("click", () => rcTogglePause());
 $("pause-restart").addEventListener("click", () => {
   app.paused = false;
-  if (app.gp) rcStartGrandPrixRound();
+  if (app.battle) rcStartBattle();
+  else if (app.gp) rcStartGrandPrixRound();
   else rcStartRace({ trackId: app.race.track.id, mode: app.raceMode, humans: app.nPlayers, demo: app.demo });
 });
 $("pause-quit").addEventListener("click", () => rcQuitToMenu());
 
 function rcQuitToMenu() {
-  app.paused = false; app.gp = null; app.tt = null; app.demo = 0;
+  app.paused = false; app.gp = null; app.tt = null; app.demo = 0; app.battle = null;
   if (app.net) { app.net.link?.close(); clearInterval(app.net.timer); app.net = null; }
   rcAudio.stopEngines();
   rcBackdrop(app.trackId);
@@ -533,14 +558,116 @@ function rcStartGrandPrix() {
   // Fix the AI field for the whole cup so the points table means something.
   const probe = rcCreateRace({ track: rcTrack(RACE_TRACKS[0].id), cls: app.cls, racers: humans, seed });
   const drivers = probe.racers.map((r) => ({ vehicle: r.vehicle, human: r.human, player: r.player, name: r.name }));
-  app.gp = { round: 0, drivers, totals: drivers.map(() => 0), seed, results: [] };
+  app.gp = { round: 0, drivers, totals: drivers.map(() => 0), seed, results: [], mirror: app.mirror && rcSave.mirror };
   rcStartGrandPrixRound();
 }
 
 function rcStartGrandPrixRound() {
   const gp = app.gp;
   const def = RACE_TRACKS[gp.round];
-  rcStartRace({ trackId: def.id, mode: "gp", drivers: gp.drivers.map((d) => ({ ...d })), seed: gp.seed + gp.round * 17 });
+  const tid = gp.mirror ? rcMirrorId(def.id) : def.id;
+  rcStartRace({ trackId: tid, mode: "gp", drivers: gp.drivers.map((d) => ({ ...d })), seed: gp.seed + gp.round * 17 });
+}
+
+// ------------------------------------------------------------------ battle mode
+
+function rcStartBattle() {
+  const humans = app.players.slice(0, app.nPlayers).map((p, i) => ({ vehicle: p.vehicle, human: true, player: i, name: app.nPlayers > 1 ? `P${i + 1}` : "You" }));
+  const battle = rcCreateBattle({ racers: humans, seed: rcSeed() });
+  app.battle = battle; app.race = null; app.gp = null; app.tt = null; app.demo = 0;
+  app.raceMode = "battle";
+  app.acc = 0; app.paused = false;
+  rcDisposeScene();
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x11151c);
+  scene.fog = new THREE.Fog(0x11151c, 40, 220);
+  const root = new THREE.Group();
+  scene.add(root);
+  app.world = rcBuildBattleWorld(root, battle);
+  app.scene = scene; app.root = root;
+  const local = battle.racers.filter((r) => r.human);
+  rcMakeViews(local.map((r) => r.id), local.map((r) => r.player));
+  rcShow("race");
+  $("minimap").hidden = true;   // a fixed arena needs no minimap
+  rcAudio.resume();
+  if (rcSave.settings.music) rcAudio.music(true);
+}
+
+function rcShowBattleResults() {
+  const battle = app.battle;
+  const rows = rcBattleStandings(battle);
+  $("res-badges").innerHTML = `<span class="tag">BATTLE ARENA</span>`;
+  $("t-results").textContent = "Battle results";
+  const table = $("res-table");
+  table.innerHTML = `<thead><tr><th>Pos</th><th>Driver</th><th>Vehicle</th><th>Items used</th></tr></thead><tbody></tbody>`;
+  const tb = table.querySelector("tbody");
+  for (const row of rows) {
+    const tr = document.createElement("tr");
+    if (row.human) tr.className = "me";
+    const veh = RC_VEHICLES.find((v) => v.id === row.vehicle);
+    tr.innerHTML = `<td class="pos">${row.place ?? "—"}</td><td></td><td></td><td></td>`;
+    tr.children[1].textContent = row.name + (row.human ? "" : " (AI)");
+    tr.children[2].textContent = veh?.name ?? "";
+    tr.children[3].textContent = String(row.itemsUsed);
+    tb.append(tr);
+  }
+  $("res-note").textContent = "Items only, three hard-hat lives each: last one standing wins.";
+  const act = $("res-actions");
+  act.textContent = "";
+  const btn = (label, fn, primary = false) => { const b = document.createElement("button"); b.className = `btn${primary ? " primary" : ""}`; b.textContent = label; b.addEventListener("click", fn); act.append(b); };
+  btn("Fight again", () => rcStartBattle(), true);
+  btn("Menu", () => rcQuitToMenu());
+  rcAudio.stopEngines();
+  rcShow("results");
+}
+
+/** Battle's own frame: stepped and drawn apart from the race loop above (a fixed arena, no laps, no HUD chrome beyond lives and status). */
+function rcBattleTick(real, now, draw) {
+  const battle = app.battle;
+  const W = window.innerWidth, H = window.innerHeight;
+  if (!app.paused && battle.phase !== "done") {
+    const inputs = {};
+    for (const v of app.views) {
+      const r = battle.racers.find((x) => x.id === v.racer);
+      if (r?.human) inputs[r.id] = rcReadPlayer(v.player, app.views.length);
+    }
+    rcPressed.clear();
+    const dt = Math.min(0.05, real);
+    rcBattleStep(battle, dt, inputs);
+    for (const e of battle.events) {
+      if (e.type === "out") rcToast(`${battle.racers[e.id]?.name ?? "A fighter"} is out.`);
+      if (e.type === "battledone") {
+        const w = battle.racers.find((r) => r.id === e.winner);
+        rcToast(w ? `${w.name} wins the arena.` : "No survivors.");
+        setTimeout(() => { if (app.battle === battle) rcShowBattleResults(); }, 1200);
+      }
+    }
+    battle.events.length = 0;
+  }
+  if (app.world) app.world.update(battle, real, now / 1000);
+  if (!draw) return;
+  rcRenderer.setScissorTest(app.views.length > 1);
+  rcRenderer.setViewport(0, 0, W, H);
+  rcRenderer.clear();
+  const rects = rcLayout(app.views.length);
+  app.views.forEach((v, k) => {
+    const r = battle.racers.find((x) => x.id === v.racer);
+    if (!r) return;
+    v.camH = v.camPos ? v.camH : r.h;
+    v.camH += Math.atan2(Math.sin(r.h - v.camH), Math.cos(r.h - v.camH)) * Math.min(1, 5 * real);
+    v.camPos = true;
+    v.cam.position.set(r.x - Math.sin(v.camH) * 9, 6.5, r.z - Math.cos(v.camH) * 9);
+    v.cam.lookAt(r.x, 1, r.z);
+    const [x, y, w, h] = rects[k];
+    rcRenderer.setViewport(x, H - y - h, w, h);
+    rcRenderer.setScissor(x, H - y - h, w, h);
+    v.cam.aspect = w / h; v.cam.updateProjectionMatrix();
+    rcRenderer.render(app.scene, v.cam);
+    v.el.querySelector(".pos").innerHTML = `${Math.max(0, r.lives)}<em>hard hats</em>`;
+    v.el.querySelector(".lap").innerHTML = r.alive ? "Fighting" : "Out";
+    v.el.querySelector(".speed").innerHTML = `${Math.round(Math.abs(r.v) * 3.6)}<span>km/h</span>`;
+  });
+  rcRenderer.setScissorTest(false);
 }
 
 // ------------------------------------------------------------------ two-tab
@@ -900,6 +1027,7 @@ function rcPodium() {
     ? `Top three on ${cls.name} class: ${next.name} class is now open. Unlocks are kept in this browser.`
     : bestHuman <= 3 ? `Top three on ${cls.name} class. ${cls.id === "master" ? "That is the top of the ladder." : "The next class was already open."}`
       : `Finish in the top three to open the next class. Best human finish this cup: ${bestHuman < 99 ? rcOrdText(bestHuman) : "—"}.`;
+  if (res.mirrorUnlocked) $("res-note").textContent += " A top-three Master Grand Prix — Mirror class is now open: every course flipped.";
   const act = $("res-actions");
   act.textContent = "";
   const b1 = document.createElement("button"); b1.className = "btn primary"; b1.textContent = "Menu"; b1.addEventListener("click", () => { app.podium = null; rcQuitToMenu(); }); act.append(b1);
@@ -987,6 +1115,7 @@ function rcLoop(now) {
  */
 function rcTick(real, now, draw = true) {
   rcPollPads(real);
+  if (app.battle) { rcBattleTick(real, now, draw); return; }
   const W = window.innerWidth, H = window.innerHeight;
   const race = app.race;
   // Menus: the gamepad walks the buttons.
@@ -1165,6 +1294,8 @@ window.__race = {
   renderer: rcRenderer,
   start: (o) => rcStartRace(o),
   demo: (n) => rcStartDemo(n),
+  startBattle: () => rcStartBattle(),
+  get battle() { return app.battle; },
   show: (s) => rcShow(s),
   meshCount: () => app.world?.meshCount() ?? 0,
   /** Lockstep: stop the animation loop driving the game, then step it by hand. */
@@ -1184,6 +1315,7 @@ requestAnimationFrame(rcLoop);
   const mode = RC_Q.get("mode");
   const screen = RC_Q.get("screen");
   if (demo) rcStartDemo(demo);
+  else if (mode === "battle") { app.mode = "battle"; app.nPlayers = Math.max(1, Math.min(4, players || 1)); rcStartBattle(); }
   else if (mode === "tt") { app.mode = "tt"; rcStartRace({ trackId: app.trackId, mode: "tt", humans: 1 }); }
   else if (mode === "gp") { app.mode = "gp"; app.nPlayers = Math.max(1, Math.min(4, players || 1)); rcStartGrandPrix(); }
   else if (players) { app.mode = "race"; app.nPlayers = Math.max(1, Math.min(4, players)); rcStartRace({ trackId: app.trackId, mode: "race", humans: app.nPlayers }); }

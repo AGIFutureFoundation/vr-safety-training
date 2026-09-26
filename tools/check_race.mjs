@@ -85,11 +85,31 @@ for (const tr of compiled) {
       for (const c of race.crossings) assert(!T.rcInGrid(tr, c.s, 20), `a ${c.kind} crosses at the grid (s=${c.s.toFixed(0)})`);
       for (const st of race.statics) assert(!T.rcInGrid(tr, st.s, 10), `a ${st.kind} stands in the grid (s=${st.s.toFixed(0)})`);
       for (const z of race.slicks) assert(!T.rcInGrid(tr, z.s0) && !T.rcInGrid(tr, z.s1), "a slick lies in the grid");
+      for (const z of race.floods) assert(!T.rcInGrid(tr, z.s0) && !T.rcInGrid(tr, z.s1), "a tide gate's flood zone lies in the grid");
       // And the grid itself sits on the road, every car clear of the next.
       for (const r of race.racers) assert(T.rcInGrid(tr, r.s) && Math.abs(r.d) <= tr.limit, `${r.vehicle} starts off the grid`);
     }
   });
 }
+
+// ------------------------------------------------------------ mirror class
+
+await check(`mirror class: every course compiles flipped, with its pads, boxes and closure intact`, () => {
+  for (const def of RACE_TRACKS) {
+    const mdef = T.rcMirrorTrackDef(def);
+    assert(mdef.id === `${def.id}-mirror` && mdef.points.length === def.points.length, `${def.id}: a mirrored def should keep its point count`);
+    const mtr = T.rcCompileTrack(mdef);
+    const c = T.rcClosure(mtr);
+    assert(Math.abs(c.gap - c.ds) < 0.05 * c.ds, `${mdef.id}: closing gap ${c.gap.toFixed(3)} m against a sample spacing of ${c.ds.toFixed(3)} m`);
+    assert(c.maxTurn < 0.3, `${mdef.id}: a ${c.maxTurn.toFixed(3)} rad kink between neighbouring samples`);
+    assert(c.minRadius > 8, `${mdef.id}: a ${c.minRadius.toFixed(1)} m corner is tighter than any racer can take`);
+    assert(mtr.boostPads.length >= 6 && mtr.boxes.length >= 8, `${mdef.id}: lost pads or boxes when mirrored`);
+    for (const p of mtr.boostPads) assert(Math.abs(p.d) + p.w / 2 <= mtr.half, `${mdef.id}: a mirrored boost pad at d=${p.d} hangs off the road`);
+    for (const b of mtr.boxes) assert(Math.abs(b.d) <= mtr.limit, `${mdef.id}: a mirrored item box at d=${b.d} is outside the barriers`);
+    const race = S.rcCreateRace({ track: mtr, cls: "journey", seed: 2 });
+    for (const t of race.traffic) assert(!T.rcInGrid(mtr, t.s), `${mdef.id}: a ${t.kind} spawned in the mirrored grid`);
+  }
+});
 
 // ------------------------------------------------------------ 2. races
 
@@ -225,6 +245,19 @@ await check("the unlock rule: a top-three Grand Prix opens the next class, nothi
   assert(save.unlocked.length === 1, "applying a result mutated the save it was given");
 });
 
+await check("mirror class: a top-three Master Grand Prix opens it, nothing else does", () => {
+  const save = S.rcNewSave();
+  assert(save.mirror === false, "a fresh save should not carry Mirror");
+  let r = S.rcApplyGrandPrix(save, "journey", 1);
+  assert(r.mirrorUnlocked === false && r.save.mirror === false, "a Journey win should not open Mirror");
+  r = S.rcApplyGrandPrix(r.save, "master", 4);
+  assert(r.mirrorUnlocked === false && r.save.mirror === false, "fourth place on Master opened Mirror");
+  r = S.rcApplyGrandPrix(r.save, "master", 3);
+  assert(r.mirrorUnlocked === true && r.save.mirror === true, "third place on Master did not open Mirror");
+  const again = S.rcApplyGrandPrix(r.save, "master", 1);
+  assert(again.mirrorUnlocked === false, "re-opening Mirror was reported as a fresh unlock");
+});
+
 await check("one localStorage key holds the save; a corrupt value falls back to a fresh save", () => {
   const store = new Map();
   const fake = { getItem: (k) => (store.has(k) ? store.get(k) : null), setItem: (k, v) => store.set(k, String(v)) };
@@ -346,7 +379,7 @@ const bundled = [...raceBlock.matchAll(/(SHARED|WEBXR)\s*\/\s*"([^"]+)"/g)].map(
 await check("the race app is in the bundler's list with every race module, and its dist file is built", () => {
   assert(bundled.length > 0, "tools/bundle_webxr.py has no \"race\" app");
   for (const f of readdirSync(join(RACE, "tracks"))) assert(bundled.includes(`race/tracks/${f}`), `race/tracks/${f} is not in the bundle`);
-  for (const f of ["tracks.js", "track.js", "sim.js", "world.js", "audio.js", "net.js", "app.js"]) assert(bundled.includes(`race/js/${f}`), `race/js/${f} is not in the bundle`);
+  for (const f of ["tracks.js", "track.js", "sim.js", "world.js", "battle.js", "audio.js", "net.js", "app.js"]) assert(bundled.includes(`race/js/${f}`), `race/js/${f} is not in the bundle`);
   assert(/"race":\s*"race\.html"/.test(bundler), "race.html is not copied into the combined WebXR/dist folder");
   const dist = readFileSync(join(WEBXR, "dist", "race.html"), "utf8");
   assert(dist.includes("rcCompileTrack") && dist.includes("TRACK_DOWNTOWN_SITE"), "WebXR/dist/race.html is stale — run python3 tools/bundle_webxr.py");
@@ -364,7 +397,7 @@ const dir = mkdtempSync(join(tmpdir(), "race-world-"));
 process.on("exit", () => { try { rmSync(dir, { recursive: true, force: true }); } catch { /* scratch folder; best effort */ } });
 writeFileSync(join(dir, "three-mock.mjs"), THREE_STUB);
 const worldModules = bundled.filter((f) => !/race\/js\/(app|audio|net)\.js$/.test(f) && f !== "shared/input.js");
-writeFileSync(join(dir, "suite.mjs"), `import * as THREE from "./three-mock.mjs";\n\n${worldModules.map((f) => strip(readFileSync(join(WEBXR, f), "utf8"))).join("\n\n")}\n\nexport { rcBuildWorld, rcEnvironment, RACE_TRACKS as SUITE_TRACKS, rcCompileTrack as suiteCompile, rcCreateRace as suiteRace, THREE };\n`);
+writeFileSync(join(dir, "suite.mjs"), `import * as THREE from "./three-mock.mjs";\n\n${worldModules.map((f) => strip(readFileSync(join(WEBXR, f), "utf8"))).join("\n\n")}\n\nexport { rcBuildWorld, rcEnvironment, RACE_TRACKS as SUITE_TRACKS, rcCompileTrack as suiteCompile, rcCreateRace as suiteRace, rcCreateBattle as suiteCreateBattle, rcBattleStep as suiteBattleStep, rcBattleStandings as suiteBattleStandings, rcBuildBattleWorld as suiteBuildBattleWorld, BATTLE_FIELD as SUITE_BATTLE_FIELD, THREE };\n`);
 const W = await import(pathToFileURL(join(dir, "suite.mjs")).href);
 
 for (const def of W.SUITE_TRACKS) {
@@ -383,6 +416,41 @@ for (const def of W.SUITE_TRACKS) {
     console.log(`      ${meshes} meshes (authored, before merging), ${race.traffic.length} traffic, ${race.crossings.length} crossings, ${race.statics.length} statics`);
   });
 }
+
+// ------------------------------------------------------------ battle mode
+
+await check("battle mode: an AI-only fight ends with one survivor within a time cap", () => {
+  const battle = W.suiteCreateBattle({ field: W.SUITE_BATTLE_FIELD, seed: 5 });
+  const dt = 1 / 30;
+  const cap = 30 * 200;     // 200 s at a fast time step: a generous cap for four AI to fight it out
+  let steps = 0;
+  while (battle.phase !== "done" && steps < cap) {
+    W.suiteBattleStep(battle, dt, {});
+    steps += 1;
+    for (const r of battle.racers) {
+      if (![r.x, r.z, r.h, r.v].every(Number.isFinite)) throw new Error(`NaN in fighter ${r.vehicle} at step ${steps}`);
+    }
+    battle.events.length = 0;
+  }
+  assert(battle.phase === "done", `the fight never ended (${steps} steps)`);
+  const alive = battle.racers.filter((r) => r.alive);
+  assert(alive.length === 1, `${alive.length} fighters still standing at the end`);
+  assert(battle.winner === alive[0].id && alive[0].place === 1, "the survivor was not recorded as the winner");
+  const standings = W.suiteBattleStandings(battle);
+  const places = standings.map((r) => r.place).sort((a, b) => a - b);
+  assert(places.every((p, i) => p === i + 1), `battle places are not 1..${battle.racers.length}: ${places.join(",")}`);
+});
+
+await check(`battle arena: the world builds with at most ${MESH_CEILING} meshes before merging`, () => {
+  const battle = W.suiteCreateBattle({ field: W.SUITE_BATTLE_FIELD, seed: 8 });
+  const root = new W.THREE.Group();
+  const world = W.suiteBuildBattleWorld(root, battle);
+  world.update(battle, 1 / 60, 1);
+  let meshes = 0;
+  root.traverse((o) => { if (o.isMesh) meshes += 1; });
+  assert(meshes > 10, `only ${meshes} meshes: the arena did not build`);
+  assert(meshes <= MESH_CEILING, `${meshes} meshes, over the ${MESH_CEILING} ceiling`);
+});
 
 // ------------------------------------------------------------ wiring
 
