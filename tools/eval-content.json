@@ -2826,6 +2826,58 @@
     },
     {
       "app": "smartcity",
+      "id": "allergen-control",
+      "name": "Allergen Control",
+      "category": "Culinary & Hospitality",
+      "steps": 12,
+      "score": 93,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 6,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9950000000000001,
+          "medianWhy": 249,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 0.75,
+          "cited": 8,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 2
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.92,
+          "meshes": 148,
+          "materials": 96,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.5943894389438944,
+          "nearest": "hc-dietary-tray-line-and-allergy-flags",
+          "similarity": 0.22112211221122113
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "haul-road-dust",
       "name": "Haul Road Dust",
       "category": "Environmental Monitoring",
@@ -3289,110 +3341,6 @@
           "score": 0.5382352941176471,
           "nearest": "keg-cellar-co2",
           "similarity": 0.2323529411764706
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "hc-sterile-processing-decontamination-and-assembly",
-      "name": "Sterile Processing Decon & Assembly",
-      "category": "Healthcare Support",
-      "steps": 15,
-      "score": 94,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 7,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.9666666666666667,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.9450000000000001,
-          "medianWhy": 239,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 8
-        },
-        "standards": {
-          "score": 1,
-          "cited": 6,
-          "inScope": 6,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 13,
-          "got": 13
-        },
-        "scene": {
-          "score": 0.95,
-          "meshes": 160,
-          "materials": 91,
-          "interactables": 29
-        },
-        "originality": {
-          "score": 0.12519685039370093,
-          "nearest": "instrument-reprocessing",
-          "similarity": 0.31496062992125984
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "hc-environmental-services-isolation-room-turnover",
-      "name": "Isolation Room Turnover",
-      "category": "Healthcare Support",
-      "steps": 13,
-      "score": 94,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 6,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.9884615384615384,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.97,
-          "medianWhy": 244,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 7
-        },
-        "standards": {
-          "score": 0.8333333333333334,
-          "cited": 6,
-          "inScope": 5,
-          "outOfScope": 0,
-          "unregistered": 1
-        },
-        "feedback": {
-          "score": 1,
-          "want": 10,
-          "got": 10
-        },
-        "scene": {
-          "score": 0.8775000000000001,
-          "meshes": 131,
-          "materials": 78,
-          "interactables": 24
-        },
-        "originality": {
-          "score": 0.5297872340425532,
-          "nearest": "operatory-turnover",
-          "similarity": 0.23404255319148937
         }
       }
     },
@@ -4230,58 +4178,6 @@
     },
     {
       "app": "smartcity",
-      "id": "allergen-control",
-      "name": "Allergen Control",
-      "category": "Culinary & Hospitality",
-      "steps": 12,
-      "score": 94,
-      "d": {
-        "variety": {
-          "score": 0.9375,
-          "distinct": 6,
-          "longestRun": 3
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.9950000000000001,
-          "medianWhy": 249,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 7
-        },
-        "standards": {
-          "score": 0.75,
-          "cited": 8,
-          "inScope": 6,
-          "outOfScope": 0,
-          "unregistered": 2
-        },
-        "feedback": {
-          "score": 1,
-          "want": 10,
-          "got": 10
-        },
-        "scene": {
-          "score": 0.92,
-          "meshes": 148,
-          "materials": 96,
-          "interactables": 22
-        },
-        "originality": {
-          "score": 0.6381270903010035,
-          "nearest": "allergen-cocktail",
-          "similarity": 0.21237458193979933
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "dish-pit",
       "name": "Dish Pit",
       "category": "Culinary & Hospitality",
@@ -5109,6 +5005,162 @@
           "score": 0.5471849865951744,
           "nearest": "pm-domestic-water-and-backflow",
           "similarity": 0.23056300268096513
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "hc-workplace-violence-deescalation-at-the-desk",
+      "name": "Workplace Violence De-escalation at the Desk",
+      "category": "Healthcare Support",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.885,
+          "medianWhy": 227,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9075,
+          "meshes": 143,
+          "materials": 69,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.5805970149253732,
+          "nearest": "patron-deescalation",
+          "similarity": 0.22388059701492538
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "hc-patient-transport-and-safe-handling",
+      "name": "Patient Transport & Safe Handling",
+      "category": "Healthcare Support",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.915,
+          "medianWhy": 233,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.8875000000000001,
+          "meshes": 135,
+          "materials": 66,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.6269051321928462,
+          "nearest": "br-bird-nesting-buffer-and-work-window",
+          "similarity": 0.21461897356143078
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "hc-sterile-processing-decontamination-and-assembly",
+      "name": "Sterile Processing Decon & Assembly",
+      "category": "Healthcare Support",
+      "steps": 15,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9666666666666667,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9750000000000001,
+          "medianWhy": 245,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.95,
+          "meshes": 160,
+          "materials": 91,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.2565476190476193,
+          "nearest": "instrument-reprocessing",
+          "similarity": 0.28869047619047616
         }
       }
     },
@@ -5990,9 +6042,9 @@
           "interactables": 25
         },
         "originality": {
-          "score": 0.12519685039370093,
-          "nearest": "hc-sterile-processing-decontamination-and-assembly",
-          "similarity": 0.31496062992125984
+          "score": 0.12953020134228194,
+          "nearest": "sterilisation-technician-cycle",
+          "similarity": 0.31409395973154364
         }
       }
     },
@@ -6141,7 +6193,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 265,
+          "meshes": 260,
           "materials": 83,
           "interactables": 28
         },
@@ -7189,6 +7241,58 @@
           "score": 0.47037037037037044,
           "nearest": "formwork-shoring",
           "similarity": 0.24592592592592594
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "hc-hazardous-drug-spill-kit-response",
+      "name": "Hazardous Drug Spill Kit Response",
+      "category": "Healthcare Support",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 281,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9425,
+          "meshes": 157,
+          "materials": 91,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.43417721518987346,
+          "nearest": "hc-environmental-services-isolation-room-turnover",
+          "similarity": 0.25316455696202533
         }
       }
     },
@@ -9729,7 +9833,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 259,
+          "meshes": 248,
           "materials": 92,
           "interactables": 29
         },
@@ -9789,6 +9893,58 @@
           "score": 0.3859838274932617,
           "nearest": "marsh-transect-survey",
           "similarity": 0.2628032345013477
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "amalgam-waste-handling",
+      "name": "Amalgam Waste Handling",
+      "category": "Dental & Oral Health",
+      "steps": 15,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9950000000000001,
+          "medianWhy": 249,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9575,
+          "meshes": 163,
+          "materials": 94,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.566279069767442,
+          "nearest": "hc-linen-and-regulated-waste-handling",
+          "similarity": 0.22674418604651161
         }
       }
     },
@@ -11765,6 +11921,214 @@
           "score": 0.7517241379310347,
           "nearest": "sterilisation-technician-cycle",
           "similarity": 0.1896551724137931
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "hc-code-response-support-and-crash-cart-check",
+      "name": "Code Response Support & Crash Cart Check",
+      "category": "Healthcare Support",
+      "steps": 15,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 262,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9425,
+          "meshes": 157,
+          "materials": 75,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.6666666666666667,
+          "nearest": "hc-workplace-violence-deescalation-at-the-desk",
+          "similarity": 0.20666666666666667
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "hc-linen-and-regulated-waste-handling",
+      "name": "Linen & Regulated Waste Handling",
+      "category": "Healthcare Support",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 298,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.8925,
+          "meshes": 137,
+          "materials": 81,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.4351190476190478,
+          "nearest": "hc-hazardous-drug-spill-kit-response",
+          "similarity": 0.25297619047619047
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "hc-dietary-tray-line-and-allergy-flags",
+      "name": "Dietary Tray Line & Allergy Flags",
+      "category": "Healthcare Support",
+      "steps": 15,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9666666666666667,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 303,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.8875000000000001,
+          "meshes": 135,
+          "materials": 75,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.5943894389438944,
+          "nearest": "allergen-control",
+          "similarity": 0.22112211221122113
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "hc-environmental-services-isolation-room-turnover",
+      "name": "Isolation Room Turnover",
+      "category": "Healthcare Support",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.97,
+          "medianWhy": 244,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 186,
+          "materials": 104,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.43417721518987346,
+          "nearest": "hc-hazardous-drug-spill-kit-response",
+          "similarity": 0.25316455696202533
         }
       }
     },
@@ -14573,58 +14937,6 @@
           "score": 0.45552282768777624,
           "nearest": "instrument-reprocessing",
           "similarity": 0.24889543446244478
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "amalgam-waste-handling",
-      "name": "Amalgam Waste Handling",
-      "category": "Dental & Oral Health",
-      "steps": 15,
-      "score": 97,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.9166666666666666,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.9950000000000001,
-          "medianWhy": 249,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "standards": {
-          "score": 1,
-          "cited": 4,
-          "inScope": 4,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 10,
-          "got": 10
-        },
-        "scene": {
-          "score": 0.9575,
-          "meshes": 163,
-          "materials": 94,
-          "interactables": 24
-        },
-        "originality": {
-          "score": 0.6655172413793105,
-          "nearest": "draught-line-cleaning",
-          "similarity": 0.20689655172413793
         }
       }
     },

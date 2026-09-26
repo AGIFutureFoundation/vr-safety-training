@@ -18256,5 +18256,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "hc-hazardous-drug-spill-kit-response",
+    "index": "359",
+    "domain": "Healthcare Support",
+    "trade": "Environmental services technician",
+    "category": "Healthcare Support",
+    "certification": "USP General Chapter <800> for handling hazardous drugs outside a controlled pharmacy area; OSHA 29 CFR 1910.1200 hazard communication for the spilled substance's own safety data sheet; OSHA 29 CFR 1910.134 respiratory protection where the spill calls for it; the CDC's general infection-prevention guidance for contaminated surfaces; SEIU-UHW and NUHW as the training bodies for environmental services staff",
+    "name": "Hazardous Drug Spill Kit Response",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Hazardous Drug Spill Kit Response VR",
+    "tagline": "The area restricted first, PPE donned in order, the spill sized against the kit's own rated capacity, absorbed and collected with the kit's own tools, sealed into the hazardous-drug stream, decontaminated to the label's contact time, and logged",
+    "accent": 10444758,
+    "accentCss": "#9f5fd6",
+    "parSeconds": 320,
+    "badge": {
+      "id": "spill-contained",
+      "name": "Spill Contained",
+      "note": "A hazardous drug spill restricted, absorbed, sealed into its own waste stream and decontaminated start to finish"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Spill Response Standard",
+      "currency": "SPILL",
+      "ranks": [
+        "New Tech",
+        "Spill Certified",
+        "Lead Tech",
+        "EVS Supervisor",
+        "Hazardous Drug Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

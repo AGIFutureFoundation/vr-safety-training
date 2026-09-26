@@ -9635,6 +9635,8 @@ const STANDARDS = Object.fromEntries([
   S("hhs-45-cfr-46", "HHS", "45 CFR 46 Protection of human subjects — informed consent", ["Community Science"]),
   S("cdc-guidance", "CDC", "Guidelines for Infection Control in Dental Health-Care Settings", ["Health & Clinical"]),
   S("fda-food-code", "FDA", "Food Code, as adopted in the California Retail Food Code", ["Food Service"]),
+  S("aami-st79", "AAMI", "ANSI/AAMI ST79 — Comprehensive guide to steam sterilization and sterility assurance in health care facilities", ["Health & Clinical"], "unverified"),
+  S("usp-general-chapter-800", "USP", "USP General Chapter <800> — Hazardous Drugs: Handling in Healthcare Settings", ["Health & Clinical"], "unverified"),
   S("epa-40-cfr-58", "EPA", "40 CFR 58 Ambient air quality surveillance", ["Air Quality"]),
   S("rcra-40-cfr-262", "EPA", "40 CFR 262 Standards applicable to generators of hazardous waste", ["Hazmat & Environmental"]),
   S("epa-40-cfr-441", "EPA", "40 CFR 441 Dental office point source category — amalgam separators", ["Health & Clinical"]),
@@ -10079,6 +10081,17 @@ const PROGRAMME_COMPETENCIES = [
       "br-levee-inspection-and-seepage", "br-fish-screen-maintenance"
     ],
     require: 6,
+  },
+  {
+    id: "healthcare-support",
+    title: "Keep a hospital's non-clinical support work — turnover, sterile processing, transport, dietary, waste, code logistics, the front desk and hazardous-drug spills — safe without ever making a clinical call",
+    kind: "programme",
+    standards: ["osha-1910-1030", "osha-1910-1200", "aami-st79", "usp-general-chapter-800", "calosha-8-ccr-3342"],
+    stations: [
+      "hc-environmental-services-isolation-room-turnover", "hc-sterile-processing-decontamination-and-assembly", "hc-patient-transport-and-safe-handling", "hc-dietary-tray-line-and-allergy-flags",
+      "hc-linen-and-regulated-waste-handling", "hc-code-response-support-and-crash-cart-check", "hc-workplace-violence-deescalation-at-the-desk", "hc-hazardous-drug-spill-kit-response"
+    ],
+    require: 4,
   },
 ];
 
