@@ -40668,6 +40668,9 @@ function mountHolodeckEggs(ctx) {
     requestAnimationFrame((t) => { last = t; step(t); });
     close.addEventListener("click", ov.close);
   }
+
+  // Test-only, same convention as window.__holodeckTest already on this page.
+  window.__eggsTest = { openArcadeCabinet: openScaffoldClimber };
 }
 
 // =====================================================================
