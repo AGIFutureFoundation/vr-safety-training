@@ -3400,6 +3400,7 @@ function backAction() {
   if (ui.controls.visible) { closeControls(); return true; }
   if (ui.prebrief.visible) { prebriefClose(); return true; }
   if (ui.records.visible) { closeRecords(); return true; }
+  if (ui.training.visible) { closeMyTraining(); return true; }
   if (ui.leaderboard.visible) { closeLeaderboard(); return true; }
   if (ui.programs.visible) { closePrograms(); return true; }
   if (ui.flows.visible) { closeFlows(); return true; }
