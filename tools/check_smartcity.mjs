@@ -35,7 +35,7 @@ const WEATHER_KINDS = (readFileSync(join(WEBXR, "shared/weather.js"), "utf8")
 if (!WEATHER_KINDS.length) throw new Error("could not read WEATHER_KINDS from weather.js");
 
 const MODULES = [
-  "shared/kit.js", "shared/fleet.js", "shared/equipment.js", "shared/toolkit.js", "shared/game.js",
+  "shared/kit.js", "shared/textures.js", "shared/fleet.js", "shared/equipment.js", "shared/toolkit.js", "shared/game.js",
   "shared/eggs.js",
   "smartcity/js/citykit.js", "smartcity/js/gamify.js",
   "smartcity/js/sims/charge-point.js", "smartcity/js/sims/signal-cabinet.js",
@@ -529,7 +529,7 @@ function installDomStubs() {
   globalThis.performance = globalThis.performance ?? { now: () => Date.now() };
 }
 
-const IMPORT_RE = /^import\s+[\s\S]*?from\s+["'][^"']+["'];\s*$/gm;
+const IMPORT_RE = /^(?:import\s+[\s\S]*?from|export\s*\*\s*from)\s+["'][^"']+["'];\s*$/gm;
 const EXPORT_BLOCK_RE = /^export\s*\{[^}]*\}\s*;\s*$/gm;
 const EXPORT_KEYWORD_RE = /^export\s+(?=(const|let|var|function|class|async))/gm;
 function strip(src) { return src.replace(IMPORT_RE, "").replace(EXPORT_BLOCK_RE, "").replace(EXPORT_KEYWORD_RE, ""); }

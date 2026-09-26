@@ -4,6 +4,7 @@ import {
   FL, flHex, flCss, flShade, flPaint, flCanvasMat, flPanel, flRod, flStrut, flSide,
   flRig, flDone, flLivery, flLiveryMat, flDoorMat, flTreadMat,
 } from "./fleet.js";
+import { corrugatedFace, concreteFace, rustFace } from "./textures.js";
 
 // Shared site-dressing kit — the clutter that makes a district read as a real
 // jobsite or a real street rather than an empty horizon: barricades, a light
@@ -42,8 +43,9 @@ export function jerseyBarrier(parent, x, y, z, opts = {}) {
   const rig = prRig(parent, x, y, z, opts, "jerseyBarrier");
   const S = rig.shell;
   const face = flCanvasMat(`jersey|${colour}`, 256, 128, (g, w, h) => {
-    gradientFill(g, w, h, [[0, flCss(flShade(colour, 1.08))], [1, flCss(flShade(colour, 0.82))]]);
-    noiseTexture(g, w, h, { density: 1400, alpha: 0.12 });
+    // Cast concrete, not a flat panel: the shared library's smooth-finish
+    // concrete under the same reflective tape and grime the barrier always had.
+    concreteFace(g, w, h, { finish: "smooth", tone: flCss(flShade(colour, 1.08)), tone2: flCss(flShade(colour, 0.82)) });
     g.fillStyle = "rgba(255,255,255,0.85)";
     for (let i = 0; i < 10; i++) g.fillRect(i * w / 10 + 4, h * 0.32, w / 20, h * 0.2);
     grimeOverlay(g, w, h, { blotches: 3, streaks: 4, alpha: 0.12 });
@@ -144,7 +146,8 @@ export function siteOffice(parent, x, y, z, opts = {}) {
   const lv = flLivery(opts.livery, { colour: 0xe6e6e0, fleetName: "SITE OFFICE", unitNumber: "1" });
   const rig = prRig(parent, x, y, z, opts, "siteOffice");
   const S = rig.shell;
-  box(S, 2.44, 2.9, 6.1, 0, 1.45, 0, lv.colour, { rough: 0.5, finish: "painted" });
+  const wall = box(S, 2.44, 2.9, 6.1, 0, 1.45, 0, lv.colour, { rough: 0.5, finish: "painted" });
+  wall.material = flCanvasMat(`office-corrugated|${lv.colour}`, 512, 256, (g, w, h) => corrugatedFace(g, w, h, { colour: lv.colour, ribs: 30 }), { rough: 0.55, metal: 0.25, repeat: [3, 1] });
   flPanel(S, 5.6, 1.4, 1.226, 1.65, 0, flLiveryMat(lv, "office", { titleScale: 0.22, titleY: 0.5, stripeY: 0.86, base: lv.colour, pw: 1024, ph: 256 }), "+x");
   const steps = rig.part("steps", 0, 0, 3.16);
   box(steps, 0.85, 0.2, 0.28, 0, 0.1, 0.14, 0x8b929a, { rough: 0.6, metal: 0.3 });
@@ -336,8 +339,7 @@ export function fencePanelGate(parent, x, y, z, opts = {}) {
 // ------------------------------------------------------------------ yard
 
 const prCorrugatedMat = (colour, key) => flCanvasMat(`corrugated|${key}|${colour}`, 512, 128, (g, w, h) => {
-  gradientFill(g, w, h, [[0, flCss(flShade(colour, 1.1))], [1, flCss(flShade(colour, 0.8))]]);
-  for (let i = 0; i < 40; i++) { g.fillStyle = i % 2 ? "rgba(0,0,0,0.08)" : "rgba(255,255,255,0.08)"; g.fillRect(i * w / 40, 0, w / 80, h); }
+  corrugatedFace(g, w, h, { colour, ribs: 40 });
   grimeOverlay(g, w, h, { blotches: 3, streaks: 6, alpha: 0.14 });
 }, { rough: 0.55, metal: 0.35 });
 

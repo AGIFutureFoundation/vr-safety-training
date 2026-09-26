@@ -416,7 +416,7 @@ const SIM_MODULES = [
   "smartcity/js/sims/bb-layups-and-finishing-at-the-rim.js",
   "smartcity/js/sims/bb-dribble-moves-and-change-of-pace.js",
 ];
-const MODULES = ["shared/kit.js", "shared/fleet.js", "shared/equipment.js", "shared/toolkit.js", "shared/game.js", "smartcity/js/citykit.js", "smartcity/js/gamify.js", ...SIM_MODULES];
+const MODULES = ["shared/kit.js", "shared/textures.js", "shared/fleet.js", "shared/equipment.js", "shared/toolkit.js", "shared/game.js", "smartcity/js/citykit.js", "smartcity/js/gamify.js", ...SIM_MODULES];
 
 // A trimmed three.js stub — gen_sims_meta only calls each sim's own header
 // fields, never build(), so this needs far less than check_smartcity.mjs's.
@@ -443,7 +443,7 @@ function installDomStubs() {
   globalThis.window = {};
 }
 
-const IMPORT_RE = /^import\s+[\s\S]*?from\s+["'][^"']+["'];\s*$/gm;
+const IMPORT_RE = /^(?:import\s+[\s\S]*?from|export\s*\*\s*from)\s+["'][^"']+["'];\s*$/gm;
 const EXPORT_BLOCK_RE = /^export\s*\{[^}]*\}\s*;\s*$/gm;
 const EXPORT_KEYWORD_RE = /^export\s+(?=(const|let|var|function|class|async))/gm;
 function strip(src) { return src.replace(IMPORT_RE, "").replace(EXPORT_BLOCK_RE, "").replace(EXPORT_KEYWORD_RE, ""); }

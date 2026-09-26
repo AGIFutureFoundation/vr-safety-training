@@ -366,7 +366,7 @@ function installDomStubs() {
   globalThis.document = { createElement: () => ({ width: 0, height: 0, getContext: () => ctx2d }) };
   globalThis.window = globalThis.window ?? {};
 }
-const IMPORT_RE = /^import\s+[\s\S]*?from\s+["'][^"']+["'];\s*$/gm;
+const IMPORT_RE = /^(?:import\s+[\s\S]*?from|export\s*\*\s*from)\s+["'][^"']+["'];\s*$/gm;
 const EXPORT_BLOCK_RE = /^export\s*\{[^}]*\}\s*;\s*$/gm;
 const EXPORT_KEYWORD_RE = /^export\s+(?=(const|let|var|function|class|async))/gm;
 const strip = (src) => src.replace(IMPORT_RE, "").replace(EXPORT_BLOCK_RE, "").replace(EXPORT_KEYWORD_RE, "");

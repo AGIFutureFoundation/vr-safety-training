@@ -1,6 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { box, cyl, ball, torus, group, decal, mat, gradientFill, noiseTexture, ownMaterial, mergeStatic } from "../../shared/kit.js";
-import { CITY, skyline, surfaceTexture, texturedMat, pavingFace, deckPlateFace } from "./citykit.js";
+import { CITY, skyline, surfaceTexture, texturedMat, pavingFace, deckPlateFace, gratingFace, concreteFace } from "./citykit.js";
 import { buildApron, APRON } from "./apron.js";
 import { districtFor, selfLight, dressDistrict } from "./districts.js";
 import { buildWeather, weatherFor } from "../../shared/weather.js";
@@ -242,7 +242,7 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
     walkRing.material = texturedMat(plateTex, { rough: 0.55, metal: 0.55, color: 0xcfd6dd });
     walkRing.receiveShadow = true;
     cyl(g, 11.8, 11.8, 0.05, 0, 0.025, 0, 0x121920, { rough: 0.9, metal: 0.05, seg: 64, cast: false })
-      .material = texturedMat(surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 3, base: "#1c242d", base2: "#171e26" }), { repeat: 5, px: 512 }), { rough: 0.9, metal: 0.04, color: 0xd0d6dc });
+      .material = texturedMat(surfaceTexture((cx, w, h) => concreteFace(cx, w, h, { finish: "broom", tone: "#1c242d", tone2: "#171e26" }), { repeat: 5, px: 512 }), { rough: 0.92, metal: 0.02, color: 0xd0d6dc });
     // Station-accent glow ring and an inner hazard-yellow kerb line: the ring
     // takes the current station's colour so each sim's plaza is subtly its own.
     torus(g, 12.6, 0.05, 0, 0.03, 0, accent,

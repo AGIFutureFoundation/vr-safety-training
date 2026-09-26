@@ -114,7 +114,7 @@ export function installDomStubs() {
   globalThis.performance = globalThis.performance ?? { now: () => Date.now() };
 }
 
-const IMPORT_RE = /^import\s+[\s\S]*?from\s+["'][^"']+["'];\s*$/gm;
+const IMPORT_RE = /^(?:import\s+[\s\S]*?from|export\s*\*\s*from)\s+["'][^"']+["'];\s*$/gm;
 const EXPORT_BLOCK_RE = /^export\s*\{[^}]*\}\s*;\s*$/gm;
 const EXPORT_KEYWORD_RE = /^export\s+(?=(const|let|var|function|class|async))/gm;
 export function strip(src) { return src.replace(IMPORT_RE, "").replace(EXPORT_BLOCK_RE, "").replace(EXPORT_KEYWORD_RE, ""); }
@@ -144,7 +144,7 @@ export const TRADES_ROOMS = ["electrical", "salon", "kitchen", "phlebotomy", "we
 const constName = (id) => id.toUpperCase().replace(/-/g, "_");
 
 export async function loadSmartCity() {
-  const modules = ["shared/kit.js", "shared/fleet.js", "shared/equipment.js", "shared/toolkit.js", "shared/game.js", "shared/robot.js", "shared/robot-embodiment.js", "shared/eggs.js", "smartcity/js/citykit.js", "smartcity/js/gamify.js",
+  const modules = ["shared/kit.js", "shared/textures.js", "shared/fleet.js", "shared/equipment.js", "shared/toolkit.js", "shared/game.js", "shared/robot.js", "shared/robot-embodiment.js", "shared/eggs.js", "smartcity/js/citykit.js", "smartcity/js/gamify.js",
     ...SMARTCITY_SIMS.map((id) => `smartcity/js/sims/${id}.js`)];
   const harness = `export const ROOMS = [${SMARTCITY_SIMS.map((id) => `SIM_${constName(id)}`).join(", ")}];\nexport { Session, Progress, Sfx, THREE, RobotAgent, runEpisode, calibrate, observe, applyAction, drivePolicy, placeVehicle, DRIVE_CHECKS };\nexport { buildEmbodiment, observeEmbodied, runEmbodiedEpisode, probeSkill, calibrateEmbodied, keepOutZones, stationPoses, stepEmbodiment, poseFor, worldPlacement, actionSpace, observationSchema, DIFFICULTY_LADDER, LICENCE_NOTE, FORCE_CLASSES, isPersonId };`;
   return buildSuite(modules, harness, "smartcity-robot");
@@ -156,11 +156,11 @@ export async function loadSmartCity() {
  * itself is pure and imports fine. See WebXR/shared/incident-stage.js.
  */
 export async function loadIncidentStage() {
-  return buildSuite(["shared/kit.js", "shared/incident-stage.js"],
+  return buildSuite(["shared/kit.js", "shared/textures.js", "shared/incident-stage.js"],
     `export { stageReplay };`, "incident-stage");
 }
 export async function loadTrades() {
-  const modules = ["shared/kit.js", "shared/fleet.js", "shared/equipment.js", "shared/toolkit.js", "shared/game.js", "shared/robot.js", "shared/robot-embodiment.js", "shared/eggs.js", "trades/js/shopfit.js",
+  const modules = ["shared/kit.js", "shared/textures.js", "shared/fleet.js", "shared/equipment.js", "shared/toolkit.js", "shared/game.js", "shared/robot.js", "shared/robot-embodiment.js", "shared/eggs.js", "trades/js/shopfit.js",
     ...TRADES_ROOMS.map((id) => `trades/js/rooms/${id}.js`)];
   const harness = `export const ROOMS = [${TRADES_ROOMS.map((id) => `ROOM_${constName(id)}`).join(", ")}];\nexport { Session, Progress, Sfx, THREE, RobotAgent, runEpisode, calibrate, observe, applyAction, drivePolicy, placeVehicle, DRIVE_CHECKS };\nexport { buildEmbodiment, observeEmbodied, runEmbodiedEpisode, probeSkill, calibrateEmbodied, keepOutZones, stationPoses, stepEmbodiment, poseFor, worldPlacement, actionSpace, observationSchema, DIFFICULTY_LADDER, LICENCE_NOTE, FORCE_CLASSES, isPersonId };`;
   return buildSuite(modules, harness, "trades-robot");

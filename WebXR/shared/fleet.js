@@ -1,5 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { box, cyl, ball, torus, hose, group, mat, mergeStatic, gradientFill, noiseTexture, grimeOverlay } from "./kit.js";
+import { rustFace, corrugatedFace, woodGrainFace } from "./textures.js";
 
 // Shared fleet kit — every vehicle a station parks, drives or inspects.
 //
@@ -819,10 +820,7 @@ export function trailer(parent, x, y, z, opts = {}) {
     }
   } else if (kind === "flatbed") {
     const deck = flCanvasMat("flatbedDeck", 128, 512, (g, w, h) => {
-      gradientFill(g, w, h, [[0, "#8a6a45"], [1, "#6e5234"]]);
-      for (let i = 0; i < 8; i++) { g.fillStyle = "rgba(0,0,0,0.35)"; g.fillRect(i * w / 8, 0, 2, h); }
-      noiseTexture(g, w, h, { density: 5000, alpha: 0.14 });
-      for (let i = 0; i < 40; i++) { g.fillStyle = "rgba(40,24,10,0.25)"; g.fillRect(Math.random() * w, Math.random() * h, 1, 20 + Math.random() * 40); }
+      woodGrainFace(g, w, h, { planks: 8, tones: [0x8a6a45, 0x77593a, 0x93714c] });
     }, { rough: 0.9, metal: 0 });
     flBox(S, W - 0.1, 0.06, L - 0.05, 0, 1.49, Z(L / 2), deck);
     for (const sx of [1, -1]) box(S, 0.05, 0.16, L - 0.05, sx * (W / 2 - 0.025), 1.44, Z(L / 2), ...FL.alu);
@@ -2048,8 +2046,9 @@ export function spudBarge(parent, x, y, z, opts = {}) {
   // Hull: a box with a raked bow, three sections, the joins painted.
   flSide(S, [[0, 0.35], [0, D], [L, D], [L, 0], [1.4, 0], [0.2, 0.35]], W, 0, 0, Z(0), lv.colour, { rough: 0.55, metal: 0.35, finish: "painted", bevel: 0.05 });
   const hullSide = flCanvasMat(`bargeSide|${lv.key}`, 512, 64, (g, w, h) => {
-    gradientFill(g, w, h, [[0, flCss(flShade(lv.colour, 1.1))], [1, flCss(flShade(lv.colour, 0.8))]]);
-    noiseTexture(g, w, h, { density: 900, alpha: 0.08, tone: "0,0,0" });
+    // A working hull, not a fresh coat: the shared library's weathered steel
+    // shows through a tinted paint wash, same plate-join seams as before.
+    rustFace(g, w, h, { base: flCss(flShade(lv.colour, 1.06)), base2: flCss(flShade(lv.colour, 0.8)) });
     for (const k of [1 / 3, 2 / 3]) { g.fillStyle = "rgba(0,0,0,0.55)"; g.fillRect(k * w - 2, 0, 4, h); }
     g.fillStyle = flCss(lv.accent); g.fillRect(0, h * 0.08, w, h * 0.1);
     for (let i = 0; i < 9; i++) { g.fillStyle = "rgba(255,255,255,0.8)"; g.fillRect(w * 0.06, h * 0.3 + i * h * 0.07, 10, 2); }

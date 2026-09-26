@@ -19,7 +19,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const WEBXR = join(ROOT, "WebXR");
 
 const MODULES = [
-  "shared/kit.js", "shared/fleet.js", "shared/equipment.js", "shared/toolkit.js", "shared/game.js", "shared/eggs.js", "trades/js/shopfit.js",
+  "shared/kit.js", "shared/textures.js", "shared/fleet.js", "shared/equipment.js", "shared/toolkit.js", "shared/game.js", "shared/eggs.js", "trades/js/shopfit.js",
   "trades/js/rooms/electrical.js", "trades/js/rooms/salon.js", "trades/js/rooms/kitchen.js",
   "trades/js/rooms/phlebotomy.js", "trades/js/rooms/welding.js", "trades/js/rooms/devops.js",
   "trades/js/rooms/plumbing.js", "trades/js/rooms/pressure-washer.js", "trades/js/rooms/paint-sprayer.js",
@@ -162,7 +162,7 @@ function installDomStubs() {
 
 // --------------------------------------------------------------- assembly
 
-const IMPORT_RE = /^import\s+[\s\S]*?from\s+["'][^"']+["'];\s*$/gm;
+const IMPORT_RE = /^(?:import\s+[\s\S]*?from|export\s*\*\s*from)\s+["'][^"']+["'];\s*$/gm;
 const EXPORT_BLOCK_RE = /^export\s*\{[^}]*\}\s*;\s*$/gm;
 const EXPORT_KEYWORD_RE = /^export\s+(?=(const|let|var|function|class|async))/gm;
 

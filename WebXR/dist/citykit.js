@@ -7,6 +7,13 @@ import {
 } from "../../shared/kit.js";
 export { setActiveContext };
 
+// The full procedural-texture library (brickFace, blockFace, palette(), the
+// facePaint() cache, etc.) lives in shared/textures.js so shared modules
+// that cannot import a smartcity-specific file — props.js, fleet.js — can
+// use it too. Re-exported here so an existing `import { X } from
+// "./citykit.js"` in any SmartCiti.X module keeps working unchanged.
+export * from "../../shared/textures.js";
+
 // SmartCity.X asset kit — the pieces every station is assembled from.
 //
 // These stations are authored for augmented reality: each one occupies a small

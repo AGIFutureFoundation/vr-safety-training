@@ -3,6 +3,7 @@ import { box, cyl, ball, torus, group, hose, decal, repaint, mat, particles } fr
 import {
   CITY, surfaceTexture, texturedMat, waterFace, mudflatFace, paintedSteelFace, roadwayFace, deckPlateFace,
   siltFace, causticFace, growthFace, hullFace, fogPuffFace, glowFace, pavingFace,
+  blockFace, brickFace, asphaltFace, palette,
 } from "./citykit.js";
 import { PROPS_BUILDERS } from "../../shared/props.js";
 
@@ -162,15 +163,16 @@ function apparatus(g, x, z, body, ry = 0) {
 }
 
 function towerCrane(g, x, z, h = 22) {
+  const craneYellow = palette("construction").accent;
   const c = group(g, x, -1.5, z);
   box(c, 1.6, 0.5, 1.6, 0, 0.25, 0, 0x3a434d, { rough: 0.7, cast: false, receive: false });
-  box(c, 1.2, h, 1.2, 0, h / 2, 0, 0xf2c14b, { rough: 0.6, metal: 0.3, cast: false, receive: false });
+  box(c, 1.2, h, 1.2, 0, h / 2, 0, craneYellow, { rough: 0.6, metal: 0.3, cast: false, receive: false });
   const slew = group(c, 0, h, 0);
   box(slew, 1.4, 1.4, 1.6, 0, 0.7, 0.3, 0x4a5561, { rough: 0.6, cast: false, receive: false });
-  box(slew, 0.7, 0.7, 20, 0, 1.2, -9.5, 0xf2c14b, { rough: 0.6, metal: 0.3, cast: false, receive: false });
-  box(slew, 0.7, 0.7, 6.5, 0, 1.2, 4.2, 0xf2c14b, { rough: 0.6, metal: 0.3, cast: false, receive: false });
+  box(slew, 0.7, 0.7, 20, 0, 1.2, -9.5, craneYellow, { rough: 0.6, metal: 0.3, cast: false, receive: false });
+  box(slew, 0.7, 0.7, 6.5, 0, 1.2, 4.2, craneYellow, { rough: 0.6, metal: 0.3, cast: false, receive: false });
   box(slew, 1.2, 1.0, 1.6, 0, 1.3, 6.8, 0x8b98a5, { rough: 0.7, metal: 0.5, cast: false, receive: false });
-  cyl(slew, 0.08, 0.08, 4.5, 0, 3.4, 0, 0xf2c14b, { rough: 0.6, seg: 6, cast: false, receive: false });
+  cyl(slew, 0.08, 0.08, 4.5, 0, 3.4, 0, craneYellow, { rough: 0.6, seg: 6, cast: false, receive: false });
   span(slew, [0, 5.6, 0], [0, 1.6, -19], 0.04);
   span(slew, [0, 5.6, 0], [0, 1.6, 7], 0.04);
   const trolley = box(slew, 0.9, 0.4, 0.9, 0, 0.75, -12, 0x4a5561, { rough: 0.6, cast: false, receive: false });
@@ -321,7 +323,8 @@ function abrasiveSilo(g, x, z) {
 /** A drum rack of coating stock under a tarp roof, with mixed pails out front. */
 function coatingStore(g, x, z, ry = 0) {
   const r = group(g, x, -1.5, z, ry);
-  box(r, 9, 0.2, 3.4, 0, 0.1, 0, 0x3a434d, { rough: 0.9, cast: false, receive: false });
+  const pad = box(r, 9, 0.2, 3.4, 0, 0.1, 0, 0x3a434d, { rough: 0.9, cast: false, receive: false });
+  pad.material = texturedMat(surfaceTexture((cx, w, h) => asphaltFace(cx, w, h), { repeat: 3, px: 256 }), { rough: 0.95, metal: 0.02 });
   for (const sx of [-1, 1]) for (const sz of [-1, 1]) cyl(r, 0.07, 0.07, 3.2, sx * 4.2, 1.6, sz * 1.5, 0x8b98a5, { rough: 0.5, metal: 0.6, seg: 6, cast: false, receive: false });
   box(r, 9.4, 0.08, 3.8, 0, 3.25, 0, 0x2f5f4a, { rough: 0.9, cast: false, receive: false });
   const tones = [0x2f6f8f, 0xb3261e, 0x3d6b3a, 0x8a7a2c, 0x5a5f66];
@@ -439,7 +442,8 @@ function dredge(g, x, z, ry = 0) {
  *  are received and the grease interceptor is pumped. */
 function restaurantRow(g, x, z, ry = 0) {
   const s = group(g, x, -1.5, z, ry);
-  box(s, 22, 7, 9, 0, 3.5, 0, 0x5a4034, { rough: 0.9, metal: 0.05, cast: false, receive: false });
+  const rowFace = box(s, 22, 7, 9, 0, 3.5, 0, 0x5a4034, { rough: 0.9, metal: 0.05, cast: false, receive: false });
+  rowFace.material = texturedMat(surfaceTexture((cx, w, h) => brickFace(cx, w, h, { brick: [0x5a4034, 0x513a2e, 0x624438] }), { repeat: 7, px: 256 }), { rough: 0.92, metal: 0.02 });
   for (let i = 0; i < 4; i++) {
     const ax = -8 + i * 5.3;
     const awn = box(s, 4.2, 0.12, 1.6, ax, 3.1, -5.2, i % 2 ? 0xb8862b : 0x8a2b2b, { emissive: i % 2 ? 0xb8862b : 0x8a2b2b, ei: 0.35, rough: 0.8, cast: false, receive: false });
@@ -461,7 +465,8 @@ function restaurantRow(g, x, z, ry = 0) {
  *  outreach van parked beside it with its awning out. */
 function clinicBlock(g, x, z, ry = 0) {
   const s = group(g, x, -1.5, z, ry);
-  box(s, 20, 9, 10, 0, 4.5, 0, 0xcfd6dc, { rough: 0.8, metal: 0.05, cast: false, receive: false });
+  const clinicFace = box(s, 20, 9, 10, 0, 4.5, 0, 0xcfd6dc, { rough: 0.8, metal: 0.05, cast: false, receive: false });
+  clinicFace.material = texturedMat(surfaceTexture((cx, w, h) => blockFace(cx, w, h, { rows: 6, cols: 5, block: 0xcfd6dc, joint: "#a6adb2", joint2: "#9aa1a6" }), { repeat: 4, px: 256 }), { rough: 0.85, metal: 0.03 });
   for (let f = 0; f < 2; f++) box(s, 17, 1.3, 0.08, 0, 2.6 + f * 3.6, -5.05, 0x9fd8ff, { emissive: 0x9fd8ff, ei: 0.55, rough: 0.3, cast: false, receive: false });
   box(s, 6, 0.2, 3.2, -4, 3.1, -6.4, 0x8b98a5, { rough: 0.6, metal: 0.4, cast: false, receive: false });
   cyl(s, 0.12, 0.12, 3.0, -6.6, 1.55, -7.7, 0x8b98a5, { rough: 0.6, metal: 0.5, cast: false, receive: false });
@@ -520,7 +525,8 @@ function fencedParcelStreet(g, x, z, ry = 0) {
  *  on the roof — the building a sewing floor sits inside. */
 function garmentLoft(g, x, z, ry = 0) {
   const s = group(g, x, -1.5, z, ry);
-  box(s, 24, 14, 12, 0, 7, 0, 0x7a4a3a, { rough: 0.9, metal: 0.03, cast: false, receive: false });
+  const loftFace = box(s, 24, 14, 12, 0, 7, 0, 0x7a4a3a, { rough: 0.9, metal: 0.03, cast: false, receive: false });
+  loftFace.material = texturedMat(surfaceTexture((cx, w, h) => brickFace(cx, w, h, { brick: [0x7a4a3a, 0x6e4132, 0x854f3d] }), { repeat: 8, px: 256 }), { rough: 0.92, metal: 0.02 });
   const panes = [];
   for (let f = 0; f < 4; f++) for (let w = 0; w < 7; w++) {
     const pane = box(s, 2.2, 2.1, 0.08, -9.6 + w * 3.2, 2.2 + f * 3.2, -6.05, 0xdbe9ff, { emissive: 0xdbe9ff, ei: 0.35 + ((f + w) % 3) * 0.2, rough: 0.3, cast: false, receive: false });
@@ -1146,18 +1152,6 @@ function hardwoodFace(g, w, h) {
   }
 }
 
-/** Painted concrete block: a warm off-white with the mortar grid. */
-function blockWallFace(g, w, h) {
-  g.fillStyle = "#d9d4c8"; g.fillRect(0, 0, w, h);
-  const rows = 8, bh = h / rows, bl = w / 4;
-  g.fillStyle = "rgba(120,112,98,0.55)";
-  for (let r = 0; r < rows; r++) {
-    g.fillRect(0, r * bh, w, 2);
-    const off = r % 2 ? bl / 2 : 0;
-    for (let x = off; x < w; x += bl) g.fillRect(x, r * bh, 2, bh);
-  }
-}
-
 function scoreboardFace(g, w, h, clock = "00:00") {
   g.fillStyle = "#0b0d10"; g.fillRect(0, 0, w, h);
   g.strokeStyle = "#c8a24a"; g.lineWidth = Math.max(3, h * 0.02); g.strokeRect(6, 6, w - 12, h - 12);
@@ -1244,7 +1238,7 @@ function gymCourt(g, env) {
   }, { receive: true });
 
   // ---- walls, wall pads, ceiling and trusses
-  const wallTex = surfaceTexture(blockWallFace, { px: 256, repeat: 6 });
+  const wallTex = surfaceTexture((cx, w, h) => blockFace(cx, w, h, { rows: 8, cols: 4, block: 0xd9d4c8, joint: "#a0988a", joint2: "#948c7e" }), { px: 256, repeat: 6 });
   bake(g, texturedMat(wallTex, { rough: 0.9, color: 0xffffff }), (t) => {
     box(t, GYM.floorL, GYM.wallH, 0.3, 0, GYM.wallH / 2, -GYM.floorW / 2 - 0.15, 0);
     box(t, GYM.floorL, GYM.wallH, 0.3, 0, GYM.wallH / 2, GYM.floorW / 2 + 0.15, 0);
