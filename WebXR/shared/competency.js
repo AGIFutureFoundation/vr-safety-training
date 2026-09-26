@@ -129,6 +129,11 @@ export const STANDARDS = Object.fromEntries([
   S("osha-1926-1101", "OSHA", "29 CFR 1926.1101 Asbestos in construction", ["Hazmat & Environmental"]),
   S("osha-1926-1153", "OSHA", "29 CFR 1926.1153 Respirable crystalline silica", ["Construction"]),
   S("osha-1926-20-b-2", "OSHA", "29 CFR 1926.20(b)(2) Competent person accident prevention responsibilities", ["Construction"]),
+  S("osha-1926-subpart-o", "OSHA", "29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations", ["Construction"], "unverified"),
+  S("osha-1926-subpart-w", "OSHA", "29 CFR 1926 Subpart W Rollover protective structures; overhead protection", ["Construction"], "unverified"),
+  S("osha-1926-601", "OSHA", "29 CFR 1926.601 Motor vehicles", ["Construction"], "unverified"),
+  S("osha-1926-602", "OSHA", "29 CFR 1926.602 Material handling equipment", ["Construction"], "unverified"),
+  S("osha-1926-603", "OSHA", "29 CFR 1926.603 Pile driving equipment", ["Construction"], "unverified"),
   S("nfpa-70e", "NFPA", "70E Standard for Electrical Safety in the Workplace", ["Energy & Power"]),
   S("nfpa-70-art-690", "NFPA", "70 National Electrical Code Article 690 Solar photovoltaic systems", ["Energy & Power"]),
   S("nfpa-51b", "NFPA", "51B Standard for Fire Prevention During Welding, Cutting, and Other Hot Work", ["Metal Trades"]),
@@ -613,6 +618,13 @@ export const PROGRAMME_COMPETENCIES = [
     stations: [
       "ra-roadway-worker-protection-and-job-briefing", "ra-tie-and-rail-replacement-with-track-machines", "ra-switch-inspection-and-lubrication", "ra-air-brake-test-and-train-inspection",
       "ra-hand-brake-and-securement-on-a-grade", "ra-crossing-signal-maintenance-and-flagging", "ra-locomotive-cab-startup-and-alerter", "ra-blue-flag-protection-in-the-yard"
+    id: "heavy-equipment-operators",
+    title: "Run the machine, prove the assembly and hold the crew's own controls before the load moves",
+    kind: "programme",
+    standards: ["osha-1926-subpart-o", "osha-1926-subpart-p", "osha-1926-subpart-cc", "osha-1926-subpart-w"],
+    stations: [
+      "op-excavator-trench-and-utility-locate", "op-dozer-slope-work-and-rollover-protection", "op-loader-truck-loading-and-blind-spots", "op-grader-fine-grade-and-crown",
+      "op-compactor-lift-thickness-and-edge", "op-crawler-crane-assembly-and-load-chart", "op-pile-driving-rig-and-lead-setup", "op-equipment-daily-walkaround-and-fluids"
     ],
     require: 4,
   },

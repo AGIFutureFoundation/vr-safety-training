@@ -1,5 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
-import { box, cyl, ball, gradientFill, noiseTexture, grimeOverlay } from "./kit.js";
+import { box, cyl, ball, torus, gradientFill, noiseTexture, grimeOverlay } from "./kit.js";
 import {
   FL, flPaint, flCss, flShade, flCanvasMat, flPanel, flBox, flSide, flPlan, flRod, flStrut, flBeam,
   flRig, flDone, flLivery, flLiveryMat, flDoorMat, flDoor, flGlassMat, flTreadMat, flGrilleMat,
@@ -777,6 +777,257 @@ export function craneSpreader(parent, x, y, z, opts = {}) {
   return flDone(rig, { footprint: EQUIPMENT_BUDGET.craneSpreader.footprint, livery: lv });
 }
 
+// ------------------------------------------------------------------- dozer
+
+/**
+ * Mid-size crawler dozer, blade down: 4.3 m tracks on a 2.0 m gauge (2.6 m
+ * over the shoes), 3.2 m straight blade with tilt rams, ROPS canopy to
+ * 2.95 m, single rear ripper shank. Parts: trackL, trackR, blade (child of
+ * the C-frame, raises on the frame's own pivot), ripper (raises on its own
+ * pivot), rops, seat, controls, lights.
+ */
+export function dozer(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: EQ_YELLOW, fleetName: "PLANT", unitNumber: "DZ-6" });
+  const rig = flRig(parent, x, y, z, opts, "dozer", [0, 0, -0.25]);
+  const S = rig.shell, P = flPaint(lv.colour);
+  box(S, 1.55, 0.55, 1.7, 0, 0.82, 0, ...FL.frame);
+  eqTrack(rig, "trackL", 1.0, 4.3, 0.85, 0.58);
+  eqTrack(rig, "trackR", -1.0, 4.3, 0.85, 0.58);
+  flSide(S, [[-0.85, 1.1], [-0.8, 1.65], [0.55, 1.72], [0.85, 1.55], [0.85, 1.1]], 1.4, 0, 0, 1.05, ...P, { bevel: 0.05 });
+  flPanel(S, 0.9, 0.4, 0, 1.3, 1.83, flGrilleMat("vertical", 0x2a2e33), "+z");
+  flPanel(S, 1.3, 0.35, 0.702, 1.35, 0.6, flLiveryMat(lv, "dzSide", { title: lv.unitNumber, sub: lv.fleetName, titleScale: 0.5, titleY: 0.4, stripeY: 0.92 }), "+x");
+  const rops = rig.part("rops", 0, 1.35, -0.85);
+  for (const sx of [1, -1]) for (const zz of [0.5, -0.5]) box(rops, 0.08, 1.6, 0.08, sx * 0.72, 0.8, zz, ...FL.black);
+  box(rops, 1.55, 0.08, 1.3, 0, 1.62, 0, ...FL.black);
+  const seat = rig.part("seat", 0, 1.4, -0.85);
+  box(seat, 0.5, 0.1, 0.45, 0, 0.05, 0, ...FL.black);
+  box(seat, 0.5, 0.5, 0.1, 0, 0.32, -0.2, ...FL.black);
+  const ctl = rig.part("controls", 0.28, 1.4, -0.45);
+  flStrut(ctl, [0, 0, 0], [0, 0.4, -0.08], 0.03, ...FL.black);
+  for (const sx of [1, -1]) flBeam(S, [sx * 0.85, 0.82, 0.9], [sx * 1.15, 0.58, 2.55], 0.11, 0.16, ...P);
+  const blade = rig.part("blade", 0, 0.55, 2.6);
+  flSide(blade, [[0.28, 1.1], [0.05, 1.1], [-0.32, 0.6], [-0.4, 0.1], [-0.26, -0.08], [0.12, -0.04], [0.32, 0.5], [0.32, 1.0]], 3.2, 0, 0, 0, 0x4a5057, { rough: 0.55, metal: 0.35, finish: "painted" }, { bevel: 0.02 });
+  box(blade, 3.2, 0.08, 0.1, 0, -0.04, -0.42, 0x2b2f34, { rough: 0.5, metal: 0.5 });
+  for (const sx of [1, -1]) eqRam(blade, [sx * 1.1, 0.95, 0.2], [sx * 1.1, 0.7, -0.2], 0.06, lv.colour);
+  const ripper = rig.part("ripper", 0, 1.05, -2.15);
+  for (const sx of [1, -1]) flBeam(S, [sx * 0.55, 0.95, -1.85], [sx * 0.4, 1.2, -2.3], 0.1, 0.14, ...P);
+  flBeam(ripper, [0, 0.35, 0], [0, -0.75, 0.15], 0.09, 0.14, ...FL.frame);
+  box(ripper, 0.16, 0.16, 0.3, 0, -0.85, 0.2, ...FL.steel);
+  eqRam(ripper, [0.3, 0.5, -0.1], [0.15, -0.1, 0.1], 0.06, lv.colour);
+  ripper.userData.deploy = { axis: "x", stowed: 0, deployed: -0.5 };
+  const lights = rig.part("lights", 0, 0, 0, S);
+  box(lights, 0.14, 0.1, 0.06, 0.65, 1.5, 1.95, ...FL.lamp);
+  box(lights, 0.14, 0.1, 0.06, -0.65, 1.5, 1.95, ...FL.lamp);
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.dozer.footprint, livery: lv });
+}
+
+// ------------------------------------------------------------- wheel loader
+
+/**
+ * Articulated-frame wheel loader, 3–4 yd bucket: 7.6 m overall, 2.6 m over
+ * the tyres, ROPS cab to 3.2 m. The articulation joint is modelled but not
+ * animated. Parts: arms, bucket, wheels [axleFront, axleRear], door, lights.
+ */
+export function wheelLoader(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: EQ_YELLOW, fleetName: "PLANT", unitNumber: "WL-4" });
+  const rig = flRig(parent, x, y, z, opts, "wheelLoader", [0, 0, -1.2]);
+  const S = rig.shell, P = flPaint(lv.colour);
+  // Rear frame: engine bay and counterweight tail.
+  flSide(S, [[-2.55, 0.85], [-2.55, 1.55], [-2.3, 1.9], [-1.0, 1.95], [-0.85, 1.55], [-0.85, 0.85]], 1.5, 0, 0, 0, ...P, { bevel: 0.06 });
+  flPanel(S, 1.1, 0.5, 0, 1.2, -2.556, flGrilleMat("truck", 0x2a2e33), "-z");
+  // Articulation joint.
+  cyl(S, 0.42, 0.42, 0.16, 0, 1.1, -0.85, ...FL.frame, { seg: 20 }).rotation.z = Math.PI / 2;
+  // Front frame: ROPS cab and the loader tower.
+  flSide(S, [[-0.85, 0.85], [-0.85, 1.55], [0.65, 1.55], [0.85, 0.85]], 1.5, 0, 0, 0, ...P, { bevel: 0.05 });
+  for (const sx of [1, -1]) for (const zz of [0.55, -0.35]) box(S, 0.08, 1.65, 0.08, sx * 0.72, 2.1, zz, ...FL.black);
+  flSide(S, [[-0.72, 2.9], [-0.62, 3.02], [1.08, 3.02], [1.12, 2.9]], 1.6, 0, 0, 0, ...P, { bevel: 0.03 });
+  const glass = flGlassMat();
+  flPanel(S, 1.36, 1.5, 0, 2.15, 0.85, glass, "+z");
+  flPanel(S, 1.36, 1.5, 0, 2.15, -0.55, glass, "-z");
+  flPanel(S, 1.46, 1.5, -0.74, 2.15, 0.15, glass, "-x");
+  flPanel(S, 1.1, 0.32, 0.752, 1.2, 0.6, flLiveryMat(lv, "wlSide", { title: lv.unitNumber, sub: lv.fleetName, titleScale: 0.5, titleY: 0.4, stripeY: 0.92 }), "+x");
+  const door = flDoor(rig, "door", 1, 0.76, 1.4, 0.9, 0.5, 1.55, flDoorMat(lv, "L", { window: 0.82, marks: "none", body: 0x2a2e33 }), { t: 0.03 });
+  rig.set("wheels", [
+    flAxle(rig, "axleFront", 1.35, 0.65, 2.05, { width: 0.5, style: "equip", tread: "lug" }),
+    flAxle(rig, "axleRear", -1.55, 0.65, 2.05, { width: 0.5, style: "equip", tread: "lug" }),
+  ]);
+  // Z-bar loader arms, pinned to the tower above the front axle.
+  const arms = rig.part("arms", 0, 2.15, 0.9);
+  for (const sx of [1, -1]) {
+    flBeam(arms, [sx * 0.6, 0, 0], [sx * 0.6, -0.65, 3.35], 0.13, 0.28, ...P);
+    eqRam(arms, [sx * 0.6, -0.35, 0.5], [sx * 0.6, -1.35, 1.8], 0.09, lv.colour);
+  }
+  flRod(arms, 0.06, 1.34, 0, -0.72, 3.35, "x", ...P);
+  const bellcrank = rig.part("bellcrank", 0, 1.6, 1.9, arms);
+  eqRam(bellcrank, [0, 0.1, -0.2], [0, -0.55, 0.35], 0.08, lv.colour);
+  const bucket = rig.part("bucket", 0, -0.72, 3.4, arms);
+  flSide(bucket, [[0, 0.4], [-0.3, 0.36], [-0.55, 0.0], [-0.66, -0.42], [0.0, -0.42], [0.06, -0.1]], 2.6, 0, 0, 0, 0x4a5057, { rough: 0.55, metal: 0.35, finish: "painted" }, { bevel: 0.02 });
+  flLights(rig, [[0.5, 2.05, 0.9, 0.12, 0.09], [-0.5, 2.05, 0.9, 0.12, 0.09]], null, [[0.55, 1.05, -2.55, 0.1, 0.08], [-0.55, 1.05, -2.55, 0.1, 0.08]]);
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.wheelLoader.footprint, livery: lv });
+}
+
+// ------------------------------------------------------------------- grader
+
+/**
+ * Motor grader, blade down: 8.4 m overall on a single steer axle and a rear
+ * tandem bogie, 3.7 m moldboard slewed under the belly, ROPS cab to 3.3 m.
+ * Parts: moldboard (child of circle, tilts and slews), circle (child of the
+ * drawbar), frontWheel [axleFront], wheels [axleRear, tandem duals], door,
+ * lights.
+ */
+export function grader(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: EQ_YELLOW, fleetName: "PLANT", unitNumber: "GR-14" });
+  const rig = flRig(parent, x, y, z, opts, "grader", [0, 0, 3.18]);
+  const S = rig.shell, P = flPaint(lv.colour);
+  // Long main frame from the cab back to the tandem, tapering to the drawbar nose.
+  box(S, 0.55, 0.4, 5.6, 0, 1.05, -0.6, ...P);
+  flBeam(S, [0, 0.95, -3.4], [0, 0.65, -4.55], 0.32, 0.32, ...P);
+  // Cab and engine deck over the tandem.
+  flSide(S, [[-2.9, 0.9], [-2.9, 1.6], [-2.6, 1.95], [-1.3, 2.0], [-1.15, 1.6], [-1.15, 0.9]], 1.4, 0, 0, 0.6, ...P, { bevel: 0.06 });
+  flPanel(S, 1.0, 0.5, 0, 1.25, 3.106, flGrilleMat("vertical", 0x2a2e33), "+z");
+  for (const sx of [1, -1]) for (const zz of [1.1, 0.1]) box(S, 0.08, 1.6, 0.08, sx * 0.62, 2.35, zz, ...FL.black);
+  flSide(S, [[-0.62, 3.1], [-0.55, 3.2], [0.75, 3.2], [0.82, 3.1]], 1.32, 0, 0, 0.6, ...P, { bevel: 0.03 });
+  const glass = flGlassMat();
+  flPanel(S, 1.16, 1.2, 0, 2.55, 1.61, glass, "+z");
+  flPanel(S, 1.16, 1.2, -0.622, 2.55, 0.6, glass, "-x");
+  flPanel(S, 0.9, 0.28, 0.622, 1.25, 0.9, flLiveryMat(lv, "grSide", { title: lv.unitNumber, sub: lv.fleetName, titleScale: 0.5, titleY: 0.4, stripeY: 0.92 }), "+x");
+  const door = flDoor(rig, "door", 1, 0.62, 1.55, 0.9, 0.45, 1.5, flDoorMat(lv, "L", { window: 0.8, marks: "none", body: 0x2a2e33 }), { t: 0.03 });
+  const fw = rig.part("frontWheel", 0, 0.55, -4.65);
+  flSteerWheel(rig, "wheelFL", 0.55, -4.65, 0.55, 0.28, { style: "equip", tread: "lug", host: fw });
+  flSteerWheel(rig, "wheelFR", -0.55, -4.65, 0.55, 0.28, { style: "equip", tread: "lug", host: fw });
+  rig.set("frontWheel", [fw]);
+  rig.set("wheels", [flAxle(rig, "axleRear", 2.05, 0.6, 1.9, { dual: true, style: "equip", tread: "lug" })]);
+  // Circle and moldboard, slung under the belly ahead of the front axle.
+  const circle = rig.part("circle", 0, 0.42, -3.1);
+  torus(circle, 0.85, 0.05, 0, 0, 0, ...FL.frame, { seg: 8, seg2: 28 });
+  circle.rotation.x = Math.PI / 2;
+  const moldboard = rig.part("moldboard", 0, -0.28, 0.05, circle);
+  flSide(moldboard, [[0.22, 0.62], [0.05, 0.62], [-0.22, 0.3], [-0.28, 0.0], [-0.16, -0.1], [0.14, -0.06], [0.24, 0.3]], 3.7, 0, 0, 0, 0x4a5057, { rough: 0.55, metal: 0.35, finish: "painted" }, { bevel: 0.02 });
+  box(moldboard, 3.7, 0.06, 0.08, 0, -0.06, -0.24, 0x2b2f34, { rough: 0.5, metal: 0.5 });
+  flDrawbar(S, circle);
+  flLights(rig, [[0.5, 2.6, 1.62, 0.12, 0.09], [-0.5, 2.6, 1.62, 0.12, 0.09]], null, [[0.35, 1.35, -4.75, 0.1, 0.08], [-0.35, 1.35, -4.75, 0.1, 0.08]]);
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.grader.footprint, livery: lv });
+}
+/** The drawbar (an A-frame) from the main frame's nose down to the circle. */
+function flDrawbar(S, circle) {
+  for (const sx of [1, -1]) flBeam(S, [sx * 0.28, 0.9, -3.4], [0, 0.42, -3.1], 0.09, 0.13, ...FL.frame);
+  void circle;
+}
+
+// -------------------------------------------------------------------- crane
+
+/**
+ * Lattice-boom crawler crane, travel pose: 5.6 m tracks on a 3.9 m gauge
+ * (4.6 m over the shoes), house to 3.35 m, an 11 m three-section lattice boom
+ * resting a few degrees off the tracks. Parts: trackL, trackR, house (slews),
+ * counterweight, cabDoor, boom (luffs at the foot pin), boomSections
+ * [boomSection2, boomSection3] (each a nested lattice bay), hook, lights.
+ */
+export function crawlerCrane(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: EQ_YELLOW, fleetName: "CITY LIFT", unitNumber: "CC-80" });
+  const rig = flRig(parent, x, y, z, opts, "crawlerCrane", [0, 0, -4.04]);
+  const S = rig.shell, P = flPaint(lv.colour);
+  box(S, 2.0, 0.6, 2.2, 0, 0.85, 0, ...FL.frame);
+  eqTrack(rig, "trackL", 1.95, 5.6, 1.1, 0.8);
+  eqTrack(rig, "trackR", -1.95, 5.6, 1.1, 0.8);
+  cyl(S, 1.15, 1.15, 0.18, 0, 1.24, 0, ...FL.frame, { seg: 24 });
+  const house = rig.part("house", 0, 1.45, -0.4);
+  box(house, 1.9, 1.0, 3.4, -0.15, 0.6, -0.6, ...P);
+  const cab = [[-2.05, 0.1], [-2.0, 1.3], [-1.7, 1.65], [-0.3, 1.65], [-0.3, 0.1]];
+  flSide(house, cab, 1.0, 0.85, 0, 0.9, ...P, { bevel: 0.04 });
+  const glass = flGlassMat();
+  flPanel(house, 0.8, 0.85, 0.85, 1.05, 2.29, glass, "+z", 0.1);
+  flPanel(house, 1.3, 0.65, 1.3, 1.15, 1.4, glass, "+x");
+  flPanel(house, 1.4, 0.45, -0.955, 0.7, -0.7, flLiveryMat(lv, "ccSide", { titleScale: 0.34, titleY: 0.4, stripeY: 0.82 }), "-x");
+  const door = flDoor(rig, "cabDoor", 1, 1.35, 0.35, 1.05, 0.7, 1.25, flDoorMat(lv, "L", { window: 0.55, marks: "none" }), { t: 0.03 });
+  door.parent.remove(door); house.add(door);
+  const cw = rig.part("counterweight", -0.35, 0.3, -2.35, house);
+  flSide(cw, [[0, 0], [0, 1.4], [0.4, 1.4], [0.62, 1.05], [0.62, 0]], 2.6, 0, 0, 0, ...P, { bevel: 0.05 });
+  const boom = rig.part("boom", -0.15, 1.25, 1.3, house);
+  boom.rotation.x = -0.42;
+  const lattice = (p, len, w, colour) => {
+    for (const sx of [1, -1]) for (const sy of [1, -1]) flStrut(p, [sx * w / 2, sy * w / 2, 0], [sx * w / 2, sy * w / 2, len], 0.032, ...colour);
+    const bays = Math.max(2, Math.round(len / 0.9));
+    for (let i = 0; i <= bays; i++) {
+      const z0 = (len * i) / bays;
+      for (const sx of [1, -1]) flStrut(p, [sx * w / 2, w / 2, z0], [sx * w / 2, -w / 2, z0], 0.02, ...colour);
+      if (i < bays) {
+        const z1 = (len * (i + 1)) / bays;
+        flStrut(p, [w / 2, w / 2, z0], [-w / 2, -w / 2, z1], 0.016, ...colour);
+        flStrut(p, [-w / 2, w / 2, z0], [w / 2, -w / 2, z1], 0.016, ...colour);
+      }
+    }
+  };
+  lattice(boom, 4.6, 0.62, P);
+  const sections = [];
+  let host = boom, len = 4.6, w = 0.62;
+  for (let i = 0; i < 2; i++) {
+    w -= 0.09;
+    const s = rig.part(`boomSection${i + 2}`, 0, 0, len - 0.15, host);
+    lattice(s, 3.1, w, P);
+    s.userData.extend = 2.9;
+    sections.push(s); host = s; len = 3.1;
+  }
+  rig.set("boomSections", sections);
+  const tip = rig.part("boomHead", 0, 0, len, host);
+  box(tip, 0.4, 0.5, 0.35, 0, 0, 0, ...FL.frame);
+  flRod(tip, 0.22, 0.1, 0, -0.04, 0.16, "x", ...FL.frame, { seg: 14 });
+  const hook = rig.part("hook", 0, -0.4, 0.2, tip);
+  flRod(hook, 0.01, 0.8, 0.05, -0.4, 0, "y", ...FL.steel);
+  flRod(hook, 0.01, 0.8, -0.05, -0.4, 0, "y", ...FL.steel);
+  box(hook, 0.3, 0.38, 0.22, 0, -1.0, 0, 0xf2c14b, { rough: 0.5 });
+  box(hook, 0.07, 0.26, 0.07, 0, -1.28, 0, ...FL.steel);
+  flLights(rig, [[0.85, 1.7, 1.1, 0.18, 0.11], [-0.85, 1.7, 1.1, 0.18, 0.11]], null, [[0.85, 1.55, -2.35, 0.18, 0.11], [-0.85, 1.55, -2.35, 0.18, 0.11]]);
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.crawlerCrane.footprint, livery: lv });
+}
+
+// ---------------------------------------------------------- pile driving rig
+
+/**
+ * Crawler-mounted pile driving rig, leads erected: 5.0 m tracks on a 2.9 m
+ * gauge, a raising boom carrying 11 m vertical leads with a hammer and a
+ * pile gate. Parts: trackL, trackR, house, raisingBoom (the strut that
+ * carries the leads), leads (child of raisingBoom, plumbs about its foot),
+ * hammer (child of leads, slides along the leads), gate, cabDoor, lights.
+ */
+export function pileDrivingRig(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: EQ_YELLOW, fleetName: "PLANT", unitNumber: "PD-11" });
+  const rig = flRig(parent, x, y, z, opts, "pileDrivingRig", [0, 0, 0]);
+  const S = rig.shell, P = flPaint(lv.colour);
+  box(S, 1.7, 0.55, 2.0, 0, 0.82, 0, ...FL.frame);
+  eqTrack(rig, "trackL", 1.6, 5.0, 0.95, 0.68);
+  eqTrack(rig, "trackR", -1.6, 5.0, 0.95, 0.68);
+  cyl(S, 1.0, 1.0, 0.16, 0, 1.18, 0, ...FL.frame, { seg: 22 });
+  const house = rig.part("house", 0, 1.35, -0.3);
+  box(house, 1.65, 0.9, 2.4, 0, 0.5, -0.1, ...P);
+  const cab = [[-1.55, 0.05], [-1.5, 1.1], [-1.25, 1.4], [0.1, 1.4], [0.1, 0.05]];
+  flSide(house, cab, 0.95, 0.62, 0, 1.0, ...P, { bevel: 0.04 });
+  const glass = flGlassMat();
+  flPanel(house, 0.8, 0.75, 0.62, 0.9, 2.0, glass, "+z", 0.08);
+  flPanel(house, 1.2, 0.6, 1.02, 0.95, 1.15, glass, "+x");
+  flPanel(house, 1.2, 0.4, -0.828, 0.55, -0.4, flLiveryMat(lv, "pdSide", { titleScale: 0.34, titleY: 0.4, stripeY: 0.82 }), "-x");
+  const door = flDoor(rig, "cabDoor", 1, 1.02, 0.3, 0.95, 0.6, 1.1, flDoorMat(lv, "L", { window: 0.55, marks: "none" }), { t: 0.03 });
+  door.parent.remove(door); house.add(door);
+  const cw = rig.part("counterweight", 0, 0.35, -1.6, house);
+  box(cw, 1.5, 0.7, 0.7, 0, 0, 0, ...P);
+  // Raising boom (a short A-frame strut) carrying the vertical leads forward of the tracks.
+  const rboom = rig.part("raisingBoom", 0, 1.1, 1.15, house);
+  for (const sx of [1, -1]) flBeam(rboom, [sx * 0.3, 0, 0], [sx * 0.1, 3.4, 0.9], 0.12, 0.16, ...P);
+  eqRam(rboom, [0.35, 0.3, -0.3], [0.15, 2.6, 0.2], 0.09, lv.colour);
+  const leads = rig.part("leads", 0, 3.4, 0.9, rboom);
+  for (const sx of [1, -1]) flBeam(leads, [sx * 0.42, 0, 0], [sx * 0.42, 7.4, 0], 0.1, 0.14, ...FL.steel);
+  for (let i = 0; i <= 10; i++) flStrut(leads, [0.42, i * 0.74, 0], [-0.42, i * 0.74, 0], 0.03, ...FL.steel);
+  flRod(leads, 0.06, 7.4, 0, 3.7, -0.3, "y", ...FL.frame, { seg: 8 });
+  const hammer = rig.part("hammer", 0, 5.6, 0, leads);
+  box(hammer, 0.7, 1.3, 0.55, 0, 0, 0, 0x2b2f34, { rough: 0.55, metal: 0.4 });
+  box(hammer, 0.5, 0.2, 0.5, 0, -0.75, 0, ...FL.steel);
+  hammer.userData.slide = -4.6;
+  const gate = rig.part("gate", 0, 0.12, 0, leads);
+  box(gate, 0.85, 0.2, 0.5, 0, 0, 0, ...FL.steel);
+  flLights(rig, [[0.75, 1.5, 1.0, 0.14, 0.1], [-0.75, 1.5, 1.0, 0.14, 0.1]], null, [[0.75, 1.4, -1.45, 0.12, 0.09], [-0.75, 1.4, -1.45, 0.12, 0.09]]);
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.pileDrivingRig.footprint, livery: lv });
+}
+
 // ------------------------------------------------------------------ budget
 
 /** Declared mesh count, footprint [width X, height Y, length Z] and parts per builder; see FLEET_BUDGET. */
@@ -795,11 +1046,16 @@ export const EQUIPMENT_BUDGET = {
   "lightTower:stowed": { build: "lightTower", opts: { raised: false }, meshes: 17, footprint: [1.58, 1.77, 4.81], parts: ["mast", "mastUpper", "lamps", "outriggers", "controlPanel", "wheels", "jack"], note: "towable light tower, stowed for tow" },
   concretePump: { build: "concretePump", meshes: 16, footprint: [2.04, 1.58, 4.95], parts: ["hopper", "grate", "outlet", "controlPanel", "outriggers", "wheels", "jack", "lights"], note: "trailer line pump" },
   craneSpreader: { build: "craneSpreader", belowGround: true, meshes: 18, footprint: [2.49, 2.17, 12.45], parts: ["headblock", "telescopeFore", "telescopeAft", "twistlocks", "flippers", "indicators", "landed", "locked", "unlocked"], note: "telescopic container spreader, 40 ft" },
+  dozer: { build: "dozer", meshes: 20, footprint: [3.2, 3.01, 5.35], parts: ["trackL", "trackR", "blade", "ripper", "rops", "seat", "controls", "lights"], note: "mid-size crawler dozer, blade down" },
+  wheelLoader: { build: "wheelLoader", meshes: 17, footprint: [2.6, 3.9, 7.53], parts: ["arms", "bucket", "wheels", "door", "lights"], note: "articulated wheel loader, 3-4 yd bucket" },
+  grader: { build: "grader", meshes: 15, footprint: [3.7, 3.2, 13.35], parts: ["moldboard", "circle", "frontWheel", "wheels", "door", "lights"], note: "motor grader, blade down" },
+  crawlerCrane: { build: "crawlerCrane", meshes: 18, footprint: [4.76, 7.3, 14.81], parts: ["trackL", "trackR", "house", "counterweight", "cabDoor", "boom", "boomSections", "hook", "lights"], note: "lattice-boom crawler crane, boom raised" },
+  pileDrivingRig: { build: "pileDrivingRig", meshes: 20, footprint: [3.94, 13.28, 5], parts: ["trackL", "trackR", "house", "raisingBoom", "leads", "hammer", "gate", "cabDoor", "lights"], note: "crawler pile driving rig, leads erected" },
 };
 
 /** The builders by the name EQUIPMENT_BUDGET's `build` field uses. */
 export const EQUIPMENT_BUILDERS = {
   excavator, amphibiousExcavator, backhoe, skidSteer, dumpTruck, mobileCrane, aerialBoomLift, scissorLift, compactor,
-  generatorTrailer, lightTower, concretePump, craneSpreader,
+  generatorTrailer, lightTower, concretePump, craneSpreader, dozer, wheelLoader, grader, crawlerCrane, pileDrivingRig,
 };
 void THREE; void ball; void flSteerWheel; void flMirror; void flPlan;
