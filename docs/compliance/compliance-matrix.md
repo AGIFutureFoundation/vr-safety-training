@@ -1,6 +1,6 @@
 # SmartCiti.X compliance matrix
 
-_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-26: 420 procedures, 227 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
+_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-26: 422 procedures, 227 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
 
 ## How a procedure earns its place
 
@@ -859,6 +859,8 @@ Every station names the union and the certification a worker in that role holds,
 | Rebounding and Boxing Out | Youth basketball coach | — |
 | Team Offense: Spacing and Screens | Youth basketball coach | — |
 | Scrimmage and Sportsmanship Debrief | Youth basketball coach | — |
+| Reset Routine After a Miss | Youth basketball coach | — |
+| Pre-Game Routine and Visualisation | Youth basketball coach | — |
 
 ### SF Bay Restoration & Cleanup — Maritime and Underwater
 
@@ -1010,6 +1012,8 @@ Every station names the union and the certification a worker in that role holds,
 - Culvert Retrofit For Fish Passage (smartcity): 29 CFR 1926
 - Native Planting & Erosion Control Mats (smartcity): 29 CFR 1926
 - Wheelchair Lift & Securement on a Bus (smartcity): NFPA 70
+- Pre-Game Routine and Visualisation (smartcity): none
+- Reset Routine After a Miss (smartcity): none
 - Deploy Bay (trades): IEC 27001
 - Wash-Down Yard (trades): 29 CFR 1910.133
 

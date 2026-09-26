@@ -310,6 +310,7 @@ export const SIM_BB_PRE_GAME_ROUTINE_AND_VISUALISATION = {
 
     // ------------------------------------------------------------ pre-warm-up hazards
     const gearBag = box(g, 0.4, 0.2, 0.26, 1.9, 0.1, -0.35, 0x5a3a1a, { rough: 0.8 });
+    reg(hits, gearBag, "loose-gear-bag");
     bead(1.9, 0.4, -0.35, "pre-gear-bag-in-doorway", "Gear bag in the doorway", { w: 0.42 });
     bead(-0.3, 0.6, -1.55, "pre-untied-shoelace", "Untied shoelace", { w: 0.32, r: 0.024 });
     const phone = box(g, 0.08, 0.16, 0.02, 2.2, 1.1, 1.5, 0x1a1e23, { rough: 0.3, metal: 0.5 });
@@ -421,7 +422,7 @@ export const SIM_BB_PRE_GAME_ROUTINE_AND_VISUALISATION = {
       spawnLook: new THREE.Vector3(0, 1.3, -1.0),
 
       onStepComplete(step) {
-        if (step.id === "scan-the-locker-room") { gearBag.visible = false; phone.visible = false; }
+        if (step.id === "scan-the-locker-room") phone.visible = false;
         if (step.id === "set-the-locker-room-music") dialKnob.material = mat(0x59c97b, { emissive: 0x59c97b, ei: 0.8, rough: 0.4 });
         if (step.id === "rack-the-loose-gear") gearBag.position.set(2.6, 0.98, -2.6);
         if (step.id === "log-the-pregame-routine") repaint(log.userData.face, (cx, w, h) => lines(cx, w, h, "LOGGED", ["Focus image set", "Room calm through tip-off"], { accent: "#59c97b" }));

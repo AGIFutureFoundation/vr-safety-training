@@ -17542,5 +17542,89 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bb-reset-routine-after-a-miss",
+    "index": "343",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on positive, mistake-tolerant coaching that keeps young players engaged after an error; the Association for Applied Sport Psychology's guidance on a short mental reset after a mistake — a breath, a cue word, and a return of attention to the next play; NFHS basketball rules and its sportsmanship expectations for how teammates treat each other after a miss; CDC Heads Up for a knock to the head taken in the scramble that follows a loose ball; the U.S. Center for SafeSport for calm, private, non-shaming correction; the American Red Cross first aid course for a player hurt in that scramble",
+    "name": "Reset Routine After a Miss",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Reset Routine After a Miss VR",
+    "tagline": "One slow breath, a one-word cue, a physical let-it-go and eyes up for the next play — a routine short enough to actually use between one possession and the next",
+    "accent": 7321855,
+    "accentCss": "#6fb8ff",
+    "parSeconds": 320,
+    "badge": {
+      "id": "next-play",
+      "name": "Next Play",
+      "note": "A miss met with the routine instead of a spiral, and the whole bench kept calm around it"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Next Play Board",
+      "currency": "RESETS",
+      "ranks": [
+        "Bench Helper",
+        "Line Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Mindset Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bb-pre-game-routine-and-visualisation",
+    "index": "344",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on a calm, rest-first pre-game routine rather than last-minute extra work; the Association for Applied Sport Psychology's guidance on pre-performance routines and visualisation — picturing a play calmly and specifically before it happens; NFHS basketball rules and its sportsmanship expectations for how a team carries itself before it ever takes the floor; CDC Heads Up for a heat or head concern noticed before the game starts; the U.S. Center for SafeSport for privacy and consent in a locker room and calm handling of a parent at the door; the American Red Cross first aid course for a player who is unwell before tip-off",
+    "name": "Pre-Game Routine and Visualisation",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Pre-Game Routine and Visualisation VR",
+    "tagline": "Gear checked, a genuinely quiet visualisation, a shoot-around and a short captain's word — a calm hour before tip-off instead of a wound-up one",
+    "accent": 10980346,
+    "accentCss": "#a78bfa",
+    "parSeconds": 330,
+    "badge": {
+      "id": "ready-not-wound-up",
+      "name": "Ready, Not Wound Up",
+      "note": "A pre-game hour that left the team calm, focused and rested, not amped past the point of good decisions"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Tip-Off Countdown",
+      "currency": "FOCUS POINTS",
+      "ranks": [
+        "Locker Helper",
+        "Warm-Up Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Routine Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

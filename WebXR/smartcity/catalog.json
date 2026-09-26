@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 411
+      "stations": 413
     },
     "trades": {
       "entry": "trades/index.html",
@@ -531,7 +531,9 @@
         "bb-passing-and-catching",
         "bb-footwork-pivots-and-jump-stops",
         "bb-stance-and-ball-handling",
-        "bb-warmup-injury-prevention-and-hydration"
+        "bb-warmup-injury-prevention-and-hydration",
+        "bb-pre-game-routine-and-visualisation",
+        "bb-reset-routine-after-a-miss"
       ]
     },
     {
@@ -3288,6 +3290,16 @@
           "app": "smartcity",
           "id": "bb-scrimmage-and-sportsmanship-debrief",
           "why": "Everything at game speed and then the close of the programme: fair teams, a game kept hard and fair, a handshake line, a debrief in order and a check-in on how everyone is."
+        },
+        {
+          "app": "smartcity",
+          "id": "bb-reset-routine-after-a-miss",
+          "why": "The seconds right after a mistake: one slow breath, a one-word cue and a physical let-it-go that turns a miss back into the next play instead of a spiral."
+        },
+        {
+          "app": "smartcity",
+          "id": "bb-pre-game-routine-and-visualisation",
+          "why": "The hour before tip-off: gear checked, a genuinely quiet visualisation, a shoot-around and a short captain's word that build a team up calmly instead of winding it up."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
@@ -27027,7 +27039,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 263,
+      "meshes": 270,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -27687,7 +27699,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 271,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "100",
@@ -37511,6 +37523,172 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=hz-drum-staging-and-compatibility-segregation"
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-pre-game-routine-and-visualisation",
+      "name": "Pre-Game Routine and Visualisation",
+      "title": "SmartCiti.X~ Pre-Game Routine and Visualisation VR",
+      "tagline": "Gear checked, a genuinely quiet visualisation, a shoot-around and a short captain's word — a calm hour before tip-off instead of a wound-up one",
+      "category": "Youth Sports & Coaching",
+      "domain": "Youth Sports",
+      "trade": "Youth basketball coach",
+      "union": null,
+      "certification": "USA Basketball youth development guidelines on a calm, rest-first pre-game routine rather than last-minute extra work; the Association for Applied Sport Psychology's guidance on pre-performance routines and visualisation — picturing a play calmly and specifically before it happens; NFHS basketball rules and its sportsmanship expectations for how a team carries itself before it ever takes the floor; CDC Heads Up for a heat or head concern noticed before the game starts; the U.S. Center for SafeSport for privacy and consent in a locker room and calm handling of a parent at the door; the American Red Cross first aid course for a player who is unwell before tip-off",
+      "accent": "#a78bfa",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": "gym-court",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "hold",
+        "sequence",
+        "gauge",
+        "turn",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "ready-not-wound-up",
+        "name": "Ready, Not Wound Up",
+        "note": "A pre-game hour that left the team calm, focused and rested, not amped past the point of good decisions"
+      },
+      "meshes": 252,
+      "lights": 0,
+      "overBudget": false,
+      "index": "344",
+      "flat": false,
+      "system": "Tip-Off Countdown",
+      "currency": "FOCUS POINTS",
+      "ranks": [
+        "Locker Helper",
+        "Warm-Up Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Routine Mentor"
+      ],
+      "awards": [
+        {
+          "id": "clear-locker-room",
+          "name": "Clear Locker Room",
+          "note": "Every hazard in the locker room found before warm-ups"
+        },
+        {
+          "id": "calm-tip-off",
+          "name": "Calm Tip-Off",
+          "note": "No unsafe action in the whole pre-game hour"
+        },
+        {
+          "id": "ready-energy",
+          "name": "Ready Energy",
+          "note": "Energy level and team energy through the final minutes both inside the band"
+        },
+        {
+          "id": "clean-routine",
+          "name": "Clean Routine",
+          "note": "No corrections anywhere in the pre-game hour"
+        },
+        {
+          "id": "steady-through-tip-off",
+          "name": "Steady Through Tip-Off",
+          "note": "Held team energy in band through the final minutes"
+        },
+        {
+          "id": "on-time-for-tip-off",
+          "name": "On Time for Tip-Off",
+          "note": "Practice log reached inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=bb-pre-game-routine-and-visualisation"
+    },
+    {
+      "app": "smartcity",
+      "id": "bb-reset-routine-after-a-miss",
+      "name": "Reset Routine After a Miss",
+      "title": "SmartCiti.X~ Reset Routine After a Miss VR",
+      "tagline": "One slow breath, a one-word cue, a physical let-it-go and eyes up for the next play — a routine short enough to actually use between one possession and the next",
+      "category": "Youth Sports & Coaching",
+      "domain": "Youth Sports",
+      "trade": "Youth basketball coach",
+      "union": null,
+      "certification": "USA Basketball youth development guidelines on positive, mistake-tolerant coaching that keeps young players engaged after an error; the Association for Applied Sport Psychology's guidance on a short mental reset after a mistake — a breath, a cue word, and a return of attention to the next play; NFHS basketball rules and its sportsmanship expectations for how teammates treat each other after a miss; CDC Heads Up for a knock to the head taken in the scramble that follows a loose ball; the U.S. Center for SafeSport for calm, private, non-shaming correction; the American Red Cross first aid course for a player hurt in that scramble",
+      "accent": "#6fb8ff",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": "gym-court",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "find",
+        "select",
+        "hold",
+        "sequence",
+        "turn",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "next-play",
+        "name": "Next Play",
+        "note": "A miss met with the routine instead of a spiral, and the whole bench kept calm around it"
+      },
+      "meshes": 200,
+      "lights": 0,
+      "overBudget": false,
+      "index": "343",
+      "flat": false,
+      "system": "Next Play Board",
+      "currency": "RESETS",
+      "ranks": [
+        "Bench Helper",
+        "Line Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Mindset Mentor"
+      ],
+      "awards": [
+        {
+          "id": "clear-lane-first",
+          "name": "Clear Lane First",
+          "note": "Every hazard on the floor found before the first retry"
+        },
+        {
+          "id": "no-pile-on",
+          "name": "No Pile-On",
+          "note": "No unsafe action anywhere in the session"
+        },
+        {
+          "id": "steady-reset",
+          "name": "Steady Reset",
+          "note": "Reset tempo and composure through the streak both inside the band"
+        },
+        {
+          "id": "clean-session",
+          "name": "Clean Session",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "unshaken",
+          "name": "Unshaken",
+          "note": "Held composure in band through the whole cold streak"
+        },
+        {
+          "id": "quick-reset",
+          "name": "Quick Reset",
+          "note": "Practice log reached inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=bb-reset-routine-after-a-miss"
     },
     {
       "app": "trades",

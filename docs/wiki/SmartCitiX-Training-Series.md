@@ -1,6 +1,6 @@
 # SmartCiti.X training series
 
-_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-26. 411 SmartCiti.X stations across 17 categories and 31 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
+_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-26. 413 SmartCiti.X stations across 17 categories and 31 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
 Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 37 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
@@ -1037,6 +1037,8 @@ Ten stations on an indoor court that teach players the fundamentals and teach co
 | 338 | [Rebounding and Boxing Out](../../WebXR/smartcity/index.html?sim=bb-rebounding-and-boxing-out) | Youth basketball coach | clear, gym-court | 14 | 2 | 97 | The first real contact, introduced by size: the box-out built and sealed, contact kept controlled, and the signs of a concussion recognised and removed from play. |
 | 339 | [Team Offense: Spacing and Screens](../../WebXR/smartcity/index.html?sim=bb-team-offense-spacing-and-screens) | Youth basketball coach | clear, gym-court | 14 | 2 | 97 | Five players moving together: spacing that keeps the paint clear, screens that are legal and still, and a rotation with water in it for everyone. |
 | 340 | [Scrimmage and Sportsmanship Debrief](../../WebXR/smartcity/index.html?sim=bb-scrimmage-and-sportsmanship-debrief) | Youth basketball coach | clear, gym-court | 14 | 2 | 97 | Everything at game speed and then the close of the programme: fair teams, a game kept hard and fair, a handshake line, a debrief in order and a check-in on how everyone is. |
+| 343 | [Reset Routine After a Miss](../../WebXR/smartcity/index.html?sim=bb-reset-routine-after-a-miss) | Youth basketball coach | clear, gym-court | 14 | 2 | — | The seconds right after a mistake: one slow breath, a one-word cue and a physical let-it-go that turns a miss back into the next play instead of a spiral. |
+| 344 | [Pre-Game Routine and Visualisation](../../WebXR/smartcity/index.html?sim=bb-pre-game-routine-and-visualisation) | Youth basketball coach | clear, gym-court | 14 | 2 | — | The hour before tip-off: gear checked, a genuinely quiet visualisation, a shoot-around and a short captain's word that build a team up calmly instead of winding it up. |
 
 <a id="bay-restoration-maritime-underwater"></a>
 ## SF Bay Restoration & Cleanup — Maritime and Underwater
