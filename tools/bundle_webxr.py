@@ -111,6 +111,11 @@ APPS = {
             SHARED / "crew.js",
             SHARED / "robot.js",
             SHARED / "robot-embodiment.js",
+            # Episode recording (docs/robot-datasets.md): mines a live session
+            # for the same shape of decision shared/robot.js's headless
+            # rollouts produce, so a human run and a synthetic one merge into
+            # one dataset. Depends on the two modules just above it.
+            SHARED / "episodes.js",
             SHARED / "perf.js",
             SHARED / "weather.js",
             SHARED / "environment.js",

@@ -12,6 +12,7 @@ import { Auth, availableProviders, makeAuthEnv, providerById } from "../../share
 import { Lrs } from "../../shared/lrs.js";
 import { RobotAgent, observe } from "../../shared/robot.js";
 import { buildEmbodiment, observeEmbodied, probeSkill, DIFFICULTY_LADDER } from "../../shared/robot-embodiment.js";
+import { attachEpisodeRecorder, EpisodeStore, EPISODE_SCHEMA_VERSION } from "../../shared/episodes.js";
 import { Platform, FLOW_LOAD, FLOW_START, FLOW_RESUME, FLOW_STATE } from "../../shared/platform.js";
 
 import { Perf } from "../../shared/perf.js";
@@ -277,7 +278,7 @@ const store = createStore({
   flat: { visible: false, name: "", category: "", tagline: "", certification: "", dossier: [], stepIndex: 0, stepCount: 0, question: "", cue: "", options: [], picked: [], feedback: null },
   leaderboard: { visible: false, html: "" },
   records: {
-    visible: false, tab: "attempts", rows: [], summary: [], total: 0, passes: 0, credentials: [],
+    visible: false, tab: "attempts", rows: [], summary: [], total: 0, passes: 0, credentials: [], episodes: 0,
     // The proof tier (shared/competency.js): competency cards, the transcript
     // and the rubric that explains why a run counted. `rule` and `rubric` are
     // static, carried in the slice so react-ui.js reads only the store.
@@ -936,6 +937,17 @@ async function enterSim(id, { briefed = false } = {}) {
       showResults(s, summary);
     },
   });
+  // Episode recording (shared/episodes.js): a compact per-decision trajectory
+  // for this run, in the same shape tools/robot_train.mjs's headless rollouts
+  // write, so a live session and a synthetic one merge into one dataset (see
+  // tools/export_dataset.mjs). Wraps the session's own action methods — no
+  // other call site changes — and persists on the session's own onFinish.
+  state.episodeRec = episodesOn ? attachEpisodeRecorder(state.session, {
+    app: "smartcity", station: room.id, room, api: state.api,
+    crewTag: Progress.playerName,
+    viewMode: () => (renderer.xr.isPresenting ? "vr" : (state.mode === "ar" ? "ar" : "desktop")),
+    env: () => ({ weather: state.stage?.weather?.kind ?? null, timeOfDay: timeOfDay(), eventSeed: eventsSeed }),
+  }) : null;
   state.session.start();
   // Random events: the ambient half (see the interrupt-timing half above).
   // Built fresh for every station, always — when events are off this just
@@ -1395,6 +1407,11 @@ function flatSelect(id) { if (state.session && !state.paused) activate(id); }
 
 const robotParam = new URLSearchParams(location.search).get("robot");
 const robot = { active: robotParam != null, skill: Math.max(0, Math.min(1, parseFloat(robotParam) || 0.85)), timer: null, agent: null, log: [], seed: 1 };
+
+// ?episodes=off turns off the background episode recorder (shared/
+// episodes.js): a kiosk that wants nothing written to this browser beyond the
+// training record itself, or a developer isolating an unrelated repro.
+const episodesOn = new URLSearchParams(location.search).get("episodes") !== "off";
 function stopRobot() { if (robot.timer) { clearInterval(robot.timer); robot.timer = null; } robot.agent = null; clearRobotOverlay(); }
 function startRobot(room) {
   stopRobot();
@@ -1971,6 +1988,7 @@ function renderRecords() {
     credentials: earnedCertifications(list).map((r) => ({ id: r.id, certification: r.certification, simName: r.simName ?? r.simId, at: r.at, app: r.app })),
     total: list.length, passes: list.filter((r) => r.passed).length,
     proof: renderProof(list),
+    episodes: EpisodeStore.count(),
   });
 }
 
@@ -2571,6 +2589,14 @@ function exportCredentials() {
   const assertions = toOpenBadges(TrainingRecords.list(), xapiOpts());
   if (!assertions.length) return;
   download(`smartcitix-credentials-${stamp()}.json`, JSON.stringify(assertions, null, 2), "application/json");
+}
+// Robot/model training episodes (shared/episodes.js): a local download only —
+// nothing here ever makes a network call. tools/export_dataset.mjs is the
+// path from this file to a model-ready dataset shard.
+function exportEpisodesJson() {
+  const episodes = EpisodeStore.list();
+  if (!episodes.length) return;
+  download(`smartcitix-episodes-${stamp()}.json`, JSON.stringify({ schemaVersion: EPISODE_SCHEMA_VERSION, exportedAt: new Date().toISOString(), episodes }, null, 2), "application/json");
 }
 // ---------------------------------------------------------------- proof export
 function proofOpts() {
@@ -4453,7 +4479,7 @@ function handleVoiceCommand(text) {
 // voice path cannot diverge.
 const uiActions = {
   viewLeaderboard, closeLeaderboard,
-  viewRecords, closeRecords, exportRecordsCsv, exportRecordsXapi, exportCredentials, clearRecords,
+  viewRecords, closeRecords, exportRecordsCsv, exportRecordsXapi, exportCredentials, exportEpisodesJson, clearRecords,
   setRecordsTab, exportProofCsv, exportCompetencyBadges, printTranscript,
   viewPrograms, closePrograms, programStart, toggleLadder, startLevel,
   viewSignIn, closeSignIn, signInWith, setSignInField, signOutOfAuth,
@@ -4630,6 +4656,10 @@ renderer.setAnimationLoop((_, frame) => {
     driveFrame();
     if (state.session && !state.session.finished) {
       state.session.tick(dt);
+      // Low-rate pose track (~4 Hz, see shared/episodes.js): camera always,
+      // controllers and hands only while actually presenting, so a desktop
+      // run's track carries just the camera it actually has.
+      state.episodeRec?.tick(dt, presenting ? { camera, controllers, hands: handInput.hands } : { camera });
       syncAlarm(state.session);
       if (driving()) { driveCamera(dt); syncDriveHud(); }
       if (state.session.step?.kind === "hold" || state.session.step?.kind === "track" || state.session.step?.kind === "drive") syncHud();
