@@ -21,7 +21,7 @@ import { createAnnouncer, createTargetCursor, describeTarget, reducedMotion, esc
 import { createHandInput, HAND_HINTS } from "../../shared/hands.js";
 import { buildStage, timeOfDay } from "./stage.js";
 import { DISTRICTS } from "./districts.js";
-import { CITY, stationPad, standingFigure } from "./citykit.js";
+import { CITY, stationPad, standingFigure, setActiveContext, animateCrew } from "./citykit.js";
 import { pickup, sedan, cargoVan, boxTruck } from "../../shared/fleet.js";
 import { buildHub } from "./hub.js";
 import { buildGallery, GALLERY_KINDS } from "./gallery.js";
@@ -777,6 +777,10 @@ async function enterSim(id, { briefed = false } = {}) {
   // A driving course is its own site: a station that declares `apron: false`
   // keeps the plaza but not the gate, laydown and fence the apron lays across
   // the ground its route is driven over.
+  // Set before the stage builds: the site apron stands its own generic
+  // worker (shared/citykit.js's apron), and that figure resolves its trade
+  // dress from this the same as the station's own crew does.
+  setActiveContext(room.category ?? room.trade ?? room.domain ?? room.id ?? "");
   const stage = buildStage(worldRoot, state.mode, scene, room.accent, room.district ?? room.category, weatherUnder(PROFILE, stationWeather), room.indoor, { ...horizon, station: room, ...(room.apron === false ? { apron: false } : {}) });
   state.stage = stage;
   applyStageCamera(stage);
@@ -1530,6 +1534,7 @@ async function startRobotTraining() {
     await nextFrame();
     const root = new THREE.Group();
     let api;
+    setActiveContext(room.category ?? room.trade ?? room.domain ?? room.id ?? "");
     try { api = room.build(root); } catch (err) { console.warn("[robot training]", id, err); disposeTree(root); continue; }
     const probes = [];
     for (const skill of DIFFICULTY_LADDER) {
@@ -2964,6 +2969,7 @@ const _scratchM4 = new THREE.Matrix4();
 const _scratchV1 = new THREE.Vector3();
 const _scratchV2 = new THREE.Vector3();
 const _scratchBox = new THREE.Box3();
+const _crewLearnerPos = new THREE.Vector3();
 
 function findHit(intersections) {
   for (const it of intersections) {
@@ -4720,6 +4726,10 @@ renderer.setAnimationLoop((_, frame) => {
   if (canInteract) state.api?.animate?.(elapsedTotal, dt, state.session);
   if (state.session && !state.session.finished) { const snap = observerSnapshot(); if (snap) observer.state(snap); }
   state.stage?.animate?.(elapsedTotal, dt);
+  if (state.roomRoot) {
+    camera.getWorldPosition(_crewLearnerPos);
+    animateCrew(state.roomRoot, elapsedTotal, dt, _crewLearnerPos, reducedMotion());
+  }
 
   if (presenting && vrHudDirty) { drawVrHud(); vrHudDirty = false; }
   renderer.render(scene, camera);
