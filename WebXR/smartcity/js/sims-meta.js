@@ -18088,5 +18088,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "op-grader-fine-grade-and-crown",
+    "index": "op-4",
+    "domain": "Construction",
+    "trade": "Motor grader operator — IUOE Local 3 operating engineer",
+    "category": "Construction & Structural Trades",
+    "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926.602 Material handling equipment and 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on struck-by incidents in active work lanes",
+    "name": "Grader Fine Grade & Crown",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Grader Fine Grade & Crown VR",
+    "tagline": "Motor grader fine-grading a road surface to its crown: the subgrade walked, a stringline set, the circle angled, the lane barricaded, and the finished crown checked with a straightedge before the drainage outlet is confirmed clear",
+    "accent": 4161456,
+    "accentCss": "#3f7fb0",
+    "parSeconds": 270,
+    "badge": {
+      "id": "grade-authority",
+      "name": "Grade Authority",
+      "note": "Subgrade walked, the crown cut clean to the stringline, and the finished surface checked before it was called done"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Grade Authority",
+      "currency": "GRADE",
+      "ranks": [
+        "Ground Hand",
+        "Grader Hand",
+        "Crown Certified",
+        "Grade Authority",
+        "Grade Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

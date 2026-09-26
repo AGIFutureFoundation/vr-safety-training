@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 424
+      "stations": 425
     },
     "trades": {
       "entry": "trades/index.html",
@@ -226,6 +226,7 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "op-grader-fine-grade-and-crown",
         "op-loader-truck-loading-and-blind-spots",
         "op-dozer-slope-work-and-rollover-protection",
         "op-excavator-trench-and-utility-locate",
@@ -7644,6 +7645,94 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "op-grader-fine-grade-and-crown",
+      "name": "Grader Fine Grade & Crown",
+      "title": "SmartCiti.X~ Grader Fine Grade & Crown VR",
+      "tagline": "Motor grader fine-grading a road surface to its crown: the subgrade walked, a stringline set, the circle angled, the lane barricaded, and the finished crown checked with a straightedge before the drainage outlet is confirmed clear",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Motor grader operator — IUOE Local 3 operating engineer",
+      "union": null,
+      "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926.602 Material handling equipment and 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on struck-by incidents in active work lanes",
+      "accent": "#3f7fb0",
+      "parSeconds": 270,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "turn",
+        "drag",
+        "gauge",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "grade-authority",
+        "name": "Grade Authority",
+        "note": "Subgrade walked, the crown cut clean to the stringline, and the finished surface checked before it was called done"
+      },
+      "meshes": null,
+      "lights": null,
+      "overBudget": false,
+      "index": "op-4",
+      "flat": false,
+      "system": "Grade Authority",
+      "currency": "GRADE",
+      "ranks": [
+        "Ground Hand",
+        "Grader Hand",
+        "Crown Certified",
+        "Grade Authority",
+        "Grade Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "lane-held",
+          "name": "Lane Held",
+          "note": "Never worked the lane before it was barricaded"
+        },
+        {
+          "id": "stringline-true",
+          "name": "Stringline True",
+          "note": "Set the stringline clean, first try"
+        },
+        {
+          "id": "steady-crown",
+          "name": "Steady Crown",
+          "note": "Held the gauge readings near band centre all shift"
+        },
+        {
+          "id": "clean-cut",
+          "name": "Clean Cut Certified",
+          "note": "Cut the fine-grade pass clean, first try"
+        },
+        {
+          "id": "quick-crown",
+          "name": "Quick Crown",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "grade-streak",
+          "name": "Grade Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=op-grader-fine-grade-and-crown"
     },
     {
       "app": "smartcity",
@@ -27852,7 +27941,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 248,
+      "meshes": 264,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -28512,7 +28601,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",
