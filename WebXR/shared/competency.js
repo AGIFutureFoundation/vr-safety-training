@@ -590,9 +590,9 @@ export const PROGRAMME_COMPETENCIES = [
       "br-dive-site-hazard-assessment-and-jsa", "br-surface-supplied-dive-station-setup", "br-underwater-debris-survey-and-mapping", "br-underwater-sediment-core-sampling",
       "br-derelict-gear-recovery-dive", "br-hyperbaric-chamber-standby", "br-dive-tender-and-umbilical-management", "br-derelict-vessel-salvage-rigging",
       "br-workboat-crane-lift-from-water", "br-debris-skimmer-vessel-operations", "br-boom-towing-between-two-vessels", "br-barge-loading-of-contaminated-sediment",
-      "br-cold-water-immersion-and-mob-recovery", "br-dredge-spoils-dewatering-pad", "br-turbidity-curtain-deployment", "br-sediment-chain-of-custody-and-lab-prep",
-      "br-water-quality-sonde-calibration-and-deploy", "br-legacy-mercury-and-pcb-hotspot-handling", "br-trash-capture-device-service", "br-dredge-material-screening-and-disposal-decision",
-      "br-tidal-marsh-grading-amphibious-excavator"
+      "br-cold-water-immersion-and-mob-recovery", "br-vhf-and-navigation-in-a-work-zone", "br-dredge-spoils-dewatering-pad", "br-turbidity-curtain-deployment",
+      "br-sediment-chain-of-custody-and-lab-prep", "br-water-quality-sonde-calibration-and-deploy", "br-legacy-mercury-and-pcb-hotspot-handling", "br-trash-capture-device-service",
+      "br-dredge-material-screening-and-disposal-decision", "br-tidal-marsh-grading-amphibious-excavator"
     ],
     require: 6,
   },

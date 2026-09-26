@@ -1942,6 +1942,58 @@
     },
     {
       "app": "smartcity",
+      "id": "br-vhf-and-navigation-in-a-work-zone",
+      "name": "VHF & Navigation in a Work Zone",
+      "category": "Maritime & Ports",
+      "steps": 14,
+      "score": 93,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 363,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 0.75,
+          "authorities": 3
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 245,
+          "materials": 112,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.5439716312056738,
+          "nearest": "br-cold-water-immersion-and-mob-recovery",
+          "similarity": 0.23120567375886525
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "wellness-asking-for-help-and-resources",
       "name": "Wellness — Asking for Help and Resources",
       "category": "Community Environmental Justice",
@@ -5621,7 +5673,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 259,
+          "meshes": 269,
           "materials": 83,
           "interactables": 28
         },
@@ -8793,7 +8845,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 257,
+          "meshes": 250,
           "materials": 92,
           "interactables": 29
         },

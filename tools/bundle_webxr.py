@@ -248,6 +248,10 @@ def dist_fixup(html: str) -> str:
     for name in SIBLING_APP_DIRS:
         for q in LINK_QUOTES:
             html = html.replace(f'{q}../{name}/', f'{q}../../{name}/')
+    # The homepage link in every app's header chip: WebXR/index.html is one
+    # level up from the source page and two from WebXR/<app>/dist/.
+    for q in LINK_QUOTES:
+        html = html.replace(f'{q}../index.html{q}', f'{q}../../index.html{q}')
     # The sign-in configuration is read relative to the page. Beside the modular
     # source that is one directory up (WebXR/auth-config.json from
     # WebXR/<app>/); in a dist folder it is the copy written next to the bundle.
@@ -411,6 +415,8 @@ def combined_fixup(html: str) -> str:
             html = html.replace(f'{q}../../{app}/index.html', f'{q}./{page}')
             html = html.replace(f'{q}../../{app}/dist/{page}', f'{q}./{page}')
     for q in LINK_QUOTES:
+        # The homepage sits beside the bundles in this folder.
+        html = html.replace(f'{q}../../index.html{q}', f'{q}./index.html{q}')
         html = html.replace(f'{q}../../', f'{q}../')
     return html
 

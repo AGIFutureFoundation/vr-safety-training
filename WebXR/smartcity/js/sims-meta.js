@@ -16828,5 +16828,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "br-vhf-and-navigation-in-a-work-zone",
+    "index": "342",
+    "domain": "Maritime & Ports",
+    "trade": "Inlandboatmen's Union (IBU) deckhand on radio and lookout watch for a restoration work zone on the Bay, with the master at the helm and the barge crew on the curtain",
+    "category": "Maritime & Ports",
+    "certification": "Inlandboatmen's Union (IBU) deck practice; USCG 33 CFR 83 Inland Navigation Rules for the crossing, the lookout and the fog signals; 33 CFR 26 bridge-to-bridge radiotelephone watch; 33 CFR 161 vessel traffic service reporting; 33 CFR 165 regulated navigation and safety zones for the work zone; 33 CFR 62 United States Aids to Navigation System for the marker; FCC 47 CFR 80 marine VHF station rules for the radio check and the sécurité call; USCG 46 CFR 25 lifesaving equipment on an uninspected vessel; the vessel's own standing orders for the watch",
+    "name": "VHF & Navigation in a Work Zone",
+    "weather": "fog",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ VHF & Navigation in a Work Zone VR",
+    "tagline": "A restoration work zone kept safe on the water from the wheelhouse door: PFD on before the deck, the radio checked on the working channel and the watch set on 16, the zone's sécurité call made in plain words and the phonetic alphabet, the temporary marker set where the chart puts it, the tide read off the table, a ferry crossing handled by the rules and a kayaker turned out of the zone, fog signals sounded as the bank rolls in, the traffic service told, and the watch logged",
+    "accent": 4175561,
+    "accentCss": "#3fb6c9",
+    "parSeconds": 300,
+    "badge": {
+      "id": "clear-channel",
+      "name": "Clear Channel",
+      "note": "The watch never left 16, nobody was called on the distress channel for chatter, the ferry was never raced, the marker never went in by eye, and both the kayaker and the fog were answered"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Bridge Watch",
+      "currency": "CALLS",
+      "ranks": [
+        "Ordinary",
+        "Deckhand",
+        "Radio Watch",
+        "Lead Deckhand",
+        "Work Zone Watch Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

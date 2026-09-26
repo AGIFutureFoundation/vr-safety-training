@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 394
+      "stations": 395
     },
     "trades": {
       "entry": "trades/index.html",
@@ -262,6 +262,7 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "br-vhf-and-navigation-in-a-work-zone",
         "br-cold-water-immersion-and-mob-recovery",
         "vessel-gangway-and-hatch-cover-safety",
         "mw-diver-emergency-and-recovery",
@@ -3310,6 +3311,11 @@
         },
         {
           "app": "smartcity",
+          "id": "br-vhf-and-navigation-in-a-work-zone",
+          "why": "The watch that keeps the whole zone safe on the water: the radio checked and the watch set on 16, the sécurité call that tells every bridge what is out here, the marker set where the chart puts it, a ferry crossing handled by the rules, and fog signals sounded as the bank comes over."
+        },
+        {
+          "app": "smartcity",
           "id": "br-dredge-spoils-dewatering-pad",
           "why": "Wet dredged sediment comes ashore into a lined pad, and the decant that drains from it goes back to the Bay only through a filter train under the pad's discharge conditions, sampled under custody and diverted the moment the effluent meter trips."
         },
@@ -3352,7 +3358,7 @@
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1647,
+        "lessons": 1648,
         "tasks": 120,
         "atBar": 20,
         "partial": 0,
@@ -7479,6 +7485,88 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-vhf-and-navigation-in-a-work-zone",
+      "name": "VHF & Navigation in a Work Zone",
+      "title": "SmartCiti.X~ VHF & Navigation in a Work Zone VR",
+      "tagline": "A restoration work zone kept safe on the water from the wheelhouse door: PFD on before the deck, the radio checked on the working channel and the watch set on 16, the zone's sécurité call made in plain words and the phonetic alphabet, the temporary marker set where the chart puts it, the tide read off the table, a ferry crossing handled by the rules and a kayaker turned out of the zone, fog signals sounded as the bank rolls in, the traffic service told, and the watch logged",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Inlandboatmen's Union (IBU) deckhand on radio and lookout watch for a restoration work zone on the Bay, with the master at the helm and the barge crew on the curtain",
+      "union": null,
+      "certification": "Inlandboatmen's Union (IBU) deck practice; USCG 33 CFR 83 Inland Navigation Rules for the crossing, the lookout and the fog signals; 33 CFR 26 bridge-to-bridge radiotelephone watch; 33 CFR 161 vessel traffic service reporting; 33 CFR 165 regulated navigation and safety zones for the work zone; 33 CFR 62 United States Aids to Navigation System for the marker; 47 CFR 80 marine VHF station rules for the radio check and the sécurité call; USCG 46 CFR 25 lifesaving equipment on an uninspected vessel; the vessel's own standing orders for the watch",
+      "accent": "#3fb6c9",
+      "parSeconds": 300,
+      "weather": "fog",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "find",
+        "select",
+        "turn",
+        "gauge",
+        "track",
+        "hold"
+      ],
+      "badge": {
+        "id": "clear-channel",
+        "name": "Clear Channel",
+        "note": "The watch never left 16, nobody was called on the distress channel for chatter, the ferry was never raced, the marker never went in by eye, and both the kayaker and the fog were answered"
+      },
+      "meshes": 245,
+      "lights": 0,
+      "overBudget": false,
+      "index": "342",
+      "flat": false,
+      "system": "Bridge Watch",
+      "currency": "CALLS",
+      "ranks": [
+        "Ordinary",
+        "Deckhand",
+        "Radio Watch",
+        "Lead Deckhand",
+        "Work Zone Watch Certified"
+      ],
+      "awards": [
+        {
+          "id": "check-first",
+          "name": "Check First",
+          "note": "The radio check done before the first call went out"
+        },
+        {
+          "id": "on-the-mark",
+          "name": "On The Mark",
+          "note": "The marker set inside the chart's band first time"
+        },
+        {
+          "id": "by-the-rules",
+          "name": "By The Rules",
+          "note": "Never chatted on 16, never raced the ferry, never marked by eye, never left the door"
+        },
+        {
+          "id": "clean-watch",
+          "name": "Clean Watch",
+          "note": "No corrections from the radio check to the log"
+        },
+        {
+          "id": "steady-lookout",
+          "name": "Steady Lookout",
+          "note": "The crossing watched in band all the way across"
+        },
+        {
+          "id": "logged-on-time",
+          "name": "Logged On Time",
+          "note": "Watch logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-vhf-and-navigation-in-a-work-zone"
     },
     {
       "app": "smartcity",
@@ -26843,7 +26931,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 261,
+      "meshes": 260,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -27503,7 +27591,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 251,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "100",
