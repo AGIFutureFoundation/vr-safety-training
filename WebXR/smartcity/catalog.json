@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 423
+      "stations": 424
     },
     "trades": {
       "entry": "trades/index.html",
@@ -275,6 +275,7 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "uw-underwater-concrete-and-bag-placement",
         "uw-pipeline-crossing-inspection-dive",
         "uw-rov-pre-dive-and-tether-management",
         "br-vhf-and-navigation-in-a-work-zone",
@@ -7646,6 +7647,89 @@
     },
     {
       "app": "smartcity",
+      "id": "uw-underwater-concrete-and-bag-placement",
+      "name": "Underwater Concrete & Bag Placement",
+      "title": "SmartCiti.X~ Underwater Concrete & Bag Placement VR",
+      "tagline": "The repair from form to bag: on the bottom reported, the corrosion band and a seam gap found inside the form, the form's lower half closed and the strap buckled in order, the mudline seal set, the tremie seated in its port, the pump called for, the pipe kept embedded as the pour rises through a line surge, the air-bleed valve worked, the pour rate read on the gauge, the fill height held on the sounding rod through a loosened strap, the hazards found, the pour reported, and the scour bags laid interlocking in order before the crew checks in",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers Local 34 commercial diver placing a tremie-filled repair jacket and grout-filled fabric bags on a corroded pile base, with the dive supervisor on the comms, the tender on the umbilical and the standby diver dressed at the ladder",
+      "union": null,
+      "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.421 pre-dive procedures (equipment inspection, hazardous activities nearby) and 29 CFR 1910.422 procedures during the dive (communications, power tools, termination of the dive); ADCI International Consensus Standards for Commercial Diving and Underwater Operations; ACI concrete field testing technician certification and ACI 301 specifications for structural concrete governing the tremie placement; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds",
+      "accent": "#c9b06a",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": "bay-underwater",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "drag",
+        "track",
+        "turn",
+        "gauge",
+        "hold"
+      ],
+      "badge": {
+        "id": "embedded-and-bled",
+        "name": "Embedded and Bled",
+        "note": "The tremie tip never lifted clear of the rising concrete, the air bled at every stage, and nothing unclipped before it was landed"
+      },
+      "meshes": 135,
+      "lights": 0,
+      "overBudget": false,
+      "index": "354",
+      "flat": false,
+      "system": "Tremie Pour",
+      "currency": "YARDAGE",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Placement Diver",
+        "Lead Placement Diver",
+        "Underwater Concrete Certified"
+      ],
+      "awards": [
+        {
+          "id": "form-first",
+          "name": "Form First",
+          "note": "The form closed and strapped in order before the tremie went in"
+        },
+        {
+          "id": "true-rate",
+          "name": "True Rate",
+          "note": "The pour rate gauge read inside the band first time"
+        },
+        {
+          "id": "nothing-dropped",
+          "name": "Nothing Dropped",
+          "note": "Never unclipped early, never stood in the discharge, never the umbilical under the strap, never tangled in the sling"
+        },
+        {
+          "id": "clean-pour",
+          "name": "Clean Pour",
+          "note": "No corrections from the on-bottom report to the check-in"
+        },
+        {
+          "id": "steady-embedment",
+          "name": "Steady Embedment",
+          "note": "The tremie tip held embedded the whole pour"
+        },
+        {
+          "id": "poured-in-time",
+          "name": "Poured In Time",
+          "note": "The pour reported inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=uw-underwater-concrete-and-bag-placement"
+    },
+    {
+      "app": "smartcity",
       "id": "uw-pipeline-crossing-inspection-dive",
       "name": "Pipeline Crossing Inspection Dive",
       "title": "SmartCiti.X~ Pipeline Crossing Inspection Dive VR",
@@ -7678,7 +7762,7 @@
         "name": "Span Marked, Not Touched",
         "note": "Every defect floated and logged, the free span supported, and never the strap, the riser or the span itself taken as a way through"
       },
-      "meshes": 139,
+      "meshes": 172,
       "lights": 0,
       "overBudget": false,
       "index": "353",
@@ -27753,7 +27837,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 245,
+      "meshes": 256,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -28413,7 +28497,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 252,
       "lights": 0,
       "overBudget": false,
       "index": "100",
