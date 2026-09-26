@@ -97,6 +97,31 @@ check(PRESET_IDS.length === 5 && ["standard", "wasd", "left-hand", "numpad", "on
   check(!bads.length, "the one-hand preset needs no chord, no Tab and no function key", `one-hand preset uses ${bads.join(", ")}`);
 }
 
+// -------------------------------------------------------- first/third person
+//
+// The view toggle (docs/controls.md's "View") rides the same action table as
+// everything else, so the generic "every preset binds every action" and
+// "every gamepad action has a keyboard fallback" checks above already hold it
+// to the brief's two rules. This just names it, so a future edit that quietly
+// drops the binding fails here with a message that says what broke, not a
+// generic "leaves view unbound".
+{
+  check(ACTION_IDS.includes("view"), "the view toggle (first/third person) is a real action");
+  for (const id of PRESET_IDS) {
+    const bound = (KEYBOARD_PRESETS[id].keys.view ?? []).length > 0;
+    check(bound, `preset "${id}" binds the view toggle to a key`, `preset "${id}" leaves the view toggle unbound`);
+  }
+  const padRow = GAMEPAD_MAP.find((b) => b.action === "view");
+  check(!!padRow, "the gamepad map binds a button to the view toggle", "no gamepad button drives the view toggle");
+  const driveRow = DRIVE_GAMEPAD_MAP.find((b) => b.action === "view");
+  check(!!driveRow, "the drive pad map also reaches the view toggle while a drive step is live",
+    "the view toggle is unreachable from a pad while driving");
+  check(parseVoice("third person").type === "thirdPerson" && parseVoice("first person").type === "firstPerson",
+    '"third person" and "first person" are their own voice commands');
+  check(VOICE_HELP_LINE.toLowerCase().includes("third person") && VOICE_HELP_LINE.toLowerCase().includes("first person"),
+    "the spoken help line names both view commands");
+}
+
 // -------------------------------------------------- bindings in a fake store
 {
   const store = (() => {

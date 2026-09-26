@@ -669,11 +669,17 @@ export function standingFigure(parent, x, z, o = {}) {
   personHead(head, {
     look, k: 0.9, helmet: o.helmet, cap: o.cap, glasses: o.glasses, respirator: o.respirator,
   });
+  // Kept as [{shoulder, fore}, ...] (left first, then right) rather than
+  // discarded like most callers do: the third-person chase view (app.js)
+  // poses the learner's own figure to point at whatever the keyboard cursor
+  // is on, the way sims/*.js already poses an NPC's arms.
+  const arms = [];
   for (const sx of [-1, 1]) {
-    personArm(body, sx, { sleeve: cloth, skin: look.skin, glove: o.gloves, dress });
+    arms.push(personArm(body, sx, { sleeve: cloth, skin: look.skin, glove: o.gloves, dress }));
   }
   g.userData.head = head;
   g.userData.body = body;
+  g.userData.arms = arms;
   return g;
 }
 

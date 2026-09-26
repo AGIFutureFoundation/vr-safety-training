@@ -729,6 +729,7 @@ const INPUT_ACTIONS = [
   { id: "speakHint", group: "assist", label: "Read the step aloud", what: "Speaks the live step's title and cue, and writes it to the live region." },
   { id: "voice", group: "assist", label: "Start or stop listening", what: "The microphone button, from the keyboard." },
   { id: "mute", group: "assist", label: "Mute or unmute", what: "Silences the sound effects and the spoken lines." },
+  { id: "view", group: "assist", label: "First / third person", what: "Switches between the first-person view and a third-person camera that follows your own figure — or the vehicle, on a drive step." },
   { id: "controls", group: "panel", label: "Open the controls panel", what: "This panel." },
   { id: "back", group: "panel", label: "Close the panel, or back to the campus", what: "Closes the topmost overlay first, then leaves the station." },
 ];
@@ -767,8 +768,11 @@ const KEYBOARD_PRESETS = {
       turnLeft: ["KeyQ"],
       turnRight: ["KeyE"],
       speakHint: ["KeyH"],
-      voice: ["KeyV"],
+      // `V` is the third-person toggle everywhere (the common convention);
+      // voice moves to the free `N` so it stays reachable with one press.
+      voice: ["KeyN"],
       mute: ["KeyM"],
+      view: ["KeyV"],
       controls: ["Slash", "F1"],
       back: ["Escape"],
     },
@@ -788,6 +792,7 @@ const KEYBOARD_PRESETS = {
       speakHint: ["KeyH"],
       voice: ["KeyY"],
       mute: ["KeyM"],
+      view: ["KeyV"],
       controls: ["Slash", "F1"],
       back: ["Escape"],
     },
@@ -806,7 +811,10 @@ const KEYBOARD_PRESETS = {
       turnRight: ["KeyC"],
       speakHint: ["KeyT"],
       voice: ["KeyB"],
-      mute: ["KeyV"],
+      // Mute moves to the free `X`, still on the left third, so `V` stays the
+      // view toggle everywhere.
+      mute: ["KeyX"],
+      view: ["KeyV"],
       controls: ["Backquote", "F1"],
       back: ["Escape"],
     },
@@ -826,6 +834,7 @@ const KEYBOARD_PRESETS = {
       speakHint: ["Numpad1"],
       voice: ["NumpadMultiply"],
       mute: ["Numpad3"],
+      view: ["NumpadAdd"],
       controls: ["NumpadDivide", "F1"],
       back: ["NumpadSubtract", "Escape"],
     },
@@ -839,12 +848,15 @@ const KEYBOARD_PRESETS = {
       activate: ["KeyC"],
       hold: ["Space"],
       adjustUp: ["KeyR"],
-      adjustDown: ["KeyV"],
+      // Adjust-down moves to the free `D`, still one key over from `F`/`R`,
+      // so `V` stays the view toggle everywhere.
+      adjustDown: ["KeyD"],
       turnLeft: ["KeyQ"],
       turnRight: ["KeyE"],
       speakHint: ["KeyT"],
       voice: ["KeyB"],
       mute: ["KeyF"],
+      view: ["KeyV"],
       controls: ["KeyG"],
       back: ["Escape"],
     },
@@ -1071,6 +1083,7 @@ const GAMEPAD_MAP = [
   { index: 8, mode: "edge", action: "back", note: "Back to the campus." },
   { index: 9, mode: "edge", action: "controls", note: "Opens and closes the controls panel." },
   { index: 10, mode: "edge", action: "mute", note: "Mutes the sound and the spoken lines." },
+  { index: 11, mode: "edge", action: "view", note: "Right stick press: switches between first- and third-person view." },
   { index: 12, mode: "repeat", action: "adjustUp", note: "Steps a gauge, a tracked value or a valve up." },
   { index: 13, mode: "repeat", action: "adjustDown", note: "Steps it down." },
   { index: 14, mode: "edge", action: "focusPrev", note: "Focus the previous control this step names." },
@@ -1321,6 +1334,7 @@ const DRIVE_GAMEPAD_MAP = [
   { index: 12, mode: "edge", action: "radio", note: "D-pad up: key the radio." },
   { index: 1, mode: "edge", action: "back", note: "Leaves the station, the Escape path." },
   { index: 9, mode: "edge", action: "controls", note: "Opens the controls panel." },
+  { index: 11, mode: "edge", action: "view", note: "Right stick press: chase view behind the vehicle, or back to the cab." },
 ];
 /** Continuous pad input while driving: the left stick steers, the right
  *  stick's forward and back are throttle and brake, and the bottom face and
@@ -1433,6 +1447,8 @@ const VOICE_GRAMMAR = [
   { type: "mute", scope: "any", phrases: ["mute"], what: "Sound and spoken lines off.", re: /\b(mute|quiet|silence)\b/ },
   { type: "bigger", scope: "any", phrases: ["bigger"], what: "A larger HUD, or a larger diorama in AR — the command a monocular display needs most.", re: /\b(bigger|larger|zoom in|magnify|scale up)\b/ },
   { type: "smaller", scope: "any", phrases: ["smaller"], what: "A smaller HUD, or a smaller diorama in AR.", re: /\b(smaller|zoom out|shrink|scale down)\b/ },
+  { type: "thirdPerson", scope: "any", phrases: ["third person"], what: "Switches to the third-person camera behind your own figure — or the vehicle, on a drive step.", re: /\bthird[- ]?person\b/ },
+  { type: "firstPerson", scope: "any", phrases: ["first person"], what: "Switches back to the first-person view.", re: /\bfirst[- ]?person\b/ },
   { type: "leaderboard", scope: "hub", phrases: ["leaderboards"], what: "Opens the leaderboards.", re: /\bleaderboards?\b/ },
   { type: "programs", scope: "hub", phrases: ["programmes"], what: "Opens the training programmes.", re: /\b(programme?s?|programs?|curricul(?:um|a)|pathway)\b/ },
   { type: "records", scope: "hub", phrases: ["records"], what: "Opens the training records.", re: /\b(records?|training records?|transcript)\b/ },
@@ -1447,6 +1463,7 @@ const VOICE_GRAMMAR = [
 const VOICE_HELP_LINE =
   'Say a station name, or "next", "previous", "focus" and a control\'s name, "where is" and a control\'s name, ' +
   '"read step", "repeat", "hint", "brief", "status", "select item" and a number, "show numbers", "bigger", "smaller", ' +
+  '"third person", "first person", ' +
   '"mute", "unmute", "controls", "check in", "hub", "leaderboards", "records", "programmes", "tour", "editor", "reset", or "help".';
 
 /**
