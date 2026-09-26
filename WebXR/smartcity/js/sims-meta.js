@@ -16912,5 +16912,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bb-pre-game-routine-and-visualisation",
+    "index": "344",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on a calm, rest-first pre-game routine rather than last-minute extra work; the Association for Applied Sport Psychology's guidance on pre-performance routines and visualisation — picturing a play calmly and specifically before it happens; NFHS basketball rules and its sportsmanship expectations for how a team carries itself before it ever takes the floor; CDC Heads Up for a heat or head concern noticed before the game starts; the U.S. Center for SafeSport for privacy and consent in a locker room and calm handling of a parent at the door; the American Red Cross first aid course for a player who is unwell before tip-off",
+    "name": "Pre-Game Routine and Visualisation",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Pre-Game Routine and Visualisation VR",
+    "tagline": "Gear checked, a genuinely quiet visualisation, a shoot-around and a short captain's word — a calm hour before tip-off instead of a wound-up one",
+    "accent": 10980346,
+    "accentCss": "#a78bfa",
+    "parSeconds": 330,
+    "badge": {
+      "id": "ready-not-wound-up",
+      "name": "Ready, Not Wound Up",
+      "note": "A pre-game hour that left the team calm, focused and rested, not amped past the point of good decisions"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Tip-Off Countdown",
+      "currency": "FOCUS POINTS",
+      "ranks": [
+        "Locker Helper",
+        "Warm-Up Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Routine Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

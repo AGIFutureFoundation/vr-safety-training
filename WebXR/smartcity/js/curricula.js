@@ -750,6 +750,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "bb-team-offense-spacing-and-screens", why: "Five players moving together: spacing that keeps the paint clear, screens that are legal and still, and a rotation with water in it for everyone." },
       { app: "smartcity", id: "bb-scrimmage-and-sportsmanship-debrief", why: "Everything at game speed and then the close of the programme: fair teams, a game kept hard and fair, a handshake line, a debrief in order and a check-in on how everyone is." },
       { app: "smartcity", id: "bb-reset-routine-after-a-miss", why: "The seconds right after a mistake: one slow breath, a one-word cue and a physical let-it-go that turns a miss back into the next play instead of a spiral." },
+      { app: "smartcity", id: "bb-pre-game-routine-and-visualisation", why: "The hour before tip-off: gear checked, a genuinely quiet visualisation, a shoot-around and a short captain's word that build a team up calmly instead of winding it up." },
     ],
   },
   {
