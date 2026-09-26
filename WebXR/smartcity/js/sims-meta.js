@@ -17626,5 +17626,89 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "br-marine-mammal-observer-during-pile-driving",
+    "index": "343",
+    "domain": "Maritime & Ports",
+    "trade": "NOAA-Fisheries-authorized protected species observer, posted on the support workboat for a restoration pile-driving crew — Pile Drivers Local 34 on the derrick, IUOE Local 3 on the crane",
+    "category": "Maritime & Ports",
+    "certification": "Marine Mammal Protection Act take prohibition and Incidental Harassment Authorization conditions; NOAA Fisheries authorization and monitoring protocol for in-water pile driving; Endangered Species Act consultation behind the same authorization; OSHA 29 CFR 1910.95 occupational noise exposure at the rail near an operating derrick; Pile Drivers Local 34 (UBC) and IUOE Local 3 training standards for the crew the observer works beside; San Francisco Bay Conservation and Development Commission (BCDC) Bay Plan permit conditions for the work window",
+    "name": "Marine Mammal Observer During Pile Driving",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Marine Mammal Observer During Pile Driving VR",
+    "tagline": "The watch that lets a pile-driving crew work at all: the shutdown zone scanned clean before the first soft-start strike, the rangefinder used instead of a guess, the soft-start and full-power calls made in order, a harbor seal or harbor porpoise in the zone answered with an immediate shutdown call, a stray boat waved off the safety zone, the wait held out before ramp-up resumes, and every sighting logged the way the authorization requires",
+    "accent": 14721596,
+    "accentCss": "#e0a23c",
+    "parSeconds": 310,
+    "badge": {
+      "id": "clean-watch-clean-zone",
+      "name": "Clean Watch, Clean Zone",
+      "note": "The zone was scanned clear before every ramp-up, the rangefinder was used instead of an eyeball guess, the seal sighting got an immediate shutdown, and every entry made it into the log"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Protected Species Watch",
+      "currency": "SIGHTINGS",
+      "ranks": [
+        "Trainee Observer",
+        "Observer",
+        "Lead Observer",
+        "Senior Observer",
+        "Pile-Driving Watch Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-bird-nesting-buffer-and-work-window",
+    "index": "344",
+    "domain": "Environmental",
+    "trade": "Wildlife compliance biologist, clearing a shoreline restoration bench for an IUOE Local 3 amphibious-excavator crew and its LIUNA Local 261 ground crew",
+    "category": "Environmental Monitoring",
+    "certification": "Endangered Species Act nesting-buffer conditions and U.S. Fish and Wildlife Service (USFWS) consultation for Ridgway's rail; San Francisco Bay Conservation and Development Commission (BCDC) permit conditions for the work window; San Francisco Bay Regional Water Quality Control Board (RWQCB) monitoring conditions; IUOE Local 3 operating-engineer training for the amphibious excavator; LIUNA Local 261 laborer training for the ground crew waiting on the buffer sign-off",
+    "name": "Bird Nesting Buffer & Work Window",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Bird Nesting Buffer & Work Window VR",
+    "tagline": "The sign-off a grading crew waits on: today's date checked against the work-window calendar, the nest found and its buffer confirmed by rangefinder rather than by eye, the flag line actually run out to the confirmed point, the crew briefed and the operator's own acknowledgement heard, the nest watched through the work, a flush answered with an immediate stop, the excavator waved off before it ever reaches the flagged line, and the day's monitoring logged the way the permit requires",
+    "accent": 5938794,
+    "accentCss": "#5a9e6a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "clean-buffer-clean-window",
+      "name": "Clean Buffer, Clean Window",
+      "note": "The buffer was set by rangefinder, the crew heard the brief and the operator answered, the flush got an immediate stop, and the excavator never crossed the flagged line"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Buffer Watch",
+      "currency": "SIGN-OFFS",
+      "ranks": [
+        "Field Aide",
+        "Compliance Monitor",
+        "Lead Monitor",
+        "Senior Monitor",
+        "Buffer & Window Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

@@ -1,6 +1,6 @@
 # SmartCiti.X compliance matrix
 
-_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-26: 422 procedures, 227 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
+_Generated from the station sources by `tools/gen_compliance.mjs` on 2026-09-26: 424 procedures, 227 distinct standards cited. A citation appears here only where a station's own text names it; the matrix is a map of what is taught, not a certification of compliance._
 
 ## How a procedure earns its place
 
@@ -95,6 +95,7 @@ Every station names the union and the certification a worker in that role holds,
 | 29 CFR 1910.268 | 3: Aerial Lashing, Microwave Backhaul, Splice Node |
 | 29 CFR 1910.305 | 3: Cell Site Battery, Community Room & Events, Fitness Room & Gym |
 | 29 CFR 1910.425 | 3: Dive Tender & Umbilical Management, Surface-Supplied Dive Station Setup, Underwater Sediment Core Sampling |
+| 29 CFR 1910.95 | 3: Fire Pump, Landscaping & Irrigation, Marine Mammal Observer During Pile Driving |
 | 29 CFR 1926.1425 | 3: Critical Lift Plan & Signalperson, Mass Timber Panel Set, Trash Capture Device Service |
 | 29 CFR 1926.453 | 3: Architectural Panels at Height, Duct Hanging and Seismic Bracing, Tandem Lift & Girder Set |
 | 29 CFR 1926.701 | 3: Concrete Pour, Post Tension, Rebar Tying & Impalement Protection |
@@ -120,7 +121,6 @@ Every station names the union and the certification a worker in that role holds,
 | 29 CFR 1910.423 | 2: Dive Tender & Umbilical Management, Hyperbaric Chamber Standby |
 | 29 CFR 1910.430 | 2: Hyperbaric Chamber Standby, Surface-Supplied Dive Station Setup |
 | 29 CFR 1910.440 | 2: Dive Site Hazard Assessment & JSA, Hyperbaric Chamber Standby |
-| 29 CFR 1910.95 | 2: Fire Pump, Landscaping & Irrigation |
 | 29 CFR 1915 | 2: Ballast Water Sampling, Shipyard Hot Work |
 | 29 CFR 1926.1437 | 2: Derelict Vessel Salvage Rigging, Workboat Crane Lift From Water |
 | 29 CFR 1926.416 | 2: Damage Assessment Team, Jobsite Orientation & OSHA 10 |
@@ -889,6 +889,8 @@ Every station names the union and the certification a worker in that role holds,
 | Legacy Mercury & PCB Hotspot Handling | LIUNA Local 261 hazardous-waste laborer leading the hotspot cut, with an IUOE Local 3 operating engineer on the excavator | 29 CFR 1910.120, 40 CFR 262, 40 CFR 761 |
 | Trash Capture Device Service | LIUNA Local 261 shoreline service crew lead on an outfall trash capture device, with an IUOE Local 3 operating engineer on the rough-terrain crane | 29 CFR 1910.1030, 29 CFR 1926.1425, 40 CFR 122.26, 40 CFR 262, ASME B30.5 |
 | Dredge Material Screening & Disposal Decision | LIUNA Local 261 material screener on the dredge deck, with an IUOE Local 3 operating engineer on the barge-mounted excavator, an Inlandboatmen's Union deckhand on the scow and a tug skipper standing by | 29 CFR 1910.120, 40 CFR 262 |
+| Marine Mammal Observer During Pile Driving | NOAA-Fisheries-authorized protected species observer, posted on the support workboat for a restoration pile-driving crew — Pile Drivers Local 34 on the derrick, IUOE Local 3 on the crane | 29 CFR 1910.95 |
+| Bird Nesting Buffer & Work Window | Wildlife compliance biologist, clearing a shoreline restoration bench for an IUOE Local 3 amphibious-excavator crew and its LIUNA Local 261 ground crew | — |
 | Tidal Marsh Grading — Amphibious Excavator | Operating engineer — amphibious excavator, wetland restoration crew | 29 CFR 1926 |
 | Native Planting & Erosion Control Mats | Restoration laborer — native planting and erosion control crew | 29 CFR 1926 |
 | Culvert Retrofit For Fish Passage | Operating engineer — excavator, culvert retrofit crew | 29 CFR 1926 |
@@ -1014,6 +1016,8 @@ Every station names the union and the certification a worker in that role holds,
 - Wheelchair Lift & Securement on a Bus (smartcity): NFPA 70
 - Pre-Game Routine and Visualisation (smartcity): none
 - Reset Routine After a Miss (smartcity): none
+- Bird Nesting Buffer & Work Window (smartcity): none
+- Marine Mammal Observer During Pile Driving (smartcity): 29 CFR 1910.95
 - Deploy Bay (trades): IEC 27001
 - Wash-Down Yard (trades): 29 CFR 1910.133
 
