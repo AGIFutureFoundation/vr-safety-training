@@ -18046,5 +18046,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "hc-patient-transport-and-safe-handling",
+    "index": "354",
+    "domain": "Healthcare Support",
+    "trade": "Patient transport technician",
+    "category": "Healthcare Support",
+    "certification": "OSHA's general duty clause and its ergonomics guidance for safe patient handling, drawing on the same lifting principles behind the Revised NIOSH Lifting Equation; OSHA 29 CFR 1910.1030 bloodborne pathogens for tubing and line handling; the CDC's general infection-prevention guidance; SEIU-UHW and NUHW as the training bodies for patient transport staff",
+    "name": "Patient Transport & Safe Handling",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Patient Transport & Safe Handling VR",
+    "tagline": "ID checked against the ticket, brakes locked before every transfer, a gait belt instead of a solo lift, the route scanned for a line or a footrest that bites, and a real handoff at the other end",
+    "accent": 13205457,
+    "accentCss": "#c97fd1",
+    "parSeconds": 300,
+    "badge": {
+      "id": "trip-complete",
+      "name": "Trip Complete",
+      "note": "A patient moved start to finish with the brakes set, the belt on and a real handoff at the other end"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Transport Standard",
+      "currency": "TRIP",
+      "ranks": [
+        "New Tech",
+        "Transport Certified",
+        "Lead Tech",
+        "Transport Supervisor",
+        "Safe Handling Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

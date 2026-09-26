@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 423
+      "stations": 424
     },
     "trades": {
       "entry": "trades/index.html",
@@ -356,6 +356,7 @@
     {
       "name": "Healthcare Support",
       "stations": [
+        "hc-patient-transport-and-safe-handling",
         "hc-sterile-processing-decontamination-and-assembly",
         "hc-environmental-services-isolation-room-turnover"
       ]
@@ -7648,6 +7649,87 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "hc-patient-transport-and-safe-handling",
+      "name": "Patient Transport & Safe Handling",
+      "title": "SmartCiti.X~ Patient Transport & Safe Handling VR",
+      "tagline": "ID checked against the ticket, brakes locked before every transfer, a gait belt instead of a solo lift, the route scanned for a line or a footrest that bites, and a real handoff at the other end",
+      "category": "Healthcare Support",
+      "domain": "Healthcare Support",
+      "trade": "Patient transport technician",
+      "union": null,
+      "certification": "OSHA's general duty clause and its ergonomics guidance for safe patient handling, drawing on the same lifting principles behind the Revised NIOSH Lifting Equation; OSHA 29 CFR 1910.1030 bloodborne pathogens for tubing and line handling; the CDC's general infection-prevention guidance; SEIU-UHW and NUHW as the training bodies for patient transport staff",
+      "accent": "#c97fd1",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "find",
+        "turn",
+        "hold"
+      ],
+      "badge": {
+        "id": "trip-complete",
+        "name": "Trip Complete",
+        "note": "A patient moved start to finish with the brakes set, the belt on and a real handoff at the other end"
+      },
+      "meshes": 135,
+      "lights": 0,
+      "overBudget": false,
+      "index": "354",
+      "flat": false,
+      "system": "Transport Standard",
+      "currency": "TRIP",
+      "ranks": [
+        "New Tech",
+        "Transport Certified",
+        "Lead Tech",
+        "Transport Supervisor",
+        "Safe Handling Certified"
+      ],
+      "awards": [
+        {
+          "id": "never-solo-lifted",
+          "name": "Never Solo-Lifted",
+          "note": "Every transfer used the gait belt and a second set of hands"
+        },
+        {
+          "id": "brakes-first",
+          "name": "Brakes First",
+          "note": "Brakes locked before every single transfer"
+        },
+        {
+          "id": "real-handoff",
+          "name": "Real Handoff",
+          "note": "A verbal report given at the destination, not just a ticket dropped off"
+        },
+        {
+          "id": "clean-trip",
+          "name": "Clean Trip",
+          "note": "No corrections anywhere in the trip"
+        },
+        {
+          "id": "steady-slide",
+          "name": "Steady Slide",
+          "note": "Held the slide-board transfer the whole way, first try"
+        },
+        {
+          "id": "fast-trip",
+          "name": "Fast Trip",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=hc-patient-transport-and-safe-handling"
     },
     {
       "app": "smartcity",
@@ -27755,7 +27837,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 254,
+      "meshes": 263,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -28415,7 +28497,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",
