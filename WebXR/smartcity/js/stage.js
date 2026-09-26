@@ -2,7 +2,7 @@ import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/
 import { box, cyl, ball, torus, group, decal, mat, gradientFill, noiseTexture, ownMaterial, mergeStatic } from "../../shared/kit.js";
 import { CITY, skyline, surfaceTexture, texturedMat, pavingFace, deckPlateFace } from "./citykit.js";
 import { buildApron, APRON } from "./apron.js";
-import { districtFor, selfLight } from "./districts.js";
+import { districtFor, selfLight, dressDistrict } from "./districts.js";
 import { buildWeather, weatherFor } from "../../shared/weather.js";
 import { reducedMotion } from "../../shared/a11y.js";
 import { buildInterior, interiorFor } from "./interiors.js";
@@ -281,12 +281,16 @@ export function buildStage(root, mode, scene, accent = CITY.accent, category = n
   const wxKind = district.forceWeather ? district.weather : weatherFor(weather ?? district.weather);
   const wx = buildWeather(g, scene, wxKind, { wetDeck: !scenic });
   let districtAnimate = null;
-  if (district.build && (opts.district !== false || scenic)) {
+  if ((district.build || district.dressing) && (opts.district !== false || scenic)) {
     const dg = group(g);
     // themeScene() hides groups named "district" on a profile with no
     // horizon; a scenic district is the floor, so it goes under another name.
     dg.name = scenic ? "district-scene" : "district";
-    districtAnimate = district.build(dg, accent, { time: hour, weather: wx.kind });
+    if (district.build) districtAnimate = district.build(dg, accent, { time: hour, weather: wx.kind });
+    // A district's own horizon and edges dressing (shared/props.js), placed
+    // after the district builds itself and kept out of a station's own
+    // working area — see districts.js's dressDistrict().
+    if (district.dressing) dressDistrict(dg, district.dressing, tod);
     // A scenic district lights itself; the blanket self-glow would clone
     // every material it touches, and a cloned material cannot be merged.
     if (!scenic) selfLight(dg, tod.glow);

@@ -4,6 +4,7 @@ import {
   CITY, surfaceTexture, texturedMat, waterFace, mudflatFace, paintedSteelFace, roadwayFace, deckPlateFace,
   siltFace, causticFace, growthFace, hullFace, fogPuffFace, glowFace, pavingFace,
 } from "./citykit.js";
+import { PROPS_BUILDERS } from "../../shared/props.js";
 
 // Districts: the part of the VR / flat-screen stage that changes with the
 // station's trade category. The plaza, marquee and skyline are shared; a
@@ -76,6 +77,28 @@ export function selfLight(root, ei = 0.22) {
     o.material.emissive.copy(o.material.color);
     o.material.emissiveIntensity = ei;
   });
+}
+
+/**
+ * Dress a district's own horizon and edges with props from the shared kit
+ * (shared/props.js), after the district builds itself. A `dressing` entry is
+ * `{ prop, x, z, y, ry, opts, lit }`: `prop` names a PROPS_BUILDERS key, `lit`
+ * (true or a number) scales that prop's own `opts.lit` by the current
+ * time-of-day mast multiplier, so a light mast reads as switched on at night
+ * and barely on by day like every other mast in the scene. This never runs on
+ * a station's own working area — a station never calls it, only stage.js
+ * does, on the district group, after the district's own build. See
+ * districtFor()'s `dressing` field on each entry in DISTRICTS below.
+ */
+export function dressDistrict(g, list, tod) {
+  if (!list) return;
+  for (const d of list) {
+    const fn = PROPS_BUILDERS[d.prop];
+    if (!fn) continue;
+    const opts = { ry: d.ry ?? 0, ...(d.opts ?? {}) };
+    if (d.lit) opts.lit = (typeof d.lit === "number" ? d.lit : 1.6) * (tod?.mast ?? 1);
+    fn(g, d.x, d.y ?? 0, d.z, opts);
+  }
 }
 
 /** Still water to the horizon, under the skyline and the plaza edge. */
@@ -1299,11 +1322,25 @@ function gymBanner(text) {
 
 // ------------------------------------------------------------------ table
 
-const DEFAULT ={ sky: 0x0b1220, fog: 0x0f1726, hemi: [0x7f95aa, 0x1a2230], mast: 0xdfeaf2, build: null };
+// A baseline horizon dressing every district inherits unless it names its
+// own `dressing` (a category-specific one below) or turns it off with
+// `dressing: null` (the underwater and gym-court scenic districts, which
+// stand the learner on a floor these props would sit on top of).
+const DEFAULT_DRESSING = [
+  { prop: "parkBench", x: -15, z: -8, ry: 0.3 },
+  { prop: "streetTree:medium", x: 15, z: -8 },
+  { prop: "bollardRow", x: 0, z: -10.5, opts: { count: 3 } },
+];
+const DEFAULT = { sky: 0x0b1220, fog: 0x0f1726, hemi: [0x7f95aa, 0x1a2230], mast: 0xdfeaf2, build: null, dressing: DEFAULT_DRESSING };
 
 export const DISTRICTS = {
   "Energy & Power": {
     sky: 0x07090f, fog: 0x0a0c12, hemi: [0x7a8aa0, 0x151511], mast: 0xffd9a0,
+    dressing: [
+      { prop: "fuelTank", x: -17, z: -7, ry: 0.4 },
+      { prop: "generatorSkid", x: 17, z: -7, ry: -0.3 },
+      { prop: "jerseyBarrier", x: 0, z: -11.2 },
+    ],
     build(g) {
       flood(g, 0, 16, -24, 0xffd9a0);
       const arms = [pylon(g, -26, -26, 15, 0.35), pylon(g, 0, -31, 17, 0), pylon(g, 26, -26, 15, -0.35)];
@@ -1314,6 +1351,11 @@ export const DISTRICTS = {
   },
   "Mobility & Transit": {
     sky: 0x070a12, fog: 0x0a0e18, hemi: [0x6d8296, 0x121820], mast: 0xe9f1f7,
+    dressing: [
+      { prop: "parkBench", x: -16, z: -6.5, ry: 0.3 },
+      { prop: "streetTree:medium", x: 16, z: -6.5 },
+      { prop: "bollardRow", x: 0, z: -10, opts: { count: 4 } },
+    ],
     build(g) {
       flood(g, 0, 14, -20, 0xe9f1f7);
       const gw = guideway(g);
@@ -1326,6 +1368,11 @@ export const DISTRICTS = {
   },
   "Water & Environmental": {
     sky: 0x06101a, fog: 0x0a1620, hemi: [0x5f8aa8, 0x0f1a22], mast: 0xd6ecf7,
+    dressing: [
+      { prop: "cableSpool", x: -17, z: -7, opts: { material: "steel" } },
+      { prop: "fireHydrant", x: 17, z: -7 },
+      { prop: "jerseyBarrier", x: 0, z: -11.2 },
+    ],
     build(g) {
       flood(g, 0, 12, -22, 0xd6ecf7);
       water(g, 0x0b1e2c);
@@ -1341,6 +1388,10 @@ export const DISTRICTS = {
   },
   "Connectivity & Telecom": {
     sky: 0x06090f, fog: 0x090d14, hemi: [0x6d8296, 0x121820], mast: 0xdfeaf2,
+    dressing: [
+      { prop: "cableSpool", x: -16, z: -7 },
+      { prop: "palletStack", x: 16, z: -7, ry: -0.4 },
+    ],
     build(g) {
       flood(g, 0, 18, -24, 0xdfeaf2);
       const beacons = lattice(g, 0, -30, 28);
@@ -1350,6 +1401,11 @@ export const DISTRICTS = {
   },
   "Emergency Services": {
     sky: 0x0a0a0c, fog: 0x100d10, hemi: [0x8a7f88, 0x181214], mast: 0xfff0d6,
+    dressing: [
+      { prop: "jerseyBarrier", x: -16, z: -8, ry: 1.5708 },
+      { prop: "lightMast", x: 16, z: -8, lit: true },
+      { prop: "coneCluster", x: 0, z: -11 },
+    ],
     build(g) {
       flood(g, 0, 10, -20, 0xfff0d6, 1.4);
       const bars = [...apparatus(g, -21, -24, 0xb3261e, 0.35), ...apparatus(g, 21, -24, 0xe8ecef, -0.35)];
@@ -1358,6 +1414,10 @@ export const DISTRICTS = {
   },
   "Manufacturing & Automation": {
     sky: 0x08090c, fog: 0x0c0d10, hemi: [0x7c8590, 0x141414], mast: 0xe6eef4,
+    dressing: [
+      { prop: "palletStack", x: -16, z: -7, ry: 0.3 },
+      { prop: "dumpster", x: 16, z: -7 },
+    ],
     build(g) {
       flood(g, 0, 12, -24, 0xe6eef4);
       shed(g, -22, -26, 14, 10, 0.25); shed(g, 4, -30, 16, 10, 0); shed(g, 26, -24, 12, 9, -0.3);
@@ -1367,6 +1427,10 @@ export const DISTRICTS = {
   },
   "Building Systems & Facilities": {
     sky: 0x070a10, fog: 0x0b0e14, hemi: [0x6d8296, 0x121820], mast: 0xe6eef4,
+    dressing: [
+      { prop: "dumpster", x: -16, z: -7, ry: 0.3 },
+      { prop: "scaffoldTower", x: 16, z: -7 },
+    ],
     build(g) {
       flood(g, 0, 10, -22, 0xe6eef4);
       const blades = coolingTower(g, 0, -27);
@@ -1375,6 +1439,11 @@ export const DISTRICTS = {
   },
   "Construction & Structural Trades": {
     sky: 0x0a0a0a, fog: 0x101010, hemi: [0x8a8f96, 0x181614], mast: 0xfff0d6,
+    dressing: [
+      { prop: "scaffoldTower", x: -17, z: -8 },
+      { prop: "portableToilet", x: 17, z: -8, ry: -0.3 },
+      { prop: "palletStack", x: 0, z: -11.5, ry: 0.2 },
+    ],
     build(g) {
       flood(g, 0, 16, -22, 0xfff0d6, 1.4);
       const crane = towerCrane(g, 20, -27, 24);
@@ -1389,6 +1458,11 @@ export const DISTRICTS = {
   },
   "Entertainment & Live Events": {
     sky: 0x0a0716, fog: 0x0e0a1c, hemi: [0x7f6ba8, 0x14101c], mast: 0xe6dcff,
+    dressing: [
+      { prop: "lightMast", x: -16, z: -8, lit: true },
+      { prop: "jerseyBarrier", x: 16, z: -8, ry: 1.5708 },
+      { prop: "bollardRow", x: 0, z: -11.5, opts: { count: 3 } },
+    ],
     build(g) {
       flood(g, 0, 12, -22, 0xe6dcff);
       const heads = truss(g, 0, -26, 18, 10);
@@ -1398,6 +1472,15 @@ export const DISTRICTS = {
   },
   "Maritime & Ports": {
     sky: 0x050c14, fog: 0x08121b, hemi: [0x5f8aa8, 0x0f1a22], mast: 0xd6ecf7,
+    // A port district gets containers and bollards, close in on the near
+    // edge of the yard — foreground detail in front of the distant gantries
+    // and box stacks the district already builds further out.
+    dressing: [
+      { prop: "shippingContainer", x: -16, z: -9, ry: 0.35 },
+      { prop: "shippingContainer:blue", x: -12.5, z: -9.3, ry: 0.35 },
+      { prop: "shippingContainer", x: 16, z: -9, ry: -0.35 },
+      { prop: "bollardRow", x: 0, z: -9.5, opts: { count: 5 } },
+    ],
     build(g) {
       flood(g, 0, 16, -26, 0xd6ecf7, 2.8);
       water(g);
@@ -1420,6 +1503,12 @@ export const DISTRICTS = {
     // No city between the learner and the water: the ring opens across the
     // side they face, and the far shore's hills stand across the bay instead.
     skylineGap: [Math.PI - 1.15, Math.PI + 1.15],
+    // Tucked behind the learner, on the neighbourhood side away from the
+    // water, the cordgrass line and the dredge already working the flat.
+    dressing: [
+      { prop: "fireHydrant", x: 26, z: 15 },
+      { prop: "portableToilet", x: -26, z: 15, ry: 0.4 },
+    ],
     build(g) {
       flood(g, 0, 12, -24, 0xe6f2ea, 1.2);
       const waterTex = bayWater(g);
@@ -1454,6 +1543,10 @@ export const DISTRICTS = {
   },
   "Surface Prep & Coatings": {
     sky: 0x0b0906, fog: 0x12100b, hemi: [0x8f8272, 0x1a1512], mast: 0xffe2b8,
+    dressing: [
+      { prop: "dumpster", x: -16, z: -7, ry: 0.3 },
+      { prop: "palletStack", x: 16, z: -7 },
+    ],
     build(g) {
       flood(g, 0, 14, -22, 0xffe2b8, 1.3);
       const con = containment(g, -16, -26, 14, 9, 0.28);
@@ -1478,6 +1571,10 @@ export const DISTRICTS = {
   },
   "Culinary & Hospitality": {
     sky: 0x0d0906, fog: 0x14100c, hemi: [0x9a8770, 0x1c1410], mast: 0xffd9a0,
+    dressing: [
+      { prop: "parkBench", x: -15, z: -7, ry: 0.3 },
+      { prop: "picnicTable", x: 15, z: -7, ry: -0.3 },
+    ],
     build(g) {
       flood(g, 0, 12, -22, 0xffd9a0, 1.2);
       const row = restaurantRow(g, -4, -27, 0.05);
@@ -1487,6 +1584,10 @@ export const DISTRICTS = {
   },
   "Dental & Oral Health": {
     sky: 0x070c10, fog: 0x0b1116, hemi: [0x7f9aa6, 0x141c20], mast: 0xe6f4f0,
+    dressing: [
+      { prop: "parkBench", x: -15, z: -6.5, ry: 0.3 },
+      { prop: "streetTree:small", x: 15, z: -6.5 },
+    ],
     build(g) {
       flood(g, 0, 12, -22, 0xe6f4f0, 1.1);
       const clinic = clinicBlock(g, -2, -28, -0.04);
@@ -1499,6 +1600,10 @@ export const DISTRICTS = {
   },
   "Community Environmental Justice": {
     sky: 0x0c1018, fog: 0x121826, hemi: [0x8c9bb0, 0x1a1c22], mast: 0xffe6b0,
+    dressing: [
+      { prop: "parkBench", x: -15, z: -6.5, ry: 0.3 },
+      { prop: "shrubBed", x: 15, z: -6.5 },
+    ],
     build(g) {
       flood(g, 0, 12, -22, 0xffe6b0, 1.1);
       const st = fencedParcelStreet(g, -3, -27, 0.03);
@@ -1507,6 +1612,10 @@ export const DISTRICTS = {
   },
   "Sewing & Garment Trades": {
     sky: 0x0d0a12, fog: 0x141020, hemi: [0x9a8cb0, 0x1c1620], mast: 0xf0e6ff,
+    dressing: [
+      { prop: "palletStack", x: -15, z: -7, ry: 0.3 },
+      { prop: "dumpster", x: 15, z: -7 },
+    ],
     build(g) {
       flood(g, 0, 14, -22, 0xf0e6ff, 1.1);
       const loft = garmentLoft(g, 2, -30, -0.04);
@@ -1535,10 +1644,19 @@ export const DISTRICTS = {
     // The city stands across the bay on the +x side, far off and far below
     // the deck; the strait side (−x) and both ends of the bridge stay open.
     skyline: { gap: [[0, 0.75], [2.4, Math.PI * 2]], base: GG.water, radius: 112, spread: 30, hScale: 2.6, wScale: 2, count: 70 },
+    // The Bay district: a chain-link fence and a light mast on the sidewalk,
+    // well clear of the roadway, the lane closure and the spawn-to-station
+    // walk (spawn is at (0, 9.4), the station at the origin).
+    dressing: [
+      { prop: "fencePanel", x: 13, z: -38, ry: 1.5708 },
+      { prop: "lightMast", x: 13, z: -25, lit: true },
+    ],
     build(g, _accent, env = {}) { return goldenGateDeck(g, env); },
   },
   "bay-underwater": {
     plaza: false,
+    // Nothing — the learner stands on the silt the district itself lays down.
+    dressing: null,
     sky: 0x0c2c30, fog: 0x0c2c30, mast: 0xa8f0e0,
     // Its own water colour at every hour; nothing from TIME's day/dusk skies.
     skyByTime: {
@@ -1569,6 +1687,9 @@ export const DISTRICTS = {
     // conditions whatever the station or the URL asks (there is no rain on
     // a gym floor), and a scoreboard chip on the HUD (react-ui.js
     // courtReadout) that shows the run's own drills, fouls and clock.
+    // No dressing either — a bench and a hydrant have no business on a
+    // basketball court.
+    dressing: null,
     plaza: false,
     sky: 0x1c1814, fog: 0x1c1814, mast: 0xfff2dc,
     skyByTime: {
