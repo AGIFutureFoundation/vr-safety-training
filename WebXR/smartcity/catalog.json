@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 421
+      "stations": 426
     },
     "trades": {
       "entry": "trades/index.html",
@@ -92,6 +92,8 @@
         "lift-station",
         "chlorine-room",
         "backflow-test",
+        "br-beach-seine-fish-survey-and-handling",
+        "br-volunteer-cleanup-day-safety-lead",
         "cs-non-entry-retrieval-and-tripod",
         "cs-ventilation-and-air-monitoring-plan",
         "cs-permit-entry-and-attendant-duties",
@@ -275,6 +277,7 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "br-benthic-grab-and-invertebrate-sorting",
         "br-vhf-and-navigation-in-a-work-zone",
         "br-cold-water-immersion-and-mob-recovery",
         "vessel-gangway-and-hatch-cover-safety",
@@ -329,6 +332,8 @@
         "air-monitor",
         "sampling-well",
         "stormwater-outfall",
+        "br-restoration-data-qa-and-public-reporting",
+        "br-drone-shoreline-survey",
         "drum-sampling-and-overpack",
         "mobile-air-lab",
         "opacity-reading",
@@ -7641,6 +7646,420 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-benthic-grab-and-invertebrate-sorting",
+      "name": "Benthic Grab & Invertebrate Sorting",
+      "title": "SmartCiti.X~ Benthic Grab & Invertebrate Sorting VR",
+      "tagline": "The deck routine a benthic monitoring record depends on: the grab checked for a bent jaw before it goes over the rail, hands clear while it's cocked, the sample sieved and sorted at the generic level the reference calls for, a snag eased off rather than forced, a deckhand cleared before the grab swings inboard, every organism preserved inside the sort window, and every jar logged into custody before it leaves the deck",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Benthic monitoring technician, taking grab samples from a workboat and sorting invertebrates for a restoration monitoring programme",
+      "union": null,
+      "certification": "EPA QA/G-5 guidance for quality assurance project plans and the chain-of-custody practice built on it; USCG 46 CFR Part 160 lifesaving equipment, including personal flotation devices; USCG 33 CFR Part 83 Inland Navigation Rules for station-keeping while sampling; Regional Water Quality Control Board (RWQCB) monitoring conditions for the benthic community data; OSHA 29 CFR 1910.132 personal protective equipment, general requirements",
+      "accent": "#7a8ac0",
+      "parSeconds": 310,
+      "weather": "fog",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "turn",
+        "drag",
+        "track",
+        "hold",
+        "gauge"
+      ],
+      "badge": {
+        "id": "clean-grab-clean-sort",
+        "name": "Clean Grab, Clean Sort",
+        "note": "The grab was checked and cocked correctly, hands stayed clear of the jaws, the snag was eased off, the deckhand was cleared before the swing, and every jar was logged inside the sort window"
+      },
+      "meshes": 191,
+      "lights": 0,
+      "overBudget": false,
+      "index": "349",
+      "flat": false,
+      "system": "Benthic Sampling Watch",
+      "currency": "GRABS",
+      "ranks": [
+        "Deckhand Aide",
+        "Benthic Technician",
+        "Lead Technician",
+        "Senior Technician",
+        "Benthic Grab Certified"
+      ],
+      "awards": [
+        {
+          "id": "true-grab",
+          "name": "True Grab",
+          "note": "The jaw checked and the tension cocked correctly before the first cast"
+        },
+        {
+          "id": "clean-deck",
+          "name": "Clean Deck",
+          "note": "Never put a hand near the live jaws, never dumped a sieve unsorted, never let the sort window lapse"
+        },
+        {
+          "id": "held-the-window",
+          "name": "Held The Window",
+          "note": "The sort window landed inside the correct band, first time"
+        },
+        {
+          "id": "clean-cast",
+          "name": "Clean Cast",
+          "note": "No corrections across the whole cast"
+        },
+        {
+          "id": "steady-watch",
+          "name": "Steady Watch",
+          "note": "Held the winch scan in band through the whole retrieval"
+        },
+        {
+          "id": "logged-fast",
+          "name": "Logged Fast",
+          "note": "Sample closed out inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-benthic-grab-and-invertebrate-sorting"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-beach-seine-fish-survey-and-handling",
+      "name": "Beach Seine Fish Survey & Handling",
+      "title": "SmartCiti.X~ Beach Seine Fish Survey & Handling VR",
+      "tagline": "The survey that never costs a fish more than it has to: today's permit read before the net leaves the skiff, the gear checked for a torn panel before it's set, the net run out from the skiff and hauled in as one crew, a protected species released ahead of the routine tally, a snag answered by easing off rather than forcing the haul, every fish handled and identified inside the permit's window, and every one of them back in the water before that window closes",
+      "category": "Water & Environmental",
+      "domain": "Water & Environmental",
+      "trade": "Fisheries technician, running a beach seine survey and skiff set for a restoration monitoring programme under a CDFW permit",
+      "union": null,
+      "certification": "California Department of Fish and Wildlife (CDFW) permit conditions for the take, handling and release of fish in survey work; NOAA tide predictions and Endangered Species Act consultation for any protected species encountered; USCG 33 CFR Part 83 Inland Navigation Rules for the skiff set; USCG 46 CFR Part 160 lifesaving equipment, including personal flotation devices; OSHA 29 CFR 1910.132 personal protective equipment, general requirements",
+      "accent": "#4a9e8a",
+      "parSeconds": 310,
+      "weather": "clear",
+      "indoor": null,
+      "district": "Water & Environmental",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "drag",
+        "turn",
+        "track",
+        "hold",
+        "gauge"
+      ],
+      "badge": {
+        "id": "clean-haul-clean-release",
+        "name": "Clean Haul, Clean Release",
+        "note": "The permit was checked before the net was set, the protected species got priority release, the snag was eased off rather than forced, and every fish went back inside the handling window"
+      },
+      "meshes": 168,
+      "lights": 0,
+      "overBudget": false,
+      "index": "348",
+      "flat": false,
+      "system": "Seine Survey Watch",
+      "currency": "HAULS",
+      "ranks": [
+        "Beach Crew",
+        "Seine Technician",
+        "Lead Technician",
+        "Senior Technician",
+        "Beach Seine Certified"
+      ],
+      "awards": [
+        {
+          "id": "true-permit",
+          "name": "True Permit",
+          "note": "The permit board checked and the gear cleared before the net ever left the skiff"
+        },
+        {
+          "id": "clean-haul",
+          "name": "Clean Haul",
+          "note": "Never handled a fish past the window, never released one back into the net, never skipped the PFD"
+        },
+        {
+          "id": "held-the-window",
+          "name": "Held The Window",
+          "note": "The handling window landed inside the correct band, first time"
+        },
+        {
+          "id": "clean-survey",
+          "name": "Clean Survey",
+          "note": "No corrections across the whole haul"
+        },
+        {
+          "id": "steady-watch",
+          "name": "Steady Watch",
+          "note": "Held the net scan in band through the whole haul"
+        },
+        {
+          "id": "logged-fast",
+          "name": "Logged Fast",
+          "note": "Survey closed out inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-beach-seine-fish-survey-and-handling"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-restoration-data-qa-and-public-reporting",
+      "name": "Restoration Data QA & Public Reporting",
+      "title": "SmartCiti.X~ Restoration Data QA & Public Reporting VR",
+      "tagline": "The desk between a field sheet and the public: every incoming sheet checked for a missing signature or a value out of range before it's scanned, every sample logged into custody the moment it's handed off, a suspect record held for review rather than typed straight in, a reporter's early call routed to the agency's own public information line instead of answered off the cuff, a sync conflict resolved rather than overwritten, and a dashboard caption that says only what the reviewed data actually shows",
+      "category": "Environmental Monitoring",
+      "domain": "Environmental Monitoring",
+      "trade": "Restoration data QA technician, moving field sheets into the shared database and preparing the public dashboard summary for the restoration programme's agency scientists",
+      "union": null,
+      "certification": "EPA QA/G-5 guidance for quality assurance project plans and the chain-of-custody practice built on it; EPA 40 CFR Part 136 test procedures for the analysis of pollutants; Regional Water Quality Control Board (RWQCB) monitoring conditions requiring a public accounting of the data; San Francisco Bay Conservation and Development Commission (BCDC) Bay Plan permit reporting conditions; NOAA tide predictions and species-detection timing behind several of the datasets this desk reviews",
+      "accent": "#5a9ec8",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "drag",
+        "turn",
+        "track",
+        "hold",
+        "gauge"
+      ],
+      "badge": {
+        "id": "clean-record-clean-caption",
+        "name": "Clean Record, Clean Caption",
+        "note": "Every field sheet was checked before scanning, the suspect value was flagged rather than typed straight in, the reporter's call was routed rather than answered off the cuff, and the dashboard caption said only what the data showed"
+      },
+      "meshes": 171,
+      "lights": 0,
+      "overBudget": false,
+      "index": "347",
+      "flat": false,
+      "system": "Data QA Watch",
+      "currency": "RECORDS",
+      "ranks": [
+        "Data Entry Aide",
+        "QA Technician",
+        "Senior QA Technician",
+        "Lead QA Reviewer",
+        "Data QA Certified"
+      ],
+      "awards": [
+        {
+          "id": "true-check",
+          "name": "True Check",
+          "note": "Every field sheet checked for a missing signature or an out-of-range value before it was scanned"
+        },
+        {
+          "id": "clean-record",
+          "name": "Clean Record",
+          "note": "Never typed a suspect value straight in, never broke custody, never published an unreviewed record"
+        },
+        {
+          "id": "held-the-commit",
+          "name": "Held The Commit",
+          "note": "The batch committed inside the correct validation window, first time"
+        },
+        {
+          "id": "clean-batch",
+          "name": "Clean Batch",
+          "note": "No corrections across the whole intake"
+        },
+        {
+          "id": "steady-review",
+          "name": "Steady Review",
+          "note": "Held the QA scan in band through the whole validation pass"
+        },
+        {
+          "id": "logged-fast",
+          "name": "Logged Fast",
+          "note": "Batch closed out inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-restoration-data-qa-and-public-reporting"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-volunteer-cleanup-day-safety-lead",
+      "name": "Volunteer Cleanup Day Safety Lead",
+      "title": "SmartCiti.X~ Volunteer Cleanup Day Safety Lead VR",
+      "tagline": "The watch a volunteer crew doesn't know it needs: the briefing that actually covers sharps and the buddy system, the right glove and tool handed out for the right hazard, a loose needle found before the crew ever fans out, the tide window read off the table rather than guessed at, a missing volunteer answered with an immediate headcount, a surging tide answered with an immediate recall, and every hour of the day logged the way the sponsoring agency needs it logged",
+      "category": "Water & Environmental",
+      "domain": "Water & Environmental",
+      "trade": "Volunteer cleanup day safety lead, briefing and watching a shoreline cleanup crew of community volunteers for a sponsoring restoration agency",
+      "union": null,
+      "certification": "Cal/OSHA 8 CCR 3395 heat illness prevention in outdoor places of employment; OSHA 29 CFR 1910.1030 bloodborne pathogens for sharps handling; Cal/OSHA 8 CCR 3203 Injury and Illness Prevention Program behind today's briefing; OSHA 29 CFR 1910.132 personal protective equipment, general requirements; NOAA tide predictions the work window is timed against",
+      "accent": "#e0a23c",
+      "parSeconds": 310,
+      "weather": "clear",
+      "indoor": null,
+      "district": "Water & Environmental",
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "drag",
+        "track",
+        "hold",
+        "gauge"
+      ],
+      "badge": {
+        "id": "clean-crew-clean-flat",
+        "name": "Clean Crew, Clean Flat",
+        "note": "The briefing covered sharps and the buddy system, the missing volunteer got an immediate headcount, the tide surge got an immediate recall, and the whole crew signed back in accounted for"
+      },
+      "meshes": 211,
+      "lights": 0,
+      "overBudget": false,
+      "index": "346",
+      "flat": false,
+      "system": "Cleanup Day Watch",
+      "currency": "CHECK-INS",
+      "ranks": [
+        "New Safety Lead",
+        "Safety Lead",
+        "Senior Safety Lead",
+        "Lead Coordinator",
+        "Cleanup Day Certified"
+      ],
+      "awards": [
+        {
+          "id": "true-briefing",
+          "name": "True Briefing",
+          "note": "The sharps rule and the buddy system briefed before anyone touched a bag"
+        },
+        {
+          "id": "clean-watch",
+          "name": "Clean Watch",
+          "note": "Never let a bare hand near a sharp, never lost a volunteer, never pushed a heat symptom through"
+        },
+        {
+          "id": "held-the-break",
+          "name": "Held The Break",
+          "note": "The scheduled water break called inside the correct interval, first time"
+        },
+        {
+          "id": "clean-day",
+          "name": "Clean Day",
+          "note": "No corrections across the whole shift"
+        },
+        {
+          "id": "steady-watch",
+          "name": "Steady Watch",
+          "note": "Held the flat scan in band through the whole work period"
+        },
+        {
+          "id": "logged-fast",
+          "name": "Logged Fast",
+          "note": "Day closed out inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-volunteer-cleanup-day-safety-lead"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-drone-shoreline-survey",
+      "name": "Drone Shoreline Survey",
+      "title": "SmartCiti.X~ Drone Shoreline Survey VR",
+      "tagline": "The survey a restoration record is built from: the airspace authorization read before anything is unpacked, the gear checked for a cracked prop or a swollen cell, the compass calibrated, the bird buffer confirmed and marked, the survey line flown clean end to end, a wind gust answered with an immediate return home, the battery landed inside its reserve band and every pass logged the way the permit requires",
+      "category": "Environmental Monitoring",
+      "domain": "Environmental Monitoring",
+      "trade": "FAA Part 107 remote pilot in command, flying a restoration bench's shoreline survey line with a visual observer beside them",
+      "union": null,
+      "certification": "FAA 14 CFR Part 107 small unmanned aircraft systems rule and today's LAANC airspace authorization; U.S. Fish and Wildlife Service (USFWS) Endangered Species Act buffer conditions for the nesting birds at the bench's edge; San Francisco Bay Conservation and Development Commission (BCDC) Bay Plan permit conditions for the survey; NOAA tide predictions the flight window is timed against; Regional Water Quality Control Board (RWQCB) monitoring conditions requiring a photographic record of the restoration bench",
+      "accent": "#4fb8e0",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "turn",
+        "drag",
+        "track",
+        "hold",
+        "gauge"
+      ],
+      "badge": {
+        "id": "clean-line-clean-log",
+        "name": "Clean Line, Clean Log",
+        "note": "The airspace was checked before launch, the buffer was held the whole line, the gust got an immediate return home, and the battery landed inside its reserve band"
+      },
+      "meshes": 244,
+      "lights": 0,
+      "overBudget": false,
+      "index": "345",
+      "flat": false,
+      "system": "Shoreline Survey Watch",
+      "currency": "PASSES",
+      "ranks": [
+        "Ground Crew",
+        "Observer Pilot",
+        "Line Pilot",
+        "Senior Pilot",
+        "Shoreline Survey Certified"
+      ],
+      "awards": [
+        {
+          "id": "true-compass",
+          "name": "True Compass",
+          "note": "The compass calibrated and the checklist run clean before the first launch"
+        },
+        {
+          "id": "clean-flight",
+          "name": "Clean Flight",
+          "note": "Never skipped the airspace check, never crossed the buffer, never flew past reserve"
+        },
+        {
+          "id": "held-the-reserve",
+          "name": "Held The Reserve",
+          "note": "Landed the battery inside the correct reserve band, first time"
+        },
+        {
+          "id": "clean-line",
+          "name": "Clean Line",
+          "note": "No corrections across the whole survey"
+        },
+        {
+          "id": "steady-line",
+          "name": "Steady Line",
+          "note": "Held the survey line in band the whole pass"
+        },
+        {
+          "id": "logged-fast",
+          "name": "Logged Fast",
+          "note": "Survey closed out inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-drone-shoreline-survey"
     },
     {
       "app": "smartcity",
@@ -27585,7 +28004,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 258,
+      "meshes": 264,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -28245,7 +28664,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",
