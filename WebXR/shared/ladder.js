@@ -56,7 +56,7 @@ export const LEVEL_STATES = ["locked", "open", "passed"];
 
 export const CONDITION_TIMES = ["day", "dusk"];
 /** weather.js's WEATHER_KINDS less "clear" (the default); tools/check_ladders.mjs holds the two in step. */
-export const CONDITION_WEATHER = ["overcast", "rain", "fog", "wind", "storm", "smoke"];
+export const CONDITION_WEATHER = ["overcast", "rain", "fog", "wind", "storm", "smoke", "heat-haze"];
 export const CONDITION_VARIANTS = ["assessment", "pressure"];
 /** The query keys a condition may set; a level task clears all of them before setting its own. */
 export const CONDITION_KEYS = ["time", "weather", "hazard", "interrupt", "variant", "seed"];

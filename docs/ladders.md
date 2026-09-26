@@ -12,7 +12,7 @@ A **lesson** is one station step run under one **condition**. A **task** is `{ s
 |---|---|---|
 | `base` | — | the station as authored (the plaza at night, the station's own weather) |
 | `time:day`, `time:dusk` | `?time=` | the hour: `WebXR/smartcity/js/stage.js` relights sky, fog, key light and masts, and an interior's rooflights |
-| `weather:<kind>` | `?weather=` | a `shared/weather.js` kind (overcast, rain, fog, wind, storm, smoke): particles, fog, light, and the operational note the learner reads; outdoor stations only |
+| `weather:<kind>` | `?weather=` | a `shared/weather.js` kind (overcast, rain, fog, wind, storm, smoke, heat-haze): particles, fog, light, and the operational note the learner reads; outdoor stations only |
 | `hazard` | `?hazard=assess` | hazard mode pinned to assessed: every unsafe action scores, and an instructor's coaching toggle does not apply to this run |
 | `interrupt:<id>` | `?interrupt=<id>` | one of the station's declared interruptions armed off its authored step, the way `CMD_INTERRUPT` injects one |
 | `variant:assessment`, `variant:pressure` | `?variant=&seed=` | `shared/variants.js` `makeVariant`: no hints, a tighter clock, alarms rehung, order-free sequences shuffled; the procedure and its answers unchanged |

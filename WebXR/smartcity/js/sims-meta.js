@@ -17962,5 +17962,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "or-transmission-line-right-of-way-patrol",
+    "index": "260",
+    "domain": "Energy",
+    "trade": "Outside lineworker — IBEW transmission patrol",
+    "category": "Energy & Power",
+    "certification": "IBEW outside line and transmission crews; OSHA 29 CFR 1910.269 electric power generation, transmission and distribution; the National Electrical Safety Code (NESC); OSHA 29 CFR 1910.147 control of hazardous energy; ANSI Z359 fall protection for any structure climb",
+    "name": "Transmission Line ROW Patrol",
+    "weather": "wind",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Transmission Line ROW Patrol VR",
+    "tagline": "A ground patrol across open range: structures read from the ground, vegetation measured against the conductor, and a downed line treated as energized the instant it's found, cordoned and called in rather than approached",
+    "accent": 15905076,
+    "accentCss": "#f2b134",
+    "parSeconds": 300,
+    "badge": {
+      "id": "corridor-cleared",
+      "name": "Corridor Cleared",
+      "note": "A full segment patrolled, every finding logged, and a downed conductor cordoned and called in without anyone going near it"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Patrol Command",
+      "currency": "SPAN",
+      "ranks": [
+        "Ground Hand",
+        "Patrol Lineman",
+        "Segment Lead",
+        "Corridor Supervisor",
+        "Patrol Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

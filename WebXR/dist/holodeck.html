@@ -6564,6 +6564,55 @@ function compactor(parent, x, y, z, opts = {}) {
   return flDone(rig, { footprint: EQUIPMENT_BUDGET.compactor.footprint, livery: lv });
 }
 
+/**
+ * Motor grader, blade down and squared for a finish pass: tandem rear drive
+ * axle, a single front axle on the long articulated frame, a ROPS cab set
+ * forward of the engine deck, and the moldboard slung from a circle under
+ * mid-frame with its own pair of lift rams. 2.4 m over the tandem tyres,
+ * 3.7 m blade. Parts: rops, seat, controls, wheels (front axle plus the rear
+ * tandem), blade, lights, beacon.
+ */
+function grader(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: EQ_YELLOW, fleetName: "PLANT", unitNumber: "GR-6" });
+  const rig = flRig(parent, x, y, z, opts, "grader", [0, 0, 0.33]);
+  const S = rig.shell, P = flPaint(lv.colour);
+  // Rear engine deck and hood.
+  flSide(S, [[0.3, 0.68], [0.3, 1.22], [0.55, 1.28], [1.95, 1.28], [2.3, 1.5], [2.3, 0.72], [2.05, 0.62]], 1.3, 0, 0, -2.35, ...P, { bevel: 0.05 });
+  flPanel(S, 1.0, 0.3, 0, 1.32, -3.66, flGrilleMat("vertical", 0x2a2e33), "-z");
+  flPanel(S, 1.05, 0.34, 0.652, 1.35, -2.5, flLiveryMat(lv, "grSide", { title: lv.unitNumber, sub: lv.fleetName, titleScale: 0.5, titleY: 0.4, stripeY: 0.92 }), "+x");
+  // ROPS cab, forward of the engine deck.
+  const rops = rig.part("rops", 0, 1.28, -0.55);
+  for (const sx of [1, -1]) for (const zz of [0.5, -0.45]) box(rops, 0.07, 1.5, 0.07, sx * 0.66, 0.75, zz, ...FL.black);
+  box(rops, 1.44, 0.07, 1.05, 0, 1.54, 0.03, ...FL.black);
+  const seat = rig.part("seat", 0, 1.3, -0.5);
+  box(seat, 0.44, 0.1, 0.4, 0, 0.05, 0, ...FL.black);
+  box(seat, 0.44, 0.44, 0.1, 0, 0.28, -0.17, ...FL.black);
+  const ctl = rig.part("controls", 0, 1.3, 0);
+  flStrut(ctl, [0, 0, 0], [0, 0.5, -0.08], 0.03, ...FL.black);
+  flRod(ctl, 0.15, 0.03, 0, 0.5, -0.08, "y", ...FL.black, { seg: 14 });
+  // Main frame beam running forward from the tandem to the front axle.
+  box(S, 0.24, 0.24, 3.5, 0, 0.7, 1.15, ...FL.frame);
+  // Rear tandem drive axle and the front axle, named together as `wheels`.
+  const wheels = [
+    flAxle(rig, "axleRear1", -2.55, 0.55, 1.75, { width: 0.32, style: "equip", tread: "lug" }),
+    flAxle(rig, "axleRear2", -1.95, 0.55, 1.75, { width: 0.32, style: "equip", tread: "lug" }),
+    flAxle(rig, "axleFront", 2.9, 0.5, 1.45, { width: 0.26, style: "equip" }),
+  ];
+  rig.set("wheels", wheels);
+  // Drawbar circle and the moldboard, slung under mid-frame, angled to cast a
+  // finished crown off to one side the way a grader actually runs.
+  cyl(S, 0.5, 0.5, 0.1, 0, 0.5, 0.85, 0x2a2e33, { rough: 0.5, metal: 0.5, seg: 20 });
+  flBeam(S, [0, 0.65, 0.85], [0, 0.32, 1.8], 0.12, 0.12, ...FL.frame);
+  const blade = rig.part("blade", 0, 0.3, 1.85);
+  flSide(blade, [[-1.75, 0], [-1.75, 0.5], [1.75, 0.5], [1.75, 0]], 0.1, 0, 0, 0, 0x3a4048, { rough: 0.55, metal: 0.35, finish: "painted" }, { bevel: 0.02 });
+  blade.rotation.y = 0.16;
+  for (const sx of [1, -1]) eqRam(S, [sx * 0.42, 0.85, 0.55], [sx * 0.48, 0.4, 1.65], 0.05, lv.colour);
+  flLights(rig, [[0.55, 1.0, 3.4, 0.12, 0.08], [-0.55, 1.0, 3.4, 0.12, 0.08]], null, [[0.58, 0.85, -3.7, 0.1, 0.08], [-0.58, 0.85, -3.7, 0.1, 0.08]]);
+  const bc = rig.part("beacon", 0, 1.85, -0.55);
+  cyl(bc, 0.06, 0.07, 0.12, 0, 0, 0, ...FL.amber, { seg: 12 });
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.grader.footprint, livery: lv });
+}
+
 // ------------------------------------------------------ towable site plant
 
 /** A single-axle site trailer: frame, A-frame tongue, coupler, fenders, jack and axle. Shared by the towables. */
@@ -6778,6 +6827,7 @@ const EQUIPMENT_BUDGET = {
   aerialBoomLift: { build: "aerialBoomLift", meshes: 19, footprint: [2.42, 2.61, 9], parts: ["turntable", "boom", "boomTele", "jib", "platform", "controls", "groundControls", "wheels", "beacon"], note: "60 ft telescopic boom lift, stowed" },
   scissorLift: { build: "scissorLift", meshes: 15, footprint: [1.16, 2.34, 2.3], parts: ["scissors", "platform", "extensionDeck", "controls", "gate", "potholeGuards", "wheels", "beacon"], note: "26 ft slab scissor, stowed" },
   compactor: { build: "compactor", meshes: 14, footprint: [2.4, 3.12, 5.68], parts: ["frontFrame", "drum", "wheels", "rops", "seat", "controls", "lights", "beacon"], note: "single-drum soil compactor" },
+  grader: { build: "grader", meshes: 17, footprint: [2.07, 2.86, 8.24], parts: ["rops", "seat", "controls", "wheels", "blade", "lights", "beacon"], note: "motor grader, blade down for a finish pass" },
   generatorTrailer: { build: "generatorTrailer", meshes: 14, footprint: [1.9, 2.41, 4.54], parts: ["doorL", "doorR", "controlPanel", "eStop", "wheels", "jack", "lights"], note: "towable diesel generator" },
   lightTower: { build: "lightTower", meshes: 17, footprint: [2.34, 9.29, 3.49], parts: ["mast", "mastUpper", "lamps", "outriggers", "controlPanel", "wheels", "jack"], note: "towable light tower, raised" },
   "lightTower:stowed": { build: "lightTower", opts: { raised: false }, meshes: 17, footprint: [1.58, 1.77, 4.81], parts: ["mast", "mastUpper", "lamps", "outriggers", "controlPanel", "wheels", "jack"], note: "towable light tower, stowed for tow" },
@@ -6787,7 +6837,7 @@ const EQUIPMENT_BUDGET = {
 
 /** The builders by the name EQUIPMENT_BUDGET's `build` field uses. */
 const EQUIPMENT_BUILDERS = {
-  excavator, amphibiousExcavator, backhoe, skidSteer, dumpTruck, mobileCrane, aerialBoomLift, scissorLift, compactor,
+  excavator, amphibiousExcavator, backhoe, skidSteer, dumpTruck, mobileCrane, aerialBoomLift, scissorLift, compactor, grader,
   generatorTrailer, lightTower, concretePump, craneSpreader,
 };
 void THREE; void ball; void flSteerWheel; void flMirror; void flPlan;
@@ -32317,6 +32367,48 @@ const SIMS_META = [
         "Assistant Coach",
         "Head Coach",
         "Handles Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "or-transmission-line-right-of-way-patrol",
+    "index": "260",
+    "domain": "Energy",
+    "trade": "Outside lineworker — IBEW transmission patrol",
+    "category": "Energy & Power",
+    "certification": "IBEW outside line and transmission crews; OSHA 29 CFR 1910.269 electric power generation, transmission and distribution; the National Electrical Safety Code (NESC); OSHA 29 CFR 1910.147 control of hazardous energy; ANSI Z359 fall protection for any structure climb",
+    "name": "Transmission Line ROW Patrol",
+    "weather": "wind",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Transmission Line ROW Patrol VR",
+    "tagline": "A ground patrol across open range: structures read from the ground, vegetation measured against the conductor, and a downed line treated as energized the instant it's found, cordoned and called in rather than approached",
+    "accent": 15905076,
+    "accentCss": "#f2b134",
+    "parSeconds": 300,
+    "badge": {
+      "id": "corridor-cleared",
+      "name": "Corridor Cleared",
+      "note": "A full segment patrolled, every finding logged, and a downed conductor cordoned and called in without anyone going near it"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Patrol Command",
+      "currency": "SPAN",
+      "ranks": [
+        "Ground Hand",
+        "Patrol Lineman",
+        "Segment Lead",
+        "Corridor Supervisor",
+        "Patrol Certified"
       ],
       "rankAt": [
         0,

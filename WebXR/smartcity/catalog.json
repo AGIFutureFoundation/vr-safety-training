@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 421
+      "stations": 422
     },
     "trades": {
       "entry": "trades/index.html",
@@ -44,6 +44,7 @@
         "line-truck",
         "substation-switching",
         "battery-yard",
+        "or-transmission-line-right-of-way-patrol",
         "battery-storage-container-commissioning",
         "temporary-site-power",
         "arc-flash-label-study",
@@ -592,7 +593,8 @@
       "fog",
       "wind",
       "storm",
-      "smoke"
+      "smoke",
+      "heat-haze"
     ],
     "note": "each station declares the conditions its procedure is written for; ?weather= overrides, ?time=night|dusk|day sets the hour",
     "override": "?weather=<kind>"
@@ -7641,6 +7643,87 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "or-transmission-line-right-of-way-patrol",
+      "name": "Transmission Line ROW Patrol",
+      "title": "SmartCiti.X~ Transmission Line ROW Patrol VR",
+      "tagline": "A ground patrol across open range: structures read from the ground, vegetation measured against the conductor, and a downed line treated as energized the instant it's found, cordoned and called in rather than approached",
+      "category": "Energy & Power",
+      "domain": "Energy",
+      "trade": "Outside lineworker — IBEW transmission patrol",
+      "union": null,
+      "certification": "IBEW outside line and transmission crews; OSHA 29 CFR 1910.269 electric power generation, transmission and distribution; the National Electrical Safety Code (NESC); OSHA 29 CFR 1910.147 control of hazardous energy; ANSI Z359 fall protection for any structure climb",
+      "accent": "#f2b134",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": "open-range",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "corridor-cleared",
+        "name": "Corridor Cleared",
+        "note": "A full segment patrolled, every finding logged, and a downed conductor cordoned and called in without anyone going near it"
+      },
+      "meshes": null,
+      "lights": null,
+      "overBudget": false,
+      "index": "260",
+      "flat": false,
+      "system": "Patrol Command",
+      "currency": "SPAN",
+      "ranks": [
+        "Ground Hand",
+        "Patrol Lineman",
+        "Segment Lead",
+        "Corridor Supervisor",
+        "Patrol Certified"
+      ],
+      "awards": [
+        {
+          "id": "never-approached",
+          "name": "Never Approached",
+          "note": "The downed conductor treated as live from the first look, every time"
+        },
+        {
+          "id": "steady-scan",
+          "name": "Steady Scan",
+          "note": "Patrol speed held in band the whole scan"
+        },
+        {
+          "id": "cordon-clean",
+          "name": "Cordon Clean",
+          "note": "The boundary set on the first try"
+        },
+        {
+          "id": "clean-corridor",
+          "name": "Clean Corridor",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "segment-fast",
+          "name": "Segment Fast",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "patrol-streak",
+          "name": "Patrol Streak",
+          "note": "Eight correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=or-transmission-line-right-of-way-patrol"
     },
     {
       "app": "smartcity",
@@ -27585,7 +27668,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 258,
+      "meshes": 268,
       "lights": 0,
       "overBudget": false,
       "index": "92",
