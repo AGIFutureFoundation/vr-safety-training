@@ -378,6 +378,36 @@ export const SIM_HC_PATIENT_TRANSPORT_AND_SAFE_HANDLING = {
     const tech = standingFigure(g, -0.6, -1.0, { ry: 0.6, cloth: 0x8a5aa0, skin: 0xb98a63 });
     void tech;
 
+    // Linen and supply shelving for depth along the back wall.
+    const shelf = group(g, -3.7, 0, -3.0);
+    box(shelf, 0.06, 1.4, 0.6, -0.38, 0.7, 0, 0x8b929a, { rough: 0.5, metal: 0.4 });
+    box(shelf, 0.06, 1.4, 0.6, 0.38, 0.7, 0, 0x8b929a, { rough: 0.5, metal: 0.4 });
+    const SHELF_STOCK = [
+      [0.3, "GAIT BELTS", 0xc9a34a], [0.7, "SLIDE BOARDS", 0xdfa23b], [1.1, "O2 TANKS", 0x59c9a0],
+    ];
+    for (const [y, label, c] of SHELF_STOCK) {
+      box(shelf, 0.74, 0.02, 0.58, 0, y, 0, 0x6f7a83, { rough: 0.55, metal: 0.3 });
+      for (let i = -1; i <= 1; i++) {
+        box(shelf, 0.2, 0.14, 0.18, i * 0.24, y + 0.08, 0, c, { rough: 0.7 });
+        decal(shelf, 0.16, 0.05, i * 0.24, y + 0.08, 0.091, (cx, w, h) => {
+          cx.fillStyle = "#22272c"; cx.fillRect(0, 0, w, h);
+          cx.fillStyle = "#f6e3f8"; cx.font = `600 ${Math.round(h * 0.5)}px Arial, sans-serif`;
+          cx.textAlign = "center"; cx.textBaseline = "middle"; cx.fillText(label, w / 2, h / 2);
+        }, { px: 96 });
+      }
+    }
+    holoTag(shelf, "Transport stock", 0, 1.45, 0, { css: HCT_ACCENT, w: 0.44 });
+
+    // A second transport tech, well clear of any control, and a spare chair.
+    const secondTech = standingFigure(g, 2.6, 2.6, { ry: -0.8, cloth: 0x3f6fa0, skin: 0xd9a985 });
+    void secondTech;
+    const spareChair = group(g, 3.0, 0, -1.6);
+    cyl(spareChair, 0.2, 0.2, 0.025, -0.18, 0.2, 0.15, 0x2b3138, { rough: 0.5, seg: 14 });
+    cyl(spareChair, 0.2, 0.2, 0.025, 0.18, 0.2, 0.15, 0x2b3138, { rough: 0.5, seg: 14 });
+    box(spareChair, 0.42, 0.05, 0.42, 0, 0.42, 0.13, 0x3a4048, { rough: 0.6 });
+    box(spareChair, 0.42, 0.5, 0.05, 0, 0.68, -0.08, 0x3a4048, { rough: 0.6 });
+    holoTag(spareChair, "Spare wheelchair", 0, 0.95, 0, { css: HCT_ACCENT, w: 0.44 });
+
     return {
       hits,
       footprint: 2.4,

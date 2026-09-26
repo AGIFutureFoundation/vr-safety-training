@@ -5010,110 +5010,6 @@
     },
     {
       "app": "smartcity",
-      "id": "hc-workplace-violence-deescalation-at-the-desk",
-      "name": "Workplace Violence De-escalation at the Desk",
-      "category": "Healthcare Support",
-      "steps": 13,
-      "score": 95,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 7,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.9884615384615384,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.885,
-          "medianWhy": 227,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 6
-        },
-        "standards": {
-          "score": 1,
-          "cited": 5,
-          "inScope": 5,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 11,
-          "got": 11
-        },
-        "scene": {
-          "score": 0.9075,
-          "meshes": 143,
-          "materials": 69,
-          "interactables": 23
-        },
-        "originality": {
-          "score": 0.5805970149253732,
-          "nearest": "patron-deescalation",
-          "similarity": 0.22388059701492538
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "hc-patient-transport-and-safe-handling",
-      "name": "Patient Transport & Safe Handling",
-      "category": "Healthcare Support",
-      "steps": 14,
-      "score": 95,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 6,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.95,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.915,
-          "medianWhy": 233,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 7
-        },
-        "standards": {
-          "score": 1,
-          "cited": 5,
-          "inScope": 5,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 10,
-          "got": 10
-        },
-        "scene": {
-          "score": 0.8875000000000001,
-          "meshes": 135,
-          "materials": 66,
-          "interactables": 24
-        },
-        "originality": {
-          "score": 0.6269051321928462,
-          "nearest": "br-bird-nesting-buffer-and-work-window",
-          "similarity": 0.21461897356143078
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "hc-sterile-processing-decontamination-and-assembly",
       "name": "Sterile Processing Decon & Assembly",
       "category": "Healthcare Support",
@@ -6193,7 +6089,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 260,
+          "meshes": 270,
           "materials": 83,
           "interactables": 28
         },
@@ -7293,6 +7189,110 @@
           "score": 0.43417721518987346,
           "nearest": "hc-environmental-services-isolation-room-turnover",
           "similarity": 0.25316455696202533
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "hc-workplace-violence-deescalation-at-the-desk",
+      "name": "Workplace Violence De-escalation at the Desk",
+      "category": "Healthcare Support",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.885,
+          "medianWhy": 227,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9575,
+          "meshes": 163,
+          "materials": 77,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.5805970149253732,
+          "nearest": "patron-deescalation",
+          "similarity": 0.22388059701492538
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "hc-patient-transport-and-safe-handling",
+      "name": "Patient Transport & Safe Handling",
+      "category": "Healthcare Support",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.915,
+          "medianWhy": 233,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.995,
+          "meshes": 178,
+          "materials": 89,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.6269051321928462,
+          "nearest": "br-bird-nesting-buffer-and-work-window",
+          "similarity": 0.21461897356143078
         }
       }
     },
@@ -9833,7 +9833,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 248,
+          "meshes": 259,
           "materials": 92,
           "interactables": 29
         },
@@ -12016,9 +12016,9 @@
           "got": 9
         },
         "scene": {
-          "score": 0.8925,
-          "meshes": 137,
-          "materials": 81,
+          "score": 0.9400000000000001,
+          "meshes": 156,
+          "materials": 92,
           "interactables": 26
         },
         "originality": {
@@ -12068,9 +12068,9 @@
           "got": 10
         },
         "scene": {
-          "score": 0.8875000000000001,
-          "meshes": 135,
-          "materials": 75,
+          "score": 0.9349999999999999,
+          "meshes": 154,
+          "materials": 87,
           "interactables": 26
         },
         "originality": {

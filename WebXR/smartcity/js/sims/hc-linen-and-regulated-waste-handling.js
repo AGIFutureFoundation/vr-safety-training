@@ -404,6 +404,15 @@ export const SIM_HC_LINEN_AND_REGULATED_WASTE_HANDLING = {
     reg(hits, backupPanel, "call-for-backup");
 
     const handler = standingFigure(g, 0.1, -1.05, { ry: 0.6, cloth: 0x3f6fa0, skin: 0xb98a63 });
+
+    // A second handler at the dock, and a pallet jack for depth.
+    const secondHandler = standingFigure(g, 2.35, -1.5, { ry: -1.2, cloth: 0x8a5aa0, skin: 0xd9a985 });
+    void secondHandler;
+    const palletJack = group(g, 1.6, 0, 1.4);
+    box(palletJack, 0.5, 0.08, 0.9, 0, 0.06, 0, 0xf2c14b, { rough: 0.55 });
+    box(palletJack, 0.12, 0.5, 0.06, 0, 0.3, -0.5, 0x2b3138, { rough: 0.5, metal: 0.3 });
+    for (const sx of [-1, 1]) cyl(palletJack, 0.06, 0.06, 0.04, sx * 0.18, 0.03, 0.3, 0x14171a, { rough: 0.7, seg: 12 });
+    holoTag(palletJack, "Pallet jack", 0, 0.6, -0.5, { css: LWH_ACCENT, w: 0.4 });
     void handler;
 
     return {

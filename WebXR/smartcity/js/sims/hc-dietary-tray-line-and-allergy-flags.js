@@ -384,6 +384,17 @@ export const SIM_HC_DIETARY_TRAY_LINE_AND_ALLERGY_FLAGS = {
     const aide = standingFigure(g, 0.3, -0.6, { ry: 0.4, cloth: 0xb98042, skin: 0xb98a63 });
     void aide;
 
+    // A second dietary aide at the far end of the line, and a rolling
+    // beverage station for depth.
+    const secondAide = standingFigure(g, -2.3, 2.4, { ry: -0.4, cloth: 0x3f6fa0, skin: 0xd9a985 });
+    void secondAide;
+    const beverageStation = group(g, 2.6, 0, 2.0);
+    box(beverageStation, 0.5, 0.86, 0.4, 0, 0.43, 0, 0xd7dce1, { rough: 0.5, metal: 0.15 });
+    box(beverageStation, 0.5, 0.04, 0.4, 0, 0.87, 0, 0xc7cdd2, { rough: 0.5 });
+    cyl(beverageStation, 0.1, 0.1, 0.3, -0.1, 1.02, 0, 0xf4f8fa, { rough: 0.4, opacity: 0.7, transparent: true, seg: 12 });
+    cyl(beverageStation, 0.1, 0.1, 0.3, 0.1, 1.02, 0, 0xdfa23b, { rough: 0.4, opacity: 0.7, transparent: true, seg: 12 });
+    holoTag(beverageStation, "Beverage station", 0, 1.2, 0, { css: DTL_ACCENT, w: 0.44 });
+
     // Supply shelving for depth.
     const shelf = group(g, -3.7, 0, 1.0);
     box(shelf, 0.06, 1.4, 0.6, -0.38, 0.7, 0, 0x8b929a, { rough: 0.5, metal: 0.4 });

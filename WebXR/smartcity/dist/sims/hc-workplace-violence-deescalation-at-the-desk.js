@@ -344,6 +344,17 @@ export const SIM_HC_WORKPLACE_VIOLENCE_DEESCALATION_AT_THE_DESK = {
     reg(hits, debriefMark, "debrief-request");
 
     const clerk = standingFigure(g, -0.2, -2.5, { ry: 3.1, cloth: 0x8a5a3f, skin: 0xb98a63 });
+
+    // A second clerk further back for depth, and a coat rack by the entrance.
+    const secondClerk = standingFigure(g, 2.6, -2.6, { ry: 2.6, cloth: 0x3f6fa0, skin: 0xd9a985 });
+    void secondClerk;
+    const coatRack = group(g, 3.2, 0, 2.6);
+    cyl(coatRack, 0.02, 0.02, 1.6, 0, 0.8, 0, CITY.darkSteel, { rough: 0.4, metal: 0.6, seg: 10 });
+    cyl(coatRack, 0.14, 0.14, 0.02, 0, 0.01, 0, 0x2b3138, { rough: 0.5, metal: 0.4, seg: 14 });
+    for (const a of [0, 1, 2, 3]) {
+      const hook = cyl(coatRack, 0.008, 0.008, 0.1, Math.sin(a * 1.6) * 0.1, 1.55, Math.cos(a * 1.6) * 0.1, CITY.steel, { rough: 0.35, metal: 0.7, seg: 6 });
+      hook.rotation.z = 0.6;
+    }
     void clerk;
 
     // Supply/forms shelving for depth.
