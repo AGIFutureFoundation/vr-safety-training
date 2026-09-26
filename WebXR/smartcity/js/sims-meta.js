@@ -18130,5 +18130,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "uw-bridge-pier-scour-survey",
+    "index": "356",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers Local 34 commercial diver on a bridge pier scour survey, with the dive supervisor on the comms, the tender on the umbilical and the standby diver dressed at the ladder",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.421 pre-dive procedures (planning and assessment of the dive) and 29 CFR 1910.423 post-dive procedures (the record of dive); ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds; scour findings measured against the bridge owner's own monitoring plan, never against an invented number",
+    "name": "Bridge Pier Scour Survey",
+    "weather": "clear",
+    "indoor": null,
+    "district": "bay-underwater",
+    "title": "SmartCiti.X~ Bridge Pier Scour Survey VR",
+    "tagline": "The footing read against last year's survey: the benchmark and the footing's toe found, the probe zeroed against the benchmark, the perimeter swum at the mudline through an accelerating current, the scour hole probed against the critical elevation, the exposed footing and the undermined riprap found, the deepest point marked, flagged and logged in order, the exposed rebar and the accelerated flow through the undercut found, position held for the read-back while the umbilical catches the rebar, and the findings reported before the crew checks in",
+    "accent": 9090264,
+    "accentCss": "#8ab4d8",
+    "parSeconds": 300,
+    "badge": {
+      "id": "zeroed-and-marked",
+      "name": "Zeroed and Marked",
+      "note": "The probe zeroed to the benchmark before any reading counted, the deepest point flagged and logged, and never a hand in the undercut or a tool dropped into the hole"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Scour Survey",
+      "currency": "ELEVATION",
+      "ranks": [
+        "Diver Trainee",
+        "Diver",
+        "Survey Diver",
+        "Lead Survey Diver",
+        "Scour Survey Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
