@@ -70,9 +70,9 @@ export const SIM_PL_MEDICAL_GAS_BRAZING_AND_PURGE = {
   },
 
   lateNotes: {
-    "purge-flow": "The purge starts before the torch lights and does not stop until the joint has cooled enough to touch — it is the flow that keeps oxide off the inside of the joint, not a step that happens once and is done.",
-    "braze-joint": "Every joint is brazed under the purge that is already running, never before it or after it has been shut off.",
-    "cross-test": "The cross-connection test happens after the line is proven leak-tight, outlet by outlet, before any zone valve is handed back.",
+    "n2-purge-valve": "The purge starts before the torch lights and does not stop until the joint has cooled enough to touch — it is the flow that keeps oxide off the inside of the joint, not a step that happens once and is done.",
+    "n2-flow-1": "Every joint is brazed under the purge that is already running, never before it or after it has been shut off.",
+    "test-o2-outlet": "The cross-connection test happens after the line is proven leak-tight, outlet by outlet, before any zone valve is handed back.",
   },
 
   // Two things a fitter with a torch in one hand and a purge gauge in the
@@ -133,6 +133,26 @@ export const SIM_PL_MEDICAL_GAS_BRAZING_AND_PURGE = {
       title: "Open the line and inspect what is inside",
       cue: "Cut in and look at what the old pipe actually shows you before you braze anything new to it.",
       why: "Scale inside an existing joint is a fitter's own history lesson: it means somebody brazed this section without nitrogen flowing, and it tells you to expect debris in this branch when the system is finally purged and tested, not to assume the rest of the run is clean because this one joint looked fine from outside.",
+    },
+    {
+      id: "fitup", kind: "drag", target: "new-fitting",
+      title: "Bring the new fitting into position",
+      cue: "Drag the new tee onto the cleaned branch socket before anything is heated.",
+      why: "A capillary joint depends on a specific, even gap between the fitting and the pipe — too loose and the filler cannot bridge it, too tight and there is nowhere for the molten alloy to draw in. Dry-fitting the tee square on the cleaned socket now, before the torch ever comes out, is what makes that gap the same all the way round instead of tight on one side and open on the other.",
+      drag: { to: "branch-socket", radius: 0.4, missNote: "Not seated square on the socket — a fitting that goes in crooked leaves an uneven gap the filler cannot bridge on every side at once." },
+    },
+    {
+      id: "open-n2", kind: "turn", target: "n2-cylinder-valve",
+      title: "Open the nitrogen cylinder valve",
+      cue: "Turn the cylinder valve open before the regulator is asked to deliver anything.",
+      why: "The regulator only meters what the cylinder valve actually lets past it, and cracking the cylinder open slowly rather than snapping it wide keeps the sudden rush of high-pressure gas from slamming the regulator's own internals — a fast opening on a full cylinder can wreck a regulator seat before the first joint is ever brazed.",
+      turn: { turns: 0.75, axis: "y", label: "N2 CYLINDER" },
+    },
+    {
+      id: "filler", kind: "select", target: "filler-rod",
+      title: "Select the correct filler alloy",
+      cue: "Pick the silver brazing alloy specified for medical gas copper, not the general-purpose rod on the same bench.",
+      why: "Medical gas piping is brazed with a specific silver-phosphorus filler chosen for the joint strength and internal cleanliness NFPA 99 assumes the system was built to, and a general-purpose plumbing rod grabbed off the same bench by habit does not carry the same silver content or flow characteristics under heat. The wrong rod can still make a joint that looks sound and holds nothing like the margin the system was designed around.",
     },
     {
       id: "purge", kind: "hold", target: "n2-purge-valve", seconds: 5,
@@ -236,6 +256,16 @@ export const SIM_PL_MEDICAL_GAS_BRAZING_AND_PURGE = {
     const joint2 = ball(branch, 0.045, 0.3, 0, -0.5, 0x8a5a2f, { rough: 0.4, metal: 0.6 });
     void joint1; void joint2;
     holoTag(branch, "branch — zone 2 medical air", -1.2, 0.3, 0, { css: "#5fd6a8", w: 0.5 });
+    const branchSocket = group(branch, 0.0, 0, -0.5);
+    hits["branch-socket"] = branchSocket;
+    holoTag(branch, "cleaned socket", 0.0, 0.24, -0.5, { css: "#5fd6a8", w: 0.34 });
+
+    // The new tee, staged on the bench until it is dragged onto the socket.
+    const newFitting = group(g, -0.9, 1.1, -0.35, 0.5);
+    cyl(newFitting, 0.036, 0.036, 0.14, 0, 0, 0, 0xc78a4a, { rough: 0.35, metal: 0.55, seg: 14 }).rotation.z = Math.PI / 2;
+    cyl(newFitting, 0.036, 0.036, 0.1, 0, 0.06, 0, 0xc78a4a, { rough: 0.35, metal: 0.55, seg: 14 });
+    holoTag(newFitting, "new tee", 0, 0.2, 0, { css: "#5fd6a8", w: 0.24 });
+    reg(hits, newFitting, "new-fitting");
 
     // Torch cart, purge header and nitrogen cylinder.
     const cart = group(g, 1.8, 0.1, -1.1, -0.5);
@@ -247,8 +277,24 @@ export const SIM_PL_MEDICAL_GAS_BRAZING_AND_PURGE = {
     reg(hits, torchTip, "torch-near-o2");
     void torchHose;
 
+    // Filler rods on the bench: the correct silver alloy and a general-purpose
+    // decoy sitting right next to it, the way a real bench actually looks.
+    const rodRack = group(g, 1.35, 0.86, -0.9, 0.3);
+    const silverRod = cyl(rodRack, 0.006, 0.006, 0.32, -0.05, 0, 0, 0xd7dce1, { rough: 0.25, metal: 0.85, seg: 8 });
+    silverRod.rotation.z = Math.PI / 2;
+    decal(rodRack, 0.1, 0.05, -0.05, 0.03, 0, signFace("BAg-7", { bg: "#0d1c14", accent: "#59c97b", scale: 0.5 }));
+    holoTag(rodRack, "silver braze alloy", -0.05, 0.1, 0, { css: "#5fd6a8", w: 0.4 });
+    reg(hits, silverRod, "filler-rod");
+    const genRod = cyl(rodRack, 0.006, 0.006, 0.32, 0.08, -0.02, 0.05, 0xb8834a, { rough: 0.4, metal: 0.6, seg: 8 });
+    genRod.rotation.z = Math.PI / 2;
+    holoTag(rodRack, "general-purpose rod", 0.08, 0.06, 0.05, { css: "#8fa9c4", w: 0.4 });
+    void genRod;
+
     const n2 = cylinderTank(g, 1.15, -0.35, 0x5fd6a8, { plateLabel: "NITROGEN", plateLines: ["OIL FREE — 99.998%", "PURGE GAS ONLY"] });
     holoTag(n2, "nitrogen supply", 0, 1.25, 0, { css: "#5fd6a8", w: 0.42 });
+    const n2Valve = valveWheel(n2, -0.1, 1.15, 0, { color: 0x5fd6a8, body: 0x2b2f34, r: 0.055 });
+    holoTag(n2, "cylinder valve", -0.1, 1.34, 0, { css: "#5fd6a8", w: 0.36 });
+    reg(hits, n2Valve, "n2-cylinder-valve");
     const purgeReg = instrument(n2, 0.16, 0.95, 0, { idle: "-- scfh", color: 0x2b2f34, w: 0.14, d: 0.16, ry: 0.6 });
     holoTag(n2, "purge regulator", 0.16, 1.15, 0, { css: "#5fd6a8", w: 0.42 });
     reg(hits, purgeReg, "n2-regulator");
@@ -322,6 +368,7 @@ export const SIM_PL_MEDICAL_GAS_BRAZING_AND_PURGE = {
       onStep() {},
       onStepComplete(step) {
         if (step.id === "open-pipe") { cutSection.visible = false; looseUnion.material = mat(0x9aa3ab, { rough: 0.4, metal: 0.7 }); }
+        if (step.id === "fitup") { newFitting.position.set(0.6, 1.1, -2.05); newFitting.rotation.y = 0; }
         if (step.id === "purge") { purging = true; repaint(purgeReg.userData.screen, signFace("12 scfh", { bg: "#0d1c14", accent: "#59c97b", fg: "#e9ffe9", scale: 0.55 })); }
         if (step.id === "braze-1") { torchLit = true; repaint(flow1.userData.screen, signFace("OK", { bg: "#0d1c14", accent: "#59c97b", fg: "#e9ffe9", scale: 0.6 })); }
         if (step.id === "braze-2") repaint(flow2.userData.screen, signFace("OK", { bg: "#0d1c14", accent: "#59c97b", fg: "#e9ffe9", scale: 0.6 }));
@@ -338,9 +385,10 @@ export const SIM_PL_MEDICAL_GAS_BRAZING_AND_PURGE = {
         if (it.id === "purge-drops") purgeReg.material = mat(0x2b2f34, { rough: 0.6 });
         if (it.id === "wrong-gas-page") phone.material = mat(0x1b1e23, { rough: 0.6 });
       },
-      animate(t) {
+      animate(t, dt, session) {
         if (torchLit) { torchTip.material.emissiveIntensity = 1.2 + Math.sin(t * 20) * 0.4; }
         if (purging) n2.rotation.y = Math.sin(t * 0.3) * 0.01;
+        if (session?.turn && session.step?.id === "open-n2") n2Valve.userData.wheel.rotation.y = session.turn.amount * Math.PI * 2;
       },
     };
   },

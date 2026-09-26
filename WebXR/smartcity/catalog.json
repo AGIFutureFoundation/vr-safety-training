@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 422
+      "stations": 429
     },
     "trades": {
       "entry": "trades/index.html",
@@ -92,6 +92,7 @@
         "lift-station",
         "chlorine-room",
         "backflow-test",
+        "pl-underground-sewer-lateral-and-trench-shoring",
         "cs-non-entry-retrieval-and-tripod",
         "cs-ventilation-and-air-monitoring-plan",
         "cs-permit-entry-and-attendant-duties",
@@ -191,6 +192,12 @@
         "elevator-pit",
         "fire-pump",
         "cooling-tower",
+        "pl-natural-gas-pressure-test-and-leak-check",
+        "pl-water-heater-and-tpr-valve-replacement",
+        "pl-steam-trap-and-condensate-line-repair",
+        "pl-copper-press-and-solder-rough-in",
+        "pl-fire-sprinkler-riser-and-flow-test",
+        "pl-hydronic-boiler-piping-and-hydrotest",
         "pl-medical-gas-brazing-and-purge",
         "pm-storage-and-bike-room",
         "pm-playground-and-courtyard",
@@ -3516,6 +3523,67 @@
       "ladder": {
         "levels": 20,
         "lessons": 1664,
+        "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
+    },
+    {
+      "id": "plumbers-and-pipefitters",
+      "name": "Plumbers and Pipefitters — Journeyman Rough-In and Test Block",
+      "union": "UA Local 38 apprenticeship",
+      "certification": "UA plumbers and pipefitters apprenticeship standards, tested against NFPA 99, NFPA 13, NFPA 25, NFPA 54, ASME B31.9, the ASME Boiler and Pressure Vessel Code and the Uniform Plumbing Code (UPC) across eight distinct union jobs",
+      "summary": "Eight jobs a UA plumber or pipefitter actually rotates through: medical gas brazed under a nitrogen purge, a hydronic loop off a locked-out boiler hydrotested before cover-up, a sewer lateral trenched and shored to a proven fall, a sprinkler riser's annual flow test, a rough-in run both pressed and soldered, a failed steam trap replaced on a vented line, a water heater strapped and relief-valved to its own rating, and a new gas line air-tested and purged before anything is lit. Every station ends on a proof — a gauge, a witness mark, a signed report — rather than on how the joint looked going together.",
+      "accent": "#2f6f4a",
+      "stations": [
+        {
+          "app": "smartcity",
+          "id": "pl-medical-gas-brazing-and-purge",
+          "why": "The zone valve is locked and tagged before any pipe opens, the nitrogen purge runs before the torch ever lights, and every outlet is cross-tested against its own gas before the zone goes back to the floor."
+        },
+        {
+          "app": "smartcity",
+          "id": "pl-hydronic-boiler-piping-and-hydrotest",
+          "why": "A new heating loop off a locked-out boiler is assembled in a proven bolt pattern and then walked joint by joint under a hydrostatic test before a single section goes behind insulation."
+        },
+        {
+          "app": "smartcity",
+          "id": "pl-underground-sewer-lateral-and-trench-shoring",
+          "why": "The protective system goes into the excavation before anyone works below grade, the lateral is laid to a fall checked against a laser at every joint, and the shield comes out a lift at a time as the backfill takes over holding the wall."
+        },
+        {
+          "app": "smartcity",
+          "id": "pl-fire-sprinkler-riser-and-flow-test",
+          "why": "The monitoring company is called before a valve moves, the main drain and the inspector's test connection are each read in order, and the alarm is proven all the way to the gong and the panel before the riser is signed off."
+        },
+        {
+          "app": "smartcity",
+          "id": "pl-copper-press-and-solder-rough-in",
+          "why": "A press fitting is proven on a go/no-go gauge rather than trusted by eye, a soldered joint is made in the alloy potable water actually allows, and a nail plate goes on before the line disappears behind drywall."
+        },
+        {
+          "app": "smartcity",
+          "id": "pl-steam-trap-and-condensate-line-repair",
+          "why": "The failed trap's line is vented and proven at zero before the body ever opens, the replacement is matched to the application, and the line is warmed back up slowly enough that trapped condensate boils off instead of hammering through the pipe."
+        },
+        {
+          "app": "smartcity",
+          "id": "pl-water-heater-and-tpr-valve-replacement",
+          "why": "The new tank is strapped against a seismic event before it is ever filled, the relief valve is matched to the tank's own rating rather than its thread size, and the gas connection is tested before the pilot lights."
+        },
+        {
+          "app": "smartcity",
+          "id": "pl-natural-gas-pressure-test-and-leak-check",
+          "why": "The new run is pressure-tested with air rather than fuel, every joint is soap-checked rather than trusted to the gauge alone, and the line is purged outdoors before any appliance ever sees live gas."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1670,
         "tasks": 120,
         "atBar": 20,
         "partial": 0,
@@ -7642,6 +7710,586 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-natural-gas-pressure-test-and-leak-check",
+      "name": "Natural Gas Pressure Test & Leak Check",
+      "title": "SmartCiti.X~ Natural Gas Pressure Test & Leak Check VR",
+      "tagline": "New gas piping tested with air rather than fuel, every joint soap-checked rather than trusted to a gauge alone, and the line purged outdoors before any appliance is ever lit on it",
+      "category": "Building Systems & Facilities",
+      "domain": "Building Systems & Facilities",
+      "trade": "UA plumber / gas piping installer",
+      "union": null,
+      "certification": "UA plumbers and pipefitters apprenticeship; NFPA 54 National Fuel Gas Code; ANSI Z223.1 National Fuel Gas Code; the Uniform Plumbing Code (UPC) for gas piping installation; 29 CFR 1910.147 the control of hazardous energy",
+      "accent": "#f2c14b",
+      "parSeconds": 270,
+      "weather": "clear",
+      "indoor": "service",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "track",
+        "hold",
+        "turn"
+      ],
+      "badge": {
+        "id": "line-proven",
+        "name": "Line Proven",
+        "note": "A new gas run air-tested, soap-checked joint by joint and purged outdoors before any appliance saw live gas"
+      },
+      "meshes": 154,
+      "lights": 0,
+      "overBudget": false,
+      "index": "pl-08",
+      "flat": false,
+      "system": "Fuel Gas Authority",
+      "currency": "SCFH",
+      "ranks": [
+        "Apprentice",
+        "Journeyman",
+        "Plumber",
+        "Lead Plumber",
+        "Gas Piping Certified"
+      ],
+      "awards": [
+        {
+          "id": "bonded-before-test",
+          "name": "Bonded Before Test",
+          "note": "CSST bonding was confirmed before the system was pressurised"
+        },
+        {
+          "id": "never-untested",
+          "name": "Never Untested",
+          "note": "No joint went into service without the air test and the soap check both"
+        },
+        {
+          "id": "steady-watch",
+          "name": "Steady Watch",
+          "note": "Held the pressure watch inside the band the whole test"
+        },
+        {
+          "id": "clean-line",
+          "name": "Clean Line",
+          "note": "No corrections anywhere in the test"
+        },
+        {
+          "id": "unbroken-purge",
+          "name": "Unbroken Purge",
+          "note": "The purge ran to completion without a break"
+        },
+        {
+          "id": "line-live-fast",
+          "name": "Line Live Fast",
+          "note": "Signed off inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=pl-natural-gas-pressure-test-and-leak-check"
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-water-heater-and-tpr-valve-replacement",
+      "name": "Water Heater & TPR Valve Replacement",
+      "title": "SmartCiti.X~ Water Heater & TPR Valve Replacement VR",
+      "tagline": "The old tank isolated and drained, a new heater strapped against a seismic event before it is ever filled, the TPR valve matched to the tank's own rating with its discharge piped where it can actually do its job, and the gas connection tested before the pilot ever lights",
+      "category": "Building Systems & Facilities",
+      "domain": "Building Systems & Facilities",
+      "trade": "UA plumber / water heater installer",
+      "union": null,
+      "certification": "UA plumbers and pipefitters apprenticeship; the Uniform Plumbing Code (UPC) for water heater installation, seismic strapping and relief valve discharge piping; the ASME Boiler and Pressure Vessel Code for the relief valve's rating; 29 CFR 1910.147 the control of hazardous energy; 8 CCR 3203 injury and illness prevention",
+      "accent": "#4fb87a",
+      "parSeconds": 275,
+      "weather": "clear",
+      "indoor": "service",
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "hold",
+        "find",
+        "drag",
+        "gauge",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "tank-proven",
+        "name": "Tank Proven",
+        "note": "A water heater installed, strapped, relief-valved to its own rating and gas-tested before the pilot ever lit"
+      },
+      "meshes": 155,
+      "lights": 0,
+      "overBudget": false,
+      "index": "pl-07",
+      "flat": false,
+      "system": "Pressure Vessel Authority",
+      "currency": "BTU",
+      "ranks": [
+        "Apprentice",
+        "Journeyman",
+        "Plumber",
+        "Lead Plumber",
+        "Water Heater Certified"
+      ],
+      "awards": [
+        {
+          "id": "drained-before-cut",
+          "name": "Drained Before Cut",
+          "note": "The old tank was isolated and fully drained before disconnection"
+        },
+        {
+          "id": "never-unrelieved",
+          "name": "Never Unrelieved",
+          "note": "The tank was never filled or fired with an unproven relief valve"
+        },
+        {
+          "id": "steady-fill",
+          "name": "Steady Fill",
+          "note": "Held the fill and warm-up inside the band the whole watch"
+        },
+        {
+          "id": "clean-install",
+          "name": "Clean Install",
+          "note": "No corrections anywhere in the install"
+        },
+        {
+          "id": "unbroken-drain",
+          "name": "Unbroken Drain",
+          "note": "The drain ran to empty without a break"
+        },
+        {
+          "id": "tank-live-fast",
+          "name": "Tank Live Fast",
+          "note": "Signed off inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=pl-water-heater-and-tpr-valve-replacement"
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-steam-trap-and-condensate-line-repair",
+      "name": "Steam Trap & Condensate Line Repair",
+      "title": "SmartCiti.X~ Steam Trap & Condensate Line Repair VR",
+      "tagline": "A failed trap isolated, vented and proven at zero before the body ever opens, the correct trap type fitted for this application, and the line warmed back up slowly enough that condensate boils off instead of hammering through the pipe",
+      "category": "Building Systems & Facilities",
+      "domain": "Building Systems & Facilities",
+      "trade": "UA pipefitter / steam and condensate systems",
+      "union": null,
+      "certification": "UA plumbers and pipefitters apprenticeship; ASME B31.9 building services piping; 29 CFR 1910.147 the control of hazardous energy; 29 CFR 1910.132 personal protective equipment; 8 CCR 3203 injury and illness prevention",
+      "accent": "#d88a3a",
+      "parSeconds": 265,
+      "weather": "clear",
+      "indoor": "plant",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "hold",
+        "gauge",
+        "find",
+        "drag",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "trap-proven",
+        "name": "Trap Proven",
+        "note": "A failed steam trap replaced on a vented, zeroed line and brought back into service without a hammer"
+      },
+      "meshes": 153,
+      "lights": 0,
+      "overBudget": false,
+      "index": "pl-06",
+      "flat": false,
+      "system": "Steam and Condensate",
+      "currency": "PSIG",
+      "ranks": [
+        "Apprentice",
+        "Pipefitter",
+        "Journeyman",
+        "Lead Fitter",
+        "Steam Systems Certified"
+      ],
+      "awards": [
+        {
+          "id": "zeroed-before-open",
+          "name": "Zeroed Before Open",
+          "note": "The line was proven at zero pressure before the trap body was opened"
+        },
+        {
+          "id": "never-blind",
+          "name": "Never Blind",
+          "note": "Never opened a fitting on a line that had not been vented and tagged"
+        },
+        {
+          "id": "steady-warmup",
+          "name": "Steady Warmup",
+          "note": "Held the warm-up rate inside the band the whole watch"
+        },
+        {
+          "id": "clean-repair",
+          "name": "Clean Repair",
+          "note": "No corrections anywhere in the repair"
+        },
+        {
+          "id": "unbroken-vent",
+          "name": "Unbroken Vent",
+          "note": "The vent held open until the gauge actually read zero"
+        },
+        {
+          "id": "station-back-fast",
+          "name": "Station Back Fast",
+          "note": "Signed off inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=pl-steam-trap-and-condensate-line-repair"
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-copper-press-and-solder-rough-in",
+      "name": "Copper Press & Solder Rough-In",
+      "title": "SmartCiti.X~ Copper Press & Solder Rough-In VR",
+      "tagline": "A rough-in run two ways on the same wall: a press fitting proven with a go/no-go gauge rather than trusted by eye, a soldered joint made with the alloy potable water actually allows, and a nail plate on before the line disappears behind drywall for good",
+      "category": "Building Systems & Facilities",
+      "domain": "Building Systems & Facilities",
+      "trade": "UA plumber / rough-in installer",
+      "union": null,
+      "certification": "UA plumbers and pipefitters apprenticeship; ASME B31.9 building services piping; the Uniform Plumbing Code (UPC) for potable water materials and joints; 8 CCR 3203 injury and illness prevention; 29 CFR 1910.132 personal protective equipment",
+      "accent": "#5a8fd8",
+      "parSeconds": 260,
+      "weather": "clear",
+      "indoor": "service",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "hold",
+        "drag",
+        "gauge",
+        "track",
+        "turn"
+      ],
+      "badge": {
+        "id": "rough-in-proven",
+        "name": "Rough-In Proven",
+        "note": "A press joint gauge-checked, a solder joint made in the right alloy, and every line protected before the wall closes over it"
+      },
+      "meshes": 161,
+      "lights": 0,
+      "overBudget": false,
+      "index": "pl-05",
+      "flat": false,
+      "system": "Rough-In Authority",
+      "currency": "JOINT",
+      "ranks": [
+        "Apprentice",
+        "Journeyman",
+        "Plumber",
+        "Lead Plumber",
+        "Rough-In Certified"
+      ],
+      "awards": [
+        {
+          "id": "drained-before-cut",
+          "name": "Drained Before Cut",
+          "note": "The section was isolated and drained before any pipe was opened"
+        },
+        {
+          "id": "never-unproven",
+          "name": "Never Unproven",
+          "note": "No press joint went uncovered without the go/no-go check"
+        },
+        {
+          "id": "steady-heat",
+          "name": "Steady Heat",
+          "note": "Held the torch heat inside the band the whole joint"
+        },
+        {
+          "id": "clean-rough-in",
+          "name": "Clean Rough-In",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "unbroken-press",
+          "name": "Unbroken Press",
+          "note": "The press cycle never interrupted mid-squeeze"
+        },
+        {
+          "id": "wall-closed-fast",
+          "name": "Wall Closed Fast",
+          "note": "Signed off inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=pl-copper-press-and-solder-rough-in"
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-fire-sprinkler-riser-and-flow-test",
+      "name": "Fire Sprinkler Riser & Flow Test",
+      "title": "SmartCiti.X~ Fire Sprinkler Riser & Flow Test VR",
+      "tagline": "The monitoring company called before a drop of water moves, the main drain and the inspector's test connection each read in order, and the alarm proven to reach the gong and the panel before the riser goes back to normal",
+      "category": "Building Systems & Facilities",
+      "domain": "Building Systems & Facilities",
+      "trade": "UA sprinkler fitter",
+      "union": null,
+      "certification": "UA plumbers and pipefitters apprenticeship (Road Sprinkler Fitters); NFPA 13 installation of sprinkler systems; NFPA 25 inspection, testing and maintenance of water-based fire protection systems; 29 CFR 1910.147 the control of hazardous energy; 8 CCR 3203 injury and illness prevention",
+      "accent": "#d8232a",
+      "parSeconds": 265,
+      "weather": "clear",
+      "indoor": "service",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "hold",
+        "drag",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "riser-proven",
+        "name": "Riser Proven",
+        "note": "An annual flow test run with the monitoring company notified first and the alarm proven all the way to the panel"
+      },
+      "meshes": 163,
+      "lights": 0,
+      "overBudget": false,
+      "index": "pl-04",
+      "flat": false,
+      "system": "Water-Based Protection",
+      "currency": "GPM",
+      "ranks": [
+        "Apprentice",
+        "Sprinkler Fitter",
+        "Journeyman",
+        "Lead Fitter",
+        "ITM Certified"
+      ],
+      "awards": [
+        {
+          "id": "called-first",
+          "name": "Called First",
+          "note": "The monitoring company was notified before any valve moved"
+        },
+        {
+          "id": "never-unsupervised",
+          "name": "Never Unsupervised",
+          "note": "The control valve was never left closed without a tag"
+        },
+        {
+          "id": "true-residual",
+          "name": "True Residual",
+          "note": "Read both gauges precisely inside the expected band"
+        },
+        {
+          "id": "clean-test",
+          "name": "Clean Test",
+          "note": "No corrections anywhere in the test"
+        },
+        {
+          "id": "unbroken-watch",
+          "name": "Unbroken Watch",
+          "note": "The alarm timing watch never lapsed"
+        },
+        {
+          "id": "riser-back-fast",
+          "name": "Riser Back Fast",
+          "note": "Signed off inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=pl-fire-sprinkler-riser-and-flow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-underground-sewer-lateral-and-trench-shoring",
+      "name": "Underground Sewer Lateral & Trench Shoring",
+      "title": "SmartCiti.X~ Underground Sewer Lateral & Trench Shoring VR",
+      "tagline": "A protective system placed before anyone works below grade, a sewer lateral laid and jointed on a proven fall, and the shield pulled a lift at a time as the backfill takes over holding the wall — never yanked clear of ground still standing open on its own",
+      "category": "Water & Environmental",
+      "domain": "Water & Environmental",
+      "trade": "UA pipelayer / underground plumbing installer",
+      "union": null,
+      "certification": "UA plumbers and pipefitters apprenticeship; the Uniform Plumbing Code (UPC) for the lateral's slope and joints; 29 CFR 1926 Subpart P Excavations; 29 CFR 1926 for the site as a whole; 8 CCR 3203 injury and illness prevention",
+      "accent": "#6fae4a",
+      "parSeconds": 275,
+      "weather": "rain",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "drag",
+        "hold",
+        "turn",
+        "gauge",
+        "sequence",
+        "track"
+      ],
+      "badge": {
+        "id": "lateral-proven",
+        "name": "Lateral Proven",
+        "note": "A sewer lateral trenched, shored, laid to a checked fall and air-tested before backfill closes over it for good"
+      },
+      "meshes": 160,
+      "lights": 0,
+      "overBudget": false,
+      "index": "pl-03",
+      "flat": false,
+      "system": "Ground and Grade",
+      "currency": "FALL",
+      "ranks": [
+        "Apprentice",
+        "Pipelayer",
+        "Journeyman",
+        "Lead Pipelayer",
+        "Underground Certified"
+      ],
+      "awards": [
+        {
+          "id": "shield-before-boots",
+          "name": "Shield Before Boots",
+          "note": "The protective system was placed before anyone entered the trench"
+        },
+        {
+          "id": "never-unshored",
+          "name": "Never Unshored",
+          "note": "No entry and no shield pull happened without the protective system doing its job"
+        },
+        {
+          "id": "true-fall",
+          "name": "True Fall",
+          "note": "Held the slope reading inside the band on every check"
+        },
+        {
+          "id": "clean-lay",
+          "name": "Clean Lay",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "unbroken-grade",
+          "name": "Unbroken Grade",
+          "note": "The grade watch never lapsed"
+        },
+        {
+          "id": "trench-closed-fast",
+          "name": "Trench Closed Fast",
+          "note": "Backfilled and signed off inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=pl-underground-sewer-lateral-and-trench-shoring"
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-hydronic-boiler-piping-and-hydrotest",
+      "name": "Hydronic Boiler Piping & Hydrotest",
+      "title": "SmartCiti.X~ Hydronic Boiler Piping & Hydrotest VR",
+      "tagline": "The boiler locked and tagged before a coupling opens near it, a new heating loop assembled in a proven pattern, and the whole run walked joint by joint under a hydrostatic test before it is ever insulated over",
+      "category": "Building Systems & Facilities",
+      "domain": "Building Systems & Facilities",
+      "trade": "UA pipefitter / hydronic piping installer",
+      "union": null,
+      "certification": "UA plumbers and pipefitters apprenticeship; ASME B31.9 building services piping; the ASME Boiler and Pressure Vessel Code for the boiler this loop ties into; 29 CFR 1910.147 the control of hazardous energy; 8 CCR 3203 injury and illness prevention",
+      "accent": "#f2a13a",
+      "parSeconds": 270,
+      "weather": "clear",
+      "indoor": "service",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "hold",
+        "gauge",
+        "track",
+        "turn"
+      ],
+      "badge": {
+        "id": "loop-proven",
+        "name": "Loop Proven",
+        "note": "A hydronic loop assembled off a locked-out boiler and hydrotested joint by joint before cover-up"
+      },
+      "meshes": 154,
+      "lights": 0,
+      "overBudget": false,
+      "index": "pl-02",
+      "flat": false,
+      "system": "Hydronic Authority",
+      "currency": "PSI",
+      "ranks": [
+        "Apprentice",
+        "Journeyman",
+        "Pipefitter",
+        "Lead Fitter",
+        "Hydronic Certified"
+      ],
+      "awards": [
+        {
+          "id": "boiler-locked-first",
+          "name": "Boiler Locked First",
+          "note": "The boiler was isolated and tagged before any coupling was opened"
+        },
+        {
+          "id": "never-untested",
+          "name": "Never Untested",
+          "note": "No section of the loop was covered before the test held"
+        },
+        {
+          "id": "steady-hold",
+          "name": "Steady Hold",
+          "note": "Held the test pressure inside the band the whole watch"
+        },
+        {
+          "id": "clean-loop",
+          "name": "Clean Loop",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "unbroken-watch",
+          "name": "Unbroken Watch",
+          "note": "The pressure watch never lapsed"
+        },
+        {
+          "id": "loop-back-fast",
+          "name": "Loop Back Fast",
+          "note": "Signed off inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=pl-hydronic-boiler-piping-and-hydrotest"
     },
     {
       "app": "smartcity",
@@ -27669,7 +28317,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 262,
+      "meshes": 259,
       "lights": 0,
       "overBudget": false,
       "index": "92",

@@ -133,6 +133,9 @@ export const STANDARDS = Object.fromEntries([
   S("nfpa-70-art-690", "NFPA", "70 National Electrical Code Article 690 Solar photovoltaic systems", ["Energy & Power"]),
   S("nfpa-51b", "NFPA", "51B Standard for Fire Prevention During Welding, Cutting, and Other Hot Work", ["Metal Trades"]),
   S("nfpa-25", "NFPA", "25 Standard for the Inspection, Testing, and Maintenance of Water-Based Fire Protection Systems", ["Building Systems"]),
+  S("nfpa-13", "NFPA", "13 Standard for the Installation of Sprinkler Systems", ["Building Systems", "Construction"]),
+  S("nfpa-54", "NFPA", "54 National Fuel Gas Code", ["Building Systems", "Energy & Power"]),
+  S("nfpa-99", "NFPA", "99 Health Care Facilities Code", ["Building Systems", "Health & Clinical"]),
   S("nfpa-96", "NFPA", "96 Standard for Ventilation Control and Fire Protection of Commercial Cooking Operations", ["Food Service"]),
   S("nfpa-470", "NFPA", "470 Hazardous Materials/Weapons of Mass Destruction Standard for Responders", ["Hazmat & Environmental"]),
   S("nfpa-855", "NFPA", "855 Standard for the Installation of Stationary Energy Storage Systems", ["Energy & Power"]),
@@ -144,6 +147,8 @@ export const STANDARDS = Object.fromEntries([
   S("ansi-a10-9", "ANSI/ASSP", "A10.9 Safety Requirements for Concrete and Masonry Work", ["Construction"]),
   S("asme-b30-16", "ASME", "B30 Safety Standard for Cableways, Cranes, Derricks, Hoists, Hooks, Jacks and Slings", ["Rigging"]),
   S("asme-bpvc", "ASME", "Boiler and Pressure Vessel Code", ["Building Systems"]),
+  S("asme-b31-9", "ASME", "B31.9 Building Services Piping", ["Building Systems", "Energy & Power"]),
+  S("iapmo-upc", "IAPMO", "Uniform Plumbing Code (UPC)", ["Building Systems", "Water & Environmental", "Construction"], "unverified"),
   S("aws-d1-5", "AWS", "D1.5 Bridge Welding Code", ["Construction"]),
   S("ansi-e1-4", "ESTA/ANSI", "E1.4-1 Manual Counterweight Rigging Systems", ["Live Events"]),
   S("ashrae-188", "ASHRAE", "Standard 188 Legionellosis: Risk Management for Building Water Systems", ["Building Systems"]),
@@ -600,6 +605,17 @@ export const PROGRAMME_COMPETENCIES = [
       "br-levee-inspection-and-seepage", "br-fish-screen-maintenance"
     ],
     require: 6,
+  },
+  {
+    id: "plumbers-and-pipefitters",
+    title: "Rough in, test and prove eight distinct UA plumbing and pipefitting jobs",
+    kind: "programme",
+    standards: ["asme-b31-9", "iapmo-upc", "nfpa-13", "nfpa-25", "nfpa-54", "nfpa-99", "asme-bpvc", "osha-1910-147"],
+    stations: [
+      "pl-medical-gas-brazing-and-purge", "pl-hydronic-boiler-piping-and-hydrotest", "pl-underground-sewer-lateral-and-trench-shoring", "pl-fire-sprinkler-riser-and-flow-test",
+      "pl-copper-press-and-solder-rough-in", "pl-steam-trap-and-condensate-line-repair", "pl-water-heater-and-tpr-valve-replacement", "pl-natural-gas-pressure-test-and-leak-check"
+    ],
+    require: 4,
   },
 ];
 

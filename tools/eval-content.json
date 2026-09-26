@@ -1882,9 +1882,9 @@
           "interactables": 22
         },
         "originality": {
-          "score": 0.5239538239538241,
-          "nearest": "ammonia-plant",
-          "similarity": 0.2352092352092352
+          "score": 0.4181409295352326,
+          "nearest": "pl-steam-trap-and-condensate-line-repair",
+          "similarity": 0.2563718140929535
         }
       }
     },
@@ -4750,6 +4750,58 @@
     },
     {
       "app": "smartcity",
+      "id": "trench-box",
+      "name": "Trench Box",
+      "category": "Construction & Structural Trades",
+      "steps": 15,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 335,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9625,
+          "meshes": 165,
+          "materials": 72,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.34418938307030134,
+          "nearest": "pl-underground-sewer-lateral-and-trench-shoring",
+          "similarity": 0.27116212338593976
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "line-truck",
       "name": "Line Truck",
       "category": "Energy & Power",
@@ -5002,9 +5054,9 @@
           "interactables": 24
         },
         "originality": {
-          "score": 0.5471849865951744,
-          "nearest": "pm-domestic-water-and-backflow",
-          "similarity": 0.23056300268096513
+          "score": 0.5364779874213838,
+          "nearest": "pl-fire-sprinkler-riser-and-flow-test",
+          "similarity": 0.23270440251572327
         }
       }
     },
@@ -6037,7 +6089,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 265,
+          "meshes": 250,
           "materials": 83,
           "interactables": 28
         },
@@ -6406,9 +6458,9 @@
           "interactables": 28
         },
         "originality": {
-          "score": 0.5538205980066446,
-          "nearest": "isco-injection",
-          "similarity": 0.2292358803986711
+          "score": 0.549144634525661,
+          "nearest": "pl-hydronic-boiler-piping-and-hydrotest",
+          "similarity": 0.2301710730948678
         }
       }
     },
@@ -6830,58 +6882,6 @@
     },
     {
       "app": "smartcity",
-      "id": "trench-box",
-      "name": "Trench Box",
-      "category": "Construction & Structural Trades",
-      "steps": 15,
-      "score": 96,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 6,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.9166666666666666,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 335,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 5
-        },
-        "standards": {
-          "score": 1,
-          "cited": 4,
-          "inScope": 4,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 12,
-          "got": 12
-        },
-        "scene": {
-          "score": 0.9625,
-          "meshes": 165,
-          "materials": 72,
-          "interactables": 29
-        },
-        "originality": {
-          "score": 0.5703465982028242,
-          "nearest": "line-truck",
-          "similarity": 0.22593068035943517
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "elevator-pit",
       "name": "Elevator Pit",
       "category": "Building Systems & Facilities",
@@ -7085,6 +7085,214 @@
           "score": 0.47037037037037044,
           "nearest": "formwork-shoring",
           "similarity": 0.24592592592592594
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-water-heater-and-tpr-valve-replacement",
+      "name": "Water Heater & TPR Valve Replacement",
+      "category": "Building Systems & Facilities",
+      "steps": 15,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.9666666666666667,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 274,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 15,
+          "got": 15
+        },
+        "scene": {
+          "score": 0.9349999999999999,
+          "meshes": 154,
+          "materials": 78,
+          "interactables": 30
+        },
+        "originality": {
+          "score": 0.4284482758620692,
+          "nearest": "pl-natural-gas-pressure-test-and-leak-check",
+          "similarity": 0.2543103448275862
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-steam-trap-and-condensate-line-repair",
+      "name": "Steam Trap & Condensate Line Repair",
+      "category": "Building Systems & Facilities",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 298,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.93,
+          "meshes": 152,
+          "materials": 71,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.4014925373134329,
+          "nearest": "pl-hydronic-boiler-piping-and-hydrotest",
+          "similarity": 0.25970149253731345
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-hydronic-boiler-piping-and-hydrotest",
+      "name": "Hydronic Boiler Piping & Hydrotest",
+      "category": "Building Systems & Facilities",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 328,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.9349999999999999,
+          "meshes": 154,
+          "materials": 83,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.2991058122205664,
+          "nearest": "pl-medical-gas-brazing-and-purge",
+          "similarity": 0.28017883755588674
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-medical-gas-brazing-and-purge",
+      "name": "Medical Gas Brazing & Purge",
+      "category": "Building Systems & Facilities",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 315,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.96,
+          "meshes": 164,
+          "materials": 88,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.2991058122205664,
+          "nearest": "pl-hydronic-boiler-piping-and-hydrotest",
+          "similarity": 0.28017883755588674
         }
       }
     },
@@ -9690,6 +9898,58 @@
     },
     {
       "app": "smartcity",
+      "id": "amalgam-waste-handling",
+      "name": "Amalgam Waste Handling",
+      "category": "Dental & Oral Health",
+      "steps": 15,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9950000000000001,
+          "medianWhy": 249,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9575,
+          "meshes": 163,
+          "materials": 94,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.6300998573466478,
+          "nearest": "pl-hydronic-boiler-piping-and-hydrotest",
+          "similarity": 0.21398002853067047
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "creosote-pile-removal",
       "name": "Creosote Pile Removal",
       "category": "Maritime & Ports",
@@ -11502,9 +11762,9 @@
           "interactables": 19
         },
         "originality": {
-          "score": 0.7039840637450201,
-          "nearest": "pm-domestic-water-and-backflow",
-          "similarity": 0.199203187250996
+          "score": 0.6448818897637796,
+          "nearest": "pl-fire-sprinkler-riser-and-flow-test",
+          "similarity": 0.2110236220472441
         }
       }
     },
@@ -11554,9 +11814,9 @@
           "interactables": 22
         },
         "originality": {
-          "score": 0.6598811292719168,
-          "nearest": "fp-anchor-selection-and-rescue-plan",
-          "similarity": 0.20802377414561665
+          "score": 0.610614525139665,
+          "nearest": "pl-hydronic-boiler-piping-and-hydrotest",
+          "similarity": 0.21787709497206703
         }
       }
     },
@@ -11661,6 +11921,214 @@
           "score": 0.7517241379310347,
           "nearest": "sterilisation-technician-cycle",
           "similarity": 0.1896551724137931
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-natural-gas-pressure-test-and-leak-check",
+      "name": "Natural Gas Pressure Test & Leak Check",
+      "category": "Building Systems & Facilities",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 291,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 14,
+          "got": 14
+        },
+        "scene": {
+          "score": 0.93,
+          "meshes": 152,
+          "materials": 74,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.390828402366864,
+          "nearest": "pl-hydronic-boiler-piping-and-hydrotest",
+          "similarity": 0.2618343195266272
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-copper-press-and-solder-rough-in",
+      "name": "Copper Press & Solder Rough-In",
+      "category": "Building Systems & Facilities",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 259,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.9525,
+          "meshes": 161,
+          "materials": 90,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.46978417266187067,
+          "nearest": "pl-hydronic-boiler-piping-and-hydrotest",
+          "similarity": 0.2460431654676259
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-fire-sprinkler-riser-and-flow-test",
+      "name": "Fire Sprinkler Riser & Flow Test",
+      "category": "Building Systems & Facilities",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 311,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 14,
+          "got": 14
+        },
+        "scene": {
+          "score": 0.9575,
+          "meshes": 163,
+          "materials": 78,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.4306501547987618,
+          "nearest": "pm-sprinkler-riser-room",
+          "similarity": 0.25386996904024767
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-underground-sewer-lateral-and-trench-shoring",
+      "name": "Underground Sewer Lateral & Trench Shoring",
+      "category": "Water & Environmental",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 285,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 14,
+          "got": 14
+        },
+        "scene": {
+          "score": 0.9475,
+          "meshes": 159,
+          "materials": 77,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.34418938307030134,
+          "nearest": "trench-box",
+          "similarity": 0.27116212338593976
         }
       }
     },
@@ -14474,58 +14942,6 @@
     },
     {
       "app": "smartcity",
-      "id": "amalgam-waste-handling",
-      "name": "Amalgam Waste Handling",
-      "category": "Dental & Oral Health",
-      "steps": 15,
-      "score": 97,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.9166666666666666,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.9950000000000001,
-          "medianWhy": 249,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "standards": {
-          "score": 1,
-          "cited": 4,
-          "inScope": 4,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 10,
-          "got": 10
-        },
-        "scene": {
-          "score": 0.9575,
-          "meshes": 163,
-          "materials": 94,
-          "interactables": 24
-        },
-        "originality": {
-          "score": 0.6655172413793105,
-          "nearest": "draught-line-cleaning",
-          "similarity": 0.20689655172413793
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "chairside-emergency",
       "name": "Chairside Emergency",
       "category": "Dental & Oral Health",
@@ -14674,9 +15090,9 @@
           "interactables": 24
         },
         "originality": {
-          "score": 0.6498644986449865,
-          "nearest": "pump-and-treat",
-          "similarity": 0.21002710027100271
+          "score": 0.602439024390244,
+          "nearest": "pl-hydronic-boiler-piping-and-hydrotest",
+          "similarity": 0.21951219512195122
         }
       }
     },
@@ -17069,58 +17485,6 @@
           "score": 0.6482200647249192,
           "nearest": "press-brake",
           "similarity": 0.21035598705501618
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "pl-medical-gas-brazing-and-purge",
-      "name": "Medical Gas Brazing & Purge",
-      "category": "Building Systems & Facilities",
-      "steps": 13,
-      "score": 98,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.9884615384615384,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 315,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "standards": {
-          "score": 1,
-          "cited": 5,
-          "inScope": 5,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 13,
-          "got": 13
-        },
-        "scene": {
-          "score": 0.96,
-          "meshes": 164,
-          "materials": 88,
-          "interactables": 25
-        },
-        "originality": {
-          "score": 0.5896848137535817,
-          "nearest": "se-steam-trap-survey-and-condensate-return",
-          "similarity": 0.22206303724928367
         }
       }
     },
@@ -19562,9 +19926,9 @@
           "interactables": 22
         },
         "originality": {
-          "score": 0.5681948424068769,
-          "nearest": "pm-fire-alarm-panel-room",
-          "similarity": 0.22636103151862463
+          "score": 0.4306501547987618,
+          "nearest": "pl-fire-sprinkler-riser-and-flow-test",
+          "similarity": 0.25386996904024767
         }
       }
     },
@@ -21070,9 +21434,9 @@
           "interactables": 28
         },
         "originality": {
-          "score": 0.6012517385257302,
-          "nearest": "bs-bearing-replacement-and-jacking",
-          "similarity": 0.21974965229485396
+          "score": 0.5799414348462665,
+          "nearest": "pl-hydronic-boiler-piping-and-hydrotest",
+          "similarity": 0.2240117130307467
         }
       }
     },
