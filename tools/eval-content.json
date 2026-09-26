@@ -5673,7 +5673,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 269,
+          "meshes": 259,
           "materials": 83,
           "interactables": 28
         },
@@ -6513,6 +6513,58 @@
           "score": 0.47037037037037044,
           "nearest": "formwork-shoring",
           "similarity": 0.24592592592592594
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "hz-drum-staging-and-compatibility-segregation",
+      "name": "Drum Staging & Compatibility Segregation",
+      "category": "Environmental Monitoring",
+      "steps": 15,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9666666666666667,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 314,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 234,
+          "materials": 98,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.4809647979139506,
+          "nearest": "hz-level-b-entry-and-scba-change-out",
+          "similarity": 0.2438070404172099
         }
       }
     },
@@ -8845,7 +8897,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 250,
+          "meshes": 263,
           "materials": 92,
           "interactables": 29
         },
@@ -9786,9 +9838,9 @@
           "interactables": 21
         },
         "originality": {
-          "score": 0.48928987194412116,
-          "nearest": "drum-sampling-and-overpack",
-          "similarity": 0.2421420256111758
+          "score": 0.4809647979139506,
+          "nearest": "hz-drum-staging-and-compatibility-segregation",
+          "similarity": 0.2438070404172099
         }
       }
     },
