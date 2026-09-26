@@ -18236,7 +18236,7 @@ export const SIMS_META = [
       "name": "Pile Command",
       "note": "Leads plumbed in two planes, the drop zone held clear, and the pile started on low energy before full driving began"
     },
-    "stepCount": 15,
+    "stepCount": 14,
     "interruptCount": 2,
     "game": {
       "system": "Pile Command",
@@ -18247,6 +18247,48 @@ export const SIMS_META = [
         "Lead Certified",
         "Drive Authority",
         "Pile Command Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "op-equipment-daily-walkaround-and-fluids",
+    "index": "op-8",
+    "domain": "Construction",
+    "trade": "Heavy equipment operator — IUOE Local 3 operating engineer",
+    "category": "Construction & Structural Trades",
+    "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations and 29 CFR 1926.602 Material handling equipment; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on struck-by and caught-in incidents during equipment servicing",
+    "name": "Equipment Daily Walkaround & Fluids",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Equipment Daily Walkaround & Fluids VR",
+    "tagline": "Daily pre-op walkaround on a loader backhoe: the checklist read, the machine walked for a leak or a defect, every fluid checked against its own gauge, a chock set before working underneath it, and the brakes and hydraulics proved before the first bucket of the day",
+    "accent": 5214112,
+    "accentCss": "#4f8fa0",
+    "parSeconds": 255,
+    "badge": {
+      "id": "fleet-readiness",
+      "name": "Fleet Readiness",
+      "note": "Walked, fluids checked, chocked before working underneath, and the brakes and hydraulics proved before the first bucket"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Fleet Readiness",
+      "currency": "READY",
+      "ranks": [
+        "Ground Hand",
+        "Equipment Hand",
+        "Walkaround Certified",
+        "Readiness Authority",
+        "Fleet Readiness Certified"
       ],
       "rankAt": [
         0,

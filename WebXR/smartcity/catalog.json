@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 428
+      "stations": 429
     },
     "trades": {
       "entry": "trades/index.html",
@@ -226,6 +226,7 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "op-equipment-daily-walkaround-and-fluids",
         "op-pile-driving-rig-and-lead-setup",
         "op-crawler-crane-assembly-and-load-chart",
         "op-compactor-lift-thickness-and-edge",
@@ -7651,6 +7652,94 @@
     },
     {
       "app": "smartcity",
+      "id": "op-equipment-daily-walkaround-and-fluids",
+      "name": "Equipment Daily Walkaround & Fluids",
+      "title": "SmartCiti.X~ Equipment Daily Walkaround & Fluids VR",
+      "tagline": "Daily pre-op walkaround on a loader backhoe: the checklist read, the machine walked for a leak or a defect, every fluid checked against its own gauge, a chock set before working underneath it, and the brakes and hydraulics proved before the first bucket of the day",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction",
+      "trade": "Heavy equipment operator — IUOE Local 3 operating engineer",
+      "union": null,
+      "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations and 29 CFR 1926.602 Material handling equipment; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on struck-by and caught-in incidents during equipment servicing",
+      "accent": "#4f8fa0",
+      "parSeconds": 255,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "gauge",
+        "drag",
+        "turn",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "fleet-readiness",
+        "name": "Fleet Readiness",
+        "note": "Walked, fluids checked, chocked before working underneath, and the brakes and hydraulics proved before the first bucket"
+      },
+      "meshes": 176,
+      "lights": 0,
+      "overBudget": false,
+      "index": "op-8",
+      "flat": false,
+      "system": "Fleet Readiness",
+      "currency": "READY",
+      "ranks": [
+        "Ground Hand",
+        "Equipment Hand",
+        "Walkaround Certified",
+        "Readiness Authority",
+        "Fleet Readiness Certified"
+      ],
+      "awards": [
+        {
+          "id": "never-skip-a-fluid",
+          "name": "Never Skip a Fluid",
+          "note": "Check every fluid level clean, first try"
+        },
+        {
+          "id": "chocked-before-under",
+          "name": "Chocked Before Under",
+          "note": "Never worked near the undercarriage before chocking"
+        },
+        {
+          "id": "steady-checks",
+          "name": "Steady Checks",
+          "note": "Held the gauge readings near band centre all shift"
+        },
+        {
+          "id": "clean-walkaround",
+          "name": "Clean Walkaround",
+          "note": "Never missed a defect on the walk-around"
+        },
+        {
+          "id": "quick-walkaround",
+          "name": "Quick Walkaround",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "ready-streak",
+          "name": "Ready Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=op-equipment-daily-walkaround-and-fluids"
+    },
+    {
+      "app": "smartcity",
       "id": "op-pile-driving-rig-and-lead-setup",
       "name": "Pile Driving Rig & Lead Setup",
       "title": "SmartCiti.X~ Pile Driving Rig & Lead Setup VR",
@@ -7665,7 +7754,7 @@
       "weather": "overcast",
       "indoor": null,
       "district": null,
-      "steps": 15,
+      "steps": 14,
       "hazards": 4,
       "interrupts": 2,
       "stepKinds": [
@@ -28208,7 +28297,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 254,
+      "meshes": 257,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -28868,7 +28957,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",
