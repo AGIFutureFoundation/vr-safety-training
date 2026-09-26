@@ -601,6 +601,17 @@ export const PROGRAMME_COMPETENCIES = [
     ],
     require: 6,
   },
+  {
+    id: "insulators-and-boilermakers",
+    title: "Insulate, firestop, abate, repair and pressure-test a plant's pipes, walls and vessels to code",
+    kind: "programme",
+    standards: ["osha-1926-1101", "osha-1910-146", "asme-bpvc"],
+    stations: [
+      "ib-mechanical-insulation-pipe-and-jacketing", "ib-firestop-and-fire-wrap-installation", "ib-asbestos-glovebag-removal-on-a-pipe", "ib-boiler-tube-replacement-and-rolling",
+      "ib-pressure-vessel-confined-entry-and-hot-work", "ib-refractory-and-castable-installation", "ib-hydrostatic-test-and-inspector-witness", "ib-spray-foam-and-respirator-fit"
+    ],
+    require: 4,
+  },
 ];
 
 /**
