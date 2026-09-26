@@ -231,6 +231,77 @@ export function rcClosure(tr) {
   return { gap, ds: tr.ds, maxTurn, minRadius: maxCurv > 0 ? 1 / maxCurv : Infinity, L: tr.L };
 }
 
+// ------------------------------------------------------------------ mirror
+
+/**
+ * Mirror class: every course flipped left-right, unlocked by a top-three
+ * Master Grand Prix (sim.js rcApplyGrandPrix). A mirror is a data transform,
+ * not a new file: reflect every x coordinate across the world's z axis (so
+ * a right-hand hairpin becomes a left-hander) and negate every lateral
+ * offset `d` and every "into the corner"/heading-style angle (bank, and a
+ * scenery orientation such as a crane's jib angle) so hazards, pads and
+ * boxes land back on the same physical side of the mirrored road. `s`-based
+ * placement (u, from, to) is untouched: the lap still runs the same way
+ * round, just as a reflection in a mirror does.
+ */
+function rcMirrorScenery(sc) {
+  const o = { ...sc };
+  const neg = (v) => -v;
+  if (o.x != null) o.x = neg(o.x);
+  if (o.x0 != null) o.x0 = neg(o.x0);
+  if (o.d != null) o.d = neg(o.d);
+  if (o.ry != null) o.ry = neg(o.ry);
+  if (o.centre) o.centre = [neg(o.centre[0]), o.centre[1]];
+  if (o.area) o.area = [neg(o.area[2]), o.area[1], neg(o.area[0]), o.area[3]];
+  if (o.rects) o.rects = o.rects.map(([x0, z0, x1, z1]) => [neg(x1), z0, neg(x0), z1]);
+  if (o.span) o.span = [neg(o.span[1]), neg(o.span[0])];
+  if (o.at) {
+    o.at = o.at.map((tup) => {
+      const t = tup.slice();
+      t[0] = neg(t[0]);
+      if (sc.kind === "towerCranes" && t.length > 3) t[3] = neg(t[3]);
+      return t;
+    });
+  }
+  if ((sc.kind === "reeferRow") && Array.isArray(o.from)) o.from = [neg(o.from[0]), o.from[1]];
+  if ((sc.kind === "reeferRow") && Array.isArray(o.to)) o.to = [neg(o.to[0]), o.to[1]];
+  return o;
+}
+
+/** A track def flipped left-right; its id gets a `-mirror` suffix. */
+export function rcMirrorTrackDef(def) {
+  const neg = (v) => (v == null ? v : -v);
+  const points = def.points.map((p) => {
+    const q = p.slice();
+    q[0] = -q[0];
+    if (q[3] != null) q[3] = -q[3];
+    return q;
+  });
+  const boostPads = (def.boostPads ?? []).map((b) => ({ ...b, d: neg(b.d) }));
+  const itemBoxes = (def.itemBoxes ?? []).map((r) => ({ ...r, ds: (r.ds ?? []).map(neg) }));
+  const hazards = (def.hazards ?? []).map((h) => {
+    const o = { ...h };
+    if (o.d != null) o.d = neg(o.d);
+    if (o.ds) o.ds = o.ds.map(neg);
+    if (o.lanes) o.lanes = o.lanes.map((l) => ({ ...l, d: neg(l.d) }));
+    return o;
+  });
+  const scenery = (def.scenery ?? []).map(rcMirrorScenery);
+  const noRailZones = (def.noRailZones ?? []).map((z) => ({ ...z, side: neg(z.side) }));
+  const env = def.env ? { ...def.env } : def.env;
+  if (env?.sun?.dir) env.sun = { ...env.sun, dir: [neg(env.sun.dir[0]), env.sun.dir[1], env.sun.dir[2]] };
+  if (env?.moon?.dir) env.moon = { ...env.moon, dir: [neg(env.moon.dir[0]), env.moon.dir[1], env.moon.dir[2]] };
+  return {
+    ...def,
+    id: `${def.id}-mirror`,
+    name: `${def.name} (Mirror)`,
+    short: `${def.short ?? def.name} (Mirror)`,
+    blurb: `${def.blurb} Raced as a mirror image: every corner the other way.`,
+    mirrorOf: def.id,
+    points, boostPads, itemBoxes, hazards, scenery, noRailZones, env,
+  };
+}
+
 /**
  * Places where the lap passes near itself: an overpass when the levels
  * differ, a flaw when they do not. Pairs are sample indices at least `apart`
