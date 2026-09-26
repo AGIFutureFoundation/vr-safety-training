@@ -3,18 +3,21 @@ import { holoTag } from "./citykit.js";
 import { FLEET_BUDGET, FLEET_BUILDERS } from "../../shared/fleet.js";
 import { EQUIPMENT_BUDGET, EQUIPMENT_BUILDERS } from "../../shared/equipment.js";
 import { TOOLKIT_BUDGET, TOOLKIT_BUILDERS } from "../../shared/toolkit.js";
+import { PROPS_BUDGET, PROPS_BUILDERS } from "../../shared/props.js";
 
-// The kit gallery: `?gallery=fleet|equipment|toolkit` lays every builder of
-// one shared kit out on the plaza with a label naming it and the mesh count it
-// actually cost in this browser, for screenshots and for the retrofit teams to
-// see what they are getting. Vehicles and plant face +Z (toward the spawn) in
-// rows, shortest at the front; tools lie on a bench. Nothing here is a
+// The kit gallery: `?gallery=fleet|equipment|toolkit|props` lays every
+// builder of one shared kit out on the plaza with a label naming it and the
+// mesh count it actually cost in this browser, for screenshots and for the
+// retrofit teams to see what they are getting. Vehicles and plant face +Z
+// (toward the spawn) in rows, shortest at the front; tools lie on a bench;
+// props lay out the same way as fleet and equipment. Nothing here is a
 // station: there are no steps and nothing is clickable.
 
 export const GALLERY_KINDS = {
   fleet: { table: FLEET_BUDGET, builders: FLEET_BUILDERS },
   equipment: { table: EQUIPMENT_BUDGET, builders: EQUIPMENT_BUILDERS },
   toolkit: { table: TOOLKIT_BUDGET, builders: TOOLKIT_BUILDERS },
+  props: { table: PROPS_BUDGET, builders: PROPS_BUILDERS },
 };
 
 function meshCount(g) {

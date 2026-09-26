@@ -52,7 +52,7 @@ for (const probe of ["parameters={width,height,depth}", "parameters={radiusTop",
 }
 
 // Same concatenation as every checker, behind the richer stub.
-const MODULES = ["shared/kit.js", "shared/a11y.js", "shared/weather.js", "smartcity/js/citykit.js", "smartcity/js/ambient.js",
+const MODULES = ["shared/kit.js", "shared/a11y.js", "shared/weather.js", "shared/fleet.js", "shared/props.js", "smartcity/js/citykit.js", "smartcity/js/ambient.js",
   "smartcity/js/apron.js", "smartcity/js/interiors.js", "smartcity/js/districts.js", "smartcity/js/stage.js"];
 // buildSuite() writes the plain stub; this suite is put together by hand so
 // it gets the one above.

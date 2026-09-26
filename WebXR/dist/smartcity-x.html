@@ -7651,6 +7651,457 @@ const TOOLKIT_BUILDERS = {
 void cyl; void gradientFill;
 
 
+/* ===== shared/props.js ===== */
+// Shared site-dressing kit — the clutter that makes a district read as a real
+// jobsite or a real street rather than an empty horizon: barricades, a light
+// mast, a portable toilet, a site office, a dumpster, scaffold, stacked
+// pallets, a cable spool, a hydrant, bollards, a bench, a street tree in
+// three sizes, a shrub bed, a chain-link fence panel with a gate, a 20 ft
+// shipping container, a fuel tank, a generator on a skid, a mobile crane's
+// counterweight stack, and a picnic table.
+//
+// Same contract as shared/fleet.js: `(parent, x, y, z, opts)`, metres, real
+// proportions, footprint centred on the origin in X and Z, y = 0 the ground,
+// a baked static shell plus named parts in `userData.parts` for anything
+// that swings or lifts (a toilet door, a dumpster lid, a container door, a
+// gate leaf). Every builder costs at most 14 authored meshes (before
+// mergeStatic), and `PROPS_BUDGET` below declares each one's mesh count,
+// footprint and parts; `tools/check_props.mjs` holds every builder to it.
+// These dress DISTRICTS (the horizon and edges around a station), never a
+// station's own working area — see js/districts.js's `dressing` and
+// js/stage.js, which places them after a district builds itself.
+
+/** A prop's paint colour: opts.colour / opts.color, or the class default. */
+function prColour(opts, fallback) { return flHex(opts.colour ?? opts.color ?? fallback); }
+
+function prRig(parent, x, y, z, opts, kind, offset = null) {
+  return flRig(parent, x, y, z, opts, kind, offset);
+}
+
+// ------------------------------------------------------------- barricades
+
+/**
+ * Concrete Jersey barrier, F-shape profile, reflective tape baked into the
+ * one panel texture. 0.61 m base × 0.81 m tall × 3.05 m (10 ft) run.
+ */
+function jerseyBarrier(parent, x, y, z, opts = {}) {
+  const colour = prColour(opts, 0xa9ada4);
+  const rig = prRig(parent, x, y, z, opts, "jerseyBarrier");
+  const S = rig.shell;
+  const face = flCanvasMat(`jersey|${colour}`, 256, 128, (g, w, h) => {
+    gradientFill(g, w, h, [[0, flCss(flShade(colour, 1.08))], [1, flCss(flShade(colour, 0.82))]]);
+    noiseTexture(g, w, h, { density: 1400, alpha: 0.12 });
+    g.fillStyle = "rgba(255,255,255,0.85)";
+    for (let i = 0; i < 10; i++) g.fillRect(i * w / 10 + 4, h * 0.32, w / 20, h * 0.2);
+    grimeOverlay(g, w, h, { blotches: 3, streaks: 4, alpha: 0.12 });
+  }, { rough: 0.85, metal: 0.05 });
+  // Profile in [back(-Z), y]: wide base, F-shape shoulder, narrow top rail.
+  flSide(S, [[-1.525, 0], [-1.525, 0.1], [-0.3, 0.1], [-0.3, 0.46], [-0.075, 0.46], [-0.075, 0.81],
+    [0.075, 0.81], [0.075, 0.46], [0.3, 0.46], [0.3, 0.1], [1.525, 0.1], [1.525, 0]],
+  0.61, 0, 0, 0, colour, { material: face, bevel: 0.015 });
+  return flDone(rig, { footprint: PROPS_BUDGET.jerseyBarrier.footprint });
+}
+
+/** Plastic water/sand-filled lane barrier, 1.83 m modular section. */
+function waterBarrier(parent, x, y, z, opts = {}) {
+  const colour = prColour(opts, 0xe4622a);
+  const rig = prRig(parent, x, y, z, opts, "waterBarrier");
+  const S = rig.shell;
+  const face = flCanvasMat(`waterbar|${colour}`, 256, 128, (g, w, h) => {
+    g.fillStyle = flCss(colour); g.fillRect(0, 0, w, h);
+    g.fillStyle = "#f4f4f0";
+    for (let i = 0; i < 3; i++) g.fillRect(0, h * (0.2 + i * 0.28), w, h * 0.1);
+    noiseTexture(g, w, h, { density: 900, alpha: 0.1 });
+  }, { rough: 0.5, metal: 0.15 });
+  flSide(S, [[-0.9, 0], [-0.9, 0.05], [-0.25, 0.62], [-0.25, 0.78], [0.25, 0.78], [0.25, 0.62], [0.9, 0.05], [0.9, 0]],
+    0.5, 0, 0, 0, colour, { material: face, bevel: 0.02 });
+  const cap = rig.part("cap", 0, 0.79, 0);
+  cyl(cap, 0.07, 0.07, 0.04, 0, 0, 0, 0x2b2f33, { rough: 0.6, metal: 0.3, seg: 10 });
+  return flDone(rig, { footprint: PROPS_BUDGET.waterBarrier.footprint });
+}
+
+/** A cone: taper, reflective band, square base. */
+function trafficCone(parent, x, z) {
+  const c = group(parent, x, 0, z);
+  cyl(c, 0.03, 0.18, 0.71, 0, 0.355, 0, 0xe4622a, { rough: 0.75, seg: 12 });
+  cyl(c, 0.05, 0.14, 0.09, 0, 0.44, 0, 0xf4f4f0, { rough: 0.5, seg: 12 });
+  box(c, 0.36, 0.03, 0.36, 0, 0.015, 0, 0x22262b, { rough: 0.85 });
+  return c;
+}
+/** A cluster of traffic cones (default 3, triangular). */
+function coneCluster(parent, x, y, z, opts = {}) {
+  const rig = prRig(parent, x, y, z, opts, "coneCluster");
+  const S = rig.shell;
+  const n = opts.count ?? 3;
+  const pts = n >= 3 ? [[-0.32, -0.19], [0.32, -0.19], [0, 0.29]] : n === 2 ? [[-0.32, 0], [0.32, 0]] : [[0, 0]];
+  for (const [cx, cz] of pts.slice(0, n)) trafficCone(S, cx, cz);
+  return flDone(rig, { footprint: PROPS_BUDGET.coneCluster.footprint });
+}
+
+// --------------------------------------------------------------- lighting
+
+/**
+ * Fixed site light mast: pole, crossbar, four heads. `opts.lit` (0..~2) sets
+ * the heads' emissive intensity — a district passes its own night/dusk/day
+ * multiplier so the mast reads as switched off by day. Parts: lamps.
+ */
+function lightMast(parent, x, y, z, opts = {}) {
+  const rig = prRig(parent, x, y, z, opts, "lightMast");
+  const S = rig.shell;
+  box(S, 0.5, 0.06, 0.5, 0, 0.03, 0, 0x3a3f45, { rough: 0.6, metal: 0.4 });
+  cyl(S, 0.09, 0.13, 8.9, 0, 4.5, 0, 0xc9d0d6, { rough: 0.4, metal: 0.5, finish: "galvanised", seg: 12 });
+  box(S, 1.3, 0.09, 0.09, 0, 8.85, 0, 0xc9d0d6, { rough: 0.4, metal: 0.5, finish: "galvanised" });
+  const lampMat = mat(0xfff2cc, { emissive: 0xfff2cc, ei: Math.max(0.06, opts.lit ?? 1.4), rough: 0.35 });
+  const lamps = [];
+  for (const [lx, lz] of [[-0.5, -0.1], [-0.5, 0.1], [0.5, -0.1], [0.5, 0.1]]) {
+    const l = rig.part(`lamp${lamps.length}`, lx, 8.7, lz);
+    box(l, 0.2, 0.06, 0.16, 0, 0, 0, ...FL.frame);
+    const face = box(l, 0.16, 0.02, 0.12, 0, -0.045, 0, 0, {});
+    face.material = lampMat;
+    lamps.push(l);
+  }
+  rig.set("lamps", lamps);
+  return flDone(rig, { footprint: PROPS_BUDGET.lightMast.footprint });
+}
+
+// -------------------------------------------------------------- amenities
+
+/** Portable toilet: single-unit outhouse, hinged door. Parts: door. */
+function portableToilet(parent, x, y, z, opts = {}) {
+  const colour = prColour(opts, 0x2e6b57);
+  const rig = prRig(parent, x, y, z, opts, "portableToilet");
+  const S = rig.shell;
+  const face = flCanvasMat(`potty|${colour}`, 128, 256, (g, w, h) => {
+    gradientFill(g, w, h, [[0, flCss(flShade(colour, 1.1))], [1, flCss(flShade(colour, 0.85))]]);
+    noiseTexture(g, w, h, { density: 600, alpha: 0.06 });
+    g.fillStyle = "rgba(255,255,255,0.85)"; g.fillRect(w * 0.18, h * 0.06, w * 0.64, h * 0.05);
+  }, { rough: 0.55, metal: 0.1 });
+  box(S, 1.22, 2.1, 1.22, 0, 1.05, 0, colour, { material: face });
+  box(S, 1.26, 0.08, 1.26, 0, 2.14, 0, 0xdedfd9, { rough: 0.5 });
+  const vent = rig.part("vent", 0.5, 2.24, -0.3);
+  cyl(vent, 0.04, 0.04, 0.16, 0, 0, 0, 0xdedfd9, { rough: 0.5, seg: 8 });
+  const door = rig.part("door", 0, 1.0, 0.611);
+  flPanel(door, 0.7, 1.95, 0, 0, 0, flDoorMat(flLivery(opts.livery, { colour }), "L", { window: 0, marks: "none" }), "+z");
+  door.userData.openAngle = -1.2;
+  return flDone(rig, { footprint: PROPS_BUDGET.portableToilet.footprint });
+}
+
+/** Portable site office / job trailer, 20 ft. Parts: door. */
+function siteOffice(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0xe6e6e0, fleetName: "SITE OFFICE", unitNumber: "1" });
+  const rig = prRig(parent, x, y, z, opts, "siteOffice");
+  const S = rig.shell;
+  box(S, 2.44, 2.9, 6.1, 0, 1.45, 0, lv.colour, { rough: 0.5, finish: "painted" });
+  flPanel(S, 5.6, 1.4, 1.226, 1.65, 0, flLiveryMat(lv, "office", { titleScale: 0.22, titleY: 0.5, stripeY: 0.86, base: lv.colour, pw: 1024, ph: 256 }), "+x");
+  const steps = rig.part("steps", 0, 0, 3.16);
+  box(steps, 0.85, 0.2, 0.28, 0, 0.1, 0.14, 0x8b929a, { rough: 0.6, metal: 0.3 });
+  box(steps, 0.85, 0.4, 0.28, 0, 0.2, -0.14, 0x8b929a, { rough: 0.6, metal: 0.3 });
+  const hvac = rig.part("hvac", -0.75, 2.95, 0);
+  box(hvac, 0.7, 0.3, 0.6, 0, 0, 0, 0xbfc3c7, { rough: 0.5, metal: 0.4 });
+  const door = rig.part("door", 0, 1.05, 3.05);
+  box(door, 0.9, 2.05, 0.05, 0, 0, 0, 0x2b3138, { rough: 0.6, metal: 0.3 });
+  door.userData.openAngle = -1.2;
+  return flDone(rig, { footprint: PROPS_BUDGET.siteOffice.footprint });
+}
+
+/** Front-load dumpster, two hinged lids. Parts: lidL, lidR. */
+function dumpster(parent, x, y, z, opts = {}) {
+  const colour = prColour(opts, 0x2e6b3a);
+  const rig = prRig(parent, x, y, z, opts, "dumpster");
+  const S = rig.shell;
+  box(S, 1.37, 1.22, 1.83, 0, 0.61, 0, colour, { rough: 0.6, finish: "painted" });
+  for (const [sx, sz] of [[-0.6, -0.75], [0.6, -0.75], [-0.6, 0.75], [0.6, 0.75]]) cyl(S, 0.06, 0.06, 0.14, sx, 0.07, sz, 0x22262b, { rough: 0.7, seg: 8 });
+  const lidL = rig.part("lidL", -0.02, 1.24, 0);
+  box(lidL, 0.66, 0.04, 1.83, 0.34, 0, 0, colour, { rough: 0.6, finish: "painted" });
+  lidL.userData.openAngle = 1.5;
+  const lidR = rig.part("lidR", 0.02, 1.24, 0);
+  box(lidR, 0.66, 0.04, 1.83, -0.34, 0, 0, colour, { rough: 0.6, finish: "painted" });
+  lidR.userData.openAngle = -1.5;
+  return flDone(rig, { footprint: PROPS_BUDGET.dumpster.footprint });
+}
+
+// -------------------------------------------------------------- structures
+
+/** A two-lift scaffold tower with a planked platform and guardrail. */
+function scaffoldTower(parent, x, y, z, opts = {}) {
+  const rig = prRig(parent, x, y, z, opts, "scaffoldTower");
+  const S = rig.shell;
+  const steel = [0xc9d0d6, { rough: 0.4, metal: 0.5, finish: "galvanised" }];
+  for (const [sx, sz] of [[-0.65, -0.65], [0.65, -0.65], [-0.65, 0.65], [0.65, 0.65]]) flRod(S, 0.025, 4.0, sx, 2.0, sz, "y", ...steel);
+  for (const [sz] of [[-0.65], [0.65]]) box(S, 1.3, 0.03, 0.03, 0, 3.95, sz, ...steel);
+  for (const [sx] of [[-0.65], [0.65]]) box(S, 0.03, 0.03, 1.3, sx, 3.95, 0, ...steel);
+  flStrut(S, [-0.65, 0.1, -0.65], [0.65, 3.9, -0.65], 0.018, ...steel);
+  box(S, 1.2, 0.05, 1.2, 0, 2.0, 0, 0xc19a5b, { rough: 0.75, finish: "brushed" });
+  box(S, 1.2, 0.12, 0.03, 0, 2.15, -0.6, 0xe4622a, { rough: 0.6 });
+  box(S, 0.03, 0.12, 1.2, -0.6, 2.15, 0, 0xe4622a, { rough: 0.6 });
+  return flDone(rig, { footprint: PROPS_BUDGET.scaffoldTower.footprint });
+}
+
+/** Wrapped pallet stack: three loaded pallets under shrink film. */
+function palletStack(parent, x, y, z, opts = {}) {
+  const colour = prColour(opts, 0xc9a86b);
+  const rig = prRig(parent, x, y, z, opts, "palletStack");
+  const S = rig.shell;
+  for (let i = 0; i < 3; i++) {
+    box(S, 1.0, 0.5, 1.2, 0, 0.25 + i * 0.5, 0, i % 2 ? 0xd9c58f : 0xcfa46a, { rough: 0.85, finish: "brushed" });
+  }
+  const wrap = box(S, 1.04, 1.7, 1.24, 0, 0.85, 0, 0xe8f0f2, { rough: 0.3, opacity: 0.28, cast: false });
+  wrap.material.transparent = true;
+  return flDone(rig, { footprint: PROPS_BUDGET.palletStack.footprint });
+}
+
+/** A wound cable/wire reel, standing on its rim, axis along X. */
+function cableSpool(parent, x, y, z, opts = {}) {
+  const wood = opts.material !== "steel";
+  const colour = prColour(opts, wood ? 0xa9835a : 0x8b929a);
+  const rig = prRig(parent, x, y, z, opts, "cableSpool");
+  const S = rig.shell;
+  const face = flCanvasMat(`spool|${colour}|${wood}`, 128, 128, (g, w, h) => {
+    gradientFill(g, w, h, [[0, flCss(flShade(colour, 1.08))], [1, flCss(flShade(colour, 0.82))]]);
+    noiseTexture(g, w, h, { density: wood ? 500 : 1400, alpha: wood ? 0.16 : 0.08 });
+  }, { rough: wood ? 0.85 : 0.4, metal: wood ? 0.05 : 0.4 });
+  for (const sx of [-0.44, 0.44]) {
+    const d = cyl(S, 0.75, 0.75, 0.06, sx, 0.75, 0, 0, { seg: 20 });
+    d.material = face; d.rotation.z = Math.PI / 2;
+  }
+  const hub = cyl(S, 0.32, 0.32, 0.76, 0, 0.75, 0, colour, { rough: wood ? 0.9 : 0.45, metal: wood ? 0 : 0.3, seg: 16 });
+  hub.rotation.z = Math.PI / 2;
+  return flDone(rig, { footprint: PROPS_BUDGET.cableSpool.footprint });
+}
+
+/** A standard dry-barrel fire hydrant. */
+function fireHydrant(parent, x, y, z, opts = {}) {
+  const colour = prColour(opts, 0xc8201c);
+  const rig = prRig(parent, x, y, z, opts, "fireHydrant");
+  const S = rig.shell;
+  cyl(S, 0.16, 0.19, 0.06, 0, 0.03, 0, 0x3a3f45, { rough: 0.6, metal: 0.3, seg: 12 });
+  lathe(S, [[0.13, 0], [0.14, 0.05], [0.11, 0.08], [0.1, 0.5], [0.15, 0.55], [0.15, 0.62], [0.09, 0.66], [0.001, 0.7]], 0, 0.06, 0, colour, { rough: 0.5, metal: 0.15, seg: 16 });
+  for (const ry of [0, Math.PI]) {
+    const n = rig.part(`nozzle${ry}`, 0, 0.42, 0);
+    n.rotation.y = ry + Math.PI / 2;
+    cyl(n, 0.05, 0.05, 0.14, 0.16, 0, 0, colour, { rough: 0.5, metal: 0.15, seg: 10 }).rotation.z = Math.PI / 2;
+  }
+  ball(S, 0.06, 0, 0.72, 0, 0x2b2f33, { rough: 0.4, metal: 0.4, seg: 8, seg2: 6 });
+  return flDone(rig, { footprint: PROPS_BUDGET.fireHydrant.footprint });
+}
+
+/** A row of steel bollards. `opts.count` (default 5), `opts.spacing` (1.5 m). */
+function bollardRow(parent, x, y, z, opts = {}) {
+  const colour = prColour(opts, 0xf0c02c);
+  const n = opts.count ?? 5, gap = opts.spacing ?? 1.5;
+  const rig = prRig(parent, x, y, z, opts, "bollardRow");
+  const S = rig.shell;
+  const start = -((n - 1) * gap) / 2;
+  for (let i = 0; i < n; i++) {
+    const bx = start + i * gap;
+    cyl(S, 0.075, 0.08, 1.0, bx, 0.5, 0, colour, { rough: 0.55, metal: 0.2, finish: "painted", seg: 12 });
+    ball(S, 0.078, bx, 1.0, 0, colour, { rough: 0.4, metal: 0.3, seg: 10, seg2: 8 });
+  }
+  return flDone(rig, { footprint: [Math.max(0.16, (n - 1) * gap + 0.16), 1.08, 0.16] });
+}
+
+/** A slatted park bench. */
+function parkBench(parent, x, y, z, opts = {}) {
+  const colour = prColour(opts, 0x2b3138);
+  const rig = prRig(parent, x, y, z, opts, "parkBench");
+  const S = rig.shell;
+  for (let i = 0; i < 3; i++) box(S, 1.8, 0.04, 0.11, 0, 0.44 + i * 0.001, -0.14 + i * 0.14, 0x8b6a45, { rough: 0.8, finish: "brushed" });
+  for (let i = 0; i < 2; i++) { const b = box(S, 1.8, 0.04, 0.1, 0, 0.72 + i * 0.13, -0.2, 0x8b6a45, { rough: 0.8, finish: "brushed" }); b.rotation.x = -0.22; }
+  for (const sx of [-1, 1]) box(S, 0.06, 0.45, 0.5, sx * 0.87, 0.225, -0.02, colour, { rough: 0.5, metal: 0.4 });
+  return flDone(rig, { footprint: PROPS_BUDGET.parkBench.footprint });
+}
+
+// ------------------------------------------------------------ landscaping
+
+const STREET_TREE_SIZE = {
+  small: { trunkH: 2.6, trunkR: 0.09, canopyR: 1.2, canopyY: 3.0 },
+  medium: { trunkH: 3.4, trunkR: 0.15, canopyR: 1.9, canopyY: 4.2 },
+  large: { trunkH: 4.2, trunkR: 0.22, canopyR: 2.8, canopyY: 5.6 },
+};
+/** A street tree in a tree grate. `opts.size`: "small" | "medium" | "large". */
+function streetTree(parent, x, y, z, opts = {}) {
+  const size = STREET_TREE_SIZE[opts.size] ? opts.size : "medium";
+  const s = STREET_TREE_SIZE[size];
+  const rig = prRig(parent, x, y, z, opts, `streetTree:${size}`);
+  const S = rig.shell;
+  box(S, 1.1, 0.05, 1.1, 0, 0.025, 0, 0x3a3f45, { rough: 0.6, metal: 0.4 });
+  cyl(S, s.trunkR, s.trunkR * 1.3, s.trunkH, 0, s.trunkH / 2, 0, 0x5b4530, { rough: 0.9, finish: "brushed", seg: 10 });
+  ball(S, s.canopyR, 0, s.canopyY, 0, 0x3a6b3a, { rough: 0.95, seg: 10, seg2: 8 });
+  ball(S, s.canopyR * 0.72, s.canopyR * 0.35, s.canopyY + s.canopyR * 0.5, s.canopyR * 0.2, 0x477a47, { rough: 0.95, seg: 8, seg2: 6 });
+  torus(S, 0.5, 0.04, 0, 0.05, 0, 0x2b2318, { rough: 0.9, seg: 8, seg2: 16 }).rotation.x = Math.PI / 2;
+  return flDone(rig, { footprint: PROPS_BUDGET[`streetTree:${size}`].footprint });
+}
+
+/** A low planting bed: a curbed row of shrubs. `opts.count` (default 5). */
+function shrubBed(parent, x, y, z, opts = {}) {
+  const n = opts.count ?? 5;
+  const rig = prRig(parent, x, y, z, opts, "shrubBed");
+  const S = rig.shell;
+  box(S, 2.3, 0.22, 1.0, 0, 0.11, 0, 0x8b8177, { rough: 0.85, finish: "concrete" });
+  for (let i = 0; i < n; i++) {
+    const sx = -0.7 + (i / Math.max(1, n - 1)) * 1.4;
+    ball(S, 0.3, sx, 0.42, 0, i % 2 ? 0x3f7a3f : 0x4a8a4a, { rough: 0.95, seg: 8, seg2: 6 });
+  }
+  return flDone(rig, { footprint: PROPS_BUDGET.shrubBed.footprint });
+}
+
+// ---------------------------------------------------------------- fencing
+
+const prChainlinkMat = () => flCanvasMat("chainlink", 256, 128, (g, w, h) => {
+  g.clearRect(0, 0, w, h);
+  g.strokeStyle = "rgba(180,188,194,0.65)"; g.lineWidth = 2;
+  const cell = 14;
+  for (let i = -h; i < w + h; i += cell) { g.beginPath(); g.moveTo(i, 0); g.lineTo(i + h, h); g.stroke(); g.beginPath(); g.moveTo(i, h); g.lineTo(i + h, 0); g.stroke(); }
+}, { rough: 0.5, metal: 0.5, transparent: true, double: true });
+
+/** A 10 ft chain-link fence panel between two posts, top and bottom rail. */
+function fencePanel(parent, x, y, z, opts = {}) {
+  const rig = prRig(parent, x, y, z, opts, "fencePanel");
+  const S = rig.shell;
+  const steel = [0xb9c0c6, { rough: 0.45, metal: 0.5, finish: "galvanised" }];
+  for (const px of [-1.5, 1.5]) flRod(S, 0.035, 1.9, px, 0.95, 0, "y", ...steel);
+  for (const py of [0.06, 1.83]) box(S, 3.05, 0.025, 0.025, 0, py, 0, ...steel);
+  flPanel(S, 2.95, 1.77, 0, 0.95, 0, prChainlinkMat(), "+z");
+  return flDone(rig, { footprint: PROPS_BUDGET.fencePanel.footprint });
+}
+
+/** A chain-link fence panel with a swinging single gate leaf. Parts: gate. */
+function fencePanelGate(parent, x, y, z, opts = {}) {
+  const rig = prRig(parent, x, y, z, opts, "fencePanel:gate");
+  const S = rig.shell;
+  const steel = [0xb9c0c6, { rough: 0.45, metal: 0.5, finish: "galvanised" }];
+  for (const px of [-1.5, 1.5]) flRod(S, 0.04, 1.9, px, 0.95, 0, "y", ...steel);
+  const gate = rig.part("gate", -1.5, 0, 0);
+  for (const py of [0.06, 1.83]) box(gate, 2.9, 0.03, 0.03, 1.5, py, 0, ...steel);
+  flPanel(gate, 2.85, 1.77, 1.5, 0.95, 0, prChainlinkMat(), "+z");
+  const latch = rig.part("latch", 1.5, 0.95, 0);
+  box(latch, 0.08, 0.14, 0.05, 0, 0, 0, 0x2b2f33, { rough: 0.6, metal: 0.4 });
+  gate.userData.openAngle = 1.4;
+  return flDone(rig, { footprint: PROPS_BUDGET["fencePanel:gate"].footprint });
+}
+
+// ------------------------------------------------------------------ yard
+
+const prCorrugatedMat = (colour, key) => flCanvasMat(`corrugated|${key}|${colour}`, 512, 128, (g, w, h) => {
+  gradientFill(g, w, h, [[0, flCss(flShade(colour, 1.1))], [1, flCss(flShade(colour, 0.8))]]);
+  for (let i = 0; i < 40; i++) { g.fillStyle = i % 2 ? "rgba(0,0,0,0.08)" : "rgba(255,255,255,0.08)"; g.fillRect(i * w / 40, 0, w / 80, h); }
+  grimeOverlay(g, w, h, { blotches: 3, streaks: 6, alpha: 0.14 });
+}, { rough: 0.55, metal: 0.35 });
+
+/** 20 ft ISO shipping container. Parts: doorL, doorR. */
+function shippingContainer(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0x8a2e2e, fleetName: "SITE STORAGE", unitNumber: "20" });
+  const rig = prRig(parent, x, y, z, opts, "shippingContainer");
+  const S = rig.shell;
+  const corrugated = prCorrugatedMat(lv.colour, "wall");
+  box(S, 2.44, 2.59, 6.06, 0, 1.295, 0, lv.colour, { material: corrugated });
+  box(S, 2.5, 0.12, 6.1, 0, 2.6, 0, lv.colour, { rough: 0.5, metal: 0.3 });
+  flPanel(S, 5.9, 0.5, 1.221, 2.0, 0, flLiveryMat(lv, "cntrTop", { titleScale: 0.5, titleY: 0.5, stripeY: 1.5, pw: 1024, ph: 128 }), "+x");
+  for (const sx of [-1, 1]) {
+    const d = rig.part(sx > 0 ? "doorR" : "doorL", sx * 0.61, 1.295, 3.02);
+    flPanel(d, 1.19, 2.5, 0, 0, 0.01, flDoorMat(lv, sx > 0 ? "R" : "L", { window: 0, marks: "fleet" }), "+z");
+    d.userData.openAngle = sx > 0 ? 1.2 : -1.2;
+  }
+  return flDone(rig, { footprint: PROPS_BUDGET.shippingContainer.footprint, livery: lv });
+}
+
+/** Small skid-mounted site fuel tank, twin saddle stand. */
+function fuelTank(parent, x, y, z, opts = {}) {
+  const colour = prColour(opts, 0xf0c02c);
+  const rig = prRig(parent, x, y, z, opts, "fuelTank");
+  const S = rig.shell;
+  for (const sx of [-0.85, 0.85]) box(S, 0.15, 0.8, 1.0, sx, 0.4, 0, 0x3a3f45, { rough: 0.6, metal: 0.4 });
+  flRod(S, 0.58, 2.2, 0, 0.8, 0, "x", colour, { rough: 0.45, metal: 0.25, seg: 18 });
+  const gauge = rig.part("gauge", 0, 1.38, 0.4);
+  cyl(gauge, 0.05, 0.05, 0.03, 0, 0, 0, 0x2b2f33, { rough: 0.4, metal: 0.4, seg: 10 });
+  return flDone(rig, { footprint: PROPS_BUDGET.fuelTank.footprint });
+}
+
+/** Small diesel generator on a skid (no wheels — set down, not towed). */
+function generatorSkid(parent, x, y, z, opts = {}) {
+  const colour = prColour(opts, 0xf2c14b);
+  const rig = prRig(parent, x, y, z, opts, "generatorSkid");
+  const S = rig.shell;
+  box(S, 1.0, 0.14, 2.2, 0, 0.07, 0, 0x2b2f33, { rough: 0.7, metal: 0.4 });
+  box(S, 0.94, 1.1, 2.1, 0, 0.69, 0, colour, { rough: 0.5, finish: "painted" });
+  flPanel(S, 0.9, 0.9, 0, 0.75, -1.051, flDoorMat(flLivery(opts.livery, { colour }), "L", { window: 0, marks: "none" }), "-z");
+  const stack = rig.part("stack", 0.3, 1.24, 0.9);
+  cyl(stack, 0.05, 0.05, 0.3, 0, 0, 0, 0x3a3f45, { rough: 0.6, metal: 0.4, seg: 8 });
+  const panel = rig.part("controlPanel", 0, 0.9, 1.061);
+  flPanel(panel, 0.4, 0.3, 0, 0, 0, mat(0x1a1e23, { rough: 0.4, emissive: 0x59c97b, ei: 0.4 }), "+z");
+  return flDone(rig, { footprint: PROPS_BUDGET.generatorSkid.footprint });
+}
+
+/** A mobile crane's stacked counterweight slabs. `opts.count` (default 5). */
+function counterweightStack(parent, x, y, z, opts = {}) {
+  const colour = prColour(opts, 0x3a3f45);
+  const n = opts.count ?? 5;
+  const rig = prRig(parent, x, y, z, opts, "counterweightStack");
+  const S = rig.shell;
+  for (let i = 0; i < n; i++) box(S, 2.5, 0.28, 1.0, 0, 0.15 + i * 0.3, 0, i === 0 ? 0xf0c02c : colour, { rough: 0.6, finish: "painted" });
+  return flDone(rig, { footprint: [2.5, Math.max(0.3, n * 0.3), 1.0] });
+}
+
+/** A-frame picnic table. */
+function picnicTable(parent, x, y, z, opts = {}) {
+  const colour = prColour(opts, 0x8b6a45);
+  const rig = prRig(parent, x, y, z, opts, "picnicTable");
+  const S = rig.shell;
+  box(S, 1.5, 0.05, 0.8, 0, 0.75, 0, colour, { rough: 0.75, finish: "brushed" });
+  for (const sz of [-0.62, 0.62]) box(S, 1.5, 0.05, 0.26, 0, 0.45, sz, colour, { rough: 0.75, finish: "brushed" });
+  for (const sx of [-0.62, 0.62]) {
+    const leg = box(S, 0.06, 0.9, 1.5, sx, 0.45, 0, 0x5c4a34, { rough: 0.8, finish: "brushed" });
+    leg.rotation.z = sx > 0 ? -0.35 : 0.35;
+  }
+  return flDone(rig, { footprint: PROPS_BUDGET.picnicTable.footprint });
+}
+
+// ------------------------------------------------------------------ budget
+
+/**
+ * Declared mesh count (after mergeStatic), footprint [width X, height Y,
+ * length Z] in metres and required named parts per builder. Every entry is
+ * at most 14 AUTHORED meshes (before merge) — tools/check_props.mjs holds
+ * every builder to its declared count, footprint and parts, and to that
+ * ceiling.
+ */
+const PROPS_BUDGET = {
+  jerseyBarrier: { build: "jerseyBarrier", meshes: 1, footprint: [0.61, 0.81, 3.05], parts: [], note: "concrete F-shape traffic barrier, 10 ft run" },
+  waterBarrier: { build: "waterBarrier", meshes: 2, footprint: [0.5, 0.79, 1.83], parts: [], note: "plastic water/sand-filled lane barrier" },
+  coneCluster: { build: "coneCluster", meshes: 9, footprint: [1.0, 0.71, 0.84], parts: [], note: "three traffic cones in a triangle" },
+  lightMast: { build: "lightMast", meshes: 10, footprint: [1.3, 9.0, 0.5], parts: ["lamps"], note: "fixed site light mast, four heads, lit at night" },
+  portableToilet: { build: "portableToilet", meshes: 4, footprint: [1.26, 2.32, 1.26], parts: ["door"], note: "single-unit portable toilet" },
+  siteOffice: { build: "siteOffice", meshes: 6, footprint: [2.45, 3.1, 6.49], parts: ["door"], note: "20 ft portable site office" },
+  dumpster: { build: "dumpster", meshes: 4, footprint: [1.37, 1.26, 1.83], parts: ["lidL", "lidR"], note: "front-load construction dumpster" },
+  scaffoldTower: { build: "scaffoldTower", meshes: 14, footprint: [1.4, 4.0, 1.4], parts: [], note: "two-lift scaffold tower with platform and guardrail" },
+  palletStack: { build: "palletStack", meshes: 4, footprint: [1.04, 1.7, 1.24], parts: [], note: "three loaded pallets under shrink film" },
+  cableSpool: { build: "cableSpool", meshes: 3, footprint: [0.9, 1.5, 1.5], parts: [], note: "wound cable reel, standing on its rim" },
+  fireHydrant: { build: "fireHydrant", meshes: 6, footprint: [0.38, 0.78, 0.46], parts: [], note: "dry-barrel fire hydrant" },
+  bollardRow: { build: "bollardRow", meshes: 10, footprint: [6.16, 1.08, 0.16], parts: [], note: "row of five steel bollards" },
+  parkBench: { build: "parkBench", meshes: 7, footprint: [1.8, 0.94, 0.5], parts: [], note: "slatted park bench" },
+  "streetTree:small": { build: "streetTree", opts: { size: "small" }, meshes: 5, footprint: [2.48, 4.46, 2.4], parts: [], note: "young street tree in a tree grate" },
+  "streetTree:medium": { build: "streetTree", opts: { size: "medium" }, meshes: 5, footprint: [3.93, 6.52, 3.8], parts: [], note: "established street tree in a tree grate" },
+  "streetTree:large": { build: "streetTree", opts: { size: "large" }, meshes: 5, footprint: [5.8, 9.02, 5.6], parts: [], note: "mature street tree in a tree grate" },
+  shrubBed: { build: "shrubBed", meshes: 6, footprint: [2.3, 0.72, 1.0], parts: [], note: "curbed planting bed, five shrubs" },
+  fencePanel: { build: "fencePanel", meshes: 5, footprint: [3.05, 1.9, 0.07], parts: [], note: "10 ft chain-link fence panel" },
+  "fencePanel:gate": { build: "fencePanelGate", meshes: 6, footprint: [3.05, 1.9, 0.07], parts: ["gate"], note: "chain-link fence panel with a swinging gate leaf" },
+  shippingContainer: { build: "shippingContainer", meshes: 5, footprint: [2.44, 2.65, 6.06], parts: ["doorL", "doorR"], note: "20 ft ISO shipping container, oxide red" },
+  "shippingContainer:blue": { build: "shippingContainer", opts: { livery: { colour: 0x2e4a7a, fleetName: "SITE STORAGE", unitNumber: "20" } }, meshes: 5, footprint: [2.44, 2.65, 6.06], parts: ["doorL", "doorR"], note: "20 ft ISO shipping container, marine blue" },
+  fuelTank: { build: "fuelTank", meshes: 4, footprint: [2.2, 1.38, 1.16], parts: ["gauge"], note: "skid fuel tank on a twin saddle stand" },
+  generatorSkid: { build: "generatorSkid", meshes: 6, footprint: [1.0, 1.34, 2.2], parts: ["stack", "controlPanel"], note: "diesel generator on a skid" },
+  counterweightStack: { build: "counterweightStack", meshes: 5, footprint: [2.5, 1.5, 1.0], parts: [], note: "mobile crane counterweight, five slabs" },
+  picnicTable: { build: "picnicTable", meshes: 5, footprint: [1.6, 0.9, 1.5], parts: [], note: "A-frame picnic table" },
+};
+
+/** The builders by the name PROPS_BUDGET's `build` field uses. */
+const PROPS_BUILDERS = {
+  jerseyBarrier, waterBarrier, coneCluster, lightMast, portableToilet, siteOffice, dumpster,
+  scaffoldTower, palletStack, cableSpool, fireHydrant, bollardRow, parkBench, streetTree,
+  shrubBed, fencePanel, fencePanelGate, shippingContainer, fuelTank, generatorSkid,
+  counterweightStack, picnicTable,
+};
+
+
 /* ===== shared/game.js ===== */
 // Procedure engine and gamification layer.
 //
@@ -16241,6 +16692,28 @@ function selfLight(root, ei = 0.22) {
   });
 }
 
+/**
+ * Dress a district's own horizon and edges with props from the shared kit
+ * (shared/props.js), after the district builds itself. A `dressing` entry is
+ * `{ prop, x, z, y, ry, opts, lit }`: `prop` names a PROPS_BUILDERS key, `lit`
+ * (true or a number) scales that prop's own `opts.lit` by the current
+ * time-of-day mast multiplier, so a light mast reads as switched on at night
+ * and barely on by day like every other mast in the scene. This never runs on
+ * a station's own working area — a station never calls it, only stage.js
+ * does, on the district group, after the district's own build. See
+ * districtFor()'s `dressing` field on each entry in DISTRICTS below.
+ */
+function dressDistrict(g, list, tod) {
+  if (!list) return;
+  for (const d of list) {
+    const fn = PROPS_BUILDERS[d.prop];
+    if (!fn) continue;
+    const opts = { ry: d.ry ?? 0, ...(d.opts ?? {}) };
+    if (d.lit) opts.lit = (typeof d.lit === "number" ? d.lit : 1.6) * (tod?.mast ?? 1);
+    fn(g, d.x, d.y ?? 0, d.z, opts);
+  }
+}
+
 /** Still water to the horizon, under the skyline and the plaza edge. */
 function water(g, color = 0x0a1a26) {
   const w = cyl(g, 64, 64, 0.1, 0, -0.55, 0, color, { rough: 0.22, metal: 0.7, seg: 48, cast: false });
@@ -17462,11 +17935,25 @@ function gymBanner(text) {
 
 // ------------------------------------------------------------------ table
 
-const DEFAULT ={ sky: 0x0b1220, fog: 0x0f1726, hemi: [0x7f95aa, 0x1a2230], mast: 0xdfeaf2, build: null };
+// A baseline horizon dressing every district inherits unless it names its
+// own `dressing` (a category-specific one below) or turns it off with
+// `dressing: null` (the underwater and gym-court scenic districts, which
+// stand the learner on a floor these props would sit on top of).
+const DEFAULT_DRESSING = [
+  { prop: "parkBench", x: -15, z: -8, ry: 0.3 },
+  { prop: "streetTree:medium", x: 15, z: -8 },
+  { prop: "bollardRow", x: 0, z: -10.5, opts: { count: 3 } },
+];
+const DEFAULT = { sky: 0x0b1220, fog: 0x0f1726, hemi: [0x7f95aa, 0x1a2230], mast: 0xdfeaf2, build: null, dressing: DEFAULT_DRESSING };
 
 const DISTRICTS = {
   "Energy & Power": {
     sky: 0x07090f, fog: 0x0a0c12, hemi: [0x7a8aa0, 0x151511], mast: 0xffd9a0,
+    dressing: [
+      { prop: "fuelTank", x: -17, z: -7, ry: 0.4 },
+      { prop: "generatorSkid", x: 17, z: -7, ry: -0.3 },
+      { prop: "jerseyBarrier", x: 0, z: -11.2 },
+    ],
     build(g) {
       flood(g, 0, 16, -24, 0xffd9a0);
       const arms = [pylon(g, -26, -26, 15, 0.35), pylon(g, 0, -31, 17, 0), pylon(g, 26, -26, 15, -0.35)];
@@ -17477,6 +17964,11 @@ const DISTRICTS = {
   },
   "Mobility & Transit": {
     sky: 0x070a12, fog: 0x0a0e18, hemi: [0x6d8296, 0x121820], mast: 0xe9f1f7,
+    dressing: [
+      { prop: "parkBench", x: -16, z: -6.5, ry: 0.3 },
+      { prop: "streetTree:medium", x: 16, z: -6.5 },
+      { prop: "bollardRow", x: 0, z: -10, opts: { count: 4 } },
+    ],
     build(g) {
       flood(g, 0, 14, -20, 0xe9f1f7);
       const gw = guideway(g);
@@ -17489,6 +17981,11 @@ const DISTRICTS = {
   },
   "Water & Environmental": {
     sky: 0x06101a, fog: 0x0a1620, hemi: [0x5f8aa8, 0x0f1a22], mast: 0xd6ecf7,
+    dressing: [
+      { prop: "cableSpool", x: -17, z: -7, opts: { material: "steel" } },
+      { prop: "fireHydrant", x: 17, z: -7 },
+      { prop: "jerseyBarrier", x: 0, z: -11.2 },
+    ],
     build(g) {
       flood(g, 0, 12, -22, 0xd6ecf7);
       water(g, 0x0b1e2c);
@@ -17504,6 +18001,10 @@ const DISTRICTS = {
   },
   "Connectivity & Telecom": {
     sky: 0x06090f, fog: 0x090d14, hemi: [0x6d8296, 0x121820], mast: 0xdfeaf2,
+    dressing: [
+      { prop: "cableSpool", x: -16, z: -7 },
+      { prop: "palletStack", x: 16, z: -7, ry: -0.4 },
+    ],
     build(g) {
       flood(g, 0, 18, -24, 0xdfeaf2);
       const beacons = lattice(g, 0, -30, 28);
@@ -17513,6 +18014,11 @@ const DISTRICTS = {
   },
   "Emergency Services": {
     sky: 0x0a0a0c, fog: 0x100d10, hemi: [0x8a7f88, 0x181214], mast: 0xfff0d6,
+    dressing: [
+      { prop: "jerseyBarrier", x: -16, z: -8, ry: 1.5708 },
+      { prop: "lightMast", x: 16, z: -8, lit: true },
+      { prop: "coneCluster", x: 0, z: -11 },
+    ],
     build(g) {
       flood(g, 0, 10, -20, 0xfff0d6, 1.4);
       const bars = [...apparatus(g, -21, -24, 0xb3261e, 0.35), ...apparatus(g, 21, -24, 0xe8ecef, -0.35)];
@@ -17521,6 +18027,10 @@ const DISTRICTS = {
   },
   "Manufacturing & Automation": {
     sky: 0x08090c, fog: 0x0c0d10, hemi: [0x7c8590, 0x141414], mast: 0xe6eef4,
+    dressing: [
+      { prop: "palletStack", x: -16, z: -7, ry: 0.3 },
+      { prop: "dumpster", x: 16, z: -7 },
+    ],
     build(g) {
       flood(g, 0, 12, -24, 0xe6eef4);
       shed(g, -22, -26, 14, 10, 0.25); shed(g, 4, -30, 16, 10, 0); shed(g, 26, -24, 12, 9, -0.3);
@@ -17530,6 +18040,10 @@ const DISTRICTS = {
   },
   "Building Systems & Facilities": {
     sky: 0x070a10, fog: 0x0b0e14, hemi: [0x6d8296, 0x121820], mast: 0xe6eef4,
+    dressing: [
+      { prop: "dumpster", x: -16, z: -7, ry: 0.3 },
+      { prop: "scaffoldTower", x: 16, z: -7 },
+    ],
     build(g) {
       flood(g, 0, 10, -22, 0xe6eef4);
       const blades = coolingTower(g, 0, -27);
@@ -17538,6 +18052,11 @@ const DISTRICTS = {
   },
   "Construction & Structural Trades": {
     sky: 0x0a0a0a, fog: 0x101010, hemi: [0x8a8f96, 0x181614], mast: 0xfff0d6,
+    dressing: [
+      { prop: "scaffoldTower", x: -17, z: -8 },
+      { prop: "portableToilet", x: 17, z: -8, ry: -0.3 },
+      { prop: "palletStack", x: 0, z: -11.5, ry: 0.2 },
+    ],
     build(g) {
       flood(g, 0, 16, -22, 0xfff0d6, 1.4);
       const crane = towerCrane(g, 20, -27, 24);
@@ -17552,6 +18071,11 @@ const DISTRICTS = {
   },
   "Entertainment & Live Events": {
     sky: 0x0a0716, fog: 0x0e0a1c, hemi: [0x7f6ba8, 0x14101c], mast: 0xe6dcff,
+    dressing: [
+      { prop: "lightMast", x: -16, z: -8, lit: true },
+      { prop: "jerseyBarrier", x: 16, z: -8, ry: 1.5708 },
+      { prop: "bollardRow", x: 0, z: -11.5, opts: { count: 3 } },
+    ],
     build(g) {
       flood(g, 0, 12, -22, 0xe6dcff);
       const heads = truss(g, 0, -26, 18, 10);
@@ -17561,6 +18085,15 @@ const DISTRICTS = {
   },
   "Maritime & Ports": {
     sky: 0x050c14, fog: 0x08121b, hemi: [0x5f8aa8, 0x0f1a22], mast: 0xd6ecf7,
+    // A port district gets containers and bollards, close in on the near
+    // edge of the yard — foreground detail in front of the distant gantries
+    // and box stacks the district already builds further out.
+    dressing: [
+      { prop: "shippingContainer", x: -16, z: -9, ry: 0.35 },
+      { prop: "shippingContainer:blue", x: -12.5, z: -9.3, ry: 0.35 },
+      { prop: "shippingContainer", x: 16, z: -9, ry: -0.35 },
+      { prop: "bollardRow", x: 0, z: -9.5, opts: { count: 5 } },
+    ],
     build(g) {
       flood(g, 0, 16, -26, 0xd6ecf7, 2.8);
       water(g);
@@ -17583,6 +18116,12 @@ const DISTRICTS = {
     // No city between the learner and the water: the ring opens across the
     // side they face, and the far shore's hills stand across the bay instead.
     skylineGap: [Math.PI - 1.15, Math.PI + 1.15],
+    // Tucked behind the learner, on the neighbourhood side away from the
+    // water, the cordgrass line and the dredge already working the flat.
+    dressing: [
+      { prop: "fireHydrant", x: 26, z: 15 },
+      { prop: "portableToilet", x: -26, z: 15, ry: 0.4 },
+    ],
     build(g) {
       flood(g, 0, 12, -24, 0xe6f2ea, 1.2);
       const waterTex = bayWater(g);
@@ -17617,6 +18156,10 @@ const DISTRICTS = {
   },
   "Surface Prep & Coatings": {
     sky: 0x0b0906, fog: 0x12100b, hemi: [0x8f8272, 0x1a1512], mast: 0xffe2b8,
+    dressing: [
+      { prop: "dumpster", x: -16, z: -7, ry: 0.3 },
+      { prop: "palletStack", x: 16, z: -7 },
+    ],
     build(g) {
       flood(g, 0, 14, -22, 0xffe2b8, 1.3);
       const con = containment(g, -16, -26, 14, 9, 0.28);
@@ -17641,6 +18184,10 @@ const DISTRICTS = {
   },
   "Culinary & Hospitality": {
     sky: 0x0d0906, fog: 0x14100c, hemi: [0x9a8770, 0x1c1410], mast: 0xffd9a0,
+    dressing: [
+      { prop: "parkBench", x: -15, z: -7, ry: 0.3 },
+      { prop: "picnicTable", x: 15, z: -7, ry: -0.3 },
+    ],
     build(g) {
       flood(g, 0, 12, -22, 0xffd9a0, 1.2);
       const row = restaurantRow(g, -4, -27, 0.05);
@@ -17650,6 +18197,10 @@ const DISTRICTS = {
   },
   "Dental & Oral Health": {
     sky: 0x070c10, fog: 0x0b1116, hemi: [0x7f9aa6, 0x141c20], mast: 0xe6f4f0,
+    dressing: [
+      { prop: "parkBench", x: -15, z: -6.5, ry: 0.3 },
+      { prop: "streetTree:small", x: 15, z: -6.5 },
+    ],
     build(g) {
       flood(g, 0, 12, -22, 0xe6f4f0, 1.1);
       const clinic = clinicBlock(g, -2, -28, -0.04);
@@ -17662,6 +18213,10 @@ const DISTRICTS = {
   },
   "Community Environmental Justice": {
     sky: 0x0c1018, fog: 0x121826, hemi: [0x8c9bb0, 0x1a1c22], mast: 0xffe6b0,
+    dressing: [
+      { prop: "parkBench", x: -15, z: -6.5, ry: 0.3 },
+      { prop: "shrubBed", x: 15, z: -6.5 },
+    ],
     build(g) {
       flood(g, 0, 12, -22, 0xffe6b0, 1.1);
       const st = fencedParcelStreet(g, -3, -27, 0.03);
@@ -17670,6 +18225,10 @@ const DISTRICTS = {
   },
   "Sewing & Garment Trades": {
     sky: 0x0d0a12, fog: 0x141020, hemi: [0x9a8cb0, 0x1c1620], mast: 0xf0e6ff,
+    dressing: [
+      { prop: "palletStack", x: -15, z: -7, ry: 0.3 },
+      { prop: "dumpster", x: 15, z: -7 },
+    ],
     build(g) {
       flood(g, 0, 14, -22, 0xf0e6ff, 1.1);
       const loft = garmentLoft(g, 2, -30, -0.04);
@@ -17698,10 +18257,19 @@ const DISTRICTS = {
     // The city stands across the bay on the +x side, far off and far below
     // the deck; the strait side (−x) and both ends of the bridge stay open.
     skyline: { gap: [[0, 0.75], [2.4, Math.PI * 2]], base: GG.water, radius: 112, spread: 30, hScale: 2.6, wScale: 2, count: 70 },
+    // The Bay district: a chain-link fence and a light mast on the sidewalk,
+    // well clear of the roadway, the lane closure and the spawn-to-station
+    // walk (spawn is at (0, 9.4), the station at the origin).
+    dressing: [
+      { prop: "fencePanel", x: 13, z: -38, ry: 1.5708 },
+      { prop: "lightMast", x: 13, z: -25, lit: true },
+    ],
     build(g, _accent, env = {}) { return goldenGateDeck(g, env); },
   },
   "bay-underwater": {
     plaza: false,
+    // Nothing — the learner stands on the silt the district itself lays down.
+    dressing: null,
     sky: 0x0c2c30, fog: 0x0c2c30, mast: 0xa8f0e0,
     // Its own water colour at every hour; nothing from TIME's day/dusk skies.
     skyByTime: {
@@ -17732,6 +18300,9 @@ const DISTRICTS = {
     // conditions whatever the station or the URL asks (there is no rain on
     // a gym floor), and a scoreboard chip on the HUD (react-ui.js
     // courtReadout) that shows the run's own drills, fouls and clock.
+    // No dressing either — a bench and a hydrant have no business on a
+    // basketball court.
+    dressing: null,
     plaza: false,
     sky: 0x1c1814, fog: 0x1c1814, mast: 0xfff2dc,
     skyByTime: {
@@ -18825,12 +19396,16 @@ function buildStage(root, mode, scene, accent = CITY.accent, category = null, we
   const wxKind = district.forceWeather ? district.weather : weatherFor(weather ?? district.weather);
   const wx = buildWeather(g, scene, wxKind, { wetDeck: !scenic });
   let districtAnimate = null;
-  if (district.build && (opts.district !== false || scenic)) {
+  if ((district.build || district.dressing) && (opts.district !== false || scenic)) {
     const dg = group(g);
     // themeScene() hides groups named "district" on a profile with no
     // horizon; a scenic district is the floor, so it goes under another name.
     dg.name = scenic ? "district-scene" : "district";
-    districtAnimate = district.build(dg, accent, { time: hour, weather: wx.kind });
+    if (district.build) districtAnimate = district.build(dg, accent, { time: hour, weather: wx.kind });
+    // A district's own horizon and edges dressing (shared/props.js), placed
+    // after the district builds itself and kept out of a station's own
+    // working area — see districts.js's dressDistrict().
+    if (district.dressing) dressDistrict(dg, district.dressing, tod);
     // A scenic district lights itself; the blanket self-glow would clone
     // every material it touches, and a cloned material cannot be merged.
     if (!scenic) selfLight(dg, tod.glow);
@@ -38651,17 +39226,19 @@ function buildHub(root, sims) {
 
 
 /* ===== smartcity/js/gallery.js ===== */
-// The kit gallery: `?gallery=fleet|equipment|toolkit` lays every builder of
-// one shared kit out on the plaza with a label naming it and the mesh count it
-// actually cost in this browser, for screenshots and for the retrofit teams to
-// see what they are getting. Vehicles and plant face +Z (toward the spawn) in
-// rows, shortest at the front; tools lie on a bench. Nothing here is a
+// The kit gallery: `?gallery=fleet|equipment|toolkit|props` lays every
+// builder of one shared kit out on the plaza with a label naming it and the
+// mesh count it actually cost in this browser, for screenshots and for the
+// retrofit teams to see what they are getting. Vehicles and plant face +Z
+// (toward the spawn) in rows, shortest at the front; tools lie on a bench;
+// props lay out the same way as fleet and equipment. Nothing here is a
 // station: there are no steps and nothing is clickable.
 
 const GALLERY_KINDS = {
   fleet: { table: FLEET_BUDGET, builders: FLEET_BUILDERS },
   equipment: { table: EQUIPMENT_BUDGET, builders: EQUIPMENT_BUILDERS },
   toolkit: { table: TOOLKIT_BUDGET, builders: TOOLKIT_BUILDERS },
+  props: { table: PROPS_BUDGET, builders: PROPS_BUILDERS },
 };
 
 function meshCount(g) {
