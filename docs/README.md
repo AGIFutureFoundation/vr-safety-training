@@ -38,6 +38,7 @@ Every page under `docs/`, one line each. Pages marked *generated* are written by
 | [ei-guide.md](ei-guide.md) | The guide's emotional-intelligence layer: what it says after a hazard, a repeat or a missed interruption, and the unscored end-of-run check-in. |
 | [easter-egg.md](easter-egg.md) | The platform's four Easter eggs: the hidden arcade racer Night Highway Circuit (courses, engine classes, items, controls, the safety bonus, the honest multiplayer note); Hard Hat Hunt, a collectible in twelve stations; Foreman's Radio, a ten-question quiz built only from the standards registry; and Capstone skins, race liveries unlocked by a programme's level-20 capstone. |
 | [robot-training.md](robot-training.md) | The dental block as a robot training simulator: the embodiment schema, keep-out volumes, force classes, off-limits steps, the dataset layout and how to run an episode. |
+| [robot-datasets.md](robot-datasets.md) | The episode recorder (`shared/episodes.js`) and the model-ready dataset exporter (`tools/export_dataset.mjs`): schema, the pose track, data minimisation, the observation/action/reward/done/info field mapping, licence and provenance. |
 
 ## Unity prototype
 

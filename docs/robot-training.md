@@ -202,6 +202,27 @@ score and unsafe actions, the optimal skill, the keep-out volumes, the
 violations by skill, the declared patient contact and every step marked
 `noRobot` with the reason the station gave for it.
 
+## Datasets
+
+`tools/robot_train.mjs`'s `manifest.json`/`episodes.jsonl`/`trajectories.jsonl`
+above are this layer's own diagnostic output — what a training director or a
+robotics team reads to see a station's difficulty curve and safety boundary.
+Turning that same machinery, plus what a person actually played, into a
+dataset a training pipeline consumes directly is a separate, smaller layer:
+
+* `WebXR/shared/episodes.js` — an episode recorder that runs alongside a
+  *live* SmartCiti.X session (not the headless policy runner), capturing the
+  same shape of decision as a per-station observation summary, the action
+  taken, the reward, and a low-rate pose track — schema-versioned, capped,
+  crew tag hashed, never blocking the render loop.
+* `tools/export_dataset.mjs` — combines deterministic headless rollouts
+  (through this layer's own `runEpisode()`/`runEmbodiedEpisode()`) across a
+  sample of every registered station with any human episodes exported from
+  the app, into JSON Lines shards, a manifest and a dataset card.
+
+See **[docs/robot-datasets.md](robot-datasets.md)** for the full picture:
+schema, field mapping, licence and how to run the exporter.
+
 ## In the app
 
 * `WebXR/smartcity/index.html?robot=0.85` runs a live episode at that skill
