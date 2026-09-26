@@ -28,7 +28,7 @@ import { simTitle, system, AWARD } from "../gamify.js";
 // live on the manufacturer's manual and the site's own zone risk
 // assessment.
 
-const TW_PAL = palette("warehouse");
+const TW1_PAL = palette("warehouse");
 const AMR_ACCENT = 0x2f8fdb;
 
 export const SIM_TW_AMR_TRAFFIC_ZONE_ENTRY_AND_LOCKOUT = {
@@ -221,13 +221,13 @@ export const SIM_TW_AMR_TRAFFIC_ZONE_ENTRY_AND_LOCKOUT = {
     const groundMesh = box(g, 6.4, 0.14, 6.0, 0, 0.07, 0, 0xffffff, { rough: 0.86 });
     groundMesh.material = texturedMat(
       surfaceTexture((cx, w, h) => pavingFace(cx, w, h, { tiles: 5, base: "#6d7379", base2: "#5f656b", seam: "rgba(0,0,0,0.4)" }), { repeat: 6, px: 512 }),
-      { rough: 0.86, metal: 0.06, color: TW_PAL.ground },
+      { rough: 0.86, metal: 0.06, color: TW1_PAL.ground },
     );
     // Marked AMR lane down the centre, safety-yellow border stripes.
     box(g, 1.6, 0.005, 5.4, 0, 0.145, -0.2, 0x2b2f34, { rough: 0.8, cast: false });
-    for (const sx of [-0.82, 0.82]) box(g, 0.06, 0.007, 5.4, sx, 0.148, -0.2, TW_PAL.accent, { rough: 0.6, cast: false });
+    for (const sx of [-0.82, 0.82]) box(g, 0.06, 0.007, 5.4, sx, 0.148, -0.2, TW1_PAL.accent, { rough: 0.6, cast: false });
     // Yield point marking near the gate.
-    box(g, 0.7, 0.007, 0.7, 0.9, 0.148, 1.1, TW_PAL.accent, { rough: 0.6, opacity: 0.85, transparent: true, cast: false });
+    box(g, 0.7, 0.007, 0.7, 0.9, 0.148, 1.1, TW1_PAL.accent, { rough: 0.6, opacity: 0.85, transparent: true, cast: false });
     const yieldMarker = group(g, 0.9, 0.15, 1.1);
     reg(hits, yieldMarker, "yield-marker");
 
@@ -240,7 +240,7 @@ export const SIM_TW_AMR_TRAFFIC_ZONE_ENTRY_AND_LOCKOUT = {
     const gatePost = group(g, 0.9, 0, 1.7);
     cyl(gatePost, 0.05, 0.05, 1.1, 0, 0.55, 0, 0x2b2f34, { rough: 0.5, metal: 0.4, seg: 12 });
     const gateArm = group(gatePost, 0, 1.0, 0);
-    box(gateArm, 1.0, 0.05, 0.05, 0.5, 0, 0, TW_PAL.accent, { rough: 0.5, finish: "painted" });
+    box(gateArm, 1.0, 0.05, 0.05, 0.5, 0, 0, TW1_PAL.accent, { rough: 0.5, finish: "painted" });
     reg(hits, gateArm, "gate-arm");
     const interlockLight = ball(gatePost, 0.045, 0, 0.85, 0, 0x8a2020, { emissive: 0x000000, ei: 1, rough: 0.4, seg: 12, seg2: 10 });
     holoTag(gatePost, "gate interlock", 0, 1.2, 0, { css: "#2f8fdb", w: 0.32 });
@@ -259,7 +259,7 @@ export const SIM_TW_AMR_TRAFFIC_ZONE_ENTRY_AND_LOCKOUT = {
 
     // The worn gap in the barrier — the shortcut hazard.
     const gapHazard = group(g, 1.9, 0, 1.7);
-    box(gapHazard, 0.5, 0.02, 0.3, 0, 0.01, 0, TW_PAL.accent, { rough: 0.7, opacity: 0.35, transparent: true, cast: false });
+    box(gapHazard, 0.5, 0.02, 0.3, 0, 0.01, 0, TW1_PAL.accent, { rough: 0.7, opacity: 0.35, transparent: true, cast: false });
     reg(hits, gapHazard, "gap-walk-hazard");
 
     // The taped-open interlock bypass.
@@ -320,10 +320,10 @@ export const SIM_TW_AMR_TRAFFIC_ZONE_ENTRY_AND_LOCKOUT = {
     palletStack(g, 2.9, 0, -0.6, { ry: -0.4 });
 
     // ------------------------------------------------------------------ crew, boards
-    const fleetController = standingFigure(g, -2.4, 1.4, { ry: 1.1, cloth: 0x2b3138, vest: TW_PAL.accent, helmet: 0xf2f2f2 });
+    const fleetController = standingFigure(g, -2.4, 1.4, { ry: 1.1, cloth: 0x2b3138, vest: TW1_PAL.accent, helmet: 0xf2f2f2 });
     holoTag(fleetController, "fleet controller", 0, 1.95, 0.15, { css: "#2f8fdb", w: 0.34 });
 
-    const associate = standingFigure(g, 1.5, 2.35, { ry: -1.3, cloth: 0x37505f, vest: TW_PAL.accent, helmet: 0xf2c14b });
+    const associate = standingFigure(g, 1.5, 2.35, { ry: -1.3, cloth: 0x37505f, vest: TW1_PAL.accent, helmet: 0xf2c14b });
     holoTag(associate, "warehouse associate", 0, 1.95, 0.15, { css: "#2f8fdb", w: 0.36 });
 
     const fleetBoard = holoPanel(g, 0.62, 0.42, -2.6, 1.5, 0.6, (ctx, w, h) => {
@@ -365,7 +365,7 @@ export const SIM_TW_AMR_TRAFFIC_ZONE_ENTRY_AND_LOCKOUT = {
     // Manual-zone sign, staged until dragged to the dock.
     const signStage = group(g, 0.1, 0, -3.0, 0.3);
     box(signStage, 0.05, 0.9, 0.05, 0, 0.45, 0, 0x2b2f34, { rough: 0.6, metal: 0.3 });
-    const signBoard = box(signStage, 0.4, 0.32, 0.02, 0, 0.9, 0, TW_PAL.accent, { rough: 0.6, finish: "painted" });
+    const signBoard = box(signStage, 0.4, 0.32, 0.02, 0, 0.9, 0, TW1_PAL.accent, { rough: 0.6, finish: "painted" });
     decal(signStage, 0.36, 0.28, 0, 0.9, 0.021, signFace("MANUAL\nZONE", { bg: "#5a3d0f", accent: "#ffffff", scale: 0.4 }));
     holoTag(signStage, "manual-zone sign", 0, 1.15, 0, { css: "#2f8fdb", w: 0.34 });
     reg(hits, signStage, "manual-zone-sign");
@@ -377,7 +377,7 @@ export const SIM_TW_AMR_TRAFFIC_ZONE_ENTRY_AND_LOCKOUT = {
     // PPE staged at the entry.
     const ppeRack = group(g, -2.8, 0, 2.1, 0.3);
     box(ppeRack, 0.3, 0.02, 0.2, 0, 0.4, 0, 0x2b3138, { rough: 0.7 });
-    const vestProp = box(ppeRack, 0.22, 0.26, 0.02, 0, 0.55, 0, TW_PAL.accent, { rough: 0.85 });
+    const vestProp = box(ppeRack, 0.22, 0.26, 0.02, 0, 0.55, 0, TW1_PAL.accent, { rough: 0.85 });
     holoTag(vestProp, "hi-vis vest", 0, 0.2, 0, { css: "#2f8fdb", w: 0.3 });
     reg(hits, vestProp, "hi-vis-vest");
     const bootsProp = group(ppeRack, 0.2, 0.06, 0);

@@ -19222,5 +19222,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "tw-conveyor-jam-clearing-and-loto",
+    "index": "tw-2",
+    "domain": "Warehousing & Logistics",
+    "trade": "Teamsters warehouse associate — conveyor line clearing",
+    "category": "Manufacturing & Automation",
+    "certification": "Teamsters warehouse and logistics automation training; OSHA 29 CFR 1910.147 the control of hazardous energy, 29 CFR 1910.212 machine guarding and 29 CFR 1910.178 powered industrial trucks for the lift truck staged at the line's end; ASME B20.1 safety standard for conveyors and related equipment; NIOSH findings on caught-in injuries at unguarded nip points",
+    "name": "Conveyor Jam Clearing & LOTO",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Conveyor Jam Clearing & LOTO VR",
+    "tagline": "Clearing a jammed carton off a live roller line the way the line's own isolation sequence requires it: the pull-cord tried first, the drive isolated and locked at its own disconnect, the residual motion actually checked, the jam cleared with a hand that never has to trust the line's timer, and the guard and the isolation both returned before the belt sees power again",
+    "accent": 14195228,
+    "accentCss": "#d89a1c",
+    "parSeconds": 265,
+    "badge": {
+      "id": "conveyor-loto-certified",
+      "name": "Conveyor LOTO Certified",
+      "note": "Isolated and locked the drive before opening the guard, cleared the jam without reaching past a live nip point, and proved the line clear before restoring power"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Line Isolation",
+      "currency": "ISOLATION",
+      "ranks": [
+        "Line Hand",
+        "Jam Aware",
+        "Isolation Handler",
+        "Line Isolation Authority",
+        "Conveyor LOTO Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

@@ -13,19 +13,19 @@
   "results": [
     {
       "app": "smartcity",
-      "id": "tw-amr-traffic-zone-entry-and-lockout",
-      "name": "AMR Traffic-Zone Entry & Lockout",
+      "id": "tw-conveyor-jam-clearing-and-loto",
+      "name": "Conveyor Jam Clearing & LOTO",
       "category": "Manufacturing & Automation",
-      "steps": 12,
-      "score": 98,
+      "steps": 13,
+      "score": 97,
       "d": {
         "variety": {
           "score": 1,
-          "distinct": 8,
-          "longestRun": 2
+          "distinct": 7,
+          "longestRun": 1
         },
         "decisions": {
-          "score": 1,
+          "score": 0.9884615384615384,
           "hazards": 4,
           "interrupts": 2
         },
@@ -36,7 +36,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 5
+          "authorities": 4
         },
         "standards": {
           "score": 1,
@@ -51,15 +51,15 @@
           "got": 10
         },
         "scene": {
-          "score": 0.9590909090909091,
+          "score": 0.975,
           "meshes": 170,
-          "materials": 77,
-          "interactables": 21
+          "materials": 71,
+          "interactables": 24
         },
         "originality": {
-          "score": 0.609235668789809,
-          "nearest": "ra-crossing-signal-maintenance-and-flagging",
-          "similarity": 0.21815286624203822
+          "score": 0.4008547008547009,
+          "nearest": "tw-amr-traffic-zone-entry-and-lockout",
+          "similarity": 0.25982905982905985
         }
       }
     }

@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 451
+      "stations": 452
     },
     "trades": {
       "entry": "trades/index.html",
@@ -183,6 +183,7 @@
         "conveyor-guard",
         "forklift-dock",
         "cnc-cell",
+        "tw-conveyor-jam-clearing-and-loto",
         "tw-amr-traffic-zone-entry-and-lockout",
         "sm-kitchen-exhaust-and-fire-wrap",
         "sm-air-balancing-and-testing",
@@ -7882,6 +7883,93 @@
     },
     {
       "app": "smartcity",
+      "id": "tw-conveyor-jam-clearing-and-loto",
+      "name": "Conveyor Jam Clearing & LOTO",
+      "title": "SmartCiti.X~ Conveyor Jam Clearing & LOTO VR",
+      "tagline": "Clearing a jammed carton off a live roller line the way the line's own isolation sequence requires it: the pull-cord tried first, the drive isolated and locked at its own disconnect, the residual motion actually checked, the jam cleared with a hand that never has to trust the line's timer, and the guard and the isolation both returned before the belt sees power again",
+      "category": "Manufacturing & Automation",
+      "domain": "Warehousing & Logistics",
+      "trade": "Teamsters warehouse associate — conveyor line clearing",
+      "union": null,
+      "certification": "Teamsters warehouse and logistics automation training; OSHA 29 CFR 1910.147 the control of hazardous energy, 29 CFR 1910.212 machine guarding and 29 CFR 1910.178 powered industrial trucks for the lift truck staged at the line's end; ASME B20.1 safety standard for conveyors and related equipment; NIOSH findings on caught-in injuries at unguarded nip points",
+      "accent": "#d89a1c",
+      "parSeconds": 265,
+      "weather": "clear",
+      "indoor": "plant",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "gauge",
+        "turn",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "conveyor-loto-certified",
+        "name": "Conveyor LOTO Certified",
+        "note": "Isolated and locked the drive before opening the guard, cleared the jam without reaching past a live nip point, and proved the line clear before restoring power"
+      },
+      "meshes": 146,
+      "lights": 0,
+      "overBudget": false,
+      "index": "tw-2",
+      "flat": false,
+      "system": "Line Isolation",
+      "currency": "ISOLATION",
+      "ranks": [
+        "Line Hand",
+        "Jam Aware",
+        "Isolation Handler",
+        "Line Isolation Authority",
+        "Conveyor LOTO Certified"
+      ],
+      "awards": [
+        {
+          "id": "cord-first",
+          "name": "Cord First",
+          "note": "Pulled the local E-stop before ever reaching toward the jam"
+        },
+        {
+          "id": "locked-before-opened",
+          "name": "Locked Before Opened",
+          "note": "Isolated and locked the drive before the guard ever opened"
+        },
+        {
+          "id": "steady-restart",
+          "name": "Steady Restart",
+          "note": "Held belt tracking near band centre through the whole restart"
+        },
+        {
+          "id": "clean-line-read",
+          "name": "Clean Line Read",
+          "note": "Never missed a hazard on the line read"
+        },
+        {
+          "id": "quick-clear",
+          "name": "Quick Clear",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "isolation-streak",
+          "name": "Isolation Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=tw-conveyor-jam-clearing-and-loto"
+    },
+    {
+      "app": "smartcity",
       "id": "tw-amr-traffic-zone-entry-and-lockout",
       "name": "AMR Traffic-Zone Entry & Lockout",
       "title": "SmartCiti.X~ AMR Traffic-Zone Entry & Lockout VR",
@@ -7914,7 +8002,7 @@
         "name": "AMR Zone Certified",
         "note": "Read the zone honestly, requested access instead of stepping past the gate, isolated and locked the dock before touching it, and marked the floor before working"
       },
-      "meshes": 113,
+      "meshes": 170,
       "lights": 0,
       "overBudget": false,
       "index": "tw-1",
@@ -28325,7 +28413,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 260,
+      "meshes": 248,
       "lights": 0,
       "overBudget": false,
       "index": "92",
