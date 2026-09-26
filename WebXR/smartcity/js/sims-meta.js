@@ -17710,5 +17710,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bb-composure-with-a-hostile-crowd-and-officials",
+    "index": "345",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on coaching a young athlete's emotional response to officiating rather than the call itself; the Association for Applied Sport Psychology's guidance on a short composure routine under provocation — a breath, a cue word, and attention returned to the bench; NFHS basketball rules on technical fouls and its sportsmanship expectations for players, coaches and benches; the U.S. Center for SafeSport for protecting a young athlete from personal, targeted abuse from a spectator, and for calm, observable adult handling of a hostile fan; CDC Heads Up for a head knock taken in a courtside scramble; the American Red Cross first aid course for a spilled drink or a fall along the baseline",
+    "name": "Composure with a Hostile Crowd and Officials",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Composure with a Hostile Crowd and Officials VR",
+    "tagline": "A bad call and a heckling parent are not something a player can win an argument with — one breath, a cue word and eyes back on the bench keep the game the one thing still in their control",
+    "accent": 16739146,
+    "accentCss": "#ff6b4a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "still-in-the-game",
+      "name": "Still in the Game",
+      "note": "A bad call and a hostile heckle both met with the routine instead of an argument, and the bench stayed calm around it"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Bench Composure Board",
+      "currency": "STEADY POINTS",
+      "ranks": [
+        "Bench Helper",
+        "Line Coach",
+        "Assistant Coach",
+        "Head Coach",
+        "Composure Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

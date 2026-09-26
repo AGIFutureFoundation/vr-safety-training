@@ -761,6 +761,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "bb-scrimmage-and-sportsmanship-debrief", why: "Everything at game speed and then the close of the programme: fair teams, a game kept hard and fair, a handshake line, a debrief in order and a check-in on how everyone is." },
       { app: "smartcity", id: "bb-reset-routine-after-a-miss", why: "The seconds right after a mistake: one slow breath, a one-word cue and a physical let-it-go that turns a miss back into the next play instead of a spiral." },
       { app: "smartcity", id: "bb-pre-game-routine-and-visualisation", why: "The hour before tip-off: gear checked, a genuinely quiet visualisation, a shoot-around and a short captain's word that build a team up calmly instead of winding it up." },
+      { app: "smartcity", id: "bb-composure-with-a-hostile-crowd-and-officials", why: "A bad call and a heckling parent are not an argument a player can win, so the routine underneath — a breath, a cue word, eyes back on the bench — keeps the game the one thing still in their control." },
     ],
   },
   {
