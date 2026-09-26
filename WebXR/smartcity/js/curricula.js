@@ -74,6 +74,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "microwave-backhaul", why: "A rooftop parapet, where the hazard is the edge and everything dropped lands on a public footpath." },
       { app: "smartcity", id: "aerial-ladder", why: "An aerial device, where the platform is the thing that has to be set level before anyone is on it." },
       { app: "smartcity", id: "leading-edge-and-horizontal-lifeline", why: "The leading edge, where there is no platform yet and the anchor is a lifeline the crew rigs, tensions and checks for clearance to a qualified person's design before anyone clips on." },
+      { app: "smartcity", id: "fp-anchor-selection-and-rescue-plan", why: "The step before any of the other five: choosing an anchor that is actually rated, over the handrail beside it, and writing the rescue plan a suspended worker's own clock depends on." },
     ],
   },
   {
@@ -93,6 +94,8 @@ export const CURRICULA = [
       { app: "trades", id: "pressure-washer", why: "Surface prep, where the runoff is the pollutant and the stormwater plan is the reason for the containment." },
       { app: "smartcity", id: "drum-sampling-and-overpack", why: "Abandoned drums in Level B: the bulging one left shut, a full-depth sample under chain of custody, and the leaker lifted into a salvage drum and marked for the manifest." },
       { app: "smartcity", id: "hz-level-b-entry-and-scba-change-out", why: "The entry itself, stripped down to the habit that makes every other hazmat station survivable: a hot line crossed only on backup's word, and a cylinder swapped at the line before the reserve that gets you back out is gone." },
+      { app: "smartcity", id: "hz-drum-staging-and-compatibility-segregation", why: "The apron before any entry happens at all: every drum read, forked into its own class's cell and dated, so the chart that keeps incompatible loads apart is a habit before it is ever tested by a leak." },
+      { app: "smartcity", id: "hz-decon-corridor-for-a-mass-casualty-drill", why: "The corridor run for people instead of equipment: gross and rinse pools built in order, a non-ambulatory patient found in the queue, and a second wave met without ever losing the line." },
     ],
   },
   {
@@ -109,6 +112,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "chain-hoist", why: "Manual lifting hardware: inspection, capacity and the load path through a structure that was not designed for it." },
       { app: "smartcity", id: "rigging-loft", why: "Overhead rigging above people, with automation cues that have to be proven before the house opens." },
       { app: "smartcity", id: "fly-system", why: "Counterweight: the one rigging system where the operator is holding the other half of the load in their hands." },
+      { app: "smartcity", id: "rl-critical-lift-plan-and-signalperson", why: "The lift where the plan and the signalperson are the load path: a chart read against its own limit, one voice running the pick, and the exclusion zone that keeps everyone else out from under it." },
     ],
   },
   {
@@ -125,6 +129,8 @@ export const CURRICULA = [
       { app: "smartcity", id: "cooling-tower", why: "The Legionella task: the tower is the one plant that can make the neighbourhood sick." },
       { app: "smartcity", id: "fire-pump", why: "The annual flow test, where the curve either matches the nameplate or the building has no fire protection." },
       { app: "smartcity", id: "elevator-pit", why: "The pit: a confined space with a moving car above it, entered by the person who maintains it." },
+      { app: "smartcity", id: "se-steam-trap-survey-and-condensate-return", why: "The annual survey down the steam main, where a blow-through is read from the trap itself and the swap is made only once the line is actually locked out." },
+      { app: "smartcity", id: "se-building-automation-alarm-triage", why: "The queue at shift start, where the panel's own arc-flash label and a lockout come before a breaker reset, and a buried freeze-stat alarm never gets scrolled past." },
     ],
   },
   {
@@ -141,6 +147,8 @@ export const CURRICULA = [
       { app: "smartcity", id: "container-lashing", why: "Deck stow: every twist-lock proven and the rods to the pattern the manual calls for." },
       { app: "smartcity", id: "dock-crane", why: "The crane over all of it, with the lashing gang's positions as the constraint." },
       { app: "smartcity", id: "vessel-gangway-and-hatch-cover-safety", why: "Going aboard to work her: the gangway and its net, the hatch cover opened with nobody in its fold, and the hold's air read before anyone climbs down." },
+      { app: "smartcity", id: "po-lashing-gear-inspection-and-tagging", why: "The gear before it ever carries a load: a cracked rod caught in the rack, the pattern checked against the plan, and the gang held clear while the spreader swings overhead." },
+      { app: "smartcity", id: "po-yard-hostler-and-pedestrian-separation", why: "The yard tractor's own lane, where the horn comes before the back and the marked crossing is the one place a driver and a longshoreman are both expected to be." },
     ],
   },
   {
@@ -158,6 +166,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "airport-ramp", why: "An aircraft turn, where chocks before contact is the rule the whole ramp runs on." },
       { app: "smartcity", id: "forklift-dock", why: "The dock: a trailer that creeps and a load that tips, on the most common powered truck in the country." },
       { app: "smartcity", id: "bus-yard-fuelling-and-brake-check", why: "The yard at the end of the day, where a coach is fuelled with the engine off and a hand on the nozzle, its air brakes checked by the numbers, and a defect kept off tomorrow's road." },
+      { app: "smartcity", id: "tr-wheelchair-lift-and-securement-on-a-bus", why: "The stop that makes the route accessible: the boarding pad checked clear, all four securement points locked and tensioned, and the lift watched clean back into its stow before the bus moves." },
     ],
   },
   {
@@ -175,6 +184,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "substation-switching", why: "The interconnection, switched on a written order with grounds proven on." },
       { app: "smartcity", id: "cell-site-battery", why: "A smaller string in a cabinet, where the same chemistry is maintained by one person alone at night." },
       { app: "smartcity", id: "battery-storage-container-commissioning", why: "Grid storage from delivered to first charge, where the gas detection is proven before the doors are trusted and a cell group running hot is stopped on the E-stop." },
+      { app: "smartcity", id: "et-ev-fleet-depot-charging-and-arc-flash", why: "The depot row at the panel a whole fleet plugs into: zero energy proven before the lockout, a cut cable and a live ground fault both caught before the vans ever see them." },
     ],
   },
   {
