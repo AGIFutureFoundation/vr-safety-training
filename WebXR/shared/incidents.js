@@ -68,6 +68,14 @@ const GENERIC = new Set([
   // "we had a near miss in the car park yesterday" scored as a report
   // against that station.
   "miss",
+  // "car" is a car park, a car pool and a parking lot long before it is an
+  // elevator car, so it names nothing on its own — the elevator constructors
+  // pack's stations are named by "false car", "car top" or the station's own
+  // full name instead. It became reachable with
+  // ew-hoistway-false-car-and-rail-setting, and without it here "we had a
+  // near miss in the car park yesterday" scored as a report against that
+  // station's own "car" word.
+  "car",
 ]);
 
 const STOP = new Set([

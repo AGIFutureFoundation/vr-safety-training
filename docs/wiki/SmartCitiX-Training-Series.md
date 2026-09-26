@@ -1,6 +1,6 @@
 # SmartCiti.X training series
 
-_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-26. 468 SmartCiti.X stations across 17 categories and 35 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
+_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-26. 476 SmartCiti.X stations across 17 categories and 36 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
 Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 42 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
@@ -41,6 +41,7 @@ Every station is a real union procedure sited generically, built on the shared e
 - [Heavy Equipment Operators — IUOE Local 3](#heavy-equipment-operators)
 - [Plumbers and Pipefitters — Journeyman Rough-In and Test Block](#plumbers-and-pipefitters)
 - [Glaziers and Architectural Metal](#glaziers-and-architectural-metal)
+- [Elevator Constructor — IUEC Core Skills](#elevator-constructors)
 
 <a id="hunters-point-bay-restoration"></a>
 ## Hunters Point Clean-up and Bay Restoration
@@ -1188,6 +1189,26 @@ A glass and metal crew across a whole building: a unit walked off the floor, a s
 | 357 | [Tempered Glass Breakage And Cleanup](../../WebXR/smartcity/index.html?sim=gl-tempered-glass-breakage-and-cleanup) | Glazier — IUPAT District Council 16 emergency glazing response | wind | 14 | 2 | 95 | A tempered lite that lets go on its own still leaves a fringe of glass held in the frame by nothing but its own jagged edges and a bay with no glass in it five storeys up, so the fringe is freed under control and the cover goes up before the sweep even starts. |
 | 358 | [Aluminium Panel Fabrication And Brake](../../WebXR/smartcity/index.html?sim=gl-aluminium-panel-fabrication-and-brake) | Glazier / architectural metal fabricator — IUPAT District Council 16 shop fabrication | wind | 14 | 2 | 96 | A press brake closes on tonnes at a pace slow enough to look harmless and fast enough to give a hand no time back, so the two-hand control is proven empty and held through every cycle rather than trusted to a single foot pedal. |
 | 359 | [Shop Drawing Takeoff And Field Measure](../../WebXR/smartcity/index.html?sim=gl-shop-drawing-takeoff-and-field-measure) | Glazier — IUPAT District Council 16 takeoff and field measure | wind | 14 | 2 | 96 | A lite ordered to the drawing instead of the actual opening arrives and does not fit, so the field measurement — width, height and both diagonals, taken from a scaffold that is locked before it is climbed — is what the shop cuts glass against. |
+
+<a id="elevator-constructors"></a>
+## Elevator Constructor — IUEC Core Skills
+
+**Union:** IUEC and the NEIEP apprenticeship as a body
+
+**Certifications and standards:** IUEC elevator constructors; NEIEP apprenticeship curriculum; ASME A17.1 the safety code for elevators and escalators; OSHA 29 CFR 1910.147 control of hazardous energy for every disconnect this block isolates
+
+Eight jobs across new installation, machine room, pit, car top, door, escalator, rope and a coordinated rescue — the isolation habit proven fresh each time against a different machine and a different way of getting hurt.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| 352 | [Hoistway False Car and Rail Setting](../../WebXR/smartcity/index.html?sim=ew-hoistway-false-car-and-rail-setting) | Elevator constructor — new installation, IUEC | indoor (service) | 14 | 2 | — | Setting the first guide rail in a new hoistway from a false car, with the platform's own stop switch confirmed and a tag line never out of a hand while the hoist is running. |
+| 353 | [Machine Room Lockout and Brake Test](../../WebXR/smartcity/index.html?sim=ew-machine-room-lockout-and-brake-test) | Elevator constructor / mechanic — IUEC | indoor (service) | 14 | 2 | — | Proving the traction machine's brake against its own wear limits, with the hand-release lever physically guarded so nobody can pull it while the reading is being taken. |
+| 354 | [Pit Work and Buffer Inspection](../../WebXR/smartcity/index.html?sim=ew-pit-work-and-buffer-inspection) | Elevator constructor / mechanic — IUEC | indoor (service) | 13 | 2 | — | A full pit service — refuge space, ladder, sump pump, and both the spring and oil buffers proven against their own ratings before anyone climbs back out. |
+| 355 | [Car Top Inspection Station and Ride](../../WebXR/smartcity/index.html?sim=ew-car-top-inspection-station-and-ride) | Elevator constructor / mechanic — IUEC | indoor (service) | 14 | 2 | — | Riding the car top itself on inspection operation, watching crosshead clearance, the traveling cable and the door hangers from the one vantage point that actually shows them. |
+| 356 | [Door Operator Adjustment and Gap](../../WebXR/smartcity/index.html?sim=ew-door-operator-adjustment-and-gap) | Elevator constructor / mechanic — IUEC | indoor (service) | 13 | 2 | — | Gauging a car door's interlock gap and closing force, then proving the reopening device actually stops the door on an obstruction rather than assuming it would. |
+| 357 | [Escalator Step Chain and Comb Plate](../../WebXR/smartcity/index.html?sim=ew-escalator-step-chain-and-comb-plate) | Elevator constructor / mechanic — IUEC | indoor (service) | 14 | 2 | — | Isolating an escalator to gauge its step chain tension and skirt clearance, then proving the comb, skirt and handrail safety switches with an actual test, not a look. |
+| 358 | [Rope Inspection and Sheave Wear](../../WebXR/smartcity/index.html?sim=ew-rope-inspection-and-sheave-wear) | Elevator constructor / mechanic — IUEC | indoor (service) | 14 | 2 | — | Walking a hoist rope set by gloved hand for broken wire and dry sections, then gauging tension, diameter and the sheave groove against the limits each one is retired at. |
+| 359 | [Elevator Entrapment and Rescue with Fire Service](../../WebXR/smartcity/index.html?sim=ew-elevator-entrapment-and-rescue-with-fire-service) | Elevator constructor / mechanic — IUEC | indoor (service) | 15 | 2 | — | A coordinated rescue with a responding fire company — the car's true position confirmed before a hand crank ever lowers it, and the sill bridged before a passenger ever steps toward the gap. |
 
 ## Real-world environments
 

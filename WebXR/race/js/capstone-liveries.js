@@ -180,5 +180,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "glaziers-and-architectural-metal",
     "name": "Glaziers and Architectural Metal",
     "accent": "#4fa3d1"
+  },
+  {
+    "programme": "elevator-constructors",
+    "name": "Elevator Constructor — IUEC Core Skills",
+    "accent": "#ff9f43"
   }
 ];

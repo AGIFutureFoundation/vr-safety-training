@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 468
+      "stations": 476
     },
     "trades": {
       "entry": "trades/index.html",
@@ -236,7 +236,15 @@
         "pl-copper-press-and-solder-rough-in",
         "pl-fire-sprinkler-riser-and-flow-test",
         "pl-hydronic-boiler-piping-and-hydrotest",
-        "pl-medical-gas-brazing-and-purge"
+        "pl-medical-gas-brazing-and-purge",
+        "ew-door-operator-adjustment-and-gap",
+        "ew-elevator-entrapment-and-rescue-with-fire-service",
+        "ew-rope-inspection-and-sheave-wear",
+        "ew-escalator-step-chain-and-comb-plate",
+        "ew-car-top-inspection-station-and-ride",
+        "ew-pit-work-and-buffer-inspection",
+        "ew-machine-room-lockout-and-brake-test",
+        "ew-hoistway-false-car-and-rail-setting"
       ]
     },
     {
@@ -3882,6 +3890,67 @@
       "ladder": {
         "levels": 20,
         "lessons": 1741,
+        "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
+    },
+    {
+      "id": "elevator-constructors",
+      "name": "Elevator Constructor — IUEC Core Skills",
+      "union": "IUEC and the NEIEP apprenticeship as a body",
+      "certification": "IUEC elevator constructors; NEIEP apprenticeship curriculum; ASME A17.1 the safety code for elevators and escalators; OSHA 29 CFR 1910.147 control of hazardous energy for every disconnect this block isolates",
+      "summary": "Eight jobs across new installation, machine room, pit, car top, door, escalator, rope and a coordinated rescue — the isolation habit proven fresh each time against a different machine and a different way of getting hurt.",
+      "accent": "#ff9f43",
+      "stations": [
+        {
+          "app": "smartcity",
+          "id": "ew-hoistway-false-car-and-rail-setting",
+          "why": "Setting the first guide rail in a new hoistway from a false car, with the platform's own stop switch confirmed and a tag line never out of a hand while the hoist is running."
+        },
+        {
+          "app": "smartcity",
+          "id": "ew-machine-room-lockout-and-brake-test",
+          "why": "Proving the traction machine's brake against its own wear limits, with the hand-release lever physically guarded so nobody can pull it while the reading is being taken."
+        },
+        {
+          "app": "smartcity",
+          "id": "ew-pit-work-and-buffer-inspection",
+          "why": "A full pit service — refuge space, ladder, sump pump, and both the spring and oil buffers proven against their own ratings before anyone climbs back out."
+        },
+        {
+          "app": "smartcity",
+          "id": "ew-car-top-inspection-station-and-ride",
+          "why": "Riding the car top itself on inspection operation, watching crosshead clearance, the traveling cable and the door hangers from the one vantage point that actually shows them."
+        },
+        {
+          "app": "smartcity",
+          "id": "ew-door-operator-adjustment-and-gap",
+          "why": "Gauging a car door's interlock gap and closing force, then proving the reopening device actually stops the door on an obstruction rather than assuming it would."
+        },
+        {
+          "app": "smartcity",
+          "id": "ew-escalator-step-chain-and-comb-plate",
+          "why": "Isolating an escalator to gauge its step chain tension and skirt clearance, then proving the comb, skirt and handrail safety switches with an actual test, not a look."
+        },
+        {
+          "app": "smartcity",
+          "id": "ew-rope-inspection-and-sheave-wear",
+          "why": "Walking a hoist rope set by gloved hand for broken wire and dry sections, then gauging tension, diameter and the sheave groove against the limits each one is retired at."
+        },
+        {
+          "app": "smartcity",
+          "id": "ew-elevator-entrapment-and-rescue-with-fire-service",
+          "why": "A coordinated rescue with a responding fire company — the car's true position confirmed before a hand crank ever lowers it, and the sill bridged before a passenger ever steps toward the gap."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1670,
         "tasks": 120,
         "atBar": 20,
         "partial": 0,
@@ -28366,7 +28435,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 253,
+      "meshes": 254,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -42701,6 +42770,656 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=gl-curtain-wall-unit-setting-from-the-floor"
+    },
+    {
+      "app": "smartcity",
+      "id": "ew-door-operator-adjustment-and-gap",
+      "name": "Door Operator Adjustment and Gap",
+      "title": "SmartCiti.X~ Door Operator Adjustment and Gap VR",
+      "tagline": "Isolating the door operator, gauging the interlock gap, adjusting closing force and closing speed, and proving the reopening device before the car returns to service",
+      "category": "Building Systems & Facilities",
+      "domain": "Facilities",
+      "trade": "Elevator constructor / mechanic — IUEC",
+      "union": null,
+      "certification": "IUEC elevator constructors; NEIEP apprenticeship curriculum for door service; ASME A17.1 the safety code for elevators and escalators, whose door reopening-device and interlock provisions this station follows; OSHA 29 CFR 1910.147 control of hazardous energy for the door operator's own disconnect",
+      "accent": "#a06cd5",
+      "parSeconds": 245,
+      "weather": "clear",
+      "indoor": "service",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "turn",
+        "gauge",
+        "find",
+        "hold",
+        "sequence"
+      ],
+      "badge": {
+        "id": "door-proven",
+        "name": "Door Proven",
+        "note": "Interlock gap, closing force and the reopening device all proven inside spec before the car went back in service"
+      },
+      "meshes": 140,
+      "lights": 0,
+      "overBudget": false,
+      "index": "356",
+      "flat": false,
+      "system": "Door Authority",
+      "currency": "GAP",
+      "ranks": [
+        "Helper",
+        "Door Mechanic",
+        "Adjuster",
+        "Lead Mechanic",
+        "Door Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "isolated-first",
+          "name": "Isolated First",
+          "note": "Never adjusted the operator before it was isolated and locked"
+        },
+        {
+          "id": "true-gap",
+          "name": "True Gap",
+          "note": "Held both the interlock gap and the force readings near band centre"
+        },
+        {
+          "id": "clean-restore",
+          "name": "Clean Restore",
+          "note": "Restored in the correct order, no correction"
+        },
+        {
+          "id": "no-callback",
+          "name": "No Callback",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "reopen-held",
+          "name": "Reopen Held",
+          "note": "Never let the reopening-device test slip mid-hold"
+        },
+        {
+          "id": "door-fast",
+          "name": "Door Fast",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ew-door-operator-adjustment-and-gap"
+    },
+    {
+      "app": "smartcity",
+      "id": "ew-elevator-entrapment-and-rescue-with-fire-service",
+      "name": "Elevator Entrapment and Rescue with Fire Service",
+      "title": "SmartCiti.X~ Elevator Entrapment and Rescue with Fire Service VR",
+      "tagline": "Confirming the car's true position before anything else, then a controlled hand-crank lowering, a level check, a bridge across the sill gap and a coordinated release of the passengers",
+      "category": "Building Systems & Facilities",
+      "domain": "Facilities",
+      "trade": "Elevator constructor / mechanic — IUEC",
+      "union": null,
+      "certification": "IUEC elevator constructors coordinating with a responding fire company; NEIEP apprenticeship curriculum for entrapment and rescue procedure; ASME A17.1 the safety code for elevators and escalators, whose emergency operation and manual lowering provisions this station follows; OSHA 29 CFR 1910.147 control of hazardous energy for the drive isolation during manual lowering",
+      "accent": "#d8232a",
+      "parSeconds": 270,
+      "weather": "clear",
+      "indoor": "service",
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "gauge",
+        "turn",
+        "track",
+        "drag",
+        "sequence"
+      ],
+      "badge": {
+        "id": "rescue-certified",
+        "name": "Rescue Certified",
+        "note": "A passenger rescue completed with the car's position confirmed before every door opened and the brake never released uncontrolled"
+      },
+      "meshes": 168,
+      "lights": 0,
+      "overBudget": false,
+      "index": "359",
+      "flat": false,
+      "system": "Rescue Authority",
+      "currency": "LEVEL",
+      "ranks": [
+        "Helper",
+        "Rescue Mechanic",
+        "Adjuster",
+        "Lead Mechanic",
+        "Rescue Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "position-first",
+          "name": "Position First",
+          "note": "Never opened a landing door before the car's position was confirmed"
+        },
+        {
+          "id": "steady-lower",
+          "name": "Steady Lower",
+          "note": "Held the hand-crank descent and the level reading near band centre"
+        },
+        {
+          "id": "clean-restore",
+          "name": "Clean Restore",
+          "note": "Restored in the correct order, no correction"
+        },
+        {
+          "id": "no-callback",
+          "name": "No Callback",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "crank-held",
+          "name": "Crank Held",
+          "note": "Never let the hand crank slip out of the controlled speed band"
+        },
+        {
+          "id": "rescue-fast",
+          "name": "Rescue Fast",
+          "note": "Passengers clear inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ew-elevator-entrapment-and-rescue-with-fire-service"
+    },
+    {
+      "app": "smartcity",
+      "id": "ew-rope-inspection-and-sheave-wear",
+      "name": "Rope Inspection and Sheave Wear",
+      "title": "SmartCiti.X~ Rope Inspection and Sheave Wear VR",
+      "tagline": "Isolating the drive, walking the rope set for broken wires, gauging tension, diameter and groove wear, lubricating and re-equalizing before the car returns to service",
+      "category": "Building Systems & Facilities",
+      "domain": "Facilities",
+      "trade": "Elevator constructor / mechanic — IUEC",
+      "union": null,
+      "certification": "IUEC elevator constructors; NEIEP apprenticeship curriculum for rope and sheave maintenance; ASME A17.1 the safety code for elevators and escalators, whose wire-rope and sheave-wear provisions this station follows; OSHA 29 CFR 1910.147 control of hazardous energy for the drive isolation",
+      "accent": "#8fa6c9",
+      "parSeconds": 265,
+      "weather": "clear",
+      "indoor": "service",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "turn",
+        "gauge",
+        "find",
+        "drag",
+        "sequence"
+      ],
+      "badge": {
+        "id": "rope-set-proven",
+        "name": "Rope Set Proven",
+        "note": "Every rope inspected, gauged and equalized, with the sheave groove checked against its own wear limit"
+      },
+      "meshes": 174,
+      "lights": 0,
+      "overBudget": false,
+      "index": "358",
+      "flat": false,
+      "system": "Rope Authority",
+      "currency": "TENSION",
+      "ranks": [
+        "Helper",
+        "Rope Mechanic",
+        "Adjuster",
+        "Lead Mechanic",
+        "Rope Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "isolated-first",
+          "name": "Isolated First",
+          "note": "Never handled a rope before the drive was isolated and locked"
+        },
+        {
+          "id": "true-tension",
+          "name": "True Tension",
+          "note": "Held tension, diameter and groove readings all near band centre"
+        },
+        {
+          "id": "clean-restore",
+          "name": "Clean Restore",
+          "note": "Restored in the correct order, no correction"
+        },
+        {
+          "id": "no-callback",
+          "name": "No Callback",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "equalizer-held",
+          "name": "Equalizer Held",
+          "note": "Never let the equalizer adjustment slip mid-turn"
+        },
+        {
+          "id": "rope-fast",
+          "name": "Rope Fast",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ew-rope-inspection-and-sheave-wear"
+    },
+    {
+      "app": "smartcity",
+      "id": "ew-escalator-step-chain-and-comb-plate",
+      "name": "Escalator Step Chain and Comb Plate",
+      "title": "SmartCiti.X~ Escalator Step Chain and Comb Plate VR",
+      "tagline": "Isolating the drive, inspecting the step chain and comb teeth, gauging chain tension and skirt clearance, and proving the comb, skirt and handrail safety switches before reopening",
+      "category": "Building Systems & Facilities",
+      "domain": "Facilities",
+      "trade": "Elevator constructor / mechanic — IUEC",
+      "union": null,
+      "certification": "IUEC elevator constructors; NEIEP apprenticeship curriculum for escalator maintenance; ASME A17.1 the safety code for elevators and escalators, whose escalator step, comb plate and safety-device provisions this station follows; OSHA 29 CFR 1910.147 control of hazardous energy for the drive machine isolation",
+      "accent": "#f2c14b",
+      "parSeconds": 260,
+      "weather": "clear",
+      "indoor": "service",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "turn",
+        "gauge",
+        "find",
+        "drag",
+        "sequence"
+      ],
+      "badge": {
+        "id": "escalator-proven",
+        "name": "Escalator Proven",
+        "note": "Step chain, comb plate and every safety switch proven before the barricades came down"
+      },
+      "meshes": 183,
+      "lights": 0,
+      "overBudget": false,
+      "index": "357",
+      "flat": false,
+      "system": "Comb Plate Authority",
+      "currency": "MESH",
+      "ranks": [
+        "Helper",
+        "Escalator Mechanic",
+        "Adjuster",
+        "Lead Mechanic",
+        "Comb Plate Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "isolated-first",
+          "name": "Isolated First",
+          "note": "Never worked the step band before the drive was isolated and locked"
+        },
+        {
+          "id": "true-mesh",
+          "name": "True Mesh",
+          "note": "Held chain tension, skirt clearance and handrail speed all near band centre"
+        },
+        {
+          "id": "clean-restore",
+          "name": "Clean Restore",
+          "note": "Restored in the correct order, no correction"
+        },
+        {
+          "id": "no-callback",
+          "name": "No Callback",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "switch-tests-clean",
+          "name": "Switch Tests Clean",
+          "note": "Every safety switch test answered without a correction"
+        },
+        {
+          "id": "escalator-fast",
+          "name": "Escalator Fast",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ew-escalator-step-chain-and-comb-plate"
+    },
+    {
+      "app": "smartcity",
+      "id": "ew-car-top-inspection-station-and-ride",
+      "name": "Car Top Inspection Station and Ride",
+      "title": "SmartCiti.X~ Car Top Inspection Station and Ride VR",
+      "tagline": "Riding the car top on inspection operation: enable, stop switch, direction, crosshead clearance, traveling cable and door hangers checked from above",
+      "category": "Building Systems & Facilities",
+      "domain": "Facilities",
+      "trade": "Elevator constructor / mechanic — IUEC",
+      "union": null,
+      "certification": "IUEC elevator constructors; NEIEP apprenticeship curriculum for car-top inspection procedure; ASME A17.1 the safety code for elevators and escalators, whose inspection-operation and clearance provisions this station follows; OSHA 29 CFR 1910.147 control of hazardous energy for the car-top station's own stop switch",
+      "accent": "#4fd1ff",
+      "parSeconds": 255,
+      "weather": "clear",
+      "indoor": "service",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "find",
+        "turn",
+        "track",
+        "sequence"
+      ],
+      "badge": {
+        "id": "cartop-certified",
+        "name": "Car Top Certified",
+        "note": "A full inspection ride with the stop switch never unconfirmed and clearance checked at every stop"
+      },
+      "meshes": 152,
+      "lights": 0,
+      "overBudget": false,
+      "index": "355",
+      "flat": false,
+      "system": "Car Top Authority",
+      "currency": "CLEARANCE",
+      "ranks": [
+        "Helper",
+        "Car Top Mechanic",
+        "Adjuster",
+        "Lead Mechanic",
+        "Car Top Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "switch-before-ride",
+          "name": "Switch Before Ride",
+          "note": "Never rode the car top before the stop switch was confirmed"
+        },
+        {
+          "id": "steady-ride",
+          "name": "Steady Ride",
+          "note": "Held both the ride speed and the clearance reading near band centre"
+        },
+        {
+          "id": "clean-exit",
+          "name": "Clean Exit",
+          "note": "Restored in the correct order, no correction"
+        },
+        {
+          "id": "no-callback",
+          "name": "No Callback",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "ride-held",
+          "name": "Ride Held",
+          "note": "Never dropped out of the inspection speed band"
+        },
+        {
+          "id": "ride-fast",
+          "name": "Ride Fast",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ew-car-top-inspection-station-and-ride"
+    },
+    {
+      "app": "smartcity",
+      "id": "ew-pit-work-and-buffer-inspection",
+      "name": "Pit Work and Buffer Inspection",
+      "title": "SmartCiti.X~ Pit Work and Buffer Inspection VR",
+      "tagline": "A full pit service: refuge space, ladder, sump pump, spring and oil buffer testing, and counterweight runby, logged before anyone climbs back out",
+      "category": "Building Systems & Facilities",
+      "domain": "Facilities",
+      "trade": "Elevator constructor / mechanic — IUEC",
+      "union": null,
+      "certification": "IUEC elevator constructors; NEIEP apprenticeship curriculum for pit and buffer maintenance; ASME A17.1 the safety code for elevators and escalators, whose buffer provisions this test is run against; OSHA 29 CFR 1910.147 control of hazardous energy for the sump pump circuit; OSHA 29 CFR 1910.23 ladders, for the fixed pit access ladder",
+      "accent": "#27ae60",
+      "parSeconds": 250,
+      "weather": "wind",
+      "indoor": "service",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "turn",
+        "find",
+        "gauge",
+        "drag",
+        "sequence"
+      ],
+      "badge": {
+        "id": "pit-cleared",
+        "name": "Pit Cleared",
+        "note": "Both buffers proven, runby measured and the refuge space kept clear the whole visit"
+      },
+      "meshes": 139,
+      "lights": 0,
+      "overBudget": false,
+      "index": "354",
+      "flat": false,
+      "system": "Pit Authority",
+      "currency": "RUNBY",
+      "ranks": [
+        "Pit Hand",
+        "Pit Mechanic",
+        "Adjuster",
+        "Lead Mechanic",
+        "Pit Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "switch-first",
+          "name": "Switch First",
+          "note": "Never entered the pit before the stop switch was confirmed"
+        },
+        {
+          "id": "both-buffers",
+          "name": "Both Buffers",
+          "note": "Held both buffer readings and the runby reading near band centre"
+        },
+        {
+          "id": "clean-exit",
+          "name": "Clean Exit",
+          "note": "Restored in the correct order, no correction"
+        },
+        {
+          "id": "no-callback",
+          "name": "No Callback",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "ladder-held",
+          "name": "Ladder Held",
+          "note": "Never let the ladder latch slip while deploying it"
+        },
+        {
+          "id": "pit-fast",
+          "name": "Pit Fast",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ew-pit-work-and-buffer-inspection"
+    },
+    {
+      "app": "smartcity",
+      "id": "ew-machine-room-lockout-and-brake-test",
+      "name": "Machine Room Lockout and Brake Test",
+      "title": "SmartCiti.X~ Machine Room Lockout and Brake Test VR",
+      "tagline": "Isolate the machine, guard the hand brake-release lever, measure lining and gap against wear limits, and prove the brake on a test run before restoring power",
+      "category": "Building Systems & Facilities",
+      "domain": "Facilities",
+      "trade": "Elevator constructor / mechanic — IUEC",
+      "union": null,
+      "certification": "IUEC elevator constructors; NEIEP apprenticeship curriculum for machine room maintenance; ASME A17.1 the safety code for elevators and escalators; OSHA 29 CFR 1910.147 control of hazardous energy for the main line disconnect; OSHA 29 CFR 1910.333 electrical safe work practices for the live-dead-live check at the controller",
+      "accent": "#e0522d",
+      "parSeconds": 265,
+      "weather": "clear",
+      "indoor": "service",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "turn",
+        "gauge",
+        "find",
+        "hold",
+        "sequence"
+      ],
+      "badge": {
+        "id": "brake-proven",
+        "name": "Brake Proven",
+        "note": "Isolated, guarded and measured to the manufacturer's wear limits, with a clean stopping test before release"
+      },
+      "meshes": 176,
+      "lights": 0,
+      "overBudget": false,
+      "index": "353",
+      "flat": false,
+      "system": "Brake Authority",
+      "currency": "TORQUE",
+      "ranks": [
+        "Helper",
+        "Machine Room Mechanic",
+        "Adjuster",
+        "Lead Mechanic",
+        "Brake Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "guard-first",
+          "name": "Guard First",
+          "note": "Never measured the brake before the hand-release lever was pinned"
+        },
+        {
+          "id": "within-limits",
+          "name": "Within Limits",
+          "note": "Held both lining and gap readings near band centre"
+        },
+        {
+          "id": "clean-restore",
+          "name": "Clean Restore",
+          "note": "Restored in the correct order, no correction"
+        },
+        {
+          "id": "no-callback",
+          "name": "No Callback",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "test-held",
+          "name": "Test Held",
+          "note": "Never let the test run button slip mid-hold"
+        },
+        {
+          "id": "machine-fast",
+          "name": "Machine Fast",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ew-machine-room-lockout-and-brake-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "ew-hoistway-false-car-and-rail-setting",
+      "name": "Hoistway False Car and Rail Setting",
+      "title": "SmartCiti.X~ Hoistway False Car and Rail Setting VR",
+      "tagline": "Rigging a new hoistway from a false car: secure the platform, rig the monorail hoist, plumb and set the guide rail, gauge it, and log the as-built",
+      "category": "Building Systems & Facilities",
+      "domain": "Facilities",
+      "trade": "Elevator constructor — new installation, IUEC",
+      "union": null,
+      "certification": "IUEC elevator constructors; NEIEP apprenticeship curriculum for new-installation rigging; ASME A17.1 the safety code for elevators and escalators; OSHA 29 CFR 1910.147 control of hazardous energy for the hoist's own disconnect; OSHA 29 CFR 1926.501 duty to have fall protection at the open landing edge above a working false car; ANSI Z359 fall-protection equipment for anyone tied off at that edge",
+      "accent": "#ff9f43",
+      "parSeconds": 260,
+      "weather": "clear",
+      "indoor": "service",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "drag",
+        "turn",
+        "find",
+        "hold"
+      ],
+      "badge": {
+        "id": "rail-set-certified",
+        "name": "Rail Set Certified",
+        "note": "A guide rail plumbed, set, gauged and logged from a secured false car, with the tag line never out of a hand"
+      },
+      "meshes": 159,
+      "lights": 0,
+      "overBudget": false,
+      "index": "352",
+      "flat": false,
+      "system": "Rail Setting Authority",
+      "currency": "PLUMB",
+      "ranks": [
+        "Helper",
+        "Rail Setter",
+        "Lead Mechanic",
+        "Adjuster",
+        "Rail Setting Certified"
+      ],
+      "awards": [
+        {
+          "id": "false-car-first",
+          "name": "False Car First",
+          "note": "Never worked the shaft before the platform and its own stop switch were confirmed"
+        },
+        {
+          "id": "true-rail",
+          "name": "True Rail",
+          "note": "Held both plumb and gauge readings near band centre"
+        },
+        {
+          "id": "clean-set",
+          "name": "Clean Set",
+          "note": "Restore in the correct order, no correction"
+        },
+        {
+          "id": "no-callback",
+          "name": "No Callback",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "hoist-held",
+          "name": "Hoist Held",
+          "note": "Never let the hoist control slip mid-lift"
+        },
+        {
+          "id": "floor-fast",
+          "name": "Floor Fast",
+          "note": "One floor set inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ew-hoistway-false-car-and-rail-setting"
     },
     {
       "app": "trades",
