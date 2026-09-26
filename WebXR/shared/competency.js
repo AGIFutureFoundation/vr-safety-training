@@ -606,6 +606,17 @@ export const PROGRAMME_COMPETENCIES = [
     ],
     require: 6,
   },
+  {
+    id: "heavy-equipment-operators",
+    title: "Run the machine, prove the assembly and hold the crew's own controls before the load moves",
+    kind: "programme",
+    standards: ["osha-1926-subpart-o", "osha-1926-subpart-p", "osha-1926-subpart-cc", "osha-1926-subpart-w"],
+    stations: [
+      "op-excavator-trench-and-utility-locate", "op-dozer-slope-work-and-rollover-protection", "op-loader-truck-loading-and-blind-spots", "op-grader-fine-grade-and-crown",
+      "op-compactor-lift-thickness-and-edge", "op-crawler-crane-assembly-and-load-chart", "op-pile-driving-rig-and-lead-setup", "op-equipment-daily-walkaround-and-fluids"
+    ],
+    require: 4,
+  },
 ];
 
 /**

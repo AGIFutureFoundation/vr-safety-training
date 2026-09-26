@@ -3530,6 +3530,67 @@
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
+    },
+    {
+      "id": "heavy-equipment-operators",
+      "name": "Heavy Equipment Operators — IUOE Local 3",
+      "union": "IUOE — International Union of Operating Engineers Local 3 operating engineer training",
+      "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926 Subparts O, P, CC and W (motor vehicles and mechanized equipment, excavations, cranes and derricks, and rollover protective structures) and material-handling and pile-driving sections 1926.601 through .603; 29 CFR 1926.21 safety training; NIOSH fatality-investigation findings on struck-by, rollover and crane-assembly incidents; ASME B30.5 for the crawler crane",
+      "summary": "Eight machines, eight IUOE jobs: an excavator trenching over a located utility, a dozer cutting a bench with its ROPS and seatbelt proven, a wheel loader working around its own blind zones, a grader cutting a road's crown to a stringline, a compactor rolling a fill lift by lift at the edge, a crawler crane's assembly closed out against its own load chart, a pile rig plumbed in two planes before the first blow, and the daily walkaround that keeps every one of them honest. Every station ends with a spotter, a checker or a tender who is doing a job the seat itself cannot do alone.",
+      "accent": "#dba428",
+      "stations": [
+        {
+          "app": "smartcity",
+          "id": "op-excavator-trench-and-utility-locate",
+          "why": "The excavator only earns the cut once the locate ticket is checked against the paint, the swing radius is barricaded, the coupler is locked, and the last foot over the marked line is exposed by hand."
+        },
+        {
+          "app": "smartcity",
+          "id": "op-dozer-slope-work-and-rollover-protection",
+          "why": "A dozer cutting a bench into a slope lives or dies on the ROPS and the seatbelt actually being used, so this station walks the slope for an undercut before the blade ever gets there."
+        },
+        {
+          "app": "smartcity",
+          "id": "op-loader-truck-loading-and-blind-spots",
+          "why": "A wheel loader's blind zones are fixed facts of the machine, not something attention can compensate for, so this station maps them before the first bucket ever swings toward the truck."
+        },
+        {
+          "app": "smartcity",
+          "id": "op-grader-fine-grade-and-crown",
+          "why": "A road's crown is only as good as the stringline it was cut against, so this station sets that reference and barricades the lane before the moldboard ever touches the surface."
+        },
+        {
+          "app": "smartcity",
+          "id": "op-compactor-lift-thickness-and-edge",
+          "why": "A fill is only as sound as the lift it was built in, so this station measures the lift before rolling it and holds the drum back from the edge the whole pass."
+        },
+        {
+          "app": "smartcity",
+          "id": "op-crawler-crane-assembly-and-load-chart",
+          "why": "An assembly that looks finished from the ground is not the same as one inspected pin by pin, so this station proves it with a barricaded swing, a chart reading and a held test lift before the first real pick."
+        },
+        {
+          "app": "smartcity",
+          "id": "op-pile-driving-rig-and-lead-setup",
+          "why": "A pile that starts out of plumb never corrects itself, so this station plumbs the leads in two planes and starts the first blows on low energy where a lean can still be caught."
+        },
+        {
+          "app": "smartcity",
+          "id": "op-equipment-daily-walkaround-and-fluids",
+          "why": "Every machine in this pack starts its day the same way: walked for a defect, its fluids read against their own gauges, chocked before anyone works near it, and its brakes and hydraulics proved before the first real load."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1689,
+        "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     }
   ],
   "stations": [
@@ -28297,7 +28358,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 257,
+      "meshes": 271,
       "lights": 0,
       "overBudget": false,
       "index": "92",

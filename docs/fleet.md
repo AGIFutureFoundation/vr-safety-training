@@ -5,7 +5,7 @@ Three shared kits replace the vehicles, plant and tools stations used to draw in
 | Kit | File | Builders |
 |---|---|---|
 | Fleet | `WebXR/shared/fleet.js` | tractors (day cab, sleeper), five trailers, a coupled tractor-trailer, box truck, pickup, sedan, cargo van, ambulance, fire engine, bucket truck, transit bus, forklift, yard hustler, workboat |
-| Equipment | `WebXR/shared/equipment.js` | excavator, backhoe, skid steer, dump truck, mobile crane, aerial boom lift, scissor lift, compactor, generator trailer, light tower, concrete pump, crane spreader |
+| Equipment | `WebXR/shared/equipment.js` | excavator, amphibious excavator, backhoe, skid steer, dump truck, mobile crane, aerial boom lift, scissor lift, compactor, generator trailer, light tower, concrete pump, crane spreader, dozer, wheel loader, grader, crawler crane, pile driving rig |
 | Tool kit | `WebXR/shared/toolkit.js` | drill, angle grinder, impact wrench, torque wrench, multimeter, four-gas meter, radio, flashlight, tape measure, level, hammer, wrench set, hard-hat lamp, chock, tag line, tie-down strap, glad-hand gauge, tyre gauge, creeper, hose reel |
 
 All three are in the bundler lists for SmartCiti.X, Trade Skills and Holodeck, and in the headless module lists (`tools/lib/headless.mjs`, `check_smartcity.mjs`, `check_trades.mjs`, `gen_sims_meta.mjs`). A station can import them without touching the build.
@@ -117,6 +117,11 @@ Construction plant and terminal equipment. `EQUIPMENT_BUDGET` / `EQUIPMENT_BUILD
 | <img src="screenshots/fleet/lightTower-stowed.jpg" width="200" alt="lightTower:stowed"> | **lightTower:stowed** — towable light tower, stowed for tow. `lightTower(parent, x, y, z, {raised: false})` | 17 / 41 | 1.58 × 1.77 × 4.81 | mast, mastUpper, lamps, outriggers, controlPanel, wheels, jack |
 | <img src="screenshots/fleet/concretePump.jpg" width="200" alt="concretePump"> | **concretePump** — trailer line pump. `concretePump(parent, x, y, z)` | 16 / 43 | 2.04 × 1.58 × 4.95 | hopper, grate, outlet, controlPanel, outriggers, wheels, jack, lights |
 | <img src="screenshots/fleet/craneSpreader.jpg" width="200" alt="craneSpreader"> | **craneSpreader** — telescopic container spreader, 40 ft. `craneSpreader(parent, x, y, z)` | 18 / 30 | 2.49 × 2.17 × 12.45 | headblock, telescopeFore, telescopeAft, twistlocks, flippers, indicators, landed, locked, unlocked |
+| — | **dozer** — mid-size crawler dozer, blade down. `dozer(parent, x, y, z)` | 20 / 36 | 3.2 × 3.01 × 5.35 | trackL, trackR, blade, ripper, rops, seat, controls, lights |
+| — | **wheelLoader** — articulated wheel loader, 3–4 yd bucket. `wheelLoader(parent, x, y, z)` | 17 / 34 | 2.6 × 3.9 × 7.53 | arms, bucket, wheels, door, lights |
+| — | **grader** — motor grader, blade down. `grader(parent, x, y, z)` | 15 / 27 | 3.7 × 3.2 × 13.35 | moldboard, circle, frontWheel, wheels, door, lights |
+| — | **crawlerCrane** — lattice-boom crawler crane, boom raised. `crawlerCrane(parent, x, y, z)` | 18 / 89 | 4.76 × 7.3 × 14.81 | trackL, trackR, house, counterweight, cabDoor, boom, boomSections, hook, lights |
+| — | **pileDrivingRig** — crawler pile driving rig, leads erected. `pileDrivingRig(parent, x, y, z)` | 20 / 42 | 3.94 × 13.28 × 5 | trackL, trackR, house, raisingBoom, leads, hammer, gate, cabDoor, lights |
 
 ## Tool kit — `WebXR/shared/toolkit.js`
 
