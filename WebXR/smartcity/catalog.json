@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 427
+      "stations": 428
     },
     "trades": {
       "entry": "trades/index.html",
@@ -356,6 +356,7 @@
     {
       "name": "Healthcare Support",
       "stations": [
+        "hc-workplace-violence-deescalation-at-the-desk",
         "hc-code-response-support-and-crash-cart-check",
         "hc-linen-and-regulated-waste-handling",
         "hc-dietary-tray-line-and-allergy-flags",
@@ -7652,6 +7653,88 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "hc-workplace-violence-deescalation-at-the-desk",
+      "name": "Workplace Violence De-escalation at the Desk",
+      "title": "SmartCiti.X~ Workplace Violence De-escalation at the Desk VR",
+      "tagline": "The exit path and duress button proven before the first visitor, escalation noticed early, distance kept, a calm approach tried first, the button used the moment it isn't working, and the incident logged honestly with a debrief requested for the person who stood at that desk",
+      "category": "Healthcare Support",
+      "domain": "Healthcare Support",
+      "trade": "Patient registration clerk",
+      "union": null,
+      "certification": "Cal/OSHA's workplace violence prevention standard, 8 CCR 3342 (SB 553) — the written plan, a proven duress alarm, hazard correction and an honest violent-incident log; the Injury and Illness Prevention Program, 8 CCR 3203; Labor Code §6310 protection against retaliation for reporting a hazard; SEIU-UHW and NUHW as the training bodies for front-desk and registration staff",
+      "accent": "#d67a3f",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "find",
+        "sequence",
+        "hold",
+        "drag",
+        "turn"
+      ],
+      "badge": {
+        "id": "desk-secured",
+        "name": "Desk Secured",
+        "note": "An escalating visitor met with distance and a calm approach, the duress alarm used the moment it stopped working, and the incident logged honestly"
+      },
+      "meshes": 143,
+      "lights": 0,
+      "overBudget": false,
+      "index": "358",
+      "flat": false,
+      "system": "Front Desk Standard",
+      "currency": "SHIFT",
+      "ranks": [
+        "New Clerk",
+        "Desk Certified",
+        "Lead Clerk",
+        "Front Desk Supervisor",
+        "De-escalation Certified"
+      ],
+      "awards": [
+        {
+          "id": "button-proven",
+          "name": "Button Proven",
+          "note": "The duress alarm actually tested before the shift, not just assumed"
+        },
+        {
+          "id": "distance-kept",
+          "name": "Distance Kept",
+          "note": "Escalation noticed early and distance kept before anything else"
+        },
+        {
+          "id": "honest-log",
+          "name": "Honest Log",
+          "note": "The incident logged completely, with a debrief actually requested"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "No corrections anywhere in the shift"
+        },
+        {
+          "id": "steady-alarm",
+          "name": "Steady Alarm",
+          "note": "Held the duress button the full count, first try"
+        },
+        {
+          "id": "fast-response",
+          "name": "Fast Response",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=hc-workplace-violence-deescalation-at-the-desk"
     },
     {
       "app": "smartcity",
@@ -28086,7 +28169,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 257,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "92",
