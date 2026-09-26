@@ -126,6 +126,11 @@ APPS = {
             WEBXR / "smartcity/js/gallery.js",
             WEBXR / "smartcity/js/store.js",
             WEBXR / "smartcity/js/react-ui.js",
+            # The Easter eggs (docs/easter-egg.md): Photo Mode, the Golden
+            # Wrench, the Crane Claw and Night Shift. Takes no imports of its
+            # own — see the module's own header — so it only needs to be
+            # listed once, before app.js mounts it.
+            SHARED / "eggs-app.js",
             WEBXR / "smartcity/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -155,6 +160,8 @@ APPS = {
             SHARED / "observer.js",
             SHARED / "flowhub.js",
             WEBXR / "instructor/js/roster.js",
+            # Toolbox Talk Bingo (docs/easter-egg.md).
+            SHARED / "eggs-app.js",
             WEBXR / "instructor/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -193,6 +200,8 @@ APPS = {
             WEBXR / "holodeck/js/minigolf.js",
             WEBXR / "holodeck/js/store.js",
             WEBXR / "holodeck/js/react-ui.js",
+            # The Scaffold Climber arcade cabinet (docs/easter-egg.md).
+            SHARED / "eggs-app.js",
             WEBXR / "holodeck/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',

@@ -401,3 +401,101 @@ stats.
   programme's capstone.
 - Hard Hat Gold unlocks only once all twelve hard hats are found.
 - Every capstone livery is named after its own programme.
+## Inside the apps
+
+Six smaller, honest Easter eggs live inside the training apps themselves,
+built in `WebXR/shared/eggs-app.js` and mounted with one import and one
+mount call in each app's own `js/app.js`. None of them touches a station's
+steps, its scoring, or the auditable records in `shared/records.js` — every
+one of them keeps its own small `localStorage` key, separate from the real
+training record, and says so wherever it shows a learner anything.
+
+### 1. Photo Mode (SmartCiti.X)
+
+Press **P** inside any station (not at the hub) and the run pauses, the
+current frame freezes, and the platform composites its own screenshot: a
+hard-hat-yellow frame with a hazard-stripe corner, the station's name, and
+the union abbreviation its own sign already carries (read straight off
+`stage.signage.plan.unionId`, the same union the pad's sign shows — nothing
+new is looked up). A small card offers **Download PNG**; closing it (or
+pressing Escape) resumes the run exactly where it paused. It is entirely the
+platform's own WebGL canvas, read back with `toDataURL()` — nothing loads,
+tracks or is sent anywhere.
+
+<img src="screenshots/eggs/photo-mode.png" width="480" alt="Photo Mode overlay over a station">
+
+### 2. The Golden Wrench (SmartCiti.X)
+
+Once a day, one station on the roster is picked (seeded from the local
+date, so it holds all day and changes at midnight) and, if that station
+happens to have a recognisable hand tool among its clickable props (a
+wrench, a drill, a gauge, a meter, a radio — anything a real toolkit prop
+would be), exactly one of them turns gold for the day. Clicking it plays a
+short four-note jingle, synthesised in the browser (WebAudio, no sample),
+and — the first time that day — stamps a "found the golden wrench" line
+into its own `smartcitix-egg-golden-wrench-v1` localStorage log, never into
+`TrainingRecords`. A station that has no tool that day simply has no golden
+wrench that day; the platform never invents one where there is nothing to
+paint gold.
+
+### 3. Crane Claw (SmartCiti.X)
+
+Any station in the **Maritime & Ports** district gets a small hook prop
+added beside the dock's own gantry crane. Click it three times (each click
+plays a metallic clunk) and a tiny claw-machine minigame opens over a canvas:
+move the claw with **Left/Right**, drop it with **Space**, and try to land it
+on a lane holding one of the toolkit's own tool names. It is purely for fun —
+a best score is kept in `smartcitix-egg-claw-best-v1` — and a miss on the
+hook lets the normal click straight through to the station underneath it.
+
+<img src="screenshots/eggs/crane-claw.png" width="480" alt="the Crane Claw minigame">
+
+### 4. The Holodeck arcade cabinet
+
+A small retro cabinet stands in the Holodeck scene at all times (it survives
+every hole and every generated procedure, since it lives in `worldRoot`
+rather than inside either). Clicking it opens **Scaffold Climber**: a 2D
+canvas game where you dodge tools dropped from above and tie off at every
+level you climb (press **T** in the tie-off window) for a bonus — the joke
+being that the fastest way up a scaffold is never the one that skips tying
+off. A best score is kept in `holodeck-egg-scaffold-best-v1`.
+
+<img src="screenshots/eggs/scaffold-climber.png" width="480" alt="the Scaffold Climber arcade cabinet game">
+
+### 5. Toolbox Talk Bingo (the instructor console)
+
+A small **🎯 Toolbox Talk Bingo** button floats in the corner of the
+instructor console. It builds a real 5×5 bingo card — one FREE centre square,
+24 hazard-named cells drawn from the hazards this class's own live sessions
+have actually named, topped up with common toolbox-talk hazard categories
+when the room hasn't produced 24 of its own yet — and opens it in a fresh,
+printable window. It says plainly, on the card itself, that it is **"for the
+room, not for the record"**: nothing about it is saved to any learner's
+training record, and the console never reads anything from a simulator to
+build it.
+
+<img src="screenshots/eggs/toolbox-bingo.png" width="480" alt="a printed Toolbox Talk Bingo card">
+
+### 6. Night Shift (SmartCiti.X)
+
+If the learner's own computer clock reads between **00:00 and 04:00 local**
+when they spawn into a station, the plaza's light masts flicker once, and
+the EI guide's opening line for that station quietly adds a rest reminder —
+nothing about the station, its steps or its scoring changes; the run plays
+exactly the same either way.
+
+## Checks
+
+`node tools/check_eggs_app.mjs` (part of `tools/check_all.mjs`) proves:
+`shared/eggs-app.js` takes no imports of its own and exports only the three
+mount functions; each app's main module actually imports and mounts its own
+eggs, and the instructor console still sets no HTML from a string and
+imports no simulator code; `tools/bundle_webxr.py` lists the module for all
+three apps, before each app's own `app.js`; the daily pick and the bingo
+card's pure logic; and, against a small hand-built DOM/THREE/WebAudio stub,
+that Photo Mode freezes and unfreezes the run, the Golden Wrench recolours
+exactly one tool at exactly one station a day and stamps its note once, the
+crane hook only opens the claw on its third real hit (a miss lets the
+station's own click through), Night Shift only ever changes anything inside
+its four-hour window, the Holodeck cabinet opens its game the same way, and
+the printed bingo card escapes untrusted text.
