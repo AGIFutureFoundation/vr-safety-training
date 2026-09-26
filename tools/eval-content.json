@@ -5010,6 +5010,110 @@
     },
     {
       "app": "smartcity",
+      "id": "cm-curb-and-gutter-forms-and-finish",
+      "name": "Curb & Gutter Forms & Finish",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 338,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 206,
+          "materials": 96,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "cm-slab-screed-bull-float-and-trowel",
+          "similarity": 0.3620457604306864
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cm-slab-screed-bull-float-and-trowel",
+      "name": "Slab Screed, Bull Float & Trowel",
+      "category": "Construction & Structural Trades",
+      "steps": 15,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9666666666666667,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 352,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.9400000000000001,
+          "meshes": 156,
+          "materials": 92,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "cm-curb-and-gutter-forms-and-finish",
+          "similarity": 0.3620457604306864
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "br-benthic-grab-and-invertebrate-sorting",
       "name": "Benthic Grab & Invertebrate Sorting",
       "category": "Maritime & Ports",
@@ -6193,7 +6297,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 265,
+          "meshes": 260,
           "materials": 83,
           "interactables": 28
         },
@@ -7241,6 +7345,162 @@
           "score": 0.47037037037037044,
           "nearest": "formwork-shoring",
           "similarity": 0.24592592592592594
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cm-concrete-saw-cutting-with-water-and-silica-control",
+      "name": "Concrete Saw Cutting with Water & Silica Control",
+      "category": "Construction & Structural Trades",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 303,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 183,
+          "materials": 65,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.40614035087719297,
+          "nearest": "cm-shotcrete-nozzle-and-rebound",
+          "similarity": 0.25877192982456143
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cm-shotcrete-nozzle-and-rebound",
+      "name": "Shotcrete Nozzle & Rebound",
+      "category": "Construction & Structural Trades",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 346,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9774999999999999,
+          "meshes": 171,
+          "materials": 78,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.3853766617429838,
+          "nearest": "cm-power-trowel-operation-and-guarding",
+          "similarity": 0.26292466765140327
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cm-power-trowel-operation-and-guarding",
+      "name": "Power Trowel Operation & Guarding",
+      "category": "Construction & Structural Trades",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 321,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.985,
+          "meshes": 174,
+          "materials": 68,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.30107095046854104,
+          "nearest": "cm-slab-screed-bull-float-and-trowel",
+          "similarity": 0.2797858099062918
         }
       }
     },
@@ -9885,7 +10145,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 255,
+          "meshes": 251,
           "materials": 92,
           "interactables": 29
         },
@@ -11921,6 +12181,214 @@
           "score": 0.7517241379310347,
           "nearest": "sterilisation-technician-cycle",
           "similarity": 0.1896551724137931
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "concrete-pour",
+      "name": "Concrete Pour",
+      "category": "Construction & Structural Trades",
+      "steps": 12,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 330,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 188,
+          "materials": 90,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.2552596537949403,
+          "nearest": "cm-slab-screed-bull-float-and-trowel",
+          "similarity": 0.28894806924101196
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cm-cold-weather-curing-and-blankets",
+      "name": "Cold Weather Curing & Blankets",
+      "category": "Construction & Structural Trades",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 355,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9874999999999999,
+          "meshes": 175,
+          "materials": 64,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.5513513513513514,
+          "nearest": "cm-power-trowel-operation-and-guarding",
+          "similarity": 0.22972972972972974
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cm-epoxy-floor-coating-and-ventilation",
+      "name": "Epoxy Floor Coating & Ventilation",
+      "category": "Construction & Structural Trades",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 347,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 184,
+          "materials": 80,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.4733142037302727,
+          "nearest": "cm-power-trowel-operation-and-guarding",
+          "similarity": 0.24533715925394547
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cm-exterior-plaster-scratch-brown-and-finish-coats",
+      "name": "Exterior Plaster Scratch, Brown & Finish Coats",
+      "category": "Construction & Structural Trades",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 324,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9700000000000001,
+          "meshes": 168,
+          "materials": 79,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.312217795484728,
+          "nearest": "cm-slab-screed-bull-float-and-trowel",
+          "similarity": 0.2775564409030544
         }
       }
     },
@@ -15922,9 +16390,9 @@
           "interactables": 26
         },
         "originality": {
-          "score": 0.4851851851851853,
-          "nearest": "masonry-silica-scaffold",
-          "similarity": 0.24296296296296296
+          "score": 0.41942446043165493,
+          "nearest": "cm-exterior-plaster-scratch-brown-and-finish-coats",
+          "similarity": 0.25611510791366904
         }
       }
     },
@@ -17225,58 +17693,6 @@
           "score": 0.5238993710691825,
           "nearest": "battery-storage-container-commissioning",
           "similarity": 0.23522012578616353
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "concrete-pour",
-      "name": "Concrete Pour",
-      "category": "Construction & Structural Trades",
-      "steps": 12,
-      "score": 98,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 1
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 330,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "standards": {
-          "score": 1,
-          "cited": 7,
-          "inScope": 7,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 12,
-          "got": 12
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 188,
-          "materials": 90,
-          "interactables": 26
-        },
-        "originality": {
-          "score": 0.5494318181818183,
-          "nearest": "mass-timber-panel-set",
-          "similarity": 0.23011363636363635
         }
       }
     },
@@ -20446,9 +20862,9 @@
           "interactables": 24
         },
         "originality": {
-          "score": 0.594878706199461,
-          "nearest": "bs-bearing-replacement-and-jacking",
-          "similarity": 0.2210242587601078
+          "score": 0.5398914518317505,
+          "nearest": "cm-curb-and-gutter-forms-and-finish",
+          "similarity": 0.23202170963364993
         }
       }
     },

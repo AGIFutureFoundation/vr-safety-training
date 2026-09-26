@@ -18172,5 +18172,341 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "cm-slab-screed-bull-float-and-trowel",
+    "index": "700",
+    "domain": "Construction & Structural Trades",
+    "trade": "Cement mason and finisher — OPCMIA Local 300",
+    "category": "Construction & Structural Trades",
+    "certification": "OPCMIA Local 300 cement mason apprenticeship as a training body; ACI concrete field testing technician certification and ACI 302 guidance on floor and slab construction; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction (1926.701 impalement protection); OSHA 29 CFR 1926.1153 respirable crystalline silica; ANSI/ASSP A10.9 concrete and masonry construction safety requirements",
+    "name": "Slab Screed, Bull Float & Trowel",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Slab Screed, Bull Float & Trowel VR",
+    "tagline": "A slab on grade closed right: the screed rails checked, the pour walked for bare dowels and a swinging chute, the mix accepted, the slab struck off across the rails, floated once, edged and jointed, hand troweled after the bleed water leaves, and cured before the crew signs off",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "closed-clean",
+      "name": "Closed Clean",
+      "note": "A slab struck off, floated once, troweled after the bleed water left and cured — no burns, no dry cutting, first time"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Finish Crew",
+      "currency": "SLAB",
+      "ranks": [
+        "Laborer",
+        "Finisher",
+        "Cement Mason",
+        "Lead Finisher",
+        "Finish Crew Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "cm-power-trowel-operation-and-guarding",
+    "index": "701",
+    "domain": "Construction & Structural Trades",
+    "trade": "Cement mason — OPCMIA Local 300, power trowel operator",
+    "category": "Construction & Structural Trades",
+    "certification": "OPCMIA Local 300 cement mason apprenticeship as a training body; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction; OSHA 29 CFR 1910.212 machine guarding, as applied to the trowel's guard ring; OSHA 29 CFR 1926.1153 respirable crystalline silica for the surface it finishes; ANSI/ASSP A10.9 concrete and masonry construction safety requirements; the manufacturer's operation manual for pitch, guard fitment and cord rating",
+    "name": "Power Trowel Operation & Guarding",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Power Trowel Operation & Guarding VR",
+    "tagline": "A walk-behind trowel run right: the machine walked before the engine starts, the guard ring and cord fixed, bystanders clear, blades pitched to float then to finish inside the manufacturer's bands, the perimeter edged, the floor checked flat, and the machine locked out before anyone's hand goes near the pans",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "guarded-every-pass",
+      "name": "Guarded Every Pass",
+      "note": "A trowel walked, guarded and pitched to the manufacturer's bands with nobody's hand near a turning blade — first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Finish Crew",
+      "currency": "PASS",
+      "ranks": [
+        "Laborer",
+        "Trowel Hand",
+        "Cement Mason",
+        "Lead Finisher",
+        "Finish Crew Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "cm-curb-and-gutter-forms-and-finish",
+    "index": "702",
+    "domain": "Construction & Structural Trades",
+    "trade": "Cement mason — OPCMIA Local 300, curb and gutter crew",
+    "category": "Construction & Structural Trades",
+    "certification": "OPCMIA Local 300 cement mason apprenticeship as a training body; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction (1926.701 impalement protection); OSHA 29 CFR 1926.1153 respirable crystalline silica; ANSI/ASSP A10.9 concrete and masonry construction safety requirements; ANSI/ASSP A10.47 work zone safety for highway construction; MUTCD temporary traffic control for work adjacent to the travel lane",
+    "name": "Curb & Gutter Forms & Finish",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Curb & Gutter Forms & Finish VR",
+    "tagline": "A curb and gutter run set and finished beside a live lane: the grade sheet read, the alignment walked for a pulled stake and a bare dowel, the work zone signed, the crew clear of the machine and the travel lane, the pan struck to the form, the radius hand-tooled at the basin, broomed and cured before the forms strip",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "true-to-grade-and-line",
+      "name": "True To Grade And Line",
+      "note": "A curb run set on the grade sheet's line, finished clean and cured, with the crew never in the machine's path or the travel lane"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Curb Crew",
+      "currency": "RUN",
+      "ranks": [
+        "Laborer",
+        "Form Setter",
+        "Cement Mason",
+        "Lead Finisher",
+        "Curb Crew Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "cm-shotcrete-nozzle-and-rebound",
+    "index": "704",
+    "domain": "Construction & Structural Trades",
+    "trade": "Cement mason — OPCMIA Local 300, shotcrete nozzleman",
+    "category": "Construction & Structural Trades",
+    "certification": "OPCMIA Local 300 cement mason apprenticeship as a training body; ACI nozzleman certification for shotcrete placement as a body; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction; OSHA 29 CFR 1926.1153 respirable crystalline silica for rebound and cleanup; ANSI/ASSP A10.9 concrete and masonry construction safety requirements; the shotcrete placement plan and the equipment manufacturer's pressure and hose-coupling manual",
+    "name": "Shotcrete Nozzle & Rebound",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Shotcrete Nozzle & Rebound VR",
+    "tagline": "A reinforced wall shot right: the placement plan read, the rebar clearance and the hose coupling walked before the line is charged, the rebound zone cleared, the nozzle worked perpendicular and at distance in overlapping passes, the build tracked and probe-checked, the rebound shoveled up wet, and the panel cured",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 320,
+    "badge": {
+      "id": "clean-shot",
+      "name": "Clean Shot",
+      "note": "A panel shot to thickness with a whip-checked line, nobody in the rebound zone and the rebound shoveled wet — first time"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Shotcrete Crew",
+      "currency": "PANEL",
+      "ranks": [
+        "Laborer",
+        "Hose Hand",
+        "Nozzleman Trainee",
+        "Nozzleman",
+        "Shotcrete Crew Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "cm-exterior-plaster-scratch-brown-and-finish-coats",
+    "index": "703",
+    "domain": "Construction & Structural Trades",
+    "trade": "Plasterer — OPCMIA Local 300",
+    "category": "Construction & Structural Trades",
+    "certification": "OPCMIA Local 300 plasterer apprenticeship as a training body; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction; OSHA 29 CFR 1926 Subpart L scaffolds, as applied to the plastering scaffold; OSHA 29 CFR 1926.1153 respirable crystalline silica for dry plaster mix; ANSI/ASSP A10.9 concrete and masonry construction safety requirements; the plaster specification and the manufacturer's data sheet for coat thickness and cure time",
+    "name": "Exterior Plaster Scratch, Brown & Finish Coats",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Exterior Plaster Scratch, Brown & Finish Coats VR",
+    "tagline": "A three-coat exterior wall built right: the lath and the weep screed walked before a bag opens, the scaffold plank secured, the scratch coat batched and scored, the brown coat straightened true, the finish coat floated to its texture, each coat waiting its own cure, and the wall logged and cured before the crew signs off",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 320,
+    "badge": {
+      "id": "three-coats-true",
+      "name": "Three Coats, True",
+      "note": "Scratch, brown and finish built on sound lath, each cured on schedule, with nobody's hand in the mixer or a boot on an unsecured plank"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Plaster Crew",
+      "currency": "COAT",
+      "ranks": [
+        "Laborer",
+        "Hawk Hand",
+        "Plasterer",
+        "Lead Plasterer",
+        "Plaster Crew Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "cm-concrete-saw-cutting-with-water-and-silica-control",
+    "index": "705",
+    "domain": "Construction & Structural Trades",
+    "trade": "Cement mason — OPCMIA Local 300, concrete saw operator",
+    "category": "Construction & Structural Trades",
+    "certification": "OPCMIA Local 300 cement mason apprenticeship as a training body; OSHA 29 CFR 1926.1153 respirable crystalline silica — Table 1's wet-cutting method for saws; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction; OSHA 29 CFR 1910.212 machine guarding, as applied to the saw's blade guard; ANSI/ASSP A10.9 concrete and masonry construction safety requirements; the cutting plan and the equipment manufacturer's manual for depth and water flow",
+    "name": "Concrete Saw Cutting with Water & Silica Control",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Concrete Saw Cutting with Water & Silica Control VR",
+    "tagline": "Joints cut clean in a stairwell: the guard and the water line checked before the blade turns, the cut path cleared, water flow set ahead of the first cut, the joint cut to depth and length, the slurry vacuumed up, the saw's exhaust watched in the enclosed space, and the day logged",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "wet-every-cut",
+      "name": "Wet Every Cut",
+      "note": "Every joint cut with water on the blade, a guard fitted and the air watched in the enclosed space — first time"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Cutting Crew",
+      "currency": "JOINT",
+      "ranks": [
+        "Laborer",
+        "Saw Hand",
+        "Cement Mason",
+        "Lead Cutter",
+        "Cutting Crew Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "cm-epoxy-floor-coating-and-ventilation",
+    "index": "706",
+    "domain": "Construction & Structural Trades",
+    "trade": "Cement mason — OPCMIA Local 300, floor coating crew",
+    "category": "Construction & Structural Trades",
+    "certification": "OPCMIA Local 300 cement mason apprenticeship as a training body; OSHA 29 CFR 1926.55 gases, vapors, fumes, dusts and mists, as applied to epoxy solvent vapor; OSHA 29 CFR 1926.57 ventilation; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction for the slab preparation; ANSI/ASSP A10.9 concrete and masonry construction safety requirements; the epoxy manufacturer's safety data sheet for mix ratio, working time and re-entry",
+    "name": "Epoxy Floor Coating & Ventilation",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Epoxy Floor Coating & Ventilation VR",
+    "tagline": "A warehouse floor coated safely: the SDS read, the slab walked for moisture and an ignition source, ventilation running and confirmed before a can opens, the two parts batched to ratio, rolled on inside the pot life, the space kept clear until it has off-gassed, and the day logged",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "ventilated-every-pour",
+      "name": "Ventilated Every Pour",
+      "note": "A floor coated with the fan running, the ratio to the can and nobody in the space without respiratory protection until it off-gassed — first time"
+    },
+    "stepCount": 10,
+    "interruptCount": 2,
+    "game": {
+      "system": "Coating Crew",
+      "currency": "BAY",
+      "ranks": [
+        "Laborer",
+        "Roller Hand",
+        "Cement Mason",
+        "Lead Finisher",
+        "Coating Crew Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "cm-cold-weather-curing-and-blankets",
+    "index": "707",
+    "domain": "Construction & Structural Trades",
+    "trade": "Cement mason — OPCMIA Local 300, cold weather protection crew",
+    "category": "Construction & Structural Trades",
+    "certification": "OPCMIA Local 300 cement mason apprenticeship as a training body; ACI 306 guide to cold weather concreting; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction; OSHA 29 CFR 1926.352 fire prevention, as applied to the enclosure heater; OSHA 29 CFR 1926.57 ventilation, for the heater's exhaust; ANSI/ASSP A10.9 concrete and masonry construction safety requirements; the cold weather concreting plan and the heater manufacturer's manual",
+    "name": "Cold Weather Curing & Blankets",
+    "weather": "snow",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Cold Weather Curing & Blankets VR",
+    "tagline": "A slab protected through a hard freeze: the cold weather plan read, the pour walked for a cold joint and a heater staged too close to a blanket, ground and mix temperature checked, the slab blanketed and skirted, the heater vented outside the enclosure, the temperature tracked through the night, and the blankets held until the slab has the plan's strength",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 320,
+    "badge": {
+      "id": "held-the-heat",
+      "name": "Held The Heat",
+      "note": "A slab blanketed, heated and vented safely through a freeze, with the blankets held until the plan's strength was actually reached"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Winter Crew",
+      "currency": "DEGREE-HOUR",
+      "ranks": [
+        "Laborer",
+        "Blanket Hand",
+        "Cement Mason",
+        "Lead Finisher",
+        "Winter Crew Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

@@ -6577,6 +6577,7 @@ const UNIONS = [
   {"id":"nage","abbrev":"NAGE","name":"National Association of Government Employees","aliases":["NAGE"],"local":null,"colors":null,"trainingBody":null,"trainingTitle":null,"scope":[],"note":"Named in the first-responders programme for EMS locals; an SEIU affiliate. The registry carries no NAGE training entry."},
   {"id":"fop","abbrev":"FOP","name":"Fraternal Order of Police","aliases":["FOP"],"local":null,"colors":null,"trainingBody":null,"trainingTitle":null,"scope":[],"note":"Named in the first-responders programme; the registry carries no FOP training entry."},
   {"id":"ibb","abbrev":"IBB","name":"International Brotherhood of Boilermakers, Iron Ship Builders, Blacksmiths, Forgers and Helpers","aliases":["IBB","Boilermakers"],"local":null,"colors":null,"trainingBody":null,"trainingTitle":null,"scope":[],"note":"Named by the shipyard hot-work station's certification; the registry carries no IBB training entry."},
+  {"id":"opcmia","abbrev":"OPCMIA","name":"Operative Plasterers' and Cement Masons' International Association","aliases":["OPCMIA"],"local":"Local 300","colors":null,"trainingBody":"opcmia-local-300","trainingTitle":"OPCMIA Local 300 - cement masons and plasterers apprenticeship, as a training body","scope":["Construction & Structural Trades"],"note":"Cement masons and plasterers. Local 300 is the one OPCMIA local this platform names, as a training body only."},
 ];
 const UNIONS_BY_ID = Object.fromEntries(UNIONS.map((u) => [u.id, u]));
 
@@ -7397,6 +7398,25 @@ const CURRICULA = [
       { app: "smartcity", id: "br-restoration-data-qa-and-public-reporting", why: "Every field sheet is checked before it's scanned and every suspect value is flagged rather than typed straight in, so the one line the public dashboard is allowed to say about the Bay is a line the reviewed data actually backs up." },
       { app: "smartcity", id: "br-beach-seine-fish-survey-and-handling", why: "The net is set from the skiff and hauled as one crew, every fish is named and counted at the generic level the reference calls for, and none of them spends longer out of the water than the permit's handling window allows." },
       { app: "smartcity", id: "br-benthic-grab-and-invertebrate-sorting", why: "The grab comes up from the workboat's rail with hands clear of its live jaws, the sample is sieved and sorted into generic taxonomic groups, and every jar is in custody before the organisms inside it have any chance to degrade." },
+    ],
+  },
+  {
+    id: "cement-masons-and-plasterers",
+    name: "Cement Masons and Plasterers",
+    union: "OPCMIA — Operative Plasterers' and Cement Masons' International Association",
+    certification: "OPCMIA Local 300 cement mason and plasterer apprenticeship as a training body; ACI concrete field testing and cold weather concreting guidance; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction and 29 CFR 1926.1153 respirable crystalline silica",
+    guides: ["opcmia-local-300", "aci-concrete-practice", "aci-302", "aci-318", "aci-306", "osha-1926-subpart-q", "osha-1926-1153", "ansi-a10-9"],
+    summary: "Eight ways a slab, a curb, a wall or a floor gets closed right: struck off and troweled, power-finished under guard, formed and finished at the curb, built in three plaster coats, shot from a nozzle, cut wet, coated and ventilated, and protected through a freeze — cement burns, silica, guarding and fumes named on every one.",
+    accent: "#f2c14b",
+    stations: [
+      { app: "smartcity", id: "cm-slab-screed-bull-float-and-trowel", why: "A slab on grade closed the way OPCMIA teaches it: struck off across checked rails, floated once, hand-troweled after the bleed water leaves, and cured before the crew signs off." },
+      { app: "smartcity", id: "cm-power-trowel-operation-and-guarding", why: "The same floor finished by machine: a walk-behind trowel walked, guarded and pitched to the manufacturer's bands with nobody's hand ever near a turning blade." },
+      { app: "smartcity", id: "cm-curb-and-gutter-forms-and-finish", why: "Cement mason's work beside a live lane: a curb and gutter run set to the grade sheet's line, struck to the form's face and broomed, with the crew never in the machine's path or the travel lane." },
+      { app: "smartcity", id: "cm-exterior-plaster-scratch-brown-and-finish-coats", why: "A plasterer's own three coats on wire lath — scratch, brown and finish — each cured on its own schedule before the next one goes on, with nobody's hand ever in a running mixer." },
+      { app: "smartcity", id: "cm-shotcrete-nozzle-and-rebound", why: "Concrete placed by nozzle instead of a form: a reinforced wall shot to thickness with a whip-checked line and the rebound zone cleared for the whole time the nozzle is live." },
+      { app: "smartcity", id: "cm-concrete-saw-cutting-with-water-and-silica-control", why: "The cured slab's control joints cut wet in an enclosed stairwell, with the blade guarded, the water on before the first pass and the air watched for the gas saw's own exhaust." },
+      { app: "smartcity", id: "cm-epoxy-floor-coating-and-ventilation", why: "A warehouse floor coated with a two-part epoxy under mechanical ventilation, batched to the can's ratio and posted for its full re-entry time before anyone goes back in unprotected." },
+      { app: "smartcity", id: "cm-cold-weather-curing-and-blankets", why: "The programme's closer: a slab talked through a hard freeze under blankets and a vented heater, with the protection held until the cold weather plan's own strength is actually confirmed." },
     ],
   },
 ];
@@ -8638,6 +8658,11 @@ const CAPSTONE_LIVERIES = [
     "programme": "bay-restoration-maritime-underwater",
     "name": "SF Bay Restoration & Cleanup — Maritime and Underwater",
     "accent": "#4fb3c8"
+  },
+  {
+    "programme": "cement-masons-and-plasterers",
+    "name": "Cement Masons and Plasterers",
+    "accent": "#f2c14b"
   }
 ];
 

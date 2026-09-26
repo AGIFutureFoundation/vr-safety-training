@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 426
+      "stations": 434
     },
     "trades": {
       "entry": "trades/index.html",
@@ -228,6 +228,14 @@
         "trench-box",
         "scaffold-erection",
         "concrete-pour",
+        "cm-cold-weather-curing-and-blankets",
+        "cm-epoxy-floor-coating-and-ventilation",
+        "cm-concrete-saw-cutting-with-water-and-silica-control",
+        "cm-exterior-plaster-scratch-brown-and-finish-coats",
+        "cm-shotcrete-nozzle-and-rebound",
+        "cm-curb-and-gutter-forms-and-finish",
+        "cm-power-trowel-operation-and-guarding",
+        "cm-slab-screed-bull-float-and-trowel",
         "leading-edge-and-horizontal-lifeline",
         "gg-pile-driver-fender-repair",
         "gg-fog-and-wind-work-stop",
@@ -3546,6 +3554,67 @@
         "levels": 20,
         "lessons": 1641,
         "tasks": 117,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
+    },
+    {
+      "id": "cement-masons-and-plasterers",
+      "name": "Cement Masons and Plasterers",
+      "union": "OPCMIA — Operative Plasterers' and Cement Masons' International Association",
+      "certification": "OPCMIA Local 300 cement mason and plasterer apprenticeship as a training body; ACI concrete field testing and cold weather concreting guidance; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction and 29 CFR 1926.1153 respirable crystalline silica",
+      "summary": "Eight ways a slab, a curb, a wall or a floor gets closed right: struck off and troweled, power-finished under guard, formed and finished at the curb, built in three plaster coats, shot from a nozzle, cut wet, coated and ventilated, and protected through a freeze — cement burns, silica, guarding and fumes named on every one.",
+      "accent": "#f2c14b",
+      "stations": [
+        {
+          "app": "smartcity",
+          "id": "cm-slab-screed-bull-float-and-trowel",
+          "why": "A slab on grade closed the way OPCMIA teaches it: struck off across checked rails, floated once, hand-troweled after the bleed water leaves, and cured before the crew signs off."
+        },
+        {
+          "app": "smartcity",
+          "id": "cm-power-trowel-operation-and-guarding",
+          "why": "The same floor finished by machine: a walk-behind trowel walked, guarded and pitched to the manufacturer's bands with nobody's hand ever near a turning blade."
+        },
+        {
+          "app": "smartcity",
+          "id": "cm-curb-and-gutter-forms-and-finish",
+          "why": "Cement mason's work beside a live lane: a curb and gutter run set to the grade sheet's line, struck to the form's face and broomed, with the crew never in the machine's path or the travel lane."
+        },
+        {
+          "app": "smartcity",
+          "id": "cm-exterior-plaster-scratch-brown-and-finish-coats",
+          "why": "A plasterer's own three coats on wire lath — scratch, brown and finish — each cured on its own schedule before the next one goes on, with nobody's hand ever in a running mixer."
+        },
+        {
+          "app": "smartcity",
+          "id": "cm-shotcrete-nozzle-and-rebound",
+          "why": "Concrete placed by nozzle instead of a form: a reinforced wall shot to thickness with a whip-checked line and the rebound zone cleared for the whole time the nozzle is live."
+        },
+        {
+          "app": "smartcity",
+          "id": "cm-concrete-saw-cutting-with-water-and-silica-control",
+          "why": "The cured slab's control joints cut wet in an enclosed stairwell, with the blade guarded, the water on before the first pass and the air watched for the gas saw's own exhaust."
+        },
+        {
+          "app": "smartcity",
+          "id": "cm-epoxy-floor-coating-and-ventilation",
+          "why": "A warehouse floor coated with a two-part epoxy under mechanical ventilation, batched to the can's ratio and posted for its full re-entry time before anyone goes back in unprotected."
+        },
+        {
+          "app": "smartcity",
+          "id": "cm-cold-weather-curing-and-blankets",
+          "why": "The programme's closer: a slab talked through a hard freeze under blankets and a vented heater, with the protection held until the cold weather plan's own strength is actually confirmed."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1590,
+        "tasks": 120,
         "atBar": 20,
         "partial": 0,
         "stationsNeeded": 0,
@@ -7671,6 +7740,668 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "cm-cold-weather-curing-and-blankets",
+      "name": "Cold Weather Curing & Blankets",
+      "title": "SmartCiti.X~ Cold Weather Curing & Blankets VR",
+      "tagline": "A slab protected through a hard freeze: the cold weather plan read, the pour walked for a cold joint and a heater staged too close to a blanket, ground and mix temperature checked, the slab blanketed and skirted, the heater vented outside the enclosure, the temperature tracked through the night, and the blankets held until the slab has the plan's strength",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction & Structural Trades",
+      "trade": "Cement mason — OPCMIA Local 300, cold weather protection crew",
+      "union": null,
+      "certification": "OPCMIA Local 300 cement mason apprenticeship as a training body; ACI 306 guide to cold weather concreting; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction; OSHA 29 CFR 1926.352 fire prevention, as applied to the enclosure heater; OSHA 29 CFR 1926.57 ventilation, for the heater's exhaust; ANSI/ASSP A10.9 concrete and masonry construction safety requirements; the cold weather concreting plan and the heater manufacturer's manual",
+      "accent": "#f2c14b",
+      "parSeconds": 320,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "gauge",
+        "drag",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "held-the-heat",
+        "name": "Held The Heat",
+        "note": "A slab blanketed, heated and vented safely through a freeze, with the blankets held until the plan's strength was actually reached"
+      },
+      "meshes": 176,
+      "lights": 0,
+      "overBudget": false,
+      "index": "707",
+      "flat": false,
+      "system": "Winter Crew",
+      "currency": "DEGREE-HOUR",
+      "ranks": [
+        "Laborer",
+        "Blanket Hand",
+        "Cement Mason",
+        "Lead Finisher",
+        "Winter Crew Certified"
+      ],
+      "awards": [
+        {
+          "id": "walked-the-cold",
+          "name": "Walked The Cold",
+          "note": "The night walk found the cold joint and the heater too close to the blanket before ignition, first time"
+        },
+        {
+          "id": "never-vented-inside",
+          "name": "Never Vented Inside",
+          "note": "Never ran the heater's exhaust into the enclosure, never left a blanket touching the heater, never pulled the blankets before the strength was reached, never worked exposed skin in the wind chill"
+        },
+        {
+          "id": "held-the-temperature",
+          "name": "Held The Temperature",
+          "note": "The under-blanket temperature and the mix temperature both held inside the band"
+        },
+        {
+          "id": "clean-protection",
+          "name": "Clean Protection",
+          "note": "No corrections through the whole night's setup"
+        },
+        {
+          "id": "held-the-night",
+          "name": "Held The Night",
+          "note": "The temperature held in band for the whole overnight watch"
+        },
+        {
+          "id": "protected-by-break",
+          "name": "Protected By Break",
+          "note": "Blanketed, heated, vented and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cm-cold-weather-curing-and-blankets"
+    },
+    {
+      "app": "smartcity",
+      "id": "cm-epoxy-floor-coating-and-ventilation",
+      "name": "Epoxy Floor Coating & Ventilation",
+      "title": "SmartCiti.X~ Epoxy Floor Coating & Ventilation VR",
+      "tagline": "A warehouse floor coated safely: the SDS read, the slab walked for moisture and an ignition source, ventilation running and confirmed before a can opens, the two parts batched to ratio, rolled on inside the pot life, the space kept clear until it has off-gassed, and the day logged",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction & Structural Trades",
+      "trade": "Cement mason — OPCMIA Local 300, floor coating crew",
+      "union": null,
+      "certification": "OPCMIA Local 300 cement mason apprenticeship as a training body; OSHA 29 CFR 1926.55 gases, vapors, fumes, dusts and mists, as applied to epoxy solvent vapor; OSHA 29 CFR 1926.57 ventilation; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction for the slab preparation; ANSI/ASSP A10.9 concrete and masonry construction safety requirements; the epoxy manufacturer's safety data sheet for mix ratio, working time and re-entry",
+      "accent": "#f2c14b",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "plant",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "gauge",
+        "hold",
+        "turn",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "ventilated-every-pour",
+        "name": "Ventilated Every Pour",
+        "note": "A floor coated with the fan running, the ratio to the can and nobody in the space without respiratory protection until it off-gassed — first time"
+      },
+      "meshes": 185,
+      "lights": 0,
+      "overBudget": false,
+      "index": "706",
+      "flat": false,
+      "system": "Coating Crew",
+      "currency": "BAY",
+      "ranks": [
+        "Laborer",
+        "Roller Hand",
+        "Cement Mason",
+        "Lead Finisher",
+        "Coating Crew Certified"
+      ],
+      "awards": [
+        {
+          "id": "read-the-sds",
+          "name": "Read The SDS First",
+          "note": "The SDS and the substrate walk both happened before a can was ever opened, first time"
+        },
+        {
+          "id": "never-without-the-fan",
+          "name": "Never Without The Fan",
+          "note": "Never mixed with the fan off, never an open flame near the cans, never skipped the respirator, never let someone back in before the re-entry time"
+        },
+        {
+          "id": "on-the-ratio",
+          "name": "On The Ratio",
+          "note": "The mix ratio and the coating thickness both held inside the band"
+        },
+        {
+          "id": "clean-coat",
+          "name": "Clean Coat",
+          "note": "No corrections through the whole bay"
+        },
+        {
+          "id": "held-the-roll",
+          "name": "Held The Roll",
+          "note": "The rolling pass held for the whole bay before the pot life ran out"
+        },
+        {
+          "id": "bay-by-break",
+          "name": "Bay By Break",
+          "note": "Mixed, rolled and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cm-epoxy-floor-coating-and-ventilation"
+    },
+    {
+      "app": "smartcity",
+      "id": "cm-concrete-saw-cutting-with-water-and-silica-control",
+      "name": "Concrete Saw Cutting with Water & Silica Control",
+      "title": "SmartCiti.X~ Concrete Saw Cutting with Water & Silica Control VR",
+      "tagline": "Joints cut clean in a stairwell: the guard and the water line checked before the blade turns, the cut path cleared, water flow set ahead of the first cut, the joint cut to depth and length, the slurry vacuumed up, the saw's exhaust watched in the enclosed space, and the day logged",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction & Structural Trades",
+      "trade": "Cement mason — OPCMIA Local 300, concrete saw operator",
+      "union": null,
+      "certification": "OPCMIA Local 300 cement mason apprenticeship as a training body; OSHA 29 CFR 1926.1153 respirable crystalline silica — Table 1's wet-cutting method for saws; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction; OSHA 29 CFR 1910.212 machine guarding, as applied to the saw's blade guard; ANSI/ASSP A10.9 concrete and masonry construction safety requirements; the cutting plan and the equipment manufacturer's manual for depth and water flow",
+      "accent": "#f2c14b",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "plant",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "gauge",
+        "turn",
+        "hold",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "wet-every-cut",
+        "name": "Wet Every Cut",
+        "note": "Every joint cut with water on the blade, a guard fitted and the air watched in the enclosed space — first time"
+      },
+      "meshes": 185,
+      "lights": 0,
+      "overBudget": false,
+      "index": "705",
+      "flat": false,
+      "system": "Cutting Crew",
+      "currency": "JOINT",
+      "ranks": [
+        "Laborer",
+        "Saw Hand",
+        "Cement Mason",
+        "Lead Cutter",
+        "Cutting Crew Certified"
+      ],
+      "awards": [
+        {
+          "id": "checked-before-charge",
+          "name": "Checked Before It Turns",
+          "note": "The saw walk found the loose guard and the empty tank before the blade ever spun, first time"
+        },
+        {
+          "id": "never-dry",
+          "name": "Never Dry, Never Blind To The Air",
+          "note": "Never cut dry, never worked with the guard off, never ran the saw past a CO alarm, never a cord in the slurry"
+        },
+        {
+          "id": "on-the-line",
+          "name": "On The Line",
+          "note": "Water flow and cutting depth both held inside the band"
+        },
+        {
+          "id": "clean-joint",
+          "name": "Clean Joint",
+          "note": "No corrections through the whole cut"
+        },
+        {
+          "id": "steady-cut",
+          "name": "Steady Cut",
+          "note": "The cutting depth held for the whole joint"
+        },
+        {
+          "id": "joint-by-break",
+          "name": "Joint By Break",
+          "note": "Cut, vacuumed and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cm-concrete-saw-cutting-with-water-and-silica-control"
+    },
+    {
+      "app": "smartcity",
+      "id": "cm-exterior-plaster-scratch-brown-and-finish-coats",
+      "name": "Exterior Plaster Scratch, Brown & Finish Coats",
+      "title": "SmartCiti.X~ Exterior Plaster Scratch, Brown & Finish Coats VR",
+      "tagline": "A three-coat exterior wall built right: the lath and the weep screed walked before a bag opens, the scaffold plank secured, the scratch coat batched and scored, the brown coat straightened true, the finish coat floated to its texture, each coat waiting its own cure, and the wall logged and cured before the crew signs off",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction & Structural Trades",
+      "trade": "Plasterer — OPCMIA Local 300",
+      "union": null,
+      "certification": "OPCMIA Local 300 plasterer apprenticeship as a training body; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction; OSHA 29 CFR 1926 Subpart L scaffolds, as applied to the plastering scaffold; OSHA 29 CFR 1926.1153 respirable crystalline silica for dry plaster mix; ANSI/ASSP A10.9 concrete and masonry construction safety requirements; the plaster specification and the manufacturer's data sheet for coat thickness and cure time",
+      "accent": "#f2c14b",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "gauge",
+        "hold",
+        "drag",
+        "turn"
+      ],
+      "badge": {
+        "id": "three-coats-true",
+        "name": "Three Coats, True",
+        "note": "Scratch, brown and finish built on sound lath, each cured on schedule, with nobody's hand in the mixer or a boot on an unsecured plank"
+      },
+      "meshes": 169,
+      "lights": 0,
+      "overBudget": false,
+      "index": "703",
+      "flat": false,
+      "system": "Plaster Crew",
+      "currency": "COAT",
+      "ranks": [
+        "Laborer",
+        "Hawk Hand",
+        "Plasterer",
+        "Lead Plasterer",
+        "Plaster Crew Certified"
+      ],
+      "awards": [
+        {
+          "id": "walked-the-wall",
+          "name": "Walked The Wall",
+          "note": "The lath walk found the torn mesh and the missing weep screed before a bag opened, first time"
+        },
+        {
+          "id": "never-in-the-mixer",
+          "name": "Never In The Mixer",
+          "note": "Never reached into a running mixer, never a bare hand in the mix, never worked an unsecured plank, never dry-dumped a bag"
+        },
+        {
+          "id": "true-on-the-rod",
+          "name": "True On The Rod",
+          "note": "The batch proportions and the brown coat flatness both held inside the band"
+        },
+        {
+          "id": "clean-build",
+          "name": "Clean Build",
+          "note": "No corrections through all three coats"
+        },
+        {
+          "id": "held-the-scratch",
+          "name": "Held The Scratch",
+          "note": "The scratch-coat application held for the whole wall"
+        },
+        {
+          "id": "wall-by-break",
+          "name": "Wall By Break",
+          "note": "All three coats built, textured and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cm-exterior-plaster-scratch-brown-and-finish-coats"
+    },
+    {
+      "app": "smartcity",
+      "id": "cm-shotcrete-nozzle-and-rebound",
+      "name": "Shotcrete Nozzle & Rebound",
+      "title": "SmartCiti.X~ Shotcrete Nozzle & Rebound VR",
+      "tagline": "A reinforced wall shot right: the placement plan read, the rebar clearance and the hose coupling walked before the line is charged, the rebound zone cleared, the nozzle worked perpendicular and at distance in overlapping passes, the build tracked and probe-checked, the rebound shoveled up wet, and the panel cured",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction & Structural Trades",
+      "trade": "Cement mason — OPCMIA Local 300, shotcrete nozzleman",
+      "union": null,
+      "certification": "OPCMIA Local 300 cement mason apprenticeship as a training body; ACI nozzleman certification for shotcrete placement as a body; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction; OSHA 29 CFR 1926.1153 respirable crystalline silica for rebound and cleanup; ANSI/ASSP A10.9 concrete and masonry construction safety requirements; the shotcrete placement plan and the equipment manufacturer's pressure and hose-coupling manual",
+      "accent": "#f2c14b",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "gauge",
+        "hold",
+        "track",
+        "turn",
+        "drag"
+      ],
+      "badge": {
+        "id": "clean-shot",
+        "name": "Clean Shot",
+        "note": "A panel shot to thickness with a whip-checked line, nobody in the rebound zone and the rebound shoveled wet — first time"
+      },
+      "meshes": 172,
+      "lights": 0,
+      "overBudget": false,
+      "index": "704",
+      "flat": false,
+      "system": "Shotcrete Crew",
+      "currency": "PANEL",
+      "ranks": [
+        "Laborer",
+        "Hose Hand",
+        "Nozzleman Trainee",
+        "Nozzleman",
+        "Shotcrete Crew Certified"
+      ],
+      "awards": [
+        {
+          "id": "walked-the-wall",
+          "name": "Walked The Wall",
+          "note": "The pre-shoot walk found the tight rebar and the bare coupling before the line was charged, first time"
+        },
+        {
+          "id": "nobody-in-rebound",
+          "name": "Nobody In The Rebound Zone",
+          "note": "Never sprayed with a bystander in the zone, never a bare-faced overspray, never an unwhipped coupling charged, never a dry sweep of rebound"
+        },
+        {
+          "id": "on-the-lift",
+          "name": "On The Lift",
+          "note": "The nozzle distance and the build-up thickness both held inside the band"
+        },
+        {
+          "id": "clean-panel",
+          "name": "Clean Panel",
+          "note": "No corrections through the whole panel"
+        },
+        {
+          "id": "steady-pass",
+          "name": "Steady Pass",
+          "note": "The build-up thickness held in band for the whole pass"
+        },
+        {
+          "id": "panel-by-break",
+          "name": "Panel By Break",
+          "note": "Shot, probed, cleaned and cured inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cm-shotcrete-nozzle-and-rebound"
+    },
+    {
+      "app": "smartcity",
+      "id": "cm-curb-and-gutter-forms-and-finish",
+      "name": "Curb & Gutter Forms & Finish",
+      "title": "SmartCiti.X~ Curb & Gutter Forms & Finish VR",
+      "tagline": "A curb and gutter run set and finished beside a live lane: the grade sheet read, the alignment walked for a pulled stake and a bare dowel, the work zone signed, the crew clear of the machine and the travel lane, the pan struck to the form, the radius hand-tooled at the basin, broomed and cured before the forms strip",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction & Structural Trades",
+      "trade": "Cement mason — OPCMIA Local 300, curb and gutter crew",
+      "union": null,
+      "certification": "OPCMIA Local 300 cement mason apprenticeship as a training body; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction (1926.701 impalement protection); OSHA 29 CFR 1926.1153 respirable crystalline silica; ANSI/ASSP A10.9 concrete and masonry construction safety requirements; ANSI/ASSP A10.47 work zone safety for highway construction; MUTCD temporary traffic control for work adjacent to the travel lane",
+      "accent": "#f2c14b",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "gauge",
+        "track",
+        "hold",
+        "turn",
+        "drag"
+      ],
+      "badge": {
+        "id": "true-to-grade-and-line",
+        "name": "True To Grade And Line",
+        "note": "A curb run set on the grade sheet's line, finished clean and cured, with the crew never in the machine's path or the travel lane"
+      },
+      "meshes": 208,
+      "lights": 0,
+      "overBudget": false,
+      "index": "702",
+      "flat": false,
+      "system": "Curb Crew",
+      "currency": "RUN",
+      "ranks": [
+        "Laborer",
+        "Form Setter",
+        "Cement Mason",
+        "Lead Finisher",
+        "Curb Crew Certified"
+      ],
+      "awards": [
+        {
+          "id": "walked-the-line",
+          "name": "Walked The Line",
+          "note": "The alignment walk found the pulled stake and the bare dowel before the pour started, first time"
+        },
+        {
+          "id": "clear-of-the-machine",
+          "name": "Clear Of The Machine And The Lane",
+          "note": "Never in the machine's path, never in the travel lane, never a bare hand on the curb face, never a dry grind"
+        },
+        {
+          "id": "true-to-grade",
+          "name": "True To Grade",
+          "note": "The grade check and the broom finish both held inside the band"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections through the whole curb run"
+        },
+        {
+          "id": "held-the-strike",
+          "name": "Held The Strike",
+          "note": "The strike-off pass held for the whole run"
+        },
+        {
+          "id": "run-by-break",
+          "name": "Run By Break",
+          "note": "Set, struck, finished and cured inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cm-curb-and-gutter-forms-and-finish"
+    },
+    {
+      "app": "smartcity",
+      "id": "cm-power-trowel-operation-and-guarding",
+      "name": "Power Trowel Operation & Guarding",
+      "title": "SmartCiti.X~ Power Trowel Operation & Guarding VR",
+      "tagline": "A walk-behind trowel run right: the machine walked before the engine starts, the guard ring and cord fixed, bystanders clear, blades pitched to float then to finish inside the manufacturer's bands, the perimeter edged, the floor checked flat, and the machine locked out before anyone's hand goes near the pans",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction & Structural Trades",
+      "trade": "Cement mason — OPCMIA Local 300, power trowel operator",
+      "union": null,
+      "certification": "OPCMIA Local 300 cement mason apprenticeship as a training body; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction; OSHA 29 CFR 1910.212 machine guarding, as applied to the trowel's guard ring; OSHA 29 CFR 1926.1153 respirable crystalline silica for the surface it finishes; ANSI/ASSP A10.9 concrete and masonry construction safety requirements; the manufacturer's operation manual for pitch, guard fitment and cord rating",
+      "accent": "#f2c14b",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "gauge",
+        "hold",
+        "track",
+        "turn",
+        "drag"
+      ],
+      "badge": {
+        "id": "guarded-every-pass",
+        "name": "Guarded Every Pass",
+        "note": "A trowel walked, guarded and pitched to the manufacturer's bands with nobody's hand near a turning blade — first time"
+      },
+      "meshes": 175,
+      "lights": 0,
+      "overBudget": false,
+      "index": "701",
+      "flat": false,
+      "system": "Finish Crew",
+      "currency": "PASS",
+      "ranks": [
+        "Laborer",
+        "Trowel Hand",
+        "Cement Mason",
+        "Lead Finisher",
+        "Finish Crew Certified"
+      ],
+      "awards": [
+        {
+          "id": "walked-it-first",
+          "name": "Walked It First",
+          "note": "The pre-op walk found the missing guard and the frayed cord before the engine ever turned over, first time"
+        },
+        {
+          "id": "guard-never-off",
+          "name": "Guard Never Off",
+          "note": "Never ran it unguarded, never reached under a turning pan, never a bare hand in the mix, never plugged the frayed cord in wet"
+        },
+        {
+          "id": "on-the-pitch",
+          "name": "On The Pitch",
+          "note": "Blade pitch and floor flatness both held inside the band"
+        },
+        {
+          "id": "clean-pass",
+          "name": "Clean Pass",
+          "note": "No corrections through the whole floor pass"
+        },
+        {
+          "id": "steady-walk",
+          "name": "Steady Walk",
+          "note": "The walking speed held in band for the whole finish pass"
+        },
+        {
+          "id": "floor-by-break",
+          "name": "Floor By Break",
+          "note": "Guarded, pitched, edged and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cm-power-trowel-operation-and-guarding"
+    },
+    {
+      "app": "smartcity",
+      "id": "cm-slab-screed-bull-float-and-trowel",
+      "name": "Slab Screed, Bull Float & Trowel",
+      "title": "SmartCiti.X~ Slab Screed, Bull Float & Trowel VR",
+      "tagline": "A slab on grade closed right: the screed rails checked, the pour walked for bare dowels and a swinging chute, the mix accepted, the slab struck off across the rails, floated once, edged and jointed, hand troweled after the bleed water leaves, and cured before the crew signs off",
+      "category": "Construction & Structural Trades",
+      "domain": "Construction & Structural Trades",
+      "trade": "Cement mason and finisher — OPCMIA Local 300",
+      "union": null,
+      "certification": "OPCMIA Local 300 cement mason apprenticeship as a training body; ACI concrete field testing technician certification and ACI 302 guidance on floor and slab construction; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction (1926.701 impalement protection); OSHA 29 CFR 1926.1153 respirable crystalline silica; ANSI/ASSP A10.9 concrete and masonry construction safety requirements",
+      "accent": "#f2c14b",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "gauge",
+        "track",
+        "hold",
+        "turn",
+        "drag"
+      ],
+      "badge": {
+        "id": "closed-clean",
+        "name": "Closed Clean",
+        "note": "A slab struck off, floated once, troweled after the bleed water left and cured — no burns, no dry cutting, first time"
+      },
+      "meshes": 158,
+      "lights": 0,
+      "overBudget": false,
+      "index": "700",
+      "flat": false,
+      "system": "Finish Crew",
+      "currency": "SLAB",
+      "ranks": [
+        "Laborer",
+        "Finisher",
+        "Cement Mason",
+        "Lead Finisher",
+        "Finish Crew Certified"
+      ],
+      "awards": [
+        {
+          "id": "walked-it-first",
+          "name": "Walked It First",
+          "note": "The pre-pour walk found the bare dowel and the chute line before the truck backed in, first time"
+        },
+        {
+          "id": "no-bare-hands",
+          "name": "No Bare Hands In It",
+          "note": "Never bare skin in the mix, never under the chute, never a dry grind, never a foot on a bare dowel"
+        },
+        {
+          "id": "true-to-grade",
+          "name": "True To Grade",
+          "note": "The screed and the trowel both held inside the band"
+        },
+        {
+          "id": "clean-close",
+          "name": "Clean Close",
+          "note": "No corrections through the whole close"
+        },
+        {
+          "id": "held-the-strike",
+          "name": "Held The Strike-Off",
+          "note": "The screed pass held for the whole rail"
+        },
+        {
+          "id": "closed-by-break",
+          "name": "Closed By Break",
+          "note": "Struck off, floated, troweled and cured inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cm-slab-screed-bull-float-and-trowel"
     },
     {
       "app": "smartcity",
@@ -28029,7 +28760,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 260,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -28689,7 +29420,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "100",
