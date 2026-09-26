@@ -5010,6 +5010,214 @@
     },
     {
       "app": "smartcity",
+      "id": "gl-tempered-glass-breakage-and-cleanup",
+      "name": "Tempered Glass Breakage And Cleanup",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 338,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.93,
+          "meshes": 152,
+          "materials": 72,
+          "interactables": 28
+        },
+        "originality": {
+          "score": 0.08935574229691878,
+          "nearest": "gl-skylight-glass-replacement-and-fall-protection",
+          "similarity": 0.32212885154061627
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gl-skylight-glass-replacement-and-fall-protection",
+      "name": "Skylight Glass Replacement And Fall Protection",
+      "category": "Construction & Structural Trades",
+      "steps": 15,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.9666666666666667,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 337,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 14,
+          "got": 14
+        },
+        "scene": {
+          "score": 0.9149999999999999,
+          "meshes": 146,
+          "materials": 80,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.08935574229691878,
+          "nearest": "gl-tempered-glass-breakage-and-cleanup",
+          "similarity": 0.32212885154061627
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gl-swing-stage-glazing-and-sealant",
+      "name": "Swing Stage Glazing And Sealant",
+      "category": "Construction & Structural Trades",
+      "steps": 15,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9666666666666667,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 335,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 14,
+          "got": 14
+        },
+        "scene": {
+          "score": 0.9400000000000001,
+          "meshes": 156,
+          "materials": 83,
+          "interactables": 28
+        },
+        "originality": {
+          "score": 0.19455040871934615,
+          "nearest": "gl-storefront-frame-and-glass-set-with-cups",
+          "similarity": 0.3010899182561308
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gl-curtain-wall-unit-setting-from-the-floor",
+      "name": "Curtain Wall Unit Setting From The Floor",
+      "category": "Construction & Structural Trades",
+      "steps": 15,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.9666666666666667,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 345,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 14,
+          "got": 14
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 180,
+          "materials": 98,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "sm-architectural-panels-at-height",
+          "similarity": 0.3519061583577713
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "br-benthic-grab-and-invertebrate-sorting",
       "name": "Benthic Grab & Invertebrate Sorting",
       "category": "Maritime & Ports",
@@ -5421,6 +5629,58 @@
           "score": 0.24857142857142883,
           "nearest": "home-visit-safety",
           "similarity": 0.29028571428571426
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "mass-timber-panel-set",
+      "name": "Mass Timber Panel Set",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 334,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 182,
+          "materials": 90,
+          "interactables": 30
+        },
+        "originality": {
+          "score": 0.39692532942898984,
+          "nearest": "gl-glass-handling-cart-and-crane-vacuum-lifter",
+          "similarity": 0.26061493411420206
         }
       }
     },
@@ -6193,7 +6453,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 265,
+          "meshes": 255,
           "materials": 83,
           "interactables": 28
         },
@@ -6957,7 +7217,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 6
+          "authorities": 7
         },
         "standards": {
           "score": 1,
@@ -7241,6 +7501,162 @@
           "score": 0.47037037037037044,
           "nearest": "formwork-shoring",
           "similarity": 0.24592592592592594
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gl-shop-drawing-takeoff-and-field-measure",
+      "name": "Shop Drawing Takeoff And Field Measure",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 312,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 14,
+          "got": 14
+        },
+        "scene": {
+          "score": 0.9225,
+          "meshes": 149,
+          "materials": 70,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.2695364238410597,
+          "nearest": "gl-storefront-frame-and-glass-set-with-cups",
+          "similarity": 0.2860927152317881
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gl-aluminium-panel-fabrication-and-brake",
+      "name": "Aluminium Panel Fabrication And Brake",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 321,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.9149999999999999,
+          "meshes": 146,
+          "materials": 78,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.3419753086419755,
+          "nearest": "gl-tempered-glass-breakage-and-cleanup",
+          "similarity": 0.2716049382716049
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gl-storefront-frame-and-glass-set-with-cups",
+      "name": "Storefront Frame And Glass Set With Cups",
+      "category": "Construction & Structural Trades",
+      "steps": 15,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9666666666666667,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 337,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 14,
+          "got": 14
+        },
+        "scene": {
+          "score": 0.9825,
+          "meshes": 173,
+          "materials": 91,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.15490716180371372,
+          "nearest": "gl-skylight-glass-replacement-and-fall-protection",
+          "similarity": 0.3090185676392573
         }
       }
     },
@@ -8130,6 +8546,58 @@
     },
     {
       "app": "smartcity",
+      "id": "sm-architectural-panels-at-height",
+      "name": "Architectural Panels at Height",
+      "category": "Manufacturing & Automation",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 428,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 240,
+          "materials": 96,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "gl-curtain-wall-unit-setting-from-the-floor",
+          "similarity": 0.3519061583577713
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "tdl-backing-and-docking",
       "name": "Backing and Docking",
       "category": "Mobility & Transit",
@@ -8853,58 +9321,6 @@
           "score": 0.4979539641943735,
           "nearest": "laundry-plant-chemicals",
           "similarity": 0.24040920716112532
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "mass-timber-panel-set",
-      "name": "Mass Timber Panel Set",
-      "category": "Construction & Structural Trades",
-      "steps": 14,
-      "score": 96,
-      "d": {
-        "variety": {
-          "score": 0.9375,
-          "distinct": 7,
-          "longestRun": 3
-        },
-        "decisions": {
-          "score": 0.95,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 334,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 7
-        },
-        "standards": {
-          "score": 1,
-          "cited": 7,
-          "inScope": 7,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 10,
-          "got": 10
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 182,
-          "materials": 90,
-          "interactables": 30
-        },
-        "originality": {
-          "score": 0.40941558441558445,
-          "nearest": "rl-critical-lift-plan-and-signalperson",
-          "similarity": 0.25811688311688313
         }
       }
     },
@@ -11377,7 +11793,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 5
+          "authorities": 6
         },
         "standards": {
           "score": 1,
@@ -11814,9 +12230,9 @@
           "interactables": 22
         },
         "originality": {
-          "score": 0.6598811292719168,
-          "nearest": "fp-anchor-selection-and-rescue-plan",
-          "similarity": 0.20802377414561665
+          "score": 0.6509536784741146,
+          "nearest": "gl-swing-stage-glazing-and-sealant",
+          "similarity": 0.2098092643051771
         }
       }
     },
@@ -11921,6 +12337,58 @@
           "score": 0.7517241379310347,
           "nearest": "sterilisation-technician-cycle",
           "similarity": 0.1896551724137931
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gl-glass-handling-cart-and-crane-vacuum-lifter",
+      "name": "Glass Handling Cart And Crane Vacuum Lifter",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 316,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 210,
+          "materials": 96,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.21182197496522948,
+          "nearest": "gl-storefront-frame-and-glass-set-with-cups",
+          "similarity": 0.29763560500695413
         }
       }
     },
@@ -12053,7 +12521,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 8
+          "authorities": 9
         },
         "standards": {
           "score": 1,
@@ -17045,7 +17513,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 6
+          "authorities": 7
         },
         "standards": {
           "score": 1,
@@ -17097,7 +17565,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 5
+          "authorities": 6
         },
         "standards": {
           "score": 1,
@@ -17201,7 +17669,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 4
+          "authorities": 5
         },
         "standards": {
           "score": 1,
@@ -17901,58 +18369,6 @@
           "score": 0.5432835820895523,
           "nearest": "stack-test",
           "similarity": 0.23134328358208955
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "sm-architectural-panels-at-height",
-      "name": "Architectural Panels at Height",
-      "category": "Manufacturing & Automation",
-      "steps": 14,
-      "score": 98,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 1
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 428,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "standards": {
-          "score": 1,
-          "cited": 5,
-          "inScope": 5,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 12,
-          "got": 12
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 240,
-          "materials": 96,
-          "interactables": 26
-        },
-        "originality": {
-          "score": 0.43648648648648675,
-          "nearest": "sm-duct-hanging-and-seismic-bracing",
-          "similarity": 0.2527027027027027
         }
       }
     },
@@ -20446,9 +20862,9 @@
           "interactables": 24
         },
         "originality": {
-          "score": 0.594878706199461,
-          "nearest": "bs-bearing-replacement-and-jacking",
-          "similarity": 0.2210242587601078
+          "score": 0.5559892328398386,
+          "nearest": "gl-skylight-glass-replacement-and-fall-protection",
+          "similarity": 0.2288021534320323
         }
       }
     },
@@ -22245,7 +22661,7 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 7
+          "authorities": 8
         },
         "standards": {
           "score": 1,

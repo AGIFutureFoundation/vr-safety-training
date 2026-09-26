@@ -18172,5 +18172,341 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "gl-curtain-wall-unit-setting-from-the-floor",
+    "index": "352",
+    "domain": "Construction & Structural Trades",
+    "trade": "Glazier — IUPAT District Council 16 curtain wall installer",
+    "category": "Construction & Structural Trades",
+    "certification": "IUPAT District Council 16 glaziers apprenticeship and training (architectural glass and metal); IUPAT Finishing Trades Institute glazier curriculum; ANSI/ASSP Z97.1 safety glazing materials; OSHA 29 CFR 1926.501 duty to have fall protection and 29 CFR 1926.502 fall protection systems criteria and practices at the open floor edge; the curtain wall manufacturer's erection drawings and installation manual for anchor sequence and shim locations",
+    "name": "Curtain Wall Unit Setting From The Floor",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Curtain Wall Unit Setting From The Floor VR",
+    "tagline": "Tailboard, harness to the interior anchor, the open bay walked, the unit dragged off the stack on the davit, held to the sill while the first clip bites, plumbed, torqued, and the vertical joint backer-rodded and sealed",
+    "accent": 3585993,
+    "accentCss": "#36b7c9",
+    "parSeconds": 300,
+    "badge": {
+      "id": "unit-anchored-clean",
+      "name": "Unit Anchored Clean",
+      "note": "A curtain wall unit walked off the stack, anchored plumb at both tracks and sealed, with the open bay closed the whole time it mattered"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Unit Crew",
+      "currency": "TRACK",
+      "ranks": [
+        "Pre-apprentice",
+        "Ground Hand",
+        "Unit Setter",
+        "Lead Glazier",
+        "Curtain Wall Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "gl-storefront-frame-and-glass-set-with-cups",
+    "index": "353",
+    "domain": "Construction & Structural Trades",
+    "trade": "Glazier — IUPAT District Council 16 storefront and entrance systems",
+    "category": "Construction & Structural Trades",
+    "certification": "IUPAT District Council 16 glaziers apprenticeship and training (architectural glass and metal); IUPAT Finishing Trades Institute glazier curriculum; ANSI/ASSP Z97.1 safety glazing materials for the tempered entrance lite; OSHA 29 CFR 1926.501 duty to have fall protection and 29 CFR 1926.502 fall protection systems criteria for the stepladder work at the transom; the storefront system manufacturer's glazing details for setting-block location and gasket compression",
+    "name": "Storefront Frame And Glass Set With Cups",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Storefront Frame And Glass Set With Cups VR",
+    "tagline": "Tailboard and PPE, the floor walked, the vacuum cups proven on scrap, the lite carried two-handed to the frame, blocked, gasketed and beaded, squared, and the sill's weeps checked clear",
+    "accent": 15901501,
+    "accentCss": "#f2a33d",
+    "parSeconds": 275,
+    "badge": {
+      "id": "storefront-set-clean",
+      "name": "Storefront Set Clean",
+      "note": "A tempered entrance lite blocked, gasketed and beaded square in its frame with the sidewalk never put at risk while it was carried"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Storefront Crew",
+      "currency": "PANE",
+      "ranks": [
+        "Pre-apprentice",
+        "Ground Hand",
+        "Glazier",
+        "Lead Glazier",
+        "Storefront Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "gl-glass-handling-cart-and-crane-vacuum-lifter",
+    "index": "354",
+    "domain": "Construction & Structural Trades",
+    "trade": "Glazier — IUPAT District Council 16 material handling",
+    "category": "Construction & Structural Trades",
+    "certification": "IUPAT District Council 16 glaziers apprenticeship and training (architectural glass and metal); IUPAT Finishing Trades Institute glazier curriculum; ANSI/ASSP Z97.1 safety glazing materials; OSHA 29 CFR 1926.501 duty to have fall protection and 29 CFR 1926.502 fall protection systems criteria for work on the flatbed deck; the vacuum lifter manufacturer's rated capacity and the crane's own load chart for the beam and its cups",
+    "name": "Glass Handling Cart And Crane Vacuum Lifter",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Glass Handling Cart And Crane Vacuum Lifter VR",
+    "tagline": "Tailboard and wind read, the strap inspected before it is released, the crane's vacuum beam proven, the lite lifted to the rack on a held tag line, and a second lite walked to the cart on hand cups",
+    "accent": 5884323,
+    "accentCss": "#59c9a3",
+    "parSeconds": 285,
+    "badge": {
+      "id": "yard-handled-clean",
+      "name": "Yard Handled Clean",
+      "note": "A delivered lite unstrapped, lifted to the rack on a proven vacuum beam and a second lite carted clear, with nobody under the load the whole time"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Yard Crew",
+      "currency": "LITE",
+      "ranks": [
+        "Pre-apprentice",
+        "Yard Hand",
+        "Rigger",
+        "Lead Glazier",
+        "Material Handling Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "gl-swing-stage-glazing-and-sealant",
+    "index": "355",
+    "domain": "Construction & Structural Trades",
+    "trade": "Glazier — IUPAT District Council 16 swing stage and suspended access",
+    "category": "Construction & Structural Trades",
+    "certification": "IUPAT District Council 16 glaziers apprenticeship and training (architectural glass and metal); IUPAT Finishing Trades Institute glazier curriculum; ANSI/ASSP Z97.1 safety glazing materials for the replacement lite; OSHA 29 CFR 1926.451 scaffolds general requirements, 29 CFR 1926.454 training requirements for scaffold erectors and users, 29 CFR 1926.501 duty to have fall protection and 29 CFR 1926.502 fall protection systems criteria for the independent lifeline; ANSI Z359 fall protection component standards for the rope grab and its anchor",
+    "name": "Swing Stage Glazing And Sealant",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Swing Stage Glazing And Sealant VR",
+    "tagline": "Tailboard and wind read, the rig walked and the lifeline proven, the stage descended on a held tie-back, a cracked lite replaced and reveal checked, the joint sealed, and the stage raised and stowed",
+    "accent": 5219281,
+    "accentCss": "#4fa3d1",
+    "parSeconds": 305,
+    "badge": {
+      "id": "stage-rigged-clean",
+      "name": "Stage Rigged Clean",
+      "note": "A swing stage rigged, tied back and descended on an independent lifeline, with a facade lite replaced and sealed without the stage ever swinging free"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Stage Crew",
+      "currency": "ROPE",
+      "ranks": [
+        "Pre-apprentice",
+        "Ground Hand",
+        "Stage Rigger",
+        "Lead Glazier",
+        "Suspended Access Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "gl-skylight-glass-replacement-and-fall-protection",
+    "index": "356",
+    "domain": "Construction & Structural Trades",
+    "trade": "Glazier — IUPAT District Council 16 roof glazing and skylights",
+    "category": "Construction & Structural Trades",
+    "certification": "IUPAT District Council 16 glaziers apprenticeship and training (architectural glass and metal); IUPAT Finishing Trades Institute glazier curriculum; ANSI/ASSP Z97.1 safety glazing materials for the replacement skylight unit; OSHA 29 CFR 1926.501 duty to have fall protection and 29 CFR 1926.502 fall protection systems criteria for a roof opening; ANSI Z359 fall protection component standards for the roof anchor and lanyard; the skylight manufacturer's screen and cover load rating for the curb opening",
+    "name": "Skylight Glass Replacement And Fall Protection",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Skylight Glass Replacement And Fall Protection VR",
+    "tagline": "Tailboard and wind read, harness tied to the roof anchor, the screen and warning line up before the old glass comes out, the new unit set and sealed, the screen down last",
+    "accent": 14725690,
+    "accentCss": "#e0b23a",
+    "parSeconds": 295,
+    "badge": {
+      "id": "curb-never-open",
+      "name": "Curb Never Open",
+      "note": "A skylight unit replaced with the fall-through screen up for the whole time the curb had no glass in it"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Roof Crew",
+      "currency": "CURB",
+      "ranks": [
+        "Pre-apprentice",
+        "Ground Hand",
+        "Roof Glazier",
+        "Lead Glazier",
+        "Roof Access Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "gl-tempered-glass-breakage-and-cleanup",
+    "index": "357",
+    "domain": "Construction & Structural Trades",
+    "trade": "Glazier — IUPAT District Council 16 emergency glazing response",
+    "category": "Construction & Structural Trades",
+    "certification": "IUPAT District Council 16 glaziers apprenticeship and training (architectural glass and metal); IUPAT Finishing Trades Institute glazier curriculum; ANSI/ASSP Z97.1 safety glazing materials for the replacement lite; OSHA 29 CFR 1926.501 duty to have fall protection and 29 CFR 1926.502 fall protection systems criteria for the open bay; the glazing system manufacturer's guidance on spontaneous tempered breakage and frame inspection before reglazing",
+    "name": "Tempered Glass Breakage And Cleanup",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Tempered Glass Breakage And Cleanup VR",
+    "tagline": "Cordon and PPE, the wind read at the open bay, the frame's fringe freed under control, the pebbles swept, a temporary cover held and fastened, the neighbouring unit checked, and the incident logged",
+    "accent": 14252602,
+    "accentCss": "#d97a3a",
+    "parSeconds": 280,
+    "badge": {
+      "id": "bay-covered-clean",
+      "name": "Bay Covered Clean",
+      "note": "A shattered lite cleared and the open bay covered with nobody cut by the fringe and nobody near the hole it left"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Response Crew",
+      "currency": "SHARD",
+      "ranks": [
+        "Pre-apprentice",
+        "Ground Hand",
+        "Glazier",
+        "Lead Glazier",
+        "Emergency Response Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "gl-aluminium-panel-fabrication-and-brake",
+    "index": "358",
+    "domain": "Construction & Structural Trades",
+    "trade": "Glazier / architectural metal fabricator — IUPAT District Council 16 shop fabrication",
+    "category": "Construction & Structural Trades",
+    "certification": "IUPAT District Council 16 glaziers apprenticeship and training (architectural glass and metal); IUPAT Finishing Trades Institute glazier curriculum; OSHA 29 CFR 1926.501 duty to have fall protection and 29 CFR 1926.502 fall protection systems criteria for the mezzanine edge; the SMACNA Architectural Sheet Metal Manual for panel returns, notching and expansion allowance; the press brake manufacturer's guarding and two-hand control instructions",
+    "name": "Aluminium Panel Fabrication And Brake",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Aluminium Panel Fabrication And Brake VR",
+    "tagline": "Glove up and guard-check the brake, the shop walked, the sheet fed and bent on two-hand control, the edge deburred at a steady pace, notched, squared and racked for the truck",
+    "accent": 5935044,
+    "accentCss": "#5a8fc4",
+    "parSeconds": 275,
+    "badge": {
+      "id": "panel-formed-clean",
+      "name": "Panel Formed Clean",
+      "note": "A panel sheared, bent on two-hand control, deburred and squared with nobody's hand ever near the brake's nip point"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Shop Crew",
+      "currency": "BEND",
+      "ranks": [
+        "Pre-apprentice",
+        "Shop Hand",
+        "Fabricator",
+        "Lead Fabricator",
+        "Shop Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "gl-shop-drawing-takeoff-and-field-measure",
+    "index": "359",
+    "domain": "Construction & Structural Trades",
+    "trade": "Glazier — IUPAT District Council 16 takeoff and field measure",
+    "category": "Construction & Structural Trades",
+    "certification": "IUPAT District Council 16 glaziers apprenticeship and training (architectural glass and metal); IUPAT Finishing Trades Institute glazier curriculum; ANSI/ASSP Z97.1 safety glazing materials for the ordered lite; OSHA 29 CFR 1926.451 scaffolds general requirements and 29 CFR 1926.454 training requirements for scaffold erectors and users for the rolling tower used to reach the transom; OSHA 29 CFR 1926.501 duty to have fall protection and 29 CFR 1926.502 fall protection systems criteria",
+    "name": "Shop Drawing Takeoff And Field Measure",
+    "weather": "wind",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Shop Drawing Takeoff And Field Measure VR",
+    "tagline": "Tailboard and wind read, the rolling scaffold set up locked and railed, the drawing checked against the actual opening, width, height and diagonal taken and squared, a colour sample held to daylight, and the takeoff logged",
+    "accent": 8032163,
+    "accentCss": "#7a8fa3",
+    "parSeconds": 270,
+    "badge": {
+      "id": "opening-measured-clean",
+      "name": "Opening Measured Clean",
+      "note": "A field measurement taken against a locked, railed scaffold and squared to the drawing, with the order going out on the building's own numbers rather than the paper's"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Survey Crew",
+      "currency": "MEASURE",
+      "ranks": [
+        "Pre-apprentice",
+        "Ground Hand",
+        "Field Surveyor",
+        "Lead Glazier",
+        "Takeoff Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
