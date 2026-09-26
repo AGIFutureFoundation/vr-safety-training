@@ -1,7 +1,7 @@
 {
   "protocol": 2,
   "network": "SmartCiti.X ~VR Simulators (Powered by AGI Corp & Visko)",
-  "generatedAt": "2026-09-25",
+  "generatedAt": "2026-09-26",
   "apps": {
     "smartcity": {
       "entry": "smartcity/index.html",
@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 390
+      "stations": 394
     },
     "trades": {
       "entry": "trades/index.html",
@@ -104,7 +104,8 @@
         "tide-gate",
         "pump-and-treat",
         "hot-tap",
-        "digester-gas"
+        "digester-gas",
+        "br-tidal-marsh-grading-amphibious-excavator"
       ]
     },
     {
@@ -249,7 +250,9 @@
         "stage-load-in-and-truss-rigging",
         "broadcast-truck",
         "arena-rigging",
-        "pyro-cue"
+        "pyro-cue",
+        "le-crowd-barricade-and-show-stop-call",
+        "le-followspot-and-truss-access-at-height"
       ]
     },
     {
@@ -327,7 +330,8 @@
         "br-water-quality-sonde-calibration-and-deploy",
         "br-sediment-chain-of-custody-and-lab-prep",
         "br-turbidity-curtain-deployment",
-        "br-dredge-spoils-dewatering-pad"
+        "br-dredge-spoils-dewatering-pad",
+        "hz-level-b-entry-and-scba-change-out"
       ]
     },
     {
@@ -816,16 +820,21 @@
           "app": "smartcity",
           "id": "drum-sampling-and-overpack",
           "why": "Abandoned drums in Level B: the bulging one left shut, a full-depth sample under chain of custody, and the leaker lifted into a salvage drum and marked for the manifest."
+        },
+        {
+          "app": "smartcity",
+          "id": "hz-level-b-entry-and-scba-change-out",
+          "why": "The entry itself, stripped down to the habit that makes every other hazmat station survivable: a hot line crossed only on backup's word, and a cylinder swapped at the line before the reserve that gets you back out is gone."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1380,
-        "tasks": 120,
-        "atBar": 4,
-        "partial": 16,
-        "stationsNeeded": 3,
+        "lessons": 1613,
+        "tasks": 135,
+        "atBar": 17,
+        "partial": 3,
+        "stationsNeeded": 1,
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
@@ -1102,16 +1111,26 @@
           "app": "smartcity",
           "id": "stage-load-in-and-truss-rigging",
           "why": "The arena load-in from the deck: truss inspected and spliced, flown level on its motors with nobody under it, and every point dead-hung on its steel."
+        },
+        {
+          "app": "smartcity",
+          "id": "le-followspot-and-truss-access-at-height",
+          "why": "A spot tower before doors: the lift ridden held, the tower anchor clipped before the gate opens, a cracked coupler caught, and the lamp struck from its own switch clear of the housing."
+        },
+        {
+          "app": "smartcity",
+          "id": "le-crowd-barricade-and-show-stop-call",
+          "why": "The front-of-house rail before doors: a bent pin caught, the line built and gauged to the plan, and the show-stop chain briefed and used when the load gauge spikes."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1220,
-        "tasks": 100,
-        "atBar": 0,
-        "partial": 20,
-        "stationsNeeded": 2,
+        "lessons": 1620,
+        "tasks": 130,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
@@ -3323,12 +3342,17 @@
           "app": "smartcity",
           "id": "br-dredge-material-screening-and-disposal-decision",
           "why": "The screener on the dredge deck matches every bite to the placement decision already made about its dredge unit, and stops, samples and holds the scow when the bucket brings up material that decision never described."
+        },
+        {
+          "app": "smartcity",
+          "id": "br-tidal-marsh-grading-amphibious-excavator",
+          "why": "Grading a tidal marsh from an amphibious excavator, with the tide, the permit window and the ground crew all in the operator's picture."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1655,
+        "lessons": 1647,
         "tasks": 120,
         "atBar": 20,
         "partial": 0,
@@ -27479,7 +27503,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 261,
+      "meshes": 251,
       "lights": 0,
       "overBudget": false,
       "index": "100",
@@ -35647,6 +35671,338 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=br-dredge-spoils-dewatering-pad"
+    },
+    {
+      "app": "smartcity",
+      "id": "hz-level-b-entry-and-scba-change-out",
+      "name": "Level B Entry & SCBA Change-Out",
+      "title": "SmartCiti.X~ Level B Entry & SCBA Change-Out VR",
+      "tagline": "A hot-line entry: the entry plan read, the backup pair briefed, a spare-cylinder cart staged at the line, Level B donned and its seal held, the cylinder proven above the entry plan's minimum, the tag board signed, the line crossed with backup's word, a hidden valve pit found before it is stepped in, the atmosphere reread at the work point, the leaking valve throttled shut, the flow watched to zero while the alarm cuts through it, the cylinder swapped at the line in order, and the board closed",
+      "category": "Environmental Monitoring",
+      "domain": "Environmental Monitoring",
+      "trade": "LIUNA hazmat laborer — Level B entry, with an IAFF technical-rescue backup pair and an environmental technician running the entry board",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.120 HAZWOPER entry and air-management provisions, 29 CFR 1910.134 for the SCBA and its cylinder change-out, and 29 CFR 1910.1200 hazard communication for the cylinder and cart markings; LIUNA Training hazardous waste worker courses; technical-rescue backup training",
+      "accent": "#4fd18a",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "drag",
+        "sequence",
+        "hold",
+        "gauge",
+        "find",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "in-and-out-on-air",
+        "name": "In and Out on Air",
+        "note": "Every entry crossed with backup's word, the cylinder swapped before the reserve ran out, and never a step taken off the tape line"
+      },
+      "meshes": 186,
+      "lights": 0,
+      "overBudget": false,
+      "index": "341",
+      "flat": false,
+      "system": "Entry Team",
+      "currency": "TAG",
+      "ranks": [
+        "Line Watcher",
+        "Entry Hand",
+        "Entry Team Lead",
+        "Backup Qualified",
+        "Level B Certified"
+      ],
+      "awards": [
+        {
+          "id": "sealed-before-entry",
+          "name": "Sealed Before Entry",
+          "note": "The facepiece seal held its full check before the line was crossed"
+        },
+        {
+          "id": "swap-before-empty",
+          "name": "Swap Before Empty",
+          "note": "Broke off the valve work and reached the change-out point on the first alarm"
+        },
+        {
+          "id": "line-discipline",
+          "name": "Line Discipline",
+          "note": "Never crossed without backup's word, never a loose seal, never the wrong cylinder off the cart"
+        },
+        {
+          "id": "clean-entry",
+          "name": "Clean Entry",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "flow-held-to-zero",
+          "name": "Flow Held to Zero",
+          "note": "Held the valve's flow reading through the whole watch"
+        },
+        {
+          "id": "board-closed-fast",
+          "name": "Board Closed Fast",
+          "note": "Entry board closed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=hz-level-b-entry-and-scba-change-out"
+    },
+    {
+      "app": "smartcity",
+      "id": "le-crowd-barricade-and-show-stop-call",
+      "name": "Crowd Barricade & Show-Stop Call",
+      "title": "SmartCiti.X~ Crowd Barricade & Show-Stop Call VR",
+      "tagline": "The rail before doors: the site security plan read for capacity and the show-stop chain, hi-vis and headset on, a bent coupling pin caught before it locks, the spare section rolled into the gap and pinned home, the mixed zone gauged against the plan's minimum, the light tower's outriggers down before the mast goes up, the generator started and held to catch, the show-stop signal briefed with security, the rail held through the opening rush as the load gauge spikes, a medical lane cleared and opened for someone pulled over the rail, and the shift logged",
+      "category": "Entertainment & Live Events",
+      "domain": "Entertainment & Live Events",
+      "trade": "IATSE stagehand running the front-of-house barricade line, with the show-stop call in the security chain",
+      "union": null,
+      "certification": "IATSE training trust; ANSI E1.6 entertainment technology powered systems for the flown FOH speaker array over the line; NFPA 101 Life Safety Code for the mixed zone and egress width; OSHA 29 CFR 1910.28 duty to have fall protection on the barricade riser; ANSI/ISEA 107 high-visibility apparel for the barricade crew",
+      "accent": "#c58cff",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "theatre",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "turn",
+        "gauge",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "line-held-call-made",
+        "name": "Line Held, Call Made",
+        "note": "The barricade pinned and gauged to the plan, the show-stop chain briefed before doors, the load spike answered and the medical lane opened without a shortcut"
+      },
+      "meshes": 269,
+      "lights": 0,
+      "overBudget": false,
+      "index": "319",
+      "flat": false,
+      "system": "Barricade Line",
+      "currency": "POINT",
+      "ranks": [
+        "Line Hand",
+        "Barricade Crew",
+        "Barricade Lead",
+        "FOH Security Liaison",
+        "Arena Rigging Certified"
+      ],
+      "awards": [
+        {
+          "id": "pinned-clean",
+          "name": "Pinned Clean",
+          "note": "Every coupling pin locked home, no shortcut"
+        },
+        {
+          "id": "line-held",
+          "name": "Line Held",
+          "note": "The rail held steady through the load spike"
+        },
+        {
+          "id": "never-a-shortcut",
+          "name": "Never a Shortcut",
+          "note": "Never an unrated clip, never over the rail, never the medical lane blocked"
+        },
+        {
+          "id": "clean-build",
+          "name": "Clean Build",
+          "note": "No corrections building or running the line"
+        },
+        {
+          "id": "gap-on-the-plan",
+          "name": "Gap On The Plan",
+          "note": "Mixed zone gap committed inside the band first time"
+        },
+        {
+          "id": "doors-on-time",
+          "name": "Doors On Time",
+          "note": "Shift logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=le-crowd-barricade-and-show-stop-call"
+    },
+    {
+      "app": "smartcity",
+      "id": "le-followspot-and-truss-access-at-height",
+      "name": "Followspot & Truss Access at Height",
+      "title": "SmartCiti.X~ Followspot & Truss Access at Height VR",
+      "tagline": "A spot tower before doors: the plot read for which position is towered and which is trussed, hard hat and harness on, the scissor lift's guardrail pin checked, ridden up held to the platform, clipped to the tower anchor before the gate opens, a cracked truss coupler found before any weight goes on the walkway, the xenon lamp struck on its own switch clear of the housing, the beam set to the plot's field size, the cue followed across the deck, a rigger below caught in the beam answered on the douser, a second climber on the same ladder answered before anyone doubles up on it, the cable looped to its cleat, and the position logged",
+      "category": "Entertainment & Live Events",
+      "domain": "Entertainment & Live Events",
+      "trade": "IATSE followspot operator, working from a fixed spot tower platform reached by scissor lift, beside a lighting truss run",
+      "union": null,
+      "certification": "IATSE training trust with ETCP Certified Rigger; ANSI/SAIA A92 mobile elevating work platforms for the scissor lift ride; ANSI/ASSP Z359 fall protection for the tower platform; OSHA 29 CFR 1910.28 duty to have fall protection; NFPA 70E for the followspot's high-voltage igniter",
+      "accent": "#c58cff",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "theatre",
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "hold",
+        "turn",
+        "gauge",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "spot-struck-and-safe",
+        "name": "Spot Struck and Safe",
+        "note": "Clipped before the gate opened, the coupler checked, the lamp struck clear of the housing, the beam answered off a crew member's eyes, and the ladder never doubled up"
+      },
+      "meshes": 233,
+      "lights": 0,
+      "overBudget": false,
+      "index": "318",
+      "flat": false,
+      "system": "Spot Tower",
+      "currency": "POINT",
+      "ranks": [
+        "Ground Hand",
+        "Spot Trainee",
+        "Followspot Operator",
+        "Lead Spot Operator",
+        "Arena Rigging Certified"
+      ],
+      "awards": [
+        {
+          "id": "clipped-first",
+          "name": "Clipped First",
+          "note": "Never off the lift gate before the tower anchor was clipped"
+        },
+        {
+          "id": "beam-answered",
+          "name": "Beam Answered",
+          "note": "The douser hit before the rigger below was blinded a second longer"
+        },
+        {
+          "id": "never-in-the-lamp",
+          "name": "Never in the Lamp",
+          "note": "Never reached into the lamp housing, never rode the lift ungated, never on the truss frame itself"
+        },
+        {
+          "id": "clean-climb",
+          "name": "Clean Climb",
+          "note": "No corrections anywhere in the climb or the cue"
+        },
+        {
+          "id": "field-on-the-plot",
+          "name": "Field On The Plot",
+          "note": "Iris field size committed inside the band first time"
+        },
+        {
+          "id": "doors-on-time",
+          "name": "Doors On Time",
+          "note": "Position logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=le-followspot-and-truss-access-at-height"
+    },
+    {
+      "app": "smartcity",
+      "id": "br-tidal-marsh-grading-amphibious-excavator",
+      "name": "Tidal Marsh Grading — Amphibious Excavator",
+      "title": "SmartCiti.X~ Tidal Marsh Grading — Amphibious Excavator VR",
+      "tagline": "Grading a tidal marsh bench to design elevation on a pontoon excavator: permit and buffer checked, mats laid ahead of the machine, the swing worked to a controlled arc clear of the nesting closure, grade cut to the laser, spoil bins loaded instead of the water, and the bench walked and logged before the crew stands down",
+      "category": "Water & Environmental",
+      "domain": "Environmental",
+      "trade": "Operating engineer — amphibious excavator, wetland restoration crew",
+      "union": null,
+      "certification": "IUOE Local 3 operating engineer — amphibious excavator; LIUNA Local 261 laborers — ground crew and spotter; OSHA 29 CFR 1926 Subpart P excavations and grading; U.S. Army Corps of Engineers Clean Water Act (CWA) Section 404 permit conditions; San Francisco Bay Regional Water Quality Control Board CWA Section 401 water quality certification; San Francisco Bay Conservation and Development Commission (BCDC) permit; California Department of Fish and Wildlife Lake and Streambed Alteration Agreement; U.S. Fish and Wildlife Service Endangered Species Act nesting buffer; work window per the permit",
+      "accent": "#5f9e5a",
+      "parSeconds": 320,
+      "weather": "wind",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "turn",
+        "track",
+        "gauge",
+        "hold"
+      ],
+      "badge": {
+        "id": "grade-to-line",
+        "name": "Grade To The Line",
+        "note": "The whole bench cut to design elevation, buffer never crossed, nothing dumped but into the bins — first time"
+      },
+      "meshes": 235,
+      "lights": 0,
+      "overBudget": false,
+      "index": "br-c1",
+      "flat": false,
+      "system": "Grading Crew",
+      "currency": "BENCH",
+      "ranks": [
+        "Laborer",
+        "Oiler",
+        "Operator",
+        "Lead Operator",
+        "Amphibious Excavator Certified"
+      ],
+      "awards": [
+        {
+          "id": "buffer-held",
+          "name": "Buffer Held",
+          "note": "Never a hazard, never a swing past the nesting closure"
+        },
+        {
+          "id": "grade-clean",
+          "name": "Grade Clean",
+          "note": "Swing rate and laser grade both read inside the working band"
+        },
+        {
+          "id": "bench-first",
+          "name": "Bench Read Clean",
+          "note": "Permit and buffer both read clean before the first cut"
+        },
+        {
+          "id": "clean-bench",
+          "name": "Clean Bench",
+          "note": "No corrections across the whole grading run"
+        },
+        {
+          "id": "steady-swing",
+          "name": "Steady Swing",
+          "note": "Held the boom swing inside the working band the whole pass"
+        },
+        {
+          "id": "bench-fast",
+          "name": "Bench Closed Fast",
+          "note": "Grading closed out inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=br-tidal-marsh-grading-amphibious-excavator"
     },
     {
       "app": "trades",

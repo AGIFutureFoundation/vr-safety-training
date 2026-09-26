@@ -780,6 +780,7 @@ export const CURRICULA = [
       { app: "smartcity", id: "br-legacy-mercury-and-pcb-hotspot-handling", why: "A delineated mercury and PCB hotspot is dug in thin cuts straight into its own lined bin, with vapour read throughout, free mercury contained by the spill kit and the crew doffed through decon in order." },
       { app: "smartcity", id: "br-trash-capture-device-service", why: "The outfall net that keeps storm drain trash out of the Bay is lifted by crane, emptied and replaced without anyone under the load, a hand in the catch or a piece of it going back into the channel." },
       { app: "smartcity", id: "br-dredge-material-screening-and-disposal-decision", why: "The screener on the dredge deck matches every bite to the placement decision already made about its dredge unit, and stops, samples and holds the scow when the bucket brings up material that decision never described." },
+      { app: "smartcity", id: "br-tidal-marsh-grading-amphibious-excavator", why: "Grading a tidal marsh from an amphibious excavator, with the tide, the permit window and the ground crew all in the operator's picture." },
     ],
   },
 ];

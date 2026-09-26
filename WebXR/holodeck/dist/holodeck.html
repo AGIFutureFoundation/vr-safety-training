@@ -5944,6 +5944,86 @@ function excavator(parent, x, y, z, opts = {}) {
   return flDone(rig, { footprint: EQUIPMENT_BUDGET.excavator.footprint, livery: lv });
 }
 
+// ------------------------------------------------------ amphibious excavator
+
+// The pontoons sit 0.38 m taller than the standard machine's 0.92 m crawler
+// tracks, so the carbody and everything it carries — house, boom, stick,
+// bucket, counterweight, lights, unchanged from excavator() above — is raised
+// by the same amount to sit on the new deck.
+const AEX_DY = 0.38;
+
+/**
+ * Amphibious (pontoon) excavator: the same 20 t upperstructure as
+ * `excavator()` above, carried on a pair of wide steel flotation pontoons in
+ * place of conventional crawler tracks — the "swamp buggy" or "marsh buggy"
+ * a shoreline and wetland crew calls in where the ground will not carry a
+ * wheeled or standard tracked machine at all, spreading the same weight over
+ * a wider, buoyant undercarriage instead of a narrow steel shoe. 4.6 m across
+ * the pontoons (versus 3.05 m on steel tracks), 5.6 m pontoon length, cab and
+ * boom geometry unchanged. Parts: pontoonL, pontoonR, house, door, boom,
+ * stick, bucket, lights, counterweight.
+ */
+function amphibiousExcavator(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: EQ_YELLOW, fleetName: "PLANT", unitNumber: "AEX-1" });
+  const rig = flRig(parent, x, y, z, opts, "amphibiousExcavator", [0, 0, -2.66]);
+  const S = rig.shell, P = flPaint(lv.colour);
+  // Undercarriage: a wide carrier deck on twin flotation pontoons — 1.85 m
+  // off centre each way, well outside the 1.195 m gauge of the standard
+  // machine's steel tracks — so the whole rig floats or spreads its weight
+  // across soft mud a normal track sinks straight through.
+  box(S, 1.5, 0.55, 1.6, 0, 0.72 + AEX_DY, 0, ...FL.frame);
+  cyl(S, 0.95, 0.95, 0.14, 0, 1.03 + AEX_DY, 0, ...FL.frame, { seg: 24 });
+  eqTrack(rig, "pontoonL", 1.85, 5.6, 1.3, 0.85);
+  eqTrack(rig, "pontoonR", -1.85, 5.6, 1.3, 0.85);
+  // Flat deck cap along each pontoon (a crew's own walkway) and a tapered bow
+  // fender at the forward end, so the pontoon reads as a hull and not just an
+  // overgrown track.
+  for (const sx of [1, -1]) {
+    box(S, 0.95, 0.05, 5.0, sx * 1.85, 1.68, -0.15, ...FL.frame);
+    flSide(S, [[0.35, 1.3], [0.15, 1.55], [-0.1, 1.6], [-0.1, 1.05], [0.35, 1.05]], 0.9, sx * 1.85, 0, 2.6, 0, ...FL.frame, { bevel: 0.03 });
+  }
+  const house = rig.part("house", 0, 1.1 + AEX_DY, 0);
+  box(house, 2.54, 0.28, 3.6, 0, 0.14, -0.3, ...P);
+  flSide(house, [[-0.95, 0.28], [-0.85, 1.05], [0.6, 1.1], [1.4, 1.1], [1.4, 0.28]], 1.45, -0.54, 0, 0, ...P, { bevel: 0.05 });  // engine hood, right rear
+  box(house, 1.0, 0.78, 1.55, 0.76, 0.67, -0.97, ...P);                 // left-side tool compartment
+  const cab = [[-2.05, 0.28], [-2.02, 1.35], [-1.85, 1.95], [0.1, 1.95], [0.15, 0.28]];
+  flSide(house, cab, 1.0, 0.72, 0, 0, ...P, { bevel: 0.05 });
+  const glass = flGlassMat();
+  flPanel(house, 0.86, 0.95, 0.72, 1.25, 2.065, glass, "+z", 0.03);
+  flPanel(house, 1.6, 0.8, 0.21, 1.45, 1.0, glass, "-x");
+  flPanel(house, 0.8, 0.55, 0.72, 1.6, -0.16, glass, "-z");
+  const cw = rig.part("counterweight", 0, 0, 0, house);
+  const arc = [];
+  for (let i = 0; i <= 10; i++) { const xx = -1.27 + 2.54 * i / 10; arc.push([xx, -Math.sqrt(2.75 * 2.75 - xx * xx)]); }
+  flPlan(cw, [[1.27, -1.75], ...arc.reverse(), [-1.27, -1.75]], 1.0, 0, 0.28, 0, ...P, { bevel: 0.05 });
+  const cwMark = flCanvasMat("cwStripesAex", 256, 64, (g, w, h) => {
+    g.fillStyle = "#15171a"; g.fillRect(0, 0, w, h);
+    for (let i = -4; i < 20; i++) { g.fillStyle = flCss(lv.colour); g.beginPath?.(); g.moveTo?.(i * 24, h); g.lineTo?.(i * 24 + 12, h); g.lineTo?.(i * 24 + 12 + h, 0); g.lineTo?.(i * 24 + h, 0); g.closePath?.(); g.fill?.(); }
+  }, { rough: 0.5 });
+  flPanel(cw, 1.0, 0.2, 0, 0.5, -2.765, cwMark, "-z");
+  for (const xx of [-0.6, -0.25]) flRod(house, 0.02, 1.8, xx, 1.45, -0.6, "z", ...FL.black);
+  flPanel(house, 1.3, 0.3, 1.264, 0.7, -0.97, flLiveryMat(lv, "aexSide", { title: lv.unitNumber, sub: lv.fleetName, titleScale: 0.5, titleY: 0.4, stripeY: 0.92 }), "+x");
+  flDoor(rig, "door", 1, 1.22, 0.3, 1.9, 0.95, 1.6, flDoorMat(lv, "L", { window: 0.62, marks: "none" }), { host: house });
+  // Boom (foot pin ahead of the cab, right of it), stick, bucket — identical
+  // to the standard machine, since only the undercarriage changes.
+  const boom = rig.part("boom", -0.12, 0.85, 1.35, house);
+  flBeam(boom, [0, 0, 0], [0, 2.4, 2.3], 0.5, 0.62, ...P);
+  flBeam(boom, [0, 2.4, 2.3], [0, 1.6, 5.3], 0.46, 0.55, ...P);
+  for (const sx of [1, -1]) eqRam(boom, [sx * 0.34, -0.55, 0.45], [sx * 0.34, 1.25, 1.75], 0.09, lv.colour);
+  eqRam(boom, [0, 2.8, 2.1], [0, 2.1, 5.0], 0.08, lv.colour);
+  flStrut(boom, [0.18, 0.3, 0.3], [0.18, 2.75, 2.4], 0.025, ...FL.black);
+  flStrut(boom, [0.18, 2.75, 2.4], [0.18, 1.95, 5.2], 0.025, ...FL.black);
+  const stick = rig.part("stick", 0, 1.6, 5.3, boom);
+  flBeam(stick, [0, 0.55, -0.35], [0, -2.1, 0.9], 0.36, 0.48, ...P);
+  eqRam(stick, [0, 0.7, 0.05], [0, -1.6, 1.15], 0.07, lv.colour);
+  const bucket = rig.part("bucket", 0, -2.1, 0.9, stick);
+  eqBucket(bucket, 1.2, 1.0);
+  const lights = rig.part("lights", 0, 0, 0, house);
+  box(lights, 0.16, 0.12, 0.08, 0.95, 1.98, 2.0, ...FL.lamp);
+  box(lights, 0.16, 0.12, 0.08, -0.12, 2.35, 3.4, ...FL.lamp);
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.amphibiousExcavator.footprint, livery: lv });
+}
+
 // ----------------------------------------------------------------- backhoe
 
 /**
@@ -6522,6 +6602,7 @@ function craneSpreader(parent, x, y, z, opts = {}) {
 /** Declared mesh count, footprint [width X, height Y, length Z] and parts per builder; see FLEET_BUDGET. */
 const EQUIPMENT_BUDGET = {
   excavator: { build: "excavator", meshes: 21, footprint: [3.05, 4.83, 10.78], parts: ["trackL", "trackR", "house", "door", "boom", "stick", "bucket", "lights", "counterweight"], note: "20 t tracked excavator, dig-ready" },
+  amphibiousExcavator: { build: "amphibiousExcavator", meshes: 22, footprint: [4.65, 5.21, 10.81], parts: ["pontoonL", "pontoonR", "house", "door", "boom", "stick", "bucket", "lights", "counterweight"], note: "amphibious pontoon excavator, dig-ready" },
   backhoe: { build: "backhoe", meshes: 23, footprint: [2.36, 3.75, 7.46], parts: ["loaderArms", "loaderBucket", "swingFrame", "boom", "stick", "bucket", "stabilizers", "wheels", "door", "lights"], note: "loader backhoe, travel pose" },
   skidSteer: { build: "skidSteer", meshes: 12, footprint: [1.83, 2.07, 3.31], parts: ["arms", "bucket", "wheelsL", "wheelsR", "wheels", "door", "lights"], note: "wheeled skid steer" },
   dumpTruck: { build: "dumpTruck", meshes: 20, footprint: [3.02, 3.26, 9.57], parts: ["bed", "tailgate", "hoist", "doorL", "doorR", "mirrorL", "mirrorR", "wheels", "lights"], note: "tri-axle dump truck" },
@@ -6538,7 +6619,7 @@ const EQUIPMENT_BUDGET = {
 
 /** The builders by the name EQUIPMENT_BUDGET's `build` field uses. */
 const EQUIPMENT_BUILDERS = {
-  excavator, backhoe, skidSteer, dumpTruck, mobileCrane, aerialBoomLift, scissorLift, compactor,
+  excavator, amphibiousExcavator, backhoe, skidSteer, dumpTruck, mobileCrane, aerialBoomLift, scissorLift, compactor,
   generatorTrailer, lightTower, concretePump, craneSpreader,
 };
 void THREE; void ball; void flSteerWheel; void flMirror; void flPlan;
@@ -8812,7 +8893,7 @@ const PROGRAMME_COMPETENCIES = [
     standards: ["osha-1910-120", "nfpa-470", "osha-1910-134"],
     stations: [
       "hunters-point", "abatement-chamber", "decon-line", "air-monitor",
-      "stormwater-outfall", "pressure-washer", "drum-sampling-and-overpack"
+      "stormwater-outfall", "pressure-washer", "drum-sampling-and-overpack", "hz-level-b-entry-and-scba-change-out"
     ],
     require: 4,
   },
@@ -8878,9 +8959,9 @@ const PROGRAMME_COMPETENCIES = [
     standards: ["etcp-certification", "ansi-e1-4", "nfpa-70e"],
     stations: [
       "stage-power", "fly-system", "rigging-loft", "chain-hoist",
-      "stage-load-in-and-truss-rigging"
+      "stage-load-in-and-truss-rigging", "le-followspot-and-truss-access-at-height", "le-crowd-barricade-and-show-stop-call"
     ],
-    require: 3,
+    require: 4,
   },
   {
     id: "hunters-point-bay-restoration",
@@ -9162,7 +9243,8 @@ const PROGRAMME_COMPETENCIES = [
       "br-derelict-gear-recovery-dive", "br-hyperbaric-chamber-standby", "br-dive-tender-and-umbilical-management", "br-derelict-vessel-salvage-rigging",
       "br-workboat-crane-lift-from-water", "br-debris-skimmer-vessel-operations", "br-boom-towing-between-two-vessels", "br-barge-loading-of-contaminated-sediment",
       "br-cold-water-immersion-and-mob-recovery", "br-dredge-spoils-dewatering-pad", "br-turbidity-curtain-deployment", "br-sediment-chain-of-custody-and-lab-prep",
-      "br-water-quality-sonde-calibration-and-deploy", "br-legacy-mercury-and-pcb-hotspot-handling", "br-trash-capture-device-service", "br-dredge-material-screening-and-disposal-decision"
+      "br-water-quality-sonde-calibration-and-deploy", "br-legacy-mercury-and-pcb-hotspot-handling", "br-trash-capture-device-service", "br-dredge-material-screening-and-disposal-decision",
+      "br-tidal-marsh-grading-amphibious-excavator"
     ],
     require: 6,
   },
@@ -30303,6 +30385,174 @@ const SIMS_META = [
         "Rescue Hand",
         "Lead Deckhand",
         "MOB Recovery Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "hz-level-b-entry-and-scba-change-out",
+    "index": "341",
+    "domain": "Environmental Monitoring",
+    "trade": "LIUNA hazmat laborer — Level B entry, with an IAFF technical-rescue backup pair and an environmental technician running the entry board",
+    "category": "Environmental Monitoring",
+    "certification": "OSHA 29 CFR 1910.120 HAZWOPER entry and air-management provisions, 29 CFR 1910.134 for the SCBA and its cylinder change-out, and 29 CFR 1910.1200 hazard communication for the cylinder and cart markings; LIUNA Training hazardous waste worker courses; technical-rescue backup training",
+    "name": "Level B Entry & SCBA Change-Out",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Level B Entry & SCBA Change-Out VR",
+    "tagline": "A hot-line entry: the entry plan read, the backup pair briefed, a spare-cylinder cart staged at the line, Level B donned and its seal held, the cylinder proven above the entry plan's minimum, the tag board signed, the line crossed with backup's word, a hidden valve pit found before it is stepped in, the atmosphere reread at the work point, the leaking valve throttled shut, the flow watched to zero while the alarm cuts through it, the cylinder swapped at the line in order, and the board closed",
+    "accent": 5230986,
+    "accentCss": "#4fd18a",
+    "parSeconds": 320,
+    "badge": {
+      "id": "in-and-out-on-air",
+      "name": "In and Out on Air",
+      "note": "Every entry crossed with backup's word, the cylinder swapped before the reserve ran out, and never a step taken off the tape line"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Entry Team",
+      "currency": "TAG",
+      "ranks": [
+        "Line Watcher",
+        "Entry Hand",
+        "Entry Team Lead",
+        "Backup Qualified",
+        "Level B Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "le-followspot-and-truss-access-at-height",
+    "index": "318",
+    "domain": "Entertainment & Live Events",
+    "trade": "IATSE followspot operator, working from a fixed spot tower platform reached by scissor lift, beside a lighting truss run",
+    "category": "Entertainment & Live Events",
+    "certification": "IATSE training trust with ETCP Certified Rigger; ANSI/SAIA A92 mobile elevating work platforms for the scissor lift ride; ANSI/ASSP Z359 fall protection for the tower platform; OSHA 29 CFR 1910.28 duty to have fall protection; NFPA 70E for the followspot's high-voltage igniter",
+    "name": "Followspot & Truss Access at Height",
+    "weather": "clear",
+    "indoor": "theatre",
+    "district": null,
+    "title": "SmartCiti.X~ Followspot & Truss Access at Height VR",
+    "tagline": "A spot tower before doors: the plot read for which position is towered and which is trussed, hard hat and harness on, the scissor lift's guardrail pin checked, ridden up held to the platform, clipped to the tower anchor before the gate opens, a cracked truss coupler found before any weight goes on the walkway, the xenon lamp struck on its own switch clear of the housing, the beam set to the plot's field size, the cue followed across the deck, a rigger below caught in the beam answered on the douser, a second climber on the same ladder answered before anyone doubles up on it, the cable looped to its cleat, and the position logged",
+    "accent": 12946687,
+    "accentCss": "#c58cff",
+    "parSeconds": 300,
+    "badge": {
+      "id": "spot-struck-and-safe",
+      "name": "Spot Struck and Safe",
+      "note": "Clipped before the gate opened, the coupler checked, the lamp struck clear of the housing, the beam answered off a crew member's eyes, and the ladder never doubled up"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Spot Tower",
+      "currency": "POINT",
+      "ranks": [
+        "Ground Hand",
+        "Spot Trainee",
+        "Followspot Operator",
+        "Lead Spot Operator",
+        "Arena Rigging Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "le-crowd-barricade-and-show-stop-call",
+    "index": "319",
+    "domain": "Entertainment & Live Events",
+    "trade": "IATSE stagehand running the front-of-house barricade line, with the show-stop call in the security chain",
+    "category": "Entertainment & Live Events",
+    "certification": "IATSE training trust; ANSI E1.6 entertainment technology powered systems for the flown FOH speaker array over the line; NFPA 101 Life Safety Code for the mixed zone and egress width; OSHA 29 CFR 1910.28 duty to have fall protection on the barricade riser; ANSI/ISEA 107 high-visibility apparel for the barricade crew",
+    "name": "Crowd Barricade & Show-Stop Call",
+    "weather": "clear",
+    "indoor": "theatre",
+    "district": null,
+    "title": "SmartCiti.X~ Crowd Barricade & Show-Stop Call VR",
+    "tagline": "The rail before doors: the site security plan read for capacity and the show-stop chain, hi-vis and headset on, a bent coupling pin caught before it locks, the spare section rolled into the gap and pinned home, the mixed zone gauged against the plan's minimum, the light tower's outriggers down before the mast goes up, the generator started and held to catch, the show-stop signal briefed with security, the rail held through the opening rush as the load gauge spikes, a medical lane cleared and opened for someone pulled over the rail, and the shift logged",
+    "accent": 12946687,
+    "accentCss": "#c58cff",
+    "parSeconds": 300,
+    "badge": {
+      "id": "line-held-call-made",
+      "name": "Line Held, Call Made",
+      "note": "The barricade pinned and gauged to the plan, the show-stop chain briefed before doors, the load spike answered and the medical lane opened without a shortcut"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Barricade Line",
+      "currency": "POINT",
+      "ranks": [
+        "Line Hand",
+        "Barricade Crew",
+        "Barricade Lead",
+        "FOH Security Liaison",
+        "Arena Rigging Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-tidal-marsh-grading-amphibious-excavator",
+    "index": "br-c1",
+    "domain": "Environmental",
+    "trade": "Operating engineer — amphibious excavator, wetland restoration crew",
+    "category": "Water & Environmental",
+    "certification": "IUOE Local 3 operating engineer — amphibious excavator; LIUNA Local 261 laborers — ground crew and spotter; OSHA 29 CFR 1926 Subpart P excavations and grading; U.S. Army Corps of Engineers Clean Water Act (CWA) Section 404 permit conditions; San Francisco Bay Regional Water Quality Control Board CWA Section 401 water quality certification; San Francisco Bay Conservation and Development Commission (BCDC) permit; California Department of Fish and Wildlife Lake and Streambed Alteration Agreement; U.S. Fish and Wildlife Service Endangered Species Act nesting buffer; work window per the permit",
+    "name": "Tidal Marsh Grading — Amphibious Excavator",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Tidal Marsh Grading — Amphibious Excavator VR",
+    "tagline": "Grading a tidal marsh bench to design elevation on a pontoon excavator: permit and buffer checked, mats laid ahead of the machine, the swing worked to a controlled arc clear of the nesting closure, grade cut to the laser, spoil bins loaded instead of the water, and the bench walked and logged before the crew stands down",
+    "accent": 6266458,
+    "accentCss": "#5f9e5a",
+    "parSeconds": 320,
+    "badge": {
+      "id": "grade-to-line",
+      "name": "Grade To The Line",
+      "note": "The whole bench cut to design elevation, buffer never crossed, nothing dumped but into the bins — first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Grading Crew",
+      "currency": "BENCH",
+      "ranks": [
+        "Laborer",
+        "Oiler",
+        "Operator",
+        "Lead Operator",
+        "Amphibious Excavator Certified"
       ],
       "rankAt": [
         0,

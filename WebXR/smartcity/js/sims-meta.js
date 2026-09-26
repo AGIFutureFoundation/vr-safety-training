@@ -16660,5 +16660,173 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "hz-level-b-entry-and-scba-change-out",
+    "index": "341",
+    "domain": "Environmental Monitoring",
+    "trade": "LIUNA hazmat laborer — Level B entry, with an IAFF technical-rescue backup pair and an environmental technician running the entry board",
+    "category": "Environmental Monitoring",
+    "certification": "OSHA 29 CFR 1910.120 HAZWOPER entry and air-management provisions, 29 CFR 1910.134 for the SCBA and its cylinder change-out, and 29 CFR 1910.1200 hazard communication for the cylinder and cart markings; LIUNA Training hazardous waste worker courses; technical-rescue backup training",
+    "name": "Level B Entry & SCBA Change-Out",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Level B Entry & SCBA Change-Out VR",
+    "tagline": "A hot-line entry: the entry plan read, the backup pair briefed, a spare-cylinder cart staged at the line, Level B donned and its seal held, the cylinder proven above the entry plan's minimum, the tag board signed, the line crossed with backup's word, a hidden valve pit found before it is stepped in, the atmosphere reread at the work point, the leaking valve throttled shut, the flow watched to zero while the alarm cuts through it, the cylinder swapped at the line in order, and the board closed",
+    "accent": 5230986,
+    "accentCss": "#4fd18a",
+    "parSeconds": 320,
+    "badge": {
+      "id": "in-and-out-on-air",
+      "name": "In and Out on Air",
+      "note": "Every entry crossed with backup's word, the cylinder swapped before the reserve ran out, and never a step taken off the tape line"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Entry Team",
+      "currency": "TAG",
+      "ranks": [
+        "Line Watcher",
+        "Entry Hand",
+        "Entry Team Lead",
+        "Backup Qualified",
+        "Level B Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "le-followspot-and-truss-access-at-height",
+    "index": "318",
+    "domain": "Entertainment & Live Events",
+    "trade": "IATSE followspot operator, working from a fixed spot tower platform reached by scissor lift, beside a lighting truss run",
+    "category": "Entertainment & Live Events",
+    "certification": "IATSE training trust with ETCP Certified Rigger; ANSI/SAIA A92 mobile elevating work platforms for the scissor lift ride; ANSI/ASSP Z359 fall protection for the tower platform; OSHA 29 CFR 1910.28 duty to have fall protection; NFPA 70E for the followspot's high-voltage igniter",
+    "name": "Followspot & Truss Access at Height",
+    "weather": "clear",
+    "indoor": "theatre",
+    "district": null,
+    "title": "SmartCiti.X~ Followspot & Truss Access at Height VR",
+    "tagline": "A spot tower before doors: the plot read for which position is towered and which is trussed, hard hat and harness on, the scissor lift's guardrail pin checked, ridden up held to the platform, clipped to the tower anchor before the gate opens, a cracked truss coupler found before any weight goes on the walkway, the xenon lamp struck on its own switch clear of the housing, the beam set to the plot's field size, the cue followed across the deck, a rigger below caught in the beam answered on the douser, a second climber on the same ladder answered before anyone doubles up on it, the cable looped to its cleat, and the position logged",
+    "accent": 12946687,
+    "accentCss": "#c58cff",
+    "parSeconds": 300,
+    "badge": {
+      "id": "spot-struck-and-safe",
+      "name": "Spot Struck and Safe",
+      "note": "Clipped before the gate opened, the coupler checked, the lamp struck clear of the housing, the beam answered off a crew member's eyes, and the ladder never doubled up"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Spot Tower",
+      "currency": "POINT",
+      "ranks": [
+        "Ground Hand",
+        "Spot Trainee",
+        "Followspot Operator",
+        "Lead Spot Operator",
+        "Arena Rigging Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "le-crowd-barricade-and-show-stop-call",
+    "index": "319",
+    "domain": "Entertainment & Live Events",
+    "trade": "IATSE stagehand running the front-of-house barricade line, with the show-stop call in the security chain",
+    "category": "Entertainment & Live Events",
+    "certification": "IATSE training trust; ANSI E1.6 entertainment technology powered systems for the flown FOH speaker array over the line; NFPA 101 Life Safety Code for the mixed zone and egress width; OSHA 29 CFR 1910.28 duty to have fall protection on the barricade riser; ANSI/ISEA 107 high-visibility apparel for the barricade crew",
+    "name": "Crowd Barricade & Show-Stop Call",
+    "weather": "clear",
+    "indoor": "theatre",
+    "district": null,
+    "title": "SmartCiti.X~ Crowd Barricade & Show-Stop Call VR",
+    "tagline": "The rail before doors: the site security plan read for capacity and the show-stop chain, hi-vis and headset on, a bent coupling pin caught before it locks, the spare section rolled into the gap and pinned home, the mixed zone gauged against the plan's minimum, the light tower's outriggers down before the mast goes up, the generator started and held to catch, the show-stop signal briefed with security, the rail held through the opening rush as the load gauge spikes, a medical lane cleared and opened for someone pulled over the rail, and the shift logged",
+    "accent": 12946687,
+    "accentCss": "#c58cff",
+    "parSeconds": 300,
+    "badge": {
+      "id": "line-held-call-made",
+      "name": "Line Held, Call Made",
+      "note": "The barricade pinned and gauged to the plan, the show-stop chain briefed before doors, the load spike answered and the medical lane opened without a shortcut"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Barricade Line",
+      "currency": "POINT",
+      "ranks": [
+        "Line Hand",
+        "Barricade Crew",
+        "Barricade Lead",
+        "FOH Security Liaison",
+        "Arena Rigging Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "br-tidal-marsh-grading-amphibious-excavator",
+    "index": "br-c1",
+    "domain": "Environmental",
+    "trade": "Operating engineer — amphibious excavator, wetland restoration crew",
+    "category": "Water & Environmental",
+    "certification": "IUOE Local 3 operating engineer — amphibious excavator; LIUNA Local 261 laborers — ground crew and spotter; OSHA 29 CFR 1926 Subpart P excavations and grading; U.S. Army Corps of Engineers Clean Water Act (CWA) Section 404 permit conditions; San Francisco Bay Regional Water Quality Control Board CWA Section 401 water quality certification; San Francisco Bay Conservation and Development Commission (BCDC) permit; California Department of Fish and Wildlife Lake and Streambed Alteration Agreement; U.S. Fish and Wildlife Service Endangered Species Act nesting buffer; work window per the permit",
+    "name": "Tidal Marsh Grading — Amphibious Excavator",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Tidal Marsh Grading — Amphibious Excavator VR",
+    "tagline": "Grading a tidal marsh bench to design elevation on a pontoon excavator: permit and buffer checked, mats laid ahead of the machine, the swing worked to a controlled arc clear of the nesting closure, grade cut to the laser, spoil bins loaded instead of the water, and the bench walked and logged before the crew stands down",
+    "accent": 6266458,
+    "accentCss": "#5f9e5a",
+    "parSeconds": 320,
+    "badge": {
+      "id": "grade-to-line",
+      "name": "Grade To The Line",
+      "note": "The whole bench cut to design elevation, buffer never crossed, nothing dumped but into the bins — first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Grading Crew",
+      "currency": "BENCH",
+      "ranks": [
+        "Laborer",
+        "Oiler",
+        "Operator",
+        "Lead Operator",
+        "Amphibious Excavator Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
