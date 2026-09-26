@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 427
+      "stations": 429
     },
     "trades": {
       "entry": "trades/index.html",
@@ -63,6 +63,8 @@
         "track-access",
         "bus-depot-lift",
         "airport-ramp",
+        "ra-blue-flag-protection-in-the-yard",
+        "ra-locomotive-cab-startup-and-alerter",
         "ra-crossing-signal-maintenance-and-flagging",
         "ra-hand-brake-and-securement-on-a-grade",
         "ra-air-brake-test-and-train-inspection",
@@ -7650,6 +7652,172 @@
     },
     {
       "app": "smartcity",
+      "id": "ra-blue-flag-protection-in-the-yard",
+      "name": "Blue Flag Protection in the Yard",
+      "title": "SmartCiti.X~ Blue Flag Protection in the Yard VR",
+      "tagline": "The flag board checked before anything is assumed clear, your own blue flag displayed at every point that could move this equipment, a second crew's flag confirmed rather than trusted, and every flag down only by the hand that put it up",
+      "category": "Mobility & Transit",
+      "domain": "Rail",
+      "trade": "Car inspector / mechanical department utility worker",
+      "union": null,
+      "certification": "Blue signal protection of workers under FRA 49 CFR Part 218 Subpart B, on equipment shared with another mechanical department crew, backed by a locked derail under BMWED practice and respected by every hostler, a BLET-qualified engineer and a SMART-TD-qualified conductor alike before touching a control that could move it",
+      "accent": "#3f7bd1",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "turn",
+        "hold",
+        "drag",
+        "gauge",
+        "track",
+        "find"
+      ],
+      "badge": {
+        "id": "flag-is-yours",
+        "name": "Flag Is Yours",
+        "note": "Every flag placed and removed by the hand that put it up, and never assumed clear on someone else's say-so"
+      },
+      "meshes": 149,
+      "lights": 0,
+      "overBudget": false,
+      "index": "429",
+      "flat": false,
+      "system": "Blue Flag Authority",
+      "currency": "FLAG",
+      "ranks": [
+        "Mechanical Helper",
+        "Qualified Car Inspector",
+        "Lead Inspector",
+        "Car Foreman",
+        "Blue Flag Certified"
+      ],
+      "awards": [
+        {
+          "id": "never-borrowed",
+          "name": "Never Borrowed",
+          "note": "Never once relied on somebody else's flag instead of your own"
+        },
+        {
+          "id": "reading-true",
+          "name": "Reading True",
+          "note": "Every gauge reading near band centre"
+        },
+        {
+          "id": "flags-clean",
+          "name": "Clean Flags",
+          "note": "Placement and radio steps worked with no correction"
+        },
+        {
+          "id": "yard-time",
+          "name": "Yard Time",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "first-flag",
+          "name": "First Flag",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "ten-clear",
+          "name": "Ten Clear",
+          "note": "Ten correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ra-blue-flag-protection-in-the-yard"
+    },
+    {
+      "app": "smartcity",
+      "id": "ra-locomotive-cab-startup-and-alerter",
+      "name": "Locomotive Cab Startup & Alerter",
+      "title": "SmartCiti.X~ Locomotive Cab Startup & Alerter VR",
+      "tagline": "The walk-around done on foot, the reverser handle carried and seated, both brakes tested from the cab, movement authority confirmed over the radio, and the alerter answered on its own schedule the whole way to highball",
+      "category": "Mobility & Transit",
+      "domain": "Rail",
+      "trade": "Locomotive engineer",
+      "union": null,
+      "certification": "BLET-qualified locomotive engineer working to FRA 49 CFR Part 232 brake system standards for the independent and automatic brake tests, movement authority confirmed over the radio the way the dispatcher and a SMART-TD-qualified conductor both expect it worked, with roadway worker protection under FRA 49 CFR Part 214 respected the whole time the walk-around is underway",
+      "accent": "#3d6fae",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drag",
+        "turn",
+        "gauge",
+        "hold",
+        "track",
+        "find"
+      ],
+      "badge": {
+        "id": "highball-clean",
+        "name": "Clean Highball",
+        "note": "Startup, both brake tests and every alerter cycle answered with nothing skipped"
+      },
+      "meshes": 151,
+      "lights": 0,
+      "overBudget": false,
+      "index": "428",
+      "flat": false,
+      "system": "Cab Authority",
+      "currency": "THROTTLE",
+      "ranks": [
+        "Hostler",
+        "Qualified Engineer",
+        "Road Engineer",
+        "Road Foreman",
+        "Cab Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "never-early",
+          "name": "Never Early",
+          "note": "Never touched the throttle or reverser before movement authority was confirmed"
+        },
+        {
+          "id": "gauge-true",
+          "name": "Gauge True",
+          "note": "Every gauge reading near band centre"
+        },
+        {
+          "id": "brakes-clean",
+          "name": "Clean Brakes",
+          "note": "Independent and automatic brake tests worked with no correction"
+        },
+        {
+          "id": "highball-time",
+          "name": "Highball Time",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "first-highball",
+          "name": "First Highball",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "ten-clear",
+          "name": "Ten Clear",
+          "note": "Ten correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ra-locomotive-cab-startup-and-alerter"
+    },
+    {
+      "app": "smartcity",
       "id": "ra-crossing-signal-maintenance-and-flagging",
       "name": "Crossing Signal Maintenance & Flagging",
       "title": "SmartCiti.X~ Crossing Signal Maintenance & Flagging VR",
@@ -7682,7 +7850,7 @@
         "name": "Crossing Proven",
         "note": "Every gate, light and circuit tested against a real shunt, and the road never once left unprotected while the automatic warning was down"
       },
-      "meshes": 98,
+      "meshes": 154,
       "lights": 0,
       "overBudget": false,
       "index": "427",

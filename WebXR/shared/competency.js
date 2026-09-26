@@ -167,6 +167,9 @@ export const STANDARDS = Object.fromEntries([
   S("imo-csm", "IMO", "Cargo Securing Manual requirements", ["Maritime"], "unverified"),
   S("carb-at-berth", "CARB", "At-Berth Regulation for ocean-going vessels", ["Maritime"], "unverified"),
   S("fra-49-cfr-214", "FRA", "49 CFR 214 Subpart C Roadway worker protection", ["Transit & Logistics"]),
+  S("fra-49-cfr-218", "FRA", "49 CFR 218 Subpart B Blue signal protection of workers", ["Transit & Logistics"]),
+  S("fra-49-cfr-232", "FRA", "49 CFR 232 Brake system safety standards for freight and other non-passenger trains", ["Transit & Logistics"]),
+  S("bmwed-training", "union", "BMWED roadway worker training for track and structures maintenance", ["Transit & Logistics"], "unverified"),
   S("faa-14-cfr-139-303", "FAA", "14 CFR 139 Certification of airports", ["Transit & Logistics"]),
   S("phmsa-49-cfr-192", "PHMSA", "49 CFR 192 Minimum federal safety standards for gas pipelines", ["Energy & Power"]),
   S("cal-osha-3345", "Cal/OSHA", "8 CCR 3345 Hotel housekeeping musculoskeletal injury prevention", ["Hospitality"]),
@@ -600,6 +603,19 @@ export const PROGRAMME_COMPETENCIES = [
       "br-levee-inspection-and-seepage", "br-fish-screen-maintenance"
     ],
     require: 6,
+  },
+  {
+    id: "railroad-crafts",
+    title: "Protect, inspect and secure track, rolling stock and a locomotive under working limits",
+    kind: "programme",
+    standards: ["fra-49-cfr-214", "fra-49-cfr-218", "fra-49-cfr-232", "bmwed-training"],
+    stations: [
+      "ra-roadway-worker-protection-and-job-briefing", "ra-tie-and-rail-replacement-with-track-machines",
+      "ra-switch-inspection-and-lubrication", "ra-air-brake-test-and-train-inspection",
+      "ra-hand-brake-and-securement-on-a-grade", "ra-crossing-signal-maintenance-and-flagging",
+      "ra-locomotive-cab-startup-and-alerter", "ra-blue-flag-protection-in-the-yard"
+    ],
+    require: 4,
   },
 ];
 

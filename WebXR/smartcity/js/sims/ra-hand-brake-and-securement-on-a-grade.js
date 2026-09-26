@@ -382,6 +382,20 @@ export const SIM_RA_HAND_BRAKE_AND_SECUREMENT_ON_A_GRADE = {
     reg(hits, radio, "radio-handset");
 
     const conductor = standingFigure(g, 3.4, -1.6, { ry: -2.3, cloth: 0x2b3138, vest: 0xf2c14b, helmet: 0xf2f2f2 });
+    const secondHand = standingFigure(g, -3.5, 2.0, { ry: 0.8, cloth: 0x2b3138, vest: 0xf2894b, helmet: 0xf2f2f2 });
+
+    // Extra rigging detail on the two secured cars — ladders, sill steps and
+    // grab irons that a securement crew actually climbs and holds onto.
+    for (const c of [carDown, carMid]) {
+      for (const sz of [-1, 1]) {
+        cyl(c, 0.02, 0.02, 0.9, -1.0, 1.1, sz * 0.73, 0xc0c6cc, { rough: 0.5, metal: 0.6, seg: 6 }).rotation.z = 0.15;
+        box(c, 0.28, 0.02, 0.02, -1.0, 0.9, sz * 0.73, 0xc0c6cc, { rough: 0.5, metal: 0.6 });
+        box(c, 0.28, 0.02, 0.02, -1.0, 0.55, sz * 0.73, 0xc0c6cc, { rough: 0.5, metal: 0.6 });
+      }
+    }
+    // Extra ties either side of the graded track for a fuller ballast bed.
+    for (let i = -13; i <= -12; i++) box(trackTilt, 0.16, 0.06, 0.9, i * 0.27, 0.11, 0, 0x8a7a68, { rough: 0.9 }).material = tieMat;
+    for (let i = 12; i <= 13; i++) box(trackTilt, 0.16, 0.06, 0.9, i * 0.27, 0.11, 0, 0x8a7a68, { rough: 0.9 }).material = tieMat;
 
     const closeLog = group(g, -2.7, 0, 2.4, -0.4);
     slab(closeLog, 0.4, 0.05, 0.3, 0, 0.86, 0, 0x2b3138, { radius: 0.02, rough: 0.5 });
@@ -425,6 +439,7 @@ export const SIM_RA_HAND_BRAKE_AND_SECUREMENT_ON_A_GRADE = {
 
       animate(t, dt, session) {
         conductor.userData.head.rotation.y = Math.sin(t * 0.5) * 0.4;
+        secondHand.userData.head.rotation.y = Math.sin(t * 0.4 + 1.4) * 0.4;
         const gg = session?.gauge;
         if (gg && !gg.committed && session.step?.id === "securement-calc") {
           repaint(calcReadout, signFace(`${Math.round(2 + gg.t * 3)} cars`, {

@@ -18214,5 +18214,89 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "ra-locomotive-cab-startup-and-alerter",
+    "index": "428",
+    "domain": "Rail",
+    "trade": "Locomotive engineer",
+    "category": "Mobility & Transit",
+    "certification": "BLET-qualified locomotive engineer working to FRA 49 CFR Part 232 brake system standards for the independent and automatic brake tests, movement authority confirmed over the radio the way the dispatcher and a SMART-TD-qualified conductor both expect it worked, with roadway worker protection under FRA 49 CFR Part 214 respected the whole time the walk-around is underway",
+    "name": "Locomotive Cab Startup & Alerter",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Locomotive Cab Startup & Alerter VR",
+    "tagline": "The walk-around done on foot, the reverser handle carried and seated, both brakes tested from the cab, movement authority confirmed over the radio, and the alerter answered on its own schedule the whole way to highball",
+    "accent": 4026286,
+    "accentCss": "#3d6fae",
+    "parSeconds": 330,
+    "badge": {
+      "id": "highball-clean",
+      "name": "Clean Highball",
+      "note": "Startup, both brake tests and every alerter cycle answered with nothing skipped"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Cab Authority",
+      "currency": "THROTTLE",
+      "ranks": [
+        "Hostler",
+        "Qualified Engineer",
+        "Road Engineer",
+        "Road Foreman",
+        "Cab Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ra-blue-flag-protection-in-the-yard",
+    "index": "429",
+    "domain": "Rail",
+    "trade": "Car inspector / mechanical department utility worker",
+    "category": "Mobility & Transit",
+    "certification": "Blue signal protection of workers under FRA 49 CFR Part 218 Subpart B, on equipment shared with another mechanical department crew, backed by a locked derail under BMWED practice and respected by every hostler, a BLET-qualified engineer and a SMART-TD-qualified conductor alike before touching a control that could move it",
+    "name": "Blue Flag Protection in the Yard",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Blue Flag Protection in the Yard VR",
+    "tagline": "The flag board checked before anything is assumed clear, your own blue flag displayed at every point that could move this equipment, a second crew's flag confirmed rather than trusted, and every flag down only by the hand that put it up",
+    "accent": 4160465,
+    "accentCss": "#3f7bd1",
+    "parSeconds": 320,
+    "badge": {
+      "id": "flag-is-yours",
+      "name": "Flag Is Yours",
+      "note": "Every flag placed and removed by the hand that put it up, and never assumed clear on someone else's say-so"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Blue Flag Authority",
+      "currency": "FLAG",
+      "ranks": [
+        "Mechanical Helper",
+        "Qualified Car Inspector",
+        "Lead Inspector",
+        "Car Foreman",
+        "Blue Flag Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

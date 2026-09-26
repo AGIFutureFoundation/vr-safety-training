@@ -112,7 +112,7 @@ export const SIM_RA_SWITCH_INSPECTION_AND_LUBRICATION = {
       id: "throw-test", kind: "turn", target: "switch-stand",
       title: "Throw the stand to normal and watch the points",
       cue: "Turn the switch stand to normal and watch where the points actually go.",
-      why: "The target on a switch stand tells you what the handle did, not what the points did — the only way to know a point has actually seated is to watch the rail itself close against the stock rail, not the lever that is supposed to be moving it.",
+      why: "The target on a switch stand tells you what the handle did, not what the points did — the only way to know a point has actually seated is to watch the rail itself close against the stock rail, not the lever that is supposed to be moving it, because a linkage that has worked loose can move the handle without moving the point at all.",
       turn: { turns: 0.5, axis: "y", label: "SWITCH STAND" },
     },
     {
@@ -161,7 +161,7 @@ export const SIM_RA_SWITCH_INSPECTION_AND_LUBRICATION = {
       id: "clearance-dial", kind: "track", target: "clearance-dial", seconds: 6,
       title: "Keep clear of the lead while you function-test",
       cue: "Hold the clearance reading in the green band while the switch is worked through both positions.",
-      why: "A function test is the one part of this job that puts the points back in motion, and staying clear of the lead while it happens is what keeps a test of the switch from becoming a test of anyone standing in it.",
+      why: "A function test is the one part of this job that puts the points back in motion, and staying clear of the lead while it happens is what keeps a test of the switch from becoming a test of anyone standing in it — your own lock is what kept anyone else from doing this, not what stops the points once you are the one throwing them.",
       track: { label: "CLEARANCE", green: [0.4, 0.66], rise: 0.48, fall: 0.4, drift: 0.12, readout: (v) => `${Math.round(v * 100)}%` },
       holdBreakNote: "Clearance dropped out of band during the function test. A lead with someone standing in it is not a clear lead, whatever the panel says.",
     },
@@ -200,7 +200,7 @@ export const SIM_RA_SWITCH_INSPECTION_AND_LUBRICATION = {
       id: "radio-report", kind: "hold", target: "radio-handset", seconds: 4,
       title: "Report the switch back in service",
       cue: "Call the dispatcher and hold the radio for the read-back confirming the switch is clear.",
-      why: "The dispatcher's own record of this switch's position is what a train crew relies on when they cannot see it themselves, and that record does not update until you have said so and had it read back to you.",
+      why: "The dispatcher's own record of this switch's position is what a train crew relies on when they cannot see it themselves, and that record does not update until you have said so and had it read back to you — a crew running toward a switch nobody has actually reported clear is running on an assumption, not a fact.",
       holdBreakNote: "You let go before the read-back came back. The dispatcher's record does not change until they have said so in your own hearing.",
     },
     {
