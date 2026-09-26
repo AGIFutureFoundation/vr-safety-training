@@ -21,7 +21,7 @@ import { createAnnouncer, createTargetCursor, describeTarget, reducedMotion, esc
 import { createHandInput, HAND_HINTS } from "../../shared/hands.js";
 import { buildStage } from "./stage.js";
 import { DISTRICTS } from "./districts.js";
-import { CITY, stationPad } from "./citykit.js";
+import { CITY, stationPad, standingFigure } from "./citykit.js";
 import { buildHub } from "./hub.js";
 import { buildGallery, GALLERY_KINDS } from "./gallery.js";
 import { SIMS_META } from "./sims-meta.js";
@@ -205,6 +205,31 @@ scene.add(placement);
 const worldRoot = new THREE.Group();
 placement.add(worldRoot);
 
+// -------------------------------------------------------- first/third person
+//
+// Flat mode only — VR/AR keep the headset's own head pose untouched (see
+// startXr(), which resets this on entry). `?view=third` in the URL, or a
+// choice saved in this browser, picks the starting view; `V`, a gamepad
+// button, "third person"/"first person" by voice and the HUD button
+// (react-ui.js) all flip it after that. See toggleView()/updateViewCamera().
+const VIEW_STORAGE_KEY = "smartcitix-view-v1";
+const EYE_HEIGHT = 1.62;
+function loadViewMode() {
+  const q = new URLSearchParams(location.search).get("view");
+  if (q === "third" || q === "first") return q;
+  try { return localStorage.getItem(VIEW_STORAGE_KEY) === "third" ? "third" : "first"; } catch { return "first"; }
+}
+function saveViewMode(mode) { try { localStorage.setItem(VIEW_STORAGE_KEY, mode); } catch { /* ignore */ } }
+let viewMode = loadViewMode();
+
+// The learner's own figure, in the crew vest, riding the rig the way a hand
+// or a controller does: a child of it, so it walks and turns for free and
+// never needs rebuilding when a station changes underneath it. Hidden in
+// first person, in AR/VR, and while driving (the learner is inside the cab).
+const learnerFigure = standingFigure(rig, 0, 0, { ry: 0, vest: 0xf2c14b, cloth: 0x2b3138, atStation: true });
+learnerFigure.name = "smartcity-learner-figure";
+learnerFigure.visible = false;
+
 // --------------------------------------------------------------- HUD binding
 //
 // app.js never touches the DOM directly for UI chrome any more — it writes
@@ -283,6 +308,9 @@ const store = createStore({
   },
   resetProgressText: "Reset progress",
   voice: { supported: !!(window.SpeechRecognition || window.webkitSpeechRecognition), listening: false, heard: "", error: "" },
+  // First- vs third-person (see updateViewCamera()): the HUD toggle button
+  // beside the controls button reads this.
+  view: { mode: viewMode },
   // The controls panel (shared/input.js): which tabs this device is offered,
   // the live keyboard bindings, whatever pad is plugged in, and the grammar.
   // `numbers` puts an index badge on every hub card and panel button, which a
@@ -3124,6 +3152,7 @@ function runAction(action, info = {}) {
       return true;
     case "voice": toggleVoice(); return true;
     case "speakHint": Sfx.ensure(); announce(currentHintLine()); return true;
+    case "view": toggleView(); return true;
     default: break;
   }
   if (!canOperate()) return false;
@@ -3175,9 +3204,11 @@ function driving() {
   return !!(state.session && !state.session.finished && state.session.step?.kind === "drive" && state.session.drive);
 }
 
-/** A check, the radio, or the two pad buttons that leave. */
+/** A check, the radio, the two pad buttons that leave, or the view toggle —
+ *  none of those is a check on the route, so they run the same handler the
+ *  step-action pad and keyboard use instead of falling through to driveCheck. */
 function driveDiscrete(action) {
-  if (action === "back" || action === "controls") { runAction(action); return; }
+  if (action === "back" || action === "controls" || action === "view") { runAction(action); return; }
   const s = state.session;
   if (!driving() || !canOperate()) return;
   if (action === "radio") {
@@ -3291,6 +3322,132 @@ function syncDriveHud(force = false) {
     goKey: keyFor("throttle"), brakeKey: keyFor("brake"), steerKeys: `${keyFor("steerLeft")}/${keyFor("steerRight")}`,
     checks: DRIVE_ACTIONS.filter((a) => a.group !== "drive").map((a) => ({ id: a.id, label: a.label, key: keyFor(a.id) })),
   });
+}
+
+// -------------------------------------------------------- first/third person
+//
+// The camera stays a child of `rig` throughout (see the top of this file):
+// first person is the original fixed local position, and third person only
+// moves that same local position back and up, so every existing raycast —
+// clicking, hovering, the gaze cursor, the pointer aiming a control — keeps
+// working exactly as it does today, just from further back. VR/AR never call
+// any of this; startXr() resets the position and hides the figure on entry.
+
+const chaseRaycaster = new THREE.Raycaster();
+const _chaseEye = new THREE.Vector3();
+const _chaseDesired = new THREE.Vector3();
+const _chaseDir = new THREE.Vector3();
+const _chaseAim = new THREE.Vector3();
+const _chaseToAim = new THREE.Vector3();
+const _chaseFwd = new THREE.Vector3();
+const CHASE_BACK = 2.4, CHASE_UP = 1.15;             // behind and above the learner, walking
+const CHASE_BACK_DRIVE = 5.4, CHASE_UP_DRIVE = 2.35; // a vehicle needs more clearance
+
+function setViewMode(mode, { announceIt = true } = {}) {
+  const next = mode === "third" ? "third" : "first";
+  if (next === viewMode) return;
+  viewMode = next;
+  saveViewMode(viewMode);
+  store.patch("view", { mode: viewMode });
+  if (viewMode === "first") {
+    camera.position.set(0, EYE_HEIGHT, 0);
+    camera.rotation.set(pitch, yaw, 0);
+    learnerFigure.visible = false;
+  }
+  if (announceIt) srAnnouncer.say(viewMode === "third" ? "Third-person view." : "First-person view.");
+}
+function toggleView() { setViewMode(viewMode === "third" ? "first" : "third"); }
+
+/** An approximation, not a full IK rig, but enough that the figure visibly
+ *  reaches toward whatever the keyboard cursor is on — the same shoulder
+ *  rotation a station already uses to pose an NPC's arm (shared/kit.js). */
+function poseFigureHands() {
+  const arms = learnerFigure.userData.arms;
+  if (!arms) return;
+  arms[0].shoulder.rotation.set(0, 0, 0);
+  arms[1].shoulder.rotation.set(0, 0, 0);
+  const hit = kbCursor.current && state.hits[kbCursor.current];
+  if (!hit) return;
+  hit.getWorldPosition(_chaseDesired);
+  learnerFigure.worldToLocal(_chaseDesired);
+  const lx = _chaseDesired.x, ly = _chaseDesired.y - 1.35, lz = _chaseDesired.z;
+  const flat = Math.hypot(lx, lz) || 1e-4;
+  const side = lx >= 0 ? 1 : 0;   // arms[0] is the left arm (sx=-1), arms[1] the right (sx=1)
+  const horiz = Math.max(-1, Math.min(1, lx / flat));
+  const vert = Math.max(-1.4, Math.min(0.6, Math.atan2(ly, flat)));
+  const shoulder = arms[side].shoulder;
+  shoulder.rotation.x = -1.15 + vert * 0.55;
+  shoulder.rotation.z = (side === 1 ? 1 : -1) * Math.abs(horiz) * 0.55;
+}
+
+/** Behind and above the rig (walking) or the vehicle (a drive step, since
+ *  driveCamera() above already keeps the rig close to it and looking at it),
+ *  pulled in by a raycast whenever a wall or a vehicle sits between the eye
+ *  and the desired spot — "a simple raycast is enough". Flat mode only. */
+function updateViewCamera() {
+  if (viewMode !== "third") {
+    camera.position.set(0, EYE_HEIGHT, 0);
+    camera.rotation.x = pitch;
+    learnerFigure.visible = false;
+    return;
+  }
+  const drive = driving();
+  learnerFigure.visible = !drive;
+  if (!drive) learnerFigure.rotation.y = yaw;
+  rig.updateMatrixWorld(true);
+  if (!drive) poseFigureHands();
+  const back = drive ? CHASE_BACK_DRIVE : CHASE_BACK;
+  const up = drive ? CHASE_UP_DRIVE : CHASE_UP;
+  _chaseEye.set(0, EYE_HEIGHT, 0);
+  rig.localToWorld(_chaseEye);
+  _chaseDesired.set(Math.sin(yaw) * back, EYE_HEIGHT + up, Math.cos(yaw) * back);
+  rig.localToWorld(_chaseDesired);
+  _chaseDir.subVectors(_chaseDesired, _chaseEye);
+  const full = _chaseDir.length();
+  if (full < 1e-4) { camera.position.set(0, EYE_HEIGHT, 0); return; }
+  _chaseDir.normalize();
+  let dist = full;
+  chaseRaycaster.set(_chaseEye, _chaseDir);
+  chaseRaycaster.far = full;
+  chaseRaycaster.near = 0.05;
+  const blocker = chaseRaycaster.intersectObject(worldRoot, true).find((h) => h.distance > 0.1);
+  if (blocker) dist = Math.max(0.35, blocker.distance - 0.18);
+  _chaseDesired.copy(_chaseEye).addScaledVector(_chaseDir, dist);
+  // Walking: never let the chase camera step outside the same roam circle
+  // that limits where the learner can walk. A gate is a gap in the fence
+  // line on purpose (apron.js) — a raycast alone would happily thread it and
+  // leave the camera outside the site looking back in, so the roam limit
+  // stands in for a wall there the way it already does for the learner's own
+  // feet (clampRoam() above). A drive route runs well past that circle, so
+  // the vehicle's chase camera relies on the raycast alone.
+  if (!drive) {
+    const limit = state.stage?.roam ?? (state.session ? (state.room?.footprint ?? 2) + 2.4 : 9.5);
+    const flat = Math.hypot(_chaseDesired.x, _chaseDesired.z);
+    if (flat > limit) { _chaseDesired.x *= limit / flat; _chaseDesired.z *= limit / flat; }
+  }
+  // What the chase camera looks at: the vehicle's cab on a drive step, or the
+  // figure's own chest on foot. `_chaseDesired` is still the world-space
+  // camera position at this point, so this runs before it is converted back
+  // to rig-local space below.
+  const vehicle = drive ? state.hits[state.session?.step?.target] : null;
+  if (vehicle) { vehicle.getWorldPosition(_chaseAim); _chaseAim.y += 1.35; }
+  else _chaseAim.set(rig.position.x, 1.4, rig.position.z);
+  _chaseToAim.subVectors(_chaseAim, _chaseDesired);
+  // Yaw is untouched — the chase camera looks the same way the learner is
+  // already facing or steering, it just needs to tilt down enough to catch
+  // whatever it should. Projecting the offset onto that same forward axis
+  // (rather than a full look-at, which would swing the yaw to stare at the
+  // figure behind the lens) is what keeps this a tilt and not a spin.
+  _chaseFwd.set(-Math.sin(yaw), 0, -Math.cos(yaw)).applyQuaternion(rig.quaternion);
+  const ahead = Math.max(0.4, _chaseToAim.dot(_chaseFwd));
+  const tiltPitch = clamp(Math.atan2(_chaseToAim.y, ahead), -1.4, 0.6);
+  rig.worldToLocal(_chaseDesired);
+  camera.position.copy(_chaseDesired);
+  // Purely a render-time angle: `pitch` itself, and everything that reads it
+  // for movement or turning, is untouched, and every raycast still follows
+  // this same camera, so a click or a hover still lands on exactly what the
+  // third-person view shows.
+  camera.rotation.x = tiltPitch;
 }
 
 function onKeyDown(e) {
@@ -3702,6 +3859,11 @@ async function startXr(mode) {
   xrSession = session;
   await renderer.xr.setSession(session);
   state.mode = mode;
+  // VR/AR are untouched by the flat-mode third-person view: the headset owns
+  // the camera pose from here, so any chase-camera offset is dropped and the
+  // figure (which only ever stands in for the flat-mode eye) is hidden.
+  camera.position.set(0, EYE_HEIGHT, 0);
+  learnerFigure.visible = false;
   if (mode === "ar") {
     refSpace = renderer.xr.getReferenceSpace();
     viewerSpace = await session.requestReferenceSpace("viewer");
@@ -4051,6 +4213,8 @@ function handleVoiceCommand(text) {
     case "unmute": Sfx.muted = false; announce("Sound on."); return;
     case "bigger": announce(scaleView(1)); return;
     case "smaller": announce(scaleView(-1)); return;
+    case "thirdPerson": setViewMode("third", { announceIt: false }); announce("Third-person view."); return;
+    case "firstPerson": setViewMode("first", { announceIt: false }); announce("First-person view."); return;
     case "showNumbers": controlsNumbers(cmd.on); return;
     case "checkIn": announce(CHECKIN_QUESTION); return;
     case "checkInAnswer": announce(CHECKIN_REPLIES[cmd.answer] ?? CHECKIN_REPLIES.steady); return;
@@ -4111,6 +4275,7 @@ const uiActions = {
   scaleUp, scaleDown, toggleVoice,
   speechSupported, speakHint: () => { Sfx.ensure(); speak(currentHintLine()); },
   openControls, closeControls, controlsTab, controlsPreset, controlsRemap, controlsResetBindings,
+  toggleView,
   // The drive HUD's buttons: on-screen pedals and wheel for a phone, and a
   // button per check for anyone without the keys to hand.
   driveTouch: (patch) => { Object.assign(driveTouch, { active: true }, patch ?? {}); },
@@ -4270,6 +4435,12 @@ renderer.setAnimationLoop((_, frame) => {
       else if ((state.room?.underwater || state.stage?.scoreboard) && Math.floor(state.session.elapsed) !== lastDiveSecond) { lastDiveSecond = Math.floor(state.session.elapsed); syncHud(); }
     }
   }
+
+  // Third-person camera: after driveCamera() (above) has this frame's yaw and
+  // pitch settled on a drive step, so the chase view sits behind whatever the
+  // learner is actually looking at. VR/AR never reach this — presenting owns
+  // the camera pose, and AR walks the learner physically.
+  if (!presenting && state.mode !== "ar") updateViewCamera();
 
   const canInteract = state.mode !== "ar" || state.placed;
   let hovering = null;

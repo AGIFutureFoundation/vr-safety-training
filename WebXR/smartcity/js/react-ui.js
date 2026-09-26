@@ -1115,6 +1115,23 @@ export function mountUI(store, actions) {
     }, "⌨");
   }
 
+  // Beside the controls button: switches between the first-person view and a
+  // third-person camera that follows the learner's own figure (or the
+  // vehicle, on a drive step). `V`, a gamepad button and "third person" /
+  // "first person" by voice all reach the same toggle — see app.js.
+  function ViewButton() {
+    const view = useSlice("view");
+    const third = view.mode === "third";
+    return h("button", {
+      id: "view-btn", type: "button",
+      className: third ? "active" : "",
+      onClick: actions.toggleView,
+      title: third ? "Switch to first-person (V)" : "Switch to third-person (V)",
+      "aria-label": third ? "Switch to first-person view" : "Switch to third-person view",
+      "aria-pressed": third ? "true" : "false",
+    }, third ? "🚶 3rd" : "👁 1st");
+  }
+
   function SpeakButton() {
     if (!actions.speechSupported) return null;
     return h("button", {
@@ -1128,7 +1145,7 @@ export function mountUI(store, actions) {
   function App() {
     return h(Fragment, null,
       h(HudMission), h(HudMetrics), h(HudDive), h(HudDrive), h(HudCourt), h(HudObjective), h(HudRail), h(HudHint),
-      h(GestureTip), h(ArPrompt), h(ScaleRow), h(VoiceButton), h(SpeakButton), h(ControlsButton),
+      h(GestureTip), h(ArPrompt), h(ScaleRow), h(VoiceButton), h(SpeakButton), h(ViewButton), h(ControlsButton),
       h(IntroCard), h(FlatStationCard), h(PreBriefCard), h(ResultsCard), h(LeaderboardCard), h(RecordsCard), h(ProgramsCard), h(FlowsCard), h(EditorCard), h(SignInCard),
       h(ControlsCard));
   }

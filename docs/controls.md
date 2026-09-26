@@ -26,12 +26,13 @@ Bindings are `KeyboardEvent.code` values, so they survive a non-US layout and ca
 | Take the focused control | `Enter` / `Numpad Enter` | `Enter` | `G` | `Numpad 5` / `Numpad Enter` | `C` |
 | Press and hold | `Space` | `Space` | `Space` | `Numpad 0` | `Space` |
 | Adjust up | `↑` | `I` | `R` | `Numpad 8` | `R` |
-| Adjust down | `↓` | `K` | `F` | `Numpad 2` | `V` |
+| Adjust down | `↓` | `K` | `F` | `Numpad 2` | `D` |
 | Turn anticlockwise | `Q` | `U` | `Z` | `Numpad 7` | `Q` |
 | Turn clockwise | `E` | `O` | `C` | `Numpad 9` | `E` |
 | Read the step aloud | `H` | `H` | `T` | `Numpad 1` | `T` |
-| Start or stop listening | `V` | `Y` | `B` | `Numpad ×` | `B` |
-| Mute or unmute | `M` | `M` | `V` | `Numpad 3` | `F` |
+| Start or stop listening | `N` | `Y` | `B` | `Numpad ×` | `B` |
+| Mute or unmute | `M` | `M` | `X` | `Numpad 3` | `F` |
+| First / third person | `V` | `V` | `V` | `Numpad +` | `V` |
 | Open the controls panel | `/` / `F1` | `/` / `F1` | `` ` `` / `F1` | `Numpad /` / `F1` | `G` |
 | Close the panel, or back to the campus | `Esc` | `Esc` | `Esc` | `Numpad −` / `Esc` | `Esc` |
 
@@ -62,6 +63,7 @@ Polled in flat/desktop mode only, from the W3C Standard Gamepad mapping and **by
 | View | Share / Create | Select | once per press | **Back to the campus.** |
 | Menu | Options | Start | once per press | **Open or close the controls panel.** |
 | L3 | L3 | Left stick press | once per press | **Mute or unmute.** |
+| R3 | R3 | Right stick press | once per press | **First / third person.** While driving, the same button switches the chase view behind the vehicle. |
 | D-pad up / down | D-pad up / down | D-pad up / down | repeats while held | **Adjust up / down** in fixed steps. |
 | D-pad left / right | D-pad left / right | D-pad left / right | once per press | **Focus the previous / next control** this step names. |
 | Left stick | Left stick | Left stick | continuous | **Look** — orbits and pitches the view, the way dragging with the mouse does. |
@@ -98,6 +100,16 @@ A **drive** step (`step.kind === "drive"` in `WebXR/shared/game.js`) puts the le
 
 ![A tractor-trailer mid-turn on the city route with the drive HUD: speed against the band, the lane bar and the next check](screenshots/drive/drive-city-route-and-turns.png)
 
+## Views: first and third person
+
+Every SmartCiti.X station offers both, in flat mode: the first-person eye the app has always used, and a third-person camera behind and above the learner's own figure — a `standingFigure` (`WebXR/smartcity/js/citykit.js`) in the crew vest that walks and turns with the camera rig, hidden again the instant you switch back. On a `drive` step the chase camera sits behind the vehicle instead, and the figure (the learner is in the cab) is hidden either way.
+
+Switch with `V` (every keyboard preset — see the table above), a gamepad's right stick press, saying "third person" or "first person", or the 👁/🚶 button beside the controls button in the toolbar. VR and AR are untouched: the toggle has no effect there, and entering either always drops back to the headset's own first-person head pose.
+
+- **Stays clear of walls and vehicles.** A raycast from the eye to the desired camera spot pulls the camera in whenever something — a wall, a fence, another vehicle — sits between them, rather than clipping through it.
+- **Hands still point.** In third person the figure's arms turn to reach toward whatever the keyboard cursor (Tab/Shift+Tab, or voice's "focus") is on, the same shoulder-rotation pose a station already uses to pose an NPC (`shared/kit.js`'s `personArm`).
+- **Picks a starting view.** `?view=third` (or `?view=first`) in the URL, and after that whichever you last chose is remembered in this browser (`smartcitix-view-v1`) and used for every station until you switch again.
+
 ## Voice
 
 Navigation, focus, description, read-back and panels. A station name is still the fastest way in: say the name on a kiosk. Everything else:
@@ -117,6 +129,7 @@ Navigation, focus, description, read-back and panels. A station name is still th
 | “brief” · “status” | anywhere | The station's briefing line · stations cleared, stars and level. |
 | “mute” · “unmute” | anywhere | Sound and spoken lines off · back on. |
 | “bigger” · “smaller” | anywhere | A larger or smaller HUD, or the diorama in AR. |
+| “third person” · “first person” | anywhere (flat mode) | Switches the camera. |
 | “check in” | anywhere | The well-being check-in: “steady”, “a bit shaken” or “need a minute”. Nothing about it is scored. |
 | “hub”, “campus” | anywhere | Back to the campus. |
 | “leaderboards” · “records” · “programmes” · “tour” · “editor” · “reset” | at the campus | The same overlays the buttons open. |
@@ -146,7 +159,7 @@ Say "show numbers" (or arrive on a voice-first profile, which turns them on by i
 
 **Hands-only headsets (mr).** Every action in the table above is still reachable, but the ones that take a control are taken by the hands the headset already tracks — the pinch, the fist and the wrist roll — and voice supplies everything around them: `next`/`previous` to walk the cursor, `focus <name>` to put it on a named control, `where is <name>` to find it in the room, `read step` and `repeat` to hear the cue again, `bigger` to enlarge the HUD. Nothing spoken completes a step, so a learner who talks their way through a procedure still has to do it.
 
-**Voice-first monoculars (assisted).** There is no pointer, the display is small, and the wearer's hands are on the real work. These devices get the number badges automatically, so "select item 4" replaces a click; "read step" and "repeat" replace reading a paragraph on an 854-pixel display; "bigger"/"smaller" resize the chrome on the spot; and the keyboard preset to pair with a hardware keypad is **one hand** or **numeric keypad**, both of which reach all thirteen actions with no chord. The procedure itself is still worked by hand on the real equipment or by the paired pointer — the app narrates and scores, it does not perform.
+**Voice-first monoculars (assisted).** There is no pointer, the display is small, and the wearer's hands are on the real work. These devices get the number badges automatically, so "select item 4" replaces a click; "read step" and "repeat" replace reading a paragraph on an 854-pixel display; "bigger"/"smaller" resize the chrome on the spot; and the keyboard preset to pair with a hardware keypad is **one hand** or **numeric keypad**, both of which reach all fourteen actions with no chord. The procedure itself is still worked by hand on the real equipment or by the paired pointer — the app narrates and scores, it does not perform.
 
 ## Checking it
 

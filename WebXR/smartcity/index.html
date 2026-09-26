@@ -215,6 +215,9 @@
     justify-content:center; width:40px; height:40px; border-radius:50%; font-size:16px; padding:0; }
   #controls-btn{ position:fixed; right:14px; bottom:106px; z-index:11; display:flex; align-items:center;
     justify-content:center; width:40px; height:40px; border-radius:50%; font-size:17px; padding:0; }
+  #view-btn{ position:fixed; right:14px; bottom:152px; z-index:11; display:flex; align-items:center;
+    justify-content:center; min-width:40px; height:40px; border-radius:20px; font-size:12px; padding:0 10px; gap:4px; }
+  #view-btn.active{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
 
   /* ----------------------------------------------- controls panel (input.js)
      Three tabs over one action table: the keys, the pad and the grammar. The
@@ -713,6 +716,7 @@
     #voice-btn{ right:max(14px, env(safe-area-inset-right)); bottom:max(14px, env(safe-area-inset-bottom)) }
     #speak-btn{ right:max(14px, env(safe-area-inset-right)); bottom:max(60px, calc(env(safe-area-inset-bottom) + 46px)) }
     #controls-btn{ right:max(14px, env(safe-area-inset-right)); bottom:max(106px, calc(env(safe-area-inset-bottom) + 92px)) }
+    #view-btn{ right:max(14px, env(safe-area-inset-right)); bottom:max(152px, calc(env(safe-area-inset-bottom) + 138px)) }
   }
 </style>
 </head>
