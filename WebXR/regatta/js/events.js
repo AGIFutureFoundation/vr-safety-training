@@ -5,9 +5,9 @@
 // ledger Bay World keeps (bayworld/js/career.js — imported, never forked), so
 // a regatta day and a shift in the city add up in one place.
 //
-// No event is a competition anyone bets on: the "regatta day" is raced for
+// No event has anything at stake but the result: the "regatta day" is raced for
 // a place and a clean sheet, the credits are a plain score, and nothing is
-// ever wagered or bought. Every event, club-free and sponsor-free, is
+// ever bought or staked. Every event, club-free and sponsor-free, is
 // invented for this platform.
 import { bwAwardQuestReward } from "../../bayworld/js/career.js";
 import { rgCourseById } from "./courses.js";

@@ -12,7 +12,7 @@
 //     stations score following distance, never as a clause number;
 //   - a clean docking at the finish: alongside at the dock, slow, bow the
 //     way the berth faces.
-// Nothing here is wagered, bought or bet on: the score is a plain result,
+// Nothing here is bought or staked: the score is a plain result,
 // and the reputation and credits it earns go through Bay World's own career
 // ledger (events.js → bayworld/js/career.js).
 //
