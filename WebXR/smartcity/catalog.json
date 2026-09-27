@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 516
+      "stations": 517
     },
     "trades": {
       "entry": "trades/index.html",
@@ -438,6 +438,12 @@
         "hz-level-b-entry-and-scba-change-out",
         "hz-drum-staging-and-compatibility-segregation",
         "br-bird-nesting-buffer-and-work-window"
+      ]
+    },
+    {
+      "name": "Grounds & Landscaping",
+      "stations": [
+        "gk-ride-on-mower-pre-start-and-slope-work"
       ]
     },
     {
@@ -8427,6 +8433,94 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "gk-ride-on-mower-pre-start-and-slope-work",
+      "name": "Ride-On Mower Pre-Start & Slope Work",
+      "title": "SmartCiti.X~ Ride-On Mower Pre-Start & Slope Work VR",
+      "tagline": "A ride-on rotary mower before the first cut: the walk-around, the interlocks, the ROPS and seatbelt, the bench walked for what a wheel cannot see coming, and the slope cut the way the manual sets out",
+      "category": "Grounds & Landscaping",
+      "domain": "Grounds & Landscaping",
+      "trade": "Grounds equipment operator — LIUNA grounds and landscaping crew",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.132 personal protective equipment, 29 CFR 1910.95 occupational noise exposure, 29 CFR 1910.212 machine guarding and 29 CFR 1910.147 control of hazardous energy; ANSI B71 outdoor power equipment safety specifications for ride-on rotary mowers; NIOSH guidance on rollover and slope-related incidents with riding mowers; LIUNA grounds and landscaping crew training",
+      "accent": "#f07a1f",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": "open-range",
+      "steps": 16,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "turn",
+        "drive",
+        "track",
+        "gauge",
+        "hold"
+      ],
+      "badge": {
+        "id": "slope-cleared",
+        "name": "Slope Cleared",
+        "note": "Walk-around clean, interlocks confirmed, ROPS and seatbelt on, bystanders clear, and the bench cut without a single unsafe act"
+      },
+      "meshes": 139,
+      "lights": 0,
+      "overBudget": false,
+      "index": "gk-01",
+      "flat": false,
+      "system": "Grounds Crew",
+      "currency": "TURF",
+      "ranks": [
+        "Ground Hand",
+        "Mower Operator",
+        "Slope Certified",
+        "Crew Lead",
+        "Grounds Certified"
+      ],
+      "awards": [
+        {
+          "id": "walkaround-clean",
+          "name": "Walk-Around Clean",
+          "note": "Found every fault on the pre-start inspection"
+        },
+        {
+          "id": "belted-up",
+          "name": "Belted Up",
+          "note": "Never engaged the blade without the seatbelt buckled"
+        },
+        {
+          "id": "no-shortcut",
+          "name": "No Shortcut",
+          "note": "No unsafe action anywhere on the slope"
+        },
+        {
+          "id": "steady-line",
+          "name": "Steady Line",
+          "note": "Held the trim line and the temperature gauge near band centre"
+        },
+        {
+          "id": "quick-start",
+          "name": "Quick Start",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "No corrections across the whole run"
+        },
+        {
+          "id": "grounds-streak",
+          "name": "Grounds Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=gk-ride-on-mower-pre-start-and-slope-work"
     },
     {
       "app": "smartcity",
@@ -28785,7 +28879,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 257,
+      "meshes": 263,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -29445,7 +29539,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",

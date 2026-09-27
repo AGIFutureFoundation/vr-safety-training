@@ -21952,5 +21952,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "gk-ride-on-mower-pre-start-and-slope-work",
+    "index": "gk-01",
+    "domain": "Grounds & Landscaping",
+    "trade": "Grounds equipment operator — LIUNA grounds and landscaping crew",
+    "category": "Grounds & Landscaping",
+    "certification": "OSHA 29 CFR 1910.132 personal protective equipment, 29 CFR 1910.95 occupational noise exposure, 29 CFR 1910.212 machine guarding and 29 CFR 1910.147 control of hazardous energy; ANSI B71 outdoor power equipment safety specifications for ride-on rotary mowers; NIOSH guidance on rollover and slope-related incidents with riding mowers; LIUNA grounds and landscaping crew training",
+    "name": "Ride-On Mower Pre-Start & Slope Work",
+    "weather": "wind",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Ride-On Mower Pre-Start & Slope Work VR",
+    "tagline": "A ride-on rotary mower before the first cut: the walk-around, the interlocks, the ROPS and seatbelt, the bench walked for what a wheel cannot see coming, and the slope cut the way the manual sets out",
+    "accent": 15759903,
+    "accentCss": "#f07a1f",
+    "parSeconds": 300,
+    "badge": {
+      "id": "slope-cleared",
+      "name": "Slope Cleared",
+      "note": "Walk-around clean, interlocks confirmed, ROPS and seatbelt on, bystanders clear, and the bench cut without a single unsafe act"
+    },
+    "stepCount": 16,
+    "interruptCount": 2,
+    "game": {
+      "system": "Grounds Crew",
+      "currency": "TURF",
+      "ranks": [
+        "Ground Hand",
+        "Mower Operator",
+        "Slope Certified",
+        "Crew Lead",
+        "Grounds Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

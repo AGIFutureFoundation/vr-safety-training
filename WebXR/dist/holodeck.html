@@ -4201,10 +4201,14 @@ const PALETTES = {
   rail: { accent: 0x59c97b, ground: 0x3a3d41, structure: 0x8b98a5, trim: 0xf2c14b },
   aviation: { accent: 0xffb13a, ground: 0x2f333a, structure: 0xdfe6ea, trim: 0xc8201c },
   gym: { accent: 0xd8232a, ground: 0xc9a06a, structure: 0x2b3138, trim: 0x3b7bbf },
+  // Grounds and landscaping: mowed turf underfoot, a cedar-brown equipment
+  // shed or mulch bed for the structure tone, and the safety-orange accent a
+  // grounds crew's own machinery and cones already carry.
+  grounds: { accent: 0xf07a1f, ground: 0x3c6b2f, structure: 0x6a5138, trim: 0xd8c14b },
 };
 
 /** A trade palette by name (construction, marine, clinical, kitchen,
- *  utility, transit, rail, aviation, gym), each `{ accent, ground,
+ *  utility, transit, rail, aviation, gym, grounds), each `{ accent, ground,
  *  structure, trim }`. An unknown name falls back to `construction` rather
  *  than throwing — a station that misspells a trade still paints something
  *  coherent instead of going grey. Returns a fresh object every call, so a
@@ -37155,6 +37159,48 @@ const SIMS_META = [
         "Storm Response Tech",
         "Crew Lead",
         "Storm Response Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "gk-ride-on-mower-pre-start-and-slope-work",
+    "index": "gk-01",
+    "domain": "Grounds & Landscaping",
+    "trade": "Grounds equipment operator — LIUNA grounds and landscaping crew",
+    "category": "Grounds & Landscaping",
+    "certification": "OSHA 29 CFR 1910.132 personal protective equipment, 29 CFR 1910.95 occupational noise exposure, 29 CFR 1910.212 machine guarding and 29 CFR 1910.147 control of hazardous energy; ANSI B71 outdoor power equipment safety specifications for ride-on rotary mowers; NIOSH guidance on rollover and slope-related incidents with riding mowers; LIUNA grounds and landscaping crew training",
+    "name": "Ride-On Mower Pre-Start & Slope Work",
+    "weather": "wind",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Ride-On Mower Pre-Start & Slope Work VR",
+    "tagline": "A ride-on rotary mower before the first cut: the walk-around, the interlocks, the ROPS and seatbelt, the bench walked for what a wheel cannot see coming, and the slope cut the way the manual sets out",
+    "accent": 15759903,
+    "accentCss": "#f07a1f",
+    "parSeconds": 300,
+    "badge": {
+      "id": "slope-cleared",
+      "name": "Slope Cleared",
+      "note": "Walk-around clean, interlocks confirmed, ROPS and seatbelt on, bystanders clear, and the bench cut without a single unsafe act"
+    },
+    "stepCount": 16,
+    "interruptCount": 2,
+    "game": {
+      "system": "Grounds Crew",
+      "currency": "TURF",
+      "ranks": [
+        "Ground Hand",
+        "Mower Operator",
+        "Slope Certified",
+        "Crew Lead",
+        "Grounds Certified"
       ],
       "rankAt": [
         0,
