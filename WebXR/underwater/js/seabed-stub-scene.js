@@ -89,7 +89,7 @@ export function buildUnderwater(parent, opts = {}) {
       const y = -deepDepthAt(x, z);
       switch (zone.id) {
         case "kelp-forest": { const h = 6 + rng() * 10; at(add(new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.25, h, 5), kelpMat)), x, y + h / 2, z); break; }
-        case "eelgrass-meadow": at(add(new THREE.Mesh(new THREE.ConeGeometry(0.6, 1.4, 5), grassMat)), x, y + 0.7, z); break;
+        case "eelgrass-meadow": at(add(new THREE.Mesh(new THREE.CylinderGeometry(0, 0.6, 1.4, 5), grassMat)), x, y + 0.7, z); break;
         case "reef-ball-field": at(add(new THREE.Mesh(new THREE.SphereGeometry(0.9, 8, 6), reefMat)), x, y + 0.6, z); break;
         case "pier-pilings": { const h = deepDepthAt(x, z) + 3; at(add(new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.35, h, 8), pileMat)), x, y + h / 2, z); break; }
         case "tender-anchorage": at(add(new THREE.Mesh(new THREE.TorusGeometry(0.5, 0.12, 6, 10), chainMat)), x, y + 0.3, z); break;
@@ -119,7 +119,7 @@ export function buildUnderwater(parent, opts = {}) {
     const bar = DEEP_LANDMARKS.find((l) => l.id === "marsh-mouth-bar");
     if (bar) at(add(new THREE.Mesh(new THREE.SphereGeometry(30, 10, 6), dvStd(0x8a7a5a))), bar.position[0], -deepDepthAt(bar.position[0], bar.position[1]) - 26, bar.position[1]);
     // Landmark markers and site pads.
-    for (const l of DEEP_LANDMARKS) at(add(new THREE.Mesh(new THREE.ConeGeometry(0.8, 2.4, 6), dvStd(0xf0c07a, { emissive: 0x804a10, emissiveIntensity: 0.3 }))), l.position[0], -deepDepthAt(l.position[0], l.position[1]) + 1.2, l.position[1]);
+    for (const l of DEEP_LANDMARKS) at(add(new THREE.Mesh(new THREE.CylinderGeometry(0, 0.8, 2.4, 6), dvStd(0xf0c07a, { emissive: 0x804a10, emissiveIntensity: 0.3 }))), l.position[0], -deepDepthAt(l.position[0], l.position[1]) + 1.2, l.position[1]);
     for (const s of DEEP_SITES) {
       const pad = at(add(new THREE.Mesh(new THREE.CircleGeometry(4, 16), dvStd(0x4fd1ff, { emissive: 0x1a5a70, emissiveIntensity: 0.4 }))), s.position[0], -deepDepthAt(s.position[0], s.position[1]) + 0.12, s.position[1]);
       pad.rotation.x = -Math.PI / 2;
