@@ -7,6 +7,7 @@ import {
 } from "./citykit.js";
 import { PROPS_BUILDERS } from "../../shared/props.js";
 import { buildFairwayPark } from "../../shared/fairway.js";
+import { buildBayWorld } from "../../shared/bayworld.js";
 
 // Districts: the part of the VR / flat-screen stage that changes with the
 // station's trade category. The plaza, marquee and skyline are shared; a
@@ -1874,6 +1875,39 @@ export const DISTRICTS = {
         park.animate?.(t);
         if (shimmer) shimmer.material.opacity = 0.035 + Math.max(0, Math.sin(t * 1.3)) * 0.03;
       };
+    },
+  },
+  "bay-world": {
+    // A large stylised open world — dense streets, a lake, a working port, a
+    // stadium district and hills climbing away from the water
+    // (shared/bayworld.js) — shared, in parallel, by a free-roam driving-
+    // and-exploration game and a quest/objective layer built against the
+    // same zones, landmarks and sites. Like fairway-park and open-range, the
+    // ground itself is the district — no plaza, masts, marquee or apron —
+    // and the sky and fog still follow the hour.
+    //
+    // The stage only ever asks shared/bayworld.js for its compact street-
+    // corner preview (`detail: "low"`): the whole 1600×1100 m world
+    // (`detail: "high"`, the default) is what a standalone free-roam or
+    // quest app gets from buildBayWorld() directly, with its own camera and
+    // its own mesh budget (see districts.js:SCENIC_BUDGET,
+    // tools/check_districts.mjs, and shared/bayworld-data.js's own header).
+    plaza: false,
+    sky: 0x0a1420, fog: 0x0d1826, hemi: [0x5a7a9a, 0x141a24], mast: 0xdfeaf2,
+    key: 0xbcd4ec,
+    weather: "clear",
+    fogRange: [55, 200],
+    far: 200,
+    skyline: false,
+    roam: 24,
+    spawn: { x: 0, z: 18, ry: 0 },
+    dressing: [
+      { prop: "parkBench", x: -18, z: -4, ry: 0.3 },
+      { prop: "streetTree:large", x: 20, z: -6 },
+    ],
+    build(g, _accent, env = {}) {
+      const world = buildBayWorld(g, { detail: "low", time: env.time, weather: env.weather });
+      return (t) => world.animate?.(t);
     },
   },
 };
