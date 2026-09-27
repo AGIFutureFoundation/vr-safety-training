@@ -62,7 +62,7 @@ const S = await buildSuite([
   "shared/bayworld-data.js", "shared/yacht-fleet.js", "bayworld/js/career.js",
   "regatta/js/courses.js", "regatta/js/race.js", "regatta/js/events.js",
 ], `export { THREE, FLEET_BUDGET, BAY_SITES, BAY_BOUNDS, YACHT_FLEET, RG_BERTHS, RG_YACHT_LENGTH_RANGE, yachtById, rgYachtBerthSite, rgYachtBerthPose, rgYachtsForEvent, buildYacht,
-  RG_COURSES, RG_WATER, rgOnWater, rgCourseById, rgCourseWaypoints, regattaCourseAt, rgLegOnWater, rgWorldToMap, rgCourseToMap,
+  RG_COURSES, RG_WATER, rgOnWater, TX_BAY_WATER, txWaterTopAt, txGroundMaxAt, txGroundHeight, rgCourseById, rgCourseWaypoints, regattaCourseAt, rgLegOnWater, rgWorldToMap, rgCourseToMap,
   rgCreateRace, rgStepRace, rgAutoHelm, rgScoreRace, rgLearner, rgWindFor, rgMarkVisibility, rgGiveWayDuty, rgTargetFor,
   RG_EVENTS, rgEventById, rgCalendar, rgBriefingChecklist, rgBriefingResult, rgAwardEvent, rgLifeJacketsNeeded, rgStationLink, bwCareerState };`, "regatta");
 
@@ -147,6 +147,33 @@ await check("three courses, every point afloat inside BAY_BOUNDS and every leg o
   }
   assert(!S.rgOnWater(0, 0) && !S.rgOnWater(5000, 0) && S.rgOnWater(-900, 450), "rgOnWater sanity");
   eq(S.rgCourseById("nope"), null, "rgCourseById of an unknown id");
+});
+
+await check("a water surface covers every start line, mark, dock and berth, above any ground there", () => {
+  // Bay World's terrain once buried every water slab (bayHeight() never goes
+  // below 0 m, the slabs sit at -0.4 m): the fleet raced on turf. The built
+  // ground now carves under TX_BAY_WATER; this holds the pair together.
+  for (let i = 0; i < S.RG_WATER.length; i++) {
+    eq(JSON.stringify(S.TX_BAY_WATER[i].slice(0, 4)), JSON.stringify(S.RG_WATER[i]), `RG_WATER[${i}] must mirror shared/bayworld-data.js's TX_BAY_WATER[${i}]`);
+  }
+  const afloat = (x, z, what) => {
+    const top = S.txWaterTopAt(x, z), ground = S.txGroundMaxAt(x, z);
+    assert(top !== null, `${what} (${x}, ${z}): no water surface is built there`);
+    assert(top > ground + 0.2, `${what} (${x}, ${z}): water top ${top} m does not sit above the ground (up to ${ground.toFixed(2)} m) there`);
+  };
+  for (const c of S.RG_COURSES) {
+    const [a, b] = [c.start.a, c.start.b];
+    afloat(a[0], a[1], `${c.id} start pin A`); afloat(b[0], b[1], `${c.id} start pin B`);
+    afloat((a[0] + b[0]) / 2, (a[1] + b[1]) / 2, `${c.id} start line`);
+    for (const m of c.marks) afloat(m.x, m.z, `${c.id}/${m.id}`);
+    afloat(c.dock.x, c.dock.z, `${c.id} dock`);
+    const wp = S.rgCourseWaypoints(c);
+    for (let i = 1; i < wp.length; i++) for (let t = 0; t <= 1; t += 0.1) afloat(wp[i - 1][0] + (wp[i][0] - wp[i - 1][0]) * t, wp[i - 1][1] + (wp[i][1] - wp[i - 1][1]) * t, `${c.id} leg ${i}`);
+  }
+  for (const y of S.YACHT_FLEET) { const p = S.rgYachtBerthPose(y); afloat(p.x, p.z, `${y.id} berth`); }
+  // Every Bay World water body, the lake included, reads as water at its centre.
+  for (const [x, z] of S.TX_BAY_WATER) afloat(x, z, "water body centre");
+  assert(S.txGroundHeight(0, 0) >= 0, "downtown ground must stay dry");
 });
 
 // --------------------------------------------------------------- 3. the race

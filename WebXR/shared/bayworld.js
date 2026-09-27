@@ -14,6 +14,7 @@ import { standingFigure, holoTag } from "../smartcity/js/citykit.js";
 import {
   BAY_BOUNDS, BAY_ZONES, BAY_LANDMARKS, BAY_ROADS, BAY_SITES, BAY_MESH_BUDGET, BAY_HEIGHT_RANGE,
   bayHeight, bayZoneAt, bayRoadAt, bwSeededRng,
+  TX_BAY_WATER, TX_SHORE_MARGIN, TX_WATER_THICKNESS, txGroundHeight, txTerrainSegments,
 } from "./bayworld-data.js";
 export {
   BAY_BOUNDS, BAY_ZONES, BAY_LANDMARKS, BAY_ROADS, BAY_SITES, BAY_MESH_BUDGET, BAY_HEIGHT_RANGE,
@@ -82,15 +83,17 @@ export function bayLighting(time) {
  *  shared/fairway.js's bwTerrain() is: the headless content checkers run
  *  against a stub three.js with no real BufferAttribute API, so this checks
  *  for it before touching it and simply builds a flat mesh there instead. */
-function bwTerrain(cx, cz, w, d) {
-  const segX = Math.min(64, Math.max(2, Math.round(w / 20)));
-  const segZ = Math.min(64, Math.max(2, Math.round(d / 20)));
+function bwTerrain(cx, cz, w, d, heightAt = txGroundHeight) {
+  const [segX, segZ] = txTerrainSegments(w, d);
   const geo = new THREE.PlaneGeometry(w, d, segX, segZ);
   const pos = geo.attributes?.position;
   if (pos && typeof pos.setZ === "function" && typeof pos.getX === "function") {
     for (let i = 0; i < pos.count; i++) {
+      // The plane is turned -90 degrees about X below, which sends local +Y
+      // to world -Z: sample the height at world z = cz - localY, or the
+      // relief (and every carved water bed) lands mirrored across the slab.
       const localX = pos.getX(i), localY = pos.getY(i);
-      pos.setZ(i, bayHeight(cx + localX, cz + localY));
+      pos.setZ(i, heightAt(cx + localX, cz - localY));
     }
     pos.needsUpdate = true;
     if (typeof geo.computeVertexNormals === "function") geo.computeVertexNormals();
@@ -125,7 +128,7 @@ function buildWater(parent, cx, cz, w, d, y = -0.4) {
     g.fillStyle = "rgba(210,230,240,0.06)";
     for (let i = 0; i < 30; i++) g.fillRect(Math.random() * w2, Math.random() * h2, 40 + Math.random() * 60, 2);
   }, { repeat: Math.max(4, Math.round(Math.max(w, d) / 80)), px: 384 });
-  const m = box(parent, w, 0.1, d, cx, y, cz, 0x0f2e3a, { rough: 0.2, metal: 0.6, cast: false });
+  const m = box(parent, w, TX_WATER_THICKNESS, d, cx, y, cz, 0x0f2e3a, { rough: 0.2, metal: 0.6, cast: false });
   m.material = paintedMat(tex, { rough: 0.22, metal: 0.55 });
   m.receiveShadow = false;
   return m;
@@ -705,14 +708,16 @@ function buildWorld(parent, opts) {
   // Bay water across the port/estuary side of the world (west and south of
   // downtown), the same shoreline the port and estuary-waterfront zones sit
   // against.
-  buildWater(parent, -180, 460, 900, 260);
   // The expansion's water: the outer bay and its shipping channel west of
   // the port, the open water the north shoreline's marina and pier face, and
   // the strip of bay along the world's southern edge that the island and the
-  // south shoreline both look out on.
-  buildWater(parent, -1000, 380, 400, 840);
-  buildWater(parent, -1060, -420, 280, 760);
-  buildWater(parent, 0, 765, 2400, 70);
+  // south shoreline both look out on; then the lake. Every body is laid over
+  // its TX_BAY_WATER rectangle grown by twice TX_SHORE_MARGIN, over a
+  // terrain carved beneath it (bayworld-data.js's water header), so the
+  // ground never covers the water again.
+  for (const [wx, wz, ww, wd, wy] of TX_BAY_WATER) {
+    buildWater(parent, wx, wz, ww + TX_SHORE_MARGIN * 4, wd + TX_SHORE_MARGIN * 4, wy);
+  }
   if (!opts.zone) buildRoads(parent, BAY_ROADS);
   else buildRoads(parent, BAY_ROADS.filter((r) => r.points.some(([x, z]) => bayZoneAt(x, z).id === opts.zone)));
   for (const zone of zones) buildZoneContent(parent, zone, opts);
@@ -724,8 +729,12 @@ function buildWorld(parent, opts) {
  *  scenic-district budget (SCENIC_BUDGET, see smartcity/js/districts.js),
  *  the same convention shared/fairway.js's own buildPreview() follows. */
 function buildBayPreview(parent, opts) {
-  parent.add(bwTerrain(0, 0, 90, 70));
-  buildWater(parent, 0, 38, 90, 18, -0.5);
+  parent.add(bwTerrain(0, 0, 90, 70, bayHeight));
+  // The vignette's strip of water lies just over the highest ground under
+  // it, so the uncarved preview terrain can never cover it.
+  let shore = -Infinity;
+  for (let x = -45; x <= 45; x += 5) for (let z = 29; z <= 47; z += 2) shore = Math.max(shore, bayHeight(x, z));
+  buildWater(parent, 0, 38, 90, 18, shore + 0.08);
   roadRibbon(parent, [-20, -6], [20, -6], 4);
   buildingBox(parent, -22, 10, 14, 12, 34, "glass", 0x1c2b36, 3);
   buildingBox(parent, 20, 12, 12, 10, 8, "brick", 0x7a4a3a, 9);
