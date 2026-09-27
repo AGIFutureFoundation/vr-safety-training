@@ -15,7 +15,7 @@ Union trades train people for work that can hurt them, on equipment and in place
 | Content eval mean | 95.7 of 100 · 511 procedures at 95 or more, 114 at 90–94, 5 below 90 |
 | Unions in the registry | 111, with their training bodies |
 | Standards cited in registry form | 509 entries across 95 bodies |
-| Automated checkers on every change | 58, all passing |
+| Automated checkers on every change | 59, all passing |
 | Open worlds | 4 (Bay World, the Deep, Bay Regatta, Fairway Park) plus 7 scenic districts |
 | 3D builders | 131 (37 equipment rigs, 33 props, 21 tools, 20 vehicles, 12 boats, 7 wildlife kinds, 1 sky) |
 | App pages and interfaces | 66 |
@@ -47,7 +47,7 @@ The learner-facing surfaces are the home page with every programme, the SmartCit
 
 ## How quality is held
 
-Every station meets a written brief: 12–15 steps, at least six kinds of interaction, four hazards, two interruptions that visibly change the scene, a reason for every step, and at least five citations that resolve in the standards registry. No clause number, pressure, load, depth, gas limit or duty-hour figure is ever invented; limits read "per the permit", "per the dive plan", "per the label". Facts about real organisations and places are limited to sourced text. Fifty-eight automated checkers run on every change, and the content eval scores every station on variety, decision density, explanation depth, grounding and standards.
+Every station meets a written brief: 12–15 steps, at least six kinds of interaction, four hazards, two interruptions that visibly change the scene, a reason for every step, and at least five citations that resolve in the standards registry. No clause number, pressure, load, depth, gas limit or duty-hour figure is ever invented; limits read "per the permit", "per the dive plan", "per the label". Facts about real organisations and places are limited to sourced text. Fifty-nine automated checkers run on every change, and the content eval scores every station on variety, decision density, explanation depth, grounding and standards.
 
 ## How it was built
 
