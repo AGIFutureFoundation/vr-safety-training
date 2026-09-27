@@ -594,6 +594,18 @@ AUTH_CONFIG_APPS = ["smartcity", "bayworld", "atlas"]
 LINK_QUOTES = ('"', "`")
 
 
+# The Guide (console COMPASS, docs/consoles/COMPASS.md) rides with the control
+# grammar: every app that lists controls.js gets shared/guide.js just before
+# it, and shared/voice-assist.js (its speech out) where the app has none.
+# Its knowledge base, shared/guide-kb.js, is not bundled: guide.js imports it
+# lazily from the dist folder the first time the panel opens.
+for _gd_cfg in APPS.values():
+    _gd_mods = _gd_cfg["modules"]
+    if SHARED / "controls.js" in _gd_mods and SHARED / "guide.js" not in _gd_mods:
+        _gd_at = _gd_mods.index(SHARED / "controls.js")
+        _gd_add = ([] if SHARED / "voice-assist.js" in _gd_mods else [SHARED / "voice-assist.js"]) + [SHARED / "guide.js"]
+        _gd_mods[_gd_at:_gd_at] = _gd_add
+
 def dist_fixup(html: str) -> str:
     for name in SIBLING_APP_DIRS:
         for q in LINK_QUOTES:
@@ -763,6 +775,10 @@ DIST_SHARED = [
     # The shared control grammar and help overlay (docs/ui-review.md), imported
     # by the homepage and the training-track pages.
     "controls.js",
+    # The Guide, its speech out and its lazily loaded knowledge base
+    # (docs/consoles/COMPASS.md), for the homepage, the track pages and every
+    # bundle's panel.
+    "guide.js", "voice-assist.js", "guide-kb.js",
     "auth.js", "identity.js", "records.js", "radio-quiz.js", "radio-quiz-data.js",
     # Wallet connection and opt-in agent/robot sharing (docs/wallets-and-sharing.md,
     # docs/agent-protocols.md), lazily imported by the homepage's own script

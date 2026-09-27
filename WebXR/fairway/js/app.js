@@ -1,5 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { ctlMount } from "../../shared/controls.js";
+import { gdMount } from "../../shared/guide.js";
 import { createGamepad, GAMEPAD_DEADZONE, detectPadVendor } from "../../shared/input.js";
 import { tcTier, tcApplyRenderer } from "../../shared/perf.js";
 import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
@@ -601,6 +602,8 @@ requestAnimationFrame(fwFrame);
 fwShow("scr-menu");
 
 // The shared control grammar and help overlay (shared/controls.js, docs/ui-review.md).
+// The Guide (shared/guide.js): the floating help button and its question panel.
+gdMount();
 ctlMount({
   world: "Fairway Park", quality: true,
   except: { move: "Left and right arrows aim; the ball is walked to for you.", interact: "Space swings instead: the course has nothing else to use.", map: "The hole card at the top shows the hole." },
