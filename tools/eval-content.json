@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-26",
+  "generated": "2026-09-27",
   "weights": {
     "variety": 0.18,
     "decisions": 0.2,
@@ -4542,6 +4542,58 @@
     },
     {
       "app": "smartcity",
+      "id": "hot-tap",
+      "name": "Hot Tap",
+      "category": "Water & Environmental",
+      "steps": 15,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9666666666666667,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.8500000000000001,
+          "medianWhy": 220,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 14,
+          "got": 14
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 186,
+          "materials": 95,
+          "interactables": 28
+        },
+        "originality": {
+          "score": 0.39676320272572424,
+          "nearest": "ut-water-main-break-emergency-shutdown-and-excavation",
+          "similarity": 0.2606473594548552
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "shipyard-hotwork",
       "name": "Shipyard Hot Work",
       "category": "Maritime & Ports",
@@ -6453,7 +6505,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 260,
+          "meshes": 265,
           "materials": 83,
           "interactables": 28
         },
@@ -6773,58 +6825,6 @@
           "score": 0.5379814077025233,
           "nearest": "grain-bin",
           "similarity": 0.23240371845949534
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "hot-tap",
-      "name": "Hot Tap",
-      "category": "Water & Environmental",
-      "steps": 15,
-      "score": 95,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.9666666666666667,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.8500000000000001,
-          "medianWhy": 220,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 5
-        },
-        "standards": {
-          "score": 1,
-          "cited": 4,
-          "inScope": 4,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 14,
-          "got": 14
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 186,
-          "materials": 95,
-          "interactables": 28
-        },
-        "originality": {
-          "score": 0.549144634525661,
-          "nearest": "pl-hydronic-boiler-piping-and-hydrotest",
-          "similarity": 0.2301710730948678
         }
       }
     },
@@ -11757,7 +11757,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 263,
+          "meshes": 258,
           "materials": 92,
           "interactables": 29
         },
@@ -12745,8 +12745,8 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 184,
-          "materials": 75,
+          "meshes": 187,
+          "materials": 78,
           "interactables": 24
         },
         "originality": {
@@ -13680,9 +13680,9 @@
           "got": 11
         },
         "scene": {
-          "score": 0.965,
-          "meshes": 166,
-          "materials": 76,
+          "score": 0.9725,
+          "meshes": 169,
+          "materials": 79,
           "interactables": 31
         },
         "originality": {
@@ -14729,6 +14729,58 @@
           "score": 0.1854497354497356,
           "nearest": "rf-torch-applied-membrane-and-fire-watch",
           "similarity": 0.3029100529100529
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ut-water-treatment-chemical-delivery-unloading",
+      "name": "Water Treatment Chemical Delivery Unloading",
+      "category": "Water & Environmental",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 260,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.8325,
+          "meshes": 113,
+          "materials": 70,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.39602763385146816,
+          "nearest": "ut-hydrant-flow-test-and-flushing-with-traffic-control",
+          "similarity": 0.2607944732297064
         }
       }
     },
@@ -21181,6 +21233,318 @@
       }
     },
     {
+      "app": "smartcity",
+      "id": "ut-pe-pipe-fusion-and-squeeze-off",
+      "name": "PE Pipe Fusion & Squeeze-Off",
+      "category": "Energy & Power",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 262,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 14,
+          "got": 14
+        },
+        "scene": {
+          "score": 0.8575,
+          "meshes": 123,
+          "materials": 69,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.5083735909822867,
+          "nearest": "ut-water-main-break-emergency-shutdown-and-excavation",
+          "similarity": 0.23832528180354268
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ut-cathodic-protection-test-station-reading",
+      "name": "Cathodic Protection Test-Station Reading",
+      "category": "Energy & Power",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 255,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 14,
+          "got": 14
+        },
+        "scene": {
+          "score": 0.87,
+          "meshes": 128,
+          "materials": 78,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.4866449511400653,
+          "nearest": "ut-water-main-break-emergency-shutdown-and-excavation",
+          "similarity": 0.24267100977198697
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ut-gas-meter-set-and-regulator-vent",
+      "name": "Gas Meter Set & Regulator Vent Check",
+      "category": "Energy & Power",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9950000000000001,
+          "medianWhy": 249,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9325,
+          "meshes": 153,
+          "materials": 84,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.43427672955974855,
+          "nearest": "pl-natural-gas-pressure-test-and-leak-check",
+          "similarity": 0.2531446540880503
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ut-service-line-locate-and-hand-dig-near-gas-main",
+      "name": "Service-Line Locate & Hand-Dig Near a Marked Gas Main",
+      "category": "Energy & Power",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 263,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.955,
+          "meshes": 162,
+          "materials": 88,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.36013071895424853,
+          "nearest": "ut-water-main-break-emergency-shutdown-and-excavation",
+          "similarity": 0.2679738562091503
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ut-hydrant-flow-test-and-flushing-with-traffic-control",
+      "name": "Hydrant Flow Test & Flushing With Traffic Control",
+      "category": "Water & Environmental",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 267,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 196,
+          "materials": 89,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.39602763385146816,
+          "nearest": "ut-water-treatment-chemical-delivery-unloading",
+          "similarity": 0.2607944732297064
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ut-water-main-break-emergency-shutdown-and-excavation",
+      "name": "Water Main Break Emergency Shutdown & Excavation",
+      "category": "Water & Environmental",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 268,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 186,
+          "materials": 102,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.36013071895424853,
+          "nearest": "ut-service-line-locate-and-hand-dig-near-gas-main",
+          "similarity": 0.2679738562091503
+        }
+      }
+    },
+    {
       "app": "trades",
       "id": "electrical",
       "name": "Isolation Bay",
@@ -25417,12 +25781,12 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 5
+          "authorities": 6
         },
         "standards": {
           "score": 1,
-          "cited": 4,
-          "inScope": 4,
+          "cited": 5,
+          "inScope": 5,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -26377,6 +26741,58 @@
           "score": 0.5095238095238097,
           "nearest": "or-ranch-road-grading-and-culvert",
           "similarity": 0.23809523809523808
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ut-night-storm-response-crew-and-portable-generator",
+      "name": "Night Storm-Response Crew & Portable Generator",
+      "category": "Water & Environmental",
+      "steps": 13,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 9,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 257,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 191,
+          "materials": 91,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.5249211356466877,
+          "nearest": "ra-crossing-signal-maintenance-and-flagging",
+          "similarity": 0.23501577287066247
         }
       }
     },
