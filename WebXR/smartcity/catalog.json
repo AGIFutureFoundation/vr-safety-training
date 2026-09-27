@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 556
+      "stations": 557
     },
     "trades": {
       "entry": "trades/index.html",
@@ -204,6 +204,7 @@
         "conveyor-guard",
         "forklift-dock",
         "cnc-cell",
+        "mm-continuous-miner-face",
         "mm-paper-machine-dryer",
         "mm-coke-oven-heat-rotation",
         "mm-ladle-pour",
@@ -8736,6 +8737,88 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-continuous-miner-face",
+      "name": "Continuous Miner Face",
+      "title": "SmartCiti.X~ Continuous Miner Face VR",
+      "tagline": "A cut-and-bolt cycle at the face: cut, retreat behind support, dust, drill and bolt to the roof-control plan, sound the roof, advance",
+      "category": "Manufacturing & Automation",
+      "domain": "Mining",
+      "trade": "Underground continuous miner operator / roof bolter",
+      "union": null,
+      "certification": "UMWA health and safety training; per the section's roof-control plan and the mine safety regulations, named generically; NIOSH criteria documents on occupational exposure; ANSI B11 general safety requirements for machines",
+      "accent": "#b8862e",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "gauge",
+        "drag",
+        "track",
+        "hold"
+      ],
+      "badge": {
+        "id": "face-supported",
+        "name": "Face Supported",
+        "note": "A cut-and-bolt cycle run to the roof-control plan, never past the last row of support without a reason the plan accounts for"
+      },
+      "meshes": 153,
+      "lights": 0,
+      "overBudget": false,
+      "index": "712",
+      "flat": false,
+      "system": "Face Authority",
+      "currency": "CUT",
+      "ranks": [
+        "Roof Bolter Helper",
+        "Continuous Miner Operator",
+        "Section Foreman",
+        "Mine Examiner",
+        "Face Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "bolted-before-advance",
+          "name": "Bolted Before Advance",
+          "note": "Every cut bolted to the plan's pattern before the next one started, first time"
+        },
+        {
+          "id": "never-past-the-line",
+          "name": "Never Past The Line",
+          "note": "Never went past the last row of support, into the cutting head, or into the crush zone"
+        },
+        {
+          "id": "tension-on-plan",
+          "name": "Tension On Plan",
+          "note": "Every bolt tensioned inside the plan's band"
+        },
+        {
+          "id": "clean-cycle",
+          "name": "Clean Cycle",
+          "note": "No corrections through the whole cut-and-bolt cycle"
+        },
+        {
+          "id": "cut-unbroken",
+          "name": "Cut Unbroken",
+          "note": "The cutting pass never broke its controlled rate"
+        },
+        {
+          "id": "cycle-fast",
+          "name": "Cycle Fast",
+          "note": "Cycle completed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=mm-continuous-miner-face"
     },
     {
       "app": "smartcity",
@@ -29426,7 +29509,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 255,
+      "meshes": 252,
       "lights": 0,
       "overBudget": false,
       "index": "92",

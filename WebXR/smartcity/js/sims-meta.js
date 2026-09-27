@@ -23632,5 +23632,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "mm-continuous-miner-face",
+    "index": "712",
+    "domain": "Mining",
+    "trade": "Underground continuous miner operator / roof bolter",
+    "category": "Manufacturing & Automation",
+    "certification": "UMWA health and safety training; per the section's roof-control plan and the mine safety regulations, named generically; NIOSH criteria documents on occupational exposure; ANSI B11 general safety requirements for machines",
+    "name": "Continuous Miner Face",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Continuous Miner Face VR",
+    "tagline": "A cut-and-bolt cycle at the face: cut, retreat behind support, dust, drill and bolt to the roof-control plan, sound the roof, advance",
+    "accent": 12092974,
+    "accentCss": "#b8862e",
+    "parSeconds": 320,
+    "badge": {
+      "id": "face-supported",
+      "name": "Face Supported",
+      "note": "A cut-and-bolt cycle run to the roof-control plan, never past the last row of support without a reason the plan accounts for"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Face Authority",
+      "currency": "CUT",
+      "ranks": [
+        "Roof Bolter Helper",
+        "Continuous Miner Operator",
+        "Section Foreman",
+        "Mine Examiner",
+        "Face Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
