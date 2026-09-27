@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 598
+      "stations": 600
     },
     "trades": {
       "entry": "trades/index.html",
@@ -407,6 +407,8 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "yc-fuel-dock-transfer-and-spill-kit",
+        "yc-line-handling-and-docking-in-crosswind",
         "yc-pre-departure-safety-briefing-and-guest-count",
         "br-benthic-grab-and-invertebrate-sorting",
         "br-vhf-and-navigation-in-a-work-zone",
@@ -9292,6 +9294,172 @@
     },
     {
       "app": "smartcity",
+      "id": "yc-fuel-dock-transfer-and-spill-kit",
+      "name": "Fuel Dock Transfer & Spill Kit",
+      "title": "SmartCiti.X~ Fuel Dock Transfer & Spill Kit VR",
+      "tagline": "Taking fuel port side to the dock: the fuel plan read, gloves and glasses on and the phones in the basket, the fill and vent walked for the cracked fitting and the worn nozzle, the declaration signed with the attendant, the boom staged and the collar fitted, the nozzle held through a slow start as the vent spits, the vent watched while a guest walks up with a phone, the rate read against the plan, the cap torqued, the spill kit proven and the transfer logged",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Charter yacht deckhand taking fuel at the marina fuel dock, IBU and SIU trained, with the MEBA engineer below at the tank gauges",
+      "union": null,
+      "certification": "IBU and SIU deck training; MEBA engineering watch on the tanks; USCG oil pollution prevention rules at 33 CFR 155, the declaration of inspection at 33 CFR 156.150 and the person in charge under 33 CFR 155.710 as the fuel dock's own transfer procedure mirrors them; 46 CFR 25 fire-fighting equipment for uninspected vessels; NFPA 306 control of gas hazards on vessels; IMO MARPOL; OSHA 29 CFR 1910.132 personal protective equipment",
+      "accent": "#2b6f9e",
+      "parSeconds": 280,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "hold",
+        "track",
+        "gauge",
+        "turn"
+      ],
+      "badge": {
+        "id": "not-a-drop",
+        "name": "Not A Drop",
+        "note": "Declaration before the pump, boom before the nozzle, no phone and no engine through the transfer, and both the vent spit and the guest answered"
+      },
+      "meshes": 220,
+      "lights": 0,
+      "overBudget": false,
+      "index": "yc-3",
+      "flat": false,
+      "system": "Fuel Dock",
+      "currency": "KNOT",
+      "ranks": [
+        "Green Hand",
+        "Deckhand",
+        "Lead Deckhand",
+        "Transfer PIC",
+        "Fuel Dock Certified"
+      ],
+      "awards": [
+        {
+          "id": "declared-first",
+          "name": "Declared First",
+          "note": "The declaration signed before the nozzle came off the pump"
+        },
+        {
+          "id": "rate-in-band",
+          "name": "Rate In Band",
+          "note": "Flow rate committed inside the plan's band first time"
+        },
+        {
+          "id": "no-ignition",
+          "name": "No Ignition",
+          "note": "No phone, no engine, no wrong fill and no unattended nozzle"
+        },
+        {
+          "id": "clean-transfer",
+          "name": "Clean Transfer",
+          "note": "No corrections from the plan to the log"
+        },
+        {
+          "id": "vent-watched",
+          "name": "Vent Watched",
+          "note": "The vent watched in band the whole transfer"
+        },
+        {
+          "id": "slack-tide",
+          "name": "Slack Tide",
+          "note": "Transfer logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=yc-fuel-dock-transfer-and-spill-kit"
+    },
+    {
+      "app": "smartcity",
+      "id": "yc-line-handling-and-docking-in-crosswind",
+      "name": "Line Handling & Docking In A Crosswind",
+      "title": "SmartCiti.X~ Line Handling & Docking In A Crosswind VR",
+      "tagline": "Coming alongside with the wind on the beam: the docking plan read, gloves and vest on, the lines walked for chafe and the fender hung low, the closing distance called to the captain through a gust that sets the bow off, the spring passed first and the stern line cleated with a hitch, the spring tended through a passing wake, the bow line sent forward, the tension sighted, engines confirmed stopped, the docking logged and the deck checked in",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Charter yacht deckhand on the side deck, IBU and SIU trained, with the mate on the dock and the captain at the flybridge helm",
+      "union": null,
+      "certification": "IBU and SIU deck training in line handling and coming alongside; USCG 33 CFR 83 Inland Navigation Rules for the approach through the marina; 46 CFR 25 equipment for uninspected vessels as the vessel's certificate applies it; OSHA 29 CFR 1910.132 personal protective equipment for gloves and the work vest; IMO STCW basic safety training; MEBA engineering watch on the engines through the approach",
+      "accent": "#2b6f9e",
+      "parSeconds": 280,
+      "weather": "wind",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "track",
+        "turn",
+        "hold",
+        "gauge"
+      ],
+      "badge": {
+        "id": "spring-first",
+        "name": "Spring First",
+        "note": "The spring line ashore before any other, hands outside every bight, no jump to the dock and no line stopped by hand"
+      },
+      "meshes": 219,
+      "lights": 0,
+      "overBudget": false,
+      "index": "yc-2",
+      "flat": false,
+      "system": "Alongside",
+      "currency": "FATHOM",
+      "ranks": [
+        "Green Hand",
+        "Line Handler",
+        "Lead Deckhand",
+        "Mate",
+        "Alongside Certified"
+      ],
+      "awards": [
+        {
+          "id": "plan-read",
+          "name": "Plan Read",
+          "note": "The docking plan read before a fender moved"
+        },
+        {
+          "id": "tension-true",
+          "name": "Tension True",
+          "note": "Spring tension committed inside the band first time"
+        },
+        {
+          "id": "outside-the-bight",
+          "name": "Outside The Bight",
+          "note": "Never a hand in a bight, never a jump, never a line stopped by hand"
+        },
+        {
+          "id": "clean-alongside",
+          "name": "Clean Alongside",
+          "note": "No corrections from the plan to the log"
+        },
+        {
+          "id": "steady-callouts",
+          "name": "Steady Call-Outs",
+          "note": "Closing distance called in band the whole approach"
+        },
+        {
+          "id": "before-the-gust",
+          "name": "Before The Gust",
+          "note": "Docking logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=yc-line-handling-and-docking-in-crosswind"
+    },
+    {
+      "app": "smartcity",
       "id": "yc-pre-departure-safety-briefing-and-guest-count",
       "name": "Pre-Departure Safety Briefing & Guest Count",
       "title": "SmartCiti.X~ Pre-Departure Safety Briefing & Guest Count VR",
@@ -9324,9 +9492,9 @@
         "name": "Every Head Counted",
         "note": "The manifest matched before a line was touched, the life jacket shown rather than pointed at, and both the late guest and the lit cigarette answered"
       },
-      "meshes": 348,
+      "meshes": 306,
       "lights": 0,
-      "overBudget": true,
+      "overBudget": false,
       "index": "yc-1",
       "flat": false,
       "system": "Charter Deck",
@@ -30394,7 +30562,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 258,
+      "meshes": 255,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -31054,7 +31222,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 257,
       "lights": 0,
       "overBudget": false,
       "index": "100",

@@ -25396,5 +25396,89 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "yc-line-handling-and-docking-in-crosswind",
+    "index": "yc-2",
+    "domain": "Maritime & Ports",
+    "trade": "Charter yacht deckhand on the side deck, IBU and SIU trained, with the mate on the dock and the captain at the flybridge helm",
+    "category": "Maritime & Ports",
+    "certification": "IBU and SIU deck training in line handling and coming alongside; USCG 33 CFR 83 Inland Navigation Rules for the approach through the marina; 46 CFR 25 equipment for uninspected vessels as the vessel's certificate applies it; OSHA 29 CFR 1910.132 personal protective equipment for gloves and the work vest; IMO STCW basic safety training; MEBA engineering watch on the engines through the approach",
+    "name": "Line Handling & Docking In A Crosswind",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Line Handling & Docking In A Crosswind VR",
+    "tagline": "Coming alongside with the wind on the beam: the docking plan read, gloves and vest on, the lines walked for chafe and the fender hung low, the closing distance called to the captain through a gust that sets the bow off, the spring passed first and the stern line cleated with a hitch, the spring tended through a passing wake, the bow line sent forward, the tension sighted, engines confirmed stopped, the docking logged and the deck checked in",
+    "accent": 2846622,
+    "accentCss": "#2b6f9e",
+    "parSeconds": 280,
+    "badge": {
+      "id": "spring-first",
+      "name": "Spring First",
+      "note": "The spring line ashore before any other, hands outside every bight, no jump to the dock and no line stopped by hand"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Alongside",
+      "currency": "FATHOM",
+      "ranks": [
+        "Green Hand",
+        "Line Handler",
+        "Lead Deckhand",
+        "Mate",
+        "Alongside Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "yc-fuel-dock-transfer-and-spill-kit",
+    "index": "yc-3",
+    "domain": "Maritime & Ports",
+    "trade": "Charter yacht deckhand taking fuel at the marina fuel dock, IBU and SIU trained, with the MEBA engineer below at the tank gauges",
+    "category": "Maritime & Ports",
+    "certification": "IBU and SIU deck training; MEBA engineering watch on the tanks; USCG oil pollution prevention rules at 33 CFR 155, the declaration of inspection at 33 CFR 156.150 and the person in charge under 33 CFR 155.710 as the fuel dock's own transfer procedure mirrors them; 46 CFR 25 fire-fighting equipment for uninspected vessels; NFPA 306 control of gas hazards on vessels; IMO MARPOL; OSHA 29 CFR 1910.132 personal protective equipment",
+    "name": "Fuel Dock Transfer & Spill Kit",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Fuel Dock Transfer & Spill Kit VR",
+    "tagline": "Taking fuel port side to the dock: the fuel plan read, gloves and glasses on and the phones in the basket, the fill and vent walked for the cracked fitting and the worn nozzle, the declaration signed with the attendant, the boom staged and the collar fitted, the nozzle held through a slow start as the vent spits, the vent watched while a guest walks up with a phone, the rate read against the plan, the cap torqued, the spill kit proven and the transfer logged",
+    "accent": 2846622,
+    "accentCss": "#2b6f9e",
+    "parSeconds": 280,
+    "badge": {
+      "id": "not-a-drop",
+      "name": "Not A Drop",
+      "note": "Declaration before the pump, boom before the nozzle, no phone and no engine through the transfer, and both the vent spit and the guest answered"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Fuel Dock",
+      "currency": "KNOT",
+      "ranks": [
+        "Green Hand",
+        "Deckhand",
+        "Lead Deckhand",
+        "Transfer PIC",
+        "Fuel Dock Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
