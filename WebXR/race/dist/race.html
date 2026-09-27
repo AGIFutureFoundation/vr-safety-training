@@ -7856,6 +7856,92 @@ function fuelTruck(parent, x, y, z, opts = {}) {
   decal(panel, 0.34, 0.3, 0, 0, 0.05, signFace("FUEL\nQTY", { bg: "#101820", accent: "#f2c14b", scale: 0.35 }), { px: 256 });
   return flDone(rig, { footprint: EQUIPMENT_BUDGET.fuelTruck.footprint, livery: lv });
 }
+
+// A single-aisle cabin section for the airline-cabin-and-flight-crew pack:
+// two rows of 3+3 economy seats either side of the aisle at a real 0.8 m
+// pitch, overhead bins and a passenger-service-unit strip both sides (the
+// strip's own oxygen-mask flaps drop as their own part), a galley module
+// with a service cart, and the forward cabin door. Real proportions at full
+// scale — unlike `regionalJet`, this is the room the crew actually stands
+// and sits inside, so it is never scaled down. `opts.livery.colour` tints
+// the seat fabric; the default reads as a generic single-aisle economy
+// cabin, no carrier's marks.
+const CA_WALL = 0xd7dbdd;
+const CA_CARPET = 0x232c36;
+const CA_BIN = 0xc7cdd2;
+const CA_TRIM = 0x53585e;
+
+/** One 3-seat bank (aisle, middle, window) at the given row and side. */
+function caSeatBank(host, xSign, z, seatColour) {
+  for (let i = 0; i < 3; i++) {
+    const sx = xSign * (0.24 + 0.43 * (i + 0.5));
+    box(host, 0.4, 0.09, 0.46, sx, 0.46, z, seatColour, { rough: 0.75, finish: "painted" });
+    box(host, 0.4, 0.58, 0.09, sx, 0.75, z - 0.21, seatColour, { rough: 0.75, finish: "painted" });
+    box(host, 0.36, 0.16, 0.08, sx, 1.12, z - 0.21, seatColour, { rough: 0.75, finish: "painted" });
+  }
+  // One shared armrest rail either edge of the bank.
+  for (const e of [0.02, 1.3]) box(host, 0.05, 0.22, 0.4, xSign * (0.24 + e), 0.62, z, ...FL.frame);
+}
+
+/**
+ * Single-aisle cabin section, seats forward toward +Z. Parts: seatsFwd,
+ * seatsAft (each a 3+3 bank the station can spotlight or re-tint), overheadBinL,
+ * overheadBinR, oxygenPanel (the PSU strip; its mask doors are its own
+ * children so a station can drop them one at a time or all together),
+ * galley, galleyCart, door.
+ */
+function cabinInterior(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0x2a5a86, accent: 0xc8ced4, fleetName: "SITE AIR", unitNumber: "N100XA" });
+  const rig = flRig(parent, x, y, z, opts, "cabinInterior", [0, 0, -0.19]);
+  const S = rig.shell;
+  const Wc = 1.56, H = 2.08, rowFwd = 0.9, rowAft = 0.1, doorZ = 1.9, galleyZ = -1.1, cartZ = -1.62;
+
+  box(S, Wc * 2, 0.06, 3.85, 0, 0.03, 0.05, CA_CARPET, { rough: 0.82 });
+  for (const sx of [-1, 1]) {
+    box(S, 0.07, H, 3.85, sx * Wc, H / 2, 0.05, CA_WALL, { rough: 0.55 });
+    for (let i = 0; i < 4; i++) box(S, 0.03, 0.3, 0.38, sx * (Wc - 0.002), 1.32, 1.15 - i * 0.82, AV_GLASS, { rough: 0.2, metal: 0.3 });
+  }
+  box(S, Wc * 2 - 0.1, 0.09, 3.85, 0, H, 0.05, CA_WALL, { rough: 0.55 }); // ceiling
+
+  caSeatBank(S, -1, rowFwd, lv.colour);
+  caSeatBank(S, 1, rowFwd, lv.colour);
+  caSeatBank(S, -1, rowAft, lv.colour);
+  caSeatBank(S, 1, rowAft, lv.colour);
+  box(S, 0.06, 0.02, 0.9, 0, 0.001, (rowFwd + rowAft) / 2, 0xf2c14b, { rough: 0.85, cast: false }); // aisle path stripe
+
+  for (const sx of [-1, 1]) {
+    const bin = rig.part(sx > 0 ? "overheadBinR" : "overheadBinL", sx * 1.15, 1.74, 0.5);
+    box(bin, 0.5, 0.34, 2.0, 0, 0, 0, CA_BIN, { rough: 0.45, metal: 0.1 });
+    box(bin, 0.5, 0.08, 2.0, 0, -0.21, 0.06, flShade(CA_BIN, 0.85), { rough: 0.4, metal: 0.2 }); // hinged front lip
+  }
+
+  const psu = rig.part("oxygenPanel", 0, 1.5, 0.5);
+  box(psu, 3.0, 0.1, 1.9, 0, 0, 0, CA_TRIM, { rough: 0.4, metal: 0.3 });
+  for (let i = 0; i < 6; i++) {
+    const fx = (i < 3 ? -1 : 1) * (0.24 + 0.43 * ((i % 3) + 0.5));
+    box(psu, 0.3, 0.02, 0.16, fx, -0.06, 0.08, 0xdfe6ea, { rough: 0.4 });
+  }
+
+  const galley = rig.part("galley", 0, 0, galleyZ);
+  box(galley, Wc * 2 - 0.1, 1.1, 0.6, 0, 0.55, 0, 0x9aa3aa, { rough: 0.4, metal: 0.15 });
+  box(galley, Wc * 2 - 0.2, 0.06, 0.62, 0, 1.12, 0, 0x53585e, { rough: 0.35, metal: 0.35 }); // counter lip
+  for (const cx of [-0.9, 0, 0.9]) box(galley, 0.5, 0.38, 0.05, cx, 0.75, 0.3, 0x6f7a83, { rough: 0.45, metal: 0.2 }); // cabinet faces
+  decal(galley, 0.5, 0.22, 0, 1.0, 0.32, signFace("GALLEY", { bg: "#101820", accent: "#f2c14b", scale: 0.4 }), { px: 200 });
+
+  const cart = rig.part("galleyCart", -0.7, 0, cartZ);
+  box(cart, 0.42, 0.86, 0.5, 0, 0.43, 0, 0xc7cdd2, { rough: 0.45, metal: 0.1 });
+  for (let i = 1; i < 3; i++) box(cart, 0.4, 0.01, 0.46, 0, i * 0.28, 0, 0x9aa3aa, { rough: 0.5 });
+  for (const dx of [-0.16, 0.16]) for (const dz of [-0.18, 0.18]) cyl(cart, 0.05, 0.05, 0.04, dx, 0.05, dz, 0x1c1e21, { rough: 0.7, seg: 10 });
+
+  const door = rig.part("door", Wc - 0.03, 0, doorZ);
+  box(door, 0.06, H - 0.1, 0.7, 0, H / 2 - 0.02, 0, flShade(CA_WALL, 0.9), { rough: 0.5, metal: 0.15 });
+  ball(door, 0.09, 0.02, H * 0.62, 0, AV_GLASS, { rough: 0.2, metal: 0.3, seg: 12, seg2: 10 });
+  box(door, 0.03, 0.12, 0.04, 0.05, H * 0.4, 0.28, AV_STEEL, { rough: 0.4, metal: 0.6 }); // door handle
+  box(door, 0.06, 0.08, 0.5, 0, 0.1, 0, 0xd2312b, { rough: 0.5 }); // girt bar / slide-pack housing at the sill
+
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.cabinInterior.footprint, livery: lv });
+}
+
 // -------------------------------------------------------- warehouse & logistics
 //
 // Five builders for the warehouse-and-logistics-automation pack: an AMR, a
@@ -8035,6 +8121,7 @@ const EQUIPMENT_BUDGET = {
   serviceCart: { build: "serviceCart", opts: { kind: "lav" }, meshes: 10, footprint: [1.73, 1.77, 4.05], parts: ["hoseReel", "serviceValve", "wheels"], note: "lavatory service truck" },
   "serviceCart:potable": { build: "serviceCart", opts: { kind: "potable" }, meshes: 10, footprint: [1.73, 1.77, 4.05], parts: ["hoseReel", "serviceValve", "wheels"], note: "potable water service truck" },
   fuelTruck: { build: "fuelTruck", meshes: 14, footprint: [3.08, 2.8, 9.88], parts: ["cabDoor", "wheelsF", "wheelsM", "wheelsR", "hoseReel", "nozzleMount", "dispensePanel"], note: "ramp fuel truck with a rear hose reel" },
+  cabinInterior: { build: "cabinInterior", meshes: 23, footprint: [3.24, 2.13, 4.13], parts: ["overheadBinL", "overheadBinR", "oxygenPanel", "galley", "galleyCart", "door"], note: "single-aisle cabin section: two 3+3 seat rows, overhead bins, a galley and cart, and the forward door" },
   amrRobot: { build: "amrRobot", meshes: 7, footprint: [0.68, 0.41, 0.92], parts: ["liftPlate", "statusRing", "lidar"], note: "autonomous mobile robot (AMR/AGV), low chassis on caster feet" },
   conveyorSection: { build: "conveyorSection", meshes: 5, footprint: [0.6, 0.79, 1.2], parts: ["guard", "estopCord", "rollers"], note: "roller-conveyor bed section with nip-point guard and pull-cord E-stop" },
   dockLevelerBay: { build: "dockLevelerBay", meshes: 10, footprint: [2.3, 2.49, 2.1], parts: ["leverPlate", "lip", "restraintArm", "dockLightRed", "dockLightGreen", "restraintLightRed", "restraintLightGreen"], note: "dock leveler, lip, dock bumpers and ICC bar vehicle restraint" },
@@ -8046,7 +8133,7 @@ const EQUIPMENT_BUDGET = {
 const EQUIPMENT_BUILDERS = {
   excavator, amphibiousExcavator, backhoe, skidSteer, dumpTruck, mobileCrane, aerialBoomLift, scissorLift, compactor,
   generatorTrailer, lightTower, concretePump, craneSpreader, dozer, wheelLoader, grader, ranchGrader, crawlerCrane, pileDrivingRig, regionalJet,
-  pushbackTug, groundPowerUnit, cargoBeltLoader, deicingTruck, serviceCart, fuelTruck, amrRobot, conveyorSection, dockLevelerBay, roboticPalletizer,
+  pushbackTug, groundPowerUnit, cargoBeltLoader, deicingTruck, serviceCart, fuelTruck, cabinInterior, amrRobot, conveyorSection, dockLevelerBay, roboticPalletizer,
   batteryChargingStation,
 };
 void THREE; void ball; void flSteerWheel; void flMirror; void flPlan;
@@ -8113,6 +8200,8 @@ const UNIONS = [
   {"id":"uwua","abbrev":"UWUA","name":"Utility Workers Union of America","aliases":["UWUA"],"local":null,"colors":null,"trainingBody":"uwua-training","trainingTitle":"UWUA — Utility Workers Union of America training and safety education for water, gas and electric utility crews","scope":["Water & Environmental","Energy & Power"],"note":"Water, gas and electric utility crews. The programme also names IBEW gas locals; no single local of either is carried."},
   {"id":"aft","abbrev":"AFT","name":"American Federation of Teachers","aliases":["AFT"],"local":null,"colors":null,"trainingBody":"aft-training","trainingTitle":"AFT — American Federation of Teachers training for paraprofessionals and school-related personnel","scope":["Building Systems & Facilities","Mobility & Transit","Culinary & Hospitality"],"note":"Represents paraprofessionals and school-related personnel in many districts, alongside classroom teachers."},
   {"id":"csea","abbrev":"CSEA","name":"California School Employees Association","aliases":["CSEA"],"local":null,"colors":null,"trainingBody":"csea-training","trainingTitle":"CSEA — California School Employees Association training for classified school employees","scope":["Building Systems & Facilities","Mobility & Transit","Culinary & Hospitality"],"note":"Classified school employees: custodial, food service, transportation and instructional support staff."},
+  {"id":"afa-cwa","abbrev":"AFA-CWA","name":"Association of Flight Attendants-CWA","aliases":["AFA-CWA","AFA"],"local":null,"colors":null,"trainingBody":"afa-cwa-training","trainingTitle":"AFA-CWA member education and cabin-safety training for flight attendants","scope":["Mobility & Transit"],"note":"Flight attendant cabin-safety training."},
+  {"id":"alpa","abbrev":"ALPA","name":"Air Line Pilots Association, International","aliases":["ALPA"],"local":null,"colors":null,"trainingBody":"alpa-training","trainingTitle":"ALPA member professional-standards and safety training for airline pilots","scope":["Mobility & Transit"],"note":"Airline pilot professional-standards and safety training."},
 ];
 const UNIONS_BY_ID = Object.fromEntries(UNIONS.map((u) => [u.id, u]));
 

@@ -23464,5 +23464,131 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "ca-cabin-preflight-safety-check",
+    "index": "ca-1",
+    "domain": "Aviation",
+    "trade": "Flight attendant — AFA-CWA cabin crew",
+    "category": "Mobility & Transit",
+    "certification": "AFA-CWA cabin-safety training; the airline's own cabin-safety checklist and door-arming procedure under 14 CFR 121; OSHA 29 CFR 1910.151 medical services and first aid for the equipment this check counts",
+    "name": "Cabin Pre-Flight Safety Check",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Cabin Pre-Flight Safety Check VR",
+    "tagline": "Emergency equipment counted against its own placard, the door armed and cross-checked with the crew member across the aisle, the exits and aisle proven clear, and the cabin declared secure only once every one of those is actually true",
+    "accent": 3117019,
+    "accentCss": "#2f8fdb",
+    "parSeconds": 330,
+    "badge": {
+      "id": "cabin-secure",
+      "name": "Cabin Secure",
+      "note": "Every emergency item counted, the door armed and cross-checked, the exits proven clear, and the flight deck told the cabin is ready — nothing assumed"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Cabin Secure",
+      "currency": "CHECK",
+      "ranks": [
+        "New Flight Attendant",
+        "Line Qualified",
+        "Lead Flight Attendant",
+        "Purser",
+        "Cabin Secure Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ca-galley-and-cart-safety",
+    "index": "ca-2",
+    "domain": "Aviation",
+    "trade": "Flight attendant — AFA-CWA cabin crew",
+    "category": "Mobility & Transit",
+    "certification": "AFA-CWA cabin-safety training; the airline's own galley and cart-service procedure under 14 CFR 121; OSHA 29 CFR 1910.151 medical services and first aid for a scald or a strain this station's securing habit is built to prevent",
+    "name": "Galley and Cart Safety",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Galley and Cart Safety VR",
+    "tagline": "The cart braked and latched between every push, hot liquid capped and never carried uncovered, a galley scanned for what turbulence would turn loose, and the whole galley secured for descent the moment the seatbelt sign says so",
+    "accent": 14197307,
+    "accentCss": "#d8a23b",
+    "parSeconds": 320,
+    "badge": {
+      "id": "galley-secure",
+      "name": "Galley Secure",
+      "note": "The cart braked and stowed, hot liquid capped, the galley scanned clean, and everything secured for descent the moment the sign called for it"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Galley Secure",
+      "currency": "STOW",
+      "ranks": [
+        "New Flight Attendant",
+        "Line Qualified",
+        "Lead Flight Attendant",
+        "Purser",
+        "Galley Secure Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ca-cabin-medical-event-response",
+    "index": "ca-3",
+    "domain": "Aviation",
+    "trade": "Flight attendant — AFA-CWA cabin crew",
+    "category": "Mobility & Transit",
+    "certification": "AFA-CWA cabin-safety training; the airline's own in-flight medical event procedure under 14 CFR 121; OSHA 29 CFR 1910.151 medical services and first aid and 29 CFR 1910.1030 bloodborne pathogens for the kit and the exposure precautions this station covers — no clinical or diagnostic decision is taught here",
+    "name": "Cabin Medical Event Response",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Cabin Medical Event Response VR",
+    "tagline": "Help called for the way the airline's own procedure spells out, the row cleared and calmed, the kit and equipment delivered to whoever is actually qualified to use them, and the ground-based medical support and the flight deck kept informed the whole time — every clinical call left to the professional trained to make it",
+    "accent": 14177866,
+    "accentCss": "#d8564a",
+    "parSeconds": 340,
+    "badge": {
+      "id": "response-supported",
+      "name": "Response Supported",
+      "note": "Help called for correctly, the row cleared, the kit delivered, and the ground-based medical support and the flight deck kept informed — without a single clinical guess along the way"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Response Supported",
+      "currency": "AID",
+      "ranks": [
+        "New Flight Attendant",
+        "Line Qualified",
+        "Lead Flight Attendant",
+        "Purser",
+        "Response Supported Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
