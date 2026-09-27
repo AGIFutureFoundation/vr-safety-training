@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 559
+      "stations": 560
     },
     "trades": {
       "entry": "trades/index.html",
@@ -69,6 +69,7 @@
         "track-access",
         "bus-depot-lift",
         "airport-ramp",
+        "ca-fatigue-and-duty-time-self-check",
         "ca-flight-deck-crew-resource-management",
         "ca-door-evacuation-drill",
         "ca-cabin-decompression-and-oxygen-masks",
@@ -4620,6 +4621,67 @@
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
+    },
+    {
+      "id": "airline-cabin-and-flight-crew",
+      "name": "Airline Cabin and Flight Crew — AFA-CWA and ALPA",
+      "union": "AFA-CWA and ALPA",
+      "certification": "AFA-CWA cabin-safety training and ALPA member professional-standards training; FAA 14 CFR Part 121 air carrier operations; OSHA 29 CFR 1910.151 medical services and first aid and 29 CFR 1910.1030 bloodborne pathogens; Cal/OSHA's workplace violence prevention standard, 8 CCR 3342, across eight distinct flight attendant and pilot jobs",
+      "summary": "Eight jobs an AFA-CWA flight attendant or an ALPA pilot actually rotates through: a cabin pre-flight safety check with the doors armed and cross-checked, the galley and its cart secured against turbulence, a cabin medical event supported without a single clinical guess, an unruly passenger de-escalated with distance and the captain's own word on anything further, a decompression drill run mask-on-first, a door evacuation held on commands and a blocked frame, a flight-deck crew resource management briefing built on sterile discipline and closed-loop callouts, and an honest fatigue self-check before ever signing in. Every station ends on a proof — a cross-check confirmed, a gauge read, a callout actually acknowledged — rather than on how routine the job felt going in.",
+      "accent": "#5a8fd8",
+      "stations": [
+        {
+          "app": "smartcity",
+          "id": "ca-cabin-preflight-safety-check",
+          "why": "Nothing about this door gets armed until the exits and the aisle are actually proven clear, and even then it only counts once the crew member across the aisle has cross-checked it — one person's own confirmation is never the whole story."
+        },
+        {
+          "app": "smartcity",
+          "id": "ca-galley-and-cart-safety",
+          "why": "A cart that isn't braked and latched between every push is a cart that moves on its own the instant the aircraft does, and the whole galley gets secured for descent the moment the sign says so, not whenever there's a free minute."
+        },
+        {
+          "app": "smartcity",
+          "id": "ca-cabin-medical-event-response",
+          "why": "Every clinical decision here belongs to the responding professional or to ground-based medical support, never to the crew member closest to the seat — the job is calling for help correctly, clearing space, and relaying exactly what's reported, nothing guessed at."
+        },
+        {
+          "app": "smartcity",
+          "id": "ca-unruly-passenger-deescalation",
+          "why": "Distance and a calm approach come first, the flight deck door gets reinforced the moment things move the wrong way, and whether restraint is ever used is the captain's decision alone, given explicitly, never assumed by whoever is standing closest."
+        },
+        {
+          "app": "smartcity",
+          "id": "ca-cabin-decompression-and-oxygen-masks",
+          "why": "This crew member's own mask goes on before a single other row gets touched, because a flight attendant who passes out helping someone else's seat has just made this cabin's problem worse, not better."
+        },
+        {
+          "app": "smartcity",
+          "id": "ca-door-evacuation-drill",
+          "why": "The slide gets confirmed before anyone is sent onto it, the same three commands never stop, and the door frame stays physically blocked so the flow through it never breaks for a dropped bag or a passenger frozen at the sill."
+        },
+        {
+          "app": "smartcity",
+          "id": "ca-flight-deck-crew-resource-management",
+          "why": "A callout that lands on silence hasn't actually been heard — the sterile phase, the challenge-and-response checklist and the closed-loop acknowledgment all exist so nothing in this flight deck is ever just one pilot's own assumption."
+        },
+        {
+          "app": "smartcity",
+          "id": "ca-fatigue-and-duty-time-self-check",
+          "why": "The no-fault fatigue line only works if it's actually used the moment the honest self-assessment calls for it — no schedule pressure, and no hour or duty limit this platform states, gets to override that honest answer."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1552,
+        "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     }
   ],
   "stations": [
@@ -8739,6 +8801,88 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-fatigue-and-duty-time-self-check",
+      "name": "Fatigue and Duty-Time Self-Check",
+      "title": "SmartCiti.X~ Fatigue and Duty-Time Self-Check VR",
+      "tagline": "An honest self-assessment before signing in, a rest facility actually fit to rest in, a no-fault fatigue call-in used without hesitation, and a handoff to relief crew that says so plainly if they aren't actually fit to fly — no hour or duty limit stated anywhere",
+      "category": "Mobility & Transit",
+      "domain": "Aviation",
+      "trade": "Flight attendant and airline pilot — AFA-CWA and ALPA crew",
+      "union": null,
+      "certification": "AFA-CWA and ALPA member fatigue-awareness training; the airline's own fatigue risk management policy under 14 CFR 121 — no duty-time limit, rest-period length or numeric fatigue score is stated here, every threshold runs per the airline's own policy",
+      "accent": "#7a8fa3",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "hold",
+        "turn",
+        "gauge",
+        "track"
+      ],
+      "badge": {
+        "id": "fit-for-duty",
+        "name": "Fit for Duty Certified",
+        "note": "An honest self-assessment, a rest facility actually checked, a no-fault fatigue call made without hesitation, and a relief handoff that told the truth"
+      },
+      "meshes": 117,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ca-8",
+      "flat": false,
+      "system": "Fit for Duty",
+      "currency": "REST",
+      "ranks": [
+        "New Crew Member",
+        "Line Qualified",
+        "Lead Crew",
+        "Check Instructor",
+        "Fit for Duty Certified"
+      ],
+      "awards": [
+        {
+          "id": "honest-selfcheck",
+          "name": "Honest Self-Check",
+          "note": "Completed the alertness self-assessment honestly before signing in"
+        },
+        {
+          "id": "no-fault-call",
+          "name": "No-Fault Call Made",
+          "note": "Called in fatigued without hesitation when the self-check called for it"
+        },
+        {
+          "id": "alarm-tested",
+          "name": "Alarm Tested",
+          "note": "Actually tested the wake alarm rather than trusting it untested"
+        },
+        {
+          "id": "clean-check",
+          "name": "Clean Check",
+          "note": "No corrections anywhere in the self-check"
+        },
+        {
+          "id": "steady-vigilance",
+          "name": "Steady Attention",
+          "note": "Held the vigilance check the full count, first try"
+        },
+        {
+          "id": "fast-check",
+          "name": "Fast Check",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ca-fatigue-and-duty-time-self-check"
     },
     {
       "app": "smartcity",
@@ -29671,7 +29815,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 262,
+      "meshes": 270,
       "lights": 0,
       "overBudget": false,
       "index": "92",

@@ -23723,7 +23723,7 @@ export const SIMS_META = [
     "domain": "Aviation",
     "trade": "Airline pilot — ALPA flight crew",
     "category": "Mobility & Transit",
-    "certification": "ALPA member professional-standards and safety training; the airline's own crew resource management and sterile-flight-deck procedure under 14 CFR 121 — no altitude, airspeed or clearance value is stated here, every threshold runs per the checklist",
+    "certification": "ALPA member professional-standards and safety training; the airline's own crew resource management and sterile-flight-deck procedure under 14 CFR 121, coordinated with the AFA-CWA cabin crew through the same closed-loop callouts this station teaches — no altitude, airspeed or clearance value is stated here, every threshold runs per the checklist",
     "name": "Flight Deck Crew Resource Management Briefing",
     "weather": "clear",
     "indoor": null,
@@ -23749,6 +23749,48 @@ export const SIMS_META = [
         "Line Captain",
         "Check Airman",
         "Deck Disciplined Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ca-fatigue-and-duty-time-self-check",
+    "index": "ca-8",
+    "domain": "Aviation",
+    "trade": "Flight attendant and airline pilot — AFA-CWA and ALPA crew",
+    "category": "Mobility & Transit",
+    "certification": "AFA-CWA and ALPA member fatigue-awareness training; the airline's own fatigue risk management policy under 14 CFR 121 — no duty-time limit, rest-period length or numeric fatigue score is stated here, every threshold runs per the airline's own policy",
+    "name": "Fatigue and Duty-Time Self-Check",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Fatigue and Duty-Time Self-Check VR",
+    "tagline": "An honest self-assessment before signing in, a rest facility actually fit to rest in, a no-fault fatigue call-in used without hesitation, and a handoff to relief crew that says so plainly if they aren't actually fit to fly — no hour or duty limit stated anywhere",
+    "accent": 8032163,
+    "accentCss": "#7a8fa3",
+    "parSeconds": 320,
+    "badge": {
+      "id": "fit-for-duty",
+      "name": "Fit for Duty Certified",
+      "note": "An honest self-assessment, a rest facility actually checked, a no-fault fatigue call made without hesitation, and a relief handoff that told the truth"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Fit for Duty",
+      "currency": "REST",
+      "ranks": [
+        "New Crew Member",
+        "Line Qualified",
+        "Lead Crew",
+        "Check Instructor",
+        "Fit for Duty Certified"
       ],
       "rankAt": [
         0,

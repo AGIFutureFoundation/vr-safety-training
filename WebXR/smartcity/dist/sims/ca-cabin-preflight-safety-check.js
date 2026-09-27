@@ -141,10 +141,11 @@ export const SIM_CA_CABIN_PREFLIGHT_SAFETY_CHECK = {
       why: "An armed door is what turns the slide into an evacuation slide the instant that door opens — a door left in the disarmed position at the gate is exactly correct for boarding and exactly wrong for the sequence this checklist is about to move into.",
     },
     {
-      id: "crosscheck-confirm", kind: "select", target: "crosscheck-panel",
+      id: "crosscheck-confirm", kind: "hold", target: "crosscheck-panel", seconds: 4,
       title: "Cross-check with the door across the aisle",
-      cue: "Confirm with the crew member at the opposite door that both doors are armed and cross-checked.",
-      why: "One person confirming their own work is one person who can miss their own mistake — the crew member across the aisle checking the same door from outside your own blind spot is what a cross-check actually catches that a solo check cannot.",
+      cue: "Hold the cross-check confirmation while the crew member at the opposite door verifies both doors together.",
+      why: "One person confirming their own work is one person who can miss their own mistake — holding the confirmation open long enough for the crew member across the aisle to actually check the same door from outside your own blind spot is what a cross-check catches that a solo, instant tap never would.",
+      holdBreakNote: "Released the confirmation before the crew member across the aisle actually finished verifying. A cross-check cut short is a cross-check that never really happened.",
     },
     {
       id: "reseat-exit-row", kind: "select", target: "exit-row-briefing-card",

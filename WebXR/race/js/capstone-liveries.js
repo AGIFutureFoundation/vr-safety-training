@@ -230,5 +230,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "grounds-and-landscaping",
     "name": "Grounds & Landscaping Crew",
     "accent": "#3f9c5a"
+  },
+  {
+    "programme": "airline-cabin-and-flight-crew",
+    "name": "Airline Cabin and Flight Crew — AFA-CWA and ALPA",
+    "accent": "#5a8fd8"
   }
 ];

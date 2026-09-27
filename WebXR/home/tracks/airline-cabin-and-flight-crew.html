@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Airline Cabin and Flight Crew — AFA-CWA and ALPA — training track</title>
+<meta name="description" content="Airline Cabin and Flight Crew — AFA-CWA and ALPA: a twenty-level training track, 1552 lessons across 8 stations.">
+<meta name="generator" content="tools/gen_tracks.mjs">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=Barlow:wght@400;500;600&amp;display=swap">
+<style>
+  :root{
+    --void:#050a10; --panel:#0b141d; --panel-2:#101b27; --raised:#142130; --raised-2:#192a3b;
+    --text:#edf6fb; --muted:#93b2c3; --dim:#6f8ea2;
+    --accent:#4fd1ff; --accent-2:#7ee6ff; --violet:#a079ff;
+    --warn:#f2c14b; --danger:#f0645b; --good:#59c97b;
+    --edge:rgba(126,170,200,.16); --edge-strong:rgba(126,170,200,.32);
+    --r-sm:6px; --r-md:10px;
+    --sans:"Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --cond:"Barlow Condensed", "Barlow", system-ui, sans-serif;
+    --gutter:16px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0; background:var(--void); color:var(--text); font-family:var(--sans); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased}
+  body::before{content:""; position:fixed; inset:0 0 auto; height:60vh; pointer-events:none; z-index:0;
+    background:radial-gradient(900px 480px at 8% -12%, color-mix(in srgb, var(--prog) 16%, transparent), transparent 62%)}
+  .wrap{position:relative; z-index:1; max-width:1120px; margin:0 auto; padding:0 var(--gutter)}
+  a{color:var(--accent-2); text-decoration:none}
+  a:hover{text-decoration:underline}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:var(--r-sm)}
+  .skip{position:absolute; left:-9999px; top:0; background:var(--raised); padding:10px 14px; border-radius:var(--r-sm); z-index:40}
+  .skip:focus{left:var(--gutter); top:8px}
+  .eyebrow{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.16em; font-size:11.5px; color:var(--dim); margin:0}
+  header.top{position:sticky; top:0; z-index:30; background:rgba(5,10,16,.92); border-bottom:1px solid var(--edge); backdrop-filter:blur(8px)}
+  .top-in{display:flex; gap:12px; align-items:center; justify-content:space-between; min-height:50px; padding:8px var(--gutter); max-width:1120px; margin:0 auto}
+  .brandline{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12px; color:var(--muted); margin:0; flex:1 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .back{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.09em; font-size:12.5px; white-space:nowrap}
+  .hero{padding:28px 0 4px}
+  .hero h1{font-family:var(--cond); font-weight:700; text-transform:uppercase; letter-spacing:.012em; font-size:clamp(28px,7.2vw,52px); line-height:1.04; margin:10px 0 0; text-wrap:balance}
+  .union{margin:10px 0 0; color:var(--prog); font-weight:600; font-size:15px}
+  .cert{margin:6px 0 0; color:var(--muted); font-size:14px; max-width:80ch}
+  .summary{margin:14px 0 0; font-size:16px; color:var(--text); max-width:72ch}
+  .stats{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin:22px 0 0}
+  .stat{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:12px 14px}
+  .stat b{display:block; font-family:var(--cond); font-weight:700; font-size:28px; line-height:1.1; font-variant-numeric:tabular-nums}
+  .stat span{font-size:12.5px; color:var(--muted)}
+  .stat.warn b{color:var(--warn)}
+  .gapnote{margin:12px 0 0; padding:10px 13px; border-left:2px solid var(--warn); background:rgba(242,193,75,.06); border-radius:0 var(--r-sm) var(--r-sm) 0; font-size:13.5px; color:var(--muted); max-width:86ch}
+  .gapnote b{color:var(--text)}
+  section.block{margin:38px 0 0; scroll-margin-top:64px}
+  section.block > h2{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.05em; font-size:clamp(19px,4.6vw,25px); margin:0}
+  .sub{margin:6px 0 0; font-size:13.5px; color:var(--muted); max-width:78ch}
+  .legend{display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 0}
+  .band{margin:18px 0 0}
+  .band h3{font-family:var(--cond); font-weight:600; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); margin:0 0 6px}
+  ol.levels{list-style:none; margin:0; padding:0; display:grid; gap:8px}
+  .level{display:grid; grid-template-columns:44px 1fr; gap:12px; padding:12px 13px; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-left:3px solid var(--prog); border-radius:var(--r-sm)}
+  .level.partial{border-left-color:var(--warn)}
+  .lvl-n{font-family:var(--cond); font-weight:700; font-size:26px; line-height:1; text-align:center; color:var(--prog); font-variant-numeric:tabular-nums}
+  .level.partial .lvl-n{color:var(--warn)}
+  .lvl-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 12px}
+  .lvl-head h4{margin:0; font-family:var(--cond); font-weight:600; font-size:18px; letter-spacing:.015em}
+  .lessons{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .lessons b{color:var(--text)}
+  .flag{display:inline-block; padding:1px 7px; border-radius:5px; font-size:11px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; background:var(--edge); color:var(--muted)}
+  .flag.warn{background:rgba(242,193,75,.16); color:var(--warn)}
+  .flag.ok{background:rgba(89,201,123,.16); color:var(--good)}
+  ol.tasks{list-style:none; margin:8px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:6px}
+  .task{display:inline-flex; align-items:center; gap:6px; padding:4px 8px 4px 9px; border-radius:var(--r-sm); background:var(--raised); border:1px solid var(--edge); font-size:13px; color:var(--text)}
+  .task:hover{background:var(--raised-2); text-decoration:none}
+  .task .st{font-variant-numeric:tabular-nums; color:var(--dim); font-size:11.5px}
+  .chip{display:inline-block; padding:0 7px; border-radius:9px; font-size:11px; font-weight:600; white-space:nowrap; background:var(--edge); color:var(--text)}
+  .chip.time{background:rgba(242,193,75,.16); color:#f2d27f}
+  .chip.weather{background:rgba(79,209,255,.16); color:#8fe0ff}
+  .chip.hazard{background:rgba(240,100,91,.18); color:#ff9b93}
+  .chip.interrupt{background:rgba(160,121,255,.2); color:#c7b2ff}
+  .chip.variant{background:rgba(89,201,123,.18); color:#8fe3a8}
+  .lvl-foot{margin:8px 0 0; display:flex; flex-wrap:wrap; gap:6px 14px; font-size:12.5px; color:var(--dim)}
+  .lvl-foot a{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.08em; font-size:12px}
+  .grid{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .station{display:flex; flex-direction:column; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-top:2px solid var(--tint,var(--prog)); border-radius:var(--r-md); overflow:hidden}
+  .shot{display:block; aspect-ratio:16/9; width:100%; object-fit:cover; background:var(--raised)}
+  .noshot{display:flex; align-items:center; justify-content:center; aspect-ratio:16/9; background:repeating-linear-gradient(135deg,var(--panel),var(--panel) 10px,var(--panel-2) 10px,var(--panel-2) 20px); color:var(--dim); font-size:12.5px}
+  .st-body{padding:12px 14px 14px; display:flex; flex-direction:column; gap:6px; flex:1}
+  .st-body h3{margin:0; font-family:var(--cond); font-weight:600; font-size:19px; letter-spacing:.015em}
+  .st-meta{margin:0; font-size:12.5px; color:var(--dim); font-variant-numeric:tabular-nums}
+  .why{margin:0; font-size:13.5px; color:var(--muted)}
+  .st-std{margin:0; padding:0 0 0 16px; font-size:12.5px; color:var(--muted)}
+  .st-std li{margin:1px 0}
+  .runs{display:flex; flex-wrap:wrap; gap:5px}
+  .run{display:inline-flex; align-items:center; gap:4px; white-space:nowrap}
+  .runs{row-gap:4px; column-gap:10px}
+  .runs a:hover{text-decoration:none; filter:brightness(1.15)}
+  .launch{margin-top:auto; padding-top:6px; font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12.5px}
+  .launch::after{content:" \2192"}
+  table.std{width:100%; border-collapse:collapse; margin:14px 0 0; font-size:13.5px}
+  table.std th{font-family:var(--cond); font-weight:600; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); text-align:left; padding:6px 8px; border-bottom:1px solid var(--edge-strong)}
+  table.std td{padding:7px 8px; border-bottom:1px solid var(--edge); vertical-align:top}
+  table.std td.n{font-variant-numeric:tabular-nums; color:var(--muted); white-space:nowrap}
+  .tablewrap{overflow-x:auto; -webkit-overflow-scrolling:touch}
+  .proof{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .card{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:14px 16px}
+  .card h3{margin:0 0 6px; font-family:var(--cond); font-weight:600; font-size:18px}
+  .card p, .card li{font-size:13.5px; color:var(--muted)}
+  .card p{margin:6px 0 0}
+  .card ul{margin:6px 0 0; padding-left:18px}
+  footer{margin:52px 0 0; border-top:1px solid var(--edge); background:var(--panel)}
+  .foot{padding:22px var(--gutter) 36px; max-width:1120px; margin:0 auto; font-size:13px; color:var(--dim)}
+  .foot p{margin:0 0 8px; max-width:86ch}
+  @media (min-width:560px){ .stats{grid-template-columns:repeat(4,1fr)} .grid{grid-template-columns:1fr 1fr} .proof{grid-template-columns:1fr 1fr} }
+  @media (min-width:900px){ .hero{padding:44px 0 6px} .grid{grid-template-columns:repeat(3,1fr)} }
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important} }
+</style>
+</head>
+<body style="--prog:#5a8fd8">
+<a class="home-chip" href="../index.html" aria-label="Back to the homepage">&#8962; Home</a>
+<style>.home-chip{position:fixed;top:calc(8px + env(safe-area-inset-top,0px));left:10px;z-index:10000;display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:999px;background:rgba(6,11,18,.78);color:#dbe7ee;border:1px solid rgba(79,209,255,.45);font:600 13px/1 Arial,Helvetica,sans-serif;text-decoration:none;letter-spacing:.02em;backdrop-filter:blur(6px)}.home-chip:hover,.home-chip:focus-visible{background:rgba(79,209,255,.22);color:#fff;outline:2px solid #4fd1ff;outline-offset:2px}@media (max-width:480px){.home-chip{top:calc(6px + env(safe-area-inset-top,0px));left:8px;padding:5px 9px;font-size:12px}}</style>
+<!-- Generated by tools/gen_tracks.mjs from WebXR/smartcity/js/ladders.js and WebXR/smartcity/catalog.json — edit the generator, not this file. -->
+<a class="skip" href="#ladder">Skip to the ladder</a>
+<header class="top">
+  <div class="top-in">
+    <p class="brandline">SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko) · training track</p>
+    <a class="back" href="../index.html">All stations</a>
+  </div>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <p class="eyebrow">Training track · 8 stations · 20 levels · 1552 lessons</p>
+    <h1>Airline Cabin and Flight Crew — AFA-CWA and ALPA</h1>
+    <p class="union">AFA-CWA and ALPA</p>
+    <p class="cert">AFA-CWA cabin-safety training and ALPA member professional-standards training; FAA 14 CFR Part 121 air carrier operations; OSHA 29 CFR 1910.151 medical services and first aid and 29 CFR 1910.1030 bloodborne pathogens; Cal/OSHA&#39;s workplace violence prevention standard, 8 CCR 3342, across eight distinct flight attendant and pilot jobs</p>
+    <p class="summary">Eight jobs an AFA-CWA flight attendant or an ALPA pilot actually rotates through: a cabin pre-flight safety check with the doors armed and cross-checked, the galley and its cart secured against turbulence, a cabin medical event supported without a single clinical guess, an unruly passenger de-escalated with distance and the captain&#39;s own word on anything further, a decompression drill run mask-on-first, a door evacuation held on commands and a blocked frame, a flight-deck crew resource management briefing built on sterile discipline and closed-loop callouts, and an honest fatigue self-check before ever signing in. Every station ends on a proof — a cross-check confirmed, a gauge read, a callout actually acknowledged — rather than on how routine the job felt going in.</p>
+    <div class="stats">
+      <div class="stat"><b>20 / 20</b><span>levels at 75+ lessons</span></div>
+      <div class="stat"><b>1552</b><span>lessons across the track</span></div>
+      <div class="stat"><b>120</b><span>tasks: a station under a condition</span></div>
+      <div class="stat"><b>0</b><span>more stations needed to fill it</span></div>
+    </div>
+    <p class="gapnote"><b>Every level reaches 75 lessons.</b> A lesson is one station step run under one condition; each level's number is its tasks' steps added up from the station modules.</p>
+  </section>
+
+  <section class="block" id="ladder">
+    <h2>The ladder</h2>
+    <p class="sub">Level 1 is open; each level opens when the one below is passed — every task in one run of it a mastery run. A task opens its station with its condition; the number after each task is its steps.</p>
+    <div class="legend"><span class="chip base">base run</span> <span class="chip time">daylight</span> <span class="chip weather">rain</span> <span class="chip hazard">hazard mode</span> <span class="chip interrupt">interruption</span> <span class="chip variant">assessment variant</span></div>
+      <div class="band">
+        <h3>Levels 1–5 · Orientation and single procedures <span class="sub">— base run, then daylight and dusk</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-1">
+          <span class="lvl-n">1</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation</h4><span class="lessons"><b>77</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ca-galley-and-cart-safety">Galley and Cart Safety <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-fatigue-and-duty-time-self-check">Fatigue and Duty-Time Self-Check <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check">Cabin Pre-Flight Safety Check <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-door-evacuation-drill">Door Evacuation Drill <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks">Cabin Decompression and Oxygen Mask Drill <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-medical-event-response">Cabin Medical Event Response <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><a href="../smartcity-x.html?programme=airline-cabin-and-flight-crew&amp;level=1">Open level 1 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-2">
+          <span class="lvl-n">2</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation by daylight</h4><span class="lessons"><b>77</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ca-galley-and-cart-safety&amp;time=day">Galley and Cart Safety <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-fatigue-and-duty-time-self-check&amp;time=day">Fatigue and Duty-Time Self-Check <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;time=day">Cabin Pre-Flight Safety Check <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-door-evacuation-drill&amp;time=day">Door Evacuation Drill <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks&amp;time=day">Cabin Decompression and Oxygen Mask Drill <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-medical-event-response&amp;time=day">Cabin Medical Event Response <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><a href="../smartcity-x.html?programme=airline-cabin-and-flight-crew&amp;level=2">Open level 2 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-3">
+          <span class="lvl-n">3</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures</h4><span class="lessons"><b>77</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ca-galley-and-cart-safety">Galley and Cart Safety <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-fatigue-and-duty-time-self-check">Fatigue and Duty-Time Self-Check <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check">Cabin Pre-Flight Safety Check <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-door-evacuation-drill">Door Evacuation Drill <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks">Cabin Decompression and Oxygen Mask Drill <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-medical-event-response">Cabin Medical Event Response <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><a href="../smartcity-x.html?programme=airline-cabin-and-flight-crew&amp;level=3">Open level 3 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-4">
+          <span class="lvl-n">4</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures at dusk</h4><span class="lessons"><b>77</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ca-galley-and-cart-safety&amp;time=dusk">Galley and Cart Safety <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-fatigue-and-duty-time-self-check&amp;time=dusk">Fatigue and Duty-Time Self-Check <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;time=dusk">Cabin Pre-Flight Safety Check <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-door-evacuation-drill&amp;time=dusk">Door Evacuation Drill <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks&amp;time=dusk">Cabin Decompression and Oxygen Mask Drill <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-medical-event-response&amp;time=dusk">Cabin Medical Event Response <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><a href="../smartcity-x.html?programme=airline-cabin-and-flight-crew&amp;level=4">Open level 4 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-5">
+          <span class="lvl-n">5</span>
+          <div>
+            <div class="lvl-head"><h4>Day and night on the clock</h4><span class="lessons"><b>77</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ca-galley-and-cart-safety">Galley and Cart Safety <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-fatigue-and-duty-time-self-check">Fatigue and Duty-Time Self-Check <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;time=day">Cabin Pre-Flight Safety Check <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-door-evacuation-drill&amp;time=day">Door Evacuation Drill <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks&amp;time=day">Cabin Decompression and Oxygen Mask Drill <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-medical-event-response">Cabin Medical Event Response <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><a href="../smartcity-x.html?programme=airline-cabin-and-flight-crew&amp;level=5">Open level 5 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 6–10 · Weather and the hour <span class="sub">— rain, wind, fog, storm, smoke; an indoor station takes the hour instead</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-6">
+          <span class="lvl-n">6</span>
+          <div>
+            <div class="lvl-head"><h4>Rain</h4><span class="lessons"><b>77</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ca-galley-and-cart-safety&amp;time=dusk">Galley and Cart Safety <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-fatigue-and-duty-time-self-check&amp;time=dusk">Fatigue and Duty-Time Self-Check <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;weather=rain">Cabin Pre-Flight Safety Check <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-door-evacuation-drill&amp;weather=rain">Door Evacuation Drill <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks&amp;weather=rain">Cabin Decompression and Oxygen Mask Drill <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-medical-event-response&amp;time=dusk">Cabin Medical Event Response <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><a href="../smartcity-x.html?programme=airline-cabin-and-flight-crew&amp;level=6">Open level 6 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-7">
+          <span class="lvl-n">7</span>
+          <div>
+            <div class="lvl-head"><h4>High wind</h4><span class="lessons"><b>77</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ca-galley-and-cart-safety&amp;weather=wind">Galley and Cart Safety <span class="chip weather">high wind</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-fatigue-and-duty-time-self-check&amp;weather=wind">Fatigue and Duty-Time Self-Check <span class="chip weather">high wind</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;weather=wind">Cabin Pre-Flight Safety Check <span class="chip weather">high wind</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-door-evacuation-drill&amp;time=day">Door Evacuation Drill <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks&amp;time=day">Cabin Decompression and Oxygen Mask Drill <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-medical-event-response&amp;time=day">Cabin Medical Event Response <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><a href="../smartcity-x.html?programme=airline-cabin-and-flight-crew&amp;level=7">Open level 7 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-8">
+          <span class="lvl-n">8</span>
+          <div>
+            <div class="lvl-head"><h4>Fog</h4><span class="lessons"><b>77</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ca-galley-and-cart-safety&amp;time=dusk">Galley and Cart Safety <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-fatigue-and-duty-time-self-check&amp;time=dusk">Fatigue and Duty-Time Self-Check <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;time=dusk">Cabin Pre-Flight Safety Check <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-door-evacuation-drill&amp;weather=fog">Door Evacuation Drill <span class="chip weather">fog</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks&amp;weather=fog">Cabin Decompression and Oxygen Mask Drill <span class="chip weather">fog</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-medical-event-response&amp;weather=fog">Cabin Medical Event Response <span class="chip weather">fog</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><a href="../smartcity-x.html?programme=airline-cabin-and-flight-crew&amp;level=8">Open level 8 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-9">
+          <span class="lvl-n">9</span>
+          <div>
+            <div class="lvl-head"><h4>Storm</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ca-fatigue-and-duty-time-self-check&amp;weather=storm">Fatigue and Duty-Time Self-Check <span class="chip weather">storm</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;weather=storm">Cabin Pre-Flight Safety Check <span class="chip weather">storm</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-door-evacuation-drill&amp;weather=storm">Door Evacuation Drill <span class="chip weather">storm</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks&amp;time=day">Cabin Decompression and Oxygen Mask Drill <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-medical-event-response&amp;time=day">Cabin Medical Event Response <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-flight-deck-crew-resource-management&amp;time=day">Flight Deck Crew Resource Management Briefing <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><a href="../smartcity-x.html?programme=airline-cabin-and-flight-crew&amp;level=9">Open level 9 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-10">
+          <span class="lvl-n">10</span>
+          <div>
+            <div class="lvl-head"><h4>Weather and hour mixed</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ca-fatigue-and-duty-time-self-check&amp;weather=smoke">Fatigue and Duty-Time Self-Check <span class="chip weather">wildfire smoke</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;weather=overcast">Cabin Pre-Flight Safety Check <span class="chip weather">overcast</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-door-evacuation-drill&amp;weather=smoke">Door Evacuation Drill <span class="chip weather">wildfire smoke</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks&amp;weather=rain">Cabin Decompression and Oxygen Mask Drill <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-medical-event-response&amp;time=dusk">Cabin Medical Event Response <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-flight-deck-crew-resource-management&amp;weather=rain">Flight Deck Crew Resource Management Briefing <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><a href="../smartcity-x.html?programme=airline-cabin-and-flight-crew&amp;level=10">Open level 10 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 11–14 · Hazard mode and interruptions <span class="sub">— assessed hazard mode; declared interruptions fired off their authored step</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-11">
+          <span class="lvl-n">11</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ca-fatigue-and-duty-time-self-check&amp;hazard=assess">Fatigue and Duty-Time Self-Check <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;hazard=assess">Cabin Pre-Flight Safety Check <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-door-evacuation-drill&amp;hazard=assess">Door Evacuation Drill <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks&amp;hazard=assess">Cabin Decompression and Oxygen Mask Drill <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-medical-event-response&amp;hazard=assess">Cabin Medical Event Response <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-flight-deck-crew-resource-management&amp;hazard=assess">Flight Deck Crew Resource Management Briefing <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>5 standards evidenced</span><a href="../smartcity-x.html?programme=airline-cabin-and-flight-crew&amp;level=11">Open level 11 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-12">
+          <span class="lvl-n">12</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;interrupt=late-bag-through-door">Cabin Pre-Flight Safety Check <span class="chip interrupt">interruption: late bag through door</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-door-evacuation-drill&amp;interrupt=passenger-freezes-again">Door Evacuation Drill <span class="chip interrupt">interruption: passenger freezes again</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks&amp;interrupt=second-mask-fails">Cabin Decompression and Oxygen Mask Drill <span class="chip interrupt">interruption: second mask fails</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-medical-event-response&amp;interrupt=second-passenger-anxious">Cabin Medical Event Response <span class="chip interrupt">interruption: second passenger anxious</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-flight-deck-crew-resource-management&amp;interrupt=urgent-frequency-change">Flight Deck Crew Resource Management Briefing <span class="chip interrupt">interruption: urgent frequency change</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-unruly-passenger-deescalation&amp;interrupt=bystander-films-and-encourages">Unruly Passenger De-escalation <span class="chip interrupt">interruption: bystander films and encourages</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>6 standards evidenced</span><a href="../smartcity-x.html?programme=airline-cabin-and-flight-crew&amp;level=12">Open level 12 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-13">
+          <span class="lvl-n">13</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode, harder stations</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;hazard=assess">Cabin Pre-Flight Safety Check <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-door-evacuation-drill&amp;hazard=assess">Door Evacuation Drill <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks&amp;hazard=assess">Cabin Decompression and Oxygen Mask Drill <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-medical-event-response&amp;hazard=assess">Cabin Medical Event Response <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-flight-deck-crew-resource-management&amp;hazard=assess">Flight Deck Crew Resource Management Briefing <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-unruly-passenger-deescalation&amp;hazard=assess">Unruly Passenger De-escalation <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>6 standards evidenced</span><a href="../smartcity-x.html?programme=airline-cabin-and-flight-crew&amp;level=13">Open level 13 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-14">
+          <span class="lvl-n">14</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted, harder stations</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;interrupt=exit-row-swap-request">Cabin Pre-Flight Safety Check <span class="chip interrupt">interruption: exit row swap request</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-door-evacuation-drill&amp;interrupt=conditions-change-outside">Door Evacuation Drill <span class="chip interrupt">interruption: conditions change outside</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks&amp;interrupt=passenger-tries-to-unbuckle">Cabin Decompression and Oxygen Mask Drill <span class="chip interrupt">interruption: passenger tries to unbuckle</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-medical-event-response&amp;interrupt=responder-asks-for-medication">Cabin Medical Event Response <span class="chip interrupt">interruption: responder asks for medication</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-flight-deck-crew-resource-management&amp;interrupt=unexpected-deviation-noticed">Flight Deck Crew Resource Management Briefing <span class="chip interrupt">interruption: unexpected deviation noticed</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-unruly-passenger-deescalation&amp;interrupt=passenger-moves-toward-deck">Unruly Passenger De-escalation <span class="chip interrupt">interruption: passenger moves toward deck</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>6 standards evidenced</span><a href="../smartcity-x.html?programme=airline-cabin-and-flight-crew&amp;level=14">Open level 14 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 15–18 · Station chains <span class="sub">— two or more stations back to back, one run under a declared interruption</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-15">
+          <span class="lvl-n">15</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in weather</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;weather=rain">Cabin Pre-Flight Safety Check <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-door-evacuation-drill&amp;interrupt=passenger-freezes-again">Door Evacuation Drill <span class="chip interrupt">interruption: passenger freezes again</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks&amp;weather=wind">Cabin Decompression and Oxygen Mask Drill <span class="chip weather">high wind</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-medical-event-response&amp;interrupt=second-passenger-anxious">Cabin Medical Event Response <span class="chip interrupt">interruption: second passenger anxious</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-flight-deck-crew-resource-management&amp;weather=rain">Flight Deck Crew Resource Management Briefing <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-unruly-passenger-deescalation&amp;time=day">Unruly Passenger De-escalation <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>6 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=airline-cabin-and-flight-crew&amp;level=15">Open level 15 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-16">
+          <span class="lvl-n">16</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain at dusk</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;hazard=assess">Cabin Pre-Flight Safety Check <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-door-evacuation-drill&amp;time=dusk">Door Evacuation Drill <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks&amp;interrupt=second-mask-fails">Cabin Decompression and Oxygen Mask Drill <span class="chip interrupt">interruption: second mask fails</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-medical-event-response&amp;time=dusk">Cabin Medical Event Response <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-flight-deck-crew-resource-management&amp;interrupt=urgent-frequency-change">Flight Deck Crew Resource Management Briefing <span class="chip interrupt">interruption: urgent frequency change</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-unruly-passenger-deescalation&amp;hazard=assess">Unruly Passenger De-escalation <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>6 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=airline-cabin-and-flight-crew&amp;level=16">Open level 16 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-17">
+          <span class="lvl-n">17</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain, instructor on</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;weather=fog">Cabin Pre-Flight Safety Check <span class="chip weather">fog</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-door-evacuation-drill&amp;hazard=assess">Door Evacuation Drill <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks&amp;interrupt=passenger-tries-to-unbuckle">Cabin Decompression and Oxygen Mask Drill <span class="chip interrupt">interruption: passenger tries to unbuckle</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-medical-event-response&amp;weather=fog">Cabin Medical Event Response <span class="chip weather">fog</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-flight-deck-crew-resource-management&amp;interrupt=unexpected-deviation-noticed">Flight Deck Crew Resource Management Briefing <span class="chip interrupt">interruption: unexpected deviation noticed</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-unruly-passenger-deescalation&amp;weather=fog">Unruly Passenger De-escalation <span class="chip weather">fog</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>6 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=airline-cabin-and-flight-crew&amp;level=17">Open level 17 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-18">
+          <span class="lvl-n">18</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in a storm</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;weather=storm">Cabin Pre-Flight Safety Check <span class="chip weather">storm</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-door-evacuation-drill&amp;interrupt=conditions-change-outside">Door Evacuation Drill <span class="chip interrupt">interruption: conditions change outside</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks&amp;hazard=assess">Cabin Decompression and Oxygen Mask Drill <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-medical-event-response&amp;time=day">Cabin Medical Event Response <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-flight-deck-crew-resource-management&amp;weather=storm">Flight Deck Crew Resource Management Briefing <span class="chip weather">storm</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-unruly-passenger-deescalation&amp;interrupt=bystander-films-and-encourages">Unruly Passenger De-escalation <span class="chip interrupt">interruption: bystander films and encourages</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>6 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=airline-cabin-and-flight-crew&amp;level=18">Open level 18 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 19 · Full shift <span class="sub">— five or more of the programme&#39;s hardest jobs</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-19">
+          <span class="lvl-n">19</span>
+          <div>
+            <div class="lvl-head"><h4>Full shift</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;time=dusk">Cabin Pre-Flight Safety Check <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-door-evacuation-drill&amp;interrupt=passenger-freezes-again">Door Evacuation Drill <span class="chip interrupt">interruption: passenger freezes again</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks&amp;interrupt=second-mask-fails">Cabin Decompression and Oxygen Mask Drill <span class="chip interrupt">interruption: second mask fails</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-medical-event-response&amp;weather=rain">Cabin Medical Event Response <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-flight-deck-crew-resource-management&amp;time=day">Flight Deck Crew Resource Management Briefing <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-unruly-passenger-deescalation">Unruly Passenger De-escalation <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>6 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=airline-cabin-and-flight-crew&amp;level=19">Open level 19 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 20 · Capstone <span class="sub">— the hardest stations as assessment variants, no coaching, mastery rule</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-20">
+          <span class="lvl-n">20</span>
+          <div>
+            <div class="lvl-head"><h4>Capstone</h4><span class="lessons"><b>78</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span> <span class="flag">no coaching</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;variant=assessment">Cabin Pre-Flight Safety Check <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-door-evacuation-drill&amp;variant=assessment">Door Evacuation Drill <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks&amp;variant=assessment">Cabin Decompression and Oxygen Mask Drill <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-cabin-medical-event-response&amp;variant=assessment">Cabin Medical Event Response <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-flight-deck-crew-resource-management&amp;variant=assessment">Flight Deck Crew Resource Management Briefing <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ca-unruly-passenger-deescalation&amp;variant=assessment">Unruly Passenger De-escalation <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>6 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=airline-cabin-and-flight-crew&amp;level=20">Open level 20 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+  </section>
+
+  <section class="block" id="stations">
+    <h2>Stations</h2>
+    <p class="sub">Every station in the programme, the conditions the ladder runs it under (each chip launches that run, with the levels it appears in), and the standards its own source cites.</p>
+    <div class="grid">
+        <article class="station" style="--tint:#2f8fdb">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Mobility &amp; Transit</p>
+            <h3>Cabin Pre-Flight Safety Check</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.5 min</p>
+            <p class="why">Nothing about this door gets armed until the exits and the aisle are actually proven clear, and even then it only counts once the crew member across the aisle has cross-checked it — one person&#39;s own confirmation is never the whole story.</p>
+            <ul class="st-std"><li>union — AFA-CWA member education and cabin-safety training for flight attendants</li><li>FAA — 14 CFR Part 121 — Operating requirements for domestic, flag and supplemental air carriers</li><li>OSHA — 29 CFR 1910.151 — Medical services and first aid</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L8, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L6, L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;weather=wind"><span class="chip weather">high wind</span></a> <span class="st-meta">L7</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;weather=storm"><span class="chip weather">storm</span></a> <span class="st-meta">L9, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;weather=overcast"><span class="chip weather">overcast</span></a> <span class="st-meta">L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;interrupt=late-bag-through-door"><span class="chip interrupt">interruption: late bag through door</span></a> <span class="st-meta">L12</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;interrupt=exit-row-swap-request"><span class="chip interrupt">interruption: exit row swap request</span></a> <span class="st-meta">L14</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=ca-cabin-preflight-safety-check">Launch Cabin Pre-Flight Safety Check</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#d8a23b">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Mobility &amp; Transit</p>
+            <h3>Galley and Cart Safety</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 5.3 min</p>
+            <p class="why">A cart that isn&#39;t braked and latched between every push is a cart that moves on its own the instant the aircraft does, and the whole galley gets secured for descent the moment the sign says so, not whenever there&#39;s a free minute.</p>
+            <ul class="st-std"><li>union — AFA-CWA member education and cabin-safety training for flight attendants</li><li>FAA — 14 CFR Part 121 — Operating requirements for domestic, flag and supplemental air carriers</li><li>OSHA — 29 CFR 1910.151 — Medical services and first aid</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=ca-galley-and-cart-safety"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-galley-and-cart-safety&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-galley-and-cart-safety&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-galley-and-cart-safety&amp;weather=wind"><span class="chip weather">high wind</span></a> <span class="st-meta">L7</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=ca-galley-and-cart-safety">Launch Galley and Cart Safety</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#d8564a">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Mobility &amp; Transit</p>
+            <h3>Cabin Medical Event Response</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.7 min</p>
+            <p class="why">Every clinical decision here belongs to the responding professional or to ground-based medical support, never to the crew member closest to the seat — the job is calling for help correctly, clearing space, and relaying exactly what&#39;s reported, nothing guessed at.</p>
+            <ul class="st-std"><li>union — AFA-CWA member education and cabin-safety training for flight attendants</li><li>FAA — 14 CFR Part 121 — Operating requirements for domestic, flag and supplemental air carriers</li><li>OSHA — 29 CFR 1910.1030 — Bloodborne pathogens</li><li>OSHA — 29 CFR 1910.151 — Medical services and first aid</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=ca-cabin-medical-event-response"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-cabin-medical-event-response&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L7, L9, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-cabin-medical-event-response&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L10, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-cabin-medical-event-response&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L8, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-cabin-medical-event-response&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-cabin-medical-event-response&amp;interrupt=second-passenger-anxious"><span class="chip interrupt">interruption: second passenger anxious</span></a> <span class="st-meta">L12, L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-cabin-medical-event-response&amp;interrupt=responder-asks-for-medication"><span class="chip interrupt">interruption: responder asks for medication</span></a> <span class="st-meta">L14</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-cabin-medical-event-response&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-cabin-medical-event-response&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=ca-cabin-medical-event-response">Launch Cabin Medical Event Response</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#b85fa0">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Mobility &amp; Transit</p>
+            <h3>Unruly Passenger De-escalation</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.7 min</p>
+            <p class="why">Distance and a calm approach come first, the flight deck door gets reinforced the moment things move the wrong way, and whether restraint is ever used is the captain&#39;s decision alone, given explicitly, never assumed by whoever is standing closest.</p>
+            <ul class="st-std"><li>union — AFA-CWA member education and cabin-safety training for flight attendants</li><li>Cal/OSHA — 8 CCR 3342 — Workplace violence prevention plan</li><li>FAA — 14 CFR Part 121 — Operating requirements for domestic, flag and supplemental air carriers</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=ca-unruly-passenger-deescalation&amp;interrupt=bystander-films-and-encourages"><span class="chip interrupt">interruption: bystander films and encourages</span></a> <span class="st-meta">L12, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-unruly-passenger-deescalation&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L13, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-unruly-passenger-deescalation&amp;interrupt=passenger-moves-toward-deck"><span class="chip interrupt">interruption: passenger moves toward deck</span></a> <span class="st-meta">L14</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-unruly-passenger-deescalation&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-unruly-passenger-deescalation&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-unruly-passenger-deescalation"><span class="chip base">base run</span></a> <span class="st-meta">L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-unruly-passenger-deescalation&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=ca-unruly-passenger-deescalation">Launch Unruly Passenger De-escalation</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#4fb0d8">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Mobility &amp; Transit</p>
+            <h3>Cabin Decompression and Oxygen Mask Drill</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.7 min</p>
+            <p class="why">This crew member&#39;s own mask goes on before a single other row gets touched, because a flight attendant who passes out helping someone else&#39;s seat has just made this cabin&#39;s problem worse, not better.</p>
+            <ul class="st-std"><li>union — AFA-CWA member education and cabin-safety training for flight attendants</li><li>FAA — 14 CFR Part 121 — Operating requirements for domestic, flag and supplemental air carriers</li><li>OSHA — 29 CFR 1910.151 — Medical services and first aid</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5, L7, L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L6, L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L8</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks&amp;interrupt=second-mask-fails"><span class="chip interrupt">interruption: second mask fails</span></a> <span class="st-meta">L12, L16, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks&amp;interrupt=passenger-tries-to-unbuckle"><span class="chip interrupt">interruption: passenger tries to unbuckle</span></a> <span class="st-meta">L14, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks&amp;weather=wind"><span class="chip weather">high wind</span></a> <span class="st-meta">L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=ca-cabin-decompression-and-oxygen-masks">Launch Cabin Decompression and Oxygen Mask Drill</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#e0525f">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Mobility &amp; Transit</p>
+            <h3>Door Evacuation Drill</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.5 min</p>
+            <p class="why">The slide gets confirmed before anyone is sent onto it, the same three commands never stop, and the door frame stays physically blocked so the flow through it never breaks for a dropped bag or a passenger frozen at the sill.</p>
+            <ul class="st-std"><li>union — AFA-CWA member education and cabin-safety training for flight attendants</li><li>FAA — 14 CFR Part 121 — Operating requirements for domestic, flag and supplemental air carriers</li><li>OSHA — 29 CFR 1910.151 — Medical services and first aid</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=ca-door-evacuation-drill"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-door-evacuation-drill&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5, L7</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-door-evacuation-drill&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-door-evacuation-drill&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L6</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-door-evacuation-drill&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L8</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-door-evacuation-drill&amp;weather=storm"><span class="chip weather">storm</span></a> <span class="st-meta">L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-door-evacuation-drill&amp;weather=smoke"><span class="chip weather">wildfire smoke</span></a> <span class="st-meta">L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-door-evacuation-drill&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-door-evacuation-drill&amp;interrupt=passenger-freezes-again"><span class="chip interrupt">interruption: passenger freezes again</span></a> <span class="st-meta">L12, L15, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-door-evacuation-drill&amp;interrupt=conditions-change-outside"><span class="chip interrupt">interruption: conditions change outside</span></a> <span class="st-meta">L14, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-door-evacuation-drill&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=ca-door-evacuation-drill">Launch Door Evacuation Drill</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#5a8fd8">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Mobility &amp; Transit</p>
+            <h3>Flight Deck Crew Resource Management Briefing</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.7 min</p>
+            <p class="why">A callout that lands on silence hasn&#39;t actually been heard — the sterile phase, the challenge-and-response checklist and the closed-loop acknowledgment all exist so nothing in this flight deck is ever just one pilot&#39;s own assumption.</p>
+            <ul class="st-std"><li>union — AFA-CWA member education and cabin-safety training for flight attendants</li><li>union — ALPA member professional-standards and safety training for airline pilots</li><li>FAA — 14 CFR Part 121 — Operating requirements for domestic, flag and supplemental air carriers</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=ca-flight-deck-crew-resource-management&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L9, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-flight-deck-crew-resource-management&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L10, L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-flight-deck-crew-resource-management&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-flight-deck-crew-resource-management&amp;interrupt=urgent-frequency-change"><span class="chip interrupt">interruption: urgent frequency change</span></a> <span class="st-meta">L12, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-flight-deck-crew-resource-management&amp;interrupt=unexpected-deviation-noticed"><span class="chip interrupt">interruption: unexpected deviation noticed</span></a> <span class="st-meta">L14, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-flight-deck-crew-resource-management&amp;weather=storm"><span class="chip weather">storm</span></a> <span class="st-meta">L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-flight-deck-crew-resource-management&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=ca-flight-deck-crew-resource-management">Launch Flight Deck Crew Resource Management Briefing</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#7a8fa3">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Mobility &amp; Transit</p>
+            <h3>Fatigue and Duty-Time Self-Check</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.3 min</p>
+            <p class="why">The no-fault fatigue line only works if it&#39;s actually used the moment the honest self-assessment calls for it — no schedule pressure, and no hour or duty limit this platform states, gets to override that honest answer.</p>
+            <ul class="st-std"><li>union — AFA-CWA member education and cabin-safety training for flight attendants</li><li>union — ALPA member professional-standards and safety training for airline pilots</li><li>FAA — 14 CFR Part 121 — Operating requirements for domestic, flag and supplemental air carriers</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=ca-fatigue-and-duty-time-self-check"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-fatigue-and-duty-time-self-check&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-fatigue-and-duty-time-self-check&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-fatigue-and-duty-time-self-check&amp;weather=wind"><span class="chip weather">high wind</span></a> <span class="st-meta">L7</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-fatigue-and-duty-time-self-check&amp;weather=storm"><span class="chip weather">storm</span></a> <span class="st-meta">L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-fatigue-and-duty-time-self-check&amp;weather=smoke"><span class="chip weather">wildfire smoke</span></a> <span class="st-meta">L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=ca-fatigue-and-duty-time-self-check&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=ca-fatigue-and-duty-time-self-check">Launch Fatigue and Duty-Time Self-Check</a>
+          </div>
+        </article>
+    </div>
+  </section>
+
+  <section class="block" id="standards">
+    <h2>Standards evidenced</h2>
+    <p class="sub">Registry entries (tools/standards.json) that a task's own source cites and that govern its category, with the levels that evidence each. Evidencing readiness against a standard is not a licence or a certification issued by its body.</p>
+    <div class="tablewrap"><table class="std">
+      <thead><tr><th>Body</th><th>Standard</th><th>Levels</th></tr></thead>
+      <tbody>
+          <tr><td>Cal/OSHA</td><td>8 CCR 3342 — Workplace violence prevention plan</td><td class="n">9 levels</td></tr>
+          <tr><td>FAA</td><td>14 CFR Part 121 — Operating requirements for domestic, flag and supplemental air carriers</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.1030 — Bloodborne pathogens</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.151 — Medical services and first aid</td><td class="n">all 20</td></tr>
+          <tr><td>union</td><td>AFA-CWA member education and cabin-safety training for flight attendants</td><td class="n">all 20</td></tr>
+          <tr><td>union</td><td>ALPA member professional-standards and safety training for airline pilots</td><td class="n">all 20</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="block" id="proves">
+    <h2>What it proves</h2>
+    <div class="proof">
+      <div class="card">
+        <h3>Competency: Run eight distinct AFA-CWA flight attendant and ALPA pilot jobs from cabin pre-flight to a flight-deck CRM briefing</h3>
+        <p>Demonstrated with a mastery run on 4 of its 8 stations, against union AFA-CWA member education and cabin-safety training for flight attendants; union ALPA member professional-standards and safety training for airline pilots; FAA 14 CFR Part 121 Operating requirements for domestic, flag and supplemental air carriers; Cal/OSHA 8 CCR 3342 Workplace violence prevention plan.</p>
+        
+      </div>
+      <div class="card">
+        <h3>Badges</h3>
+        <p>Each passed level earns an Open Badges 2.0 assertion naming the level, its tasks and their conditions, its lessons and the standards it evidences, with the attempts behind it as evidence, and sends an xAPI statement. Passing level 20, the capstone, climbs the whole track.</p>
+        <p>A run demonstrates mastery when it earns two or more stars, records zero unsafe actions, answers every interruption it was given, and finishes within 1.5 times the station&#39;s par time. One mastery run on enough of a competency&#39;s stations earns &quot;demonstrated&quot;; mastery runs on three different days earn &quot;consistent&quot;. No other rule earns a competency.</p>
+        <p>Certification the work leads to: AFA-CWA cabin-safety training and ALPA member professional-standards training; FAA 14 CFR Part 121 air carrier operations; OSHA 29 CFR 1910.151 medical services and first aid and 29 CFR 1910.1030 bloodborne pathogens; Cal/OSHA&#39;s workplace violence prevention standard, 8 CCR 3342, across eight distinct flight attendant and pilot jobs. No level claims apprenticeship hours: no registry entry states an equivalence.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="foot">
+    <p>Generated from the programme's station modules: lesson counts are read, not typed. The rules are in tools/briefs/ladder-brief.md and the full table in docs/ladders.md.</p>
+    <p><a href="../index.html">Back to every station</a> · SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko)</p>
+  </div>
+</footer>
+</body>
+</html>

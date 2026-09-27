@@ -9315,6 +9315,25 @@ const CURRICULA = [
       { app: "smartcity", id: "gk-greenhouse-nursery-chemical-storage-and-eyewash", why: "Incompatible chemicals are segregated rather than shelved together, the path to the eyewash stays clear, and the eyewash station itself is activated and flow-tested rather than assumed ready." },
     ],
   },
+  {
+    id: "airline-cabin-and-flight-crew",
+    name: "Airline Cabin and Flight Crew — AFA-CWA and ALPA",
+    union: "AFA-CWA and ALPA",
+    certification: "AFA-CWA cabin-safety training and ALPA member professional-standards training; FAA 14 CFR Part 121 air carrier operations; OSHA 29 CFR 1910.151 medical services and first aid and 29 CFR 1910.1030 bloodborne pathogens; Cal/OSHA's workplace violence prevention standard, 8 CCR 3342, across eight distinct flight attendant and pilot jobs",
+    guides: ["afa-cwa-training", "alpa-training", "faa-14-cfr-121", "osha-1910-151", "osha-1910-1030", "cal-osha-3342"],
+    summary: "Eight jobs an AFA-CWA flight attendant or an ALPA pilot actually rotates through: a cabin pre-flight safety check with the doors armed and cross-checked, the galley and its cart secured against turbulence, a cabin medical event supported without a single clinical guess, an unruly passenger de-escalated with distance and the captain's own word on anything further, a decompression drill run mask-on-first, a door evacuation held on commands and a blocked frame, a flight-deck crew resource management briefing built on sterile discipline and closed-loop callouts, and an honest fatigue self-check before ever signing in. Every station ends on a proof — a cross-check confirmed, a gauge read, a callout actually acknowledged — rather than on how routine the job felt going in.",
+    accent: "#5a8fd8",
+    stations: [
+      { app: "smartcity", id: "ca-cabin-preflight-safety-check", why: "Nothing about this door gets armed until the exits and the aisle are actually proven clear, and even then it only counts once the crew member across the aisle has cross-checked it — one person's own confirmation is never the whole story." },
+      { app: "smartcity", id: "ca-galley-and-cart-safety", why: "A cart that isn't braked and latched between every push is a cart that moves on its own the instant the aircraft does, and the whole galley gets secured for descent the moment the sign says so, not whenever there's a free minute." },
+      { app: "smartcity", id: "ca-cabin-medical-event-response", why: "Every clinical decision here belongs to the responding professional or to ground-based medical support, never to the crew member closest to the seat — the job is calling for help correctly, clearing space, and relaying exactly what's reported, nothing guessed at." },
+      { app: "smartcity", id: "ca-unruly-passenger-deescalation", why: "Distance and a calm approach come first, the flight deck door gets reinforced the moment things move the wrong way, and whether restraint is ever used is the captain's decision alone, given explicitly, never assumed by whoever is standing closest." },
+      { app: "smartcity", id: "ca-cabin-decompression-and-oxygen-masks", why: "This crew member's own mask goes on before a single other row gets touched, because a flight attendant who passes out helping someone else's seat has just made this cabin's problem worse, not better." },
+      { app: "smartcity", id: "ca-door-evacuation-drill", why: "The slide gets confirmed before anyone is sent onto it, the same three commands never stop, and the door frame stays physically blocked so the flow through it never breaks for a dropped bag or a passenger frozen at the sill." },
+      { app: "smartcity", id: "ca-flight-deck-crew-resource-management", why: "A callout that lands on silence hasn't actually been heard — the sterile phase, the challenge-and-response checklist and the closed-loop acknowledgment all exist so nothing in this flight deck is ever just one pilot's own assumption." },
+      { app: "smartcity", id: "ca-fatigue-and-duty-time-self-check", why: "The no-fault fatigue line only works if it's actually used the moment the honest self-assessment calls for it — no schedule pressure, and no hour or duty limit this platform states, gets to override that honest answer." },
+    ],
+  },
 ];
 
 /**
@@ -10748,6 +10767,11 @@ const CAPSTONE_LIVERIES = [
     "programme": "grounds-and-landscaping",
     "name": "Grounds & Landscaping Crew",
     "accent": "#3f9c5a"
+  },
+  {
+    "programme": "airline-cabin-and-flight-crew",
+    "name": "Airline Cabin and Flight Crew — AFA-CWA and ALPA",
+    "accent": "#5a8fd8"
   }
 ];
 
