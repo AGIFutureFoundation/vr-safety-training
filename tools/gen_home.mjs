@@ -1180,6 +1180,7 @@ ${docs}
 </dialog>
 
 <script type="module">${SCRIPT}</script>
+<script type="module">import { ctlMount } from "./shared/controls.js"; ctlMount({ world: "the homepage", home: false, except: { move: "A page, not a world: Tab walks the cards.", look: "Scroll the page.", interact: "Enter opens the focused card.", map: "Each world keeps its own map.", view: "—", quality: "Set inside each world." } });</script>
 </body>
 </html>
 `;

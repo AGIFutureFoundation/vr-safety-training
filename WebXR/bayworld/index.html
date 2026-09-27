@@ -51,15 +51,15 @@
   /* ---------- HUD ---------- */
   #hud{position:fixed;inset:0;z-index:10;pointer-events:none;font-family:var(--cond)}
   #hud .panel{position:absolute;pointer-events:auto;background:rgba(6,14,22,.72);border:1px solid var(--edge);border-radius:10px;backdrop-filter:blur(4px)}
-  #hud-phone{top:calc(10px + env(safe-area-inset-top,0px));left:10px;padding:8px 14px;min-width:200px;font-size:13px}
+  #hud-phone{top:calc(48px + env(safe-area-inset-top,0px));left:10px;padding:8px 14px;min-width:200px;font-size:13px}
   #hud-phone .clock{font-size:20px;font-weight:700;letter-spacing:.03em}
   #hud-phone .row2{display:flex;gap:12px;color:var(--muted);margin-top:2px}
   #hud-stats{top:calc(10px + env(safe-area-inset-top,0px));right:10px;padding:8px 14px;text-align:right;font-size:13px}
   #hud-stats b{font-size:17px;color:var(--accent2)}
-  #hud-objective{top:70px;left:10px;right:10px;max-width:420px;padding:8px 14px;font-size:13.5px;color:var(--text)}
+  #hud-objective{top:calc(160px + env(safe-area-inset-top,0px));left:10px;right:10px;max-width:420px;padding:8px 14px;font-size:13.5px;color:var(--text)}
   #hud-prompt{left:50%;bottom:130px;transform:translateX(-50%);padding:8px 16px;font-size:14px;white-space:nowrap;background:rgba(79,209,255,.16);border-color:var(--accent)}
   #hud-minimap{position:absolute;bottom:calc(10px + env(safe-area-inset-bottom,0px));right:10px;border-radius:50%;border:2px solid var(--edge-strong);background:#08121c;pointer-events:none}
-  #hud-buttons{bottom:calc(10px + env(safe-area-inset-bottom,0px));left:10px;display:flex;gap:8px;background:transparent;border:none}
+  #hud-buttons{position:absolute;pointer-events:auto;bottom:calc(10px + env(safe-area-inset-bottom,0px));left:10px;display:flex;gap:8px;background:transparent;border:none}
   #hud-buttons button{padding:8px 12px;border-radius:8px;border:1px solid var(--edge-strong);background:rgba(6,14,22,.72);font-family:var(--cond);font-weight:700;text-transform:uppercase;font-size:12.5px}
   #view-toggle{position:fixed;bottom:calc(10px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);z-index:15}
 

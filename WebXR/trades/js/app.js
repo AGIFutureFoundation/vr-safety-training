@@ -1,4 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
+import { ctlMount } from "../../shared/controls.js";
 import { disposeTree, decal, repaint, box, cyl, torus, ball, group, mat, HUD, clamp, easeOut, celebrationBurst, GESTURE_HINTS, setActiveRenderer } from "../../shared/kit.js";
 import { Session, Progress, Sfx } from "../../shared/game.js";
 import { speak, speechSupported } from "../../shared/voice-assist.js";
@@ -1688,3 +1689,20 @@ renderer.setAnimationLoop(() => {
 // Kick off in the hub so the first frame already shows all the trades.
 enterHub();
 state.paused = true;
+
+// The shared control grammar and help overlay (shared/controls.js, docs/ui-review.md).
+ctlMount({
+  world: "Trade Skills",
+  helpWhen: () => !state.session,
+  except: {
+    interact: "In a room Tab walks the step's controls and Enter takes the one in focus.",
+    map: "The rooms have no map: M mutes the sound.",
+    help: "In a room H reads the step aloud; the ? button opens help there.",
+    quality: "Q turns a valve anticlockwise in a room; quality follows the device.",
+  },
+  unique: [
+    { label: "Focus the next / previous control", keys: ["Tab", "Shift+Tab"], pad: "D-pad left / right", touch: "Tap it" },
+    { label: "Take the focused control", keys: ["Enter"], pad: "A", touch: "Tap it" },
+    { label: "Press and hold", keys: ["Space"], pad: "Hold A", touch: "Hold it" },
+  ],
+});

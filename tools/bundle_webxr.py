@@ -75,6 +75,7 @@ APPS = {
             WEBXR / "trades/js/rooms/plumbing.js",
             WEBXR / "trades/js/rooms/pressure-washer.js",
             WEBXR / "trades/js/rooms/paint-sprayer.js",
+            SHARED / "controls.js",
             WEBXR / "trades/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -178,6 +179,7 @@ APPS = {
             # own — see the module's own header — so it only needs to be
             # listed once, before app.js mounts it.
             SHARED / "eggs-app.js",
+            SHARED / "controls.js",
             WEBXR / "smartcity/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -223,6 +225,7 @@ APPS = {
             SHARED / "a11y.js",
             SHARED / "records.js",
             SHARED / "tracking.js",
+            SHARED / "controls.js",
             WEBXR / "instructor/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -266,6 +269,7 @@ APPS = {
             WEBXR / "holodeck/js/react-ui.js",
             # The Scaffold Climber arcade cabinet (docs/easter-egg.md).
             SHARED / "eggs-app.js",
+            SHARED / "controls.js",
             WEBXR / "holodeck/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -285,6 +289,7 @@ APPS = {
             WEBXR / "arcade/js/games/palletstacker.js",
             WEBXR / "arcade/js/games/forkliftaisle.js",
             WEBXR / "arcade/js/cabinets.js",
+            SHARED / "controls.js",
             WEBXR / "arcade/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -316,6 +321,7 @@ APPS = {
             WEBXR / "fairway/js/minigames.js",
             WEBXR / "fairway/js/scores.js",
             WEBXR / "fairway/js/world.js",
+            SHARED / "controls.js",
             WEBXR / "fairway/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -358,6 +364,7 @@ APPS = {
             WEBXR / "race/js/battle.js",
             WEBXR / "race/js/audio.js",
             WEBXR / "race/js/net.js",
+            SHARED / "controls.js",
             WEBXR / "race/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -413,6 +420,7 @@ APPS = {
             SHARED / "bay-geo.js",
             SHARED / "mapbox.js",
             WEBXR / "bayworld/js/world.js",
+            SHARED / "controls.js",
             WEBXR / "bayworld/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -456,6 +464,7 @@ APPS = {
             WEBXR / "underwater/js/dive-map.js",
             WEBXR / "underwater/js/activities.js",
             WEBXR / "underwater/js/world.js",
+            SHARED / "controls.js",
             WEBXR / "underwater/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -473,6 +482,7 @@ APPS = {
             SHARED / "bayworld-data.js",
             SHARED / "bay-geo.js",
             SHARED / "mapbox.js",
+            SHARED / "controls.js",
             WEBXR / "bayworld/js/atlas.js",
         ],
         "entry": '<script type="module" src="./js/atlas.js"></script>',
@@ -512,6 +522,7 @@ APPS = {
             WEBXR / "regatta/js/race.js",
             WEBXR / "regatta/js/events.js",
             WEBXR / "regatta/js/world.js",
+            SHARED / "controls.js",
             WEBXR / "regatta/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -710,6 +721,9 @@ DIST_PAGES = {
     "underwater": "underwater.html",
 }
 DIST_SHARED = [
+    # The shared control grammar and help overlay (docs/ui-review.md), imported
+    # by the homepage and the training-track pages.
+    "controls.js",
     "auth.js", "identity.js", "records.js", "radio-quiz.js", "radio-quiz-data.js",
     # Wallet connection and opt-in agent/robot sharing (docs/wallets-and-sharing.md,
     # docs/agent-protocols.md), lazily imported by the homepage's own script

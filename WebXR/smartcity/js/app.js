@@ -1,4 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
+import { ctlMount } from "../../shared/controls.js";
 import { disposeTree, decal, repaint, HUD, clamp, easeOut, celebrationBurst, GESTURE_HINTS, setActiveRenderer } from "../../shared/kit.js";
 import { Session, Progress, Sfx, UNIVERSAL_AWARDS, placeVehicle, DRIVE_CHECK_NAMES } from "../../shared/game.js";
 import { speak, speechSupported } from "../../shared/voice-assist.js";
@@ -4950,4 +4951,22 @@ mountSmartCityEggs({
   THREE, renderer, camera, worldRoot, state, store, SIMS_META, TrainingRecords,
   unionAbbrev: () => UNIONS_BY_ID[state.stage?.signage?.plan?.unionId]?.abbrev ?? "",
   onEggFound: (id, programme) => recordLedgerFind(id, programme),
+});
+
+// The shared control grammar and help overlay (shared/controls.js, docs/ui-review.md).
+ctlMount({
+  world: "SmartCiti.X",
+  helpWhen: () => !state.session,
+  except: {
+    interact: "In a station Tab walks the step's controls and Enter takes the one in focus; E turns a valve clockwise.",
+    map: "Stations have no map: M mutes the sound.",
+    help: "In a station H reads the step aloud; the ? button (or / and F1) opens help there.",
+    quality: "Q turns a valve anticlockwise in a station; quality follows the device.",
+  },
+  unique: [
+    { label: "Focus the next / previous control", keys: ["Tab", "Shift+Tab"], pad: "D-pad left / right", touch: "Tap it" },
+    { label: "Take the focused control", keys: ["Enter"], pad: "A", touch: "Tap it" },
+    { label: "Press and hold", keys: ["Space"], pad: "Hold A", touch: "Hold it" },
+    { label: "Controls and remapping panel", keys: ["/", "F1"], pad: "Start", touch: "Keyboard button" },
+  ],
 });

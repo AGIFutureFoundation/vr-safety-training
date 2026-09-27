@@ -14,6 +14,7 @@
 // concatenates this file with shared/bayworld-data.js, bay-geo.js and
 // mapbox.js into one scope.
 import { BAY_BOUNDS, BAY_ZONES, BAY_LANDMARKS, BAY_ROADS, BAY_SITES } from "../../shared/bayworld-data.js";
+import { ctlMount } from "../../shared/controls.js";
 import { bayToGeo } from "../../shared/bay-geo.js";
 import {
   mapboxToken, rememberMapboxToken, forgetMapboxToken, readMapboxConfig, createBayMap,
@@ -286,3 +287,9 @@ export function atlasMount(doc = globalThis.document, opts = {}) {
 // The real page has a document with getElementById; the headless checker's
 // stub document does not, and calls atlasMount() itself with its own.
 if (typeof document !== "undefined" && typeof document.getElementById === "function") atlasMount(document);
+
+// The shared control grammar and help overlay (shared/controls.js, docs/ui-review.md).
+ctlMount({
+  world: "the Atlas",
+  except: { move: "Drag or arrow keys pan the map.", look: "Scroll or pinch to zoom.", interact: "Enter on a site opens it.", map: "This page is the map.", view: "—", quality: "—" },
+});

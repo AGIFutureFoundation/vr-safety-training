@@ -1,4 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
+import { ctlMount } from "../../shared/controls.js";
 import { createGamepad, GAMEPAD_DEADZONE, detectPadVendor } from "../../shared/input.js";
 import { RACE_TRACKS, rcTrackDef, rcMirrorId } from "./tracks.js";
 import { rcCompileTrack } from "./track.js";
@@ -1368,3 +1369,22 @@ requestAnimationFrame(rcLoop);
   else if (screen && RC_SCREENS.includes(screen)) { app.mode = RC_Q.get("for") ?? "race"; rcShow(screen); }
   void RC_POINTS;
 }
+
+// The shared control grammar and help overlay (shared/controls.js, docs/ui-review.md).
+ctlMount({
+  world: "the Race",
+  helpWhen: () => app.screen !== "race",
+  except: {
+    interact: "E is the right signal and Q the left signal in a race (WASD preset).",
+    map: "M mutes the sound in a race; the track map is always on screen.",
+    help: "In a race H is the IJKL preset's drift: pause (P) and press H there.",
+    quality: "Q is the left signal in a race.",
+  },
+  unique: [
+    { label: "Drive", keys: ["W", "A", "S", "D"], pad: "Left stick, triggers", touch: "On-screen pedals" },
+    { label: "Drift", keys: ["Space"], pad: "RB", touch: "Drift button" },
+    { label: "Use item", keys: ["F"], pad: "X", touch: "Item button" },
+    { label: "Look back", keys: ["R"], pad: "Y", touch: "—" },
+    { label: "Pause", keys: ["P", "Esc"], pad: "Start", touch: "Pause button" },
+  ],
+});

@@ -1,4 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
+import { ctlMount } from "../../shared/controls.js";
 import { createGamepad, GAMEPAD_DEADZONE, detectPadVendor } from "../../shared/input.js";
 import { tcTier, tcApplyRenderer } from "../../shared/perf.js";
 import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
@@ -286,3 +287,12 @@ $("menu-enter")?.addEventListener("click", () => {
 rgRenderMenu();
 
 window.__regattaTest = { app: rgApp, step: rgStep, startRace: rgStartRace };
+
+// The shared control grammar and help overlay (shared/controls.js, docs/ui-review.md).
+ctlMount({
+  world: "the Regatta", quality: true,
+  except: { map: "The course map is always on screen in a race.", interact: "Nothing to pick up on the water: the helm is the whole job." },
+  unique: [
+    { label: "Throttle and rudder (the helm)", keys: ["W", "S", "A", "D"], pad: "Left stick", touch: "Stick: forward throttle, sideways rudder" },
+  ],
+});

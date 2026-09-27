@@ -1,4 +1,5 @@
 import { createGamepad, GAMEPAD_DEADZONE, detectPadVendor } from "../../shared/input.js";
+import { ctlMount } from "../../shared/controls.js";
 import { ARCADE_CABINETS } from "./cabinets.js";
 import { arLoadScores, arSubmitScore, ARCADE_TABLE_SIZE } from "./scores.js";
 import { arCreateAudio } from "./audio.js";
@@ -413,3 +414,11 @@ function aaOnEvent(e) {
 
 requestAnimationFrame(aaFrame);
 aaShow("menu");
+
+// The shared control grammar and help overlay (shared/controls.js, docs/ui-review.md).
+ctlMount({
+  world: "the Arcade",
+  helpWhen: () => aa.screen !== "playing",
+  except: { map: "No map in a cabinet: M mutes the sound while playing.", menu: "Esc or P pauses a game; Esc on a menu goes back.", quality: "Cabinets draw in 2D; there is no quality setting.", view: "—" },
+  unique: [{ label: "Pause", keys: ["P", "Esc"], pad: "Start", touch: "Pause button" }],
+});
