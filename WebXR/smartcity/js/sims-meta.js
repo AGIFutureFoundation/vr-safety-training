@@ -25354,5 +25354,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "me-kelp-transect-survey-and-photo-quadrats",
+    "index": "601",
+    "domain": "Environmental",
+    "trade": "Scientific diver on a restoration monitoring crew, running a fixed kelp transect with a buddy beside them and the boat crew overhead",
+    "category": "Water & Environmental",
+    "certification": "AFSCME and LIUNA monitoring and restoration crews as training bodies; OSHA 29 CFR 1910.424 SCUBA diving as the rule the buddy and standby practice answers to; the programme's own diving safety manual and dive plan for every limit; Regional Water Quality Control Board Section 401 and Section 404 monitoring conditions for the restoration the transect reports on; BCDC permit conditions; NOAA Fisheries and the U.S. Fish and Wildlife Service consultation measures for in-water work; CDFW oversight of the survey's collecting and handling",
+    "name": "Kelp Transect Survey & Photo Quadrats",
+    "weather": "clear",
+    "indoor": null,
+    "district": "bay-underwater",
+    "title": "SmartCiti.X~ Kelp Transect Survey & Photo Quadrats VR",
+    "tagline": "The survey plan read against the dive plan, the kit checked, the current read, the tape run out on its bearing, the canopy swum steady, three quadrats shot to the same frame, the tagged holdfast found again, the camera held for the scale shot while a boat passes overhead, the slate written, the tape bagged, the buddy checked and the dive logged",
+    "accent": 5224842,
+    "accentCss": "#4fb98a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "same-frame",
+      "name": "Same Frame",
+      "note": "Every quadrat shot on its pin at the same frame as last season, and the canopy never torn to get there"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Transect Crew",
+      "currency": "FRAME",
+      "ranks": [
+        "Diver Trainee",
+        "Survey Diver",
+        "Transect Lead",
+        "Monitoring Lead",
+        "Transect Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

@@ -524,6 +524,52 @@ export function pickToLightShelf(parent, x, y, z, opts = {}) {
   return flDone(rig, { footprint: PROPS_BUDGET.pickToLightShelf.footprint });
 }
 
+// ---------------------------------------------------------- field science
+
+/**
+ * Settlement-tile rack: a PVC frame on two feet with a crossbar, six
+ * roughened ceramic tiles hung face-down in two rows for larval settlement
+ * counts, and a numbered tag on the crossbar. 0.9 m wide × 0.82 m tall ×
+ * 0.3 m deep. Parts: tiles (the hung tiles as one group, so a station can
+ * lift, turn or swap them).
+ */
+export function settlementTileRack(parent, x, y, z, opts = {}) {
+  const pvc = prColour(opts, 0xe6e9ea);
+  const rig = prRig(parent, x, y, z, opts, "settlementTileRack");
+  const S = rig.shell;
+  for (const sx of [-0.42, 0.42]) {
+    cyl(S, 0.022, 0.022, 0.78, sx, 0.39, 0, pvc, { rough: 0.45, seg: 10 });
+    box(S, 0.06, 0.04, 0.3, sx, 0.02, 0, 0x3a3f45, { rough: 0.8, metal: 0.3 });
+  }
+  const bar = cyl(S, 0.022, 0.022, 0.9, 0, 0.8, 0, pvc, { rough: 0.45, seg: 10 });
+  bar.rotation.z = Math.PI / 2;
+  box(S, 0.12, 0.05, 0.004, 0, 0.66, 0.02, 0xf2c14b, { rough: 0.6 });
+  const tiles = rig.part("tiles", 0, 0.52, 0);
+  for (let i = 0; i < 6; i++) {
+    const tx = -0.28 + (i % 3) * 0.28, ty = i < 3 ? 0 : -0.24;
+    box(tiles, 0.15, 0.15, 0.012, tx, ty, 0, [0x9a8c76, 0xa39682, 0x8d8069][i % 3], { rough: 0.95, finish: "concrete" });
+  }
+  return flDone(rig, { footprint: PROPS_BUDGET.settlementTileRack.footprint });
+}
+
+/**
+ * Quadrat frame: a half-metre PVC square with two cross-strings dividing it
+ * into quarters, a corner tag, and four short pin feet so it sits on a reef,
+ * a mudflat or a kelp holdfast without rolling. 0.56 m × 0.09 m × 0.56 m.
+ */
+export function quadratFrame(parent, x, y, z, opts = {}) {
+  const pvc = prColour(opts, 0xf4f6f6);
+  const rig = prRig(parent, x, y, z, opts, "quadratFrame");
+  const S = rig.shell;
+  for (const sx of [-0.25, 0.25]) { const t = cyl(S, 0.016, 0.016, 0.5, sx, 0.07, 0, pvc, { rough: 0.45, seg: 8 }); t.rotation.x = Math.PI / 2; }
+  for (const sz of [-0.25, 0.25]) { const t = cyl(S, 0.016, 0.016, 0.5, 0, 0.07, sz, pvc, { rough: 0.45, seg: 8 }); t.rotation.z = Math.PI / 2; }
+  box(S, 0.5, 0.004, 0.004, 0, 0.07, 0, 0xf06a2b, { rough: 0.6, cast: false });
+  box(S, 0.004, 0.004, 0.5, 0, 0.07, 0, 0xf06a2b, { rough: 0.6, cast: false });
+  for (const sx of [-0.25, 0.25]) for (const sz of [-0.25, 0.25]) cyl(S, 0.006, 0.006, 0.07, sx, 0.035, sz, 0x8a949d, { rough: 0.5, metal: 0.6, seg: 6 });
+  box(S, 0.06, 0.03, 0.004, -0.22, 0.09, -0.25, 0xf2c14b, { rough: 0.6 });
+  return flDone(rig, { footprint: PROPS_BUDGET.quadratFrame.footprint });
+}
+
 // ------------------------------------------------------------------ budget
 
 /**
@@ -563,6 +609,8 @@ export const PROPS_BUDGET = {
   palletRackBay: { build: "palletRackBay", meshes: 5, footprint: [2.62, 4.22, 1.18], parts: [], note: "selective pallet-rack bay, two loaded levels and a rating plaque" },
   coldRoomDoor: { build: "coldRoomDoor", meshes: 5, footprint: [1.98, 2.68, 0.28], parts: ["door"], note: "insulated cold-storage doorway with a PVC strip curtain" },
   pickToLightShelf: { build: "pickToLightShelf", meshes: 6, footprint: [1.6, 2.44, 0.51], parts: ["lights"], note: "pick-to-light shelf module, three LED pick strips" },
+  settlementTileRack: { build: "settlementTileRack", meshes: 6, footprint: [0.9, 0.82, 0.3], parts: ["tiles"], note: "PVC settlement-tile rack, six tiles hung face-down in two rows" },
+  quadratFrame: { build: "quadratFrame", meshes: 4, footprint: [0.53, 0.1, 0.53], parts: [], note: "half-metre PVC quadrat with cross-strings and pin feet" },
 };
 
 /** The builders by the name PROPS_BUDGET's `build` field uses. */
@@ -571,4 +619,5 @@ export const PROPS_BUILDERS = {
   scaffoldTower, palletStack, cableSpool, fireHydrant, bollardRow, parkBench, streetTree,
   shrubBed, fencePanel, fencePanelGate, shippingContainer, fuelTank, generatorSkid,
   counterweightStack, picnicTable, aircraftJack, palletRackBay, coldRoomDoor, pickToLightShelf,
+  settlementTileRack, quadratFrame,
 };
