@@ -229,6 +229,7 @@ export const SIM_TW_AMR_TRAFFIC_ZONE_ENTRY_AND_LOCKOUT = {
     // Yield point marking near the gate.
     box(g, 0.7, 0.007, 0.7, 0.9, 0.148, 1.1, TW1_PAL.accent, { rough: 0.6, opacity: 0.85, transparent: true, cast: false });
     const yieldMarker = group(g, 0.9, 0.15, 1.1);
+    cyl(yieldMarker, 0.28, 0.28, 0.006, 0, 0, 0, TW1_PAL.accent, { rough: 0.6, opacity: 0.01, transparent: true, cast: false, seg: 16 });
     reg(hits, yieldMarker, "yield-marker");
 
     // ------------------------------------------------------------------ AMR + robot

@@ -19264,5 +19264,257 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "tw-high-bay-order-picker-fall-protection",
+    "index": "tw-3",
+    "domain": "Warehousing & Logistics",
+    "trade": "Teamsters warehouse associate — high-bay order picker operator",
+    "category": "Manufacturing & Automation",
+    "certification": "Teamsters (IBT) warehouse and logistics automation training; OSHA 29 CFR 1910.178 powered industrial trucks, 29 CFR 1910.28 duty to have fall protection and 29 CFR 1910.212 machine guarding; 29 CFR 1910.132 personal protective equipment for the full-body harness; NIOSH findings on falls from elevated order-picker platforms",
+    "name": "High-Bay Order Picker Fall Protection",
+    "weather": "clear",
+    "indoor": "shop",
+    "district": null,
+    "title": "SmartCiti.X~ High-Bay Order Picker Fall Protection VR",
+    "tagline": "Riding a stand-up order picker into the high bay the way its own fall-protection sequence requires: the gate closed before the platform rises, the harness clipped to the platform's own anchor, the height and load proven before reaching for stock, and the unclip saved for after the platform is back on the ground",
+    "accent": 4165954,
+    "accentCss": "#3f9142",
+    "parSeconds": 270,
+    "badge": {
+      "id": "order-picker-certified",
+      "name": "Order Picker Fall Protection Certified",
+      "note": "Closed the gate before rising, clipped to the platform's own anchor, proved the height and load, and never unclipped while still in the air"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "High-Bay Access",
+      "currency": "ANCHOR",
+      "ranks": [
+        "Floor Picker",
+        "Bay Aware",
+        "High-Bay Handler",
+        "High-Bay Access Authority",
+        "Order Picker Fall Protection Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "tw-dock-leveler-and-trailer-restraint-check",
+    "index": "tw-4",
+    "domain": "Warehousing & Logistics",
+    "trade": "Teamsters warehouse associate — dock leveler and trailer restraint",
+    "category": "Manufacturing & Automation",
+    "certification": "Teamsters (IBT) warehouse and logistics automation training; OSHA 29 CFR 1910.178 powered industrial trucks, 29 CFR 1910.147 the control of hazardous energy for the leveler's own power and 29 CFR 1910.36 design and construction requirements for exit routes at the dock door; OSHA 29 CFR 1926.602 material handling equipment; NIOSH findings on trailer-creep incidents at loading docks",
+    "name": "Dock Leveler & Trailer Restraint Check",
+    "weather": "clear",
+    "indoor": "garage",
+    "district": null,
+    "title": "SmartCiti.X~ Dock Leveler & Trailer Restraint Check VR",
+    "tagline": "Proving a trailer is actually held at the dock before the first forklift crosses it: backed fully to the bumpers, the ICC bar restraint engaged, the wheels chocked as the backup the restraint was never meant to be alone, the green light confirmed rather than assumed, and the leveler extended and proven before the crossing starts",
+    "accent": 13128475,
+    "accentCss": "#c8531b",
+    "parSeconds": 270,
+    "badge": {
+      "id": "dock-restraint-certified",
+      "name": "Dock Restraint Certified",
+      "note": "Confirmed the restraint and the chocks before crossing, read the light instead of assuming it, and proved the leveler before trusting it with a load"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Dock Restraint Control",
+      "currency": "RESTRAINT",
+      "ranks": [
+        "Dock Hand",
+        "Restraint Aware",
+        "Dock Restraint Handler",
+        "Dock Restraint Authority",
+        "Dock Restraint Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "tw-battery-change-and-charging-bay-safety",
+    "index": "tw-5",
+    "domain": "Warehousing & Logistics",
+    "trade": "Teamsters warehouse associate — lift-truck battery change",
+    "category": "Manufacturing & Automation",
+    "certification": "Teamsters (IBT) warehouse and logistics automation training; OSHA 29 CFR 1910.178 powered industrial trucks including battery charging, 29 CFR 1910.1200 hazard communication for battery electrolyte, and 29 CFR 1910.132 personal protective equipment for the face shield and apron; NIOSH findings on hydrogen off-gassing incidents in poorly ventilated charging bays",
+    "name": "Battery Change & Charging Bay Safety",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Battery Change & Charging Bay Safety VR",
+    "tagline": "Changing a lift-truck battery the way the charging bay's own sequence requires it: the eyewash and ventilation confirmed clear first, the truck powered down before the spent battery is extracted, the spent battery proven inside its safe charging band, and the replacement installed and reconnected before the truck goes back to work",
+    "accent": 13775147,
+    "accentCss": "#d2312b",
+    "parSeconds": 275,
+    "badge": {
+      "id": "battery-bay-certified",
+      "name": "Battery Bay Certified",
+      "note": "Confirmed the eyewash and ventilation before starting, powered the truck down before touching the battery, and proved the charge before trusting it"
+    },
+    "stepCount": 16,
+    "interruptCount": 2,
+    "game": {
+      "system": "Charging Bay Discipline",
+      "currency": "AMPERE",
+      "ranks": [
+        "Bay Visitor",
+        "Bay Aware",
+        "Battery Handler",
+        "Charging Bay Authority",
+        "Battery Bay Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "tw-palletizer-cell-fenced-access-permit",
+    "index": "tw-6",
+    "domain": "Warehousing & Logistics",
+    "trade": "Teamsters warehouse associate — palletizer cell entry",
+    "category": "Manufacturing & Automation",
+    "certification": "Teamsters warehouse and logistics automation training; ANSI R15.06 and ISO 10218 for industrial robots and robot systems, worked the way a site's own robot-cell risk assessment applies them; OSHA 29 CFR 1910.147 the control of hazardous energy and 29 CFR 1910.212 machine guarding; NIOSH findings on struck-by incidents during robot-cell entry",
+    "name": "Palletizer Cell Fenced-Access Permit",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Palletizer Cell Fenced-Access Permit VR",
+    "tagline": "Entering a robotic palletizer cell the way its own permit-to-enter sequence requires it: the light curtain and gate interlock confirmed honest, the arm's power isolated and locked, the residual motion proven at zero, and the release run in the order that keeps the cell from restarting on someone still inside it",
+    "accent": 8215462,
+    "accentCss": "#7d5ba6",
+    "parSeconds": 280,
+    "badge": {
+      "id": "palletizer-cell-certified",
+      "name": "Palletizer Cell Certified",
+      "note": "Confirmed the curtain and interlock, isolated and locked the arm before entering, and proved zero energy before touching anything inside the fence"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Cell Access Control",
+      "currency": "PERMIT",
+      "ranks": [
+        "Fence Line",
+        "Cell Aware",
+        "Cell Access Handler",
+        "Cell Access Authority",
+        "Palletizer Cell Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "tw-cold-storage-ppe-and-rotation",
+    "index": "tw-7",
+    "domain": "Warehousing & Logistics",
+    "trade": "Teamsters warehouse associate — cold-storage entry and stock rotation",
+    "category": "Manufacturing & Automation",
+    "certification": "Teamsters warehouse and logistics automation training; ASHRAE 15 safety standard for refrigeration systems and IIAR 2 and IIAR 6 for closed-circuit ammonia refrigeration design, inspection and maintenance, worked the way the site's own cold-work programme applies them; OSHA 29 CFR 1910.132 personal protective equipment for insulated cold-work gear; NIOSH findings on cold-storage slip and cold-stress incidents",
+    "name": "Cold-Storage PPE & Rotation",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Cold-Storage PPE & Rotation VR",
+    "tagline": "Entering a cold-storage room the way its own procedure requires it: insulated PPE worn before the door opens, a buddy actually checked in, the ice and the propped door and the torn seal caught before they become a fall or a temperature excursion, and the correct rotation-marked pallet pulled by date rather than by convenience",
+    "accent": 5224649,
+    "accentCss": "#4fb8c9",
+    "parSeconds": 270,
+    "badge": {
+      "id": "cold-storage-certified",
+      "name": "Cold-Storage Certified",
+      "note": "Checked in with a buddy, caught every hazard on the room read, pulled the correct rotation-marked pallet, and checked out again before moving on"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Cold-Room Discipline",
+      "currency": "FROST",
+      "ranks": [
+        "Room Visitor",
+        "Cold Aware",
+        "Cold-Storage Handler",
+        "Cold-Storage Authority",
+        "Cold-Storage Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "tw-pick-to-light-ergonomics-and-rotation",
+    "index": "tw-8",
+    "domain": "Warehousing & Logistics",
+    "trade": "Teamsters warehouse associate — pick-to-light module",
+    "category": "Manufacturing & Automation",
+    "certification": "Teamsters warehouse and logistics automation training; the Revised NIOSH Lifting Equation for manual material handling, worked the way the site's own ergonomics programme applies it; OSHA 29 CFR 1910.147 the control of hazardous energy for the tote lane's drive and 29 CFR 1910.212 machine guarding; ASME B20.1 safety standard for conveyors and related equipment for the tote lane itself",
+    "name": "Pick-to-Light Ergonomics & Rotation",
+    "weather": "clear",
+    "indoor": "datahall",
+    "district": null,
+    "title": "SmartCiti.X~ Pick-to-Light Ergonomics & Rotation VR",
+    "tagline": "Working a pick-to-light module the way its own ergonomics sequence requires it: the pick confirmed against the display rather than trusted to the light alone, a heavy case brought to waist height with the lift-assist table, the pace held inside a sustainable band instead of chased, and the job rotation actually taken on schedule",
+    "accent": 15774499,
+    "accentCss": "#f0b323",
+    "parSeconds": 265,
+    "badge": {
+      "id": "pick-to-light-certified",
+      "name": "Pick-to-Light Ergonomics Certified",
+      "note": "Confirmed every pick against the display, used the lift-assist for the heavy case, held a sustainable pace, and took the rotation on schedule"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Pick Pace Discipline",
+      "currency": "PACE",
+      "ranks": [
+        "New Picker",
+        "Pace Aware",
+        "Pick Module Handler",
+        "Pick Pace Authority",
+        "Pick-to-Light Ergonomics Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

@@ -175,5 +175,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "plumbers-and-pipefitters",
     "name": "Plumbers and Pipefitters — Journeyman Rough-In and Test Block",
     "accent": "#2f6f4a"
+  },
+  {
+    "programme": "warehouse-and-logistics-automation",
+    "name": "Warehouse and Logistics Automation — Teamsters Distribution Floor",
+    "accent": "#e4622a"
   }
 ];

@@ -1,7 +1,7 @@
 {
   "protocol": 2,
   "network": "SmartCiti.X ~VR Simulators (Powered by AGI Corp & Visko)",
-  "generatedAt": "2026-09-26",
+  "generatedAt": "2026-09-27",
   "apps": {
     "smartcity": {
       "entry": "smartcity/index.html",
@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 452
+      "stations": 458
     },
     "trades": {
       "entry": "trades/index.html",
@@ -183,6 +183,12 @@
         "conveyor-guard",
         "forklift-dock",
         "cnc-cell",
+        "tw-pick-to-light-ergonomics-and-rotation",
+        "tw-cold-storage-ppe-and-rotation",
+        "tw-palletizer-cell-fenced-access-permit",
+        "tw-battery-change-and-charging-bay-safety",
+        "tw-dock-leveler-and-trailer-restraint-check",
+        "tw-high-bay-order-picker-fall-protection",
         "tw-conveyor-jam-clearing-and-loto",
         "tw-amr-traffic-zone-entry-and-lockout",
         "sm-kitchen-exhaust-and-fire-wrap",
@@ -3754,6 +3760,67 @@
       "ladder": {
         "levels": 20,
         "lessons": 1670,
+        "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
+    },
+    {
+      "id": "warehouse-and-logistics-automation",
+      "name": "Warehouse and Logistics Automation — Teamsters Distribution Floor",
+      "union": "Teamsters (IBT) warehouse and logistics automation training",
+      "certification": "Teamsters (IBT) warehouse and logistics automation training, tested against OSHA 29 CFR 1910.147, 1910.178, 1910.212, 1910.132, 1910.1200, 1910.28 and 1910.36, 29 CFR 1926.602, ASME B20.1, ANSI R15.06 and ISO 10218 for robots, ASHRAE 15 and ANSI/IIAR 2 and 6 for refrigeration, and the Revised NIOSH Lifting Equation across eight distinct union jobs",
+      "summary": "Eight jobs on a modern automated distribution floor: an AMR traffic zone entered and locked out the way the fleet's own controller expects it, a conveyor jam cleared behind a proven isolation, a high-bay order picker ridden with a harness clipped to its own anchor, a trailer proven restrained before a forklift ever crosses the leveler, a lift-truck battery changed in a bay whose eyewash and ventilation were actually confirmed, a robotic palletizer cell entered on a permit and proven at zero energy, a cold room worked with a buddy actually checked in, and a pick-to-light module run at a pace and a posture that hold up for a whole shift. Every station ends on a proof — a gauge, a locked-and-tagged isolation, a signed log — rather than on how routine the task felt going in.",
+      "accent": "#e4622a",
+      "stations": [
+        {
+          "app": "smartcity",
+          "id": "tw-amr-traffic-zone-entry-and-lockout",
+          "why": "Crossing into a live autonomous-mobile-robot floor means the map is read for what is already wrong with it, access is requested at the gate instead of stepped past, and the charging dock's power is isolated and locked before anyone touches it."
+        },
+        {
+          "app": "smartcity",
+          "id": "tw-conveyor-jam-clearing-and-loto",
+          "why": "A jammed carton only gets pulled free once the pull-cord is tried, the drive is isolated and locked at its own disconnect, and the residual motion is actually checked rather than assumed stopped."
+        },
+        {
+          "app": "smartcity",
+          "id": "tw-high-bay-order-picker-fall-protection",
+          "why": "The platform's own gate closes and the harness clips to the platform's own anchor before the platform ever leaves the ground, and the unclip waits until it is back down."
+        },
+        {
+          "app": "smartcity",
+          "id": "tw-dock-leveler-and-trailer-restraint-check",
+          "why": "A trailer only gets crossed once it is backed flush to the bumpers, the ICC bar restraint is engaged, the wheels are chocked as the backup the restraint was never meant to be alone, and the dock light is read rather than assumed."
+        },
+        {
+          "app": "smartcity",
+          "id": "tw-battery-change-and-charging-bay-safety",
+          "why": "The eyewash and the ventilation get confirmed clear before anything is unplugged, the truck is powered down before the spent battery is extracted, and the charge is proven inside its safe amperage band before it is trusted."
+        },
+        {
+          "app": "smartcity",
+          "id": "tw-palletizer-cell-fenced-access-permit",
+          "why": "Entering a robotic palletizer cell means the light curtain and gate interlock are confirmed honest, the arm's power is isolated and locked, and the residual energy is proven at zero before anyone is inside the fence."
+        },
+        {
+          "app": "smartcity",
+          "id": "tw-cold-storage-ppe-and-rotation",
+          "why": "A cold room gets entered with a buddy actually checked in, the ice and the propped door and the torn seal caught before they become a fall or a temperature excursion, and the rotation-marked pallet pulled by date rather than convenience."
+        },
+        {
+          "app": "smartcity",
+          "id": "tw-pick-to-light-ergonomics-and-rotation",
+          "why": "A pick-to-light module is worked with the display confirmed over the light alone, a heavy case brought to waist height on the lift-assist table, and the scheduled rotation actually taken instead of skipped for one more cycle."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1568,
         "tasks": 120,
         "atBar": 20,
         "partial": 0,
@@ -7883,6 +7950,530 @@
     },
     {
       "app": "smartcity",
+      "id": "tw-pick-to-light-ergonomics-and-rotation",
+      "name": "Pick-to-Light Ergonomics & Rotation",
+      "title": "SmartCiti.X~ Pick-to-Light Ergonomics & Rotation VR",
+      "tagline": "Working a pick-to-light module the way its own ergonomics sequence requires it: the pick confirmed against the display rather than trusted to the light alone, a heavy case brought to waist height with the lift-assist table, the pace held inside a sustainable band instead of chased, and the job rotation actually taken on schedule",
+      "category": "Manufacturing & Automation",
+      "domain": "Warehousing & Logistics",
+      "trade": "Teamsters warehouse associate — pick-to-light module",
+      "union": null,
+      "certification": "Teamsters warehouse and logistics automation training; the Revised NIOSH Lifting Equation for manual material handling, worked the way the site's own ergonomics programme applies it; OSHA 29 CFR 1910.147 the control of hazardous energy for the tote lane's drive and 29 CFR 1910.212 machine guarding; ASME B20.1 safety standard for conveyors and related equipment for the tote lane itself",
+      "accent": "#f0b323",
+      "parSeconds": 265,
+      "weather": "clear",
+      "indoor": "datahall",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "turn",
+        "hold",
+        "gauge",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "pick-to-light-certified",
+        "name": "Pick-to-Light Ergonomics Certified",
+        "note": "Confirmed every pick against the display, used the lift-assist for the heavy case, held a sustainable pace, and took the rotation on schedule"
+      },
+      "meshes": 146,
+      "lights": 0,
+      "overBudget": false,
+      "index": "tw-8",
+      "flat": false,
+      "system": "Pick Pace Discipline",
+      "currency": "PACE",
+      "ranks": [
+        "New Picker",
+        "Pace Aware",
+        "Pick Module Handler",
+        "Pick Pace Authority",
+        "Pick-to-Light Ergonomics Certified"
+      ],
+      "awards": [
+        {
+          "id": "display-over-light",
+          "name": "Display Over Light",
+          "note": "Confirmed the display before every pick, first try"
+        },
+        {
+          "id": "lift-assist-every-time",
+          "name": "Lift-Assist Every Time",
+          "note": "Used the lift-assist table for the heavy case"
+        },
+        {
+          "id": "steady-pace",
+          "name": "Steady Pace",
+          "note": "Held the pick pace near band centre through the shift"
+        },
+        {
+          "id": "clean-module-read",
+          "name": "Clean Module Read",
+          "note": "Never missed a hazard on the module read"
+        },
+        {
+          "id": "quick-cycle",
+          "name": "Quick Cycle",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "pace-streak",
+          "name": "Pace Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=tw-pick-to-light-ergonomics-and-rotation"
+    },
+    {
+      "app": "smartcity",
+      "id": "tw-cold-storage-ppe-and-rotation",
+      "name": "Cold-Storage PPE & Rotation",
+      "title": "SmartCiti.X~ Cold-Storage PPE & Rotation VR",
+      "tagline": "Entering a cold-storage room the way its own procedure requires it: insulated PPE worn before the door opens, a buddy actually checked in, the ice and the propped door and the torn seal caught before they become a fall or a temperature excursion, and the correct rotation-marked pallet pulled by date rather than by convenience",
+      "category": "Manufacturing & Automation",
+      "domain": "Warehousing & Logistics",
+      "trade": "Teamsters warehouse associate — cold-storage entry and stock rotation",
+      "union": null,
+      "certification": "Teamsters warehouse and logistics automation training; ASHRAE 15 safety standard for refrigeration systems and IIAR 2 and IIAR 6 for closed-circuit ammonia refrigeration design, inspection and maintenance, worked the way the site's own cold-work programme applies them; OSHA 29 CFR 1910.132 personal protective equipment for insulated cold-work gear; NIOSH findings on cold-storage slip and cold-stress incidents",
+      "accent": "#4fb8c9",
+      "parSeconds": 270,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "turn",
+        "hold",
+        "drag",
+        "gauge"
+      ],
+      "badge": {
+        "id": "cold-storage-certified",
+        "name": "Cold-Storage Certified",
+        "note": "Checked in with a buddy, caught every hazard on the room read, pulled the correct rotation-marked pallet, and checked out again before moving on"
+      },
+      "meshes": 172,
+      "lights": 0,
+      "overBudget": false,
+      "index": "tw-7",
+      "flat": false,
+      "system": "Cold-Room Discipline",
+      "currency": "FROST",
+      "ranks": [
+        "Room Visitor",
+        "Cold Aware",
+        "Cold-Storage Handler",
+        "Cold-Storage Authority",
+        "Cold-Storage Certified"
+      ],
+      "awards": [
+        {
+          "id": "buddy-every-time",
+          "name": "Buddy Every Time",
+          "note": "Checked in and out with a buddy, first try"
+        },
+        {
+          "id": "never-skip-the-ice",
+          "name": "Never Skip the Ice",
+          "note": "Never missed a hazard on the room read"
+        },
+        {
+          "id": "fifo-honest",
+          "name": "FIFO Honest",
+          "note": "Pulled the correctly rotation-marked pallet, first try"
+        },
+        {
+          "id": "clean-checkout",
+          "name": "Clean Checkout",
+          "note": "Logged out clean, no corrections"
+        },
+        {
+          "id": "quick-pull",
+          "name": "Quick Pull",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "frost-streak",
+          "name": "Frost Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=tw-cold-storage-ppe-and-rotation"
+    },
+    {
+      "app": "smartcity",
+      "id": "tw-palletizer-cell-fenced-access-permit",
+      "name": "Palletizer Cell Fenced-Access Permit",
+      "title": "SmartCiti.X~ Palletizer Cell Fenced-Access Permit VR",
+      "tagline": "Entering a robotic palletizer cell the way its own permit-to-enter sequence requires it: the light curtain and gate interlock confirmed honest, the arm's power isolated and locked, the residual motion proven at zero, and the release run in the order that keeps the cell from restarting on someone still inside it",
+      "category": "Manufacturing & Automation",
+      "domain": "Warehousing & Logistics",
+      "trade": "Teamsters warehouse associate — palletizer cell entry",
+      "union": null,
+      "certification": "Teamsters warehouse and logistics automation training; ANSI R15.06 and ISO 10218 for industrial robots and robot systems, worked the way a site's own robot-cell risk assessment applies them; OSHA 29 CFR 1910.147 the control of hazardous energy and 29 CFR 1910.212 machine guarding; NIOSH findings on struck-by incidents during robot-cell entry",
+      "accent": "#7d5ba6",
+      "parSeconds": 280,
+      "weather": "clear",
+      "indoor": "plant",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "gauge",
+        "turn",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "palletizer-cell-certified",
+        "name": "Palletizer Cell Certified",
+        "note": "Confirmed the curtain and interlock, isolated and locked the arm before entering, and proved zero energy before touching anything inside the fence"
+      },
+      "meshes": 161,
+      "lights": 0,
+      "overBudget": false,
+      "index": "tw-6",
+      "flat": false,
+      "system": "Cell Access Control",
+      "currency": "PERMIT",
+      "ranks": [
+        "Fence Line",
+        "Cell Aware",
+        "Cell Access Handler",
+        "Cell Access Authority",
+        "Palletizer Cell Certified"
+      ],
+      "awards": [
+        {
+          "id": "locked-before-entered",
+          "name": "Locked Before Entered",
+          "note": "Isolated and locked the arm before the gate ever opened"
+        },
+        {
+          "id": "never-trust-a-taped-curtain",
+          "name": "Never Trust a Taped Curtain",
+          "note": "Never missed a hazard on the cell read"
+        },
+        {
+          "id": "steady-proving-run",
+          "name": "Steady Proving Run",
+          "note": "Held the proving-cycle speed near band centre"
+        },
+        {
+          "id": "clean-release",
+          "name": "Clean Release",
+          "note": "Released the cell in order, first try"
+        },
+        {
+          "id": "quick-entry",
+          "name": "Quick Entry",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "permit-streak",
+          "name": "Permit Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=tw-palletizer-cell-fenced-access-permit"
+    },
+    {
+      "app": "smartcity",
+      "id": "tw-battery-change-and-charging-bay-safety",
+      "name": "Battery Change & Charging Bay Safety",
+      "title": "SmartCiti.X~ Battery Change & Charging Bay Safety VR",
+      "tagline": "Changing a lift-truck battery the way the charging bay's own sequence requires it: the eyewash and ventilation confirmed clear first, the truck powered down before the spent battery is extracted, the spent battery proven inside its safe charging band, and the replacement installed and reconnected before the truck goes back to work",
+      "category": "Manufacturing & Automation",
+      "domain": "Warehousing & Logistics",
+      "trade": "Teamsters warehouse associate — lift-truck battery change",
+      "union": null,
+      "certification": "Teamsters (IBT) warehouse and logistics automation training; OSHA 29 CFR 1910.178 powered industrial trucks including battery charging, 29 CFR 1910.1200 hazard communication for battery electrolyte, and 29 CFR 1910.132 personal protective equipment for the face shield and apron; NIOSH findings on hydrogen off-gassing incidents in poorly ventilated charging bays",
+      "accent": "#d2312b",
+      "parSeconds": 275,
+      "weather": "clear",
+      "indoor": "service",
+      "district": null,
+      "steps": 16,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "turn",
+        "drag",
+        "hold",
+        "gauge"
+      ],
+      "badge": {
+        "id": "battery-bay-certified",
+        "name": "Battery Bay Certified",
+        "note": "Confirmed the eyewash and ventilation before starting, powered the truck down before touching the battery, and proved the charge before trusting it"
+      },
+      "meshes": 226,
+      "lights": 0,
+      "overBudget": false,
+      "index": "tw-5",
+      "flat": false,
+      "system": "Charging Bay Discipline",
+      "currency": "AMPERE",
+      "ranks": [
+        "Bay Visitor",
+        "Bay Aware",
+        "Battery Handler",
+        "Charging Bay Authority",
+        "Battery Bay Certified"
+      ],
+      "awards": [
+        {
+          "id": "power-down-first",
+          "name": "Power Down First",
+          "note": "Confirmed the key off before touching the battery, first try"
+        },
+        {
+          "id": "never-block-the-eyewash",
+          "name": "Never Block the Eyewash",
+          "note": "Never missed a hazard on the bay read"
+        },
+        {
+          "id": "steady-charge",
+          "name": "Steady Charge",
+          "note": "Held the charging amperage near band centre"
+        },
+        {
+          "id": "clean-extraction",
+          "name": "Clean Extraction",
+          "note": "Extracted the battery onto the cart, first try"
+        },
+        {
+          "id": "quick-change",
+          "name": "Quick Change",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "ampere-streak",
+          "name": "Ampere Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=tw-battery-change-and-charging-bay-safety"
+    },
+    {
+      "app": "smartcity",
+      "id": "tw-dock-leveler-and-trailer-restraint-check",
+      "name": "Dock Leveler & Trailer Restraint Check",
+      "title": "SmartCiti.X~ Dock Leveler & Trailer Restraint Check VR",
+      "tagline": "Proving a trailer is actually held at the dock before the first forklift crosses it: backed fully to the bumpers, the ICC bar restraint engaged, the wheels chocked as the backup the restraint was never meant to be alone, the green light confirmed rather than assumed, and the leveler extended and proven before the crossing starts",
+      "category": "Manufacturing & Automation",
+      "domain": "Warehousing & Logistics",
+      "trade": "Teamsters warehouse associate — dock leveler and trailer restraint",
+      "union": null,
+      "certification": "Teamsters (IBT) warehouse and logistics automation training; OSHA 29 CFR 1910.178 powered industrial trucks, 29 CFR 1910.147 the control of hazardous energy for the leveler's own power and 29 CFR 1910.36 design and construction requirements for exit routes at the dock door; OSHA 29 CFR 1926.602 material handling equipment; NIOSH findings on trailer-creep incidents at loading docks",
+      "accent": "#c8531b",
+      "parSeconds": 270,
+      "weather": "clear",
+      "indoor": "garage",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "turn",
+        "drag",
+        "gauge",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "dock-restraint-certified",
+        "name": "Dock Restraint Certified",
+        "note": "Confirmed the restraint and the chocks before crossing, read the light instead of assuming it, and proved the leveler before trusting it with a load"
+      },
+      "meshes": 174,
+      "lights": 0,
+      "overBudget": false,
+      "index": "tw-4",
+      "flat": false,
+      "system": "Dock Restraint Control",
+      "currency": "RESTRAINT",
+      "ranks": [
+        "Dock Hand",
+        "Restraint Aware",
+        "Dock Restraint Handler",
+        "Dock Restraint Authority",
+        "Dock Restraint Certified"
+      ],
+      "awards": [
+        {
+          "id": "restraint-before-crossing",
+          "name": "Restraint Before Crossing",
+          "note": "Engaged the restraint and chocks before the first crossing"
+        },
+        {
+          "id": "never-trust-a-taped-light",
+          "name": "Never Trust a Taped Light",
+          "note": "Never missed a hazard on the dock read"
+        },
+        {
+          "id": "steady-crossing",
+          "name": "Steady Crossing",
+          "note": "Held the crossing speed near band centre every time"
+        },
+        {
+          "id": "clean-release",
+          "name": "Clean Release",
+          "note": "Released the restraint sequence in order, first try"
+        },
+        {
+          "id": "quick-dock",
+          "name": "Quick Dock",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "restraint-streak",
+          "name": "Restraint Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=tw-dock-leveler-and-trailer-restraint-check"
+    },
+    {
+      "app": "smartcity",
+      "id": "tw-high-bay-order-picker-fall-protection",
+      "name": "High-Bay Order Picker Fall Protection",
+      "title": "SmartCiti.X~ High-Bay Order Picker Fall Protection VR",
+      "tagline": "Riding a stand-up order picker into the high bay the way its own fall-protection sequence requires: the gate closed before the platform rises, the harness clipped to the platform's own anchor, the height and load proven before reaching for stock, and the unclip saved for after the platform is back on the ground",
+      "category": "Manufacturing & Automation",
+      "domain": "Warehousing & Logistics",
+      "trade": "Teamsters warehouse associate — high-bay order picker operator",
+      "union": null,
+      "certification": "Teamsters (IBT) warehouse and logistics automation training; OSHA 29 CFR 1910.178 powered industrial trucks, 29 CFR 1910.28 duty to have fall protection and 29 CFR 1910.212 machine guarding; 29 CFR 1910.132 personal protective equipment for the full-body harness; NIOSH findings on falls from elevated order-picker platforms",
+      "accent": "#3f9142",
+      "parSeconds": 270,
+      "weather": "clear",
+      "indoor": "shop",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "drag",
+        "hold",
+        "gauge",
+        "track"
+      ],
+      "badge": {
+        "id": "order-picker-certified",
+        "name": "Order Picker Fall Protection Certified",
+        "note": "Closed the gate before rising, clipped to the platform's own anchor, proved the height and load, and never unclipped while still in the air"
+      },
+      "meshes": 172,
+      "lights": 0,
+      "overBudget": false,
+      "index": "tw-3",
+      "flat": false,
+      "system": "High-Bay Access",
+      "currency": "ANCHOR",
+      "ranks": [
+        "Floor Picker",
+        "Bay Aware",
+        "High-Bay Handler",
+        "High-Bay Access Authority",
+        "Order Picker Fall Protection Certified"
+      ],
+      "awards": [
+        {
+          "id": "gate-first",
+          "name": "Gate First",
+          "note": "Closed the gate before the platform ever rose"
+        },
+        {
+          "id": "never-unclip-early",
+          "name": "Never Unclip Early",
+          "note": "Unclipped only after the platform was back down"
+        },
+        {
+          "id": "steady-transfer",
+          "name": "Steady Transfer",
+          "note": "Held the load moment near band centre through the transfer"
+        },
+        {
+          "id": "clean-preop",
+          "name": "Clean Pre-Op",
+          "note": "Never missed a hazard on the pre-use read"
+        },
+        {
+          "id": "quick-pick",
+          "name": "Quick Pick",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "anchor-streak",
+          "name": "Anchor Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=tw-high-bay-order-picker-fall-protection"
+    },
+    {
+      "app": "smartcity",
       "id": "tw-conveyor-jam-clearing-and-loto",
       "name": "Conveyor Jam Clearing & LOTO",
       "title": "SmartCiti.X~ Conveyor Jam Clearing & LOTO VR",
@@ -7914,7 +8505,7 @@
         "name": "Conveyor LOTO Certified",
         "note": "Isolated and locked the drive before opening the guard, cleared the jam without reaching past a live nip point, and proved the line clear before restoring power"
       },
-      "meshes": 146,
+      "meshes": 170,
       "lights": 0,
       "overBudget": false,
       "index": "tw-2",
@@ -8002,7 +8593,7 @@
         "name": "AMR Zone Certified",
         "note": "Read the zone honestly, requested access instead of stepping past the gate, isolated and locked the dock before touching it, and marked the floor before working"
       },
-      "meshes": 170,
+      "meshes": 171,
       "lights": 0,
       "overBudget": false,
       "index": "tw-1",
@@ -28413,7 +29004,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 248,
+      "meshes": 252,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -29073,7 +29664,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "100",
