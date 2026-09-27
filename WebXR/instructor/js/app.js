@@ -1,4 +1,5 @@
 import { createConsole, reduceRoster, COMMAND_LABELS, relayFromSearch } from "../../shared/observer.js";
+import { ctlMount } from "../../shared/controls.js";
 import { validateFlow, flowFromJSON } from "../../shared/flowhub.js";
 import { DEVICES, PROFILES } from "../../shared/devices.js";
 import { buildRoster, matchStation, matchProgramme } from "./roster.js";
@@ -634,3 +635,13 @@ setInterval(render, 1000);
 render();
 
 mountInstructorEggs({ getRoster: () => roster, stationHazards: STATION_HAZARDS });
+
+// The shared control grammar and help overlay (shared/controls.js, docs/ui-review.md).
+ctlMount({
+  world: "the instructor console",
+  except: {
+    move: "A 2D console: Tab walks the page instead.", look: "—", interact: "Enter or Space on the focused button or card.",
+    map: "The roster is the map: each card is a learner.", view: "—", quality: "No 3D scene to tune here.",
+  },
+  unique: [{ label: "Send a note to the learner", keys: ["Enter"], pad: "—", touch: "Send button" }],
+});

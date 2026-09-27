@@ -433,6 +433,7 @@ ${stdRows}
     <p><a href="${TRACK_LINKS.home}">Back to every station</a> · ${esc(network)}</p>
   </div>
 </footer>
+<script type="module">import { ctlMount } from "../shared/controls.js"; ctlMount({ world: "this training track", except: { move: "A page, not a world: Tab walks the stations.", look: "Scroll the page.", interact: "Enter opens the focused station.", map: "Each world keeps its own map.", view: "—", quality: "Set inside each world." } });</script>
 </body>
 </html>
 `;

@@ -1,4 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
+import { ctlMount } from "../../shared/controls.js";
 import {
   box, cyl, ball, torus, group, decal, repaint, signFace, particles, celebrationBurst, disposeTree, clamp, easeOut,
   GESTURE_HINTS,
@@ -1721,3 +1722,20 @@ addEventListener("keyup", (e) => {
 // The arcade cabinet (docs/easter-egg.md): a standing prop in worldRoot, so
 // it survives every clearHole()/clearTraining() reset between generations.
 mountHolodeckEggs({ THREE, renderer, camera, worldRoot });
+
+// The shared control grammar and help overlay (shared/controls.js, docs/ui-review.md).
+ctlMount({
+  world: "the Holodeck",
+  helpWhen: () => !trainingSession,
+  except: {
+    interact: "In a scenario Tab walks the step's controls and Enter takes the one in focus.",
+    map: "A scenario has no map: M mutes the sound.",
+    help: "In a scenario H reads the step aloud; the ? button opens help there.",
+    menu: "Esc leaves the scenario for a new prompt.",
+    quality: "Q turns a valve anticlockwise in a scenario; quality follows the device.",
+  },
+  unique: [
+    { label: "Focus the next / previous control", keys: ["Tab", "Shift+Tab"], pad: "D-pad left / right", touch: "Tap it" },
+    { label: "Take the focused control", keys: ["Enter"], pad: "A", touch: "Tap it" },
+  ],
+});

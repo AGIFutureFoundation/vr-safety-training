@@ -1,12 +1,14 @@
 // Break Room Arcade — the cabinet registry. Four original games, each with
 // a pure engine module (create()/step()/render()), a title/controls card and
 // its teaching line. Adding another cabinet means a new games/*.js engine,
-// an entry here, and a slot in tools/check_arcade.mjs.
+// an entry here, and a slot in tools/check_arcade.mjs. Named imports only:
+// the bundler erases `import * as` namespaces, which left the single-file
+// arcade throwing "SpoolYard is not defined" before its menu painted.
 
-import * as SpoolYard from "./games/spoolyard.js";
-import * as CrewRun from "./games/crewrun.js";
-import * as PalletStacker from "./games/palletstacker.js";
-import * as ForkliftAisle from "./games/forkliftaisle.js";
+import { SY_HEIGHT, SY_TEACHES, SY_WIDTH, syCreate, syRender, syStep } from "./games/spoolyard.js";
+import { CR_HEIGHT, CR_TEACHES, CR_WIDTH, crCreate, crRender, crStep } from "./games/crewrun.js";
+import { PS_TEACHES, psCreate, psRender, psStep } from "./games/palletstacker.js";
+import { FA_HEIGHT, FA_TEACHES, FA_WIDTH, faCreate, faRender, faStep } from "./games/forkliftaisle.js";
 
 export const ARCADE_CABINETS = [
   {
@@ -15,11 +17,11 @@ export const ARCADE_CABINETS = [
     genre: "Climbing platformer",
     players: 1,
     blurb: "Climb the steel frame while cable spools roll down off the ramps. Tie off at each level's anchor for a bonus, then reach the crane cab. Four boards, rising difficulty.",
-    teaches: SpoolYard.SY_TEACHES,
+    teaches: SY_TEACHES,
     controls: "Move: ← → or A/D. Climb: hold ↑/↓ or W/S against a ladder. Esc pauses.",
-    width: SpoolYard.SY_WIDTH,
-    height: SpoolYard.SY_HEIGHT,
-    engine: { create: SpoolYard.syCreate, step: SpoolYard.syStep, render: SpoolYard.syRender },
+    width: SY_WIDTH,
+    height: SY_HEIGHT,
+    engine: { create: syCreate, step: syStep, render: syRender },
   },
   {
     id: "crewrun",
@@ -27,11 +29,11 @@ export const ARCADE_CABINETS = [
     genre: "Side-scrolling platformer",
     players: 1,
     blurb: "A hard-hatted apprentice runs the jobsite: jump the trenches, duck the swinging loads, stomp the hazard icons and pick up PPE. A foreman checks your kit at the end of each of three stages.",
-    teaches: CrewRun.CR_TEACHES,
+    teaches: CR_TEACHES,
     controls: "Jump: ↑ / W / Space. Duck: ↓ / S (hold under a swinging load). Esc pauses.",
-    width: CrewRun.CR_WIDTH,
-    height: CrewRun.CR_HEIGHT,
-    engine: { create: CrewRun.crCreate, step: CrewRun.crStep, render: CrewRun.crRender },
+    width: CR_WIDTH,
+    height: CR_HEIGHT,
+    engine: { create: crCreate, step: crStep, render: crRender },
   },
   {
     id: "palletstacker",
@@ -39,11 +41,11 @@ export const ARCADE_CABINETS = [
     genre: "Falling-block stacker",
     players: 2,
     blurb: "Pallets of different shapes drop into the truck bed. Complete a row to ship it. The load shifts if the stack leans, and levels speed up. Two-player split screen.",
-    teaches: PalletStacker.PS_TEACHES,
+    teaches: PS_TEACHES,
     controls: "P1: A/D move, W rotate, S soft drop, Space hard drop. P2: ← → move, ↑ rotate, ↓ soft drop, Enter hard drop. Esc pauses.",
     width: null, // sized from psBoardSize() × player count at run time
     height: null,
-    engine: { create: PalletStacker.psCreate, step: PalletStacker.psStep, render: PalletStacker.psRender },
+    engine: { create: psCreate, step: psStep, render: psRender },
   },
   {
     id: "forkliftaisle",
@@ -51,12 +53,12 @@ export const ARCADE_CABINETS = [
     genre: "Lane-crossing dodger",
     players: 1,
     blurb: "Cross the aisle one marked lane at a time. Some lanes sweep a forklift back and forth; a few are painted crossings with their own stop/go beacon. Grab the hi-vis kit before the dock. Three boards, tighter crossings each time. Every round is capped at a minute.",
-    teaches: ForkliftAisle.FA_TEACHES,
+    teaches: FA_TEACHES,
     controls: "Move: ← → or A/D. Cross a lane: ↑ or W. Step back: ↓ or S. Esc pauses.",
     touch: true,
-    width: ForkliftAisle.FA_WIDTH,
-    height: ForkliftAisle.FA_HEIGHT,
-    engine: { create: ForkliftAisle.faCreate, step: ForkliftAisle.faStep, render: ForkliftAisle.faRender },
+    width: FA_WIDTH,
+    height: FA_HEIGHT,
+    engine: { create: faCreate, step: faStep, render: faRender },
   },
 ];
 

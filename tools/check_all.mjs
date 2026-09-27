@@ -32,6 +32,7 @@ const CHECKERS = [
   "check_mobile.mjs",
   // One learner, one ledger, one set of records across every app (docs/interop.md).
   "check_interop.mjs",
+  "check_ui.mjs",
 ];
 
 let failed = 0;

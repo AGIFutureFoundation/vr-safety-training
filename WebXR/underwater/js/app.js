@@ -1,4 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
+import { ctlMount } from "../../shared/controls.js";
 import { createGamepad, GAMEPAD_DEADZONE, detectPadVendor } from "../../shared/input.js";
 import { tcTier, tcApplyRenderer } from "../../shared/perf.js";
 import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
@@ -485,3 +486,15 @@ window.addEventListener("pageshow", () => { if (dvApp.screen === "game") dvCheck
 document.addEventListener("visibilitychange", () => { if (!document.hidden && dvApp.screen === "game") dvCheckDiveReturns(); });
 
 window.__underwaterTest = { app: dvApp, step: dvStep, jobBoard: dvOpenJobBoard, camera: () => dvApp.camera };
+
+// The shared control grammar and help overlay (shared/controls.js, docs/ui-review.md).
+ctlMount({
+  world: "the Deep", quality: true,
+  helpWhen: () => !dvApp.mapOpen,
+  unique: [
+    { label: "Rise / sink", keys: ["Space", "C"], pad: "Bumpers", touch: "Up and Down buttons" },
+    { label: "Fin sprint", keys: ["Shift"], pad: "Hold left stick", touch: "Fin button" },
+    { label: "Launch the ROV", keys: ["R"], pad: "—", touch: "—" },
+    { label: "Ascend to the boat", keys: ["U"], pad: "—", touch: "—" },
+  ],
+});

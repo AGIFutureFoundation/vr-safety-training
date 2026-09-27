@@ -79,6 +79,7 @@ APPS = {
             # the records, identity and every world's ledger, after its deps.
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
+            SHARED / "controls.js",
             WEBXR / "trades/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -186,6 +187,7 @@ APPS = {
             # the records, identity and every world's ledger, after its deps.
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
+            SHARED / "controls.js",
             WEBXR / "smartcity/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -236,6 +238,7 @@ APPS = {
             SHARED / "identity.js",
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
+            SHARED / "controls.js",
             WEBXR / "instructor/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -283,6 +286,7 @@ APPS = {
             # the records, identity and every world's ledger, after its deps.
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
+            SHARED / "controls.js",
             WEBXR / "holodeck/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -302,6 +306,7 @@ APPS = {
             WEBXR / "arcade/js/games/palletstacker.js",
             WEBXR / "arcade/js/games/forkliftaisle.js",
             WEBXR / "arcade/js/cabinets.js",
+            SHARED / "controls.js",
             WEBXR / "arcade/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -340,6 +345,7 @@ APPS = {
             SHARED / "identity.js",
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
+            SHARED / "controls.js",
             WEBXR / "fairway/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -382,6 +388,7 @@ APPS = {
             WEBXR / "race/js/battle.js",
             WEBXR / "race/js/audio.js",
             WEBXR / "race/js/net.js",
+            SHARED / "controls.js",
             WEBXR / "race/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -442,6 +449,7 @@ APPS = {
             SHARED / "identity.js",
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
+            SHARED / "controls.js",
             WEBXR / "bayworld/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -490,6 +498,7 @@ APPS = {
             SHARED / "identity.js",
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
+            SHARED / "controls.js",
             WEBXR / "underwater/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -507,6 +516,7 @@ APPS = {
             SHARED / "bayworld-data.js",
             SHARED / "bay-geo.js",
             SHARED / "mapbox.js",
+            SHARED / "controls.js",
             WEBXR / "bayworld/js/atlas.js",
         ],
         "entry": '<script type="module" src="./js/atlas.js"></script>',
@@ -551,6 +561,7 @@ APPS = {
             SHARED / "identity.js",
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
+            SHARED / "controls.js",
             WEBXR / "regatta/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -749,6 +760,9 @@ DIST_PAGES = {
     "underwater": "underwater.html",
 }
 DIST_SHARED = [
+    # The shared control grammar and help overlay (docs/ui-review.md), imported
+    # by the homepage and the training-track pages.
+    "controls.js",
     "auth.js", "identity.js", "records.js", "radio-quiz.js", "radio-quiz-data.js",
     # Wallet connection and opt-in agent/robot sharing (docs/wallets-and-sharing.md,
     # docs/agent-protocols.md), lazily imported by the homepage's own script

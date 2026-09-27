@@ -1,4 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
+import { ctlMount } from "../../shared/controls.js";
 import { createGamepad, GAMEPAD_DEADZONE, detectPadVendor } from "../../shared/input.js";
 import { tcTier, tcApplyRenderer } from "../../shared/perf.js";
 import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
@@ -598,3 +599,14 @@ function fwTickMinigame(dt) {
 
 requestAnimationFrame(fwFrame);
 fwShow("scr-menu");
+
+// The shared control grammar and help overlay (shared/controls.js, docs/ui-review.md).
+ctlMount({
+  world: "Fairway Park", quality: true,
+  except: { move: "Left and right arrows aim; the ball is walked to for you.", interact: "Space swings instead: the course has nothing else to use.", map: "The hole card at the top shows the hole." },
+  unique: [
+    { label: "Aim", keys: ["←", "→"], pad: "Left stick", touch: "Stick, left and right" },
+    { label: "Swing (start, lock power, strike)", keys: ["Space"], pad: "A", touch: "Swing button" },
+    { label: "Pick a club", keys: ["1", "2", "3", "4"], pad: "—", touch: "Club buttons" },
+  ],
+});
