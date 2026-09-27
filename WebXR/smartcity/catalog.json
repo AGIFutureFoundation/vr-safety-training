@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 603
+      "stations": 604
     },
     "trades": {
       "entry": "trades/index.html",
@@ -407,6 +407,7 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "cd-hydraulic-tools-and-suction-hazards-underwater",
         "cd-low-visibility-and-night-dive-line-work",
         "cd-scientific-scuba-buddy-check-and-lost-buddy-drill",
         "cd-decompression-chamber-operations-and-post-dive",
@@ -9294,6 +9295,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "cd-hydraulic-tools-and-suction-hazards-underwater",
+      "name": "Hydraulic Tools & Suction Hazards Underwater",
+      "title": "SmartCiti.X~ Hydraulic Tools & Suction Hazards Underwater VR",
+      "tagline": "Nothing near the grate until the pump cannot run: the differential-pressure brief taken, the unmarked pipe and the open bypass found, the disconnect opened, the dive team's lock and tag applied and the start tried, the streamer watched hang slack at the grate while the plant asks for its pump back, the power unit set to the tool's manual, the couplings checked, the tool handed down cold, the hoses tended clear of the umbilical while a coupling weeps, the return flow read, the tool recovered dead, the lock lifted only on the supervisor's count, the log written",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers of the Carpenters diver-tender locking out a plant intake and tending a hydraulic tool to a diver, with the dive supervisor, the standby diver and the plant operator who wants the pump back",
+      "union": null,
+      "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T — 29 CFR 1910.421 pre-dive planning and the assessment of hazardous activities nearby, 29 CFR 1910.422 procedures during the dive (power tools supplied from the surface and de-energised before they are placed in or retrieved from the water), 29 CFR 1910.430 equipment and 29 CFR 1910.425 the tended diver; OSHA 29 CFR 1910.147 lockout and tagout of the intake pump; ADCI consensus standards on differential-pressure hazards and diver-operated tools; USCG 46 CFR 197 Subpart B where the dive is from a vessel; every pressure, flow and depth per the tool's manual and the dive plan",
+      "accent": "#e0844a",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "hold",
+        "turn",
+        "drag",
+        "track",
+        "gauge"
+      ],
+      "badge": {
+        "id": "lock-held",
+        "name": "Lock Held",
+        "note": "The intake locked, tried and proven slack before the diver went near it, and the lock held against the plant until the count was in"
+      },
+      "meshes": 220,
+      "lights": 0,
+      "overBudget": false,
+      "index": "722",
+      "flat": false,
+      "system": "Cold Grate",
+      "currency": "LOCK COUNTS",
+      "ranks": [
+        "Deckhand",
+        "Tender",
+        "Tool Tender",
+        "Lead Tender",
+        "Intake Work Certified"
+      ],
+      "awards": [
+        {
+          "id": "found-the-bypass",
+          "name": "Found The Bypass",
+          "note": "The unmarked pipe and the open bypass found before the lock went on"
+        },
+        {
+          "id": "to-the-manual",
+          "name": "To The Manual",
+          "note": "The return flow committed inside the manual's band first time"
+        },
+        {
+          "id": "cold-handover",
+          "name": "Cold Handover",
+          "note": "No hazard reached for from the brief to the log"
+        },
+        {
+          "id": "clean-lockout",
+          "name": "Clean Lockout",
+          "note": "No corrections from the brief to the check-in"
+        },
+        {
+          "id": "hoses-clear",
+          "name": "Hoses Clear",
+          "note": "The hoses tended in band the whole job"
+        },
+        {
+          "id": "logged-quick",
+          "name": "Logged Quick",
+          "note": "Log written inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cd-hydraulic-tools-and-suction-hazards-underwater"
     },
     {
       "app": "smartcity",
@@ -30814,7 +30898,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 265,
+      "meshes": 264,
       "lights": 0,
       "overBudget": false,
       "index": "92",

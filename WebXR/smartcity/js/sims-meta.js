@@ -25606,5 +25606,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "cd-hydraulic-tools-and-suction-hazards-underwater",
+    "index": "722",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers of the Carpenters diver-tender locking out a plant intake and tending a hydraulic tool to a diver, with the dive supervisor, the standby diver and the plant operator who wants the pump back",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T — 29 CFR 1910.421 pre-dive planning and the assessment of hazardous activities nearby, 29 CFR 1910.422 procedures during the dive (power tools supplied from the surface and de-energised before they are placed in or retrieved from the water), 29 CFR 1910.430 equipment and 29 CFR 1910.425 the tended diver; OSHA 29 CFR 1910.147 lockout and tagout of the intake pump; ADCI consensus standards on differential-pressure hazards and diver-operated tools; USCG 46 CFR 197 Subpart B where the dive is from a vessel; every pressure, flow and depth per the tool's manual and the dive plan",
+    "name": "Hydraulic Tools & Suction Hazards Underwater",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Hydraulic Tools & Suction Hazards Underwater VR",
+    "tagline": "Nothing near the grate until the pump cannot run: the differential-pressure brief taken, the unmarked pipe and the open bypass found, the disconnect opened, the dive team's lock and tag applied and the start tried, the streamer watched hang slack at the grate while the plant asks for its pump back, the power unit set to the tool's manual, the couplings checked, the tool handed down cold, the hoses tended clear of the umbilical while a coupling weeps, the return flow read, the tool recovered dead, the lock lifted only on the supervisor's count, the log written",
+    "accent": 14713930,
+    "accentCss": "#e0844a",
+    "parSeconds": 320,
+    "badge": {
+      "id": "lock-held",
+      "name": "Lock Held",
+      "note": "The intake locked, tried and proven slack before the diver went near it, and the lock held against the plant until the count was in"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Cold Grate",
+      "currency": "LOCK COUNTS",
+      "ranks": [
+        "Deckhand",
+        "Tender",
+        "Tool Tender",
+        "Lead Tender",
+        "Intake Work Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
