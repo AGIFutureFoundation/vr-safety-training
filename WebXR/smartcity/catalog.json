@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 556
+      "stations": 557
     },
     "trades": {
       "entry": "trades/index.html",
@@ -69,6 +69,7 @@
         "track-access",
         "bus-depot-lift",
         "airport-ramp",
+        "ca-cabin-decompression-and-oxygen-masks",
         "ca-unruly-passenger-deescalation",
         "ca-cabin-medical-event-response",
         "ca-galley-and-cart-safety",
@@ -8736,6 +8737,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-cabin-decompression-and-oxygen-masks",
+      "name": "Cabin Decompression and Oxygen Mask Drill",
+      "title": "SmartCiti.X~ Cabin Decompression and Oxygen Mask Drill VR",
+      "tagline": "This crew member's own mask on first, every time, then the sweep down the aisle for the mask that never dropped, the child who needs a hand, and the loose item that turns into a projectile — no altitude or descent number this platform is not certain of",
+      "category": "Mobility & Transit",
+      "domain": "Aviation",
+      "trade": "Flight attendant — AFA-CWA cabin crew",
+      "union": null,
+      "certification": "AFA-CWA cabin-safety training; the airline's own rapid decompression and emergency descent checklist under 14 CFR 121; OSHA 29 CFR 1910.151 medical services and first aid for the oxygen equipment this drill covers",
+      "accent": "#4fb0d8",
+      "parSeconds": 340,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "hold",
+        "turn",
+        "gauge",
+        "track"
+      ],
+      "badge": {
+        "id": "cabin-repressurized",
+        "name": "Cabin Repressurized",
+        "note": "Own mask on first, every mask in the row confirmed, the loose items caught, and the cabin swept and logged once it was safe to move again"
+      },
+      "meshes": 207,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ca-5",
+      "flat": false,
+      "system": "Cabin Repressurized",
+      "currency": "O2",
+      "ranks": [
+        "New Flight Attendant",
+        "Line Qualified",
+        "Lead Flight Attendant",
+        "Purser",
+        "Cabin Repressurized Certified"
+      ],
+      "awards": [
+        {
+          "id": "own-mask-first",
+          "name": "Own Mask First",
+          "note": "Secured your own mask before touching anyone else's row"
+        },
+        {
+          "id": "row-swept",
+          "name": "Row Swept",
+          "note": "Every mask in the cabin confirmed before moving on"
+        },
+        {
+          "id": "backup-o2-delivered",
+          "name": "Backup O2 Delivered",
+          "note": "The portable bottle reached the row with the failed compartment"
+        },
+        {
+          "id": "clean-drill",
+          "name": "Clean Drill",
+          "note": "No corrections anywhere in the drill"
+        },
+        {
+          "id": "steady-watch",
+          "name": "Steady Watch",
+          "note": "Held the cabin-altitude watch the full count, first try"
+        },
+        {
+          "id": "fast-drill",
+          "name": "Fast Drill",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ca-cabin-decompression-and-oxygen-masks"
     },
     {
       "app": "smartcity",
@@ -29421,7 +29505,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 257,
+      "meshes": 255,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -30081,7 +30165,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",
