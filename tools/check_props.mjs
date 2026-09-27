@@ -177,7 +177,7 @@ writeFileSync(join(dir, "three-mock.mjs"), THREE_STUB);
 // flDone, flLivery, the canvas-material cache…), so both go in behind the
 // stub, fleet.js first since props.js's stripped imports must resolve
 // against definitions already in scope.
-const parts = ["shared/kit.js", "shared/textures.js", "shared/fleet.js", "shared/props.js"].map((rel) => strip(readFileSync(join(WEBXR, rel), "utf8")));
+const parts = ["shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/fleet.js", "shared/props.js"].map((rel) => strip(readFileSync(join(WEBXR, rel), "utf8")));
 writeFileSync(join(dir, "suite.mjs"), `import * as THREE from "./three-mock.mjs";\nimport { __bounds } from "./three-mock.mjs";\n\n${parts.join("\n\n")}\n\nexport { THREE, __bounds, PROPS_BUDGET, PROPS_BUILDERS };`);
 const suite = await import(pathToFileURL(join(dir, "suite.mjs")).href);
 

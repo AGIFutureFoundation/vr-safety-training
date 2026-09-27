@@ -13,6 +13,7 @@ export { setActiveContext };
 // use it too. Re-exported here so an existing `import { X } from
 // "./citykit.js"` in any SmartCiti.X module keeps working unchanged.
 export * from "../../shared/textures.js";
+import { paintTexture, paintedMat } from "../../shared/textures.js";
 
 // SmartCity.X asset kit — the pieces every station is assembled from.
 //
@@ -44,30 +45,28 @@ export const CITY = {
 // same way kit.js's gradientFill is, so the headless checkers' 2D-context stub
 // never throws even though nothing in the checker path actually calls these.
 
-/** A repeating CanvasTexture drawn by `draw(g, w, h)`. */
+/**
+ * A repeating CanvasTexture drawn by `draw(g, w, h)` — a thin wrapper over
+ * shared/textures.js's paintTexture(), so the plaza ground and every
+ * district's facades (this function's callers in stage.js/districts.js) get
+ * the same resolution default (TEXTURE_RES), mipmaps, renderer-anisotropy
+ * and QUALITY-gated bump/roughness companion map as a painter used directly
+ * through facePaint(), without a single call site here changing. Unlike
+ * facePaint() this never caches — these draw closures capture fresh
+ * per-call colours and options, so there is nothing to key a cache on — but
+ * an unbounded, ever-growing cache would be worse than the redraw this always
+ * did anyway.
+ */
 export function surfaceTexture(draw, o = {}) {
-  const px = o.px ?? 512;
-  const canvas = document.createElement("canvas");
-  canvas.width = px; canvas.height = px;
-  const g = canvas.getContext("2d");
-  draw(g, px, px);
-  const tex = new THREE.CanvasTexture(canvas);
-  if (THREE.RepeatWrapping !== undefined) { tex.wrapS = THREE.RepeatWrapping; tex.wrapT = THREE.RepeatWrapping; }
-  tex.repeat?.set?.(o.repeat ?? 4, o.repeat ?? 4);
-  tex.anisotropy = 8;
-  if (THREE.SRGBColorSpace !== undefined) tex.colorSpace = THREE.SRGBColorSpace;
-  return tex;
+  return paintTexture((g, w, h) => draw(g, w, h), o);
 }
 
-/** A standard material carrying its own (disposable) texture map. */
+/** A standard material carrying its own (disposable) texture map — the same
+ *  contract as shared/textures.js's paintedMat(), which this now is: kept as
+ *  its own named export (citykit.js's existing default roughness) so no
+ *  call site in stage.js/districts.js/interiors.js has to change. */
 export function texturedMat(tex, o = {}) {
-  const m = new THREE.MeshStandardMaterial({
-    map: tex, color: o.color ?? 0xffffff, roughness: o.rough ?? 0.85, metalness: o.metal ?? 0.05,
-    emissive: o.emissive ?? 0x000000, emissiveIntensity: o.ei ?? 1, emissiveMap: o.glow ? tex : null,
-  });
-  m.userData.ownMaterial = true;
-  m.userData.ownTexture = true;
-  return m;
+  return paintedMat(tex, { rough: 0.85, metal: 0.05, ...o });
 }
 
 /**

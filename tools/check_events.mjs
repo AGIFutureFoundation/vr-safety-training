@@ -35,7 +35,7 @@ const CREW_EXTRA = ["crane-yard", "trench-box", "confined-rescue"];
 const constName = (id) => id.toUpperCase().replace(/-/g, "_");
 const ALL_PICK = [...PICK, ...CREW_EXTRA];
 const modules = [
-  "shared/kit.js", "shared/textures.js", "shared/fleet.js", "shared/equipment.js", "shared/toolkit.js", "shared/game.js",
+  "shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/fleet.js", "shared/equipment.js", "shared/toolkit.js", "shared/game.js",
   "shared/robot.js", "shared/robot-embodiment.js", "shared/eggs.js",
   "shared/weather.js", "shared/crew.js", "shared/events.js",
   "smartcity/js/citykit.js", "smartcity/js/gamify.js",

@@ -25,7 +25,7 @@
  */
 import { buildSuite } from "./lib/headless.mjs";
 
-const MODULES = ["shared/kit.js", "shared/textures.js", "shared/fairway-data.js", "shared/fairway.js"];
+const MODULES = ["shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/fairway-data.js", "shared/fairway.js"];
 const HARNESS = `export {
   FAIRWAY_HOLES, FAIRWAY_FACILITY, FAIRWAY_BOUNDS, FAIRWAY_HEIGHT_RANGE, FAIRWAY_MESH_BUDGET,
   fairwayHeight, fairwayGreenAt, fairwayLieAt, buildFairwayPark, THREE,

@@ -269,7 +269,7 @@ if (!failures) for (const line of splitNames) console.log(`    · ${line}`);
 // people and not one person stood in six places.
 {
   const figures = await buildSuite(
-    ["shared/kit.js", "shared/textures.js", "smartcity/js/citykit.js"],
+    ["shared/kit.js", "shared/textures.js", "shared/perf.js", "smartcity/js/citykit.js"],
     "export { THREE, standingFigure, OUTFITS, figureLook };",
     "check-crew-figures",
   );
