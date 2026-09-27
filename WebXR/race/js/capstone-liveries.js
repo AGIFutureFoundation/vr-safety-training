@@ -225,5 +225,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "education-support-staff",
     "name": "Education Support Staff — Custodial, Grounds, Transport and Classroom",
     "accent": "#d9a441"
+  },
+  {
+    "programme": "grounds-and-landscaping",
+    "name": "Grounds & Landscaping Crew",
+    "accent": "#3f9c5a"
   }
 ];
