@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 557
+      "stations": 558
     },
     "trades": {
       "entry": "trades/index.html",
@@ -361,6 +361,7 @@
         "stage-power",
         "chain-hoist",
         "fly-system",
+        "md-theatre-fly-floor-and-quick-change-lane",
         "md-recording-studio-hearing-conservation-and-load-in",
         "md-sound-stage-electrical-distribution-and-cable-crossings",
         "md-location-shoot-traffic-control-and-heat-hydration",
@@ -8737,6 +8738,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "md-theatre-fly-floor-and-quick-change-lane",
+      "name": "Theatre Fly Floor & Quick-Change Lane",
+      "title": "SmartCiti.X~ Theatre Fly Floor & Quick-Change Lane VR",
+      "tagline": "A backstage crossover under the fly floor: the cue sheet read, the quick-rig costume dressed in its own snap order, the crossover swept for a blocking props table and a missing spike mark, the fly plot checked against the actor's cross, the brake tension proven, the headset dialled to the calling channel, standby held, go called, the batten watched in at a safe speed, the costume piece handed off, the cross under the landed batten confirmed clear, and the change and the cue logged — a crew member starting the wrong batten and an actor stepping into a landing batten's path both answered off a control that isn't the one already in the learner's hand",
+      "category": "Entertainment & Live Events",
+      "domain": "Screen & Media Crafts",
+      "trade": "Actors' Equity stage manager, calling a fly cue and a quick change over the same backstage crossover",
+      "union": null,
+      "certification": "Actors' Equity Association safety standards for stage actors and stage managers; IATSE fly crew and stagehand practice; ANSI E1.4 counterweight rigging systems for the fly floor; OSHA 29 CFR 1910.22 walking-working surfaces for the backstage crossover; NFPA 101 Life Safety Code requirements for keeping the crossover clear as an egress path",
+      "accent": "#ec407a",
+      "parSeconds": 340,
+      "weather": "clear",
+      "indoor": "theatre",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "turn",
+        "hold",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "clean-change-clean-cue",
+        "name": "Clean Change, Clean Cue",
+        "note": "The crossover swept clean, the brake tension proven before the batten flew, the wrong-batten start caught on the headset, and the crossover confirmed clear before anyone crossed under the landed batten"
+      },
+      "meshes": 165,
+      "lights": 0,
+      "overBudget": false,
+      "index": "713",
+      "flat": false,
+      "system": "Calling Desk",
+      "currency": "CUE",
+      "ranks": [
+        "Deck Hand",
+        "Assistant Stage Manager",
+        "Stage Manager",
+        "Production Stage Manager",
+        "Equity Steward Certified"
+      ],
+      "awards": [
+        {
+          "id": "tension-proven-first",
+          "name": "Tension Proven First",
+          "note": "Never called go before the brake tension read proven"
+        },
+        {
+          "id": "wrong-batten-caught",
+          "name": "Wrong Batten Caught",
+          "note": "The wrong-batten start was called off on the headset, not let run"
+        },
+        {
+          "id": "never-under-the-batten",
+          "name": "Never Under the Batten",
+          "note": "Never reached under a flying batten, never crossed the blind corner unchecked, never reached into the rig while it was being pinned, never blocked the crossover with the cart"
+        },
+        {
+          "id": "clean-call",
+          "name": "Clean Call",
+          "note": "No corrections from the cue sheet to the closing log"
+        },
+        {
+          "id": "steady-fly",
+          "name": "Steady Fly",
+          "note": "The batten held its speed band the whole way in, first time"
+        },
+        {
+          "id": "curtain-on-time",
+          "name": "Curtain On Time",
+          "note": "Change made and cue called inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=md-theatre-fly-floor-and-quick-change-lane"
     },
     {
       "app": "smartcity",
@@ -29511,7 +29595,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 271,
+      "meshes": 269,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -30171,7 +30255,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 257,
       "lights": 0,
       "overBudget": false,
       "index": "100",
