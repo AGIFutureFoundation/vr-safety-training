@@ -42,6 +42,10 @@ const GENERIC = new Set([
   "pour", "air", "lift", "chamber", "box", "truck", "site", "dock", "depot", "back",
   "fly", "stage", "data", "field", "job", "work", "crew", "shift", "area", "floor",
   "build", "machine",
+  // "a coffee break" and "break room" are everyday English long before they
+  // are a water main failing, and "break" alone cannot tell a report about
+  // the break room apart from one about the water main break station.
+  "break",
   // "incident" is what every report in this feature is about, so it cannot be
   // what tells two of them apart. It only became reachable when the first
   // station ids carrying it shipped (critical-incident-debrief,
@@ -83,7 +87,7 @@ const STOP = new Set([
   "was", "were", "is", "are", "be", "been", "had", "has", "have", "did", "do", "done",
   "we", "they", "he", "she", "it", "i", "our", "his", "her", "their", "its", "my",
   "that", "this", "there", "then", "than", "so", "as", "by", "from", "up", "off",
-  "out", "into", "over", "under", "about", "while", "during", "when", "after",
+  "out", "into", "over", "under", "near", "about", "while", "during", "when", "after",
   "before", "just", "got", "get", "went", "came", "come", "one", "two", "some",
   "last", "week", "today", "morning", "afternoon", "night", "again", "still",
   "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday",

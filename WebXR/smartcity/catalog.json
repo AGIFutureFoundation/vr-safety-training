@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 508
+      "stations": 516
     },
     "trades": {
       "entry": "trades/index.html",
@@ -54,7 +54,11 @@
         "transformer-vault",
         "et-ev-fleet-depot-charging-and-arc-flash",
         "or-solar-farm-tracker-row-maintenance",
-        "or-transmission-line-right-of-way-patrol"
+        "or-transmission-line-right-of-way-patrol",
+        "ut-pe-pipe-fusion-and-squeeze-off",
+        "ut-cathodic-protection-test-station-reading",
+        "ut-gas-meter-set-and-regulator-vent",
+        "ut-service-line-locate-and-hand-dig-near-gas-main"
       ]
     },
     {
@@ -126,7 +130,11 @@
         "br-shoreline-cleanup-sharps-and-hazardous-debris",
         "br-culvert-retrofit-for-fish-passage",
         "br-native-planting-and-erosion-mats",
-        "pl-underground-sewer-lateral-and-trench-shoring"
+        "pl-underground-sewer-lateral-and-trench-shoring",
+        "ut-night-storm-response-crew-and-portable-generator",
+        "ut-water-treatment-chemical-delivery-unloading",
+        "ut-hydrant-flow-test-and-flushing-with-traffic-control",
+        "ut-water-main-break-emergency-shutdown-and-excavation"
       ]
     },
     {
@@ -4232,6 +4240,67 @@
       "ladder": {
         "levels": 20,
         "lessons": 1680,
+        "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
+    },
+    {
+      "id": "water-and-gas-utility-crews",
+      "name": "Water and Gas Utility Crews — Distribution Authority",
+      "union": "UWUA — Utility Workers Union of America; IBEW gas locals as bodies",
+      "certification": "UWUA and IBEW gas-utility distribution crew training, tested against 49 CFR Part 192 (PHMSA), AWWA C651, OSHA 29 CFR 1926 Subpart P, OSHA 29 CFR 1910.147, and the operator's own valve book, locate-ticket and dechlorination procedures across eight distinct water and gas utility jobs",
+      "summary": "Eight jobs a water or gas utility crew actually rotates through: a water main break shut down on the valve book's own two valves and excavated to a proven repair, a hydrant flow-tested behind a cone taper with the residual watched the whole time it flows, a gas main hand-exposed inside its own staked tolerance zone, a meter set on a proven riser and torqued straight, a steel main's cathodic protection read at a rectifier locked out before its cabinet opens, a PE main squeezed off and fused on clean faces, a treatment plant's chemical delivery proven against its own label before a hose ever connects, and a storm-darkened lift station brought back up on a generator whose cable never touches the transfer switch until the utility feed is proven dead. Every station ends on a proof — a gauge, a logged reading, a bead inspected — rather than on how safe the job looked going in.",
+      "accent": "#2f9ed1",
+      "stations": [
+        {
+          "app": "smartcity",
+          "id": "ut-water-main-break-emergency-shutdown-and-excavation",
+          "why": "The valve book decides which two valves make the section and the order they close in, the locate ticket is read before the pit is opened, and the clamp does not go on until the gauge — not a guess — says the main is actually at zero."
+        },
+        {
+          "app": "smartcity",
+          "id": "ut-hydrant-flow-test-and-flushing-with-traffic-control",
+          "why": "One hydrant is cracked open slowly and read on a pitot gauge, a second hydrant's residual is watched the whole time it flows, and none of it happens in the open street before the cones and the sign are ahead of the taper."
+        },
+        {
+          "app": "smartcity",
+          "id": "ut-service-line-locate-and-hand-dig-near-gas-main",
+          "why": "Everything inside the tolerance zone is worked by hand or by vacuum, the marked main is proven by exposing it rather than assumed from the paint, and the depth actually found is logged for the next crew that digs here."
+        },
+        {
+          "app": "smartcity",
+          "id": "ut-gas-meter-set-and-regulator-vent",
+          "why": "The riser is inspected before the meter ever goes on it, the unions are torqued straight rather than forced, and the set is proven with soap and an electronic sniff rather than a dial that simply looks still."
+        },
+        {
+          "app": "smartcity",
+          "id": "ut-cathodic-protection-test-station-reading",
+          "why": "A pipe-to-soil reading is taken with the reference electrode actually wetted into the soil, the rectifier is read only after its AC side is locked out, and a bond to a crossing line is proven continuous before this main's own protection is trusted."
+        },
+        {
+          "app": "smartcity",
+          "id": "ut-pe-pipe-fusion-and-squeeze-off",
+          "why": "A squeeze-off bar stands in for a valve that does not exist, a butt-fusion joint is made from two faces scraped clean and heat-soaked evenly, and the bead is inspected and the bore released slowly before either one is trusted."
+        },
+        {
+          "app": "smartcity",
+          "id": "ut-water-treatment-chemical-delivery-unloading",
+          "why": "The shipping papers, the safety data sheet and the tank's own label all have to agree before a single hose connects, and the transfer is watched at the coupling and stopped well short of a tank already checked for room."
+        },
+        {
+          "app": "smartcity",
+          "id": "ut-night-storm-response-crew-and-portable-generator",
+          "why": "A flooded access road is driven slowly and deliberately at night, and the lift station's utility feed is locked out and proven dead before the generator's cable ever touches the transfer switch."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1660,
         "tasks": 120,
         "atBar": 20,
         "partial": 0,
@@ -28716,7 +28785,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 261,
+      "meshes": 257,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -29376,7 +29445,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",
@@ -46342,6 +46411,671 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=rf-torch-applied-membrane-and-fire-watch"
+    },
+    {
+      "app": "smartcity",
+      "id": "ut-night-storm-response-crew-and-portable-generator",
+      "name": "Night Storm-Response Crew & Portable Generator",
+      "title": "SmartCiti.X~ Night Storm-Response Crew & Portable Generator VR",
+      "tagline": "A flooded access road driven slowly and deliberately at night, the lift station's utility feed locked out and proven dead before the generator's cable ever touches the transfer switch, and the pumps watched back to work under a light this crew brought with them",
+      "category": "Water & Environmental",
+      "domain": "Water",
+      "trade": "UWUA water and sewer utility emergency-response crew",
+      "union": null,
+      "certification": "UWUA water and sewer utility emergency-response training; OSHA 29 CFR 1910.147 the control of hazardous energy for isolating the lift station's utility feed before the generator connects; the state Manual on Uniform Traffic Control Devices (MUTCD) for the flag control used on the flooded access road; ANSI Z535.4 for the warning signage on the barrier; the utility's own storm-response and mutual-aid procedure for the callout itself",
+      "accent": "#ffb13a",
+      "parSeconds": 320,
+      "weather": "storm",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "drive",
+        "sequence",
+        "drag",
+        "turn",
+        "gauge",
+        "track",
+        "hold"
+      ],
+      "badge": {
+        "id": "station-on-generator",
+        "name": "Station On Generator",
+        "note": "A flooded access road driven with every check made, the utility feed proven isolated before the generator ever connected, and the lift station running again under this crew's own power"
+      },
+      "meshes": 192,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ut-08",
+      "flat": false,
+      "system": "Storm Response Authority",
+      "currency": "KW",
+      "ranks": [
+        "Apprentice",
+        "Service Crew",
+        "Storm Response Tech",
+        "Crew Lead",
+        "Storm Response Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "isolated-before-connected",
+          "name": "Isolated Before Connected",
+          "note": "The utility feed was isolated and tagged before the generator cable ever connected"
+        },
+        {
+          "id": "never-backfed",
+          "name": "Never Backfed",
+          "note": "No unsafe action was recorded through the whole callout"
+        },
+        {
+          "id": "steady-load",
+          "name": "Steady Load",
+          "note": "Held the generator load watch inside the band the whole time"
+        },
+        {
+          "id": "clean-callout",
+          "name": "Clean Callout",
+          "note": "No corrections from the callout to the log"
+        },
+        {
+          "id": "unbroken-load-watch",
+          "name": "Unbroken Load Watch",
+          "note": "The generator load watch ran to completion without a break"
+        },
+        {
+          "id": "station-up-fast",
+          "name": "Station Up Fast",
+          "note": "Logged and back on the road inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ut-night-storm-response-crew-and-portable-generator"
+    },
+    {
+      "app": "smartcity",
+      "id": "ut-water-treatment-chemical-delivery-unloading",
+      "name": "Water Treatment Chemical Delivery Unloading",
+      "title": "SmartCiti.X~ Water Treatment Chemical Delivery Unloading VR",
+      "tagline": "The shipping papers, the safety data sheet and the tank's own label all proven to agree before a single hose connects, the tanker grounded and watched from the first moment it flows, and the transfer stopped well short of a tank already checked for room",
+      "category": "Water & Environmental",
+      "domain": "Water",
+      "trade": "UWUA water treatment operator — chemical delivery unloading",
+      "union": null,
+      "certification": "UWUA water treatment operator training; OSHA 29 CFR 1910.1200 hazard communication for the safety data sheet check before any connection is made; 49 CFR Part 172 (PHMSA) hazardous materials communications for the delivery driver's shipping papers and placard; OSHA 29 CFR 1910.132 personal protective equipment for the unloading itself",
+      "accent": "#4fc78a",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "drag",
+        "gauge",
+        "turn",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "delivery-proven",
+        "name": "Delivery Proven",
+        "note": "A chemical delivery checked against its papers, its SDS and the tank's own label, grounded, watched at the connection, stopped inside the tank's capacity, and logged before the driver left"
+      },
+      "meshes": 113,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ut-07",
+      "flat": false,
+      "system": "Water Treatment Authority",
+      "currency": "GAL",
+      "ranks": [
+        "Apprentice",
+        "Plant Operator Trainee",
+        "Water Treatment Operator",
+        "Shift Lead",
+        "Water Treatment Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "papers-before-hose",
+          "name": "Papers Before Hose",
+          "note": "The manifest, SDS and tank label were all checked before the hose ever connected"
+        },
+        {
+          "id": "right-tank-every-time",
+          "name": "Right Tank Every Time",
+          "note": "No unsafe action was recorded through the whole delivery"
+        },
+        {
+          "id": "steady-level-watch",
+          "name": "Steady Level Watch",
+          "note": "Held the tank level watch inside the band the whole transfer"
+        },
+        {
+          "id": "clean-delivery",
+          "name": "Clean Delivery",
+          "note": "No corrections from the manifest to the log"
+        },
+        {
+          "id": "unbroken-level-watch",
+          "name": "Unbroken Level Watch",
+          "note": "The tank level watch ran to completion without a break"
+        },
+        {
+          "id": "driver-gone-fast",
+          "name": "Driver Gone Fast",
+          "note": "Logged and released inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ut-water-treatment-chemical-delivery-unloading"
+    },
+    {
+      "app": "smartcity",
+      "id": "ut-pe-pipe-fusion-and-squeeze-off",
+      "name": "PE Pipe Fusion & Squeeze-Off",
+      "title": "SmartCiti.X~ PE Pipe Fusion & Squeeze-Off VR",
+      "tagline": "A squeeze-off bar standing in for a valve that does not exist, a butt-fusion joint made from two faces scraped clean and heat-soaked evenly, and the bead inspected and the bore released slowly before either one is trusted",
+      "category": "Energy & Power",
+      "domain": "Energy",
+      "trade": "UWUA / IBEW gas-utility qualified plastic-pipe joiner",
+      "union": null,
+      "certification": "UWUA / IBEW gas-utility plastic-pipe joiner qualification; 49 CFR Part 192 (PHMSA) for the operator's qualified-joiner and plastic-pipe-joining procedure; OSHA 29 CFR 1910.147 the control of hazardous energy, applied here as the squeeze-off that stands in for a valve; the fusion machine and pipe manufacturer's own procedure for the facing, heat-soak and joining parameters",
+      "accent": "#f2a03a",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "hold",
+        "drag",
+        "gauge",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "joint-and-bore-proven",
+        "name": "Joint & Bore Proven",
+        "note": "A section squeezed off, cut, fused on clean faces with an even heat soak, the bead inspected, and the bore released slowly and leak-checked before the crew left"
+      },
+      "meshes": 123,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ut-06",
+      "flat": false,
+      "system": "Distribution Authority",
+      "currency": "SCFH",
+      "ranks": [
+        "Apprentice",
+        "Service Crew",
+        "Qualified Joiner",
+        "Crew Lead",
+        "Distribution Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "bore-fully-collapsed",
+          "name": "Bore Fully Collapsed",
+          "note": "The squeeze-off held its full dwell before anything downstream was cut"
+        },
+        {
+          "id": "clean-faces-only",
+          "name": "Clean Faces Only",
+          "note": "No unsafe action was recorded getting the joint fused"
+        },
+        {
+          "id": "even-heat-soak",
+          "name": "Even Heat Soak",
+          "note": "Held the heater plate temperature steady through the whole soak"
+        },
+        {
+          "id": "clean-fusion",
+          "name": "Clean Fusion",
+          "note": "No corrections from the work order to the log"
+        },
+        {
+          "id": "unbroken-cool",
+          "name": "Unbroken Cooling Watch",
+          "note": "The joining pressure watch ran to completion without a break"
+        },
+        {
+          "id": "section-live-fast",
+          "name": "Section Live Fast",
+          "note": "Released and leak-checked inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ut-pe-pipe-fusion-and-squeeze-off"
+    },
+    {
+      "app": "smartcity",
+      "id": "ut-cathodic-protection-test-station-reading",
+      "name": "Cathodic Protection Test-Station Reading",
+      "title": "SmartCiti.X~ Cathodic Protection Test-Station Reading VR",
+      "tagline": "A pipe-to-soil reading taken with the reference electrode actually wetted into the soil, a rectifier read only after its AC side is locked out, and a bond to a crossing line checked for continuity before this main's own protection is trusted",
+      "category": "Energy & Power",
+      "domain": "Energy",
+      "trade": "UWUA / IBEW gas-utility corrosion-control technician",
+      "union": null,
+      "certification": "UWUA / IBEW gas-utility corrosion-control technician training; 49 CFR Part 192 (PHMSA) for the operator's cathodic-protection monitoring interval and criteria on a steel main; OSHA 29 CFR 1910.147 the control of hazardous energy for isolating the rectifier's AC supply before its cabinet is opened; NFPA 70E for the electrical hazard at the rectifier panel; the operator's own corrosion-control procedure for the criteria a reading is actually checked against",
+      "accent": "#4fa8e8",
+      "parSeconds": 290,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "gauge",
+        "turn",
+        "track",
+        "hold"
+      ],
+      "badge": {
+        "id": "protection-proven",
+        "name": "Protection Proven",
+        "note": "A pipe-to-soil reading taken correctly, a rectifier read only after lockout, a bond proven continuous, and every number written back to the corrosion-control record"
+      },
+      "meshes": 128,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ut-05",
+      "flat": false,
+      "system": "Distribution Authority",
+      "currency": "mV",
+      "ranks": [
+        "Apprentice",
+        "Service Crew",
+        "Corrosion Control Tech",
+        "Crew Lead",
+        "Distribution Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "rectifier-locked-first",
+          "name": "Rectifier Locked First",
+          "note": "The AC supply was locked out before the cabinet was ever opened"
+        },
+        {
+          "id": "wetted-not-guessed",
+          "name": "Wetted, Not Guessed",
+          "note": "No unsafe action was recorded getting a pipe-to-soil reading"
+        },
+        {
+          "id": "steady-output",
+          "name": "Steady Output",
+          "note": "Held the rectifier output watch inside the band the whole time"
+        },
+        {
+          "id": "clean-survey",
+          "name": "Clean Survey",
+          "note": "No corrections from the record to the log"
+        },
+        {
+          "id": "unbroken-output-watch",
+          "name": "Unbroken Output Watch",
+          "note": "The rectifier output watch ran to completion without a break"
+        },
+        {
+          "id": "station-clear-fast",
+          "name": "Station Clear Fast",
+          "note": "Logged and locked up inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ut-cathodic-protection-test-station-reading"
+    },
+    {
+      "app": "smartcity",
+      "id": "ut-gas-meter-set-and-regulator-vent",
+      "name": "Gas Meter Set & Regulator Vent Check",
+      "title": "SmartCiti.X~ Gas Meter Set & Regulator Vent Check VR",
+      "tagline": "The riser inspected before the meter ever goes on it, the unions torqued straight rather than forced, the regulator's vent checked for its own clearance, and the set proven with soap and an electronic sniff rather than a dial that simply looks still",
+      "category": "Energy & Power",
+      "domain": "Energy",
+      "trade": "UWUA / IBEW gas-utility serviceperson",
+      "union": null,
+      "certification": "UWUA / IBEW gas-utility serviceperson training; NFPA 54 National Fuel Gas Code for the meter set, the regulator vent clearance and the leak check; 49 CFR Part 192 (PHMSA) for the operator's own meter-set and service-riser procedure; OSHA 29 CFR 1910.147 the control of hazardous energy for isolating the service before the set begins",
+      "accent": "#e08a2f",
+      "parSeconds": 290,
+      "weather": "overcast",
+      "indoor": "service",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "turn",
+        "gauge",
+        "track",
+        "hold"
+      ],
+      "badge": {
+        "id": "set-and-proven",
+        "name": "Set & Proven",
+        "note": "A meter set on a proven riser, torqued straight, vented clear of every opening, and leak-checked with soap and an electronic sniff before the crew left the address"
+      },
+      "meshes": 153,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ut-04",
+      "flat": false,
+      "system": "Distribution Authority",
+      "currency": "SCFH",
+      "ranks": [
+        "Apprentice",
+        "Service Crew",
+        "Gas Serviceperson",
+        "Crew Lead",
+        "Distribution Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "riser-proven-first",
+          "name": "Riser Proven First",
+          "note": "The riser was inspected before the meter went on it"
+        },
+        {
+          "id": "never-forced",
+          "name": "Never Forced",
+          "note": "No union was cross-threaded and no unsafe action was recorded"
+        },
+        {
+          "id": "vent-clearance-read",
+          "name": "Vent Clearance Read",
+          "note": "Held the clearance reading steady before it went in the record"
+        },
+        {
+          "id": "clean-set",
+          "name": "Clean Set",
+          "note": "No corrections from the work order to the record"
+        },
+        {
+          "id": "unbroken-settle",
+          "name": "Unbroken Settle Watch",
+          "note": "The meter settle watch ran to completion without a break"
+        },
+        {
+          "id": "address-clear-fast",
+          "name": "Address Clear Fast",
+          "note": "Tagged, logged and gone inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ut-gas-meter-set-and-regulator-vent"
+    },
+    {
+      "app": "smartcity",
+      "id": "ut-service-line-locate-and-hand-dig-near-gas-main",
+      "name": "Service-Line Locate & Hand-Dig Near a Marked Gas Main",
+      "title": "SmartCiti.X~ Service-Line Locate & Hand-Dig VR",
+      "tagline": "Everything inside the tolerance zone worked by hand or by vacuum, the main proven by exposing it rather than assumed from the paint, and the depth actually found written back for the next crew that digs here",
+      "category": "Energy & Power",
+      "domain": "Energy",
+      "trade": "UWUA / IBEW gas-utility locate and damage-prevention crew",
+      "union": null,
+      "certification": "UWUA / IBEW gas-utility locate and damage-prevention training; 49 CFR Part 192 (PHMSA) for the operator's damage-prevention and tolerance-zone requirements around a marked facility; OSHA 29 CFR 1926 Subpart P excavations for the hand-dig itself; the one-call locate ticket and the operator's own positive-response and paint-and-flag standard",
+      "accent": "#f2ae14",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "hold",
+        "gauge",
+        "turn",
+        "drag",
+        "track"
+      ],
+      "badge": {
+        "id": "main-proven-by-hand",
+        "name": "Main Proven By Hand",
+        "note": "A marked gas main exposed inside its tolerance zone with hand tools and vacuum only, supported once open, and its actual depth logged for the record"
+      },
+      "meshes": 163,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ut-03",
+      "flat": false,
+      "system": "Damage Prevention Authority",
+      "currency": "SCFH",
+      "ranks": [
+        "Apprentice",
+        "Locate Crew",
+        "Damage Prevention Tech",
+        "Crew Lead",
+        "Damage Prevention Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "ticket-before-tools",
+          "name": "Ticket Before Tools",
+          "note": "The locate ticket was read and the marks verified before any tool touched the ground"
+        },
+        {
+          "id": "hand-tools-held",
+          "name": "Hand Tools Held",
+          "note": "Nothing but hand tools and vacuum ever entered the tolerance zone"
+        },
+        {
+          "id": "depth-read-not-guessed",
+          "name": "Depth Read, Not Guessed",
+          "note": "Held the depth reading steady before it went in the log"
+        },
+        {
+          "id": "clean-expose",
+          "name": "Clean Expose",
+          "note": "No corrections from the ticket to the log"
+        },
+        {
+          "id": "unbroken-watch",
+          "name": "Unbroken Watch",
+          "note": "The clearance watch ran to completion without a break"
+        },
+        {
+          "id": "zone-clear-fast",
+          "name": "Zone Clear Fast",
+          "note": "Backfilled and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ut-service-line-locate-and-hand-dig-near-gas-main"
+    },
+    {
+      "app": "smartcity",
+      "id": "ut-hydrant-flow-test-and-flushing-with-traffic-control",
+      "name": "Hydrant Flow Test & Flushing With Traffic Control",
+      "title": "SmartCiti.X~ Hydrant Flow Test & Flushing VR",
+      "tagline": "One hydrant cracked open slowly and read on a pitot gauge, a second hydrant's residual watched the whole time it flows, and none of it done in the open street before the cones and the sign are ahead of the taper",
+      "category": "Water & Environmental",
+      "domain": "Water",
+      "trade": "UWUA water distribution crew — hydrant flow testing and flushing",
+      "union": null,
+      "certification": "UWUA water distribution operator training; state water distribution operator certification for the flow test itself; AWWA C651 disinfecting water mains for the flushing residual and the section it clears; the state Manual on Uniform Traffic Control Devices (MUTCD) for the work-zone traffic control plan; ANSI Z535.4 for the warning signage on the taper",
+      "accent": "#2f9ed1",
+      "parSeconds": 290,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "gauge",
+        "turn",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "flow-proven",
+        "name": "Flow Proven",
+        "note": "A flow test read on the pitot gauge with the residual watched steady, the discharge dechlorinated, and every hydrant capped and chained before the crew left the block"
+      },
+      "meshes": 197,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ut-02",
+      "flat": false,
+      "system": "Distribution Authority",
+      "currency": "GPM",
+      "ranks": [
+        "Apprentice",
+        "Service Crew",
+        "Distribution Operator",
+        "Crew Lead",
+        "Distribution Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "critical-users-checked",
+          "name": "Critical Users Checked",
+          "note": "The block was checked for critical water users before the hydrant opened"
+        },
+        {
+          "id": "cracked-not-slammed",
+          "name": "Cracked, Not Slammed",
+          "note": "The flow hydrant was cracked open rather than opened full without an unsafe action"
+        },
+        {
+          "id": "steady-residual",
+          "name": "Steady Residual",
+          "note": "Held the residual watch inside the band for the whole test"
+        },
+        {
+          "id": "clean-test",
+          "name": "Clean Test",
+          "note": "No corrections anywhere in the test"
+        },
+        {
+          "id": "unbroken-watch",
+          "name": "Unbroken Watch",
+          "note": "The residual watch ran to completion without a break"
+        },
+        {
+          "id": "block-clear-fast",
+          "name": "Block Clear Fast",
+          "note": "Capped, chained and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ut-hydrant-flow-test-and-flushing-with-traffic-control"
+    },
+    {
+      "app": "smartcity",
+      "id": "ut-water-main-break-emergency-shutdown-and-excavation",
+      "name": "Water Main Break Emergency Shutdown & Excavation",
+      "title": "SmartCiti.X~ Water Main Break Emergency Shutdown VR",
+      "tagline": "The valve book decides which two valves make the section and the order they close in, the locate ticket is read before the pit is opened, and the clamp does not go on until the gauge — not a guess — says the main is actually at zero",
+      "category": "Water & Environmental",
+      "domain": "Water",
+      "trade": "UWUA water distribution crew — emergency main-break response",
+      "union": null,
+      "certification": "UWUA water utility crew training; AWWA C651 disinfecting water mains for the section's return to service; OSHA 29 CFR 1926 Subpart P excavations for the repair pit; OSHA 29 CFR 1910.147 the control of hazardous energy for locking out the isolated valves; the utility's own valve book and dispatch procedure for which two valves actually make this section",
+      "accent": "#3fa3e0",
+      "parSeconds": 300,
+      "weather": "rain",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "turn",
+        "gauge",
+        "track",
+        "hold",
+        "drag"
+      ],
+      "badge": {
+        "id": "main-isolated",
+        "name": "Main Isolated",
+        "note": "A break shut down on the valve book's own two valves, in order, with the pit proven safe and the section clamped only after the gauge read zero"
+      },
+      "meshes": 186,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ut-01",
+      "flat": false,
+      "system": "Distribution Authority",
+      "currency": "GPM",
+      "ranks": [
+        "Apprentice",
+        "Service Crew",
+        "Distribution Operator",
+        "Crew Lead",
+        "Distribution Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "book-before-boxes",
+          "name": "Book Before Boxes",
+          "note": "The valve book was read before either box lid was touched"
+        },
+        {
+          "id": "order-held",
+          "name": "Order Held",
+          "note": "Downstream closed before upstream, every time, with no unsafe action"
+        },
+        {
+          "id": "zero-before-clamp",
+          "name": "Zero Before Clamp",
+          "note": "Held the isolation watch steady before the clamp ever touched the pipe"
+        },
+        {
+          "id": "clean-shutdown",
+          "name": "Clean Shutdown",
+          "note": "No corrections from the report to the log"
+        },
+        {
+          "id": "unbroken-watch",
+          "name": "Unbroken Watch",
+          "note": "The isolation watch ran to completion without a break"
+        },
+        {
+          "id": "street-back-fast",
+          "name": "Street Back Fast",
+          "note": "Section returned to service inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ut-water-main-break-emergency-shutdown-and-excavation"
     },
     {
       "app": "trades",

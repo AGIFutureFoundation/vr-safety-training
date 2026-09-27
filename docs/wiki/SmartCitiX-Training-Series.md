@@ -1,6 +1,6 @@
 # SmartCiti.X training series
 
-_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-27. 508 SmartCiti.X stations across 18 categories and 40 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
+_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-27. 516 SmartCiti.X stations across 18 categories and 41 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
 Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 45 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
@@ -46,6 +46,7 @@ Every station is a real union procedure sited generically, built on the shared e
 - [Cement Masons and Plasterers](#cement-masons-and-plasterers)
 - [Healthcare Support](#healthcare-support)
 - [Roofers and Waterproofers](#roofers-and-waterproofers)
+- [Water and Gas Utility Crews — Distribution Authority](#water-and-gas-utility-crews)
 
 <a id="hunters-point-bay-restoration"></a>
 ## Hunters Point Clean-up and Bay Restoration
@@ -1293,6 +1294,26 @@ Eight ways a roof gets covered, guarded and closed out — the flame, the kettle
 | rf6 | [Roof Tear-Off & Debris Chute](../../WebXR/smartcity/index.html?sim=rf-roof-tear-off-and-debris-chute) | Roofer tearing off an old built-up roof and running debris down a chute to the dumpster | wind | 14 | 2 | 96 | An old roof opened up strip by strip, scanned for what decades of cover hid, and sent down the chute instead of piled on the deck. |
 | rf7 | [Skylight & Hatch Guarding](../../WebXR/smartcity/index.html?sim=rf-skylight-and-hatch-guarding) | Roofer screening skylights and railing roof hatches ahead of a re-roof crew | wind | 14 | 2 | 96 | Every opening on the roof matched to what actually guards it, proof-tested rather than assumed. |
 | rf8 | [Green Roof & Overburden Placement](../../WebXR/smartcity/index.html?sim=rf-green-roof-and-overburden-placement) | Roofer building up a green roof over finished waterproofing: root barrier, drainage layer, filter fabric, growing media and irrigation | wind | 14 | 2 | 97 | The roof that ends as a garden, where the load, the depth and the irrigation all have to check out before anything green goes down. |
+
+<a id="water-and-gas-utility-crews"></a>
+## Water and Gas Utility Crews — Distribution Authority
+
+**Union:** UWUA — Utility Workers Union of America; IBEW gas locals as bodies
+
+**Certifications and standards:** UWUA and IBEW gas-utility distribution crew training, tested against 49 CFR Part 192 (PHMSA), AWWA C651, OSHA 29 CFR 1926 Subpart P, OSHA 29 CFR 1910.147, and the operator's own valve book, locate-ticket and dechlorination procedures across eight distinct water and gas utility jobs
+
+Eight jobs a water or gas utility crew actually rotates through: a water main break shut down on the valve book's own two valves and excavated to a proven repair, a hydrant flow-tested behind a cone taper with the residual watched the whole time it flows, a gas main hand-exposed inside its own staked tolerance zone, a meter set on a proven riser and torqued straight, a steel main's cathodic protection read at a rectifier locked out before its cabinet opens, a PE main squeezed off and fused on clean faces, a treatment plant's chemical delivery proven against its own label before a hose ever connects, and a storm-darkened lift station brought back up on a generator whose cable never touches the transfer switch until the utility feed is proven dead. Every station ends on a proof — a gauge, a logged reading, a bead inspected — rather than on how safe the job looked going in.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| ut-01 | [Water Main Break Emergency Shutdown & Excavation](../../WebXR/smartcity/index.html?sim=ut-water-main-break-emergency-shutdown-and-excavation) | UWUA water distribution crew — emergency main-break response | rain | 14 | 2 | — | The valve book decides which two valves make the section and the order they close in, the locate ticket is read before the pit is opened, and the clamp does not go on until the gauge — not a guess — says the main is actually at zero. |
+| ut-02 | [Hydrant Flow Test & Flushing With Traffic Control](../../WebXR/smartcity/index.html?sim=ut-hydrant-flow-test-and-flushing-with-traffic-control) | UWUA water distribution crew — hydrant flow testing and flushing | overcast | 14 | 2 | — | One hydrant is cracked open slowly and read on a pitot gauge, a second hydrant's residual is watched the whole time it flows, and none of it happens in the open street before the cones and the sign are ahead of the taper. |
+| ut-03 | [Service-Line Locate & Hand-Dig Near a Marked Gas Main](../../WebXR/smartcity/index.html?sim=ut-service-line-locate-and-hand-dig-near-gas-main) | UWUA / IBEW gas-utility locate and damage-prevention crew | overcast | 14 | 2 | — | Everything inside the tolerance zone is worked by hand or by vacuum, the marked main is proven by exposing it rather than assumed from the paint, and the depth actually found is logged for the next crew that digs here. |
+| ut-04 | [Gas Meter Set & Regulator Vent Check](../../WebXR/smartcity/index.html?sim=ut-gas-meter-set-and-regulator-vent) | UWUA / IBEW gas-utility serviceperson | indoor (service) | 14 | 2 | — | The riser is inspected before the meter ever goes on it, the unions are torqued straight rather than forced, and the set is proven with soap and an electronic sniff rather than a dial that simply looks still. |
+| ut-05 | [Cathodic Protection Test-Station Reading](../../WebXR/smartcity/index.html?sim=ut-cathodic-protection-test-station-reading) | UWUA / IBEW gas-utility corrosion-control technician | overcast | 14 | 2 | — | A pipe-to-soil reading is taken with the reference electrode actually wetted into the soil, the rectifier is read only after its AC side is locked out, and a bond to a crossing line is proven continuous before this main's own protection is trusted. |
+| ut-06 | [PE Pipe Fusion & Squeeze-Off](../../WebXR/smartcity/index.html?sim=ut-pe-pipe-fusion-and-squeeze-off) | UWUA / IBEW gas-utility qualified plastic-pipe joiner | overcast | 14 | 2 | — | A squeeze-off bar stands in for a valve that does not exist, a butt-fusion joint is made from two faces scraped clean and heat-soaked evenly, and the bead is inspected and the bore released slowly before either one is trusted. |
+| ut-07 | [Water Treatment Chemical Delivery Unloading](../../WebXR/smartcity/index.html?sim=ut-water-treatment-chemical-delivery-unloading) | UWUA water treatment operator — chemical delivery unloading | overcast | 14 | 2 | — | The shipping papers, the safety data sheet and the tank's own label all have to agree before a single hose connects, and the transfer is watched at the coupling and stopped well short of a tank already checked for room. |
+| ut-08 | [Night Storm-Response Crew & Portable Generator](../../WebXR/smartcity/index.html?sim=ut-night-storm-response-crew-and-portable-generator) | UWUA water and sewer utility emergency-response crew | storm | 13 | 2 | — | A flooded access road is driven slowly and deliberately at night, and the lift station's utility feed is locked out and proven dead before the generator's cable ever touches the transfer switch. |
 
 ## Real-world environments
 

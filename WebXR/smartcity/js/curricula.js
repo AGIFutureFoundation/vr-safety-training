@@ -1001,6 +1001,25 @@ export const CURRICULA = [
       { app: "smartcity", id: "rf-green-roof-and-overburden-placement", why: "The roof that ends as a garden, where the load, the depth and the irrigation all have to check out before anything green goes down." },
     ],
   },
+  {
+    id: "water-and-gas-utility-crews",
+    name: "Water and Gas Utility Crews — Distribution Authority",
+    union: "UWUA — Utility Workers Union of America; IBEW gas locals as bodies",
+    certification: "UWUA and IBEW gas-utility distribution crew training, tested against 49 CFR Part 192 (PHMSA), AWWA C651, OSHA 29 CFR 1926 Subpart P, OSHA 29 CFR 1910.147, and the operator's own valve book, locate-ticket and dechlorination procedures across eight distinct water and gas utility jobs",
+    guides: ["uwua-training", "phmsa-49-cfr-192", "osha-1926-subpart-p", "osha-1910-147", "nfpa-54", "awwa-c651", "mutcd", "ansi-z535-4", "osha-1910-1200", "phmsa-49-cfr-172", "osha-1910-132"],
+    summary: "Eight jobs a water or gas utility crew actually rotates through: a water main break shut down on the valve book's own two valves and excavated to a proven repair, a hydrant flow-tested behind a cone taper with the residual watched the whole time it flows, a gas main hand-exposed inside its own staked tolerance zone, a meter set on a proven riser and torqued straight, a steel main's cathodic protection read at a rectifier locked out before its cabinet opens, a PE main squeezed off and fused on clean faces, a treatment plant's chemical delivery proven against its own label before a hose ever connects, and a storm-darkened lift station brought back up on a generator whose cable never touches the transfer switch until the utility feed is proven dead. Every station ends on a proof — a gauge, a logged reading, a bead inspected — rather than on how safe the job looked going in.",
+    accent: "#2f9ed1",
+    stations: [
+      { app: "smartcity", id: "ut-water-main-break-emergency-shutdown-and-excavation", why: "The valve book decides which two valves make the section and the order they close in, the locate ticket is read before the pit is opened, and the clamp does not go on until the gauge — not a guess — says the main is actually at zero." },
+      { app: "smartcity", id: "ut-hydrant-flow-test-and-flushing-with-traffic-control", why: "One hydrant is cracked open slowly and read on a pitot gauge, a second hydrant's residual is watched the whole time it flows, and none of it happens in the open street before the cones and the sign are ahead of the taper." },
+      { app: "smartcity", id: "ut-service-line-locate-and-hand-dig-near-gas-main", why: "Everything inside the tolerance zone is worked by hand or by vacuum, the marked main is proven by exposing it rather than assumed from the paint, and the depth actually found is logged for the next crew that digs here." },
+      { app: "smartcity", id: "ut-gas-meter-set-and-regulator-vent", why: "The riser is inspected before the meter ever goes on it, the unions are torqued straight rather than forced, and the set is proven with soap and an electronic sniff rather than a dial that simply looks still." },
+      { app: "smartcity", id: "ut-cathodic-protection-test-station-reading", why: "A pipe-to-soil reading is taken with the reference electrode actually wetted into the soil, the rectifier is read only after its AC side is locked out, and a bond to a crossing line is proven continuous before this main's own protection is trusted." },
+      { app: "smartcity", id: "ut-pe-pipe-fusion-and-squeeze-off", why: "A squeeze-off bar stands in for a valve that does not exist, a butt-fusion joint is made from two faces scraped clean and heat-soaked evenly, and the bead is inspected and the bore released slowly before either one is trusted." },
+      { app: "smartcity", id: "ut-water-treatment-chemical-delivery-unloading", why: "The shipping papers, the safety data sheet and the tank's own label all have to agree before a single hose connects, and the transfer is watched at the coupling and stopped well short of a tank already checked for room." },
+      { app: "smartcity", id: "ut-night-storm-response-crew-and-portable-generator", why: "A flooded access road is driven slowly and deliberately at night, and the lift station's utility feed is locked out and proven dead before the generator's cable ever touches the transfer switch." },
+    ],
+  },
 ];
 
 /**

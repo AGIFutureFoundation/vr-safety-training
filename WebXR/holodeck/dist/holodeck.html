@@ -10697,6 +10697,17 @@ const PROGRAMME_COMPETENCIES = [
     ],
     require: 4,
   },
+  {
+    id: "water-and-gas-utility-crews",
+    title: "Shut down, locate, set, protect, fuse, deliver and restore across eight distinct UWUA and IBEW gas-utility jobs",
+    kind: "programme",
+    standards: ["phmsa-49-cfr-192", "osha-1926-subpart-p", "osha-1910-147", "nfpa-54"],
+    stations: [
+      "ut-water-main-break-emergency-shutdown-and-excavation", "ut-hydrant-flow-test-and-flushing-with-traffic-control", "ut-service-line-locate-and-hand-dig-near-gas-main", "ut-gas-meter-set-and-regulator-vent",
+      "ut-cathodic-protection-test-station-reading", "ut-pe-pipe-fusion-and-squeeze-off", "ut-water-treatment-chemical-delivery-unloading", "ut-night-storm-response-crew-and-portable-generator"
+    ],
+    require: 4,
+  },
 ];
 
 /**
@@ -12553,6 +12564,10 @@ const GENERIC = new Set([
   "pour", "air", "lift", "chamber", "box", "truck", "site", "dock", "depot", "back",
   "fly", "stage", "data", "field", "job", "work", "crew", "shift", "area", "floor",
   "build", "machine",
+  // "a coffee break" and "break room" are everyday English long before they
+  // are a water main failing, and "break" alone cannot tell a report about
+  // the break room apart from one about the water main break station.
+  "break",
   // "incident" is what every report in this feature is about, so it cannot be
   // what tells two of them apart. It only became reachable when the first
   // station ids carrying it shipped (critical-incident-debrief,
@@ -12594,7 +12609,7 @@ const STOP = new Set([
   "was", "were", "is", "are", "be", "been", "had", "has", "have", "did", "do", "done",
   "we", "they", "he", "she", "it", "i", "our", "his", "her", "their", "its", "my",
   "that", "this", "there", "then", "than", "so", "as", "by", "from", "up", "off",
-  "out", "into", "over", "under", "about", "while", "during", "when", "after",
+  "out", "into", "over", "under", "near", "about", "while", "during", "when", "after",
   "before", "just", "got", "get", "went", "came", "come", "one", "two", "some",
   "last", "week", "today", "morning", "afternoon", "night", "again", "still",
   "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday",
@@ -36804,6 +36819,342 @@ const SIMS_META = [
         "Media Runner",
         "Lead Green-Roofer",
         "Green-Roof Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ut-water-main-break-emergency-shutdown-and-excavation",
+    "index": "ut-01",
+    "domain": "Water",
+    "trade": "UWUA water distribution crew — emergency main-break response",
+    "category": "Water & Environmental",
+    "certification": "UWUA water utility crew training; AWWA C651 disinfecting water mains for the section's return to service; OSHA 29 CFR 1926 Subpart P excavations for the repair pit; OSHA 29 CFR 1910.147 the control of hazardous energy for locking out the isolated valves; the utility's own valve book and dispatch procedure for which two valves actually make this section",
+    "name": "Water Main Break Emergency Shutdown & Excavation",
+    "weather": "rain",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Water Main Break Emergency Shutdown VR",
+    "tagline": "The valve book decides which two valves make the section and the order they close in, the locate ticket is read before the pit is opened, and the clamp does not go on until the gauge — not a guess — says the main is actually at zero",
+    "accent": 4170720,
+    "accentCss": "#3fa3e0",
+    "parSeconds": 300,
+    "badge": {
+      "id": "main-isolated",
+      "name": "Main Isolated",
+      "note": "A break shut down on the valve book's own two valves, in order, with the pit proven safe and the section clamped only after the gauge read zero"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Distribution Authority",
+      "currency": "GPM",
+      "ranks": [
+        "Apprentice",
+        "Service Crew",
+        "Distribution Operator",
+        "Crew Lead",
+        "Distribution Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ut-hydrant-flow-test-and-flushing-with-traffic-control",
+    "index": "ut-02",
+    "domain": "Water",
+    "trade": "UWUA water distribution crew — hydrant flow testing and flushing",
+    "category": "Water & Environmental",
+    "certification": "UWUA water distribution operator training; state water distribution operator certification for the flow test itself; AWWA C651 disinfecting water mains for the flushing residual and the section it clears; the state Manual on Uniform Traffic Control Devices (MUTCD) for the work-zone traffic control plan; ANSI Z535.4 for the warning signage on the taper",
+    "name": "Hydrant Flow Test & Flushing With Traffic Control",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Hydrant Flow Test & Flushing VR",
+    "tagline": "One hydrant cracked open slowly and read on a pitot gauge, a second hydrant's residual watched the whole time it flows, and none of it done in the open street before the cones and the sign are ahead of the taper",
+    "accent": 3120849,
+    "accentCss": "#2f9ed1",
+    "parSeconds": 290,
+    "badge": {
+      "id": "flow-proven",
+      "name": "Flow Proven",
+      "note": "A flow test read on the pitot gauge with the residual watched steady, the discharge dechlorinated, and every hydrant capped and chained before the crew left the block"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Distribution Authority",
+      "currency": "GPM",
+      "ranks": [
+        "Apprentice",
+        "Service Crew",
+        "Distribution Operator",
+        "Crew Lead",
+        "Distribution Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ut-service-line-locate-and-hand-dig-near-gas-main",
+    "index": "ut-03",
+    "domain": "Energy",
+    "trade": "UWUA / IBEW gas-utility locate and damage-prevention crew",
+    "category": "Energy & Power",
+    "certification": "UWUA / IBEW gas-utility locate and damage-prevention training; 49 CFR Part 192 (PHMSA) for the operator's damage-prevention and tolerance-zone requirements around a marked facility; OSHA 29 CFR 1926 Subpart P excavations for the hand-dig itself; the one-call locate ticket and the operator's own positive-response and paint-and-flag standard",
+    "name": "Service-Line Locate & Hand-Dig Near a Marked Gas Main",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Service-Line Locate & Hand-Dig VR",
+    "tagline": "Everything inside the tolerance zone worked by hand or by vacuum, the main proven by exposing it rather than assumed from the paint, and the depth actually found written back for the next crew that digs here",
+    "accent": 15904276,
+    "accentCss": "#f2ae14",
+    "parSeconds": 300,
+    "badge": {
+      "id": "main-proven-by-hand",
+      "name": "Main Proven By Hand",
+      "note": "A marked gas main exposed inside its tolerance zone with hand tools and vacuum only, supported once open, and its actual depth logged for the record"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Damage Prevention Authority",
+      "currency": "SCFH",
+      "ranks": [
+        "Apprentice",
+        "Locate Crew",
+        "Damage Prevention Tech",
+        "Crew Lead",
+        "Damage Prevention Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ut-gas-meter-set-and-regulator-vent",
+    "index": "ut-04",
+    "domain": "Energy",
+    "trade": "UWUA / IBEW gas-utility serviceperson",
+    "category": "Energy & Power",
+    "certification": "UWUA / IBEW gas-utility serviceperson training; NFPA 54 National Fuel Gas Code for the meter set, the regulator vent clearance and the leak check; 49 CFR Part 192 (PHMSA) for the operator's own meter-set and service-riser procedure; OSHA 29 CFR 1910.147 the control of hazardous energy for isolating the service before the set begins",
+    "name": "Gas Meter Set & Regulator Vent Check",
+    "weather": "overcast",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Gas Meter Set & Regulator Vent Check VR",
+    "tagline": "The riser inspected before the meter ever goes on it, the unions torqued straight rather than forced, the regulator's vent checked for its own clearance, and the set proven with soap and an electronic sniff rather than a dial that simply looks still",
+    "accent": 14715439,
+    "accentCss": "#e08a2f",
+    "parSeconds": 290,
+    "badge": {
+      "id": "set-and-proven",
+      "name": "Set & Proven",
+      "note": "A meter set on a proven riser, torqued straight, vented clear of every opening, and leak-checked with soap and an electronic sniff before the crew left the address"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Distribution Authority",
+      "currency": "SCFH",
+      "ranks": [
+        "Apprentice",
+        "Service Crew",
+        "Gas Serviceperson",
+        "Crew Lead",
+        "Distribution Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ut-cathodic-protection-test-station-reading",
+    "index": "ut-05",
+    "domain": "Energy",
+    "trade": "UWUA / IBEW gas-utility corrosion-control technician",
+    "category": "Energy & Power",
+    "certification": "UWUA / IBEW gas-utility corrosion-control technician training; 49 CFR Part 192 (PHMSA) for the operator's cathodic-protection monitoring interval and criteria on a steel main; OSHA 29 CFR 1910.147 the control of hazardous energy for isolating the rectifier's AC supply before its cabinet is opened; NFPA 70E for the electrical hazard at the rectifier panel; the operator's own corrosion-control procedure for the criteria a reading is actually checked against",
+    "name": "Cathodic Protection Test-Station Reading",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Cathodic Protection Test-Station Reading VR",
+    "tagline": "A pipe-to-soil reading taken with the reference electrode actually wetted into the soil, a rectifier read only after its AC side is locked out, and a bond to a crossing line checked for continuity before this main's own protection is trusted",
+    "accent": 5220584,
+    "accentCss": "#4fa8e8",
+    "parSeconds": 290,
+    "badge": {
+      "id": "protection-proven",
+      "name": "Protection Proven",
+      "note": "A pipe-to-soil reading taken correctly, a rectifier read only after lockout, a bond proven continuous, and every number written back to the corrosion-control record"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Distribution Authority",
+      "currency": "mV",
+      "ranks": [
+        "Apprentice",
+        "Service Crew",
+        "Corrosion Control Tech",
+        "Crew Lead",
+        "Distribution Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ut-pe-pipe-fusion-and-squeeze-off",
+    "index": "ut-06",
+    "domain": "Energy",
+    "trade": "UWUA / IBEW gas-utility qualified plastic-pipe joiner",
+    "category": "Energy & Power",
+    "certification": "UWUA / IBEW gas-utility plastic-pipe joiner qualification; 49 CFR Part 192 (PHMSA) for the operator's qualified-joiner and plastic-pipe-joining procedure; OSHA 29 CFR 1910.147 the control of hazardous energy, applied here as the squeeze-off that stands in for a valve; the fusion machine and pipe manufacturer's own procedure for the facing, heat-soak and joining parameters",
+    "name": "PE Pipe Fusion & Squeeze-Off",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ PE Pipe Fusion & Squeeze-Off VR",
+    "tagline": "A squeeze-off bar standing in for a valve that does not exist, a butt-fusion joint made from two faces scraped clean and heat-soaked evenly, and the bead inspected and the bore released slowly before either one is trusted",
+    "accent": 15900730,
+    "accentCss": "#f2a03a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "joint-and-bore-proven",
+      "name": "Joint & Bore Proven",
+      "note": "A section squeezed off, cut, fused on clean faces with an even heat soak, the bead inspected, and the bore released slowly and leak-checked before the crew left"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Distribution Authority",
+      "currency": "SCFH",
+      "ranks": [
+        "Apprentice",
+        "Service Crew",
+        "Qualified Joiner",
+        "Crew Lead",
+        "Distribution Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ut-water-treatment-chemical-delivery-unloading",
+    "index": "ut-07",
+    "domain": "Water",
+    "trade": "UWUA water treatment operator — chemical delivery unloading",
+    "category": "Water & Environmental",
+    "certification": "UWUA water treatment operator training; OSHA 29 CFR 1910.1200 hazard communication for the safety data sheet check before any connection is made; 49 CFR Part 172 (PHMSA) hazardous materials communications for the delivery driver's shipping papers and placard; OSHA 29 CFR 1910.132 personal protective equipment for the unloading itself",
+    "name": "Water Treatment Chemical Delivery Unloading",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Water Treatment Chemical Delivery Unloading VR",
+    "tagline": "The shipping papers, the safety data sheet and the tank's own label all proven to agree before a single hose connects, the tanker grounded and watched from the first moment it flows, and the transfer stopped well short of a tank already checked for room",
+    "accent": 5228426,
+    "accentCss": "#4fc78a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "delivery-proven",
+      "name": "Delivery Proven",
+      "note": "A chemical delivery checked against its papers, its SDS and the tank's own label, grounded, watched at the connection, stopped inside the tank's capacity, and logged before the driver left"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Water Treatment Authority",
+      "currency": "GAL",
+      "ranks": [
+        "Apprentice",
+        "Plant Operator Trainee",
+        "Water Treatment Operator",
+        "Shift Lead",
+        "Water Treatment Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ut-night-storm-response-crew-and-portable-generator",
+    "index": "ut-08",
+    "domain": "Water",
+    "trade": "UWUA water and sewer utility emergency-response crew",
+    "category": "Water & Environmental",
+    "certification": "UWUA water and sewer utility emergency-response training; OSHA 29 CFR 1910.147 the control of hazardous energy for isolating the lift station's utility feed before the generator connects; the state Manual on Uniform Traffic Control Devices (MUTCD) for the flag control used on the flooded access road; ANSI Z535.4 for the warning signage on the barrier; the utility's own storm-response and mutual-aid procedure for the callout itself",
+    "name": "Night Storm-Response Crew & Portable Generator",
+    "weather": "storm",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Night Storm-Response Crew & Portable Generator VR",
+    "tagline": "A flooded access road driven slowly and deliberately at night, the lift station's utility feed locked out and proven dead before the generator's cable ever touches the transfer switch, and the pumps watched back to work under a light this crew brought with them",
+    "accent": 16757050,
+    "accentCss": "#ffb13a",
+    "parSeconds": 320,
+    "badge": {
+      "id": "station-on-generator",
+      "name": "Station On Generator",
+      "note": "A flooded access road driven with every check made, the utility feed proven isolated before the generator ever connected, and the lift station running again under this crew's own power"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Storm Response Authority",
+      "currency": "KW",
+      "ranks": [
+        "Apprentice",
+        "Service Crew",
+        "Storm Response Tech",
+        "Crew Lead",
+        "Storm Response Authority Certified"
       ],
       "rankAt": [
         0,

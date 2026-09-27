@@ -205,5 +205,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "roofers-and-waterproofers",
     "name": "Roofers and Waterproofers",
     "accent": "#f2c14b"
+  },
+  {
+    "programme": "water-and-gas-utility-crews",
+    "name": "Water and Gas Utility Crews — Distribution Authority",
+    "accent": "#2f9ed1"
   }
 ];

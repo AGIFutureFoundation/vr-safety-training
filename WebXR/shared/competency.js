@@ -726,6 +726,17 @@ export const PROGRAMME_COMPETENCIES = [
     ],
     require: 4,
   },
+  {
+    id: "water-and-gas-utility-crews",
+    title: "Shut down, locate, set, protect, fuse, deliver and restore across eight distinct UWUA and IBEW gas-utility jobs",
+    kind: "programme",
+    standards: ["phmsa-49-cfr-192", "osha-1926-subpart-p", "osha-1910-147", "nfpa-54"],
+    stations: [
+      "ut-water-main-break-emergency-shutdown-and-excavation", "ut-hydrant-flow-test-and-flushing-with-traffic-control", "ut-service-line-locate-and-hand-dig-near-gas-main", "ut-gas-meter-set-and-regulator-vent",
+      "ut-cathodic-protection-test-station-reading", "ut-pe-pipe-fusion-and-squeeze-off", "ut-water-treatment-chemical-delivery-unloading", "ut-night-storm-response-crew-and-portable-generator"
+    ],
+    require: 4,
+  },
 ];
 
 /**
