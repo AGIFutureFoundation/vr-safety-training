@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 598
+      "stations": 599
     },
     "trades": {
       "entry": "trades/index.html",
@@ -129,6 +129,7 @@
         "lift-station",
         "chlorine-room",
         "backflow-test",
+        "me-oyster-reef-monitoring-and-settlement-tiles",
         "me-kelp-transect-survey-and-photo-quadrats",
         "br-beach-seine-fish-survey-and-handling",
         "br-volunteer-cleanup-day-safety-lead",
@@ -9289,6 +9290,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "me-oyster-reef-monitoring-and-settlement-tiles",
+      "name": "Oyster Reef Monitoring & Settlement Tiles",
+      "title": "SmartCiti.X~ Oyster Reef Monitoring & Settlement Tiles VR",
+      "tagline": "The tile plan and the tide window read, gloves, boots and vest on, the reef crossed on its path, the rack lifted into the wet tray, the cracked and the unlabelled tile found, each tile labelled, shot on the grid and bagged in order, the board held square while the flood reaches the tray, the fresh rack turned to its mark and set on its footing, the kit stowed, the tender called and the swap logged",
+      "category": "Water & Environmental",
+      "domain": "Environmental",
+      "trade": "Field technician on a shellfish-reef monitoring crew, swapping settlement tiles at low water from a skiff held by a tender",
+      "union": null,
+      "certification": "AFSCME and LIUNA monitoring and habitat crews as training bodies; OSHA 29 CFR 1910.132 personal protective equipment for shell, cold water and the skiff; Regional Water Quality Control Board Section 401 and Section 404 monitoring conditions the tile record answers; BCDC permit conditions for the reef; NOAA Fisheries and the U.S. Fish and Wildlife Service consultation measures for the work window; CDFW oversight of the collecting and handling the tiles involve",
+      "accent": "#c9b48a",
+      "parSeconds": 300,
+      "weather": "fog",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "track",
+        "drag",
+        "find",
+        "hold",
+        "turn"
+      ],
+      "badge": {
+        "id": "tile-chain-kept",
+        "name": "Tile Chain Kept",
+        "note": "Every tile kept wet, labelled and in order from the reef to the bag, and the fresh rack back on its own footing at its mark"
+      },
+      "meshes": 276,
+      "lights": 0,
+      "overBudget": false,
+      "index": "602",
+      "flat": false,
+      "system": "Reef Crew",
+      "currency": "TILE",
+      "ranks": [
+        "Field Hand",
+        "Tile Tech",
+        "Reef Tech",
+        "Monitoring Lead",
+        "Reef Certified"
+      ],
+      "awards": [
+        {
+          "id": "in-order",
+          "name": "In Order",
+          "note": "Every tile labelled, shot and bagged in rack order first time"
+        },
+        {
+          "id": "reef-kept",
+          "name": "Reef Kept",
+          "note": "Never a hazard, never a mound crossed"
+        },
+        {
+          "id": "true-window",
+          "name": "True Window",
+          "note": "The tide staff read inside the working band"
+        },
+        {
+          "id": "clean-swap",
+          "name": "Clean Swap",
+          "note": "No corrections from the plan to the log"
+        },
+        {
+          "id": "steady-board",
+          "name": "Steady Board",
+          "note": "The path walked and the board held without a break"
+        },
+        {
+          "id": "off-before-flood",
+          "name": "Off Before The Flood",
+          "note": "Swap logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=me-oyster-reef-monitoring-and-settlement-tiles"
     },
     {
       "app": "smartcity",
@@ -30394,7 +30478,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 255,
+      "meshes": 252,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -31054,7 +31138,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",

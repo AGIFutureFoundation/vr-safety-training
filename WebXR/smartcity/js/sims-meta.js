@@ -25396,5 +25396,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "me-oyster-reef-monitoring-and-settlement-tiles",
+    "index": "602",
+    "domain": "Environmental",
+    "trade": "Field technician on a shellfish-reef monitoring crew, swapping settlement tiles at low water from a skiff held by a tender",
+    "category": "Water & Environmental",
+    "certification": "AFSCME and LIUNA monitoring and habitat crews as training bodies; OSHA 29 CFR 1910.132 personal protective equipment for shell, cold water and the skiff; Regional Water Quality Control Board Section 401 and Section 404 monitoring conditions the tile record answers; BCDC permit conditions for the reef; NOAA Fisheries and the U.S. Fish and Wildlife Service consultation measures for the work window; CDFW oversight of the collecting and handling the tiles involve",
+    "name": "Oyster Reef Monitoring & Settlement Tiles",
+    "weather": "fog",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Oyster Reef Monitoring & Settlement Tiles VR",
+    "tagline": "The tile plan and the tide window read, gloves, boots and vest on, the reef crossed on its path, the rack lifted into the wet tray, the cracked and the unlabelled tile found, each tile labelled, shot on the grid and bagged in order, the board held square while the flood reaches the tray, the fresh rack turned to its mark and set on its footing, the kit stowed, the tender called and the swap logged",
+    "accent": 13218954,
+    "accentCss": "#c9b48a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "tile-chain-kept",
+      "name": "Tile Chain Kept",
+      "note": "Every tile kept wet, labelled and in order from the reef to the bag, and the fresh rack back on its own footing at its mark"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Reef Crew",
+      "currency": "TILE",
+      "ranks": [
+        "Field Hand",
+        "Tile Tech",
+        "Reef Tech",
+        "Monitoring Lead",
+        "Reef Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
