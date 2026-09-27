@@ -1,0 +1,9 @@
+# Console MARQUEE — the homepage
+
+Team: MARQUEE · Brief: `tools/briefs/homepage-guide-brief.md` ("MARQUEE — the homepage"), with `tools/briefs/console-brief.md` and `WebXR/ACCESSIBILITY.md` · Branch: `claude/vr-ar-safety-training-wkwmve`
+
+The homepage: `tools/gen_home.mjs` (writes `WebXR/index.html` and `WebXR/home.html`; the bundler copies the flat one to `WebXR/dist/index.html`), the world thumbnails in `WebXR/home/img/` from `tools/capture_home_thumbs.mjs`, and the homepage half of `tools/check_home.mjs`. The bottom-right corner is kept clear for COMPASS's floating Guide button.
+
+- 23:10 UTC · Fetched and fast-forwarded to the branch of record (ebd2f94); read both briefs, the accessibility statement, gen_home, the current output, check_home, passport.js, controls.js, check_mobile, check_ui and the bundler's dist step · next: this console, then the headless thumbnail capture.
+- 23:11 UTC · Plan: keep every id, link, egg and dialog other checkers read; add a 2D-canvas hero (dusk skyline, yacht, diver's light; one still frame under reduced motion, paused off-screen), two actions (Start playing → Bay World, Find your trade → #finder), seven world cards with inlined JPEG captures, a programme finder (text, union, category, world) with passport chips, a continue strip with a first-visit state, a how-it-works strip and a unions strip; the station roster and tracks stay below the fold; new client names prefixed `hm` · next: capture tool.
+- 23:24 UTC · `tools/capture_home_thumbs.mjs` writes seven 480×270 JPEGs (10–27 KB) from the dist bundles at 1280×720 with the vendored three.js and React; Bay World and the Deep switched to the chase camera (V), the Regatta into its race, the Holodeck into a generated course. Failed: SmartCiti.X hung headless after "Free explore" — fixed by capturing its intro over the plaza instead · next: commit, then the generator.
