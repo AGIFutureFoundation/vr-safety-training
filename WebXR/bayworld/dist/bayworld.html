@@ -87,6 +87,7 @@
   @media (max-width:700px), (max-height:500px){
     #hud *{font-size:14px !important}
     #hud .panel{min-width:0 !important}
+    #hud-buttons, #hud-clubs{position:absolute;pointer-events:auto}
     #hud .clock, #hud .big, #hud b, #hud .n{font-size:17px !important}
     #hud-prompt, #hud-warn{bottom:calc(140px + env(safe-area-inset-bottom,0px)) !important;white-space:normal;max-width:60vw}
     #view-toggle{display:none !important}
@@ -94,7 +95,7 @@
     .card{max-height:calc(100vh - 24px);overflow:auto;-webkit-overflow-scrolling:touch}
     .screen{padding:12px}
   }
-  @media (max-width:700px){
+  @media (max-width:700px) and (min-height:501px){
     #hud-phone, #hud-stats{top:calc(40px + env(safe-area-inset-top,0px));padding:6px 10px}
     #hud-phone{max-width:calc(50% - 16px)}
     #hud-stats{max-width:calc(50% - 16px)}

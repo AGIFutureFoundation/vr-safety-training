@@ -108,6 +108,7 @@
   @media (max-width:700px), (max-height:500px){
     #hud *{font-size:14px !important}
     #hud .panel{min-width:0 !important}
+    #hud-buttons, #hud-clubs{position:absolute;pointer-events:auto}
     #hud .clock, #hud .big, #hud b, #hud .n{font-size:17px !important}
     #hud-prompt, #hud-warn{bottom:calc(140px + env(safe-area-inset-bottom,0px)) !important;white-space:normal;max-width:60vw}
     #view-toggle{display:none !important}
@@ -115,21 +116,21 @@
     .card{max-height:calc(100vh - 24px);overflow:auto;-webkit-overflow-scrolling:touch}
     .screen{padding:12px}
   }
-  @media (max-width:700px){
+  @media (max-width:700px) and (min-height:501px){
     #hud-hole{top:calc(40px + env(safe-area-inset-top,0px));left:10px;right:10px;transform:none;padding:6px 10px}
     #hud-score{top:calc(112px + env(safe-area-inset-top,0px));padding:6px 10px}
-    #hud-wind{top:calc(112px + env(safe-area-inset-top,0px));left:10px;right:auto}
-    #hud-care{top:calc(152px + env(safe-area-inset-top,0px));max-width:150px;max-height:150px;overflow:auto}
-    #hud-lie{top:calc(220px + env(safe-area-inset-top,0px));bottom:auto;left:auto;right:10px}
+    #hud-wind{top:calc(208px + env(safe-area-inset-top,0px));left:10px;right:auto}
+    #hud-care{top:calc(248px + env(safe-area-inset-top,0px));max-width:170px;max-height:150px;overflow:auto}
+    #hud-lie{top:calc(208px + env(safe-area-inset-top,0px));bottom:auto;left:auto;right:10px}
     #hud-clubs{bottom:calc(136px + env(safe-area-inset-bottom,0px));left:8px;flex-wrap:wrap}
     #hud-meter{bottom:calc(190px + env(safe-area-inset-bottom,0px))}
   }
   @media (max-height:500px) and (min-width:501px){
-    #hud-hole{top:calc(8px + env(safe-area-inset-top,0px));padding:4px 12px}
+    #hud-hole{top:calc(8px + env(safe-area-inset-top,0px));left:100px;transform:none;padding:4px 12px}
     #hud-score{top:calc(8px + env(safe-area-inset-top,0px));padding:6px 10px}
     #hud-wind{top:calc(116px + env(safe-area-inset-top,0px))}
     #hud-lie{top:calc(152px + env(safe-area-inset-top,0px));bottom:auto;left:auto;right:10px}
-    #hud-care{top:calc(44px + env(safe-area-inset-top,0px));max-width:170px;max-height:130px;overflow:auto}
+    #hud-care{top:calc(70px + env(safe-area-inset-top,0px));max-width:170px;max-height:130px;overflow:auto}
     #hud-clubs{bottom:calc(12px + env(safe-area-inset-bottom,0px));left:132px}
     #hud-meter{top:calc(76px + env(safe-area-inset-top,0px));bottom:auto;width:230px}
   }

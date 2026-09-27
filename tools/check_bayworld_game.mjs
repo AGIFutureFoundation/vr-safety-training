@@ -455,7 +455,7 @@ await check("the app runs standalone (keyboard, touch and gamepad wiring, view t
   const app = readFileSync(jsPath("app.js"), "utf8");
   assert(/addEventListener\("keydown"/.test(app) && /addEventListener\("keyup"/.test(app), "app.js has no keyboard wiring");
   assert(/createGamepad\(/.test(app), "app.js has no gamepad wiring");
-  assert(/pointerdown/.test(app), "app.js has no touch wiring");
+  assert(/pointerdown|tcMountTouch\(/.test(app), "app.js has no touch wiring");
   assert(/KeyV/.test(app) && /cameraMode/.test(app), "app.js has no V camera toggle");
   assert(/KeyM/.test(app) && /bwToggleMap/.test(app), "app.js has no M map toggle");
   const html = readFileSync(join(BAYWORLD, "index.html"), "utf8");

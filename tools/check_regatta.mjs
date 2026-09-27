@@ -278,7 +278,7 @@ await check("the regatta is bundled with every module, in the combined dist fold
   assert(/class="home-chip"/.test(page) && /href="\.\.\/index\.html"/.test(page), "regatta.html has no Home chip");
   assert(/type="module" src="\.\/js\/app\.js"/.test(page), "regatta.html does not load js/app.js as a module");
   const app = readFileSync(join(REGATTA, "js", "app.js"), "utf8");
-  assert(/addEventListener\("keydown"/.test(app) && /pointerdown/.test(app) && /createGamepad\(/.test(app), "app.js lacks keyboard, touch or gamepad wiring");
+  assert(/addEventListener\("keydown"/.test(app) && /pointerdown|tcMountTouch\(/.test(app) && /createGamepad\(/.test(app), "app.js lacks keyboard, touch or gamepad wiring");
   const home = readFileSync(join(WEBXR, "index.html"), "utf8"), flat = readFileSync(join(WEBXR, "home.html"), "utf8");
   assert(home.includes('href="regatta/regatta.html"') && home.includes("Bay Regatta"), "WebXR/index.html has no Bay Regatta card");
   assert(flat.includes('href="regatta.html"') && flat.includes("Bay Regatta"), "WebXR/home.html has no Bay Regatta card");
