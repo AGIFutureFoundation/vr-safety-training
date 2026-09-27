@@ -26404,5 +26404,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "ml-suspicious-package-protocol",
+    "index": "ml-7",
+    "domain": "Postal & Mail Processing",
+    "trade": "Mail processing clerk and mail handler — suspicious parcel on the culling belt",
+    "category": "Manufacturing & Automation",
+    "certification": "OSHA 29 CFR 1910.38 emergency action plans — the facility's own written plan for reporting an emergency, evacuating and accounting for everyone; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written plant safety programme; Labor Code §6310 protection against retaliation for stopping work and reporting a hazard; APWU training for mail processing clerks and NPMHU training for mail handlers, as the training bodies",
+    "name": "Suspicious Package Protocol",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Suspicious Package Protocol VR",
+    "tagline": "The plan and the exits known before the sort, a parcel that doesn't look right left exactly where it is, the belt stopped, people moved clear, the zone cordoned, the call made per the plan, and nobody back in until responders give the all clear",
+    "accent": 3108784,
+    "accentCss": "#2f6fb0",
+    "parSeconds": 320,
+    "badge": {
+      "id": "zone-held",
+      "name": "Zone Held",
+      "note": "A suspicious parcel left untouched, the area cleared and cordoned, the call made per the facility's plan, and the zone held until the all clear"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Plant Emergency Standard",
+      "currency": "SORT",
+      "ranks": [
+        "New Clerk",
+        "Belt Certified",
+        "Lead Clerk",
+        "Tour Supervisor",
+        "Emergency Plan Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

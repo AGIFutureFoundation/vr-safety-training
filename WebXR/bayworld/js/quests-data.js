@@ -4540,7 +4540,7 @@ export const SIDE_QUESTS = [
       {
         "type": "talk",
         "target": "training-lead",
-        "text": "\"Six jobs across a route and a processing plant: a right-hand-drive delivery van pre-tripped and loaded in route order, a residential block walked with a loose dog and a heaved sidewalk read before either becomes a problem, one shift's cold start and heat stretch both worked to the plan, a flat sorter's interlocked guard and sweep arm isolated and locked before a jam is ever cleared, a mail handler's forklift inspected and a container dock read for a pedestrian and an unchocked trailer, and a parcel sorter's divert gate cleared with a defeated light curtain and a coworker's own wrap-point risk caught first. Every station ends on a proof — a gauge, a logged reading, a proven interlock — rather than on how routine the job looked going in.\""
+        "text": "\"Seven jobs across a route and a processing plant: a right-hand-drive delivery van pre-tripped and loaded in route order, a residential block walked with a loose dog and a heaved sidewalk read before either becomes a problem, one shift's cold start and heat stretch both worked to the plan, a flat sorter's interlocked guard and sweep arm isolated and locked before a jam is ever cleared, a mail handler's forklift inspected and a container dock read for a pedestrian and an unchocked trailer, and a parcel sorter's divert gate cleared with a defeated light curtain and a coworker's own wrap-point risk caught first, and a suspicious parcel on the culling belt left untouched while the floor is cleared on the facility's plan. Every station ends on a proof — a gauge, a logged reading, a proven interlock — rather than on how routine the job looked going in.\""
       }
     ],
     "reward": {
@@ -4566,11 +4566,6 @@ export const SIDE_QUESTS = [
       },
       {
         "type": "station",
-        "target": "ml-flat-sorter-guarding-and-lockout",
-        "text": "A taped-over interlock and a missing access panel found before either is trusted, the sorter isolated and locked before the guard opens, and the interlock itself proven before the restart."
-      },
-      {
-        "type": "station",
         "target": "ml-mail-handler-forklift-and-container-dock",
         "text": "A missing seatbelt and a cracked fork tine found cold, the belt fastened before the first move, and the dock read for a pedestrian in the travel path and a trailer nobody has chocked yet."
       },
@@ -4580,9 +4575,14 @@ export const SIDE_QUESTS = [
         "text": "A defeated light curtain, a cardboard guard patch and a coworker's own loose drawstring all caught before any of them becomes the reason a hand meets a moving belt."
       },
       {
+        "type": "station",
+        "target": "ml-suspicious-package-protocol",
+        "text": "A parcel that doesn't look right left exactly where it lies, the belt stopped and the floor cleared at a walking pace, and the zone held on the facility's plan until responders give the all clear, whatever the dispatch clock says."
+      },
+      {
         "type": "talk",
         "target": "certifying-evaluator",
-        "text": "\"Certified under: NALC, APWU and NPMHU training for letter carriers, postal workers and mail handlers, tested against OSHA 29 CFR 1910.147 the control of hazardous energy, 29 CFR 1910.212 machine guarding, 29 CFR 1910.178 powered industrial trucks and 29 CFR 1910.132 personal protective equipment; ASME B20.1 for conveyors and related equipment; the Revised NIOSH Lifting Equation and NIOSH's own guidance on animal, heat and cold stress hazards for workers on foot; FMCSA 49 CFR 392 and 396 for the route's own delivery vehicle; and Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written plant safety programme, across six distinct jobs a letter carrier, a mail handler and a plant clerk actually rotate through\""
+        "text": "\"Certified under: NALC, APWU and NPMHU training for letter carriers, postal workers and mail handlers, tested against OSHA 29 CFR 1910.147 the control of hazardous energy, 29 CFR 1910.212 machine guarding, 29 CFR 1910.178 powered industrial trucks and 29 CFR 1910.132 personal protective equipment; ASME B20.1 for conveyors and related equipment; the Revised NIOSH Lifting Equation and NIOSH's own guidance on animal, heat and cold stress hazards for workers on foot; FMCSA 49 CFR 392 and 396 for the route's own delivery vehicle; and Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written plant safety programme, and OSHA 29 CFR 1910.38 emergency action plans for a suspicious parcel on the belt, across seven distinct jobs a letter carrier, a mail handler and a plant clerk actually rotate through\""
       }
     ],
     "reward": {

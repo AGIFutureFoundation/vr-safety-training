@@ -885,14 +885,14 @@ export const PROGRAMME_COMPETENCIES = [
   },
   {
     id: "postal-and-mail-processing",
-    title: "Isolate, inspect and prove six distinct letter carrier, mail handler and plant clerk jobs across a route and a processing plant",
+    title: "Isolate, inspect and prove seven distinct letter carrier, mail handler and plant clerk jobs across a route and a processing plant",
     kind: "programme",
     standards: ["osha-1910-147", "osha-1910-178", "asme-b20-1", "niosh-lifting-equation"],
     stations: [
       "ml-delivery-van-pretrip-and-route-loading", "ml-dog-and-hazard-awareness-on-route", "ml-heat-and-cold-stress-on-route", "ml-flat-sorter-guarding-and-lockout",
-      "ml-mail-handler-forklift-and-container-dock", "ml-parcel-sorter-conveyor-jam-and-loto"
+      "ml-mail-handler-forklift-and-container-dock", "ml-parcel-sorter-conveyor-jam-and-loto", "ml-suspicious-package-protocol"
     ],
-    require: 3,
+    require: 4,
   },
   {
     id: "yacht-and-charter-crew",

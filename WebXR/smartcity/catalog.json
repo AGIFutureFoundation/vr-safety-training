@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 622
+      "stations": 623
     },
     "trades": {
       "entry": "trades/index.html",
@@ -225,6 +225,7 @@
         "conveyor-guard",
         "forklift-dock",
         "cnc-cell",
+        "ml-suspicious-package-protocol",
         "sm-kitchen-exhaust-and-fire-wrap",
         "sm-air-balancing-and-testing",
         "sm-architectural-panels-at-height",
@@ -5153,8 +5154,8 @@
       "id": "postal-and-mail-processing",
       "name": "Postal & Mail Processing Crew",
       "union": "NALC, APWU and NPMHU as training bodies for postal and mail processing",
-      "certification": "NALC, APWU and NPMHU training for letter carriers, postal workers and mail handlers, tested against OSHA 29 CFR 1910.147 the control of hazardous energy, 29 CFR 1910.212 machine guarding, 29 CFR 1910.178 powered industrial trucks and 29 CFR 1910.132 personal protective equipment; ASME B20.1 for conveyors and related equipment; the Revised NIOSH Lifting Equation and NIOSH's own guidance on animal, heat and cold stress hazards for workers on foot; FMCSA 49 CFR 392 and 396 for the route's own delivery vehicle; and Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written plant safety programme, across six distinct jobs a letter carrier, a mail handler and a plant clerk actually rotate through",
-      "summary": "Six jobs across a route and a processing plant: a right-hand-drive delivery van pre-tripped and loaded in route order, a residential block walked with a loose dog and a heaved sidewalk read before either becomes a problem, one shift's cold start and heat stretch both worked to the plan, a flat sorter's interlocked guard and sweep arm isolated and locked before a jam is ever cleared, a mail handler's forklift inspected and a container dock read for a pedestrian and an unchocked trailer, and a parcel sorter's divert gate cleared with a defeated light curtain and a coworker's own wrap-point risk caught first. Every station ends on a proof — a gauge, a logged reading, a proven interlock — rather than on how routine the job looked going in.",
+      "certification": "NALC, APWU and NPMHU training for letter carriers, postal workers and mail handlers, tested against OSHA 29 CFR 1910.147 the control of hazardous energy, 29 CFR 1910.212 machine guarding, 29 CFR 1910.178 powered industrial trucks and 29 CFR 1910.132 personal protective equipment; ASME B20.1 for conveyors and related equipment; the Revised NIOSH Lifting Equation and NIOSH's own guidance on animal, heat and cold stress hazards for workers on foot; FMCSA 49 CFR 392 and 396 for the route's own delivery vehicle; and Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written plant safety programme, and OSHA 29 CFR 1910.38 emergency action plans for a suspicious parcel on the belt, across seven distinct jobs a letter carrier, a mail handler and a plant clerk actually rotate through",
+      "summary": "Seven jobs across a route and a processing plant: a right-hand-drive delivery van pre-tripped and loaded in route order, a residential block walked with a loose dog and a heaved sidewalk read before either becomes a problem, one shift's cold start and heat stretch both worked to the plan, a flat sorter's interlocked guard and sweep arm isolated and locked before a jam is ever cleared, a mail handler's forklift inspected and a container dock read for a pedestrian and an unchocked trailer, and a parcel sorter's divert gate cleared with a defeated light curtain and a coworker's own wrap-point risk caught first, and a suspicious parcel on the culling belt left untouched while the floor is cleared on the facility's plan. Every station ends on a proof — a gauge, a logged reading, a proven interlock — rather than on how routine the job looked going in.",
       "accent": "#2f6fb0",
       "stations": [
         {
@@ -5186,6 +5187,11 @@
           "app": "smartcity",
           "id": "ml-parcel-sorter-conveyor-jam-and-loto",
           "why": "A defeated light curtain, a cardboard guard patch and a coworker's own loose drawstring all caught before any of them becomes the reason a hand meets a moving belt."
+        },
+        {
+          "app": "smartcity",
+          "id": "ml-suspicious-package-protocol",
+          "why": "A parcel that doesn't look right left exactly where it lies, the belt stopped and the floor cleared at a walking pace, and the zone held on the facility's plan until responders give the all clear, whatever the dispatch clock says."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
@@ -9501,6 +9507,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-suspicious-package-protocol",
+      "name": "Suspicious Package Protocol",
+      "title": "SmartCiti.X~ Suspicious Package Protocol VR",
+      "tagline": "The plan and the exits known before the sort, a parcel that doesn't look right left exactly where it is, the belt stopped, people moved clear, the zone cordoned, the call made per the plan, and nobody back in until responders give the all clear",
+      "category": "Manufacturing & Automation",
+      "domain": "Postal & Mail Processing",
+      "trade": "Mail processing clerk and mail handler — suspicious parcel on the culling belt",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.38 emergency action plans — the facility's own written plan for reporting an emergency, evacuating and accounting for everyone; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written plant safety programme; Labor Code §6310 protection against retaliation for stopping work and reporting a hazard; APWU training for mail processing clerks and NPMHU training for mail handlers, as the training bodies",
+      "accent": "#2f6fb0",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": "plant",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "turn",
+        "sequence",
+        "track",
+        "drag",
+        "gauge",
+        "hold"
+      ],
+      "badge": {
+        "id": "zone-held",
+        "name": "Zone Held",
+        "note": "A suspicious parcel left untouched, the area cleared and cordoned, the call made per the facility's plan, and the zone held until the all clear"
+      },
+      "meshes": 208,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ml-7",
+      "flat": false,
+      "system": "Plant Emergency Standard",
+      "currency": "SORT",
+      "ranks": [
+        "New Clerk",
+        "Belt Certified",
+        "Lead Clerk",
+        "Tour Supervisor",
+        "Emergency Plan Certified"
+      ],
+      "awards": [
+        {
+          "id": "hands-off",
+          "name": "Hands Off",
+          "note": "The parcel left exactly where it was found"
+        },
+        {
+          "id": "all-accounted",
+          "name": "All Accounted",
+          "note": "The assembly headcount matched the tour roster"
+        },
+        {
+          "id": "zone-kept",
+          "name": "Zone Kept",
+          "note": "Nobody back in until responders gave the all clear"
+        },
+        {
+          "id": "clean-tour",
+          "name": "Clean Tour",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-brief",
+          "name": "Steady Brief",
+          "note": "Held the responder brief the full count, first try"
+        },
+        {
+          "id": "prompt-plan",
+          "name": "Prompt Plan",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ml-suspicious-package-protocol"
     },
     {
       "app": "smartcity",
@@ -31269,7 +31358,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 250,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -31929,7 +32018,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "100",

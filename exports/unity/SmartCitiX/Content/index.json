@@ -230,7 +230,7 @@
     {
       "file": "programmes/postal-and-mail-processing.json",
       "id": "postal-and-mail-processing",
-      "stations": 6
+      "stations": 7
     },
     {
       "file": "programmes/property-management.json",
@@ -3220,6 +3220,14 @@
       "flat": false,
       "id": "ml-parcel-sorter-conveyor-jam-and-loto",
       "steps": 14
+    },
+    {
+      "app": "smartcity",
+      "category": "Manufacturing & Automation",
+      "file": "stations/ml-suspicious-package-protocol.json",
+      "flat": false,
+      "id": "ml-suspicious-package-protocol",
+      "steps": 13
     },
     {
       "app": "smartcity",

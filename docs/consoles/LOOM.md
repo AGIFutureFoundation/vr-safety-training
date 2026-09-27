@@ -12,3 +12,4 @@
 - 22:00 UTC · md-intimacy-and-conduct-coordination-briefing written (13 steps, 8 kinds, 4 hazards, 2 interruptions), registered, added to screen-and-media-crafts and its competency; eval 97, standards 1 · — · next: regenerate and gate
 - 22:01 UTC · first check_all stopped at check_home (dist stale): fixed by running the full regenerate list before gating · — · next: gate md-intimacy alone
 - 22:10 UTC · layout: coordinator figure stood 0.4m from the robe handover; moved to a clear spot (clear_spot). check_all: All 59 checkers pass · md-intimacy committed below · next: ml-suspicious-package-protocol
+- 22:17 UTC · ml-suspicious-package-protocol: figure moved clear (layout); check_all flagged check_tracks and check_investor stale — added gen_tracks and a post-bundle gen_investor to the regenerate list; both now pass, the other 57 passed · committed below · next: ml-retail-counter-deescalation
