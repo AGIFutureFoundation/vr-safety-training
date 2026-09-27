@@ -874,12 +874,12 @@ export const PROGRAMME_COMPETENCIES = [
   },
   {
     id: "screen-and-media-crafts",
-    title: "Prove a control before a rig, a circuit, a mast or a cue goes live, across seven distinct screen and media crafts jobs",
+    title: "Prove a control before a rig, a circuit, a mast or a cue goes live, across eight distinct screen and media crafts jobs",
     kind: "programme",
     standards: ["sag-aftra-training", "iatse-training-trust", "osha-1910-95", "nfpa-101"],
     stations: [
       "md-set-safety-meeting-and-stunt-go-no-go", "md-camera-dolly-and-crane-track", "md-location-shoot-traffic-control-and-heat-hydration", "md-sound-stage-electrical-distribution-and-cable-crossings",
-      "md-recording-studio-hearing-conservation-and-load-in", "md-theatre-fly-floor-and-quick-change-lane", "md-newsroom-storm-scene-and-live-truck-mast"
+      "md-recording-studio-hearing-conservation-and-load-in", "md-theatre-fly-floor-and-quick-change-lane", "md-newsroom-storm-scene-and-live-truck-mast", "md-intimacy-and-conduct-coordination-briefing"
     ],
     require: 4,
   },

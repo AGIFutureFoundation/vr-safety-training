@@ -4456,7 +4456,7 @@ export const SIDE_QUESTS = [
       {
         "type": "talk",
         "target": "training-lead",
-        "text": "\"Seven jobs a screen and media production actually rotates through: a film set safety meeting and the stunt and SFX go/no-go before a rigged effect, a grip crew's dolly track and counterweighted jib crane, a location shoot's traffic control and the crew's heat and hydration break, a sound stage's electrical distribution and cable crossings, a recording studio's hearing conservation and a piano's load-in, a theatre's fly floor and quick-change lane run from the same calling desk, and a news crew's live truck mast raised at a flooded storm scene. Every station ends on a proof — a gauge proven, a checklist cleared, a radio call answered — rather than on how routine the call sheet made the day look.\""
+        "text": "\"Eight jobs a screen and media production actually rotates through: a film set safety meeting and the stunt and SFX go/no-go before a rigged effect, a grip crew's dolly track and counterweighted jib crane, a location shoot's traffic control and the crew's heat and hydration break, a sound stage's electrical distribution and cable crossings, a recording studio's hearing conservation and a piano's load-in, a theatre's fly floor and quick-change lane run from the same calling desk, a news crew's live truck mast raised at a flooded storm scene, and a closed-set briefing run beside the intimacy coordinator. Every station ends on a proof — a gauge proven, a checklist cleared, a radio call answered — rather than on how routine the call sheet made the day look.\""
       }
     ],
     "reward": {
@@ -4482,11 +4482,6 @@ export const SIDE_QUESTS = [
       },
       {
         "type": "station",
-        "target": "md-recording-studio-hearing-conservation-and-load-in",
-        "text": "The monitor level is proven inside the safe band before any headphones go on, the piano is guided down the ramp at a controlled pace instead of let run, and an early-removed earplug is caught on the talkback before the next loud passage."
-      },
-      {
-        "type": "station",
         "target": "md-theatre-fly-floor-and-quick-change-lane",
         "text": "The quick-rig costume is dressed in the order its own snaps demand, the fly system's brake tension is proven before a batten flies over a live crossover, and a wrong-batten start is called off on the headset rather than let run."
       },
@@ -4496,9 +4491,14 @@ export const SIDE_QUESTS = [
         "text": "The ground rod is driven before a single mast control is touched, the mast's clearance from the power line is watched the whole way up rather than assumed, and a gust closing that clearance is answered on the emergency stow switch."
       },
       {
+        "type": "station",
+        "target": "md-intimacy-and-conduct-coordination-briefing",
+        "text": "The scene is flagged and the set closed to its list before anyone rolls, consent is confirmed in writing and in private before the coordinator calls ready, and a stop signal from a performer holds the whole set at once."
+      },
+      {
         "type": "talk",
         "target": "certifying-evaluator",
-        "text": "\"Certified under: SAG-AFTRA, AFM, Actors' Equity Association and NewsGuild-CWA member safety guidance; IATSE grip, electrical, fly and stagehand practice; OSHA 29 CFR 1910.95 hearing conservation, 29 CFR 1910.132 general PPE, 29 CFR 1910.147 lockout/tagout and 29 CFR 1926.501 fall protection; NFPA 101 Life Safety Code; FCC RF exposure limits for a live truck's mast; ANSI/ASSP Z359 and ANSI E1.4 rigging standards; ANSI/ISEA 107 high-visibility apparel across seven distinct screen and media crafts jobs\""
+        "text": "\"Certified under: SAG-AFTRA, AFM, Actors' Equity Association and NewsGuild-CWA member safety guidance; IATSE grip, electrical, fly and stagehand practice; OSHA 29 CFR 1910.95 hearing conservation, 29 CFR 1910.132 general PPE, 29 CFR 1910.147 lockout/tagout and 29 CFR 1926.501 fall protection; NFPA 101 Life Safety Code; FCC RF exposure limits for a live truck's mast; ANSI/ASSP Z359 and ANSI E1.4 rigging standards; ANSI/ISEA 107 high-visibility apparel, and the production's own conduct policy for a closed set, across eight distinct screen and media crafts jobs\""
       }
     ],
     "reward": {

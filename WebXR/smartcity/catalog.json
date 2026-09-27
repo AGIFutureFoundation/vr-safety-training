@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 621
+      "stations": 622
     },
     "trades": {
       "entry": "trades/index.html",
@@ -393,6 +393,7 @@
         "stage-power",
         "chain-hoist",
         "fly-system",
+        "md-intimacy-and-conduct-coordination-briefing",
         "stage-load-in-and-truss-rigging",
         "broadcast-truck",
         "arena-rigging",
@@ -5091,8 +5092,8 @@
       "id": "screen-and-media-crafts",
       "name": "Screen & Media Crafts",
       "union": "SAG-AFTRA, the American Federation of Musicians (AFM), Actors' Equity Association, the NewsGuild-CWA, and IATSE crew locals",
-      "certification": "SAG-AFTRA, AFM, Actors' Equity Association and NewsGuild-CWA member safety guidance; IATSE grip, electrical, fly and stagehand practice; OSHA 29 CFR 1910.95 hearing conservation, 29 CFR 1910.132 general PPE, 29 CFR 1910.147 lockout/tagout and 29 CFR 1926.501 fall protection; NFPA 101 Life Safety Code; FCC RF exposure limits for a live truck's mast; ANSI/ASSP Z359 and ANSI E1.4 rigging standards; ANSI/ISEA 107 high-visibility apparel across seven distinct screen and media crafts jobs",
-      "summary": "Seven jobs a screen and media production actually rotates through: a film set safety meeting and the stunt and SFX go/no-go before a rigged effect, a grip crew's dolly track and counterweighted jib crane, a location shoot's traffic control and the crew's heat and hydration break, a sound stage's electrical distribution and cable crossings, a recording studio's hearing conservation and a piano's load-in, a theatre's fly floor and quick-change lane run from the same calling desk, and a news crew's live truck mast raised at a flooded storm scene. Every station ends on a proof — a gauge proven, a checklist cleared, a radio call answered — rather than on how routine the call sheet made the day look.",
+      "certification": "SAG-AFTRA, AFM, Actors' Equity Association and NewsGuild-CWA member safety guidance; IATSE grip, electrical, fly and stagehand practice; OSHA 29 CFR 1910.95 hearing conservation, 29 CFR 1910.132 general PPE, 29 CFR 1910.147 lockout/tagout and 29 CFR 1926.501 fall protection; NFPA 101 Life Safety Code; FCC RF exposure limits for a live truck's mast; ANSI/ASSP Z359 and ANSI E1.4 rigging standards; ANSI/ISEA 107 high-visibility apparel, and the production's own conduct policy for a closed set, across eight distinct screen and media crafts jobs",
+      "summary": "Eight jobs a screen and media production actually rotates through: a film set safety meeting and the stunt and SFX go/no-go before a rigged effect, a grip crew's dolly track and counterweighted jib crane, a location shoot's traffic control and the crew's heat and hydration break, a sound stage's electrical distribution and cable crossings, a recording studio's hearing conservation and a piano's load-in, a theatre's fly floor and quick-change lane run from the same calling desk, a news crew's live truck mast raised at a flooded storm scene, and a closed-set briefing run beside the intimacy coordinator. Every station ends on a proof — a gauge proven, a checklist cleared, a radio call answered — rather than on how routine the call sheet made the day look.",
       "accent": "#d6558f",
       "stations": [
         {
@@ -5129,12 +5130,17 @@
           "app": "smartcity",
           "id": "md-newsroom-storm-scene-and-live-truck-mast",
           "why": "The ground rod is driven before a single mast control is touched, the mast's clearance from the power line is watched the whole way up rather than assumed, and a gust closing that clearance is answered on the emergency stow switch."
+        },
+        {
+          "app": "smartcity",
+          "id": "md-intimacy-and-conduct-coordination-briefing",
+          "why": "The scene is flagged and the set closed to its list before anyone rolls, consent is confirmed in writing and in private before the coordinator calls ready, and a stop signal from a performer holds the whole set at once."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1570,
+        "lessons": 1569,
         "tasks": 120,
         "atBar": 20,
         "partial": 0,
@@ -9495,6 +9501,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "md-intimacy-and-conduct-coordination-briefing",
+      "name": "Intimacy & Conduct Coordination Briefing",
+      "title": "SmartCiti.X~ Intimacy & Conduct Coordination Briefing VR",
+      "tagline": "A sensitive scene flagged in advance, the set closed to essential crew, a stray feed and a phone camera found first, consent confirmed in writing and in private, the stop signal and the reporting channel briefed to everyone, and a debrief before the set is released",
+      "category": "Entertainment & Live Events",
+      "domain": "Screen & Media Crafts",
+      "trade": "First assistant director with the intimacy coordinator — closed-set briefing",
+      "union": null,
+      "certification": "SAG-AFTRA guidance for scenes involving nudity or simulated intimacy and the intimacy coordinator's role, as the performers' training body; the production's own written conduct and anti-harassment policy and its reporting channel; IATSE crew practice for a closed set; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written production safety programme; Labor Code §6310 protection against retaliation for raising a concern",
+      "accent": "#b05ca8",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": "theatre",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "find",
+        "drag",
+        "turn",
+        "sequence",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "set-held-with-care",
+        "name": "Set Held With Care",
+        "note": "A closed set run on agreed scope, a stop signal everyone knew, a named reporting channel and a debrief for the performers"
+      },
+      "meshes": 224,
+      "lights": 0,
+      "overBudget": false,
+      "index": "724",
+      "flat": false,
+      "system": "Closed Set Standard",
+      "currency": "TRUST",
+      "ranks": [
+        "Set PA",
+        "Second AD",
+        "First AD",
+        "Closed-Set Lead",
+        "Conduct Coordination Certified"
+      ],
+      "awards": [
+        {
+          "id": "set-closed",
+          "name": "Set Closed",
+          "note": "The feed and the camera found before anyone rolled"
+        },
+        {
+          "id": "consent-first",
+          "name": "Consent First",
+          "note": "The written scope, the private check-in and the coordinator's word, in that order"
+        },
+        {
+          "id": "debrief-held",
+          "name": "Debrief Held",
+          "note": "The performers debriefed before the set was released"
+        },
+        {
+          "id": "clean-briefing",
+          "name": "Clean Briefing",
+          "note": "No corrections anywhere in the briefing"
+        },
+        {
+          "id": "steady-hold",
+          "name": "Steady Hold",
+          "note": "Held the reset the full count, first try"
+        },
+        {
+          "id": "prompt-set",
+          "name": "Prompt Set",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=md-intimacy-and-conduct-coordination-briefing"
     },
     {
       "app": "smartcity",
@@ -31180,7 +31269,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 256,
+      "meshes": 250,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -31840,7 +31929,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",

@@ -26362,5 +26362,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "md-intimacy-and-conduct-coordination-briefing",
+    "index": "724",
+    "domain": "Screen & Media Crafts",
+    "trade": "First assistant director with the intimacy coordinator — closed-set briefing",
+    "category": "Entertainment & Live Events",
+    "certification": "SAG-AFTRA guidance for scenes involving nudity or simulated intimacy and the intimacy coordinator's role, as the performers' training body; the production's own written conduct and anti-harassment policy and its reporting channel; IATSE crew practice for a closed set; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written production safety programme; Labor Code §6310 protection against retaliation for raising a concern",
+    "name": "Intimacy & Conduct Coordination Briefing",
+    "weather": "clear",
+    "indoor": "theatre",
+    "district": null,
+    "title": "SmartCiti.X~ Intimacy & Conduct Coordination Briefing VR",
+    "tagline": "A sensitive scene flagged in advance, the set closed to essential crew, a stray feed and a phone camera found first, consent confirmed in writing and in private, the stop signal and the reporting channel briefed to everyone, and a debrief before the set is released",
+    "accent": 11558056,
+    "accentCss": "#b05ca8",
+    "parSeconds": 320,
+    "badge": {
+      "id": "set-held-with-care",
+      "name": "Set Held With Care",
+      "note": "A closed set run on agreed scope, a stop signal everyone knew, a named reporting channel and a debrief for the performers"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Closed Set Standard",
+      "currency": "TRUST",
+      "ranks": [
+        "Set PA",
+        "Second AD",
+        "First AD",
+        "Closed-Set Lead",
+        "Conduct Coordination Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
