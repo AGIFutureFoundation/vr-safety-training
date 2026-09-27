@@ -101,6 +101,9 @@ export const SIM_CIVIC_PRINCIPLES_BRIEFING = {
     "cut-in": "You chose to correct the resident mid-sentence from the chair. The podium time was hers; staff answer the facts afterwards, on the record. A chair who speaks over the public teaches the whole room that the podium is a formality.",
     "private-majority": "You chose to poll three of five members by reply-all. A majority deliberating by email is a meeting nobody noticed — the serial meeting the open-meeting law forbids, whatever the intention.",
     "promise-tomorrow": "You chose to promise an inspector tomorrow. The office cannot order one; a promise that feels kind at the desk becomes the next broken one by the end of the week.",
+    "delete-the-thread": "You chose to delete the reply-all thread so nobody would see it. Destroying the record does not undo a serial meeting; it adds a records problem to an open-meeting one, and the public's right to see how a majority deliberated is exactly what the thread's deletion would take away.",
+    "vote-now-disclose-later": "You chose to vote now and file the disclosure afterwards. A conflict disclosed after the vote has already shaped it; the Political Reform Act's point is that an official with a financial interest in the decision steps out of it before it is made, not that the interest is reported once it no longer matters.",
+    "blame-the-staff-report": "You chose to say the staff recommended the cut, so it was not really the committee's decision. Staff advise and the elected body decides; pointing at the staff report hands a hard call to people who cannot answer for it at the ballot box, which is the opposite of owning it.",
     "accept-gift": "You chose to accept the tickets from the applicant whose permit is on the agenda. A gift from somebody with business before the body is reportable at best and disqualifying at worst.",
   },
 
@@ -157,6 +160,27 @@ export const SIM_CIVIC_PRINCIPLES_BRIEFING = {
       cue: "Pick what listening first looks like from the chair.",
       why: "Listening first is not agreeing; it is letting the speaker finish, then correcting the record through staff, where the correction can be checked. The residents waiting their turn are watching how this one is treated.",
     }),
+    {
+      id: "serial-meeting-signs", kind: "find", noHint: true,
+      targets: ["sm-reply-all", "sm-hub-staffer", "sm-chain"],
+      itemNames: { "sm-reply-all": "A reply-all among three of five members about next week's item", "sm-hub-staffer": "A staffer carrying each member's position to the others", "sm-chain": "Member A tells B her view, B passes it and his own to C" },
+      itemNotes: {
+        "sm-reply-all": "Three of five on one thread is a majority deliberating outside the noticed meeting — the plainest serial meeting.",
+        "sm-hub-staffer": "A hub-and-spoke meeting is still a meeting: the staffer at the centre becomes the room the public never saw.",
+        "sm-chain": "A daisy chain reaches a majority one conversation at a time, and the open-meeting law counts the chain, not the links.",
+      },
+      decoyNotes: { "sm-noticed-item": "Debating the item at the noticed meeting, on the record, is the lawful way — it is the thing the other three avoid." },
+      options: [
+        { id: "sm-reply-all", label: "A reply-all among three of five members about next week's item" },
+        { id: "sm-noticed-item", label: "Debating the item at the noticed meeting, on the record" },
+        { id: "sm-hub-staffer", label: "A staffer carrying each member's position to the others" },
+        { id: "delete-the-thread", label: "Delete the thread so nobody sees it" },
+        { id: "sm-chain", label: "Member A tells B her view; B passes it and his own to C" },
+      ],
+      title: "Practice: mark every arrangement that would be a serial meeting",
+      cue: "Select each one that lets a majority deliberate outside the noticed meeting — and nothing that would hide it.",
+      why: "The serial meeting is the open-meeting mistake most often made by people who never meant to hold a meeting at all. Practising its three shapes — the reply-all among a majority, the staffer who becomes a hub between members, the chain that reaches a majority one conversation at a time — is what lets a new official recognise one while it is still an email draft rather than after the public has noticed.",
+    },
     cpbQ({
       id: "count-votes", target: "c-open",
       options: [
@@ -179,6 +203,27 @@ export const SIM_CIVIC_PRINCIPLES_BRIEFING = {
       cue: "Pick the commitment the office can keep.",
       why: "Keeping your word starts with choosing a word you can keep. A real date, written down and met, rebuilds trust; a kind promise nobody can deliver becomes the office's third failure; a vague \"soon\" is not a commitment at all.",
     }),
+    {
+      id: "disclosure-red-flags", kind: "find", noHint: true,
+      targets: ["d-gift", "d-own-business", "d-next-door"],
+      itemNames: { "d-gift": "A gift from the applicant whose permit is on the agenda", "d-own-business": "A business you own is the applicant's contractor", "d-next-door": "Property you own sits next to the project site" },
+      itemNotes: {
+        "d-gift": "A gift from somebody with business before the body is the first red flag — report it, and ask counsel whether you can take part.",
+        "d-own-business": "Income from a party to the decision is a financial interest, and it is disclosed and counsel consulted before the vote.",
+        "d-next-door": "Property near a project can gain or lose value from the decision; that is a question for counsel before the item is heard.",
+      },
+      decoyNotes: { "d-same-party": "Sharing a party registration with the applicant is not a financial interest — it is not what the disclosure rules ask about." },
+      options: [
+        { id: "d-gift", label: "A gift from the applicant whose permit is on the agenda" },
+        { id: "d-same-party", label: "You and the applicant are registered with the same party" },
+        { id: "d-own-business", label: "A business you own is the applicant's contractor" },
+        { id: "vote-now-disclose-later", label: "Vote now and file the disclosure afterwards" },
+        { id: "d-next-door", label: "Property you own sits next to the project site" },
+      ],
+      title: "Practice: mark every interest you raise with counsel before the vote",
+      cue: "Select each one that is a financial interest to disclose and ask about — before the item is heard.",
+      why: "The Political Reform Act and the Form 700 exist so the public can see an official's financial interests before a decision rather than after it. Practising the red flags — a gift from a party, income from a party, property that the decision could change the value of — makes the question to counsel automatic, and the answer, whether to step out, arrives before the vote it would have shaped.",
+    },
     cpbQ({
       id: "public-money", target: "m-post",
       options: [
@@ -201,6 +246,20 @@ export const SIM_CIVIC_PRINCIPLES_BRIEFING = {
       cue: "Pick the answer the disclosure rules support.",
       why: "A gift from somebody with business before the body is the plainest conflict there is. Declining it, and valuing and reporting honestly any gift that is accepted from anyone, is what keeps the register meaningful — passing it on to staff only moves the problem.",
     }),
+    {
+      id: "own-it-order", kind: "sequence",
+      targets: ["ow-what", "ow-why", "ow-cost", "ow-when"],
+      itemNames: { "ow-what": "What we decided", "ow-why": "Why we decided it", "ow-cost": "What it costs, and who bears it", "ow-when": "When we will look at it again, in public" },
+      options: [
+        { id: "ow-cost", label: "What it costs, and who bears it" }, { id: "ow-what", label: "What we decided" },
+        { id: "blame-the-staff-report", label: "The staff recommended it, so it is not really on us" },
+        { id: "ow-when", label: "When we will look at it again, in public" }, { id: "ow-why", label: "Why we decided it" },
+      ],
+      title: "Practice: build an owned decision statement in order",
+      cue: "Select the four parts of owning a hard call in the order they are said.",
+      why: "An owned decision is said in a particular order: what we decided, so nobody has to guess; why, so the reasoning can be argued with; what it costs and who bears it, so the people it lands on hear themselves named; and when it will be looked at again in public, so owning it includes a way back. Practising the order is what makes it come out that way at a podium under pressure.",
+      outOfOrderNote: "What we decided comes first, then why, then the cost, then when we revisit it — a reason given before the decision is named sounds like an excuse.",
+    },
     cpbQ({
       id: "own-it", target: "o-we-chose",
       options: [

@@ -26488,5 +26488,341 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "bb-pick-and-roll-communication",
+    "index": "725",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball player and coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines for teaching team defence and communication at an age-appropriate stage; NFHS basketball rules for what makes a screen legal — set still, inside the screener's own space — and what a moving screen is; the Association for Applied Sport Psychology's guidance on attention and cue words under pressure; CDC Heads Up for the blind-side collision a silent screen causes; the U.S. Center for SafeSport for correction that is observable and never shaming; the American Red Cross first aid course for the check before a player who collided goes back in; AFSCME and SEIU parks-and-recreation staff who run the public gym",
+    "name": "Pick-and-Roll Communication",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Pick-and-Roll Communication VR",
+    "tagline": "Talk before you move: the screen called by whoever sees it, the switch agreed out loud, the recovery announced before anybody leaves their man",
+    "accent": 3912703,
+    "accentCss": "#3bb3ff",
+    "parSeconds": 330,
+    "badge": {
+      "id": "heard-it-first",
+      "name": "Heard It First",
+      "note": "Every screen called, every switch agreed and every recovery announced before a defender moved"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Talk Board",
+      "currency": "CALLS",
+      "ranks": [
+        "Quiet Defender",
+        "Caller",
+        "Floor Voice",
+        "Defensive Captain",
+        "Team Voice"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bb-help-defense-rotations",
+    "index": "726",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball player and coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines for teaching team defence in stages, positioning before contact; NFHS basketball rules on legal guarding position and the verticality a helper keeps at the rim; CDC Heads Up for the collision under the basket a late help step causes; the Association for Applied Sport Psychology's guidance on trust and communication inside a team; the U.S. Center for SafeSport for correction given calmly and in view; the American Red Cross first aid course for the check after a fall; AFSCME and SEIU recreation staff who run the public gym",
+    "name": "Help Defence and Rotations",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Help Defence and Rotations VR",
+    "tagline": "Trust the rotation behind you: the helper steps in and says so, the next teammate rotates, and the beaten defender recovers to whoever is left",
+    "accent": 8019199,
+    "accentCss": "#7a5cff",
+    "parSeconds": 330,
+    "badge": {
+      "id": "one-string",
+      "name": "On One String",
+      "note": "Help, rotate and recover run as one team move, every step called before it was taken"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Shell Board",
+      "currency": "ROTATIONS",
+      "ranks": [
+        "Ball Watcher",
+        "Helper",
+        "Rotator",
+        "Back-Line Voice",
+        "Defensive Anchor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bb-transition-spacing-and-roles",
+    "index": "727",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball player and coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines for teaching team offence and roles at an age-appropriate stage, with rest built into full-court work; NFHS basketball rules and its sports medicine guidance on hydration and a clear run-off behind the baseline; CDC Heads Up for a collision at the end of a sprint; the Association for Applied Sport Psychology's guidance on shared goals and unselfish decisions in a team; the U.S. Center for SafeSport for coaching that praises the pass as loudly as the basket; the American Red Cross first aid course; AFSCME and SEIU recreation staff who run the public gym",
+    "name": "Transition Spacing and Roles",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Transition Spacing and Roles VR",
+    "tagline": "Lanes filled, roles held, the extra pass over the hero shot — and a finish that never runs into the wall behind the baseline",
+    "accent": 3134362,
+    "accentCss": "#2fd39a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "extra-pass",
+      "name": "The Extra Pass",
+      "note": "Three lanes filled, every role held and the better shot found with one more pass"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Break Board",
+      "currency": "LANES",
+      "ranks": [
+        "Trailer",
+        "Wing Runner",
+        "Outlet",
+        "Floor General",
+        "Team Engine"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bb-timeout-huddle-and-adjustment",
+    "index": "728",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball team captain",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on player leadership and on water and rest in games; NFHS basketball rules for how a timeout is requested and how long the team has before play resumes; the Association for Applied Sport Psychology's guidance on composure, short cue-based instruction and encouragement under pressure; the U.S. Center for SafeSport for a huddle kept free of shaming; CDC Heads Up for the teammate who took a knock and is quieter than usual; the American Red Cross first aid course for the check-in that finds them; AFSCME and SEIU recreation staff who run the league",
+    "name": "Timeout Huddle and Adjustment",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Timeout Huddle and Adjustment VR",
+    "tagline": "Thirty seconds, one fact, one change, one encouragement — and nobody blamed",
+    "accent": 16763195,
+    "accentCss": "#ffc93b",
+    "parSeconds": 330,
+    "badge": {
+      "id": "thirty-seconds",
+      "name": "Thirty Seconds",
+      "note": "A huddle that named one fact, made one change and sent five players out steadier, with no one blamed"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Huddle Board",
+      "currency": "STEADY",
+      "ranks": [
+        "Teammate",
+        "Voice",
+        "Co-Captain",
+        "Captain",
+        "Team Leader"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "bb-losing-well-and-film-review",
+    "index": "729",
+    "domain": "Youth Sports",
+    "trade": "Youth basketball player and coach",
+    "category": "Youth Sports & Coaching",
+    "certification": "USA Basketball youth development guidelines on keeping winning and losing in proportion for young players; the Association for Applied Sport Psychology's guidance on coach feedback, growth mindset and learning from a loss without shame; NFHS basketball rules and its sportsmanship expectations for how a team talks about a game and its officials; the U.S. Center for SafeSport for observable, non-shaming correction and for a review room with two adults present; CDC Heads Up for the knock from last night's game that still needs following up; the American Red Cross first aid course; AFSCME and SEIU recreation staff who run the league",
+    "name": "Losing Well and Film Review",
+    "weather": "clear",
+    "indoor": null,
+    "district": "gym-court",
+    "title": "SmartCiti.X~ Losing Well and Film Review VR",
+    "tagline": "After a loss: own your part, name one thing to fix, and thank the teammate who covered for you",
+    "accent": 14704762,
+    "accentCss": "#e0607a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "lost-well",
+      "name": "Lost Well",
+      "note": "A loss reviewed with every player owning one thing, fixing one thing and thanking one teammate"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Review Board",
+      "currency": "LESSONS",
+      "ranks": [
+        "Viewer",
+        "Owner",
+        "Fixer",
+        "Film Captain",
+        "Team Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ei-conflict-on-the-crew",
+    "index": "730",
+    "domain": "Civic",
+    "trade": "City street maintenance crew lead",
+    "category": "Community Environmental Justice",
+    "certification": "8 CCR 3203, the employer's Injury and Illness Prevention Program, for how a hazard a worker raises is heard and corrected and how a threat between co-workers is reported; the MUTCD for the temporary traffic control the crew is arguing about; SAMHSA's trauma-informed principles of safety, trustworthiness, peer support and collaboration; Psychological First Aid for calm, practical presence with somebody upset; SEIU and AFSCME for the public-works members whose contract and steward process sit behind any discipline. The emotional-intelligence steps follow the programme's own guide",
+    "name": "Conflict on the Crew",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Conflict on the Crew VR",
+    "tagline": "Two crew members clash beside live traffic: notice it, name it, slow it down, and get to the fix — the work zone safe first",
+    "accent": 15895608,
+    "accentCss": "#f28c38",
+    "parSeconds": 330,
+    "badge": {
+      "id": "cooled-and-fixed",
+      "name": "Cooled and Fixed",
+      "note": "A crew conflict noticed early, slowed down, heard on both sides and settled into a decision the crew worked under"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Crew Board",
+      "currency": "TRUST",
+      "ranks": [
+        "Crew Member",
+        "Senior Worker",
+        "Crew Lead",
+        "Supervisor",
+        "Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ei-giving-and-taking-feedback",
+    "index": "731",
+    "domain": "Civic",
+    "trade": "City parks crew — senior worker and apprentice",
+    "category": "Community Environmental Justice",
+    "certification": "8 CCR 3203, the employer's Injury and Illness Prevention Program, for correcting an unsafe practice through training rather than blame and for recording what was corrected; Labor Code §6310 for a worker's protection when they raise a safety concern, including one about a senior colleague's instructions; SAMHSA's trauma-informed principles of safety, trustworthiness and collaboration for how a correction is delivered; Psychological First Aid for staying calm and practical with somebody who is upset; SEIU and AFSCME for the parks members whose contract governs any formal discipline. The emotional-intelligence steps follow the programme's own guide",
+    "name": "Giving and Taking Feedback",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Giving and Taking Feedback VR",
+    "tagline": "Name the behaviour, not the person — and when it comes back to you, take it without defending",
+    "accent": 5227465,
+    "accentCss": "#4fc3c9",
+    "parSeconds": 330,
+    "badge": {
+      "id": "both-directions",
+      "name": "Both Directions",
+      "note": "Feedback given about the behaviour and taken without defence, in the same conversation"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Feedback Board",
+      "currency": "CLARITY",
+      "ranks": [
+        "Apprentice",
+        "Crew Member",
+        "Senior Worker",
+        "Crew Lead",
+        "Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ei-leading-under-pressure",
+    "index": "732",
+    "domain": "Civic",
+    "trade": "City public works crew lead",
+    "category": "Community Environmental Justice",
+    "certification": "NIMS and ICS for the structure a lead keeps under pressure — unity of command, a manageable span of control and objectives stated plainly; 8 CCR 3203, the employer's Injury and Illness Prevention Program, for hazards that are not traded for schedule; the MUTCD for the work zone that has to stay set until the street reopens; SAMHSA's trauma-informed principles of safety, peer support and empowerment for a tired crew; Psychological First Aid for the calm, practical presence a lead offers; SEIU and AFSCME for the public-works members whose contract sets rest breaks and overtime. The emotional-intelligence steps follow the programme's own guide",
+    "name": "Leading Under Pressure",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Leading Under Pressure VR",
+    "tagline": "The schedule slips and the crew is tired: a calm voice, one clear next step, no safety step traded for time, and credit shared at the end",
+    "accent": 11565823,
+    "accentCss": "#b07aff",
+    "parSeconds": 330,
+    "badge": {
+      "id": "steady-lead",
+      "name": "Steady Lead",
+      "note": "A slipping schedule led with a calm voice, one next step at a time, every safety step kept and every crew member credited"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Lead Board",
+      "currency": "STEADY",
+      "ranks": [
+        "Crew Member",
+        "Lead Hand",
+        "Crew Lead",
+        "Supervisor",
+        "Mentor"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

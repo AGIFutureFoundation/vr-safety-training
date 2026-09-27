@@ -1626,18 +1626,18 @@ export const SIDE_QUESTS = [
       },
       {
         "type": "station",
-        "target": "cv-restorative-justice-circle-facilitation",
-        "text": "Keeping a restorative circle is listening first taken as far as it goes, with the talking piece's rule held, speaking time kept fair and the harm named without shaming the person who did it."
+        "target": "ei-conflict-on-the-crew",
+        "text": "Two crew members clash beside live traffic, and the lead notices it, names it, slows it down behind the barrier and gets both of them to a fix they will actually work under."
       },
       {
         "type": "station",
-        "target": "cv-grant-application-and-nonprofit-compliance",
-        "text": "Asking for public money and accounting for it is the other side of spending it in the open: a budget that means something, a conflict disclosed and recused, and a report that claims only what it can prove."
+        "target": "ei-giving-and-taking-feedback",
+        "text": "Feedback that names the behaviour rather than the person is only half the skill; the other half is hearing, in the same conversation, that your own instruction was the gap and taking it without defending."
       },
       {
         "type": "station",
-        "target": "cv-difficult-conversation-across-difference",
-        "text": "The hardest seat in the programme is the one where the harm was yours, and owning it across language, age and experience is where emotional intelligence stops being a slogan."
+        "target": "ei-leading-under-pressure",
+        "text": "When the schedule slips and the crew is tired, a lead keeps them steady with a calm voice, one clear next step and no safety step traded for time, then hands the credit to the crew by name."
       },
       {
         "type": "talk",
@@ -2802,18 +2802,18 @@ export const SIDE_QUESTS = [
       },
       {
         "type": "station",
-        "target": "bb-final-possession-decision-under-pressure",
-        "text": "The clock winding down does not change what the right read is, only how hard it is to make calmly, so a decision hierarchy read in order beats a shot forced the moment the pressure shows up."
+        "target": "bb-transition-spacing-and-roles",
+        "text": "A fast break is five players with five jobs, so the lanes are filled wide, the roles are held, the extra pass beats the hero shot and the finish stops inside a clear run-off."
       },
       {
         "type": "station",
-        "target": "bb-layups-and-finishing-at-the-rim",
-        "text": "The easiest drill on the practice plan is also the most collision-prone, so gather, plant, drive and a soft-touch finish are built alongside a controlled approach that keeps the line under the rim from becoming a pile-up."
+        "target": "bb-timeout-huddle-and-adjustment",
+        "text": "A captain gets thirty seconds of a timeout while the team is losing, and one fact, one change and one encouragement, with water in hand and nobody blamed, is all that fits."
       },
       {
         "type": "station",
-        "target": "bb-dribble-moves-and-change-of-pace",
-        "text": "A crossover only beats a defender because of what happens around it, so a believable hesitation and a sharp, controlled change of pace are drilled live against a real defensive read."
+        "target": "bb-losing-well-and-film-review",
+        "text": "The morning after a loss is where a team learns what to do with one: each player owns a part, names one fix and thanks the teammate who covered for them, and nobody is put on trial."
       },
       {
         "type": "talk",
@@ -4840,6 +4840,95 @@ export const SIDE_QUESTS = [
     "reward": {
       "xp": 250,
       "badge": "Commercial Diving & Scientific Scuba — Capstone"
+    }
+  },
+  {
+    "id": "bw-side-teamwork-opener",
+    "title": "Teamwork — Talk Before You Move",
+    "giver": "the college's team captain",
+    "site": "Fruitvale Community College",
+    "kind": "side",
+    "tier": 1,
+    "requires": null,
+    "track": "teamwork",
+    "role": "opener",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Fruitvale Community College",
+        "text": "The captain meets you on the college gym floor, a ball under one arm, and says the first drill has no shooting in it at all."
+      },
+      {
+        "type": "station",
+        "target": "bb-pick-and-roll-communication",
+        "text": "Two defenders meet one screen, and whether they switch, stay or collide comes down to a word said early enough to be heard, answered, and only then acted on."
+      },
+      {
+        "type": "station",
+        "target": "bb-help-defense-rotations",
+        "text": "Everybody gets beaten sometimes, so the helper steps in and says so, the next teammate rotates to the helper's man and the beaten defender trusts it and recovers to whoever is left."
+      },
+      {
+        "type": "station",
+        "target": "bb-transition-spacing-and-roles",
+        "text": "A fast break is five players with five jobs, so the lanes are filled wide, the roles are held, the extra pass beats the hero shot and the finish stops inside a clear run-off."
+      },
+      {
+        "type": "talk",
+        "target": "team-captain",
+        "text": "\"Every one of those was about a word said early. That is the whole of teamwork, most days.\""
+      }
+    ],
+    "reward": {
+      "xp": 100,
+      "badge": "Teamwork — Opener"
+    }
+  },
+  {
+    "id": "bw-side-teamwork-capstone",
+    "title": "Teamwork — Steady the Crew",
+    "giver": "the college's workforce instructor",
+    "site": "Fruitvale Community College",
+    "kind": "side",
+    "tier": 2,
+    "requires": "bw-side-teamwork-opener",
+    "track": "teamwork",
+    "role": "capstone",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Fruitvale Community College",
+        "text": "Across the quad from the gym, the workforce instructor has a crew scenario waiting: the same habits, off the court and on the job."
+      },
+      {
+        "type": "station",
+        "target": "bb-timeout-huddle-and-adjustment",
+        "text": "A captain gets thirty seconds of a timeout while the team is losing, and one fact, one change and one encouragement, with water in hand and nobody blamed, is all that fits."
+      },
+      {
+        "type": "station",
+        "target": "ei-conflict-on-the-crew",
+        "text": "Two crew members clash beside live traffic, and the lead notices it, names it, slows it down behind the barrier and gets both of them to a fix they will actually work under."
+      },
+      {
+        "type": "station",
+        "target": "ei-giving-and-taking-feedback",
+        "text": "Feedback that names the behaviour rather than the person is only half the skill; the other half is hearing, in the same conversation, that your own instruction was the gap and taking it without defending."
+      },
+      {
+        "type": "station",
+        "target": "ei-leading-under-pressure",
+        "text": "When the schedule slips and the crew is tired, a lead keeps them steady with a calm voice, one clear next step and no safety step traded for time, then hands the credit to the crew by name."
+      },
+      {
+        "type": "talk",
+        "target": "workforce-instructor",
+        "text": "\"One fact, one change, one encouragement. It works in a huddle and it works beside a trench.\""
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": "Teamwork — Capstone"
     }
   }
 ];

@@ -495,7 +495,7 @@ export const PROGRAMME_COMPETENCIES = [
       "coalition-building-table", "budget-tradeoff-hearing", "ethics-and-conflict-of-interest", "crisis-communication-podium",
       "community-listening-session", "conflict-mediation-room", "mentorship-and-succession", "cv-open-meeting-law-and-agenda-notice",
       "cv-voter-registration-drive-and-nonpartisan-conduct", "cv-neighborhood-emergency-block-captain", "cv-restorative-justice-circle-facilitation", "cv-grant-application-and-nonprofit-compliance",
-      "cv-difficult-conversation-across-difference"
+      "cv-difficult-conversation-across-difference", "ei-conflict-on-the-crew", "ei-giving-and-taking-feedback", "ei-leading-under-pressure"
     ],
     require: 6,
   },
@@ -662,7 +662,8 @@ export const PROGRAMME_COMPETENCIES = [
       "bb-shooting-form-and-arc", "bb-free-throw-routine", "bb-defensive-stance-and-closeouts", "bb-rebounding-and-boxing-out",
       "bb-team-offense-spacing-and-screens", "bb-scrimmage-and-sportsmanship-debrief", "bb-reset-routine-after-a-miss", "bb-pre-game-routine-and-visualisation",
       "bb-composure-with-a-hostile-crowd-and-officials", "bb-teammate-conflict-and-accountability", "bb-coach-feedback-and-growth-mindset", "bb-final-possession-decision-under-pressure",
-      "bb-layups-and-finishing-at-the-rim", "bb-dribble-moves-and-change-of-pace"
+      "bb-layups-and-finishing-at-the-rim", "bb-dribble-moves-and-change-of-pace", "bb-pick-and-roll-communication", "bb-help-defense-rotations",
+      "bb-transition-spacing-and-roles", "bb-timeout-huddle-and-adjustment", "bb-losing-well-and-film-review"
     ],
     require: 6,
   },

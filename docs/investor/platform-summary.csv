@@ -1,6 +1,6 @@
 key,value,source
-procedures,633,WebXR/smartcity/catalog.json stations.length
-smartcityStations,624,WebXR/smartcity/catalog.json stations where app = smartcity
+procedures,641,WebXR/smartcity/catalog.json stations.length
+smartcityStations,632,WebXR/smartcity/catalog.json stations where app = smartcity
 tradeSkillsRooms,9,WebXR/smartcity/catalog.json stations where app = trades
 programmes,54,WebXR/smartcity/js/curricula.js CURRICULA.length
 categories,20,WebXR/smartcity/catalog.json categories.length
@@ -14,9 +14,9 @@ profileLevels,33,WebXR/smartcity/catalog.json profile.levels
 programmeLadderLevels,1080,WebXR/smartcity/catalog.json sum of curricula[].ladder.levels
 programmeLadderLevelsFull,1079,WebXR/smartcity/catalog.json sum of curricula[].ladder.atBar
 checkers,61,tools/check_all.mjs CHECKERS array
-evalProceduresScored,633,tools/eval-content.json results.length
+evalProceduresScored,641,tools/eval-content.json results.length
 evalCorpusMean,95.8,tools/eval-content.json mean of results[].score
-evalBand95plus,513,tools/eval-content.json results with score >= 95
+evalBand95plus,521,tools/eval-content.json results with score >= 95
 evalBand90to94,115,tools/eval-content.json results with score 90-94
 evalBandBelow90,5,tools/eval-content.json results with score < 90
 bayWorldZones,16,WebXR/shared/bayworld-data.js BAY_ZONES.length
@@ -24,7 +24,7 @@ bayWorldSites,50,WebXR/shared/bayworld-data.js BAY_SITES.length
 bayWorldLandmarks,28,WebXR/shared/bayworld-data.js BAY_LANDMARKS.length
 bayWorldRoads,15,WebXR/shared/bayworld-data.js BAY_ROADS.length
 bayWorldMainQuests,7,WebXR/bayworld/js/quests-data.js MAIN_QUESTS.length
-bayWorldSideQuests,106,WebXR/bayworld/js/quests-data.js SIDE_QUESTS.length
+bayWorldSideQuests,108,WebXR/bayworld/js/quests-data.js SIDE_QUESTS.length
 bayWorldEggQuests,26,WebXR/bayworld/js/quests-data.js EGG_QUESTS.length
 bayWorldFieldGuideEggs,8,WebXR/bayworld/js/quests-data.js FIELD_GUIDE_EGGS.length
 bayWorldActivities,6,WebXR/bayworld/js/quests-data.js SIDE_ACTIVITIES.length
