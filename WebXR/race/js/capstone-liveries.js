@@ -230,5 +230,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "grounds-and-landscaping",
     "name": "Grounds & Landscaping Crew",
     "accent": "#3f9c5a"
+  },
+  {
+    "programme": "grocery-and-meatpacking",
+    "name": "Grocery and Meatpacking — UFCW Store and Plant Floor",
+    "accent": "#d8232a"
   }
 ];

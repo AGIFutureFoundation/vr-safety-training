@@ -798,6 +798,58 @@
     },
     {
       "app": "smartcity",
+      "id": "slicer-lockout",
+      "name": "Slicer Lockout",
+      "category": "Culinary & Hospitality",
+      "steps": 14,
+      "score": 91,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 258,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 0.7142857142857143,
+          "cited": 7,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 2
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9290909090909091,
+          "meshes": 158,
+          "materials": 84,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "gr-deli-slicer-sanitation-and-allergen-line",
+          "similarity": 0.4970178926441352
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "vapor-mitigation",
       "name": "Vapor Mitigation",
       "category": "Building Systems & Facilities",
@@ -1053,6 +1105,162 @@
           "score": 0.6040114613180516,
           "nearest": "mw-ferry-deckhand-and-passenger-safety",
           "similarity": 0.2191977077363897
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gr-night-stocking-baler-and-compactor-lockout",
+      "name": "Night Stocking Baler & Compactor Lockout",
+      "category": "Culinary & Hospitality",
+      "steps": 15,
+      "score": 92,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.915,
+          "medianWhy": 233,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.92,
+          "meshes": 148,
+          "materials": 75,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "gr-meat-dept-band-saw-and-grinder-lockout",
+          "similarity": 0.3471502590673575
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gr-produce-receiving-cold-chain-and-pallet-jack",
+      "name": "Produce Receiving, Cold Chain & Pallet Jack",
+      "category": "Culinary & Hospitality",
+      "steps": 14,
+      "score": 92,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.895,
+          "medianWhy": 229,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9275,
+          "meshes": 151,
+          "materials": 90,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "receiving-dock-food",
+          "similarity": 0.45866141732283466
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gr-deli-slicer-sanitation-and-allergen-line",
+      "name": "Deli Slicer Sanitation & Allergen Line",
+      "category": "Culinary & Hospitality",
+      "steps": 14,
+      "score": 92,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.915,
+          "medianWhy": 233,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 1,
+          "cited": 10,
+          "inScope": 10,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.8865909090909091,
+          "meshes": 141,
+          "materials": 84,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "slicer-lockout",
+          "similarity": 0.4970178926441352
         }
       }
     },
@@ -1674,9 +1882,9 @@
           "interactables": 22
         },
         "originality": {
-          "score": 0.6826498422712934,
-          "nearest": "gg-tower-climb-and-tie-off",
-          "similarity": 0.20347003154574134
+          "score": 0.6768683274021353,
+          "nearest": "av-hangar-jacking-and-stands",
+          "similarity": 0.20462633451957296
         }
       }
     },
@@ -1885,6 +2093,162 @@
           "score": 0.5243831640058056,
           "nearest": "ammonia-plant",
           "similarity": 0.2351233671988389
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "bus-depot-lift",
+      "name": "Bus Depot Lift",
+      "category": "Mobility & Transit",
+      "steps": 10,
+      "score": 93,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 261,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 0.8,
+          "cited": 5,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 1
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.7654545454545454,
+          "meshes": 118,
+          "materials": 59,
+          "interactables": 17
+        },
+        "originality": {
+          "score": 0.5214285714285716,
+          "nearest": "av-hangar-jacking-and-stands",
+          "similarity": 0.2357142857142857
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cooling-tower",
+      "name": "Cooling Tower",
+      "category": "Building Systems & Facilities",
+      "steps": 11,
+      "score": 93,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 365,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 0.5625,
+          "cited": 8,
+          "inScope": 5,
+          "outOfScope": 1,
+          "unregistered": 2
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 184,
+          "materials": 100,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.7091463414634147,
+          "nearest": "av-lavatory-and-potable-water-separation",
+          "similarity": 0.19817073170731708
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gr-meatpacking-line-knife-work-and-ppe-rotation",
+      "name": "Meatpacking Line Knife Work & PPE Rotation",
+      "category": "Culinary & Hospitality",
+      "steps": 14,
+      "score": 93,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.8500000000000001,
+          "medianWhy": 220,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.831590909090909,
+          "meshes": 119,
+          "materials": 70,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.5153310104529618,
+          "nearest": "gr-deli-slicer-sanitation-and-allergen-line",
+          "similarity": 0.23693379790940766
         }
       }
     },
@@ -2670,16 +3034,16 @@
     },
     {
       "app": "smartcity",
-      "id": "slicer-lockout",
-      "name": "Slicer Lockout",
+      "id": "receiving-dock-food",
+      "name": "Receiving Dock Food",
       "category": "Culinary & Hospitality",
       "steps": 14,
       "score": 93,
       "d": {
         "variety": {
           "score": 1,
-          "distinct": 6,
-          "longestRun": 2
+          "distinct": 8,
+          "longestRun": 1
         },
         "decisions": {
           "score": 0.95,
@@ -2687,36 +3051,36 @@
           "interrupts": 2
         },
         "explanation": {
-          "score": 1,
-          "medianWhy": 258,
+          "score": 0.895,
+          "medianWhy": 229,
           "thin": 0
         },
         "grounding": {
           "score": 1,
-          "authorities": 8
+          "authorities": 7
         },
         "standards": {
-          "score": 0.7142857142857143,
+          "score": 1,
           "cited": 7,
-          "inScope": 5,
+          "inScope": 7,
           "outOfScope": 0,
-          "unregistered": 2
+          "unregistered": 0
         },
         "feedback": {
           "score": 1,
-          "want": 12,
-          "got": 12
+          "want": 13,
+          "got": 13
         },
         "scene": {
-          "score": 0.9290909090909091,
+          "score": 0.945,
           "meshes": 158,
-          "materials": 84,
-          "interactables": 21
+          "materials": 86,
+          "interactables": 22
         },
         "originality": {
-          "score": 0.4831513260530422,
-          "nearest": "knife-skills",
-          "similarity": 0.24336973478939158
+          "score": 0,
+          "nearest": "gr-produce-receiving-cold-chain-and-pallet-jack",
+          "similarity": 0.45866141732283466
         }
       }
     },
@@ -2974,9 +3338,113 @@
           "interactables": 22
         },
         "originality": {
-          "score": 0.536424957841484,
-          "nearest": "op-loader-truck-loading-and-blind-spots",
-          "similarity": 0.2327150084317032
+          "score": 0.48151260504201693,
+          "nearest": "ed-bus-pretrip-and-loading-zone",
+          "similarity": 0.24369747899159663
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gk-hardscape-paver-base-and-compaction",
+      "name": "Hardscape Paver Base & Compaction",
+      "category": "Grounds & Landscaping",
+      "steps": 14,
+      "score": 93,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 256,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.8200000000000001,
+          "meshes": 108,
+          "materials": 61,
+          "interactables": 28
+        },
+        "originality": {
+          "score": 0.10241796200345432,
+          "nearest": "gk-bunker-renovation-and-drainage",
+          "similarity": 0.31951640759930916
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gk-bunker-renovation-and-drainage",
+      "name": "Bunker Renovation & Drainage",
+      "category": "Grounds & Landscaping",
+      "steps": 14,
+      "score": 93,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 258,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.7925,
+          "meshes": 97,
+          "materials": 56,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.10241796200345432,
+          "nearest": "gk-hardscape-paver-base-and-compaction",
+          "similarity": 0.31951640759930916
         }
       }
     },
@@ -3190,58 +3658,6 @@
     },
     {
       "app": "smartcity",
-      "id": "bus-depot-lift",
-      "name": "Bus Depot Lift",
-      "category": "Mobility & Transit",
-      "steps": 10,
-      "score": 94,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 7,
-          "longestRun": 1
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 261,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 5
-        },
-        "standards": {
-          "score": 0.8,
-          "cited": 5,
-          "inScope": 4,
-          "outOfScope": 0,
-          "unregistered": 1
-        },
-        "feedback": {
-          "score": 1,
-          "want": 10,
-          "got": 10
-        },
-        "scene": {
-          "score": 0.7654545454545454,
-          "meshes": 118,
-          "materials": 59,
-          "interactables": 17
-        },
-        "originality": {
-          "score": 0.6708561020036431,
-          "nearest": "ra-hand-brake-and-securement-on-a-grade",
-          "similarity": 0.2058287795992714
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "aerial-ladder",
       "name": "Aerial Ladder",
       "category": "Emergency Services",
@@ -3341,6 +3757,214 @@
           "score": 0.5382352941176471,
           "nearest": "keg-cellar-co2",
           "similarity": 0.2323529411764706
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gr-pharmacy-floral-chemical-handling-and-sds",
+      "name": "Pharmacy & Floral Chemical Handling and SDS",
+      "category": "Culinary & Hospitality",
+      "steps": 14,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.905,
+          "medianWhy": 231,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9125,
+          "meshes": 145,
+          "materials": 78,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.3991869918699187,
+          "nearest": "gk-greenhouse-nursery-chemical-storage-and-eyewash",
+          "similarity": 0.2601626016260163
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gr-ammonia-leak-alarm-response-cold-plant",
+      "name": "Ammonia Leak Alarm Response, Cold Plant",
+      "category": "Culinary & Hospitality",
+      "steps": 13,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.8500000000000001,
+          "medianWhy": 220,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.8456818181818182,
+          "meshes": 131,
+          "materials": 65,
+          "interactables": 20
+        },
+        "originality": {
+          "score": 0.6246323529411765,
+          "nearest": "ra-blue-flag-protection-in-the-yard",
+          "similarity": 0.21507352941176472
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gr-checkstand-ergonomics-and-robbery-prevention",
+      "name": "Checkstand Ergonomics & Robbery Prevention",
+      "category": "Culinary & Hospitality",
+      "steps": 14,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.845,
+          "medianWhy": 219,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.89,
+          "meshes": 136,
+          "materials": 67,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.526955074875208,
+          "nearest": "gr-meatpacking-line-knife-work-and-ppe-rotation",
+          "similarity": 0.23460898502495842
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gr-meat-dept-band-saw-and-grinder-lockout",
+      "name": "Meat Dept Band Saw & Grinder Lockout",
+      "category": "Culinary & Hospitality",
+      "steps": 15,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 252,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.965,
+          "meshes": 166,
+          "materials": 95,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "gr-deli-slicer-sanitation-and-allergen-line",
+          "similarity": 0.40555555555555556
         }
       }
     },
@@ -4126,58 +4750,6 @@
     },
     {
       "app": "smartcity",
-      "id": "receiving-dock-food",
-      "name": "Receiving Dock Food",
-      "category": "Culinary & Hospitality",
-      "steps": 14,
-      "score": 94,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 1
-        },
-        "decisions": {
-          "score": 0.95,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.895,
-          "medianWhy": 229,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 7
-        },
-        "standards": {
-          "score": 1,
-          "cited": 7,
-          "inScope": 7,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 13,
-          "got": 13
-        },
-        "scene": {
-          "score": 0.945,
-          "meshes": 158,
-          "materials": 86,
-          "interactables": 22
-        },
-        "originality": {
-          "score": 0.34392678868552434,
-          "nearest": "walk-in-cooler",
-          "similarity": 0.27121464226289516
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "dish-pit",
       "name": "Dish Pit",
       "category": "Culinary & Hospitality",
@@ -4690,9 +5262,9 @@
           "interactables": 20
         },
         "originality": {
-          "score": 0.6010067114093961,
-          "nearest": "po-yard-hostler-and-pedestrian-separation",
-          "similarity": 0.2197986577181208
+          "score": 0.571252204585538,
+          "nearest": "tw-dock-leveler-and-trailer-restraint-check",
+          "similarity": 0.2257495590828924
         }
       }
     },
@@ -4802,6 +5374,266 @@
     },
     {
       "app": "smartcity",
+      "id": "gk-storm-cleanup-chipper-and-traffic-control",
+      "name": "Storm Cleanup: Chipper & Traffic Control",
+      "category": "Grounds & Landscaping",
+      "steps": 13,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9950000000000001,
+          "medianWhy": 249,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.8,
+          "meshes": 100,
+          "materials": 54,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.23309481216457983,
+          "nearest": "gk-chainsaw-start-and-limbing-on-the-ground",
+          "similarity": 0.29338103756708406
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gk-chainsaw-start-and-limbing-on-the-ground",
+      "name": "Chainsaw Start & Limbing on the Ground",
+      "category": "Grounds & Landscaping",
+      "steps": 14,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 255,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.8374999999999999,
+          "meshes": 115,
+          "materials": 66,
+          "interactables": 31
+        },
+        "originality": {
+          "score": 0.1684684684684687,
+          "nearest": "gk-tree-work-pole-saw-and-drop-zone",
+          "similarity": 0.3063063063063063
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gk-tree-work-pole-saw-and-drop-zone",
+      "name": "Tree Work: Pole Saw & Drop Zone",
+      "category": "Grounds & Landscaping",
+      "steps": 14,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 257,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.8675,
+          "meshes": 127,
+          "materials": 68,
+          "interactables": 30
+        },
+        "originality": {
+          "score": 0.1684684684684687,
+          "nearest": "gk-chainsaw-start-and-limbing-on-the-ground",
+          "similarity": 0.3063063063063063
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gk-pesticide-and-fertilizer-application-per-the-label",
+      "name": "Pesticide & Fertilizer Application",
+      "category": "Grounds & Landscaping",
+      "steps": 15,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 252,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.8374999999999999,
+          "meshes": 115,
+          "materials": 66,
+          "interactables": 31
+        },
+        "originality": {
+          "score": 0.41835443037974707,
+          "nearest": "gk-sports-field-line-marking-and-goal-anchoring",
+          "similarity": 0.2563291139240506
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gk-ride-on-mower-pre-start-and-slope-work",
+      "name": "Ride-On Mower Pre-Start & Slope Work",
+      "category": "Grounds & Landscaping",
+      "steps": 16,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9375,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 288,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.895,
+          "meshes": 138,
+          "materials": 80,
+          "interactables": 34
+        },
+        "originality": {
+          "score": 0.13344155844155853,
+          "nearest": "op-dozer-slope-work-and-rollover-protection",
+          "similarity": 0.3133116883116883
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "track-access",
       "name": "Track Access",
       "category": "Mobility & Transit",
@@ -4898,9 +5730,9 @@
           "interactables": 20
         },
         "originality": {
-          "score": 0.5780120481927712,
-          "nearest": "elevator-pit",
-          "similarity": 0.22439759036144577
+          "score": 0.5003220611916265,
+          "nearest": "tw-palletizer-cell-fenced-access-permit",
+          "similarity": 0.23993558776167473
         }
       }
     },
@@ -6198,9 +7030,9 @@
           "interactables": 23
         },
         "originality": {
-          "score": 0.5857938718662954,
-          "nearest": "uw-intake-screen-cleaning-with-lockout",
-          "similarity": 0.22284122562674094
+          "score": 0.5679245283018869,
+          "nearest": "ed-boiler-room-filter-change-lockout",
+          "similarity": 0.22641509433962265
         }
       }
     },
@@ -6505,7 +7337,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 265,
+          "meshes": 270,
           "materials": 83,
           "interactables": 28
         },
@@ -6562,9 +7394,9 @@
           "interactables": 25
         },
         "originality": {
-          "score": 0.5297872340425532,
-          "nearest": "pump-and-treat",
-          "similarity": 0.23404255319148937
+          "score": 0.5282504012841092,
+          "nearest": "av-lavatory-and-potable-water-separation",
+          "similarity": 0.23434991974317818
         }
       }
     },
@@ -8910,6 +9742,682 @@
     },
     {
       "app": "smartcity",
+      "id": "av-lavatory-and-potable-water-separation",
+      "name": "Lavatory & Potable Water Separation",
+      "category": "Mobility & Transit",
+      "steps": 15,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 295,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9400000000000001,
+          "meshes": 156,
+          "materials": 93,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.3254295532646048,
+          "nearest": "av-baggage-belt-loader-and-hold-loading",
+          "similarity": 0.27491408934707906
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "av-hangar-jacking-and-stands",
+      "name": "Hangar Jacking & Stands",
+      "category": "Mobility & Transit",
+      "steps": 15,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 270,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 183,
+          "materials": 86,
+          "interactables": 28
+        },
+        "originality": {
+          "score": 0.27394366197183107,
+          "nearest": "av-baggage-belt-loader-and-hold-loading",
+          "similarity": 0.2852112676056338
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "av-ground-power-and-static-bonding-before-fuel",
+      "name": "Ground Power & Static Bonding Before Fuel",
+      "category": "Mobility & Transit",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9550000000000001,
+          "medianWhy": 241,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 199,
+          "materials": 104,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.29519408502772654,
+          "nearest": "av-baggage-belt-loader-and-hold-loading",
+          "similarity": 0.2809611829944547
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "av-pushback-tug-and-towbar-connection",
+      "name": "Pushback Tug & Towbar Connection",
+      "category": "Mobility & Transit",
+      "steps": 15,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 258,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.955,
+          "meshes": 162,
+          "materials": 87,
+          "interactables": 30
+        },
+        "originality": {
+          "score": 0.27014388489208646,
+          "nearest": "av-marshalling-and-wingwalker-signals",
+          "similarity": 0.28597122302158273
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "av-marshalling-and-wingwalker-signals",
+      "name": "Marshalling & Wing-Walker Signals",
+      "category": "Mobility & Transit",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 268,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 189,
+          "materials": 100,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.12857142857142873,
+          "nearest": "airport-ramp",
+          "similarity": 0.3142857142857143
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "tw-pick-to-light-ergonomics-and-rotation",
+      "name": "Pick-to-Light Ergonomics & Rotation",
+      "category": "Manufacturing & Automation",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9000000000000001,
+          "medianWhy": 230,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.9149999999999999,
+          "meshes": 146,
+          "materials": 68,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.4297297297297298,
+          "nearest": "tw-high-bay-order-picker-fall-protection",
+          "similarity": 0.25405405405405407
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "tw-palletizer-cell-fenced-access-permit",
+      "name": "Palletizer Cell Fenced-Access Permit",
+      "category": "Manufacturing & Automation",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 275,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9525,
+          "meshes": 161,
+          "materials": 72,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.11397849462365606,
+          "nearest": "tw-conveyor-jam-clearing-and-loto",
+          "similarity": 0.3172043010752688
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "tw-high-bay-order-picker-fall-protection",
+      "name": "High-Bay Order Picker Fall Protection",
+      "category": "Manufacturing & Automation",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.915,
+          "medianWhy": 233,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9481818181818182,
+          "meshes": 172,
+          "materials": 74,
+          "interactables": 20
+        },
+        "originality": {
+          "score": 0.4297297297297298,
+          "nearest": "tw-pick-to-light-ergonomics-and-rotation",
+          "similarity": 0.25405405405405407
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ed-science-lab-chemical-storage-and-eyewash",
+      "name": "Science Lab Chemical Storage & Eyewash Check",
+      "category": "Building Systems & Facilities",
+      "steps": 12,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 252,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.8575,
+          "meshes": 123,
+          "materials": 73,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.39672131147541007,
+          "nearest": "gk-greenhouse-nursery-chemical-storage-and-eyewash",
+          "similarity": 0.260655737704918
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gk-greenhouse-nursery-chemical-storage-and-eyewash",
+      "name": "Greenhouse & Nursery Chemical Storage and Eyewash",
+      "category": "Grounds & Landscaping",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 261,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.7925,
+          "meshes": 97,
+          "materials": 57,
+          "interactables": 28
+        },
+        "originality": {
+          "score": 0.39672131147541007,
+          "nearest": "ed-science-lab-chemical-storage-and-eyewash",
+          "similarity": 0.260655737704918
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gk-sports-field-line-marking-and-goal-anchoring",
+      "name": "Sports-Field Line Marking & Goal Anchoring",
+      "category": "Grounds & Landscaping",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 262,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.81,
+          "meshes": 104,
+          "materials": 58,
+          "interactables": 28
+        },
+        "originality": {
+          "score": 0.41835443037974707,
+          "nearest": "gk-pesticide-and-fertilizer-application-per-the-label",
+          "similarity": 0.2563291139240506
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gk-greens-mowing-and-hole-changing",
+      "name": "Greens Mowing & Hole Changing",
+      "category": "Grounds & Landscaping",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 254,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.825,
+          "meshes": 110,
+          "materials": 66,
+          "interactables": 28
+        },
+        "originality": {
+          "score": 0.44804381846635377,
+          "nearest": "gk-ride-on-mower-pre-start-and-slope-work",
+          "similarity": 0.25039123630672927
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gk-string-trimmer-and-blower-ppe-and-bystander-zone",
+      "name": "Trimmer & Blower PPE and Bystander Zone",
+      "category": "Grounds & Landscaping",
+      "steps": 15,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9666666666666667,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 280,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9249999999999999,
+          "meshes": 150,
+          "materials": 81,
+          "interactables": 36
+        },
+        "originality": {
+          "score": 0.17656250000000012,
+          "nearest": "gk-ride-on-mower-pre-start-and-slope-work",
+          "similarity": 0.3046875
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "decon-line",
       "name": "Decon Line",
       "category": "Emergency Services",
@@ -9014,6 +10522,58 @@
     },
     {
       "app": "smartcity",
+      "id": "conveyor-guard",
+      "name": "Conveyor Guard",
+      "category": "Manufacturing & Automation",
+      "steps": 11,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 349,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 8,
+          "got": 8
+        },
+        "scene": {
+          "score": 0.8420454545454545,
+          "meshes": 155,
+          "materials": 79,
+          "interactables": 16
+        },
+        "originality": {
+          "score": 0.4817258883248732,
+          "nearest": "gr-night-stocking-baler-and-compactor-lockout",
+          "similarity": 0.2436548223350254
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "scaffold-erection",
       "name": "Scaffold Erection",
       "category": "Construction & Structural Trades",
@@ -9061,6 +10621,58 @@
           "score": 0.47037037037037044,
           "nearest": "formwork-shoring",
           "similarity": 0.24592592592592594
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "airport-ramp",
+      "name": "Airport Ramp",
+      "category": "Mobility & Transit",
+      "steps": 11,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 372,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9974999999999999,
+          "meshes": 179,
+          "materials": 70,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.12857142857142873,
+          "nearest": "av-marshalling-and-wingwalker-signals",
+          "similarity": 0.3142857142857143
         }
       }
     },
@@ -11757,7 +13369,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 258,
+          "meshes": 254,
           "materials": 92,
           "interactables": 29
         },
@@ -14414,9 +16026,9 @@
           "interactables": 24
         },
         "originality": {
-          "score": 0.6269051321928462,
-          "nearest": "br-bird-nesting-buffer-and-work-window",
-          "similarity": 0.21461897356143078
+          "score": 0.5013698630136988,
+          "nearest": "ed-paraeducator-safe-lift-and-transfer",
+          "similarity": 0.23972602739726026
         }
       }
     },
@@ -14785,6 +16397,526 @@
       }
     },
     {
+      "app": "smartcity",
+      "id": "av-deicing-truck-boom-operations",
+      "name": "De-icing Truck Boom Operations",
+      "category": "Mobility & Transit",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 250,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.945,
+          "meshes": 158,
+          "materials": 86,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.298901098901099,
+          "nearest": "av-baggage-belt-loader-and-hold-loading",
+          "similarity": 0.2802197802197802
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "av-baggage-belt-loader-and-hold-loading",
+      "name": "Baggage Belt-Loader & Hold Loading",
+      "category": "Mobility & Transit",
+      "steps": 15,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.9666666666666667,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 255,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9675,
+          "meshes": 167,
+          "materials": 93,
+          "interactables": 28
+        },
+        "originality": {
+          "score": 0.27394366197183107,
+          "nearest": "av-hangar-jacking-and-stands",
+          "similarity": 0.2852112676056338
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "tw-battery-change-and-charging-bay-safety",
+      "name": "Battery Change & Charging Bay Safety",
+      "category": "Manufacturing & Automation",
+      "steps": 16,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.8875,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9850000000000001,
+          "medianWhy": 247,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 226,
+          "materials": 78,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.5095238095238097,
+          "nearest": "tw-palletizer-cell-fenced-access-permit",
+          "similarity": 0.23809523809523808
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "tw-dock-leveler-and-trailer-restraint-check",
+      "name": "Dock Leveler & Trailer Restraint Check",
+      "category": "Manufacturing & Automation",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.925,
+          "medianWhy": 235,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.985,
+          "meshes": 174,
+          "materials": 83,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.3569872958257714,
+          "nearest": "tw-palletizer-cell-fenced-access-permit",
+          "similarity": 0.26860254083484575
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "tw-conveyor-jam-clearing-and-loto",
+      "name": "Conveyor Jam Clearing & LOTO",
+      "category": "Manufacturing & Automation",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 269,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.975,
+          "meshes": 170,
+          "materials": 71,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.11397849462365606,
+          "nearest": "tw-palletizer-cell-fenced-access-permit",
+          "similarity": 0.3172043010752688
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "tw-amr-traffic-zone-entry-and-lockout",
+      "name": "AMR Traffic-Zone Entry & Lockout",
+      "category": "Manufacturing & Automation",
+      "steps": 12,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 269,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.961590909090909,
+          "meshes": 171,
+          "materials": 78,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.20970017636684324,
+          "nearest": "tw-palletizer-cell-fenced-access-permit",
+          "similarity": 0.2980599647266314
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ed-boiler-room-filter-change-lockout",
+      "name": "Boiler Room & HVAC Filter Change with Lockout",
+      "category": "Building Systems & Facilities",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 252,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.835,
+          "meshes": 114,
+          "materials": 65,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.5002980625931447,
+          "nearest": "pl-water-heater-and-tpr-valve-replacement",
+          "similarity": 0.2399403874813711
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ed-paraeducator-safe-lift-and-transfer",
+      "name": "Paraeducator Safe Lift & Transfer",
+      "category": "Building Systems & Facilities",
+      "steps": 12,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 261,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.8390909090909092,
+          "meshes": 122,
+          "materials": 63,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.5013698630136988,
+          "nearest": "hc-patient-transport-and-safe-handling",
+          "similarity": 0.23972602739726026
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ed-custodial-chemical-dilution-and-floor-machine",
+      "name": "Custodial Chemical Dilution & Floor Machine",
+      "category": "Building Systems & Facilities",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 323,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.9049999999999999,
+          "meshes": 142,
+          "materials": 98,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.47259036144578326,
+          "nearest": "gr-pharmacy-floral-chemical-handling-and-sds",
+          "similarity": 0.24548192771084337
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gk-irrigation-controller-valve-box-and-backflow-check",
+      "name": "Irrigation Controller, Valve Box & Backflow Check",
+      "category": "Grounds & Landscaping",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.99,
+          "medianWhy": 248,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.8825,
+          "meshes": 133,
+          "materials": 61,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.5053797468354432,
+          "nearest": "gk-bunker-renovation-and-drainage",
+          "similarity": 0.2389240506329114
+        }
+      }
+    },
+    {
       "app": "trades",
       "id": "paint-sprayer",
       "name": "Coatings Bay",
@@ -15098,58 +17230,6 @@
     },
     {
       "app": "smartcity",
-      "id": "conveyor-guard",
-      "name": "Conveyor Guard",
-      "category": "Manufacturing & Automation",
-      "steps": 11,
-      "score": 97,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 6,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 349,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 5
-        },
-        "standards": {
-          "score": 1,
-          "cited": 5,
-          "inScope": 5,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 8,
-          "got": 8
-        },
-        "scene": {
-          "score": 0.8420454545454545,
-          "meshes": 155,
-          "materials": 79,
-          "interactables": 16
-        },
-        "originality": {
-          "score": 0.5525835866261399,
-          "nearest": "hw-flatwork-ironer-and-folder-guarding",
-          "similarity": 0.22948328267477203
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "substation-switching",
       "name": "Substation Switching",
       "category": "Energy & Power",
@@ -15353,58 +17433,6 @@
           "score": 0.5163558106169298,
           "nearest": "valve-vault",
           "similarity": 0.23672883787661406
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "cooling-tower",
-      "name": "Cooling Tower",
-      "category": "Building Systems & Facilities",
-      "steps": 11,
-      "score": 97,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 7,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 365,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 6
-        },
-        "standards": {
-          "score": 0.8333333333333334,
-          "cited": 6,
-          "inScope": 5,
-          "outOfScope": 0,
-          "unregistered": 1
-        },
-        "feedback": {
-          "score": 1,
-          "want": 11,
-          "got": 11
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 184,
-          "materials": 100,
-          "interactables": 23
-        },
-        "originality": {
-          "score": 0.7517241379310347,
-          "nearest": "sterilisation-technician-cycle",
-          "similarity": 0.1896551724137931
         }
       }
     },
@@ -17950,9 +19978,9 @@
           "interactables": 21
         },
         "originality": {
-          "score": 0.5720538720538721,
-          "nearest": "ice-well-breakage",
-          "similarity": 0.2255892255892256
+          "score": 0.536424957841484,
+          "nearest": "gr-pharmacy-floral-chemical-handling-and-sds",
+          "similarity": 0.2327150084317032
         }
       }
     },
@@ -21545,6 +23573,214 @@
       }
     },
     {
+      "app": "smartcity",
+      "id": "av-borescope-and-tool-control-inventory",
+      "name": "Borescope & Tool-Control Inventory",
+      "category": "Mobility & Transit",
+      "steps": 15,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9666666666666667,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 251,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.945,
+          "meshes": 158,
+          "materials": 86,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.45213675213675225,
+          "nearest": "tw-palletizer-cell-fenced-access-permit",
+          "similarity": 0.24957264957264957
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "tw-cold-storage-ppe-and-rotation",
+      "name": "Cold-Storage PPE & Rotation",
+      "category": "Manufacturing & Automation",
+      "steps": 12,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 274,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 8,
+          "got": 8
+        },
+        "scene": {
+          "score": 0.9163636363636365,
+          "meshes": 172,
+          "materials": 76,
+          "interactables": 18
+        },
+        "originality": {
+          "score": 0.4313432835820896,
+          "nearest": "tw-palletizer-cell-fenced-access-permit",
+          "similarity": 0.2537313432835821
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ed-kitchen-receiving-and-warewash-sanitizing",
+      "name": "Kitchen Receiving & Warewash Sanitizing",
+      "category": "Culinary & Hospitality",
+      "steps": 12,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 251,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.845,
+          "meshes": 118,
+          "materials": 66,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.6000000000000001,
+          "nearest": "gr-produce-receiving-cold-chain-and-pallet-jack",
+          "similarity": 0.22
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ed-bus-pretrip-and-loading-zone",
+      "name": "Bus Pre-Trip & Loading Zone",
+      "category": "Mobility & Transit",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 289,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9774999999999999,
+          "meshes": 171,
+          "materials": 89,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.45886524822695046,
+          "nearest": "ed-crossing-guard-intersection-control",
+          "similarity": 0.24822695035460993
+        }
+      }
+    },
+    {
       "app": "trades",
       "id": "electrical",
       "name": "Isolation Bay",
@@ -22162,9 +24398,9 @@
           "interactables": 28
         },
         "originality": {
-          "score": 0.5930348258706469,
-          "nearest": "dish-pit",
-          "similarity": 0.22139303482587064
+          "score": 0.4941919191919193,
+          "nearest": "ed-custodial-chemical-dilution-and-floor-machine",
+          "similarity": 0.24116161616161616
         }
       }
     },
@@ -26797,6 +29033,110 @@
       }
     },
     {
+      "app": "smartcity",
+      "id": "ed-crossing-guard-intersection-control",
+      "name": "Crossing Guard Intersection Control",
+      "category": "Mobility & Transit",
+      "steps": 12,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 267,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 191,
+          "materials": 87,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.45886524822695046,
+          "nearest": "ed-bus-pretrip-and-loading-zone",
+          "similarity": 0.24822695035460993
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ed-playground-equipment-inspection",
+      "name": "Playground Equipment Inspection",
+      "category": "Building Systems & Facilities",
+      "steps": 13,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 261,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.995,
+          "meshes": 178,
+          "materials": 80,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.5425302826379543,
+          "nearest": "gl-skylight-glass-replacement-and-fall-protection",
+          "similarity": 0.23149394347240915
+        }
+      }
+    },
+    {
       "app": "trades",
       "id": "kitchen",
       "name": "Hot Line",
@@ -27006,58 +29346,6 @@
     },
     {
       "app": "smartcity",
-      "id": "airport-ramp",
-      "name": "Airport Ramp",
-      "category": "Mobility & Transit",
-      "steps": 11,
-      "score": 99,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 6,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 372,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 6
-        },
-        "standards": {
-          "score": 1,
-          "cited": 4,
-          "inScope": 4,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 12,
-          "got": 12
-        },
-        "scene": {
-          "score": 0.9974999999999999,
-          "meshes": 179,
-          "materials": 70,
-          "interactables": 24
-        },
-        "originality": {
-          "score": 0.7672782874617737,
-          "nearest": "gg-deck-lane-closure-and-traveller",
-          "similarity": 0.18654434250764526
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "pm-playground-and-courtyard",
       "name": "Playground & Courtyard",
       "category": "Building Systems & Facilities",
@@ -27154,9 +29442,9 @@
           "interactables": 24
         },
         "originality": {
-          "score": 0.769611780455154,
-          "nearest": "or-wildland-fireline-construction-and-lookout",
-          "similarity": 0.18607764390896922
+          "score": 0.6689265536723166,
+          "nearest": "gk-irrigation-controller-valve-box-and-backflow-check",
+          "similarity": 0.2062146892655367
         }
       }
     },

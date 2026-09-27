@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 552
+      "stations": 560
     },
     "trades": {
       "entry": "trades/index.html",
@@ -464,31 +464,16 @@
       ]
     },
     {
-      "name": "Youth Sports & Coaching",
-      "stations": [
-        "bb-dribble-moves-and-change-of-pace",
-        "bb-layups-and-finishing-at-the-rim",
-        "bb-final-possession-decision-under-pressure",
-        "bb-coach-feedback-and-growth-mindset",
-        "bb-teammate-conflict-and-accountability",
-        "bb-composure-with-a-hostile-crowd-and-officials",
-        "bb-scrimmage-and-sportsmanship-debrief",
-        "bb-team-offense-spacing-and-screens",
-        "bb-rebounding-and-boxing-out",
-        "bb-defensive-stance-and-closeouts",
-        "bb-free-throw-routine",
-        "bb-shooting-form-and-arc",
-        "bb-passing-and-catching",
-        "bb-footwork-pivots-and-jump-stops",
-        "bb-stance-and-ball-handling",
-        "bb-warmup-injury-prevention-and-hydration",
-        "bb-pre-game-routine-and-visualisation",
-        "bb-reset-routine-after-a-miss"
-      ]
-    },
-    {
       "name": "Culinary & Hospitality",
       "stations": [
+        "gr-pharmacy-floral-chemical-handling-and-sds",
+        "gr-ammonia-leak-alarm-response-cold-plant",
+        "gr-meatpacking-line-knife-work-and-ppe-rotation",
+        "gr-checkstand-ergonomics-and-robbery-prevention",
+        "gr-night-stocking-baler-and-compactor-lockout",
+        "gr-produce-receiving-cold-chain-and-pallet-jack",
+        "gr-deli-slicer-sanitation-and-allergen-line",
+        "gr-meat-dept-band-saw-and-grinder-lockout",
         "hw-flatwork-ironer-and-folder-guarding",
         "hw-banquet-room-flip-and-staging",
         "hw-housekeeping-cart-and-chemical-safety",
@@ -526,6 +511,29 @@
         "cafeteria-serving",
         "banquet-hot-hold",
         "ed-kitchen-receiving-and-warewash-sanitizing"
+      ]
+    },
+    {
+      "name": "Youth Sports & Coaching",
+      "stations": [
+        "bb-dribble-moves-and-change-of-pace",
+        "bb-layups-and-finishing-at-the-rim",
+        "bb-final-possession-decision-under-pressure",
+        "bb-coach-feedback-and-growth-mindset",
+        "bb-teammate-conflict-and-accountability",
+        "bb-composure-with-a-hostile-crowd-and-officials",
+        "bb-scrimmage-and-sportsmanship-debrief",
+        "bb-team-offense-spacing-and-screens",
+        "bb-rebounding-and-boxing-out",
+        "bb-defensive-stance-and-closeouts",
+        "bb-free-throw-routine",
+        "bb-shooting-form-and-arc",
+        "bb-passing-and-catching",
+        "bb-footwork-pivots-and-jump-stops",
+        "bb-stance-and-ball-handling",
+        "bb-warmup-injury-prevention-and-hydration",
+        "bb-pre-game-routine-and-visualisation",
+        "bb-reset-routine-after-a-miss"
       ]
     },
     {
@@ -4606,6 +4614,67 @@
       "ladder": {
         "levels": 20,
         "lessons": 1705,
+        "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
+    },
+    {
+      "id": "grocery-and-meatpacking",
+      "name": "Grocery and Meatpacking — UFCW Store and Plant Floor",
+      "union": "UFCW — United Food and Commercial Workers International Union",
+      "certification": "UFCW member training for retail food and meatpacking work, tested against OSHA 29 CFR 1910.147, 1910.212, 1910.138, 1910.132, 1910.133, 1910.1200, 1910.22, 1910.178, 1910.119 and 1910.38, ANSI/ISEA 105, ANSI/ITSDF B56.1, ANSI B11, ANSI/ISEA Z358.1, ASHRAE 15, ANSI/IIAR 2 and 6, the Revised NIOSH Lifting Equation, Cal/OSHA's workplace violence prevention plan (8 CCR 3342), the FDA Food Code, FDA 21 CFR 101, the California Retail Food Code, ServSafe, NFPA 101 and USDA's own inspection marks across eight distinct grocery and meatpacking jobs",
+      "summary": "Eight jobs a grocery and meatpacking crew actually rotates through: a meat department's band saw and grinder both locked out and guarded on their own between-use clean, a deli slicer's allergen changeover proven by an ATP swab rather than a look, a produce delivery culled and segregated at the dock before it is driven to the walk-in on a pallet jack, a night stocking shift's jammed baler and loaded compactor both locked out before a hand goes near either chamber, a front-end checkstand set to fit the cashier with the store's own robbery plan known cold, a meatpacking line's knife work run on a honed edge, ordered PPE and a rotation actually taken on schedule, an ammonia alarm at the cold plant answered by evacuating and mustering upwind rather than investigating, and a pharmacy and floral chemical handled against its own safety data sheet before it is stored, mixed or cleaned up. Every station ends on a proof — a swab, a gauge, a signed log — rather than on how routine the job looked going in.",
+      "accent": "#d8232a",
+      "stations": [
+        {
+          "app": "smartcity",
+          "id": "gr-meat-dept-band-saw-and-grinder-lockout",
+          "why": "The band saw's own disconnect is proven dead with a tester before the guard ever comes off, and the grinder gets the same promise on its own cord before a hand goes anywhere near its hopper."
+        },
+        {
+          "app": "smartcity",
+          "id": "gr-deli-slicer-sanitation-and-allergen-line",
+          "why": "A declared-allergen changeover is proven with a swab reading, not a look, before the line's own placard is ever flipped back for the next order."
+        },
+        {
+          "app": "smartcity",
+          "id": "gr-produce-receiving-cold-chain-and-pallet-jack",
+          "why": "A produce delivery is culled and segregated at the dock before the accepted pallet is driven on the pallet jack to the walk-in without a single stop along the way."
+        },
+        {
+          "app": "smartcity",
+          "id": "gr-night-stocking-baler-and-compactor-lockout",
+          "why": "A jammed baler is locked out before a hand ever reaches into its chamber, and the compactor gets the same lock before its gate opens on an inspection."
+        },
+        {
+          "app": "smartcity",
+          "id": "gr-checkstand-ergonomics-and-robbery-prevention",
+          "why": "The stand is set to the cashier's own height and every heavy case is called for help instead of twisted, with the store's own robbery plan known cold before it is ever needed."
+        },
+        {
+          "app": "smartcity",
+          "id": "gr-meatpacking-line-knife-work-and-ppe-rotation",
+          "why": "The knife is honed and the cut-resistant PPE donned in order before the first cut, and the line's own rotation is taken on schedule instead of skipped for one more cycle."
+        },
+        {
+          "app": "smartcity",
+          "id": "gr-ammonia-leak-alarm-response-cold-plant",
+          "why": "The alarm sends everyone out and mustered upwind, with nobody going back into the machine room until the plant's own plan gives the all-clear."
+        },
+        {
+          "app": "smartcity",
+          "id": "gr-pharmacy-floral-chemical-handling-and-sds",
+          "why": "A chemical is checked against its own safety data sheet before it is stored, mixed to the label or cleaned up, with the eyewash proven clear the whole time."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1693,
         "tasks": 120,
         "atBar": 20,
         "partial": 0,
@@ -8732,6 +8801,666 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "gr-pharmacy-floral-chemical-handling-and-sds",
+      "name": "Pharmacy & Floral Chemical Handling and SDS",
+      "title": "SmartCiti.X~ Pharmacy & Floral Chemical Handling and SDS VR",
+      "tagline": "A chemical checked against its own SDS before it's stored, mixed to the label or cleaned up, with the eyewash proven clear and the incident logged",
+      "category": "Culinary & Hospitality",
+      "domain": "Grocery pharmacy and floral departments",
+      "trade": "Pharmacy technician / floral clerk",
+      "union": null,
+      "certification": "UFCW member training for retail food, clinic and dental support work; OSHA 29 CFR 1910.1200 hazard communication; ANSI/ISEA Z358.1 emergency eyewash and shower equipment; OSHA 29 CFR 1910.132 personal protective equipment; OSHA 29 CFR 1910.133 eye and face protection; OSHA 29 CFR 1910.138 hand protection",
+      "accent": "#4fd6a5",
+      "parSeconds": 280,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "drag",
+        "find",
+        "gauge",
+        "hold",
+        "track",
+        "turn"
+      ],
+      "badge": {
+        "id": "sheet-checked",
+        "name": "Sheet Checked",
+        "note": "Every chemical handled today was checked against its own SDS before it was stored, mixed or cleaned up"
+      },
+      "meshes": 146,
+      "lights": 0,
+      "overBudget": false,
+      "index": "gr-8",
+      "flat": false,
+      "system": "Chemical Handling Authority",
+      "currency": "SDS",
+      "ranks": [
+        "Clerk",
+        "Pharmacy/Floral Clerk",
+        "Lead Clerk",
+        "Department Supervisor",
+        "Chemical Handling Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "sheet-first",
+          "name": "Sheet First",
+          "note": "Checked the SDS before the container was ever opened"
+        },
+        {
+          "id": "no-mix",
+          "name": "No Mix",
+          "note": "Never combined two chemicals without checking compatibility first"
+        },
+        {
+          "id": "steady-dilute",
+          "name": "Steady Dilute",
+          "note": "Mixed to the label's own ratio inside the band every time"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "No corrections through the whole chemical handling check"
+        },
+        {
+          "id": "held-the-hold",
+          "name": "Held The Hold",
+          "note": "Never broke a timed step early"
+        },
+        {
+          "id": "shift-fast",
+          "name": "Handled Fast",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=gr-pharmacy-floral-chemical-handling-and-sds"
+    },
+    {
+      "app": "smartcity",
+      "id": "gr-ammonia-leak-alarm-response-cold-plant",
+      "name": "Ammonia Leak Alarm Response, Cold Plant",
+      "title": "SmartCiti.X~ Ammonia Leak Alarm Response, Cold Plant VR",
+      "tagline": "The alarm read, the machine room left and sealed behind you, the muster point reached on the marked route, and nobody going back in until the plan's own all-clear",
+      "category": "Culinary & Hospitality",
+      "domain": "Grocery cold plant / ammonia refrigeration",
+      "trade": "Grocery engineering / refrigeration technician",
+      "union": null,
+      "certification": "UFCW member training for retail food and engineering work; ASHRAE 15 safety standard for refrigeration systems; IIAR 2 safe design of closed-circuit ammonia refrigeration systems; IIAR 6 inspection, testing and maintenance of closed-circuit ammonia refrigeration systems; OSHA 29 CFR 1910.119 process safety management of highly hazardous chemicals; OSHA 29 CFR 1910.38 emergency action plans; NFPA 101 Life Safety Code egress requirements",
+      "accent": "#f2ae14",
+      "parSeconds": 260,
+      "weather": "clear",
+      "indoor": "plant",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "drag",
+        "find",
+        "gauge",
+        "track",
+        "hold",
+        "turn",
+        "sequence"
+      ],
+      "badge": {
+        "id": "clean-evac",
+        "name": "Clean Evacuation",
+        "note": "Every zone out, mustered and accounted for with nobody going back in before the plan's own all-clear"
+      },
+      "meshes": 131,
+      "lights": 0,
+      "overBudget": false,
+      "index": "gr-7",
+      "flat": false,
+      "system": "Cold Plant Authority",
+      "currency": "MUSTER",
+      "ranks": [
+        "Plant Trainee",
+        "Plant Engineer",
+        "Lead Engineer",
+        "Plant Supervisor",
+        "Cold Plant Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "out-first",
+          "name": "Out First",
+          "note": "Left the machine room before anything else was attempted"
+        },
+        {
+          "id": "no-reentry",
+          "name": "No Reentry",
+          "note": "Never went back in and never reached for the alarm panel"
+        },
+        {
+          "id": "steady-muster",
+          "name": "Steady Muster",
+          "note": "Reached the muster point at a steady, controlled pace every time"
+        },
+        {
+          "id": "clean-response",
+          "name": "Clean Response",
+          "note": "No corrections through the whole evacuation"
+        },
+        {
+          "id": "held-the-hold",
+          "name": "Held The Hold",
+          "note": "Never left the muster point early"
+        },
+        {
+          "id": "muster-fast",
+          "name": "Mustered Fast",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=gr-ammonia-leak-alarm-response-cold-plant"
+    },
+    {
+      "app": "smartcity",
+      "id": "gr-meatpacking-line-knife-work-and-ppe-rotation",
+      "name": "Meatpacking Line Knife Work & PPE Rotation",
+      "title": "SmartCiti.X~ Meatpacking Line Knife Work & PPE Rotation VR",
+      "tagline": "The knife issued and honed, the cut-resistant PPE donned in order, the line speed checked against its posted band, and the rotation that keeps one motion from becoming a whole shift's injury",
+      "category": "Culinary & Hospitality",
+      "domain": "Meatpacking production line",
+      "trade": "Meatpacking line worker",
+      "union": null,
+      "certification": "UFCW member training for meatpacking work; OSHA 29 CFR 1910.138 hand protection; OSHA 29 CFR 1910.132 personal protective equipment; ANSI/ISEA 105 cut-resistance ratings; USDA inspection and grading marks on meat and poultry",
+      "accent": "#c9622a",
+      "parSeconds": 290,
+      "weather": "clear",
+      "indoor": "plant",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "hold",
+        "gauge",
+        "find",
+        "track",
+        "turn",
+        "drag"
+      ],
+      "badge": {
+        "id": "line-ready",
+        "name": "Line Ready",
+        "note": "A full line changeover with the edge honed, the PPE donned in order and the rotation actually taken on schedule"
+      },
+      "meshes": 120,
+      "lights": 0,
+      "overBudget": false,
+      "index": "gr-6",
+      "flat": false,
+      "system": "Line Authority",
+      "currency": "HONE",
+      "ranks": [
+        "Line Trainee",
+        "Line Cutter",
+        "Lead Cutter",
+        "Line Supervisor",
+        "Line Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "ppe-first",
+          "name": "PPE First",
+          "note": "Gloved and guarded before the knife was ever issued"
+        },
+        {
+          "id": "handle-first",
+          "name": "Handle First",
+          "note": "Never passed or reached for a blade the wrong way"
+        },
+        {
+          "id": "steady-hone",
+          "name": "Steady Hone",
+          "note": "Held the honing angle and the cut stroke inside the safe band every time"
+        },
+        {
+          "id": "clean-changeover",
+          "name": "Clean Changeover",
+          "note": "No corrections through the whole line changeover"
+        },
+        {
+          "id": "held-the-hold",
+          "name": "Held The Hold",
+          "note": "Never broke a timed hold early"
+        },
+        {
+          "id": "line-fast",
+          "name": "Line Ready Fast",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=gr-meatpacking-line-knife-work-and-ppe-rotation"
+    },
+    {
+      "app": "smartcity",
+      "id": "gr-checkstand-ergonomics-and-robbery-prevention",
+      "name": "Checkstand Ergonomics & Robbery Prevention",
+      "title": "SmartCiti.X~ Checkstand Ergonomics & Robbery Prevention VR",
+      "tagline": "The stand set to fit the cashier, a heavy case lifted with a second hand instead of a twist, and the store's own robbery plan known cold before it is ever needed",
+      "category": "Culinary & Hospitality",
+      "domain": "Grocery front end",
+      "trade": "Cashier / front-end clerk",
+      "union": null,
+      "certification": "UFCW member training for retail food work; the Revised NIOSH Lifting Equation; OSHA 29 CFR 1910.22 walking-working surfaces; Cal/OSHA's workplace violence prevention plan (8 CCR 3342)",
+      "accent": "#3fa9c9",
+      "parSeconds": 280,
+      "weather": "clear",
+      "indoor": "shop",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "turn",
+        "hold",
+        "track",
+        "find",
+        "sequence",
+        "drag",
+        "gauge"
+      ],
+      "badge": {
+        "id": "shift-set",
+        "name": "Shift Set",
+        "note": "A full shift set up right at the stand, every lift called for help instead of twisted, and the store's plan known before it was ever needed"
+      },
+      "meshes": 137,
+      "lights": 0,
+      "overBudget": false,
+      "index": "gr-5",
+      "flat": false,
+      "system": "Front End Authority",
+      "currency": "SCAN",
+      "ranks": [
+        "Courtesy Clerk",
+        "Cashier",
+        "Lead Cashier",
+        "Front End Supervisor",
+        "Front End Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "set-first",
+          "name": "Set First",
+          "note": "Set the stand to fit before the first item ever scanned"
+        },
+        {
+          "id": "no-twist",
+          "name": "No Twist",
+          "note": "Never twisted at the waist to move a heavy case"
+        },
+        {
+          "id": "steady-lift",
+          "name": "Steady Lift",
+          "note": "Every lift held a smooth, controlled pace"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "No corrections through the whole shift check-in"
+        },
+        {
+          "id": "held-the-hold",
+          "name": "Held The Hold",
+          "note": "Never broke a timed posture check early"
+        },
+        {
+          "id": "shift-fast",
+          "name": "Shift Fast",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=gr-checkstand-ergonomics-and-robbery-prevention"
+    },
+    {
+      "app": "smartcity",
+      "id": "gr-night-stocking-baler-and-compactor-lockout",
+      "name": "Night Stocking Baler & Compactor Lockout",
+      "title": "SmartCiti.X~ Night Stocking Baler & Compactor Lockout VR",
+      "tagline": "A jammed baler and a loaded compactor both locked out, cleared and proven before either one runs again",
+      "category": "Culinary & Hospitality",
+      "domain": "Grocery night stocking crew",
+      "trade": "Night stocker / grocery clerk",
+      "union": null,
+      "certification": "UFCW member training for retail food work; OSHA 29 CFR 1910.147 control of hazardous energy; OSHA 29 CFR 1910.212 machine guarding; ANSI B11 safety of machinery; OSHA 29 CFR 1910.132 personal protective equipment",
+      "accent": "#f2a03a",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "garage",
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "track",
+        "find",
+        "drag",
+        "turn"
+      ],
+      "badge": {
+        "id": "shift-clean",
+        "name": "Shift Clean",
+        "note": "Both machines cleared, guarded and proven with every lock accounted for before the shift closed out"
+      },
+      "meshes": 149,
+      "lights": 0,
+      "overBudget": false,
+      "index": "gr-4",
+      "flat": false,
+      "system": "Overnight Crew Authority",
+      "currency": "BALE",
+      "ranks": [
+        "New Stocker",
+        "Night Stocker",
+        "Lead Stocker",
+        "Overnight Supervisor",
+        "Overnight Crew Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "lock-first",
+          "name": "Lock First",
+          "note": "Locked the baler out before reaching into the jam"
+        },
+        {
+          "id": "no-reach-live",
+          "name": "No Reach Live",
+          "note": "Never reached into a chamber that wasn't proven dead"
+        },
+        {
+          "id": "steady-pull",
+          "name": "Steady Pull",
+          "note": "Cleared the jam at a steady, controlled rate every time"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "No corrections through the whole jam-clearing procedure"
+        },
+        {
+          "id": "held-the-hold",
+          "name": "Held The Hold",
+          "note": "Never broke a timed step early"
+        },
+        {
+          "id": "shift-fast",
+          "name": "Shift Fast",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=gr-night-stocking-baler-and-compactor-lockout"
+    },
+    {
+      "app": "smartcity",
+      "id": "gr-produce-receiving-cold-chain-and-pallet-jack",
+      "name": "Produce Receiving, Cold Chain & Pallet Jack",
+      "title": "SmartCiti.X~ Produce Receiving, Cold Chain & Pallet Jack VR",
+      "tagline": "A produce delivery checked, culled and segregated at the dock, then driven on the pallet jack to the walk-in without ever breaking the cold chain",
+      "category": "Culinary & Hospitality",
+      "domain": "Grocery receiving / produce",
+      "trade": "Receiving clerk / produce clerk",
+      "union": null,
+      "certification": "UFCW member training for retail food work; FDA Food Code; California Retail Food Code; OSHA 29 CFR 1910.178 powered industrial trucks; ANSI/ITSDF B56.1 low and high lift trucks; OSHA 29 CFR 1910.22 walking-working surfaces; USDA inspection and grading marks on produce",
+      "accent": "#2f9ed1",
+      "parSeconds": 290,
+      "weather": "clear",
+      "indoor": "garage",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "find",
+        "drag",
+        "turn",
+        "drive"
+      ],
+      "badge": {
+        "id": "chain-unbroken",
+        "name": "Chain Unbroken",
+        "note": "A delivery received, culled and segregated correctly, and driven to the walk-in without a single stop along the way"
+      },
+      "meshes": 151,
+      "lights": 0,
+      "overBudget": false,
+      "index": "gr-3",
+      "flat": false,
+      "system": "Receiving Line",
+      "currency": "DOCK",
+      "ranks": [
+        "Porter",
+        "Receiving Clerk",
+        "Lead Receiver",
+        "Produce Manager",
+        "Receiving Certified"
+      ],
+      "awards": [
+        {
+          "id": "chocks-first",
+          "name": "Chocks First",
+          "note": "Confirmed the wheel chocks before the truck was ever trusted still"
+        },
+        {
+          "id": "nothing-mixed",
+          "name": "Nothing Mixed",
+          "note": "Never let an ethylene producer sit against a sensitive case"
+        },
+        {
+          "id": "steady-jack",
+          "name": "Steady Jack",
+          "note": "Drove the pallet jack in lane and in band the whole route"
+        },
+        {
+          "id": "clean-delivery",
+          "name": "Clean Delivery",
+          "note": "No corrections anywhere on the receipt"
+        },
+        {
+          "id": "unbroken-drive",
+          "name": "Unbroken Drive",
+          "note": "Reached the walk-in without ever leaving the lane or the band"
+        },
+        {
+          "id": "receive-fast",
+          "name": "Received In Time",
+          "note": "Delivery closed out inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=gr-produce-receiving-cold-chain-and-pallet-jack"
+    },
+    {
+      "app": "smartcity",
+      "id": "gr-deli-slicer-sanitation-and-allergen-line",
+      "name": "Deli Slicer Sanitation & Allergen Line",
+      "title": "SmartCiti.X~ Deli Slicer Sanitation & Allergen Line VR",
+      "tagline": "The slicer locked, torn down, cleaned and swab-proven clean between a declared allergen and the next order, with the line's own placard flipped to match",
+      "category": "Culinary & Hospitality",
+      "domain": "Grocery deli department",
+      "trade": "Deli clerk",
+      "union": null,
+      "certification": "UFCW member training for retail food work; NSF/ANSI 8 commercial powered food preparation equipment; OSHA 29 CFR 1910.147 control of hazardous energy; OSHA 29 CFR 1910.138 hand protection; ANSI/ISEA 105 cut-resistance ratings; FDA Food Code; FDA 21 CFR 101 food labeling and the major food allergens; California Retail Food Code; ServSafe Food Protection Manager",
+      "accent": "#8a3fd1",
+      "parSeconds": 270,
+      "weather": "clear",
+      "indoor": "kitchen",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "track",
+        "hold",
+        "gauge",
+        "find",
+        "drag",
+        "turn"
+      ],
+      "badge": {
+        "id": "line-proven",
+        "name": "Line Proven",
+        "note": "A full allergen changeover with the swab reading clean before the placard ever flipped back"
+      },
+      "meshes": 142,
+      "lights": 0,
+      "overBudget": false,
+      "index": "gr-2",
+      "flat": false,
+      "system": "Deli Line Authority",
+      "currency": "SWAB",
+      "ranks": [
+        "Wrapper",
+        "Deli Clerk",
+        "Lead Deli Clerk",
+        "Deli Manager",
+        "Deli Line Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "lock-first",
+          "name": "Lock First",
+          "note": "Locked the cord out before the guard ever came off"
+        },
+        {
+          "id": "edge-away",
+          "name": "Edge Away",
+          "note": "Never touched the blade's edge directly"
+        },
+        {
+          "id": "swab-clean",
+          "name": "Swab Clean",
+          "note": "Read the ATP swab inside the clean band every time"
+        },
+        {
+          "id": "clean-changeover",
+          "name": "Clean Changeover",
+          "note": "No corrections through the whole changeover"
+        },
+        {
+          "id": "held-the-hold",
+          "name": "Held The Hold",
+          "note": "Never broke the sanitiser hold early"
+        },
+        {
+          "id": "changeover-fast",
+          "name": "Changeover Fast",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=gr-deli-slicer-sanitation-and-allergen-line"
+    },
+    {
+      "app": "smartcity",
+      "id": "gr-meat-dept-band-saw-and-grinder-lockout",
+      "name": "Meat Dept Band Saw & Grinder Lockout",
+      "title": "SmartCiti.X~ Meat Dept Band Saw & Grinder Lockout VR",
+      "tagline": "The band saw and the grinder both locked out, guarded, cleaned and proven before either one sees the case again",
+      "category": "Culinary & Hospitality",
+      "domain": "Grocery meat department",
+      "trade": "Retail meat cutter",
+      "union": null,
+      "certification": "UFCW member training for retail food and meatpacking work; OSHA 29 CFR 1910.147 control of hazardous energy; OSHA 29 CFR 1910.212 machine guarding; OSHA 29 CFR 1910.138 hand protection; ANSI/ISEA 105 cut-resistance ratings; NSF/ANSI 8 commercial powered food preparation equipment; USDA inspection marks on meat and poultry",
+      "accent": "#d8232a",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "shop",
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "drag",
+        "find",
+        "hold"
+      ],
+      "badge": {
+        "id": "case-clean",
+        "name": "Case Clean",
+        "note": "Both machines torn down, cleaned and reassembled with every lock proven before power came back"
+      },
+      "meshes": 167,
+      "lights": 0,
+      "overBudget": false,
+      "index": "gr-1",
+      "flat": false,
+      "system": "Meat Room Authority",
+      "currency": "CUT",
+      "ranks": [
+        "Wrapper",
+        "Meat Cutter",
+        "Lead Cutter",
+        "Meat Manager",
+        "Meat Room Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "lock-first",
+          "name": "Lock First",
+          "note": "Locked the disconnect out before the guard ever came off"
+        },
+        {
+          "id": "edge-away",
+          "name": "Edge Away",
+          "note": "Never touched a mounted blade's edge directly"
+        },
+        {
+          "id": "zero-proven",
+          "name": "Zero Proven",
+          "note": "Tested for zero energy inside the safe band every time"
+        },
+        {
+          "id": "clean-changeover",
+          "name": "Clean Changeover",
+          "note": "No corrections through the whole teardown"
+        },
+        {
+          "id": "held-the-hold",
+          "name": "Held The Hold",
+          "note": "Never broke the sanitiser hold early"
+        },
+        {
+          "id": "changeover-fast",
+          "name": "Changeover Fast",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=gr-meat-dept-band-saw-and-grinder-lockout"
     },
     {
       "app": "smartcity",
@@ -29090,7 +29819,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 261,
+      "meshes": 264,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -29750,7 +30479,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "100",
