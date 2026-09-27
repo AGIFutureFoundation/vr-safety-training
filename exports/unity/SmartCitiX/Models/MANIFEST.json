@@ -1,5 +1,5 @@
 {
-  "bytes": 6804912,
+  "bytes": 6997188,
   "entries": [
     {
       "build": "aerialBoomLift",
@@ -1236,6 +1236,41 @@
       ]
     },
     {
+      "build": "motorYacht",
+      "bytes": 138320,
+      "file": "fleet--motorYacht.glb",
+      "footprint": [
+        6.72,
+        8.01,
+        24.23
+      ],
+      "key": "motorYacht",
+      "kit": "fleet",
+      "materials": 29,
+      "meshes": 35,
+      "meshesDeclared": 35,
+      "note": "24 m motor yacht: flybridge, swim platform, tender in a davit, shore-power inlet",
+      "parts": [
+        "saloonDoor",
+        "helm",
+        "bowCleats",
+        "springCleats",
+        "sternCleats",
+        "fuelFill",
+        "shorePowerInlet",
+        "engineHatch",
+        "davit",
+        "tender",
+        "fenders",
+        "lifeRing",
+        "navLights",
+        "portLight",
+        "starboardLight",
+        "mastheadLight",
+        "sternLight"
+      ]
+    },
+    {
       "build": "pickup",
       "bytes": 93168,
       "file": "fleet--pickup.glb",
@@ -1647,6 +1682,31 @@
         "portLight",
         "starboardLight",
         "mastheadLight"
+      ]
+    },
+    {
+      "build": "yachtTender",
+      "bytes": 53956,
+      "file": "fleet--yachtTender.glb",
+      "footprint": [
+        1.89,
+        1.52,
+        4.55
+      ],
+      "key": "yachtTender",
+      "kit": "fleet",
+      "materials": 14,
+      "meshes": 15,
+      "meshesDeclared": 15,
+      "note": "4.2 m rigid inflatable tender with an outboard and a kill-cord",
+      "parts": [
+        "outboard",
+        "killCord",
+        "console",
+        "bowEye",
+        "sternCleat",
+        "fuelTank",
+        "navLight"
       ]
     },
     {
@@ -2083,10 +2143,10 @@
       ]
     }
   ],
-  "exported": 87,
+  "exported": 89,
   "generator": "three GLTFExporter r160 via tools/export_unity.mjs --models",
   "licence": "CC0-1.0 — the platform's own procedural builders (WebXR/shared/fleet.js, equipment.js, toolkit.js). No third-party model, no avatar, no track GLB.",
   "schema": "smartcitix.models/1",
-  "total": 87,
+  "total": 89,
   "units": "metres, +Z forward, +X driver's side, y = 0 ground; Unity flips X on import (glTF is right-handed)"
 }
