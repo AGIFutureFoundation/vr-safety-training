@@ -1,6 +1,6 @@
 # SmartCiti.X training series
 
-_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-27. 532 SmartCiti.X stations across 18 categories and 43 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
+_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-27. 540 SmartCiti.X stations across 18 categories and 44 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
 Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 45 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
@@ -49,6 +49,7 @@ Every station is a real union procedure sited generically, built on the shared e
 - [Water and Gas Utility Crews — Distribution Authority](#water-and-gas-utility-crews)
 - [Aviation Maintenance and Ground — IAM/TWU Ramp and Line](#aviation-maintenance-and-ground)
 - [Warehouse and Logistics Automation — Teamsters Distribution Floor](#warehouse-and-logistics-automation)
+- [Education Support Staff — Custodial, Grounds, Transport and Classroom](#education-support-staff)
 
 <a id="hunters-point-bay-restoration"></a>
 ## Hunters Point Clean-up and Bay Restoration
@@ -1356,6 +1357,26 @@ Eight jobs on a modern automated distribution floor: an AMR traffic zone entered
 | tw-6 | [Palletizer Cell Fenced-Access Permit](../../WebXR/smartcity/index.html?sim=tw-palletizer-cell-fenced-access-permit) | Teamsters warehouse associate — palletizer cell entry | indoor (plant) | 13 | 2 | — | Entering a robotic palletizer cell means the light curtain and gate interlock are confirmed honest, the arm's power is isolated and locked, and the residual energy is proven at zero before anyone is inside the fence. |
 | tw-7 | [Cold-Storage PPE & Rotation](../../WebXR/smartcity/index.html?sim=tw-cold-storage-ppe-and-rotation) | Teamsters warehouse associate — cold-storage entry and stock rotation | indoor (clinic) | 12 | 2 | — | A cold room gets entered with a buddy actually checked in, the ice and the propped door and the torn seal caught before they become a fall or a temperature excursion, and the rotation-marked pallet pulled by date rather than convenience. |
 | tw-8 | [Pick-to-Light Ergonomics & Rotation](../../WebXR/smartcity/index.html?sim=tw-pick-to-light-ergonomics-and-rotation) | Teamsters warehouse associate — pick-to-light module | indoor (datahall) | 13 | 2 | — | A pick-to-light module is worked with the display confirmed over the light alone, a heavy case brought to waist height on the lift-assist table, and the scheduled rotation actually taken instead of skipped for one more cycle. |
+
+<a id="education-support-staff"></a>
+## Education Support Staff — Custodial, Grounds, Transport and Classroom
+
+**Union:** AFT and CSEA
+
+**Certifications and standards:** AFT and CSEA training for classified school employees, tested against OSHA's hazard communication, PPE, control-of-hazardous-energy and bloodborne-pathogens standards, ANSI/ISEA Z358.1, FMCSA's school-bus inspection and driving rules, the MUTCD, the California Retail Food Code and NFPA 85 across eight distinct classified-staff jobs
+
+Eight jobs a school's classified staff actually rotate through: a custodial chemical metered through the wall dispenser instead of eyeballed and a floor machine walked for defects before it's plugged in, a playground walked and its climbing structure checked close up before the gate opens, a school bus pre-tripped and driven to a curb stop where the stop arm and crossing gate come out together, a crossing guard judging a real gap in traffic rather than guessing one, a paraeducator's two-person transfer run to the student's own plan, a science lab's chemical storage checked against its compatibility chart with the eyewash and drench shower proven together, a kitchen's delivery probed and its sanitizer tested to the strip rather than by eye, and a boiler room's air handler locked, tagged and proven dead before its filter panel ever comes off. Every station ends on a proof — a gauge, a test strip, a signed log — rather than on how routine the job looked going in.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| 620 | [Custodial Chemical Dilution & Floor Machine](../../WebXR/smartcity/index.html?sim=ed-custodial-chemical-dilution-and-floor-machine) | AFT- or CSEA-represented school custodian running chemical dilution and floor-care equipment | indoor (service) | 14 | 2 | — | A hallway chemical metered through the wall dispenser instead of eyeballed, a floor machine walked for defects before it's plugged in, and a pad never changed until the cord is out of the wall. |
+| 621 | [Playground Equipment Inspection](../../WebXR/smartcity/index.html?sim=ed-playground-equipment-inspection) | AFT- or CSEA-represented school grounds and facilities worker conducting the daily playground equipment safety inspection | clear | 13 | 2 | — | The fence, the fall-zone surfacing and the climbing structure all checked close up before the gate opens, with a sprung S-hook closed by the tool rather than a thumb. |
+| 622 | [Bus Pre-Trip & Loading Zone](../../WebXR/smartcity/index.html?sim=ed-bus-pretrip-and-loading-zone) | AFT- or CSEA-represented school bus driver running the morning pre-trip inspection and the curb-side student loading zone, with a route aide riding along | overcast | 14 | 2 | — | The pre-trip walkaround before the engine starts, the stop arm and crossing gate out together at the curb, and the mirrors checked again before the bus ever rolls away. |
+| 623 | [Crossing Guard Intersection Control](../../WebXR/smartcity/index.html?sim=ed-crossing-guard-intersection-control) | AFT- or CSEA-represented adult school crossing guard posted at the intersection nearest the school | clear | 12 | 2 | — | A gap in traffic judged rather than guessed, the paddle held through the whole crossing, and both directions scanned the entire time it's up. |
+| 624 | [Paraeducator Safe Lift & Transfer](../../WebXR/smartcity/index.html?sim=ed-paraeducator-safe-lift-and-transfer) | AFT- or CSEA-represented paraeducator transferring a student who uses a wheelchair, with a second paraeducator assisting | indoor (clinic) | 12 | 2 | — | The student's own transfer plan read first, the wheelchair's brakes proven, and a braced two-person pivot held steady instead of a solo twist. |
+| 625 | [Science Lab Chemical Storage & Eyewash Check](../../WebXR/smartcity/index.html?sim=ed-science-lab-chemical-storage-and-eyewash) | AFT- or CSEA-represented instructional lab aide maintaining a school science lab's chemical storage and safety equipment between classes | indoor (shop) | 12 | 2 | — | A storage cabinet checked against the compatibility chart, a corrosive decanted with the bottle carrier, and the eyewash and drench shower proven together. |
+| 626 | [Kitchen Receiving & Warewash Sanitizing](../../WebXR/smartcity/index.html?sim=ed-kitchen-receiving-and-warewash-sanitizing) | AFT- or CSEA-represented school nutrition worker receiving deliveries and running the dish room | indoor (kitchen) | 12 | 2 | — | A delivery probed and inspected at the dock before it's accepted, the sanitizer tested to the strip rather than by eye, and dishes timed through their full contact time. |
+| 627 | [Boiler Room & HVAC Filter Change with Lockout](../../WebXR/smartcity/index.html?sim=ed-boiler-room-filter-change-lockout) | AFT- or CSEA-represented school maintenance technician running a boiler-room walk and an air-handler filter change under lockout | indoor (plant) | 13 | 2 | — | The air handler locked, tagged and proven dead before the filter panel ever comes off, and a short observed restart watched steady before the ticket closes. |
 
 ## Real-world environments
 

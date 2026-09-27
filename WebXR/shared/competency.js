@@ -187,6 +187,8 @@ export const STANDARDS = Object.fromEntries([
   S("fra-49-cfr-214", "FRA", "49 CFR 214 Subpart C Roadway worker protection", ["Transit & Logistics"]),
   S("fra-49-cfr-218", "FRA", "49 CFR 218 Subpart B Blue signal protection of workers", ["Transit & Logistics"]),
   S("fra-49-cfr-232", "FRA", "49 CFR 232 Brake system safety standards for freight and other non-passenger trains", ["Transit & Logistics"]),
+  S("fmcsa-49-cfr-396", "FMCSA", "49 CFR 396 Inspection, repair and maintenance, including the driver vehicle inspection report", ["Transit & Logistics"]),
+  S("ansi-z358-1", "ANSI/ISEA", "Z358.1 Emergency eyewash and shower equipment", ["Building Systems", "Food Service"]),
   S("bmwed-training", "union", "BMWED roadway worker training for track and structures maintenance", ["Transit & Logistics"], "unverified"),
   S("faa-14-cfr-139-303", "FAA", "14 CFR 139 Certification of airports", ["Transit & Logistics"]),
   S("faa-14-cfr-43", "FAA", "14 CFR Part 43 Maintenance, preventive maintenance, rebuilding and alteration", ["Transit & Logistics"]),
@@ -763,6 +765,17 @@ export const PROGRAMME_COMPETENCIES = [
     stations: [
       "tw-amr-traffic-zone-entry-and-lockout", "tw-conveyor-jam-clearing-and-loto", "tw-high-bay-order-picker-fall-protection", "tw-dock-leveler-and-trailer-restraint-check",
       "tw-battery-change-and-charging-bay-safety", "tw-palletizer-cell-fenced-access-permit", "tw-cold-storage-ppe-and-rotation", "tw-pick-to-light-ergonomics-and-rotation"
+    ],
+    require: 4,
+  },
+  {
+    id: "education-support-staff",
+    title: "Run the chemical, the machine, the stop or the transfer the way the plan and the label actually call for",
+    kind: "programme",
+    standards: ["osha-1910-1200", "osha-1910-147", "ansi-z358-1", "fmcsa-49-cfr-396"],
+    stations: [
+      "ed-custodial-chemical-dilution-and-floor-machine", "ed-playground-equipment-inspection", "ed-bus-pretrip-and-loading-zone", "ed-crossing-guard-intersection-control",
+      "ed-paraeducator-safe-lift-and-transfer", "ed-science-lab-chemical-storage-and-eyewash", "ed-kitchen-receiving-and-warewash-sanitizing", "ed-boiler-room-filter-change-lockout"
     ],
     require: 4,
   },

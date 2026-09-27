@@ -220,5 +220,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "warehouse-and-logistics-automation",
     "name": "Warehouse and Logistics Automation — Teamsters Distribution Floor",
     "accent": "#e4622a"
+  },
+  {
+    "programme": "education-support-staff",
+    "name": "Education Support Staff — Custodial, Grounds, Transport and Classroom",
+    "accent": "#d9a441"
   }
 ];

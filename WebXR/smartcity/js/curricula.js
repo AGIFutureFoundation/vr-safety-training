@@ -1058,6 +1058,31 @@ export const CURRICULA = [
       { app: "smartcity", id: "tw-pick-to-light-ergonomics-and-rotation", why: "A pick-to-light module is worked with the display confirmed over the light alone, a heavy case brought to waist height on the lift-assist table, and the scheduled rotation actually taken instead of skipped for one more cycle." },
     ],
   },
+  {
+    id: "education-support-staff",
+    name: "Education Support Staff — Custodial, Grounds, Transport and Classroom",
+    union: "AFT and CSEA",
+    certification: "AFT and CSEA training for classified school employees, tested against OSHA's hazard communication, PPE, control-of-hazardous-energy and bloodborne-pathogens standards, ANSI/ISEA Z358.1, FMCSA's school-bus inspection and driving rules, the MUTCD, the California Retail Food Code and NFPA 85 across eight distinct classified-staff jobs",
+    guides: [
+      "osha-1910-1200", "osha-1910-147", "osha-1910-132", "osha-1910-133", "osha-1910-138", "osha-1910-1030",
+      "ansi-z358-1", "osha-1910-22", "cal-osha-3203", "cal-osha-5110", "cal-osha-3345",
+      "fmcsa-49-cfr-393", "fmcsa-49-cfr-396", "fmcsa-49-cfr-392", "state-cdl-handbook", "mutcd", "ansi-isea-107",
+      "calcode-retail-food", "fda-food-code", "servsafe-certification", "nsf-ansi-2",
+      "nfpa-85", "asme-bpvc", "nbic", "aft-training", "csea-training",
+    ],
+    summary: "Eight jobs a school's classified staff actually rotate through: a custodial chemical metered through the wall dispenser instead of eyeballed and a floor machine walked for defects before it's plugged in, a playground walked and its climbing structure checked close up before the gate opens, a school bus pre-tripped and driven to a curb stop where the stop arm and crossing gate come out together, a crossing guard judging a real gap in traffic rather than guessing one, a paraeducator's two-person transfer run to the student's own plan, a science lab's chemical storage checked against its compatibility chart with the eyewash and drench shower proven together, a kitchen's delivery probed and its sanitizer tested to the strip rather than by eye, and a boiler room's air handler locked, tagged and proven dead before its filter panel ever comes off. Every station ends on a proof — a gauge, a test strip, a signed log — rather than on how routine the job looked going in.",
+    accent: "#d9a441",
+    stations: [
+      { app: "smartcity", id: "ed-custodial-chemical-dilution-and-floor-machine", why: "A hallway chemical metered through the wall dispenser instead of eyeballed, a floor machine walked for defects before it's plugged in, and a pad never changed until the cord is out of the wall." },
+      { app: "smartcity", id: "ed-playground-equipment-inspection", why: "The fence, the fall-zone surfacing and the climbing structure all checked close up before the gate opens, with a sprung S-hook closed by the tool rather than a thumb." },
+      { app: "smartcity", id: "ed-bus-pretrip-and-loading-zone", why: "The pre-trip walkaround before the engine starts, the stop arm and crossing gate out together at the curb, and the mirrors checked again before the bus ever rolls away." },
+      { app: "smartcity", id: "ed-crossing-guard-intersection-control", why: "A gap in traffic judged rather than guessed, the paddle held through the whole crossing, and both directions scanned the entire time it's up." },
+      { app: "smartcity", id: "ed-paraeducator-safe-lift-and-transfer", why: "The student's own transfer plan read first, the wheelchair's brakes proven, and a braced two-person pivot held steady instead of a solo twist." },
+      { app: "smartcity", id: "ed-science-lab-chemical-storage-and-eyewash", why: "A storage cabinet checked against the compatibility chart, a corrosive decanted with the bottle carrier, and the eyewash and drench shower proven together." },
+      { app: "smartcity", id: "ed-kitchen-receiving-and-warewash-sanitizing", why: "A delivery probed and inspected at the dock before it's accepted, the sanitizer tested to the strip rather than by eye, and dishes timed through their full contact time." },
+      { app: "smartcity", id: "ed-boiler-room-filter-change-lockout", why: "The air handler locked, tagged and proven dead before the filter panel ever comes off, and a short observed restart watched steady before the ticket closes." },
+    ],
+  },
 ];
 
 /**
