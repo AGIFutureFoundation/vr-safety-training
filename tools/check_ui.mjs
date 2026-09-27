@@ -119,6 +119,12 @@ function probe({ panels, phone }) {
   const nav = document.getElementById("ctl-nav");
   const sels = [...panels];
   if (vis(nav)) out.boxes.push({ sel: "#ctl-nav", ...JSON.parse(JSON.stringify(nav.getBoundingClientRect())) });
+  // The Guide button (console COMPASS) is a fixed panel like any other, and
+  // must also keep off the touch stick and the touch buttons.
+  const gd = document.getElementById("gd-btn");
+  if (vis(gd)) out.boxes.push({ sel: "#gd-btn", ...JSON.parse(JSON.stringify(gd.getBoundingClientRect())) });
+  out.touch = [];
+  for (const s of ["#tc-stick", "#tc-layer .tc-buttons"]) { const el = document.querySelector(s); if (vis(el)) out.touch.push({ sel: s, ...JSON.parse(JSON.stringify(el.getBoundingClientRect())) }); }
   const quality = document.getElementById("tc-quality");
   for (const s of sels) { const el = document.querySelector(s); if (vis(el)) out.boxes.push({ sel: s, ...JSON.parse(JSON.stringify(el.getBoundingClientRect())) }); }
   if (vis(quality)) out.quality = JSON.parse(JSON.stringify(quality.getBoundingClientRect()));
@@ -249,6 +255,8 @@ for (const pg of PAGES) {
         if (b.sel !== "#ctl-nav" && overlap(m.quality, b) && !(m.quality.x >= b.x - 1 && m.quality.x + m.quality.width <= b.x + b.width + 1 && m.quality.y >= b.y - 1 && m.quality.y + m.quality.height <= b.y + b.height + 1)) bad.push(`#tc-quality × ${b.sel}`);
         if (b.sel === "#ctl-nav" && overlap(m.quality, b)) bad.push(`#tc-quality × #ctl-nav`);
       }
+      const gdBox = m.boxes.find((b) => b.sel === "#gd-btn");
+      if (gdBox) for (const t of m.touch) if (overlap(gdBox, t)) bad.push(`#gd-btn × ${t.sel}`);
       rec.overlaps = bad;
       check(bad.length === 0, `${tag}: no fixed panels overlap (${m.boxes.length} boxes)`, bad.join("; "));
       // Known and handed to the world teams (docs/ui-review.md, finding R1): a
