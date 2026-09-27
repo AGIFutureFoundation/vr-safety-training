@@ -14,7 +14,8 @@ import { standingFigure, holoTag } from "../smartcity/js/citykit.js";
 import {
   BAY_BOUNDS, BAY_ZONES, BAY_LANDMARKS, BAY_ROADS, BAY_SITES, BAY_MESH_BUDGET, BAY_HEIGHT_RANGE,
   bayHeight, bayZoneAt, bayRoadAt, bwSeededRng,
-  TX_BAY_WATER, TX_SHORE_MARGIN, TX_WATER_THICKNESS, txGroundHeight, txTerrainSegments,
+  TX_BAY_WATER, TX_SHORE_MARGIN, TX_WATER_THICKNESS, TX_SEABED_DROP, txGroundHeight, txTerrainSegments,
+  TX_BAY_QUAYS, TX_QUAY_TOP, TX_MARINA_FLOATS, txWaterTopAt, txQuayAt, txGroundSurfaceAt,
 } from "./bayworld-data.js";
 export {
   BAY_BOUNDS, BAY_ZONES, BAY_LANDMARKS, BAY_ROADS, BAY_SITES, BAY_MESH_BUDGET, BAY_HEIGHT_RANGE,
@@ -88,6 +89,12 @@ let txBayPaletteName = "bayworld-night";
  *  facade width. */
 function txBayTiled(tex, ru, rv = ru) {
   const t = typeof tex?.clone === "function" ? tex.clone() : tex;
+  // Texture.clone() deep-copies userData through JSON, which turns the bump
+  // and roughness companions (textures.js attachDetailMaps()) into plain
+  // objects with no .matrix; paintedMat() then hands them to the renderer,
+  // which throws mid-frame and leaves the ground, the water and every hull
+  // unrendered (the regatta's sky-blue lower half). Share the originals.
+  if (t && t !== tex && tex.userData) t.userData = { ...tex.userData };
   if (t && t !== tex && THREE.RepeatWrapping !== undefined) { t.wrapS = THREE.RepeatWrapping; t.wrapT = THREE.RepeatWrapping; }
   t?.repeat?.set?.(ru, rv);
   return t;
@@ -149,6 +156,20 @@ function buildWater(parent, cx, cz, w, d, y = -0.4) {
   const m = box(parent, w, TX_WATER_THICKNESS, d, cx, y, cz, 0x0f2e3a, { rough: 0.2, metal: 0.6, cast: false });
   m.material = paintedMat(tex, { rough: 0.22, metal: 0.55 });
   m.receiveShadow = false;
+  return m;
+}
+
+/** One quay (bayworld-data.js's TX_BAY_QUAYS): a concrete slab from the
+ *  seabed under the water at `seaY` up to TX_QUAY_TOP, one mesh, its deck
+ *  painted with the pattern set's broom-finished concrete. */
+function buildQuay(parent, cx, cz, w, d, seaY = -0.4) {
+  const bottom = seaY - TX_SEABED_DROP - 0.2;
+  const h = TX_QUAY_TOP - bottom;
+  const tex = facePaint("bw-quay-deck", (c, cw, ch) => concreteFace(c, cw, ch, { finish: "broom", tone: "#9a9b95", tone2: "#86887f" }),
+    { repeat: 6, px: 256 });
+  const m = box(parent, w, h, d, cx, bottom + h / 2, cz, 0x9a9b95, { rough: 0.9, cast: false });
+  m.material = paintedMat(tex, { rough: 0.9, metal: 0.02 });
+  m.userData.bayQuay = true;
   return m;
 }
 
@@ -276,7 +297,13 @@ function dressZoneBuildings(parent, zone, count, rng) {
     const d = tall ? 10 + rng() * 14 : 8 + rng() * 10;
     const h = tall ? 20 + rng() * 55 : style === "corrugated" ? 5 + rng() * 6 : 6 + rng() * 8;
     const tone = zone.palette.structure;
-    buildingBox(parent, x, z, w, d, h, style, bwShade(tone, 0.85 + rng() * 0.3), Math.floor(rng() * 1000));
+    const shade = bwShade(tone, 0.85 + rng() * 0.3), seed = Math.floor(rng() * 1000);
+    // Every draw is taken first, so skipping a lot keeps the rest of the
+    // zone's dressing where it was: no building stands in open water, only
+    // on ground or on a quay (TX_BAY_QUAYS).
+    const top = txWaterTopAt(x, z);
+    if (top !== null && txQuayAt(x, z) < 0 && txGroundSurfaceAt(x, z) <= top + 0.1) continue;
+    buildingBox(parent, x, z, w, d, h, style, shade, seed);
   }
 }
 
@@ -607,7 +634,8 @@ const LANDMARK_BUILDERS = {
   "bay-general-hospital": (p, x, z, l) => buildHospitalBlock(p, x, z, l.name),
   "warehouse-district": (p, x, z, l, zone, rng) => buildIndustrialBlock(p, x, z, l.name, "warehouse", rng),
   "truck-yard": (p, x, z, l, zone, rng) => buildIndustrialBlock(p, x, z, l.name, "truck-yard", rng),
-  "estuary-marina": (p, x, z, l) => buildMarinaDocks(p, x, z, l.name),
+  // The marina's floats lie in the water beside its quay (TX_MARINA_FLOATS).
+  "estuary-marina": (p, x, z, l) => buildMarinaDocks(p, ...(TX_MARINA_FLOATS[l.id] ?? [x, z]), l.name),
   // The expansion's landmarks.
   "island-ferry-landing-clock": (p, x, z, l, zone) => buildClockPost(p, x, z, l.name, zone.palette.accent),
   "island-beach-esplanade": (p, x, z, l) => buildEsplanade(p, x, z, l.name),
@@ -620,12 +648,13 @@ const LANDMARK_BUILDERS = {
 
 /** Site-anchored set pieces the expansion's zones build beyond their
  *  landmarks: a marina with berths at each of the three marina sites. Keyed
- *  by BAY_SITES id; the builder looks the site's own position up, so a site
- *  that moves takes its marina with it. */
+ *  by BAY_SITES id; the site stands on its quay, and the marina's floats lie
+ *  at the site's TX_MARINA_FLOATS water point beside it (the site's own
+ *  position where none is listed). */
 const SITE_BUILDERS = {
-  "island-yacht-harbor": (p, x, z, s, zone) => buildMarina(p, x, z, s.name, zone.palette.accent, 8),
-  "north-marina-pier": (p, x, z, s, zone) => buildMarina(p, x, z, s.name, zone.palette.accent, 5),
-  "south-shoreline-marina": (p, x, z, s, zone) => buildMarina(p, x, z, s.name, zone.palette.accent, 6),
+  "island-yacht-harbor": (p, x, z, s, zone) => buildMarina(p, ...(TX_MARINA_FLOATS[s.id] ?? [x, z]), s.name, zone.palette.accent, 8),
+  "north-marina-pier": (p, x, z, s, zone) => buildMarina(p, ...(TX_MARINA_FLOATS[s.id] ?? [x, z]), s.name, zone.palette.accent, 5),
+  "south-shoreline-marina": (p, x, z, s, zone) => buildMarina(p, ...(TX_MARINA_FLOATS[s.id] ?? [x, z]), s.name, zone.palette.accent, 6),
 };
 
 // -------------------------------------------------------------- scenery
@@ -762,6 +791,13 @@ function buildWorld(parent, opts) {
   // ground never covers the water again.
   for (const [wx, wz, ww, wd, wy] of TX_BAY_WATER) {
     buildWater(parent, wx, wz, ww + TX_SHORE_MARGIN * 4, wd + TX_SHORE_MARGIN * 4, wy);
+  }
+  // The quays the port, the estuary front, the island and the south shore
+  // stand on, where their water carves the ground away (TX_BAY_QUAYS). A
+  // one-zone build lays only the quays inside that zone.
+  for (const [qx, qz, qw, qd] of TX_BAY_QUAYS) {
+    if (opts.zone && bayZoneAt(qx, qz).id !== opts.zone) continue;
+    buildQuay(parent, qx, qz, qw, qd);
   }
   if (!opts.zone) buildRoads(parent, BAY_ROADS);
   else buildRoads(parent, BAY_ROADS.filter((r) => r.points.some(([x, z]) => bayZoneAt(x, z).id === opts.zone)));

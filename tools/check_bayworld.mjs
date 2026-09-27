@@ -24,6 +24,17 @@
  *     the island, both shorelines and the outer bay read flat;
  *   - bayRoadAt() reads back onRoad on a road's own centreline and null well
  *     off every road;
+ *   - every site and landmark stands on ground or a quay, not in water: its
+ *     position is either under no water surface, or on rendered ground above
+ *     the water top there (txGroundSurfaceAt, the exact terrain triangle), or
+ *     on a TX_BAY_QUAYS deck at least QUAY_INSET metres in from its edge; a
+ *     landmark flagged `afloat` (the channel buoy) is held to water instead;
+ *   - every marina berth (shared/yacht-fleet.js's RG_BERTHS slots), every
+ *     marina's floats (TX_MARINA_FLOATS) and every regatta course point
+ *     (start pins, marks, no-wake centre, dock and every leg sampled) stays on
+ *     water: the same water-above-ground test tools/check_regatta.mjs holds
+ *     (txWaterTopAt above txGroundMaxAt, the ground cell's highest vertex),
+ *     and off every quay;
  *   - buildBayWorld() builds headlessly at both detail levels, at every
  *     named zone, and at every hour, without throwing, and stays inside
  *     BAY_MESH_BUDGET's authored count for each detail level.
@@ -37,10 +48,13 @@ import { buildSuite, WEBXR } from "./lib/headless.mjs";
 const MODULES = [
   "shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/fleet.js", "shared/props.js",
   "smartcity/js/citykit.js", "shared/bayworld-data.js", "shared/bayworld.js",
+  "shared/yacht-fleet.js", "regatta/js/courses.js",
 ];
 const HARNESS = `export {
   BAY_BOUNDS, BAY_ZONES, BAY_LANDMARKS, BAY_ROADS, BAY_SITES, BAY_MESH_BUDGET, BAY_HEIGHT_RANGE,
   bayHeight, bayZoneAt, bayRoadAt, buildBayWorld, THREE,
+  TX_BAY_WATER, TX_BAY_QUAYS, TX_QUAY_TOP, TX_MARINA_FLOATS, txWaterTopAt, txGroundMaxAt, txGroundSurfaceAt, txQuayAt,
+  YACHT_FLEET, RG_BERTHS, rgYachtBerthPose, RG_COURSES, rgCourseWaypoints,
 };`;
 const S = await buildSuite(MODULES, HARNESS, "bayworld");
 
@@ -50,6 +64,8 @@ const fail = (id, msg) => { console.log(`  ✗ ${id}: ${msg}`); failures += 1; }
 const {
   BAY_BOUNDS, BAY_ZONES, BAY_LANDMARKS, BAY_ROADS, BAY_SITES, BAY_MESH_BUDGET, BAY_HEIGHT_RANGE,
   bayHeight, bayZoneAt, bayRoadAt, buildBayWorld, THREE,
+  TX_BAY_WATER, TX_BAY_QUAYS, TX_QUAY_TOP, TX_MARINA_FLOATS, txWaterTopAt, txGroundMaxAt, txGroundSurfaceAt, txQuayAt,
+  YACHT_FLEET, RG_BERTHS, rgYachtBerthPose, RG_COURSES, rgCourseWaypoints,
 } = S;
 
 const inBounds = (x, z) => x >= BAY_BOUNDS.minX && x <= BAY_BOUNDS.maxX && z >= BAY_BOUNDS.minZ && z <= BAY_BOUNDS.maxZ;
@@ -129,6 +145,68 @@ for (const s of BAY_SITES) {
   const anchored = new Set(BAY_SITES.flatMap((s) => s.programmes));
   const missing = programmeIds.filter((p) => !anchored.has(p));
   if (missing.length) fail("programmes", `${missing.length} programme(s) anchored nowhere in BAY_SITES: ${missing.join(", ")}`);
+}
+
+// ------------------------------------------------------- ground and water
+// PALETTE's water fix carved the seabed under TX_BAY_WATER, which left the
+// port, the estuary front, the island and the south shore standing in the
+// water; the quays (TX_BAY_QUAYS) give them a deck again. Every site and
+// landmark stands on ground or a quay; every berth, marina float and course
+// point stays on water.
+const QUAY_INSET = 6;
+function standsOn(x, z) {
+  if (txQuayAt(x, z, QUAY_INSET) >= 0) return "quay";
+  const top = txWaterTopAt(x, z);
+  if (top === null) return "ground";
+  const ground = txGroundSurfaceAt(x, z);
+  return ground > top + 0.1 ? "ground" : `water (top ${top.toFixed(2)} m over ground at ${ground.toFixed(2)} m)`;
+}
+function afloatProblem(x, z) {
+  const top = txWaterTopAt(x, z), ground = txGroundMaxAt(x, z);
+  if (top === null) return "no water surface is built there";
+  if (!(top > ground + 0.2)) return `water top ${top.toFixed(2)} m does not sit above the ground (up to ${ground.toFixed(2)} m)`;
+  if (txQuayAt(x, z) >= 0) return `it lies on quay ${txQuayAt(x, z)}`;
+  return null;
+}
+{
+  let quays = 0;
+  for (const [cx, cz, w, d] of TX_BAY_QUAYS) {
+    if (!inBounds(cx, cz) || !(w > 0) || !(d > 0)) fail("quays", `quay [${cx}, ${cz}, ${w}, ${d}] is malformed or outside BAY_BOUNDS`);
+    quays += 1;
+  }
+  if (!(TX_QUAY_TOP > Math.max(...TX_BAY_WATER.slice(0, 4).map((b) => b[4])))) fail("quays", `TX_QUAY_TOP ${TX_QUAY_TOP} m does not stand above the bay water`);
+  for (const [kind, list] of [["site", BAY_SITES], ["landmark", BAY_LANDMARKS]]) {
+    for (const p of list) {
+      const [x, z] = p.position;
+      if (p.afloat) {
+        const why = afloatProblem(x, z);
+        if (why) fail(`${kind} ${p.id}`, `is flagged afloat but ${why}`);
+        continue;
+      }
+      const on = standsOn(x, z);
+      if (on !== "ground" && on !== "quay") fail(`${kind} ${p.id}`, `(${x}, ${z}) stands in ${on} — give it ground or a quay`);
+    }
+  }
+  const afloat = (x, z, what) => { const why = afloatProblem(x, z); if (why) fail(what, `(${x.toFixed(1)}, ${z.toFixed(1)}): ${why}`); };
+  for (const y of YACHT_FLEET) { const p = rgYachtBerthPose(y); if (!p) fail(`berth ${y.id}`, "has no berth pose"); else afloat(p.x, p.z, `berth ${y.id}`); }
+  if (Object.keys(RG_BERTHS).length < 4) fail("berths", "fewer than four marina berths");
+  for (const [id, [x, z]] of Object.entries(TX_MARINA_FLOATS)) {
+    if (!BAY_SITES.some((s) => s.id === id) && !BAY_LANDMARKS.some((l) => l.id === id)) fail(`marina ${id}`, "names no site or landmark");
+    afloat(x, z, `marina ${id} floats`);
+  }
+  for (const c of RG_COURSES) {
+    for (const p of [c.start.a, c.start.b]) afloat(p[0], p[1], `course ${c.id} start pin`);
+    for (const m of c.marks) afloat(m.x, m.z, `course ${c.id} mark ${m.id}`);
+    afloat(c.noWake.x, c.noWake.z, `course ${c.id} no-wake centre`);
+    afloat(c.dock.x, c.dock.z, `course ${c.id} dock`);
+    const wp = rgCourseWaypoints(c);
+    for (let i = 1; i < wp.length; i++) {
+      const [ax, az] = wp[i - 1], [bx, bz] = wp[i];
+      const n = Math.max(1, Math.ceil(Math.hypot(bx - ax, bz - az) / 10));
+      for (let k = 0; k <= n; k++) afloat(ax + (bx - ax) * (k / n), az + (bz - az) * (k / n), `course ${c.id} leg ${i}`);
+    }
+  }
+  if (!quays) fail("quays", "no quays at all — the port stands in the water");
 }
 
 // -------------------------------------------------------------------- roads
@@ -259,5 +337,5 @@ for (const zone of BAY_ZONES) {
 
 console.log(failures
   ? `\n${failures} Bay World problem(s) found.`
-  : `\nBay World: ${BAY_ZONES.length} zones tile ${BAY_BOUNDS.maxX - BAY_BOUNDS.minX}×${BAY_BOUNDS.maxZ - BAY_BOUNDS.minZ}m, ${BAY_LANDMARKS.length} landmarks and ${BAY_SITES.length} sites each inside their own zone, every curriculum programme anchored, ${BAY_ROADS.length} roads in one connected network, bayHeight bounded to [${BAY_HEIGHT_RANGE[0]}, ${BAY_HEIGHT_RANGE[1]}]m and continuous, both detail levels and every zone build under budget (low ≤ ${BAY_MESH_BUDGET.low}, high ≤ ${BAY_MESH_BUDGET.high} meshes) and deterministically.`);
+  : `\nBay World: ${BAY_ZONES.length} zones tile ${BAY_BOUNDS.maxX - BAY_BOUNDS.minX}×${BAY_BOUNDS.maxZ - BAY_BOUNDS.minZ}m, ${BAY_LANDMARKS.length} landmarks and ${BAY_SITES.length} sites each inside their own zone and on ground or one of ${TX_BAY_QUAYS.length} quays, every berth, marina and regatta course on water, every curriculum programme anchored, ${BAY_ROADS.length} roads in one connected network, bayHeight bounded to [${BAY_HEIGHT_RANGE[0]}, ${BAY_HEIGHT_RANGE[1]}]m and continuous, both detail levels and every zone build under budget (low ≤ ${BAY_MESH_BUDGET.low}, high ≤ ${BAY_MESH_BUDGET.high} meshes) and deterministically.`);
 process.exit(failures ? 1 : 0);

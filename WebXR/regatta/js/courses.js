@@ -12,7 +12,7 @@
 // shore — as plain rectangles, and rgOnWater() is the one place that asks
 // "is this point afloat". tools/check_regatta.mjs holds every mark, line and
 // dock to it, and holds every leg to it by sampling.
-import { BAY_BOUNDS } from "../../shared/bayworld-data.js";
+import { BAY_BOUNDS, txQuayAt } from "../../shared/bayworld-data.js";
 
 /** `[cx, cz, w, d]` — the same arguments buildWater() takes in shared/bayworld.js. */
 export const RG_WATER = [
@@ -22,9 +22,11 @@ export const RG_WATER = [
   [0, 765, 2400, 70],      // the open water the island and the south shore look out on
 ];
 
-/** Whether (x, z) is inside BAY_BOUNDS and on one of the water slabs. */
+/** Whether (x, z) is inside BAY_BOUNDS, on one of the water slabs and off
+ *  every quay (bayworld-data.js's TX_BAY_QUAYS: a quay is shore to a hull). */
 export function rgOnWater(x, z) {
   if (x < BAY_BOUNDS.minX || x > BAY_BOUNDS.maxX || z < BAY_BOUNDS.minZ || z > BAY_BOUNDS.maxZ) return false;
+  if (txQuayAt(x, z) >= 0) return false;
   return RG_WATER.some(([cx, cz, w, d]) => Math.abs(x - cx) <= w / 2 && Math.abs(z - cz) <= d / 2);
 }
 
@@ -45,7 +47,9 @@ export const RG_COURSES = [
     start: { a: [40, 540], b: [90, 540] },
     marks: [
       { id: "es-1", x: -120, z: 420, side: "port" },
-      { id: "es-2", x: -350, z: 380, side: "port" },
+      // Laid 50 m south of the port quay (TX_BAY_QUAYS[0]), clear of the
+      // container terminal, the hazmat yard and the gantry cranes.
+      { id: "es-2", x: -350, z: 450, side: "port" },
       { id: "es-3", x: -500, z: 480, side: "port" },
       { id: "es-4", x: -200, z: 550, side: "port" },
     ],
