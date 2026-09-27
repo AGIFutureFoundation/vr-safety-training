@@ -346,6 +346,7 @@ APPS = {
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
             SHARED / "controls.js",
+            SHARED / "links.js",
             WEBXR / "fairway/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -436,6 +437,7 @@ APPS = {
             WEBXR / "bayworld/js/quests-select.js",
             WEBXR / "bayworld/js/quest-engine.js",
             WEBXR / "bayworld/js/career.js",
+            SHARED / "links.js",
             WEBXR / "bayworld/js/sim.js",
             WEBXR / "bayworld/js/map.js",
             # Real ground under the city (docs/mapbox.md): bay-geo's fit and
@@ -489,6 +491,7 @@ APPS = {
             WEBXR / "underwater/js/dives-select.js",
             WEBXR / "underwater/js/dive-engine.js",
             WEBXR / "underwater/js/dive-career.js",
+            SHARED / "links.js",
             WEBXR / "underwater/js/dive-sim.js",
             WEBXR / "underwater/js/dive-map.js",
             WEBXR / "underwater/js/activities.js",
@@ -517,6 +520,7 @@ APPS = {
             SHARED / "bay-geo.js",
             SHARED / "mapbox.js",
             SHARED / "controls.js",
+            SHARED / "links.js",
             WEBXR / "bayworld/js/atlas.js",
         ],
         "entry": '<script type="module" src="./js/atlas.js"></script>',
@@ -554,6 +558,7 @@ APPS = {
             WEBXR / "bayworld/js/career.js",
             WEBXR / "regatta/js/courses.js",
             WEBXR / "regatta/js/race.js",
+            SHARED / "links.js",
             WEBXR / "regatta/js/events.js",
             WEBXR / "regatta/js/world.js",
             # The learner passport (docs/interop.md): one read/write API over
@@ -595,6 +600,10 @@ LINK_QUOTES = ('"', "`")
 
 
 def dist_fixup(html: str) -> str:
+    # The repository's docs/ folder is not published beside any bundle: a
+    # source page's link into it keeps its text reference and loses the dead
+    # link in every dist (tools/briefs/links-brief.md).
+    html = re.sub(r'<a href="(?:\.\./)+docs/([\w./-]+\.md)">([^<]*)</a>', r'<code>\2</code>', html)
     for name in SIBLING_APP_DIRS:
         for q in LINK_QUOTES:
             html = html.replace(f'{q}../{name}/', f'{q}../../{name}/')
@@ -796,6 +805,10 @@ def combined_fixup(html: str) -> str:
     for q in LINK_QUOTES:
         # The homepage sits beside the bundles in this folder.
         html = html.replace(f'{q}../../index.html{q}', f'{q}./index.html{q}')
+        # The network portal page is not published in the flat folder; its
+        # link (SmartCiti.X's intro, the instructor console) goes to the
+        # homepage, which is the network map here. The repo layout keeps it.
+        html = html.replace(f'{q}../../portal/index.html', f'{q}./index.html')
         html = html.replace(f'{q}../../', f'{q}../')
     return html
 

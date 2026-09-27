@@ -5,8 +5,9 @@ import { tcTier, tcApplyRenderer } from "../../shared/perf.js";
 import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
 import { WEATHER } from "../../shared/weather.js";
 import { TrainingRecords } from "../../shared/records.js";
-import { ppRecordStation, ppProgressChip, ppCompleteReturns, ppCompleted, ppBoardDone, ppLaunchLink, ppHerePage } from "../../shared/passport.js";
+import { ppRecordStation, ppProgressChip, ppCompleteReturns, ppCompleted, ppBoardDone, ppHerePage } from "../../shared/passport.js";
 import { PP_PROGRAMMES } from "../../shared/passport-programmes.js";
+import { lkStationLink } from "../../shared/links.js";
 import { FAIRWAY_HOLES } from "./course.js";
 import {
   GOLF_CLUBS, CARE_HABITS,
@@ -153,7 +154,8 @@ function fwRenderGroundsBoard() {
   for (const id of FW_GROUNDS.stations) {
     const a = document.createElement("a");
     a.className = "gs-link";
-    a.href = ppLaunchLink(FW_RUNNER, { sim: id, from: "fairway", page: ppHerePage(), siteId: FW_GROUNDS.id });
+    // A Trade Skills room opens in the Trade Skills app (shared/links.js).
+    a.href = lkStationLink(id, { runner: FW_RUNNER, from: "fairway", page: ppHerePage(), siteId: FW_GROUNDS.id });
     a.textContent = `${ppCompleted(id) ? "✓ " : ""}${id.replace(/^gk-/, "").replace(/-/g, " ")}`;
     row.appendChild(a);
   }

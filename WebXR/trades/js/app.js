@@ -4,7 +4,7 @@ import { disposeTree, decal, repaint, box, cyl, torus, ball, group, mat, HUD, cl
 import { Session, Progress, Sfx } from "../../shared/game.js";
 import { speak, speechSupported } from "../../shared/voice-assist.js";
 import { TrainingRecords } from "../../shared/records.js";
-import { ppRecordStation } from "../../shared/passport.js";
+import { ppRecordStation, ppReturnTarget } from "../../shared/passport.js";
 import { Identity } from "../../shared/identity.js";
 import { Lrs } from "../../shared/lrs.js";
 import { Platform, FLOW_LOAD, FLOW_START, FLOW_RESUME, FLOW_STATE } from "../../shared/platform.js";
@@ -787,7 +787,10 @@ function showResults(s, summary) {
     <p class="res-note">${s.errors === 0
       ? "Clean run: every control taken in order, no unsafe action."
       : `${s.errors} correction${s.errors === 1 ? "" : "s"} — re-run it to clear the room without a penalty.`}</p>
-    ${renderDebrief(s)}`;
+    ${renderDebrief(s)}
+    ${lkTradesReturn ? `<p class="res-note res-return"><a id="res-return" href="${escapeHtml(lkTradesReturn.url)}"
+      style="display:inline-block;padding:8px 14px;border-radius:8px;background:var(--accent);color:#04121a;font-weight:700;text-decoration:none">${escapeHtml(lkTradesReturn.label)}</a>
+      <span class="muted">This run is on your passport; the board there is marked and paid once.</span></p>` : ""}`;
   ui.results.hidden = false;
   state.paused = true;
   // Same attempt record SmartCiti.X writes. Every room names the union and
@@ -796,6 +799,8 @@ function showResults(s, summary) {
   Perf.logRun({ app: "trades", simId: state.room?.id, mode: renderer.xr.isPresenting ? "vr" : "flat",
     presenting: renderer.xr.isPresenting, seconds: Math.round(s.elapsed ?? 0) });
   const attempt = ppRecordStation({
+    // Stamped with the world whose board launched it (`?from=`), as SmartCiti.X does.
+    source: lkTradesReturn?.from ?? lkTradesFrom ?? "trades",
     app: "trades", learner: Progress.playerName,
     learnerName: Identity.current?.name, learnerId: Identity.current?.id, homePage: Identity.current?.homePage,
     simId: s.room.id, simName: s.room.title, category: s.room.category ?? "Trade Skills Simulator", trade: s.room.trade,
@@ -1376,6 +1381,12 @@ function wrapText(g, text, x, y, maxWidth, lineHeight, maxLines) {
 // ?room=<id> opens straight into one trade, so a single bay can be linked or
 // embedded on its own without the learner walking the hub first.
 const deepLink = new URLSearchParams(location.search).get("room");
+// The round trip (docs/interop.md): a world's job board opens a room with
+// `?room=<id>&from=<world>&return=<the world's page>#site=<id>`; the results
+// card then offers "Back to <world>". Only a same-origin return is honoured
+// (the passport's ppReturnTarget), so the parameter never redirects off-site.
+const lkTradesFrom = new URLSearchParams(location.search).get("from");
+const lkTradesReturn = ppReturnTarget(location.search, location.href);
 function begin() {
   ui.intro.hidden = true;
   state.paused = false;
@@ -1561,6 +1572,8 @@ window.__tradesTest = {
   camera: () => camera,
   rig: () => rig,
   room: () => state.room,
+  // The way home the results card offers (`?from=` + `?return=`), or null.
+  returnTarget: () => lkTradesReturn,
   perf: () => Perf.snapshot({ enabled: Perf.enabled, log: Perf.list().length }),
 };
 

@@ -54,6 +54,7 @@ const geo = await import("../WebXR/shared/bay-geo.js");
 const data = await import("../WebXR/shared/bayworld-data.js");
 const mb = await import("../WebXR/shared/mapbox.js");
 const atlas = await import("../WebXR/bayworld/js/atlas.js");
+const TRADE_ROOMS = new Set((await import("../WebXR/shared/links.js")).LK_TRADES_ROOMS);
 const { BAY_GEO_ANCHORS, bayToGeo, geoToBay, bayGeoBounds, bayGeoContains, bayGeoResidual } = geo;
 const { BAY_BOUNDS, BAY_ZONES, BAY_SITES, BAY_LANDMARKS } = data;
 
@@ -337,7 +338,8 @@ await check("the atlas renders headlessly in fallback mode: one marker per site 
   eq(count(list, 'data-programme="'), chips, "one chip per programme");
   for (const s of BAY_SITES) {
     assert(list.includes(`index.html?site=${encodeURIComponent(s.id)}"`), `${s.id} has no Bay World deep link`);
-    if (s.stations.length) assert(list.includes(`smartcity-x.html?sim=${encodeURIComponent(s.stations[0])}&amp;from=atlas"`), `${s.id} has no station deep link`);
+    // A Trade Skills room opens in the Trade Skills app (shared/links.js).
+    if (s.stations.length) assert(list.includes(`${TRADE_ROOMS.has(s.stations[0]) ? `trades/index.html?room=` : `smartcity-x.html?sim=`}${encodeURIComponent(s.stations[0])}&amp;from=atlas"`), `${s.id} has no station deep link`);
     else assert(!list.includes(`?sim=&amp;from=atlas"`), `${s.id} links an empty station`);
   }
   for (const l of BAY_LANDMARKS) assert(list.includes(`index.html?landmark=${encodeURIComponent(l.id)}"`), `${l.id} has no Bay World deep link`);

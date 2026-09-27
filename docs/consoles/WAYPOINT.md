@@ -1,0 +1,9 @@
+# Console WAYPOINT — every open-world link works, in the repo layout and the flat build
+
+Team: WAYPOINT · Brief: `tools/briefs/links-brief.md` (with `console-brief.md`) · Branch: `claude/vr-ar-safety-training-wkwmve`
+
+Owns `WebXR/shared/links.js` (the one station-link rule: a Trade Skills room opens the Trade Skills app, every other station SmartCiti.X), the job boards' station lists in Bay World and the Deep, the Trade Skills return link, the portal and docs rewrites in `tools/bundle_webxr.py`, and `tools/check_links.mjs` in `check_all`.
+
+- 23:21 UTC · Fetched and fast-forwarded; read the links and console briefs, bwMissionLink/dvMissionLink and both job boards, the Regatta briefings, Fairway's grounds board, the Atlas deep links, ppReturnTarget/ppRecordStation, the Trade Skills app, react-ui.js's and the instructor console's portal link, dist_fixup/combined_fixup and check_mobile's serving pattern · next: the shared link rule.
+- 23:30 UTC · `shared/links.js` (lkStationLink, LK_TRADES_ROOMS, lkRenderStations) routes every station link: Bay World, the Deep, the Regatta briefings, Fairway's board and the Atlas; both job boards list every station with its own Start link; Trade Skills reads `?return=` through ppReturnTarget, offers "Back to <world>" on the results card and stamps the record's source; the flat build points the portal link at the homepage and drops the dead docs link. check_bayworld_game, check_mapbox and check_regatta updated for the room routing (regatta's suite now bundles links.js) · next: commit, then check_links.mjs.
+- 23:30 UTC · The homepage continue strip (MARQUEE's, `tools/gen_home.mjs`) still writes `trades/index.html?room=` / `smartcity/index.html?sim=`, which do not exist in the flat folder; not edited here, covered by the checker as a reported pending item.

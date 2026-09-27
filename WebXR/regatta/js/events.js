@@ -11,13 +11,14 @@
 // invented for this platform.
 import { bwAwardQuestReward } from "../../bayworld/js/career.js";
 import { rgCourseById } from "./courses.js";
+import { lkStationLink } from "../../shared/links.js";
 
 /** Where a briefing's station link goes: the platform's own station, with `from=regatta` so the return is recognised. */
 // Given this page's own path, `&return=<page>#site=<event id>` is the way home
 // the runner's "Back to the Bay Regatta" button takes (docs/interop.md).
+// A Trade Skills room opens in the Trade Skills app instead (shared/links.js).
 export function rgStationLink(stationId, { page = null, eventId = null } = {}) {
-  const back = page ? `&return=${encodeURIComponent(`${page}${eventId ? `#site=${encodeURIComponent(eventId)}` : ""}`)}` : "";
-  return `../smartcity/index.html?sim=${encodeURIComponent(stationId)}&from=regatta${back}`;
+  return lkStationLink(stationId, { runner: "../smartcity/index.html", from: "regatta", page, siteId: eventId });
 }
 
 /**

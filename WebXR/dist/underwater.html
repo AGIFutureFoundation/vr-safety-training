@@ -76,6 +76,9 @@
   #toast.on{opacity:1}
 
   #jb-progress, #jb-programmes, #jb-zone{color:var(--muted);font-size:14px;margin:4px 0}
+  .jb-stations{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:6px}
+  .jb-stations li{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:14px}
+  .jb-stations a.btn{text-decoration:none;padding:7px 12px;white-space:nowrap}
   .activity-list{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin:10px 0}
   .activity-list .btn{text-align:left;padding:14px;text-transform:none;letter-spacing:0;font-family:var(--sans);font-weight:500}
   .activity-list .btn b{font-family:var(--cond);text-transform:uppercase;letter-spacing:.06em;font-size:15px}
@@ -175,6 +178,7 @@
     <p id="jb-programmes"></p>
     <p id="jb-chip" class="pp-chip" hidden></p>
     <p id="jb-done" hidden>Board done: passed, on your passport.</p>
+    <ul id="jb-stations" class="jb-stations" aria-label="Stations on this board" hidden></ul>
     <div class="row" style="margin-top:14px">
       <button class="btn primary" id="jb-launch">Start the station</button>
       <button class="btn ghost" id="jb-close">Close</button>
@@ -17537,6 +17541,79 @@ function dvSiteProgress(records, site) {
 }
 
 
+/* ===== shared/links.js ===== */
+// One rule for every station link a world builds (tools/briefs/links-brief.md).
+//
+// A station id is either a SmartCiti.X station (opened with `?sim=<id>`) or a
+// Trade Skills room (the catalog's `app: "trades"` stations, opened in the
+// Trade Skills app with `?room=<id>`). Every job board, briefing, grounds
+// board and atlas card routes through lkStationLink so a room is never sent to
+// SmartCiti.X, where it does not exist. Pure: no DOM, no storage, no imports.
+//
+// Paths are relative to the calling page's own folder (WebXR/<app>/), the way
+// every world already writes its sibling links; tools/bundle_webxr.py rewrites
+// "./trade-skills-simulator.html" to "trade-skills-simulator.html" in the flat build.
+// Every top-level name is prefixed `lk`/`LK_` because the bundler concatenates
+// all modules into one scope.
+
+/** The Trade Skills rooms (the catalog's `app: "trades"` stations). */
+const LK_TRADES_ROOMS = Object.freeze([
+  "electrical", "salon", "kitchen", "phlebotomy", "welding", "devops", "plumbing", "pressure-washer", "paint-sprayer",
+]);
+
+/** The Trade Skills app's page, relative to a world's own folder. */
+const LK_TRADES_PAGE = "./trade-skills-simulator.html";
+
+/** True when `id` is a Trade Skills room rather than a SmartCiti.X station. */
+function lkIsTradesRoom(id) { return LK_TRADES_ROOMS.includes(String(id ?? "")); }
+
+/**
+ * The launch link for one station: `<runner>?sim=<id>&from=<app>` for a
+ * SmartCiti.X station, `<trades>?room=<id>&from=<app>` for a Trade Skills
+ * room, each with `&return=<page>#site=<siteId>` when `page` is given (the
+ * way home the runner's "Back to <world>" button takes, docs/interop.md).
+ */
+function lkStationLink(id, { runner = "./smartcity-x.html", trades = LK_TRADES_PAGE, from = null, page = null, siteId = null, extra = "" } = {}) {
+  if (!id) throw new Error("lkStationLink needs a station id");
+  const ret = page ? `${page}${siteId ? `#site=${encodeURIComponent(siteId)}` : ""}` : null;
+  const back = ret ? `&return=${encodeURIComponent(ret)}` : "";
+  const room = lkIsTradesRoom(id);
+  const base = room ? trades : runner;
+  return `${base}?${room ? "room" : "sim"}=${encodeURIComponent(id)}${from ? `&from=${encodeURIComponent(from)}` : ""}${back}${extra}`;
+}
+
+/** A station id as a label: "confined-space-entry" → "confined space entry". */
+function lkStationLabel(id) { return String(id ?? "").replace(/-/g, " "); }
+
+/**
+ * Fill a job board's station list (`ul`) with one row per station, each with
+ * its own Start link from `linkFor(id)` — so a board with several stations
+ * lets the learner choose instead of always launching the first. The list is
+ * shown only when there is more than one station to choose from; `done(id)`
+ * marks a station already passed. Returns the number of rows written.
+ */
+function lkRenderStations(ul, ids, linkFor, { done = () => false } = {}) {
+  if (!ul) return 0;
+  ul.textContent = "";
+  const list = (ids ?? []).filter(Boolean);
+  for (const id of list) {
+    const li = ul.ownerDocument.createElement("li");
+    const name = ul.ownerDocument.createElement("span");
+    name.textContent = `${done(id) ? "✓ " : ""}${lkStationLabel(id)}${lkIsTradesRoom(id) ? " · Trade Skills" : ""}`;
+    const a = ul.ownerDocument.createElement("a");
+    a.className = "btn primary lk-start";
+    a.href = linkFor(id);
+    a.dataset.station = id;
+    a.textContent = "Start";
+    a.setAttribute("aria-label", `Start ${lkStationLabel(id)}`);
+    li.append(name, a);
+    ul.appendChild(li);
+  }
+  ul.toggleAttribute("hidden", list.length < 2);
+  return list.length;
+}
+
+
 /* ===== underwater/js/dive-sim.js ===== */
 // The Deep — the dive simulation: swimming and ROV piloting over the seabed,
 // the qualitative reserve gauge, the buddy line, the ascent lines, daylight
@@ -17549,6 +17626,7 @@ function dvSiteProgress(records, site) {
 // the depth field steers the light and the scenery and is never rendered as
 // a number. Depth, gas, decompression and current limits are per the dive
 // plan and the tables the supervisor holds.
+
 
 const dvClamp = (v, lo, hi) => (v < lo ? lo : v > hi ? hi : v);
 
@@ -17710,12 +17788,12 @@ function dvAdvanceClock(hours, dtSeconds, daySeconds = DV_DAY_SECONDS) {
 
 /** `./smartcity-x.html?sim=<id>&from=underwater` — the one
  *  deep link every job board launches by. */
-function dvMissionLink(site, { base = "./smartcity-x.html", station = null, page = null } = {}) {
+function dvMissionLink(site, { base = "./smartcity-x.html", trades = LK_TRADES_PAGE, station = null, page = null } = {}) {
   const sim = station ?? site.stations?.[0];
   if (!sim) throw new Error(`site "${site.id}" has no station to launch`);
   // `page` (this world's own path) is the way home: `&return=<page>#site=<id>` (docs/interop.md).
-  const back = page ? `&return=${encodeURIComponent(`${page}#site=${encodeURIComponent(site.id)}`)}` : "";
-  return `${base}?sim=${encodeURIComponent(sim)}&from=underwater${back}`;
+  // A Trade Skills room opens in the Trade Skills app (shared/links.js).
+  return lkStationLink(sim, { runner: base, trades, from: "underwater", page, siteId: site.id });
 }
 
 /** The nearest site or landmark to (x, z) within `radius`, or null. */
@@ -19195,7 +19273,10 @@ function dvOpenJobBoard(site) {
   // The programme chip and the board's done mark read only the passport.
   ppProgressChip($("jb-chip"), site.programmes?.[0] ?? null);
   $("jb-done")?.toggleAttribute("hidden", !ppBoardDone("underwater", site));
-  $("jb-launch")?.toggleAttribute("hidden", !(site.stations ?? []).length);
+  // A board with several stations lists each with its own Start link (every
+  // one routed by shared/links.js); "Start the station" stays for a board of one.
+  const lkCount = lkRenderStations($("jb-stations"), site.stations, (id) => dvMissionLink(site, { station: id, page: ppHerePage() }), { done: ppCompleted });
+  $("jb-launch")?.toggleAttribute("hidden", lkCount !== 1);
   dvOpenScreen("jobboard");
 }
 $("jb-launch")?.addEventListener("click", () => {

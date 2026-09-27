@@ -60,7 +60,7 @@ const S = await buildSuite([
   "shared/weather.js", "shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/fleet.js",
   "shared/records.js", "shared/a11y.js", "shared/game.js", "shared/competency.js", "shared/ladder-milestones-data.js", "shared/ladder.js", "shared/tracking.js",
   "shared/bayworld-data.js", "shared/yacht-fleet.js", "bayworld/js/career.js",
-  "regatta/js/courses.js", "regatta/js/race.js", "regatta/js/events.js",
+  "regatta/js/courses.js", "regatta/js/race.js", "shared/links.js", "regatta/js/events.js",
   "shared/props.js", "smartcity/js/citykit.js", "shared/bayworld.js", "regatta/js/world.js",
 ], `export { THREE, FLEET_BUDGET, BAY_SITES, BAY_BOUNDS, YACHT_FLEET, RG_BERTHS, RG_YACHT_LENGTH_RANGE, yachtById, rgYachtBerthSite, rgYachtBerthPose, rgYachtsForEvent, buildYacht,
   RG_COURSES, RG_WATER, rgOnWater, TX_BAY_WATER, txWaterTopAt, txGroundMaxAt, txGroundHeight, rgCourseById, rgCourseWaypoints, regattaCourseAt, rgLegOnWater, rgWorldToMap, rgCourseToMap,
