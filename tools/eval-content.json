@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-26",
+  "generated": "2026-09-27",
   "weights": {
     "variety": 0.18,
     "decisions": 0.2,
@@ -642,6 +642,58 @@
     },
     {
       "app": "smartcity",
+      "id": "crane-yard",
+      "name": "Crane Yard",
+      "category": "Construction & Structural Trades",
+      "steps": 15,
+      "score": 91,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.8166666666666667,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 297,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.8525,
+          "meshes": 121,
+          "materials": 69,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.06261980830670949,
+          "nearest": "op-crawler-crane-assembly-and-load-chart",
+          "similarity": 0.3274760383386581
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "forklift-dock",
       "name": "Forklift Dock",
       "category": "Manufacturing & Automation",
@@ -845,58 +897,6 @@
           "score": 0.6103362391033624,
           "nearest": "bridge-lead-containment",
           "similarity": 0.21793275217932753
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "rcl-switching",
-      "name": "RCL Switching",
-      "category": "Mobility & Transit",
-      "steps": 15,
-      "score": 91,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 1
-        },
-        "decisions": {
-          "score": 0.9166666666666666,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 280,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 0.75,
-          "authorities": 3
-        },
-        "standards": {
-          "score": 1,
-          "cited": 4,
-          "inScope": 4,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 0.8333333333333334,
-          "want": 12,
-          "got": 10
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 258,
-          "materials": 111,
-          "interactables": 23
-        },
-        "originality": {
-          "score": 0.5114104595879557,
-          "nearest": "track-access",
-          "similarity": 0.23771790808240886
         }
       }
     },
@@ -1726,9 +1726,9 @@
           "interactables": 22
         },
         "originality": {
-          "score": 0.6826498422712934,
-          "nearest": "gg-tower-climb-and-tie-off",
-          "similarity": 0.20347003154574134
+          "score": 0.6768683274021353,
+          "nearest": "av-hangar-jacking-and-stands",
+          "similarity": 0.20462633451957296
         }
       }
     },
@@ -1882,9 +1882,9 @@
           "interactables": 22
         },
         "originality": {
-          "score": 0.5239538239538241,
-          "nearest": "ammonia-plant",
-          "similarity": 0.2352092352092352
+          "score": 0.4181409295352326,
+          "nearest": "pl-steam-trap-and-condensate-line-repair",
+          "similarity": 0.2563718140929535
         }
       }
     },
@@ -1942,53 +1942,53 @@
     },
     {
       "app": "smartcity",
-      "id": "crane-yard",
-      "name": "Crane Yard",
-      "category": "Construction & Structural Trades",
-      "steps": 15,
+      "id": "bus-depot-lift",
+      "name": "Bus Depot Lift",
+      "category": "Mobility & Transit",
+      "steps": 10,
       "score": 93,
       "d": {
         "variety": {
           "score": 1,
-          "distinct": 6,
-          "longestRun": 2
+          "distinct": 7,
+          "longestRun": 1
         },
         "decisions": {
-          "score": 0.8166666666666667,
+          "score": 1,
           "hazards": 4,
           "interrupts": 2
         },
         "explanation": {
           "score": 1,
-          "medianWhy": 297,
+          "medianWhy": 261,
           "thin": 0
         },
         "grounding": {
           "score": 1,
-          "authorities": 7
+          "authorities": 5
         },
         "standards": {
-          "score": 1,
-          "cited": 6,
-          "inScope": 6,
+          "score": 0.8,
+          "cited": 5,
+          "inScope": 4,
           "outOfScope": 0,
-          "unregistered": 0
+          "unregistered": 1
         },
         "feedback": {
           "score": 1,
-          "want": 11,
-          "got": 11
+          "want": 10,
+          "got": 10
         },
         "scene": {
-          "score": 0.8525,
-          "meshes": 121,
-          "materials": 69,
-          "interactables": 23
+          "score": 0.7654545454545454,
+          "meshes": 118,
+          "materials": 59,
+          "interactables": 17
         },
         "originality": {
-          "score": 0.4535612535612536,
-          "nearest": "mass-timber-panel-set",
-          "similarity": 0.2492877492877493
+          "score": 0.5214285714285716,
+          "nearest": "av-hangar-jacking-and-stands",
+          "similarity": 0.2357142857142857
         }
       }
     },
@@ -2974,9 +2974,9 @@
           "interactables": 22
         },
         "originality": {
-          "score": 0.5593750000000001,
-          "nearest": "straddle-carrier-ops",
-          "similarity": 0.228125
+          "score": 0.536424957841484,
+          "nearest": "op-loader-truck-loading-and-blind-spots",
+          "similarity": 0.2327150084317032
         }
       }
     },
@@ -3133,58 +3133,6 @@
           "score": 0.42197309417040363,
           "nearest": "mass-timber-panel-set",
           "similarity": 0.2556053811659193
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "bus-depot-lift",
-      "name": "Bus Depot Lift",
-      "category": "Mobility & Transit",
-      "steps": 10,
-      "score": 94,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 7,
-          "longestRun": 1
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 261,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 5
-        },
-        "standards": {
-          "score": 0.8,
-          "cited": 5,
-          "inScope": 4,
-          "outOfScope": 0,
-          "unregistered": 1
-        },
-        "feedback": {
-          "score": 1,
-          "want": 10,
-          "got": 10
-        },
-        "scene": {
-          "score": 0.7654545454545454,
-          "meshes": 118,
-          "materials": 59,
-          "interactables": 17
-        },
-        "originality": {
-          "score": 0.6920000000000001,
-          "nearest": "mass-timber-panel-set",
-          "similarity": 0.2016
         }
       }
     },
@@ -4490,6 +4438,58 @@
     },
     {
       "app": "smartcity",
+      "id": "rcl-switching",
+      "name": "RCL Switching",
+      "category": "Mobility & Transit",
+      "steps": 15,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 280,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 0.8333333333333334,
+          "want": 12,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 258,
+          "materials": 111,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.4001733102253033,
+          "nearest": "ra-blue-flag-protection-in-the-yard",
+          "similarity": 0.25996533795493937
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "shipyard-hotwork",
       "name": "Shipyard Hot Work",
       "category": "Maritime & Ports",
@@ -4646,6 +4646,110 @@
     },
     {
       "app": "smartcity",
+      "id": "op-dozer-slope-work-and-rollover-protection",
+      "name": "Dozer Slope Work & Rollover Protection",
+      "category": "Construction & Structural Trades",
+      "steps": 15,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 271,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 209,
+          "materials": 91,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "op-compactor-lift-thickness-and-edge",
+          "similarity": 0.394990366088632
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "track-access",
+      "name": "Track Access",
+      "category": "Mobility & Transit",
+      "steps": 12,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 290,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 8,
+          "got": 8
+        },
+        "scene": {
+          "score": 0.8288636363636364,
+          "meshes": 137,
+          "materials": 65,
+          "interactables": 18
+        },
+        "originality": {
+          "score": 0.1500875656742559,
+          "nearest": "ra-roadway-worker-protection-and-job-briefing",
+          "similarity": 0.30998248686514884
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "robot-cell",
       "name": "Robot Cell",
       "category": "Manufacturing & Automation",
@@ -4745,6 +4849,58 @@
           "score": 0.535904628330996,
           "nearest": "gg-tower-climb-and-tie-off",
           "similarity": 0.23281907433380084
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "trench-box",
+      "name": "Trench Box",
+      "category": "Construction & Structural Trades",
+      "steps": 15,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 335,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9625,
+          "meshes": 165,
+          "materials": 72,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.34418938307030134,
+          "nearest": "pl-underground-sewer-lateral-and-trench-shoring",
+          "similarity": 0.27116212338593976
         }
       }
     },
@@ -5002,9 +5158,269 @@
           "interactables": 24
         },
         "originality": {
-          "score": 0.5471849865951744,
-          "nearest": "pm-domestic-water-and-backflow",
-          "similarity": 0.23056300268096513
+          "score": 0.5364779874213838,
+          "nearest": "pl-fire-sprinkler-riser-and-flow-test",
+          "similarity": 0.23270440251572327
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "av-lavatory-and-potable-water-separation",
+      "name": "Lavatory & Potable Water Separation",
+      "category": "Mobility & Transit",
+      "steps": 15,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 295,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9400000000000001,
+          "meshes": 156,
+          "materials": 93,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.3254295532646048,
+          "nearest": "av-baggage-belt-loader-and-hold-loading",
+          "similarity": 0.27491408934707906
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "av-hangar-jacking-and-stands",
+      "name": "Hangar Jacking & Stands",
+      "category": "Mobility & Transit",
+      "steps": 15,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 270,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 183,
+          "materials": 86,
+          "interactables": 28
+        },
+        "originality": {
+          "score": 0.27394366197183107,
+          "nearest": "av-baggage-belt-loader-and-hold-loading",
+          "similarity": 0.2852112676056338
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "av-ground-power-and-static-bonding-before-fuel",
+      "name": "Ground Power & Static Bonding Before Fuel",
+      "category": "Mobility & Transit",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9550000000000001,
+          "medianWhy": 241,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 199,
+          "materials": 104,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.29519408502772654,
+          "nearest": "av-baggage-belt-loader-and-hold-loading",
+          "similarity": 0.2809611829944547
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "av-pushback-tug-and-towbar-connection",
+      "name": "Pushback Tug & Towbar Connection",
+      "category": "Mobility & Transit",
+      "steps": 15,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 258,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.955,
+          "meshes": 162,
+          "materials": 87,
+          "interactables": 30
+        },
+        "originality": {
+          "score": 0.27014388489208646,
+          "nearest": "av-marshalling-and-wingwalker-signals",
+          "similarity": 0.28597122302158273
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "av-marshalling-and-wingwalker-signals",
+      "name": "Marshalling & Wing-Walker Signals",
+      "category": "Mobility & Transit",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 268,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 189,
+          "materials": 100,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.12857142857142873,
+          "nearest": "airport-ramp",
+          "similarity": 0.3142857142857143
         }
       }
     },
@@ -5421,6 +5837,58 @@
           "score": 0.24857142857142883,
           "nearest": "home-visit-safety",
           "similarity": 0.29028571428571426
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "mass-timber-panel-set",
+      "name": "Mass Timber Panel Set",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 334,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 182,
+          "materials": 90,
+          "interactables": 30
+        },
+        "originality": {
+          "score": 0.3915887850467292,
+          "nearest": "op-crawler-crane-assembly-and-load-chart",
+          "similarity": 0.2616822429906542
         }
       }
     },
@@ -6250,9 +6718,9 @@
           "interactables": 25
         },
         "originality": {
-          "score": 0.5297872340425532,
-          "nearest": "pump-and-treat",
-          "similarity": 0.23404255319148937
+          "score": 0.5282504012841092,
+          "nearest": "av-lavatory-and-potable-water-separation",
+          "similarity": 0.23434991974317818
         }
       }
     },
@@ -6562,9 +7030,9 @@
           "interactables": 28
         },
         "originality": {
-          "score": 0.5538205980066446,
-          "nearest": "isco-injection",
-          "similarity": 0.2292358803986711
+          "score": 0.549144634525661,
+          "nearest": "pl-hydronic-boiler-piping-and-hydrotest",
+          "similarity": 0.2301710730948678
         }
       }
     },
@@ -6934,25 +7402,25 @@
     },
     {
       "app": "smartcity",
-      "id": "track-access",
-      "name": "Track Access",
+      "id": "ra-blue-flag-protection-in-the-yard",
+      "name": "Blue Flag Protection in the Yard",
       "category": "Mobility & Transit",
-      "steps": 12,
-      "score": 96,
+      "steps": 15,
+      "score": 95,
       "d": {
         "variety": {
           "score": 1,
-          "distinct": 6,
+          "distinct": 8,
           "longestRun": 2
         },
         "decisions": {
-          "score": 1,
+          "score": 0.9166666666666666,
           "hazards": 4,
           "interrupts": 2
         },
         "explanation": {
-          "score": 1,
-          "medianWhy": 290,
+          "score": 0.99,
+          "medianWhy": 248,
           "thin": 0
         },
         "grounding": {
@@ -6968,34 +7436,34 @@
         },
         "feedback": {
           "score": 1,
-          "want": 8,
-          "got": 8
+          "want": 11,
+          "got": 11
         },
         "scene": {
-          "score": 0.8288636363636364,
-          "meshes": 137,
-          "materials": 65,
-          "interactables": 18
+          "score": 0.9425,
+          "meshes": 157,
+          "materials": 69,
+          "interactables": 22
         },
         "originality": {
-          "score": 0.5114104595879557,
-          "nearest": "rcl-switching",
-          "similarity": 0.23771790808240886
+          "score": 0.2521582733812952,
+          "nearest": "ra-air-brake-test-and-train-inspection",
+          "similarity": 0.289568345323741
         }
       }
     },
     {
       "app": "smartcity",
-      "id": "trench-box",
-      "name": "Trench Box",
-      "category": "Construction & Structural Trades",
+      "id": "ra-crossing-signal-maintenance-and-flagging",
+      "name": "Crossing Signal Maintenance & Flagging",
+      "category": "Mobility & Transit",
       "steps": 15,
-      "score": 96,
+      "score": 95,
       "d": {
         "variety": {
           "score": 1,
-          "distinct": 6,
-          "longestRun": 2
+          "distinct": 8,
+          "longestRun": 1
         },
         "decisions": {
           "score": 0.9166666666666666,
@@ -7004,7 +7472,59 @@
         },
         "explanation": {
           "score": 1,
-          "medianWhy": 335,
+          "medianWhy": 251,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.9190909090909091,
+          "meshes": 154,
+          "materials": 71,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.297972972972973,
+          "nearest": "ra-roadway-worker-protection-and-job-briefing",
+          "similarity": 0.28040540540540543
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ra-hand-brake-and-securement-on-a-grade",
+      "name": "Hand Brake & Securement on a Grade",
+      "category": "Mobility & Transit",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9550000000000001,
+          "medianWhy": 241,
           "thin": 0
         },
         "grounding": {
@@ -7020,19 +7540,539 @@
         },
         "feedback": {
           "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9390909090909091,
+          "meshes": 162,
+          "materials": 65,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.32167300380228137,
+          "nearest": "ra-blue-flag-protection-in-the-yard",
+          "similarity": 0.27566539923954375
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ra-switch-inspection-and-lubrication",
+      "name": "Switch Inspection & Lubrication",
+      "category": "Mobility & Transit",
+      "steps": 15,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 257,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
           "want": 12,
           "got": 12
         },
         "scene": {
-          "score": 0.9625,
-          "meshes": 165,
-          "materials": 72,
-          "interactables": 29
+          "score": 0.9165909090909091,
+          "meshes": 153,
+          "materials": 69,
+          "interactables": 21
         },
         "originality": {
-          "score": 0.5703465982028242,
-          "nearest": "line-truck",
-          "similarity": 0.22593068035943517
+          "score": 0.3371237458193982,
+          "nearest": "ra-crossing-signal-maintenance-and-flagging",
+          "similarity": 0.2725752508361204
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ra-tie-and-rail-replacement-with-track-machines",
+      "name": "Tie & Rail Replacement with Track Machines",
+      "category": "Mobility & Transit",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 285,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 14,
+          "got": 14
+        },
+        "scene": {
+          "score": 0.93,
+          "meshes": 152,
+          "materials": 72,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.21239669421487611,
+          "nearest": "ra-roadway-worker-protection-and-job-briefing",
+          "similarity": 0.2975206611570248
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ra-roadway-worker-protection-and-job-briefing",
+      "name": "Roadway Worker Protection & Job Briefing",
+      "category": "Mobility & Transit",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 274,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9106818181818181,
+          "meshes": 157,
+          "materials": 74,
+          "interactables": 20
+        },
+        "originality": {
+          "score": 0.1500875656742559,
+          "nearest": "track-access",
+          "similarity": 0.30998248686514884
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "op-equipment-daily-walkaround-and-fluids",
+      "name": "Equipment Daily Walkaround & Fluids",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.8900000000000001,
+          "medianWhy": 228,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9874999999999999,
+          "meshes": 175,
+          "materials": 86,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.4315875613747955,
+          "nearest": "op-dozer-slope-work-and-rollover-protection",
+          "similarity": 0.25368248772504093
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "op-pile-driving-rig-and-lead-setup",
+      "name": "Pile Driving Rig & Lead Setup",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9950000000000001,
+          "medianWhy": 249,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 189,
+          "materials": 81,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.07760910815939298,
+          "nearest": "op-compactor-lift-thickness-and-edge",
+          "similarity": 0.32447817836812143
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "op-crawler-crane-assembly-and-load-chart",
+      "name": "Crawler Crane Assembly & Load Chart",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 254,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 265,
+          "materials": 87,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.06261980830670949,
+          "nearest": "crane-yard",
+          "similarity": 0.3274760383386581
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "op-compactor-lift-thickness-and-edge",
+      "name": "Compactor Lift Thickness & Edge",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 252,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.975,
+          "meshes": 170,
+          "materials": 78,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "op-dozer-slope-work-and-rollover-protection",
+          "similarity": 0.394990366088632
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "op-grader-fine-grade-and-crown",
+      "name": "Grader Fine Grade & Crown",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 252,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 202,
+          "materials": 87,
+          "interactables": 28
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "op-dozer-slope-work-and-rollover-protection",
+          "similarity": 0.3410714285714286
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "op-loader-truck-loading-and-blind-spots",
+      "name": "Loader Truck Loading & Blind Spots",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 259,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 250,
+          "materials": 87,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.01946755407653933,
+          "nearest": "op-excavator-trench-and-utility-locate",
+          "similarity": 0.33610648918469216
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "op-excavator-trench-and-utility-locate",
+      "name": "Excavator Trench & Utility Locate",
+      "category": "Construction & Structural Trades",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 298,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 254,
+          "materials": 101,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.01946755407653933,
+          "nearest": "op-loader-truck-loading-and-blind-spots",
+          "similarity": 0.33610648918469216
         }
       }
     },
@@ -7241,6 +8281,162 @@
           "score": 0.47037037037037044,
           "nearest": "formwork-shoring",
           "similarity": 0.24592592592592594
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "airport-ramp",
+      "name": "Airport Ramp",
+      "category": "Mobility & Transit",
+      "steps": 11,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 372,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9974999999999999,
+          "meshes": 179,
+          "materials": 70,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.12857142857142873,
+          "nearest": "av-marshalling-and-wingwalker-signals",
+          "similarity": 0.3142857142857143
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "av-deicing-truck-boom-operations",
+      "name": "De-icing Truck Boom Operations",
+      "category": "Mobility & Transit",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 250,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.945,
+          "meshes": 158,
+          "materials": 86,
+          "interactables": 29
+        },
+        "originality": {
+          "score": 0.298901098901099,
+          "nearest": "av-baggage-belt-loader-and-hold-loading",
+          "similarity": 0.2802197802197802
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "av-baggage-belt-loader-and-hold-loading",
+      "name": "Baggage Belt-Loader & Hold Loading",
+      "category": "Mobility & Transit",
+      "steps": 15,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.9666666666666667,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 255,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9675,
+          "meshes": 167,
+          "materials": 93,
+          "interactables": 28
+        },
+        "originality": {
+          "score": 0.27394366197183107,
+          "nearest": "av-hangar-jacking-and-stands",
+          "similarity": 0.2852112676056338
         }
       }
     },
@@ -8858,58 +10054,6 @@
     },
     {
       "app": "smartcity",
-      "id": "mass-timber-panel-set",
-      "name": "Mass Timber Panel Set",
-      "category": "Construction & Structural Trades",
-      "steps": 14,
-      "score": 96,
-      "d": {
-        "variety": {
-          "score": 0.9375,
-          "distinct": 7,
-          "longestRun": 3
-        },
-        "decisions": {
-          "score": 0.95,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 334,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 7
-        },
-        "standards": {
-          "score": 1,
-          "cited": 7,
-          "inScope": 7,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 10,
-          "got": 10
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 182,
-          "materials": 90,
-          "interactables": 30
-        },
-        "originality": {
-          "score": 0.40941558441558445,
-          "nearest": "rl-critical-lift-plan-and-signalperson",
-          "similarity": 0.25811688311688313
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "formwork-shoring",
       "name": "Formwork Shoring",
       "category": "Construction & Structural Trades",
@@ -9885,7 +11029,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 255,
+          "meshes": 258,
           "materials": 92,
           "interactables": 29
         },
@@ -9945,6 +11089,58 @@
           "score": 0.3859838274932617,
           "nearest": "marsh-transect-survey",
           "similarity": 0.2628032345013477
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "amalgam-waste-handling",
+      "name": "Amalgam Waste Handling",
+      "category": "Dental & Oral Health",
+      "steps": 15,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9950000000000001,
+          "medianWhy": 249,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9575,
+          "meshes": 163,
+          "materials": 94,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.6300998573466478,
+          "nearest": "pl-hydronic-boiler-piping-and-hydrotest",
+          "similarity": 0.21398002853067047
         }
       }
     },
@@ -11301,6 +12497,318 @@
       }
     },
     {
+      "app": "smartcity",
+      "id": "ra-locomotive-cab-startup-and-alerter",
+      "name": "Locomotive Cab Startup & Alerter",
+      "category": "Mobility & Transit",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 254,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.9275,
+          "meshes": 151,
+          "materials": 73,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.37697594501718223,
+          "nearest": "ra-blue-flag-protection-in-the-yard",
+          "similarity": 0.2646048109965636
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ra-air-brake-test-and-train-inspection",
+      "name": "Air Brake Test & Train Inspection",
+      "category": "Mobility & Transit",
+      "steps": 15,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9666666666666667,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 256,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.93,
+          "meshes": 152,
+          "materials": 62,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.2521582733812952,
+          "nearest": "ra-blue-flag-protection-in-the-yard",
+          "similarity": 0.289568345323741
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-water-heater-and-tpr-valve-replacement",
+      "name": "Water Heater & TPR Valve Replacement",
+      "category": "Building Systems & Facilities",
+      "steps": 15,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.9666666666666667,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 274,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 15,
+          "got": 15
+        },
+        "scene": {
+          "score": 0.9349999999999999,
+          "meshes": 154,
+          "materials": 78,
+          "interactables": 30
+        },
+        "originality": {
+          "score": 0.4284482758620692,
+          "nearest": "pl-natural-gas-pressure-test-and-leak-check",
+          "similarity": 0.2543103448275862
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-steam-trap-and-condensate-line-repair",
+      "name": "Steam Trap & Condensate Line Repair",
+      "category": "Building Systems & Facilities",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 298,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.93,
+          "meshes": 152,
+          "materials": 71,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.4014925373134329,
+          "nearest": "pl-hydronic-boiler-piping-and-hydrotest",
+          "similarity": 0.25970149253731345
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-hydronic-boiler-piping-and-hydrotest",
+      "name": "Hydronic Boiler Piping & Hydrotest",
+      "category": "Building Systems & Facilities",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 328,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.9349999999999999,
+          "meshes": 154,
+          "materials": 83,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.2991058122205664,
+          "nearest": "pl-medical-gas-brazing-and-purge",
+          "similarity": 0.28017883755588674
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-medical-gas-brazing-and-purge",
+      "name": "Medical Gas Brazing & Purge",
+      "category": "Building Systems & Facilities",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 315,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.96,
+          "meshes": 164,
+          "materials": 88,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.2991058122205664,
+          "nearest": "pl-hydronic-boiler-piping-and-hydrotest",
+          "similarity": 0.28017883755588674
+        }
+      }
+    },
+    {
       "app": "trades",
       "id": "paint-sprayer",
       "name": "Coatings Bay",
@@ -11762,9 +13270,9 @@
           "interactables": 19
         },
         "originality": {
-          "score": 0.7039840637450201,
-          "nearest": "pm-domestic-water-and-backflow",
-          "similarity": 0.199203187250996
+          "score": 0.6448818897637796,
+          "nearest": "pl-fire-sprinkler-riser-and-flow-test",
+          "similarity": 0.2110236220472441
         }
       }
     },
@@ -11814,9 +13322,9 @@
           "interactables": 22
         },
         "originality": {
-          "score": 0.6598811292719168,
-          "nearest": "fp-anchor-selection-and-rescue-plan",
-          "similarity": 0.20802377414561665
+          "score": 0.610614525139665,
+          "nearest": "pl-hydronic-boiler-piping-and-hydrotest",
+          "similarity": 0.21787709497206703
         }
       }
     },
@@ -11918,9 +13426,61 @@
           "interactables": 23
         },
         "originality": {
-          "score": 0.7517241379310347,
-          "nearest": "sterilisation-technician-cycle",
-          "similarity": 0.1896551724137931
+          "score": 0.7091463414634147,
+          "nearest": "av-lavatory-and-potable-water-separation",
+          "similarity": 0.19817073170731708
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "av-borescope-and-tool-control-inventory",
+      "name": "Borescope & Tool-Control Inventory",
+      "category": "Mobility & Transit",
+      "steps": 15,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9666666666666667,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 251,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.945,
+          "meshes": 158,
+          "materials": 86,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.5270676691729324,
+          "nearest": "br-fish-screen-maintenance",
+          "similarity": 0.23458646616541354
         }
       }
     },
@@ -14734,58 +16294,6 @@
     },
     {
       "app": "smartcity",
-      "id": "amalgam-waste-handling",
-      "name": "Amalgam Waste Handling",
-      "category": "Dental & Oral Health",
-      "steps": 15,
-      "score": 97,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.9166666666666666,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.9950000000000001,
-          "medianWhy": 249,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "standards": {
-          "score": 1,
-          "cited": 4,
-          "inScope": 4,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 10,
-          "got": 10
-        },
-        "scene": {
-          "score": 0.9575,
-          "meshes": 163,
-          "materials": 94,
-          "interactables": 24
-        },
-        "originality": {
-          "score": 0.6655172413793105,
-          "nearest": "draught-line-cleaning",
-          "similarity": 0.20689655172413793
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "chairside-emergency",
       "name": "Chairside Emergency",
       "category": "Dental & Oral Health",
@@ -14934,9 +16442,9 @@
           "interactables": 24
         },
         "originality": {
-          "score": 0.6498644986449865,
-          "nearest": "pump-and-treat",
-          "similarity": 0.21002710027100271
+          "score": 0.602439024390244,
+          "nearest": "pl-hydronic-boiler-piping-and-hydrotest",
+          "similarity": 0.21951219512195122
         }
       }
     },
@@ -14986,9 +16494,9 @@
           "interactables": 28
         },
         "originality": {
-          "score": 0.5740157480314961,
-          "nearest": "soil-loadout",
-          "similarity": 0.2251968503937008
+          "score": 0.5056379821958458,
+          "nearest": "op-excavator-trench-and-utility-locate",
+          "similarity": 0.23887240356083086
         }
       }
     },
@@ -16865,6 +18373,214 @@
       }
     },
     {
+      "app": "smartcity",
+      "id": "pl-natural-gas-pressure-test-and-leak-check",
+      "name": "Natural Gas Pressure Test & Leak Check",
+      "category": "Building Systems & Facilities",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 291,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 14,
+          "got": 14
+        },
+        "scene": {
+          "score": 0.93,
+          "meshes": 152,
+          "materials": 74,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.390828402366864,
+          "nearest": "pl-hydronic-boiler-piping-and-hydrotest",
+          "similarity": 0.2618343195266272
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-copper-press-and-solder-rough-in",
+      "name": "Copper Press & Solder Rough-In",
+      "category": "Building Systems & Facilities",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 259,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.9525,
+          "meshes": 161,
+          "materials": 90,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.46978417266187067,
+          "nearest": "pl-hydronic-boiler-piping-and-hydrotest",
+          "similarity": 0.2460431654676259
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-fire-sprinkler-riser-and-flow-test",
+      "name": "Fire Sprinkler Riser & Flow Test",
+      "category": "Building Systems & Facilities",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 311,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 14,
+          "got": 14
+        },
+        "scene": {
+          "score": 0.9575,
+          "meshes": 163,
+          "materials": 78,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.4306501547987618,
+          "nearest": "pm-sprinkler-riser-room",
+          "similarity": 0.25386996904024767
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-underground-sewer-lateral-and-trench-shoring",
+      "name": "Underground Sewer Lateral & Trench Shoring",
+      "category": "Water & Environmental",
+      "steps": 14,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 285,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 14,
+          "got": 14
+        },
+        "scene": {
+          "score": 0.9475,
+          "meshes": 159,
+          "materials": 77,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.34418938307030134,
+          "nearest": "trench-box",
+          "similarity": 0.27116212338593976
+        }
+      }
+    },
+    {
       "app": "trades",
       "id": "electrical",
       "name": "Isolation Bay",
@@ -16941,12 +18657,12 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 8
+          "authorities": 9
         },
         "standards": {
           "score": 1,
-          "cited": 7,
-          "inScope": 7,
+          "cited": 8,
+          "inScope": 8,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -17014,9 +18730,9 @@
           "interactables": 22
         },
         "originality": {
-          "score": 0.6426751592356689,
-          "nearest": "traffic-incident-management",
-          "similarity": 0.21146496815286625
+          "score": 0.5961988304093568,
+          "nearest": "ra-crossing-signal-maintenance-and-flagging",
+          "similarity": 0.22076023391812866
         }
       }
     },
@@ -19770,9 +21486,9 @@
           "interactables": 22
         },
         "originality": {
-          "score": 0.5681948424068769,
-          "nearest": "pm-fire-alarm-panel-room",
-          "similarity": 0.22636103151862463
+          "score": 0.4306501547987618,
+          "nearest": "pl-fire-sprinkler-riser-and-flow-test",
+          "similarity": 0.25386996904024767
         }
       }
     },
@@ -20446,9 +22162,9 @@
           "interactables": 24
         },
         "originality": {
-          "score": 0.594878706199461,
-          "nearest": "bs-bearing-replacement-and-jacking",
-          "similarity": 0.2210242587601078
+          "score": 0.5777089783281734,
+          "nearest": "op-grader-fine-grade-and-crown",
+          "similarity": 0.22445820433436534
         }
       }
     },
@@ -21278,9 +22994,9 @@
           "interactables": 28
         },
         "originality": {
-          "score": 0.6012517385257302,
-          "nearest": "bs-bearing-replacement-and-jacking",
-          "similarity": 0.21974965229485396
+          "score": 0.5799414348462665,
+          "nearest": "pl-hydronic-boiler-piping-and-hydrotest",
+          "similarity": 0.2240117130307467
         }
       }
     },
@@ -22321,58 +24037,6 @@
           "score": 0.67456279809221,
           "nearest": "stormwater-outfall",
           "similarity": 0.20508744038155802
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "airport-ramp",
-      "name": "Airport Ramp",
-      "category": "Mobility & Transit",
-      "steps": 11,
-      "score": 99,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 6,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 372,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 6
-        },
-        "standards": {
-          "score": 1,
-          "cited": 4,
-          "inScope": 4,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 12,
-          "got": 12
-        },
-        "scene": {
-          "score": 0.9974999999999999,
-          "meshes": 179,
-          "materials": 70,
-          "interactables": 24
-        },
-        "originality": {
-          "score": 0.7672782874617737,
-          "nearest": "gg-deck-lane-closure-and-traveller",
-          "similarity": 0.18654434250764526
         }
       }
     },

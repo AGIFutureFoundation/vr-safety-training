@@ -1,7 +1,7 @@
 {
   "protocol": 2,
   "network": "SmartCiti.X ~VR Simulators (Powered by AGI Corp & Visko)",
-  "generatedAt": "2026-09-26",
+  "generatedAt": "2026-09-27",
   "apps": {
     "smartcity": {
       "entry": "smartcity/index.html",
@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 450
+      "stations": 458
     },
     "trades": {
       "entry": "trades/index.html",
@@ -63,6 +63,14 @@
         "track-access",
         "bus-depot-lift",
         "airport-ramp",
+        "av-lavatory-and-potable-water-separation",
+        "av-borescope-and-tool-control-inventory",
+        "av-hangar-jacking-and-stands",
+        "av-deicing-truck-boom-operations",
+        "av-baggage-belt-loader-and-hold-loading",
+        "av-ground-power-and-static-bonding-before-fuel",
+        "av-pushback-tug-and-towbar-connection",
+        "av-marshalling-and-wingwalker-signals",
         "bus-yard-fuelling-and-brake-check",
         "tdl-cargo-securement-and-hours",
         "tdl-backing-and-docking",
@@ -3753,6 +3761,67 @@
         "levels": 20,
         "lessons": 1670,
         "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
+    },
+    {
+      "id": "aviation-maintenance-and-ground",
+      "name": "Aviation Maintenance and Ground — IAM/TWU Ramp and Line",
+      "union": "IAM and TWU",
+      "certification": "IAM and TWU ramp and maintenance training; FAA 14 CFR Part 139 movement-area operations, Part 43 maintenance, Part 121 air carrier operations and Part 145 repair stations; NFPA 407 aircraft fuel servicing and NFPA 77 static electricity; OSHA 29 CFR 1910.132, 1910.147, 1910.178, 1910.1200 and 1910.23; ANSI/ISEA 107 high-visibility apparel across eight distinct ramp and line jobs",
+      "summary": "Eight jobs an IAM or TWU ramp and line crew actually rotates through: an aircraft marshalled into a tight hangar bay on two wing-walkers and one shared stop signal, a pushback tug and towbar connected with the steering bypass pin seated before any load, ground power and static bonding proven before a drop of fuel moves, a hold built to the load plan with the hazmat bag segregated on its own, a de-icing pass run top-down and checked clean before the holdover clock starts, a jet raised on three jacks brought up together and locked, a borescope inspection tool-controlled end to end against a shadow board, and a lavatory and potable water service worked on two carts that never share a hose. Every station ends on a proof — a gauge, a confirmed count, a signed log — rather than on how the job looked going together.",
+      "accent": "#ffb13a",
+      "stations": [
+        {
+          "app": "smartcity",
+          "id": "av-marshalling-and-wingwalker-signals",
+          "why": "Two wing-walkers and one marshaller share a single stop signal that beats every other instruction the moment it is raised, because neither wingtip is ever visible from the same set of eyes at the same time in a bay this tight."
+        },
+        {
+          "app": "smartcity",
+          "id": "av-pushback-tug-and-towbar-connection",
+          "why": "The steering bypass pin goes in before the tug ever takes a load, and the parking brake comes off and goes back on only on the flight deck's own word over the headset — never assumed, never guessed at from the tug's own seat."
+        },
+        {
+          "app": "smartcity",
+          "id": "av-ground-power-and-static-bonding-before-fuel",
+          "why": "The bonding cable is clamped to the aircraft before the nozzle ever touches it, because a fuel connection with no equalised path between the aircraft and the truck is a spark waiting on a vapour that only needs one."
+        },
+        {
+          "app": "smartcity",
+          "id": "av-baggage-belt-loader-and-hold-loading",
+          "why": "The hazmat bag is spotted and segregated before the rest of the hold is built around it, and nothing is tied down and signed off until the weight actually matches the load plan's own centre-of-gravity assumptions."
+        },
+        {
+          "app": "smartcity",
+          "id": "av-deicing-truck-boom-operations",
+          "why": "The pass runs top-down and clear of every intake, and the surfaces get checked clean by eye and by hand before the holdover clock the flight deck is timing their own departure against is ever allowed to start."
+        },
+        {
+          "app": "smartcity",
+          "id": "av-hangar-jacking-and-stands",
+          "why": "Three jacks come up together, never one ahead of the others, and the downlock pins go in the moment the gear is unloaded — not sometime after this crew is already working underneath a jet held up on hydraulics alone."
+        },
+        {
+          "app": "smartcity",
+          "id": "av-borescope-and-tool-control-inventory",
+          "why": "Every tool is counted against its own shadow-board outline before the engine is touched, and counted again before the job is signed off, because the only question tool control actually answers is whether everything that went out came back."
+        },
+        {
+          "app": "smartcity",
+          "id": "av-lavatory-and-potable-water-separation",
+          "why": "Two services, two completely separate carts, and the one rule that governs the whole job is that nothing from one system ever touches the other — not the hose, not the nozzle, not a hand that has not been re-gloved in between."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1649,
+        "tasks": 112,
         "atBar": 20,
         "partial": 0,
         "stationsNeeded": 0,
@@ -7878,6 +7947,706 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-lavatory-and-potable-water-separation",
+      "name": "Lavatory & Potable Water Separation",
+      "title": "SmartCiti.X~ Lavatory & Potable Water Separation VR",
+      "tagline": "Two services worked on two completely separate carts: the lavatory panel drained and rinsed on its own dedicated equipment, the potable panel filled on its own separate equipment, and neither hose, nozzle or cap ever crossing from one system to the other",
+      "category": "Mobility & Transit",
+      "domain": "Aviation",
+      "trade": "Lavatory and potable water service agent — IAM/TWU ramp crew",
+      "union": null,
+      "certification": "IAM and TWU ramp training; FAA 14 CFR Part 121 air carrier servicing requirements; OSHA 29 CFR 1910.1200 hazard communication and 29 CFR 1910.132 personal protective equipment",
+      "accent": "#4fd6a5",
+      "parSeconds": 310,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "drag",
+        "turn",
+        "hold",
+        "track",
+        "gauge"
+      ],
+      "badge": {
+        "id": "never-crossed",
+        "name": "Never Crossed",
+        "note": "The lavatory and potable services never shared a hose, a nozzle or a cap, start to finish"
+      },
+      "meshes": 156,
+      "lights": 0,
+      "overBudget": false,
+      "index": "av-8",
+      "flat": false,
+      "system": "Never Crossed",
+      "currency": "SEP",
+      "ranks": [
+        "Ramp Hand",
+        "Lav Qualified",
+        "Potable Qualified",
+        "Lead Service Agent",
+        "Never Crossed Certified"
+      ],
+      "awards": [
+        {
+          "id": "colour-true",
+          "name": "Colour True",
+          "note": "Never connected a hose to the panel it was not colour-coded for"
+        },
+        {
+          "id": "vented-first",
+          "name": "Vented First",
+          "note": "Never drained the lav tank without the vent open"
+        },
+        {
+          "id": "steady-fill",
+          "name": "Steady Fill Certified",
+          "note": "Held the rinse flow near band centre through the whole rinse"
+        },
+        {
+          "id": "clean-inspection",
+          "name": "Clean Inspection Certified",
+          "note": "Found every defect on both carts, first pass"
+        },
+        {
+          "id": "quick-service",
+          "name": "Quick Service",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "sep-streak",
+          "name": "Separation Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=av-lavatory-and-potable-water-separation"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-borescope-and-tool-control-inventory",
+      "name": "Borescope & Tool-Control Inventory",
+      "title": "SmartCiti.X~ Borescope & Tool-Control Inventory VR",
+      "tagline": "A borescope inspection tool-controlled end to end: every tool counted against the shadow board before the engine is touched, the engine locked out before the probe goes in, a finding scanned and logged, and the same count run again afterward until every outline on the board is full",
+      "category": "Mobility & Transit",
+      "domain": "Aviation",
+      "trade": "Aircraft maintenance technician, borescope and tool control — IAM/TWU",
+      "union": null,
+      "certification": "IAM and TWU maintenance training; FAA 14 CFR Part 43 maintenance, preventive maintenance, rebuilding and alteration and 14 CFR Part 145 repair stations; OSHA 29 CFR 1910.147 the control of hazardous energy and 29 CFR 1910.132 personal protective equipment",
+      "accent": "#a079ff",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "gauge",
+        "drag",
+        "track",
+        "find",
+        "hold"
+      ],
+      "badge": {
+        "id": "nothing-left-behind",
+        "name": "Nothing Left Behind",
+        "note": "Every tool counted before and after, the engine locked out for the whole scan, and the finding logged before the plug went back in"
+      },
+      "meshes": 158,
+      "lights": 0,
+      "overBudget": false,
+      "index": "av-7",
+      "flat": false,
+      "system": "Nothing Left Behind",
+      "currency": "SCOPE",
+      "ranks": [
+        "Ramp Hand",
+        "Tool Control Qualified",
+        "Borescope Certified",
+        "Lead Inspector",
+        "Nothing Left Behind Certified"
+      ],
+      "awards": [
+        {
+          "id": "count-twice",
+          "name": "Count Twice",
+          "note": "Matched the tool count before and after, first time"
+        },
+        {
+          "id": "locked-for-the-scan",
+          "name": "Locked for the Scan",
+          "note": "Never had the engine unlocked while the probe was inside it"
+        },
+        {
+          "id": "steady-scan",
+          "name": "Steady Scan Certified",
+          "note": "Held the borescope view centred near band centre through the whole pass"
+        },
+        {
+          "id": "clean-start",
+          "name": "Clean Start",
+          "note": "Had every tool accounted for before the engine was ever touched"
+        },
+        {
+          "id": "quick-scope",
+          "name": "Quick Scope",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "scope-streak",
+          "name": "Scope Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=av-borescope-and-tool-control-inventory"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-hangar-jacking-and-stands",
+      "name": "Hangar Jacking & Stands",
+      "title": "SmartCiti.X~ Hangar Jacking & Stands VR",
+      "tagline": "A jet raised on three jacks: the jacks and stands inspected, the fuel state confirmed against the AMM, the jacks brought up together and locked, downlock pins seated the moment the gear unloads, the stands checked for their own guardrails, and everything run in reverse before the jacks come out",
+      "category": "Mobility & Transit",
+      "domain": "Aviation",
+      "trade": "Aircraft maintenance technician, jacking and stands — IAM/TWU",
+      "union": null,
+      "certification": "IAM and TWU maintenance training; FAA 14 CFR Part 43 maintenance, preventive maintenance, rebuilding and alteration and 14 CFR Part 145 repair stations; OSHA 29 CFR 1910.23 ladders and fixed stairs and 29 CFR 1910.132 personal protective equipment",
+      "accent": "#c8201c",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "track",
+        "turn",
+        "gauge",
+        "drag",
+        "hold"
+      ],
+      "badge": {
+        "id": "level-and-locked",
+        "name": "Level and Locked",
+        "note": "Jacks raised together and locked, downlock pins seated the moment the gear unloaded, and every stand checked for its own guardrail before anyone climbed"
+      },
+      "meshes": 183,
+      "lights": 0,
+      "overBudget": false,
+      "index": "av-6",
+      "flat": false,
+      "system": "Level and Locked",
+      "currency": "JACK",
+      "ranks": [
+        "Ramp Hand",
+        "Jack Qualified",
+        "Stand Certified",
+        "Lead Technician",
+        "Level and Locked Certified"
+      ],
+      "awards": [
+        {
+          "id": "together-up",
+          "name": "Together Up",
+          "note": "Never raised one jack far ahead of the others"
+        },
+        {
+          "id": "pins-seated",
+          "name": "Pins Seated",
+          "note": "Never worked under the aircraft without the downlock pins in"
+        },
+        {
+          "id": "level-hold",
+          "name": "Level Hold Certified",
+          "note": "Held the level reading near band centre through the whole raise"
+        },
+        {
+          "id": "clean-inspection",
+          "name": "Clean Inspection Certified",
+          "note": "Found every defect on the jacks and stands, first pass"
+        },
+        {
+          "id": "quick-jack",
+          "name": "Quick Jack",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "jack-streak",
+          "name": "Jack Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=av-hangar-jacking-and-stands"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-deicing-truck-boom-operations",
+      "name": "De-icing Truck Boom Operations",
+      "title": "SmartCiti.X~ De-icing Truck Boom Operations VR",
+      "tagline": "A jet cleaned before departure: the boom walked for a defect, the pad cleared of everyone outside the spray crew, the fluid mixed to the plan, the pass run top-down and clear of every intake, the basket held steady, and the surfaces checked clean before the holdover clock starts",
+      "category": "Mobility & Transit",
+      "domain": "Aviation",
+      "trade": "De-icing truck operator — IAM/TWU ramp crew",
+      "union": null,
+      "certification": "IAM and TWU ramp training; FAA 14 CFR Part 121 icing and de-icing programme requirements and 14 CFR Part 139 movement-area operations; OSHA 29 CFR 1910.1200 hazard communication, 29 CFR 1910.132 personal protective equipment and 29 CFR 1910.134 respiratory protection",
+      "accent": "#4fd1ff",
+      "parSeconds": 310,
+      "weather": "wind",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "drag",
+        "turn",
+        "gauge",
+        "hold"
+      ],
+      "badge": {
+        "id": "clean-wing",
+        "name": "Clean Wing",
+        "note": "The pad cleared, the pass run top-down clear of every intake, and the surfaces confirmed clean before the holdover clock started"
+      },
+      "meshes": 160,
+      "lights": 0,
+      "overBudget": false,
+      "index": "av-5",
+      "flat": false,
+      "system": "Clean Wing",
+      "currency": "FROST",
+      "ranks": [
+        "Ramp Hand",
+        "Boom Qualified",
+        "Fluid Certified",
+        "Lead Operator",
+        "Clean Wing Certified"
+      ],
+      "awards": [
+        {
+          "id": "clear-pad",
+          "name": "Clear Pad",
+          "note": "Never sprayed with anyone inside the pad who was not part of the crew"
+        },
+        {
+          "id": "top-down",
+          "name": "Top Down",
+          "note": "Ran the pass in the plan's own order, first time"
+        },
+        {
+          "id": "steady-basket",
+          "name": "Steady Basket",
+          "note": "Held the basket steady near band centre through the whole pass"
+        },
+        {
+          "id": "clean-inspection",
+          "name": "Clean Inspection Certified",
+          "note": "Found every defect on the truck, first pass"
+        },
+        {
+          "id": "quick-deice",
+          "name": "Quick De-ice",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "frost-streak",
+          "name": "Frost Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=av-deicing-truck-boom-operations"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-baggage-belt-loader-and-hold-loading",
+      "name": "Baggage Belt-Loader & Hold Loading",
+      "title": "SmartCiti.X~ Baggage Belt-Loader & Hold Loading VR",
+      "tagline": "A hold loaded to the plan: the loader inspected and brought in at walking pace, the hazmat bag spotted and segregated on its own, the hold built bottom-to-top, every bit of it tied down before the door closes, and the weight checked against the plan before the loader backs clear",
+      "category": "Mobility & Transit",
+      "domain": "Aviation",
+      "trade": "Ramp agent, baggage and cargo loading — IAM/TWU ramp crew",
+      "union": null,
+      "certification": "IAM and TWU ramp training; FAA 14 CFR Part 121 air carrier weight-and-balance and load-planning requirements; OSHA 29 CFR 1910.178 powered industrial trucks and 29 CFR 1910.132 personal protective equipment",
+      "accent": "#f2a23b",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "drag",
+        "turn",
+        "track",
+        "gauge",
+        "hold"
+      ],
+      "badge": {
+        "id": "load-balance",
+        "name": "Load Balance",
+        "note": "Hazmat segregated, the hold built to the plan, tied down before the door closed, and the weight checked before the loader backed away"
+      },
+      "meshes": 168,
+      "lights": 0,
+      "overBudget": false,
+      "index": "av-4",
+      "flat": false,
+      "system": "Load Balance",
+      "currency": "LOAD",
+      "ranks": [
+        "Ramp Hand",
+        "Loader Qualified",
+        "Hazmat Spotter",
+        "Lead Loader",
+        "Load Balance Certified"
+      ],
+      "awards": [
+        {
+          "id": "hazmat-eye",
+          "name": "Hazmat Eye",
+          "note": "Spotted the hazmat bag and segregated it clean, first time"
+        },
+        {
+          "id": "tied-down",
+          "name": "Tied Down",
+          "note": "Never closed the door on an unsecured hold"
+        },
+        {
+          "id": "steady-belt",
+          "name": "Steady Belt",
+          "note": "Held the belt speed near band centre the whole load"
+        },
+        {
+          "id": "clean-inspection",
+          "name": "Clean Inspection Certified",
+          "note": "Found every defect on the loader, first pass"
+        },
+        {
+          "id": "quick-load",
+          "name": "Quick Load",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "load-streak",
+          "name": "Load Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=av-baggage-belt-loader-and-hold-loading"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-ground-power-and-static-bonding-before-fuel",
+      "name": "Ground Power & Static Bonding Before Fuel",
+      "title": "SmartCiti.X~ Ground Power & Static Bonding Before Fuel VR",
+      "tagline": "Ground power connected before anything else, the fuel safety zone marked and held clear of ignition sources, the fuel truck stopped short, the bonding cable clamped before the nozzle ever touches, the transfer held on a steady flow, and the bonding cable the last thing disconnected once the nozzle is already off",
+      "category": "Mobility & Transit",
+      "domain": "Aviation",
+      "trade": "Ground power and fuelling ramp agent — IAM/TWU ramp crew",
+      "union": null,
+      "certification": "IAM and TWU ramp training; NFPA 407 aircraft fuel servicing and NFPA 77 static electricity guidance; OSHA 29 CFR 1910.1200 hazard communication and 29 CFR 1910.132 personal protective equipment; FAA 14 CFR Part 139 movement-area operations",
+      "accent": "#59c97b",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "drag",
+        "hold",
+        "track",
+        "gauge"
+      ],
+      "badge": {
+        "id": "zero-potential",
+        "name": "Zero Potential",
+        "note": "Bonded before the nozzle ever touched the aircraft, the deadman never let go, and the bonding cable was the last thing off"
+      },
+      "meshes": 200,
+      "lights": 0,
+      "overBudget": false,
+      "index": "av-3",
+      "flat": false,
+      "system": "Zero Potential",
+      "currency": "BOND",
+      "ranks": [
+        "Ramp Hand",
+        "Fuel Qualified",
+        "Bonding Certified",
+        "Lead Fueller",
+        "Zero Potential Certified"
+      ],
+      "awards": [
+        {
+          "id": "bond-first",
+          "name": "Bond First",
+          "note": "Never connected the nozzle before the bonding cable was clamped"
+        },
+        {
+          "id": "zone-held",
+          "name": "Zone Held",
+          "note": "No ignition source ever entered the fuel safety zone"
+        },
+        {
+          "id": "steady-flow",
+          "name": "Steady Flow",
+          "note": "Held the transfer flow near band centre the whole fill"
+        },
+        {
+          "id": "clean-connect",
+          "name": "Clean Connect Certified",
+          "note": "Connected ground power clean, first time"
+        },
+        {
+          "id": "quick-fuel",
+          "name": "Quick Fuel",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "bond-streak",
+          "name": "Bond Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=av-ground-power-and-static-bonding-before-fuel"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-pushback-tug-and-towbar-connection",
+      "name": "Pushback Tug & Towbar Connection",
+      "title": "SmartCiti.X~ Pushback Tug & Towbar Connection VR",
+      "tagline": "A jet pushed off the gate: the towbar inspected and connected, the steering bypass pin seated, headset comms confirmed with the flight deck before a chock moves, the brake released only on their word, the push held on line, and the brake set and confirmed again before anything is disconnected",
+      "category": "Mobility & Transit",
+      "domain": "Aviation",
+      "trade": "Pushback tug operator and headset agent — IAM/TWU ramp crew",
+      "union": null,
+      "certification": "IAM and TWU ramp training; FAA 14 CFR Part 121 air carrier ground-handling operations and 14 CFR Part 139 movement-area operations; OSHA 29 CFR 1910.178 powered industrial trucks and 29 CFR 1910.132 personal protective equipment",
+      "accent": "#2f8fdb",
+      "parSeconds": 310,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "drag",
+        "hold",
+        "track",
+        "turn",
+        "gauge"
+      ],
+      "badge": {
+        "id": "push-authority",
+        "name": "Push Authority",
+        "note": "Bypass pin seated, brakes released and set only on the flight deck's own word, and the headset never disconnected before the final signal"
+      },
+      "meshes": 163,
+      "lights": 0,
+      "overBudget": false,
+      "index": "av-2",
+      "flat": false,
+      "system": "Push Authority",
+      "currency": "PUSH",
+      "ranks": [
+        "Ramp Hand",
+        "Tug Qualified",
+        "Headset Agent",
+        "Lead Pushback",
+        "Push Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "pin-first",
+          "name": "Pin First",
+          "note": "Never pushed without the steering bypass pin seated"
+        },
+        {
+          "id": "brake-word",
+          "name": "Brake on Their Word",
+          "note": "Never moved the aircraft without the flight deck's own confirmation"
+        },
+        {
+          "id": "steady-push",
+          "name": "Steady Push",
+          "note": "Held the tow speed and the steering near band centre the whole push"
+        },
+        {
+          "id": "clean-connect",
+          "name": "Clean Connect Certified",
+          "note": "Connected the towbar clean, first time"
+        },
+        {
+          "id": "quick-push",
+          "name": "Quick Push",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "push-streak",
+          "name": "Push Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=av-pushback-tug-and-towbar-connection"
+    },
+    {
+      "app": "smartcity",
+      "id": "av-marshalling-and-wingwalker-signals",
+      "name": "Marshalling & Wing-Walker Signals",
+      "title": "SmartCiti.X~ Marshalling & Wing-Walker Signals VR",
+      "tagline": "A jet marshalled into a tight hangar bay: the bay walked for FOD, wing-walkers posted at both wingtips, the aircraft brought down the line on the marshaller's wands, clearance held against the door frame the whole way in, and one shared stop signal that beats every other instruction the instant it is raised",
+      "category": "Mobility & Transit",
+      "domain": "Aviation",
+      "trade": "Aircraft marshaller and wing walker — IAM/TWU ramp crew",
+      "union": null,
+      "certification": "IAM and TWU ramp training; FAA 14 CFR Part 139 movement-area and safety-area operations and 14 CFR 139.303 personnel training for airport movement-area operations; OSHA 29 CFR 1910.132 personal protective equipment and 29 CFR 1910.95 occupational noise exposure; ANSI/ISEA 107 high-visibility apparel",
+      "accent": "#ffb13a",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "drag",
+        "track",
+        "hold",
+        "gauge"
+      ],
+      "badge": {
+        "id": "bay-command",
+        "name": "Bay Command",
+        "note": "Wing-walkers posted before the aircraft moved, clearance held both sides, and the stop signal answered the instant it was needed"
+      },
+      "meshes": 191,
+      "lights": 0,
+      "overBudget": false,
+      "index": "av-1",
+      "flat": false,
+      "system": "Bay Command",
+      "currency": "BAY",
+      "ranks": [
+        "Ramp Hand",
+        "Signal Qualified",
+        "Wing Walker",
+        "Lead Marshaller",
+        "Bay Command Certified"
+      ],
+      "awards": [
+        {
+          "id": "clean-walk",
+          "name": "Clean Walk",
+          "note": "The bay was walked and cleared before the aircraft ever moved"
+        },
+        {
+          "id": "one-stop",
+          "name": "One Stop",
+          "note": "Every stop call in this shift was answered, never missed"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Held the marshalling signal and the clearance readings near band centre the whole approach"
+        },
+        {
+          "id": "on-the-mark",
+          "name": "On the Mark Certified",
+          "note": "Stopped the aircraft on the mark, first time"
+        },
+        {
+          "id": "quick-bay",
+          "name": "Quick Bay",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        },
+        {
+          "id": "bay-streak",
+          "name": "Bay Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=av-marshalling-and-wingwalker-signals"
     },
     {
       "app": "smartcity",
@@ -28236,7 +29005,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 264,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -28896,7 +29665,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",

@@ -411,6 +411,31 @@ export function picnicTable(parent, x, y, z, opts = {}) {
   return flDone(rig, { footprint: PROPS_BUDGET.picnicTable.footprint });
 }
 
+/**
+ * Tripod aircraft jack: three splayed legs on foot pads, a hydraulic body
+ * and a ram that carries the saddle pad against the jack point the plan or
+ * the AMM names. Parts: ram, saddle.
+ */
+export function aircraftJack(parent, x, y, z, opts = {}) {
+  const colour = prColour(opts, 0xf0b323);
+  const rig = prRig(parent, x, y, z, opts, "aircraftJack");
+  const S = rig.shell;
+  const top = [0, 0.82, 0];
+  for (let i = 0; i < 3; i++) {
+    const a = (i / 3) * Math.PI * 2 + 0.3;
+    const foot = [Math.sin(a) * 0.4, 0.015, Math.cos(a) * 0.4];
+    flStrut(S, top, foot, 0.035, 0x2b2f34, { rough: 0.5, metal: 0.5 });
+    cyl(S, 0.06, 0.06, 0.03, foot[0], 0.015, foot[2], 0x1c1f22, { rough: 0.7, seg: 12 });
+  }
+  cyl(S, 0.1, 0.12, 0.68, 0, 0.48, 0, colour, { rough: 0.45, metal: 0.3, seg: 14 });
+  box(S, 0.22, 0.05, 0.05, 0.16, 0.25, 0, 0x1c1f22, { rough: 0.7 }); // pump handle mount
+  const ram = rig.part("ram", 0, 0.82, 0);
+  cyl(ram, 0.055, 0.055, 0.32, 0, 0.16, 0, 0xc8ced4, { rough: 0.25, metal: 0.6, seg: 12 });
+  const saddle = rig.part("saddle", 0, 0.32, 0, ram);
+  cyl(saddle, 0.13, 0.1, 0.06, 0, 0.03, 0, 0x2b2f34, { rough: 0.6, seg: 16 });
+  return flDone(rig, { footprint: PROPS_BUDGET.aircraftJack.footprint });
+}
+
 // ------------------------------------------------------------------ budget
 
 /**
@@ -446,6 +471,7 @@ export const PROPS_BUDGET = {
   generatorSkid: { build: "generatorSkid", meshes: 6, footprint: [1.0, 1.34, 2.2], parts: ["stack", "controlPanel"], note: "diesel generator on a skid" },
   counterweightStack: { build: "counterweightStack", meshes: 5, footprint: [2.5, 1.5, 1.0], parts: [], note: "mobile crane counterweight, five slabs" },
   picnicTable: { build: "picnicTable", meshes: 5, footprint: [1.6, 0.9, 1.5], parts: [], note: "A-frame picnic table" },
+  aircraftJack: { build: "aircraftJack", meshes: 5, footprint: [0.78, 1.2, 0.8], parts: ["ram", "saddle"], note: "tripod aircraft jack, ram extended" },
 };
 
 /** The builders by the name PROPS_BUDGET's `build` field uses. */
@@ -453,5 +479,5 @@ export const PROPS_BUILDERS = {
   jerseyBarrier, waterBarrier, coneCluster, lightMast, portableToilet, siteOffice, dumpster,
   scaffoldTower, palletStack, cableSpool, fireHydrant, bollardRow, parkBench, streetTree,
   shrubBed, fencePanel, fencePanelGate, shippingContainer, fuelTank, generatorSkid,
-  counterweightStack, picnicTable,
+  counterweightStack, picnicTable, aircraftJack,
 };

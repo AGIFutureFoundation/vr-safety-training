@@ -872,6 +872,25 @@ export const CURRICULA = [
       { app: "smartcity", id: "pl-natural-gas-pressure-test-and-leak-check", why: "The new run is pressure-tested with air rather than fuel, every joint is soap-checked rather than trusted to the gauge alone, and the line is purged outdoors before any appliance ever sees live gas." },
     ],
   },
+  {
+    id: "aviation-maintenance-and-ground",
+    name: "Aviation Maintenance and Ground — IAM/TWU Ramp and Line",
+    union: "IAM and TWU",
+    certification: "IAM and TWU ramp and maintenance training; FAA 14 CFR Part 139 movement-area operations, Part 43 maintenance, Part 121 air carrier operations and Part 145 repair stations; NFPA 407 aircraft fuel servicing and NFPA 77 static electricity; OSHA 29 CFR 1910.132, 1910.147, 1910.178, 1910.1200 and 1910.23; ANSI/ISEA 107 high-visibility apparel across eight distinct ramp and line jobs",
+    guides: ["iam-winpisinger-center", "twu-training", "faa-14-cfr-139", "faa-14-cfr-139-303", "faa-14-cfr-43", "faa-14-cfr-121", "faa-14-cfr-145", "nfpa-407", "nfpa-77", "osha-1910-132", "osha-1910-178", "osha-1910-147", "osha-1910-134", "osha-1910-1200", "osha-1910-23", "ansi-isea-107", "osha-1910-95"],
+    summary: "Eight jobs an IAM or TWU ramp and line crew actually rotates through: an aircraft marshalled into a tight hangar bay on two wing-walkers and one shared stop signal, a pushback tug and towbar connected with the steering bypass pin seated before any load, ground power and static bonding proven before a drop of fuel moves, a hold built to the load plan with the hazmat bag segregated on its own, a de-icing pass run top-down and checked clean before the holdover clock starts, a jet raised on three jacks brought up together and locked, a borescope inspection tool-controlled end to end against a shadow board, and a lavatory and potable water service worked on two carts that never share a hose. Every station ends on a proof — a gauge, a confirmed count, a signed log — rather than on how the job looked going together.",
+    accent: "#ffb13a",
+    stations: [
+      { app: "smartcity", id: "av-marshalling-and-wingwalker-signals", why: "Two wing-walkers and one marshaller share a single stop signal that beats every other instruction the moment it is raised, because neither wingtip is ever visible from the same set of eyes at the same time in a bay this tight." },
+      { app: "smartcity", id: "av-pushback-tug-and-towbar-connection", why: "The steering bypass pin goes in before the tug ever takes a load, and the parking brake comes off and goes back on only on the flight deck's own word over the headset — never assumed, never guessed at from the tug's own seat." },
+      { app: "smartcity", id: "av-ground-power-and-static-bonding-before-fuel", why: "The bonding cable is clamped to the aircraft before the nozzle ever touches it, because a fuel connection with no equalised path between the aircraft and the truck is a spark waiting on a vapour that only needs one." },
+      { app: "smartcity", id: "av-baggage-belt-loader-and-hold-loading", why: "The hazmat bag is spotted and segregated before the rest of the hold is built around it, and nothing is tied down and signed off until the weight actually matches the load plan's own centre-of-gravity assumptions." },
+      { app: "smartcity", id: "av-deicing-truck-boom-operations", why: "The pass runs top-down and clear of every intake, and the surfaces get checked clean by eye and by hand before the holdover clock the flight deck is timing their own departure against is ever allowed to start." },
+      { app: "smartcity", id: "av-hangar-jacking-and-stands", why: "Three jacks come up together, never one ahead of the others, and the downlock pins go in the moment the gear is unloaded — not sometime after this crew is already working underneath a jet held up on hydraulics alone." },
+      { app: "smartcity", id: "av-borescope-and-tool-control-inventory", why: "Every tool is counted against its own shadow-board outline before the engine is touched, and counted again before the job is signed off, because the only question tool control actually answers is whether everything that went out came back." },
+      { app: "smartcity", id: "av-lavatory-and-potable-water-separation", why: "Two services, two completely separate carts, and the one rule that governs the whole job is that nothing from one system ever touches the other — not the hose, not the nozzle, not a hand that has not been re-gloved in between." },
+    ],
+  },
 ];
 
 /**

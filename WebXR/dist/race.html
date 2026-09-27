@@ -6751,6 +6751,296 @@ function pileDrivingRig(parent, x, y, z, opts = {}) {
   return flDone(rig, { footprint: EQUIPMENT_BUDGET.pileDrivingRig.footprint, livery: lv });
 }
 
+// ------------------------------------------------------- aviation ground support
+//
+// A stylised single-aisle regional jet, plus the ground-support fleet an
+// IAM/TWU ramp and maintenance crew works around it with: a pushback tug and
+// towbar, a ground power cart with a static-bonding reel, a cargo belt
+// loader, a deicing truck with an articulated boom, and a lavatory/potable
+// service cart. A full-size airliner is 30+ m long and would dwarf every
+// other station on this platform, so `regionalJet` keeps the same footprint
+// convention every other station's plant already uses: real proportions —
+// the fuselage tapers to a point at both ends, the wing is low and swept,
+// the tail swept and up, the gear plumb under the load paths a real jet's
+// is — held to roughly a fifth of full scale, so a standing figure and the
+// aircraft still share one pad the way they do at every other station.
+
+const AV_BODY = 0xdfe6ea;
+const AV_GLASS = 0x161d24;
+const AV_STEEL = 0x8b98a5;
+const AV_TIRE = 0x17191c;
+
+/**
+ * Single-aisle regional jet, gear down. Parts: fuselage, wingL, wingR,
+ * tailfin, engineL, engineR, noseGear, mainGearL, mainGearR, doorFwd
+ * (crew/passenger door, left side near the nose), cargoDoor (belly hold,
+ * right side, aft of the wing) and servicePanel (lavatory/potable access,
+ * right side, near the tail) — every one its own group a station can
+ * register as a control or dress with its own hazard. `opts.livery.colour`
+ * paints the fuselage and its cheatline; the default reads as a generic
+ * ramp/maintenance airframe, no carrier's marks.
+ */
+function regionalJet(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: AV_BODY, accent: 0xc8201c, fleetName: "SITE AIR", unitNumber: "N100XA" });
+  const rig = flRig(parent, x, y, z, opts, "regionalJet", [0, 0, 0.54]);
+  const cruiseY = 1.24;
+
+  const fuselage = rig.part("fuselage", 0, cruiseY, 0);
+  const profile = [
+    [0.01, -2.75], [0.3, -2.45], [0.48, -2.05], [0.54, -1.5], [0.56, -0.4],
+    [0.56, 0.5], [0.52, 1.1], [0.36, 1.55], [0.16, 1.85], [0.01, 2.05],
+  ];
+  const body = lathe(fuselage, profile, 0, 0, 0, lv.colour, { rough: 0.42, metal: 0.15, seg: 18 });
+  body.rotation.x = Math.PI / 2;
+  box(fuselage, 0.5, 0.22, 0.03, 0, 0.36, 1.86, AV_GLASS, { rough: 0.2, metal: 0.3 }); // windshield
+  for (const sx of [-1, 1]) box(fuselage, 0.02, 0.16, 2.6, sx * 0.55, 0.06, -0.35, AV_GLASS, { rough: 0.3 }); // window belt
+  for (const sx of [-1, 1]) box(fuselage, 0.02, 0.08, 3.4, sx * 0.55, -0.2, -0.35, lv.accent, { rough: 0.4 }); // cheatline
+
+  const wingSpan = 2.55, wingChord = 0.85;
+  for (const sx of [1, -1]) {
+    const wing = rig.part(sx > 0 ? "wingL" : "wingR", 0, cruiseY - 0.28, -0.15);
+    const w = box(wing, wingSpan, 0.09, wingChord, sx * wingSpan / 2, 0, 0, lv.colour, { rough: 0.42, metal: 0.15 });
+    void w;
+    wing.rotation.y = sx * 0.09;
+    wing.rotation.z = -sx * 0.05;
+    ball(wing, 0.03, sx * wingSpan, 0, wingChord * 0.25, sx > 0 ? 0xd8322c : 0x3fc26a,
+      { emissive: sx > 0 ? 0xd8322c : 0x3fc26a, ei: 1.6, seg: 8, seg2: 8 }); // nav light: red left/port, green right/starboard
+  }
+
+  const tail = rig.part("tailfin", 0, cruiseY + 0.15, -2.5);
+  const fin = box(tail, 0.08, 1.35, 0.85, 0, 0.675, -0.1, lv.colour, { rough: 0.42, metal: 0.15 });
+  fin.rotation.x = -0.18;
+  for (const sx of [1, -1]) {
+    const stab = box(tail, 1.0, 0.07, 0.55, sx * 0.5, 0.15, -0.35, lv.colour, { rough: 0.42, metal: 0.15 });
+    stab.rotation.z = -sx * 0.03;
+  }
+  ball(tail, 0.03, 0, 1.35, -0.2, 0xf6f4ea, { emissive: 0xfff2cc, ei: 1.4, seg: 8, seg2: 8 }); // tail beacon
+
+  for (const sx of [1, -1]) {
+    const eng = rig.part(sx > 0 ? "engineL" : "engineR", sx * 1.15, cruiseY - 0.62, -0.05);
+    box(eng, 0.1, 0.35, 0.5, 0, 0.28, 0, lv.colour, { rough: 0.5, metal: 0.2 }); // pylon
+    const nac = cyl(eng, 0.34, 0.3, 1.15, 0, 0, 0, AV_STEEL, { rough: 0.35, metal: 0.5, seg: 18 });
+    nac.rotation.x = Math.PI / 2;
+    const fan = cyl(eng, 0.28, 0.28, 0.06, 0, 0, 0.56, 0x14171a, { rough: 0.6, seg: 18 });
+    fan.rotation.x = Math.PI / 2;
+  }
+
+  const noseGear = rig.part("noseGear", 0, 0, 1.5);
+  cyl(noseGear, 0.045, 0.045, 0.59, 0, 0.445, 0, AV_STEEL, { rough: 0.4, metal: 0.55, seg: 10 });
+  for (const dz of [-0.11, 0.11]) {
+    const wheel = cyl(noseGear, 0.15, 0.15, 0.1, 0, 0.15, dz, AV_TIRE, { rough: 0.8, seg: 16 });
+    wheel.rotation.z = Math.PI / 2;
+  }
+  for (const sx of [1, -1]) {
+    const mg = rig.part(sx > 0 ? "mainGearL" : "mainGearR", sx * 0.62, 0, -0.3);
+    cyl(mg, 0.05, 0.05, 0.76, 0, 0.58, 0, AV_STEEL, { rough: 0.4, metal: 0.55, seg: 10 });
+    for (const dz of [-0.13, 0.13]) {
+      const wheel = cyl(mg, 0.2, 0.2, 0.13, 0, 0.2, dz, AV_TIRE, { rough: 0.8, seg: 16 });
+      wheel.rotation.z = Math.PI / 2;
+    }
+  }
+
+  const doorFwd = rig.part("doorFwd", 0.5, cruiseY + 0.12, 1.05);
+  box(doorFwd, 0.04, 0.82, 0.42, 0, 0, 0, flShade(lv.colour, 0.82), { rough: 0.45, metal: 0.15 });
+
+  const cargoDoor = rig.part("cargoDoor", -0.54, cruiseY - 0.35, -0.95);
+  box(cargoDoor, 0.04, 0.48, 0.92, 0, 0, 0, flShade(lv.colour, 0.82), { rough: 0.45, metal: 0.15 });
+
+  const servicePanel = rig.part("servicePanel", -0.5, cruiseY - 0.15, -2.05);
+  box(servicePanel, 0.04, 0.3, 0.32, 0, 0, 0, flShade(lv.colour, 0.82), { rough: 0.45, metal: 0.15 });
+  const cap = cyl(servicePanel, 0.045, 0.045, 0.03, 0.03, -0.05, 0, AV_STEEL, { rough: 0.4, metal: 0.6, seg: 12 });
+  cap.rotation.z = Math.PI / 2;
+
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.regionalJet.footprint, livery: lv });
+}
+
+/**
+ * Pushback tug and towbar: a low, ballasted tow tractor with a rigid
+ * drawbar and shoe reaching forward to the nose gear. Parts: cabDoor, wheelsF,
+ * wheelsR, towbarArm, beacon.
+ */
+function pushbackTug(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0xf0b323, fleetName: "RAMP", unitNumber: "TUG-4" });
+  const rig = flRig(parent, x, y, z, opts, "pushbackTug", [0, 0, -0.55]);
+  const S = rig.shell;
+  box(S, 1.9, 0.5, 3.0, 0, 0.55, 0, ...FL.frame); // low ballasted chassis
+  box(S, 1.7, 0.55, 1.3, 0, 1.0, -0.6, lv.colour, { rough: 0.4, metal: 0.2 }); // cab body
+  flPanel(S, 1.0, 0.5, 0, 1.02, 0.06, flGlassMat(), "+z", 0.05);
+  for (const sx of [-1, 1]) flPanel(S, 0.9, 0.42, sx * 0.86, 1.0, -0.55, flGlassMat(), sx > 0 ? "+x" : "-x");
+  flDoor(rig, "cabDoor", 1, 0.86, 0.75, -0.6, 0.8, 0.68, flDoorMat(lv, "L", { window: 0.5 }), { t: 0.03 });
+  const beacon = rig.part("beacon", 0, 1.32, -0.6);
+  ball(beacon, 0.07, 0, 0, 0, 0xf2a23b, { emissive: 0xf2a23b, ei: 1.6, seg: 10 });
+  flAxle(rig, "wheelsF", 1.05, 0.34, 1.55);
+  flAxle(rig, "wheelsR", -0.95, 0.34, 1.55);
+  const towbar = rig.part("towbarArm", 0, 0.3, 1.5);
+  box(towbar, 0.1, 0.08, 1.0, 0, 0, 0.5, ...FL.frame);
+  box(towbar, 0.3, 0.06, 0.3, 0, 0, 1.02, ...FL.steel); // towbar shoe/jaw
+  flLights(rig, [[0.7, 0.6, 1.55, 0.2, 0.1], [-0.7, 0.6, 1.55, 0.2, 0.1]], null, [[0.7, 0.6, -1.55, 0.16, 0.1], [-0.7, 0.6, -1.55, 0.16, 0.1]]);
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.pushbackTug.footprint, livery: lv });
+}
+
+/**
+ * Towable ground power cart with a cable reel and a static-bonding reel and
+ * clamp. Parts: cableReel, bondingReel, controlPanel, wheels.
+ */
+function groundPowerUnit(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0xf2a23b, fleetName: "GPU", unitNumber: "PWR-2" });
+  const rig = flRig(parent, x, y, z, opts, "groundPowerUnit", [-0.03, 0, -0.29]);
+  const S = rig.shell;
+  box(S, 1.0, 0.85, 1.9, 0, 0.6, 0, lv.colour, { rough: 0.5, metal: 0.25 });
+  box(S, 1.0, 0.1, 1.9, 0, 0.15, 0, ...FL.frame); // skid base
+  box(S, 0.08, 0.08, 0.6, 0, 0.45, 1.15, ...FL.frame); // tow tongue
+  const eye = torus(S, 0.05, 0.015, 0, 0.45, 1.46, 0x2b2f34, { seg: 8, seg2: 16 });
+  eye.rotation.x = Math.PI / 2;
+  const reel = rig.part("cableReel", 0.53, 0.65, -0.2);
+  const hub = cyl(reel, 0.32, 0.32, 0.14, 0, 0, 0, 0x2b2f34, { rough: 0.6, seg: 20 });
+  hub.rotation.z = Math.PI / 2;
+  const rim = torus(reel, 0.3, 0.02, 0.09, 0, 0, lv.colour, { seg: 8, seg2: 20 });
+  rim.rotation.y = Math.PI / 2;
+  const bond = rig.part("bondingReel", -0.53, 0.55, 0.5);
+  const bhub = cyl(bond, 0.14, 0.14, 0.08, 0, 0, 0, 0x2b2f34, { rough: 0.6, seg: 16 });
+  bhub.rotation.z = Math.PI / 2;
+  ball(bond, 0.02, 0, -0.02, 0.16, 0xb8bec4, { rough: 0.3, metal: 0.8, seg: 8 }); // clamp jaw
+  const panel = rig.part("controlPanel", 0, 0.85, 0.96);
+  box(panel, 0.5, 0.32, 0.03, 0, 0, 0, 0x2b2f34, { rough: 0.55 });
+  decal(panel, 0.44, 0.26, 0, 0, 0.02, signFace("GEN\nON", { bg: "#101820", accent: "#59c97b", scale: 0.4 }), { px: 256 });
+  flAxle(rig, "wheels", -0.15, 0.22, 0.9, { width: 0.16 });
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.groundPowerUnit.footprint, livery: lv });
+}
+
+/**
+ * Self-propelled cargo belt loader, ramp stowed at rest angle. Parts:
+ * beltRamp, controlPanel, wheels, wheelsF.
+ */
+function cargoBeltLoader(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0x4a5561, fleetName: "RAMP", unitNumber: "BL-9" });
+  const rig = flRig(parent, x, y, z, opts, "cargoBeltLoader", [-0.04, 0, -1.12]);
+  const S = rig.shell;
+  box(S, 1.3, 0.55, 2.2, 0, 0.42, -0.3, lv.colour, { rough: 0.5, metal: 0.25 }); // chassis
+  const panel = rig.part("controlPanel", 0.55, 0.95, -1.3);
+  box(panel, 0.35, 0.55, 0.12, 0, 0, 0, 0x2b2f34, { rough: 0.55 });
+  decal(panel, 0.3, 0.2, 0, 0.1, 0.07, signFace("BELT CTL", { bg: "#101820", accent: "#f2c14b", scale: 0.4 }), { px: 256 });
+  const ramp = rig.part("beltRamp", 0, 0.75, 0.6);
+  box(ramp, 1.1, 0.12, 3.2, 0, 0, 1.5, lv.colour, { rough: 0.5, metal: 0.2 });
+  for (const dx of [-0.5, 0.5]) box(ramp, 0.06, 0.22, 3.2, dx, 0.15, 1.5, ...FL.frame); // side rails
+  for (let i = 0; i < 8; i++) box(ramp, 1.02, 0.02, 0.06, 0, 0.07, 0.2 + i * 0.38, 0x2b2f34, { rough: 0.7 }); // belt cleats
+  ramp.rotation.x = -0.22;
+  flAxle(rig, "wheels", -0.9, 0.28, 1.05, { width: 0.22 });
+  flAxle(rig, "wheelsF", -0.1, 0.24, 1.0, { width: 0.2 });
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.cargoBeltLoader.footprint, livery: lv });
+}
+
+/**
+ * Deicing truck: a two-axle chassis, a fluid tank and an articulated boom
+ * carrying a basket and spray nozzle, boom stowed along the tank. Parts:
+ * cabDoor, wheelsF, wheelsM, wheelsR, boomBase, boomArm, basket.
+ */
+function deicingTruck(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0xf2c14b, fleetName: "DEICE", unitNumber: "DI-6" });
+  const rig = flRig(parent, x, y, z, opts, "deicingTruck");
+  const S = rig.shell;
+  box(S, 2.4, 0.5, 7.6, 0, 0.85, -0.3, ...FL.frame); // chassis rail
+  box(S, 2.2, 1.7, 1.7, 0, 1.95, 2.6, lv.colour, { rough: 0.45, metal: 0.2 }); // cab
+  flPanel(S, 1.6, 0.7, 0, 2.35, 3.46, flGlassMat(), "+z", 0.06);
+  flDoor(rig, "cabDoor", 1, 1.11, 1.7, 2.4, 1.0, 1.3, flDoorMat(lv, "L", { window: 0.55 }), { t: 0.04 });
+  const tank = cyl(S, 0.85, 0.85, 4.6, 0, 2.0, -1.0, 0xeef2f6, { rough: 0.35, metal: 0.3, seg: 20 });
+  tank.rotation.x = Math.PI / 2;
+  ball(S, 0.85, 0, 2.0, -3.3, 0xeef2f6, { rough: 0.35, metal: 0.3, seg: 16, seg2: 12 });
+  ball(S, 0.85, 0, 2.0, 1.3, 0xeef2f6, { rough: 0.35, metal: 0.3, seg: 16, seg2: 12 });
+  flAxle(rig, "wheelsF", 1.9, 0.5, 2.0, { width: 0.35 });
+  flAxle(rig, "wheelsM", -1.0, 0.5, 2.0, { dual: true, width: 0.5 });
+  flAxle(rig, "wheelsR", -2.6, 0.5, 2.0, { dual: true, width: 0.5 });
+  // Boom: base slews on the chassis, arm reaches out and up, basket carries
+  // the operator's basket and the spray nozzle at the working end.
+  const boomBase = rig.part("boomBase", 0, 2.1, -3.0);
+  box(boomBase, 0.6, 0.5, 0.8, 0, 0, 0, ...FL.frame);
+  const boomArm = rig.part("boomArm", 0, 0.35, 0, boomBase);
+  box(boomArm, 0.3, 0.3, 3.6, 0, 0, 1.7, lv.colour, { rough: 0.45, metal: 0.25 });
+  const basket = rig.part("basket", 0, 0, 3.5, boomArm);
+  box(basket, 0.9, 0.55, 0.7, 0, 0.28, 0, 0xdfe6ea, { rough: 0.5 });
+  const nozzle = cyl(basket, 0.05, 0.07, 0.5, 0, 0.1, 0.5, 0x2b2f34, { rough: 0.5, seg: 10 });
+  nozzle.rotation.x = Math.PI / 2;
+  boomBase.rotation.y = 0.25;
+  boomArm.rotation.x = -0.5; // stowed, laid back along the tank
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.deicingTruck.footprint, livery: lv });
+}
+
+/**
+ * Small ramp service truck for lavatory or potable water service —
+ * `opts.kind` is `"lav"` or `"potable"`, painting the tank, the cheatline
+ * and the hose reel band, and never sharing a hose colour between the two
+ * so the two services stay visibly separate equipment. Parts: hoseReel,
+ * serviceValve, wheels.
+ */
+function serviceCart(parent, x, y, z, opts = {}) {
+  const kind = opts.kind === "potable" ? "potable" : "lav";
+  const bodyColour = kind === "potable" ? 0xeaf1f5 : 0x2f6f9e;
+  const capColour = kind === "potable" ? 0x2f6f9e : 0x59637a;
+  const lv = flLivery(opts.livery, {
+    colour: bodyColour,
+    fleetName: kind === "potable" ? "POTABLE WATER" : "LAV SERVICE",
+    unitNumber: kind === "potable" ? "PW-3" : "LS-5",
+  });
+  const rig = flRig(parent, x, y, z, opts, "serviceCart");
+  const S = rig.shell;
+  box(S, 1.5, 0.4, 3.2, 0, 0.4, 0, ...FL.frame); // chassis
+  const tank = cyl(S, 0.62, 0.62, 2.6, 0, 1.15, -0.1, lv.colour, { rough: 0.4, metal: 0.25, seg: 18 });
+  tank.rotation.x = Math.PI / 2;
+  ball(S, 0.62, 0, 1.15, -1.4, lv.colour, { rough: 0.4, metal: 0.25, seg: 14, seg2: 10 });
+  ball(S, 0.62, 0, 1.15, 1.2, lv.colour, { rough: 0.4, metal: 0.25, seg: 14, seg2: 10 });
+  box(S, 1.4, 0.9, 1.0, 0, 1.0, 1.5, 0xdfe6ea, { rough: 0.45, metal: 0.2 }); // small cab/tiller stand
+  flPanel(S, 1.0, 0.5, 0, 1.15, 2.02, flGlassMat(), "+z", 0.05);
+  flAxle(rig, "wheels", -0.8, 0.32, 1.25, { width: 0.28 });
+  const reel = rig.part("hoseReel", 0.78, 1.15, -0.6);
+  const rhub = cyl(reel, 0.3, 0.3, 0.16, 0, 0, 0, 0x2b2f34, { rough: 0.6, seg: 18 });
+  rhub.rotation.z = Math.PI / 2;
+  const rrim = torus(reel, 0.27, 0.018, 0.1, 0, 0, capColour, { seg: 8, seg2: 18 });
+  rrim.rotation.y = Math.PI / 2;
+  const valve = rig.part("serviceValve", -0.78, 1.15, -0.9);
+  const vbody = cyl(valve, 0.05, 0.05, 0.1, 0, 0, 0, AV_STEEL, { rough: 0.4, metal: 0.6, seg: 12 });
+  vbody.rotation.z = Math.PI / 2;
+  ball(valve, 0.02, 0.06, 0, 0, capColour, { emissive: capColour, ei: 0.6, seg: 8 });
+  decal(S, 0.9, 0.3, 0, 1.15, -1.41,
+    signFace(kind === "potable" ? "POTABLE\nWATER" : "LAVATORY\nSERVICE",
+      { bg: kind === "potable" ? "#0d3350" : "#132233", accent: "#ffffff", scale: 0.32 }), { px: 320 });
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.serviceCart.footprint, livery: lv, kind });
+}
+
+/**
+ * Ramp fuel truck: a cab-over chassis, a fuel tank and a rear hose reel with
+ * a dispensing panel. Parts: cabDoor, wheelsF, wheelsM, wheelsR, hoseReel,
+ * nozzleMount, dispensePanel.
+ */
+function fuelTruck(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0xeaf1f5, accent: 0xc8201c, fleetName: "FUEL", unitNumber: "FT-8" });
+  const rig = flRig(parent, x, y, z, opts, "fuelTruck", [-0.35, 0, 1.56]);
+  const S = rig.shell;
+  box(S, 2.3, 0.5, 6.6, 0, 0.85, -0.4, ...FL.frame); // chassis rail
+  box(S, 2.1, 1.5, 1.5, 0, 1.85, 2.6, 0xdfe6ea, { rough: 0.45, metal: 0.2 }); // cab
+  flPanel(S, 1.5, 0.6, 0, 2.15, 3.36, flGlassMat(), "+z", 0.06);
+  flDoor(rig, "cabDoor", 1, 1.06, 1.55, 2.4, 0.9, 1.1, flDoorMat(lv, "L", { window: 0.55 }), { t: 0.04 });
+  const tank = cyl(S, 0.95, 0.95, 4.2, 0, 1.85, -0.9, lv.colour, { rough: 0.4, metal: 0.25, seg: 20 });
+  tank.rotation.x = Math.PI / 2;
+  ball(S, 0.95, 0, 1.85, -3.0, lv.colour, { rough: 0.4, metal: 0.25, seg: 16, seg2: 12 });
+  ball(S, 0.95, 0, 1.85, 1.2, lv.colour, { rough: 0.4, metal: 0.25, seg: 16, seg2: 12 });
+  const stripe = box(S, 0.06, 0.3, 4.0, 0.96, 1.85, -0.9, lv.accent, { rough: 0.5 });
+  void stripe;
+  flAxle(rig, "wheelsF", 1.7, 0.48, 1.9, { width: 0.32 });
+  flAxle(rig, "wheelsM", -0.9, 0.48, 1.9, { dual: true, width: 0.48 });
+  flAxle(rig, "wheelsR", -2.4, 0.48, 1.9, { dual: true, width: 0.48 });
+  const reel = rig.part("hoseReel", 0.9, 1.0, -3.0);
+  const rhub = cyl(reel, 0.28, 0.28, 0.14, 0, 0, 0, 0x2b2f34, { rough: 0.6, seg: 18 });
+  rhub.rotation.z = Math.PI / 2;
+  const rrim = torus(reel, 0.25, 0.018, 0.09, 0, 0, lv.accent, { seg: 8, seg2: 18 });
+  rrim.rotation.y = Math.PI / 2;
+  const nozzleMount = rig.part("nozzleMount", 0.9, 0.5, -3.35, reel);
+  box(nozzleMount, 0.18, 0.1, 0.3, 0, 0, 0, 0x2b2f34, { rough: 0.6 });
+  const panel = rig.part("dispensePanel", -0.9, 1.1, -3.05);
+  box(panel, 0.4, 0.4, 0.08, 0, 0, 0, 0x2b2f34, { rough: 0.55 });
+  decal(panel, 0.34, 0.3, 0, 0, 0.05, signFace("FUEL\nQTY", { bg: "#101820", accent: "#f2c14b", scale: 0.35 }), { px: 256 });
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.fuelTruck.footprint, livery: lv });
+}
+
 // ------------------------------------------------------------------ budget
 
 /** Declared mesh count, footprint [width X, height Y, length Z] and parts per builder; see FLEET_BUDGET. */
@@ -6774,12 +7064,21 @@ const EQUIPMENT_BUDGET = {
   grader: { build: "grader", meshes: 15, footprint: [3.7, 3.2, 13.35], parts: ["moldboard", "circle", "frontWheel", "wheels", "door", "lights"], note: "motor grader, blade down" },
   crawlerCrane: { build: "crawlerCrane", meshes: 18, footprint: [4.76, 7.3, 14.81], parts: ["trackL", "trackR", "house", "counterweight", "cabDoor", "boom", "boomSections", "hook", "lights"], note: "lattice-boom crawler crane, boom raised" },
   pileDrivingRig: { build: "pileDrivingRig", meshes: 20, footprint: [3.94, 13.28, 5], parts: ["trackL", "trackR", "house", "raisingBoom", "leads", "hammer", "gate", "cabDoor", "lights"], note: "crawler pile driving rig, leads erected" },
+  regionalJet: { build: "regionalJet", meshes: 26, footprint: [5.18, 2.81, 5.19], parts: ["fuselage", "wingL", "wingR", "tailfin", "engineL", "engineR", "noseGear", "mainGearL", "mainGearR", "doorFwd", "cargoDoor", "servicePanel"], note: "stylised single-aisle regional jet, gear down" },
+  pushbackTug: { build: "pushbackTug", meshes: 11, footprint: [1.9, 1.43, 4.24], parts: ["cabDoor", "wheelsF", "wheelsR", "towbarArm", "beacon"], note: "pushback tug with towbar and shoe" },
+  groundPowerUnit: { build: "groundPowerUnit", meshes: 10, footprint: [1.21, 1.02, 2.47], parts: ["cableReel", "bondingReel", "controlPanel", "wheels"], note: "towable ground power cart with a static-bonding reel" },
+  cargoBeltLoader: { build: "cargoBeltLoader", meshes: 9, footprint: [1.38, 1.68, 5.04], parts: ["beltRamp", "controlPanel", "wheels", "wheelsF"], note: "self-propelled cargo belt loader, ramp raised" },
+  deicingTruck: { build: "deicingTruck", meshes: 12, footprint: [2.52, 4.78, 7.65], parts: ["cabDoor", "wheelsF", "wheelsM", "wheelsR", "boomBase", "boomArm", "basket"], note: "deicing truck, boom stowed along the tank" },
+  serviceCart: { build: "serviceCart", opts: { kind: "lav" }, meshes: 10, footprint: [1.73, 1.77, 4.05], parts: ["hoseReel", "serviceValve", "wheels"], note: "lavatory service truck" },
+  "serviceCart:potable": { build: "serviceCart", opts: { kind: "potable" }, meshes: 10, footprint: [1.73, 1.77, 4.05], parts: ["hoseReel", "serviceValve", "wheels"], note: "potable water service truck" },
+  fuelTruck: { build: "fuelTruck", meshes: 14, footprint: [3.08, 2.8, 9.88], parts: ["cabDoor", "wheelsF", "wheelsM", "wheelsR", "hoseReel", "nozzleMount", "dispensePanel"], note: "ramp fuel truck with a rear hose reel" },
 };
 
 /** The builders by the name EQUIPMENT_BUDGET's `build` field uses. */
 const EQUIPMENT_BUILDERS = {
   excavator, amphibiousExcavator, backhoe, skidSteer, dumpTruck, mobileCrane, aerialBoomLift, scissorLift, compactor,
   generatorTrailer, lightTower, concretePump, craneSpreader, dozer, wheelLoader, grader, crawlerCrane, pileDrivingRig,
+  regionalJet, pushbackTug, groundPowerUnit, cargoBeltLoader, deicingTruck, serviceCart, fuelTruck,
 };
 void THREE; void ball; void flSteerWheel; void flMirror; void flPlan;
 
@@ -7712,6 +8011,25 @@ const CURRICULA = [
       { app: "smartcity", id: "pl-steam-trap-and-condensate-line-repair", why: "The failed trap's line is vented and proven at zero before the body ever opens, the replacement is matched to the application, and the line is warmed back up slowly enough that trapped condensate boils off instead of hammering through the pipe." },
       { app: "smartcity", id: "pl-water-heater-and-tpr-valve-replacement", why: "The new tank is strapped against a seismic event before it is ever filled, the relief valve is matched to the tank's own rating rather than its thread size, and the gas connection is tested before the pilot lights." },
       { app: "smartcity", id: "pl-natural-gas-pressure-test-and-leak-check", why: "The new run is pressure-tested with air rather than fuel, every joint is soap-checked rather than trusted to the gauge alone, and the line is purged outdoors before any appliance ever sees live gas." },
+    ],
+  },
+  {
+    id: "aviation-maintenance-and-ground",
+    name: "Aviation Maintenance and Ground — IAM/TWU Ramp and Line",
+    union: "IAM and TWU",
+    certification: "IAM and TWU ramp and maintenance training; FAA 14 CFR Part 139 movement-area operations, Part 43 maintenance, Part 121 air carrier operations and Part 145 repair stations; NFPA 407 aircraft fuel servicing and NFPA 77 static electricity; OSHA 29 CFR 1910.132, 1910.147, 1910.178, 1910.1200 and 1910.23; ANSI/ISEA 107 high-visibility apparel across eight distinct ramp and line jobs",
+    guides: ["iam-winpisinger-center", "twu-training", "faa-14-cfr-139", "faa-14-cfr-139-303", "faa-14-cfr-43", "faa-14-cfr-121", "faa-14-cfr-145", "nfpa-407", "nfpa-77", "osha-1910-132", "osha-1910-178", "osha-1910-147", "osha-1910-134", "osha-1910-1200", "osha-1910-23", "ansi-isea-107", "osha-1910-95"],
+    summary: "Eight jobs an IAM or TWU ramp and line crew actually rotates through: an aircraft marshalled into a tight hangar bay on two wing-walkers and one shared stop signal, a pushback tug and towbar connected with the steering bypass pin seated before any load, ground power and static bonding proven before a drop of fuel moves, a hold built to the load plan with the hazmat bag segregated on its own, a de-icing pass run top-down and checked clean before the holdover clock starts, a jet raised on three jacks brought up together and locked, a borescope inspection tool-controlled end to end against a shadow board, and a lavatory and potable water service worked on two carts that never share a hose. Every station ends on a proof — a gauge, a confirmed count, a signed log — rather than on how the job looked going together.",
+    accent: "#ffb13a",
+    stations: [
+      { app: "smartcity", id: "av-marshalling-and-wingwalker-signals", why: "Two wing-walkers and one marshaller share a single stop signal that beats every other instruction the moment it is raised, because neither wingtip is ever visible from the same set of eyes at the same time in a bay this tight." },
+      { app: "smartcity", id: "av-pushback-tug-and-towbar-connection", why: "The steering bypass pin goes in before the tug ever takes a load, and the parking brake comes off and goes back on only on the flight deck's own word over the headset — never assumed, never guessed at from the tug's own seat." },
+      { app: "smartcity", id: "av-ground-power-and-static-bonding-before-fuel", why: "The bonding cable is clamped to the aircraft before the nozzle ever touches it, because a fuel connection with no equalised path between the aircraft and the truck is a spark waiting on a vapour that only needs one." },
+      { app: "smartcity", id: "av-baggage-belt-loader-and-hold-loading", why: "The hazmat bag is spotted and segregated before the rest of the hold is built around it, and nothing is tied down and signed off until the weight actually matches the load plan's own centre-of-gravity assumptions." },
+      { app: "smartcity", id: "av-deicing-truck-boom-operations", why: "The pass runs top-down and clear of every intake, and the surfaces get checked clean by eye and by hand before the holdover clock the flight deck is timing their own departure against is ever allowed to start." },
+      { app: "smartcity", id: "av-hangar-jacking-and-stands", why: "Three jacks come up together, never one ahead of the others, and the downlock pins go in the moment the gear is unloaded — not sometime after this crew is already working underneath a jet held up on hydraulics alone." },
+      { app: "smartcity", id: "av-borescope-and-tool-control-inventory", why: "Every tool is counted against its own shadow-board outline before the engine is touched, and counted again before the job is signed off, because the only question tool control actually answers is whether everything that went out came back." },
+      { app: "smartcity", id: "av-lavatory-and-potable-water-separation", why: "Two services, two completely separate carts, and the one rule that governs the whole job is that nothing from one system ever touches the other — not the hose, not the nozzle, not a hand that has not been re-gloved in between." },
     ],
   },
 ];
@@ -8968,6 +9286,11 @@ const CAPSTONE_LIVERIES = [
     "programme": "plumbers-and-pipefitters",
     "name": "Plumbers and Pipefitters — Journeyman Rough-In and Test Block",
     "accent": "#2f6f4a"
+  },
+  {
+    "programme": "aviation-maintenance-and-ground",
+    "name": "Aviation Maintenance and Ground — IAM/TWU Ramp and Line",
+    "accent": "#ffb13a"
   }
 ];
 
