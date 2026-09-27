@@ -111,6 +111,13 @@ export const SIM_ED_SCIENCE_LAB_CHEMICAL_STORAGE_AND_EYEWASH = {
       gauge: { label: "HOOD AIRFLOW", speed: 0.6, green: [0.42, 0.66], readout: (t) => (t < 0.42 ? "too low — check the fan" : t > 0.66 ? "past the sash's rated line" : "in the working band"), missNote: "Not in the working band. A hood reading outside it isn't reliably containing anything — flag it before using it." },
     },
     {
+      id: "close-gas-valves", kind: "turn", target: "gas-valve",
+      title: "Close the bench gas valves",
+      cue: "Turn each unused bench gas valve fully closed before any chemical work begins.",
+      why: "A bench gas valve left cracked open between classes is a leak nobody is watching for, in the same room a corrosive is about to be decanted — closing every valve that isn't actively feeding a burner right now is what keeps an open flame or a gas smell from ever becoming part of today's chemical work.",
+      turn: { turns: 0.4, label: "BENCH GAS VALVE", readout: (t) => (t < 0.85 ? "closing" : "shut") },
+    },
+    {
       id: "decant-corrosive", kind: "track", target: "bottle-carrier", seconds: 6,
       title: "Decant the corrosive with the bottle carrier",
       cue: "Pour from the large bottle into the smaller one at a steady rate, using the carrier.",
@@ -134,6 +141,13 @@ export const SIM_ED_SCIENCE_LAB_CHEMICAL_STORAGE_AND_EYEWASH = {
       cue: "Hold the combination valve open until both the eyewash and the drench shower flow together.",
       why: "A lab handling corrosives needs both the eyewash and the drench shower proven, not just one of them — a splash can hit an eye, a sleeve or a whole side of someone's body, and the equipment for all three only counts as ready once it's actually been run.",
       holdBreakNote: "You let go before both the eyewash and the shower settled into a steady flow. A short flush proves nothing about whether the line behind it is actually clear.",
+    },
+    {
+      id: "restock-ppe-station", kind: "drag", target: "ppe-restock-box",
+      title: "Restock the PPE station",
+      cue: "Carry the box of replacement goggles and gloves to the PPE shelf.",
+      why: "A PPE hook that runs empty partway through the day is the reason a student or a teacher reaches for a reagent without the protection the label calls for — restocking it between periods, before the shelf actually runs out, is what keeps that choice from ever coming up.",
+      drag: { to: "ppe-shelf-spot", radius: 0.5, missNote: "Not at the shelf yet. Carry the restock box all the way to the PPE hooks before the next class arrives." },
     },
     {
       id: "check-inventory", kind: "select", target: "inventory-log",
@@ -245,6 +259,13 @@ export const SIM_ED_SCIENCE_LAB_CHEMICAL_STORAGE_AND_EYEWASH = {
     holoTag(hood, "unlabelled bottle in the hood", -0.4, 1.14, 0.1, { css: "#f0645b", w: 0.5 });
     reg(hits, unlabeledHoodBottle, "unlabeled-bottle-in-hood");
 
+    // Bench gas valve for the burner.
+    const gasValve = group(g, 0.4, 0, -1.2);
+    box(gasValve, 0.4, 0.7, 0.4, 0, 0.35, 0, 0xc4cbd1, { rough: 0.4, metal: 0.5 });
+    const gasCock = cyl(gasValve, 0.03, 0.03, 0.02, 0, 0.72, 0, 0xd8dde2, { rough: 0.4, metal: 0.5, seg: 12 });
+    holoTag(gasValve, "bench gas valve", 0, 0.9, 0, { css: LB_CSS, w: 0.32 });
+    reg(hits, gasCock, "gas-valve");
+
     // Decanting setup: large bottle, carrier, small bottle.
     const largeBottle = cyl(hood, 0.06, 0.065, 0.24, -0.1, 1.02, 0, 0xf2c14b, { rough: 0.4, seg: 14 });
     void largeBottle;
@@ -306,6 +327,12 @@ export const SIM_ED_SCIENCE_LAB_CHEMICAL_STORAGE_AND_EYEWASH = {
     const glovesHook = box(g, 0.1, 0.14, 0.03, -2.6, 1.2, 0.9, 0xf2c14b, { rough: 0.6 });
     holoTag(g, "gloves", -2.6, 1.4, 0.9, { css: LB_CSS, w: 0.2 });
     reg(hits, glovesHook, "gloves-on");
+    const ppeRestockBox = box(g, 0.3, 0.2, 0.24, -2.4, 0, 1.8, 0xd8dde2, { rough: 0.5 });
+    ppeRestockBox.position.y = 0.1;
+    holoTag(ppeRestockBox, "PPE restock box", 0, 0.3, 0, { css: LB_CSS, w: 0.36 });
+    reg(hits, ppeRestockBox, "ppe-restock-box");
+    const ppeShelfSpot = torus(g, 0.18, 0.012, -2.75, 0.9, 1.2, LB_ACCENT, { emissive: LB_ACCENT, ei: 1.3, rough: 0.4, cast: false, seg: 6, seg2: 16 });
+    reg(hits, ppeShelfSpot, "ppe-shelf-spot");
 
     // Spill kit for the interrupt.
     const spillKit = group(g, -2.8, 0, 2.0);
@@ -328,6 +355,8 @@ export const SIM_ED_SCIENCE_LAB_CHEMICAL_STORAGE_AND_EYEWASH = {
         if (step.id === "cabinet-check") { unlabeled.material = mat(0xc0c6cc, { rough: 0.4 }); mixHazard.visible = false; expired.visible = false; }
         if (step.id === "hood-airflow-gauge") repaint(hoodGauge.userData.screen, signFace("110 ft/min", { bg: "#1c3320", accent: "#59c97b", fg: "#eafbf1", scale: 0.5 }));
         if (step.id === "move-incompatible") { incompatibleBottle.visible = false; correctCabinetSpot.visible = false; }
+        if (step.id === "close-gas-valves") gasCock.rotation.y = Math.PI / 2;
+        if (step.id === "restock-ppe-station") { ppeRestockBox.visible = false; ppeShelfSpot.visible = false; }
         if (step.id === "check-inventory") expired.visible = false;
       },
 

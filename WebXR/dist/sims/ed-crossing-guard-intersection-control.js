@@ -87,6 +87,12 @@ export const SIM_ED_CROSSING_GUARD_INTERSECTION_CONTROL = {
       outOfOrderNote: "Vest, then paddle, then position — the corner is chosen from the vest and the paddle already in place, not the other way round.",
     },
     {
+      id: "check-pedestrian-signal", kind: "select", target: "pedestrian-signal",
+      title: "Check the pedestrian signal",
+      cue: "Read the intersection's own pedestrian signal before the first crossing.",
+      why: "The guard's paddle backs up the intersection's own signal rather than replacing it, and a signal stuck on a stale phase or dark entirely changes what a driver at this corner is already expecting — checking it before the first crossing is what tells the guard whether they're reinforcing the signal or the only thing this corner has working at all today.",
+    },
+    {
       id: "sightline-check", kind: "find", noHint: true,
       targets: ["parked-delivery-truck", "faded-crosswalk-paint", "knocked-over-sign"],
       itemNames: { "parked-delivery-truck": "the delivery truck parked in the sightline", "faded-crosswalk-paint": "the crosswalk paint worn past reading", "knocked-over-sign": "the school-crossing sign knocked flat" },
@@ -216,6 +222,11 @@ export const SIM_ED_CROSSING_GUARD_INTERSECTION_CONTROL = {
       ["Early dismissal today, 1:15", "Whistle on the cart"].forEach((l, i) => cx.fillText(l, w / 2, h * (0.55 + i * 0.2)));
     }, { ry: -0.6, accent: XG_ACCENT });
     reg(hits, postBoard, "post-board");
+    const signalPost = group(g, 3.2, 0, -0.2);
+    cyl(signalPost, 0.03, 0.03, 1.8, 0, 0.9, 0, CITY.steel, { rough: 0.4, metal: 0.6, seg: 10 });
+    const pedestrianSignal = box(signalPost, 0.14, 0.18, 0.05, 0, 1.7, 0, 0xf2c14b, { rough: 0.4, emissive: 0xf2c14b, ei: 0.6 });
+    holoTag(signalPost, "pedestrian signal", 0, 1.95, 0, { css: XG_CSS, w: 0.34 });
+    reg(hits, pedestrianSignal, "pedestrian-signal");
 
     const cart = group(g, 2.6, 0, 1.6);
     box(cart, 0.5, 0.6, 0.35, 0, 0.3, 0, 0xd8dde2, { rough: 0.5, metal: 0.3 });

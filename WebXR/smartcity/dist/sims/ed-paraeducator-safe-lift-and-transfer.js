@@ -81,6 +81,12 @@ export const SIM_ED_PARAEDUCATOR_SAFE_LIFT_AND_TRANSFER = {
       why: "The plan names the technique, the equipment and the number of staff this specific transfer calls for, and it can change as a student's needs change — reading it fresh, every time, is what keeps a paraeducator from running yesterday's transfer on a plan that's since been updated.",
     },
     {
+      id: "notify-teacher", kind: "select", target: "classroom-teacher-intercom",
+      title: "Let the classroom teacher know the transfer is starting",
+      cue: "Use the intercom to tell the classroom teacher the transfer is beginning.",
+      why: "The classroom teacher is running the rest of the room during this transfer and needs to know two adults are about to be occupied with it — a quick heads-up is what keeps the teacher from expecting a paraeducator's attention on anything else for the next few minutes.",
+    },
+    {
       id: "prep-space", kind: "sequence", anyOrder: false,
       targets: ["brakes-locked", "transfer-board-ready", "path-cleared"],
       itemNames: { "brakes-locked": "wheelchair brakes locked", "transfer-board-ready": "transfer board in position", "path-cleared": "path to the chair cleared" },
@@ -229,6 +235,11 @@ export const SIM_ED_PARAEDUCATOR_SAFE_LIFT_AND_TRANSFER = {
       cx.fillText("Two-person · gait belt · pivot", w / 2, h * 0.68);
     }, { ry: 0.6, accent: PE_ACCENT });
     reg(hits, planCard, "transfer-plan-card");
+    const intercom = group(g, -2.9, 0, -0.2);
+    box(intercom, 0.1, 0.14, 0.04, 0, 1.2, 0, 0xd8dde2, { rough: 0.4, metal: 0.4 });
+    const intercomButton = cyl(intercom, 0.015, 0.015, 0.01, 0, 1.24, 0.021, 0xf2c14b, { rough: 0.4, seg: 10 });
+    holoTag(intercom, "classroom intercom", 0, 1.4, 0, { css: PE_CSS, w: 0.36 });
+    reg(hits, intercomButton, "classroom-teacher-intercom");
     const transferLog = holoPanel(g, 0.44, 0.3, 2.7, 1.25, -2.2, (cx, w, h) => {
       cx.fillStyle = "rgba(3,16,20,0.9)"; cx.fillRect(0, 0, w, h);
       cx.fillStyle = PE_CSS; cx.fillRect(0, 0, w, 5);

@@ -4586,9 +4586,9 @@
           "interactables": 20
         },
         "originality": {
-          "score": 0.5800705467372136,
+          "score": 0.5754325259515571,
           "nearest": "ed-paraeducator-safe-lift-and-transfer",
-          "similarity": 0.2239858906525573
+          "similarity": 0.22491349480968859
         }
       }
     },
@@ -5161,110 +5161,6 @@
           "score": 0.5364779874213838,
           "nearest": "pl-fire-sprinkler-riser-and-flow-test",
           "similarity": 0.23270440251572327
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "ed-science-lab-chemical-storage-and-eyewash",
-      "name": "Science Lab Chemical Storage & Eyewash Check",
-      "category": "Building Systems & Facilities",
-      "steps": 10,
-      "score": 95,
-      "d": {
-        "variety": {
-          "score": 0.9375,
-          "distinct": 7,
-          "longestRun": 3
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.9550000000000001,
-          "medianWhy": 241,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 6
-        },
-        "standards": {
-          "score": 1,
-          "cited": 6,
-          "inScope": 6,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 10,
-          "got": 10
-        },
-        "scene": {
-          "score": 0.8265909090909092,
-          "meshes": 117,
-          "materials": 68,
-          "interactables": 21
-        },
-        "originality": {
-          "score": 0.6982578397212544,
-          "nearest": "draught-line-cleaning",
-          "similarity": 0.20034843205574912
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "ed-paraeducator-safe-lift-and-transfer",
-      "name": "Paraeducator Safe Lift & Transfer",
-      "category": "Building Systems & Facilities",
-      "steps": 11,
-      "score": 95,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 7,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.9099999999999999,
-          "medianWhy": 232,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 6
-        },
-        "standards": {
-          "score": 1,
-          "cited": 6,
-          "inScope": 6,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 10,
-          "got": 10
-        },
-        "scene": {
-          "score": 0.8156818181818182,
-          "meshes": 119,
-          "materials": 60,
-          "interactables": 20
-        },
-        "originality": {
-          "score": 0.5734835355285963,
-          "nearest": "ed-bus-pretrip-and-loading-zone",
-          "similarity": 0.22530329289428075
         }
       }
     },
@@ -6505,7 +6401,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 270,
+          "meshes": 255,
           "materials": 83,
           "interactables": 28
         },
@@ -8177,6 +8073,58 @@
           "score": 0.5002980625931447,
           "nearest": "pl-water-heater-and-tpr-valve-replacement",
           "similarity": 0.2399403874813711
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ed-science-lab-chemical-storage-and-eyewash",
+      "name": "Science Lab Chemical Storage & Eyewash Check",
+      "category": "Building Systems & Facilities",
+      "steps": 12,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 252,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.8575,
+          "meshes": 123,
+          "materials": 73,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.6279731993299833,
+          "nearest": "draught-line-cleaning",
+          "similarity": 0.21440536013400335
         }
       }
     },
@@ -10873,7 +10821,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 257,
+          "meshes": 259,
           "materials": 92,
           "interactables": 29
         },
@@ -13486,6 +13434,58 @@
     },
     {
       "app": "smartcity",
+      "id": "ed-paraeducator-safe-lift-and-transfer",
+      "name": "Paraeducator Safe Lift & Transfer",
+      "category": "Building Systems & Facilities",
+      "steps": 12,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 261,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.8390909090909092,
+          "meshes": 122,
+          "materials": 63,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.5754325259515571,
+          "nearest": "tr-wheelchair-lift-and-securement-on-a-bus",
+          "similarity": 0.22491349480968859
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "ed-bus-pretrip-and-loading-zone",
       "name": "Bus Pre-Trip & Loading Zone",
       "category": "Mobility & Transit",
@@ -13530,9 +13530,9 @@
           "interactables": 25
         },
         "originality": {
-          "score": 0.4703435804701629,
+          "score": 0.45886524822695046,
           "nearest": "ed-crossing-guard-intersection-control",
-          "similarity": 0.24593128390596744
+          "similarity": 0.24822695035460993
         }
       }
     },
@@ -19053,7 +19053,7 @@
       "id": "ed-crossing-guard-intersection-control",
       "name": "Crossing Guard Intersection Control",
       "category": "Mobility & Transit",
-      "steps": 11,
+      "steps": 12,
       "score": 98,
       "d": {
         "variety": {
@@ -19068,7 +19068,7 @@
         },
         "explanation": {
           "score": 1,
-          "medianWhy": 254,
+          "medianWhy": 267,
           "thin": 0
         },
         "grounding": {
@@ -19089,14 +19089,14 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 188,
-          "materials": 85,
-          "interactables": 22
+          "meshes": 191,
+          "materials": 87,
+          "interactables": 23
         },
         "originality": {
-          "score": 0.46155268022181156,
-          "nearest": "ra-roadway-worker-protection-and-job-briefing",
-          "similarity": 0.2476894639556377
+          "score": 0.45886524822695046,
+          "nearest": "ed-bus-pretrip-and-loading-zone",
+          "similarity": 0.24822695035460993
         }
       }
     },
