@@ -3,7 +3,8 @@
 // Everything that touches three.js lives here and in app.js; golf.js,
 // minigames.js and scores.js never import three.js, so they run headless.
 
-import { buildFairwayPark, fairwayHeight } from "./course.js";
+import { buildFairwayPark } from "../../shared/fairway.js";
+import { fairwayHeight } from "./course.js";
 
 const EYE_HEIGHT = 1.55;
 

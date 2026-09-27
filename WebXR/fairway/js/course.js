@@ -14,6 +14,6 @@
 // WEBXR / "fairway/js/course-stub.js" to SHARED / "fairway.js". Nothing else
 // in this app names the course module directly — every other file imports
 // from here.
-import { FAIRWAY_HOLES, FAIRWAY_FACILITY, buildFairwayPark, fairwayHeight, fairwayLieAt } from "./course-stub.js";
+import { FAIRWAY_HOLES, FAIRWAY_FACILITY, fairwayHeight, fairwayLieAt } from "../../shared/fairway-data.js";
 
-export { FAIRWAY_HOLES, FAIRWAY_FACILITY, buildFairwayPark, fairwayHeight, fairwayLieAt };
+export { FAIRWAY_HOLES, FAIRWAY_FACILITY, fairwayHeight, fairwayLieAt };

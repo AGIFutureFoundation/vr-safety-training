@@ -63,7 +63,7 @@ function assertFinite(state, label) {
   assert(bad.length === 0, `non-finite value(s): ${bad.slice(0, 5).join(", ")}`);
 }
 
-const C = await import(pathToFileURL(join(FAIRWAY, "js", "course-stub.js")).href);
+const C = await import(pathToFileURL(join(FAIRWAY, "js", "course.js")).href);
 const CJ = await import(pathToFileURL(join(FAIRWAY, "js", "course.js")).href);
 const G = await import(pathToFileURL(join(FAIRWAY, "js", "golf.js")).href);
 const MG = await import(pathToFileURL(join(FAIRWAY, "js", "minigames.js")).href);
@@ -73,7 +73,7 @@ console.log("Fairway Park — self-test\n");
 
 // ------------------------------------------------------------- 1. the course
 
-await check("the stub carries nine holes with real pars, and course.js re-exports it unchanged", () => {
+await check("course.js carries nine holes with real pars from the shared course data", () => {
   assert(C.FAIRWAY_HOLES.length === 9, `${C.FAIRWAY_HOLES.length} holes, expected 9`);
   const nums = C.FAIRWAY_HOLES.map((h) => h.number);
   eq(nums.join(","), "1,2,3,4,5,6,7,8,9", "hole numbers, in order");
@@ -84,13 +84,16 @@ await check("the stub carries nine holes with real pars, and course.js re-export
     assert(h.yards > 0 && h.tee && h.pin && h.green?.radius > 0 && Array.isArray(h.fairway) && h.fairway.length >= 2, `hole ${h.number} is missing a field`);
     assert(Array.isArray(h.bunkers) && Array.isArray(h.water), `hole ${h.number} has no bunkers/water arrays`);
   }
-  assert(C.FAIRWAY_FACILITY.track && C.FAIRWAY_FACILITY.court && C.FAIRWAY_FACILITY.pitch, "the facility is missing the track, court or pitch");
-  assert(typeof C.fairwayHeight === "function" && typeof C.fairwayLieAt === "function" && typeof C.buildFairwayPark === "function", "the stub is missing part of the course interface");
-  // course.js is the one-line switch: right now it must still point at the
-  // stub, since WebXR/shared/fairway.js has not landed.
-  assert(!existsSync(join(WEBXR, "shared", "fairway.js")), "WebXR/shared/fairway.js now exists — flip course.js's import to it and update tools/bundle_webxr.py's fairway module list");
-  eq(CJ.FAIRWAY_HOLES, C.FAIRWAY_HOLES, "course.js re-exports a different FAIRWAY_HOLES than the stub");
-  assert(CJ.fairwayLieAt === C.fairwayLieAt, "course.js re-exports a different fairwayLieAt than the stub");
+  assert(C.FAIRWAY_FACILITY.track && (C.FAIRWAY_FACILITY.court || C.FAIRWAY_FACILITY.basketballCourt) && C.FAIRWAY_FACILITY.pitch, "the facility is missing the track, court or pitch");
+  assert(typeof C.fairwayHeight === "function" && typeof C.fairwayLieAt === "function", "the course is missing part of the course interface");
+  // course.js is the one-line switch, and it now points at the shared course:
+  // WebXR/shared/fairway-data.js (pure data and lie/height functions) is what
+  // the game, the checkers and the district all read; fairway.js adds the
+  // three.js builder over it.
+  assert(existsSync(join(WEBXR, "shared", "fairway-data.js")), "WebXR/shared/fairway-data.js is missing — course.js points at it");
+  const courseSrc = readFileSync(join(FAIRWAY, "js", "course.js"), "utf8");
+  assert(courseSrc.includes('from "../../shared/fairway-data.js"'), "course.js does not import the shared course data");
+  eq(CJ.FAIRWAY_HOLES, C.FAIRWAY_HOLES, "course.js re-exports a different FAIRWAY_HOLES than it imports");
 });
 
 await check("fairwayLieAt classifies every lie, and a point cannot be both green and cart path", () => {
@@ -156,8 +159,15 @@ await check("a shot hit into a real water hazard on this course takes stroke and
   assert(hole, "no hole on this course carries a water hazard");
   const s = G.glCreateRound({ seed: 2, holes: [hole] });
   G.glSetWind(s, { speed: 0, dir: 0 });
-  const club = G.glDistanceToPin(s) > CLUB_CARRY.iron ? "driver" : "iron";
+  const club = "iron";
   G.glSetClub(s, club);
+  {
+    // The shared course keeps its water beyond a tee shot; walk the ball up
+    // the line to 100 m short of the hazard so the iron can reach it.
+    const [wx, wz] = hole.water[0].centre;
+    const dx = wx - s.ball.x, dz = wz - s.ball.z, d = Math.hypot(dx, dz);
+    if (d > CLUB_CARRY.iron * 0.9) { s.ball = { x: wx - (dx / d) * 100, z: wz - (dz / d) * 100 }; s.lastLie = "fairway"; }
+  }
   const { offset, power } = aimAndPowerFor(s, hole.water[0].centre, CLUB_CARRY[club]);
   G.glSetAim(s, offset);
   const before = { ...s.ball };
@@ -174,9 +184,18 @@ await check("a shot hit well out of bounds also takes stroke and distance, and t
   G.glSetWind(s, { speed: 0, dir: 0 });
   G.glSetClub(s, "driver");
   const before = { ...s.ball };
-  G.glSetAim(s, Math.PI / 2); // hard right of the hole's own line
+  // Aim wherever a full driver carry leaves the course: the shared course is
+  // 600 m wide, so a fixed 90-degree slice would only find rough.
+  let target = null;
+  for (let i = 0; i < 32 && !target; i++) {
+    const yaw = (i / 32) * Math.PI * 2;
+    const t = [s.ball.x + Math.sin(yaw) * CLUB_CARRY.driver, s.ball.z + Math.cos(yaw) * CLUB_CARRY.driver];
+    if (C.fairwayLieAt(t[0], t[1]) === "out") target = t;
+  }
+  assert(target, "no direction from this tee leaves the course within a driver carry");
+  G.glSetAim(s, aimAndPowerFor(s, target, CLUB_CARRY.driver).offset);
   const ev = G.glSwing(s, { power: 1, timing: 0 });
-  assert(ev.penalty === true, "a full driver swing 90 degrees off the hole's line should miss the course entirely");
+  assert(ev.penalty === true, "a full driver swing off the course should draw a stroke-and-distance penalty");
   eq(s.ball.x, before.x, "ball x should not move on an out-of-bounds penalty");
   eq(s.ball.z, before.z, "ball z should not move on an out-of-bounds penalty");
 });
@@ -234,11 +253,22 @@ await check("a second seed plays out differently, and neither round mutates the 
 // -------------------------------------------------------- 4. putting & slope
 
 await check("a putt's break is exactly the slope term computed from fairwayHeight, not a fixed wobble", () => {
-  const hole = C.FAIRWAY_HOLES[0];
+  // Pick the green and the spot on it where the course's own slope bends a
+  // putt the most, so the slope term is measurable on any layout.
+  let best = null;
+  for (const h of C.FAIRWAY_HOLES) for (const [ox, oz] of [[-6, 2], [6, -2], [2, 6], [-2, -6]]) {
+    const x = h.green.centre[0] + ox, z = h.green.centre[1] + oz, e = 0.4;
+    const gx0 = (C.fairwayHeight(x + e, z) - C.fairwayHeight(x - e, z)) / (2 * e);
+    const gz0 = (C.fairwayHeight(x, z + e) - C.fairwayHeight(x, z - e)) / (2 * e);
+    const toPin = Math.atan2(h.pin[0] - x, h.pin[1] - z);
+    const lateral = Math.abs(-gx0 * Math.cos(toPin) + gz0 * Math.sin(toPin));
+    if (C.fairwayLieAt(x, z) === "green" && (!best || lateral > best.lateral)) best = { h, x, z, lateral };
+  }
+  const hole = best.h;
   const s = G.glCreateRound({ seed: 9, holes: [hole] });
   // Drop the ball a few metres off the pin, already on the green, with a
   // clean aim (no manual offset) — glPutt's own auto-aim points at the pin.
-  s.ball = { x: hole.green.centre[0] - 6, z: hole.green.centre[1] + 2 };
+  s.ball = { x: best.x, z: best.z };
   s.lastLie = "green";
   G.glSetClub(s, "putter");
   const power = 0.5, timing = 0;
@@ -428,9 +458,10 @@ await check("the fairway app is in the bundler's list with every module, and its
   const block = /"fairway":\s*\{[\s\S]*?"modules":\s*\[([\s\S]*?)\]/.exec(bundler)?.[1] ?? "";
   const bundled = [...block.matchAll(/(SHARED|WEBXR)\s*\/\s*"([^"]+)"/g)].map((m) => (m[1] === "SHARED" ? `shared/${m[2]}` : m[2]));
   assert(bundled.length > 0, 'tools/bundle_webxr.py has no "fairway" app');
-  for (const f of ["course-stub.js", "course.js", "golf.js", "minigames.js", "scores.js", "world.js", "app.js"]) {
+  for (const f of ["course.js", "golf.js", "minigames.js", "scores.js", "world.js", "app.js"]) {
     assert(bundled.includes(`fairway/js/${f}`), `fairway/js/${f} is not in the bundle`);
   }
+  assert(bundled.includes("shared/fairway-data.js") && bundled.includes("shared/fairway.js"), "the bundle is missing the shared course (fairway-data.js and fairway.js)");
   assert(bundled.includes("shared/weather.js") && bundled.includes("shared/records.js"), "the bundle is missing shared/weather.js or shared/records.js");
   assert(/"fairway":\s*"fairway\.html"/.test(bundler), "fairway.html is not copied into the combined WebXR/dist folder");
   assert(existsSync(join(FAIRWAY, "index.html")), "WebXR/fairway/index.html is missing");

@@ -56,7 +56,7 @@ function glRng(seed) {
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
 }
-const clamp = (v, lo, hi) => (v < lo ? lo : v > hi ? hi : v);
+const golfClamp = (v, lo, hi) => (v < lo ? lo : v > hi ? hi : v);
 const dist = (a, b) => Math.hypot(a.x - b.x, a.z - b.z);
 
 // -------------------------------------------------------------- care habits
@@ -99,7 +99,7 @@ function careResolve(state, habitId, ok) {
   const h = HABIT_BY_ID[habitId];
   state.care.opportunities += 1;
   if (ok) state.care.met += 1;
-  state.care.score = clamp(state.care.score + (ok ? h.ok : h.miss), 0, 100);
+  state.care.score = golfClamp(state.care.score + (ok ? h.ok : h.miss), 0, 100);
   state.care.log.push({ habit: habitId, hole: pend.hole, ok, line: CARE_LINES[habitId][ok ? "ok" : "miss"](pend.hole) });
   delete state.care.pending[habitId];
 }
@@ -237,8 +237,8 @@ export function glSwing(state, { power, timing = 0 } = {}) {
 
   const club = CLUB_BY_ID[state.club];
   const lieF = LIE_FACTORS[state.lastLie] ?? LIE_FACTORS.rough;
-  const p = clamp(power, 0, 1);
-  const t = clamp(timing, -1, 1);
+  const p = golfClamp(power, 0, 1);
+  const t = golfClamp(timing, -1, 1);
   const hole = glCurrentHole(state);
   const fromLie = state.lastLie;
   const fromBall = { ...state.ball };
@@ -305,8 +305,8 @@ export function glPutt(state, { power, timing = 0 } = {}) {
 
   const club = CLUB_BY_ID.putter;
   const hole = glCurrentHole(state);
-  const p = clamp(power, 0, 1);
-  const t = clamp(timing, -1, 1);
+  const p = golfClamp(power, 0, 1);
+  const t = golfClamp(timing, -1, 1);
   const rollDist = club.carry * p;
 
   const yaw = pinDir(hole, state.ball) + state.aimOffset;

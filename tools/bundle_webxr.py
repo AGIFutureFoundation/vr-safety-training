@@ -93,6 +93,12 @@ APPS = {
             SHARED / "equipment.js",
             SHARED / "toolkit.js",
             SHARED / "props.js",
+            # Fairway Park (docs/districts.md): the shared nine-hole course
+            # and outdoor sports facility layout, before smartcity/js/
+            # citykit.js and districts.js, which build its "fairway-park"
+            # scenic-district preview.
+            SHARED / "fairway-data.js",
+            SHARED / "fairway.js",
             SHARED / "game.js",
             SHARED / "voice-assist.js",
             SHARED / "records.js",
@@ -282,7 +288,10 @@ APPS = {
             SHARED / "input.js",
             SHARED / "weather.js",
             SHARED / "records.js",
-            WEBXR / "fairway/js/course-stub.js",
+            SHARED / "kit.js",
+            SHARED / "textures.js",
+            SHARED / "fairway-data.js",
+            SHARED / "fairway.js",
             WEBXR / "fairway/js/course.js",
             WEBXR / "fairway/js/golf.js",
             WEBXR / "fairway/js/minigames.js",

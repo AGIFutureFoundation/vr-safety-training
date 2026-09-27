@@ -27,6 +27,7 @@ const HARNESS = `export {
   brickFace, blockFace, concreteFace, asphaltFace, corrugatedFace, gratingFace,
   woodGrainFace, tileFace, safetyStripeFace, rustFace, gravelFace, grassFace,
   sandFace, hardwoodCourtFace, plasterFace, stainlessFace,
+  turfFace, roughFace, cartPathFace,
   facePaint, facePaintCacheSize, clearFacePaintCache, paintedMat,
   palette, PALETTE_NAMES, THREE,
 };`;
@@ -41,6 +42,7 @@ const PAINTERS = {
   woodGrainFace: S.woodGrainFace, tileFace: S.tileFace, safetyStripeFace: S.safetyStripeFace,
   rustFace: S.rustFace, gravelFace: S.gravelFace, grassFace: S.grassFace, sandFace: S.sandFace,
   hardwoodCourtFace: S.hardwoodCourtFace, plasterFace: S.plasterFace, stainlessFace: S.stainlessFace,
+  turfFace: S.turfFace, roughFace: S.roughFace, cartPathFace: S.cartPathFace,
 };
 const NAMES = Object.keys(PAINTERS);
 

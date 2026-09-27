@@ -4349,6 +4349,41 @@ function sandFace(g, w, h, o = {}) {
   }
 }
 
+/** Fairway turf: a tight, bright mow-stripe cut — shorter and greener than
+ *  the general-purpose grassFace, for the fairway and green surfaces a golf
+ *  course actually maintains differently from its rough (shared/fairway.js). */
+function turfFace(g, w, h, o = {}) {
+  const stripes = o.stripes ?? 10, sw = h / stripes;
+  const a = o.a ?? "#4a9a4c", b = o.b ?? "#3f8a44";
+  for (let i = 0; i < stripes; i++) {
+    g.fillStyle = i % 2 ? a : b;
+    g.fillRect(0, i * sw, w, sw);
+  }
+  noiseTexture(g, w, h, { density: 3200, alpha: 0.06, tone: "20,60,20" });
+  noiseTexture(g, w, h, { density: 900, alpha: 0.05, tone: "170,210,150" });
+}
+
+/** Golf rough: longer, uncut grass beside the fairway — darker, denser and
+ *  with no mow-stripe pattern (shared/fairway.js). */
+function roughFace(g, w, h, o = {}) {
+  gradientFill(g, w, h, [[0, o.base ?? "#33502c"], [1, o.base2 ?? "#2a4425"]]);
+  noiseTexture(g, w, h, { density: 5200, alpha: 0.14, tone: "12,28,10" });
+  noiseTexture(g, w, h, { density: 1800, alpha: 0.09, tone: "90,120,60" });
+  grimeOverlay(g, w, h, { blotches: 2, streaks: 1, tone: "20,30,14", alpha: 0.08 });
+}
+
+/** Cart path: light aggregate paving with expansion joints at a fixed pitch
+ *  (shared/fairway.js's golf-cart paths, or any narrow service path). */
+function cartPathFace(g, w, h, o = {}) {
+  gradientFill(g, w, h, [[0, o.base ?? "#c7c0ac"], [1, o.base2 ?? "#b9b29d"]]);
+  noiseTexture(g, w, h, { density: 2600, alpha: 0.1, tone: "60,54,40" });
+  const step = o.step ?? w / 6;
+  g.strokeStyle = "rgba(70,64,50,0.4)";
+  g.lineWidth = Math.max(1, h * 0.01);
+  for (let x = step; x < w; x += step) { g.beginPath(); g.moveTo(x, 0); g.lineTo(x, h); g.stroke(); }
+  grimeOverlay(g, w, h, { blotches: 2, streaks: 2, tone: "40,36,26", alpha: 0.1 });
+}
+
 /** Gym-floor maple hardwood: narrow long strips along the run, `o.lines`
  *  paints a court line across the boards (colour, at fraction `o.lineAt`). */
 function hardwoodCourtFace(g, w, h, o = {}) {
@@ -4410,6 +4445,7 @@ const PALETTES = {
   aviation: { accent: 0xffb13a, ground: 0x2f333a, structure: 0xdfe6ea, trim: 0xc8201c },
   gym: { accent: 0xd8232a, ground: 0xc9a06a, structure: 0x2b3138, trim: 0x3b7bbf },
   warehouse: { accent: 0xf0b323, ground: 0x6d7379, structure: 0x8b929a, trim: 0x2f6f8c },
+  fairway: { accent: 0xd8232a, ground: 0x3f8a44, structure: 0x8b6a45, trim: 0xf2c14b },
 };
 
 /** A trade palette by name (construction, marine, clinical, kitchen,
