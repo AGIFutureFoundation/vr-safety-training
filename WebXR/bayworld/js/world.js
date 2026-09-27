@@ -147,9 +147,10 @@ export function bwBuildWorld(root, THREE, opts = {}) {
     vehicles[v.id] = mesh;
   });
 
-  // Site signs, drawn once. Bay World's own map now carries 37 of these
-  // (BAY1's BW_SITES), spread across a 1600x1100 m world, so a sign is a
-  // single cheap unmerged plane rather than anything heavier.
+  // Site signs, drawn once — one per BW_SITES entry, however many the shared
+  // map carries (nothing here assumes a count), spread across a world the
+  // size of BAY_BOUNDS, so a sign is a single cheap unmerged plane rather
+  // than anything heavier.
   for (const site of BW_SITES) {
     const sign = bwSignBoard(THREE, site.name);
     sign.position.set(site.position[0], 4.1, site.position[2]);

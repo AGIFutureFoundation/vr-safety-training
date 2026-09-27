@@ -26,7 +26,7 @@ export {
 // quest/objective layer) — see bayworld-data.js's own header for the split.
 //
 // Bay World is deliberately built the same way shared/fairway.js's course
-// is: a "high" LOD 0 build of the whole 1600×1100 m world for a standalone
+// is: a "high" LOD 0 build of the whole 2400×1600 m world for a standalone
 // app with its own camera and mesh budget, and a "low" compact preview
 // vignette, independent of the zone data, for the shared SmartCiti.X stage
 // (smartcity/js/districts.js's "bay-world" entry). `opts.zone` on a "high"
@@ -192,6 +192,12 @@ function paintedFace(g, w, h, o = {}) {
 const BUILDING_STYLE = {
   downtown: "glass", uptown: "brick", "west-oakland": "corrugated", port: "corrugated",
   fruitvale: "painted", coliseum: "concrete", lake: "painted", "bridge-approach": null, hills: null,
+  // The expansion's zones: painted houses on the island and the north
+  // shoreline's town, corrugated sheds in Emery Crossing's distribution town,
+  // concrete on the south shoreline's plant side, nothing on the ridge or the
+  // open water.
+  "island-harbour": "painted", "north-shoreline": "painted", "emery-crossing": "corrugated",
+  "south-shoreline": "concrete", "upper-hills": null, "outer-bay": null,
 };
 
 /** One simple building: a textured box body and a roof cap, two meshes.
@@ -437,6 +443,105 @@ function buildMarinaDocks(parent, x, z, name) {
   return 5;
 }
 
+// ------------------------------------------------- the expansion's set pieces
+
+/** A marina with berths: a main float, finger docks off it at regular
+ *  spacing and a small hull moored in every other berth — the island's yacht
+ *  harbour, the north shoreline's marina and the south shoreline's marina
+ *  all build this at their own site. `berths` finger docks, so a caller can
+ *  size it to its zone. */
+function buildMarina(parent, x, z, name, accent, berths = 6) {
+  const g = group(parent, x, 0, z);
+  let n = 0;
+  const len = berths * 6 + 6;
+  box(g, 3, 0.25, len, 0, -0.1, 0, 0x8b6a45, { rough: 0.85, cast: false }); n++;
+  for (let i = 0; i < berths; i++) {
+    const bz = -len / 2 + 6 + i * 6;
+    box(g, 12, 0.2, 1.6, 7.5, -0.12, bz, 0x8b6a45, { rough: 0.85, cast: false }); n++;
+    cyl(g, 0.16, 0.16, 1.4, 1.8, 0.5, bz, 0x5c4a34, { rough: 0.85, seg: 8, cast: false }); n++;
+    if (i % 2 === 0) {
+      // A small hull alongside the finger: a low white box and a cabin.
+      box(g, 7, 0.9, 2.4, 8, 0.25, bz + 2.6, 0xf2f2ee, { rough: 0.5, metal: 0.1, cast: false }); n++;
+      box(g, 2.6, 1.0, 1.8, 7.5, 1.2, bz + 2.6, accent, { rough: 0.5, metal: 0.1, cast: false }); n++;
+    }
+  }
+  cyl(g, 0.12, 0.12, 6, -2.2, 3, -len / 2 + 2, 0xb9c0c6, { rough: 0.5, metal: 0.5, seg: 8, cast: false }); n++;
+  ball(g, 0.22, -2.2, 6.2, -len / 2 + 2, 0xffd27a, { emissive: 0xffd27a, ei: 1.2, seg: 8, seg2: 6, cast: false }); n++;
+  labelFor(g, name, 0, 4, -len / 2 - 3);
+  return n + 1;
+}
+
+/** A clock on a post at the head of a ferry ramp, plus the ramp itself. */
+function buildClockPost(parent, x, z, name, accent) {
+  const g = group(parent, x, 0, z);
+  box(g, 10, 0.15, 6, 0, 0.075, 0, 0xb9b29d, { rough: 0.85, cast: false });
+  const ramp = box(g, 4, 0.2, 12, 0, 0.3, 9, 0x8b98a5, { rough: 0.6, metal: 0.3, cast: false });
+  ramp.rotation.x = 0.06;
+  cyl(g, 0.16, 0.2, 4.2, 0, 2.1, -1.5, 0x2b2f33, { rough: 0.5, metal: 0.5, seg: 10, cast: false });
+  cyl(g, 0.8, 0.8, 0.25, 0, 4.6, -1.5, 0xf6f1e4, { rough: 0.4, metal: 0.1, seg: 20, emissive: 0xf6f1e4, ei: 0.25, cast: false });
+  box(g, 0.08, 0.5, 0.05, 0, 4.8, -1.35, accent, { rough: 0.4, cast: false });
+  box(g, 0.35, 0.08, 0.05, 0.14, 4.6, -1.35, accent, { rough: 0.4, cast: false });
+  labelFor(g, name, 0, 6.2, -1.5);
+  return 7;
+}
+
+/** A paved walk along a sandy beach with benches facing the water. */
+function buildEsplanade(parent, x, z, name) {
+  const g = group(parent, x, 0, z);
+  let n = 0;
+  box(g, 40, 0.12, 4, 0, 0.06, 0, 0xb9b29d, { rough: 0.85, cast: false }); n++;
+  const sand = box(g, 40, 0.08, 14, 0, 0.04, 9, 0xd9c79a, { rough: 0.95, cast: false }); n++;
+  sand.receiveShadow = true;
+  for (const bx of [-14, -4, 6, 16]) { parkBench(g, bx, 0.12, -1.2, { ry: Math.PI }); n += 4; }
+  for (const bx of [-18, 0, 18]) { lightMast(g, bx, 0, -3, { lit: 0.8 }); n += 10; }
+  labelFor(g, name, 0, 3.5, -4);
+  return n + 1;
+}
+
+/** A long public pier on piles, railed both sides, with a lamp at the end. */
+function buildPier(parent, x, z, name) {
+  const g = group(parent, x, 0, z);
+  let n = 0;
+  const len = 48;
+  box(g, 5, 0.3, len, 0, 0.9, 0, 0x8b6a45, { rough: 0.85, cast: false }); n++;
+  for (let i = 0; i < 6; i++) {
+    const bz = -len / 2 + 4 + i * 8;
+    for (const sx of [-2, 2]) { cyl(g, 0.22, 0.26, 1.6, sx, 0.2, bz, 0x4a3a28, { rough: 0.9, seg: 8, cast: false }); n++; }
+  }
+  for (const sx of [-2.4, 2.4]) { box(g, 0.08, 0.9, len, sx, 1.5, 0, 0xb8c1c9, { rough: 0.5, metal: 0.4, cast: false }); n++; }
+  lightMast(g, 0, 1.05, len / 2 - 2, { lit: 1.0 }); n += 10;
+  labelFor(g, name, 0, 4.5, -len / 2 - 2);
+  return n + 1;
+}
+
+/** The ridge lookout: a raised viewing deck on posts, a rail, a trail
+ *  signpost and a bench — the summit of the upper hills' trail. */
+function buildRidgeSummit(parent, x, z, name, accent) {
+  const g = group(parent, x, 0, z);
+  let n = 0;
+  for (const [px, pz] of [[-3, -2], [3, -2], [-3, 2], [3, 2]]) { cyl(g, 0.2, 0.24, 2.2, px, 1.1, pz, 0x4a3a28, { rough: 0.9, seg: 8, cast: false }); n++; }
+  box(g, 8, 0.25, 5, 0, 2.3, 0, 0x8b6a45, { rough: 0.85, cast: false }); n++;
+  box(g, 8.2, 0.9, 0.08, 0, 2.9, -2.5, 0xb8c1c9, { rough: 0.5, metal: 0.4, cast: false }); n++;
+  for (const sx of [-4.05, 4.05]) { box(g, 0.08, 0.9, 5, sx, 2.9, 0, 0xb8c1c9, { rough: 0.5, metal: 0.4, cast: false }); n++; }
+  parkBench(g, 0, 2.42, 1.4, {}); n += 4;
+  cyl(g, 0.08, 0.1, 2.6, 6, 1.3, 1, 0x5c4a34, { rough: 0.85, seg: 8, cast: false }); n++;
+  box(g, 1.4, 0.3, 0.06, 6.6, 2.4, 1, accent, { rough: 0.5, emissive: accent, ei: 0.2, cast: false }); n++;
+  labelFor(g, name, 0, 5, -2.5);
+  return n + 1;
+}
+
+/** A lit navigation buoy at the channel's edge: a float, a lattice mast and
+ *  a light. */
+function buildChannelMarker(parent, x, z, name, accent) {
+  const g = group(parent, x, 0, z);
+  cyl(g, 1.6, 1.4, 1.2, 0, 0.2, 0, accent, { rough: 0.5, metal: 0.3, seg: 16, cast: false });
+  cyl(g, 0.12, 0.16, 4.4, 0, 3.0, 0, 0x2b2f33, { rough: 0.5, metal: 0.6, seg: 8, cast: false });
+  box(g, 1.2, 0.08, 1.2, 0, 4.2, 0, 0x2b2f33, { rough: 0.5, metal: 0.6, cast: false });
+  ball(g, 0.3, 0, 5.5, 0, 0xff5f5f, { emissive: 0xff5f5f, ei: 1.8, seg: 8, seg2: 6, cast: false });
+  labelFor(g, name, 0, 7.2, 0);
+  return 5;
+}
+
 const LANDMARK_BUILDERS = {
   "downtown-tower": (p, x, z, l) => buildTower(p, x, z, l.name),
   "historic-theatre": (p, x, z, l) => buildTheatre(p, x, z, l.name),
@@ -459,6 +564,24 @@ const LANDMARK_BUILDERS = {
   "warehouse-district": (p, x, z, l, zone, rng) => buildIndustrialBlock(p, x, z, l.name, "warehouse", rng),
   "truck-yard": (p, x, z, l, zone, rng) => buildIndustrialBlock(p, x, z, l.name, "truck-yard", rng),
   "estuary-marina": (p, x, z, l) => buildMarinaDocks(p, x, z, l.name),
+  // The expansion's landmarks.
+  "island-ferry-landing-clock": (p, x, z, l, zone) => buildClockPost(p, x, z, l.name, zone.palette.accent),
+  "island-beach-esplanade": (p, x, z, l) => buildEsplanade(p, x, z, l.name),
+  "north-pier": (p, x, z, l) => buildPier(p, x, z, l.name),
+  "emery-public-market": (p, x, z, l) => buildMarketStalls(p, x, z, l.name),
+  "south-shoreline-park": (p, x, z, l) => buildParkEntrance(p, x, z, l.name, "shoreline"),
+  "ridge-trail-summit": (p, x, z, l, zone) => buildRidgeSummit(p, x, z, l.name, zone.palette.accent),
+  "channel-marker": (p, x, z, l, zone) => buildChannelMarker(p, x, z, l.name, zone.palette.accent),
+};
+
+/** Site-anchored set pieces the expansion's zones build beyond their
+ *  landmarks: a marina with berths at each of the three marina sites. Keyed
+ *  by BAY_SITES id; the builder looks the site's own position up, so a site
+ *  that moves takes its marina with it. */
+const SITE_BUILDERS = {
+  "island-yacht-harbor": (p, x, z, s, zone) => buildMarina(p, x, z, s.name, zone.palette.accent, 8),
+  "north-marina-pier": (p, x, z, s, zone) => buildMarina(p, x, z, s.name, zone.palette.accent, 5),
+  "south-shoreline-marina": (p, x, z, s, zone) => buildMarina(p, x, z, s.name, zone.palette.accent, 6),
 };
 
 // -------------------------------------------------------------- scenery
@@ -508,7 +631,10 @@ function dressStreetFurniture(parent, zone, count, rng) {
   }
 }
 
-const FIGURE_OUTFITS = { port: "marine", "west-oakland": "construction", coliseum: "sport" };
+const FIGURE_OUTFITS = {
+  port: "marine", "west-oakland": "construction", coliseum: "sport",
+  "island-harbour": "marine", "north-shoreline": "marine", "south-shoreline": "marine", "emery-crossing": "construction",
+};
 function dressCrowd(parent, zone, count, rng) {
   const [cx, cz] = zone.centre;
   const outfit = FIGURE_OUTFITS[zone.id] ?? "office";
@@ -531,26 +657,40 @@ function dressPortContainers(parent, zone, rng) {
 
 // ---------------------------------------------------------------- assembly
 
+/** Zones that are open ground or open water: few parked cars, little street
+ *  furniture, no crowd. */
+const OPEN_ZONES = new Set(["hills", "bridge-approach", "upper-hills", "outer-bay"]);
+
 /** Everything that belongs to one zone: its own buildings, scenery, crowd
- *  and (for the port and the hills) its own special dressing. */
+ *  and (for the port, the hills, the ridge and the marinas) its own special
+ *  dressing. */
 function buildZoneContent(parent, zone, opts) {
   const rng = bwSeededRng(zone.id.split("").reduce((a, c) => a * 31 + c.charCodeAt(0), 7));
   const buildingCounts = {
     downtown: 14, uptown: 10, "west-oakland": 12, fruitvale: 10, coliseum: 8,
     port: 6, lake: 4, "bridge-approach": 3, hills: 0,
+    "island-harbour": 6, "north-shoreline": 6, "emery-crossing": 8, "south-shoreline": 4, "upper-hills": 0, "outer-bay": 0,
   };
+  const open = OPEN_ZONES.has(zone.id);
   dressZoneBuildings(parent, zone, buildingCounts[zone.id] ?? 6, rng);
   if (zone.id === "hills") dressHillTrees(parent, zone, 30, rng);
+  if (zone.id === "upper-hills") dressHillTrees(parent, zone, 24, rng);
   if (zone.id === "port") dressPortContainers(parent, zone, rng);
-  dressParkedFleet(parent, zone, zone.id === "hills" || zone.id === "bridge-approach" ? 1 : 3, rng);
-  dressStreetFurniture(parent, zone, zone.id === "hills" ? 2 : 5, rng);
-  dressCrowd(parent, zone, zone.id === "hills" || zone.id === "bridge-approach" ? 0 : 2, rng);
+  if (zone.id !== "outer-bay") dressParkedFleet(parent, zone, open ? 1 : 3, rng);
+  dressStreetFurniture(parent, zone, zone.id === "outer-bay" ? 0 : open ? 2 : 5, rng);
+  dressCrowd(parent, zone, open ? 0 : 2, rng);
 
   for (const landmark of BAY_LANDMARKS) {
     if (landmark.zone !== zone.id) continue;
     const build = LANDMARK_BUILDERS[landmark.id];
     if (!build) continue;
     build(parent, landmark.position[0], landmark.position[1], landmark, zone, rng);
+  }
+  for (const site of BAY_SITES) {
+    if (site.zone !== zone.id) continue;
+    const build = SITE_BUILDERS[site.id];
+    if (!build) continue;
+    build(parent, site.position[0], site.position[1], site, zone, rng);
   }
 }
 
@@ -566,6 +706,13 @@ function buildWorld(parent, opts) {
   // downtown), the same shoreline the port and estuary-waterfront zones sit
   // against.
   buildWater(parent, -180, 460, 900, 260);
+  // The expansion's water: the outer bay and its shipping channel west of
+  // the port, the open water the north shoreline's marina and pier face, and
+  // the strip of bay along the world's southern edge that the island and the
+  // south shoreline both look out on.
+  buildWater(parent, -1000, 380, 400, 840);
+  buildWater(parent, -1060, -420, 280, 760);
+  buildWater(parent, 0, 765, 2400, 70);
   if (!opts.zone) buildRoads(parent, BAY_ROADS);
   else buildRoads(parent, BAY_ROADS.filter((r) => r.points.some(([x, z]) => bayZoneAt(x, z).id === opts.zone)));
   for (const zone of zones) buildZoneContent(parent, zone, opts);

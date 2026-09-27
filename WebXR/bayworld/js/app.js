@@ -397,8 +397,9 @@ function bwSetup3D() {
 
   bwApp.traffic = bwSpawnTraffic(2);
   world.trafficMeshes = world.bwSpawnTrafficMeshes(bwApp.traffic.length);
-  // One pedestrian every third site is plenty of life across a 1600x1100 m
-  // world without spawning thirty-seven of them.
+  // One pedestrian every third site is plenty of life across a world the
+  // size of BAY_BOUNDS without spawning one per site, however many sites the
+  // shared map carries.
   bwApp.pedestrians = BW_SITES.filter((_, i) => i % 3 === 0).map((s, i) => bwCreatePedestrian(`ped-${i}`, s.position[0] + 6, s.position[2] + 6, 10));
   world.pedestrianMeshes = world.bwSpawnPedestrianMeshes(bwApp.pedestrians.length);
 }
