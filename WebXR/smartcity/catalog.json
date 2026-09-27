@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 556
+      "stations": 557
     },
     "trades": {
       "entry": "trades/index.html",
@@ -207,6 +207,7 @@
         "conveyor-guard",
         "forklift-dock",
         "cnc-cell",
+        "ml-mail-handler-forklift-and-container-dock",
         "ml-flat-sorter-guarding-and-lockout",
         "sm-kitchen-exhaust-and-fire-wrap",
         "sm-air-balancing-and-testing",
@@ -8736,6 +8737,88 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-mail-handler-forklift-and-container-dock",
+      "name": "Mail Handler Forklift & Container Dock",
+      "title": "SmartCiti.X~ Mail Handler Forklift & Container Dock VR",
+      "tagline": "A counterbalance forklift's own daily inspection before the seat is sat in, the seatbelt fastened, the horn tested, the dock read for a pedestrian in the travel path and an unchocked trailer, a container lifted and travelled to a blind corner sounded rather than assumed clear, and the load set down on a controlled, watched descent",
+      "category": "Manufacturing & Automation",
+      "domain": "Postal & Mail Processing",
+      "trade": "Mail handler — forklift and container dock operations, NPMHU",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.178 powered industrial trucks; the Revised NIOSH Lifting Equation for the manual portion of container handling; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written forklift and dock safety programme; NPMHU training for mail handler equipment and dock operations",
+      "accent": "#2f6fb0",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "plant",
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "gauge",
+        "turn",
+        "drag",
+        "hold"
+      ],
+      "badge": {
+        "id": "dock-certified",
+        "name": "Dock Certified",
+        "note": "A clean forklift inspection, the seatbelt fastened before the first move, a pedestrian and an unchocked trailer both read and answered, and a load set down under control"
+      },
+      "meshes": 222,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ml-5",
+      "flat": false,
+      "system": "Dock Operations",
+      "currency": "DOCK",
+      "ranks": [
+        "Dock Helper",
+        "Mail Handler",
+        "Forklift Operator",
+        "Lead Handler",
+        "Dock Certified"
+      ],
+      "awards": [
+        {
+          "id": "cold-forklift-read",
+          "name": "Cold Forklift Read",
+          "note": "Every forklift defect found without a hint"
+        },
+        {
+          "id": "belted-before-moving",
+          "name": "Belted Before Moving",
+          "note": "The seatbelt was fastened before the forklift ever moved"
+        },
+        {
+          "id": "controlled-set-down",
+          "name": "Controlled Set-Down",
+          "note": "The load was lowered on a fully controlled descent"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "on-time",
+          "name": "On Time",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "safe-dock",
+          "name": "Safe Dock",
+          "note": "No unsafe action anywhere in the run"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ml-mail-handler-forklift-and-container-dock"
     },
     {
       "app": "smartcity",
