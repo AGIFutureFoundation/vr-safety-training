@@ -1,0 +1,8 @@
+# Console TRENCH — the Deep's shared world data and builder
+
+Team: DEEP1 · Brief: `tools/briefs/underwater-brief.md` (with `console-brief.md` and `bayarea-brief.md`'s facts rule) · Branch: `claude/vr-ar-safety-training-wkwmve`
+
+Owns the shared contract the dive game (DEEP2, console REEF) builds against: `WebXR/shared/underwater-data.js` (pure data and the zone/depth/line functions), `WebXR/shared/underwater.js` (`buildUnderwater` and `deepLighting`), the `the-deep` scenic district in `WebXR/smartcity/js/districts.js`, `tools/check_underwater.mjs` in `check_all`, and `docs/underwater.md`.
+
+- 18:22 UTC · Fetched and fast-forwarded to the branch head; read the underwater and console briefs, bayworld-data.js/bayworld.js (the shapes and builder to mirror), districts.js's bay-world and bay-underwater entries, check_bayworld.mjs, check_districts.mjs (the scenic-district rules the-deep must meet: at most the scenic budget in meshes, four lights, a floor under the roam circle, a clear spawn) and bundle_webxr.py · next: the data module first, within twenty minutes.
+- 18:30 UTC · `WebXR/shared/underwater-data.js` written in the brief's exact shape: DEEP_BOUNDS 2000×1400 m, DEEP_DEPTH_RANGE, 14 zones, 25 landmarks, 32 sites, 17 lines in one connected network, deepDepthAt/deepZoneAt/deepLineAt/deepBandAt, deepSeededRng; a scratch probe confirmed every landmark and site sits in its declared zone, every station id exists in the catalog, the lines are one component and the depth field is continuous. `cd-`/`me-` ids are anchored as comments on the sites they will join at integration. Every top-level name is prefixed `deep`/`DEEP_` because the bundler erases module scope · next: commit, then shared/underwater.js (builder + deepLighting) and the-deep district.
