@@ -1288,6 +1288,642 @@ function buildWeather(parent, scene, kind = "clear", o = {}) {
 }
 
 
+/* ===== shared/sky.js ===== */
+// The sky over the open worlds: one procedural dome shared by Bay World
+// (bayworld/js/world.js), Fairway Park (fairway/js/world.js) and, when they
+// exist, the regatta and the dive game. shared/weather.js is the plaza-scale
+// weather (rain, dust, a wet deck); this is the horizon it happens under —
+// the gradient by time band, a sun or moon disc, a star field at night and
+// a cloud layer whose cover follows WEATHER[kind].sky.
+//
+// Three entry points:
+//   skyFor(time, weather)  the pure recipe { sky, fog, fogDensity, sunDir,
+//                          wind: { speed, dir }, visibility } every open
+//                          world reads, so a scene's fog, the dome, a game's
+//                          own wind and a HUD all agree on one set of numbers.
+//   buildSky(parent, o)    the dome itself: a few hundred vertices, animated
+//                          by property writes only (cloud drift, star fade).
+//   advanceSky(state, dt)  a slow day cycle and a weather drift (clear →
+//                          overcast → fog → wind → clear) with an event hook.
+//
+// Hook for games not in every worktree: the regatta and the dive game read
+// skyFor(time, weather) for their own fog, wind and visibility and call
+// buildSky() on their own root; nothing here imports them, and nothing in
+// them is edited from here. `time` is a bucket ("day" | "dusk" | "night") or
+// a clock hour (0–24), mapped by skyTimeBucket() below with the same
+// thresholds bayworld/js/world.js's bwHourBucket() uses.
+//
+// Every top-level name here is prefixed sky…/SKY_… because the bundler
+// (tools/bundle_webxr.py) concatenates every module into one scope.
+
+/** The dome's own budget (checked by tools/check_sky.mjs): meshes after the
+ *  build, and vertices across the dome, the discs, the stars and the clouds. */
+const SKY_BUDGET = { meshes: 16, vertices: 900, clouds: 10, stars: 240 };
+
+/** Zenith, horizon and fog colours plus a base fog density per time band. */
+const SKY_TIME = {
+  day: { zenith: 0x4f8fd6, horizon: 0xbfdcf2, fog: 0xbfd6ea, density: 0.0028, sun: 0xfff3c8, sunI: 1, moonI: 0, stars: 0 },
+  dusk: { zenith: 0x2e2f5c, horizon: 0xf0a56a, fog: 0x8a6a70, density: 0.0034, sun: 0xffb27a, sunI: 0.8, moonI: 0.3, stars: 0.35 },
+  night: { zenith: 0x05080f, horizon: 0x16243a, fog: 0x0d1826, density: 0.004, sun: 0xdfe8f5, sunI: 0, moonI: 1, stars: 1 },
+};
+const SKY_BANDS = Object.keys(SKY_TIME);
+
+/** The drift the open worlds run when nothing else sets the weather. */
+const SKY_DRIFT = ["clear", "overcast", "fog", "wind"]; // and round to clear again
+
+/** Continuous hour → the discrete band the recipe table understands. */
+function skyTimeBucket(time) {
+  if (typeof time === "string") return SKY_BANDS.includes(time) ? time : "day";
+  const h = ((Number(time) % 24) + 24) % 24;
+  if (!Number.isFinite(h)) return "day";
+  if (h >= 6 && h < 18) return "day";
+  if ((h >= 18 && h < 20) || (h >= 5 && h < 6)) return "dusk";
+  return "night";
+}
+
+function skyKind(weather) {
+  return WEATHER_KINDS.includes(weather) ? weather : "clear";
+}
+
+/** 0xRRGGBB scaled by k (clamped), the same tint helper bayworld.js keeps
+ *  privately — repeated here so this module imports nothing but weather.js. */
+function skyShade(c, k) {
+  const r = Math.max(0, Math.min(255, Math.round(((c >> 16) & 255) * k)));
+  const g = Math.max(0, Math.min(255, Math.round(((c >> 8) & 255) * k)));
+  const b = Math.max(0, Math.min(255, Math.round((c & 255) * k)));
+  return (r << 16) | (g << 8) | b;
+}
+function skyMix(a, b, t) {
+  const u = Math.max(0, Math.min(1, t));
+  const ch = (s) => Math.round(((a >> s) & 255) * (1 - u) + ((b >> s) & 255) * u);
+  return (ch(16) << 16) | (ch(8) << 8) | ch(0);
+}
+
+/** Cloud cover 0..1 from a weather kind's own `sky` (brightness) and `fog`
+ *  factors: clear 0, overcast a third, rain most, storm full. Fog itself
+ *  has no cloud deck — its sky factor is above one — the fog density
+ *  carries it instead. */
+function skyCloudCover(weather) {
+  const w = WEATHER[skyKind(weather)];
+  return Math.max(0, Math.min(1, (1 - w.sky) * 3 + (1 - w.fog) * 0.5));
+}
+
+/**
+ * The one recipe for a time and a weather:
+ *   sky         0xRRGGBB, the background/horizon colour
+ *   fog         0xRRGGBB, the fog colour
+ *   fogDensity  for THREE.FogExp2 (per metre)
+ *   sunDir      unit vector toward the sun (or, at night, the moon)
+ *   wind        { speed (m/s), dir (radians, 0 = +z) }
+ *   visibility  metres, roughly where fog hides a large object
+ *   band, kind, label, cover
+ * Pure: the same inputs always return the same numbers.
+ */
+function skyFor(time, weather) {
+  const band = skyTimeBucket(time);
+  const kind = skyKind(weather);
+  const t = SKY_TIME[band], w = WEATHER[kind];
+  let sky = skyShade(skyMix(t.horizon, t.zenith, 0.35), w.sky);
+  let fog = skyShade(t.fog, Math.min(1, w.sky));
+  if (w.tint !== undefined) { sky = skyMix(sky, w.tint, 0.55); fog = skyMix(fog, w.tint, 0.6); }
+  const fogDensity = Math.min(0.05, t.density / w.fog);
+  const visibility = Math.max(50, Math.min(5000, Math.round(3 / fogDensity)));
+  // Sun high and south-west by day, low in the west at dusk, the moon
+  // high-ish and east by night.
+  const raw = band === "day" ? [0.45, 0.78, 0.35] : band === "dusk" ? [0.85, 0.16, 0.3] : [-0.35, 0.62, -0.5];
+  const len = Math.hypot(...raw);
+  const sunDir = { x: raw[0] / len, y: raw[1] / len, z: raw[2] / len };
+  const speed = Math.round((1.5 + w.gust * 9) * 10) / 10;
+  const dir = ((WEATHER_KINDS.indexOf(kind) * 0.9 + 0.4) % (Math.PI * 2));
+  return { band, kind, label: w.label, cover: skyCloudCover(kind), sky, fog, fogDensity, sunDir, wind: { speed, dir }, visibility };
+}
+
+/** A compass word for a wind direction (radians, 0 = +z = north here). */
+function skyCompass(dir) {
+  const names = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+  const i = Math.round((((dir % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2)) / (Math.PI / 4)) % 8;
+  return names[i];
+}
+
+// ------------------------------------------------------------------ dome
+
+/** Vertex-colour the dome by height: horizon colour at the rim, zenith at
+ *  the top. Guarded like bayworld.js's bwTerrain(): the headless stub has
+ *  no real attribute API, and there the dome simply stays one colour. */
+function skyPaintDome(geo, zenith, horizon) {
+  const pos = geo.attributes?.position;
+  if (!pos || typeof pos.getY !== "function" || typeof pos.count !== "number") return false;
+  const colours = new Float32Array(pos.count * 3);
+  const a = new THREE.Color(horizon), b = new THREE.Color(zenith);
+  for (let i = 0; i < pos.count; i++) {
+    const k = Math.max(0, Math.min(1, pos.getY(i)));
+    const u = Math.pow(k, 0.6);
+    colours[i * 3] = a.r + (b.r - a.r) * u;
+    colours[i * 3 + 1] = a.g + (b.g - a.g) * u;
+    colours[i * 3 + 2] = a.b + (b.b - a.b) * u;
+  }
+  const Attr = THREE.Float32BufferAttribute ?? THREE.BufferAttribute;
+  geo.setAttribute("color", new Attr(colours, 3));
+  const c = geo.attributes?.color;
+  if (c) c.needsUpdate = true;
+  return true;
+}
+
+function skyDisc(parent, radius, colour) {
+  const geo = new THREE.CircleGeometry(radius, 24);
+  const m = new THREE.MeshBasicMaterial({ color: colour, fog: false, transparent: true, opacity: 1, depthWrite: false });
+  m.userData.ownMaterial = true;
+  const mesh = new THREE.Mesh(geo, m);
+  mesh.userData.noMerge = true;
+  mesh.frustumCulled = false;
+  parent.add(mesh);
+  return mesh;
+}
+
+/**
+ * Build the sky dome.
+ *   parent  the world's root group (the dome is freed with it)
+ *   o       { time, weather, radius = 600 }
+ * Returns { root, set(time, weather), animate(t, dt, eye), recipe, vertices,
+ * meshCount }. `eye` is a camera or any { position } — the dome follows it
+ * so the horizon never comes within the far plane on a world wider than the
+ * dome. Everything after the build is a property write: cloud positions and
+ * opacities, disc positions, star opacity.
+ */
+function buildSky(parent, o = {}) {
+  const radius = o.radius ?? 600;
+  const root = new THREE.Group();
+  root.name = "sky";
+  root.userData.sky = true;
+  parent.add(root);
+  let vertices = 0;
+
+  // The dome: a sphere seen from inside, vertex-coloured by height.
+  const domeGeo = new THREE.SphereGeometry(radius, 24, 12);
+  vertices += 25 * 13;
+  const domeMat = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.BackSide ?? 1, fog: false, depthWrite: false, vertexColors: true });
+  domeMat.userData.ownMaterial = true;
+  const dome = new THREE.Mesh(domeGeo, domeMat);
+  dome.userData.noMerge = true;
+  dome.frustumCulled = false;
+  dome.renderOrder = -10;
+  root.add(dome);
+
+  const sun = skyDisc(root, radius * 0.06, 0xfff3c8); vertices += 26;
+  const moon = skyDisc(root, radius * 0.035, 0xdfe8f5); vertices += 26;
+  sun.renderOrder = -9; moon.renderOrder = -9;
+
+  // Stars: one point cloud over the upper hemisphere, faded by the band.
+  const starCount = SKY_BUDGET.stars;
+  const starPos = new Float32Array(starCount * 3);
+  let seed = 7;
+  const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+  for (let i = 0; i < starCount; i++) {
+    const az = rnd() * Math.PI * 2, el = 0.08 + rnd() * 1.4;
+    const r = radius * 0.96;
+    starPos[i * 3] = Math.cos(el) * Math.cos(az) * r;
+    starPos[i * 3 + 1] = Math.sin(el) * r;
+    starPos[i * 3 + 2] = Math.cos(el) * Math.sin(az) * r;
+  }
+  vertices += starCount;
+  const starGeo = new THREE.BufferGeometry();
+  const Attr = THREE.Float32BufferAttribute ?? THREE.BufferAttribute;
+  starGeo.setAttribute("position", new Attr(starPos, 3));
+  const starMat = new THREE.PointsMaterial({ color: 0xeef3ff, size: 2.2, fog: false, transparent: true, opacity: 0, depthWrite: false, sizeAttenuation: false });
+  starMat.userData.ownMaterial = true;
+  const stars = new THREE.Points(starGeo, starMat);
+  stars.frustumCulled = false;
+  stars.renderOrder = -9;
+  root.add(stars);
+
+  // Clouds: a handful of flat quads at cloud height, drifting with the wind,
+  // their opacity the weather kind's cover.
+  const clouds = [];
+  const cloudMat = new THREE.MeshBasicMaterial({ color: 0xffffff, fog: false, transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide ?? 2 });
+  cloudMat.userData.ownMaterial = true;
+  const cloudY = radius * 0.28;
+  for (let i = 0; i < SKY_BUDGET.clouds; i++) {
+    const w = radius * (0.18 + rnd() * 0.22), d = w * (0.35 + rnd() * 0.3);
+    const mesh = new THREE.Mesh(new THREE.PlaneGeometry(w, d), cloudMat);
+    vertices += 4;
+    mesh.rotation.x = -Math.PI / 2;
+    mesh.position.set((rnd() - 0.5) * radius * 1.2, cloudY + (rnd() - 0.5) * 30, (rnd() - 0.5) * radius * 1.2);
+    mesh.userData.noMerge = true;
+    mesh.frustumCulled = false;
+    mesh.renderOrder = -8;
+    root.add(mesh);
+    clouds.push(mesh);
+  }
+
+  let recipe = null;
+  function set(time, weather) {
+    recipe = skyFor(time, weather);
+    const t = SKY_TIME[recipe.band];
+    const w = WEATHER[recipe.kind];
+    let zenith = skyShade(t.zenith, w.sky), horizon = skyShade(t.horizon, w.sky);
+    if (w.tint !== undefined) { zenith = skyMix(zenith, w.tint, 0.4); horizon = skyMix(horizon, w.tint, 0.6); }
+    if (!skyPaintDome(domeGeo, zenith, horizon)) domeMat.color?.set?.(skyMix(zenith, horizon, 0.5));
+    const sd = recipe.sunDir;
+    sun.position.set(sd.x * radius * 0.93, sd.y * radius * 0.93, sd.z * radius * 0.93);
+    sun.lookAt?.(0, 0, 0);
+    sun.material.color?.set?.(t.sun);
+    sun.material.opacity = t.sunI * (w.tint !== undefined ? 0.7 : 1) * (1 - recipe.cover * 0.6);
+    sun.visible = sun.material.opacity > 0.02;
+    moon.position.set(-sd.x * radius * 0.93, Math.abs(sd.y) * radius * 0.9, -sd.z * radius * 0.93);
+    moon.lookAt?.(0, 0, 0);
+    moon.material.opacity = t.moonI * (1 - recipe.cover * 0.8);
+    moon.visible = moon.material.opacity > 0.02;
+    starMat.opacity = t.stars * (1 - recipe.cover) * Math.min(1, w.fog);
+    stars.visible = starMat.opacity > 0.02;
+    cloudMat.opacity = recipe.cover * 0.85;
+    cloudMat.color?.set?.(skyMix(0xffffff, skyShade(horizon, 0.6), recipe.cover * 0.8 + (1 - t.sunI) * 0.3));
+    for (const c of clouds) c.visible = recipe.cover > 0.02;
+    return recipe;
+  }
+  set(o.time ?? "day", o.weather ?? "clear");
+
+  let meshCount = 0;
+  root.traverse((n) => { if (n.isMesh || n.isPoints) meshCount += 1; });
+
+  return {
+    root, set, vertices, meshCount,
+    get recipe() { return recipe; },
+    /** Follow the eye, drift the clouds with the wind, twinkle the stars. */
+    animate(t, dt, eye) {
+      const p = eye?.position ?? eye;
+      if (p && typeof p.x === "number") root.position.set(p.x, 0, p.z);
+      if (recipe) {
+        const vx = Math.sin(recipe.wind.dir) * recipe.wind.speed * 0.6, vz = Math.cos(recipe.wind.dir) * recipe.wind.speed * 0.6;
+        const lim = radius * 0.7;
+        for (const c of clouds) {
+          c.position.x += vx * dt; c.position.z += vz * dt;
+          if (c.position.x > lim) c.position.x = -lim; else if (c.position.x < -lim) c.position.x = lim;
+          if (c.position.z > lim) c.position.z = -lim; else if (c.position.z < -lim) c.position.z = lim;
+        }
+        if (stars.visible) starMat.opacity = SKY_TIME[recipe.band].stars * (1 - recipe.cover) * (0.9 + Math.sin(t * 1.7) * 0.1);
+      }
+    },
+  };
+}
+
+// ---------------------------------------------------------------- drift
+
+/**
+ * A sky state for advanceSky():
+ *   hours       the clock (0–24); advances at `dayRate` hours per second
+ *               (0 when the caller's own clock owns the hour, as Bay World's does)
+ *   weather     the current kind
+ *   driftEvery  seconds between drift steps (0 disables the drift)
+ *   hooks       listeners from skyOn()
+ */
+function skyState(o = {}) {
+  return {
+    hours: o.hours ?? 9,
+    weather: skyKind(o.weather ?? "clear"),
+    dayRate: o.dayRate ?? 1 / 90,
+    driftEvery: o.driftEvery ?? 180,
+    driftIndex: Math.max(0, SKY_DRIFT.indexOf(skyKind(o.weather ?? "clear"))),
+    untilDrift: o.driftEvery ?? 180,
+    hooks: [],
+  };
+}
+
+/** Register a listener: fn({ type: "weather", from, to }) or fn({ type: "band", from, to }). */
+function skyOn(state, fn) {
+  if (typeof fn === "function") state.hooks.push(fn);
+  return () => { state.hooks = state.hooks.filter((h) => h !== fn); };
+}
+
+/**
+ * Advance the day cycle and the weather drift by dt seconds. Returns the
+ * events this step produced (also delivered to every skyOn() hook), so a
+ * caller can either poll or subscribe.
+ */
+function advanceSky(state, dt) {
+  const events = [];
+  const bandBefore = skyTimeBucket(state.hours);
+  if (state.dayRate > 0) state.hours = (((state.hours + dt * state.dayRate) % 24) + 24) % 24;
+  const bandAfter = skyTimeBucket(state.hours);
+  if (bandAfter !== bandBefore) events.push({ type: "band", from: bandBefore, to: bandAfter });
+  if (state.driftEvery > 0) {
+    state.untilDrift -= dt;
+    while (state.untilDrift <= 0) {
+      state.untilDrift += state.driftEvery;
+      state.driftIndex = (state.driftIndex + 1) % SKY_DRIFT.length;
+      const to = SKY_DRIFT[state.driftIndex];
+      if (to !== state.weather) { events.push({ type: "weather", from: state.weather, to }); state.weather = to; }
+    }
+  }
+  for (const e of events) for (const h of state.hooks) h(e, state);
+  return events;
+}
+
+/** Point the drift at a kind (a URL override, a game's own choice). */
+function skySetWeather(state, weather) {
+  const to = skyKind(weather);
+  const from = state.weather;
+  state.weather = to;
+  state.driftIndex = Math.max(0, SKY_DRIFT.indexOf(to));
+  if (from !== to) for (const h of state.hooks) h({ type: "weather", from, to }, state);
+  return to;
+}
+
+
+/* ===== shared/wildlife.js ===== */
+// Generic wildlife for the open worlds: gull and pelican flocks over water,
+// shorebirds on a shoreline, seals on a float, a fish school and a ray
+// under the surface (the dive game and the outer bay), a kelp crab on a
+// rock. Every animal is a few low-mesh parts with a simple motion loop
+// driven by property writes, and every group is tagged
+// `userData.wildlife = { kind }` so a game can count a sighting.
+//
+// Nothing here is a claim about a real place: the kinds are the generic
+// coastal ones, the counts are a scene's own budget, not a census, and no
+// season is stated. The zone a caller passes is a plain rectangle
+// `{ x, z, w, d, y }` (centre, extent, surface height in metres), so this
+// module imports no world data and any world can use it.
+//
+// Top-level names are prefixed wl…/WILDLIFE_… for the bundler
+// (tools/bundle_webxr.py concatenates every module into one scope).
+
+/** Per kind: the default count for one group and the meshes it costs
+ *  (tools/check_sky.mjs builds each and holds it to this). `total` is the
+ *  ceiling for one of everything, which is what Bay World builds. */
+const WILDLIFE_BUDGET = {
+  gulls: { count: 8, meshes: 24, motion: "circle" },
+  pelicans: { count: 4, meshes: 12, motion: "glide" },
+  shorebirds: { count: 6, meshes: 12, motion: "dash" },
+  seals: { count: 3, meshes: 7, motion: "bask" },
+  fish: { count: 60, meshes: 1, motion: "school" },
+  ray: { count: 1, meshes: 2, motion: "figure-eight" },
+  crab: { count: 1, meshes: 4, motion: "sidestep" },
+  total: 62,
+};
+const WILDLIFE_KINDS = Object.keys(WILDLIFE_BUDGET).filter((k) => k !== "total");
+
+/** Deterministic per-group randomness, so two builds of the same zone match. */
+function wlRng(seed) {
+  let s = (seed >>> 0) || 1;
+  return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; };
+}
+
+function wlMat(colour, o = {}) {
+  const m = new THREE.MeshStandardMaterial({ color: colour, roughness: o.rough ?? 0.85, metalness: o.metal ?? 0.05, ...(o.extra ?? {}) });
+  m.userData.ownMaterial = true;
+  return m;
+}
+
+function wlBox(parent, w, h, d, x, y, z, material) {
+  const mesh = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), material);
+  mesh.position.set(x, y, z);
+  mesh.userData.noMerge = true;
+  mesh.castShadow = false;
+  parent.add(mesh);
+  return mesh;
+}
+
+function wlBall(parent, r, x, y, z, material, sx = 1, sy = 1, sz = 1) {
+  const mesh = new THREE.Mesh(new THREE.SphereGeometry(r, 10, 8), material);
+  mesh.position.set(x, y, z);
+  mesh.scale.set(sx, sy, sz);
+  mesh.userData.noMerge = true;
+  mesh.castShadow = false;
+  parent.add(mesh);
+  return mesh;
+}
+
+function wlUnit(parent, kind, x, y, z) {
+  const g = new THREE.Group();
+  g.position.set(x, y, z);
+  g.userData.wildlife = { kind };
+  parent.add(g);
+  return g;
+}
+
+// ---------------------------------------------------------------- birds
+
+/** A bird as body plus two wings hinged at the body: 3 meshes. */
+function wlBird(parent, kind, x, y, z, o) {
+  const g = wlUnit(parent, kind, x, y, z);
+  const body = wlBox(g, o.len * 0.35, o.len * 0.22, o.len, 0, 0, 0, o.body);
+  const left = wlBox(g, o.span / 2, 0.04, o.len * 0.45, -o.span / 4, 0, 0, o.wing);
+  const right = wlBox(g, o.span / 2, 0.04, o.len * 0.45, o.span / 4, 0, 0, o.wing);
+  g.userData.wings = [left, right];
+  return { g, body, left, right };
+}
+
+function wlFlap(unit, t, rate, amount) {
+  const a = Math.sin(t * rate + unit.phase) * amount;
+  unit.left.rotation.z = a;
+  unit.right.rotation.z = -a;
+}
+
+/** Gulls: circle the zone at their own radius, height and speed. */
+function wlGulls(parent, zone, count, rng) {
+  const body = wlMat(0xf2f4f6), wing = wlMat(0xb8bfc6);
+  const units = [];
+  for (let i = 0; i < count; i++) {
+    const u = wlBird(parent, "gulls", zone.x, zone.y + 14, zone.z, { len: 0.55, span: 1.3, body, wing });
+    u.radius = Math.min(zone.w, zone.d) * (0.12 + rng() * 0.3);
+    u.height = zone.y + 10 + rng() * 14;
+    u.speed = (0.25 + rng() * 0.25) * (rng() < 0.5 ? 1 : -1);
+    u.phase = rng() * Math.PI * 2;
+    u.cx = zone.x + (rng() - 0.5) * zone.w * 0.3;
+    u.cz = zone.z + (rng() - 0.5) * zone.d * 0.3;
+    units.push(u);
+  }
+  return (t) => {
+    for (const u of units) {
+      const a = t * u.speed + u.phase;
+      u.g.position.set(u.cx + Math.cos(a) * u.radius, u.height + Math.sin(t * 0.7 + u.phase) * 1.2, u.cz + Math.sin(a) * u.radius);
+      u.g.rotation.y = -a + (u.speed > 0 ? 0 : Math.PI);
+      wlFlap(u, t, 7, 0.55);
+    }
+  };
+}
+
+/** Pelicans: a slow line, gliding, one long pass across the zone and back. */
+function wlPelicans(parent, zone, count, rng) {
+  const body = wlMat(0xd9cfc0), wing = wlMat(0x6b625a);
+  const units = [];
+  for (let i = 0; i < count; i++) {
+    const u = wlBird(parent, "pelicans", zone.x, zone.y + 6, zone.z, { len: 1.1, span: 2.6, body, wing });
+    u.offset = i * 3.2;
+    u.phase = i * 0.9;
+    units.push(u);
+  }
+  const half = Math.max(20, zone.w * 0.45);
+  const period = Math.max(30, half / 4);
+  return (t) => {
+    const k = (t % (period * 2)) / period;         // 0..2
+    const dir = k < 1 ? 1 : -1;
+    const x = zone.x + (k < 1 ? -half + k * 2 * half : half - (k - 1) * 2 * half);
+    for (const u of units) {
+      u.g.position.set(x - dir * u.offset, zone.y + 5 + Math.sin(t * 0.5 + u.phase) * 0.8, zone.z + u.offset * 0.6 * (u.offset % 2 ? 1 : -1));
+      u.g.rotation.y = dir > 0 ? -Math.PI / 2 : Math.PI / 2;
+      wlFlap(u, t, 2.2, 0.25);
+    }
+  };
+}
+
+/** Shorebirds: body and legs, short dashes along the tide line with pauses. */
+function wlShorebirds(parent, zone, count, rng) {
+  const body = wlMat(0x8d8a80), leg = wlMat(0x3a3530);
+  const units = [];
+  for (let i = 0; i < count; i++) {
+    const x = zone.x + (rng() - 0.5) * zone.w, z = zone.z + (rng() - 0.5) * zone.d;
+    const g = wlUnit(parent, "shorebirds", x, zone.y, z);
+    wlBall(g, 0.09, 0, 0.2, 0, body, 1, 0.8, 1.6);
+    wlBox(g, 0.06, 0.16, 0.02, 0, 0.08, 0, leg);
+    units.push({ g, x0: x, z0: z, phase: rng() * 10, span: 1.5 + rng() * 2.5, dir: rng() < 0.5 ? 1 : -1 });
+  }
+  return (t) => {
+    for (const u of units) {
+      const cyc = (t * 0.6 + u.phase) % 4;             // dash for 1 s of every 4
+      const run = cyc < 1 ? cyc : 1;
+      u.g.position.x = u.x0 + u.dir * run * u.span;
+      u.g.position.y = zone.y + (cyc < 1 ? Math.abs(Math.sin(cyc * 18)) * 0.03 : 0);
+      u.g.rotation.y = u.dir > 0 ? Math.PI / 2 : -Math.PI / 2;
+      if (cyc > 3.9) u.dir = -u.dir;
+    }
+  };
+}
+
+// ---------------------------------------------------------------- water
+
+/** Seals on a float: one plank, each seal a body and a head. Bob, roll,
+ *  and one at a time lifts its head. */
+function wlSeals(parent, zone, count, rng) {
+  const plank = wlMat(0x7a6a55), hide = wlMat(0x5a5048, { rough: 0.6 });
+  const raft = wlUnit(parent, "seals", zone.x, zone.y, zone.z);
+  wlBox(raft, 5.5, 0.25, 3.2, 0, 0.12, 0, plank);
+  const units = [];
+  for (let i = 0; i < count; i++) {
+    const g = wlUnit(raft, "seals", -1.6 + i * 1.6, 0.25, (i % 2 ? 0.6 : -0.6));
+    wlBall(g, 0.42, 0, 0.3, 0, hide, 1, 0.7, 2.2);
+    const head = wlBall(g, 0.2, 0, 0.45, 0.95, hide);
+    units.push({ g, head, phase: i * 2.1 });
+  }
+  return (t) => {
+    raft.position.y = zone.y + Math.sin(t * 0.8) * 0.06;
+    raft.rotation.z = Math.sin(t * 0.6) * 0.03;
+    raft.rotation.x = Math.cos(t * 0.5) * 0.02;
+    for (const u of units) u.head.position.y = 0.45 + Math.max(0, Math.sin(t * 0.35 + u.phase)) * 0.3;
+  };
+}
+
+/** A fish school: one point cloud moving as a body on an ellipse below
+ *  the surface, each point wobbling when the geometry API is real. */
+function wlFish(parent, zone, count, rng) {
+  const g = wlUnit(parent, "fish", zone.x, zone.y - 2.5, zone.z);
+  const positions = new Float32Array(count * 3);
+  for (let i = 0; i < count; i++) {
+    positions[i * 3] = (rng() - 0.5) * 6;
+    positions[i * 3 + 1] = (rng() - 0.5) * 1.6;
+    positions[i * 3 + 2] = (rng() - 0.5) * 3;
+  }
+  const geo = new THREE.BufferGeometry();
+  const Attr = THREE.Float32BufferAttribute ?? THREE.BufferAttribute;
+  geo.setAttribute("position", new Attr(positions, 3));
+  const mat = new THREE.PointsMaterial({ color: 0xa9c4cf, size: 0.18, transparent: true, opacity: 0.85, depthWrite: false, sizeAttenuation: true });
+  mat.userData.ownMaterial = true;
+  const pts = new THREE.Points(geo, mat);
+  pts.frustumCulled = false;
+  g.add(pts);
+  const rx = Math.max(6, zone.w * 0.3), rz = Math.max(4, zone.d * 0.3);
+  const live = geo.attributes?.position?.array === positions;
+  return (t, dt) => {
+    const a = t * 0.12;
+    g.position.set(zone.x + Math.cos(a) * rx, zone.y - 2.5 + Math.sin(t * 0.3) * 0.4, zone.z + Math.sin(a) * rz);
+    g.rotation.y = -a;
+    if (live && dt > 0) {
+      for (let i = 0; i < count; i++) positions[i * 3 + 1] += Math.sin(t * 3 + i) * dt * 0.15;
+      geo.attributes.position.needsUpdate = true;
+    }
+  };
+}
+
+/** A ray: a flat body and a tail, gliding a slow figure-eight under the
+ *  surface, wing tips flexing through the body's scale. */
+function wlRay(parent, zone, count, rng) {
+  const skin = wlMat(0x4a5a60, { rough: 0.7 });
+  const g = wlUnit(parent, "ray", zone.x, zone.y - 3, zone.z);
+  const body = wlBall(g, 1, 0, 0, 0, skin, 1.3, 0.12, 1);
+  wlBox(g, 0.06, 0.05, 1.6, 0, 0, -1.6, skin);
+  const rx = Math.max(8, zone.w * 0.25), rz = Math.max(5, zone.d * 0.2);
+  return (t) => {
+    const a = t * 0.15;
+    const x = Math.sin(a) * rx, z = Math.sin(2 * a) * rz;
+    const dx = Math.cos(a) * rx, dz = 2 * Math.cos(2 * a) * rz;
+    g.position.set(zone.x + x, zone.y - 3 + Math.sin(t * 0.4) * 0.5, zone.z + z);
+    g.rotation.y = Math.atan2(dx, dz);
+    body.scale.x = 1.3 + Math.sin(t * 1.6) * 0.15;
+  };
+}
+
+/** A kelp crab on a rock: body, two claws, the rock. Sidesteps, pauses. */
+function wlCrab(parent, zone, count, rng) {
+  const rock = wlMat(0x5c5a55, { rough: 0.95 }), shell = wlMat(0x8a5a2e, { rough: 0.6 });
+  const g = wlUnit(parent, "crab", zone.x, zone.y, zone.z);
+  wlBall(g, 0.9, 0, 0.1, 0, rock, 1.4, 0.6, 1.1);
+  const crab = new THREE.Group();
+  crab.position.set(0, 0.62, 0);
+  g.add(crab);
+  wlBox(crab, 0.22, 0.08, 0.18, 0, 0, 0, shell);
+  wlBox(crab, 0.06, 0.04, 0.12, -0.12, 0, 0.12, shell);
+  wlBox(crab, 0.06, 0.04, 0.12, 0.12, 0, 0.12, shell);
+  return (t) => {
+    const cyc = (t * 0.5) % 6;
+    const step = cyc < 2 ? Math.sin(cyc * Math.PI / 2) * 0.5 : cyc < 4 ? 0.5 : 0.5 - Math.sin((cyc - 4) * Math.PI / 2) * 0.5;
+    crab.position.x = -0.25 + step;
+    crab.position.y = 0.62 + (cyc < 2 || cyc >= 4 ? Math.abs(Math.sin(t * 12)) * 0.01 : 0);
+  };
+}
+
+const WILDLIFE_BUILDERS = { gulls: wlGulls, pelicans: wlPelicans, shorebirds: wlShorebirds, seals: wlSeals, fish: wlFish, ray: wlRay, crab: wlCrab };
+
+/**
+ * Build one wildlife group.
+ *   parent  the world's root (or any group)
+ *   o       { zone: { x, z, w, d, y }, kind, count, seed }
+ * Returns { root, kind, count, meshCount, animate(t, dt) }. `root` and every
+ * individual carry `userData.wildlife = { kind }`; a game counts a sighting
+ * by traversing for that tag near the player.
+ */
+function buildWildlife(parent, o = {}) {
+  const kind = WILDLIFE_KINDS.includes(o.kind) ? o.kind : "gulls";
+  const budget = WILDLIFE_BUDGET[kind];
+  const count = Math.max(1, Math.min(budget.count, o.count ?? budget.count));
+  const z = o.zone ?? {};
+  const zone = { x: z.x ?? 0, z: z.z ?? 0, w: Math.max(4, z.w ?? 60), d: Math.max(4, z.d ?? 60), y: z.y ?? 0 };
+  const root = new THREE.Group();
+  root.name = `wildlife-${kind}`;
+  root.userData.wildlife = { kind, count, at: [zone.x, zone.z] };
+  parent.add(root);
+  const rng = wlRng((o.seed ?? 11) * 131 + kind.length * 17 + Math.round(zone.x + zone.z));
+  const step = WILDLIFE_BUILDERS[kind](root, zone, count, rng);
+  let meshCount = 0;
+  root.traverse((n) => { if (n.isMesh || n.isPoints) meshCount += 1; });
+  step(0, 0);
+  return {
+    root, kind, count, meshCount,
+    animate(t, dt = 0) { step(t, dt); },
+  };
+}
+
+/** Count the wildlife groups within `radius` of a point, by kind — the
+ *  sighting a Field Guide egg (bayworld/js/quests-data.js) is looking for. */
+function wlSightings(root, x, z, radius = 40) {
+  const seen = {};
+  root.traverse((n) => {
+    const w = n.userData?.wildlife;
+    if (!w?.at) return; // one per group (its zone centre), not per animal
+    if (Math.hypot(w.at[0] - x, w.at[1] - z) <= radius) seen[w.kind] = (seen[w.kind] ?? 0) + 1;
+  });
+  return seen;
+}
+
+
 /* ===== shared/kit.js ===== */
 // Shared procedural asset kit. Every prop in the simulator is built from these
 // primitives at real-world scale in metres, so rooms stay consistent and no
@@ -14049,8 +14685,9 @@ function bwJunctions() {
  *
  * The Bay World quest layer's data: the Job Readiness Edition's main story
  * arc, one opener and one capstone side quest per every other programme,
- * twenty-four easter-egg field notes at real Bay Area public landmarks,
- * and four scored side activities. See docs/bayworld-quests.md.
+ * the easter-egg field notes at generic public landmarks, the Field Guide's
+ * wildlife-sighting eggs, and the scored side activities. See
+ * docs/bayworld-quests.md.
  *
  * Quest shape (BAY2's WebXR/bayworld/ quest engine):
  *   { id, title, giver, site, kind: "main"|"side"|"egg",
@@ -19580,6 +20217,241 @@ const EGG_QUESTS = [
   }
 ];
 
+const FIELD_GUIDE_EGGS = [
+  {
+    "id": "bw-egg-fg-gulls-port",
+    "title": "Field Guide — Harbor Gantry Cranes",
+    "giver": "found, not given",
+    "site": "Harbor Gantry Cranes",
+    "kind": "egg",
+    "tier": 0,
+    "requires": null,
+    "landmark": "Harbor Gantry Cranes",
+    "method": "sight",
+    "wildlife": "gulls",
+    "note": "Gulls work the tide line and the wake of anything that stirs the water; the sound of one over a dock usually means the others are close behind.",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Harbor Gantry Cranes",
+        "text": "Walk to Harbor Gantry Cranes and watch the water and the shore for a while."
+      },
+      {
+        "type": "find",
+        "target": "bw-egg-fg-gulls-port",
+        "text": "A Field Guide page fills in: \"Gulls work the tide line and the wake of anything that stirs the water; the sound of one over a dock usually means the others are close behind.\""
+      }
+    ],
+    "reward": {
+      "xp": 25,
+      "badge": "Field Guide"
+    }
+  },
+  {
+    "id": "bw-egg-fg-gulls-pier",
+    "title": "Field Guide — North Pier",
+    "giver": "found, not given",
+    "site": "North Pier",
+    "kind": "egg",
+    "tier": 0,
+    "requires": null,
+    "landmark": "North Pier",
+    "method": "sight",
+    "wildlife": "gulls",
+    "note": "Gulls on a pier rail are watching the anglers, not the water; bait left on the deck goes first, and a hooked bird is a real hazard.",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "North Pier",
+        "text": "Walk to North Pier and watch the water and the shore for a while."
+      },
+      {
+        "type": "find",
+        "target": "bw-egg-fg-gulls-pier",
+        "text": "A Field Guide page fills in: \"Gulls on a pier rail are watching the anglers, not the water; bait left on the deck goes first, and a hooked bird is a real hazard.\""
+      }
+    ],
+    "reward": {
+      "xp": 25,
+      "badge": "Field Guide"
+    }
+  },
+  {
+    "id": "bw-egg-fg-pelicans-channel",
+    "title": "Field Guide — Channel Marker",
+    "giver": "found, not given",
+    "site": "Channel Marker",
+    "kind": "egg",
+    "tier": 0,
+    "requires": null,
+    "landmark": "Channel Marker",
+    "method": "sight",
+    "wildlife": "pelicans",
+    "note": "Pelicans fly low in a line with slow, deep wingbeats and fold into a plunge when they spot a fish beneath the surface.",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Channel Marker",
+        "text": "Walk to Channel Marker and watch the water and the shore for a while."
+      },
+      {
+        "type": "find",
+        "target": "bw-egg-fg-pelicans-channel",
+        "text": "A Field Guide page fills in: \"Pelicans fly low in a line with slow, deep wingbeats and fold into a plunge when they spot a fish beneath the surface.\""
+      }
+    ],
+    "reward": {
+      "xp": 25,
+      "badge": "Field Guide"
+    }
+  },
+  {
+    "id": "bw-egg-fg-shorebirds-beach",
+    "title": "Field Guide — Island Beach Esplanade",
+    "giver": "found, not given",
+    "site": "Island Beach Esplanade",
+    "kind": "egg",
+    "tier": 0,
+    "requires": null,
+    "landmark": "Island Beach Esplanade",
+    "method": "sight",
+    "wildlife": "shorebirds",
+    "note": "Shorebirds run in short dashes along the wet sand where each wave pulls back, probing for what the water uncovered.",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Island Beach Esplanade",
+        "text": "Walk to Island Beach Esplanade and watch the water and the shore for a while."
+      },
+      {
+        "type": "find",
+        "target": "bw-egg-fg-shorebirds-beach",
+        "text": "A Field Guide page fills in: \"Shorebirds run in short dashes along the wet sand where each wave pulls back, probing for what the water uncovered.\""
+      }
+    ],
+    "reward": {
+      "xp": 25,
+      "badge": "Field Guide"
+    }
+  },
+  {
+    "id": "bw-egg-fg-seals-float",
+    "title": "Field Guide — North Pier",
+    "giver": "found, not given",
+    "site": "North Pier",
+    "kind": "egg",
+    "tier": 0,
+    "requires": null,
+    "landmark": "North Pier",
+    "method": "sight",
+    "wildlife": "seals",
+    "note": "Seals haul out on floats and low rocks to rest and warm up between dives, and slip back in quietly when something comes too close.",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "North Pier",
+        "text": "Walk to North Pier and watch the water and the shore for a while."
+      },
+      {
+        "type": "find",
+        "target": "bw-egg-fg-seals-float",
+        "text": "A Field Guide page fills in: \"Seals haul out on floats and low rocks to rest and warm up between dives, and slip back in quietly when something comes too close.\""
+      }
+    ],
+    "reward": {
+      "xp": 25,
+      "badge": "Field Guide"
+    }
+  },
+  {
+    "id": "bw-egg-fg-fish-school",
+    "title": "Field Guide — Channel Marker",
+    "giver": "found, not given",
+    "site": "Channel Marker",
+    "kind": "egg",
+    "tier": 0,
+    "requires": null,
+    "landmark": "Channel Marker",
+    "method": "sight",
+    "wildlife": "fish",
+    "note": "A fish school moves as one body, turning and tightening together so that no single fish is easy to single out.",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Channel Marker",
+        "text": "Walk to Channel Marker and watch the water and the shore for a while."
+      },
+      {
+        "type": "find",
+        "target": "bw-egg-fg-fish-school",
+        "text": "A Field Guide page fills in: \"A fish school moves as one body, turning and tightening together so that no single fish is easy to single out.\""
+      }
+    ],
+    "reward": {
+      "xp": 25,
+      "badge": "Field Guide"
+    }
+  },
+  {
+    "id": "bw-egg-fg-ray-channel",
+    "title": "Field Guide — Channel Marker",
+    "giver": "found, not given",
+    "site": "Channel Marker",
+    "kind": "egg",
+    "tier": 0,
+    "requires": null,
+    "landmark": "Channel Marker",
+    "method": "sight",
+    "wildlife": "ray",
+    "note": "A ray glides just above the bottom on its wing-like fins and settles into the sand when it stops, showing only its eyes and tail.",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Channel Marker",
+        "text": "Walk to Channel Marker and watch the water and the shore for a while."
+      },
+      {
+        "type": "find",
+        "target": "bw-egg-fg-ray-channel",
+        "text": "A Field Guide page fills in: \"A ray glides just above the bottom on its wing-like fins and settles into the sand when it stops, showing only its eyes and tail.\""
+      }
+    ],
+    "reward": {
+      "xp": 25,
+      "badge": "Field Guide"
+    }
+  },
+  {
+    "id": "bw-egg-fg-crab-breakwater",
+    "title": "Field Guide — North Pier",
+    "giver": "found, not given",
+    "site": "North Pier",
+    "kind": "egg",
+    "tier": 0,
+    "requires": null,
+    "landmark": "North Pier",
+    "method": "sight",
+    "wildlife": "crab",
+    "note": "A kelp crab clings to weed and rock with hooked legs and sidesteps into cover rather than swimming from anything that startles it.",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "North Pier",
+        "text": "Walk to North Pier and watch the water and the shore for a while."
+      },
+      {
+        "type": "find",
+        "target": "bw-egg-fg-crab-breakwater",
+        "text": "A Field Guide page fills in: \"A kelp crab clings to weed and rock with hooked legs and sidesteps into cover rather than swimming from anything that startles it.\""
+      }
+    ],
+    "reward": {
+      "xp": 25,
+      "badge": "Field Guide"
+    }
+  }
+];
+
 const SIDE_ACTIVITIES = [
   {
     "id": "bw-activity-delivery-run",
@@ -19644,6 +20516,29 @@ const SIDE_ACTIVITIES = [
         "no-wake speed held inside the marina",
         "wake watch kept on the estuary for other vessels and the shoreline",
         "a clean return to the berth: spring first, engines confirmed stopped before the gangway"
+      ]
+    }
+  },
+  {
+    "id": "bw-activity-pier-fishing",
+    "title": "North Pier Catch and Release",
+    "kind": "fishing",
+    "site": "North Pier",
+    "description": "Catch-and-release fishing from the north pier's rail: rig, cast, land and release, scored on the habits that keep the pier safe for the people and the fish.",
+    "rules": [
+      "rig check before the first cast: knots pulled tight, hook point sharp, no frayed line",
+      "look and call behind before every cast, and cast only with the deck clear behind you",
+      "handle the hook with pliers, never with the line wrapped round a hand",
+      "wet hands before touching a fish, keep it over the water and release it quickly",
+      "carry the licence the state's rules ask for, and follow those rules for anything kept"
+    ],
+    "scoring": {
+      "time": false,
+      "criteria": [
+        "rig checked before the first cast",
+        "area behind the cast confirmed clear every time",
+        "hook handled with pliers",
+        "every fish released with wet hands"
       ]
     }
   },
@@ -19716,10 +20611,11 @@ const LANDMARK_NOTES = {
 
 
 /** Every quest BAY2's registerQuests() should receive, main arc first, then
- *  every programme's side quests, then the egg field notes. Order is
- *  cosmetic — every reference between quests is by `id` and `requires`,
- *  never by array position. */
-const ALL_QUESTS = [...MAIN_QUESTS, ...SIDE_QUESTS, ...EGG_QUESTS];
+ *  every programme's side quests, then the egg field notes, then the Field
+ *  Guide's wildlife sightings (eggs too, but sighted rather than quoted —
+ *  see the generator's own header). Order is cosmetic — every reference
+ *  between quests is by `id` and `requires`, never by array position. */
+const ALL_QUESTS = [...MAIN_QUESTS, ...SIDE_QUESTS, ...EGG_QUESTS, ...FIELD_GUIDE_EGGS];
 
 // --------------------------------------------------------------- lookups
 
@@ -21268,12 +22164,31 @@ function bayGroundTexture(three, opts = {}) {
 
 
 
+
+
 const BW_EYE_HEIGHT = 1.62;
 const BW_VEHICLE_BUILDERS = { sedan, pickup, boxTruck, semiTractor };
 /** Where each of the four fleet vehicles is parked at the downtown motor
  *  pool — "enter and exit at parked vehicles" starts here for every one of
  *  them, whether or not it is unlocked yet (an unseen vehicle just waits). */
 const BW_DEPOT = { x: -40, z: -40, spacing: 9 };
+
+/** Where the generic wildlife lives, by zone (shared/bayworld-data.js's own
+ *  zone ids), each over a plain rectangle of water or shore in metres: gulls
+ *  over the port basin, pelicans and a fish school over the outer bay's
+ *  water, the ray in its shipping channel, shorebirds on the island beach,
+ *  seals on a float and a kelp crab on the breakwater rock off the north
+ *  pier. Counts are WILDLIFE_BUDGET's own defaults — a scene budget, not a
+ *  census — and a one-zone build (`opts.zone`) keeps only its own entries. */
+const BW_WILDLIFE = [
+  { kind: "gulls", zone: "port", area: { x: -300, z: 450, w: 260, d: 180, y: -0.4 } },
+  { kind: "pelicans", zone: "outer-bay", area: { x: -1000, z: 380, w: 300, d: 200, y: -0.4 } },
+  { kind: "fish", zone: "outer-bay", area: { x: -1000, z: 300, w: 120, d: 80, y: -0.4 } },
+  { kind: "ray", zone: "outer-bay", area: { x: -1060, z: 520, w: 100, d: 60, y: -0.4 } },
+  { kind: "shorebirds", zone: "island-harbour", area: { x: 80, z: 722, w: 80, d: 6, y: 0 } },
+  { kind: "seals", zone: "north-shoreline", area: { x: -960, z: -690, w: 20, d: 20, y: -0.4 } },
+  { kind: "crab", zone: "north-shoreline", area: { x: -928, z: -646, w: 4, d: 4, y: -0.2 } },
+];
 
 function bwPersonFigure(THREE, { body = 0x3a6ea5, skin = 0xd8b090, cap = 0xf2c14b } = {}) {
   const g = new THREE.Group();
@@ -21384,6 +22299,18 @@ function bwBuildWorld(root, THREE, opts = {}) {
   // Satellite ground, only with a token (see bwApplySatelliteGround()).
   const satelliteGround = bwApplySatelliteGround(root, THREE);
 
+  // The sky dome and the wildlife, built after buildBayWorld()'s own
+  // mergeStatic() so their moving parts stay their own objects. The dome
+  // follows the camera (bwStepSky() below); the wildlife loops in place.
+  const startWeather = weatherFor(opts.weather ?? "clear");
+  const sky = buildSky(root, { time: "day", weather: startWeather });
+  const wildlife = BW_WILDLIFE
+    .filter((w) => !opts.zone || w.zone === opts.zone)
+    .map((w) => buildWildlife(root, { zone: w.area, kind: w.kind }));
+  // The drift: this app's own clock (sim.js's bwAdvanceClock()) owns the
+  // hour, so dayRate is 0 and advanceSky() only walks the weather.
+  const skyDrift = skyState({ hours: 9, weather: startWeather, dayRate: 0, driftEvery: opts.driftEvery ?? 150 });
+
   const player = bwPersonFigure(THREE);
   root.add(player);
 
@@ -21442,7 +22369,30 @@ function bwBuildWorld(root, THREE, opts = {}) {
     root.add(group);
     weather = { ...buildWeather(group, opts.scene ?? { fog: null }, wanted), group };
     weatherKind = wanted;
+    skySetWeather(skyDrift, wanted);
+    sky.set(skyDrift.hours, wanted);
     return weather;
+  }
+
+  /** One step of the live sky: the drift (a weather event rebuilds the
+   *  plaza-scale weather and re-tunes the dome), the dome following the
+   *  camera, the wildlife loops. Returns what the HUD shows: the weather
+   *  word, the wind and the compass point, and the recipe itself. */
+  let skyClock = 0;
+  function bwStepSky(dt, hours, scene, camera) {
+    skyClock += dt;
+    skyDrift.hours = hours;
+    for (const e of advanceSky(skyDrift, dt)) {
+      if (e.type === "weather") bwSetWeather(e.to);
+    }
+    const recipe = sky.set(hours, weatherKind ?? skyDrift.weather);
+    sky.animate(skyClock, dt, camera);
+    for (const w of wildlife) w.animate(skyClock, dt);
+    if (weather?.animate) weather.animate(skyClock, dt);
+    return {
+      weather: recipe.kind, label: recipe.label,
+      wind: recipe.wind, compass: skyCompass(recipe.wind.dir), visibility: recipe.visibility, recipe,
+    };
   }
 
   /** Applies bayLighting(bucket)'s recipe (see bwHourBucket()) to the same
@@ -21454,9 +22404,13 @@ function bwBuildWorld(root, THREE, opts = {}) {
     if (hemi) { hemi.color?.setHex?.(L.hemi[0]); hemi.groundColor?.setHex?.(L.hemi[1]); hemi.intensity = L.hemiI; }
     if (sun) { sun.color?.setHex?.(L.key[0]); sun.intensity = L.key[1]; }
     if (scene) {
-      if (!scene.fog && THREE.FogExp2) scene.fog = new THREE.FogExp2(L.fog, 0.006);
-      if (scene.fog) scene.fog.color?.setHex?.(L.fog);
-      scene.background?.setHex?.(L.sky);
+      // The fog and the background come from the same recipe the dome, the
+      // HUD and every other open world read (shared/sky.js's skyFor()), so
+      // a foggy dusk here is the same foggy dusk on the fairway.
+      const S = skyFor(bucket, weatherKind ?? skyDrift.weather);
+      if (!scene.fog && THREE.FogExp2) scene.fog = new THREE.FogExp2(S.fog, S.fogDensity);
+      if (scene.fog) { scene.fog.color?.setHex?.(S.fog); if ("density" in scene.fog) scene.fog.density = S.fogDensity; }
+      scene.background?.setHex?.(S.sky);
     }
     return { bucket, isNight: bucket === "night", streetlightsOn: bucket !== "day", mast: L.mast };
   }
@@ -21476,8 +22430,8 @@ function bwBuildWorld(root, THREE, opts = {}) {
   }
 
   return {
-    city, player, vehicles, sun, hemi, satelliteGround,
-    bwSpawnTrafficMeshes, bwSpawnPedestrianMeshes, bwSetWeather, bwApplyLighting, placeCamera,
+    city, player, vehicles, sun, hemi, satelliteGround, sky, wildlife, skyDrift,
+    bwSpawnTrafficMeshes, bwSpawnPedestrianMeshes, bwSetWeather, bwStepSky, bwApplyLighting, placeCamera,
   };
 }
 
@@ -21522,6 +22476,7 @@ const bwApp = {
   vehicleState: null,
   hours: 9,                  // the day clock, 0-24
   weather: "clear",
+  wind: null,                // { speed, dir } from shared/sky.js's recipe
   traffic: [],
   pedestrians: [],
   nearSite: null, nearVehicle: null, nearLandmark: null,
@@ -21872,8 +22827,12 @@ function bwSetup3D() {
 
 function bwStep(dt) {
   bwApp.hours = bwAdvanceClock(bwApp.hours, dt);
-  const newWeather = bwWeatherFor(bwApp.hours, 0);
-  if (newWeather !== bwApp.weather) { bwApp.weather = newWeather; bwApp.world.bwSetWeather(bwApp.weather); }
+  // The live sky (shared/sky.js): the weather drifts on its own clock, the
+  // dome follows the camera and the wildlife loops; the HUD reads the
+  // weather word and the wind from the same recipe the fog is set from.
+  const skyNow = bwApp.world.bwStepSky(dt, bwApp.hours, bwApp.scene, bwApp.camera);
+  if (skyNow.weather !== bwApp.weather) { bwApp.weather = skyNow.weather; bwToast(`Weather: ${skyNow.label.toLowerCase()}.`); }
+  bwApp.wind = skyNow.wind;
   bwApp.world.bwApplyLighting(bwApp.scene, bwApp.hours);
 
   const pad = bwPadSnapshot();
@@ -21942,7 +22901,7 @@ function bwStep(dt) {
 
   $("hud-clock").textContent = bwFormatClock(bwApp.hours);
   $("hud-zone").textContent = BW_ZONES.find((z) => z.id === bwZoneAt(bwApp.player.x, bwApp.player.z))?.name ?? "";
-  $("hud-weather").textContent = bwApp.weather;
+  $("hud-weather").textContent = `${skyNow.label} · wind ${skyNow.wind.speed.toFixed(0)} m/s ${skyNow.compass}`;
   if (!bwApp._mapTick || bwApp._mapTick > 6) { bwDrawMinimap(); bwApp._mapTick = 0; }
   bwApp._mapTick = (bwApp._mapTick ?? 0) + 1;
 }

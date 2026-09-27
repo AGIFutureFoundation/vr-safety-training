@@ -26,6 +26,7 @@ const CHECKERS = [
   "check_fairway.mjs", "check_bayworld_game.mjs", "check_bay_quests.mjs", "check_bayworld.mjs", "check_mapbox.mjs",
   "check_unity_export.mjs",
   "check_underwater.mjs",
+  "check_sky.mjs",
 ];
 
 let failed = 0;

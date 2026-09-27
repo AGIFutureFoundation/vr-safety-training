@@ -21,15 +21,16 @@
  * cross-checks those strings against bayworld-data.js's BAY_SITES and
  * BAY_LANDMARKS only when that file exists in the worktree.
  */
-import { MAIN_QUESTS, SIDE_QUESTS, EGG_QUESTS, SIDE_ACTIVITIES, LANDMARK_NOTES } from "./quests-data.js";
+import { MAIN_QUESTS, SIDE_QUESTS, EGG_QUESTS, FIELD_GUIDE_EGGS, SIDE_ACTIVITIES, LANDMARK_NOTES } from "./quests-data.js";
 
-export { MAIN_QUESTS, SIDE_QUESTS, EGG_QUESTS, SIDE_ACTIVITIES, LANDMARK_NOTES };
+export { MAIN_QUESTS, SIDE_QUESTS, EGG_QUESTS, FIELD_GUIDE_EGGS, SIDE_ACTIVITIES, LANDMARK_NOTES };
 
 /** Every quest BAY2's registerQuests() should receive, main arc first, then
- *  every programme's side quests, then the egg field notes. Order is
- *  cosmetic — every reference between quests is by `id` and `requires`,
- *  never by array position. */
-export const ALL_QUESTS = [...MAIN_QUESTS, ...SIDE_QUESTS, ...EGG_QUESTS];
+ *  every programme's side quests, then the egg field notes, then the Field
+ *  Guide's wildlife sightings (eggs too, but sighted rather than quoted —
+ *  see the generator's own header). Order is cosmetic — every reference
+ *  between quests is by `id` and `requires`, never by array position. */
+export const ALL_QUESTS = [...MAIN_QUESTS, ...SIDE_QUESTS, ...EGG_QUESTS, ...FIELD_GUIDE_EGGS];
 
 // --------------------------------------------------------------- lookups
 
