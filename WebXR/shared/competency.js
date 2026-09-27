@@ -209,6 +209,8 @@ export const STANDARDS = Object.fromEntries([
   S("ansi-b71-outdoor-power-equipment", "ANSI", "ANSI B71 series — safety specifications for outdoor power equipment (walk-behind and riding mowers, trimmers and blowers), published with the Outdoor Power Equipment Institute", ["Grounds & Landscaping"], "unverified"),
   S("ansi-z133-arboriculture", "ANSI", "ANSI Z133 — safety requirements for arboricultural operations, including chippers used on a tree crew", ["Grounds & Landscaping"], "unverified"),
   S("epa-fifra-pesticide-label", "EPA", "Federal Insecticide, Fungicide, and Rodenticide Act (FIFRA) — the pesticide product label as a legal document, and EPA's pesticide applicator and worker-protection requirements", ["Grounds & Landscaping"], "unverified"),
+  S("asme-b20-1", "ASME", "ASME B20.1 Safety standard for conveyors and related equipment", ["Manufacturing"]),
+  S("niosh-lifting-equation", "NIOSH", "Revised NIOSH Lifting Equation and its Applications Manual", ["Manufacturing", "Mobility & Transit"], "unverified"),
 ].map((s) => [s.id, { ...s, slug: standardSlug(s.body, s.title) }]));
 
 /** The body and title behind a standard id, or a placeholder for an unknown one. */
@@ -793,6 +795,17 @@ export const PROGRAMME_COMPETENCIES = [
       "gk-sports-field-line-marking-and-goal-anchoring", "gk-storm-cleanup-chipper-and-traffic-control", "gk-hardscape-paver-base-and-compaction", "gk-greenhouse-nursery-chemical-storage-and-eyewash"
     ],
     require: 6,
+  },
+  {
+    id: "postal-and-mail-processing",
+    title: "Isolate, inspect and prove six distinct letter carrier, mail handler and plant clerk jobs across a route and a processing plant",
+    kind: "programme",
+    standards: ["osha-1910-147", "osha-1910-178", "asme-b20-1", "niosh-lifting-equation"],
+    stations: [
+      "ml-delivery-van-pretrip-and-route-loading", "ml-dog-and-hazard-awareness-on-route", "ml-heat-and-cold-stress-on-route", "ml-flat-sorter-guarding-and-lockout",
+      "ml-mail-handler-forklift-and-container-dock", "ml-parcel-sorter-conveyor-jam-and-loto"
+    ],
+    require: 3,
   },
 ];
 
