@@ -2,7 +2,7 @@
 
 _Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-27. 540 SmartCiti.X stations across 18 categories and 44 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
-Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 45 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
+Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 46 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
 ## Contents
 
@@ -1386,7 +1386,7 @@ A station can stand inside a licensed real-world model instead of the generated 
 
 ## How a station is verified
 
-1. `node tools/check_all.mjs` — 45 checkers, among them: parse, imports, layout (every control reachable, crew figures clear of the work), budget (mesh count per headset frame), interruptions (each one fires, times out, scores and visibly changes the scene), crew roles, incident replay, curricula resolution, catalog freshness, devices, input, standards, console, competency and models.
+1. `node tools/check_all.mjs` — 46 checkers, among them: parse, imports, layout (every control reachable, crew figures clear of the work), budget (mesh count per headset frame), interruptions (each one fires, times out, scores and visibly changes the scene), crew roles, incident replay, curricula resolution, catalog freshness, devices, input, standards, console, competency and models.
 2. `python3 tools/bundle_webxr.py` — the single-file bundle the headset loads.
 3. A headless Chromium drive of every step, with both interruptions answered, and a screenshot from the spawn point that someone actually looks at.
 4. `node tools/eval_content.mjs` — the graded content review, used as the heartbeat between waves of stations rather than as a gate.
