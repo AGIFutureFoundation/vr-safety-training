@@ -232,60 +232,60 @@ export const DEEP_LINES = [
  */
 export const DEEP_SITES = [
   // ---- the pier pilings
-  // Expected at integration: cd-pier-piling-inspection-and-wrap-repair, cd-underwater-wet-welding-and-cutting.
+  // Anchored here: cd-pier-piling-inspection-and-wrap-repair, cd-underwater-wet-welding-and-cutting.
   { id: "pier-piling-inspection-station", name: "Pier Piling Inspection Station", zone: "pier-pilings", position: [-740, -580],
-    programmes: ["bay-area-union-edition"], stations: ["mw-pier-pile-inspection-dive", "mw-underwater-welding-and-cutting", "gg-pile-driver-fender-repair"] },
-  // Expected at integration: cd-decompression-chamber-operations-and-post-dive, cd-dive-records-and-incident-review.
+    programmes: ["bay-area-union-edition", "commercial-diving-and-scientific-scuba"], stations: ["mw-pier-pile-inspection-dive", "mw-underwater-welding-and-cutting", "gg-pile-driver-fender-repair", "cd-pier-piling-inspection-and-wrap-repair", "cd-underwater-wet-welding-and-cutting"] },
+  // Anchored here: cd-decompression-chamber-operations-and-post-dive, cd-dive-records-and-incident-review.
   { id: "pier-surface-supplied-station", name: "Pier Surface-Supplied Station", zone: "pier-pilings", position: [-720, -530],
-    programmes: ["bay-restoration-maritime-underwater"], stations: ["br-surface-supplied-dive-station-setup", "br-dive-tender-and-umbilical-management", "br-hyperbaric-chamber-standby"] },
+    programmes: ["bay-restoration-maritime-underwater", "commercial-diving-and-scientific-scuba"], stations: ["br-surface-supplied-dive-station-setup", "br-dive-tender-and-umbilical-management", "br-hyperbaric-chamber-standby", "cd-decompression-chamber-operations-and-post-dive", "cd-dive-records-and-incident-review"] },
   { id: "pier-creosote-pile-site", name: "Pier Creosote Pile Site", zone: "pier-pilings", position: [-790, -560],
     programmes: ["hunters-point-bay-restoration", "heavy-equipment-operators"], stations: ["creosote-pile-removal", "op-pile-driving-rig-and-lead-setup", "br-marine-mammal-observer-during-pile-driving"] },
   // ---- the shallow shelf
-  // Expected at integration: cd-scientific-scuba-buddy-check-and-lost-buddy-drill.
+  // Anchored here: cd-scientific-scuba-buddy-check-and-lost-buddy-drill.
   { id: "shelf-checkout-site", name: "Shelf Checkout Site", zone: "shallow-shelf", position: [-360, -540],
-    programmes: ["bay-restoration-maritime-underwater", "situational-awareness"], stations: ["br-dive-site-hazard-assessment-and-jsa", "br-cold-water-immersion-and-mob-recovery", "trench-box"] },
+    programmes: ["bay-restoration-maritime-underwater", "situational-awareness", "commercial-diving-and-scientific-scuba"], stations: ["br-dive-site-hazard-assessment-and-jsa", "br-cold-water-immersion-and-mob-recovery", "trench-box", "cd-scientific-scuba-buddy-check-and-lost-buddy-drill"] },
   { id: "shelf-debris-sweep", name: "Shelf Debris Sweep", zone: "shallow-shelf", position: [-320, -580],
     programmes: ["bay-restoration-maritime-underwater"], stations: ["br-underwater-debris-survey-and-mapping", "br-derelict-gear-recovery-dive", "br-shoreline-cleanup-sharps-and-hazardous-debris"] },
   { id: "shelf-lift-bag-site", name: "Shelf Lift Bag Site", zone: "shallow-shelf", position: [-400, -580],
     programmes: ["bay-area-union-edition", "rigging-lifting"], stations: ["uw-lift-bag-rigging-and-object-recovery", "rl-critical-lift-plan-and-signalperson"] },
   // ---- the eelgrass meadow
-  // Expected at integration: me-eelgrass-seed-collection-and-nursery.
+  // Anchored here: me-eelgrass-seed-collection-and-nursery.
   { id: "eelgrass-transplant-plots", name: "Eelgrass Transplant Plots", zone: "eelgrass-meadow", position: [130, -520],
-    programmes: ["hunters-point-bay-restoration"], stations: ["eelgrass-transplant", "br-native-planting-and-erosion-mats"] },
-  // Expected at integration: me-fish-visual-census-and-data-sheet.
+    programmes: ["hunters-point-bay-restoration", "marine-ecology-and-restoration"], stations: ["eelgrass-transplant", "br-native-planting-and-erosion-mats", "me-eelgrass-seed-collection-and-nursery"] },
+  // Anchored here: me-fish-visual-census-and-data-sheet.
   { id: "eelgrass-fish-census-line", name: "Eelgrass Fish Census Line", zone: "eelgrass-meadow", position: [80, -560],
-    programmes: ["bay-restoration-maritime-underwater"], stations: ["br-beach-seine-fish-survey-and-handling", "br-benthic-grab-and-invertebrate-sorting", "br-restoration-data-qa-and-public-reporting"] },
+    programmes: ["bay-restoration-maritime-underwater", "marine-ecology-and-restoration"], stations: ["br-beach-seine-fish-survey-and-handling", "br-benthic-grab-and-invertebrate-sorting", "br-restoration-data-qa-and-public-reporting", "me-fish-visual-census-and-data-sheet"] },
   { id: "eelgrass-turbidity-curtain", name: "Eelgrass Turbidity Curtain", zone: "eelgrass-meadow", position: [40, -500],
     programmes: ["bay-restoration-maritime-underwater"], stations: ["br-turbidity-curtain-deployment", "br-bird-nesting-buffer-and-work-window"] },
   // ---- the marsh channel mouth
-  // Expected at integration: me-tidal-marsh-channel-restoration-day.
+  // Anchored here: me-tidal-marsh-channel-restoration-day.
   { id: "marsh-mouth-tide-gate", name: "Marsh Mouth Tide Gate", zone: "marsh-mouth", position: [660, -530],
-    programmes: ["hunters-point-bay-restoration"], stations: ["tide-gate", "marsh-transect-survey", "living-shoreline"] },
+    programmes: ["hunters-point-bay-restoration", "marine-ecology-and-restoration"], stations: ["tide-gate", "marsh-transect-survey", "living-shoreline", "me-tidal-marsh-channel-restoration-day"] },
   { id: "marsh-mouth-culvert", name: "Marsh Mouth Culvert", zone: "marsh-mouth", position: [620, -580],
     programmes: ["bay-restoration-maritime-underwater"], stations: ["br-culvert-retrofit-for-fish-passage", "br-fish-screen-maintenance", "br-tidal-marsh-grading-amphibious-excavator"] },
   { id: "marsh-mouth-invasive-plot", name: "Marsh Mouth Invasive Plot", zone: "marsh-mouth", position: [700, -570],
     programmes: ["hunters-point-bay-restoration", "bay-restoration-maritime-underwater"], stations: ["spartina-removal", "br-intertidal-invasive-removal-by-hand-crew", "br-levee-inspection-and-seepage"] },
   // ---- the kelp forest
-  // Expected at integration: me-kelp-transect-survey-and-photo-quadrats.
+  // Anchored here: me-kelp-transect-survey-and-photo-quadrats.
   { id: "kelp-transect-start", name: "Kelp Transect Start", zone: "kelp-forest", position: [-480, -200],
-    programmes: ["bay-restoration-maritime-underwater"], stations: ["br-underwater-debris-survey-and-mapping", "br-restoration-data-qa-and-public-reporting"] },
-  // Expected at integration: cd-low-visibility-and-night-dive-line-work.
+    programmes: ["bay-restoration-maritime-underwater", "marine-ecology-and-restoration"], stations: ["br-underwater-debris-survey-and-mapping", "br-restoration-data-qa-and-public-reporting", "me-kelp-transect-survey-and-photo-quadrats"] },
+  // Anchored here: cd-low-visibility-and-night-dive-line-work.
   { id: "kelp-night-line-site", name: "Kelp Night Line Site", zone: "kelp-forest", position: [-530, -260],
-    programmes: ["bay-area-union-edition"], stations: ["mw-diver-emergency-and-recovery", "mw-dive-supervisor-and-dive-plan"] },
+    programmes: ["bay-area-union-edition", "commercial-diving-and-scientific-scuba"], stations: ["mw-diver-emergency-and-recovery", "mw-dive-supervisor-and-dive-plan", "cd-low-visibility-and-night-dive-line-work"] },
   // ---- the tide gauge flats
   { id: "flats-sonde-station", name: "Flats Sonde Station", zone: "tide-flats", position: [-80, -280],
     programmes: ["bay-restoration-maritime-underwater", "air-quality-monitoring"], stations: ["br-water-quality-sonde-calibration-and-deploy", "air-monitor", "sensor-colocation-check"] },
-  // Expected at integration: me-water-column-sampling-from-a-small-boat.
+  // Anchored here: me-water-column-sampling-from-a-small-boat.
   { id: "flats-sediment-core-site", name: "Flats Sediment Core Site", zone: "tide-flats", position: [-130, -230],
-    programmes: ["bay-restoration-maritime-underwater", "hunters-point-can-we-live"], stations: ["br-underwater-sediment-core-sampling", "br-sediment-chain-of-custody-and-lab-prep", "shoreline-sediment-grab"] },
+    programmes: ["bay-restoration-maritime-underwater", "hunters-point-can-we-live", "marine-ecology-and-restoration"], stations: ["br-underwater-sediment-core-sampling", "br-sediment-chain-of-custody-and-lab-prep", "shoreline-sediment-grab", "me-water-column-sampling-from-a-small-boat"] },
   { id: "flats-workboat-anchorage", name: "Flats Workboat Anchorage", zone: "tide-flats", position: [-60, -240],
     programmes: ["bay-restoration-maritime-underwater", "bay-area-union-edition"], stations: ["br-workboat-crane-lift-from-water", "br-vhf-and-navigation-in-a-work-zone", "mw-workboat-towing-and-line-handling"] },
   // ---- the outfall apron
   { id: "outfall-diffuser-inspection", name: "Outfall Diffuser Inspection", zone: "outfall-apron", position: [410, -260],
     programmes: ["hazmat-environmental", "water-and-gas-utility-crews"], stations: ["stormwater-outfall", "ut-cathodic-protection-test-station-reading"] },
-  // Expected at integration: cd-hydraulic-tools-and-suction-hazards-underwater.
+  // Anchored here: cd-hydraulic-tools-and-suction-hazards-underwater.
   { id: "outfall-intake-lockout-site", name: "Outfall Intake Lockout Site", zone: "outfall-apron", position: [380, -290],
-    programmes: ["bay-area-union-edition", "confined-space"], stations: ["uw-intake-screen-cleaning-with-lockout", "uw-pipeline-crossing-inspection-dive", "cs-permit-entry-and-attendant-duties"] },
+    programmes: ["bay-area-union-edition", "confined-space", "commercial-diving-and-scientific-scuba"], stations: ["uw-intake-screen-cleaning-with-lockout", "uw-pipeline-crossing-inspection-dive", "cs-permit-entry-and-attendant-duties", "cd-hydraulic-tools-and-suction-hazards-underwater"] },
   { id: "outfall-discharge-photo-point", name: "Outfall Discharge Photo Point", zone: "outfall-apron", position: [440, -220],
     programmes: ["hunters-point-can-we-live"], stations: ["discharge-photo-doc", "air-sensor-install"] },
   // ---- the channel approach
@@ -299,9 +299,9 @@ export const DEEP_SITES = [
   { id: "channel-scour-survey", name: "Channel Scour Survey", zone: "shipping-channel", position: [-180, 90],
     programmes: ["bay-area-union-edition", "bridge-and-structural"], stations: ["uw-bridge-pier-scour-survey", "uw-underwater-concrete-and-bag-placement", "bridge-cable-inspection"] },
   // ---- the reef ball field
-  // Expected at integration: me-oyster-reef-monitoring-and-settlement-tiles, me-invasive-species-identification-and-reporting.
+  // Anchored here: me-oyster-reef-monitoring-and-settlement-tiles, me-invasive-species-identification-and-reporting.
   { id: "reef-ball-monitoring-plot", name: "Reef Ball Monitoring Plot", zone: "reef-ball-field", position: [360, -10],
-    programmes: ["hunters-point-bay-restoration", "ports-maritime-ecology"], stations: ["oyster-reef-monitoring", "ballast-water-sampling"] },
+    programmes: ["hunters-point-bay-restoration", "ports-maritime-ecology", "marine-ecology-and-restoration"], stations: ["oyster-reef-monitoring", "ballast-water-sampling", "me-oyster-reef-monitoring-and-settlement-tiles", "me-invasive-species-identification-and-reporting"] },
   { id: "reef-ball-placement-site", name: "Reef Ball Placement Site", zone: "reef-ball-field", position: [330, 40],
     programmes: ["bay-restoration-maritime-underwater", "port-operations"], stations: ["br-workboat-crane-lift-from-water", "br-derelict-vessel-salvage-rigging", "container-lashing"] },
   // ---- the mud plain
@@ -315,13 +315,13 @@ export const DEEP_SITES = [
   { id: "wreck-salvage-rigging", name: "Wreck Salvage Rigging", zone: "wreck-hollow", position: [270, 260],
     programmes: ["bay-restoration-maritime-underwater", "rigging-lifting"], stations: ["br-derelict-vessel-salvage-rigging", "uw-lift-bag-rigging-and-object-recovery", "rl-critical-lift-plan-and-signalperson"] },
   // ---- the deep trench
-  // Expected at integration: cd-rov-launch-recovery-and-tether-management.
+  // Anchored here: cd-rov-launch-recovery-and-tether-management.
   { id: "trench-rov-station", name: "Trench ROV Station", zone: "deep-trench", position: [-680, 460],
-    programmes: ["bay-area-union-edition"], stations: ["uw-rov-pre-dive-and-tether-management", "mw-dive-supervisor-and-dive-plan"] },
+    programmes: ["bay-area-union-edition", "commercial-diving-and-scientific-scuba"], stations: ["uw-rov-pre-dive-and-tether-management", "mw-dive-supervisor-and-dive-plan", "cd-rov-launch-recovery-and-tether-management"] },
   // ---- the seamount
-  // Expected at integration: me-shoreline-debris-and-microplastics-survey (the capstone survey).
+  // Anchored here: me-shoreline-debris-and-microplastics-survey (the capstone survey).
   { id: "seamount-capstone-survey", name: "Seamount Capstone Survey", zone: "seamount", position: [640, 460],
-    programmes: ["bay-restoration-maritime-underwater", "first-responders"], stations: ["br-restoration-data-qa-and-public-reporting", "br-hyperbaric-chamber-standby", "damage-assessment-team"] },
+    programmes: ["bay-restoration-maritime-underwater", "first-responders", "marine-ecology-and-restoration"], stations: ["br-restoration-data-qa-and-public-reporting", "br-hyperbaric-chamber-standby", "damage-assessment-team", "me-shoreline-debris-and-microplastics-survey"] },
 ];
 
 /** Documented mesh budget, authored (before mergeStatic — see kit.js's
