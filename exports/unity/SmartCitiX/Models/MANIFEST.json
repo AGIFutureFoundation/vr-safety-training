@@ -1,5 +1,5 @@
 {
-  "bytes": 6997188,
+  "bytes": 7037488,
   "entries": [
     {
       "build": "aerialBoomLift",
@@ -1298,6 +1298,29 @@
       ]
     },
     {
+      "build": "rov",
+      "bytes": 40300,
+      "file": "fleet--rov.glb",
+      "footprint": [
+        0.62,
+        0.55,
+        1.01
+      ],
+      "key": "rov",
+      "kit": "fleet",
+      "materials": 8,
+      "meshes": 9,
+      "meshesDeclared": 9,
+      "note": "observation-class ROV, four thrusters, camera dome, manipulator",
+      "parts": [
+        "thrusters",
+        "camera",
+        "lights",
+        "manipulator",
+        "tetherPoint"
+      ]
+    },
+    {
       "build": "salvageCraneBarge",
       "bytes": 92520,
       "file": "fleet--salvageCraneBarge.glb",
@@ -2143,10 +2166,10 @@
       ]
     }
   ],
-  "exported": 89,
+  "exported": 90,
   "generator": "three GLTFExporter r160 via tools/export_unity.mjs --models",
   "licence": "CC0-1.0 — the platform's own procedural builders (WebXR/shared/fleet.js, equipment.js, toolkit.js). No third-party model, no avatar, no track GLB.",
   "schema": "smartcitix.models/1",
-  "total": 89,
+  "total": 90,
   "units": "metres, +Z forward, +X driver's side, y = 0 ground; Unity flips X on import (glTF is right-handed)"
 }

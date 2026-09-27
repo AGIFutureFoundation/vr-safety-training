@@ -26026,5 +26026,341 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "cd-underwater-wet-welding-and-cutting",
+    "index": "716",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers of the Carpenters diver-tender working the knife switch and the leads for a diver-welder on a pier repair, with the dive supervisor, the diver-welder in the stage and the standby diver",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T — 29 CFR 1910.421 pre-dive procedures and the team briefing, 29 CFR 1910.422 procedures during the dive (power tools and welding equipment, communications), 29 CFR 1910.430 diving equipment and 29 CFR 1910.425 the tended surface-supplied diver; AWS D3.6 underwater welding code for the qualified procedure and the job briefing; ADCI consensus standards for the surface-controlled switch; USCG 46 CFR 197 Subpart B where the work is off a vessel; the welding procedure card and the dive plan hold every figure",
+    "name": "Underwater Wet Welding & Cutting — Surface Side",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Underwater Wet Welding & Cutting — Surface Side VR",
+    "tagline": "The switch that makes the diver's rod live is on deck: the AWS D3.6 job briefing taken, the cut jacket and the loose lug found, the ground clamped to clean steel on the work, the machine idled and its polarity read, the output set to the procedure card, the diver's gloves and helmet insulation checked, the switch held open until 'make it hot', the bead tended while a deckhand wanders onto the stage, the comms garble answered by line pull, 'make it cold' before the rod change, the stub bagged, the bead read on video and the weld record written",
+    "accent": 15769675,
+    "accentCss": "#f0a04b",
+    "parSeconds": 320,
+    "badge": {
+      "id": "switch-on-the-call",
+      "name": "Switch On The Call",
+      "note": "The knife switch closed only on 'make it hot' and opened on 'make it cold', every rod, every time"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Hot And Cold",
+      "currency": "ROD COUNT",
+      "ranks": [
+        "Deckhand",
+        "Lead Tender",
+        "Switch Tender",
+        "Welding Tender",
+        "Wet Weld Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "cd-pier-piling-inspection-and-wrap-repair",
+    "index": "717",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers of the Carpenters commercial diver inspecting a pier pile by hand and camera and fitting a wrap repair, with the dive supervisor keeping the surface log, the tender and the standby diver",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T — 29 CFR 1910.421 pre-dive planning and the briefing, 29 CFR 1910.422 procedures during the dive (communications, hand and power tools), 29 CFR 1910.425 the tended surface-supplied diver and 29 CFR 1910.440 the record of the dive; ADCI consensus standards for underwater inspection and pier work; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; the owner's inspection form and the dive plan hold every measurement and limit",
+    "name": "Pier Piling Inspection & Wrap Repair",
+    "weather": "clear",
+    "indoor": null,
+    "district": "bay-underwater",
+    "title": "SmartCiti.X~ Pier Piling Inspection & Wrap Repair VR",
+    "tagline": "One pile, by hand and by camera: the inspection plan read on the slate, the growth cleared in a band without gouging, the necked section and the split found by touch, the camera held while the surface records, the pit gauge read to the form, the findings dictated to the surface log, the wrap zone brushed and flushed, the jacket halves fitted and banded, the seam checked, the grout hose landed, the plate photographed and the log closed — with a surging fender and a recall along the way",
+    "accent": 8372126,
+    "accentCss": "#7fbf9e",
+    "parSeconds": 320,
+    "badge": {
+      "id": "read-by-hand",
+      "name": "Read By Hand",
+      "note": "The pile inspected by touch and camera in a marked band, the findings said to the surface as they were found, the wrap fitted to the form"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Pile Watch",
+      "currency": "PILE MARKS",
+      "ranks": [
+        "Tender",
+        "Diver",
+        "Inspection Diver",
+        "Repair Diver",
+        "Pier Inspection Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "cd-rov-launch-recovery-and-tether-management",
+    "index": "718",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers of the Carpenters diver-tender working as ROV tender on a pier survey, with the ROV pilot at the console, the dive supervisor and a diver in the water off the workboat",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T where an ROV works alongside divers — 29 CFR 1910.421 pre-dive planning of hazardous activities nearby, 29 CFR 1910.422 procedures during the dive (communications and the termination of the dive) and 29 CFR 1910.430 equipment; ADCI consensus standards for ROV operations on a dive site; USCG 46 CFR 197 Subpart B where the vessel is under Coast Guard jurisdiction and 33 CFR 83 for the workboat's lights and signals; the ROV manufacturer's manual and the dive plan hold every limit",
+    "name": "ROV Launch, Recovery & Tether Management",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ ROV Launch, Recovery & Tether Management VR",
+    "tagline": "The vehicle's line in the tender's hands: the ROV plan read against the dive plan, the cracked float and the loose termination found, thrusters and lights function-tested, the tether flaked, the vehicle lowered on the davit, held at the surface through a skiff's wake, the tether paid out in step until it snags on a pile, the snag drill worked back along the path, the marks read to the plan, the hook landed on the bail, the vehicle hoisted, rinsed, tagged and logged",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 320,
+    "badge": {
+      "id": "tether-in-hand",
+      "name": "Tether In Hand",
+      "note": "The ROV's tether tended from the pad to the reel, never a bight on deck, never a hand near a live thruster"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Flight Deck",
+      "currency": "TETHER MARKS",
+      "ranks": [
+        "Deckhand",
+        "ROV Tender",
+        "Launch Tender",
+        "Lead Tender",
+        "ROV Deck Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "cd-decompression-chamber-operations-and-post-dive",
+    "index": "719",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers of the Carpenters diver-tender as chamber attendant on a decompression dive, with the chamber operator, the dive supervisor holding the tables, and the surfaced diver under observation",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T — 29 CFR 1910.423 post-dive procedures (the diver's condition, instructions to report symptoms, the recompression chamber and the post-dive observation), 29 CFR 1910.430 decompression chambers and their equipment, 29 CFR 1910.410 dive team qualifications including first aid and CPR and 29 CFR 1910.440 the record of the dive and its decompression procedure assessment; ADCI consensus standards for chamber operations and the inside attendant; USCG 46 CFR 197 Subpart B where the chamber is aboard a vessel; the tables the supervisor holds carry every pressure, depth and time",
+    "name": "Decompression Chamber Operations & Post-Dive",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Decompression Chamber Operations & Post-Dive VR",
+    "tagline": "The attendant's chamber: the plan read with the operator, grit on the door seat and an oily rag in the lock found, the medical lock worked one door at a time, the comms proven both ways, the BIBS supply opened, the lighter and the phone left in the bin, the surfaced diver watched through the observation period, a sore shoulder reported instead of shrugged off, the attendant in with the diver, the watch kept as the operator presses down with comms dropping to knock signals, the analyser read to the operator's band, water passed through the lock and the log written",
+    "accent": 7320544,
+    "accentCss": "#6fb3e0",
+    "parSeconds": 320,
+    "badge": {
+      "id": "reported-not-shrugged",
+      "name": "Reported, Not Shrugged",
+      "note": "Every symptom the surfaced diver showed said to the supervisor at once, the chamber ready before it was needed"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Inside Attendant",
+      "currency": "LOCK CYCLES",
+      "ranks": [
+        "Tender",
+        "Chamber Tender",
+        "Attendant",
+        "Lead Attendant",
+        "Chamber Crew Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "cd-scientific-scuba-buddy-check-and-lost-buddy-drill",
+    "index": "720",
+    "domain": "Maritime & Ports",
+    "trade": "Scientific scuba diver on an agency survey programme, with a dive buddy, the surface tender in the skiff and the programme's dive safety officer as the supervisor of the day",
+    "category": "Maritime & Ports",
+    "certification": "The programme's diving safety manual and its diving control board, as the scientific diving community's own standard; OSHA 29 CFR 1910 Subpart T where the dive falls under it — 29 CFR 1910.424 SCUBA diving (the buddy system, the standby diver and the tended or line-guided dive), 29 CFR 1910.421 pre-dive planning and briefing, 29 CFR 1910.422 procedures during the dive (water entry and exit, the termination of the dive) and 29 CFR 1910.423 post-dive procedures; ADCI consensus standards where a contractor's crew supports the survey; USCG 33 CFR 83 for the skiff's lights and the dive flag on the water; every depth, time and gas limit per the dive plan",
+    "name": "Scientific Scuba: Buddy Check & Lost-Buddy Drill",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Scientific Scuba: Buddy Check & Lost-Buddy Drill VR",
+    "tagline": "Two divers, one plan: the slate read for the task and the lost-buddy rule, the buddy check run in order from buoyancy to the final OK, the loose tank band and the missing cutter found, the descent line clipped to its buoy, the OK given to the tender, the descent held to the buddy's pace through an ear problem, the transect start held while the buddy lays tape, the buddy lost from view and the drill worked — look for the plan's time, ascend on the line, deploy the marker, signal the skiff, reunite — then fins in the bin and the log written",
+    "accent": 6473400,
+    "accentCss": "#62c6b8",
+    "parSeconds": 320,
+    "badge": {
+      "id": "never-lost-twice",
+      "name": "Never Lost Twice",
+      "note": "The buddy check run in order and the lost-buddy drill worked exactly as the plan wrote it, without a search past its time"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Buddy Line",
+      "currency": "SLATE MARKS",
+      "ranks": [
+        "Diver in Training",
+        "Scientific Diver",
+        "Lead Diver",
+        "Divemaster of the Day",
+        "Buddy Drill Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "cd-low-visibility-and-night-dive-line-work",
+    "index": "721",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers of the Carpenters commercial diver on a night search in low visibility with a buddy diver, the dive supervisor and the tender at the stage above",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T — 29 CFR 1910.421 pre-dive planning for the conditions and the briefing, 29 CFR 1910.422 procedures during the dive (communications, the tended diver, the termination of the dive), 29 CFR 1910.424 SCUBA diving where the search is on scuba with a buddy and 29 CFR 1910.425 the tended surface-supplied diver; ADCI consensus standards for night and low-visibility diving; USCG 46 CFR 197 Subpart B where the dive is from a vessel; visibility, distance, depth and time per the dive plan",
+    "name": "Low-Visibility & Night Dive Line Work",
+    "weather": "clear",
+    "indoor": null,
+    "district": "bay-underwater",
+    "title": "SmartCiti.X~ Low-Visibility & Night Dive Line Work VR",
+    "tagline": "A search you cannot see: the pattern and the signals read on the slate, the dim primary and the unclipped backup found at the stage, the primary and secondary tie-offs made in order, the guideline laid taut through a silt-out with a hand on the line, the circular sweep held by feel while the primary light dies and the backup comes on, the found frame marked, the OK given by light, the abort called, the arrows read home, the reel taken in on the way back to the downline, the log written",
+    "accent": 13228106,
+    "accentCss": "#c9d84a",
+    "parSeconds": 320,
+    "badge": {
+      "id": "hand-on-the-line",
+      "name": "Hand On The Line",
+      "note": "The guideline never let go of in the dark, the arrows read home, the abort called the moment the plan said"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Black Water",
+      "currency": "LINE ARROWS",
+      "ranks": [
+        "Tender",
+        "Diver",
+        "Night Diver",
+        "Search Diver",
+        "Line Work Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "cd-hydraulic-tools-and-suction-hazards-underwater",
+    "index": "722",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers of the Carpenters diver-tender locking out a plant intake and tending a hydraulic tool to a diver, with the dive supervisor, the standby diver and the plant operator who wants the pump back",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T — 29 CFR 1910.421 pre-dive planning and the assessment of hazardous activities nearby, 29 CFR 1910.422 procedures during the dive (power tools supplied from the surface and de-energised before they are placed in or retrieved from the water), 29 CFR 1910.430 equipment and 29 CFR 1910.425 the tended diver; OSHA 29 CFR 1910.147 lockout and tagout of the intake pump; ADCI consensus standards on differential-pressure hazards and diver-operated tools; USCG 46 CFR 197 Subpart B where the dive is from a vessel; every pressure, flow and depth per the tool's manual and the dive plan",
+    "name": "Hydraulic Tools & Suction Hazards Underwater",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Hydraulic Tools & Suction Hazards Underwater VR",
+    "tagline": "Nothing near the grate until the pump cannot run: the differential-pressure brief taken, the unmarked pipe and the open bypass found, the disconnect opened, the dive team's lock and tag applied and the start tried, the streamer watched hang slack at the grate while the plant asks for its pump back, the power unit set to the tool's manual, the couplings checked, the tool handed down cold, the hoses tended clear of the umbilical while a coupling weeps, the return flow read, the tool recovered dead, the lock lifted only on the supervisor's count, the log written",
+    "accent": 14713930,
+    "accentCss": "#e0844a",
+    "parSeconds": 320,
+    "badge": {
+      "id": "lock-held",
+      "name": "Lock Held",
+      "note": "The intake locked, tried and proven slack before the diver went near it, and the lock held against the plant until the count was in"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Cold Grate",
+      "currency": "LOCK COUNTS",
+      "ranks": [
+        "Deckhand",
+        "Tender",
+        "Tool Tender",
+        "Lead Tender",
+        "Intake Work Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "cd-dive-records-and-incident-review",
+    "index": "723",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers of the Carpenters diver-tender completing the dive record and the daily log and running an incident debrief with the dive supervisor, the diver, the standby diver and a client representative",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T — 29 CFR 1910.440 recordkeeping (the record of each dive, the decompression procedure assessment where a diver showed symptoms, and the retention of both), 29 CFR 1910.420 the safe practices manual the record's fields come from, 29 CFR 1910.423 post-dive procedures and 29 CFR 1910.421 the planning the next dive inherits; ADCI consensus standards for dive logs and incident reporting; USCG 46 CFR 197 Subpart B for the vessel's own record where the dive was from a vessel; every time and depth on the record comes from the slate and the tables, never from memory",
+    "name": "Dive Records & Incident Review",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Dive Records & Incident Review VR",
+    "tagline": "The dive on paper: the record's fields read from the manual, the blank times and the missing signature found, the dive record then the daily log then the equipment log in order, the slate copied line by line while a client asks for a copy without the incident, the record filed for retention, the diver's account heard without interruption until a voice is raised, the timeline built, the cause found in the conditions, the manual turned to the procedure it amends, the action written with an owner, the assessment recorded, the action posted and the crew checked in",
+    "accent": 12099808,
+    "accentCss": "#b8a0e0",
+    "parSeconds": 320,
+    "badge": {
+      "id": "written-as-it-was",
+      "name": "Written As It Was",
+      "note": "Every time from the slate, nothing backdated, nothing left out for anyone, and a cause that named a condition rather than a person"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Paper Trail",
+      "currency": "SIGNED LINES",
+      "ranks": [
+        "Tender",
+        "Record Keeper",
+        "Log Keeper",
+        "Debrief Lead",
+        "Records Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

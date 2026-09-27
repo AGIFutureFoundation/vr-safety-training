@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Commercial Diving &amp; Scientific Scuba — training track</title>
+<meta name="description" content="Commercial Diving &amp; Scientific Scuba: a twenty-level training track, 1650 lessons across 8 stations.">
+<meta name="generator" content="tools/gen_tracks.mjs">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=Barlow:wght@400;500;600&amp;display=swap">
+<style>
+  :root{
+    --void:#050a10; --panel:#0b141d; --panel-2:#101b27; --raised:#142130; --raised-2:#192a3b;
+    --text:#edf6fb; --muted:#93b2c3; --dim:#6f8ea2;
+    --accent:#4fd1ff; --accent-2:#7ee6ff; --violet:#a079ff;
+    --warn:#f2c14b; --danger:#f0645b; --good:#59c97b;
+    --edge:rgba(126,170,200,.16); --edge-strong:rgba(126,170,200,.32);
+    --r-sm:6px; --r-md:10px;
+    --sans:"Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --cond:"Barlow Condensed", "Barlow", system-ui, sans-serif;
+    --gutter:16px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0; background:var(--void); color:var(--text); font-family:var(--sans); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased}
+  body::before{content:""; position:fixed; inset:0 0 auto; height:60vh; pointer-events:none; z-index:0;
+    background:radial-gradient(900px 480px at 8% -12%, color-mix(in srgb, var(--prog) 16%, transparent), transparent 62%)}
+  .wrap{position:relative; z-index:1; max-width:1120px; margin:0 auto; padding:0 var(--gutter)}
+  a{color:var(--accent-2); text-decoration:none}
+  a:hover{text-decoration:underline}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:var(--r-sm)}
+  .skip{position:absolute; left:-9999px; top:0; background:var(--raised); padding:10px 14px; border-radius:var(--r-sm); z-index:40}
+  .skip:focus{left:var(--gutter); top:8px}
+  .eyebrow{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.16em; font-size:11.5px; color:var(--dim); margin:0}
+  header.top{position:sticky; top:0; z-index:30; background:rgba(5,10,16,.92); border-bottom:1px solid var(--edge); backdrop-filter:blur(8px)}
+  .top-in{display:flex; gap:12px; align-items:center; justify-content:space-between; min-height:50px; padding:8px var(--gutter); max-width:1120px; margin:0 auto}
+  .brandline{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12px; color:var(--muted); margin:0; flex:1 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .back{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.09em; font-size:12.5px; white-space:nowrap}
+  .hero{padding:28px 0 4px}
+  .hero h1{font-family:var(--cond); font-weight:700; text-transform:uppercase; letter-spacing:.012em; font-size:clamp(28px,7.2vw,52px); line-height:1.04; margin:10px 0 0; text-wrap:balance}
+  .union{margin:10px 0 0; color:var(--prog); font-weight:600; font-size:15px}
+  .cert{margin:6px 0 0; color:var(--muted); font-size:14px; max-width:80ch}
+  .summary{margin:14px 0 0; font-size:16px; color:var(--text); max-width:72ch}
+  .stats{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin:22px 0 0}
+  .stat{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:12px 14px}
+  .stat b{display:block; font-family:var(--cond); font-weight:700; font-size:28px; line-height:1.1; font-variant-numeric:tabular-nums}
+  .stat span{font-size:12.5px; color:var(--muted)}
+  .stat.warn b{color:var(--warn)}
+  .gapnote{margin:12px 0 0; padding:10px 13px; border-left:2px solid var(--warn); background:rgba(242,193,75,.06); border-radius:0 var(--r-sm) var(--r-sm) 0; font-size:13.5px; color:var(--muted); max-width:86ch}
+  .gapnote b{color:var(--text)}
+  section.block{margin:38px 0 0; scroll-margin-top:64px}
+  section.block > h2{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.05em; font-size:clamp(19px,4.6vw,25px); margin:0}
+  .sub{margin:6px 0 0; font-size:13.5px; color:var(--muted); max-width:78ch}
+  .legend{display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 0}
+  .band{margin:18px 0 0}
+  .band h3{font-family:var(--cond); font-weight:600; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); margin:0 0 6px}
+  ol.levels{list-style:none; margin:0; padding:0; display:grid; gap:8px}
+  .level{display:grid; grid-template-columns:44px 1fr; gap:12px; padding:12px 13px; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-left:3px solid var(--prog); border-radius:var(--r-sm)}
+  .level.partial{border-left-color:var(--warn)}
+  .lvl-n{font-family:var(--cond); font-weight:700; font-size:26px; line-height:1; text-align:center; color:var(--prog); font-variant-numeric:tabular-nums}
+  .level.partial .lvl-n{color:var(--warn)}
+  .lvl-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 12px}
+  .lvl-head h4{margin:0; font-family:var(--cond); font-weight:600; font-size:18px; letter-spacing:.015em}
+  .lessons{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .lessons b{color:var(--text)}
+  .flag{display:inline-block; padding:1px 7px; border-radius:5px; font-size:11px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; background:var(--edge); color:var(--muted)}
+  .flag.warn{background:rgba(242,193,75,.16); color:var(--warn)}
+  .flag.ok{background:rgba(89,201,123,.16); color:var(--good)}
+  ol.tasks{list-style:none; margin:8px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:6px}
+  .task{display:inline-flex; align-items:center; gap:6px; padding:4px 8px 4px 9px; border-radius:var(--r-sm); background:var(--raised); border:1px solid var(--edge); font-size:13px; color:var(--text)}
+  .task:hover{background:var(--raised-2); text-decoration:none}
+  .task .st{font-variant-numeric:tabular-nums; color:var(--dim); font-size:11.5px}
+  .chip{display:inline-block; padding:0 7px; border-radius:9px; font-size:11px; font-weight:600; white-space:nowrap; background:var(--edge); color:var(--text)}
+  .chip.time{background:rgba(242,193,75,.16); color:#f2d27f}
+  .chip.weather{background:rgba(79,209,255,.16); color:#8fe0ff}
+  .chip.hazard{background:rgba(240,100,91,.18); color:#ff9b93}
+  .chip.interrupt{background:rgba(160,121,255,.2); color:#c7b2ff}
+  .chip.variant{background:rgba(89,201,123,.18); color:#8fe3a8}
+  .lvl-foot{margin:8px 0 0; display:flex; flex-wrap:wrap; gap:6px 14px; font-size:12.5px; color:var(--dim)}
+  .lvl-foot a{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.08em; font-size:12px}
+  .grid{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .station{display:flex; flex-direction:column; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-top:2px solid var(--tint,var(--prog)); border-radius:var(--r-md); overflow:hidden}
+  .shot{display:block; aspect-ratio:16/9; width:100%; object-fit:cover; background:var(--raised)}
+  .noshot{display:flex; align-items:center; justify-content:center; aspect-ratio:16/9; background:repeating-linear-gradient(135deg,var(--panel),var(--panel) 10px,var(--panel-2) 10px,var(--panel-2) 20px); color:var(--dim); font-size:12.5px}
+  .st-body{padding:12px 14px 14px; display:flex; flex-direction:column; gap:6px; flex:1}
+  .st-body h3{margin:0; font-family:var(--cond); font-weight:600; font-size:19px; letter-spacing:.015em}
+  .st-meta{margin:0; font-size:12.5px; color:var(--dim); font-variant-numeric:tabular-nums}
+  .why{margin:0; font-size:13.5px; color:var(--muted)}
+  .st-std{margin:0; padding:0 0 0 16px; font-size:12.5px; color:var(--muted)}
+  .st-std li{margin:1px 0}
+  .runs{display:flex; flex-wrap:wrap; gap:5px}
+  .run{display:inline-flex; align-items:center; gap:4px; white-space:nowrap}
+  .runs{row-gap:4px; column-gap:10px}
+  .runs a:hover{text-decoration:none; filter:brightness(1.15)}
+  .launch{margin-top:auto; padding-top:6px; font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12.5px}
+  .launch::after{content:" \2192"}
+  table.std{width:100%; border-collapse:collapse; margin:14px 0 0; font-size:13.5px}
+  table.std th{font-family:var(--cond); font-weight:600; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); text-align:left; padding:6px 8px; border-bottom:1px solid var(--edge-strong)}
+  table.std td{padding:7px 8px; border-bottom:1px solid var(--edge); vertical-align:top}
+  table.std td.n{font-variant-numeric:tabular-nums; color:var(--muted); white-space:nowrap}
+  .tablewrap{overflow-x:auto; -webkit-overflow-scrolling:touch}
+  .proof{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .card{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:14px 16px}
+  .card h3{margin:0 0 6px; font-family:var(--cond); font-weight:600; font-size:18px}
+  .card p, .card li{font-size:13.5px; color:var(--muted)}
+  .card p{margin:6px 0 0}
+  .card ul{margin:6px 0 0; padding-left:18px}
+  footer{margin:52px 0 0; border-top:1px solid var(--edge); background:var(--panel)}
+  .foot{padding:22px var(--gutter) 36px; max-width:1120px; margin:0 auto; font-size:13px; color:var(--dim)}
+  .foot p{margin:0 0 8px; max-width:86ch}
+  @media (min-width:560px){ .stats{grid-template-columns:repeat(4,1fr)} .grid{grid-template-columns:1fr 1fr} .proof{grid-template-columns:1fr 1fr} }
+  @media (min-width:900px){ .hero{padding:44px 0 6px} .grid{grid-template-columns:repeat(3,1fr)} }
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important} }
+</style>
+</head>
+<body style="--prog:#1f6f8b">
+<a class="home-chip" href="../index.html" aria-label="Back to the homepage">&#8962; Home</a>
+<style>.home-chip{position:fixed;top:calc(8px + env(safe-area-inset-top,0px));left:10px;z-index:10000;display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:999px;background:rgba(6,11,18,.78);color:#dbe7ee;border:1px solid rgba(79,209,255,.45);font:600 13px/1 Arial,Helvetica,sans-serif;text-decoration:none;letter-spacing:.02em;backdrop-filter:blur(6px)}.home-chip:hover,.home-chip:focus-visible{background:rgba(79,209,255,.22);color:#fff;outline:2px solid #4fd1ff;outline-offset:2px}@media (max-width:480px){.home-chip{top:calc(6px + env(safe-area-inset-top,0px));left:8px;padding:5px 9px;font-size:12px}}</style>
+<!-- Generated by tools/gen_tracks.mjs from WebXR/smartcity/js/ladders.js and WebXR/smartcity/catalog.json — edit the generator, not this file. -->
+<a class="skip" href="#ladder">Skip to the ladder</a>
+<header class="top">
+  <div class="top-in">
+    <p class="brandline">SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko) · training track</p>
+    <a class="back" href="../index.html">All stations</a>
+  </div>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <p class="eyebrow">Training track · 8 stations · 20 levels · 1650 lessons</p>
+    <h1>Commercial Diving &amp; Scientific Scuba</h1>
+    <p class="union">Pile Drivers of the Carpenters (UBC) and LIUNA as training bodies; the scientific diving community&#39;s own diving safety manuals for the scuba work</p>
+    <p class="cert">Programme completion record; the dive credentials it rehearses are issued only by their own bodies — OSHA 29 CFR 1910 Subpart T commercial diving operations (29 CFR 1910.421 through 1910.425, 1910.430 and 1910.440), the ADCI consensus standards, AWS D3.6 for the wet weld, USCG 46 CFR 197 Subpart B from a vessel, 29 CFR 1910.424 and the programme&#39;s diving safety manual for the scientific scuba; every depth, gas, decompression, current and time limit lives in the dive plan and the tables the supervisor holds</p>
+    <p class="summary">Eight jobs of the commercial dive crew and the scientific scuba pair, weighted to the surface side that keeps the diver alive: the welding tender at the knife switch, the diver reading a pile by hand and fitting its wrap, the ROV tender&#39;s tether, the chamber attendant and the post-dive watch, the scientific pair&#39;s buddy check and lost-buddy drill, a night search on a guideline, an intake locked out before a hydraulic tool goes down, and the paper that closes the day honestly. No depth, gas, decompression or time figure is ever stated; those live in the dive plan and the tables the supervisor holds.</p>
+    <div class="stats">
+      <div class="stat"><b>20 / 20</b><span>levels at 75+ lessons</span></div>
+      <div class="stat"><b>1650</b><span>lessons across the track</span></div>
+      <div class="stat"><b>120</b><span>tasks: a station under a condition</span></div>
+      <div class="stat"><b>0</b><span>more stations needed to fill it</span></div>
+    </div>
+    <p class="gapnote"><b>Every level reaches 75 lessons.</b> A lesson is one station step run under one condition; each level's number is its tasks' steps added up from the station modules.</p>
+  </section>
+
+  <section class="block" id="ladder">
+    <h2>The ladder</h2>
+    <p class="sub">Level 1 is open; each level opens when the one below is passed — every task in one run of it a mastery run. A task opens its station with its condition; the number after each task is its steps.</p>
+    <div class="legend"><span class="chip base">base run</span> <span class="chip time">daylight</span> <span class="chip weather">rain</span> <span class="chip hazard">hazard mode</span> <span class="chip interrupt">interruption</span> <span class="chip variant">assessment variant</span></div>
+      <div class="band">
+        <h3>Levels 1–5 · Orientation and single procedures <span class="sub">— base run, then daylight and dusk</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-1">
+          <span class="lvl-n">1</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation</h4><span class="lessons"><b>81</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cd-dive-records-and-incident-review">Dive Records &amp; Incident Review <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-hydraulic-tools-and-suction-hazards-underwater">Hydraulic Tools &amp; Suction Hazards Underwater <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work">Low-Visibility &amp; Night Dive Line Work <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive">Decompression Chamber Operations &amp; Post-Dive <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair">Pier Piling Inspection &amp; Wrap Repair <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill">Scientific Scuba: Buddy Check &amp; Lost-Buddy Drill <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>15 standards evidenced</span><a href="../smartcity-x.html?programme=commercial-diving-and-scientific-scuba&amp;level=1">Open level 1 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-2">
+          <span class="lvl-n">2</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation by daylight</h4><span class="lessons"><b>81</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cd-dive-records-and-incident-review&amp;time=day">Dive Records &amp; Incident Review <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-hydraulic-tools-and-suction-hazards-underwater&amp;time=day">Hydraulic Tools &amp; Suction Hazards Underwater <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;time=day">Low-Visibility &amp; Night Dive Line Work <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive&amp;time=day">Decompression Chamber Operations &amp; Post-Dive <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair&amp;time=day">Pier Piling Inspection &amp; Wrap Repair <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill&amp;time=day">Scientific Scuba: Buddy Check &amp; Lost-Buddy Drill <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>15 standards evidenced</span><a href="../smartcity-x.html?programme=commercial-diving-and-scientific-scuba&amp;level=2">Open level 2 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-3">
+          <span class="lvl-n">3</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures</h4><span class="lessons"><b>81</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cd-dive-records-and-incident-review">Dive Records &amp; Incident Review <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-hydraulic-tools-and-suction-hazards-underwater">Hydraulic Tools &amp; Suction Hazards Underwater <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work">Low-Visibility &amp; Night Dive Line Work <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive">Decompression Chamber Operations &amp; Post-Dive <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair">Pier Piling Inspection &amp; Wrap Repair <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill">Scientific Scuba: Buddy Check &amp; Lost-Buddy Drill <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>15 standards evidenced</span><a href="../smartcity-x.html?programme=commercial-diving-and-scientific-scuba&amp;level=3">Open level 3 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-4">
+          <span class="lvl-n">4</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures at dusk</h4><span class="lessons"><b>81</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cd-dive-records-and-incident-review&amp;time=dusk">Dive Records &amp; Incident Review <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-hydraulic-tools-and-suction-hazards-underwater&amp;time=dusk">Hydraulic Tools &amp; Suction Hazards Underwater <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;time=dusk">Low-Visibility &amp; Night Dive Line Work <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive&amp;time=dusk">Decompression Chamber Operations &amp; Post-Dive <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair&amp;time=dusk">Pier Piling Inspection &amp; Wrap Repair <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill&amp;time=dusk">Scientific Scuba: Buddy Check &amp; Lost-Buddy Drill <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>15 standards evidenced</span><a href="../smartcity-x.html?programme=commercial-diving-and-scientific-scuba&amp;level=4">Open level 4 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-5">
+          <span class="lvl-n">5</span>
+          <div>
+            <div class="lvl-head"><h4>Day and night on the clock</h4><span class="lessons"><b>81</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cd-dive-records-and-incident-review">Dive Records &amp; Incident Review <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-hydraulic-tools-and-suction-hazards-underwater">Hydraulic Tools &amp; Suction Hazards Underwater <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;time=day">Low-Visibility &amp; Night Dive Line Work <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive&amp;time=day">Decompression Chamber Operations &amp; Post-Dive <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair&amp;time=day">Pier Piling Inspection &amp; Wrap Repair <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill">Scientific Scuba: Buddy Check &amp; Lost-Buddy Drill <span class="chip base">base run</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>15 standards evidenced</span><a href="../smartcity-x.html?programme=commercial-diving-and-scientific-scuba&amp;level=5">Open level 5 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 6–10 · Weather and the hour <span class="sub">— rain, wind, fog, storm, smoke; an indoor station takes the hour instead</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-6">
+          <span class="lvl-n">6</span>
+          <div>
+            <div class="lvl-head"><h4>Rain</h4><span class="lessons"><b>81</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cd-dive-records-and-incident-review&amp;time=dusk">Dive Records &amp; Incident Review <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-hydraulic-tools-and-suction-hazards-underwater&amp;time=dusk">Hydraulic Tools &amp; Suction Hazards Underwater <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;weather=rain">Low-Visibility &amp; Night Dive Line Work <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive&amp;weather=rain">Decompression Chamber Operations &amp; Post-Dive <span class="chip weather">rain</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair&amp;weather=rain">Pier Piling Inspection &amp; Wrap Repair <span class="chip weather">rain</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill&amp;time=dusk">Scientific Scuba: Buddy Check &amp; Lost-Buddy Drill <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>15 standards evidenced</span><a href="../smartcity-x.html?programme=commercial-diving-and-scientific-scuba&amp;level=6">Open level 6 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-7">
+          <span class="lvl-n">7</span>
+          <div>
+            <div class="lvl-head"><h4>High wind</h4><span class="lessons"><b>81</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cd-dive-records-and-incident-review&amp;weather=wind">Dive Records &amp; Incident Review <span class="chip weather">high wind</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-hydraulic-tools-and-suction-hazards-underwater&amp;weather=wind">Hydraulic Tools &amp; Suction Hazards Underwater <span class="chip weather">high wind</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;weather=wind">Low-Visibility &amp; Night Dive Line Work <span class="chip weather">high wind</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive&amp;time=day">Decompression Chamber Operations &amp; Post-Dive <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair&amp;time=day">Pier Piling Inspection &amp; Wrap Repair <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill&amp;time=day">Scientific Scuba: Buddy Check &amp; Lost-Buddy Drill <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>15 standards evidenced</span><a href="../smartcity-x.html?programme=commercial-diving-and-scientific-scuba&amp;level=7">Open level 7 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-8">
+          <span class="lvl-n">8</span>
+          <div>
+            <div class="lvl-head"><h4>Fog</h4><span class="lessons"><b>81</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cd-dive-records-and-incident-review&amp;time=dusk">Dive Records &amp; Incident Review <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-hydraulic-tools-and-suction-hazards-underwater&amp;time=dusk">Hydraulic Tools &amp; Suction Hazards Underwater <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;time=dusk">Low-Visibility &amp; Night Dive Line Work <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive&amp;weather=fog">Decompression Chamber Operations &amp; Post-Dive <span class="chip weather">fog</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair&amp;weather=fog">Pier Piling Inspection &amp; Wrap Repair <span class="chip weather">fog</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill&amp;weather=fog">Scientific Scuba: Buddy Check &amp; Lost-Buddy Drill <span class="chip weather">fog</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>15 standards evidenced</span><a href="../smartcity-x.html?programme=commercial-diving-and-scientific-scuba&amp;level=8">Open level 8 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-9">
+          <span class="lvl-n">9</span>
+          <div>
+            <div class="lvl-head"><h4>Storm</h4><span class="lessons"><b>82</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cd-hydraulic-tools-and-suction-hazards-underwater&amp;weather=storm">Hydraulic Tools &amp; Suction Hazards Underwater <span class="chip weather">storm</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;weather=storm">Low-Visibility &amp; Night Dive Line Work <span class="chip weather">storm</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive&amp;weather=storm">Decompression Chamber Operations &amp; Post-Dive <span class="chip weather">storm</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair&amp;time=day">Pier Piling Inspection &amp; Wrap Repair <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill&amp;time=day">Scientific Scuba: Buddy Check &amp; Lost-Buddy Drill <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-underwater-wet-welding-and-cutting&amp;time=day">Underwater Wet Welding &amp; Cutting — Surface Side <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>15 standards evidenced</span><a href="../smartcity-x.html?programme=commercial-diving-and-scientific-scuba&amp;level=9">Open level 9 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-10">
+          <span class="lvl-n">10</span>
+          <div>
+            <div class="lvl-head"><h4>Weather and hour mixed</h4><span class="lessons"><b>82</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cd-hydraulic-tools-and-suction-hazards-underwater&amp;weather=smoke">Hydraulic Tools &amp; Suction Hazards Underwater <span class="chip weather">wildfire smoke</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;weather=overcast">Low-Visibility &amp; Night Dive Line Work <span class="chip weather">overcast</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive&amp;weather=smoke">Decompression Chamber Operations &amp; Post-Dive <span class="chip weather">wildfire smoke</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair&amp;weather=rain">Pier Piling Inspection &amp; Wrap Repair <span class="chip weather">rain</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill&amp;time=dusk">Scientific Scuba: Buddy Check &amp; Lost-Buddy Drill <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-underwater-wet-welding-and-cutting&amp;weather=rain">Underwater Wet Welding &amp; Cutting — Surface Side <span class="chip weather">rain</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>15 standards evidenced</span><a href="../smartcity-x.html?programme=commercial-diving-and-scientific-scuba&amp;level=10">Open level 10 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 11–14 · Hazard mode and interruptions <span class="sub">— assessed hazard mode; declared interruptions fired off their authored step</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-11">
+          <span class="lvl-n">11</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode</h4><span class="lessons"><b>82</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cd-hydraulic-tools-and-suction-hazards-underwater&amp;hazard=assess">Hydraulic Tools &amp; Suction Hazards Underwater <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;hazard=assess">Low-Visibility &amp; Night Dive Line Work <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive&amp;hazard=assess">Decompression Chamber Operations &amp; Post-Dive <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair&amp;hazard=assess">Pier Piling Inspection &amp; Wrap Repair <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill&amp;hazard=assess">Scientific Scuba: Buddy Check &amp; Lost-Buddy Drill <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-underwater-wet-welding-and-cutting&amp;hazard=assess">Underwater Wet Welding &amp; Cutting — Surface Side <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>15 standards evidenced</span><a href="../smartcity-x.html?programme=commercial-diving-and-scientific-scuba&amp;level=11">Open level 11 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-12">
+          <span class="lvl-n">12</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;interrupt=silt-out">Low-Visibility &amp; Night Dive Line Work <span class="chip interrupt">interruption: silt out</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive&amp;interrupt=shoulder-shrug">Decompression Chamber Operations &amp; Post-Dive <span class="chip interrupt">interruption: shoulder shrug</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair&amp;interrupt=fender-surge">Pier Piling Inspection &amp; Wrap Repair <span class="chip interrupt">interruption: fender surge</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill&amp;interrupt=buddy-ear">Scientific Scuba: Buddy Check &amp; Lost-Buddy Drill <span class="chip interrupt">interruption: buddy ear</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-underwater-wet-welding-and-cutting&amp;interrupt=deckhand-on-stage">Underwater Wet Welding &amp; Cutting — Surface Side <span class="chip interrupt">interruption: deckhand on stage</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-rov-launch-recovery-and-tether-management&amp;interrupt=skiff-wake">ROV Launch, Recovery &amp; Tether Management <span class="chip interrupt">interruption: skiff wake</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=commercial-diving-and-scientific-scuba&amp;level=12">Open level 12 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-13">
+          <span class="lvl-n">13</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode, harder stations</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;hazard=assess">Low-Visibility &amp; Night Dive Line Work <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive&amp;hazard=assess">Decompression Chamber Operations &amp; Post-Dive <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair&amp;hazard=assess">Pier Piling Inspection &amp; Wrap Repair <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill&amp;hazard=assess">Scientific Scuba: Buddy Check &amp; Lost-Buddy Drill <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-underwater-wet-welding-and-cutting&amp;hazard=assess">Underwater Wet Welding &amp; Cutting — Surface Side <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-rov-launch-recovery-and-tether-management&amp;hazard=assess">ROV Launch, Recovery &amp; Tether Management <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=commercial-diving-and-scientific-scuba&amp;level=13">Open level 13 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-14">
+          <span class="lvl-n">14</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted, harder stations</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;interrupt=primary-fail">Low-Visibility &amp; Night Dive Line Work <span class="chip interrupt">interruption: primary fail</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive&amp;interrupt=comms-drop">Decompression Chamber Operations &amp; Post-Dive <span class="chip interrupt">interruption: comms drop</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair&amp;interrupt=craft-recall">Pier Piling Inspection &amp; Wrap Repair <span class="chip interrupt">interruption: craft recall</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill&amp;interrupt=buddy-lost">Scientific Scuba: Buddy Check &amp; Lost-Buddy Drill <span class="chip interrupt">interruption: buddy lost</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-underwater-wet-welding-and-cutting&amp;interrupt=comms-garble">Underwater Wet Welding &amp; Cutting — Surface Side <span class="chip interrupt">interruption: comms garble</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-rov-launch-recovery-and-tether-management&amp;interrupt=tether-snag">ROV Launch, Recovery &amp; Tether Management <span class="chip interrupt">interruption: tether snag</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><a href="../smartcity-x.html?programme=commercial-diving-and-scientific-scuba&amp;level=14">Open level 14 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 15–18 · Station chains <span class="sub">— two or more stations back to back, one run under a declared interruption</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-15">
+          <span class="lvl-n">15</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in weather</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;weather=rain">Low-Visibility &amp; Night Dive Line Work <span class="chip weather">rain</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive&amp;interrupt=shoulder-shrug">Decompression Chamber Operations &amp; Post-Dive <span class="chip interrupt">interruption: shoulder shrug</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair&amp;weather=wind">Pier Piling Inspection &amp; Wrap Repair <span class="chip weather">high wind</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill&amp;interrupt=buddy-ear">Scientific Scuba: Buddy Check &amp; Lost-Buddy Drill <span class="chip interrupt">interruption: buddy ear</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-underwater-wet-welding-and-cutting&amp;weather=rain">Underwater Wet Welding &amp; Cutting — Surface Side <span class="chip weather">rain</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-rov-launch-recovery-and-tether-management&amp;time=day">ROV Launch, Recovery &amp; Tether Management <span class="chip time">daylight</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=commercial-diving-and-scientific-scuba&amp;level=15">Open level 15 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-16">
+          <span class="lvl-n">16</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain at dusk</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;hazard=assess">Low-Visibility &amp; Night Dive Line Work <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive&amp;time=dusk">Decompression Chamber Operations &amp; Post-Dive <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair&amp;interrupt=fender-surge">Pier Piling Inspection &amp; Wrap Repair <span class="chip interrupt">interruption: fender surge</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill&amp;time=dusk">Scientific Scuba: Buddy Check &amp; Lost-Buddy Drill <span class="chip time">dusk</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-underwater-wet-welding-and-cutting&amp;interrupt=deckhand-on-stage">Underwater Wet Welding &amp; Cutting — Surface Side <span class="chip interrupt">interruption: deckhand on stage</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-rov-launch-recovery-and-tether-management&amp;hazard=assess">ROV Launch, Recovery &amp; Tether Management <span class="chip hazard">hazard mode</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=commercial-diving-and-scientific-scuba&amp;level=16">Open level 16 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-17">
+          <span class="lvl-n">17</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain, instructor on</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;weather=fog">Low-Visibility &amp; Night Dive Line Work <span class="chip weather">fog</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive&amp;hazard=assess">Decompression Chamber Operations &amp; Post-Dive <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair&amp;interrupt=craft-recall">Pier Piling Inspection &amp; Wrap Repair <span class="chip interrupt">interruption: craft recall</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill&amp;weather=fog">Scientific Scuba: Buddy Check &amp; Lost-Buddy Drill <span class="chip weather">fog</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-underwater-wet-welding-and-cutting&amp;interrupt=comms-garble">Underwater Wet Welding &amp; Cutting — Surface Side <span class="chip interrupt">interruption: comms garble</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-rov-launch-recovery-and-tether-management&amp;weather=fog">ROV Launch, Recovery &amp; Tether Management <span class="chip weather">fog</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=commercial-diving-and-scientific-scuba&amp;level=17">Open level 17 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-18">
+          <span class="lvl-n">18</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in a storm</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;weather=storm">Low-Visibility &amp; Night Dive Line Work <span class="chip weather">storm</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive&amp;interrupt=comms-drop">Decompression Chamber Operations &amp; Post-Dive <span class="chip interrupt">interruption: comms drop</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair&amp;hazard=assess">Pier Piling Inspection &amp; Wrap Repair <span class="chip hazard">hazard mode</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill&amp;time=day">Scientific Scuba: Buddy Check &amp; Lost-Buddy Drill <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-underwater-wet-welding-and-cutting&amp;weather=storm">Underwater Wet Welding &amp; Cutting — Surface Side <span class="chip weather">storm</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-rov-launch-recovery-and-tether-management&amp;interrupt=skiff-wake">ROV Launch, Recovery &amp; Tether Management <span class="chip interrupt">interruption: skiff wake</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=commercial-diving-and-scientific-scuba&amp;level=18">Open level 18 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 19 · Full shift <span class="sub">— five or more of the programme&#39;s hardest jobs</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-19">
+          <span class="lvl-n">19</span>
+          <div>
+            <div class="lvl-head"><h4>Full shift</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;time=dusk">Low-Visibility &amp; Night Dive Line Work <span class="chip time">dusk</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive&amp;interrupt=shoulder-shrug">Decompression Chamber Operations &amp; Post-Dive <span class="chip interrupt">interruption: shoulder shrug</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair&amp;interrupt=fender-surge">Pier Piling Inspection &amp; Wrap Repair <span class="chip interrupt">interruption: fender surge</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill&amp;weather=rain">Scientific Scuba: Buddy Check &amp; Lost-Buddy Drill <span class="chip weather">rain</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-underwater-wet-welding-and-cutting&amp;time=day">Underwater Wet Welding &amp; Cutting — Surface Side <span class="chip time">daylight</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-rov-launch-recovery-and-tether-management">ROV Launch, Recovery &amp; Tether Management <span class="chip base">base run</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=commercial-diving-and-scientific-scuba&amp;level=19">Open level 19 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 20 · Capstone <span class="sub">— the hardest stations as assessment variants, no coaching, mastery rule</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-20">
+          <span class="lvl-n">20</span>
+          <div>
+            <div class="lvl-head"><h4>Capstone</h4><span class="lessons"><b>84</b> lessons · 6 tasks</span><span class="flag ok">75+ lessons</span> <span class="flag">no coaching</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;variant=assessment">Low-Visibility &amp; Night Dive Line Work <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive&amp;variant=assessment">Decompression Chamber Operations &amp; Post-Dive <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair&amp;variant=assessment">Pier Piling Inspection &amp; Wrap Repair <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill&amp;variant=assessment">Scientific Scuba: Buddy Check &amp; Lost-Buddy Drill <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-underwater-wet-welding-and-cutting&amp;variant=assessment">Underwater Wet Welding &amp; Cutting — Surface Side <span class="chip variant">assessment variant</span> <span class="st">14</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=cd-rov-launch-recovery-and-tether-management&amp;variant=assessment">ROV Launch, Recovery &amp; Tether Management <span class="chip variant">assessment variant</span> <span class="st">15</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>14 standards evidenced</span><span>12 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=commercial-diving-and-scientific-scuba&amp;level=20">Open level 20 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+  </section>
+
+  <section class="block" id="stations">
+    <h2>Stations</h2>
+    <p class="sub">Every station in the programme, the conditions the ladder runs it under (each chip launches that run, with the levels it appears in), and the standards its own source cites.</p>
+    <div class="grid">
+        <article class="station" style="--tint:#f0a04b">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Underwater Wet Welding &amp; Cutting — Surface Side</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5.3 min</p>
+            <p class="why">The switch that makes the diver&#39;s rod live is on deck, so the tender learns to close it on the spoken call and nothing else, with the ground on the work and the leads walked before anyone breathes through a helmet.</p>
+            <ul class="st-std"><li>ADCI — Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations</li><li>AWS — AWS D3.6M — Underwater Welding Code</li><li>union — United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship</li><li>OSHA — 29 CFR 1910.421 — Pre-dive procedures (emergency aid list, planning and assessment of the dive, hazardous activities nearby, the team briefing, equipment inspection and the warning signal)</li><li>OSHA — 29 CFR 1910.422 — Procedures during the dive (water entry and exit, communications, decompression tables, power tools, termination of the dive)</li><li>OSHA — 29 CFR 1910.423 — Post-dive procedures (the diver&#39;s condition, instructions to report symptoms, the recompression chamber and the record of dive)</li><li>OSHA — 29 CFR 1910.425 — Surface-supplied air diving (limits, the tended diver, the standby diver and the reserve breathing gas)</li><li>OSHA — 29 CFR 1910.430 — Diving equipment (air compressor systems and their intakes, breathing gas hoses, helmets and masks, decompression chambers, gauges and timekeeping)</li><li>OSHA — 29 CFR 1910.440 — Recordkeeping for commercial diving (the dive record, decompression procedure assessments and their retention)</li><li>OSHA — 29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)</li><li>USCG — 46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=cd-underwater-wet-welding-and-cutting&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L9, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-underwater-wet-welding-and-cutting&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L10, L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-underwater-wet-welding-and-cutting&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-underwater-wet-welding-and-cutting&amp;interrupt=deckhand-on-stage"><span class="chip interrupt">interruption: deckhand on stage</span></a> <span class="st-meta">L12, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-underwater-wet-welding-and-cutting&amp;interrupt=comms-garble"><span class="chip interrupt">interruption: comms garble</span></a> <span class="st-meta">L14, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-underwater-wet-welding-and-cutting&amp;weather=storm"><span class="chip weather">storm</span></a> <span class="st-meta">L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-underwater-wet-welding-and-cutting&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=cd-underwater-wet-welding-and-cutting">Launch Underwater Wet Welding &amp; Cutting — Surface Side</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#7fbf9e">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Pier Piling Inspection &amp; Wrap Repair</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5.3 min</p>
+            <p class="why">A pile is read by hand before the camera and the gauge, its findings said to the surface log as they are found, and a wrap fitted to the owner&#39;s form rather than to how it looks in green water.</p>
+            <ul class="st-std"><li>ADCI — Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations</li><li>union — United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship</li><li>OSHA — 29 CFR 1910.421 — Pre-dive procedures (emergency aid list, planning and assessment of the dive, hazardous activities nearby, the team briefing, equipment inspection and the warning signal)</li><li>OSHA — 29 CFR 1910.422 — Procedures during the dive (water entry and exit, communications, decompression tables, power tools, termination of the dive)</li><li>OSHA — 29 CFR 1910.423 — Post-dive procedures (the diver&#39;s condition, instructions to report symptoms, the recompression chamber and the record of dive)</li><li>OSHA — 29 CFR 1910.425 — Surface-supplied air diving (limits, the tended diver, the standby diver and the reserve breathing gas)</li><li>OSHA — 29 CFR 1910.440 — Recordkeeping for commercial diving (the dive record, decompression procedure assessments and their retention)</li><li>OSHA — 29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)</li><li>USCG — 46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5, L7, L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L6, L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L8</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair&amp;interrupt=fender-surge"><span class="chip interrupt">interruption: fender surge</span></a> <span class="st-meta">L12, L16, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair&amp;interrupt=craft-recall"><span class="chip interrupt">interruption: craft recall</span></a> <span class="st-meta">L14, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair&amp;weather=wind"><span class="chip weather">high wind</span></a> <span class="st-meta">L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=cd-pier-piling-inspection-and-wrap-repair">Launch Pier Piling Inspection &amp; Wrap Repair</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#f2c14b">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>ROV Launch, Recovery &amp; Tether Management</h3>
+            <p class="st-meta">15 steps · 4 hazards · 2 interruptions · par 5.3 min</p>
+            <p class="why">A vehicle on a dive site is tended like a diver — the tether flaked, paid out in step and braked on a snag — and it never crosses to the diver&#39;s side of the boat without the supervisor&#39;s word.</p>
+            <ul class="st-std"><li>ADCI — Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations</li><li>union — United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship</li><li>OSHA — 29 CFR 1910.421 — Pre-dive procedures (emergency aid list, planning and assessment of the dive, hazardous activities nearby, the team briefing, equipment inspection and the warning signal)</li><li>OSHA — 29 CFR 1910.422 — Procedures during the dive (water entry and exit, communications, decompression tables, power tools, termination of the dive)</li><li>OSHA — 29 CFR 1910.430 — Diving equipment (air compressor systems and their intakes, breathing gas hoses, helmets and masks, decompression chambers, gauges and timekeeping)</li><li>OSHA — 29 CFR 1910.440 — Recordkeeping for commercial diving (the dive record, decompression procedure assessments and their retention)</li><li>OSHA — 29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)</li><li>USCG — 33 CFR Part 83 — Inland Navigation Rules</li><li>USCG — 46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=cd-rov-launch-recovery-and-tether-management&amp;interrupt=skiff-wake"><span class="chip interrupt">interruption: skiff wake</span></a> <span class="st-meta">L12, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-rov-launch-recovery-and-tether-management&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L13, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-rov-launch-recovery-and-tether-management&amp;interrupt=tether-snag"><span class="chip interrupt">interruption: tether snag</span></a> <span class="st-meta">L14</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-rov-launch-recovery-and-tether-management&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-rov-launch-recovery-and-tether-management&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-rov-launch-recovery-and-tether-management"><span class="chip base">base run</span></a> <span class="st-meta">L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-rov-launch-recovery-and-tether-management&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=cd-rov-launch-recovery-and-tether-management">Launch ROV Launch, Recovery &amp; Tether Management</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#6fb3e0">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Decompression Chamber Operations &amp; Post-Dive</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5.3 min</p>
+            <p class="why">The chamber is checked before it is needed and the surfaced diver is watched rather than asked, so a rubbed shoulder is reported to the supervisor at once and the attendant goes in with a lock that works one door at a time.</p>
+            <ul class="st-std"><li>ADCI — Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations</li><li>union — United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship</li><li>OSHA — 29 CFR 1910.410 — Qualifications of the dive team (training, first aid and CPR, the designated person-in-charge)</li><li>OSHA — 29 CFR 1910.422 — Procedures during the dive (water entry and exit, communications, decompression tables, power tools, termination of the dive)</li><li>OSHA — 29 CFR 1910.423 — Post-dive procedures (the diver&#39;s condition, instructions to report symptoms, the recompression chamber and the record of dive)</li><li>OSHA — 29 CFR 1910.430 — Diving equipment (air compressor systems and their intakes, breathing gas hoses, helmets and masks, decompression chambers, gauges and timekeeping)</li><li>OSHA — 29 CFR 1910.440 — Recordkeeping for commercial diving (the dive record, decompression procedure assessments and their retention)</li><li>OSHA — 29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)</li><li>USCG — 46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5, L7</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L6</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L8</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive&amp;weather=storm"><span class="chip weather">storm</span></a> <span class="st-meta">L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive&amp;weather=smoke"><span class="chip weather">wildfire smoke</span></a> <span class="st-meta">L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive&amp;interrupt=shoulder-shrug"><span class="chip interrupt">interruption: shoulder shrug</span></a> <span class="st-meta">L12, L15, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive&amp;interrupt=comms-drop"><span class="chip interrupt">interruption: comms drop</span></a> <span class="st-meta">L14, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=cd-decompression-chamber-operations-and-post-dive">Launch Decompression Chamber Operations &amp; Post-Dive</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#62c6b8">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Scientific Scuba: Buddy Check &amp; Lost-Buddy Drill</h3>
+            <p class="st-meta">14 steps · 4 hazards · 2 interruptions · par 5.3 min</p>
+            <p class="why">The buddy check runs in the same order every dive and the lost-buddy drill is worked exactly as the plan wrote it — look for its time, ascend on the line, meet at the surface — so two divers never search each other apart.</p>
+            <ul class="st-std"><li>ADCI — Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations</li><li>OSHA — 29 CFR 1910.421 — Pre-dive procedures (emergency aid list, planning and assessment of the dive, hazardous activities nearby, the team briefing, equipment inspection and the warning signal)</li><li>OSHA — 29 CFR 1910.422 — Procedures during the dive (water entry and exit, communications, decompression tables, power tools, termination of the dive)</li><li>OSHA — 29 CFR 1910.423 — Post-dive procedures (the diver&#39;s condition, instructions to report symptoms, the recompression chamber and the record of dive)</li><li>OSHA — 29 CFR 1910.424 — SCUBA diving</li><li>OSHA — 29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)</li><li>USCG — 33 CFR Part 83 — Inland Navigation Rules</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L7, L9, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L10, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L8, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill&amp;interrupt=buddy-ear"><span class="chip interrupt">interruption: buddy ear</span></a> <span class="st-meta">L12, L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill&amp;interrupt=buddy-lost"><span class="chip interrupt">interruption: buddy lost</span></a> <span class="st-meta">L14</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill">Launch Scientific Scuba: Buddy Check &amp; Lost-Buddy Drill</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#c9d84a">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Low-Visibility &amp; Night Dive Line Work</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.3 min</p>
+            <p class="why">In black water the guideline is the way home and the light is the voice, so tie-offs go on in order, a hand stays on the line through a silt-out, and a failed primary light is the abort the plan already wrote.</p>
+            <ul class="st-std"><li>ADCI — Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations</li><li>union — United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship</li><li>OSHA — 29 CFR 1910.421 — Pre-dive procedures (emergency aid list, planning and assessment of the dive, hazardous activities nearby, the team briefing, equipment inspection and the warning signal)</li><li>OSHA — 29 CFR 1910.422 — Procedures during the dive (water entry and exit, communications, decompression tables, power tools, termination of the dive)</li><li>OSHA — 29 CFR 1910.424 — SCUBA diving</li><li>OSHA — 29 CFR 1910.425 — Surface-supplied air diving (limits, the tended diver, the standby diver and the reserve breathing gas)</li><li>OSHA — 29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)</li><li>USCG — 46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L8, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L6, L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;weather=wind"><span class="chip weather">high wind</span></a> <span class="st-meta">L7</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;weather=storm"><span class="chip weather">storm</span></a> <span class="st-meta">L9, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;weather=overcast"><span class="chip weather">overcast</span></a> <span class="st-meta">L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;interrupt=silt-out"><span class="chip interrupt">interruption: silt out</span></a> <span class="st-meta">L12</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;interrupt=primary-fail"><span class="chip interrupt">interruption: primary fail</span></a> <span class="st-meta">L14</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=cd-low-visibility-and-night-dive-line-work">Launch Low-Visibility &amp; Night Dive Line Work</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#e0844a">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Hydraulic Tools &amp; Suction Hazards Underwater</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.3 min</p>
+            <p class="why">Nothing goes near an intake grate until the pump is locked, tried and proven slack by a streamer, and the lock stays on against the plant until the supervisor has counted every diver out of the water.</p>
+            <ul class="st-std"><li>ADCI — Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations</li><li>union — United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship</li><li>OSHA — 29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)</li><li>OSHA — 29 CFR 1910.421 — Pre-dive procedures (emergency aid list, planning and assessment of the dive, hazardous activities nearby, the team briefing, equipment inspection and the warning signal)</li><li>OSHA — 29 CFR 1910.422 — Procedures during the dive (water entry and exit, communications, decompression tables, power tools, termination of the dive)</li><li>OSHA — 29 CFR 1910.425 — Surface-supplied air diving (limits, the tended diver, the standby diver and the reserve breathing gas)</li><li>OSHA — 29 CFR 1910.430 — Diving equipment (air compressor systems and their intakes, breathing gas hoses, helmets and masks, decompression chambers, gauges and timekeeping)</li><li>OSHA — 29 CFR 1910.440 — Recordkeeping for commercial diving (the dive record, decompression procedure assessments and their retention)</li><li>OSHA — 29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)</li><li>USCG — 46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=cd-hydraulic-tools-and-suction-hazards-underwater"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-hydraulic-tools-and-suction-hazards-underwater&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-hydraulic-tools-and-suction-hazards-underwater&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-hydraulic-tools-and-suction-hazards-underwater&amp;weather=wind"><span class="chip weather">high wind</span></a> <span class="st-meta">L7</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-hydraulic-tools-and-suction-hazards-underwater&amp;weather=storm"><span class="chip weather">storm</span></a> <span class="st-meta">L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-hydraulic-tools-and-suction-hazards-underwater&amp;weather=smoke"><span class="chip weather">wildfire smoke</span></a> <span class="st-meta">L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-hydraulic-tools-and-suction-hazards-underwater&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=cd-hydraulic-tools-and-suction-hazards-underwater">Launch Hydraulic Tools &amp; Suction Hazards Underwater</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#b8a0e0">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Maritime &amp; Ports</p>
+            <h3>Dive Records &amp; Incident Review</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.3 min</p>
+            <p class="why">The record is written from the slate and never from memory, released whole or not at all, and the debrief names a condition as the cause so the corrective action changes the procedure and not the diver.</p>
+            <ul class="st-std"><li>ADCI — Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations</li><li>union — United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship</li><li>OSHA — 29 CFR 1910.420 — Safe practices manual (the employer&#39;s written procedures for each diving mode, the dive team&#39;s duties and emergency procedures)</li><li>OSHA — 29 CFR 1910.421 — Pre-dive procedures (emergency aid list, planning and assessment of the dive, hazardous activities nearby, the team briefing, equipment inspection and the warning signal)</li><li>OSHA — 29 CFR 1910.423 — Post-dive procedures (the diver&#39;s condition, instructions to report symptoms, the recompression chamber and the record of dive)</li><li>OSHA — 29 CFR 1910.440 — Recordkeeping for commercial diving (the dive record, decompression procedure assessments and their retention)</li><li>OSHA — 29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)</li><li>USCG — 46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=cd-dive-records-and-incident-review"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-dive-records-and-incident-review&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-dive-records-and-incident-review&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8</span></span> <span class="run"><a href="../smartcity-x.html?sim=cd-dive-records-and-incident-review&amp;weather=wind"><span class="chip weather">high wind</span></a> <span class="st-meta">L7</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=cd-dive-records-and-incident-review">Launch Dive Records &amp; Incident Review</a>
+          </div>
+        </article>
+    </div>
+  </section>
+
+  <section class="block" id="standards">
+    <h2>Standards evidenced</h2>
+    <p class="sub">Registry entries (tools/standards.json) that a task's own source cites and that govern its category, with the levels that evidence each. Evidencing readiness against a standard is not a licence or a certification issued by its body.</p>
+    <div class="tablewrap"><table class="std">
+      <thead><tr><th>Body</th><th>Standard</th><th>Levels</th></tr></thead>
+      <tbody>
+          <tr><td>ADCI</td><td>Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations</td><td class="n">all 20</td></tr>
+          <tr><td>AWS</td><td>AWS D3.6M — Underwater Welding Code</td><td class="n">12 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)</td><td class="n">11 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.410 — Qualifications of the dive team (training, first aid and CPR, the designated person-in-charge)</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.420 — Safe practices manual (the employer&#39;s written procedures for each diving mode, the dive team&#39;s duties and emergency procedures)</td><td class="n">8 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.421 — Pre-dive procedures (emergency aid list, planning and assessment of the dive, hazardous activities nearby, the team briefing, equipment inspection and the warning signal)</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.422 — Procedures during the dive (water entry and exit, communications, decompression tables, power tools, termination of the dive)</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.423 — Post-dive procedures (the diver&#39;s condition, instructions to report symptoms, the recompression chamber and the record of dive)</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.424 — SCUBA diving</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.425 — Surface-supplied air diving (limits, the tended diver, the standby diver and the reserve breathing gas)</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.430 — Diving equipment (air compressor systems and their intakes, breathing gas hoses, helmets and masks, decompression chambers, gauges and timekeeping)</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.440 — Recordkeeping for commercial diving (the dive record, decompression procedure assessments and their retention)</td><td class="n">all 20</td></tr>
+          <tr><td>union</td><td>United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship</td><td class="n">all 20</td></tr>
+          <tr><td>USCG</td><td>33 CFR Part 83 — Inland Navigation Rules</td><td class="n">all 20</td></tr>
+          <tr><td>USCG</td><td>46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction</td><td class="n">all 20</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="block" id="proves">
+    <h2>What it proves</h2>
+    <div class="proof">
+      <div class="card">
+        <h3>Competency: Tend, lock out, record and review eight distinct commercial diving and scientific scuba jobs, from the knife switch and the chamber to the buddy check and the guideline</h3>
+        <p>Demonstrated with a mastery run on 4 of its 8 stations, against OSHA 29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record); OSHA 29 CFR 1910.424 — SCUBA diving; OSHA 29 CFR 1910.430 — Diving equipment (air compressor systems and their intakes, breathing gas hoses, helmets and masks, decompression chambers, gauges and timekeeping); OSHA 29 CFR 1910.440 — Recordkeeping for commercial diving (the dive record, decompression procedure assessments and their retention); ADCI Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations; AWS AWS D3.6M — Underwater Welding Code; USCG 46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction.</p>
+        
+      </div>
+      <div class="card">
+        <h3>Badges</h3>
+        <p>Each passed level earns an Open Badges 2.0 assertion naming the level, its tasks and their conditions, its lessons and the standards it evidences, with the attempts behind it as evidence, and sends an xAPI statement. Passing level 20, the capstone, climbs the whole track.</p>
+        <p>A run demonstrates mastery when it earns two or more stars, records zero unsafe actions, answers every interruption it was given, and finishes within 1.5 times the station&#39;s par time. One mastery run on enough of a competency&#39;s stations earns &quot;demonstrated&quot;; mastery runs on three different days earn &quot;consistent&quot;. No other rule earns a competency.</p>
+        <p>Certification the work leads to: Programme completion record; the dive credentials it rehearses are issued only by their own bodies — OSHA 29 CFR 1910 Subpart T commercial diving operations (29 CFR 1910.421 through 1910.425, 1910.430 and 1910.440), the ADCI consensus standards, AWS D3.6 for the wet weld, USCG 46 CFR 197 Subpart B from a vessel, 29 CFR 1910.424 and the programme&#39;s diving safety manual for the scientific scuba; every depth, gas, decompression, current and time limit lives in the dive plan and the tables the supervisor holds. No level claims apprenticeship hours: no registry entry states an equivalence.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="foot">
+    <p>Generated from the programme's station modules: lesson counts are read, not typed. The rules are in tools/briefs/ladder-brief.md and the full table in docs/ladders.md.</p>
+    <p><a href="../index.html">Back to every station</a> · SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko)</p>
+  </div>
+</footer>
+</body>
+</html>

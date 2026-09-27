@@ -25,7 +25,6 @@ const CHECKERS = [
   "check_race.mjs", "check_arcade.mjs", "check_eggs.mjs", "check_eggs_app.mjs", "check_props.mjs", "check_textures.mjs", "check_fairway_game.mjs",
   "check_fairway.mjs", "check_bayworld_game.mjs", "check_bay_quests.mjs", "check_bayworld.mjs", "check_mapbox.mjs",
   "check_unity_export.mjs",
-  "check_underwater.mjs",
   "check_sky.mjs",
   "check_regatta.mjs",
   "check_underwater.mjs", "check_underwater_game.mjs", "check_dive_quests.mjs",

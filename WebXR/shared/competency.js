@@ -117,6 +117,11 @@ export const STANDARDS = Object.fromEntries([
   S("cdfw-lake-streambed-alteration", "CDFW", "California Department of Fish and Wildlife oversight under the California Fish and Game Code, including Lake and Streambed Alteration Agreements (\u00a71602) for work affecting a river, stream or lake", ["Water & Environmental", "Construction & Structural Trades", "Community Environmental Justice", "Maritime & Ports"], "unverified"),
   S("adci-consensus-standards", "ADCI", "Association of Diving Contractors International \u2014 International Consensus Standards for Commercial Diving and Underwater Operations", ["Maritime & Ports", "Water & Environmental", "Environmental Monitoring"], "unverified"),
   S("osha-1910-120", "OSHA", "29 CFR 1910.120 Hazardous waste operations and emergency response (HAZWOPER)", ["Hazmat & Environmental"]),
+  S("osha-1910-424", "OSHA", "29 CFR 1910.424 — SCUBA diving", ["Water & Environmental", "Maritime & Ports", "Environmental Monitoring"]),
+  S("osha-1910-430", "OSHA", "29 CFR 1910.430 — Diving equipment (air compressor systems and their intakes, breathing gas hoses, helmets and masks, decompression chambers, gauges and timekeeping)", ["Maritime & Ports", "Water & Environmental", "Environmental Monitoring"]),
+  S("osha-1910-440", "OSHA", "29 CFR 1910.440 — Recordkeeping for commercial diving (the dive record, decompression procedure assessments and their retention)", ["Maritime & Ports", "Water & Environmental", "Environmental Monitoring"]),
+  S("aws-d3-6", "AWS", "AWS D3.6M — Underwater Welding Code", ["Maritime & Ports", "Water & Environmental"], "unverified"),
+  S("uscg-46-cfr-197-subpart-b", "USCG", "46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction", ["Maritime & Ports", "Water & Environmental"], "unverified"),
   S("osha-1910-252", "OSHA", "29 CFR 1910.252 Welding, cutting and brazing — general requirements", ["Metal Trades"]),
   S("osha-1910-212", "OSHA", "29 CFR 1910.212 General requirements for all machines", ["Manufacturing", "Garment Trades"]),
   S("osha-1910-178", "OSHA", "29 CFR 1910.178 Powered industrial trucks", ["Transit & Logistics"]),
@@ -908,6 +913,17 @@ export const PROGRAMME_COMPETENCIES = [
     stations: [
       "me-kelp-transect-survey-and-photo-quadrats", "me-oyster-reef-monitoring-and-settlement-tiles", "me-eelgrass-seed-collection-and-nursery", "me-water-column-sampling-from-a-small-boat",
       "me-tidal-marsh-channel-restoration-day", "me-fish-visual-census-and-data-sheet", "me-shoreline-debris-and-microplastics-survey", "me-invasive-species-identification-and-reporting"
+    ],
+    require: 4,
+  },
+  {
+    id: "commercial-diving-and-scientific-scuba",
+    title: "Tend, lock out, record and review eight distinct commercial diving and scientific scuba jobs, from the knife switch and the chamber to the buddy check and the guideline",
+    kind: "programme",
+    standards: ["osha-1910-subpart-t", "osha-1910-424", "osha-1910-430", "osha-1910-440", "adci-consensus-standards", "aws-d3-6", "uscg-46-cfr-197-subpart-b"],
+    stations: [
+      "cd-underwater-wet-welding-and-cutting", "cd-pier-piling-inspection-and-wrap-repair", "cd-rov-launch-recovery-and-tether-management", "cd-decompression-chamber-operations-and-post-dive",
+      "cd-scientific-scuba-buddy-check-and-lost-buddy-drill", "cd-low-visibility-and-night-dive-line-work", "cd-hydraulic-tools-and-suction-hazards-underwater", "cd-dive-records-and-incident-review"
     ],
     require: 4,
   },

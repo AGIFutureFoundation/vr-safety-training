@@ -1,0 +1,409 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "lock-held",
+    "name": "Lock Held",
+    "note": "The intake locked, tried and proven slack before the diver went near it, and the lock held against the plant until the count was in"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T — 29 CFR 1910.421 pre-dive planning and the assessment of hazardous activities nearby, 29 CFR 1910.422 procedures during the dive (power tools supplied from the surface and de-energised before they are placed in or retrieved from the water), 29 CFR 1910.430 equipment and 29 CFR 1910.425 the tended diver; OSHA 29 CFR 1910.147 lockout and tagout of the intake pump; ADCI consensus standards on differential-pressure hazards and diver-operated tools; USCG 46 CFR 197 Subpart B where the dive is from a vessel; every pressure, flow and depth per the tool's manual and the dive plan",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADCI",
+        "citedAs": "ADCI",
+        "id": "adci-consensus-standards",
+        "title": "Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations"
+      },
+      {
+        "body": "union",
+        "citedAs": "Pile Drivers",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.421",
+        "id": "osha-1910-421",
+        "title": "29 CFR 1910.421 — Pre-dive procedures (emergency aid list, planning and assessment of the dive, hazardous activities nearby, the team briefing, equipment inspection and the warning signal)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.422",
+        "id": "osha-1910-422",
+        "title": "29 CFR 1910.422 — Procedures during the dive (water entry and exit, communications, decompression tables, power tools, termination of the dive)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.425",
+        "id": "osha-1910-425",
+        "title": "29 CFR 1910.425 — Surface-supplied air diving (limits, the tended diver, the standby diver and the reserve breathing gas)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.430",
+        "id": "osha-1910-430",
+        "title": "29 CFR 1910.430 — Diving equipment (air compressor systems and their intakes, breathing gas hoses, helmets and masks, decompression chambers, gauges and timekeeping)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.440",
+        "id": "osha-1910-440",
+        "title": "29 CFR 1910.440 — Recordkeeping for commercial diving (the dive record, decompression procedure assessments and their retention)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910 Subpart T",
+        "id": "osha-1910-subpart-t",
+        "title": "29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 197 Subpart B",
+        "id": "uscg-46-cfr-197-subpart-b",
+        "title": "46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "found-the-bypass",
+        "name": "Found The Bypass",
+        "note": "The unmarked pipe and the open bypass found before the lock went on"
+      },
+      {
+        "id": "to-the-manual",
+        "name": "To The Manual",
+        "note": "The return flow committed inside the manual's band first time"
+      },
+      {
+        "id": "cold-handover",
+        "name": "Cold Handover",
+        "note": "No hazard reached for from the brief to the log"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-lockout",
+        "name": "Clean Lockout",
+        "note": "No corrections from the brief to the check-in"
+      },
+      {
+        "id": "hoses-clear",
+        "name": "Hoses Clear",
+        "note": "The hoses tended in band the whole job"
+      },
+      {
+        "id": "logged-quick",
+        "name": "Logged Quick",
+        "note": "Log written inside 80% of par"
+      }
+    ],
+    "currency": "LOCK COUNTS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Deckhand",
+      "Tender",
+      "Tool Tender",
+      "Lead Tender",
+      "Intake Work Certified"
+    ],
+    "system": "Cold Grate"
+  },
+  "hazards": {
+    "hand-on-leak": "You ran your hand along the hydraulic hose to find the pinhole that was misting oil. Hydraulic fluid at a pinhole leak is a jet fine enough to go through a glove and the skin under it and leave oil in the tissue, an injection injury that looks like nothing and needs a surgeon. A leak is found with a piece of cardboard held at arm's length, with the power unit stopped, never with a hand.",
+    "operators-word": "You accepted the plant operator's word that the pump was off and moved on without the lock. An operator's word is a moment; a lock is the whole dive. The pump that is off can be started from the control room, by a timer, by the next shift or by the operator who forgot, and 29 CFR 1910.147 has the energy isolated and locked by the people exposed to it, with their own lock. The dive team's lock goes on, and only the dive supervisor takes it off.",
+    "reach-into-grate": "You told the diver to clear the weed off the grate by hand before the lockout was proven. A grate with any flow behind it is a differential-pressure trap: the pull is invisible from the outside and does not let go once a hand or an arm is against the bars, and a diver held on a grate cannot be pulled off by the tender or the standby. Nothing goes near the grate until the pump is locked, tried and the streamer hangs slack.",
+    "tool-live-handover": "You went to pass the grinder down the tool line with the power unit running and the tool's trigger free. 29 CFR 1910.422 has a surface-supplied power tool de-energised before it goes in or comes out of the water, because a live tool on a line is a tool that starts when the line snags the trigger, beside a diver's hands and umbilical. The power unit is stopped, the tool is passed, and the diver calls for power once it is in their hands."
+  },
+  "id": "cd-hydraulic-tools-and-suction-hazards-underwater",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "verify-no-flow",
+      "alert": "The plant operator is at the pump house on the radio to their control room — the plant needs the intake pump running now and they are asking you to lift the lock.",
+      "cue": "Call the dive supervisor on the radio and put the operator to them — the lock stays on until the supervisor's count.",
+      "delay": 2,
+      "id": "pump-request",
+      "kind": "Plant operator asking for the pump back",
+      "missNote": "The operator's request went unanswered while the tender kept their eyes on the streamer; the operator called the control room to override the disconnect, and the supervisor found out from the plant rather than from their own tender.",
+      "seconds": 14,
+      "target": "supervisor-radio",
+      "why": "A tender does not negotiate a lock: the lock is the diver's life and it comes off on the dive supervisor's count of every person clear of the water, whatever the plant needs. The operator is not refused and not argued with; they are put to the supervisor, who holds the key and the plan, and who decides whether the diver comes up so the plant can have its pump. The tender's hand does not go near the lock box.",
+      "wrongNote": "The radio to the supervisor — the operator's request goes to the person who holds the key, not to you."
+    },
+    {
+      "after": "hose-tend",
+      "alert": "The pressure coupling at the deck manifold has started weeping oil — a sheen spreading on the deck plate beside your boots.",
+      "cue": "Stop the power unit, tell the diver 'tool dead — hold', and keep your hands off the coupling until the pressure is gone.",
+      "delay": 2,
+      "id": "coupling-weep",
+      "kind": "Hydraulic coupling weeping at the manifold",
+      "missNote": "The coupling parted with the power unit running; the pressure hose whipped against the rail and oil went into the water beside the diver's umbilical before the tender reached the stop.",
+      "seconds": 14,
+      "target": "hpu-stop",
+      "why": "A weeping coupling under pressure is a pinhole about to become a jet, and a jet of hydraulic fluid goes through a glove; the power unit is stopped first so the pressure goes out of the line, the diver is told the tool is dead so they are not surprised by a stalled grinder, and only then is the coupling looked at — with cardboard, at arm's length. Oil on the deck goes to the spill kit; oil on the Bay goes to the supervisor.",
+      "wrongNote": "The power unit's stop — take the pressure out of the line before anything else."
+    }
+  ],
+  "lateNotes": {
+    "flow-streamer": "The streamer is watched once the lock is on and the start has been tried.",
+    "hose-tend": "The hoses are tended once the tool is in the diver's hands and powered on their call.",
+    "intake-log": "The log is written once the diver is out and the lock is lifted on the count."
+  },
+  "name": "Hydraulic Tools & Suction Hazards Underwater",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "commercial-diving-and-scientific-scuba"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "1.5x2.58x1.5",
+        "count": 1,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bypass-open",
+      "flow-streamer",
+      "hand-on-leak",
+      "hose-couplings",
+      "hose-tend",
+      "hpu-flow",
+      "hpu-stop",
+      "hydraulic-grinder",
+      "intake-log",
+      "jsa-board",
+      "lock-box",
+      "operators-word",
+      "pump-disconnect",
+      "reach-into-grate",
+      "recover-call",
+      "return-flow",
+      "supervisor-radio",
+      "team-board",
+      "team-lock",
+      "tool-line-hook",
+      "tool-live-handover",
+      "try-start",
+      "unmarked-pipe"
+    ],
+    "meshes": 220
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "At the board with the supervisor and the plant operator: the intake and every pipe that draws from this water, what locks each one out, who holds the key, and the rule — nothing near the grate until the streamer hangs slack.",
+      "id": "dp-brief",
+      "kind": "select",
+      "prompt": "At the board with the supervisor and the plant operator: the intake and every pipe that draws from this water, what locks each one out, who holds the key, and the rule — nothing near the grate until the streamer hangs slack.",
+      "target": "jsa-board",
+      "title": "Take the differential-pressure brief at the JSA board",
+      "why": "The intake is the hazard nobody sees: water moving through a grate looks like still water from a metre away and holds a diver against the bars with a force no tender can match. 29 CFR 1910.421 has the dive planned around the hazardous activities nearby, and this brief is where the plant's drawings meet the dive team's plan — every pipe, every pump, every way one could start — before anyone dresses."
+    },
+    {
+      "cue": "Walk the apron and the pump house with the drawing: every pipe entering the water, every valve on the intake line, every pump that can draw from it — and everything the drawing does not show.",
+      "id": "identify-intakes",
+      "itemNames": {
+        "bypass-open": "bypass valve to the intake left open",
+        "unmarked-pipe": "second intake pipe not on the plant's drawing"
+      },
+      "itemNotes": {
+        "bypass-open": "The bypass valve on the intake line is standing open. With the main pump locked, a bypass can still let another pump or a gravity line draw through the grate.",
+        "unmarked-pipe": "A second pipe enters the water beside the main intake and it is not on the drawing the operator brought. Whatever it feeds can draw on the same grate the diver will work at."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the apron and the pump house with the drawing: every pipe entering the water, every valve on the intake line, every pump that can draw from it — and everything the drawing does not show.",
+      "targets": [
+        "unmarked-pipe",
+        "bypass-open"
+      ],
+      "title": "Walk the intake and find every way water can move through the grate",
+      "why": "A lockout only isolates what the team knows about, and the drawing is what the plant remembers, not what is there. The pipe that is not on it and the valve someone left open are the two ways a grate stays live after the pump is locked, and they are found by walking the line with eyes on the pipes rather than by trusting the paper. Every source found is a source the lockout can include."
+    },
+    {
+      "cue": "With the operator: open the pump's disconnect, hang the dive team's lock and tag on it with the supervisor's key, then try the start at the pump's control and watch nothing happen.",
+      "id": "lockout",
+      "itemNames": {
+        "pump-disconnect": "intake pump's disconnect opened",
+        "team-lock": "dive team's lock and tag on the disconnect",
+        "try-start": "start tried at the pump's control with the lock on — nothing"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — open the disconnect, hang the team's lock and tag, then try the start; the try proves the lock, so it comes last.",
+      "prompt": "With the operator: open the pump's disconnect, hang the dive team's lock and tag on it with the supervisor's key, then try the start at the pump's control and watch nothing happen.",
+      "targets": [
+        "pump-disconnect",
+        "team-lock",
+        "try-start"
+      ],
+      "title": "Open the disconnect, lock and tag it, then try the start",
+      "why": "29 CFR 1910.147 has the energy isolated, locked by the people exposed to it and proven by trying to start it, in that order, and the dive team's lock goes on beside the plant's because the plant's lock protects the plant. The try-start is the proof: a disconnect that looks open, a control that still spins the pump, a bypass that feeds another pump — the try finds them while the diver is still on deck."
+    },
+    {
+      "cue": "The diver lowers the streamer on its pole to the grate from the stage. Watch it on the video: it hangs straight down and does not pull toward the bars for the whole watch.",
+      "holdBreakNote": "You looked away from the streamer — the watch is the proof. Eyes on the video until it has hung slack for the whole watch.",
+      "id": "verify-no-flow",
+      "kind": "hold",
+      "prompt": "The diver lowers the streamer on its pole to the grate from the stage. Watch it on the video: it hangs straight down and does not pull toward the bars for the whole watch.",
+      "seconds": 5,
+      "target": "flow-streamer",
+      "title": "Watch the streamer hang slack at the grate",
+      "why": "The lock and the try-start prove the pump; the streamer proves the water. A ribbon at the grate that pulls toward the bars means something is still drawing — a bypass, a gravity line, the pipe nobody drew — and it is watched long enough to be sure because flow through a big intake can start slowly. Only a streamer that hangs slack for the whole watch lets the supervisor clear the diver toward the grate."
+    },
+    {
+      "cue": "At the hydraulic power unit, set the flow and the relief to the values on the grinder's manual card, engine idling, tool circuit not yet live.",
+      "id": "hpu-set",
+      "kind": "turn",
+      "prompt": "At the hydraulic power unit, set the flow and the relief to the values on the grinder's manual card, engine idling, tool circuit not yet live.",
+      "target": "hpu-flow",
+      "title": "Set the power unit to the tool's manual",
+      "turn": {
+        "label": "HPU — FLOW",
+        "turns": 1.2
+      },
+      "why": "A diver-operated hydraulic tool is built for one flow and one pressure, and the power unit is set to them from the tool's own manual rather than left where the last job put it; too much flow overspeeds the grinder and bursts the wheel in the diver's hands, too little stalls it against the work. The setting is made and read back to the supervisor with the tool circuit still dead, because the tool goes live on the diver's call and not before."
+    },
+    {
+      "cue": "Walk both hydraulic hoses from the manifold to the tool: jackets whole, couplings seated and pinned, the return hose clear of kinks, and the whip check on the coupling pair.",
+      "id": "hose-check",
+      "kind": "select",
+      "prompt": "Walk both hydraulic hoses from the manifold to the tool: jackets whole, couplings seated and pinned, the return hose clear of kinks, and the whip check on the coupling pair.",
+      "target": "hose-couplings",
+      "title": "Check the hoses and couplings before the tool goes down",
+      "why": "Hydraulic hoses carry their pressure at the coupling and the jacket, and a coupling that is not pinned comes apart under the first load with the diver holding the tool; the whip check is what stops a parted hose flailing. The check is made on deck with the circuit dead, because a leak found underwater is a diver in oil and a tool that has to come up, and a pinhole is found by cardboard, never by hand."
+    },
+    {
+      "cue": "With the power unit stopped and the tool circuit dead, clip the grinder to the tool line and lower it to the diver at the stage, then wait for their call before the circuit goes live.",
+      "drag": {
+        "missNote": "Not on the tool line — the grinder goes down clipped to the tool line, cold, never on the umbilical.",
+        "radius": 0.5,
+        "to": "tool-line-hook"
+      },
+      "id": "tool-handover",
+      "kind": "drag",
+      "prompt": "With the power unit stopped and the tool circuit dead, clip the grinder to the tool line and lower it to the diver at the stage, then wait for their call before the circuit goes live.",
+      "target": "hydraulic-grinder",
+      "title": "Hand the grinder down the tool line — cold",
+      "why": "29 CFR 1910.422 has a power tool supplied from the surface de-energised before it goes into the water and before it comes out, because a live tool on a line is a tool that can start on a snagged trigger beside the diver. The grinder goes down cold on its own line, not on the umbilical, and the tender waits for the diver's 'tool in hand — power on' before the circuit is opened at the manifold."
+    },
+    {
+      "cue": "Pay the hose pair out over the roller beside the umbilical tender as the diver works, keeping the hoses on their own side — not fouling the umbilical, not pulling on the tool.",
+      "holdBreakNote": "The hoses went out of band — pulling on the tool or across the umbilical. Back in step, on their own side.",
+      "id": "hose-tend",
+      "kind": "track",
+      "prompt": "Pay the hose pair out over the roller beside the umbilical tender as the diver works, keeping the hoses on their own side — not fouling the umbilical, not pulling on the tool.",
+      "seconds": 6,
+      "target": "hose-tend",
+      "title": "Tend the hydraulic hoses clear of the umbilical",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "HOSES",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "The hoses are a second set of lines to the diver and they are tended like the first: enough slack that the tool moves with the diver, never enough that a bight of hose lies across the umbilical on the bottom. Hydraulic hoses under pressure are stiff and heavy, and a twist in them pulls the tool in the diver's hands; the tool tender feels the diver's work through the hoses the way the umbilical tender feels it through the line."
+    },
+    {
+      "cue": "Watch the return-line indicator at the manifold as the diver works and commit when it sits in the band the manual gives for the grinder under load.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "RETURN vs MANUAL",
+        "missNote": "Outside the band — read the return indicator against the manual's band for the tool under load.",
+        "speed": 0.66
+      },
+      "id": "read-return",
+      "kind": "gauge",
+      "prompt": "Watch the return-line indicator at the manifold as the diver works and commit when it sits in the band the manual gives for the grinder under load.",
+      "target": "return-flow",
+      "title": "Read the return flow against the tool's manual",
+      "why": "The return flow is the surface's window on the tool: in the manual's band the grinder is turning as designed; low, the tool is stalled against the work or a hose is kinked; high, a coupling has parted underwater and the circuit is pumping oil into the Bay beside the diver. The tender reads it against the manual and not against a feeling, and calls anything outside the band to the supervisor before the diver notices."
+    },
+    {
+      "cue": "The diver calls the job done. Close the tool circuit at the manifold, hear the diver confirm 'tool dead', then haul the grinder up the tool line with the hoses taken in beside it.",
+      "id": "tool-recovery",
+      "kind": "select",
+      "prompt": "The diver calls the job done. Close the tool circuit at the manifold, hear the diver confirm 'tool dead', then haul the grinder up the tool line with the hoses taken in beside it.",
+      "target": "recover-call",
+      "title": "Recover the tool dead on the line",
+      "why": "The tool comes out of the water the way it went in: de-energised first, confirmed by the diver, then hauled — because a grinder coming up a line with its circuit live is a wheel that can spin at the rail beside the tender's hands. The hoses come in with it so nothing is left in the water for the diver's ascent to foul, and the tool is laid on the deck with the circuit still closed."
+    },
+    {
+      "cue": "The diver is out and on the stage, the standby is dressed down, the supervisor counts every person clear of the water and says so — then, and only then, the supervisor's key takes the team's lock off the disconnect and the operator is told.",
+      "id": "lift-lock",
+      "kind": "select",
+      "prompt": "The diver is out and on the stage, the standby is dressed down, the supervisor counts every person clear of the water and says so — then, and only then, the supervisor's key takes the team's lock off the disconnect and the operator is told.",
+      "target": "lock-box",
+      "title": "Lift the lock on the supervisor's count only",
+      "why": "The lock comes off last and on a count, because the plant wants its pump the moment the tool is up and a diver at the ladder is still in the water. 29 CFR 1910.147 has the lock removed by the person who applied it after the area is checked; here that is the dive supervisor, on a count of every diver and every line out of the water, and the operator hears 'you have your pump' only from them."
+    },
+    {
+      "cue": "At the log: the sources found — the unmarked pipe and the bypass — the disconnect, the lock and the try, the streamer watch, the power unit setting, the weeping coupling and the plant's request for the pump, and the count before the lock was lifted.",
+      "id": "intake-log",
+      "kind": "select",
+      "prompt": "At the log: the sources found — the unmarked pipe and the bypass — the disconnect, the lock and the try, the streamer watch, the power unit setting, the weeping coupling and the plant's request for the pump, and the count before the lock was lifted.",
+      "target": "intake-log",
+      "title": "Write the lockout record and the dive log",
+      "why": "The record is what the next dive at this intake starts from: the pipe the drawing did not show is on it now, the bypass is on it, and so is the moment the plant asked for the pump back with a diver in the water. 29 CFR 1910.440 keeps the dive's record; the lockout record sits with it, and the coupling that wept goes on the equipment log for the technician."
+    },
+    {
+      "cue": "At the team board with the operator: the drawing to be corrected, the bypass, the coupling for the shop, the pump request and how it was handled, and how everyone is.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "At the team board with the operator: the drawing to be corrected, the bypass, the coupling for the shop, the pump request and how it was handled, and how everyone is.",
+      "target": "team-board",
+      "title": "Check in with the dive team and the operator",
+      "why": "A plant that asked for its pump with a diver near the grate is the most important thing that happened today, and it is said out loud with the operator there so the next request goes to the supervisor before it goes to anyone else. The drawing gets its missing pipe, the shop gets the coupling, and the Pile Drivers member assistance line is there for what the deck conversation does not settle."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — the Pile Drivers of the Carpenters — with the employer's employee assistance line behind it",
+  "tagline": "Nothing near the grate until the pump cannot run: the differential-pressure brief taken, the unmarked pipe and the open bypass found, the disconnect opened, the dive team's lock and tag applied and the start tried, the streamer watched hang slack at the grate while the plant asks for its pump back, the power unit set to the tool's manual, the couplings checked, the tool handed down cold, the hoses tended clear of the umbilical while a coupling weeps, the return flow read, the tool recovered dead, the lock lifted only on the supervisor's count, the log written",
+  "title": "SmartCiti.X~ Hydraulic Tools & Suction Hazards Underwater VR",
+  "trade": "Pile Drivers of the Carpenters diver-tender locking out a plant intake and tending a hydraulic tool to a diver, with the dive supervisor, the standby diver and the plant operator who wants the pump back",
+  "underwater": null,
+  "weather": "overcast"
+}

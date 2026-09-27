@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 613
+      "stations": 621
     },
     "trades": {
       "entry": "trades/index.html",
@@ -474,7 +474,15 @@
         "uw-intake-screen-cleaning-with-lockout",
         "uw-underwater-concrete-and-bag-placement",
         "uw-pipeline-crossing-inspection-dive",
-        "uw-rov-pre-dive-and-tether-management"
+        "uw-rov-pre-dive-and-tether-management",
+        "cd-dive-records-and-incident-review",
+        "cd-hydraulic-tools-and-suction-hazards-underwater",
+        "cd-low-visibility-and-night-dive-line-work",
+        "cd-scientific-scuba-buddy-check-and-lost-buddy-drill",
+        "cd-decompression-chamber-operations-and-post-dive",
+        "cd-rov-launch-recovery-and-tether-management",
+        "cd-pier-piling-inspection-and-wrap-repair",
+        "cd-underwater-wet-welding-and-cutting"
       ]
     },
     {
@@ -5300,6 +5308,67 @@
       "ladder": {
         "levels": 20,
         "lessons": 1521,
+        "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
+    },
+    {
+      "id": "commercial-diving-and-scientific-scuba",
+      "name": "Commercial Diving & Scientific Scuba",
+      "union": "Pile Drivers of the Carpenters (UBC) and LIUNA as training bodies; the scientific diving community's own diving safety manuals for the scuba work",
+      "certification": "Programme completion record; the dive credentials it rehearses are issued only by their own bodies — OSHA 29 CFR 1910 Subpart T commercial diving operations (29 CFR 1910.421 through 1910.425, 1910.430 and 1910.440), the ADCI consensus standards, AWS D3.6 for the wet weld, USCG 46 CFR 197 Subpart B from a vessel, 29 CFR 1910.424 and the programme's diving safety manual for the scientific scuba; every depth, gas, decompression, current and time limit lives in the dive plan and the tables the supervisor holds",
+      "summary": "Eight jobs of the commercial dive crew and the scientific scuba pair, weighted to the surface side that keeps the diver alive: the welding tender at the knife switch, the diver reading a pile by hand and fitting its wrap, the ROV tender's tether, the chamber attendant and the post-dive watch, the scientific pair's buddy check and lost-buddy drill, a night search on a guideline, an intake locked out before a hydraulic tool goes down, and the paper that closes the day honestly. No depth, gas, decompression or time figure is ever stated; those live in the dive plan and the tables the supervisor holds.",
+      "accent": "#1f6f8b",
+      "stations": [
+        {
+          "app": "smartcity",
+          "id": "cd-underwater-wet-welding-and-cutting",
+          "why": "The switch that makes the diver's rod live is on deck, so the tender learns to close it on the spoken call and nothing else, with the ground on the work and the leads walked before anyone breathes through a helmet."
+        },
+        {
+          "app": "smartcity",
+          "id": "cd-pier-piling-inspection-and-wrap-repair",
+          "why": "A pile is read by hand before the camera and the gauge, its findings said to the surface log as they are found, and a wrap fitted to the owner's form rather than to how it looks in green water."
+        },
+        {
+          "app": "smartcity",
+          "id": "cd-rov-launch-recovery-and-tether-management",
+          "why": "A vehicle on a dive site is tended like a diver — the tether flaked, paid out in step and braked on a snag — and it never crosses to the diver's side of the boat without the supervisor's word."
+        },
+        {
+          "app": "smartcity",
+          "id": "cd-decompression-chamber-operations-and-post-dive",
+          "why": "The chamber is checked before it is needed and the surfaced diver is watched rather than asked, so a rubbed shoulder is reported to the supervisor at once and the attendant goes in with a lock that works one door at a time."
+        },
+        {
+          "app": "smartcity",
+          "id": "cd-scientific-scuba-buddy-check-and-lost-buddy-drill",
+          "why": "The buddy check runs in the same order every dive and the lost-buddy drill is worked exactly as the plan wrote it — look for its time, ascend on the line, meet at the surface — so two divers never search each other apart."
+        },
+        {
+          "app": "smartcity",
+          "id": "cd-low-visibility-and-night-dive-line-work",
+          "why": "In black water the guideline is the way home and the light is the voice, so tie-offs go on in order, a hand stays on the line through a silt-out, and a failed primary light is the abort the plan already wrote."
+        },
+        {
+          "app": "smartcity",
+          "id": "cd-hydraulic-tools-and-suction-hazards-underwater",
+          "why": "Nothing goes near an intake grate until the pump is locked, tried and proven slack by a streamer, and the lock stays on against the plant until the supervisor has counted every diver out of the water."
+        },
+        {
+          "app": "smartcity",
+          "id": "cd-dive-records-and-incident-review",
+          "why": "The record is written from the slate and never from memory, released whole or not at all, and the debrief names a condition as the cause so the corrective action changes the procedure and not the diver."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1650,
         "tasks": 120,
         "atBar": 20,
         "partial": 0,
@@ -31111,7 +31180,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 271,
+      "meshes": 266,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -31771,7 +31840,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "100",
@@ -56238,6 +56307,670 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=me-kelp-transect-survey-and-photo-quadrats"
+    },
+    {
+      "app": "smartcity",
+      "id": "cd-dive-records-and-incident-review",
+      "name": "Dive Records & Incident Review",
+      "title": "SmartCiti.X~ Dive Records & Incident Review VR",
+      "tagline": "The dive on paper: the record's fields read from the manual, the blank times and the missing signature found, the dive record then the daily log then the equipment log in order, the slate copied line by line while a client asks for a copy without the incident, the record filed for retention, the diver's account heard without interruption until a voice is raised, the timeline built, the cause found in the conditions, the manual turned to the procedure it amends, the action written with an owner, the assessment recorded, the action posted and the crew checked in",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers of the Carpenters diver-tender completing the dive record and the daily log and running an incident debrief with the dive supervisor, the diver, the standby diver and a client representative",
+      "union": null,
+      "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T — 29 CFR 1910.440 recordkeeping (the record of each dive, the decompression procedure assessment where a diver showed symptoms, and the retention of both), 29 CFR 1910.420 the safe practices manual the record's fields come from, 29 CFR 1910.423 post-dive procedures and 29 CFR 1910.421 the planning the next dive inherits; ADCI consensus standards for dive logs and incident reporting; USCG 46 CFR 197 Subpart B for the vessel's own record where the dive was from a vessel; every time and depth on the record comes from the slate and the tables, never from memory",
+      "accent": "#b8a0e0",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "track",
+        "drag",
+        "hold",
+        "gauge",
+        "turn"
+      ],
+      "badge": {
+        "id": "written-as-it-was",
+        "name": "Written As It Was",
+        "note": "Every time from the slate, nothing backdated, nothing left out for anyone, and a cause that named a condition rather than a person"
+      },
+      "meshes": 205,
+      "lights": 0,
+      "overBudget": false,
+      "index": "723",
+      "flat": false,
+      "system": "Paper Trail",
+      "currency": "SIGNED LINES",
+      "ranks": [
+        "Tender",
+        "Record Keeper",
+        "Log Keeper",
+        "Debrief Lead",
+        "Records Certified"
+      ],
+      "awards": [
+        {
+          "id": "gaps-found",
+          "name": "Gaps Found",
+          "note": "The blank times and the missing signature found before filing"
+        },
+        {
+          "id": "in-sequence",
+          "name": "In Sequence",
+          "note": "The timeline committed in the right order first time"
+        },
+        {
+          "id": "no-blame",
+          "name": "No Blame",
+          "note": "No hazard reached for from the brief to the check-in"
+        },
+        {
+          "id": "clean-paper",
+          "name": "Clean Paper",
+          "note": "No corrections from the brief to the check-in"
+        },
+        {
+          "id": "slate-to-record",
+          "name": "Slate To Record",
+          "note": "The times copied in band the whole way"
+        },
+        {
+          "id": "posted-quick",
+          "name": "Posted Quick",
+          "note": "Action posted inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cd-dive-records-and-incident-review"
+    },
+    {
+      "app": "smartcity",
+      "id": "cd-hydraulic-tools-and-suction-hazards-underwater",
+      "name": "Hydraulic Tools & Suction Hazards Underwater",
+      "title": "SmartCiti.X~ Hydraulic Tools & Suction Hazards Underwater VR",
+      "tagline": "Nothing near the grate until the pump cannot run: the differential-pressure brief taken, the unmarked pipe and the open bypass found, the disconnect opened, the dive team's lock and tag applied and the start tried, the streamer watched hang slack at the grate while the plant asks for its pump back, the power unit set to the tool's manual, the couplings checked, the tool handed down cold, the hoses tended clear of the umbilical while a coupling weeps, the return flow read, the tool recovered dead, the lock lifted only on the supervisor's count, the log written",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers of the Carpenters diver-tender locking out a plant intake and tending a hydraulic tool to a diver, with the dive supervisor, the standby diver and the plant operator who wants the pump back",
+      "union": null,
+      "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T — 29 CFR 1910.421 pre-dive planning and the assessment of hazardous activities nearby, 29 CFR 1910.422 procedures during the dive (power tools supplied from the surface and de-energised before they are placed in or retrieved from the water), 29 CFR 1910.430 equipment and 29 CFR 1910.425 the tended diver; OSHA 29 CFR 1910.147 lockout and tagout of the intake pump; ADCI consensus standards on differential-pressure hazards and diver-operated tools; USCG 46 CFR 197 Subpart B where the dive is from a vessel; every pressure, flow and depth per the tool's manual and the dive plan",
+      "accent": "#e0844a",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "hold",
+        "turn",
+        "drag",
+        "track",
+        "gauge"
+      ],
+      "badge": {
+        "id": "lock-held",
+        "name": "Lock Held",
+        "note": "The intake locked, tried and proven slack before the diver went near it, and the lock held against the plant until the count was in"
+      },
+      "meshes": 220,
+      "lights": 0,
+      "overBudget": false,
+      "index": "722",
+      "flat": false,
+      "system": "Cold Grate",
+      "currency": "LOCK COUNTS",
+      "ranks": [
+        "Deckhand",
+        "Tender",
+        "Tool Tender",
+        "Lead Tender",
+        "Intake Work Certified"
+      ],
+      "awards": [
+        {
+          "id": "found-the-bypass",
+          "name": "Found The Bypass",
+          "note": "The unmarked pipe and the open bypass found before the lock went on"
+        },
+        {
+          "id": "to-the-manual",
+          "name": "To The Manual",
+          "note": "The return flow committed inside the manual's band first time"
+        },
+        {
+          "id": "cold-handover",
+          "name": "Cold Handover",
+          "note": "No hazard reached for from the brief to the log"
+        },
+        {
+          "id": "clean-lockout",
+          "name": "Clean Lockout",
+          "note": "No corrections from the brief to the check-in"
+        },
+        {
+          "id": "hoses-clear",
+          "name": "Hoses Clear",
+          "note": "The hoses tended in band the whole job"
+        },
+        {
+          "id": "logged-quick",
+          "name": "Logged Quick",
+          "note": "Log written inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cd-hydraulic-tools-and-suction-hazards-underwater"
+    },
+    {
+      "app": "smartcity",
+      "id": "cd-low-visibility-and-night-dive-line-work",
+      "name": "Low-Visibility & Night Dive Line Work",
+      "title": "SmartCiti.X~ Low-Visibility & Night Dive Line Work VR",
+      "tagline": "A search you cannot see: the pattern and the signals read on the slate, the dim primary and the unclipped backup found at the stage, the primary and secondary tie-offs made in order, the guideline laid taut through a silt-out with a hand on the line, the circular sweep held by feel while the primary light dies and the backup comes on, the found frame marked, the OK given by light, the abort called, the arrows read home, the reel taken in on the way back to the downline, the log written",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers of the Carpenters commercial diver on a night search in low visibility with a buddy diver, the dive supervisor and the tender at the stage above",
+      "union": null,
+      "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T — 29 CFR 1910.421 pre-dive planning for the conditions and the briefing, 29 CFR 1910.422 procedures during the dive (communications, the tended diver, the termination of the dive), 29 CFR 1910.424 SCUBA diving where the search is on scuba with a buddy and 29 CFR 1910.425 the tended surface-supplied diver; ADCI consensus standards for night and low-visibility diving; USCG 46 CFR 197 Subpart B where the dive is from a vessel; visibility, distance, depth and time per the dive plan",
+      "accent": "#c9d84a",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": "bay-underwater",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "track",
+        "hold",
+        "drag",
+        "gauge",
+        "turn"
+      ],
+      "badge": {
+        "id": "hand-on-the-line",
+        "name": "Hand On The Line",
+        "note": "The guideline never let go of in the dark, the arrows read home, the abort called the moment the plan said"
+      },
+      "meshes": 133,
+      "lights": 0,
+      "overBudget": false,
+      "index": "721",
+      "flat": false,
+      "system": "Black Water",
+      "currency": "LINE ARROWS",
+      "ranks": [
+        "Tender",
+        "Diver",
+        "Night Diver",
+        "Search Diver",
+        "Line Work Certified"
+      ],
+      "awards": [
+        {
+          "id": "lights-checked",
+          "name": "Lights Checked",
+          "note": "The dim primary and the unclipped backup found at the stage"
+        },
+        {
+          "id": "arrows-home",
+          "name": "Arrows Home",
+          "note": "The line arrow read home inside the band first time"
+        },
+        {
+          "id": "never-let-go",
+          "name": "Never Let Go",
+          "note": "No hazard reached for from the slate to the log"
+        },
+        {
+          "id": "clean-search",
+          "name": "Clean Search",
+          "note": "No corrections from the slate to the check-in"
+        },
+        {
+          "id": "taut-line",
+          "name": "Taut Line",
+          "note": "The guideline laid in band the whole way out"
+        },
+        {
+          "id": "logged-quick",
+          "name": "Logged Quick",
+          "note": "Log written inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cd-low-visibility-and-night-dive-line-work"
+    },
+    {
+      "app": "smartcity",
+      "id": "cd-scientific-scuba-buddy-check-and-lost-buddy-drill",
+      "name": "Scientific Scuba: Buddy Check & Lost-Buddy Drill",
+      "title": "SmartCiti.X~ Scientific Scuba: Buddy Check & Lost-Buddy Drill VR",
+      "tagline": "Two divers, one plan: the slate read for the task and the lost-buddy rule, the buddy check run in order from buoyancy to the final OK, the loose tank band and the missing cutter found, the descent line clipped to its buoy, the OK given to the tender, the descent held to the buddy's pace through an ear problem, the transect start held while the buddy lays tape, the buddy lost from view and the drill worked — look for the plan's time, ascend on the line, deploy the marker, signal the skiff, reunite — then fins in the bin and the log written",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Scientific scuba diver on an agency survey programme, with a dive buddy, the surface tender in the skiff and the programme's dive safety officer as the supervisor of the day",
+      "union": null,
+      "certification": "The programme's diving safety manual and its diving control board, as the scientific diving community's own standard; OSHA 29 CFR 1910 Subpart T where the dive falls under it — 29 CFR 1910.424 SCUBA diving (the buddy system, the standby diver and the tended or line-guided dive), 29 CFR 1910.421 pre-dive planning and briefing, 29 CFR 1910.422 procedures during the dive (water entry and exit, the termination of the dive) and 29 CFR 1910.423 post-dive procedures; ADCI consensus standards where a contractor's crew supports the survey; USCG 33 CFR 83 for the skiff's lights and the dive flag on the water; every depth, time and gas limit per the dive plan",
+      "accent": "#62c6b8",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "track",
+        "hold",
+        "gauge",
+        "turn"
+      ],
+      "badge": {
+        "id": "never-lost-twice",
+        "name": "Never Lost Twice",
+        "note": "The buddy check run in order and the lost-buddy drill worked exactly as the plan wrote it, without a search past its time"
+      },
+      "meshes": 202,
+      "lights": 0,
+      "overBudget": false,
+      "index": "720",
+      "flat": false,
+      "system": "Buddy Line",
+      "currency": "SLATE MARKS",
+      "ranks": [
+        "Diver in Training",
+        "Scientific Diver",
+        "Lead Diver",
+        "Divemaster of the Day",
+        "Buddy Drill Certified"
+      ],
+      "awards": [
+        {
+          "id": "bwraf-in-order",
+          "name": "In Order",
+          "note": "The buddy check run from buoyancy to the final OK without a skip"
+        },
+        {
+          "id": "plan-time",
+          "name": "The Plan's Time",
+          "note": "The lost-buddy look committed inside the plan's band first time"
+        },
+        {
+          "id": "no-shortcuts",
+          "name": "No Shortcuts",
+          "note": "No hazard reached for from the slate to the log"
+        },
+        {
+          "id": "clean-dive",
+          "name": "Clean Dive",
+          "note": "No corrections from the slate to the check-in"
+        },
+        {
+          "id": "buddys-pace",
+          "name": "Buddy's Pace",
+          "note": "The descent held to the buddy the whole way"
+        },
+        {
+          "id": "logged-quick",
+          "name": "Logged Quick",
+          "note": "Dive log written inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cd-scientific-scuba-buddy-check-and-lost-buddy-drill"
+    },
+    {
+      "app": "smartcity",
+      "id": "cd-decompression-chamber-operations-and-post-dive",
+      "name": "Decompression Chamber Operations & Post-Dive",
+      "title": "SmartCiti.X~ Decompression Chamber Operations & Post-Dive VR",
+      "tagline": "The attendant's chamber: the plan read with the operator, grit on the door seat and an oily rag in the lock found, the medical lock worked one door at a time, the comms proven both ways, the BIBS supply opened, the lighter and the phone left in the bin, the surfaced diver watched through the observation period, a sore shoulder reported instead of shrugged off, the attendant in with the diver, the watch kept as the operator presses down with comms dropping to knock signals, the analyser read to the operator's band, water passed through the lock and the log written",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers of the Carpenters diver-tender as chamber attendant on a decompression dive, with the chamber operator, the dive supervisor holding the tables, and the surfaced diver under observation",
+      "union": null,
+      "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T — 29 CFR 1910.423 post-dive procedures (the diver's condition, instructions to report symptoms, the recompression chamber and the post-dive observation), 29 CFR 1910.430 decompression chambers and their equipment, 29 CFR 1910.410 dive team qualifications including first aid and CPR and 29 CFR 1910.440 the record of the dive and its decompression procedure assessment; ADCI consensus standards for chamber operations and the inside attendant; USCG 46 CFR 197 Subpart B where the chamber is aboard a vessel; the tables the supervisor holds carry every pressure, depth and time",
+      "accent": "#6fb3e0",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "turn",
+        "drag",
+        "hold",
+        "track",
+        "gauge"
+      ],
+      "badge": {
+        "id": "reported-not-shrugged",
+        "name": "Reported, Not Shrugged",
+        "note": "Every symptom the surfaced diver showed said to the supervisor at once, the chamber ready before it was needed"
+      },
+      "meshes": 196,
+      "lights": 0,
+      "overBudget": false,
+      "index": "719",
+      "flat": false,
+      "system": "Inside Attendant",
+      "currency": "LOCK CYCLES",
+      "ranks": [
+        "Tender",
+        "Chamber Tender",
+        "Attendant",
+        "Lead Attendant",
+        "Chamber Crew Certified"
+      ],
+      "awards": [
+        {
+          "id": "lock-clean",
+          "name": "Lock Clean",
+          "note": "The grit and the rag found before the chamber was needed"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In The Band",
+          "note": "The analyser committed inside the operator's band first time"
+        },
+        {
+          "id": "nothing-in-pockets",
+          "name": "Nothing In Pockets",
+          "note": "No hazard reached for from the brief to the log"
+        },
+        {
+          "id": "clean-watch",
+          "name": "Clean Watch",
+          "note": "No corrections from the brief to the check-in"
+        },
+        {
+          "id": "steady-watch",
+          "name": "Steady Watch",
+          "note": "The attendant's watch kept in band the whole press"
+        },
+        {
+          "id": "logged-quick",
+          "name": "Logged Quick",
+          "note": "Chamber log written inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cd-decompression-chamber-operations-and-post-dive"
+    },
+    {
+      "app": "smartcity",
+      "id": "cd-rov-launch-recovery-and-tether-management",
+      "name": "ROV Launch, Recovery & Tether Management",
+      "title": "SmartCiti.X~ ROV Launch, Recovery & Tether Management VR",
+      "tagline": "The vehicle's line in the tender's hands: the ROV plan read against the dive plan, the cracked float and the loose termination found, thrusters and lights function-tested, the tether flaked, the vehicle lowered on the davit, held at the surface through a skiff's wake, the tether paid out in step until it snags on a pile, the snag drill worked back along the path, the marks read to the plan, the hook landed on the bail, the vehicle hoisted, rinsed, tagged and logged",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers of the Carpenters diver-tender working as ROV tender on a pier survey, with the ROV pilot at the console, the dive supervisor and a diver in the water off the workboat",
+      "union": null,
+      "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T where an ROV works alongside divers — 29 CFR 1910.421 pre-dive planning of hazardous activities nearby, 29 CFR 1910.422 procedures during the dive (communications and the termination of the dive) and 29 CFR 1910.430 equipment; ADCI consensus standards for ROV operations on a dive site; USCG 46 CFR 197 Subpart B where the vessel is under Coast Guard jurisdiction and 33 CFR 83 for the workboat's lights and signals; the ROV manufacturer's manual and the dive plan hold every limit",
+      "accent": "#f2c14b",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "drag",
+        "turn",
+        "hold",
+        "track",
+        "gauge"
+      ],
+      "badge": {
+        "id": "tether-in-hand",
+        "name": "Tether In Hand",
+        "note": "The ROV's tether tended from the pad to the reel, never a bight on deck, never a hand near a live thruster"
+      },
+      "meshes": 248,
+      "lights": 0,
+      "overBudget": false,
+      "index": "718",
+      "flat": false,
+      "system": "Flight Deck",
+      "currency": "TETHER MARKS",
+      "ranks": [
+        "Deckhand",
+        "ROV Tender",
+        "Launch Tender",
+        "Lead Tender",
+        "ROV Deck Certified"
+      ],
+      "awards": [
+        {
+          "id": "found-on-the-pad",
+          "name": "Found On The Pad",
+          "note": "The cracked float and the loose termination found before the water"
+        },
+        {
+          "id": "marks-to-plan",
+          "name": "Marks To Plan",
+          "note": "The tether marks committed inside the plan's band first time"
+        },
+        {
+          "id": "clear-of-thrusters",
+          "name": "Clear Of Thrusters",
+          "note": "No hand near a live thruster, no bight, no wrap"
+        },
+        {
+          "id": "clean-flight",
+          "name": "Clean Flight",
+          "note": "No corrections from the brief to the check-in"
+        },
+        {
+          "id": "steady-payout",
+          "name": "Steady Pay-out",
+          "note": "Tether in band for the whole flight"
+        },
+        {
+          "id": "logged-fast",
+          "name": "Logged Fast",
+          "note": "ROV log written inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cd-rov-launch-recovery-and-tether-management"
+    },
+    {
+      "app": "smartcity",
+      "id": "cd-pier-piling-inspection-and-wrap-repair",
+      "name": "Pier Piling Inspection & Wrap Repair",
+      "title": "SmartCiti.X~ Pier Piling Inspection & Wrap Repair VR",
+      "tagline": "One pile, by hand and by camera: the inspection plan read on the slate, the growth cleared in a band without gouging, the necked section and the split found by touch, the camera held while the surface records, the pit gauge read to the form, the findings dictated to the surface log, the wrap zone brushed and flushed, the jacket halves fitted and banded, the seam checked, the grout hose landed, the plate photographed and the log closed — with a surging fender and a recall along the way",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers of the Carpenters commercial diver inspecting a pier pile by hand and camera and fitting a wrap repair, with the dive supervisor keeping the surface log, the tender and the standby diver",
+      "union": null,
+      "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T — 29 CFR 1910.421 pre-dive planning and the briefing, 29 CFR 1910.422 procedures during the dive (communications, hand and power tools), 29 CFR 1910.425 the tended surface-supplied diver and 29 CFR 1910.440 the record of the dive; ADCI consensus standards for underwater inspection and pier work; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; the owner's inspection form and the dive plan hold every measurement and limit",
+      "accent": "#7fbf9e",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": "bay-underwater",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "track",
+        "find",
+        "hold",
+        "gauge",
+        "sequence",
+        "drag",
+        "turn"
+      ],
+      "badge": {
+        "id": "read-by-hand",
+        "name": "Read By Hand",
+        "note": "The pile inspected by touch and camera in a marked band, the findings said to the surface as they were found, the wrap fitted to the form"
+      },
+      "meshes": 156,
+      "lights": 0,
+      "overBudget": false,
+      "index": "717",
+      "flat": false,
+      "system": "Pile Watch",
+      "currency": "PILE MARKS",
+      "ranks": [
+        "Tender",
+        "Diver",
+        "Inspection Diver",
+        "Repair Diver",
+        "Pier Inspection Certified"
+      ],
+      "awards": [
+        {
+          "id": "found-by-touch",
+          "name": "Found By Touch",
+          "note": "The necked section and the split found before the camera pass"
+        },
+        {
+          "id": "to-the-form",
+          "name": "To The Form",
+          "note": "The pit gauge committed inside the form's band first time"
+        },
+        {
+          "id": "line-clear",
+          "name": "Line Clear",
+          "note": "The umbilical never round the pile, never under the fender"
+        },
+        {
+          "id": "clean-pile",
+          "name": "Clean Pile",
+          "note": "No corrections from the slate to the check-in"
+        },
+        {
+          "id": "steady-scrape",
+          "name": "Steady Scrape",
+          "note": "The growth cleared in band the whole pass"
+        },
+        {
+          "id": "logged-quick",
+          "name": "Logged Quick",
+          "note": "Log closed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cd-pier-piling-inspection-and-wrap-repair"
+    },
+    {
+      "app": "smartcity",
+      "id": "cd-underwater-wet-welding-and-cutting",
+      "name": "Underwater Wet Welding & Cutting — Surface Side",
+      "title": "SmartCiti.X~ Underwater Wet Welding & Cutting — Surface Side VR",
+      "tagline": "The switch that makes the diver's rod live is on deck: the AWS D3.6 job briefing taken, the cut jacket and the loose lug found, the ground clamped to clean steel on the work, the machine idled and its polarity read, the output set to the procedure card, the diver's gloves and helmet insulation checked, the switch held open until 'make it hot', the bead tended while a deckhand wanders onto the stage, the comms garble answered by line pull, 'make it cold' before the rod change, the stub bagged, the bead read on video and the weld record written",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers of the Carpenters diver-tender working the knife switch and the leads for a diver-welder on a pier repair, with the dive supervisor, the diver-welder in the stage and the standby diver",
+      "union": null,
+      "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T — 29 CFR 1910.421 pre-dive procedures and the team briefing, 29 CFR 1910.422 procedures during the dive (power tools and welding equipment, communications), 29 CFR 1910.430 diving equipment and 29 CFR 1910.425 the tended surface-supplied diver; AWS D3.6 underwater welding code for the qualified procedure and the job briefing; ADCI consensus standards for the surface-controlled switch; USCG 46 CFR 197 Subpart B where the work is off a vessel; the welding procedure card and the dive plan hold every figure",
+      "accent": "#f0a04b",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "drag",
+        "sequence",
+        "turn",
+        "hold",
+        "track",
+        "gauge"
+      ],
+      "badge": {
+        "id": "switch-on-the-call",
+        "name": "Switch On The Call",
+        "note": "The knife switch closed only on 'make it hot' and opened on 'make it cold', every rod, every time"
+      },
+      "meshes": 216,
+      "lights": 0,
+      "overBudget": false,
+      "index": "716",
+      "flat": false,
+      "system": "Hot And Cold",
+      "currency": "ROD COUNT",
+      "ranks": [
+        "Deckhand",
+        "Lead Tender",
+        "Switch Tender",
+        "Welding Tender",
+        "Wet Weld Certified"
+      ],
+      "awards": [
+        {
+          "id": "clean-leads",
+          "name": "Clean Leads",
+          "note": "The cut jacket and the loose lug found before the machine ran"
+        },
+        {
+          "id": "card-set",
+          "name": "Set To The Card",
+          "note": "The output set inside the procedure card's band first time"
+        },
+        {
+          "id": "cold-hands",
+          "name": "Cold Hands",
+          "note": "No hazard reached for from the briefing to the log"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "No corrections from the briefing to the check-in"
+        },
+        {
+          "id": "steady-tend",
+          "name": "Steady Tend",
+          "note": "The lead tended in band for the whole bead"
+        },
+        {
+          "id": "quick-record",
+          "name": "Quick Record",
+          "note": "Weld record written inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cd-underwater-wet-welding-and-cutting"
     },
     {
       "app": "trades",

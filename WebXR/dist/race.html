@@ -6676,6 +6676,46 @@ function spudBarge(parent, x, y, z, opts = {}) {
 
 // ------------------------------------------------------------------ budget
 
+// ------------------------------------------------------- marine: ROV
+
+/**
+ * Observation-class ROV: 0.9 m long, 0.62 m wide, 0.5 m tall, an open
+ * aluminium frame under a yellow syntactic-foam flotation block, a camera
+ * dome forward, two LED lamps beside it, four thrusters (two horizontal
+ * aft, two vertical), a single-function manipulator jaw forward-low and a
+ * tether termination on top. Sits on its skids at y 0. Parts: thrusters,
+ * camera, lights, manipulator, tetherPoint.
+ */
+function rov(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0xf2c14b, fleetName: "SURVEY", unitNumber: "ROV-2", accent: 0x1b1e22 });
+  const rig = flRig(parent, x, y, z, opts, "rov", [0, 0, -0.07]);
+  const S = rig.shell;
+  const frame = [0x2b3138, { rough: 0.5, metal: 0.6, finish: "brushed" }];
+  for (const sx of [-0.29, 0.29]) flRod(S, 0.015, 0.86, sx, 0.02, 0, "z", ...frame);
+  for (const sx of [-0.29, 0.29]) flRod(S, 0.015, 0.86, sx, 0.3, 0, "z", ...frame);
+  for (const [sx, sz] of [[-0.29, -0.41], [0.29, -0.41], [-0.29, 0.41], [0.29, 0.41]]) flRod(S, 0.015, 0.3, sx, 0.16, sz, "y", ...frame);
+  box(S, 0.62, 0.16, 0.86, 0, 0.42, 0, lv.colour, { rough: 0.55, metal: 0.05, finish: "painted" });
+  box(S, 0.5, 0.2, 0.5, 0, 0.18, -0.05, 0x3a4148, { rough: 0.45, metal: 0.5 });
+  const cam = rig.part("camera", 0, 0.24, 0.4);
+  ball(cam, 0.09, 0, 0, 0, 0x6ab8d8, { rough: 0.05, metal: 0.2, opacity: 0.8, transparent: true, seg: 14, seg2: 10 });
+  const lights = rig.part("lights"); lights.userData.fleetBake = false;
+  for (const sx of [-0.2, 0.2]) {
+    const l = rig.part(`lamp${sx > 0 ? "R" : "L"}`, sx, 0.3, 0.4, lights);
+    cyl(l, 0.04, 0.04, 0.06, 0, 0, 0, 0xfff1c0, { emissive: 0xfff1c0, ei: 0.4, rough: 0.3, seg: 10 }).rotation.x = Math.PI / 2;
+  }
+  const thr = rig.part("thrusters");
+  for (const [tx, ty, tz, ax] of [[-0.22, 0.16, -0.4, "z"], [0.22, 0.16, -0.4, "z"], [-0.22, 0.28, 0.1, "y"], [0.22, 0.28, 0.1, "y"]]) {
+    const t = cyl(thr, 0.07, 0.07, 0.08, tx, ty, tz, 0x1b1e22, { rough: 0.5, metal: 0.4, seg: 12 });
+    if (ax === "z") t.rotation.x = Math.PI / 2;
+  }
+  const man = rig.part("manipulator", 0.12, 0.06, 0.44);
+  box(man, 0.04, 0.04, 0.16, 0, 0, 0, 0xc8ccd0, { rough: 0.4, metal: 0.7 });
+  box(man, 0.02, 0.06, 0.06, 0, 0, 0.1, 0xc8ccd0, { rough: 0.4, metal: 0.7 });
+  const tp = rig.part("tetherPoint", 0, 0.52, -0.2);
+  cyl(tp, 0.03, 0.03, 0.06, 0, 0, 0, 0x8a949d, { rough: 0.35, metal: 0.8, seg: 10 });
+  return flDone(rig, { footprint: FLEET_BUDGET.rov.footprint, livery: lv });
+}
+
 /**
  * Declared mesh count (after mergeStatic), footprint [width X, height Y,
  * length Z] in metres and required named parts per builder. check_fleet.mjs
@@ -6715,13 +6755,13 @@ const FLEET_BUDGET = {
   deckCrane: { build: "deckCrane", meshes: 12, footprint: [0.95, 4.58, 4.65], parts: ["slew", "mainBoom", "jib", "hook", "controls"], note: "pedestal knuckle-boom deck crane" },
   derelictBoat: { build: "derelictBoat", meshes: 12, footprint: [2.99, 3.9, 9], parts: ["hatch", "cleats", "slingPoints", "fuelVent"], note: "9 m derelict sailboat, dismasted and fouled" },
   spudBarge: { build: "spudBarge", meshes: 20, footprint: [6.38, 6.72, 12.2], parts: ["spuds", "bitts", "coaming", "sump", "navLights", "portLight", "starboardLight"], note: "12.2 m sectional spud barge with spill coaming" },
+  rov: { build: "rov", meshes: 9, footprint: [0.62, 0.55, 1.01], parts: ["thrusters", "camera", "lights", "manipulator", "tetherPoint"], note: "observation-class ROV, four thrusters, camera dome, manipulator" },
 };
 
 /** The builders by the name FLEET_BUDGET's `build` field uses. */
 const FLEET_BUILDERS = {
   semiTractor, trailer, tractorTrailer, boxTruck, pickup, sedan, cargoVan, deliveryVan, ambulance, fireEngine,
-  bucketTruck, busTransit, schoolBus, forkliftCounterbalance, yardHustler, workboat, motorYacht, yachtTender,
-  skiff, deckBarge, salvageCraneBarge, skimmerVessel, deckCrane, derelictBoat, spudBarge,
+  bucketTruck, busTransit, schoolBus, forkliftCounterbalance, yardHustler, workboat, motorYacht, yachtTender, skiff, deckBarge, salvageCraneBarge, skimmerVessel, deckCrane, derelictBoat, spudBarge, rov,
 };
 
 
@@ -9903,6 +9943,25 @@ const CURRICULA = [
       { app: "smartcity", id: "me-invasive-species-identification-and-reporting", why: "How a sighting becomes a record: photographed to protocol, positioned, sampled only as permitted and reported to the named body before anything is touched or said." },
     ],
   },
+  {
+    id: "commercial-diving-and-scientific-scuba",
+    name: "Commercial Diving & Scientific Scuba",
+    union: "Pile Drivers of the Carpenters (UBC) and LIUNA as training bodies; the scientific diving community's own diving safety manuals for the scuba work",
+    certification: "Programme completion record; the dive credentials it rehearses are issued only by their own bodies — OSHA 29 CFR 1910 Subpart T commercial diving operations (29 CFR 1910.421 through 1910.425, 1910.430 and 1910.440), the ADCI consensus standards, AWS D3.6 for the wet weld, USCG 46 CFR 197 Subpart B from a vessel, 29 CFR 1910.424 and the programme's diving safety manual for the scientific scuba; every depth, gas, decompression, current and time limit lives in the dive plan and the tables the supervisor holds",
+    guides: ["carpenters-ictf", "liuna-training-fund", "osha-1910-subpart-t", "osha-1910-424", "osha-1910-430", "osha-1910-440", "adci-consensus-standards", "aws-d3-6", "uscg-46-cfr-197-subpart-b"],
+    summary: "Eight jobs of the commercial dive crew and the scientific scuba pair, weighted to the surface side that keeps the diver alive: the welding tender at the knife switch, the diver reading a pile by hand and fitting its wrap, the ROV tender's tether, the chamber attendant and the post-dive watch, the scientific pair's buddy check and lost-buddy drill, a night search on a guideline, an intake locked out before a hydraulic tool goes down, and the paper that closes the day honestly. No depth, gas, decompression or time figure is ever stated; those live in the dive plan and the tables the supervisor holds.",
+    accent: "#1f6f8b",
+    stations: [
+      { app: "smartcity", id: "cd-underwater-wet-welding-and-cutting", why: "The switch that makes the diver's rod live is on deck, so the tender learns to close it on the spoken call and nothing else, with the ground on the work and the leads walked before anyone breathes through a helmet." },
+      { app: "smartcity", id: "cd-pier-piling-inspection-and-wrap-repair", why: "A pile is read by hand before the camera and the gauge, its findings said to the surface log as they are found, and a wrap fitted to the owner's form rather than to how it looks in green water." },
+      { app: "smartcity", id: "cd-rov-launch-recovery-and-tether-management", why: "A vehicle on a dive site is tended like a diver — the tether flaked, paid out in step and braked on a snag — and it never crosses to the diver's side of the boat without the supervisor's word." },
+      { app: "smartcity", id: "cd-decompression-chamber-operations-and-post-dive", why: "The chamber is checked before it is needed and the surfaced diver is watched rather than asked, so a rubbed shoulder is reported to the supervisor at once and the attendant goes in with a lock that works one door at a time." },
+      { app: "smartcity", id: "cd-scientific-scuba-buddy-check-and-lost-buddy-drill", why: "The buddy check runs in the same order every dive and the lost-buddy drill is worked exactly as the plan wrote it — look for its time, ascend on the line, meet at the surface — so two divers never search each other apart." },
+      { app: "smartcity", id: "cd-low-visibility-and-night-dive-line-work", why: "In black water the guideline is the way home and the light is the voice, so tie-offs go on in order, a hand stays on the line through a silt-out, and a failed primary light is the abort the plan already wrote." },
+      { app: "smartcity", id: "cd-hydraulic-tools-and-suction-hazards-underwater", why: "Nothing goes near an intake grate until the pump is locked, tried and proven slack by a streamer, and the lock stays on against the plant until the supervisor has counted every diver out of the water." },
+      { app: "smartcity", id: "cd-dive-records-and-incident-review", why: "The record is written from the slate and never from memory, released whole or not at all, and the debrief names a condition as the cause so the corrective action changes the procedure and not the diver." },
+    ],
+  },
 ];
 
 /**
@@ -11376,6 +11435,11 @@ const CAPSTONE_LIVERIES = [
     "programme": "marine-ecology-and-restoration",
     "name": "Marine Ecology & Restoration — Survey and Restoration Crews",
     "accent": "#2e8b57"
+  },
+  {
+    "programme": "commercial-diving-and-scientific-scuba",
+    "name": "Commercial Diving & Scientific Scuba",
+    "accent": "#1f6f8b"
   }
 ];
 
