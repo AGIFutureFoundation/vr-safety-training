@@ -110,7 +110,7 @@ export function deviceLine(devicesMd) {
 const LAYOUTS = {
   repo: {
     out: "index.html",
-    app: { smartcity: "smartcity/index.html", trades: "trades/index.html", holodeck: "holodeck/index.html", instructor: "instructor/index.html", fairway: "fairway/index.html" },
+    app: { smartcity: "smartcity/index.html", trades: "trades/index.html", holodeck: "holodeck/index.html", instructor: "instructor/index.html", fairway: "fairway/index.html", bayworld: "bayworld/index.html" },
     aside: { portal: "portal/index.html", verify: "verify/index.html", campus: "campus/index.html" },
     doc: (name) => `../docs/${name}`,
     accessibility: "ACCESSIBILITY.md",
@@ -120,7 +120,7 @@ const LAYOUTS = {
   },
   flat: {
     out: "home.html",
-    app: { smartcity: "smartcity-x.html", trades: "trade-skills-simulator.html", holodeck: "holodeck.html", instructor: "instructor-console.html", fairway: "fairway.html" },
+    app: { smartcity: "smartcity-x.html", trades: "trade-skills-simulator.html", holodeck: "holodeck.html", instructor: "instructor-console.html", fairway: "fairway.html", bayworld: "bayworld.html" },
     // The portal, the verifier and the Safety Campus page have no single-file
     // bundle, so in the flat layout they are named where they actually live
     // rather than linked to a file that is not in the folder.
@@ -951,6 +951,11 @@ export function renderHome(catalog, devicesMd, layoutName = "repo") {
       href: layout.app.fairway, tint: "#8cff5a", count: "Nine holes",
       name: "Fairway Park", go: "Play Fairway Park",
       blurb: "An original nine-hole course and an outdoor sports facility, played for real strokes and real scores — with a groundskeeper's log that scores course care right alongside them.",
+    }),
+    appCard(layout, {
+      href: layout.app.bayworld, tint: "#4fd1ff", count: "8 job sites",
+      name: "Bay World", go: "Enter Bay World",
+      blurb: "A free-roam open-world city: walk or drive anywhere, day turns to night, traffic keeps its lanes, and every job board on the map launches a real training station.",
     }),
   ].join("\n");
 
