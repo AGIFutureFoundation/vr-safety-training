@@ -426,6 +426,26 @@ export function glassVacuumLifter(parent, x, y, z, opts = {}) {
   return flDone(rig, { footprint: TOOLKIT_BUDGET.glassVacuumLifter.footprint });
 }
 
+/** Robot teach pendant lying face up: a grey housing with hand grips, a
+ *  live screen (`userData.show(text)`, the mode and speed the controller
+ *  reports), a red mushroom emergency stop and a three-position enabling
+ *  switch on the grip. Jog speed and mode are whatever the controller and
+ *  the site's procedure set; this pendant states no figure. Parts: screen,
+ *  estop, enable. */
+export function teachPendant(parent, x, y, z, opts = {}) {
+  const lv = tkBody(opts, 0x9aa2a8);
+  const rig = tkRig(parent, x, y, z, opts, "teachPendant");
+  const S = rig.shell;
+  tkSlab(S, 0.3, 0.05, 0.22, 0, 0, 0, lv.colour, { rough: 0.6, finish: "painted", radius: 0.02 });
+  tkScreen(rig, "screen", rig.base, 0.18, 0.13, -0.02, 0.051, 0, tkLcd("PENDANT", ["T1 REDUCED", "JOG --"], { screenFrac: 0.6 }));
+  rig.parts.screen.rotation.x = -Math.PI / 2;
+  const es = rig.part("estop", 0.11, 0.05, -0.07);
+  flRod(es, 0.022, 0.025, 0, 0.012, 0, "y", 0xd8322c, { rough: 0.45, seg: 14 });
+  const en = rig.part("enable", 0.15, 0.025, 0.06);
+  box(en, 0.012, 0.03, 0.06, 0, 0, 0, 0xf0b323, { rough: 0.5 });
+  return flDone(rig, { footprint: TOOLKIT_BUDGET.teachPendant.footprint });
+}
+
 // ------------------------------------------------------------------ budget
 
 /** Declared mesh count (≤ 4), footprint [width X, height Y, length Z] and parts per tool; see FLEET_BUDGET. */
@@ -451,12 +471,13 @@ export const TOOLKIT_BUDGET = {
   creeper: { build: "creeper", meshes: 3, footprint: [0.44, 0.13, 0.98], parts: ["casters"], note: "mechanic's creeper" },
   hoseReel: { build: "hoseReel", meshes: 4, footprint: [0.28, 0.37, 0.39], parts: ["drum", "nozzle"], note: "air hose reel" },
   glassVacuumLifter: { build: "glassVacuumLifter", meshes: 4, footprint: [0.55, 0.24, 0.06], parts: ["gauge"], note: "two-cup manual glass vacuum lifter, live vacuum gauge" },
+  teachPendant: { build: "teachPendant", meshes: 4, footprint: [0.31, 0.07, 0.22], parts: ["screen", "estop", "enable"], note: "robot teach pendant with live screen, e-stop and enabling switch" },
 };
 
 /** The builders by the name TOOLKIT_BUDGET's `build` field uses. */
 export const TOOLKIT_BUILDERS = {
   drill, angleGrinder, impactWrench, torqueWrench, multimeter, fourGasMeter, radio, flashlight, tapeMeasure,
   level, hammer, wrenchSet, hardHatLamp, chock, tagLine, tieDownStrap, gladHandGauge, tireGauge, creeper, hoseReel,
-  glassVacuumLifter,
+  glassVacuumLifter, teachPendant,
 };
 void cyl; void gradientFill;
