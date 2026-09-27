@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 599
+      "stations": 600
     },
     "trades": {
       "entry": "trades/index.html",
@@ -407,6 +407,7 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "cd-rov-launch-recovery-and-tether-management",
         "cd-pier-piling-inspection-and-wrap-repair",
         "cd-underwater-wet-welding-and-cutting",
         "br-benthic-grab-and-invertebrate-sorting",
@@ -9290,6 +9291,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "cd-rov-launch-recovery-and-tether-management",
+      "name": "ROV Launch, Recovery & Tether Management",
+      "title": "SmartCiti.X~ ROV Launch, Recovery & Tether Management VR",
+      "tagline": "The vehicle's line in the tender's hands: the ROV plan read against the dive plan, the cracked float and the loose termination found, thrusters and lights function-tested, the tether flaked, the vehicle lowered on the davit, held at the surface through a skiff's wake, the tether paid out in step until it snags on a pile, the snag drill worked back along the path, the marks read to the plan, the hook landed on the bail, the vehicle hoisted, rinsed, tagged and logged",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers of the Carpenters diver-tender working as ROV tender on a pier survey, with the ROV pilot at the console, the dive supervisor and a diver in the water off the workboat",
+      "union": null,
+      "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T where an ROV works alongside divers — 29 CFR 1910.421 pre-dive planning of hazardous activities nearby, 29 CFR 1910.422 procedures during the dive (communications and the termination of the dive) and 29 CFR 1910.430 equipment; ADCI consensus standards for ROV operations on a dive site; USCG 46 CFR 197 Subpart B where the vessel is under Coast Guard jurisdiction and 33 CFR 83 for the workboat's lights and signals; the ROV manufacturer's manual and the dive plan hold every limit",
+      "accent": "#f2c14b",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "drag",
+        "turn",
+        "hold",
+        "track",
+        "gauge"
+      ],
+      "badge": {
+        "id": "tether-in-hand",
+        "name": "Tether In Hand",
+        "note": "The ROV's tether tended from the pad to the reel, never a bight on deck, never a hand near a live thruster"
+      },
+      "meshes": 248,
+      "lights": 0,
+      "overBudget": false,
+      "index": "718",
+      "flat": false,
+      "system": "Flight Deck",
+      "currency": "TETHER MARKS",
+      "ranks": [
+        "Deckhand",
+        "ROV Tender",
+        "Launch Tender",
+        "Lead Tender",
+        "ROV Deck Certified"
+      ],
+      "awards": [
+        {
+          "id": "found-on-the-pad",
+          "name": "Found On The Pad",
+          "note": "The cracked float and the loose termination found before the water"
+        },
+        {
+          "id": "marks-to-plan",
+          "name": "Marks To Plan",
+          "note": "The tether marks committed inside the plan's band first time"
+        },
+        {
+          "id": "clear-of-thrusters",
+          "name": "Clear Of Thrusters",
+          "note": "No hand near a live thruster, no bight, no wrap"
+        },
+        {
+          "id": "clean-flight",
+          "name": "Clean Flight",
+          "note": "No corrections from the brief to the check-in"
+        },
+        {
+          "id": "steady-payout",
+          "name": "Steady Pay-out",
+          "note": "Tether in band for the whole flight"
+        },
+        {
+          "id": "logged-fast",
+          "name": "Logged Fast",
+          "note": "ROV log written inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cd-rov-launch-recovery-and-tether-management"
     },
     {
       "app": "smartcity",
@@ -30478,7 +30562,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 261,
+      "meshes": 259,
       "lights": 0,
       "overBudget": false,
       "index": "92",

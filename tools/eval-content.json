@@ -3814,6 +3814,58 @@
     },
     {
       "app": "smartcity",
+      "id": "cd-rov-launch-recovery-and-tether-management",
+      "name": "ROV Launch, Recovery & Tether Management",
+      "category": "Maritime & Ports",
+      "steps": 15,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 398,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 10,
+          "inScope": 10,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 248,
+          "materials": 114,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.22062588904694175,
+          "nearest": "br-dive-tender-and-umbilical-management",
+          "similarity": 0.2958748221906117
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "wp-first-paycheck-coaching",
       "name": "First-Paycheck Coaching",
       "category": "Community Environmental Justice",
@@ -7909,7 +7961,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 255,
+          "meshes": 260,
           "materials": 83,
           "interactables": 28
         },
@@ -14721,7 +14773,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 267,
+          "meshes": 263,
           "materials": 92,
           "interactables": 29
         },
@@ -23358,9 +23410,9 @@
           "interactables": 25
         },
         "originality": {
-          "score": 0.3363636363636366,
-          "nearest": "mw-diver-emergency-and-recovery",
-          "similarity": 0.2727272727272727
+          "score": 0.22062588904694175,
+          "nearest": "cd-rov-launch-recovery-and-tether-management",
+          "similarity": 0.2958748221906117
         }
       }
     },

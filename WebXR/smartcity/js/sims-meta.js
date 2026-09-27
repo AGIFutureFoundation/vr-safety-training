@@ -25438,5 +25438,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "cd-rov-launch-recovery-and-tether-management",
+    "index": "718",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers of the Carpenters diver-tender working as ROV tender on a pier survey, with the ROV pilot at the console, the dive supervisor and a diver in the water off the workboat",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T where an ROV works alongside divers — 29 CFR 1910.421 pre-dive planning of hazardous activities nearby, 29 CFR 1910.422 procedures during the dive (communications and the termination of the dive) and 29 CFR 1910.430 equipment; ADCI consensus standards for ROV operations on a dive site; USCG 46 CFR 197 Subpart B where the vessel is under Coast Guard jurisdiction and 33 CFR 83 for the workboat's lights and signals; the ROV manufacturer's manual and the dive plan hold every limit",
+    "name": "ROV Launch, Recovery & Tether Management",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ ROV Launch, Recovery & Tether Management VR",
+    "tagline": "The vehicle's line in the tender's hands: the ROV plan read against the dive plan, the cracked float and the loose termination found, thrusters and lights function-tested, the tether flaked, the vehicle lowered on the davit, held at the surface through a skiff's wake, the tether paid out in step until it snags on a pile, the snag drill worked back along the path, the marks read to the plan, the hook landed on the bail, the vehicle hoisted, rinsed, tagged and logged",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 320,
+    "badge": {
+      "id": "tether-in-hand",
+      "name": "Tether In Hand",
+      "note": "The ROV's tether tended from the pad to the reel, never a bight on deck, never a hand near a live thruster"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Flight Deck",
+      "currency": "TETHER MARKS",
+      "ranks": [
+        "Deckhand",
+        "ROV Tender",
+        "Launch Tender",
+        "Lead Tender",
+        "ROV Deck Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
