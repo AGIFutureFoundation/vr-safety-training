@@ -26446,5 +26446,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "ml-retail-counter-deescalation",
+    "index": "ml-8",
+    "domain": "Postal & Mail Processing",
+    "trade": "Retail counter clerk — an escalating customer at the window, APWU",
+    "category": "Mobility & Transit",
+    "certification": "Cal/OSHA's workplace violence prevention standard, 8 CCR 3342, as the model for the facility's own written workplace-violence plan — the alarm, the reporting route and an honest incident log; the Injury and Illness Prevention Program, 8 CCR 3203; OSHA 29 CFR 1910.38 emergency action plans for moving people clear; Labor Code §6310 protection against retaliation for reporting; APWU training for retail counter clerks, as the training body",
+    "name": "Retail Counter De-escalation",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Retail Counter De-escalation VR",
+    "tagline": "The clerk's own way off the counter known before the doors open, loose items cleared, the cues noticed early, distance kept, a calm script tried first, the supervisor and the facility's plan brought in the moment it stops working, and a debrief requested afterward",
+    "accent": 3108784,
+    "accentCss": "#2f6fb0",
+    "parSeconds": 300,
+    "badge": {
+      "id": "window-steady",
+      "name": "Window Steady",
+      "note": "An escalating customer met with distance and a calm script, the supervisor and the plan brought in on time, and the incident logged with a debrief requested"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Retail Window Standard",
+      "currency": "WINDOW",
+      "ranks": [
+        "New Clerk",
+        "Window Certified",
+        "Lead Clerk",
+        "Retail Supervisor",
+        "De-escalation Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

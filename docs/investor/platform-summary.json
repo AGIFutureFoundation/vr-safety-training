@@ -3,12 +3,12 @@
   "facts": [
     {
       "key": "procedures",
-      "value": 632,
+      "value": 633,
       "source": "WebXR/smartcity/catalog.json stations.length"
     },
     {
       "key": "smartcityStations",
-      "value": 623,
+      "value": 624,
       "source": "WebXR/smartcity/catalog.json stations where app = smartcity"
     },
     {
@@ -78,22 +78,22 @@
     },
     {
       "key": "evalProceduresScored",
-      "value": 630,
+      "value": 633,
       "source": "tools/eval-content.json results.length"
     },
     {
       "key": "evalCorpusMean",
-      "value": 95.7,
+      "value": 95.8,
       "source": "tools/eval-content.json mean of results[].score"
     },
     {
       "key": "evalBand95plus",
-      "value": 511,
+      "value": 513,
       "source": "tools/eval-content.json results with score >= 95"
     },
     {
       "key": "evalBand90to94",
-      "value": 114,
+      "value": 115,
       "source": "tools/eval-content.json results with score 90-94"
     },
     {
@@ -173,7 +173,7 @@
     },
     {
       "key": "deepSideDives",
-      "value": 30,
+      "value": 34,
       "source": "WebXR/underwater/js/dives-data.js DV_SIDE_DIVES.length"
     },
     {

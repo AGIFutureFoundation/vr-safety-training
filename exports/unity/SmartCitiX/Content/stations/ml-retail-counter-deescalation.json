@@ -1,0 +1,374 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "window-steady",
+    "name": "Window Steady",
+    "note": "An escalating customer met with distance and a calm script, the supervisor and the plan brought in on time, and the incident logged with a debrief requested"
+  },
+  "category": "Mobility & Transit",
+  "certification": "Cal/OSHA's workplace violence prevention standard, 8 CCR 3342, as the model for the facility's own written workplace-violence plan — the alarm, the reporting route and an honest incident log; the Injury and Illness Prevention Program, 8 CCR 3203; OSHA 29 CFR 1910.38 emergency action plans for moving people clear; Labor Code §6310 protection against retaliation for reporting; APWU training for retail counter clerks, as the training body",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "APWU",
+        "id": "apwu-training",
+        "title": "APWU apprenticeship and training, as a training body"
+      },
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3203",
+        "id": "cal-osha-3203",
+        "title": "8 CCR 3203 — Injury and Illness Prevention Program"
+      },
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3342",
+        "id": "cal-osha-3342",
+        "title": "8 CCR 3342 — Workplace violence prevention plan"
+      },
+      {
+        "body": "Cal. Labor Code",
+        "citedAs": "Labor Code §6310",
+        "id": "labor-code-6310",
+        "title": "California Labor Code §6310 — no retaliation for reporting an unsafe condition"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.38",
+        "id": "osha-1910-38",
+        "title": "29 CFR 1910.38 — Emergency action plans"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Postal & Mail Processing",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "counter-clear",
+        "name": "Counter Clear",
+        "note": "Loose items off the counter before they were within reach"
+      },
+      {
+        "id": "voice-held",
+        "name": "Voice Held",
+        "note": "Your own voice held low through the script"
+      },
+      {
+        "id": "debrief-asked",
+        "name": "Debrief Asked",
+        "note": "The incident logged and a debrief actually requested"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-window",
+        "name": "Clean Window",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-alarm",
+        "name": "Steady Alarm",
+        "note": "Held the alarm the full count, first try"
+      },
+      {
+        "id": "prompt-window",
+        "name": "Prompt Window",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "WINDOW",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Clerk",
+      "Window Certified",
+      "Lead Clerk",
+      "Retail Supervisor",
+      "De-escalation Certified"
+    ],
+    "system": "Retail Window Standard"
+  },
+  "hazards": {
+    "block-doorway-decoy": "That floor marker puts the clerk in the lobby doorway, between the customer and the way out. Someone who feels cornered escalates; the customer's route out stays open, and the clerk's distance comes from the counter, not from blocking the exit.",
+    "follow-outside-decoy": "A card by the lobby door: \"follow them out for the plate number.\" Following an agitated customer out of the building takes the clerk away from the counter, the alarm and the supervisor, into a car park where the plan protects nobody. Descriptions are given from inside, afterward.",
+    "grab-back-decoy": "A note on the counter: \"take the parcel back off them.\" Reaching across the counter to take something out of an angry customer's hands turns a verbal situation into a physical one in a single move. Whatever they're holding, it isn't worth the clerk's safety.",
+    "open-drawer-decoy": "The cash drawer is standing open at the window. An open drawer in front of an escalating customer adds a target to an argument that was about a parcel — it gets closed, quietly, as part of clearing the counter."
+  },
+  "id": "ml-retail-counter-deescalation",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "keep-distance",
+      "alert": "A customer further back in the line starts shouting at the upset customer to hurry up.",
+      "cue": "Redirect the line — don't take on a second argument.",
+      "delay": 2,
+      "id": "queue-joins-in",
+      "kind": "Another customer joins in",
+      "missNote": "The two customers were left shouting at each other across the lobby. The situation doubled while the clerk watched.",
+      "seconds": 12,
+      "target": "queue-redirect",
+      "why": "A second person joining in turns one frustrated customer into two, arguing with each other in front of the clerk. Redirecting the line to the next window calmly takes the audience away without the clerk arguing with anyone.",
+      "wrongNote": "Send the line to the next window — engaging the second customer only adds another argument."
+    },
+    {
+      "after": "duress-alarm",
+      "alert": "The customer walks toward the counter gate at the end of the window.",
+      "cue": "Step back toward the back-room door — keep the counter between you.",
+      "delay": 2,
+      "id": "customer-at-gate",
+      "kind": "Customer moves toward the gate",
+      "missNote": "The clerk stayed at the window while the customer reached the gate. The counter stopped being between them.",
+      "seconds": 12,
+      "target": "retreat-marker",
+      "why": "Keeping the counter between the clerk and the customer matters more than holding a position at the window. Stepping back toward the back-room door keeps the distance and the retreat both open while help is on the way.",
+      "wrongNote": "Step back toward the back-room door — distance first, everything else after."
+    }
+  ],
+  "lateNotes": {
+    "debrief-request": "Hold that — log the incident first, then ask for the debrief.",
+    "duress-alarm": "Not yet — the calm script comes first. The alarm is for when that stops working, per the facility's plan."
+  },
+  "name": "Retail Counter De-escalation",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "postal-and-mail-processing"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "acknowledge-card",
+      "block-doorway-decoy",
+      "blocked-back-door",
+      "counter-distance",
+      "counter-exit-path",
+      "counter-gate-lock",
+      "customer-cues",
+      "debrief-request",
+      "duress-alarm",
+      "follow-outside-decoy",
+      "grab-back-decoy",
+      "incident-log",
+      "listen-card",
+      "lobby-far-side",
+      "loose-items",
+      "loose-scissors",
+      "open-drawer-decoy",
+      "option-card",
+      "queue-redirect",
+      "retreat-marker",
+      "supervisor-phone",
+      "under-counter-bin",
+      "voice-meter"
+    ],
+    "meshes": 198
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Before the doors open, confirm the path from your window to the back-room door is clear.",
+      "id": "exit-route",
+      "kind": "select",
+      "prompt": "Before the doors open, confirm the path from your window to the back-room door is clear.",
+      "target": "counter-exit-path",
+      "title": "Know your own way off the counter",
+      "why": "A clerk behind a counter has one route away from the window, and it is only useful if it is clear before anything happens. Checking it at opening, when the lobby is empty, costs a glance; discovering a cage of parcels across it during an incident costs the one option the counter gives you."
+    },
+    {
+      "cue": "Two things at this window would matter if a customer escalated. Find them.",
+      "id": "window-scan",
+      "itemNames": {
+        "blocked-back-door": "a parcel cage parked across the back-room door",
+        "loose-scissors": "scissors left on the customer side of the counter"
+      },
+      "itemNotes": {
+        "blocked-back-door": "The back-room door is the clerk's retreat and the supervisor's way in. A parcel cage across it turns both into a scramble; it gets moved now.",
+        "loose-scissors": "Anything loose on the customer's side of the counter is within reach of whoever is standing there. Scissors, tape guns and letter openers belong on the clerk's side, out of sight, before the first customer walks in."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things at this window would matter if a customer escalated. Find them.",
+      "targets": [
+        "loose-scissors",
+        "blocked-back-door"
+      ],
+      "title": "Scan the window before opening",
+      "why": "The written workplace-violence plan starts with the room: what is within reach, what blocks a retreat, what the clerk can see. Finding those at opening means the plan works as written on the day it is needed, rather than the day someone notices the counter no longer matches it."
+    },
+    {
+      "cue": "Notice the customer's rising voice, the pacing and the repeated demand — behaviour, not a diagnosis.",
+      "id": "notice-cues",
+      "kind": "select",
+      "prompt": "Notice the customer's rising voice, the pacing and the repeated demand — behaviour, not a diagnosis.",
+      "target": "customer-cues",
+      "title": "Notice the early cues",
+      "why": "Raised voices and pacing are signs that frustration is climbing, and noticing them early is what buys time to change the clerk's position and tone before the conversation becomes a confrontation. The clerk isn't judging the customer; they are reading the situation while there is still room to steer it."
+    },
+    {
+      "cue": "Slide the loose items and the parcel scale tray into the under-counter bin, closing the drawer as you go.",
+      "drag": {
+        "missNote": "The items are still on the counter — anything within the customer's reach is still part of the situation.",
+        "radius": 0.4,
+        "to": "under-counter-bin"
+      },
+      "id": "clear-counter",
+      "kind": "drag",
+      "prompt": "Slide the loose items and the parcel scale tray into the under-counter bin, closing the drawer as you go.",
+      "target": "loose-items",
+      "title": "Clear the counter",
+      "why": "Clearing the counter quietly removes things that could be thrown or grabbed and gives the customer nothing extra to argue over. Doing it calmly, as part of ordinary tidying, avoids signalling alarm to a customer who is already on edge."
+    },
+    {
+      "cue": "Stay back from the counter edge — out of arm's reach, still facing the customer, not turning away.",
+      "holdBreakNote": "You drifted within reach of the counter edge or turned away — ease back to arm's length while still facing the customer.",
+      "id": "keep-distance",
+      "kind": "track",
+      "prompt": "Stay back from the counter edge — out of arm's reach, still facing the customer, not turning away.",
+      "seconds": 5,
+      "target": "counter-distance",
+      "title": "Keep your distance from the counter edge",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "DISTANCE",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "Distance is the one protection the clerk controls completely. Standing back from the counter edge keeps the clerk out of reach without looking like a retreat, and staying square to the customer keeps the conversation going; turning away can read as dismissal and leaves the clerk unable to see what happens next."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Let the customer finish, acknowledge the missing parcel out loud, then offer a concrete next step such as a trace request.",
+      "id": "calm-script",
+      "itemNames": {
+        "acknowledge-card": "acknowledge the problem out loud",
+        "listen-card": "listen without interrupting",
+        "option-card": "offer a concrete next step"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Listen first, then acknowledge, then offer — an option offered before the customer feels heard sounds like being brushed off.",
+      "prompt": "Let the customer finish, acknowledge the missing parcel out loud, then offer a concrete next step such as a trace request.",
+      "targets": [
+        "listen-card",
+        "acknowledge-card",
+        "option-card"
+      ],
+      "title": "Try the calm script: listen, acknowledge, offer",
+      "why": "People escalate when they feel unheard. Letting the customer finish, then saying back what the problem is, shows the clerk understood before anything is offered; a concrete next step like a trace request gives the frustration somewhere to go that isn't the clerk."
+    },
+    {
+      "cue": "Watch your own voice level and commit when it's in the calm band — lower and slower than the customer's.",
+      "gauge": {
+        "green": [
+          0.15,
+          0.45
+        ],
+        "label": "YOUR VOICE",
+        "missNote": "Committed with your voice matched to the customer's. Raising your own volume pushed the exchange up, not down.",
+        "speed": 0.6
+      },
+      "id": "voice-level",
+      "kind": "gauge",
+      "prompt": "Watch your own voice level and commit when it's in the calm band — lower and slower than the customer's.",
+      "target": "voice-meter",
+      "title": "Hold your own voice low and slow",
+      "why": "The clerk's own tone is the one part of the exchange the clerk fully controls, and a lower, slower voice tends to pull the other person's pace down with it. Matching a raised voice, even to be heard, pushes the exchange up instead."
+    },
+    {
+      "cue": "Use the agreed call to bring the supervisor to the window.",
+      "id": "call-supervisor",
+      "kind": "select",
+      "prompt": "Use the agreed call to bring the supervisor to the window.",
+      "target": "supervisor-phone",
+      "title": "Bring in the supervisor",
+      "why": "A supervisor at the window changes the conversation: a new face, more authority to resolve the parcel problem and a second person watching. Calling early, while the script is still being tried, is what the plan expects — it is not an admission that the clerk has failed."
+    },
+    {
+      "cue": "The script isn't working and the customer is getting louder — press and hold the counter alarm as the plan directs.",
+      "holdBreakNote": "You let go before the alarm completed. A signal that didn't finish sending brings nobody.",
+      "id": "duress-alarm",
+      "kind": "hold",
+      "prompt": "The script isn't working and the customer is getting louder — press and hold the counter alarm as the plan directs.",
+      "seconds": 4,
+      "target": "duress-alarm",
+      "title": "Use the alarm per the facility's plan",
+      "why": "The facility's workplace-violence plan decides when the alarm is used and who responds. Holding it the full count completes the signal; using it once the calm approach has stopped working, rather than hesitating for fear of overreacting, is exactly what it is there for."
+    },
+    {
+      "cue": "Turn the counter gate's lock so the clerk side stays closed.",
+      "id": "lock-gate",
+      "kind": "turn",
+      "prompt": "Turn the counter gate's lock so the clerk side stays closed.",
+      "target": "counter-gate-lock",
+      "title": "Lock the counter gate",
+      "turn": {
+        "axis": "y",
+        "label": "COUNTER GATE",
+        "turns": 0.35
+      },
+      "why": "The counter is only a barrier if its gate is shut. Locking it keeps the clerk's side of the counter the clerk's, without any confrontation, and leaves the customer's route out through the lobby wide open."
+    },
+    {
+      "cue": "Direct the waiting customers to the far side of the lobby or to the next window.",
+      "id": "clear-lobby",
+      "kind": "select",
+      "prompt": "Direct the waiting customers to the far side of the lobby or to the next window.",
+      "target": "lobby-far-side",
+      "title": "Move other customers clear",
+      "why": "Everyone else in the lobby is a bystander, and a crowd near an escalating customer tends to either inflame or get caught up. Moving them clear calmly shrinks the situation back to the people who have to deal with it."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Complete the incident log, then request a debrief for yourself.",
+      "id": "close-out",
+      "itemNames": {
+        "debrief-request": "request a debrief",
+        "incident-log": "log the incident honestly"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Log first, then the debrief — the debrief is about the person, not a replacement for the record.",
+      "prompt": "Complete the incident log, then request a debrief for yourself.",
+      "targets": [
+        "incident-log",
+        "debrief-request"
+      ],
+      "title": "Log it honestly, then ask for a debrief",
+      "why": "The incident log is how the facility's plan learns — what happened, what worked and what needs fixing at the window. It says nothing about how the clerk is doing afterward; requesting a debrief puts that on the record too, as its own line rather than an afterthought."
+    }
+  ],
+  "supportLine": "your employer's employee assistance program, or APWU's member resources — standing at a counter during an incident like this deserves its own debrief, not just a form",
+  "tagline": "The clerk's own way off the counter known before the doors open, loose items cleared, the cues noticed early, distance kept, a calm script tried first, the supervisor and the facility's plan brought in the moment it stops working, and a debrief requested afterward",
+  "title": "SmartCiti.X~ Retail Counter De-escalation VR",
+  "trade": "Retail counter clerk — an escalating customer at the window, APWU",
+  "underwater": null,
+  "weather": null
+}

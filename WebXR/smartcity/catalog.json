@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 623
+      "stations": 624
     },
     "trades": {
       "entry": "trades/index.html",
@@ -69,6 +69,7 @@
         "track-access",
         "bus-depot-lift",
         "airport-ramp",
+        "ml-retail-counter-deescalation",
         "wp-permit-study-and-knowledge-test",
         "wp-warehouse-ride-along",
         "bus-yard-fuelling-and-brake-check",
@@ -5154,8 +5155,8 @@
       "id": "postal-and-mail-processing",
       "name": "Postal & Mail Processing Crew",
       "union": "NALC, APWU and NPMHU as training bodies for postal and mail processing",
-      "certification": "NALC, APWU and NPMHU training for letter carriers, postal workers and mail handlers, tested against OSHA 29 CFR 1910.147 the control of hazardous energy, 29 CFR 1910.212 machine guarding, 29 CFR 1910.178 powered industrial trucks and 29 CFR 1910.132 personal protective equipment; ASME B20.1 for conveyors and related equipment; the Revised NIOSH Lifting Equation and NIOSH's own guidance on animal, heat and cold stress hazards for workers on foot; FMCSA 49 CFR 392 and 396 for the route's own delivery vehicle; and Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written plant safety programme, and OSHA 29 CFR 1910.38 emergency action plans for a suspicious parcel on the belt, across seven distinct jobs a letter carrier, a mail handler and a plant clerk actually rotate through",
-      "summary": "Seven jobs across a route and a processing plant: a right-hand-drive delivery van pre-tripped and loaded in route order, a residential block walked with a loose dog and a heaved sidewalk read before either becomes a problem, one shift's cold start and heat stretch both worked to the plan, a flat sorter's interlocked guard and sweep arm isolated and locked before a jam is ever cleared, a mail handler's forklift inspected and a container dock read for a pedestrian and an unchocked trailer, and a parcel sorter's divert gate cleared with a defeated light curtain and a coworker's own wrap-point risk caught first, and a suspicious parcel on the culling belt left untouched while the floor is cleared on the facility's plan. Every station ends on a proof — a gauge, a logged reading, a proven interlock — rather than on how routine the job looked going in.",
+      "certification": "NALC, APWU and NPMHU training for letter carriers, postal workers and mail handlers, tested against OSHA 29 CFR 1910.147 the control of hazardous energy, 29 CFR 1910.212 machine guarding, 29 CFR 1910.178 powered industrial trucks and 29 CFR 1910.132 personal protective equipment; ASME B20.1 for conveyors and related equipment; the Revised NIOSH Lifting Equation and NIOSH's own guidance on animal, heat and cold stress hazards for workers on foot; FMCSA 49 CFR 392 and 396 for the route's own delivery vehicle; and Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written plant safety programme, and OSHA 29 CFR 1910.38 emergency action plans for a suspicious parcel on the belt, and 8 CCR 3342 as the model for a written workplace-violence plan at the retail counter, across eight distinct jobs a letter carrier, a mail handler, a plant clerk and a retail clerk actually rotate through",
+      "summary": "Eight jobs across a route, a processing plant and a retail counter: a right-hand-drive delivery van pre-tripped and loaded in route order, a residential block walked with a loose dog and a heaved sidewalk read before either becomes a problem, one shift's cold start and heat stretch both worked to the plan, a flat sorter's interlocked guard and sweep arm isolated and locked before a jam is ever cleared, a mail handler's forklift inspected and a container dock read for a pedestrian and an unchocked trailer, and a parcel sorter's divert gate cleared with a defeated light curtain and a coworker's own wrap-point risk caught first, and a suspicious parcel on the culling belt left untouched while the floor is cleared on the facility's plan, and an escalating customer at the retail window met with distance and a calm script. Every station ends on a proof — a gauge, a logged reading, a proven interlock — rather than on how routine the job looked going in.",
       "accent": "#2f6fb0",
       "stations": [
         {
@@ -5192,12 +5193,17 @@
           "app": "smartcity",
           "id": "ml-suspicious-package-protocol",
           "why": "A parcel that doesn't look right left exactly where it lies, the belt stopped and the floor cleared at a walking pace, and the zone held on the facility's plan until responders give the all clear, whatever the dispatch clock says."
+        },
+        {
+          "app": "smartcity",
+          "id": "ml-retail-counter-deescalation",
+          "why": "The clerk's own way off the counter cleared before opening, an escalating customer met with distance and a low, calm script, and the supervisor and the facility's workplace-violence plan brought in the moment the script stops working."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1560,
+        "lessons": 1550,
         "tasks": 120,
         "atBar": 20,
         "partial": 0,
@@ -9507,6 +9513,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-retail-counter-deescalation",
+      "name": "Retail Counter De-escalation",
+      "title": "SmartCiti.X~ Retail Counter De-escalation VR",
+      "tagline": "The clerk's own way off the counter known before the doors open, loose items cleared, the cues noticed early, distance kept, a calm script tried first, the supervisor and the facility's plan brought in the moment it stops working, and a debrief requested afterward",
+      "category": "Mobility & Transit",
+      "domain": "Postal & Mail Processing",
+      "trade": "Retail counter clerk — an escalating customer at the window, APWU",
+      "union": null,
+      "certification": "Cal/OSHA's workplace violence prevention standard, 8 CCR 3342, as the model for the facility's own written workplace-violence plan — the alarm, the reporting route and an honest incident log; the Injury and Illness Prevention Program, 8 CCR 3203; OSHA 29 CFR 1910.38 emergency action plans for moving people clear; Labor Code §6310 protection against retaliation for reporting; APWU training for retail counter clerks, as the training body",
+      "accent": "#2f6fb0",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "service",
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "drag",
+        "track",
+        "sequence",
+        "gauge",
+        "hold",
+        "turn"
+      ],
+      "badge": {
+        "id": "window-steady",
+        "name": "Window Steady",
+        "note": "An escalating customer met with distance and a calm script, the supervisor and the plan brought in on time, and the incident logged with a debrief requested"
+      },
+      "meshes": 198,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ml-8",
+      "flat": false,
+      "system": "Retail Window Standard",
+      "currency": "WINDOW",
+      "ranks": [
+        "New Clerk",
+        "Window Certified",
+        "Lead Clerk",
+        "Retail Supervisor",
+        "De-escalation Certified"
+      ],
+      "awards": [
+        {
+          "id": "counter-clear",
+          "name": "Counter Clear",
+          "note": "Loose items off the counter before they were within reach"
+        },
+        {
+          "id": "voice-held",
+          "name": "Voice Held",
+          "note": "Your own voice held low through the script"
+        },
+        {
+          "id": "debrief-asked",
+          "name": "Debrief Asked",
+          "note": "The incident logged and a debrief actually requested"
+        },
+        {
+          "id": "clean-window",
+          "name": "Clean Window",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-alarm",
+          "name": "Steady Alarm",
+          "note": "Held the alarm the full count, first try"
+        },
+        {
+          "id": "prompt-window",
+          "name": "Prompt Window",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ml-retail-counter-deescalation"
     },
     {
       "app": "smartcity",
@@ -31358,7 +31447,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 261,
+      "meshes": 257,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -32018,7 +32107,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",

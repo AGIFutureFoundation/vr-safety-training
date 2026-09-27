@@ -41,7 +41,7 @@ Why each station is in the programme is given in the station list below, from th
 
 Bay World: Estuary Research Dock (`estuary-research-dock`, zone estuary-waterfront); North Shoreline Field Lab (`north-shoreline-field-lab`, zone north-shoreline); Channel Buoy Tender Pier (`channel-buoy-tender-pier`, zone outer-bay).
 
-The Deep: no site anchors this programme.
+The Deep: Pier Piling Inspection Station (`pier-piling-inspection-station`, zone pier-pilings); Pier Surface-Supplied Station (`pier-surface-supplied-station`, zone pier-pilings); Shelf Checkout Site (`shelf-checkout-site`, zone shallow-shelf); Kelp Night Line Site (`kelp-night-line-site`, zone kelp-forest); Outfall Intake Lockout Site (`outfall-intake-lockout-site`, zone outfall-apron); Trench ROV Station (`trench-rov-station`, zone deep-trench).
 
 ## Standards it cites
 

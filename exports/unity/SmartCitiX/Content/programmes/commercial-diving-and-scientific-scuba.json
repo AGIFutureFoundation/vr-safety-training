@@ -66,6 +66,108 @@
       "table": "BAY_SITES",
       "world": "bayworld",
       "zone": "north-shoreline"
+    },
+    {
+      "id": "kelp-night-line-site",
+      "name": "Kelp Night Line Site",
+      "position": [
+        -530,
+        -260
+      ],
+      "stations": [
+        "mw-diver-emergency-and-recovery",
+        "mw-dive-supervisor-and-dive-plan",
+        "cd-low-visibility-and-night-dive-line-work"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "kelp-forest"
+    },
+    {
+      "id": "outfall-intake-lockout-site",
+      "name": "Outfall Intake Lockout Site",
+      "position": [
+        380,
+        -290
+      ],
+      "stations": [
+        "uw-intake-screen-cleaning-with-lockout",
+        "uw-pipeline-crossing-inspection-dive",
+        "cs-permit-entry-and-attendant-duties",
+        "cd-hydraulic-tools-and-suction-hazards-underwater"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "outfall-apron"
+    },
+    {
+      "id": "pier-piling-inspection-station",
+      "name": "Pier Piling Inspection Station",
+      "position": [
+        -740,
+        -580
+      ],
+      "stations": [
+        "mw-pier-pile-inspection-dive",
+        "mw-underwater-welding-and-cutting",
+        "gg-pile-driver-fender-repair",
+        "cd-pier-piling-inspection-and-wrap-repair",
+        "cd-underwater-wet-welding-and-cutting"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "pier-pilings"
+    },
+    {
+      "id": "pier-surface-supplied-station",
+      "name": "Pier Surface-Supplied Station",
+      "position": [
+        -720,
+        -530
+      ],
+      "stations": [
+        "br-surface-supplied-dive-station-setup",
+        "br-dive-tender-and-umbilical-management",
+        "br-hyperbaric-chamber-standby",
+        "cd-decompression-chamber-operations-and-post-dive",
+        "cd-dive-records-and-incident-review"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "pier-pilings"
+    },
+    {
+      "id": "shelf-checkout-site",
+      "name": "Shelf Checkout Site",
+      "position": [
+        -360,
+        -540
+      ],
+      "stations": [
+        "br-dive-site-hazard-assessment-and-jsa",
+        "br-cold-water-immersion-and-mob-recovery",
+        "trench-box",
+        "cd-scientific-scuba-buddy-check-and-lost-buddy-drill"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "shallow-shelf"
+    },
+    {
+      "id": "trench-rov-station",
+      "name": "Trench ROV Station",
+      "position": [
+        -680,
+        460
+      ],
+      "stations": [
+        "uw-rov-pre-dive-and-tether-management",
+        "mw-dive-supervisor-and-dive-plan",
+        "cd-rov-launch-recovery-and-tether-management"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "deep-trench"
     }
   ],
   "certification": "Programme completion record; the dive credentials it rehearses are issued only by their own bodies — OSHA 29 CFR 1910 Subpart T commercial diving operations (29 CFR 1910.421 through 1910.425, 1910.430 and 1910.440), the ADCI consensus standards, AWS D3.6 for the wet weld, USCG 46 CFR 197 Subpart B from a vessel, 29 CFR 1910.424 and the programme's diving safety manual for the scientific scuba; every depth, gas, decompression, current and time limit lives in the dive plan and the tables the supervisor holds",

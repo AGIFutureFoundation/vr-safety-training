@@ -41,7 +41,7 @@ Why each station is in the programme is given in the station list below, from th
 
 Bay World: Estuary Research Dock (`estuary-research-dock`, zone estuary-waterfront); North Shoreline Field Lab (`north-shoreline-field-lab`, zone north-shoreline); Channel Buoy Tender Pier (`channel-buoy-tender-pier`, zone outer-bay).
 
-The Deep: no site anchors this programme.
+The Deep: Eelgrass Transplant Plots (`eelgrass-transplant-plots`, zone eelgrass-meadow); Eelgrass Fish Census Line (`eelgrass-fish-census-line`, zone eelgrass-meadow); Marsh Mouth Tide Gate (`marsh-mouth-tide-gate`, zone marsh-mouth); Kelp Transect Start (`kelp-transect-start`, zone kelp-forest); Flats Sediment Core Site (`flats-sediment-core-site`, zone tide-flats); Reef Ball Monitoring Plot (`reef-ball-monitoring-plot`, zone reef-ball-field); Seamount Capstone Survey (`seamount-capstone-survey`, zone seamount).
 
 ## Standards it cites
 
