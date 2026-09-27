@@ -25522,5 +25522,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "cd-scientific-scuba-buddy-check-and-lost-buddy-drill",
+    "index": "720",
+    "domain": "Maritime & Ports",
+    "trade": "Scientific scuba diver on an agency survey programme, with a dive buddy, the surface tender in the skiff and the programme's dive safety officer as the supervisor of the day",
+    "category": "Maritime & Ports",
+    "certification": "The programme's diving safety manual and its diving control board, as the scientific diving community's own standard; OSHA 29 CFR 1910 Subpart T where the dive falls under it — 29 CFR 1910.424 SCUBA diving (the buddy system, the standby diver and the tended or line-guided dive), 29 CFR 1910.421 pre-dive planning and briefing, 29 CFR 1910.422 procedures during the dive (water entry and exit, the termination of the dive) and 29 CFR 1910.423 post-dive procedures; ADCI consensus standards where a contractor's crew supports the survey; USCG 33 CFR 83 for the skiff's lights and the dive flag on the water; every depth, time and gas limit per the dive plan",
+    "name": "Scientific Scuba: Buddy Check & Lost-Buddy Drill",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Scientific Scuba: Buddy Check & Lost-Buddy Drill VR",
+    "tagline": "Two divers, one plan: the slate read for the task and the lost-buddy rule, the buddy check run in order from buoyancy to the final OK, the loose tank band and the missing cutter found, the descent line clipped to its buoy, the OK given to the tender, the descent held to the buddy's pace through an ear problem, the transect start held while the buddy lays tape, the buddy lost from view and the drill worked — look for the plan's time, ascend on the line, deploy the marker, signal the skiff, reunite — then fins in the bin and the log written",
+    "accent": 6473400,
+    "accentCss": "#62c6b8",
+    "parSeconds": 320,
+    "badge": {
+      "id": "never-lost-twice",
+      "name": "Never Lost Twice",
+      "note": "The buddy check run in order and the lost-buddy drill worked exactly as the plan wrote it, without a search past its time"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Buddy Line",
+      "currency": "SLATE MARKS",
+      "ranks": [
+        "Diver in Training",
+        "Scientific Diver",
+        "Lead Diver",
+        "Divemaster of the Day",
+        "Buddy Drill Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
