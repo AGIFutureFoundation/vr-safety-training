@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 625
+      "stations": 626
     },
     "trades": {
       "entry": "trades/index.html",
@@ -44,6 +44,7 @@
         "line-truck",
         "substation-switching",
         "battery-yard",
+        "ws-nacelle-lockout-and-yaw-brake-fault",
         "ws-turbine-climb-and-rescue-kit-check",
         "battery-storage-container-commissioning",
         "temporary-site-power",
@@ -9514,6 +9515,88 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-nacelle-lockout-and-yaw-brake-fault",
+      "name": "Nacelle Lockout & Yaw-Brake Fault",
+      "title": "SmartCiti.X~ Nacelle Lockout & Yaw-Brake Fault VR",
+      "tagline": "Stopped locally, the rotor watched down and locked, the yaw proven held, then isolated, locked, tagged, tested for absence of voltage and bled of stored energy before a start that must not happen",
+      "category": "Energy & Power",
+      "domain": "Energy",
+      "trade": "IBEW wind technician",
+      "union": null,
+      "certification": "IBEW/NECA JATC wind-technician training as a body; 29 CFR 1910.147 for the control of hazardous energy and 29 CFR 1910.269 for generation installations; NFPA 70E for the absence-of-voltage test and the arc-flash boundary; ANSI Z359 for the tie-off in the nacelle; the turbine manufacturer's manual for the rotor lock, the yaw brake and every pressure and speed",
+      "accent": "#5fb8e0",
+      "parSeconds": 320,
+      "weather": "wind",
+      "indoor": null,
+      "district": "wind-farm",
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "track",
+        "turn",
+        "gauge",
+        "find",
+        "hold"
+      ],
+      "badge": {
+        "id": "locked-held-proven",
+        "name": "Locked, Held, Proven",
+        "note": "The rotor locked, the yaw held, the energy isolated and the start tried dead before anyone reached into the drive train"
+      },
+      "meshes": 153,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ws-02",
+      "flat": false,
+      "system": "Nacelle Authority",
+      "currency": "LOCKS",
+      "ranks": [
+        "Trainee",
+        "Technician",
+        "Wind Technician",
+        "Lead Technician",
+        "Nacelle Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "rotor-locked-first",
+          "name": "Rotor Locked First",
+          "note": "The rotor lock went in before any other work"
+        },
+        {
+          "id": "nothing-trusted",
+          "name": "Nothing Trusted",
+          "note": "No unsafe action was recorded"
+        },
+        {
+          "id": "steady-watch",
+          "name": "Steady Watch",
+          "note": "Held the rotor slow-down watch steady"
+        },
+        {
+          "id": "clean-lockout",
+          "name": "Clean Lockout",
+          "note": "No corrections from the work order to the log"
+        },
+        {
+          "id": "unbroken-bleed",
+          "name": "Unbroken Bleed",
+          "note": "The accumulator bleed ran to completion"
+        },
+        {
+          "id": "brisk-isolation",
+          "name": "Brisk Isolation",
+          "note": "Isolated and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ws-nacelle-lockout-and-yaw-brake-fault"
     },
     {
       "app": "smartcity",
@@ -31531,7 +31614,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 265,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -32191,7 +32274,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",

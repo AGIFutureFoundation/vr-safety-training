@@ -65,6 +65,7 @@ Every station in these districts takes the platform's options — `?weather=` (w
 | Station | `?fault=` | What changes |
 |---|---|---|
 | ws-turbine-climb-and-rescue-kit-check | `fall-arrest-rail-damage` | A bent rail section shows a red tag; the runner step becomes tagging the ladder out of service |
+| ws-nacelle-lockout-and-yaw-brake-fault | `yaw-brake-fault` | The yaw-brake fault lamp lights and the yaw ring has crept; the yaw step becomes engaging the mechanical yaw lock |
 
 ## Budget and the gate
 

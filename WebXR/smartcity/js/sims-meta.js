@@ -26530,5 +26530,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "ws-nacelle-lockout-and-yaw-brake-fault",
+    "index": "ws-02",
+    "domain": "Energy",
+    "trade": "IBEW wind technician",
+    "category": "Energy & Power",
+    "certification": "IBEW/NECA JATC wind-technician training as a body; 29 CFR 1910.147 for the control of hazardous energy and 29 CFR 1910.269 for generation installations; NFPA 70E for the absence-of-voltage test and the arc-flash boundary; ANSI Z359 for the tie-off in the nacelle; the turbine manufacturer's manual for the rotor lock, the yaw brake and every pressure and speed",
+    "name": "Nacelle Lockout & Yaw-Brake Fault",
+    "weather": "wind",
+    "indoor": null,
+    "district": "wind-farm",
+    "title": "SmartCiti.X~ Nacelle Lockout & Yaw-Brake Fault VR",
+    "tagline": "Stopped locally, the rotor watched down and locked, the yaw proven held, then isolated, locked, tagged, tested for absence of voltage and bled of stored energy before a start that must not happen",
+    "accent": 6273248,
+    "accentCss": "#5fb8e0",
+    "parSeconds": 320,
+    "badge": {
+      "id": "locked-held-proven",
+      "name": "Locked, Held, Proven",
+      "note": "The rotor locked, the yaw held, the energy isolated and the start tried dead before anyone reached into the drive train"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Nacelle Authority",
+      "currency": "LOCKS",
+      "ranks": [
+        "Trainee",
+        "Technician",
+        "Wind Technician",
+        "Lead Technician",
+        "Nacelle Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
