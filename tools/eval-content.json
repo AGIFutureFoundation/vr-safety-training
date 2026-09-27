@@ -3074,7 +3074,7 @@
         "scene": {
           "score": 0.9275,
           "meshes": 151,
-          "materials": 79,
+          "materials": 80,
           "interactables": 22
         },
         "originality": {
@@ -7857,7 +7857,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 265,
+          "meshes": 260,
           "materials": 83,
           "interactables": 28
         },
@@ -11614,6 +11614,58 @@
     },
     {
       "app": "smartcity",
+      "id": "cd-underwater-wet-welding-and-cutting",
+      "name": "Underwater Wet Welding & Cutting — Surface Side",
+      "category": "Maritime & Ports",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 395,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 12,
+          "inScope": 12,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 216,
+          "materials": 116,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.28773181169757495,
+          "nearest": "mw-underwater-welding-and-cutting",
+          "similarity": 0.28245363766048504
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "wp-graduation-and-alumni-mentors",
       "name": "Graduation and Alumni-Mentor Day",
       "category": "Community Environmental Justice",
@@ -14617,7 +14669,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 265,
+          "meshes": 256,
           "materials": 92,
           "interactables": 29
         },
@@ -19562,9 +19614,9 @@
           "interactables": 23
         },
         "originality": {
-          "score": 0.3799410029498526,
-          "nearest": "mw-pier-pile-inspection-dive",
-          "similarity": 0.2640117994100295
+          "score": 0.28773181169757495,
+          "nearest": "cd-underwater-wet-welding-and-cutting",
+          "similarity": 0.28245363766048504
         }
       }
     },

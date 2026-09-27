@@ -524,6 +524,43 @@ export function pickToLightShelf(parent, x, y, z, opts = {}) {
   return flDone(rig, { footprint: PROPS_BUDGET.pickToLightShelf.footprint });
 }
 
+// ------------------------------------------------------------- dive stage
+
+/**
+ * A diver's launch and recovery stage: a 1.5 m square open steel cage with a
+ * grated floor, four uprights, a top frame, a lifting bail with its shackle
+ * and a hinged gate on the +Z face. It hangs from a davit or a crane hook and
+ * a station lowers it by moving the whole group. Real proportions: floor at
+ * y 0.06, top frame at 2.1 m, bail to 2.5 m. Parts: bail, gate.
+ */
+export function divingStage(parent, x, y, z, opts = {}) {
+  const colour = prColour(opts, 0xe8b02e);
+  const rig = prRig(parent, x, y, z, opts, "divingStage");
+  const S = rig.shell;
+  const steel = [colour, { rough: 0.5, metal: 0.45, finish: "painted" }];
+  const grate = flCanvasMat(`stageGrate|${colour}`, 256, 256, (g, w, h) => {
+    g.fillStyle = "#3a4046"; g.fillRect(0, 0, w, h);
+    g.fillStyle = "#1a1e22";
+    for (let i = 0; i < 8; i++) for (let j = 0; j < 8; j++) g.fillRect(i * w / 8 + 5, j * h / 8 + 5, w / 8 - 10, h / 8 - 10);
+    grimeOverlay(g, w, h, { blotches: 2, streaks: 3, alpha: 0.14 });
+  }, { rough: 0.8, metal: 0.4 });
+  flPanel(S, 1.5, 1.5, 0, 0.085, 0, grate, "+y");
+  box(S, 1.5, 0.08, 1.5, 0, 0.04, 0, 0x2b3138, { rough: 0.6, metal: 0.5 });
+  for (const [sx, sz] of [[-0.72, -0.72], [0.72, -0.72], [-0.72, 0.72], [0.72, 0.72]]) box(S, 0.06, 2.1, 0.06, sx, 1.07, sz, ...steel);
+  box(S, 1.5, 0.06, 0.06, 0, 2.1, -0.72, ...steel);
+  box(S, 1.5, 0.06, 0.06, 0, 2.1, 0.72, ...steel);
+  box(S, 0.06, 0.06, 1.44, -0.72, 2.1, 0, ...steel);
+  box(S, 0.06, 0.06, 1.44, 0.72, 2.1, 0, ...steel);
+  box(S, 0.04, 0.04, 1.44, -0.72, 1.05, 0, ...steel);
+  box(S, 0.04, 0.04, 1.44, 0.72, 1.05, 0, ...steel);
+  const bail = rig.part("bail", 0, 2.13, 0);
+  torus(bail, 0.28, 0.03, 0, 0.14, 0, 0x8a949d, { rough: 0.35, metal: 0.8, seg: 8, seg2: 20 });
+  const gate = rig.part("gate", -0.72, 1.05, 0.72);
+  box(gate, 1.44, 0.04, 0.04, 0.72, 0, 0, ...steel);
+  gate.userData.openAngle = -1.5;
+  return flDone(rig, { footprint: PROPS_BUDGET.divingStage.footprint });
+}
+
 // ------------------------------------------------------------------ budget
 
 /**
@@ -563,6 +600,7 @@ export const PROPS_BUDGET = {
   palletRackBay: { build: "palletRackBay", meshes: 5, footprint: [2.62, 4.22, 1.18], parts: [], note: "selective pallet-rack bay, two loaded levels and a rating plaque" },
   coldRoomDoor: { build: "coldRoomDoor", meshes: 5, footprint: [1.98, 2.68, 0.28], parts: ["door"], note: "insulated cold-storage doorway with a PVC strip curtain" },
   pickToLightShelf: { build: "pickToLightShelf", meshes: 6, footprint: [1.6, 2.44, 0.51], parts: ["lights"], note: "pick-to-light shelf module, three LED pick strips" },
+  divingStage: { build: "divingStage", meshes: 5, footprint: [1.5, 2.58, 1.5], parts: ["bail", "gate"], note: "diver's launch and recovery stage, grated floor, lifting bail, hinged gate" },
 };
 
 /** The builders by the name PROPS_BUDGET's `build` field uses. */
@@ -570,5 +608,5 @@ export const PROPS_BUILDERS = {
   jerseyBarrier, waterBarrier, coneCluster, lightMast, portableToilet, siteOffice, dumpster,
   scaffoldTower, palletStack, cableSpool, fireHydrant, bollardRow, parkBench, streetTree,
   shrubBed, fencePanel, fencePanelGate, shippingContainer, fuelTank, generatorSkid,
-  counterweightStack, picnicTable, aircraftJack, palletRackBay, coldRoomDoor, pickToLightShelf,
+  counterweightStack, picnicTable, aircraftJack, palletRackBay, coldRoomDoor, pickToLightShelf, divingStage,
 };

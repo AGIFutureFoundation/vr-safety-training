@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 597
+      "stations": 598
     },
     "trades": {
       "entry": "trades/index.html",
@@ -407,6 +407,7 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "cd-underwater-wet-welding-and-cutting",
         "br-benthic-grab-and-invertebrate-sorting",
         "br-vhf-and-navigation-in-a-work-zone",
         "br-cold-water-immersion-and-mob-recovery",
@@ -9288,6 +9289,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "cd-underwater-wet-welding-and-cutting",
+      "name": "Underwater Wet Welding & Cutting — Surface Side",
+      "title": "SmartCiti.X~ Underwater Wet Welding & Cutting — Surface Side VR",
+      "tagline": "The switch that makes the diver's rod live is on deck: the AWS D3.6 job briefing taken, the cut jacket and the loose lug found, the ground clamped to clean steel on the work, the machine idled and its polarity read, the output set to the procedure card, the diver's gloves and helmet insulation checked, the switch held open until 'make it hot', the bead tended while a deckhand wanders onto the stage, the comms garble answered by line pull, 'make it cold' before the rod change, the stub bagged, the bead read on video and the weld record written",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers of the Carpenters diver-tender working the knife switch and the leads for a diver-welder on a pier repair, with the dive supervisor, the diver-welder in the stage and the standby diver",
+      "union": null,
+      "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T — 29 CFR 1910.421 pre-dive procedures and the team briefing, 29 CFR 1910.422 procedures during the dive (power tools and welding equipment, communications), 29 CFR 1910.430 diving equipment and 29 CFR 1910.425 the tended surface-supplied diver; AWS D3.6 underwater welding code for the qualified procedure and the job briefing; ADCI consensus standards for the surface-controlled switch; USCG 46 CFR 197 Subpart B where the work is off a vessel; the welding procedure card and the dive plan hold every figure",
+      "accent": "#f0a04b",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "drag",
+        "sequence",
+        "turn",
+        "hold",
+        "track",
+        "gauge"
+      ],
+      "badge": {
+        "id": "switch-on-the-call",
+        "name": "Switch On The Call",
+        "note": "The knife switch closed only on 'make it hot' and opened on 'make it cold', every rod, every time"
+      },
+      "meshes": 216,
+      "lights": 0,
+      "overBudget": false,
+      "index": "716",
+      "flat": false,
+      "system": "Hot And Cold",
+      "currency": "ROD COUNT",
+      "ranks": [
+        "Deckhand",
+        "Lead Tender",
+        "Switch Tender",
+        "Welding Tender",
+        "Wet Weld Certified"
+      ],
+      "awards": [
+        {
+          "id": "clean-leads",
+          "name": "Clean Leads",
+          "note": "The cut jacket and the loose lug found before the machine ran"
+        },
+        {
+          "id": "card-set",
+          "name": "Set To The Card",
+          "note": "The output set inside the procedure card's band first time"
+        },
+        {
+          "id": "cold-hands",
+          "name": "Cold Hands",
+          "note": "No hazard reached for from the briefing to the log"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "No corrections from the briefing to the check-in"
+        },
+        {
+          "id": "steady-tend",
+          "name": "Steady Tend",
+          "note": "The lead tended in band for the whole bead"
+        },
+        {
+          "id": "quick-record",
+          "name": "Quick Record",
+          "note": "Weld record written inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cd-underwater-wet-welding-and-cutting"
     },
     {
       "app": "smartcity",
@@ -30310,7 +30394,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 256,
+      "meshes": 263,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -30970,7 +31054,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",

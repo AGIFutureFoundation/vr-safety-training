@@ -2250,6 +2250,46 @@ export function spudBarge(parent, x, y, z, opts = {}) {
 
 // ------------------------------------------------------------------ budget
 
+// ------------------------------------------------------- marine: ROV
+
+/**
+ * Observation-class ROV: 0.9 m long, 0.62 m wide, 0.5 m tall, an open
+ * aluminium frame under a yellow syntactic-foam flotation block, a camera
+ * dome forward, two LED lamps beside it, four thrusters (two horizontal
+ * aft, two vertical), a single-function manipulator jaw forward-low and a
+ * tether termination on top. Sits on its skids at y 0. Parts: thrusters,
+ * camera, lights, manipulator, tetherPoint.
+ */
+export function rov(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0xf2c14b, fleetName: "SURVEY", unitNumber: "ROV-2", accent: 0x1b1e22 });
+  const rig = flRig(parent, x, y, z, opts, "rov", [0, 0, -0.07]);
+  const S = rig.shell;
+  const frame = [0x2b3138, { rough: 0.5, metal: 0.6, finish: "brushed" }];
+  for (const sx of [-0.29, 0.29]) flRod(S, 0.015, 0.86, sx, 0.02, 0, "z", ...frame);
+  for (const sx of [-0.29, 0.29]) flRod(S, 0.015, 0.86, sx, 0.3, 0, "z", ...frame);
+  for (const [sx, sz] of [[-0.29, -0.41], [0.29, -0.41], [-0.29, 0.41], [0.29, 0.41]]) flRod(S, 0.015, 0.3, sx, 0.16, sz, "y", ...frame);
+  box(S, 0.62, 0.16, 0.86, 0, 0.42, 0, lv.colour, { rough: 0.55, metal: 0.05, finish: "painted" });
+  box(S, 0.5, 0.2, 0.5, 0, 0.18, -0.05, 0x3a4148, { rough: 0.45, metal: 0.5 });
+  const cam = rig.part("camera", 0, 0.24, 0.4);
+  ball(cam, 0.09, 0, 0, 0, 0x6ab8d8, { rough: 0.05, metal: 0.2, opacity: 0.8, transparent: true, seg: 14, seg2: 10 });
+  const lights = rig.part("lights"); lights.userData.fleetBake = false;
+  for (const sx of [-0.2, 0.2]) {
+    const l = rig.part(`lamp${sx > 0 ? "R" : "L"}`, sx, 0.3, 0.4, lights);
+    cyl(l, 0.04, 0.04, 0.06, 0, 0, 0, 0xfff1c0, { emissive: 0xfff1c0, ei: 0.4, rough: 0.3, seg: 10 }).rotation.x = Math.PI / 2;
+  }
+  const thr = rig.part("thrusters");
+  for (const [tx, ty, tz, ax] of [[-0.22, 0.16, -0.4, "z"], [0.22, 0.16, -0.4, "z"], [-0.22, 0.28, 0.1, "y"], [0.22, 0.28, 0.1, "y"]]) {
+    const t = cyl(thr, 0.07, 0.07, 0.08, tx, ty, tz, 0x1b1e22, { rough: 0.5, metal: 0.4, seg: 12 });
+    if (ax === "z") t.rotation.x = Math.PI / 2;
+  }
+  const man = rig.part("manipulator", 0.12, 0.06, 0.44);
+  box(man, 0.04, 0.04, 0.16, 0, 0, 0, 0xc8ccd0, { rough: 0.4, metal: 0.7 });
+  box(man, 0.02, 0.06, 0.06, 0, 0, 0.1, 0xc8ccd0, { rough: 0.4, metal: 0.7 });
+  const tp = rig.part("tetherPoint", 0, 0.52, -0.2);
+  cyl(tp, 0.03, 0.03, 0.06, 0, 0, 0, 0x8a949d, { rough: 0.35, metal: 0.8, seg: 10 });
+  return flDone(rig, { footprint: FLEET_BUDGET.rov.footprint, livery: lv });
+}
+
 /**
  * Declared mesh count (after mergeStatic), footprint [width X, height Y,
  * length Z] in metres and required named parts per builder. check_fleet.mjs
@@ -2287,11 +2327,12 @@ export const FLEET_BUDGET = {
   deckCrane: { build: "deckCrane", meshes: 12, footprint: [0.95, 4.58, 4.65], parts: ["slew", "mainBoom", "jib", "hook", "controls"], note: "pedestal knuckle-boom deck crane" },
   derelictBoat: { build: "derelictBoat", meshes: 12, footprint: [2.99, 3.9, 9], parts: ["hatch", "cleats", "slingPoints", "fuelVent"], note: "9 m derelict sailboat, dismasted and fouled" },
   spudBarge: { build: "spudBarge", meshes: 20, footprint: [6.38, 6.72, 12.2], parts: ["spuds", "bitts", "coaming", "sump", "navLights", "portLight", "starboardLight"], note: "12.2 m sectional spud barge with spill coaming" },
+  rov: { build: "rov", meshes: 9, footprint: [0.62, 0.55, 1.01], parts: ["thrusters", "camera", "lights", "manipulator", "tetherPoint"], note: "observation-class ROV, four thrusters, camera dome, manipulator" },
 };
 
 /** The builders by the name FLEET_BUDGET's `build` field uses. */
 export const FLEET_BUILDERS = {
   semiTractor, trailer, tractorTrailer, boxTruck, pickup, sedan, cargoVan, deliveryVan, ambulance, fireEngine,
   bucketTruck, busTransit, schoolBus, forkliftCounterbalance, yardHustler, workboat,
-  skiff, deckBarge, salvageCraneBarge, skimmerVessel, deckCrane, derelictBoat, spudBarge,
+  skiff, deckBarge, salvageCraneBarge, skimmerVessel, deckCrane, derelictBoat, spudBarge, rov,
 };
