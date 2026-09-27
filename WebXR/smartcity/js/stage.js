@@ -99,11 +99,23 @@ export const STAGE_MODES = ["ar", "vr", "flat"];
 // between. Emissive props keep their glow (a lit window at noon is a small
 // price for not rebuilding every district twice).
 export const TIMES_OF_DAY = ["night", "dusk", "day"];
-const TIME = {
+/**
+ * The one place a district's outdoor hemisphere and key-light intensities
+ * come from: every station shares this table through buildStage() below
+ * (`tod = LIGHTING_BY_TIME[timeOfDay()]`), rather than each district or
+ * scenic profile picking its own numbers, so "night reads as night and day
+ * reads as day" is one tuning pass instead of one per district. `hemi` is
+ * `[sky, ground]` for the THREE.HemisphereLight, `hemiI` its intensity;
+ * `key` is `[colour, intensity]` for the sun/moon THREE.DirectionalLight.
+ * Exported so other lighting (a future indoor profile, a test) can read the
+ * same numbers instead of inventing its own.
+ */
+export const LIGHTING_BY_TIME = {
   night: { sky: null, fog: null, hemi: null, key: [0xd6e4f0, 1.3], mast: 1.0, glow: 0.34, hemiI: 2.0, ambient: 0.55, lift: 1.9 },
   dusk: { sky: 0x4a3a4c, fog: 0x5c4856, hemi: [0xe6b98f, 0x3a3240], key: [0xffb27a, 1.8], mast: 0.8, glow: 0.2, hemiI: 1.8, ambient: 0.45, lift: 1 },
   day: { sky: 0x9fb8cc, fog: 0xb8c9d8, hemi: [0xe9f0f6, 0x7a8590], key: [0xfff6e8, 2.6], mast: 0.15, glow: 0.04, hemiI: 1.6, ambient: 0.35, lift: 1 },
 };
+const TIME = LIGHTING_BY_TIME;
 /** Lift a dark authored colour toward a readable one (night skies and fog). */
 function lift(hex, k) {
   const c = new THREE.Color(hex);

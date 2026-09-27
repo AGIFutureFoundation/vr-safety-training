@@ -109,6 +109,14 @@ bilinear pass; evaluating it directly at a full 1024² canvas was measured at
 several hundred milliseconds per painter and was an unacceptable stall the
 first time a station needed its textures.
 
+Material quality has one more piece beyond the map: consistent **environment
+lighting**. `smartcity/js/stage.js` exports `LIGHTING_BY_TIME` — the
+hemisphere colours/intensity and key-light colour/intensity for `night`,
+`dusk` and `day` — and `buildStage()` reads it for every district (a
+station's own accent wash and a district's own mast/rim colour still vary;
+the *sun and sky* do not), so "night reads as night" is one tuning table
+shared by all of them rather than one guess per district.
+
 ## `facePaint()` — the cache
 
 ```js
