@@ -1,6 +1,6 @@
 # SmartCiti.X training series
 
-_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-27. 584 SmartCiti.X stations across 19 categories and 49 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
+_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-27. 591 SmartCiti.X stations across 19 categories and 50 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
 Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 50 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
@@ -55,6 +55,7 @@ Every station is a real union procedure sited generically, built on the shared e
 - [Grocery and Meatpacking — UFCW Store and Plant Floor](#grocery-and-meatpacking)
 - [Airline Cabin and Flight Crew — AFA-CWA and ALPA](#airline-cabin-and-flight-crew)
 - [Mill and Mine](#mill-and-mine)
+- [Screen & Media Crafts](#screen-and-media-crafts)
 
 <a id="hunters-point-bay-restoration"></a>
 ## Hunters Point Clean-up and Bay Restoration
@@ -1522,6 +1523,25 @@ Four mill stations and four mine stations under one steelworkers-and-miners pack
 | 713 | [Mine Escapeway & Self-Rescuer Drill](../../WebXR/smartcity/index.html?sim=mm-mine-escapeway-drill) | Underground miner — mine emergency and evacuation drill | clear | 12 | 2 | — | The self-rescuer donned complete before a step is taken, the alternate escapeway taken the moment the primary is found blocked, and the lifeline's own cones read by feel rather than guessed at. |
 | 714 | [Haul Truck Berm & Dump Point](../../WebXR/smartcity/index.html?sim=mm-haul-truck-berm) | Surface mine haul truck operator | heat-haze | 12 | 2 | — | The berm read against the truck's own axle before backing toward it, the spotter's signal taken before the edge, and the highwall above the dump point given the respect an unstable rock face is owed. |
 | 715 | [Conveyor Belt Fire & Gas Monitoring](../../WebXR/smartcity/index.html?sim=mm-conveyor-fire-and-gas-monitoring) | Underground belt examiner / conveyor attendant | clear | 13 | 2 | — | A belt entry's own exam: a stuck roller freed under lockout before it grinds a fire into the dust beside it, and the CO and methane monitors read and trusted rather than covered or guessed at. |
+
+<a id="screen-and-media-crafts"></a>
+## Screen & Media Crafts
+
+**Union:** SAG-AFTRA, the American Federation of Musicians (AFM), Actors' Equity Association, the NewsGuild-CWA, and IATSE crew locals
+
+**Certifications and standards:** SAG-AFTRA, AFM, Actors' Equity Association and NewsGuild-CWA member safety guidance; IATSE grip, electrical, fly and stagehand practice; OSHA 29 CFR 1910.95 hearing conservation, 29 CFR 1910.132 general PPE, 29 CFR 1910.147 lockout/tagout and 29 CFR 1926.501 fall protection; NFPA 101 Life Safety Code; FCC RF exposure limits for a live truck's mast; ANSI/ASSP Z359 and ANSI E1.4 rigging standards; ANSI/ISEA 107 high-visibility apparel across seven distinct screen and media crafts jobs
+
+Seven jobs a screen and media production actually rotates through: a film set safety meeting and the stunt and SFX go/no-go before a rigged effect, a grip crew's dolly track and counterweighted jib crane, a location shoot's traffic control and the crew's heat and hydration break, a sound stage's electrical distribution and cable crossings, a recording studio's hearing conservation and a piano's load-in, a theatre's fly floor and quick-change lane run from the same calling desk, and a news crew's live truck mast raised at a flooded storm scene. Every station ends on a proof — a gauge proven, a checklist cleared, a radio call answered — rather than on how routine the call sheet made the day look.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| 708 | [Set Safety Meeting & Stunt Go/No-Go](../../WebXR/smartcity/index.html?sim=md-set-safety-meeting-and-stunt-go-no-go) | On-set safety coordinator, running the stunt coordinator's safety meeting and the SFX go/no-go for a compressed-air rigged effect before a stunt performer's fall | clear | 13 | 2 | — | The go/no-go board is walked and the regulator proven before the rig is ever armed, the fall zone is swept for a frayed line and a soft pad, and a late walk-on into the zone is held off the AD's channel rather than the button already in hand. |
+| 709 | [Camera Dolly & Crane Track](../../WebXR/smartcity/index.html?sim=md-camera-dolly-and-crane-track) | IATSE key grip, laying curved dolly track and balancing a counterweighted jib crane for a moving reveal shot | overcast | 13 | 2 | — | The track is swept for an unpinned joint before it carries a shot, the jib arm is balanced on its sled before the swivel ever locks, and a crossing cart is answered off the radio rather than the clamp already being held. |
+| 710 | [Location Shoot Traffic Control & Heat/Hydration](../../WebXR/smartcity/index.html?sim=md-location-shoot-traffic-control-and-heat-hydration) | Location department traffic control coordinator, managing a live-street closure, the production van's reposition move, and the crew's heat and hydration break | heat-haze | 13 | 2 | — | The block is swept for a car nobody moved and a blocked curb ramp, the cooler is proven full before any heat break is called, and a resident's car is turned back on the paddle a driver can actually read. |
+| 711 | [Sound Stage Electrical Distribution & Cable Crossings](../../WebXR/smartcity/index.html?sim=md-sound-stage-electrical-distribution-and-cable-crossings) | IATSE set electrician, running a soundstage's temporary distribution to the dimmer rack and today's practical | indoor (theatre) | 14 | 2 | — | The breaker is locked and the circuit proven dead before a single lug is touched, the load is clamp-metered under the breaker's own rating, and a second electrician's reach is called off the radio before the tester even finishes. |
+| 712 | [Recording Studio Hearing Conservation & Load-In](../../WebXR/smartcity/index.html?sim=md-recording-studio-hearing-conservation-and-load-in) | AFM studio musician and load-in crew, running hearing conservation for a session and a grand piano's load-in down the studio ramp | indoor (theatre) | 13 | 2 | — | The monitor level is proven inside the safe band before any headphones go on, the piano is guided down the ramp at a controlled pace instead of let run, and an early-removed earplug is caught on the talkback before the next loud passage. |
+| 713 | [Theatre Fly Floor & Quick-Change Lane](../../WebXR/smartcity/index.html?sim=md-theatre-fly-floor-and-quick-change-lane) | Actors' Equity stage manager, calling a fly cue and a quick change over the same backstage crossover | indoor (theatre) | 13 | 2 | — | The quick-rig costume is dressed in the order its own snaps demand, the fly system's brake tension is proven before a batten flies over a live crossover, and a wrong-batten start is called off on the headset rather than let run. |
+| 714 | [Newsroom Storm Scene & Live Truck Mast](../../WebXR/smartcity/index.html?sim=md-newsroom-storm-scene-and-live-truck-mast) | NewsGuild-CWA field engineer, raising a live truck's telescoping mast at a flooded storm standup under an overhead power line | storm | 13 | 2 | — | The ground rod is driven before a single mast control is touched, the mast's clearance from the power line is watched the whole way up rather than assumed, and a gust closing that clearance is answered on the emergency stow switch. |
 
 ## Real-world environments
 

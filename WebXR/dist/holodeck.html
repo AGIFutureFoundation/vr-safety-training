@@ -11723,6 +11723,10 @@ const STANDARDS = Object.fromEntries([
   S("usw-mazzocchi-center", "union", "USW Tony Mazzocchi Center health, safety and environmental training", ["Manufacturing"]),
   S("umwa-training", "union", "UMWA — United Mine Workers of America health and safety training for underground and surface mine crews", ["Manufacturing"], "unverified"),
   S("niosh-criteria", "NIOSH", "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards", ["Manufacturing"]),
+  S("sag-aftra-training", "union", "SAG-AFTRA member safety education for on-camera performers and stunt performers, including the production's own safety bulletins", ["Entertainment & Live Events"], "unverified"),
+  S("iatse-training-trust", "union", "IATSE Training Trust Fund — stagecraft, rigging and entertainment electrical skills training", ["Entertainment & Live Events"]),
+  S("osha-1910-95", "OSHA", "29 CFR 1910.95 — Occupational noise exposure", ["Entertainment & Live Events"]),
+  S("nfpa-101", "NFPA", "NFPA 101 — Life Safety Code", ["Entertainment & Live Events"]),
 ].map((s) => [s.id, { ...s, slug: standardSlug(s.body, s.title) }]));
 
 /** The body and title behind a standard id, or a placeholder for an unknown one. */
@@ -12357,6 +12361,17 @@ const PROGRAMME_COMPETENCIES = [
     stations: [
       "mm-hot-strip-mill-stand", "mm-ladle-pour", "mm-coke-oven-heat-rotation", "mm-paper-machine-dryer",
       "mm-continuous-miner-face", "mm-mine-escapeway-drill", "mm-haul-truck-berm", "mm-conveyor-fire-and-gas-monitoring"
+    ],
+    require: 4,
+  },
+  {
+    id: "screen-and-media-crafts",
+    title: "Prove a control before a rig, a circuit, a mast or a cue goes live, across seven distinct screen and media crafts jobs",
+    kind: "programme",
+    standards: ["sag-aftra-training", "iatse-training-trust", "osha-1910-95", "nfpa-101"],
+    stations: [
+      "md-set-safety-meeting-and-stunt-go-no-go", "md-camera-dolly-and-crane-track", "md-location-shoot-traffic-control-and-heat-hydration", "md-sound-stage-electrical-distribution-and-cable-crossings",
+      "md-recording-studio-hearing-conservation-and-load-in", "md-theatre-fly-floor-and-quick-change-lane", "md-newsroom-storm-scene-and-live-truck-mast"
     ],
     require: 4,
   },
@@ -41663,6 +41678,300 @@ const SIMS_META = [
         "Mine Examiner",
         "Fire Boss",
         "Belt Examiner Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "md-set-safety-meeting-and-stunt-go-no-go",
+    "index": "708",
+    "domain": "Screen & Media Crafts",
+    "trade": "On-set safety coordinator, running the stunt coordinator's safety meeting and the SFX go/no-go for a compressed-air rigged effect before a stunt performer's fall",
+    "category": "Entertainment & Live Events",
+    "certification": "SAG-AFTRA safety bulletins for stunt and on-camera performers; IATSE grip and rigging crew practice; ANSI/ASSP Z359 fall-protection equipment for the stunt harness and its descender line; OSHA 29 CFR 1910.132 general personal protective equipment requirements; OSHA 29 CFR 1926.501 duty to have fall protection, applied here to the rigged descender",
+    "name": "Set Safety Meeting & Stunt Go/No-Go",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Set Safety Meeting & Stunt Go/No-Go VR",
+    "tagline": "A backlot safety meeting before a physical gag: the call sheet's SFX rundown read, the stunt performer's impact pads and harness on, the fall zone swept for a frayed line and a soft pad, the go/no-go board walked, the effect's regulator proven inside its plotted band before the key is armed, the spotter's radio confirmed, the take held for a clear line of sight, the rehearsed path walked at quarter speed, the crash pad spotted onto its mark, the medic and the fire watch staged, and the meeting logged — a late walk-on into the fall zone and a kinking regulator hose both answered off a control that isn't the one already in the learner's hand",
+    "accent": 15245882,
+    "accentCss": "#e8a23a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "cleared-for-the-gag",
+      "name": "Cleared for the Gag",
+      "note": "The go/no-go board walked clean, the regulator proven before the key was armed, the walk-on cleared off the AD's channel, and the kinking hose bled before the line ever saw full pressure"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Safety Meeting",
+      "currency": "CLEAR",
+      "ranks": [
+        "Background Crew",
+        "Second Second AD",
+        "Set Safety Trainee",
+        "Safety Coordinator",
+        "Stunt Safety Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "md-camera-dolly-and-crane-track",
+    "index": "709",
+    "domain": "Screen & Media Crafts",
+    "trade": "IATSE key grip, laying curved dolly track and balancing a counterweighted jib crane for a moving reveal shot",
+    "category": "Entertainment & Live Events",
+    "certification": "IATSE grip department training; ASME B30.5 mobile crane practice, applied to the jib arm's counterweighted boom; OSHA 29 CFR 1926.451 general fall-protection requirements for the counterweight sled; ANSI/ISEA 107 high-visibility apparel for the grip crew working trackside",
+    "name": "Camera Dolly & Crane Track",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Camera Dolly & Crane Track VR",
+    "tagline": "A soundstage dolly track and jib crane before the reveal: the grip plot read, gloves and knee pads on, the assembled track swept for an unpinned joint and a missing wedge, the counterweight chart checked against today's lens package, the arm balanced on its sled, the swivel locked, the last joint clamped, the crew called clear, the dolly pushed through the shot at a held speed, sandbags loaded to the tray, the swing zone confirmed with a spotter, and the reveal panned — a gear cart crossing the live track and a slipping counterweight sled both answered off a control that isn't the one already in the learner's hand",
+    "accent": 5227511,
+    "accentCss": "#4fc3f7",
+    "parSeconds": 330,
+    "badge": {
+      "id": "smooth-and-balanced",
+      "name": "Smooth and Balanced",
+      "note": "The track swept clean, the arm balanced before the swivel locked, the shot held smooth on the dolly, and the crossing cart and the slipping sled both answered off the right control"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Grip Truck",
+      "currency": "TRACK",
+      "ranks": [
+        "Loader",
+        "Set-Up Grip",
+        "Dolly Grip",
+        "Best Boy Grip",
+        "Key Grip Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "md-location-shoot-traffic-control-and-heat-hydration",
+    "index": "710",
+    "domain": "Screen & Media Crafts",
+    "trade": "Location department traffic control coordinator, managing a live-street closure, the production van's reposition move, and the crew's heat and hydration break",
+    "category": "Entertainment & Live Events",
+    "certification": "IATSE location department training; ANSI/ISEA 107 high-visibility apparel for the traffic control crew; OSHA 29 CFR 1910.132 general personal protective equipment requirements; Cal/OSHA 8 CCR 3203 injury and illness prevention programme requirement, applied here to the production's own written traffic and heat safety plans; NFPA 101 Life Safety Code requirements for keeping the marked emergency-vehicle lane open through the closure",
+    "name": "Location Shoot Traffic Control & Heat/Hydration",
+    "weather": "heat-haze",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Location Shoot Traffic Control & Heat/Hydration VR",
+    "tagline": "A closed city block before the take: the permit read, hi-vis and paddle on, the block swept for a car that never moved and a blocked curb ramp, the heat index checked and the cooler proven full, the paddle turned to STOP, the all-clear held until both ends read clear, the AD's rolling call confirmed, the paddle held steady through the take, the production van repositioned behind base camp, a jug carried to the cooler, the scheduled heat break called, and the reopening logged — a resident's car and an early heat-illness sign both answered off a control that isn't the one already in the learner's hand",
+    "accent": 16740419,
+    "accentCss": "#ff7043",
+    "parSeconds": 340,
+    "badge": {
+      "id": "block-held-crew-cool",
+      "name": "Block Held, Crew Cool",
+      "note": "The block swept clean, the cooler proven full before the first take, the resident's car turned back off the paddle, and the heat sign caught and answered before it became something worse"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Location Control",
+      "currency": "BLOCK",
+      "ranks": [
+        "Set PA",
+        "Lock-Up PA",
+        "Traffic Control Trainee",
+        "Location Coordinator",
+        "Location Manager Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "md-sound-stage-electrical-distribution-and-cable-crossings",
+    "index": "711",
+    "domain": "Screen & Media Crafts",
+    "trade": "IATSE set electrician, running a soundstage's temporary distribution to the dimmer rack and today's practical",
+    "category": "Entertainment & Live Events",
+    "certification": "IATSE set lighting and electrical department training; NFPA 70E electrical safety in the workplace for the lockout and prove-dead steps; NEC/NFPA 70 wiring practice for the distribution and the cable crossings; OSHA 29 CFR 1910.147 lockout/tagout on the distro breaker; OSHA 29 CFR 1910.305 wiring methods for temporary stage cable runs",
+    "name": "Sound Stage Electrical Distribution & Cable Crossings",
+    "weather": "clear",
+    "indoor": "theatre",
+    "district": null,
+    "title": "SmartCiti.X~ Sound Stage Electrical Distribution & Cable Crossings VR",
+    "tagline": "A soundstage rig before the day's first cue: the power plot's circuit loads read, gloves and glasses on, the floor swept for a taped-over splice and a bare second crossing, the load calc checked against the breaker, the breaker locked out and proven dead before a lug is touched, the new circuit patched, re-energised, clamp-metered under the rating, the gaffer's radio confirmed, the practical's dimmer faded smooth to the cue, the first crossing ramped, the panel's cover closed, and the rig logged — a second electrician reaching for a live lug and a cart crossing the unramped run both answered off a control that isn't the one already in the learner's hand",
+    "accent": 16757504,
+    "accentCss": "#ffb300",
+    "parSeconds": 340,
+    "badge": {
+      "id": "proven-dead-and-patched",
+      "name": "Proven Dead and Patched",
+      "note": "The breaker locked and proven dead before any lug was touched, the load checked under the breaker's rating, and both crossings ramped before anyone wheeled a cart across them"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Distro Bench",
+      "currency": "AMP",
+      "ranks": [
+        "Loader",
+        "Set Lighting Trainee",
+        "Board Operator",
+        "Set Electrician",
+        "Gaffer Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "md-recording-studio-hearing-conservation-and-load-in",
+    "index": "712",
+    "domain": "Screen & Media Crafts",
+    "trade": "AFM studio musician and load-in crew, running hearing conservation for a session and a grand piano's load-in down the studio ramp",
+    "category": "Entertainment & Live Events",
+    "certification": "AFM member safety guidance for orchestra and recording musicians; IATSE stagehand practice for the load-in crew; OSHA 29 CFR 1910.95 occupational noise exposure and hearing conservation; NIOSH criteria for hearing conservation and audiometric monitoring; OSHA 29 CFR 1910.22 walking-working surfaces, applied here to the load-in ramp",
+    "name": "Recording Studio Hearing Conservation & Load-In",
+    "weather": "clear",
+    "indoor": "theatre",
+    "district": null,
+    "title": "SmartCiti.X~ Recording Studio Hearing Conservation & Load-In VR",
+    "tagline": "A live room and control room before a session: the hearing conservation plan read, isolating headphones and earplugs on, the ramp swept for a missing wedge and a frayed spare strap, the piano skid's straps checked against the load chart, the monitor level proven safe before headphones go on, the dolly's casters locked, the ratchet strap held to tension, the moving crew confirmed, the piano guided down the ramp at a controlled pace, the bench carried to its mark, a dosimeter fitted on a pit musician, the talkback confirmed, and the session logged — a second dolly meeting the piano on the ramp and a musician pulling their protection early both answered off a control that isn't the one already in the learner's hand",
+    "accent": 8280002,
+    "accentCss": "#7e57c2",
+    "parSeconds": 340,
+    "badge": {
+      "id": "level-proven-piano-down",
+      "name": "Level Proven, Piano Down",
+      "note": "The monitor level proven safe before any headphones went on, the piano guided down the ramp at a controlled pace, and the early-removed hearing protection caught and answered before the next loud passage"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Session Floor",
+      "currency": "DECIBEL",
+      "ranks": [
+        "Cartage Hand",
+        "Session Sub",
+        "Studio Musician",
+        "Principal Chair",
+        "AFM Steward Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "md-theatre-fly-floor-and-quick-change-lane",
+    "index": "713",
+    "domain": "Screen & Media Crafts",
+    "trade": "Actors' Equity stage manager, calling a fly cue and a quick change over the same backstage crossover",
+    "category": "Entertainment & Live Events",
+    "certification": "Actors' Equity Association safety standards for stage actors and stage managers; IATSE fly crew and stagehand practice; ANSI E1.4 counterweight rigging systems for the fly floor; OSHA 29 CFR 1910.22 walking-working surfaces for the backstage crossover; NFPA 101 Life Safety Code requirements for keeping the crossover clear as an egress path",
+    "name": "Theatre Fly Floor & Quick-Change Lane",
+    "weather": "clear",
+    "indoor": "theatre",
+    "district": null,
+    "title": "SmartCiti.X~ Theatre Fly Floor & Quick-Change Lane VR",
+    "tagline": "A backstage crossover under the fly floor: the cue sheet read, the quick-rig costume dressed in its own snap order, the crossover swept for a blocking props table and a missing spike mark, the fly plot checked against the actor's cross, the brake tension proven, the headset dialled to the calling channel, standby held, go called, the batten watched in at a safe speed, the costume piece handed off, the cross under the landed batten confirmed clear, and the change and the cue logged — a crew member starting the wrong batten and an actor stepping into a landing batten's path both answered off a control that isn't the one already in the learner's hand",
+    "accent": 15483002,
+    "accentCss": "#ec407a",
+    "parSeconds": 340,
+    "badge": {
+      "id": "clean-change-clean-cue",
+      "name": "Clean Change, Clean Cue",
+      "note": "The crossover swept clean, the brake tension proven before the batten flew, the wrong-batten start caught on the headset, and the crossover confirmed clear before anyone crossed under the landed batten"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Calling Desk",
+      "currency": "CUE",
+      "ranks": [
+        "Deck Hand",
+        "Assistant Stage Manager",
+        "Stage Manager",
+        "Production Stage Manager",
+        "Equity Steward Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "md-newsroom-storm-scene-and-live-truck-mast",
+    "index": "714",
+    "domain": "Screen & Media Crafts",
+    "trade": "NewsGuild-CWA field engineer, raising a live truck's telescoping mast at a flooded storm standup under an overhead power line",
+    "category": "Entertainment & Live Events",
+    "certification": "NewsGuild-CWA member safety guidance for broadcast and news field crews; FCC RF exposure limits for the mast's transmission antenna; OSHA 29 CFR 1910.268 telecommunications work practices for the telescoping mast; NEC/NFPA 70 clearance practice for work near overhead power lines; NFPA 101 Life Safety Code requirements for the crew's escape route off the flooded scene",
+    "name": "Newsroom Storm Scene & Live Truck Mast",
+    "weather": "storm",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Newsroom Storm Scene & Live Truck Mast VR",
+    "tagline": "A flooded corner before a live storm standup: the assignment sheet read, rain gear and boots on, the scene swept for a branch on the guy line and an open storm drain, the clearance chart checked against the power line, the ground rod driven before a single mast control is touched, the wind gauge read, the outriggers locked, the mast raised watching its clearance, the producer confirmed, the mast's sway watched inside its band, the guy line anchored, the IFB confirmed, and the shot logged — a gust pushing the mast toward the line and rising floodwater around the stabilizer legs both answered off a control that isn't the one already in the learner's hand",
+    "accent": 2541274,
+    "accentCss": "#26c6da",
+    "parSeconds": 340,
+    "badge": {
+      "id": "mast-up-crew-dry",
+      "name": "Mast Up, Crew Dry",
+      "note": "The ground rod driven before any mast control was touched, the clearance held the whole raise, and the gust and the rising water both answered before either one became the story"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Live Truck",
+      "currency": "SIGNAL",
+      "ranks": [
+        "Desk Assistant",
+        "Field Producer",
+        "ENG Photographer",
+        "Field Engineer",
+        "Chief Engineer Certified"
       ],
       "rankAt": [
         0,

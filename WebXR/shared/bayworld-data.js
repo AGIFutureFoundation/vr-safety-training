@@ -215,7 +215,7 @@ export const BAY_SITES = [
   { id: "uptown-construction-site", name: "Uptown Construction Site", zone: "uptown", position: [-9, -230],
     programmes: ["builders-trades", "cement-masons-and-plasterers"], stations: ["concrete-pour", "cm-slab-screed-bull-float-and-trowel"] },
   { id: "uptown-theatre-district", name: "Uptown Theatre District", zone: "uptown", position: [-68, -204],
-    programmes: ["bartending-course"], stations: ["bar-well-setup", "id-check-underage"] },
+    programmes: ["screen-and-media-crafts", "bartending-course"], stations: ["bar-well-setup", "id-check-underage"] },
   { id: "uptown-restaurant-row", name: "Uptown Restaurant Row", zone: "uptown", position: [-36, -275],
     programmes: ["grocery-and-meatpacking", "culinary-kitchen"], stations: ["kitchen", "knife-skills", "slicer-lockout"] },
   { id: "uptown-hotel-row", name: "Uptown Hotel Row", zone: "uptown", position: [-21, -206],

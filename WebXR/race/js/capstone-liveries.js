@@ -250,5 +250,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "mill-and-mine",
     "name": "Mill and Mine",
     "accent": "#c77a2e"
+  },
+  {
+    "programme": "screen-and-media-crafts",
+    "name": "Screen & Media Crafts",
+    "accent": "#d6558f"
   }
 ];

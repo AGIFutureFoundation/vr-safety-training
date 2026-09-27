@@ -214,6 +214,10 @@ export const STANDARDS = Object.fromEntries([
   S("usw-mazzocchi-center", "union", "USW Tony Mazzocchi Center health, safety and environmental training", ["Manufacturing"]),
   S("umwa-training", "union", "UMWA — United Mine Workers of America health and safety training for underground and surface mine crews", ["Manufacturing"], "unverified"),
   S("niosh-criteria", "NIOSH", "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards", ["Manufacturing"]),
+  S("sag-aftra-training", "union", "SAG-AFTRA member safety education for on-camera performers and stunt performers, including the production's own safety bulletins", ["Entertainment & Live Events"], "unverified"),
+  S("iatse-training-trust", "union", "IATSE Training Trust Fund — stagecraft, rigging and entertainment electrical skills training", ["Entertainment & Live Events"]),
+  S("osha-1910-95", "OSHA", "29 CFR 1910.95 — Occupational noise exposure", ["Entertainment & Live Events"]),
+  S("nfpa-101", "NFPA", "NFPA 101 — Life Safety Code", ["Entertainment & Live Events"]),
 ].map((s) => [s.id, { ...s, slug: standardSlug(s.body, s.title) }]));
 
 /** The body and title behind a standard id, or a placeholder for an unknown one. */
@@ -848,6 +852,17 @@ export const PROGRAMME_COMPETENCIES = [
     stations: [
       "mm-hot-strip-mill-stand", "mm-ladle-pour", "mm-coke-oven-heat-rotation", "mm-paper-machine-dryer",
       "mm-continuous-miner-face", "mm-mine-escapeway-drill", "mm-haul-truck-berm", "mm-conveyor-fire-and-gas-monitoring"
+    ],
+    require: 4,
+  },
+  {
+    id: "screen-and-media-crafts",
+    title: "Prove a control before a rig, a circuit, a mast or a cue goes live, across seven distinct screen and media crafts jobs",
+    kind: "programme",
+    standards: ["sag-aftra-training", "iatse-training-trust", "osha-1910-95", "nfpa-101"],
+    stations: [
+      "md-set-safety-meeting-and-stunt-go-no-go", "md-camera-dolly-and-crane-track", "md-location-shoot-traffic-control-and-heat-hydration", "md-sound-stage-electrical-distribution-and-cable-crossings",
+      "md-recording-studio-hearing-conservation-and-load-in", "md-theatre-fly-floor-and-quick-change-lane", "md-newsroom-storm-scene-and-live-truck-mast"
     ],
     require: 4,
   },

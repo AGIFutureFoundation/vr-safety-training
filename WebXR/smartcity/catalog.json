@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 584
+      "stations": 591
     },
     "trades": {
       "entry": "trades/index.html",
@@ -384,7 +384,14 @@
         "arena-rigging",
         "pyro-cue",
         "le-crowd-barricade-and-show-stop-call",
-        "le-followspot-and-truss-access-at-height"
+        "le-followspot-and-truss-access-at-height",
+        "md-newsroom-storm-scene-and-live-truck-mast",
+        "md-theatre-fly-floor-and-quick-change-lane",
+        "md-recording-studio-hearing-conservation-and-load-in",
+        "md-sound-stage-electrical-distribution-and-cable-crossings",
+        "md-location-shoot-traffic-control-and-heat-hydration",
+        "md-camera-dolly-and-crane-track",
+        "md-set-safety-meeting-and-stunt-go-no-go"
       ]
     },
     {
@@ -5042,6 +5049,62 @@
       "ladder": {
         "levels": 20,
         "lessons": 1611,
+        "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
+    },
+    {
+      "id": "screen-and-media-crafts",
+      "name": "Screen & Media Crafts",
+      "union": "SAG-AFTRA, the American Federation of Musicians (AFM), Actors' Equity Association, the NewsGuild-CWA, and IATSE crew locals",
+      "certification": "SAG-AFTRA, AFM, Actors' Equity Association and NewsGuild-CWA member safety guidance; IATSE grip, electrical, fly and stagehand practice; OSHA 29 CFR 1910.95 hearing conservation, 29 CFR 1910.132 general PPE, 29 CFR 1910.147 lockout/tagout and 29 CFR 1926.501 fall protection; NFPA 101 Life Safety Code; FCC RF exposure limits for a live truck's mast; ANSI/ASSP Z359 and ANSI E1.4 rigging standards; ANSI/ISEA 107 high-visibility apparel across seven distinct screen and media crafts jobs",
+      "summary": "Seven jobs a screen and media production actually rotates through: a film set safety meeting and the stunt and SFX go/no-go before a rigged effect, a grip crew's dolly track and counterweighted jib crane, a location shoot's traffic control and the crew's heat and hydration break, a sound stage's electrical distribution and cable crossings, a recording studio's hearing conservation and a piano's load-in, a theatre's fly floor and quick-change lane run from the same calling desk, and a news crew's live truck mast raised at a flooded storm scene. Every station ends on a proof — a gauge proven, a checklist cleared, a radio call answered — rather than on how routine the call sheet made the day look.",
+      "accent": "#d6558f",
+      "stations": [
+        {
+          "app": "smartcity",
+          "id": "md-set-safety-meeting-and-stunt-go-no-go",
+          "why": "The go/no-go board is walked and the regulator proven before the rig is ever armed, the fall zone is swept for a frayed line and a soft pad, and a late walk-on into the zone is held off the AD's channel rather than the button already in hand."
+        },
+        {
+          "app": "smartcity",
+          "id": "md-camera-dolly-and-crane-track",
+          "why": "The track is swept for an unpinned joint before it carries a shot, the jib arm is balanced on its sled before the swivel ever locks, and a crossing cart is answered off the radio rather than the clamp already being held."
+        },
+        {
+          "app": "smartcity",
+          "id": "md-location-shoot-traffic-control-and-heat-hydration",
+          "why": "The block is swept for a car nobody moved and a blocked curb ramp, the cooler is proven full before any heat break is called, and a resident's car is turned back on the paddle a driver can actually read."
+        },
+        {
+          "app": "smartcity",
+          "id": "md-sound-stage-electrical-distribution-and-cable-crossings",
+          "why": "The breaker is locked and the circuit proven dead before a single lug is touched, the load is clamp-metered under the breaker's own rating, and a second electrician's reach is called off the radio before the tester even finishes."
+        },
+        {
+          "app": "smartcity",
+          "id": "md-recording-studio-hearing-conservation-and-load-in",
+          "why": "The monitor level is proven inside the safe band before any headphones go on, the piano is guided down the ramp at a controlled pace instead of let run, and an early-removed earplug is caught on the talkback before the next loud passage."
+        },
+        {
+          "app": "smartcity",
+          "id": "md-theatre-fly-floor-and-quick-change-lane",
+          "why": "The quick-rig costume is dressed in the order its own snaps demand, the fly system's brake tension is proven before a batten flies over a live crossover, and a wrong-batten start is called off on the headset rather than let run."
+        },
+        {
+          "app": "smartcity",
+          "id": "md-newsroom-storm-scene-and-live-truck-mast",
+          "why": "The ground rod is driven before a single mast control is touched, the mast's clearance from the power line is watched the whole way up rather than assumed, and a gust closing that clearance is answered on the emergency stow switch."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1570,
         "tasks": 120,
         "atBar": 20,
         "partial": 0,
@@ -30190,7 +30253,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 267,
+      "meshes": 263,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -30850,7 +30913,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",
@@ -53575,6 +53638,588 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=mm-hot-strip-mill-stand"
+    },
+    {
+      "app": "smartcity",
+      "id": "md-newsroom-storm-scene-and-live-truck-mast",
+      "name": "Newsroom Storm Scene & Live Truck Mast",
+      "title": "SmartCiti.X~ Newsroom Storm Scene & Live Truck Mast VR",
+      "tagline": "A flooded corner before a live storm standup: the assignment sheet read, rain gear and boots on, the scene swept for a branch on the guy line and an open storm drain, the clearance chart checked against the power line, the ground rod driven before a single mast control is touched, the wind gauge read, the outriggers locked, the mast raised watching its clearance, the producer confirmed, the mast's sway watched inside its band, the guy line anchored, the IFB confirmed, and the shot logged — a gust pushing the mast toward the line and rising floodwater around the stabilizer legs both answered off a control that isn't the one already in the learner's hand",
+      "category": "Entertainment & Live Events",
+      "domain": "Screen & Media Crafts",
+      "trade": "NewsGuild-CWA field engineer, raising a live truck's telescoping mast at a flooded storm standup under an overhead power line",
+      "union": null,
+      "certification": "NewsGuild-CWA member safety guidance for broadcast and news field crews; FCC RF exposure limits for the mast's transmission antenna; OSHA 29 CFR 1910.268 telecommunications work practices for the telescoping mast; NEC/NFPA 70 clearance practice for work near overhead power lines; NFPA 101 Life Safety Code requirements for the crew's escape route off the flooded scene",
+      "accent": "#26c6da",
+      "parSeconds": 340,
+      "weather": "storm",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "turn",
+        "hold",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "mast-up-crew-dry",
+        "name": "Mast Up, Crew Dry",
+        "note": "The ground rod driven before any mast control was touched, the clearance held the whole raise, and the gust and the rising water both answered before either one became the story"
+      },
+      "meshes": 194,
+      "lights": 0,
+      "overBudget": false,
+      "index": "714",
+      "flat": false,
+      "system": "Live Truck",
+      "currency": "SIGNAL",
+      "ranks": [
+        "Desk Assistant",
+        "Field Producer",
+        "ENG Photographer",
+        "Field Engineer",
+        "Chief Engineer Certified"
+      ],
+      "awards": [
+        {
+          "id": "grounded-first",
+          "name": "Grounded First",
+          "note": "Never touched a mast control before the ground rod was driven"
+        },
+        {
+          "id": "gust-answered",
+          "name": "Gust Answered",
+          "note": "The gust toward the power line was stowed off the emergency switch, not ridden out"
+        },
+        {
+          "id": "never-under-the-mast",
+          "name": "Never Under the Mast",
+          "note": "Never raised the mast before the ground rod, never stepped into floodwater near a cable, never released a loaded outrigger, never blocked the escape route"
+        },
+        {
+          "id": "clean-standup",
+          "name": "Clean Standup",
+          "note": "No corrections from the assignment to the closing log"
+        },
+        {
+          "id": "steady-sway",
+          "name": "Steady Sway",
+          "note": "The mast's sway held its band the whole live shot, first time"
+        },
+        {
+          "id": "live-on-time",
+          "name": "Live On Time",
+          "note": "Mast up and confirmed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=md-newsroom-storm-scene-and-live-truck-mast"
+    },
+    {
+      "app": "smartcity",
+      "id": "md-theatre-fly-floor-and-quick-change-lane",
+      "name": "Theatre Fly Floor & Quick-Change Lane",
+      "title": "SmartCiti.X~ Theatre Fly Floor & Quick-Change Lane VR",
+      "tagline": "A backstage crossover under the fly floor: the cue sheet read, the quick-rig costume dressed in its own snap order, the crossover swept for a blocking props table and a missing spike mark, the fly plot checked against the actor's cross, the brake tension proven, the headset dialled to the calling channel, standby held, go called, the batten watched in at a safe speed, the costume piece handed off, the cross under the landed batten confirmed clear, and the change and the cue logged — a crew member starting the wrong batten and an actor stepping into a landing batten's path both answered off a control that isn't the one already in the learner's hand",
+      "category": "Entertainment & Live Events",
+      "domain": "Screen & Media Crafts",
+      "trade": "Actors' Equity stage manager, calling a fly cue and a quick change over the same backstage crossover",
+      "union": null,
+      "certification": "Actors' Equity Association safety standards for stage actors and stage managers; IATSE fly crew and stagehand practice; ANSI E1.4 counterweight rigging systems for the fly floor; OSHA 29 CFR 1910.22 walking-working surfaces for the backstage crossover; NFPA 101 Life Safety Code requirements for keeping the crossover clear as an egress path",
+      "accent": "#ec407a",
+      "parSeconds": 340,
+      "weather": "clear",
+      "indoor": "theatre",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "turn",
+        "hold",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "clean-change-clean-cue",
+        "name": "Clean Change, Clean Cue",
+        "note": "The crossover swept clean, the brake tension proven before the batten flew, the wrong-batten start caught on the headset, and the crossover confirmed clear before anyone crossed under the landed batten"
+      },
+      "meshes": 165,
+      "lights": 0,
+      "overBudget": false,
+      "index": "713",
+      "flat": false,
+      "system": "Calling Desk",
+      "currency": "CUE",
+      "ranks": [
+        "Deck Hand",
+        "Assistant Stage Manager",
+        "Stage Manager",
+        "Production Stage Manager",
+        "Equity Steward Certified"
+      ],
+      "awards": [
+        {
+          "id": "tension-proven-first",
+          "name": "Tension Proven First",
+          "note": "Never called go before the brake tension read proven"
+        },
+        {
+          "id": "wrong-batten-caught",
+          "name": "Wrong Batten Caught",
+          "note": "The wrong-batten start was called off on the headset, not let run"
+        },
+        {
+          "id": "never-under-the-batten",
+          "name": "Never Under the Batten",
+          "note": "Never reached under a flying batten, never crossed the blind corner unchecked, never reached into the rig while it was being pinned, never blocked the crossover with the cart"
+        },
+        {
+          "id": "clean-call",
+          "name": "Clean Call",
+          "note": "No corrections from the cue sheet to the closing log"
+        },
+        {
+          "id": "steady-fly",
+          "name": "Steady Fly",
+          "note": "The batten held its speed band the whole way in, first time"
+        },
+        {
+          "id": "curtain-on-time",
+          "name": "Curtain On Time",
+          "note": "Change made and cue called inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=md-theatre-fly-floor-and-quick-change-lane"
+    },
+    {
+      "app": "smartcity",
+      "id": "md-recording-studio-hearing-conservation-and-load-in",
+      "name": "Recording Studio Hearing Conservation & Load-In",
+      "title": "SmartCiti.X~ Recording Studio Hearing Conservation & Load-In VR",
+      "tagline": "A live room and control room before a session: the hearing conservation plan read, isolating headphones and earplugs on, the ramp swept for a missing wedge and a frayed spare strap, the piano skid's straps checked against the load chart, the monitor level proven safe before headphones go on, the dolly's casters locked, the ratchet strap held to tension, the moving crew confirmed, the piano guided down the ramp at a controlled pace, the bench carried to its mark, a dosimeter fitted on a pit musician, the talkback confirmed, and the session logged — a second dolly meeting the piano on the ramp and a musician pulling their protection early both answered off a control that isn't the one already in the learner's hand",
+      "category": "Entertainment & Live Events",
+      "domain": "Screen & Media Crafts",
+      "trade": "AFM studio musician and load-in crew, running hearing conservation for a session and a grand piano's load-in down the studio ramp",
+      "union": null,
+      "certification": "AFM member safety guidance for orchestra and recording musicians; IATSE stagehand practice for the load-in crew; OSHA 29 CFR 1910.95 occupational noise exposure and hearing conservation; NIOSH criteria for hearing conservation and audiometric monitoring; OSHA 29 CFR 1910.22 walking-working surfaces, applied here to the load-in ramp",
+      "accent": "#7e57c2",
+      "parSeconds": 340,
+      "weather": "clear",
+      "indoor": "theatre",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "turn",
+        "hold",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "level-proven-piano-down",
+        "name": "Level Proven, Piano Down",
+        "note": "The monitor level proven safe before any headphones went on, the piano guided down the ramp at a controlled pace, and the early-removed hearing protection caught and answered before the next loud passage"
+      },
+      "meshes": 154,
+      "lights": 0,
+      "overBudget": false,
+      "index": "712",
+      "flat": false,
+      "system": "Session Floor",
+      "currency": "DECIBEL",
+      "ranks": [
+        "Cartage Hand",
+        "Session Sub",
+        "Studio Musician",
+        "Principal Chair",
+        "AFM Steward Certified"
+      ],
+      "awards": [
+        {
+          "id": "level-proven-first",
+          "name": "Level Proven First",
+          "note": "Never put headphones on before the monitor level read inside the safe band"
+        },
+        {
+          "id": "protection-caught",
+          "name": "Protection Caught",
+          "note": "The early-removed hearing protection was answered on the talkback, not ignored"
+        },
+        {
+          "id": "never-under-the-skid",
+          "name": "Never Under the Skid",
+          "note": "Never reached under the descending piano, never skipped hearing protection in the pit, never released a loaded caster lock, never blocked the fire exit"
+        },
+        {
+          "id": "clean-session",
+          "name": "Clean Session",
+          "note": "No corrections from the plan to the closing log"
+        },
+        {
+          "id": "controlled-descent",
+          "name": "Controlled Descent",
+          "note": "The piano's descent held its band the whole ramp, first time"
+        },
+        {
+          "id": "downbeat-on-time",
+          "name": "Downbeat On Time",
+          "note": "Loaded in and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=md-recording-studio-hearing-conservation-and-load-in"
+    },
+    {
+      "app": "smartcity",
+      "id": "md-sound-stage-electrical-distribution-and-cable-crossings",
+      "name": "Sound Stage Electrical Distribution & Cable Crossings",
+      "title": "SmartCiti.X~ Sound Stage Electrical Distribution & Cable Crossings VR",
+      "tagline": "A soundstage rig before the day's first cue: the power plot's circuit loads read, gloves and glasses on, the floor swept for a taped-over splice and a bare second crossing, the load calc checked against the breaker, the breaker locked out and proven dead before a lug is touched, the new circuit patched, re-energised, clamp-metered under the rating, the gaffer's radio confirmed, the practical's dimmer faded smooth to the cue, the first crossing ramped, the panel's cover closed, and the rig logged — a second electrician reaching for a live lug and a cart crossing the unramped run both answered off a control that isn't the one already in the learner's hand",
+      "category": "Entertainment & Live Events",
+      "domain": "Screen & Media Crafts",
+      "trade": "IATSE set electrician, running a soundstage's temporary distribution to the dimmer rack and today's practical",
+      "union": null,
+      "certification": "IATSE set lighting and electrical department training; NFPA 70E electrical safety in the workplace for the lockout and prove-dead steps; NEC/NFPA 70 wiring practice for the distribution and the cable crossings; OSHA 29 CFR 1910.147 lockout/tagout on the distro breaker; OSHA 29 CFR 1910.305 wiring methods for temporary stage cable runs",
+      "accent": "#ffb300",
+      "parSeconds": 340,
+      "weather": "clear",
+      "indoor": "theatre",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "turn",
+        "hold",
+        "gauge",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "proven-dead-and-patched",
+        "name": "Proven Dead and Patched",
+        "note": "The breaker locked and proven dead before any lug was touched, the load checked under the breaker's rating, and both crossings ramped before anyone wheeled a cart across them"
+      },
+      "meshes": 154,
+      "lights": 0,
+      "overBudget": false,
+      "index": "711",
+      "flat": false,
+      "system": "Distro Bench",
+      "currency": "AMP",
+      "ranks": [
+        "Loader",
+        "Set Lighting Trainee",
+        "Board Operator",
+        "Set Electrician",
+        "Gaffer Certified"
+      ],
+      "awards": [
+        {
+          "id": "dead-before-lug",
+          "name": "Dead Before Lug",
+          "note": "Never landed a lug before the tester proved the circuit dead"
+        },
+        {
+          "id": "second-electrician-answered",
+          "name": "Second Electrician Answered",
+          "note": "The second electrician's reach was stopped off the radio, not ignored"
+        },
+        {
+          "id": "never-past-the-cover",
+          "name": "Never Past the Cover",
+          "note": "Never reached a lug before it was proven dead, never crossed an unramped run, never added a fixture past the breaker's rating, never opened the panel live"
+        },
+        {
+          "id": "clean-patch",
+          "name": "Clean Patch",
+          "note": "No corrections from the plot to the closing log"
+        },
+        {
+          "id": "smooth-fade",
+          "name": "Smooth Fade",
+          "note": "The dimmer fade held its band the whole way up, first time"
+        },
+        {
+          "id": "rig-on-time",
+          "name": "Rig On Time",
+          "note": "Proven, patched and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=md-sound-stage-electrical-distribution-and-cable-crossings"
+    },
+    {
+      "app": "smartcity",
+      "id": "md-location-shoot-traffic-control-and-heat-hydration",
+      "name": "Location Shoot Traffic Control & Heat/Hydration",
+      "title": "SmartCiti.X~ Location Shoot Traffic Control & Heat/Hydration VR",
+      "tagline": "A closed city block before the take: the permit read, hi-vis and paddle on, the block swept for a car that never moved and a blocked curb ramp, the heat index checked and the cooler proven full, the paddle turned to STOP, the all-clear held until both ends read clear, the AD's rolling call confirmed, the paddle held steady through the take, the production van repositioned behind base camp, a jug carried to the cooler, the scheduled heat break called, and the reopening logged — a resident's car and an early heat-illness sign both answered off a control that isn't the one already in the learner's hand",
+      "category": "Entertainment & Live Events",
+      "domain": "Screen & Media Crafts",
+      "trade": "Location department traffic control coordinator, managing a live-street closure, the production van's reposition move, and the crew's heat and hydration break",
+      "union": null,
+      "certification": "IATSE location department training; ANSI/ISEA 107 high-visibility apparel for the traffic control crew; OSHA 29 CFR 1910.132 general personal protective equipment requirements; Cal/OSHA 8 CCR 3203 injury and illness prevention programme requirement, applied here to the production's own written traffic and heat safety plans; NFPA 101 Life Safety Code requirements for keeping the marked emergency-vehicle lane open through the closure",
+      "accent": "#ff7043",
+      "parSeconds": 340,
+      "weather": "heat-haze",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "turn",
+        "hold",
+        "track",
+        "drive",
+        "drag"
+      ],
+      "badge": {
+        "id": "block-held-crew-cool",
+        "name": "Block Held, Crew Cool",
+        "note": "The block swept clean, the cooler proven full before the first take, the resident's car turned back off the paddle, and the heat sign caught and answered before it became something worse"
+      },
+      "meshes": 250,
+      "lights": 0,
+      "overBudget": false,
+      "index": "710",
+      "flat": false,
+      "system": "Location Control",
+      "currency": "BLOCK",
+      "ranks": [
+        "Set PA",
+        "Lock-Up PA",
+        "Traffic Control Trainee",
+        "Location Coordinator",
+        "Location Manager Certified"
+      ],
+      "awards": [
+        {
+          "id": "cooler-proven",
+          "name": "Cooler Proven",
+          "note": "Never called the heat break before the cooler read full"
+        },
+        {
+          "id": "car-turned-back",
+          "name": "Car Turned Back",
+          "note": "The resident's car was turned back on the paddle, not the all-clear call"
+        },
+        {
+          "id": "never-in-the-lane",
+          "name": "Never in the Lane",
+          "note": "Never stood in a blind corner, never crossed behind the reversing van, never blocked the fire lane, never skipped the cable ramp"
+        },
+        {
+          "id": "clean-closure",
+          "name": "Clean Closure",
+          "note": "No corrections from the permit to the closing log"
+        },
+        {
+          "id": "steady-paddle",
+          "name": "Steady Paddle",
+          "note": "The paddle held its band facing traffic the whole take"
+        },
+        {
+          "id": "rolling-on-time",
+          "name": "Rolling On Time",
+          "note": "Cleared for the take inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=md-location-shoot-traffic-control-and-heat-hydration"
+    },
+    {
+      "app": "smartcity",
+      "id": "md-camera-dolly-and-crane-track",
+      "name": "Camera Dolly & Crane Track",
+      "title": "SmartCiti.X~ Camera Dolly & Crane Track VR",
+      "tagline": "A soundstage dolly track and jib crane before the reveal: the grip plot read, gloves and knee pads on, the assembled track swept for an unpinned joint and a missing wedge, the counterweight chart checked against today's lens package, the arm balanced on its sled, the swivel locked, the last joint clamped, the crew called clear, the dolly pushed through the shot at a held speed, sandbags loaded to the tray, the swing zone confirmed with a spotter, and the reveal panned — a gear cart crossing the live track and a slipping counterweight sled both answered off a control that isn't the one already in the learner's hand",
+      "category": "Entertainment & Live Events",
+      "domain": "Screen & Media Crafts",
+      "trade": "IATSE key grip, laying curved dolly track and balancing a counterweighted jib crane for a moving reveal shot",
+      "union": null,
+      "certification": "IATSE grip department training; ASME B30.5 mobile crane practice, applied to the jib arm's counterweighted boom; OSHA 29 CFR 1926.451 general fall-protection requirements for the counterweight sled; ANSI/ISEA 107 high-visibility apparel for the grip crew working trackside",
+      "accent": "#4fc3f7",
+      "parSeconds": 330,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "turn",
+        "hold",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "smooth-and-balanced",
+        "name": "Smooth and Balanced",
+        "note": "The track swept clean, the arm balanced before the swivel locked, the shot held smooth on the dolly, and the crossing cart and the slipping sled both answered off the right control"
+      },
+      "meshes": 170,
+      "lights": 0,
+      "overBudget": false,
+      "index": "709",
+      "flat": false,
+      "system": "Grip Truck",
+      "currency": "TRACK",
+      "ranks": [
+        "Loader",
+        "Set-Up Grip",
+        "Dolly Grip",
+        "Best Boy Grip",
+        "Key Grip Certified"
+      ],
+      "awards": [
+        {
+          "id": "balanced-first",
+          "name": "Balanced First",
+          "note": "Never locked the swivel before the arm read balanced on its sled"
+        },
+        {
+          "id": "cart-answered",
+          "name": "Cart Answered",
+          "note": "The crossing cart was held off the grip radio, not ignored"
+        },
+        {
+          "id": "never-under-the-dolly",
+          "name": "Never Under the Dolly",
+          "note": "Never reached under a moving dolly, never in the swing radius, never pulled an armed counterweight pin, never on ungritted track"
+        },
+        {
+          "id": "clean-lay",
+          "name": "Clean Lay",
+          "note": "No corrections from the plot to the closing log"
+        },
+        {
+          "id": "smooth-push",
+          "name": "Smooth Push",
+          "note": "The dolly held its speed band the whole push, first time"
+        },
+        {
+          "id": "rolling-on-time",
+          "name": "Rolling On Time",
+          "note": "Balanced and rolling inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=md-camera-dolly-and-crane-track"
+    },
+    {
+      "app": "smartcity",
+      "id": "md-set-safety-meeting-and-stunt-go-no-go",
+      "name": "Set Safety Meeting & Stunt Go/No-Go",
+      "title": "SmartCiti.X~ Set Safety Meeting & Stunt Go/No-Go VR",
+      "tagline": "A backlot safety meeting before a physical gag: the call sheet's SFX rundown read, the stunt performer's impact pads and harness on, the fall zone swept for a frayed line and a soft pad, the go/no-go board walked, the effect's regulator proven inside its plotted band before the key is armed, the spotter's radio confirmed, the take held for a clear line of sight, the rehearsed path walked at quarter speed, the crash pad spotted onto its mark, the medic and the fire watch staged, and the meeting logged — a late walk-on into the fall zone and a kinking regulator hose both answered off a control that isn't the one already in the learner's hand",
+      "category": "Entertainment & Live Events",
+      "domain": "Screen & Media Crafts",
+      "trade": "On-set safety coordinator, running the stunt coordinator's safety meeting and the SFX go/no-go for a compressed-air rigged effect before a stunt performer's fall",
+      "union": null,
+      "certification": "SAG-AFTRA safety bulletins for stunt and on-camera performers; IATSE grip and rigging crew practice; ANSI/ASSP Z359 fall-protection equipment for the stunt harness and its descender line; OSHA 29 CFR 1910.132 general personal protective equipment requirements; OSHA 29 CFR 1926.501 duty to have fall protection, applied here to the rigged descender",
+      "accent": "#e8a23a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "turn",
+        "hold",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "cleared-for-the-gag",
+        "name": "Cleared for the Gag",
+        "note": "The go/no-go board walked clean, the regulator proven before the key was armed, the walk-on cleared off the AD's channel, and the kinking hose bled before the line ever saw full pressure"
+      },
+      "meshes": 226,
+      "lights": 0,
+      "overBudget": false,
+      "index": "708",
+      "flat": false,
+      "system": "Safety Meeting",
+      "currency": "CLEAR",
+      "ranks": [
+        "Background Crew",
+        "Second Second AD",
+        "Set Safety Trainee",
+        "Safety Coordinator",
+        "Stunt Safety Certified"
+      ],
+      "awards": [
+        {
+          "id": "gear-checked-first",
+          "name": "Gear Checked First",
+          "note": "Never armed the effect before the regulator read inside the plotted band"
+        },
+        {
+          "id": "line-answered",
+          "name": "Line Answered",
+          "note": "The walk-on into the fall zone was held off the AD's channel, not the hold button already in hand"
+        },
+        {
+          "id": "never-past-the-tape",
+          "name": "Never Past the Tape",
+          "note": "Never reached into the armed rig, never crossed the tape, never grabbed an untagged harness, never climbed the rig frame"
+        },
+        {
+          "id": "clean-meeting",
+          "name": "Clean Meeting",
+          "note": "No corrections from the call sheet to the closing log"
+        },
+        {
+          "id": "on-the-mark",
+          "name": "On the Mark",
+          "note": "The rehearsed path held inside the band, first time"
+        },
+        {
+          "id": "picture-up-on-time",
+          "name": "Picture Up On Time",
+          "note": "Cleared for the gag inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=md-set-safety-meeting-and-stunt-go-no-go"
     },
     {
       "app": "trades",
