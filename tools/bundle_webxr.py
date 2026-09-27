@@ -432,6 +432,44 @@ APPS = {
         ],
         "entry": '<script type="module" src="./js/atlas.js"></script>',
     },
+    # Bay Regatta (WebXR/regatta, page regatta.html): the twelve-yacht fleet
+    # (shared/yacht-fleet.js, motorYacht variants), three race courses on Bay
+    # World's water, the race engine and the hosted-events calendar, which
+    # pays into Bay World's own career ledger (bayworld/js/career.js and its
+    # tracking.js chain, listed here in the same order the bayworld bundle
+    # uses). The city and its water come from shared/bayworld.js, so its
+    # props.js/citykit.js dependencies ride along.
+    "regatta": {
+        "index": "regatta.html",
+        "out": "regatta.html",
+        "modules": [
+            SHARED / "input.js",
+            SHARED / "weather.js",
+            SHARED / "kit.js",
+            SHARED / "textures.js",
+            SHARED / "perf.js",
+            SHARED / "fleet.js",
+            SHARED / "props.js",
+            WEBXR / "smartcity/js/citykit.js",
+            SHARED / "records.js",
+            SHARED / "a11y.js",
+            SHARED / "game.js",
+            SHARED / "competency.js",
+            SHARED / "ladder-milestones-data.js",
+            SHARED / "ladder.js",
+            SHARED / "tracking.js",
+            SHARED / "bayworld-data.js",
+            SHARED / "bayworld.js",
+            SHARED / "yacht-fleet.js",
+            WEBXR / "bayworld/js/career.js",
+            WEBXR / "regatta/js/courses.js",
+            WEBXR / "regatta/js/race.js",
+            WEBXR / "regatta/js/events.js",
+            WEBXR / "regatta/js/world.js",
+            WEBXR / "regatta/js/app.js",
+        ],
+        "entry": '<script type="module" src="./js/app.js"></script>',
+    },
 }
 
 # Cross-app links (e.g. trades' intro pointing at "../smartcity/index.html")
@@ -622,6 +660,7 @@ DIST_PAGES = {
     "fairway": "fairway.html",
     "bayworld": "bayworld.html",
     "atlas": "atlas.html",
+    "regatta": "regatta.html",
 }
 DIST_SHARED = [
     "auth.js", "identity.js", "records.js", "radio-quiz.js", "radio-quiz-data.js",
@@ -641,8 +680,13 @@ def combined_fixup(html: str) -> str:
     an app entry becomes its flat file name and everything else loses a level.
     """
     for app, page in DIST_PAGES.items():
+        # An app whose page is not index.html (the regatta's regatta.html) is
+        # linked by that name from its siblings, so both spellings collapse
+        # to the flat file here.
+        index = APPS[app].get("index", "index.html")
         for q in LINK_QUOTES:
             html = html.replace(f'{q}../../{app}/index.html', f'{q}./{page}')
+            html = html.replace(f'{q}../../{app}/{index}', f'{q}./{page}')
             html = html.replace(f'{q}../../{app}/dist/{page}', f'{q}./{page}')
     for q in LINK_QUOTES:
         # The homepage sits beside the bundles in this folder.

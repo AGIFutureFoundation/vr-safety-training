@@ -155,6 +155,7 @@
     <p id="jb-programmes"></p>
     <div class="row" style="margin-top:14px">
       <button class="btn primary" id="jb-launch">Start the mission</button>
+      <a class="btn ghost" id="jb-regatta" href="./regatta.html" hidden style="text-decoration:none">Regatta</a>
       <button class="btn ghost" id="jb-close">Close</button>
     </div>
   </div>
@@ -182,7 +183,7 @@
       <canvas id="map-canvas" width="512" height="512"></canvas>
       <div id="map-sites"></div>
     </div>
-    <div class="row" style="margin-top:14px"><button class="btn ghost" id="map-close">Close (M)</button><a class="btn ghost" href="./atlas.html" style="text-decoration:none">Atlas</a></div>
+    <div class="row" style="margin-top:14px"><button class="btn ghost" id="map-close">Close (M)</button><a class="btn ghost" href="./atlas.html" style="text-decoration:none">Atlas</a><a class="btn ghost" href="./regatta.html" style="text-decoration:none">Regatta</a></div>
   </div>
 </div>
 
@@ -22621,6 +22622,9 @@ function bwOpenJobBoard(site) {
   // carry no station at all — a real place on the map with nothing to launch
   // yet, rather than an invented one just to fill the button.
   $("jb-launch")?.toggleAttribute("hidden", !(site.stations ?? []).length);
+  // The yacht harbour's board also opens the Bay Regatta (WebXR/regatta): the
+  // fleet, the hosted events and the race courses on this same water.
+  $("jb-regatta")?.toggleAttribute("hidden", site.id !== "island-yacht-harbor");
   bwOpenScreen("jobboard");
 }
 $("jb-launch")?.addEventListener("click", () => {

@@ -201,6 +201,9 @@ function bwOpenJobBoard(site) {
   // carry no station at all — a real place on the map with nothing to launch
   // yet, rather than an invented one just to fill the button.
   $("jb-launch")?.toggleAttribute("hidden", !(site.stations ?? []).length);
+  // The yacht harbour's board also opens the Bay Regatta (WebXR/regatta): the
+  // fleet, the hosted events and the race courses on this same water.
+  $("jb-regatta")?.toggleAttribute("hidden", site.id !== "island-yacht-harbor");
   bwOpenScreen("jobboard");
 }
 $("jb-launch")?.addEventListener("click", () => {
