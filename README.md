@@ -106,6 +106,10 @@ companion described below.
 [`WebXR/portal/index.html`](WebXR/portal/index.html) is a static map linking all four with a
 short description of each; open it first if exploring the WebXR suite rather than the Unity
 build.
+The platform as a whole is described in [`docs/WHITEPAPER.md`](docs/WHITEPAPER.md), and the
+free-roam training game built over it — Bay World, Fairway Park, the quest layer, the Bay Atlas and
+the unions and trades that populate them — in [`docs/GAME-WHITEPAPER.md`](docs/GAME-WHITEPAPER.md);
+every number in both is named to the command or file that produced it.
 
 ## Meta Quest and web deployment
 

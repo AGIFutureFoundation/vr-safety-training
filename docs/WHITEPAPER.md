@@ -804,6 +804,37 @@ flight at that entry's own time of writing (warehouse automation and
 aviation ground), and the one partial ladder level (Section 4.3) is a
 known, quantified content gap rather than a defect.
 
+## The game
+
+The open-world direction this paper's roadmap named has landed and is
+described in its own companion paper, [`GAME-WHITEPAPER.md`](GAME-WHITEPAPER.md),
+with every figure sourced in `docs/game-whitepaper-facts.json`. The short
+version: the platform's stations now sit inside a free-roam training game.
+**Bay World** (`WebXR/bayworld/`, `WebXR/shared/bayworld-data.js`) is a
+stylised 2400 × 1600 m shoreline city of 16 zones, 28 generic public
+landmarks, 50 training sites and 15 roads; every programme is anchored at a
+site, and every job board deep-links into a real station whose returned
+record — not the game — awards reputation and credits
+(`WebXR/bayworld/js/career.js`). **Fairway Park** (`WebXR/fairway/`,
+`WebXR/shared/fairway-data.js`) is a nine-hole, par-36 course and sports
+facility with three mini-games and a twelve-station grounds-and-landscaping
+programme working on it. The **Deep** (`WebXR/shared/underwater-data.js`,
+`WebXR/underwater/`) is a 2000 × 1400 m seabed of 14 zones, 32 dive sites and
+17 dive lines, with a 60-dive game whose HUD shows a reserve word and never a
+depth number. The **Regatta** (`WebXR/regatta/`) races twelve yachts over
+three courses and five hosted events paying into the same ledger, under a
+shared procedural sky with generic wildlife (`shared/sky.js`, `wildlife.js`).
+A generated quest layer (`tools/gen_bay_quests.mjs`) adds a seven-quest main
+arc over the Job Readiness Edition, an opener and a capstone side quest per
+programme, field-note eggs quoting a real station's step verbatim, and six
+scored activities — no violence and no gambling anywhere. The **Bay Atlas**
+(`docs/mapbox.md`) lists every site and landmark and draws a real-world map
+only with a viewer's own token; the repository ships none. The game's rule is
+the platform's: nothing in it touches a station's steps, its score or the
+auditable record, and `competency.js`'s mastery rule is the only thing that
+earns a competency. Where these counts differ from the tables above, the game
+paper is current.
+
 ## 13. Governance, licensing and safety posture
 
 ### 13.1 No invented facts
