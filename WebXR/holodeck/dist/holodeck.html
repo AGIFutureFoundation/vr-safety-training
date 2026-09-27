@@ -11515,6 +11515,10 @@ const STANDARDS = Object.fromEntries([
   S("ansi-b71-outdoor-power-equipment", "ANSI", "ANSI B71 series — safety specifications for outdoor power equipment (walk-behind and riding mowers, trimmers and blowers), published with the Outdoor Power Equipment Institute", ["Grounds & Landscaping"], "unverified"),
   S("ansi-z133-arboriculture", "ANSI", "ANSI Z133 — safety requirements for arboricultural operations, including chippers used on a tree crew", ["Grounds & Landscaping"], "unverified"),
   S("epa-fifra-pesticide-label", "EPA", "Federal Insecticide, Fungicide, and Rodenticide Act (FIFRA) — the pesticide product label as a legal document, and EPA's pesticide applicator and worker-protection requirements", ["Grounds & Landscaping"], "unverified"),
+  S("sag-aftra-training", "union", "SAG-AFTRA member safety education for on-camera performers and stunt performers, including the production's own safety bulletins", ["Entertainment & Live Events"], "unverified"),
+  S("iatse-training-trust", "union", "IATSE Training Trust Fund — stagecraft, rigging and entertainment electrical skills training", ["Entertainment & Live Events"]),
+  S("osha-1910-95", "OSHA", "29 CFR 1910.95 — Occupational noise exposure", ["Entertainment & Live Events"]),
+  S("nfpa-101", "NFPA", "NFPA 101 — Life Safety Code", ["Entertainment & Live Events"]),
 ].map((s) => [s.id, { ...s, slug: standardSlug(s.body, s.title) }]));
 
 /** The body and title behind a standard id, or a placeholder for an unknown one. */
@@ -12099,6 +12103,17 @@ const PROGRAMME_COMPETENCIES = [
       "gk-sports-field-line-marking-and-goal-anchoring", "gk-storm-cleanup-chipper-and-traffic-control", "gk-hardscape-paver-base-and-compaction", "gk-greenhouse-nursery-chemical-storage-and-eyewash"
     ],
     require: 6,
+  },
+  {
+    id: "screen-and-media-crafts",
+    title: "Prove a control before a rig, a circuit, a mast or a cue goes live, across seven distinct screen and media crafts jobs",
+    kind: "programme",
+    standards: ["sag-aftra-training", "iatse-training-trust", "osha-1910-95", "nfpa-101"],
+    stations: [
+      "md-set-safety-meeting-and-stunt-go-no-go", "md-camera-dolly-and-crane-track", "md-location-shoot-traffic-control-and-heat-hydration", "md-sound-stage-electrical-distribution-and-cable-crossings",
+      "md-recording-studio-hearing-conservation-and-load-in", "md-theatre-fly-floor-and-quick-change-lane", "md-newsroom-storm-scene-and-live-truck-mast"
+    ],
+    require: 4,
   },
 ];
 
@@ -40311,6 +40326,48 @@ const SIMS_META = [
         "Stage Manager",
         "Production Stage Manager",
         "Equity Steward Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "md-newsroom-storm-scene-and-live-truck-mast",
+    "index": "714",
+    "domain": "Screen & Media Crafts",
+    "trade": "NewsGuild-CWA field engineer, raising a live truck's telescoping mast at a flooded storm standup under an overhead power line",
+    "category": "Entertainment & Live Events",
+    "certification": "NewsGuild-CWA member safety guidance for broadcast and news field crews; FCC RF exposure limits for the mast's transmission antenna; OSHA 29 CFR 1910.268 telecommunications work practices for the telescoping mast; NEC/NFPA 70 clearance practice for work near overhead power lines; NFPA 101 Life Safety Code requirements for the crew's escape route off the flooded scene",
+    "name": "Newsroom Storm Scene & Live Truck Mast",
+    "weather": "storm",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Newsroom Storm Scene & Live Truck Mast VR",
+    "tagline": "A flooded corner before a live storm standup: the assignment sheet read, rain gear and boots on, the scene swept for a branch on the guy line and an open storm drain, the clearance chart checked against the power line, the ground rod driven before a single mast control is touched, the wind gauge read, the outriggers locked, the mast raised watching its clearance, the producer confirmed, the mast's sway watched inside its band, the guy line anchored, the IFB confirmed, and the shot logged — a gust pushing the mast toward the line and rising floodwater around the stabilizer legs both answered off a control that isn't the one already in the learner's hand",
+    "accent": 2541274,
+    "accentCss": "#26c6da",
+    "parSeconds": 340,
+    "badge": {
+      "id": "mast-up-crew-dry",
+      "name": "Mast Up, Crew Dry",
+      "note": "The ground rod driven before any mast control was touched, the clearance held the whole raise, and the gust and the rising water both answered before either one became the story"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Live Truck",
+      "currency": "SIGNAL",
+      "ranks": [
+        "Desk Assistant",
+        "Field Producer",
+        "ENG Photographer",
+        "Field Engineer",
+        "Chief Engineer Certified"
       ],
       "rankAt": [
         0,

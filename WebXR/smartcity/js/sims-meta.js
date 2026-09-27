@@ -23716,5 +23716,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "md-newsroom-storm-scene-and-live-truck-mast",
+    "index": "714",
+    "domain": "Screen & Media Crafts",
+    "trade": "NewsGuild-CWA field engineer, raising a live truck's telescoping mast at a flooded storm standup under an overhead power line",
+    "category": "Entertainment & Live Events",
+    "certification": "NewsGuild-CWA member safety guidance for broadcast and news field crews; FCC RF exposure limits for the mast's transmission antenna; OSHA 29 CFR 1910.268 telecommunications work practices for the telescoping mast; NEC/NFPA 70 clearance practice for work near overhead power lines; NFPA 101 Life Safety Code requirements for the crew's escape route off the flooded scene",
+    "name": "Newsroom Storm Scene & Live Truck Mast",
+    "weather": "storm",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Newsroom Storm Scene & Live Truck Mast VR",
+    "tagline": "A flooded corner before a live storm standup: the assignment sheet read, rain gear and boots on, the scene swept for a branch on the guy line and an open storm drain, the clearance chart checked against the power line, the ground rod driven before a single mast control is touched, the wind gauge read, the outriggers locked, the mast raised watching its clearance, the producer confirmed, the mast's sway watched inside its band, the guy line anchored, the IFB confirmed, and the shot logged — a gust pushing the mast toward the line and rising floodwater around the stabilizer legs both answered off a control that isn't the one already in the learner's hand",
+    "accent": 2541274,
+    "accentCss": "#26c6da",
+    "parSeconds": 340,
+    "badge": {
+      "id": "mast-up-crew-dry",
+      "name": "Mast Up, Crew Dry",
+      "note": "The ground rod driven before any mast control was touched, the clearance held the whole raise, and the gust and the rising water both answered before either one became the story"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Live Truck",
+      "currency": "SIGNAL",
+      "ranks": [
+        "Desk Assistant",
+        "Field Producer",
+        "ENG Photographer",
+        "Field Engineer",
+        "Chief Engineer Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

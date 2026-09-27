@@ -209,6 +209,10 @@ export const STANDARDS = Object.fromEntries([
   S("ansi-b71-outdoor-power-equipment", "ANSI", "ANSI B71 series — safety specifications for outdoor power equipment (walk-behind and riding mowers, trimmers and blowers), published with the Outdoor Power Equipment Institute", ["Grounds & Landscaping"], "unverified"),
   S("ansi-z133-arboriculture", "ANSI", "ANSI Z133 — safety requirements for arboricultural operations, including chippers used on a tree crew", ["Grounds & Landscaping"], "unverified"),
   S("epa-fifra-pesticide-label", "EPA", "Federal Insecticide, Fungicide, and Rodenticide Act (FIFRA) — the pesticide product label as a legal document, and EPA's pesticide applicator and worker-protection requirements", ["Grounds & Landscaping"], "unverified"),
+  S("sag-aftra-training", "union", "SAG-AFTRA member safety education for on-camera performers and stunt performers, including the production's own safety bulletins", ["Entertainment & Live Events"], "unverified"),
+  S("iatse-training-trust", "union", "IATSE Training Trust Fund — stagecraft, rigging and entertainment electrical skills training", ["Entertainment & Live Events"]),
+  S("osha-1910-95", "OSHA", "29 CFR 1910.95 — Occupational noise exposure", ["Entertainment & Live Events"]),
+  S("nfpa-101", "NFPA", "NFPA 101 — Life Safety Code", ["Entertainment & Live Events"]),
 ].map((s) => [s.id, { ...s, slug: standardSlug(s.body, s.title) }]));
 
 /** The body and title behind a standard id, or a placeholder for an unknown one. */
@@ -793,6 +797,17 @@ export const PROGRAMME_COMPETENCIES = [
       "gk-sports-field-line-marking-and-goal-anchoring", "gk-storm-cleanup-chipper-and-traffic-control", "gk-hardscape-paver-base-and-compaction", "gk-greenhouse-nursery-chemical-storage-and-eyewash"
     ],
     require: 6,
+  },
+  {
+    id: "screen-and-media-crafts",
+    title: "Prove a control before a rig, a circuit, a mast or a cue goes live, across seven distinct screen and media crafts jobs",
+    kind: "programme",
+    standards: ["sag-aftra-training", "iatse-training-trust", "osha-1910-95", "nfpa-101"],
+    stations: [
+      "md-set-safety-meeting-and-stunt-go-no-go", "md-camera-dolly-and-crane-track", "md-location-shoot-traffic-control-and-heat-hydration", "md-sound-stage-electrical-distribution-and-cable-crossings",
+      "md-recording-studio-hearing-conservation-and-load-in", "md-theatre-fly-floor-and-quick-change-lane", "md-newsroom-storm-scene-and-live-truck-mast"
+    ],
+    require: 4,
   },
 ];
 

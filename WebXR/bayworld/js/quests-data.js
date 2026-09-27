@@ -4084,6 +4084,90 @@ export const SIDE_QUESTS = [
       "xp": 250,
       "badge": "Grounds & Landscaping Crew — Capstone"
     }
+  },
+  {
+    "id": "bw-side-screen-and-media-crafts-opener",
+    "title": "Screen & Media Crafts — First Shift",
+    "giver": "the programme's training lead",
+    "site": "Screen & Media Crafts",
+    "kind": "side",
+    "tier": 1,
+    "requires": null,
+    "programmeId": "screen-and-media-crafts",
+    "role": "opener",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Screen & Media Crafts",
+        "text": "The training lead meets you at Screen & Media Crafts and points you to the first bench."
+      },
+      {
+        "type": "station",
+        "target": "md-set-safety-meeting-and-stunt-go-no-go",
+        "text": "The go/no-go board is walked and the regulator proven before the rig is ever armed, the fall zone is swept for a frayed line and a soft pad, and a late walk-on into the zone is held off the AD's channel rather than the button already in hand."
+      },
+      {
+        "type": "station",
+        "target": "md-camera-dolly-and-crane-track",
+        "text": "The track is swept for an unpinned joint before it carries a shot, the jib arm is balanced on its sled before the swivel ever locks, and a crossing cart is answered off the radio rather than the clamp already being held."
+      },
+      {
+        "type": "station",
+        "target": "md-location-shoot-traffic-control-and-heat-hydration",
+        "text": "The block is swept for a car nobody moved and a blocked curb ramp, the cooler is proven full before any heat break is called, and a resident's car is turned back on the paddle a driver can actually read."
+      },
+      {
+        "type": "talk",
+        "target": "training-lead",
+        "text": "\"Seven jobs a screen and media production actually rotates through: a film set safety meeting and the stunt and SFX go/no-go before a rigged effect, a grip crew's dolly track and counterweighted jib crane, a location shoot's traffic control and the crew's heat and hydration break, a sound stage's electrical distribution and cable crossings, a recording studio's hearing conservation and a piano's load-in, a theatre's fly floor and quick-change lane run from the same calling desk, and a news crew's live truck mast raised at a flooded storm scene. Every station ends on a proof — a gauge proven, a checklist cleared, a radio call answered — rather than on how routine the call sheet made the day look.\""
+      }
+    ],
+    "reward": {
+      "xp": 100,
+      "badge": "Screen & Media Crafts — Opener"
+    }
+  },
+  {
+    "id": "bw-side-screen-and-media-crafts-capstone",
+    "title": "Screen & Media Crafts — Capstone",
+    "giver": "the programme's certifying evaluator",
+    "site": "Screen & Media Crafts",
+    "kind": "side",
+    "tier": 2,
+    "requires": "bw-side-screen-and-media-crafts-opener",
+    "programmeId": "screen-and-media-crafts",
+    "role": "capstone",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Screen & Media Crafts",
+        "text": "The certifying evaluator is waiting at the last bench, sign-off sheet in hand."
+      },
+      {
+        "type": "station",
+        "target": "md-recording-studio-hearing-conservation-and-load-in",
+        "text": "The monitor level is proven inside the safe band before any headphones go on, the piano is guided down the ramp at a controlled pace instead of let run, and an early-removed earplug is caught on the talkback before the next loud passage."
+      },
+      {
+        "type": "station",
+        "target": "md-theatre-fly-floor-and-quick-change-lane",
+        "text": "The quick-rig costume is dressed in the order its own snaps demand, the fly system's brake tension is proven before a batten flies over a live crossover, and a wrong-batten start is called off on the headset rather than let run."
+      },
+      {
+        "type": "station",
+        "target": "md-newsroom-storm-scene-and-live-truck-mast",
+        "text": "The ground rod is driven before a single mast control is touched, the mast's clearance from the power line is watched the whole way up rather than assumed, and a gust closing that clearance is answered on the emergency stow switch."
+      },
+      {
+        "type": "talk",
+        "target": "certifying-evaluator",
+        "text": "\"Certified under: SAG-AFTRA, AFM, Actors' Equity Association and NewsGuild-CWA member safety guidance; IATSE grip, electrical, fly and stagehand practice; OSHA 29 CFR 1910.95 hearing conservation, 29 CFR 1910.132 general PPE, 29 CFR 1910.147 lockout/tagout and 29 CFR 1926.501 fall protection; NFPA 101 Life Safety Code; FCC RF exposure limits for a live truck's mast; ANSI/ASSP Z359 and ANSI E1.4 rigging standards; ANSI/ISEA 107 high-visibility apparel across seven distinct screen and media crafts jobs\""
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": "Screen & Media Crafts — Capstone"
+    }
   }
 ];
 

@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 558
+      "stations": 559
     },
     "trades": {
       "entry": "trades/index.html",
@@ -361,6 +361,7 @@
         "stage-power",
         "chain-hoist",
         "fly-system",
+        "md-newsroom-storm-scene-and-live-truck-mast",
         "md-theatre-fly-floor-and-quick-change-lane",
         "md-recording-studio-hearing-conservation-and-load-in",
         "md-sound-stage-electrical-distribution-and-cable-crossings",
@@ -4619,6 +4620,62 @@
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
+    },
+    {
+      "id": "screen-and-media-crafts",
+      "name": "Screen & Media Crafts",
+      "union": "SAG-AFTRA, the American Federation of Musicians (AFM), Actors' Equity Association, the NewsGuild-CWA, and IATSE crew locals",
+      "certification": "SAG-AFTRA, AFM, Actors' Equity Association and NewsGuild-CWA member safety guidance; IATSE grip, electrical, fly and stagehand practice; OSHA 29 CFR 1910.95 hearing conservation, 29 CFR 1910.132 general PPE, 29 CFR 1910.147 lockout/tagout and 29 CFR 1926.501 fall protection; NFPA 101 Life Safety Code; FCC RF exposure limits for a live truck's mast; ANSI/ASSP Z359 and ANSI E1.4 rigging standards; ANSI/ISEA 107 high-visibility apparel across seven distinct screen and media crafts jobs",
+      "summary": "Seven jobs a screen and media production actually rotates through: a film set safety meeting and the stunt and SFX go/no-go before a rigged effect, a grip crew's dolly track and counterweighted jib crane, a location shoot's traffic control and the crew's heat and hydration break, a sound stage's electrical distribution and cable crossings, a recording studio's hearing conservation and a piano's load-in, a theatre's fly floor and quick-change lane run from the same calling desk, and a news crew's live truck mast raised at a flooded storm scene. Every station ends on a proof — a gauge proven, a checklist cleared, a radio call answered — rather than on how routine the call sheet made the day look.",
+      "accent": "#d6558f",
+      "stations": [
+        {
+          "app": "smartcity",
+          "id": "md-set-safety-meeting-and-stunt-go-no-go",
+          "why": "The go/no-go board is walked and the regulator proven before the rig is ever armed, the fall zone is swept for a frayed line and a soft pad, and a late walk-on into the zone is held off the AD's channel rather than the button already in hand."
+        },
+        {
+          "app": "smartcity",
+          "id": "md-camera-dolly-and-crane-track",
+          "why": "The track is swept for an unpinned joint before it carries a shot, the jib arm is balanced on its sled before the swivel ever locks, and a crossing cart is answered off the radio rather than the clamp already being held."
+        },
+        {
+          "app": "smartcity",
+          "id": "md-location-shoot-traffic-control-and-heat-hydration",
+          "why": "The block is swept for a car nobody moved and a blocked curb ramp, the cooler is proven full before any heat break is called, and a resident's car is turned back on the paddle a driver can actually read."
+        },
+        {
+          "app": "smartcity",
+          "id": "md-sound-stage-electrical-distribution-and-cable-crossings",
+          "why": "The breaker is locked and the circuit proven dead before a single lug is touched, the load is clamp-metered under the breaker's own rating, and a second electrician's reach is called off the radio before the tester even finishes."
+        },
+        {
+          "app": "smartcity",
+          "id": "md-recording-studio-hearing-conservation-and-load-in",
+          "why": "The monitor level is proven inside the safe band before any headphones go on, the piano is guided down the ramp at a controlled pace instead of let run, and an early-removed earplug is caught on the talkback before the next loud passage."
+        },
+        {
+          "app": "smartcity",
+          "id": "md-theatre-fly-floor-and-quick-change-lane",
+          "why": "The quick-rig costume is dressed in the order its own snaps demand, the fly system's brake tension is proven before a batten flies over a live crossover, and a wrong-batten start is called off on the headset rather than let run."
+        },
+        {
+          "app": "smartcity",
+          "id": "md-newsroom-storm-scene-and-live-truck-mast",
+          "why": "The ground rod is driven before a single mast control is touched, the mast's clearance from the power line is watched the whole way up rather than assumed, and a gust closing that clearance is answered on the emergency stow switch."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1570,
+        "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     }
   ],
   "stations": [
@@ -8738,6 +8795,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "md-newsroom-storm-scene-and-live-truck-mast",
+      "name": "Newsroom Storm Scene & Live Truck Mast",
+      "title": "SmartCiti.X~ Newsroom Storm Scene & Live Truck Mast VR",
+      "tagline": "A flooded corner before a live storm standup: the assignment sheet read, rain gear and boots on, the scene swept for a branch on the guy line and an open storm drain, the clearance chart checked against the power line, the ground rod driven before a single mast control is touched, the wind gauge read, the outriggers locked, the mast raised watching its clearance, the producer confirmed, the mast's sway watched inside its band, the guy line anchored, the IFB confirmed, and the shot logged — a gust pushing the mast toward the line and rising floodwater around the stabilizer legs both answered off a control that isn't the one already in the learner's hand",
+      "category": "Entertainment & Live Events",
+      "domain": "Screen & Media Crafts",
+      "trade": "NewsGuild-CWA field engineer, raising a live truck's telescoping mast at a flooded storm standup under an overhead power line",
+      "union": null,
+      "certification": "NewsGuild-CWA member safety guidance for broadcast and news field crews; FCC RF exposure limits for the mast's transmission antenna; OSHA 29 CFR 1910.268 telecommunications work practices for the telescoping mast; NEC/NFPA 70 clearance practice for work near overhead power lines; NFPA 101 Life Safety Code requirements for the crew's escape route off the flooded scene",
+      "accent": "#26c6da",
+      "parSeconds": 340,
+      "weather": "storm",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "turn",
+        "hold",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "mast-up-crew-dry",
+        "name": "Mast Up, Crew Dry",
+        "note": "The ground rod driven before any mast control was touched, the clearance held the whole raise, and the gust and the rising water both answered before either one became the story"
+      },
+      "meshes": 194,
+      "lights": 0,
+      "overBudget": false,
+      "index": "714",
+      "flat": false,
+      "system": "Live Truck",
+      "currency": "SIGNAL",
+      "ranks": [
+        "Desk Assistant",
+        "Field Producer",
+        "ENG Photographer",
+        "Field Engineer",
+        "Chief Engineer Certified"
+      ],
+      "awards": [
+        {
+          "id": "grounded-first",
+          "name": "Grounded First",
+          "note": "Never touched a mast control before the ground rod was driven"
+        },
+        {
+          "id": "gust-answered",
+          "name": "Gust Answered",
+          "note": "The gust toward the power line was stowed off the emergency switch, not ridden out"
+        },
+        {
+          "id": "never-under-the-mast",
+          "name": "Never Under the Mast",
+          "note": "Never raised the mast before the ground rod, never stepped into floodwater near a cable, never released a loaded outrigger, never blocked the escape route"
+        },
+        {
+          "id": "clean-standup",
+          "name": "Clean Standup",
+          "note": "No corrections from the assignment to the closing log"
+        },
+        {
+          "id": "steady-sway",
+          "name": "Steady Sway",
+          "note": "The mast's sway held its band the whole live shot, first time"
+        },
+        {
+          "id": "live-on-time",
+          "name": "Live On Time",
+          "note": "Mast up and confirmed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=md-newsroom-storm-scene-and-live-truck-mast"
     },
     {
       "app": "smartcity",
@@ -30255,7 +30395,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 257,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",
