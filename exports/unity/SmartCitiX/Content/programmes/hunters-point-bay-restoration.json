@@ -33,6 +33,116 @@
       "table": "BAY_SITES",
       "world": "bayworld",
       "zone": "north-shoreline"
+    },
+    {
+      "id": "channel-dredge-survey",
+      "name": "Channel Dredge Survey",
+      "position": [
+        -140,
+        40
+      ],
+      "stations": [
+        "dredge-barge",
+        "br-dredge-material-screening-and-disposal-decision",
+        "br-barge-loading-of-contaminated-sediment"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "shipping-channel"
+    },
+    {
+      "id": "eelgrass-transplant-plots",
+      "name": "Eelgrass Transplant Plots",
+      "position": [
+        130,
+        -520
+      ],
+      "stations": [
+        "eelgrass-transplant",
+        "br-native-planting-and-erosion-mats"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "eelgrass-meadow"
+    },
+    {
+      "id": "marsh-mouth-invasive-plot",
+      "name": "Marsh Mouth Invasive Plot",
+      "position": [
+        700,
+        -570
+      ],
+      "stations": [
+        "spartina-removal",
+        "br-intertidal-invasive-removal-by-hand-crew",
+        "br-levee-inspection-and-seepage"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "marsh-mouth"
+    },
+    {
+      "id": "marsh-mouth-tide-gate",
+      "name": "Marsh Mouth Tide Gate",
+      "position": [
+        660,
+        -530
+      ],
+      "stations": [
+        "tide-gate",
+        "marsh-transect-survey",
+        "living-shoreline"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "marsh-mouth"
+    },
+    {
+      "id": "mud-plain-hotspot-survey",
+      "name": "Mud Plain Hotspot Survey",
+      "position": [
+        -290,
+        310
+      ],
+      "stations": [
+        "br-legacy-mercury-and-pcb-hotspot-handling",
+        "sediment-cap",
+        "rad-survey"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "mud-plain"
+    },
+    {
+      "id": "pier-creosote-pile-site",
+      "name": "Pier Creosote Pile Site",
+      "position": [
+        -790,
+        -560
+      ],
+      "stations": [
+        "creosote-pile-removal",
+        "op-pile-driving-rig-and-lead-setup",
+        "br-marine-mammal-observer-during-pile-driving"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "pier-pilings"
+    },
+    {
+      "id": "reef-ball-monitoring-plot",
+      "name": "Reef Ball Monitoring Plot",
+      "position": [
+        360,
+        -10
+      ],
+      "stations": [
+        "oyster-reef-monitoring",
+        "ballast-water-sampling"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "reef-ball-field"
     }
   ],
   "certification": "OSHA 29 CFR 1910.120 HAZWOPER as the floor for everyone inside the fence; MARSSIM radiological survey practice and NRC 10 CFR 20 for the survey crew; EPA RCRA 40 CFR 262 manifests for the haul; U.S. Army Corps of Engineers Section 404, BCDC and Regional Water Board 401 permit conditions for every hour of in-water work",

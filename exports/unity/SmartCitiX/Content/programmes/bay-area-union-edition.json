@@ -72,6 +72,147 @@
       "table": "BAY_SITES",
       "world": "bayworld",
       "zone": "west-oakland"
+    },
+    {
+      "id": "approach-boom-tow-site",
+      "name": "Approach Boom Tow Site",
+      "position": [
+        -780,
+        40
+      ],
+      "stations": [
+        "br-boom-towing-between-two-vessels",
+        "mw-oil-transfer-watch-and-boom",
+        "br-debris-skimmer-vessel-operations"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "channel-approach"
+    },
+    {
+      "id": "channel-scour-survey",
+      "name": "Channel Scour Survey",
+      "position": [
+        -180,
+        90
+      ],
+      "stations": [
+        "uw-bridge-pier-scour-survey",
+        "uw-underwater-concrete-and-bag-placement",
+        "bridge-cable-inspection"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "shipping-channel"
+    },
+    {
+      "id": "flats-workboat-anchorage",
+      "name": "Flats Workboat Anchorage",
+      "position": [
+        -60,
+        -240
+      ],
+      "stations": [
+        "br-workboat-crane-lift-from-water",
+        "br-vhf-and-navigation-in-a-work-zone",
+        "mw-workboat-towing-and-line-handling"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "tide-flats"
+    },
+    {
+      "id": "kelp-night-line-site",
+      "name": "Kelp Night Line Site",
+      "position": [
+        -530,
+        -260
+      ],
+      "stations": [
+        "mw-diver-emergency-and-recovery",
+        "mw-dive-supervisor-and-dive-plan"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "kelp-forest"
+    },
+    {
+      "id": "outfall-intake-lockout-site",
+      "name": "Outfall Intake Lockout Site",
+      "position": [
+        380,
+        -290
+      ],
+      "stations": [
+        "uw-intake-screen-cleaning-with-lockout",
+        "uw-pipeline-crossing-inspection-dive",
+        "cs-permit-entry-and-attendant-duties"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "outfall-apron"
+    },
+    {
+      "id": "pier-piling-inspection-station",
+      "name": "Pier Piling Inspection Station",
+      "position": [
+        -740,
+        -580
+      ],
+      "stations": [
+        "mw-pier-pile-inspection-dive",
+        "mw-underwater-welding-and-cutting",
+        "gg-pile-driver-fender-repair"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "pier-pilings"
+    },
+    {
+      "id": "shelf-lift-bag-site",
+      "name": "Shelf Lift Bag Site",
+      "position": [
+        -400,
+        -580
+      ],
+      "stations": [
+        "uw-lift-bag-rigging-and-object-recovery",
+        "rl-critical-lift-plan-and-signalperson"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "shallow-shelf"
+    },
+    {
+      "id": "trench-rov-station",
+      "name": "Trench ROV Station",
+      "position": [
+        -680,
+        460
+      ],
+      "stations": [
+        "uw-rov-pre-dive-and-tether-management",
+        "mw-dive-supervisor-and-dive-plan"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "deep-trench"
+    },
+    {
+      "id": "wreck-photo-survey",
+      "name": "Wreck Photo Survey",
+      "position": [
+        240,
+        310
+      ],
+      "stations": [
+        "br-underwater-debris-survey-and-mapping",
+        "mw-hull-inspection-and-cleaning-dive",
+        "br-drone-shoreline-survey"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "wreck-hollow"
     }
   ],
   "certification": "SMART's International Training Institute curriculum, Ironworkers IMPACT and OSHA 29 CFR 1926 Subpart R and Subpart M, IUPAT FTI and SSPC practice for bridge coatings, ILWU-PMA training and OSHA 29 CFR 1917 marine terminals, USCG Subchapter M and 33 CFR 156 for the marine side, and OSHA 29 CFR 1910 Subpart T with ADCI consensus standards for commercial diving",

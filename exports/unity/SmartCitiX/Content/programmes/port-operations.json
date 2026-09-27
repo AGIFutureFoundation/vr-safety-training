@@ -75,6 +75,38 @@
       "table": "BAY_SITES",
       "world": "bayworld",
       "zone": "south-shoreline"
+    },
+    {
+      "id": "approach-buoy-tender-station",
+      "name": "Approach Buoy Tender Station",
+      "position": [
+        -740,
+        -20
+      ],
+      "stations": [
+        "mooring-line",
+        "pilot-transfer",
+        "spill-boom-deploy"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "channel-approach"
+    },
+    {
+      "id": "reef-ball-placement-site",
+      "name": "Reef Ball Placement Site",
+      "position": [
+        330,
+        40
+      ],
+      "stations": [
+        "br-workboat-crane-lift-from-water",
+        "br-derelict-vessel-salvage-rigging",
+        "container-lashing"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "reef-ball-field"
     }
   ],
   "certification": "USCG 33 CFR 155/156 oil transfer, IMO Cargo Securing Manual practice, and OSHA 1917 marine terminals",

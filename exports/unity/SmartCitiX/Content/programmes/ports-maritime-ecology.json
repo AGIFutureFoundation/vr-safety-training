@@ -49,6 +49,37 @@
       "table": "BAY_SITES",
       "world": "bayworld",
       "zone": "north-shoreline"
+    },
+    {
+      "id": "approach-buoy-tender-station",
+      "name": "Approach Buoy Tender Station",
+      "position": [
+        -740,
+        -20
+      ],
+      "stations": [
+        "mooring-line",
+        "pilot-transfer",
+        "spill-boom-deploy"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "channel-approach"
+    },
+    {
+      "id": "reef-ball-monitoring-plot",
+      "name": "Reef Ball Monitoring Plot",
+      "position": [
+        360,
+        -10
+      ],
+      "stations": [
+        "oyster-reef-monitoring",
+        "ballast-water-sampling"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "reef-ball-field"
     }
   ],
   "certification": "OSHA 29 CFR 1918 marine terminal safety, the California Air Resources Board At-Berth Regulation, OSHA HAZWOPER 1910.120 and the U.S. Army Corps of Engineers' Section 404 permit conditions for work at the water's edge",

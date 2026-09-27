@@ -32,6 +32,22 @@
       "table": "BAY_SITES",
       "world": "bayworld",
       "zone": "west-oakland"
+    },
+    {
+      "id": "outfall-intake-lockout-site",
+      "name": "Outfall Intake Lockout Site",
+      "position": [
+        380,
+        -290
+      ],
+      "stations": [
+        "uw-intake-screen-cleaning-with-lockout",
+        "uw-pipeline-crossing-inspection-dive",
+        "cs-permit-entry-and-attendant-duties"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "outfall-apron"
     }
   ],
   "certification": "OSHA 29 CFR 1910.146 permit-required confined spaces, with NFPA 1006 rescue technician for the last station",

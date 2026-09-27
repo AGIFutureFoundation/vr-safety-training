@@ -33,6 +33,22 @@
       "table": "BAY_SITES",
       "world": "bayworld",
       "zone": "west-oakland"
+    },
+    {
+      "id": "flats-sonde-station",
+      "name": "Flats Sonde Station",
+      "position": [
+        -80,
+        -280
+      ],
+      "stations": [
+        "br-water-quality-sonde-calibration-and-deploy",
+        "air-monitor",
+        "sensor-colocation-check"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "tide-flats"
     }
   ],
   "certification": "EPA Method 9 visible emissions (40 CFR 60 Appendix A), EPA 40 CFR Part 58 ambient air quality monitoring, the Bay Area Air Quality Management District's own regulations, and a site's Air Monitoring Plan under a cleanup order",

@@ -16,6 +16,37 @@
       "table": "BAY_SITES",
       "world": "bayworld",
       "zone": "estuary-waterfront"
+    },
+    {
+      "id": "flats-sediment-core-site",
+      "name": "Flats Sediment Core Site",
+      "position": [
+        -130,
+        -230
+      ],
+      "stations": [
+        "br-underwater-sediment-core-sampling",
+        "br-sediment-chain-of-custody-and-lab-prep",
+        "shoreline-sediment-grab"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "tide-flats"
+    },
+    {
+      "id": "outfall-discharge-photo-point",
+      "name": "Outfall Discharge Photo Point",
+      "position": [
+        440,
+        -220
+      ],
+      "stations": [
+        "discharge-photo-doc",
+        "air-sensor-install"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "outfall-apron"
     }
   ],
   "certification": "EPA QA/QC and chain-of-custody guidance for community samples, BAAQMD complaint and Community Advisory Council process, 45 CFR 46 informed consent for biomonitoring, OSHA 29 CFR 1910.120 HAZWOPER and 1910.134 respirators for anyone inside a cleanup fence, Cal/OSHA's wildfire smoke rule",
