@@ -1,0 +1,429 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "tallied-not-touched",
+    "name": "Tallied, Not Touched",
+    "note": "Every item tallied by category, every sharp in the kit by tongs, the unknown left for the call, and the sand jarred under custody"
+  },
+  "category": "Water & Environmental",
+  "certification": "LIUNA and AFSCME monitoring and clean-up crews as training bodies; OSHA 29 CFR 1910.132 personal protective equipment and 29 CFR 1910.1030 bloodborne pathogens for sharps in the wrack; HAZWOPER awareness for an unknown container, which is reported and left; DTSC oversight of what is found; a quality assurance project plan written to EPA QA/G-5 for the sand samples; Regional Water Quality Control Board Section 401 and BCDC conditions the shoreline record informs; NOAA tide predictions for the survey window; the U.S. Fish and Wildlife Service buffer measures on the upper beach",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "BCDC",
+        "citedAs": "BCDC",
+        "id": "bcdc-bay-plan",
+        "title": "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act"
+      },
+      {
+        "body": "DTSC",
+        "citedAs": "DTSC",
+        "id": "dtsc-hazardous-waste-control",
+        "title": "California Department of Toxic Substances Control — state hazardous waste control rules and oversight of contaminated-site cleanups"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "EPA QA/G-5",
+        "id": "epa-qa-g5",
+        "title": "EPA QA/G-5 — Guidance for quality assurance project plans, and the chain-of-custody practice built on it"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "NOAA",
+        "citedAs": "NOAA",
+        "id": "noaa-tides-and-esa",
+        "title": "NOAA tide predictions and NOAA Fisheries Endangered Species Act consultation for in-water work"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "Regional Water Quality Control Board",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      },
+      {
+        "body": "USFWS",
+        "citedAs": "U.S. Fish and Wildlife Service",
+        "id": "usfws-esa",
+        "title": "Endangered Species Act §7 consultation and species protection measures set by the U.S. Fish and Wildlife Service"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "in-order",
+        "name": "In Order",
+        "note": "Scooped, sieved and jarred in order first time"
+      },
+      {
+        "id": "hands-clean",
+        "name": "Hands Clean",
+        "note": "Never a hazard, never a bare hand in the wrack"
+      },
+      {
+        "id": "at-the-strandline",
+        "name": "At The Strandline",
+        "note": "The tape and the shaker both read inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-survey",
+        "name": "Clean Survey",
+        "note": "No corrections from the protocol to the log"
+      },
+      {
+        "id": "steady-walk",
+        "name": "Steady Walk",
+        "note": "The transect walked and the jar held without a break"
+      },
+      {
+        "id": "logged-before-flood",
+        "name": "Logged Before The Flood",
+        "note": "Survey logged inside 80% of par"
+      }
+    ],
+    "currency": "TALLY",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Volunteer Lead",
+      "Surveyor",
+      "Transect Lead",
+      "Survey Lead",
+      "Shoreline Certified"
+    ],
+    "system": "Shoreline Crew"
+  },
+  "hazards": {
+    "bare-hand-in-the-wrack": "You reached bare-handed into the wrack line to pull out a piece of debris. The wrack hides glass, hooks, needles and whatever the last tide brought, and 29 CFR 1910.1030 is written for exactly the needle you did not see; everything in the wrack is moved with the tongs or a gloved hand, and a sharp goes into the kit's container, never into a bag.",
+    "climb-the-riprap": "You climbed the riprap at the transect's end to reach the debris caught in the rocks. Riprap moves under a boot, the gaps hold the same sharps as the wrack, and a surveyor with a foot wedged between two rocks on a flood tide is a rescue; what is caught in the rocks is photographed and tallied from the sand.",
+    "kick-it-into-the-water": "You kicked a piece of debris off the transect into the surf to get it out of the tally. The survey counts what is on the beach so the record is honest, and debris kicked into the water is debris the next tide brings back to a beach the crew has just reported clean — it is tallied, bagged if the protocol says, and never moved seaward.",
+    "open-jar-in-the-wind": "You left the sample jar open on the sieve table while you wrote the label. Wind on a beach carries sand, fibre from clothing and fragments from everything upwind straight into an open jar, and the laboratory has no way to tell the beach's particles from the crew's; the jar is capped between every step and opened only for what goes into it."
+  },
+  "id": "me-shoreline-debris-and-microplastics-survey",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "walk-transect",
+      "alert": "A syringe with its needle on has turned up in the wrack a step ahead of you, half under a strand of kelp.",
+      "cue": "Stop, take the tongs and lift it into the sharps container — never a hand, never a bag.",
+      "delay": 2,
+      "id": "syringe-in-the-wrack",
+      "kind": "Syringe in the wrack line",
+      "missNote": "You kept the pace and stepped past it; the second surveyor, walking the seaward zone, found it with a boot, and the survey ended at the clinic instead of the truck.",
+      "seconds": 14,
+      "target": "sharps-tongs",
+      "why": "A needle in the wrack is the injury 29 CFR 1910.1030 is written for, and the method is fixed so nobody decides it on the sand: the tongs lift it, the container takes it, the tally records it. A surveyor who steps over it to keep the pace leaves it for the second surveyor, a child or a dog, and one who picks it up gloved has bet a glove against a needle.",
+      "wrongNote": "Not that. The tongs — lift it into the sharps container and tally it."
+    },
+    {
+      "after": "rinse-hold",
+      "alert": "A gust has come down the beach — the tally card is lifting off the table and the empty jars are rolling toward the sand.",
+      "cue": "Latch the sample case lid over the jars and the card before the next gust takes them.",
+      "delay": 2,
+      "id": "wind-lifting-samples",
+      "kind": "Gust lifting the sample table",
+      "missNote": "The next gust took the tally card into the surf and rolled two labelled jars into the sand; the transect was walked again from the start with the tide already on the lower zone.",
+      "seconds": 14,
+      "target": "case-lid",
+      "why": "Everything the survey has produced is paper and small jars on a folding table on a beach in wind, and one gust puts the tally in the surf and sand in every open jar. The case lid is the answer because it is one motion that covers all of it; the rinse can wait the seconds it takes, the tally card cannot be walked back from the water.",
+      "wrongNote": "Not that. The case lid — latch it over the jars and the card before the next gust."
+    }
+  ],
+  "lateNotes": {
+    "quadrat-scoop": "The quadrat is scooped once the transect is tallied — the sand sample comes from the strandline the walk located, not from wherever the crew stopped.",
+    "residue-jar": "The residue is jarred once the rinse is held — residue jarred wet from the top sieve carries the sand the rinse was meant to take off.",
+    "sieve-crank": "The stack is shaken once the scoop is in it — an empty stack shaken is time the tide is not giving back."
+  },
+  "name": "Shoreline Debris & Microplastics Survey",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "marine-ecology-and-restoration"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "radio",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bare-hand-in-the-wrack",
+      "case-lid",
+      "climb-the-riprap",
+      "crew-radio",
+      "gloves-on",
+      "kick-it-into-the-water",
+      "line-tangle",
+      "open-jar-in-the-wind",
+      "protocol-board",
+      "quadrat-scoop",
+      "residue-jar",
+      "rinse-hold",
+      "sample-case",
+      "sample-jar",
+      "sharps-kit",
+      "sharps-tongs",
+      "sieve-crank",
+      "sieve-stack",
+      "survey-log",
+      "tally-count",
+      "tally-photo",
+      "tally-position",
+      "transect-tape",
+      "transect-walk",
+      "unknown-container",
+      "vest-on"
+    ],
+    "meshes": 215
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the transect's start and length, the debris categories on the tally card, the quadrat's position on the strandline, the sample handling, and the window the tide table gives.",
+      "id": "protocol",
+      "kind": "select",
+      "prompt": "Check the transect's start and length, the debris categories on the tally card, the quadrat's position on the strandline, the sample handling, and the window the tide table gives.",
+      "target": "protocol-board",
+      "title": "Read the survey protocol and the tide window",
+      "why": "A shoreline survey is comparable with the last one only if the same length of beach is walked from the same start, tallied into the same categories and sampled at the same strandline; the protocol fixes all of that and the quality plan behind it says how a jar of sand becomes a number a laboratory will stand behind. The tide sets the window, and reading both at the truck is how the crew arrives knowing what is counted, what is bagged, and when the beach closes."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Puncture-resistant gloves on, the vest on so the second surveyor can see you down the beach, and the sharps container with its tongs clipped to the kit bag.",
+      "id": "survey-kit",
+      "itemNames": {
+        "gloves-on": "puncture-resistant gloves",
+        "sharps-kit": "sharps container and tongs",
+        "vest-on": "high-visibility vest"
+      },
+      "kind": "sequence",
+      "prompt": "Puncture-resistant gloves on, the vest on so the second surveyor can see you down the beach, and the sharps container with its tongs clipped to the kit bag.",
+      "targets": [
+        "gloves-on",
+        "vest-on",
+        "sharps-kit"
+      ],
+      "title": "Gloves, vest and the sharps kit before the sand",
+      "why": "The wrack line is where the tide leaves everything sharp, and 29 CFR 1910.132 asks the employer to have assessed this beach and decided: the gloves for the hands, the vest so two surveyors a transect apart can find each other, and the sharps container because a needle found with no container to hand is a needle somebody carries in a bag. They go on at the truck; nobody pulls a glove on over a cut."
+    },
+    {
+      "cue": "Run the transect tape from the start stake along the beach and commit the reading where the protocol's strandline crosses it.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "TRANSECT TAPE",
+        "missNote": "Not at the strandline — read the tape where the last high water's line crosses it and commit there.",
+        "speed": 0.7
+      },
+      "id": "tape-strandline",
+      "kind": "gauge",
+      "prompt": "Run the transect tape from the start stake along the beach and commit the reading where the protocol's strandline crosses it.",
+      "target": "transect-tape",
+      "title": "Run the tape and commit it at the strandline",
+      "why": "The strandline is where the quadrat goes and where the tally's upper zone begins, and it moves with every tide; the protocol defines it by what the last high water left, not by where the sand looks different. Reading the tape where the line crosses it and committing it is what puts this survey's quadrat where the next crew can put theirs — a strandline guessed is a sample from a different beach."
+    },
+    {
+      "cue": "Walk the tape's length at the protocol's pace with the second surveyor on the seaward side, tallying each item into its category as you pass it — no stopping to collect, no skipping ahead.",
+      "holdBreakNote": "The pace broke — stopped to collect or hurrying past the small items. Find the tape and take up the protocol's pace.",
+      "id": "walk-transect",
+      "kind": "track",
+      "prompt": "Walk the tape's length at the protocol's pace with the second surveyor on the seaward side, tallying each item into its category as you pass it — no stopping to collect, no skipping ahead.",
+      "seconds": 6,
+      "target": "transect-walk",
+      "title": "Walk the transect at survey pace, tallying by category",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "SURVEY PACE",
+        "rise": 0.55,
+        "start": 0.14
+      },
+      "why": "The tally is a count made while walking, and the pace is what makes it the same count every survey: fast misses the small items that make up most of the tally, slow turns a survey into a clean-up. Two surveyors walk the transect's two zones so each item is seen once, and everything is tallied where it lies before anything is picked up — the survey records the beach before the crew changes it."
+    },
+    {
+      "cue": "Along the transect, pick out the sealed container nobody can identify and the tangle of line and hooks; the first is flagged and left, the second goes to the kit by tongs.",
+      "id": "find-hazards",
+      "itemNames": {
+        "line-tangle": "the tangle of fishing line and hooks in the wrack",
+        "unknown-container": "the sealed container with no legible label"
+      },
+      "itemNotes": {
+        "line-tangle": "Monofilament and hooks wound through the wrack. It is tallied as its category and lifted with the tongs into the sharps container, because a hook through a glove is the injury this beach gives most often.",
+        "unknown-container": "A sealed plastic container, label gone, heavier than it should be. It is tallied, photographed, flagged and left where it lies: HAZWOPER awareness says an unknown is not opened or moved by a survey crew, and the coordinator's call brings the people who can test it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Along the transect, pick out the sealed container nobody can identify and the tangle of line and hooks; the first is flagged and left, the second goes to the kit by tongs.",
+      "targets": [
+        "unknown-container",
+        "line-tangle"
+      ],
+      "title": "Find the unknown container and the line tangle",
+      "why": "The two hazards a shoreline survey meets most are the thing that cuts and the thing nobody can identify, and the method for each is fixed before the walk: sharps to the container by tongs, unknowns flagged and reported. Finding both deliberately, as a step, is what keeps a tired surveyor from doing the natural thing — picking one up to look — on the one item that would make the day an incident."
+    },
+    {
+      "cue": "Scoop the protocol's depth of sand from inside the frame at the strandline, tip it into the sieve stack, and have the labelled jar capped and ready beside the stack before anything comes off the sieves.",
+      "id": "quadrat-chain",
+      "itemNames": {
+        "quadrat-scoop": "top layer scooped from inside the quadrat frame",
+        "sample-jar": "jar labelled and capped beside the stack",
+        "sieve-stack": "scoop tipped into the sieve stack"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — scoop inside the frame, tip into the stack, jar labelled and capped beside it. The jar waits for the residue, not the other way round.",
+      "prompt": "Scoop the protocol's depth of sand from inside the frame at the strandline, tip it into the sieve stack, and have the labelled jar capped and ready beside the stack before anything comes off the sieves.",
+      "targets": [
+        "quadrat-scoop",
+        "sieve-stack",
+        "sample-jar"
+      ],
+      "title": "Scoop, sieve and jar the quadrat in order",
+      "why": "The sand sample is a fixed area to a fixed depth from the strandline, and the order keeps it honest: scoop from inside the frame only, into the stack only, with the jar labelled before the residue exists so nothing waits open in the wind. A scoop taken outside the frame or a jar labelled afterwards from memory is a sample the quality plan cannot vouch for."
+    },
+    {
+      "cue": "Turn the shaker's crank steadily for the protocol's count so the sand passes the meshes and the fragments stay on their sieves.",
+      "id": "shake-stack",
+      "kind": "turn",
+      "prompt": "Turn the shaker's crank steadily for the protocol's count so the sand passes the meshes and the fragments stay on their sieves.",
+      "target": "sieve-crank",
+      "title": "Shake the sieve stack for the protocol's count",
+      "turn": {
+        "label": "SIEVE SHAKER",
+        "turns": 0.8
+      },
+      "why": "The stack separates the sample by size, and it does so only if it is shaken evenly for the same time every survey: under-shaken, sand stays on the top mesh and is counted as fragment; over-shaken, fragments break and are counted twice. The count is the protocol's, kept on the crank, so a jar from this beach means the same as a jar from any other."
+    },
+    {
+      "cue": "Hold the open jar under the rinse bottle's stream below the top sieve for the full count so every fragment goes into the jar and none stays on the mesh.",
+      "holdBreakNote": "The jar moved out from under the stream before the rinse was done — fragments stayed on the mesh. Steady it and hold again.",
+      "id": "rinse-hold",
+      "kind": "hold",
+      "prompt": "Hold the open jar under the rinse bottle's stream below the top sieve for the full count so every fragment goes into the jar and none stays on the mesh.",
+      "seconds": 5,
+      "target": "rinse-hold",
+      "title": "Hold the jar under the rinse for the residue",
+      "why": "What stays on the meshes is the sample, and it goes into the jar by rinse, not by hand: a gloved finger leaves fibre and misses the small fragments that are most of the count. The jar is held still under the stream for the full count because a jar moved early leaves fragments on the mesh for the next sample to inherit — and the laboratory cannot tell whose they were."
+    },
+    {
+      "cue": "Cap the jar, check its label against the tally card, and set it in its slot in the sample case with the lid latched.",
+      "drag": {
+        "missNote": "Not in the case — the capped jar goes into its slot in the sample case, lid latched.",
+        "radius": 0.55,
+        "to": "sample-case"
+      },
+      "id": "jar-residue",
+      "kind": "drag",
+      "prompt": "Cap the jar, check its label against the tally card, and set it in its slot in the sample case with the lid latched.",
+      "target": "residue-jar",
+      "title": "Cap the jar and set it in the sample case",
+      "why": "The jar's slot in the case is the last link between this strandline and the laboratory bench: the label on the jar, the slot on the case sheet and the line in the log all say the same thing. A capped jar in a latched case cannot blow over, be opened by mistake or be mixed with another beach's; the case is what carries the quality plan off the sand."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Total each category's tallies, reference the photographs of the flagged container and the tangle, and record the transect's start and the quadrat's position on the tape.",
+      "id": "tally-card",
+      "itemNames": {
+        "tally-count": "counts per category totalled",
+        "tally-photo": "photographs of the flagged items referenced",
+        "tally-position": "the transect's start and the quadrat's position recorded"
+      },
+      "kind": "sequence",
+      "prompt": "Total each category's tallies, reference the photographs of the flagged container and the tangle, and record the transect's start and the quadrat's position on the tape.",
+      "targets": [
+        "tally-count",
+        "tally-photo",
+        "tally-position"
+      ],
+      "title": "Complete the tally card",
+      "why": "The tally card is the survey; a beach walked and not written down is a walk. The counts per category are what the programme compares survey to survey, the photographs are what the coordinator's call about the unknown container is made from, and the positions are what let the next crew put their tape and their frame where this one did."
+    },
+    {
+      "cue": "On the radio: the transect is tallied and the quadrat jarred, the unknown container is flagged at its position on the tape and left, and how the pair is after the syringe and the wind.",
+      "id": "coordinator-call",
+      "kind": "select",
+      "prompt": "On the radio: the transect is tallied and the quadrat jarred, the unknown container is flagged at its position on the tape and left, and how the pair is after the syringe and the wind.",
+      "target": "crew-radio",
+      "title": "Call the coordinator about the unknown and check in",
+      "why": "The unknown container is somebody else's job from the moment it is flagged, and the call is what starts that job; it is also the crew's check-in — a syringe in the wrack is a bad moment, and saying so on the radio is part of the survey, with the LIUNA or AFSCME member assistance line there for whatever the drive home does not settle."
+    },
+    {
+      "cue": "Log the start and length, the strandline reading, counts by category, the sharps to the kit, the unknown's position and the call, the quadrat and the jar's slot, the wind, and the window.",
+      "id": "survey-log",
+      "kind": "select",
+      "prompt": "Log the start and length, the strandline reading, counts by category, the sharps to the kit, the unknown's position and the call, the quadrat and the jar's slot, the wind, and the window.",
+      "target": "survey-log",
+      "title": "Write the survey log",
+      "why": "The shoreline record the Regional Water Quality Control Board's conditions and the programme's own reporting draw on is this log, and so is the chain from a jar in the case to a number on a bench. It is written at the truck with the card, the case and the kit in view, so what went home matches what the beach gave up."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — LIUNA or AFSCME, whichever your crew works under — with the employer's employee assistance line behind it",
+  "tagline": "The protocol and the window read, gloves, vest and the sharps kit on, the tape committed at the strandline, the transect walked at pace while a syringe turns up in the wrack, the unknown container and the line tangle found and left, the quadrat scooped, sieved and jarred in order, the stack shaken, the jar held under the rinse as the wind lifts the samples, the residue jarred, the coordinator called and the survey logged",
+  "title": "SmartCiti.X~ Shoreline Debris & Microplastics Survey VR",
+  "trade": "Survey lead on a shoreline monitoring crew, running a debris transect and a sand quadrat with a second surveyor and a sharps kit",
+  "underwater": null,
+  "weather": "wind"
+}

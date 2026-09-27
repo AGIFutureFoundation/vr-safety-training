@@ -4673,6 +4673,90 @@ export const SIDE_QUESTS = [
       "xp": 250,
       "badge": "Yacht & Charter Crew — Capstone"
     }
+  },
+  {
+    "id": "bw-side-marine-ecology-and-restoration-opener",
+    "title": "Marine Ecology & Restoration — Survey and Restoration Crews — First Shift",
+    "giver": "the programme's training lead",
+    "site": "Marine Ecology & Restoration — Survey and Restoration Crews",
+    "kind": "side",
+    "tier": 1,
+    "requires": null,
+    "programmeId": "marine-ecology-and-restoration",
+    "role": "opener",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Marine Ecology & Restoration — Survey and Restoration Crews",
+        "text": "The training lead meets you at Marine Ecology & Restoration — Survey and Restoration Crews and points you to the first bench."
+      },
+      {
+        "type": "station",
+        "target": "me-kelp-transect-survey-and-photo-quadrats",
+        "text": "The fixed transect as the unit of monitoring: the same pins, bearing, frame and camera settings every season, swum at a pace that does not tear the canopy it counts."
+      },
+      {
+        "type": "station",
+        "target": "me-oyster-reef-monitoring-and-settlement-tiles",
+        "text": "A tile's identity and wetness kept from the rack to the lab, and the fresh rack set back on the same footing at the same mark before the flood."
+      },
+      {
+        "type": "station",
+        "target": "me-eelgrass-seed-collection-and-nursery",
+        "text": "Collecting to a permit's share and keeping what was cut alive: shoots cut above the sheath, bags wet and cool, hung by their labels in a tank that never stops flowing."
+      },
+      {
+        "type": "talk",
+        "target": "training-lead",
+        "text": "\"Eight field methods a marine ecology and restoration crew runs on any survey or planting day: a kelp transect and its photo quadrats, a settlement-tile swap on a shellfish reef, seed collection and a flow-through nursery, water column sampling from a small boat, a hand-crew day opening a marsh channel, a fish visual census, a shoreline debris and microplastics survey, and the reporting method for a sighting that does not match the card. Every station teaches how a measurement is made repeatable and how a crew stays safe making it; none asserts a fact about any bay, species, count or date.\""
+      }
+    ],
+    "reward": {
+      "xp": 100,
+      "badge": "Marine Ecology & Restoration — Survey and Restoration Crews — Opener"
+    }
+  },
+  {
+    "id": "bw-side-marine-ecology-and-restoration-capstone",
+    "title": "Marine Ecology & Restoration — Survey and Restoration Crews — Capstone",
+    "giver": "the programme's certifying evaluator",
+    "site": "Marine Ecology & Restoration — Survey and Restoration Crews",
+    "kind": "side",
+    "tier": 2,
+    "requires": "bw-side-marine-ecology-and-restoration-opener",
+    "programmeId": "marine-ecology-and-restoration",
+    "role": "capstone",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Marine Ecology & Restoration — Survey and Restoration Crews",
+        "text": "The certifying evaluator is waiting at the last bench, sign-off sheet in hand."
+      },
+      {
+        "type": "station",
+        "target": "me-fish-visual-census-and-data-sheet",
+        "text": "A count that means the same thing every season: one corridor, one pace, classes against a bar, counting only what crosses ahead, and the sheet written on the bottom."
+      },
+      {
+        "type": "station",
+        "target": "me-shoreline-debris-and-microplastics-survey",
+        "text": "A beach tallied before it is changed and a sand sample kept honest in the wind, with sharps to the kit by tongs and unknowns flagged for the call."
+      },
+      {
+        "type": "station",
+        "target": "me-invasive-species-identification-and-reporting",
+        "text": "How a sighting becomes a record: photographed to protocol, positioned, sampled only as permitted and reported to the named body before anything is touched or said."
+      },
+      {
+        "type": "talk",
+        "target": "certifying-evaluator",
+        "text": "\"Certified under: Programme completion record; the field methods it rehearses answer to the permit and consultation conditions their own bodies set — BCDC, the Regional Water Quality Control Board's Section 401 certification, the Section 404 permit, USFWS and NOAA Fisheries consultation, CDFW oversight of collecting and handling — and, for the two diving stations, OSHA 29 CFR 1910.424 practice under the programme's own diving safety manual. No depth, gas or current limit is stated anywhere in the pack; those live in the dive plan\""
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": "Marine Ecology & Restoration — Survey and Restoration Crews — Capstone"
+    }
   }
 ];
 

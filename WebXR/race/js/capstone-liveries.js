@@ -265,5 +265,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "yacht-and-charter-crew",
     "name": "Yacht & Charter Crew",
     "accent": "#2b6f9e"
+  },
+  {
+    "programme": "marine-ecology-and-restoration",
+    "name": "Marine Ecology & Restoration — Survey and Restoration Crews",
+    "accent": "#2e8b57"
   }
 ];

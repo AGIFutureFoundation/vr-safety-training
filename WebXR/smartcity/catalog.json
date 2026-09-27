@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 605
+      "stations": 613
     },
     "trades": {
       "entry": "trades/index.html",
@@ -157,7 +157,15 @@
         "ut-night-storm-response-crew-and-portable-generator",
         "ut-water-treatment-chemical-delivery-unloading",
         "ut-hydrant-flow-test-and-flushing-with-traffic-control",
-        "ut-water-main-break-emergency-shutdown-and-excavation"
+        "ut-water-main-break-emergency-shutdown-and-excavation",
+        "me-invasive-species-identification-and-reporting",
+        "me-shoreline-debris-and-microplastics-survey",
+        "me-fish-visual-census-and-data-sheet",
+        "me-tidal-marsh-channel-restoration-day",
+        "me-water-column-sampling-from-a-small-boat",
+        "me-eelgrass-seed-collection-and-nursery",
+        "me-oyster-reef-monitoring-and-settlement-tiles",
+        "me-kelp-transect-survey-and-photo-quadrats"
       ]
     },
     {
@@ -5231,6 +5239,67 @@
       "ladder": {
         "levels": 20,
         "lessons": 1552,
+        "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
+    },
+    {
+      "id": "marine-ecology-and-restoration",
+      "name": "Marine Ecology & Restoration — Survey and Restoration Crews",
+      "union": "AFSCME and SEIU 1021 agency and nonprofit field staff, UPTE-CWA research technicians and LIUNA habitat crews, as training bodies",
+      "certification": "Programme completion record; the field methods it rehearses answer to the permit and consultation conditions their own bodies set — BCDC, the Regional Water Quality Control Board's Section 401 certification, the Section 404 permit, USFWS and NOAA Fisheries consultation, CDFW oversight of collecting and handling — and, for the two diving stations, OSHA 29 CFR 1910.424 practice under the programme's own diving safety manual. No depth, gas or current limit is stated anywhere in the pack; those live in the dive plan",
+      "summary": "Eight field methods a marine ecology and restoration crew runs on any survey or planting day: a kelp transect and its photo quadrats, a settlement-tile swap on a shellfish reef, seed collection and a flow-through nursery, water column sampling from a small boat, a hand-crew day opening a marsh channel, a fish visual census, a shoreline debris and microplastics survey, and the reporting method for a sighting that does not match the card. Every station teaches how a measurement is made repeatable and how a crew stays safe making it; none asserts a fact about any bay, species, count or date.",
+      "accent": "#2e8b57",
+      "stations": [
+        {
+          "app": "smartcity",
+          "id": "me-kelp-transect-survey-and-photo-quadrats",
+          "why": "The fixed transect as the unit of monitoring: the same pins, bearing, frame and camera settings every season, swum at a pace that does not tear the canopy it counts."
+        },
+        {
+          "app": "smartcity",
+          "id": "me-oyster-reef-monitoring-and-settlement-tiles",
+          "why": "A tile's identity and wetness kept from the rack to the lab, and the fresh rack set back on the same footing at the same mark before the flood."
+        },
+        {
+          "app": "smartcity",
+          "id": "me-eelgrass-seed-collection-and-nursery",
+          "why": "Collecting to a permit's share and keeping what was cut alive: shoots cut above the sheath, bags wet and cool, hung by their labels in a tank that never stops flowing."
+        },
+        {
+          "app": "smartcity",
+          "id": "me-water-column-sampling-from-a-small-boat",
+          "why": "What makes a bottle of water evidence — the marks on the line, the rinses, the labels, the cold and the custody — on a low wet deck with the gate open."
+        },
+        {
+          "app": "smartcity",
+          "id": "me-tidal-marsh-channel-restoration-day",
+          "why": "Working a marsh by hand inside three lines drawn before the crew arrived: the alignment, the buffer nobody crosses and the tide window the permit allows."
+        },
+        {
+          "app": "smartcity",
+          "id": "me-fish-visual-census-and-data-sheet",
+          "why": "A count that means the same thing every season: one corridor, one pace, classes against a bar, counting only what crosses ahead, and the sheet written on the bottom."
+        },
+        {
+          "app": "smartcity",
+          "id": "me-shoreline-debris-and-microplastics-survey",
+          "why": "A beach tallied before it is changed and a sand sample kept honest in the wind, with sharps to the kit by tongs and unknowns flagged for the call."
+        },
+        {
+          "app": "smartcity",
+          "id": "me-invasive-species-identification-and-reporting",
+          "why": "How a sighting becomes a record: photographed to protocol, positioned, sampled only as permitted and reported to the named body before anything is touched or said."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1521,
         "tasks": 120,
         "atBar": 20,
         "partial": 0,
@@ -31042,7 +31111,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 264,
+      "meshes": 271,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -55505,6 +55574,670 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=ml-delivery-van-pretrip-and-route-loading"
+    },
+    {
+      "app": "smartcity",
+      "id": "me-invasive-species-identification-and-reporting",
+      "name": "Invasive Species Identification & Reporting",
+      "title": "SmartCiti.X~ Invasive Species Identification & Reporting VR",
+      "tagline": "The reporting protocol read, the kit checked, the float edge walked at survey pace while a second patch turns up, the position fixed to the protocol's accuracy, the scale card set beside the specimen, the camera held for the diagnostic set while a boater offers to scrape it off, the shots taken in order, the earlier tag and the second patch found, the sample bagged as the permit allows, the form completed, the coordinator called and the sighting logged",
+      "category": "Water & Environmental",
+      "domain": "Environmental",
+      "trade": "Monitoring technician on a harbour survey crew, documenting and reporting a sighting that does not match the reference card, with a coordinator on the radio",
+      "union": null,
+      "certification": "AFSCME and LIUNA monitoring crews as training bodies; OSHA 29 CFR 1910.132 personal protective equipment for work at a float's edge; CDFW as the body a marine sighting is reported to and whose permit governs any sample taken; the U.S. Fish and Wildlife Service and NOAA Fisheries consultation measures where a sighting touches protected habitat; BCDC permit conditions for the marina; Regional Water Quality Control Board Section 401 conditions the harbour record informs",
+      "accent": "#b96fc8",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "track",
+        "gauge",
+        "drag",
+        "hold",
+        "find",
+        "turn"
+      ],
+      "badge": {
+        "id": "reported-not-removed",
+        "name": "Reported, Not Removed",
+        "note": "A sighting turned into a record — photographed to protocol, positioned, sampled only as permitted, reported before it was touched"
+      },
+      "meshes": 191,
+      "lights": 0,
+      "overBudget": false,
+      "index": "608",
+      "flat": false,
+      "system": "Sighting Crew",
+      "currency": "REPORT",
+      "ranks": [
+        "Dock Hand",
+        "Observer",
+        "Survey Tech",
+        "Reporting Lead",
+        "Sighting Certified"
+      ],
+      "awards": [
+        {
+          "id": "shots-in-order",
+          "name": "Shots In Order",
+          "note": "Overall, close-up with scale, habitat — first time"
+        },
+        {
+          "id": "hands-off",
+          "name": "Hands Off",
+          "note": "Never a hazard, never a scrape, never a wet transfer"
+        },
+        {
+          "id": "fixed-position",
+          "name": "Fixed Position",
+          "note": "The position committed inside the protocol's accuracy"
+        },
+        {
+          "id": "clean-report",
+          "name": "Clean Report",
+          "note": "No corrections from the protocol to the log"
+        },
+        {
+          "id": "steady-camera",
+          "name": "Steady Camera",
+          "note": "The edge walked and the camera held without a break"
+        },
+        {
+          "id": "reported-early",
+          "name": "Reported Early",
+          "note": "Sighting reported and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=me-invasive-species-identification-and-reporting"
+    },
+    {
+      "app": "smartcity",
+      "id": "me-shoreline-debris-and-microplastics-survey",
+      "name": "Shoreline Debris & Microplastics Survey",
+      "title": "SmartCiti.X~ Shoreline Debris & Microplastics Survey VR",
+      "tagline": "The protocol and the window read, gloves, vest and the sharps kit on, the tape committed at the strandline, the transect walked at pace while a syringe turns up in the wrack, the unknown container and the line tangle found and left, the quadrat scooped, sieved and jarred in order, the stack shaken, the jar held under the rinse as the wind lifts the samples, the residue jarred, the coordinator called and the survey logged",
+      "category": "Water & Environmental",
+      "domain": "Environmental",
+      "trade": "Survey lead on a shoreline monitoring crew, running a debris transect and a sand quadrat with a second surveyor and a sharps kit",
+      "union": null,
+      "certification": "LIUNA and AFSCME monitoring and clean-up crews as training bodies; OSHA 29 CFR 1910.132 personal protective equipment and 29 CFR 1910.1030 bloodborne pathogens for sharps in the wrack; HAZWOPER awareness for an unknown container, which is reported and left; DTSC oversight of what is found; a quality assurance project plan written to EPA QA/G-5 for the sand samples; Regional Water Quality Control Board Section 401 and BCDC conditions the shoreline record informs; NOAA tide predictions for the survey window; the U.S. Fish and Wildlife Service buffer measures on the upper beach",
+      "accent": "#d9a441",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "track",
+        "find",
+        "turn",
+        "hold",
+        "drag"
+      ],
+      "badge": {
+        "id": "tallied-not-touched",
+        "name": "Tallied, Not Touched",
+        "note": "Every item tallied by category, every sharp in the kit by tongs, the unknown left for the call, and the sand jarred under custody"
+      },
+      "meshes": 215,
+      "lights": 0,
+      "overBudget": false,
+      "index": "607",
+      "flat": false,
+      "system": "Shoreline Crew",
+      "currency": "TALLY",
+      "ranks": [
+        "Volunteer Lead",
+        "Surveyor",
+        "Transect Lead",
+        "Survey Lead",
+        "Shoreline Certified"
+      ],
+      "awards": [
+        {
+          "id": "in-order",
+          "name": "In Order",
+          "note": "Scooped, sieved and jarred in order first time"
+        },
+        {
+          "id": "hands-clean",
+          "name": "Hands Clean",
+          "note": "Never a hazard, never a bare hand in the wrack"
+        },
+        {
+          "id": "at-the-strandline",
+          "name": "At The Strandline",
+          "note": "The tape and the shaker both read inside the band"
+        },
+        {
+          "id": "clean-survey",
+          "name": "Clean Survey",
+          "note": "No corrections from the protocol to the log"
+        },
+        {
+          "id": "steady-walk",
+          "name": "Steady Walk",
+          "note": "The transect walked and the jar held without a break"
+        },
+        {
+          "id": "logged-before-flood",
+          "name": "Logged Before The Flood",
+          "note": "Survey logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=me-shoreline-debris-and-microplastics-survey"
+    },
+    {
+      "app": "smartcity",
+      "id": "me-fish-visual-census-and-data-sheet",
+      "name": "Fish Visual Census & Data Sheet",
+      "title": "SmartCiti.X~ Fish Visual Census & Data Sheet VR",
+      "tagline": "The census plan read against the dive plan, the kit checked, the visibility committed, the size bar checked on its target, the timer set, the belt swum at the method's pace while a silt plume rolls in, the timer read, the end marker and the plume found, the tail count held while the surface recalls, the sheet written in order, the slate bagged, the buddy checked and the dive logged",
+      "category": "Water & Environmental",
+      "domain": "Environmental",
+      "trade": "Census diver on a restoration monitoring crew, swimming a fixed belt transect with a buddy and writing the data sheet on the bottom",
+      "union": null,
+      "certification": "AFSCME and LIUNA monitoring crews as training bodies; OSHA 29 CFR 1910.424 SCUBA diving as the rule the buddy and standby practice answers to; the programme's diving safety manual and dive plan for every limit; CDFW oversight of the observation method and its permits; NOAA Fisheries and the U.S. Fish and Wildlife Service consultation measures for in-water monitoring; Regional Water Quality Control Board Section 401 and Section 404 monitoring conditions the census reports on; BCDC permit conditions",
+      "accent": "#6fb0d6",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": "bay-underwater",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "drag",
+        "turn",
+        "track",
+        "find",
+        "hold"
+      ],
+      "badge": {
+        "id": "counted-ahead",
+        "name": "Counted Ahead",
+        "note": "The belt swum at pace counting only what crossed ahead, every size class against the bar, and the sheet written on the bottom"
+      },
+      "meshes": 172,
+      "lights": 0,
+      "overBudget": false,
+      "index": "606",
+      "flat": false,
+      "system": "Census Crew",
+      "currency": "PASS",
+      "ranks": [
+        "Diver Trainee",
+        "Census Diver",
+        "Belt Lead",
+        "Monitoring Lead",
+        "Census Certified"
+      ],
+      "awards": [
+        {
+          "id": "bar-true",
+          "name": "Bar True",
+          "note": "The size bar checked on its target first time"
+        },
+        {
+          "id": "on-the-belt",
+          "name": "On The Belt",
+          "note": "Never a hazard, never off the line after a school"
+        },
+        {
+          "id": "method-pace",
+          "name": "Method Pace",
+          "note": "Visibility, timer and pace all inside the band"
+        },
+        {
+          "id": "clean-census",
+          "name": "Clean Census",
+          "note": "No corrections from the plan to the log"
+        },
+        {
+          "id": "unbroken-belt",
+          "name": "Unbroken Belt",
+          "note": "Pace and tail count held the whole way"
+        },
+        {
+          "id": "sheet-early",
+          "name": "Sheet Early",
+          "note": "Census logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=me-fish-visual-census-and-data-sheet"
+    },
+    {
+      "app": "smartcity",
+      "id": "me-tidal-marsh-channel-restoration-day",
+      "name": "Tidal Marsh Channel Restoration Day",
+      "title": "SmartCiti.X~ Tidal Marsh Channel Restoration Day VR",
+      "tagline": "The plan and the window read, waders and vest on, the staff read, the flagged path walked while the tide turns early, the alignment staked, the fence post driven, the buffer flag and the buried-line marker found, plugs cut, placed and tamped in order, the rod held for the shot while a bird lands in the buffer, spoil carried to its zone, the crew called and the day logged",
+      "category": "Water & Environmental",
+      "domain": "Environmental",
+      "trade": "Hand-crew lead on a tidal marsh restoration, opening a channel by hand inside the permit's work window with a monitor watching the nesting buffer",
+      "union": null,
+      "certification": "LIUNA and AFSCME restoration and habitat crews as training bodies; OSHA 29 CFR 1910.132 personal protective equipment for mud, water and hand tools; Section 404 permit conditions for placing and moving material in the marsh; Regional Water Quality Control Board Section 401 conditions on turbidity and spoil; BCDC permit conditions; the U.S. Fish and Wildlife Service and NOAA Fisheries consultation measures that set the work window and the nesting buffer; CDFW oversight of the channel work",
+      "accent": "#8fa64a",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "track",
+        "drag",
+        "turn",
+        "find",
+        "hold"
+      ],
+      "badge": {
+        "id": "channel-by-hand",
+        "name": "Channel By Hand",
+        "note": "A channel opened inside the window with every boot on the path, every plug in order and every bucket of spoil in its zone"
+      },
+      "meshes": 259,
+      "lights": 0,
+      "overBudget": false,
+      "index": "605",
+      "flat": false,
+      "system": "Marsh Crew",
+      "currency": "PLUG",
+      "ranks": [
+        "Marsh Hand",
+        "Channel Hand",
+        "Crew Lead",
+        "Restoration Lead",
+        "Marsh Certified"
+      ],
+      "awards": [
+        {
+          "id": "plugs-in-order",
+          "name": "Plugs In Order",
+          "note": "Cut, placed and tamped in order first time"
+        },
+        {
+          "id": "marsh-kept",
+          "name": "Marsh Kept",
+          "note": "Never a hazard, never a boot off the path"
+        },
+        {
+          "id": "true-staff",
+          "name": "True Staff",
+          "note": "The staff read inside the working band"
+        },
+        {
+          "id": "clean-day",
+          "name": "Clean Day",
+          "note": "No corrections from the plan to the log"
+        },
+        {
+          "id": "steady-rod",
+          "name": "Steady Rod",
+          "note": "The path walked and the rod held without a break"
+        },
+        {
+          "id": "out-before-flood",
+          "name": "Out Before The Flood",
+          "note": "Day logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=me-tidal-marsh-channel-restoration-day"
+    },
+    {
+      "app": "smartcity",
+      "id": "me-water-column-sampling-from-a-small-boat",
+      "name": "Water Column Sampling From A Small Boat",
+      "title": "SmartCiti.X~ Water Column Sampling From A Small Boat VR",
+      "tagline": "The sampling plan read, the vest and gloves on, the disk lowered to its vanishing, the bottle clipped to the line, wound down to the plan's mark, held while the messenger trips and a wake comes through, brought up steady while the line fouls aft, the split seal and the blank label found, rinsed, filled and labelled in order, the blank read, the cooler racked under custody, the skipper called and the station logged",
+      "category": "Water & Environmental",
+      "domain": "Environmental",
+      "trade": "Sampling technician on a monitoring crew, working the afterdeck of a small workboat held on station by its skipper",
+      "union": null,
+      "certification": "AFSCME and LIUNA monitoring crews as training bodies; OSHA 29 CFR 1910.132 personal protective equipment for work over the side; 40 CFR 136 analytical methods and the sample handling they require, under a quality assurance project plan written to EPA QA/G-5; Regional Water Quality Control Board Section 401 monitoring conditions and the Section 404 record the samples answer; BCDC permit conditions; NOAA Fisheries consultation measures for the in-water work the samples watch",
+      "accent": "#4fa3c8",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "drag",
+        "turn",
+        "hold",
+        "track",
+        "find"
+      ],
+      "badge": {
+        "id": "bottle-is-evidence",
+        "name": "Bottle Is Evidence",
+        "note": "Every bottle rinsed, filled, labelled and cold under custody, and nobody over the rail to get it"
+      },
+      "meshes": 202,
+      "lights": 0,
+      "overBudget": false,
+      "index": "604",
+      "flat": false,
+      "system": "Sampling Crew",
+      "currency": "BOTTLE",
+      "ranks": [
+        "Deck Hand",
+        "Sampler",
+        "Field Sampler",
+        "Sampling Lead",
+        "Custody Certified"
+      ],
+      "awards": [
+        {
+          "id": "to-the-mark",
+          "name": "To The Mark",
+          "note": "The bottle wound to the plan's mark first time"
+        },
+        {
+          "id": "inboard",
+          "name": "Inboard",
+          "note": "Never a hazard, never a hand in the line or a body over the rail"
+        },
+        {
+          "id": "true-blank",
+          "name": "True Blank",
+          "note": "The disk and the blank both read inside the band"
+        },
+        {
+          "id": "clean-station",
+          "name": "Clean Station",
+          "note": "No corrections from the plan to the log"
+        },
+        {
+          "id": "steady-line",
+          "name": "Steady Line",
+          "note": "The trip held and the retrieve steady the whole way"
+        },
+        {
+          "id": "racked-in-time",
+          "name": "Racked In Time",
+          "note": "Cooler racked and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=me-water-column-sampling-from-a-small-boat"
+    },
+    {
+      "app": "smartcity",
+      "id": "me-eelgrass-seed-collection-and-nursery",
+      "name": "Eelgrass Seed Collection & Nursery",
+      "title": "SmartCiti.X~ Eelgrass Seed Collection & Nursery VR",
+      "tagline": "The collecting permit read, the share meter set, the kit checked, the first bag cut into the cooler, the skiff drifted along the bed's edge while a bag heats on the thwart, the seeded and the torn bag found, the tank valve opened, bags labelled and hung in order, the sieve held while the flow alarm trips, the tank band read, the seed jar racked in the dark, the tender called and the collection logged",
+      "category": "Water & Environmental",
+      "domain": "Environmental",
+      "trade": "Nursery technician on a seagrass restoration crew, collecting flowering shoots from a skiff and running the shore nursery's flow-through tanks",
+      "union": null,
+      "certification": "AFSCME and LIUNA restoration and nursery crews as training bodies; OSHA 29 CFR 1910.132 personal protective equipment for work over the side and in the nursery; CDFW oversight of the collecting permit's share and handling; NOAA Fisheries and the U.S. Fish and Wildlife Service consultation measures for in-water work at the bed; BCDC permit conditions; Regional Water Quality Control Board Section 401 conditions on the nursery's discharge and the Section 404 record the planting will answer to",
+      "accent": "#3fae8f",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "drag",
+        "track",
+        "find",
+        "turn",
+        "hold"
+      ],
+      "badge": {
+        "id": "seed-kept-cold",
+        "name": "Seed Kept Cold",
+        "note": "Every bag cut to the share, kept wet and cool, hung by its label and its seed racked in the dark — first time"
+      },
+      "meshes": 269,
+      "lights": 0,
+      "overBudget": false,
+      "index": "603",
+      "flat": false,
+      "system": "Seed Crew",
+      "currency": "SPATHE",
+      "ranks": [
+        "Nursery Hand",
+        "Collector",
+        "Nursery Tech",
+        "Seed Lead",
+        "Nursery Certified"
+      ],
+      "awards": [
+        {
+          "id": "to-the-share",
+          "name": "To The Share",
+          "note": "The share meter committed inside the permit's band first time"
+        },
+        {
+          "id": "bed-kept",
+          "name": "Bed Kept",
+          "note": "Never a hazard, never a rhizome pulled"
+        },
+        {
+          "id": "steady-drift",
+          "name": "Steady Drift",
+          "note": "The drift and the tank band both read inside the band"
+        },
+        {
+          "id": "clean-collection",
+          "name": "Clean Collection",
+          "note": "No corrections from the permit to the log"
+        },
+        {
+          "id": "sieve-steady",
+          "name": "Sieve Steady",
+          "note": "The drift and the sieve held without a break"
+        },
+        {
+          "id": "racked-early",
+          "name": "Racked Early",
+          "note": "Seed racked and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=me-eelgrass-seed-collection-and-nursery"
+    },
+    {
+      "app": "smartcity",
+      "id": "me-oyster-reef-monitoring-and-settlement-tiles",
+      "name": "Oyster Reef Monitoring & Settlement Tiles",
+      "title": "SmartCiti.X~ Oyster Reef Monitoring & Settlement Tiles VR",
+      "tagline": "The tile plan and the tide window read, gloves, boots and vest on, the reef crossed on its path, the rack lifted into the wet tray, the cracked and the unlabelled tile found, each tile labelled, shot on the grid and bagged in order, the board held square while the flood reaches the tray, the fresh rack turned to its mark and set on its footing, the kit stowed, the tender called and the swap logged",
+      "category": "Water & Environmental",
+      "domain": "Environmental",
+      "trade": "Field technician on a shellfish-reef monitoring crew, swapping settlement tiles at low water from a skiff held by a tender",
+      "union": null,
+      "certification": "AFSCME and LIUNA monitoring and habitat crews as training bodies; OSHA 29 CFR 1910.132 personal protective equipment for shell, cold water and the skiff; Regional Water Quality Control Board Section 401 and Section 404 monitoring conditions the tile record answers; BCDC permit conditions for the reef; NOAA Fisheries and the U.S. Fish and Wildlife Service consultation measures for the work window; CDFW oversight of the collecting and handling the tiles involve",
+      "accent": "#c9b48a",
+      "parSeconds": 300,
+      "weather": "fog",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "track",
+        "drag",
+        "find",
+        "hold",
+        "turn"
+      ],
+      "badge": {
+        "id": "tile-chain-kept",
+        "name": "Tile Chain Kept",
+        "note": "Every tile kept wet, labelled and in order from the reef to the bag, and the fresh rack back on its own footing at its mark"
+      },
+      "meshes": 276,
+      "lights": 0,
+      "overBudget": false,
+      "index": "602",
+      "flat": false,
+      "system": "Reef Crew",
+      "currency": "TILE",
+      "ranks": [
+        "Field Hand",
+        "Tile Tech",
+        "Reef Tech",
+        "Monitoring Lead",
+        "Reef Certified"
+      ],
+      "awards": [
+        {
+          "id": "in-order",
+          "name": "In Order",
+          "note": "Every tile labelled, shot and bagged in rack order first time"
+        },
+        {
+          "id": "reef-kept",
+          "name": "Reef Kept",
+          "note": "Never a hazard, never a mound crossed"
+        },
+        {
+          "id": "true-window",
+          "name": "True Window",
+          "note": "The tide staff read inside the working band"
+        },
+        {
+          "id": "clean-swap",
+          "name": "Clean Swap",
+          "note": "No corrections from the plan to the log"
+        },
+        {
+          "id": "steady-board",
+          "name": "Steady Board",
+          "note": "The path walked and the board held without a break"
+        },
+        {
+          "id": "off-before-flood",
+          "name": "Off Before The Flood",
+          "note": "Swap logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=me-oyster-reef-monitoring-and-settlement-tiles"
+    },
+    {
+      "app": "smartcity",
+      "id": "me-kelp-transect-survey-and-photo-quadrats",
+      "name": "Kelp Transect Survey & Photo Quadrats",
+      "title": "SmartCiti.X~ Kelp Transect Survey & Photo Quadrats VR",
+      "tagline": "The survey plan read against the dive plan, the kit checked, the current read, the tape run out on its bearing, the canopy swum steady, three quadrats shot to the same frame, the tagged holdfast found again, the camera held for the scale shot while a boat passes overhead, the slate written, the tape bagged, the buddy checked and the dive logged",
+      "category": "Water & Environmental",
+      "domain": "Environmental",
+      "trade": "Scientific diver on a restoration monitoring crew, running a fixed kelp transect with a buddy beside them and the boat crew overhead",
+      "union": null,
+      "certification": "AFSCME and LIUNA monitoring and restoration crews as training bodies; OSHA 29 CFR 1910.424 SCUBA diving as the rule the buddy and standby practice answers to; the programme's own diving safety manual and dive plan for every limit; Regional Water Quality Control Board Section 401 and Section 404 monitoring conditions for the restoration the transect reports on; BCDC permit conditions; NOAA Fisheries and the U.S. Fish and Wildlife Service consultation measures for in-water work; CDFW oversight of the survey's collecting and handling",
+      "accent": "#4fb98a",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": "bay-underwater",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "turn",
+        "drag",
+        "track",
+        "find",
+        "hold"
+      ],
+      "badge": {
+        "id": "same-frame",
+        "name": "Same Frame",
+        "note": "Every quadrat shot on its pin at the same frame as last season, and the canopy never torn to get there"
+      },
+      "meshes": 274,
+      "lights": 0,
+      "overBudget": false,
+      "index": "601",
+      "flat": false,
+      "system": "Transect Crew",
+      "currency": "FRAME",
+      "ranks": [
+        "Diver Trainee",
+        "Survey Diver",
+        "Transect Lead",
+        "Monitoring Lead",
+        "Transect Certified"
+      ],
+      "awards": [
+        {
+          "id": "on-the-pin",
+          "name": "On The Pin",
+          "note": "Every quadrat set on its own pin first time"
+        },
+        {
+          "id": "canopy-kept",
+          "name": "Canopy Kept",
+          "note": "Never a hazard, never a stipe pulled"
+        },
+        {
+          "id": "steady-swim",
+          "name": "Steady Swim",
+          "note": "The current and the pace both read inside the band"
+        },
+        {
+          "id": "clean-transect",
+          "name": "Clean Transect",
+          "note": "No corrections from the plan to the log"
+        },
+        {
+          "id": "unbroken-line",
+          "name": "Unbroken Line",
+          "note": "Pace and the scale shot held the whole way"
+        },
+        {
+          "id": "logged-early",
+          "name": "Logged Early",
+          "note": "Transect logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=me-kelp-transect-survey-and-photo-quadrats"
     },
     {
       "app": "trades",

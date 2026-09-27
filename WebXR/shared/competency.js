@@ -109,6 +109,12 @@ export const STANDARDS = Object.fromEntries([
   S("hipaa-privacy-rule", "HHS", "HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)", ["Dental & Oral Health", "Emergency Services", "Community Environmental Justice", "Trade Skills Simulator"]),
   S("osha-1910-1030", "OSHA", "29 CFR 1910.1030 Bloodborne pathogens", ["Health & Clinical", "Hospitality"]),
   S("osha-1910-subpart-t", "OSHA", "29 CFR 1910 Subpart T \u2014 Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)", ["Maritime & Ports", "Water & Environmental", "Environmental Monitoring"]),
+  S("osha-1910-424", "OSHA", "29 CFR 1910.424 \u2014 SCUBA diving", ["Water & Environmental", "Maritime & Ports", "Environmental Monitoring"]),
+  S("bcdc-bay-plan", "BCDC", "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act", ["Water & Environmental", "Maritime & Ports", "Community Environmental Justice", "Environmental Monitoring", "Construction & Structural Trades"]),
+  S("rwqcb-401-certification", "RWQCB", "Regional Water Quality Control Board Clean Water Act \u00a7401 certification and waste discharge requirements", ["Water & Environmental", "Maritime & Ports", "Community Environmental Justice", "Environmental Monitoring", "Construction & Structural Trades", "Surface Prep & Coatings"]),
+  S("usfws-esa", "USFWS", "Endangered Species Act \u00a77 consultation and species protection measures set by the U.S. Fish and Wildlife Service", ["Water & Environmental", "Maritime & Ports", "Environmental Monitoring", "Community Environmental Justice"]),
+  S("noaa-tides-and-esa", "NOAA", "NOAA tide predictions and NOAA Fisheries Endangered Species Act consultation for in-water work", ["Water & Environmental", "Maritime & Ports", "Environmental Monitoring", "Community Environmental Justice"]),
+  S("cdfw-lake-streambed-alteration", "CDFW", "California Department of Fish and Wildlife oversight under the California Fish and Game Code, including Lake and Streambed Alteration Agreements (\u00a71602) for work affecting a river, stream or lake", ["Water & Environmental", "Construction & Structural Trades", "Community Environmental Justice", "Maritime & Ports"], "unverified"),
   S("adci-consensus-standards", "ADCI", "Association of Diving Contractors International \u2014 International Consensus Standards for Commercial Diving and Underwater Operations", ["Maritime & Ports", "Water & Environmental", "Environmental Monitoring"], "unverified"),
   S("osha-1910-120", "OSHA", "29 CFR 1910.120 Hazardous waste operations and emergency response (HAZWOPER)", ["Hazmat & Environmental"]),
   S("osha-1910-252", "OSHA", "29 CFR 1910.252 Welding, cutting and brazing — general requirements", ["Metal Trades"]),
@@ -891,6 +897,17 @@ export const PROGRAMME_COMPETENCIES = [
     stations: [
       "yc-pre-departure-safety-briefing-and-guest-count", "yc-line-handling-and-docking-in-crosswind", "yc-fuel-dock-transfer-and-spill-kit", "yc-engine-room-pre-start-and-bilge-check",
       "yc-man-overboard-recovery-drill", "yc-galley-fire-and-fixed-system", "yc-tender-launch-and-guest-transfer", "yc-shore-power-connection-and-in-water-electrical-safety"
+    ],
+    require: 4,
+  },
+  {
+    id: "marine-ecology-and-restoration",
+    title: "Run a repeatable field survey or restoration method on the water and keep the crew safe doing it",
+    kind: "programme",
+    standards: ["bcdc-bay-plan", "rwqcb-401-certification", "usace-section-404", "usfws-esa", "noaa-tides-and-esa", "cdfw-lake-streambed-alteration", "osha-1910-424"],
+    stations: [
+      "me-kelp-transect-survey-and-photo-quadrats", "me-oyster-reef-monitoring-and-settlement-tiles", "me-eelgrass-seed-collection-and-nursery", "me-water-column-sampling-from-a-small-boat",
+      "me-tidal-marsh-channel-restoration-day", "me-fish-visual-census-and-data-sheet", "me-shoreline-debris-and-microplastics-survey", "me-invasive-species-identification-and-reporting"
     ],
     require: 4,
   },

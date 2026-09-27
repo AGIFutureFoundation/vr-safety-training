@@ -1,6 +1,6 @@
 # SmartCiti.X training series
 
-_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-27. 605 SmartCiti.X stations across 19 categories and 52 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
+_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-27. 613 SmartCiti.X stations across 19 categories and 53 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
 Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 58 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
@@ -58,6 +58,7 @@ Every station is a real union procedure sited generically, built on the shared e
 - [Screen & Media Crafts](#screen-and-media-crafts)
 - [Postal & Mail Processing Crew](#postal-and-mail-processing)
 - [Yacht & Charter Crew](#yacht-and-charter-crew)
+- [Marine Ecology & Restoration — Survey and Restoration Crews](#marine-ecology-and-restoration)
 
 <a id="hunters-point-bay-restoration"></a>
 ## Hunters Point Clean-up and Bay Restoration
@@ -1582,6 +1583,26 @@ Eight jobs on a mid-size motor yacht at her marina berth and under way on the es
 | yc-6 | [Galley Fire & Fixed System](../../WebXR/smartcity/index.html?sim=yc-galley-fire-and-fixed-system) | Charter yacht steward-deckhand at the galley fire, IBU and SIU trained, with the MEBA engineer isolating fuel below and the captain mustering guests | overcast, Maritime & Ports | 13 | 2 | 96 | The galley fuel shut before the blanket, the extinguisher swept at the base, the fixed system pulled with the door shut, and the hatch cracked to the plan rather than thrown wide on a pan that may reflash. |
 | yc-7 | [Tender Launch & Guest Transfer](../../WebXR/smartcity/index.html?sim=yc-tender-launch-and-guest-transfer) | Charter yacht deckhand launching and driving the tender, IBU and SIU trained, with the mate on the davit and the captain on the flybridge | clear, Maritime & Ports | 13 | 2 | 95 | The tender walked for the missing plug in her chocks, lowered steady on the davit with a tag line for the swing, loaded to the plate and no further, and every guest across with bags passed first and two hands free. |
 | yc-8 | [Shore Power Connection & In-Water Electrical Safety](../../WebXR/smartcity/index.html?sim=yc-shore-power-connection-and-in-water-electrical-safety) | Charter yacht deckhand connecting shore power at the berth, IBU and SIU trained, with the MEBA engineer at the panel | clear, Maritime & Ports | 13 | 2 | 98 | Breaker off before the cord moves, boat end locked before the dock end goes in, the polarity and leakage watched at the panel, nobody in the water at the berth, and a reported tingle treated as the emergency it is. |
+
+<a id="marine-ecology-and-restoration"></a>
+## Marine Ecology & Restoration — Survey and Restoration Crews
+
+**Union:** AFSCME and SEIU 1021 agency and nonprofit field staff, UPTE-CWA research technicians and LIUNA habitat crews, as training bodies
+
+**Certifications and standards:** Programme completion record; the field methods it rehearses answer to the permit and consultation conditions their own bodies set — BCDC, the Regional Water Quality Control Board's Section 401 certification, the Section 404 permit, USFWS and NOAA Fisheries consultation, CDFW oversight of collecting and handling — and, for the two diving stations, OSHA 29 CFR 1910.424 practice under the programme's own diving safety manual. No depth, gas or current limit is stated anywhere in the pack; those live in the dive plan
+
+Eight field methods a marine ecology and restoration crew runs on any survey or planting day: a kelp transect and its photo quadrats, a settlement-tile swap on a shellfish reef, seed collection and a flow-through nursery, water column sampling from a small boat, a hand-crew day opening a marsh channel, a fish visual census, a shoreline debris and microplastics survey, and the reporting method for a sighting that does not match the card. Every station teaches how a measurement is made repeatable and how a crew stays safe making it; none asserts a fact about any bay, species, count or date.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| 601 | [Kelp Transect Survey & Photo Quadrats](../../WebXR/smartcity/index.html?sim=me-kelp-transect-survey-and-photo-quadrats) | Scientific diver on a restoration monitoring crew, running a fixed kelp transect with a buddy beside them and the boat crew overhead | clear, bay-underwater | 13 | 2 | — | The fixed transect as the unit of monitoring: the same pins, bearing, frame and camera settings every season, swum at a pace that does not tear the canopy it counts. |
+| 602 | [Oyster Reef Monitoring & Settlement Tiles](../../WebXR/smartcity/index.html?sim=me-oyster-reef-monitoring-and-settlement-tiles) | Field technician on a shellfish-reef monitoring crew, swapping settlement tiles at low water from a skiff held by a tender | fog, Environmental Monitoring | 13 | 2 | — | A tile's identity and wetness kept from the rack to the lab, and the fresh rack set back on the same footing at the same mark before the flood. |
+| 603 | [Eelgrass Seed Collection & Nursery](../../WebXR/smartcity/index.html?sim=me-eelgrass-seed-collection-and-nursery) | Nursery technician on a seagrass restoration crew, collecting flowering shoots from a skiff and running the shore nursery's flow-through tanks | overcast, Environmental Monitoring | 13 | 2 | — | Collecting to a permit's share and keeping what was cut alive: shoots cut above the sheath, bags wet and cool, hung by their labels in a tank that never stops flowing. |
+| 604 | [Water Column Sampling From A Small Boat](../../WebXR/smartcity/index.html?sim=me-water-column-sampling-from-a-small-boat) | Sampling technician on a monitoring crew, working the afterdeck of a small workboat held on station by its skipper | wind, Environmental Monitoring | 13 | 2 | — | What makes a bottle of water evidence — the marks on the line, the rinses, the labels, the cold and the custody — on a low wet deck with the gate open. |
+| 605 | [Tidal Marsh Channel Restoration Day](../../WebXR/smartcity/index.html?sim=me-tidal-marsh-channel-restoration-day) | Hand-crew lead on a tidal marsh restoration, opening a channel by hand inside the permit's work window with a monitor watching the nesting buffer | clear, Environmental Monitoring | 12 | 2 | — | Working a marsh by hand inside three lines drawn before the crew arrived: the alignment, the buffer nobody crosses and the tide window the permit allows. |
+| 606 | [Fish Visual Census & Data Sheet](../../WebXR/smartcity/index.html?sim=me-fish-visual-census-and-data-sheet) | Census diver on a restoration monitoring crew, swimming a fixed belt transect with a buddy and writing the data sheet on the bottom | clear, bay-underwater | 13 | 2 | — | A count that means the same thing every season: one corridor, one pace, classes against a bar, counting only what crosses ahead, and the sheet written on the bottom. |
+| 607 | [Shoreline Debris & Microplastics Survey](../../WebXR/smartcity/index.html?sim=me-shoreline-debris-and-microplastics-survey) | Survey lead on a shoreline monitoring crew, running a debris transect and a sand quadrat with a second surveyor and a sharps kit | wind, Environmental Monitoring | 12 | 2 | — | A beach tallied before it is changed and a sand sample kept honest in the wind, with sharps to the kit by tongs and unknowns flagged for the call. |
+| 608 | [Invasive Species Identification & Reporting](../../WebXR/smartcity/index.html?sim=me-invasive-species-identification-and-reporting) | Monitoring technician on a harbour survey crew, documenting and reporting a sighting that does not match the reference card, with a coordinator on the radio | overcast, Environmental Monitoring | 12 | 2 | — | How a sighting becomes a record: photographed to protocol, positioned, sampled only as permitted and reported to the named body before anything is touched or said. |
 
 ## Real-world environments
 

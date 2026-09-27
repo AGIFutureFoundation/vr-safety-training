@@ -1,0 +1,434 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "bottle-is-evidence",
+    "name": "Bottle Is Evidence",
+    "note": "Every bottle rinsed, filled, labelled and cold under custody, and nobody over the rail to get it"
+  },
+  "category": "Water & Environmental",
+  "certification": "AFSCME and LIUNA monitoring crews as training bodies; OSHA 29 CFR 1910.132 personal protective equipment for work over the side; 40 CFR 136 analytical methods and the sample handling they require, under a quality assurance project plan written to EPA QA/G-5; Regional Water Quality Control Board Section 401 monitoring conditions and the Section 404 record the samples answer; BCDC permit conditions; NOAA Fisheries consultation measures for the in-water work the samples watch",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "BCDC",
+        "citedAs": "BCDC",
+        "id": "bcdc-bay-plan",
+        "title": "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "40 CFR 136",
+        "id": "epa-40-cfr-136",
+        "title": "40 CFR Part 136 — Test procedures for the analysis of pollutants"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "EPA QA/G-5",
+        "id": "epa-qa-g5",
+        "title": "EPA QA/G-5 — Guidance for quality assurance project plans, and the chain-of-custody practice built on it"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "NOAA Fisheries",
+        "citedAs": "NOAA Fisheries",
+        "id": "noaa-fisheries-mmpa-esa",
+        "title": "NOAA Fisheries (National Marine Fisheries Service) Marine Mammal Protection Act authorizations and Endangered Species Act consultation for in-water work affecting marine mammals"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "Regional Water Quality Control Board",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      },
+      {
+        "body": "USACE",
+        "citedAs": "Section 404",
+        "id": "usace-section-404",
+        "title": "Clean Water Act §404 permit conditions for the discharge of dredged or fill material"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "to-the-mark",
+        "name": "To The Mark",
+        "note": "The bottle wound to the plan's mark first time"
+      },
+      {
+        "id": "inboard",
+        "name": "Inboard",
+        "note": "Never a hazard, never a hand in the line or a body over the rail"
+      },
+      {
+        "id": "true-blank",
+        "name": "True Blank",
+        "note": "The disk and the blank both read inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-station",
+        "name": "Clean Station",
+        "note": "No corrections from the plan to the log"
+      },
+      {
+        "id": "steady-line",
+        "name": "Steady Line",
+        "note": "The trip held and the retrieve steady the whole way"
+      },
+      {
+        "id": "racked-in-time",
+        "name": "Racked In Time",
+        "note": "Cooler racked and logged inside 80% of par"
+      }
+    ],
+    "currency": "BOTTLE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Deck Hand",
+      "Sampler",
+      "Field Sampler",
+      "Sampling Lead",
+      "Custody Certified"
+    ],
+    "system": "Sampling Crew"
+  },
+  "hazards": {
+    "bare-hand-on-the-mouth": "You steadied the sample bottle by its mouth with a bare hand while pouring. Whatever is on a hand — sunscreen, fuel from the winch, the last station's water — is now in the sample, and the laboratory has no way to tell it from the bay; the bottle is held by its body, gloved, and the mouth touches nothing but the decanting spout.",
+    "bottle-in-the-sun": "You set the filled sample bottle on the engine box to fill the next one. Sample water warms fast in a clear bottle on a hot lid, and the plan's holding conditions for the parameters it carries begin the moment it is capped — every filled bottle goes straight into the cooler's ice, and the lid goes down between bottles.",
+    "hand-in-the-line": "You took hold of the sampling line between the block and the winch drum to guide it. A line under a bottle's weight runs through a block with force enough to take fingers into the sheave, and a gust or a wake loads it without warning; the line is handled only outboard of the block, on the bottle side, with the winch stopped.",
+    "over-the-gunwale": "You leaned out over the open rail gate to reach the bottle instead of bringing it to the gate with the line. The afterdeck is low and wet, the gate is open for the whole cast, and a technician bent over cold water with both hands on a bottle has nothing holding them in the boat but balance — the line brings the bottle to you, and the work vest is the second chance, not the plan."
+  },
+  "id": "me-water-column-sampling-from-a-small-boat",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "trip-hold",
+      "alert": "The skipper has called a wake — a vessel has passed close and its wash is a few seconds from the open gate.",
+      "cue": "Take hold of the grab rail with your free hand and keep your feet inside the gate until the boat settles.",
+      "delay": 2,
+      "id": "wake-coming",
+      "kind": "Wake from a passing vessel",
+      "missNote": "The wake came through with both your hands on the line; you went to one knee against the open gate and the messenger's trip was lost in the lurch, so the cast was repeated with a bruised shin and a shaken skipper.",
+      "seconds": 14,
+      "target": "grab-rail",
+      "why": "A wake across a small boat's afterdeck lifts and drops the deck under a technician who is bent over a line at an open gate, and the difference between a stumble and a person in the water is a hand on something solid. The line can stand a second's slack; the grab rail is fitted beside the gate for exactly this call, and the skipper's warning is answered with a hand on it, not with a glance astern.",
+      "wrongNote": "Not that. The grab rail — a hand on it and your feet inside the gate before the wash arrives."
+    },
+    {
+      "after": "retrieve-steady",
+      "alert": "The line has swung aft under the counter as the boat swings — it is leading toward the outboards, not straight down.",
+      "cue": "Call the skipper to go to neutral now, before the winch pulls the line into the propellers.",
+      "delay": 2,
+      "id": "line-fouled-aft",
+      "kind": "Line fouled toward the stern",
+      "missNote": "The winch kept pulling and the line found the propeller; the bottle and the weight were cut away, the station's cast was lost, and the boat drifted off station with one engine down while the skipper cleared the shaft.",
+      "seconds": 14,
+      "target": "skipper-radio",
+      "why": "A sampling line led under the stern of a boat with its engines engaged will find the propellers, and a winch retrieve pulls it there faster; the bottle, the weight and the cast are lost, and a fouled propeller on a boat holding station in wind is the skipper's problem for the rest of the day. The call is made before the line is touched, because the skipper can take the engines out of gear in a second and the technician cannot unfoul a running propeller at all.",
+      "wrongNote": "Not that. The skipper's radio — engines to neutral before the line goes any nearer the stern."
+    }
+  ],
+  "lateNotes": {
+    "cooler-custody": "The cooler is racked once the blank is read — a cooler racked warm is a custody form with a hole in it.",
+    "sample-bottle-rinse": "The bottles are filled once the cast is aboard and inspected — a bottle rinsed before the seal is checked is a bottle rinsed twice.",
+    "sampling-bottle": "The bottle is clipped once the disk has been read — the transparency reading is taken before the column is disturbed by a cast."
+  },
+  "name": "Water Column Sampling From A Small Boat",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "marine-ecology-and-restoration"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "workboat",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "radio",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bare-hand-on-the-mouth",
+      "bottle-in-the-sun",
+      "cooler-custody",
+      "cooler-iced",
+      "custody-rack",
+      "disk-line",
+      "grab-rail",
+      "hand-in-the-line",
+      "label-blank",
+      "line-hold",
+      "line-snap",
+      "line-winch",
+      "nitrile-gloves",
+      "over-the-gunwale",
+      "retrieve-crank",
+      "sample-bottle-fill",
+      "sample-bottle-label",
+      "sample-bottle-rinse",
+      "sampling-bottle",
+      "sampling-plan-board",
+      "seal-split",
+      "skipper-radio",
+      "station-log",
+      "temperature-blank",
+      "vest-on"
+    ],
+    "meshes": 202
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the station's position, the marks on the line the plan calls for, the bottles and preservatives per parameter, the holding conditions, and the custody chain to the laboratory.",
+      "id": "sampling-plan",
+      "kind": "select",
+      "prompt": "Check the station's position, the marks on the line the plan calls for, the bottles and preservatives per parameter, the holding conditions, and the custody chain to the laboratory.",
+      "target": "sampling-plan-board",
+      "title": "Read the sampling plan for this station",
+      "why": "A bottle of bay water is only evidence if it was taken where the plan says, at the mark the plan says, into the bottle the plan says and kept as the plan says until the laboratory signs for it — 40 CFR 136's methods begin on the deck, not at the bench. The plan is read on station because the skipper is holding position on fuel and the skipper's patience, and a technician who finds out at the third bottle that this station wanted a preserved bottle has spent both for nothing."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Work vest zipped before the rail gate is touched, a fresh pair of nitrile gloves from the box, and the cooler iced with its lid ready.",
+      "id": "deck-kit",
+      "itemNames": {
+        "cooler-iced": "cooler iced and open",
+        "nitrile-gloves": "clean nitrile gloves",
+        "vest-on": "work vest zipped"
+      },
+      "kind": "sequence",
+      "prompt": "Work vest zipped before the rail gate is touched, a fresh pair of nitrile gloves from the box, and the cooler iced with its lid ready.",
+      "targets": [
+        "vest-on",
+        "nitrile-gloves",
+        "cooler-iced"
+      ],
+      "title": "Vest, clean gloves and an iced cooler before the gate opens",
+      "why": "The rail gate opens for the cast and stays open until the bottle is aboard, and 29 CFR 1910.132 asks the employer to have thought about exactly this deck: cold water a step away, a technician's hands full and eyes on the line. The gloves are for the sample as much as the hands — a bare thumb on a bottle mouth is a contaminant — and the cooler is iced first because a bottle waiting for ice is a bottle warming."
+    },
+    {
+      "cue": "Lower the disk on the shaded side until it disappears, raise it until it just reappears, and commit the mark between the two.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "DISK LINE",
+        "missNote": "Not at the vanishing — raise the disk until it just shows again and commit between the two marks.",
+        "speed": 0.7
+      },
+      "id": "disk-read",
+      "kind": "gauge",
+      "prompt": "Lower the disk on the shaded side until it disappears, raise it until it just reappears, and commit the mark between the two.",
+      "target": "disk-line",
+      "title": "Lower the disk and commit the reading where it vanishes",
+      "why": "The transparency reading is the one measurement that depends entirely on the technician's own eye and is therefore made the same way every time: the shaded side of the boat, no sunglasses, the vanishing and the reappearance averaged. It is taken before the cast because the bottle and the line stir the column the disk is reading, and a reading committed late reads the boat's own disturbance."
+    },
+    {
+      "cue": "Open both ends of the sampling bottle, cock the trip, and clip it to the line's snap above the weight.",
+      "drag": {
+        "missNote": "Not on the line's snap — the bottle clips to the snap above the weight, inboard, before it goes anywhere near the rail.",
+        "radius": 0.5,
+        "to": "line-snap"
+      },
+      "id": "clip-bottle",
+      "kind": "drag",
+      "prompt": "Open both ends of the sampling bottle, cock the trip, and clip it to the line's snap above the weight.",
+      "target": "sampling-bottle",
+      "title": "Clip the sampling bottle to the line, open and cocked",
+      "why": "The sampling bottle goes down open so the water at the plan's mark flows through it and closes only when the messenger trips it there; a bottle clipped shut, or clipped below the weight, brings up water from wherever it happened to close. It is clipped to the line's snap inboard, at the gate, with the winch stopped — the line does the reaching over the side, the technician does not."
+    },
+    {
+      "cue": "Pay the line out on the winch until the plan's coloured mark is at the block — no further, no less.",
+      "id": "lower-to-mark",
+      "kind": "turn",
+      "prompt": "Pay the line out on the winch until the plan's coloured mark is at the block — no further, no less.",
+      "target": "line-winch",
+      "title": "Wind the bottle down to the plan's mark on the line",
+      "turn": {
+        "label": "LINE WINCH",
+        "turns": 0.85
+      },
+      "why": "The marks on the line are the plan's depths, measured and taped on the dock so nobody on a moving deck has to count metres of wet line; the mark at the block is what makes this bottle comparable with last month's at the same station. It is wound down, not dropped, because a bottle free-falling through the column trips itself on the jolt and closes on water from the wrong place."
+    },
+    {
+      "cue": "Hold the line steady at the mark with the winch locked, drop the messenger, and keep the line still for the full count until you feel the trip.",
+      "holdBreakNote": "The line moved before the trip — the messenger would have closed the bottle off the mark. Steady the line and hold again.",
+      "id": "trip-hold",
+      "kind": "hold",
+      "prompt": "Hold the line steady at the mark with the winch locked, drop the messenger, and keep the line still for the full count until you feel the trip.",
+      "seconds": 5,
+      "target": "line-hold",
+      "title": "Hold the line still and send the messenger",
+      "why": "The messenger runs down the line and closes the bottle when it arrives, and it arrives at the right place only if the line is vertical and still: a line swinging or being hauled while the messenger runs trips the bottle on the way down or not at all. The count is felt through the hand on the line, and holding through it is what makes the sample the plan's mark rather than the deck's guess."
+    },
+    {
+      "cue": "Wind the bottle up at a steady rate, watching the line and the block, and stop with the bottle at the gate rather than at the block.",
+      "holdBreakNote": "The retrieve broke rhythm — racing toward the block or slack against the hull. Settle the crank and bring it up steady.",
+      "id": "retrieve-steady",
+      "kind": "track",
+      "prompt": "Wind the bottle up at a steady rate, watching the line and the block, and stop with the bottle at the gate rather than at the block.",
+      "seconds": 6,
+      "target": "retrieve-crank",
+      "title": "Bring the bottle up steady on the winch",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "RETRIEVE RATE",
+        "rise": 0.55,
+        "start": 0.14
+      },
+      "why": "The bottle is closed and the water in it is the sample; a retrieve that jerks or races slams the bottle against the hull or two-blocks it into the sheave and opens a seal. Steady is also what the skipper needs to hold station against, and the stop at the gate — never at the block — is what lets the bottle be lifted inboard by its bail with both feet on the deck."
+    },
+    {
+      "cue": "Look over the sampling bottle's seals and the empty sample bottles' labels before a drop of water is poured.",
+      "id": "inspect-cast",
+      "itemNames": {
+        "label-blank": "the sample bottle with no station on its label",
+        "seal-split": "the sampling bottle's split end seal"
+      },
+      "itemNotes": {
+        "label-blank": "A sample bottle whose label carries the parameter and the preservative but no station or time. It is filled only once the label is complete — a bottle labelled at the laboratory from memory of which cast it came from is a bottle the custody form cannot vouch for.",
+        "seal-split": "The bottle's lower end seal has a split in it, and water is weeping from the end. Whatever it brought up has been mixing with the surface on the way up; this cast is discarded, the seal changed from the kit, and the cast repeated before any bottle is filled."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the sampling bottle's seals and the empty sample bottles' labels before a drop of water is poured.",
+      "targets": [
+        "seal-split",
+        "label-blank"
+      ],
+      "title": "Inspect the cast and the bottles before decanting",
+      "why": "The cast is worth nothing if the bottle leaked on the way up, and the sample bottles are worth nothing if their labels do not say where and when; both are cheap to catch on the deck and impossible to recover at the bench. The inspection is a step of its own rather than a glance during the pour because a technician decanting with wet gloves is watching the spout, not the seal."
+    },
+    {
+      "cue": "For each unpreserved bottle: rinse it three times with a little of the cast, fill it to the shoulder and cap it, then complete its label — preserved bottles are filled without the rinse, as the plan says.",
+      "id": "rinse-fill-label",
+      "itemNames": {
+        "sample-bottle-fill": "bottle filled to the shoulder and capped",
+        "sample-bottle-label": "station, time and initials completed on the label",
+        "sample-bottle-rinse": "bottle rinsed three times from the cast"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — rinse, fill and cap, then complete the label from the bottle in your hand. A label written first records an intention, not a sample.",
+      "prompt": "For each unpreserved bottle: rinse it three times with a little of the cast, fill it to the shoulder and cap it, then complete its label — preserved bottles are filled without the rinse, as the plan says.",
+      "targets": [
+        "sample-bottle-rinse",
+        "sample-bottle-fill",
+        "sample-bottle-label"
+      ],
+      "title": "Rinse, fill and label each sample bottle in order",
+      "why": "The rinse takes the bottle's own history off its walls with the sample's own water, so the first thing the laboratory measures is the bay and not the bottle; the fill is to the shoulder so the preserved bottles have room and the unpreserved ones little air; the label is completed last, from the bottle in hand, so the time written is the time the cap went on. The order is the method, and a preserved bottle rinsed by habit has just diluted its preservative."
+    },
+    {
+      "cue": "Read the temperature blank riding in the cooler's ice and commit it against the holding band the plan gives.",
+      "gauge": {
+        "green": [
+          0.34,
+          0.54
+        ],
+        "label": "TEMPERATURE BLANK",
+        "missNote": "Outside the holding band — re-ice the cooler and read the blank again before it is sealed.",
+        "speed": 0.7
+      },
+      "id": "blank-read",
+      "kind": "gauge",
+      "prompt": "Read the temperature blank riding in the cooler's ice and commit it against the holding band the plan gives.",
+      "target": "temperature-blank",
+      "title": "Read the cooler's temperature blank against the plan's band",
+      "why": "The laboratory will read the blank when the cooler arrives and decide from it whether every bottle inside was held cold enough to be trusted; reading it on the deck is how the technician finds out now, with ice still to hand, rather than from a rejection letter. The band is the plan's, written from the methods, and the reading is committed so the custody form carries a number somebody stood behind."
+    },
+    {
+      "cue": "Sign the custody form, seal it in its bag on the lid, put the custody tape across the lid, and rack the cooler in the wheelhouse rack.",
+      "drag": {
+        "missNote": "Not in the rack — a sealed cooler goes into the wheelhouse rack under custody, not back on the afterdeck.",
+        "radius": 0.55,
+        "to": "custody-rack"
+      },
+      "id": "rack-cooler",
+      "kind": "drag",
+      "prompt": "Sign the custody form, seal it in its bag on the lid, put the custody tape across the lid, and rack the cooler in the wheelhouse rack.",
+      "target": "cooler-custody",
+      "title": "Seal the cooler and rack it under custody",
+      "why": "From the moment the tape goes across the lid, the cooler is a sealed record: whoever breaks the tape signs for it, and the form on the lid says who filled it, where and when. It is racked in the wheelhouse rather than left on the afterdeck because the afterdeck is wet, sunny and the place the next cast happens — and the form's chain begins with the cooler being somewhere it cannot be knocked over the side."
+    },
+    {
+      "cue": "On the radio: the station is sampled, racked and logged, the gate is shut, and how the deck is after the wake and the fouled line.",
+      "id": "skipper-checkin",
+      "kind": "select",
+      "prompt": "On the radio: the station is sampled, racked and logged, the gate is shut, and how the deck is after the wake and the fouled line.",
+      "target": "skipper-radio",
+      "title": "Check in with the skipper before leaving station",
+      "why": "The skipper held the boat on station through a wake and a fouled line and cannot see the afterdeck from the wheel; the check-in says the gate is shut and the deck is stowed before the boat moves, and it is the moment the two people on board say how it went. A wake across an open gate is a frightening second, and saying so is part of the job — with the AFSCME or LIUNA member assistance line there for whatever the run home does not settle."
+    },
+    {
+      "cue": "Log the station, the disk reading, the marks sampled, bottles filled by parameter, the split seal and the repeated cast, the blank, the wake and the fouled line, and the cooler's custody number.",
+      "id": "station-log",
+      "kind": "select",
+      "prompt": "Log the station, the disk reading, the marks sampled, bottles filled by parameter, the split seal and the repeated cast, the blank, the wake and the fouled line, and the cooler's custody number.",
+      "target": "station-log",
+      "title": "Write the station log and close the custody form",
+      "why": "The station log is what the Regional Water Quality Control Board's monitoring conditions are answered from, and the custody form is what the laboratory's results are attached to; if the two disagree the sample is an orphan. Both are finished on station, while the skipper holds and the deck is in view, because a log written on the run home records the memory of a cast rather than the cast."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — AFSCME or LIUNA, whichever your crew works under — with the employer's employee assistance line behind it",
+  "tagline": "The sampling plan read, the vest and gloves on, the disk lowered to its vanishing, the bottle clipped to the line, wound down to the plan's mark, held while the messenger trips and a wake comes through, brought up steady while the line fouls aft, the split seal and the blank label found, rinsed, filled and labelled in order, the blank read, the cooler racked under custody, the skipper called and the station logged",
+  "title": "SmartCiti.X~ Water Column Sampling From A Small Boat VR",
+  "trade": "Sampling technician on a monitoring crew, working the afterdeck of a small workboat held on station by its skipper",
+  "underwater": null,
+  "weather": "wind"
+}
