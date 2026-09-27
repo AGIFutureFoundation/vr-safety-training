@@ -1164,11 +1164,13 @@ export function cargoVan(parent, x, y, z, opts = {}) {
  * reads "right" so a station can check it rather than assume it. There is no
  * left-side door at all — a blank panel, the way a real right-hand-drive
  * mail van is built — and a wide double door at the back for the bulk load.
- * Parts: doorCurb, doorRearL, doorRearR, wheels, mirrorL, mirrorR, lights.
+ * Parts: doorCurb, doorRearL, doorRearR, wheels, mirrorL, mirrorR,
+ * markerLights, lights.
  */
 export function deliveryVan(parent, x, y, z, opts = {}) {
   const lv = flLivery(opts.livery, { colour: 0xe4e0d4, fleetName: opts.livery?.fleetName ?? "CITY MAIL", accent: 0x2b3138 });
   const L = 4.6, W = 2.02;
+  const zOf = (s) => L / 2 - s;
   const rig = flRig(parent, x, y, z, opts, "deliveryVan");
   const { Z } = flLightBody(rig, lv, {
     L, W, wheelR: 0.34, track: 1.68, axles: [0.82, 3.86], tyreW: 0.22, wheelStyle: opts.wheels ?? "grey",
@@ -1177,6 +1179,9 @@ export function deliveryVan(parent, x, y, z, opts = {}) {
     // driver's own door — there is nothing on the traffic side to open.
     glass: [{ w: 1.4, h: 0.66, y: 1.5, s: 0.98, face: "+z", tilt: Math.atan2(0.36, 0.66), dz: 0.1 }],
     doors: [{ name: "doorCurb", side: "R", s: 1.35, len: 2.5, h: 1.75, y: 0.55, window: 0.3, slide: true }],
+    // A roof-line row of amber clearance/four-way marker lights, the way a
+    // tall walk-in body carries them.
+    markers: [[-0.7, 2.4, zOf(1.3)], [0, 2.4, zOf(1.3)], [0.7, 2.4, zOf(1.3)], [-0.7, 2.4, zOf(L - 0.05)], [0.7, 2.4, zOf(L - 0.05)]],
     marks: "fleet", grilleW: 0.85, grilleH: 0.26, grilleY: 0.6, headY: 0.8, tailY: 1.04, tailH: 0.36, mirrorY: 1.36, mirrorS: 1.15, mirrorH: 0.24,
   });
   const S = rig.shell;
@@ -2265,7 +2270,7 @@ export const FLEET_BUDGET = {
   pickup: { build: "pickup", meshes: 17, footprint: [2.39, 1.93, 5.92], parts: ["doorFL", "doorFR", "doorRL", "doorRR", "wheels", "mirrorL", "mirrorR", "lights", "tailgate"], note: "full-size crew cab" },
   sedan: { build: "sedan", meshes: 17, footprint: [2.23, 1.45, 4.92], parts: ["doorFL", "doorFR", "doorRL", "doorRR", "wheels", "mirrorL", "mirrorR", "lights", "trunk"], note: "mid-size four-door" },
   cargoVan: { build: "cargoVan", meshes: 18, footprint: [2.41, 2.72, 5.99], parts: ["doorL", "doorR", "doorSlide", "doorRearL", "doorRearR", "wheels", "mirrorL", "mirrorR", "lights"], note: "high-roof cargo van" },
-  deliveryVan: { build: "deliveryVan", meshes: 17, footprint: [2.41, 2.38, 4.66], parts: ["doorCurb", "doorRearL", "doorRearR", "wheels", "mirrorL", "mirrorR", "lights"], note: "right-hand-drive walk-in postal delivery van, single curb-side door, no traffic-side door" },
+  deliveryVan: { build: "deliveryVan", meshes: 18, footprint: [2.41, 2.42, 4.66], parts: ["doorCurb", "doorRearL", "doorRearR", "wheels", "mirrorL", "mirrorR", "markerLights", "lights"], note: "right-hand-drive walk-in postal delivery van, single curb-side door, no traffic-side door" },
   ambulance: { build: "ambulance", meshes: 25, footprint: [2.62, 3.13, 7.06], parts: ["doorL", "doorR", "doorSide", "doorRearL", "doorRearR", "compartments", "warningLights", "wheels", "mirrorL", "mirrorR", "lights"], note: "Type III, generic markings, rear chevrons" },
   fireEngine: { build: "fireEngine", meshes: 28, footprint: [3.2, 3.23, 10.25], parts: ["doorL", "doorR", "doorCrewL", "doorCrewR", "pumpPanel", "pumpControls", "hoseBed", "ladder", "compartments", "warningLights", "wheels", "mirrorL", "mirrorR", "lights"], note: "pumper: pump panel, hose bed, roof ladders" },
   bucketTruck: { build: "bucketTruck", meshes: 32, footprint: [3.3, 3.44, 9.6], parts: ["doorL", "doorR", "mirrorL", "mirrorR", "wheels", "lights", "turret", "boom", "boomUpper", "bucket", "outriggers", "compartments", "controls"], note: "insulated aerial device, articulated turret-boom-bucket" },

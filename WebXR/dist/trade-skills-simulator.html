@@ -4929,14 +4929,19 @@ const PALETTES = {
   // shed or mulch bed for the structure tone, and the safety-orange accent a
   // grounds crew's own machinery and cones already carry.
   grounds: { accent: 0xf07a1f, ground: 0x3c6b2f, structure: 0x6a5138, trim: 0xd8c14b },
+  // Postal and mail processing: dock-grey concrete underfoot, a plant's own
+  // steel-grey structure, a carrier-blue accent and a hazard-red trim for
+  // LOTO and permit signage.
+  postal: { accent: 0x2f6fb0, ground: 0x585d62, structure: 0x9aa1a8, trim: 0xd8232a },
 };
 
 /** A trade palette by name (construction, marine, clinical, kitchen,
- *  utility, transit, rail, aviation, gym, warehouse, fairway, grounds), each `{ accent, ground,
- *  structure, trim }`. An unknown name falls back to `construction` rather
- *  than throwing — a station that misspells a trade still paints something
- *  coherent instead of going grey. Returns a fresh object every call, so a
- *  caller may tweak its copy without touching the shared table. */
+ *  utility, transit, rail, aviation, gym, warehouse, fairway, grounds,
+ *  postal), each `{ accent, ground, structure, trim }`. An unknown name
+ *  falls back to `construction` rather than throwing — a station that
+ *  misspells a trade still paints something coherent instead of going grey.
+ *  Returns a fresh object every call, so a caller may tweak its copy without
+ *  touching the shared table. */
 function palette(name) {
   return { ...(PALETTES[name] ?? PALETTES.construction) };
 }
@@ -6099,6 +6104,52 @@ function cargoVan(parent, x, y, z, opts = {}) {
   return flDone(rig, { footprint: FLEET_BUDGET.cargoVan.footprint, livery: lv });
 }
 
+/**
+ * Right-hand-drive walk-in delivery van, 4.6 m × 2.02 m × 2.42 m, the
+ * carrier's own kind of postal delivery vehicle rather than any
+ * manufacturer's: the driver's seat is on the kit's -x side and the single
+ * wide door slides open on that same side, so a carrier working a route of
+ * curbside boxes steps straight onto the curb without ever crossing behind
+ * or in front of the van into the travel lane. `rig.root.userData.driveSide`
+ * reads "right" so a station can check it rather than assume it. There is no
+ * left-side door at all — a blank panel, the way a real right-hand-drive
+ * mail van is built — and a wide double door at the back for the bulk load.
+ * Parts: doorCurb, doorRearL, doorRearR, wheels, mirrorL, mirrorR,
+ * markerLights, lights.
+ */
+function deliveryVan(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0xe4e0d4, fleetName: opts.livery?.fleetName ?? "CITY MAIL", accent: 0x2b3138 });
+  const L = 4.6, W = 2.02;
+  const zOf = (s) => L / 2 - s;
+  const rig = flRig(parent, x, y, z, opts, "deliveryVan");
+  const { Z } = flLightBody(rig, lv, {
+    L, W, wheelR: 0.34, track: 1.68, axles: [0.82, 3.86], tyreW: 0.22, wheelStyle: opts.wheels ?? "grey",
+    lower: [[0.03, 0.34], [0.0, 0.72], [0.14, 0.92], [0.5, 1.06], [0.82, 1.82], [1.15, 2.3], [1.35, 2.38], [4.45, 2.38], [4.5, 2.26], [4.5, 0.4], [4.18, 0.32], [0.3, 0.28]],
+    // The curb-side entry: one wide sliding door, no hinge, doubling as the
+    // driver's own door — there is nothing on the traffic side to open.
+    glass: [{ w: 1.4, h: 0.66, y: 1.5, s: 0.98, face: "+z", tilt: Math.atan2(0.36, 0.66), dz: 0.1 }],
+    doors: [{ name: "doorCurb", side: "R", s: 1.35, len: 2.5, h: 1.75, y: 0.55, window: 0.3, slide: true }],
+    // A roof-line row of amber clearance/four-way marker lights, the way a
+    // tall walk-in body carries them.
+    markers: [[-0.7, 2.4, zOf(1.3)], [0, 2.4, zOf(1.3)], [0.7, 2.4, zOf(1.3)], [-0.7, 2.4, zOf(L - 0.05)], [0.7, 2.4, zOf(L - 0.05)]],
+    marks: "fleet", grilleW: 0.85, grilleH: 0.26, grilleY: 0.6, headY: 0.8, tailY: 1.04, tailH: 0.36, mirrorY: 1.36, mirrorS: 1.15, mirrorH: 0.24,
+  });
+  const S = rig.shell;
+  // The blank traffic-side panel where a left-hand van would carry a door.
+  const side = flLiveryMat(lv, "vanside", { titleScale: 0.26, base: lv.colour });
+  flPanel(S, 1.9, 0.9, W / 2 + 0.006, 1.75, Z(3.0), side, "+x");
+  const rdm = flDoorMat(lv, "L", { window: 0.22, marks: "none" });
+  const rl = rig.part("doorRearL", W / 2 - 0.02, 0.5, Z(L) - 0.03);
+  flBox(rl, W / 2 - 0.04, 1.7, 0.05, -(W / 2 - 0.04) / 2, 0.85, 0, rdm);
+  rl.userData.openAngle = Math.PI * 0.75; rl.userData.hinge = "outer";
+  const rr = rig.part("doorRearR", -(W / 2 - 0.02), 0.5, Z(L) - 0.03);
+  flBox(rr, W / 2 - 0.04, 1.7, 0.05, (W / 2 - 0.04) / 2, 0.85, 0, rdm);
+  rr.userData.openAngle = -Math.PI * 0.75; rr.userData.hinge = "outer";
+  // A low step under the curb door, the whole reason the design is RHD.
+  box(S, 0.3, 0.05, 2.3, -(W / 2 - 0.2), 0.32, Z(2.3), 0x2b2f34, { rough: 0.7, metal: 0.2 });
+  return flDone(rig, { footprint: FLEET_BUDGET.deliveryVan.footprint, livery: lv, driveSide: "right" });
+}
+
 // ------------------------------------------------------------ emergency
 
 /** A light bar of alternating red and white (or amber) warning lamps as its own part. */
@@ -7169,6 +7220,7 @@ const FLEET_BUDGET = {
   pickup: { build: "pickup", meshes: 17, footprint: [2.39, 1.93, 5.92], parts: ["doorFL", "doorFR", "doorRL", "doorRR", "wheels", "mirrorL", "mirrorR", "lights", "tailgate"], note: "full-size crew cab" },
   sedan: { build: "sedan", meshes: 17, footprint: [2.23, 1.45, 4.92], parts: ["doorFL", "doorFR", "doorRL", "doorRR", "wheels", "mirrorL", "mirrorR", "lights", "trunk"], note: "mid-size four-door" },
   cargoVan: { build: "cargoVan", meshes: 18, footprint: [2.41, 2.72, 5.99], parts: ["doorL", "doorR", "doorSlide", "doorRearL", "doorRearR", "wheels", "mirrorL", "mirrorR", "lights"], note: "high-roof cargo van" },
+  deliveryVan: { build: "deliveryVan", meshes: 18, footprint: [2.41, 2.42, 4.66], parts: ["doorCurb", "doorRearL", "doorRearR", "wheels", "mirrorL", "mirrorR", "markerLights", "lights"], note: "right-hand-drive walk-in postal delivery van, single curb-side door, no traffic-side door" },
   ambulance: { build: "ambulance", meshes: 25, footprint: [2.62, 3.13, 7.06], parts: ["doorL", "doorR", "doorSide", "doorRearL", "doorRearR", "compartments", "warningLights", "wheels", "mirrorL", "mirrorR", "lights"], note: "Type III, generic markings, rear chevrons" },
   fireEngine: { build: "fireEngine", meshes: 28, footprint: [3.2, 3.23, 10.25], parts: ["doorL", "doorR", "doorCrewL", "doorCrewR", "pumpPanel", "pumpControls", "hoseBed", "ladder", "compartments", "warningLights", "wheels", "mirrorL", "mirrorR", "lights"], note: "pumper: pump panel, hose bed, roof ladders" },
   bucketTruck: { build: "bucketTruck", meshes: 32, footprint: [3.3, 3.44, 9.6], parts: ["doorL", "doorR", "mirrorL", "mirrorR", "wheels", "lights", "turret", "boom", "boomUpper", "bucket", "outriggers", "compartments", "controls"], note: "insulated aerial device, articulated turret-boom-bucket" },
@@ -7189,7 +7241,7 @@ const FLEET_BUDGET = {
 
 /** The builders by the name FLEET_BUDGET's `build` field uses. */
 const FLEET_BUILDERS = {
-  semiTractor, trailer, tractorTrailer, boxTruck, pickup, sedan, cargoVan, ambulance, fireEngine,
+  semiTractor, trailer, tractorTrailer, boxTruck, pickup, sedan, cargoVan, deliveryVan, ambulance, fireEngine,
   bucketTruck, busTransit, schoolBus, forkliftCounterbalance, yardHustler, workboat,
   skiff, deckBarge, salvageCraneBarge, skimmerVessel, deckCrane, derelictBoat, spudBarge,
 };

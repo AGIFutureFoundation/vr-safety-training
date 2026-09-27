@@ -23464,5 +23464,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "ml-delivery-van-pretrip-and-route-loading",
+    "index": "ml-1",
+    "domain": "Postal & Mail Processing",
+    "trade": "City letter carrier — vehicle pre-trip and route loading, NALC",
+    "category": "Mobility & Transit",
+    "certification": "FMCSA 49 CFR 396 inspection, repair and maintenance, whose driver vehicle inspection record covers a right-hand-drive delivery van the same as any other commercial vehicle; 49 CFR 392 driving of commercial motor vehicles, including the walk-around before the engine starts; the Revised NIOSH Lifting Equation for carrying loaded trays without a twisting lift; OSHA 29 CFR 1910.132 personal protective equipment, general requirements; NALC training for city letter carrier route safety",
+    "name": "Delivery Van Pre-Trip & Route Loading",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Delivery Van Pre-Trip & Route Loading VR",
+    "tagline": "A right-hand-drive delivery van before the first stop: yesterday's condition card read, the walk-around worked cold, tread measured, lamps and mirror checked, the load bay read for what's already wrong with it, trays loaded in route order and strapped down, the day logged, and a short pull-out with the mirror, signal and horn checks a curbside route runs on",
+    "accent": 3108784,
+    "accentCss": "#2f6fb0",
+    "parSeconds": 300,
+    "badge": {
+      "id": "route-ready",
+      "name": "Route Ready",
+      "note": "A full pre-trip and load, every defect found, the load strapped and logged, and the pull-out driven inside the lane and the band"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Route Readiness",
+      "currency": "READY",
+      "ranks": [
+        "Casual Carrier",
+        "Route Trainee",
+        "Letter Carrier",
+        "Lead Carrier",
+        "Route Ready Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

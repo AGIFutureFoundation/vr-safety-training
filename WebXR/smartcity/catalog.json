@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 552
+      "stations": 553
     },
     "trades": {
       "entry": "trades/index.html",
@@ -69,6 +69,7 @@
         "track-access",
         "bus-depot-lift",
         "airport-ramp",
+        "ml-delivery-van-pretrip-and-route-loading",
         "bus-yard-fuelling-and-brake-check",
         "tdl-cargo-securement-and-hours",
         "tdl-backing-and-docking",
@@ -8732,6 +8733,88 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-delivery-van-pretrip-and-route-loading",
+      "name": "Delivery Van Pre-Trip & Route Loading",
+      "title": "SmartCiti.X~ Delivery Van Pre-Trip & Route Loading VR",
+      "tagline": "A right-hand-drive delivery van before the first stop: yesterday's condition card read, the walk-around worked cold, tread measured, lamps and mirror checked, the load bay read for what's already wrong with it, trays loaded in route order and strapped down, the day logged, and a short pull-out with the mirror, signal and horn checks a curbside route runs on",
+      "category": "Mobility & Transit",
+      "domain": "Postal & Mail Processing",
+      "trade": "City letter carrier — vehicle pre-trip and route loading, NALC",
+      "union": null,
+      "certification": "FMCSA 49 CFR 396 inspection, repair and maintenance, whose driver vehicle inspection record covers a right-hand-drive delivery van the same as any other commercial vehicle; 49 CFR 392 driving of commercial motor vehicles, including the walk-around before the engine starts; the Revised NIOSH Lifting Equation for carrying loaded trays without a twisting lift; OSHA 29 CFR 1910.132 personal protective equipment, general requirements; NALC training for city letter carrier route safety",
+      "accent": "#2f6fb0",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "gauge",
+        "drag",
+        "turn",
+        "drive"
+      ],
+      "badge": {
+        "id": "route-ready",
+        "name": "Route Ready",
+        "note": "A full pre-trip and load, every defect found, the load strapped and logged, and the pull-out driven inside the lane and the band"
+      },
+      "meshes": null,
+      "lights": null,
+      "overBudget": false,
+      "index": "ml-1",
+      "flat": false,
+      "system": "Route Readiness",
+      "currency": "READY",
+      "ranks": [
+        "Casual Carrier",
+        "Route Trainee",
+        "Letter Carrier",
+        "Lead Carrier",
+        "Route Ready Certified"
+      ],
+      "awards": [
+        {
+          "id": "cold-walkaround",
+          "name": "Cold Walkaround",
+          "note": "Every vehicle defect found without a hint"
+        },
+        {
+          "id": "clear-bay",
+          "name": "Clear Bay",
+          "note": "Every load-bay hazard found before a single tray was loaded"
+        },
+        {
+          "id": "steady-pullout",
+          "name": "Steady Pull-Out",
+          "note": "The pull-out held its lane and its band the whole way"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "on-time",
+          "name": "On Time",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "safe-route",
+          "name": "Safe Route",
+          "note": "No unsafe action anywhere in the run"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ml-delivery-van-pretrip-and-route-loading"
     },
     {
       "app": "smartcity",
@@ -29090,7 +29173,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 261,
+      "meshes": 246,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -29750,7 +29833,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "100",
