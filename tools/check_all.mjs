@@ -30,6 +30,8 @@ const CHECKERS = [
   "check_underwater.mjs", "check_underwater_game.mjs", "check_dive_quests.mjs",
   "check_investor.mjs",
   "check_mobile.mjs",
+  // One learner, one ledger, one set of records across every app (docs/interop.md).
+  "check_interop.mjs",
 ];
 
 let failed = 0;
