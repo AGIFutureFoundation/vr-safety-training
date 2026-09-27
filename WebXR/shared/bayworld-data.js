@@ -361,7 +361,7 @@ export const BAY_SITES = [
  *  mergeStatic doc and shared/fairway.js's FAIRWAY_MESH_BUDGET, which this
  *  mirrors: "high" is LOD 0, the whole world; "low" is the compact preview
  *  smartcity/js/districts.js registers). */
-export const BAY_MESH_BUDGET = { low: 100, high: 4200 };
+export const BAY_MESH_BUDGET = { low: 100, high: 3600 };
 
 // ---------------------------------------------------------------- geometry
 
