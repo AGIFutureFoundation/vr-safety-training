@@ -1,5 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { createGamepad, GAMEPAD_DEADZONE, detectPadVendor } from "../../shared/input.js";
+import { tcTier, tcApplyRenderer } from "../../shared/perf.js";
+import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
 import { YACHT_FLEET, yachtById, rgYachtsForEvent, rgYachtBerthSite } from "../../shared/yacht-fleet.js";
 import { bwCareerState } from "../../bayworld/js/career.js";
 import { RG_COURSES, rgCourseById, rgCourseToMap, regattaCourseAt } from "./courses.js";
@@ -41,21 +43,15 @@ window.addEventListener("keydown", (e) => {
 window.addEventListener("keyup", (e) => rgKeys.delete(e.code));
 window.addEventListener("blur", () => rgKeys.clear());
 
-const rgStick = { active: false, id: null, dx: 0, dy: 0 };
+// The shared touch layer (shared/touch.js): the stick is throttle and rudder.
+let rgStick = { active: false, id: null, dx: 0, dy: 0 };
 function rgWireTouch() {
-  const base = $("touch-stick"); if (!base) return;
-  const knob = $("touch-knob"), R = 44;
-  const move = (t) => {
-    const r = base.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-    let dx = t.clientX - cx, dz = t.clientY - cy; const d = Math.hypot(dx, dz);
-    if (d > R) { dx = (dx / d) * R; dz = (dz / d) * R; }
-    rgStick.dx = dx / R; rgStick.dy = dz / R; knob.style.transform = `translate(${dx}px, ${dz}px)`;
-  };
-  base.addEventListener("pointerdown", (e) => { rgStick.active = true; rgStick.id = e.pointerId; base.setPointerCapture(e.pointerId); move(e); });
-  base.addEventListener("pointermove", (e) => { if (rgStick.active && e.pointerId === rgStick.id) move(e); });
-  const end = (e) => { if (e.pointerId === rgStick.id) { rgStick.active = false; rgStick.dx = 0; rgStick.dy = 0; knob.style.transform = "translate(0,0)"; } };
-  base.addEventListener("pointerup", end); base.addEventListener("pointercancel", end);
-  $("touch-view")?.addEventListener("pointerdown", () => rgToggleCamera());
+  const t = tcMountTouch({
+    hint: "Push the stick forward for throttle, left and right for the rudder. View switches the camera.",
+    buttons: [{ id: "touch-view", label: "View", aria: "Switch camera", onDown: () => rgToggleCamera() }],
+  });
+  rgStick = t.stick;
+  tcMountQuality($("hud-helm"), (q) => tcApplyRenderer(rgApp.renderer, tcTier(q)));
 }
 
 const rgPad = createGamepad({ getGamepads: () => (navigator.getGamepads ? navigator.getGamepads() : []), bindings: [], axisBindings: [],
@@ -258,8 +254,9 @@ $("res-again")?.addEventListener("click", () => rgOpenScreen("menu"));
 // ------------------------------------------------------------------ boot
 
 function rgSetup3D() {
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-  renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+  const tier = tcTier();
+  const renderer = new THREE.WebGLRenderer({ antialias: tier.tier !== "low", alpha: false });
+  tcApplyRenderer(renderer, tier);
   renderer.setSize(window.innerWidth, window.innerHeight);
   $("stage").appendChild(renderer.domElement);
   const scene = new THREE.Scene();

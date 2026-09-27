@@ -145,7 +145,7 @@ export function dvBuildWorld(root, THREE, opts = {}) {
     const fogDensity = L.fogDensity ?? L.fog?.density ?? 0.02;
     if (scene) {
       if (!scene.fog && THREE.FogExp2) scene.fog = new THREE.FogExp2(fogColor, fogDensity);
-      if (scene.fog) { scene.fog.color?.setHex?.(fogColor); if ("density" in scene.fog) scene.fog.density = fogDensity; }
+      if (scene.fog) { scene.fog.color?.setHex?.(fogColor); if ("density" in scene.fog) scene.fog.density = fogDensity * (opts.fogScale ?? 1); }
       scene.background?.setHex?.(fogColor);
     }
     const caustic = typeof L.caustic === "object" ? L.caustic.intensity : L.caustic;

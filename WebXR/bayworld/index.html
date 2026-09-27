@@ -63,17 +63,6 @@
   #hud-buttons button{padding:8px 12px;border-radius:8px;border:1px solid var(--edge-strong);background:rgba(6,14,22,.72);font-family:var(--cond);font-weight:700;text-transform:uppercase;font-size:12.5px}
   #view-toggle{position:fixed;bottom:calc(10px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);z-index:15}
 
-  /* ---------- touch controls ---------- */
-  #touch-controls{position:fixed;inset:0;z-index:12;pointer-events:none}
-  #touch-stick{position:absolute;left:24px;bottom:calc(140px + env(safe-area-inset-bottom,0px));width:100px;height:100px;border-radius:50%;background:rgba(20,40,55,.5);border:1px solid var(--edge-strong);pointer-events:auto;touch-action:none}
-  #touch-knob{position:absolute;left:30px;top:30px;width:40px;height:40px;border-radius:50%;background:rgba(79,209,255,.55);pointer-events:none}
-  .touch-btn{position:absolute;width:56px;height:56px;border-radius:50%;background:rgba(20,40,55,.5);border:1px solid var(--edge-strong);color:var(--text);font-family:var(--cond);font-weight:700;font-size:12px;pointer-events:auto;text-transform:uppercase}
-  #touch-run{right:24px;bottom:calc(220px + env(safe-area-inset-bottom,0px))}
-  #touch-brake{right:96px;bottom:calc(220px + env(safe-area-inset-bottom,0px))}
-  #touch-interact{right:24px;bottom:calc(150px + env(safe-area-inset-bottom,0px))}
-  #touch-view{right:96px;bottom:calc(150px + env(safe-area-inset-bottom,0px))}
-  #touch-map{right:60px;bottom:calc(290px + env(safe-area-inset-bottom,0px))}
-  @media (min-width:900px) and (pointer:fine){ #touch-controls{display:none} }
 
   #toast{position:fixed;left:50%;bottom:150px;transform:translateX(-50%);z-index:30;background:#0d1e2b;border:1px solid var(--edge-strong);
     border-radius:8px;padding:9px 16px;font:14px/1.4 var(--sans);opacity:0;pointer-events:none;transition:opacity .25s;max-width:88vw;text-align:center}
@@ -94,6 +83,33 @@
   #map-sites{flex:1 1 220px;min-width:220px;max-height:512px;overflow:auto}
   .map-site-row{display:flex;flex-direction:column;gap:2px;padding:8px 0;border-bottom:1px dashed rgba(140,200,230,.15);font-size:13px}
   .map-site-row .locked{color:var(--dim);font-size:12px}
+  /* ---------- phone HUD (console TOUCH): 360x640 portrait, 640x360 landscape ---------- */
+  @media (max-width:700px), (max-height:500px){
+    #hud *{font-size:14px !important}
+    #hud .panel{min-width:0 !important}
+    #hud-buttons, #hud-clubs{position:absolute;pointer-events:auto}
+    #hud .clock, #hud .big, #hud b, #hud .n{font-size:17px !important}
+    #hud-prompt, #hud-warn{bottom:calc(140px + env(safe-area-inset-bottom,0px)) !important;white-space:normal;max-width:60vw}
+    #view-toggle{display:none !important}
+    #toast{bottom:auto;top:45%}
+    .card{max-height:calc(100vh - 24px);overflow:auto;-webkit-overflow-scrolling:touch}
+    .screen{padding:12px}
+  }
+  @media (max-width:700px) and (min-height:501px){
+    #hud-phone, #hud-stats{top:calc(40px + env(safe-area-inset-top,0px));padding:6px 10px}
+    #hud-phone{max-width:calc(50% - 16px)}
+    #hud-stats{max-width:calc(50% - 16px)}
+    #hud-objective{top:calc(150px + env(safe-area-inset-top,0px));max-width:none}
+    #hud-minimap{width:96px;height:96px;bottom:calc(144px + env(safe-area-inset-bottom,0px));right:12px}
+    #hud-buttons{bottom:calc(136px + env(safe-area-inset-bottom,0px));left:12px}
+  }
+  @media (max-height:500px) and (min-width:501px){
+    #hud-phone{top:calc(40px + env(safe-area-inset-top,0px));padding:6px 10px}
+    #hud-stats{top:calc(8px + env(safe-area-inset-top,0px));padding:6px 10px}
+    #hud-objective{top:calc(112px + env(safe-area-inset-top,0px));right:auto;max-width:calc(100% - 220px)}
+    #hud-minimap{width:84px;height:84px;bottom:calc(12px + env(safe-area-inset-bottom,0px));right:152px}
+    #hud-buttons{bottom:calc(12px + env(safe-area-inset-bottom,0px));left:136px}
+  }
 </style>
 </head>
 <body>
@@ -121,14 +137,6 @@
 </div>
 <button id="view-toggle" class="btn ghost" hidden>First person (V)</button>
 
-<div id="touch-controls">
-  <div id="touch-stick"><div id="touch-knob"></div></div>
-  <button class="touch-btn" id="touch-run">Run</button>
-  <button class="touch-btn" id="touch-brake">Brake</button>
-  <button class="touch-btn" id="touch-interact">E</button>
-  <button class="touch-btn" id="touch-view">View</button>
-  <button class="touch-btn" id="touch-map">Map</button>
-</div>
 
 <div class="screen" id="scr-menu">
   <div class="card">

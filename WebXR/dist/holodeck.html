@@ -4887,6 +4887,72 @@ const Perf = {
   LOG_KEY,
 };
 
+// ------------------------------------------------------ play quality tiers
+//
+// Console TOUCH: the render tier a game plays at (distinct from the texture
+// tier above, which only sizes painted canvases). A coarse pointer or a
+// small screen picks "low" on its own — a lower resolution scale, no
+// shadows, nearer fog and fewer wildlife and traffic agents — unless the
+// viewer chose a tier with the HUD's Low / Balanced / High toggle, which is
+// kept in localStorage. `?tier=` on the URL wins over both.
+
+const tcTierKey = "holodeck-quality-tier-v1";
+
+/** The toggle's labels, in order. */
+const tcTierLabels = { low: "Low", balanced: "Balanced", high: "High" };
+
+/** What each tier means to a game. `pixelScale` multiplies the device pixel
+ *  ratio (then capped at `maxPixelRatio`); `fogScale` above 1 brings the fog
+ *  nearer; the agent scales thin out wildlife and traffic. */
+const tcTierSettings = {
+  low: { tier: "low", pixelScale: 0.75, maxPixelRatio: 1, shadows: false, fogScale: 1.6, wildlifeScale: 0.4, trafficScale: 0.5 },
+  balanced: { tier: "balanced", pixelScale: 1, maxPixelRatio: 1.5, shadows: false, fogScale: 1.2, wildlifeScale: 0.7, trafficScale: 0.75 },
+  high: { tier: "high", pixelScale: 1, maxPixelRatio: 2, shadows: true, fogScale: 1, wildlifeScale: 1, trafficScale: 1 },
+};
+
+/** Pure: the tier a device would get with no choice made. A coarse primary
+ *  pointer or a screen whose short side is under 600 CSS px is a phone. */
+function tcAutoTier({ coarse = false, width = 1280, height = 800 } = {}) {
+  return coarse || Math.min(width, height) < 600 ? "low" : "high";
+}
+
+function tcEnv() {
+  if (!hasDom || typeof window === "undefined") return { coarse: false, width: 1280, height: 800 };
+  let coarse = false;
+  try { coarse = typeof matchMedia === "function" && matchMedia("(pointer:coarse)").matches; } catch { /* old browser */ }
+  return { coarse, width: window.innerWidth || 1280, height: window.innerHeight || 800 };
+}
+
+/** The tier in force and why: "url", "chosen" (the toggle) or "auto". */
+function tcTierChoice() {
+  const u = params?.get("tier");
+  if (u && tcTierSettings[u]) return { tier: u, source: "url" };
+  try {
+    const c = typeof localStorage !== "undefined" ? localStorage.getItem(tcTierKey) : null;
+    if (c && tcTierSettings[c]) return { tier: c, source: "chosen" };
+  } catch { /* private mode: fall through to auto */ }
+  return { tier: tcAutoTier(tcEnv()), source: "auto" };
+}
+
+/** Persist the viewer's choice. Returns false when storage is unavailable. */
+function tcSetTier(tier) {
+  if (!tcTierSettings[tier]) return false;
+  try { localStorage.setItem(tcTierKey, tier); return true; } catch { return false; }
+}
+
+/** The settings object for the tier in force (or a named one). */
+function tcTier(tier = tcTierChoice().tier) { return tcTierSettings[tier] ?? tcTierSettings.high; }
+
+/** Apply a tier to a three.js renderer (pixel ratio and shadows) and record
+ *  it on <html data-tier> so a checker or a stylesheet can read it. */
+function tcApplyRenderer(renderer, settings = tcTier()) {
+  const dpr = typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1;
+  renderer?.setPixelRatio?.(Math.min(settings.maxPixelRatio, dpr * settings.pixelScale));
+  if (renderer?.shadowMap) renderer.shadowMap.enabled = !!settings.shadows;
+  if (hasDom) document.documentElement.dataset.tier = settings.tier;
+  return settings;
+}
+
 
 /* ===== shared/fleet.js ===== */
 // Shared fleet kit — every vehicle a station parks, drives or inspects.

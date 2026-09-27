@@ -1,5 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { createGamepad, GAMEPAD_DEADZONE, detectPadVendor, driveInputFrom, DRIVE_KEYS, driveActionForKey } from "../../shared/input.js";
+import { tcTier, tcApplyRenderer } from "../../shared/perf.js";
+import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
 import { TrainingRecords } from "../../shared/records.js";
 import { buildQuiz, recordRadioScore, bestRadioScore } from "../../shared/radio-quiz.js";
 import { BW_SITES, BW_LANDMARKS, BW_ZONES } from "./city.js";
@@ -106,35 +108,23 @@ function heldDrive() {
 
 // ------------------------------------------------------------------ touch
 
+// The shared touch layer (shared/touch.js): stick bottom left, context
+// buttons bottom right. The map has its own HUD button, so it is not
+// repeated here.
 let bwStick = { active: false, id: null, dx: 0, dy: 0 };
-function bwWireTouch() {
-  const base = $("touch-stick");
-  if (!base) return;
-  const knob = $("touch-knob");
-  const R = 44;
-  const move = (t) => {
-    const r = base.getBoundingClientRect();
-    const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-    let dx = t.clientX - cx, dz = t.clientY - cy;
-    const d = Math.hypot(dx, dz);
-    if (d > R) { dx = (dx / d) * R; dz = (dz / d) * R; }
-    bwStick.dx = dx / R; bwStick.dy = dz / R;
-    knob.style.transform = `translate(${dx}px, ${dz}px)`;
-  };
-  base.addEventListener("pointerdown", (e) => { bwStick.active = true; bwStick.id = e.pointerId; base.setPointerCapture(e.pointerId); move(e); });
-  base.addEventListener("pointermove", (e) => { if (bwStick.active && e.pointerId === bwStick.id) move(e); });
-  const end = (e) => { if (e.pointerId === bwStick.id) { bwStick.active = false; bwStick.dx = 0; bwStick.dy = 0; knob.style.transform = "translate(0,0)"; } };
-  base.addEventListener("pointerup", end);
-  base.addEventListener("pointercancel", end);
-  $("touch-run")?.addEventListener("pointerdown", () => { bwTouch.run = true; });
-  $("touch-run")?.addEventListener("pointerup", () => { bwTouch.run = false; });
-  $("touch-interact")?.addEventListener("pointerdown", () => { bwApp.interactPressed = true; bwTryEnterExit(); });
-  $("touch-view")?.addEventListener("pointerdown", () => bwToggleCamera());
-  $("touch-map")?.addEventListener("pointerdown", () => bwToggleMap());
-  $("touch-brake")?.addEventListener("pointerdown", () => { bwTouch.brake = true; });
-  $("touch-brake")?.addEventListener("pointerup", () => { bwTouch.brake = false; });
-}
 const bwTouch = { run: false, brake: false };
+function bwWireTouch() {
+  const t = tcMountTouch({
+    hint: "Drag the stick to walk or steer. Run, Brake, E (enter or use) and View are on the right.",
+    buttons: [
+      { id: "touch-interact", label: "E", aria: "Use or enter", onDown: () => { bwApp.interactPressed = true; bwTryEnterExit(); } },
+      { id: "touch-run", label: "Run", onDown: () => { bwTouch.run = true; }, onUp: () => { bwTouch.run = false; } },
+      { id: "touch-view", label: "View", aria: "Switch camera", onDown: () => bwToggleCamera() },
+      { id: "touch-brake", label: "Brake", onDown: () => { bwTouch.brake = true; }, onUp: () => { bwTouch.brake = false; } },
+    ],
+  });
+  bwStick = t.stick;
+}
 
 // ------------------------------------------------------------------ gamepad
 
@@ -383,8 +373,10 @@ function bwDrawFullMap() {
 // ---------------------------------------------------------------- bootstrap
 
 function bwSetup3D() {
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-  renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+  // The play tier (shared/perf.js): low on a phone unless the viewer chose.
+  const tier = tcTier();
+  const renderer = new THREE.WebGLRenderer({ antialias: tier.tier !== "low", alpha: false });
+  tcApplyRenderer(renderer, tier);
   renderer.setSize(window.innerWidth, window.innerHeight);
   $("stage").appendChild(renderer.domElement);
   const scene = new THREE.Scene();
@@ -396,15 +388,15 @@ function bwSetup3D() {
   });
   const root = new THREE.Group();
   scene.add(root);
-  const world = bwBuildWorld(root, THREE, { detail: "high", scene });
+  const world = bwBuildWorld(root, THREE, { detail: "high", scene, wildlifeScale: tier.wildlifeScale, fogScale: tier.fogScale });
   bwApp.scene = scene; bwApp.camera = camera; bwApp.renderer = renderer; bwApp.world = world;
 
-  bwApp.traffic = bwSpawnTraffic(2);
+  bwApp.traffic = bwSpawnTraffic(tier.trafficScale < 1 ? 1 : 2);
   world.trafficMeshes = world.bwSpawnTrafficMeshes(bwApp.traffic.length);
   // One pedestrian every third site is plenty of life across a world the
   // size of BAY_BOUNDS without spawning one per site, however many sites the
   // shared map carries.
-  bwApp.pedestrians = BW_SITES.filter((_, i) => i % 3 === 0).map((s, i) => bwCreatePedestrian(`ped-${i}`, s.position[0] + 6, s.position[2] + 6, 10));
+  bwApp.pedestrians = BW_SITES.filter((_, i) => i % (tier.trafficScale < 1 ? 6 : 3) === 0).map((s, i) => bwCreatePedestrian(`ped-${i}`, s.position[0] + 6, s.position[2] + 6, 10));
   world.pedestrianMeshes = world.bwSpawnPedestrianMeshes(bwApp.pedestrians.length);
 }
 
@@ -502,6 +494,7 @@ function bwStart() {
   registerQuests(BW_QUESTS);
   bwSetup3D();
   bwWireTouch();
+  tcMountQuality($("hud-stats"), (t) => tcApplyRenderer(bwApp.renderer, tcTier(t)));
   bwOpenScreen("game");
   bwRefreshHudCareer();
   bwRenderQuestHud();

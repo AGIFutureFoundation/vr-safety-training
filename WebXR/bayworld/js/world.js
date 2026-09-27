@@ -156,8 +156,11 @@ export function bwBuildWorld(root, THREE, opts = {}) {
   // follows the camera (bwStepSky() below); the wildlife loops in place.
   const startWeather = weatherFor(opts.weather ?? "clear");
   const sky = buildSky(root, { time: "day", weather: startWeather });
+  // A phone's low tier (shared/perf.js) keeps only a share of the herds.
+  const wildScale = opts.wildlifeScale ?? 1;
   const wildlife = BW_WILDLIFE
     .filter((w) => !opts.zone || w.zone === opts.zone)
+    .filter((_, i, all) => wildScale >= 1 || i < Math.max(1, Math.round(all.length * wildScale)))
     .map((w) => buildWildlife(root, { zone: w.area, kind: w.kind }));
   // The drift: this app's own clock (sim.js's bwAdvanceClock()) owns the
   // hour, so dayRate is 0 and advanceSky() only walks the weather.
@@ -261,7 +264,7 @@ export function bwBuildWorld(root, THREE, opts = {}) {
       // a foggy dusk here is the same foggy dusk on the fairway.
       const S = skyFor(bucket, weatherKind ?? skyDrift.weather);
       if (!scene.fog && THREE.FogExp2) scene.fog = new THREE.FogExp2(S.fog, S.fogDensity);
-      if (scene.fog) { scene.fog.color?.setHex?.(S.fog); if ("density" in scene.fog) scene.fog.density = S.fogDensity; }
+      if (scene.fog) { scene.fog.color?.setHex?.(S.fog); if ("density" in scene.fog) scene.fog.density = S.fogDensity * (opts.fogScale ?? 1); }
       scene.background?.setHex?.(S.sky);
     }
     return { bucket, isNight: bucket === "night", streetlightsOn: bucket !== "day", mast: L.mast };

@@ -352,7 +352,7 @@ await check("the underwater app is in the bundler's list with every module, its 
 await check("the app runs standalone (keyboard, touch, gamepad, camera, map, ?site= deep link) with a Home chip, and the HUD never renders a depth figure or a numeric reserve", () => {
   const app = readFileSync(jsPath("app.js"), "utf8");
   assert(/addEventListener\("keydown"/.test(app) && /addEventListener\("keyup"/.test(app), "app.js has no keyboard wiring");
-  assert(/createGamepad\(/.test(app) && /pointerdown/.test(app), "app.js has no gamepad or touch wiring");
+  assert(/createGamepad\(/.test(app) && /pointerdown|tcMountTouch\(/.test(app), "app.js has no gamepad or touch wiring");
   assert(/KeyV/.test(app) && /cameraMode/.test(app) && /KeyM/.test(app) && /dvToggleMap/.test(app), "app.js has no camera or map toggle");
   assert(/params\.get\("site"\)/.test(app), "app.js does not read the ?site= deep link");
   const html = readFileSync(join(UW, "underwater.html"), "utf8");

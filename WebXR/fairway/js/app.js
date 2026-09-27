@@ -1,5 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { createGamepad, GAMEPAD_DEADZONE, detectPadVendor } from "../../shared/input.js";
+import { tcTier, tcApplyRenderer } from "../../shared/perf.js";
+import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
 import { WEATHER } from "../../shared/weather.js";
 import { TrainingRecords } from "../../shared/records.js";
 import { FAIRWAY_HOLES } from "./course.js";
@@ -93,14 +95,15 @@ function fwOnEscape() {
 // -------------------------------------------------------------------- scene
 
 function fwInitScene() {
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-  renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+  const tier = tcTier();
+  const renderer = new THREE.WebGLRenderer({ antialias: tier.tier !== "low", alpha: false });
+  tcApplyRenderer(renderer, tier);
   renderer.setSize(window.innerWidth, window.innerHeight);
   $("stage").appendChild(renderer.domElement);
 
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x8fd0ec);
-  scene.fog = new THREE.Fog(0x8fd0ec, 80, 420);
+  scene.fog = new THREE.Fog(0x8fd0ec, 80 / tier.fogScale, 420 / tier.fogScale);
 
   const camera = new THREE.PerspectiveCamera(62, window.innerWidth / window.innerHeight, 0.05, 900);
   const root = new THREE.Group();
@@ -148,7 +151,7 @@ function fwToMenu() {
 // -------------------------------------------------------------------- round
 
 function fwStartRound() {
-  if (!app.scene) fwInitScene();
+  if (!app.scene) { fwInitScene(); fwWireTouch(); }
   const seed = (Date.now() % 1e6) + Math.floor(Math.random() * 1000);
   app.round = glCreateRound({ seed, holes: FAIRWAY_HOLES });
   const kind = WEATHER_ROTATION[Math.floor(Math.random() * WEATHER_ROTATION.length)];
@@ -201,8 +204,21 @@ function fwSelectClub(id) {
   glSetClub(r, id);
   fwUpdateClubButtons();
 }
-$("aim-left").addEventListener("pointerdown", () => fwEdge.add("AimLeftBtn"));
-$("aim-right").addEventListener("pointerdown", () => fwEdge.add("AimRightBtn"));
+
+// The shared touch layer (shared/touch.js): the stick's left-right aims,
+// Swing drives the meter, View switches the camera.
+let fwStick = { active: false, id: null, dx: 0, dy: 0 };
+function fwWireTouch() {
+  const t = tcMountTouch({
+    hint: "Drag the stick left or right to aim. Tap Swing to start the power meter, again to lock it, again to strike.",
+    buttons: [
+      { id: "swing-btn", label: "Swing", aria: "Swing meter", onDown: () => fwAdvanceMeter() },
+      { id: "touch-view", label: "View", aria: "Switch camera", onDown: () => fwToggleView() },
+    ],
+  });
+  fwStick = t.stick;
+  tcMountQuality($("hud-score"), (q) => tcApplyRenderer(app.renderer, tcTier(q)));
+}
 
 // ---------------------------------------------------------------- swing meter
 
@@ -235,7 +251,6 @@ function fwAdvanceMeter() {
     $("hud-meter").hidden = true;
   }
 }
-$("swing-btn").addEventListener("click", fwAdvanceMeter);
 
 function fwExecuteSwing(power, timing) {
   const r = app.round;
@@ -490,8 +505,7 @@ function fwTickPlaying(dt) {
   if (fwKeys.has("ArrowLeft") || fwKeys.has("KeyA")) turn -= 1;
   if (fwKeys.has("ArrowRight") || fwKeys.has("KeyD")) turn += 1;
   turn += fwPadAxisX();
-  if (fwEdge.has("AimLeftBtn")) turn -= 1;
-  if (fwEdge.has("AimRightBtn")) turn += 1;
+  if (fwStick.active && Math.abs(fwStick.dx) > 0.12) turn += fwStick.dx;
   if (turn) { glAdjustAim(r, turn * app.aimRate * dt); fwSyncBall(); }
 
   if (fwEdge.has("Space") || fwEdge.has("Pad0")) fwAdvanceMeter();
