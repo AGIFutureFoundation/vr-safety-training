@@ -4,14 +4,24 @@
 import { BAY_BOUNDS, BAY_ROADS, BW_ZONES, BW_LANDMARKS, BW_SITES } from "./city.js";
 import { bwIsSiteVisited, bwIsFastTravelUnlocked } from "./career.js";
 
+/** Metres per pixel's inverse — the one uniform scale that fits the whole of
+ *  BAY_BOUNDS (whatever its size and aspect) inside a `size`-pixel square
+ *  canvas with `pad` pixels of margin. Uniform, so a 2400 × 1600 m field
+ *  letterboxes rather than stretches; everything else here reads it. */
+export function bwMapScale(size = 512, pad = 18) {
+  const w = BAY_BOUNDS.maxX - BAY_BOUNDS.minX, h = BAY_BOUNDS.maxZ - BAY_BOUNDS.minZ;
+  return (size - pad * 2) / Math.max(w, h);
+}
+
 /** World (x, z) to a `size`-pixel square canvas, y-down, with `pad` pixels of
- *  margin so nothing sits on the rim. */
+ *  margin so nothing sits on the rim, the field centred in the canvas. */
 export function bwWorldToMap(x, z, size = 512, pad = 18) {
   const w = BAY_BOUNDS.maxX - BAY_BOUNDS.minX, h = BAY_BOUNDS.maxZ - BAY_BOUNDS.minZ;
-  const usable = size - pad * 2;
+  const scale = bwMapScale(size, pad);
+  const offX = (size - w * scale) / 2, offY = (size - h * scale) / 2;
   return {
-    x: pad + ((x - BAY_BOUNDS.minX) / w) * usable,
-    y: pad + ((z - BAY_BOUNDS.minZ) / h) * usable,
+    x: offX + (x - BAY_BOUNDS.minX) * scale,
+    y: offY + (z - BAY_BOUNDS.minZ) * scale,
   };
 }
 
@@ -24,9 +34,9 @@ export function bwMapRoads(size = 512) {
 }
 
 /** Every zone with its map-space centre and radius (radius scaled by the
- *  same factor the world-to-map transform uses in x). */
+ *  same uniform factor the world-to-map transform uses). */
 export function bwMapZones(size = 512) {
-  const scale = (size - 36) / (BAY_BOUNDS.maxX - BAY_BOUNDS.minX);
+  const scale = bwMapScale(size);
   return BW_ZONES.map((z) => ({ id: z.id, name: z.name, color: z.color, ...bwWorldToMap(z.center[0], z.center[1], size), radius: z.radius * scale }));
 }
 
