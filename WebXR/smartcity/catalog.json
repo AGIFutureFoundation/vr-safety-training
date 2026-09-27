@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 557
+      "stations": 558
     },
     "trades": {
       "entry": "trades/index.html",
@@ -207,6 +207,7 @@
         "conveyor-guard",
         "forklift-dock",
         "cnc-cell",
+        "ml-parcel-sorter-conveyor-jam-and-loto",
         "ml-mail-handler-forklift-and-container-dock",
         "ml-flat-sorter-guarding-and-lockout",
         "sm-kitchen-exhaust-and-fire-wrap",
@@ -8737,6 +8738,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-parcel-sorter-conveyor-jam-and-loto",
+      "name": "Parcel Sorter Conveyor Jam & LOTO",
+      "title": "SmartCiti.X~ Parcel Sorter Conveyor Jam & LOTO VR",
+      "tagline": "A parcel sorter's divert gate jammed mid-cycle: a defeated light curtain and a cardboard field patch found before either is trusted, a coworker's own loose drawstring read as a wrap-point risk, the drive isolated and locked before the guard opens, residual motion checked, the stuck parcel cleared without reaching past a live gate, and the light curtain proven before the line runs again",
+      "category": "Manufacturing & Automation",
+      "domain": "Postal & Mail Processing",
+      "trade": "Mail processing plant clerk — parcel sorter conveyor jam and lockout, APWU",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.147 the control of hazardous energy (lockout/tagout); OSHA 29 CFR 1910.212 general requirements for all machines, including presence-sensing safety devices; ASME B20.1 safety standard for conveyors and related equipment; NIOSH criteria on caught-in and entanglement injuries at unguarded conveyor lines; APWU training for mail processing plant clerks",
+      "accent": "#2f6fb0",
+      "parSeconds": 280,
+      "weather": "clear",
+      "indoor": "plant",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "gauge",
+        "turn",
+        "drag",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "parcel-loto-certified",
+        "name": "Parcel Sorter LOTO Certified",
+        "note": "Isolated and locked the sorter before opening the guard, cleared the stuck parcel without reaching past a live gate, and proved the light curtain before trusting it again"
+      },
+      "meshes": 156,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ml-6",
+      "flat": false,
+      "system": "Parcel Line Isolation",
+      "currency": "ISOLATION",
+      "ranks": [
+        "Plant Clerk",
+        "Jam Aware",
+        "Isolation Handler",
+        "Parcel Line Authority",
+        "Parcel Sorter LOTO Certified"
+      ],
+      "awards": [
+        {
+          "id": "clean-line-read",
+          "name": "Clean Line Read",
+          "note": "Every guarding defect found without a hint"
+        },
+        {
+          "id": "wrap-point-caught",
+          "name": "Wrap Point Caught",
+          "note": "The coworker's loose drawstring flagged before it reached the belt"
+        },
+        {
+          "id": "curtain-proven",
+          "name": "Curtain Proven",
+          "note": "The light curtain was actually tested, not just trusted"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "quick-clear",
+          "name": "Quick Clear",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "isolation-streak",
+          "name": "Isolation Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ml-parcel-sorter-conveyor-jam-and-loto"
     },
     {
       "app": "smartcity",
@@ -29508,7 +29592,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 258,
+      "meshes": 260,
       "lights": 0,
       "overBudget": false,
       "index": "92",
