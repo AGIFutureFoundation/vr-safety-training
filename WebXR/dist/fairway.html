@@ -1,0 +1,3241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fairway Park</title>
+<meta name="description" content="An original nine-hole golf course and an outdoor sports facility on the training platform: stroke play with a timed swing meter, real scoring, and a groundskeeper's log that scores course care alongside it. Keyboard, touch and gamepad; WebXR when the device offers it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;1,700&family=Barlow:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --void:#05100a; --panel:#0a1a10; --glass:rgba(8,20,13,.86); --raised:#123320; --raised-2:#194227;
+    --text:#eef7ef; --muted:#9fc3ab; --dim:#6c8f78; --accent:#8cff5a; --accent2:#4fd1ff; --amber:#ffc93c; --pink:#ff5a7a; --water:#4fb3ff; --sand:#e0c281;
+    --edge:rgba(140,210,150,.2); --edge-strong:rgba(140,210,150,.4);
+    --sans:"Barlow", system-ui, sans-serif; --cond:"Barlow Condensed", "Barlow", system-ui, sans-serif;
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none !important}
+  html,body{height:100%;margin:0;overscroll-behavior:none}
+  body{background:var(--void);color:var(--text);font-family:var(--sans);overflow:hidden;-webkit-font-smoothing:antialiased}
+  #stage{position:fixed;inset:0}
+  #stage canvas{display:block;width:100%;height:100%}
+  button{font:inherit;color:inherit}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  .home-chip{position:fixed;top:calc(8px + env(safe-area-inset-top,0px));left:10px;z-index:10000;display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:999px;background:rgba(6,18,11,.8);color:#dbf3e0;border:1px solid rgba(140,255,90,.45);font:600 13px/1 Arial,Helvetica,sans-serif;text-decoration:none;letter-spacing:.02em;backdrop-filter:blur(6px)}
+  .home-chip:hover,.home-chip:focus-visible{background:rgba(140,255,90,.22);color:#fff;outline:2px solid var(--accent);outline-offset:2px}
+  @media (max-width:480px){.home-chip{top:calc(6px + env(safe-area-inset-top,0px));left:8px;padding:5px 9px;font-size:12px}}
+
+  .screen{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto;
+    background:radial-gradient(1100px 650px at 50% 118%, rgba(140,255,90,.08), transparent 60%), linear-gradient(180deg, rgba(5,16,10,.4), rgba(5,16,10,.78));}
+  .card{width:min(920px,100%);max-height:calc(100vh - 32px);overflow:auto;background:var(--glass);border:1px solid var(--edge);
+    border-radius:14px;padding:22px 22px 18px;backdrop-filter:blur(6px);box-shadow:0 30px 80px rgba(0,0,0,.55)}
+  .eyebrow{font-family:var(--cond);font-weight:600;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin:0}
+  h1.logo{font-family:var(--cond);font-style:italic;font-weight:700;text-transform:uppercase;letter-spacing:.01em;margin:6px 0 2px;
+    font-size:clamp(34px,7vw,66px);line-height:.94;background:linear-gradient(92deg,var(--accent),var(--accent2) 60%);
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .stripe{height:6px;width:200px;margin:10px 0 14px;background:repeating-linear-gradient(-45deg,var(--accent) 0 12px,#0d1a10 12px 24px);border-radius:2px}
+  h2{font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:26px;margin:4px 0 10px}
+  p.lead{color:var(--muted);max-width:70ch;margin:0 0 14px;line-height:1.5}
+  .note{font-size:13px;color:var(--dim);line-height:1.5;margin:12px 0 0;max-width:86ch}
+  .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .btn{background:var(--raised);border:1px solid var(--edge-strong);border-radius:8px;padding:11px 16px;cursor:pointer;
+    font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:15px}
+  .btn:hover{background:var(--raised-2)}
+  .btn.primary{background:linear-gradient(180deg,#a9ff7e,var(--accent));color:#0c2007;border-color:transparent}
+  .btn.ghost{background:transparent}
+  .btn.on{border-color:var(--accent);color:var(--accent)}
+  .btn[disabled]{opacity:.4;cursor:not-allowed}
+  a.btn{display:inline-block;text-decoration:none;color:var(--text)}
+  label.field{display:block;font-family:var(--cond);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin:12px 0 4px}
+  input[type=text]{width:220px;max-width:100%;padding:9px 11px;border-radius:8px;border:1px solid var(--edge-strong);background:#0b1c12;color:var(--text);font:inherit}
+  .modes{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));margin:6px 0 4px}
+  .mode{text-align:left;padding:14px;border-radius:10px;border:1px solid var(--edge);background:linear-gradient(180deg,var(--raised),var(--panel));cursor:pointer}
+  .mode:hover,.mode:focus-visible{border-color:var(--accent)}
+  .mode b{display:block;font-family:var(--cond);font-size:19px;letter-spacing:.03em;text-transform:uppercase}
+  .mode span{display:block;font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.4}
+  table.score{width:100%;border-collapse:collapse;margin-top:8px;font-variant-numeric:tabular-nums}
+  table.score th{font-family:var(--cond);font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);text-align:left;padding:5px 7px;border-bottom:1px solid var(--edge)}
+  table.score td{padding:6px 7px;border-bottom:1px solid rgba(140,210,150,.1);font-size:14.5px}
+  ol.board{margin:6px 0 0;padding-left:20px;font-size:14px}
+  .care-line{font-size:13px;color:var(--muted);padding:4px 0;border-bottom:1px dashed rgba(140,210,150,.15)}
+  .care-line.ok{color:var(--accent)}
+  .care-line.miss{color:var(--pink)}
+
+  /* ---------- HUD (over the 3D stage) ---------- */
+  #hud{position:fixed;inset:0;z-index:10;pointer-events:none;font-family:var(--cond)}
+  #hud .panel{position:absolute;pointer-events:auto;background:rgba(6,16,10,.72);border:1px solid var(--edge);border-radius:10px;backdrop-filter:blur(4px)}
+  #hud-hole{top:calc(10px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);padding:8px 18px;text-align:center;min-width:220px}
+  #hud-hole .n{font-size:22px;font-weight:700;letter-spacing:.03em;text-transform:uppercase}
+  #hud-hole .sub{font-size:12.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+  #hud-score{top:calc(10px + env(safe-area-inset-top,0px));right:10px;padding:8px 14px;text-align:right;font-size:14px}
+  #hud-score b{font-size:20px;display:block}
+  #hud-wind{top:70px;right:10px;padding:6px 12px;font-size:12.5px;color:var(--muted)}
+  #hud-lie{bottom:200px;left:10px;padding:6px 12px;font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+  #hud-clubs{bottom:132px;left:10px;display:flex;gap:6px;padding:6px;background:transparent;border:none}
+  #hud-clubs button{padding:8px 12px;border-radius:8px;border:1px solid var(--edge-strong);background:rgba(6,16,10,.72);font-family:var(--cond);font-weight:700;text-transform:uppercase;font-size:13px}
+  #hud-clubs button.on{background:var(--accent);color:#0c2007;border-color:transparent}
+  #hud-aim{bottom:132px;right:10px;display:flex;gap:6px}
+  #hud-aim button{width:44px;height:44px;border-radius:50%;font-size:18px}
+  #hud-meter{left:50%;bottom:56px;transform:translateX(-50%);width:min(420px,90vw);padding:10px 14px}
+  #hud-meter .bar{position:relative;height:16px;border-radius:8px;background:#0b1c12;overflow:hidden;margin-top:4px;border:1px solid var(--edge)}
+  #hud-meter .fill{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,var(--accent2),var(--accent))}
+  #hud-meter .zone{position:absolute;top:0;bottom:0;width:6%;left:47%;background:rgba(255,255,255,.5)}
+  #hud-meter .marker{position:absolute;top:-3px;bottom:-3px;width:3px;background:#fff}
+  #hud-swing{bottom:56px;right:10px}
+  #hud-swing button{width:84px;height:84px;border-radius:50%;font-family:var(--cond);font-weight:700;text-transform:uppercase;font-size:13px;
+    background:radial-gradient(circle at 35% 30%, #a9ff7e, var(--accent));color:#0c2007;border:none;box-shadow:0 8px 20px rgba(0,0,0,.4)}
+  #hud-care{top:130px;left:10px;padding:8px 12px;font-size:12.5px;max-width:220px}
+  #hud-care .courtesy{display:block;width:100%;margin-top:6px;padding:7px 10px;border-radius:7px;border:1px solid var(--amber);background:rgba(255,201,60,.14);color:var(--amber);font-size:12px;text-transform:none;letter-spacing:0;cursor:pointer;text-align:left}
+  #toast{position:fixed;left:50%;bottom:150px;transform:translateX(-50%);z-index:30;background:#0d2415;border:1px solid var(--edge-strong);
+    border-radius:8px;padding:9px 16px;font:14px/1.4 var(--sans);opacity:0;pointer-events:none;transition:opacity .25s}
+  #toast.on{opacity:1}
+  #view-toggle{position:fixed;bottom:calc(10px + env(safe-area-inset-bottom,0px));left:10px;z-index:15}
+
+  /* ---------- mini-game overlay ---------- */
+  #mg{position:fixed;inset:0;z-index:25;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;
+    background:radial-gradient(1100px 650px at 50% 10%, rgba(79,209,255,.1), transparent 60%), linear-gradient(180deg,#06130c,#0a1e13)}
+  #mg .mg-card{width:min(520px,92vw);background:var(--glass);border:1px solid var(--edge);border-radius:14px;padding:20px}
+  #mg .mg-stat{display:flex;justify-content:space-between;font-family:var(--cond);text-transform:uppercase;font-size:13px;color:var(--muted);margin-bottom:8px}
+  #mg .mg-stat b{color:var(--text);font-size:16px}
+  #mg .mg-bar{height:20px;border-radius:10px;background:#0b1c12;border:1px solid var(--edge);overflow:hidden;position:relative;margin:8px 0}
+  #mg .mg-bar .f{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,var(--accent2),var(--accent))}
+  #mg .mg-bar .marker{position:absolute;top:-3px;bottom:-3px;width:3px;background:#fff}
+  #mg .mg-message{min-height:22px;font-size:14px;color:var(--muted)}
+  #mg .mg-controls{display:flex;gap:10px;justify-content:center;margin-top:10px}
+  #mg .mg-controls button{min-width:96px}
+
+  .kbd{display:inline-block;min-width:20px;padding:1px 6px;border-radius:4px;border:1px solid var(--edge-strong);background:#0b1c12;font-family:var(--cond);font-weight:600;font-size:12.5px;text-align:center}
+</style>
+</head>
+<body>
+<!-- Generated by tools/bundle_webxr.py from WebXR/fairway/js — edit the modules, not this file. -->
+
+<a class="home-chip" href="./index.html" aria-label="Back to the homepage">&#9971; Home</a>
+
+<div id="stage"></div>
+<div id="toast" role="status"></div>
+
+<div id="hud" hidden>
+  <div id="hud-hole" class="panel"><div class="n"></div><div class="sub"></div></div>
+  <div id="hud-score" class="panel"><span>Total</span><b></b></div>
+  <div id="hud-wind" class="panel"></div>
+  <div id="hud-lie" class="panel"></div>
+  <div id="hud-clubs"></div>
+  <div id="hud-aim">
+    <button id="aim-left" aria-label="Aim left">&#8592;</button>
+    <button id="aim-right" aria-label="Aim right">&#8594;</button>
+  </div>
+  <div id="hud-meter" class="panel" hidden>
+    <div class="sub" id="meter-label">Power</div>
+    <div class="bar"><div class="fill" id="meter-fill"></div><div class="zone"></div></div>
+  </div>
+  <div id="hud-swing"><button id="swing-btn">Swing</button></div>
+  <div id="hud-care" class="panel"><b>Groundskeeper's log</b><div>Care score: <b id="care-score">100</b></div><div id="care-actions"></div></div>
+</div>
+<button id="view-toggle" class="btn ghost" hidden>First person (V)</button>
+
+<div class="screen" id="scr-menu">
+  <div class="card">
+    <p class="eyebrow">Fairway Park</p>
+    <h1 class="logo">Fairway Park</h1>
+    <div class="stripe"></div>
+    <p class="lead">A nine-hole course and an outdoor sports facility, played for real strokes and real scores. Aim, pick a club, time the swing meter, and play the ball as it lies — rough, sand and water all behave differently, and a groundskeeper's log scores how you leave the course behind you.</p>
+    <label class="field" for="crew-tag">Crew tag (for the leaderboard)</label>
+    <input type="text" id="crew-tag" maxlength="12" placeholder="YOUR TAG">
+    <div class="modes">
+      <button class="mode" id="menu-play"><b>Play the course</b><span>Stroke play, nine holes, par 35.</span></button>
+      <button class="mode" id="menu-facility"><b>Sports facility</b><span>Sprint, free throws and penalty kicks — 60-second rounds.</span></button>
+      <button class="mode" id="menu-scores"><b>Scorecards &amp; leaderboard</b><span>Your best round and the crew's top scores.</span></button>
+    </div>
+    <p class="note"><b>Controls</b> — Keyboard: <span class="kbd">&#8592;</span>/<span class="kbd">&#8594;</span> or <span class="kbd">A</span>/<span class="kbd">D</span> aim, <span class="kbd">1</span>-<span class="kbd">4</span> club, <span class="kbd">Space</span> swing meter (press to start power, again to lock it and start accuracy, again to strike), <span class="kbd">V</span> camera, <span class="kbd">C</span> do the groundskeeper courtesy on offer, <span class="kbd">Esc</span> menu. Touch: the on-screen dial and swing button. Gamepad: left stick aims, A/Cross is the swing-meter button, B/Circle is the courtesy button.</p>
+    <p class="note">Every hole, club, course feature and mini-game here is original to this platform — no real course, club, brand, league or player is named or modelled.</p>
+  </div>
+</div>
+
+<div class="screen" id="scr-scorecard" hidden>
+  <div class="card">
+    <p class="eyebrow">Round complete</p>
+    <h2 id="sc-title">Scorecard</h2>
+    <table class="score" id="sc-table"></table>
+    <p class="lead" id="sc-summary"></p>
+    <h2>Groundskeeper's log</h2>
+    <p class="lead" id="sc-care-summary"></p>
+    <div id="sc-care-log"></div>
+    <h2>Leaderboard</h2>
+    <ol class="board" id="sc-board"></ol>
+    <div class="row" style="margin-top:14px">
+      <button class="btn primary" id="sc-again">Play again</button>
+      <button class="btn ghost" id="sc-menu">Menu</button>
+    </div>
+  </div>
+</div>
+
+<div class="screen" id="scr-scores" hidden>
+  <div class="card">
+    <p class="eyebrow">Fairway Park</p>
+    <h2>Scorecards &amp; leaderboard</h2>
+    <p class="lead" id="scores-best"></p>
+    <h2>Nine-hole leaderboard</h2>
+    <ol class="board" id="scores-board"></ol>
+    <div id="scores-minigames"></div>
+    <div class="row" style="margin-top:14px"><button class="btn ghost" id="scores-back">Menu</button></div>
+  </div>
+</div>
+
+<div class="screen" id="scr-facility" hidden>
+  <div class="card">
+    <p class="eyebrow">Fairway Park</p>
+    <h2>Sports facility</h2>
+    <p class="lead">Sixty-second rounds, real scores, best runs kept alongside the course leaderboard.</p>
+    <div class="modes" id="facility-list"></div>
+    <div class="row" style="margin-top:14px"><button class="btn ghost" id="facility-back">Menu</button></div>
+  </div>
+</div>
+
+<div id="mg" hidden>
+  <div class="mg-card">
+    <h2 id="mg-name"></h2>
+    <div class="mg-stat"><span>Time left</span><b id="mg-time"></b></div>
+    <div class="mg-stat"><span id="mg-stat-label">Score</span><b id="mg-stat-value"></b></div>
+    <div class="mg-bar" id="mg-bar1" hidden><div class="f" id="mg-bar1-fill"></div><div class="marker" id="mg-bar1-marker" hidden></div></div>
+    <div class="mg-bar" id="mg-bar2" hidden><div class="f" id="mg-bar2-fill"></div><div class="marker" id="mg-bar2-marker" hidden></div></div>
+    <p class="mg-message" id="mg-message"></p>
+    <div class="mg-controls" id="mg-controls"></div>
+  </div>
+</div>
+
+<div class="screen" id="scr-mg-over" hidden>
+  <div class="card">
+    <p class="eyebrow" id="mgo-venue">Sports facility</p>
+    <h2 id="mgo-title">Round over</h2>
+    <p class="lead" id="mgo-summary"></p>
+    <ol class="board" id="mgo-board"></ol>
+    <div class="row" style="margin-top:14px">
+      <button class="btn primary" id="mgo-again">Play again</button>
+      <button class="btn ghost" id="mgo-menu">Sports facility</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
+
+/* ===== shared/input.js ===== */
+/**
+ * The deep input layer: the gamepad poller, the keyboard binding table and
+ * the voice grammar — all of it pure, so every one of them can be driven
+ * headless from Node with a fake `navigator` (see tools/check_input.mjs).
+ *
+ * Why this is one module rather than three:
+ *
+ * - The three devices name the same small set of actions. A d-pad press, a
+ *   Tab key and the word "next" all mean "focus the next control this step
+ *   names". Keeping one action table is what makes the interface brief's rule
+ *   — every bound action is also reachable by keyboard and mouse — checkable
+ *   rather than aspirational.
+ * - None of it may complete a step. Voice and the pads navigate, focus,
+ *   adjust, read back and open panels; the select/press/drag/turn paths in
+ *   shared/game.js stay where they are. `focus` moves the keyboard cursor and
+ *   nothing else, which is why it lives here and not near the Session.
+ * - The app is the only place that knows what a control IS. This module deals
+ *   in action ids, key tokens, button indices and parsed phrases; app.js maps
+ *   those onto the station's own hit ids.
+ *
+ * Nothing here touches the DOM, three.js or a Session. `localStorage` is
+ * reached through an injectable handle, so a checker passes a plain object.
+ */
+
+// --------------------------------------------------------------- the actions
+//
+// One row per thing a learner can ask for with a key or a button. `group`
+// only orders the panel. Locomotion (WASD/arrows to walk, the mouse or a
+// stick to look) is continuous rather than an action, and is listed
+// separately as CONTINUOUS_ACTIONS below.
+
+const INPUT_ACTIONS = [
+  { id: "focusPrev", group: "step", label: "Focus previous control", what: "Walks the cursor back through the controls this step names." },
+  { id: "focusNext", group: "step", label: "Focus next control", what: "Walks the cursor forward through the controls this step names, in procedure order." },
+  { id: "activate", group: "step", label: "Take the focused control", what: "Exactly what a click does: select it, or place what you are carrying." },
+  { id: "hold", group: "step", label: "Press and hold", what: "Holds the focused control down for a hold or track step; let go to release." },
+  { id: "adjustUp", group: "step", label: "Adjust up", what: "Raises a gauge reading, a tracked value, or a valve's turns." },
+  { id: "adjustDown", group: "step", label: "Adjust down", what: "Lowers a gauge reading, a tracked value, or a valve's turns." },
+  { id: "turnLeft", group: "step", label: "Turn anticlockwise", what: "Turns a turn step's target the way a wrist roll or a mouse arc would." },
+  { id: "turnRight", group: "step", label: "Turn clockwise", what: "The same, the other way." },
+  { id: "speakHint", group: "assist", label: "Read the step aloud", what: "Speaks the live step's title and cue, and writes it to the live region." },
+  { id: "voice", group: "assist", label: "Start or stop listening", what: "The microphone button, from the keyboard." },
+  { id: "mute", group: "assist", label: "Mute or unmute", what: "Silences the sound effects and the spoken lines." },
+  { id: "view", group: "assist", label: "First / third person", what: "Switches between the first-person view and a third-person camera that follows your own figure — or the vehicle, on a drive step." },
+  { id: "controls", group: "panel", label: "Open the controls panel", what: "This panel." },
+  { id: "back", group: "panel", label: "Close the panel, or back to the campus", what: "Closes the topmost overlay first, then leaves the station." },
+];
+
+/** Continuous input: not remappable, and each one already has a pointer or
+ *  keyboard equivalent, which is the fallback rule the brief states. */
+const CONTINUOUS_ACTIONS = [
+  { id: "look", label: "Look around", fallback: "Drag with the mouse" },
+  { id: "walk", label: "Walk and strafe", fallback: "WASD or the arrow keys" },
+];
+
+const ACTION_IDS = INPUT_ACTIONS.map((a) => a.id);
+const ACTION_BY_ID = Object.fromEntries(INPUT_ACTIONS.map((a) => [a.id, a]));
+
+// ------------------------------------------------------------ keyboard presets
+//
+// A binding is a list of key tokens: a `KeyboardEvent.code`, optionally with a
+// `Shift+` prefix. Codes rather than `key` values, so a binding survives a
+// non-US layout and a caps-lock state the way the existing Tab/Enter/Space
+// scheme does.
+//
+// Two rules hold in every preset, and tools/check_input.mjs enforces both:
+// every action is bound, and no key is bound twice inside one preset.
+
+const KEYBOARD_PRESETS = {
+  standard: {
+    label: "Standard",
+    note: "What the app has always used: Tab walks the step's controls, Enter takes the one in focus, the space bar is the hold, the arrows work an analogue control.",
+    keys: {
+      focusPrev: ["Shift+Tab", "ArrowLeft"],
+      focusNext: ["Tab", "ArrowRight"],
+      activate: ["Enter", "NumpadEnter"],
+      hold: ["Space"],
+      adjustUp: ["ArrowUp"],
+      adjustDown: ["ArrowDown"],
+      turnLeft: ["KeyQ"],
+      turnRight: ["KeyE"],
+      speakHint: ["KeyH"],
+      // `V` is the third-person toggle everywhere (the common convention);
+      // voice moves to the free `N` so it stays reachable with one press.
+      voice: ["KeyN"],
+      mute: ["KeyM"],
+      view: ["KeyV"],
+      controls: ["Slash", "F1"],
+      back: ["Escape"],
+    },
+  },
+  wasd: {
+    label: "WASD + IJKL",
+    note: "The left hand stays on WASD to walk; the right hand works the step on the IJKL cluster instead of reaching for Tab.",
+    keys: {
+      focusPrev: ["KeyJ"],
+      focusNext: ["KeyL"],
+      activate: ["Enter"],
+      hold: ["Space"],
+      adjustUp: ["KeyI"],
+      adjustDown: ["KeyK"],
+      turnLeft: ["KeyU"],
+      turnRight: ["KeyO"],
+      speakHint: ["KeyH"],
+      voice: ["KeyY"],
+      mute: ["KeyM"],
+      view: ["KeyV"],
+      controls: ["Slash", "F1"],
+      back: ["Escape"],
+    },
+  },
+  "left-hand": {
+    label: "Left hand",
+    note: "For a learner who keeps the mouse in the right hand: every action sits on the left third of the board, with Enter moved to G.",
+    keys: {
+      focusPrev: ["Shift+Tab"],
+      focusNext: ["Tab"],
+      activate: ["KeyG"],
+      hold: ["Space"],
+      adjustUp: ["KeyR"],
+      adjustDown: ["KeyF"],
+      turnLeft: ["KeyZ"],
+      turnRight: ["KeyC"],
+      speakHint: ["KeyT"],
+      voice: ["KeyB"],
+      // Mute moves to the free `X`, still on the left third, so `V` stays the
+      // view toggle everywhere.
+      mute: ["KeyX"],
+      view: ["KeyV"],
+      controls: ["Backquote", "F1"],
+      back: ["Escape"],
+    },
+  },
+  numpad: {
+    label: "Numeric keypad",
+    note: "The whole procedure from the keypad, the way an operator works a panel: 4 and 6 walk the controls, 8 and 2 adjust, 5 takes, 0 holds.",
+    keys: {
+      focusPrev: ["Numpad4"],
+      focusNext: ["Numpad6"],
+      activate: ["Numpad5", "NumpadEnter"],
+      hold: ["Numpad0"],
+      adjustUp: ["Numpad8"],
+      adjustDown: ["Numpad2"],
+      turnLeft: ["Numpad7"],
+      turnRight: ["Numpad9"],
+      speakHint: ["Numpad1"],
+      voice: ["NumpadMultiply"],
+      mute: ["Numpad3"],
+      view: ["NumpadAdd"],
+      controls: ["NumpadDivide", "F1"],
+      back: ["NumpadSubtract", "Escape"],
+    },
+  },
+  "one-hand": {
+    label: "One hand",
+    note: "Every action inside the span of one hand, with no chord, no modifier, no Tab and no function key — the preset to pick when the other hand is holding a tool, a rail or a radio.",
+    keys: {
+      focusPrev: ["KeyZ"],
+      focusNext: ["KeyX"],
+      activate: ["KeyC"],
+      hold: ["Space"],
+      adjustUp: ["KeyR"],
+      // Adjust-down moves to the free `D`, still one key over from `F`/`R`,
+      // so `V` stays the view toggle everywhere.
+      adjustDown: ["KeyD"],
+      turnLeft: ["KeyQ"],
+      turnRight: ["KeyE"],
+      speakHint: ["KeyT"],
+      voice: ["KeyB"],
+      mute: ["KeyF"],
+      view: ["KeyV"],
+      controls: ["KeyG"],
+      back: ["Escape"],
+    },
+  },
+};
+
+const PRESET_IDS = Object.keys(KEYBOARD_PRESETS);
+const INPUT_STORAGE_KEY = "smartcitix-input-v1";
+
+function cloneKeys(keys) {
+  const out = {};
+  for (const [action, list] of Object.entries(keys ?? {})) out[action] = [...list];
+  return out;
+}
+
+/** The bindings a preset ships with, as a fresh object nobody else shares. */
+function presetBindings(presetId = "standard") {
+  const id = KEYBOARD_PRESETS[presetId] ? presetId : "standard";
+  return { preset: id, keys: cloneKeys(KEYBOARD_PRESETS[id].keys) };
+}
+
+/** Keys bound to more than one action inside one binding set. */
+function duplicateKeys(keys = {}) {
+  const seen = new Map();
+  const dupes = [];
+  for (const action of Object.keys(keys)) {
+    for (const token of keys[action] ?? []) {
+      if (seen.has(token)) dupes.push({ token, actions: [seen.get(token), action] });
+      else seen.set(token, action);
+    }
+  }
+  return dupes;
+}
+
+function storageHandle(storage) {
+  if (storage) return storage;
+  try { return typeof localStorage !== "undefined" ? localStorage : null; } catch { return null; }
+}
+
+/** Read the saved profile, repairing anything odd rather than throwing: an
+ *  unknown preset falls back to standard, a malformed list is ignored, and an
+ *  action the saved file never heard of (because it was added after that file
+ *  was written) keeps its preset default instead of going unbound. */
+function loadBindings(storage) {
+  const handle = storageHandle(storage);
+  let saved = null;
+  try { saved = JSON.parse(handle?.getItem(INPUT_STORAGE_KEY) ?? "null"); } catch { saved = null; }
+  const base = presetBindings(saved?.preset);
+  if (saved && saved.keys && typeof saved.keys === "object") {
+    for (const action of ACTION_IDS) {
+      const list = saved.keys[action];
+      if (!Array.isArray(list)) continue;
+      const clean = list.filter((t) => typeof t === "string" && t.length > 0 && t.length < 40);
+      if (clean.length) base.keys[action] = clean;
+    }
+  }
+  return base;
+}
+
+function saveBindings(profile, storage) {
+  const handle = storageHandle(storage);
+  const safe = {
+    preset: KEYBOARD_PRESETS[profile?.preset] ? profile.preset : "standard",
+    keys: cloneKeys(profile?.keys ?? presetBindings(profile?.preset).keys),
+  };
+  // A locked, full or private-mode store is not a reason to stop taking input.
+  try { handle?.setItem(INPUT_STORAGE_KEY, JSON.stringify(safe)); } catch { /* ignore */ }
+  return safe;
+}
+
+/** Back to a preset's own keys, and forget the saved overrides. */
+function resetBindings(presetId = "standard", storage) {
+  const handle = storageHandle(storage);
+  try { handle?.removeItem(INPUT_STORAGE_KEY); } catch { /* ignore */ }
+  return presetBindings(presetId);
+}
+
+/** Bind one key to one action. The token comes off every other action first,
+ *  so a remap can never create the duplicate the checker forbids, and an
+ *  action left with nothing falls back to its preset key rather than going
+ *  dark — an unreachable action is the one thing the brief rules out. */
+function remapAction(profile, action, token) {
+  if (!ACTION_BY_ID[action] || typeof token !== "string" || !token) return profile;
+  const keys = cloneKeys(profile?.keys ?? presetBindings(profile?.preset).keys);
+  for (const other of Object.keys(keys)) {
+    if (other === action) continue;
+    keys[other] = keys[other].filter((t) => t !== token);
+  }
+  const preset = KEYBOARD_PRESETS[profile?.preset] ?? KEYBOARD_PRESETS.standard;
+  for (const other of Object.keys(keys)) {
+    if (other === action || keys[other].length) continue;
+    const fallback = (preset.keys[other] ?? []).filter((t) => t !== token);
+    keys[other] = fallback.length ? fallback : [`Unbound:${other}`];
+  }
+  keys[action] = [token];
+  return { preset: profile?.preset ?? "standard", keys };
+}
+
+/** A `KeyboardEvent` as the token a binding is written with. */
+function keyToken(event) {
+  const code = event?.code ?? "";
+  if (!code) return "";
+  if (code === "ShiftLeft" || code === "ShiftRight") return code;
+  return `${event.shiftKey ? "Shift+" : ""}${code}`;
+}
+
+/** Which action this key runs, or null. Tab and Shift+Tab are two separate
+ *  bindings; a binding written without the prefix still answers to the
+ *  shifted form, so Shift+M is mute, unless something else claims it. */
+function actionForKey(profile, token) {
+  if (!token) return null;
+  const keys = profile?.keys ?? {};
+  for (const action of ACTION_IDS) if ((keys[action] ?? []).includes(token)) return action;
+  if (!token.startsWith("Shift+")) return null;
+  const bare = token.slice(6);
+  for (const action of ACTION_IDS) if ((keys[action] ?? []).includes(bare)) return action;
+  return null;
+}
+
+const KEY_NAMES = {
+  Space: "Space", Escape: "Esc", Enter: "Enter", NumpadEnter: "Numpad Enter", Tab: "Tab",
+  ArrowUp: "↑", ArrowDown: "↓", ArrowLeft: "←", ArrowRight: "→",
+  Slash: "/", Backquote: "`", NumpadDivide: "Numpad /", NumpadMultiply: "Numpad ×",
+  NumpadSubtract: "Numpad −", NumpadAdd: "Numpad +", NumpadDecimal: "Numpad .",
+};
+
+/** A key token the way a learner reads it on the panel. */
+function prettyKey(token = "") {
+  const shift = token.startsWith("Shift+");
+  const code = shift ? token.slice(6) : token;
+  let name = KEY_NAMES[code];
+  if (!name && code.startsWith("Key")) name = code.slice(3);
+  if (!name && code.startsWith("Digit")) name = code.slice(5);
+  if (!name && code.startsWith("Numpad")) name = `Numpad ${code.slice(6)}`;
+  if (!name && code.startsWith("Unbound:")) name = "not bound";
+  if (!name) name = code;
+  return shift ? `Shift + ${name}` : name;
+}
+
+/** One row per action for the Keyboard tab: the action, what it does, the
+ *  keys bound to it now, and whether that differs from the preset. */
+function describeBindings(profile) {
+  const active = profile?.keys ? profile : presetBindings(profile?.preset ?? "standard");
+  const preset = KEYBOARD_PRESETS[active.preset] ?? KEYBOARD_PRESETS.standard;
+  return INPUT_ACTIONS.map((action) => {
+    const keys = active.keys[action.id] ?? [];
+    const base = preset.keys[action.id] ?? [];
+    return {
+      action: action.id,
+      label: action.label,
+      what: action.what,
+      group: action.group,
+      keys: [...keys],
+      pretty: keys.map(prettyKey),
+      custom: keys.join("|") !== base.join("|"),
+      unbound: keys.length === 0 || keys.every((t) => t.startsWith("Unbound:")),
+    };
+  });
+}
+
+// --------------------------------------------------------------- the gamepad
+//
+// The W3C Standard Gamepad mapping, by index only. An Xbox pad, a PlayStation
+// pad and a generic one all report the same indices when
+// `gamepad.mapping === "standard"`; only the printing on the plastic differs,
+// so the detected vendor decides the LABELS and never the mapping. This runs
+// in flat/desktop mode only: inside an immersive session the controllers
+// arrive as `XRInputSource.gamepad`, which app.js's xrMove already reads.
+
+const GAMEPAD_DEADZONE = 0.18;
+
+const PAD_LABELS = {
+  xbox: {
+    name: "Xbox",
+    buttons: ["A", "B", "X", "Y", "LB", "RB", "LT", "RT", "View", "Menu", "L3", "R3", "D-pad up", "D-pad down", "D-pad left", "D-pad right", "Guide"],
+    axes: ["Left stick X", "Left stick Y", "Right stick X", "Right stick Y"],
+  },
+  playstation: {
+    name: "PlayStation",
+    buttons: ["Cross", "Circle", "Square", "Triangle", "L1", "R1", "L2", "R2", "Share / Create", "Options", "L3", "R3", "D-pad up", "D-pad down", "D-pad left", "D-pad right", "PS"],
+    axes: ["Left stick X", "Left stick Y", "Right stick X", "Right stick Y"],
+  },
+  generic: {
+    name: "Generic",
+    buttons: ["Bottom face", "Right face", "Left face", "Top face", "Left bumper", "Right bumper", "Left trigger", "Right trigger", "Select", "Start", "Left stick press", "Right stick press", "D-pad up", "D-pad down", "D-pad left", "D-pad right", "Home"],
+    axes: ["Left stick X", "Left stick Y", "Right stick X", "Right stick Y"],
+  },
+};
+
+/** Which printing to use for the labels. A vendor id is the only hint a
+ *  browser gives, and a pad nobody recognises still works — it just gets the
+ *  neutral names. */
+function detectPadVendor(id = "") {
+  const s = String(id).toLowerCase();
+  if (/xbox|xinput|microsoft|045e/.test(s)) return "xbox";
+  if (/playstation|dualsense|dualshock|sony|054c/.test(s)) return "playstation";
+  return "generic";
+}
+
+function padButtonLabel(index, vendor = "generic") {
+  const set = PAD_LABELS[vendor] ?? PAD_LABELS.generic;
+  return set.buttons[index] ?? `Button ${index}`;
+}
+
+function padAxisLabel(index, vendor = "generic") {
+  const set = PAD_LABELS[vendor] ?? PAD_LABELS.generic;
+  return set.axes[index] ?? `Axis ${index}`;
+}
+
+// `mode` is how a button repeats, and it is the whole of the edge detection:
+//   edge        — fires once on the press, however long it is held
+//   repeat      — fires on the press, then every repeatMs while held
+//   analog      — a trigger: fires every poll above its threshold, with value
+//   press-hold  — a tap is `activate`; keeping it down is `hold` (start/end)
+const GAMEPAD_MAP = [
+  { index: 0, mode: "press-hold", action: "activate", holdAction: "hold", note: "Tap to take the control in focus; keep it down for a hold or track step." },
+  { index: 1, mode: "edge", action: "back", note: "Closes the topmost panel, then leaves the station — the Escape path." },
+  { index: 2, mode: "edge", action: "voice", note: "Starts and stops listening." },
+  { index: 3, mode: "edge", action: "speakHint", note: "Reads the live step aloud." },
+  { index: 4, mode: "repeat", action: "turnLeft", note: "Turns a turn step's target anticlockwise while held." },
+  { index: 5, mode: "repeat", action: "turnRight", note: "Turns it clockwise while held." },
+  { index: 6, mode: "analog", action: "adjustDown", note: "Gauge, tracked value or valve down, as far as the trigger is pulled." },
+  { index: 7, mode: "analog", action: "adjustUp", note: "The same, up." },
+  { index: 8, mode: "edge", action: "back", note: "Back to the campus." },
+  { index: 9, mode: "edge", action: "controls", note: "Opens and closes the controls panel." },
+  { index: 10, mode: "edge", action: "mute", note: "Mutes the sound and the spoken lines." },
+  { index: 11, mode: "edge", action: "view", note: "Right stick press: switches between first- and third-person view." },
+  { index: 12, mode: "repeat", action: "adjustUp", note: "Steps a gauge, a tracked value or a valve up." },
+  { index: 13, mode: "repeat", action: "adjustDown", note: "Steps it down." },
+  { index: 14, mode: "edge", action: "focusPrev", note: "Focus the previous control this step names." },
+  { index: 15, mode: "edge", action: "focusNext", note: "Focus the next one." },
+];
+
+const GAMEPAD_AXIS_MAP = [
+  { axes: [0, 1], action: "look", note: "Orbits and pitches the view, the way dragging with the mouse does." },
+  { axes: [2, 3], action: "walk", note: "Walks and strafes inside the station's roam limit, like WASD." },
+];
+
+function applyDeadzone(value, deadzone) {
+  const v = typeof value === "number" && Number.isFinite(value) ? value : 0;
+  const a = Math.abs(v);
+  if (a < deadzone) return 0;
+  return Math.sign(v) * ((a - deadzone) / (1 - deadzone));
+}
+
+function buttonValue(button) {
+  if (button == null) return 0;
+  if (typeof button === "number") return button;
+  if (typeof button.value === "number" && Number.isFinite(button.value)) return button.value;
+  return button.pressed ? 1 : 0;
+}
+
+/**
+ * The poller. `getGamepads` is whatever returns an array-like of pads:
+ * `() => navigator.getGamepads()` in a browser, `() => [fakePad]` in a test.
+ * `onAction(action, info)` is called for every action the pad produces, with
+ * `info` carrying `{ value, phase, repeat, dx, dy, dt, index, source }`.
+ *
+ *     const pad = createGamepad({ getGamepads: () => navigator.getGamepads(), onAction });
+ *     pad.poll(dt);   // once per frame, outside an immersive session
+ */
+function createGamepad({
+  getGamepads,
+  bindings = GAMEPAD_MAP,
+  axisBindings = GAMEPAD_AXIS_MAP,
+  onAction = () => {},
+  onConnect = null,
+  deadzone = GAMEPAD_DEADZONE,
+  holdMs = 320,
+  repeatMs = 140,
+  triggerThreshold = 0.12,
+  shouldPoll = () => true,
+  now = () => (typeof performance !== "undefined" && performance.now ? performance.now() : Date.now()),
+} = {}) {
+  const down = new Map();      // button index → { since, firedAt, holding }
+  let padId = null, vendor = "generic", connected = false;
+  let last = { connected: false, id: "", vendor: "generic", mapping: "", buttons: [], axes: [] };
+
+  function pickPad() {
+    let pads = [];
+    try { pads = getGamepads?.() ?? []; } catch { pads = []; }
+    for (const pad of Array.from(pads)) {
+      if (!pad || pad.connected === false) continue;
+      if (!pad.buttons && !pad.axes) continue;
+      return pad;
+    }
+    return null;
+  }
+
+  function reset() { down.clear(); }
+
+  function poll(dt = 1 / 60) {
+    if (!shouldPoll()) {
+      if (connected) { connected = false; reset(); }
+      return null;
+    }
+    const pad = pickPad();
+    if (!pad) {
+      if (connected) { connected = false; reset(); last = { ...last, connected: false }; onConnect?.(last); }
+      return null;
+    }
+    const id = String(pad.id ?? "");
+    if (!connected || id !== padId) {
+      padId = id; vendor = detectPadVendor(id); connected = true; reset();
+      last = { connected: true, id, vendor, mapping: String(pad.mapping ?? ""), buttons: [], axes: [] };
+      onConnect?.(last);
+    }
+    const t = now();
+    const buttons = pad.buttons ?? [];
+    const axes = pad.axes ?? [];
+
+    for (const bind of bindings) {
+      const value = buttonValue(buttons[bind.index]);
+      if (bind.mode === "analog") {
+        if (value > triggerThreshold) onAction(bind.action, { value, analog: true, dt, index: bind.index, source: "gamepad" });
+        continue;
+      }
+      const isDown = value > 0.5;
+      const state = down.get(bind.index);
+      if (isDown && !state) {
+        down.set(bind.index, { since: t, firedAt: t, holding: false });
+        // A press-hold button decides on release, or when the hold timer runs
+        // out below — that is what makes one physical press one action.
+        if (bind.mode !== "press-hold") onAction(bind.action, { value: 1, dt, index: bind.index, source: "gamepad" });
+      } else if (isDown && state) {
+        if (bind.mode === "repeat" && t - state.firedAt >= repeatMs) {
+          state.firedAt = t;
+          onAction(bind.action, { value: 1, repeat: true, dt, index: bind.index, source: "gamepad" });
+        }
+        if (bind.mode === "press-hold" && !state.holding && t - state.since >= holdMs) {
+          state.holding = true;
+          onAction(bind.holdAction ?? "hold", { phase: "start", dt, index: bind.index, source: "gamepad" });
+        }
+      } else if (!isDown && state) {
+        down.delete(bind.index);
+        if (bind.mode === "press-hold") {
+          if (state.holding) onAction(bind.holdAction ?? "hold", { phase: "end", dt, index: bind.index, source: "gamepad" });
+          else onAction(bind.action, { value: 1, dt, index: bind.index, source: "gamepad", tap: true });
+        }
+      }
+    }
+
+    for (const bind of axisBindings) {
+      const [xi, yi] = bind.axes;
+      const dx = applyDeadzone(axes[xi], deadzone);
+      const dy = applyDeadzone(axes[yi], deadzone);
+      if (dx || dy) onAction(bind.action, { dx, dy, dt, source: "gamepad" });
+    }
+
+    last = {
+      connected: true, id, vendor, mapping: String(pad.mapping ?? ""),
+      buttons: Array.from(buttons, (b, i) => {
+        const bind = bindings.find((x) => x.index === i);
+        const v = buttonValue(b);
+        return { index: i, label: padButtonLabel(i, vendor), value: Number(v.toFixed(3)), pressed: v > 0.5, action: bind?.action ?? null, mode: bind?.mode ?? null };
+      }),
+      axes: Array.from(axes, (v, i) => ({
+        index: i, label: padAxisLabel(i, vendor),
+        value: Number((typeof v === "number" ? v : 0).toFixed(3)),
+        live: applyDeadzone(v, deadzone) !== 0,
+      })),
+    };
+    return last;
+  }
+
+  return {
+    poll,
+    reset,
+    get vendor() { return vendor; },
+    get connected() { return connected; },
+    snapshot() { return last; },
+    /** The panel's map table for whichever pad is in hand. */
+    describe(forVendor = vendor) {
+      return bindings.map((b) => ({
+        index: b.index, mode: b.mode, action: b.action,
+        label: padButtonLabel(b.index, forVendor),
+        actionLabel: ACTION_BY_ID[b.action]?.label ?? b.action,
+        note: b.note ?? "",
+      }));
+    },
+  };
+}
+
+/** The gamepad map as rows without a live pad — for the docs and for the
+ *  panel before anything is plugged in. */
+function describeGamepadMap(vendor = "generic") {
+  const rows = GAMEPAD_MAP.map((b) => ({
+    index: b.index, mode: b.mode, action: b.action,
+    label: padButtonLabel(b.index, vendor),
+    actionLabel: ACTION_BY_ID[b.action]?.label ?? b.action,
+    note: b.note ?? "",
+  }));
+  for (const a of GAMEPAD_AXIS_MAP) {
+    rows.push({
+      index: null, mode: "axis", action: a.action,
+      label: a.axes.map((i) => padAxisLabel(i, vendor)).join(" / "),
+      actionLabel: CONTINUOUS_ACTIONS.find((c) => c.id === a.action)?.label ?? a.action,
+      note: a.note,
+    });
+  }
+  return rows;
+}
+
+// ------------------------------------------------------------ driving
+//
+// A 'drive' step (shared/game.js) is the one place a learner operates a
+// vehicle rather than a control, so while one is live the keys and the pad
+// speak a second, smaller vocabulary: throttle, brake and steer as continuous
+// inputs, and the discrete checks a route asks for — mirrors, signals, the
+// horn, a gear, the lights — plus the CB radio an interruption may call for.
+// The table is the same shape as the ones above, and the same two rules hold:
+// every drive action is reachable from the keyboard, and no key or button is
+// bound twice inside it. It only applies while a drive step is live, so it
+// can reuse keys the presets give to step actions a drive step never asks
+// for (Q/E turn a valve; there is no valve to turn at the wheel). The step
+// actions that still matter while driving — the controls panel, mute, back —
+// keep their own keys, which is why none of them appears here.
+
+const DRIVE_ACTIONS = [
+  { id: "throttle", group: "drive", continuous: true, label: "Throttle", what: "Hold to speed up; let go and the vehicle coasts down. In reverse it backs." },
+  { id: "brake", group: "drive", continuous: true, label: "Brake", what: "Hold to slow and stop. A fresh press also answers an interruption that asks you to stop." },
+  { id: "steerLeft", group: "drive", continuous: true, label: "Steer left", what: "Moves the vehicle toward the left of its lane." },
+  { id: "steerRight", group: "drive", continuous: true, label: "Steer right", what: "Moves the vehicle toward the right of its lane." },
+  { id: "mirror-left", group: "check", label: "Check the left mirror", what: "A mirror check on the driver's side, where the route calls for one." },
+  { id: "mirror-right", group: "check", label: "Check the right mirror", what: "A mirror check on the passenger side — the side a right turn and a trailer's cut-in live on." },
+  { id: "signal-left", group: "check", label: "Signal left", what: "The left turn signal, before a left turn, a lane change or a pull-out." },
+  { id: "signal-right", group: "check", label: "Signal right", what: "The right turn signal." },
+  { id: "horn", group: "check", label: "Horn", what: "A tap of the horn: before backing, at a blind corner, to warn a person in the path." },
+  { id: "gear-down", group: "check", label: "Gear down", what: "Down a gear: before a grade, before a crossing, before a stop." },
+  { id: "gear-up", group: "check", label: "Gear up", what: "Up a gear once the vehicle is moving and settled." },
+  { id: "lights", group: "check", label: "Lights", what: "Headlamps on (low beams in fog), or the four-way flashers where the route says so." },
+  { id: "radio", group: "control", label: "CB radio", what: "Keys the CB or company radio — for a call an interruption says you must make." },
+];
+const DRIVE_ACTION_IDS = DRIVE_ACTIONS.map((a) => a.id);
+const DRIVE_CHECK_ACTIONS = DRIVE_ACTIONS.filter((a) => a.group === "check").map((a) => a.id);
+
+/** Keys while a drive step is live. Arrows left/right are the signals, as a
+ *  stalk is under the left hand; up and down double for throttle and brake. */
+const DRIVE_KEYS = {
+  throttle: ["KeyW", "ArrowUp"],
+  brake: ["KeyS", "ArrowDown", "Space"],
+  steerLeft: ["KeyA"],
+  steerRight: ["KeyD"],
+  "mirror-left": ["KeyQ"],
+  "mirror-right": ["KeyE"],
+  "signal-left": ["ArrowLeft"],
+  "signal-right": ["ArrowRight"],
+  horn: ["KeyH"],
+  "gear-down": ["KeyZ"],
+  "gear-up": ["KeyX"],
+  lights: ["KeyL"],
+  radio: ["KeyR"],
+};
+
+/** Which drive action a key runs, or null. Shift is ignored: a learner
+ *  holding Shift to walk faster still reaches the brake. */
+function driveActionForKey(token) {
+  if (!token) return null;
+  const bare = token.startsWith("Shift+") ? token.slice(6) : token;
+  for (const id of DRIVE_ACTION_IDS) if ((DRIVE_KEYS[id] ?? []).includes(bare)) return id;
+  return null;
+}
+
+/** Buttons while a drive step is live, by Standard Gamepad index. `back`
+ *  and `controls` stay where they always are, so a pad can still leave. */
+const DRIVE_GAMEPAD_MAP = [
+  { index: 4, mode: "edge", action: "mirror-left", note: "Left bumper: the left mirror." },
+  { index: 5, mode: "edge", action: "mirror-right", note: "Right bumper: the right mirror." },
+  { index: 14, mode: "edge", action: "signal-left", note: "D-pad left: signal left." },
+  { index: 15, mode: "edge", action: "signal-right", note: "D-pad right: signal right." },
+  { index: 3, mode: "edge", action: "horn", note: "Top face (Y / Triangle): the horn." },
+  { index: 6, mode: "edge", action: "gear-down", note: "Left trigger: down a gear." },
+  { index: 7, mode: "edge", action: "gear-up", note: "Right trigger: up a gear." },
+  { index: 2, mode: "edge", action: "lights", note: "Left face (X / Square): the lights." },
+  { index: 12, mode: "edge", action: "radio", note: "D-pad up: key the radio." },
+  { index: 1, mode: "edge", action: "back", note: "Leaves the station, the Escape path." },
+  { index: 9, mode: "edge", action: "controls", note: "Opens the controls panel." },
+  { index: 11, mode: "edge", action: "view", note: "Right stick press: chase view behind the vehicle, or back to the cab." },
+];
+/** Continuous pad input while driving: the left stick steers, the right
+ *  stick's forward and back are throttle and brake, and the bottom face and
+ *  d-pad down are a brake you can hold without a stick. */
+const DRIVE_PAD_AXES = { steer: 0, throttle: 3 };
+const DRIVE_PAD_BRAKE_BUTTONS = [0, 13];
+
+/**
+ * One throttle and steer from everything that can drive: `held` is the set
+ * of drive actions whose keys are down ({ throttle: true, … }), `pad` a
+ * createGamepad() snapshot, `touch` the on-screen controls ({ throttle,
+ * brake, steer }). Pure, so the checker drives it with plain objects.
+ */
+function driveInputFrom({ held = {}, pad = null, touch = null, deadzone = GAMEPAD_DEADZONE } = {}) {
+  let throttle = (held.throttle ? 1 : 0) - (held.brake ? 1 : 0);
+  let steer = (held.steerRight ? 1 : 0) - (held.steerLeft ? 1 : 0);
+  let brake = !!held.brake;
+  if (pad?.connected) {
+    const axis = (i) => applyDeadzone(pad.axes?.find((a) => a.index === i)?.value ?? 0, deadzone);
+    const sx = axis(DRIVE_PAD_AXES.steer);
+    const ty = axis(DRIVE_PAD_AXES.throttle);
+    if (sx) steer = sx;
+    if (ty) throttle = -ty;          // stick forward reads negative
+    if (DRIVE_PAD_BRAKE_BUTTONS.some((i) => pad.buttons?.find((b) => b.index === i)?.pressed)) { throttle = -1; brake = true; }
+  }
+  if (touch) {
+    if (touch.throttle) throttle = 1;
+    if (touch.brake) { throttle = -1; brake = true; }
+    if (touch.steer) steer = Math.max(-1, Math.min(1, touch.steer));
+  }
+  return { throttle: Math.max(-1, Math.min(1, throttle)), steer: Math.max(-1, Math.min(1, steer)), brake: brake || throttle <= -1 };
+}
+
+/** The driving table as rows for the controls panel and docs/controls.md. */
+function describeDriveBindings(vendor = "generic") {
+  return DRIVE_ACTIONS.map((a) => {
+    const buttons = DRIVE_GAMEPAD_MAP.filter((b) => b.action === a.id).map((b) => padButtonLabel(b.index, vendor));
+    if (a.id === "brake") buttons.push(...DRIVE_PAD_BRAKE_BUTTONS.map((i) => padButtonLabel(i, vendor)), `${padAxisLabel(DRIVE_PAD_AXES.throttle, vendor)} back`);
+    if (a.id === "throttle") buttons.push(`${padAxisLabel(DRIVE_PAD_AXES.throttle, vendor)} forward`);
+    if (a.id === "steerLeft" || a.id === "steerRight") buttons.push(padAxisLabel(DRIVE_PAD_AXES.steer, vendor));
+    return { action: a.id, label: a.label, what: a.what, group: a.group, keys: [...(DRIVE_KEYS[a.id] ?? [])], pretty: (DRIVE_KEYS[a.id] ?? []).map(prettyKey), pad: buttons };
+  });
+}
+
+// ----------------------------------------------------------- the voice grammar
+//
+// Navigation, focus, read-back and panels. Nothing here completes a step:
+// `focus` moves the keyboard cursor, `next`/`previous` walk it, `read step`
+// and `repeat` only speak. That is the interface brief's first rule, and it is
+// why "select item N" numbers the hub's cards and the panel's buttons rather
+// than the station's own controls.
+
+const NUMBER_WORDS = {
+  one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10,
+  eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15, sixteen: 16,
+  seventeen: 17, eighteen: 18, nineteen: 19, twenty: 20,
+  // What a recogniser hears instead, on a noisy site.
+  won: 1, to: 2, too: 2, tu: 2, free: 3, tree: 3, for: 4, ate: 8, nein: 9,
+};
+
+function spokenNumber(word) {
+  if (word == null) return null;
+  const s = String(word).trim().toLowerCase();
+  if (/^\d+$/.test(s)) { const n = parseInt(s, 10); return n > 0 ? n : null; }
+  return NUMBER_WORDS[s] ?? null;
+}
+
+/** The item a "select item N" refers to, from the numbered menu the app
+ *  passes as `ctx.menu` (hub cards and panel buttons, in badge order). */
+function resolveMenuItem(n, menu = []) {
+  if (!Array.isArray(menu) || !n || n < 1 || n > menu.length) return null;
+  return menu[n - 1] ?? null;
+}
+
+/** Match a spoken name against `[{ id, name }]`: exact first, then a
+ *  containment either way, longest name first so a short name cannot shadow
+ *  a longer one that contains it. */
+function matchTargetName(spoken, entries = []) {
+  const flatten = (s) => String(s ?? "").toLowerCase().replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim();
+  const want = flatten(spoken);
+  if (!want) return null;
+  const rows = [...entries]
+    .filter((e) => e && (e.name || e.id))
+    .map((e) => ({ ...e, hay: flatten(e.name ?? e.id) }))
+    .sort((a, b) => b.hay.length - a.hay.length);
+  return rows.find((r) => r.hay === want)
+    ?? rows.find((r) => r.hay.includes(want) || want.includes(r.hay))
+    ?? null;
+}
+
+// Order is the grammar: the specific phrases are matched before the general
+// ones, so "what next" stays a hint instead of becoming "next".
+const VOICE_GRAMMAR = [
+  { type: "help", scope: "any", phrases: ["help", "what can I say"], what: "Lists what can be said.", re: /\b(help|commands|what can i say)\b/ },
+  // Plural "controls" only: the singular belongs to "next control" and
+  // "last control", which walk the focus and must not open a panel.
+  { type: "controls", scope: "any", phrases: ["controls", "show controls"], what: "Opens the controls panel.", re: /\b(controls|control panel|key ?bindings?|button map)\b/ },
+  { type: "showNumbers", scope: "any", phrases: ["show numbers", "hide numbers"], what: "Puts a small number badge on every hub card and panel button, so each can be chosen by number.", re: /\b(show|hide|turn off|turn on)\s+(?:the\s+)?numbers?\b/, parse: (m) => ({ on: /show|turn on/.test(m[1]) }) },
+  { type: "selectItem", scope: "any", phrases: ["select item 3", "item three", "number 7"], what: "Takes the numbered hub card or panel button — the voice-first path on a monocular display.", re: /\b(?:select|pick|choose|open|activate)?\s*(?:item|option|number|card|button)\s+([a-z0-9]+)\b|\b(?:select|pick|choose)\s+([a-z0-9]+)\b/, parse: (m, ctx) => { const n = spokenNumber(m[1] ?? m[2]); return n ? { index: n, item: resolveMenuItem(n, ctx?.menu) } : null; } },
+  { type: "whereIs", scope: "run", phrases: ["where is the isolation valve"], what: "Says where a control is, relative to where the learner is standing. It never touches it.", re: /\bwhere(?:'s| is| are)\s+(?:the\s+)?(.+?)\s*\??$/, parse: (m) => ({ name: m[1].trim() }) },
+  { type: "focus", scope: "run", phrases: ["focus the tag bag", "highlight the gauge"], what: "Moves the keyboard cursor onto a named control and reads it out. It never takes it — hands do that.", re: /\b(?:focus(?: on)?|highlight|point (?:at|to))\s+(?:the\s+)?(.+?)\s*\??$/, parse: (m) => ({ name: m[1].trim() }) },
+  { type: "readStep", scope: "run", phrases: ["read step", "read the step"], what: "Reads the live step's title, cue and progress.", re: /\bread(?: me)?(?: out)?(?: the)?\s+(step|cue|objective)\b/ },
+  { type: "repeat", scope: "any", phrases: ["repeat", "say that again"], what: "Says the last spoken line again.", re: /\b(repeat|say (?:that|it) again|again please)\b/ },
+  { type: "hint", scope: "any", phrases: ["hint", "what now"], what: "The live step's title and cue, or how to start a station.", re: /\b(hint|what now|what next|what do i do|current step)\b/ },
+  { type: "checkIn", scope: "any", phrases: ["check in"], what: "Opens the well-being check-in: how the learner is after a hard run. Nothing about it is scored.", re: /\bcheck[- ]?in\b|\bchecking in\b/ },
+  { type: "checkInAnswer", scope: "any", phrases: ["steady", "a bit shaken", "need a minute"], what: "Answers the check-in.", re: /\b(steady|shaken|need a minute|give me a minute)\b/, parse: (m) => ({ answer: /steady/.test(m[1]) ? "steady" : /shaken/.test(m[1]) ? "shaken" : "minute" }) },
+  { type: "previous", scope: "run", phrases: ["previous", "back one"], what: "Moves the keyboard cursor to the previous control this step names.", re: /\b(previous|prev|back one|one back|last control)\b/ },
+  { type: "next", scope: "run", phrases: ["next", "next control"], what: "Moves the keyboard cursor to the next control this step names. It never takes it.", re: /\b(next|forward one|next control|next one)\b/ },
+  { type: "unmute", scope: "any", phrases: ["unmute"], what: "Sound back on.", re: /\b(unmute|un mute|sound on)\b/ },
+  { type: "mute", scope: "any", phrases: ["mute"], what: "Sound and spoken lines off.", re: /\b(mute|quiet|silence)\b/ },
+  { type: "bigger", scope: "any", phrases: ["bigger"], what: "A larger HUD, or a larger diorama in AR — the command a monocular display needs most.", re: /\b(bigger|larger|zoom in|magnify|scale up)\b/ },
+  { type: "smaller", scope: "any", phrases: ["smaller"], what: "A smaller HUD, or a smaller diorama in AR.", re: /\b(smaller|zoom out|shrink|scale down)\b/ },
+  { type: "thirdPerson", scope: "any", phrases: ["third person"], what: "Switches to the third-person camera behind your own figure — or the vehicle, on a drive step.", re: /\bthird[- ]?person\b/ },
+  { type: "firstPerson", scope: "any", phrases: ["first person"], what: "Switches back to the first-person view.", re: /\bfirst[- ]?person\b/ },
+  { type: "leaderboard", scope: "hub", phrases: ["leaderboards"], what: "Opens the leaderboards.", re: /\bleaderboards?\b/ },
+  { type: "programs", scope: "hub", phrases: ["programmes"], what: "Opens the training programmes.", re: /\b(programme?s?|programs?|curricul(?:um|a)|pathway)\b/ },
+  { type: "records", scope: "hub", phrases: ["records"], what: "Opens the training records.", re: /\b(records?|training records?|transcript)\b/ },
+  { type: "tour", scope: "hub", phrases: ["tour"], what: "Starts the guided tour.", re: /\btour\b/ },
+  { type: "editor", scope: "hub", phrases: ["editor"], what: "Opens the scenario editor.", re: /\b(scenario|editor)\b/ },
+  { type: "reset", scope: "hub", phrases: ["reset"], what: "Clears the progress held in this browser.", re: /\breset\b/ },
+  { type: "brief", scope: "any", phrases: ["brief"], what: "Reads the station's briefing line.", re: /\b(brief|briefing|about this station)\b/ },
+  { type: "status", scope: "any", phrases: ["status"], what: "Stations cleared, stars, level.", re: /\b(status|progress|score)\b/ },
+  { type: "hub", scope: "any", phrases: ["hub", "campus"], what: "Back to the campus.", re: /\b(hub|campus|home|back)\b/ },
+];
+
+const VOICE_HELP_LINE =
+  'Say a station name, or "next", "previous", "focus" and a control\'s name, "where is" and a control\'s name, ' +
+  '"read step", "repeat", "hint", "brief", "status", "select item" and a number, "show numbers", "bigger", "smaller", ' +
+  '"third person", "first person", ' +
+  '"mute", "unmute", "controls", "check in", "hub", "leaderboards", "records", "programmes", "tour", "editor", "reset", or "help".';
+
+/**
+ * Parse one heard phrase into `{ type, ... }`, with `type: "unknown"` when
+ * nothing matches. Station names are NOT matched here — app.js owns the
+ * roster, matches a station name first, and delegates everything else to
+ * this. `ctx.menu` is the numbered menu for "select item N".
+ */
+function parseVoice(text, ctx = {}) {
+  const lower = String(text ?? "").toLowerCase().trim();
+  if (!lower) return { type: "unknown", text: "" };
+  for (const entry of VOICE_GRAMMAR) {
+    const m = entry.re.exec(lower);
+    if (!m) continue;
+    const extra = entry.parse ? entry.parse(m, ctx, lower) : {};
+    // An entry may decline: "select the valve" is not an item number.
+    if (extra === null) continue;
+    return { type: entry.type, text: lower, ...extra };
+  }
+  return { type: "unknown", text: lower };
+}
+
+/** The check-in's spoken short forms. The fuller wording a peer-support
+ *  trainer would use is in shared/ei-guide.js; these are what a monocular
+ *  display reads aloud, where every line has to fit one breath. */
+const CHECKIN_QUESTION =
+  'How are you doing after that one? Nothing about this is scored. Say "steady", "shaken", or "need a minute".';
+const CHECKIN_REPLIES = {
+  steady: "Good. Take the debrief with you.",
+  shaken: "That is a normal reaction to a run that felt real. Give it a minute before the next one.",
+  minute: "Take it. The station will be here, and peer support exists for exactly this.",
+};
+
+// ------------------------------------------------- what this device can drive
+//
+// devices.js is the one place a headset is described (interface brief), so
+// this reads a device rather than sniffing anything itself. A DEVICES entry
+// may carry an `input` object — { primary, voiceFirst, controllers, hands,
+// keyboard } — and when it does, that decides which tabs the controls panel
+// shows and in what order. Entries that list input kinds as a plain array,
+// and any device with no entry at all, fall back to the run profile.
+
+const PROFILE_INPUTS = {
+  desktop: { primary: "keyboard", voiceFirst: false, controllers: true, hands: false, keyboard: true },
+  vr: { primary: "controllers", voiceFirst: false, controllers: true, hands: true, keyboard: true },
+  mr: { primary: "hands", voiceFirst: true, controllers: false, hands: true, keyboard: true },
+  seethrough: { primary: "voice", voiceFirst: true, controllers: false, hands: false, keyboard: true },
+  assisted: { primary: "voice", voiceFirst: true, controllers: false, hands: false, keyboard: true },
+};
+
+const TAB_FOR_PRIMARY = { keyboard: "keyboard", controllers: "gamepad", gamepad: "gamepad", voice: "voice", hands: "voice" };
+
+/**
+ * Which controls tabs to show, in which order, and which to hide.
+ * `device` is a devices.js entry (or the detector's result) and `profile` is
+ * what applyProfile returned. Returns `{ tabs, primary, voiceFirst, hands,
+ * controllers, keyboard, source }` — `source` says whether the device or the
+ * profile decided.
+ */
+function describeInputs(device = null, profile = null) {
+  const raw = device?.input;
+  const fromDevice = !!raw && !Array.isArray(raw) && typeof raw === "object";
+  const io = fromDevice
+    ? { primary: "keyboard", voiceFirst: false, controllers: true, hands: false, keyboard: true, ...raw }
+    : (PROFILE_INPUTS[profile?.id ?? device?.profile] ?? PROFILE_INPUTS.desktop);
+  const tabs = [];
+  const add = (id) => {
+    if (!id || tabs.includes(id)) return;
+    if (id === "gamepad" && io.controllers === false) return;
+    if (id === "keyboard" && io.keyboard === false) return;
+    tabs.push(id);
+  };
+  add(TAB_FOR_PRIMARY[io.primary]);
+  if (io.voiceFirst) add("voice");
+  add("keyboard");
+  add("gamepad");
+  add("voice");
+  return {
+    tabs: tabs.length ? tabs : ["voice"],
+    primary: io.primary ?? "keyboard",
+    voiceFirst: !!io.voiceFirst,
+    hands: !!io.hands,
+    controllers: io.controllers !== false,
+    keyboard: io.keyboard !== false,
+    source: fromDevice ? "device" : "profile",
+  };
+}
+
+
+/* ===== shared/weather.js ===== */
+// Weather for the plaza. Every station declares the conditions its procedure
+// is actually written for — a wet-weather stormwater grab happens in rain, a
+// scaffold lift happens in wind, an aerial set happens in the dark — and the
+// stage builds them. `?weather=` overrides for a hall that wants to drill a
+// crew in conditions the station does not default to.
+//
+// Each kind carries an operational note: what the weather means for the work,
+// shown to the learner with the station's tagline. That is the point of the
+// layer. A rain shader is decoration; "the deck is slick and the runoff is
+// the sample" is training.
+//
+// Everything here is a few hundred recycled points and a couple of planes,
+// animated by property writes, so a headset pays almost nothing for it. AR
+// mode gets none of it: the learner's own room is the weather there.
+
+const WEATHER_KINDS = ["clear", "overcast", "rain", "fog", "wind", "storm", "smoke", "heat-haze"];
+
+const WEATHER = {
+  clear: {
+    label: "Clear",
+    note: "Clear and still — nothing in the conditions is working against the procedure today.",
+    fog: 1, light: 1, drops: 0, gust: 0, wet: 0, sky: 1,
+  },
+  overcast: {
+    label: "Overcast",
+    note: "Overcast and flat — colour cues and small print are harder to read than the plan assumes.",
+    fog: 0.85, light: 0.8, drops: 0, gust: 0.2, wet: 0.1, sky: 0.9,
+  },
+  rain: {
+    label: "Rain",
+    note: "Steady rain — footing is slick, anything on the deck is going somewhere, and paper gets useless fast.",
+    fog: 0.7, light: 0.72, drops: 900, gust: 0.35, wet: 0.55, sky: 0.8,
+  },
+  fog: {
+    label: "Fog",
+    note: "Thick fog — hand signals stop working at the distance the plan assumes, so everything moves on the radio.",
+    fog: 0.34, light: 0.85, drops: 0, gust: 0.1, wet: 0.25, sky: 1.25,
+  },
+  wind: {
+    label: "High wind",
+    note: "Sustained wind with gusts — load charts derate, anything with a face on it becomes a sail, and dropped objects travel.",
+    fog: 0.95, light: 0.95, drops: 0, gust: 1, wet: 0, sky: 1,
+  },
+  storm: {
+    label: "Storm",
+    note: "Driving rain and gusting wind — this is the condition most procedures say to stop for, so the call to keep going is part of the task.",
+    fog: 0.55, light: 0.62, drops: 1400, gust: 1.2, wet: 0.7, sky: 0.7,
+  },
+  // Wildfire smoke: the air itself is the hazard. The sky and the fog take
+  // the plume's colour, ash drifts down, and the sun is a dim orange disc.
+  // The note carries the rule a crew actually works to.
+  smoke: {
+    label: "Wildfire smoke",
+    note: "Wildfire smoke — the AQI decides the shift: under Cal/OSHA's wildfire smoke rule, respirators are offered when PM2.5 reaches an AQI of 151 and required above 500, and every instrument on site is reading the plume, not the work.",
+    fog: 0.42, light: 0.66, drops: 0, gust: 0.25, wet: 0, sky: 0.8, tint: 0x8a5a33, ash: 240,
+  },
+  // Heat haze over open ground: no rain, a warm low sun, and the ground-level
+  // shimmer of hot, moving air — reusing the same windborne-dust pass that
+  // "wind" uses, because a hot dust devil on open range looks exactly like
+  // one, tinted warm instead of grey. The note defers work/rest and water to
+  // the crew's own heat-illness prevention plan; no figure is guessed here.
+  "heat-haze": {
+    label: "Heat haze",
+    note: "High heat over open ground — the crew's own heat-illness prevention plan sets the work/rest schedule and the water, per the forecast for the day, not a number guessed here.",
+    fog: 0.92, light: 0.94, drops: 0, gust: 0.82, wet: 0, sky: 1, tint: 0xd9b46a,
+  },
+};
+
+/** The station's own conditions, unless the URL asks for something else. */
+function weatherFor(stationWeather) {
+  const q = typeof location !== "undefined" ? new URLSearchParams(location.search).get("weather") : null;
+  if (q && WEATHER_KINDS.includes(q)) return q;
+  return WEATHER_KINDS.includes(stationWeather) ? stationWeather : "clear";
+}
+
+/** A falling-and-recycling point cloud over a box around the plaza. */
+function rainfall(parent, count, { spread = 34, height = 16, speed = 22, slant = 0, colour = 0x9fc6e0, size = 0.055 } = {}) {
+  const positions = new Float32Array(count * 3);
+  const fall = new Float32Array(count);
+  for (let i = 0; i < count; i++) {
+    positions[i * 3] = (Math.random() - 0.5) * spread;
+    positions[i * 3 + 1] = Math.random() * height;
+    positions[i * 3 + 2] = (Math.random() - 0.5) * spread;
+    fall[i] = speed * (0.75 + Math.random() * 0.5);
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+  const mat = new THREE.PointsMaterial({ color: colour, size, transparent: true, opacity: 0.62, depthWrite: false, sizeAttenuation: true });
+  mat.userData.ownMaterial = true;
+  const pts = new THREE.Points(geo, mat);
+  pts.frustumCulled = false;
+  parent.add(pts);
+  pts.userData.step = (dt, gust) => {
+    for (let i = 0; i < count; i++) {
+      positions[i * 3 + 1] -= fall[i] * dt;
+      positions[i * 3] += (slant + gust) * dt * 3;
+      if (positions[i * 3 + 1] < 0) {
+        positions[i * 3 + 1] = height;
+        positions[i * 3] = (Math.random() - 0.5) * spread;
+        positions[i * 3 + 2] = (Math.random() - 0.5) * spread;
+      } else if (Math.abs(positions[i * 3]) > spread / 2) {
+        positions[i * 3] = -Math.sign(positions[i * 3]) * spread / 2;
+      }
+    }
+    geo.attributes.position.needsUpdate = true;
+  };
+  return pts;
+}
+
+/** Wind-borne dust and litter: slow horizontal streaks at working height. */
+function windborne(parent, count = 90, { spread = 26 } = {}) {
+  const positions = new Float32Array(count * 3);
+  for (let i = 0; i < count; i++) {
+    positions[i * 3] = (Math.random() - 0.5) * spread;
+    positions[i * 3 + 1] = 0.2 + Math.random() * 4.5;
+    positions[i * 3 + 2] = (Math.random() - 0.5) * spread;
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+  const mat = new THREE.PointsMaterial({ color: 0xcdbfa6, size: 0.07, transparent: true, opacity: 0.35, depthWrite: false, sizeAttenuation: true });
+  mat.userData.ownMaterial = true;
+  const pts = new THREE.Points(geo, mat);
+  pts.frustumCulled = false;
+  parent.add(pts);
+  pts.userData.step = (dt, gust) => {
+    for (let i = 0; i < count; i++) {
+      positions[i * 3] += (2.2 + gust * 5) * dt;
+      positions[i * 3 + 1] += Math.sin(positions[i * 3] * 0.7 + i) * dt * 0.25;
+      if (positions[i * 3] > spread / 2) { positions[i * 3] = -spread / 2; positions[i * 3 + 2] = (Math.random() - 0.5) * spread; }
+    }
+    geo.attributes.position.needsUpdate = true;
+  };
+  return pts;
+}
+
+/**
+ * Build the weather over a plaza.
+ *   parent  a group inside the stage (freed with it)
+ *   scene   for the fog, which the caller has already set for time of day
+ *   kind    one of WEATHER_KINDS
+ *   o       { wetDeck: false } leaves out the round wet-plaza disc, for a
+ *           stage whose ground is not the round plaza (a bridge deck)
+ * Returns { animate(t, dt), gustAt(t), label, note, lightScale, kind }.
+ */
+function buildWeather(parent, scene, kind = "clear", o = {}) {
+  const w = WEATHER[WEATHER_KINDS.includes(kind) ? kind : "clear"];
+  const g = new THREE.Group();
+  parent.add(g);
+
+  if (scene?.fog && w.fog !== 1) {
+    scene.fog.near *= w.fog;
+    scene.fog.far *= w.fog;
+  }
+  if (scene?.background?.isColor && w.sky !== 1) {
+    scene.background.multiplyScalar(w.sky);
+  }
+  // A tinted kind pulls the sky and the fog toward the plume's colour, so
+  // the horizon reads as smoke rather than as an evening.
+  if (w.tint !== undefined) {
+    const tint = new THREE.Color(w.tint);
+    if (scene?.background?.isColor) scene.background.lerp(tint, 0.55);
+    if (scene?.fog?.color) scene.fog.color.lerp(tint, 0.6);
+  }
+
+  // Wet deck: a dark, very reflective disc just above the plaza so the lights
+  // and the station's accent smear across it the way they do on a wet apron.
+  let wet = null;
+  if (w.wet > 0 && o.wetDeck !== false) {
+    const geo = new THREE.CircleGeometry(14.8, 48);
+    const mat = new THREE.MeshStandardMaterial({ color: 0x0a1016, roughness: 0.08, metalness: 0.9, transparent: true, opacity: w.wet * 0.75, depthWrite: false });
+    mat.userData.ownMaterial = true;
+    wet = new THREE.Mesh(geo, mat);
+    wet.rotation.x = -Math.PI / 2;
+    wet.position.y = 0.062;
+    g.add(wet);
+  }
+
+  const drops = w.drops > 0 ? rainfall(g, w.drops, { speed: kind === "storm" ? 28 : 20, slant: kind === "storm" ? 1.4 : 0.5, size: kind === "storm" ? 0.075 : 0.062 }) : null;
+  const dust = w.gust >= 0.8 ? windborne(g) : null;
+  // Ash: the same recycling cloud as rain, falling slowly, pale, and few.
+  const ash = w.ash > 0 ? rainfall(g, w.ash, { speed: 1.1, slant: 0.25, colour: 0xd9d1c4, size: 0.05, height: 12 }) : null;
+  if (w.tint !== undefined) {
+    const sun = new THREE.DirectionalLight(0xff9a4a, 0.55);
+    sun.position.set(8, 6, -14);
+    g.add(sun);
+  }
+
+  // A cold overhead fill so a rainy or foggy plaza reads as weather rather
+  // than as an under-lit scene.
+  if (w.light < 0.95) {
+    const damp = new THREE.HemisphereLight(0x9fb4c6, 0x1a222c, (1 - w.light) * 2.4);
+    g.add(damp);
+  }
+  // Lightning on a storm: one shared flash light, dark except when it fires.
+  let flash = null, nextFlash = 3 + Math.random() * 6, flashFor = 0;
+  if (kind === "storm") {
+    flash = new THREE.DirectionalLight(0xdfeaf2, 0);
+    flash.position.set(-6, 14, -10);
+    g.add(flash);
+  }
+
+  const gustAt = (t) => w.gust === 0 ? 0 : w.gust * (0.55 + Math.sin(t * 0.7) * 0.25 + Math.sin(t * 2.3) * 0.2);
+
+  return {
+    kind: WEATHER_KINDS.includes(kind) ? kind : "clear",
+    label: w.label,
+    note: w.note,
+    lightScale: w.light,
+    gustAt,
+    root: g,
+    animate(t, dt) {
+      const gust = gustAt(t);
+      if (drops) drops.userData.step(dt, gust);
+      if (dust) dust.userData.step(dt, gust);
+      if (ash) ash.userData.step(dt, gust);
+      if (wet) wet.material.opacity = w.wet * (0.62 + Math.sin(t * 0.8) * 0.08);
+      if (flash) {
+        if (flashFor > 0) {
+          flashFor -= dt;
+          flash.intensity = flashFor > 0 ? 2.2 + Math.random() * 1.6 : 0;
+        } else {
+          nextFlash -= dt;
+          if (nextFlash <= 0) { flashFor = 0.12 + Math.random() * 0.12; nextFlash = 5 + Math.random() * 12; }
+        }
+      }
+    },
+  };
+}
+
+
+/* ===== shared/records.js ===== */
+// Training records — the auditable attempt log an employer, union hall or
+// LMS actually needs from a simulator, as opposed to the gamified profile in
+// game.js (XP, ranks, leaderboards) which is there to motivate.
+//
+// Every finished run appends one immutable entry. Entries carry what an
+// assessment record needs (station, category, the real certification the
+// station maps to, score, stars, corrections, unsafe actions, time vs par,
+// pass/fail against a stated rule) and nothing it must not (no biometrics,
+// no free text beyond the learner's own crew tag). Storage is this browser
+// only, like everything else in these apps; export is the hand-off — CSV for
+// a spreadsheet or HR system, xAPI 1.0.3 statements for a Learning Record
+// Store.
+//
+// Shared by every app on this engine; SmartCiti.X is the first to wire it.
+
+const RECORDS_KEY = "vr-training-records-v1";
+const MAX_ENTRIES = 1000;
+
+/**
+ * The pass rule, stated once so the results card, the export and the
+ * summary can never disagree: no unsafe action, at most one correction,
+ * and finished inside 1.5x par (which is exactly the engine's 2-star
+ * threshold, so stars >= 2 already encodes the time and correction limits).
+ */
+function passed(entry) {
+  return (entry.stars | 0) >= 2 && (entry.hazardHits | 0) === 0;
+}
+
+/**
+ * The interruption tally, lifted onto the record itself from the session's
+ * interruptSummary (game.js) rather than left buried in `debrief.interrupts`.
+ *
+ * The competency layer (shared/competency.js) asks "was every interruption
+ * answered" of every record it judges, and a proof rule should not have to
+ * dig through a debrief object — nor should it break on a record written
+ * before the debrief existed. `null` means no interruption fired in that run,
+ * which the mastery rule reads as nothing to answer.
+ */
+function interruptTally(entry) {
+  const iv = entry?.interrupts ?? entry?.debrief?.interrupts;
+  if (!iv) return null;
+  return { answered: iv.answered | 0, wrong: iv.wrong | 0, missed: iv.missed | 0 };
+}
+
+function loadRecords() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(RECORDS_KEY) || "[]");
+    return Array.isArray(raw) ? raw : [];
+  } catch (_) { return []; }
+}
+
+function saveRecords(list) {
+  try { localStorage.setItem(RECORDS_KEY, JSON.stringify(list)); } catch (_) { /* private mode — run unsaved */ }
+}
+
+const TrainingRecords = {
+  /** Oldest first. */
+  list() { return loadRecords(); },
+
+  count() { return loadRecords().length; },
+
+  /**
+   * Append one attempt. `entry` is the plain data a finished Session yields
+   * (see SmartCiti.X's showResults); this adds the id, timestamp and the
+   * pass verdict so callers never compute it themselves.
+   */
+  record(entry) {
+    const list = loadRecords();
+    const full = {
+      id: `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`,
+      at: new Date().toISOString(),
+      ...entry,
+    };
+    full.passed = passed(full);
+    full.interrupts = interruptTally(full);
+    list.push(full);
+    if (list.length > MAX_ENTRIES) list.splice(0, list.length - MAX_ENTRIES);
+    saveRecords(list);
+    return full;
+  },
+
+  clear() { try { localStorage.removeItem(RECORDS_KEY); } catch (_) { /* ignore */ } },
+
+  /**
+   * Per-category roll-up for an instructor view: attempts, passes, distinct
+   * stations passed, best stars. Categories come from the entries themselves
+   * so a record from a since-renamed category still counts.
+   */
+  summary(list = loadRecords()) {
+    const by = new Map();
+    for (const r of list) {
+      const key = r.category ?? "Uncategorized";
+      if (!by.has(key)) by.set(key, { category: key, attempts: 0, passes: 0, stations: new Set(), stationsPassed: new Set(), bestStars: 0 });
+      const s = by.get(key);
+      s.attempts += 1;
+      s.stations.add(r.simId);
+      if (r.passed) { s.passes += 1; s.stationsPassed.add(r.simId); }
+      s.bestStars = Math.max(s.bestStars, r.stars | 0);
+    }
+    return [...by.values()].map((s) => ({
+      category: s.category, attempts: s.attempts, passes: s.passes,
+      stations: s.stations.size, stationsPassed: s.stationsPassed.size, bestStars: s.bestStars,
+    }));
+  },
+};
+
+// -------------------------------------------------------------------- export
+
+const CSV_COLUMNS = [
+  "at", "learner", "learnerName", "learnerId", "homePage", "app", "simId", "simName", "category", "trade", "certification", "system",
+  "score", "stars", "errors", "hazardHits", "holdBreaks", "seconds", "parSeconds", "passed",
+  "badges", "level", "levelName", "id",
+];
+
+function csvCell(v) {
+  if (v == null) return "";
+  const s = Array.isArray(v) ? v.join("; ") : String(v);
+  return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+}
+
+/** RFC 4180 CSV, one row per attempt, columns in CSV_COLUMNS order. */
+function toCSV(list) {
+  const lines = [CSV_COLUMNS.join(",")];
+  for (const r of list) lines.push(CSV_COLUMNS.map((c) => csvCell(r[c])).join(","));
+  return lines.join("\r\n") + "\r\n";
+}
+
+/** ISO 8601 duration from whole seconds, e.g. 125 -> "PT2M5S". */
+function isoDuration(seconds) {
+  const s = Math.max(0, Math.round(seconds | 0));
+  const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+  return `PT${h ? `${h}H` : ""}${m ? `${m}M` : ""}${sec || (!h && !m) ? `${sec}S` : ""}`;
+}
+
+/**
+ * xAPI 1.0.3 statements — the standard a Learning Record Store ingests.
+ * `homePage` scopes the activity ids and is the fallback actor account
+ * home; a record that carries a launch identity (learnerId/homePage from
+ * shared/identity.js) uses that as the actor account instead, so the LRS
+ * can join it to the LMS user. Extensions carry the assessment detail
+ * (category, certification, stars, unsafe actions) that the core result
+ * object has no field for.
+ */
+function toXAPI(list, { actorName = "YOU", homePage = "https://smartciti.example" } = {}) {
+  const ext = (k) => `${homePage}/xapi/ext/${k}`;
+  return {
+    statements: list.map((r) => ({
+      id: r.id,
+      timestamp: r.at,
+      actor: {
+        objectType: "Agent",
+        name: r.learnerName ?? r.learner ?? actorName,
+        account: { homePage: r.homePage ?? homePage, name: r.learnerId ?? r.learner ?? actorName },
+      },
+      verb: {
+        id: r.passed ? "http://adlnet.gov/expapi/verbs/passed" : "http://adlnet.gov/expapi/verbs/failed",
+        display: { "en-US": r.passed ? "passed" : "failed" },
+      },
+      object: {
+        objectType: "Activity",
+        id: `${homePage}/${r.app ?? "app"}/${r.simId}`,
+        definition: {
+          name: { "en-US": r.simName ?? r.simId },
+          description: { "en-US": `${r.trade ?? ""}${r.certification ? ` — ${r.certification}` : ""}`.trim() },
+          type: "http://adlnet.gov/expapi/activities/simulation",
+        },
+      },
+      result: {
+        score: { raw: r.score | 0, min: 0 },
+        success: !!r.passed,
+        completion: true,
+        duration: isoDuration(r.seconds),
+        extensions: {
+          [ext("stars")]: r.stars | 0,
+          [ext("corrections")]: r.errors | 0,
+          [ext("unsafe-actions")]: r.hazardHits | 0,
+          [ext("hold-breaks")]: r.holdBreaks | 0,
+          // The step-by-step review, so an LRS holds where a run went slow
+          // or wrong rather than only what it scored.
+          ...(r.debrief ? {
+            [ext("clean-steps")]: r.debrief.cleanSteps | 0,
+            [ext("median-step-seconds")]: r.debrief.medianSeconds ?? 0,
+            [ext("slowest-step")]: r.debrief.slowest ? `${r.debrief.slowest.title} (${r.debrief.slowest.seconds}s)` : null,
+            [ext("step-log")]: (r.debrief.steps ?? []).map((st) => ({
+              id: st.id, seconds: st.seconds, corrections: st.corrections, hazards: st.hazards,
+            })),
+            // Interruptions are assessed separately from the procedure: an
+            // LRS should be able to ask "who misses alarms" without unpicking
+            // the step log to find out.
+            ...(r.debrief.interrupts ? {
+              [ext("interrupts-caught")]: r.debrief.interrupts.answered,
+              [ext("interrupts-missed")]: r.debrief.interrupts.missed + r.debrief.interrupts.wrong,
+              [ext("interrupt-log")]: r.debrief.interrupts.log.map((l) => ({
+                id: l.id, outcome: l.outcome, seconds: l.seconds,
+              })),
+            } : {}),
+          } : {}),
+          [ext("par-seconds")]: r.parSeconds ?? null,
+          [ext("badges")]: r.badges ?? [],
+        },
+      },
+      context: {
+        platform: "SmartCiti.X ~VR Simulators",
+        extensions: {
+          [ext("category")]: r.category ?? null,
+          [ext("certification")]: r.certification ?? null,
+          [ext("system")]: r.system ?? null,
+          [ext("learner-level")]: r.level ?? null,
+        },
+      },
+    })),
+  };
+}
+
+// ------------------------------------------------------------- credentials
+
+/** Distinct certifications with a passing attempt — the latest pass for each. */
+function earnedCertifications(list) {
+  const by = new Map();
+  for (const r of list) {
+    if (!r.passed || !r.certification) continue;
+    const prev = by.get(r.certification);
+    if (!prev || String(r.at) > String(prev.at)) by.set(r.certification, r);
+  }
+  return [...by.values()].sort((a, b) => String(b.at).localeCompare(String(a.at)));
+}
+
+function badgeImage(label) {
+  const safe = String(label).replace(/[<>&"]/g, "");
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240"><rect width="240" height="240" rx="24" fill="#0b1219"/>` +
+    `<circle cx="120" cy="104" r="62" fill="none" stroke="#37d6c0" stroke-width="10"/>` +
+    `<text x="120" y="196" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#e6f0f6">${safe}</text></svg>`;
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+}
+
+/**
+ * Open Badges 2.0 assertions — the portable credential format LMSs, wallets
+ * and other training ecosystems ingest — one per certification with a
+ * passing attempt. These are self-asserted by a static page: an issuer that
+ * hosts the BadgeClass and Assertion URLs is what makes them verifiable, so
+ * the ids are laid out as URLs under `homePage` ready for that host. The
+ * evidence entry points at the same xAPI statement the LRS export carries.
+ */
+function toOpenBadges(list, { issuerName = "SmartCiti.X Training Network", homePage = "https://smartciti.example", actorName = "YOU" } = {}) {
+  return earnedCertifications(list).map((r) => {
+    const home = r.homePage ?? homePage;
+    const who = r.learnerId ?? r.learner ?? actorName;
+    return {
+      "@context": "https://w3id.org/openbadges/v2",
+      type: "Assertion",
+      id: `${home}/credentials/${r.id}`,
+      recipient: { type: "url", hashed: false, identity: `${home}/learners/${encodeURIComponent(who)}`, name: r.learnerName ?? r.learner ?? actorName },
+      issuedOn: r.at,
+      verification: { type: "hosted" },
+      badge: {
+        type: "BadgeClass",
+        id: `${homePage}/badges/${r.app ?? "app"}/${r.simId}`,
+        name: `${r.simName ?? r.simId} — ${r.certification}`,
+        description: `Passed the ${r.simName ?? r.simId} simulator (${r.category ?? "uncategorized"}): ${r.stars | 0} stars, ` +
+          `${r.hazardHits | 0} unsafe actions, ${r.errors | 0} corrections. Maps to: ${r.certification}.`,
+        image: badgeImage(r.simName ?? r.simId),
+        criteria: { narrative: "Two or more stars with no unsafe action on the station's real ordered procedure, assessed by the SmartCiti.X procedure engine. Passing a simulator evidences readiness for the named certification; it is not the certification itself." },
+        issuer: { type: "Profile", id: `${homePage}/issuer`, name: issuerName, url: homePage },
+        tags: [r.category, r.trade].filter(Boolean),
+      },
+      evidence: [{ id: `${homePage}/xapi/statements/${r.id}`, narrative: `Score ${r.score | 0}, ${r.stars | 0} stars, ${r.seconds | 0} s against par ${r.parSeconds ?? "—"} s; xAPI statement ${r.id}.` }],
+    };
+  });
+}
+
+/** Browser-only: hand the learner a file. No-op outside a DOM. */
+function download(filename, text, mime = "text/plain") {
+  if (typeof document === "undefined" || typeof URL?.createObjectURL !== "function") return false;
+  const blob = new Blob([text], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  return true;
+}
+
+
+/* ===== fairway/js/course-stub.js ===== */
+// Fairway Park — course stub.
+//
+// Team OW1 is landing the real course as WebXR/shared/fairway.js, exporting
+// FAIRWAY_HOLES, FAIRWAY_FACILITY, buildFairwayPark(parent, opts),
+// fairwayHeight(x, z) and fairwayLieAt(x, z). This module is a small,
+// original nine-hole layout against that exact interface, so Fairway Park
+// (WebXR/fairway) runs and its checks pass before that lands — see
+// WebXR/fairway/js/course.js for the one-line switch that swaps this stub
+// for the real course once it exists.
+//
+// Coordinates are metres in the same flat x/z ground plane every WebXR app
+// builds on (y is up). Holes are laid out one per 500 m lane along x, far
+// enough apart that no hole's rough ever reaches another's.
+
+const LANE = 500;
+const FAIRWAY_HALF = 11;   // metres either side of the polyline: short rough starts here
+const ROUGH_HALF = 34;     // metres either side of the polyline: out of bounds starts here
+const TEE_RADIUS = 3.5;
+
+function hole(n, { par, yards, length, bend = 0, bendAt = 0.55, greenR = 9, bunkers = [], water = [] }) {
+  const baseX = (n - 1) * LANE + 20;
+  const tee = [baseX, 0];
+  const pin = [baseX + length, bend];
+  const bendPoint = bend ? [baseX + length * bendAt, bend * 0.55] : null;
+  const fairway = bendPoint ? [tee, bendPoint, pin] : [tee, pin];
+  return {
+    number: n,
+    par,
+    yards,
+    tee,
+    pin,
+    fairway,
+    green: { centre: pin, radius: greenR },
+    // Bunker/water centres given as a fraction of the tee->pin run plus a
+    // lateral offset in metres, resolved to world coordinates here so the
+    // hole definition below stays readable.
+    bunkers: bunkers.map(({ at, side, r }) => ({ centre: alongHole(tee, pin, at, side), radius: r })),
+    water: water.map(({ at, side, r }) => ({ centre: alongHole(tee, pin, at, side), radius: r })),
+  };
+}
+
+function alongHole(tee, pin, at, side) {
+  const dx = pin[0] - tee[0], dz = pin[1] - tee[1];
+  const len = Math.hypot(dx, dz) || 1;
+  const ux = dx / len, uz = dz / len;
+  const px = -uz, pz = ux; // perpendicular, left-handed
+  return [tee[0] + ux * at * len + px * side, tee[1] + uz * at * len + pz * side];
+}
+
+const FAIRWAY_HOLES = [
+  hole(1, { par: 4, yards: 350, length: 315, bunkers: [{ at: 0.86, side: -13, r: 5 }] }),
+  hole(2, { par: 3, yards: 155, length: 140, water: [{ at: 0.78, side: 0, r: 8 }] }),
+  hole(3, { par: 5, yards: 525, length: 470, bend: 46, bendAt: 0.55,
+    bunkers: [{ at: 0.9, side: 10, r: 5 }, { at: 0.94, side: -9, r: 4 }],
+    water: [{ at: 0.5, side: 22, r: 12 }] }),
+  hole(4, { par: 4, yards: 300, length: 270, water: [{ at: 0.45, side: -17, r: 10 }], bunkers: [{ at: 0.88, side: 11, r: 4.5 }] }),
+  hole(5, { par: 3, yards: 165, length: 150, bunkers: [{ at: 0.85, side: 12, r: 4.5 }, { at: 0.85, side: -12, r: 4.5 }] }),
+  hole(6, { par: 4, yards: 380, length: 340, bend: -40, bendAt: 0.5, bunkers: [{ at: 0.48, side: -18, r: 6 }] }),
+  hole(7, { par: 5, yards: 495, length: 445, water: [{ at: 0.62, side: 0, r: 13 }],
+    bunkers: [{ at: 0.92, side: 10, r: 5 }, { at: 0.9, side: -10, r: 4.5 }] }),
+  hole(8, { par: 3, yards: 175, length: 158, water: [{ at: 0.8, side: 0, r: 9 }], bunkers: [{ at: 0.95, side: 12, r: 4 }] }),
+  hole(9, { par: 4, yards: 340, length: 305, bunkers: [{ at: 0.5, side: 14, r: 5.5 }, { at: 0.9, side: -11, r: 4.5 }] }),
+];
+
+// A short outdoor sports facility beside the ninth green: a straight
+// hundred-metre track, a half-court with one hoop, and a penalty-kick pitch.
+// Coordinates are in the same world frame, tucked into an unused lane so
+// nothing overlaps a hole's rough.
+const FX = 9 * LANE + 40;
+const FAIRWAY_FACILITY = {
+  track: { start: [FX, -40], finish: [FX, -140], laneWidth: 2.2, lanes: 4 },
+  court: { centre: [FX + 60, -60], hoop: [FX + 60, -75], freeThrow: [FX + 60, -60], radius: 14 },
+  pitch: { spot: [FX + 60, -110], goal: [FX + 60, -128], goalWidth: 7.32, radius: 20 },
+  clubhouse: [FX - 30, -20],
+};
+
+// ------------------------------------------------------------------ terrain
+
+/** Gentle rolling ground plus small per-green undulation, in metres of rise. */
+function fairwayHeight(x, z) {
+  const rolling = Math.sin(x * 0.011) * Math.cos(z * 0.013) * 0.6;
+  const undulation = Math.sin(x * 0.07 + z * 0.05) * Math.cos(z * 0.06) * 0.18;
+  return rolling + undulation;
+}
+
+// -------------------------------------------------------------------- lie
+
+function distToSegment(px, pz, ax, az, bx, bz) {
+  const dx = bx - ax, dz = bz - az;
+  const len2 = dx * dx + dz * dz || 1e-9;
+  let t = ((px - ax) * dx + (pz - az) * dz) / len2;
+  t = Math.max(0, Math.min(1, t));
+  const cx = ax + dx * t, cz = az + dz * t;
+  return Math.hypot(px - cx, pz - cz);
+}
+
+function distToPolyline(x, z, pts) {
+  let best = Infinity;
+  for (let i = 0; i < pts.length - 1; i++) {
+    best = Math.min(best, distToSegment(x, z, pts[i][0], pts[i][1], pts[i + 1][0], pts[i + 1][1]));
+  }
+  return best;
+}
+
+// A hole's own fairway polyline runs tee to pin, which is exactly right for
+// drawing it, but a real shot can fly past the green (a hot wedge, a badly
+// judged approach) or dribble behind the tee. Real courses have rough well
+// past both ends before out of bounds starts; this stub's holes are packed
+// closer than that, so the corridor used for LIE lookups (never for drawing)
+// is extended a further 70 m past the pin and 20 m behind the tee, each along
+// the hole's own last/first heading, so an overshot shot lands in this
+// hole's rough rather than falling through the gap between two lanes.
+const cache = new WeakMap();
+function extendedCorridor(h) {
+  let ext = cache.get(h);
+  if (ext) return ext;
+  const pts = h.fairway;
+  const [t0x, t0z] = pts[0], [t1x, t1z] = pts[1] ?? pts[0];
+  const tlen = Math.hypot(t1x - t0x, t1z - t0z) || 1;
+  const behind = [t0x - ((t1x - t0x) / tlen) * 20, t0z - ((t1z - t0z) / tlen) * 20];
+  const [p0x, p0z] = pts[pts.length - 2] ?? pts[0], [p1x, p1z] = pts[pts.length - 1];
+  const plen = Math.hypot(p1x - p0x, p1z - p0z) || 1;
+  const beyond = [p1x + ((p1x - p0x) / plen) * 70, p1z + ((p1z - p0z) / plen) * 70];
+  ext = [behind, ...pts, beyond];
+  cache.set(h, ext);
+  return ext;
+}
+
+/** Which lane (0-based hole index) a point is nearest to, for cheap lookups. */
+function nearestHole(x) {
+  let idx = Math.round((x - 20) / LANE);
+  return Math.max(0, Math.min(FAIRWAY_HOLES.length - 1, idx));
+}
+
+function distToFacilityPath(x, z) {
+  // The cart path is modelled as the straight line from each green to the
+  // next tee, plus the run from the ninth green to the clubhouse — a cart
+  // that strays from that line is off the path.
+  let best = Infinity;
+  for (let i = 0; i < FAIRWAY_HOLES.length - 1; i++) {
+    best = Math.min(best, distToSegment(x, z, FAIRWAY_HOLES[i].pin[0], FAIRWAY_HOLES[i].pin[1], FAIRWAY_HOLES[i + 1].tee[0], FAIRWAY_HOLES[i + 1].tee[1]));
+  }
+  const last = FAIRWAY_HOLES[FAIRWAY_HOLES.length - 1];
+  best = Math.min(best, distToSegment(x, z, last.pin[0], last.pin[1], FAIRWAY_FACILITY.clubhouse[0], FAIRWAY_FACILITY.clubhouse[1]));
+  return best;
+}
+
+/**
+ * 'tee' | 'fairway' | 'rough' | 'green' | 'bunker' | 'water' | 'path' | 'out'.
+ * Checked in the order that matters for scoring: greens and hazards and tee
+ * boxes first — a putt or a chip near the pin must always read as the green
+ * it lands on, never the cart path that happens to start at that same pin —
+ * then the cart path (it threads through rough between every green and the
+ * next tee), then the fairway corridor, then rough, then out of bounds.
+ */
+function fairwayLieAt(x, z) {
+  const lanes = new Set([nearestHole(x) - 1, nearestHole(x), nearestHole(x) + 1].filter((i) => i >= 0 && i < FAIRWAY_HOLES.length));
+  for (const i of lanes) {
+    const h = FAIRWAY_HOLES[i];
+    if (Math.hypot(x - h.green.centre[0], z - h.green.centre[1]) <= h.green.radius) return "green";
+  }
+  for (const i of lanes) {
+    const h = FAIRWAY_HOLES[i];
+    for (const b of h.bunkers) if (Math.hypot(x - b.centre[0], z - b.centre[1]) <= b.radius) return "bunker";
+  }
+  for (const i of lanes) {
+    const h = FAIRWAY_HOLES[i];
+    for (const w of h.water) if (Math.hypot(x - w.centre[0], z - w.centre[1]) <= w.radius) return "water";
+  }
+  for (const i of lanes) {
+    const h = FAIRWAY_HOLES[i];
+    if (Math.hypot(x - h.tee[0], z - h.tee[1]) <= TEE_RADIUS) return "tee";
+  }
+  if (distToFacilityPath(x, z) <= 1.6) return "path";
+
+  let bestFairway = Infinity, bestHole = -1;
+  for (const i of lanes) {
+    const d = distToPolyline(x, z, extendedCorridor(FAIRWAY_HOLES[i]));
+    if (d < bestFairway) { bestFairway = d; bestHole = i; }
+  }
+  if (bestHole < 0) return "out";
+  if (bestFairway <= FAIRWAY_HALF) return "fairway";
+  if (bestFairway <= ROUGH_HALF) return "rough";
+  // Outside this hole's rough: still "rough" if it falls inside a
+  // neighbouring lane's own corridor test above would have caught it, so
+  // reaching here means it is past every nearby hole's rough — out of bounds.
+  return "out";
+}
+
+// -------------------------------------------------------------------- build
+
+function disc(THREE, radius, color, opts = {}) {
+  const geo = new THREE.CircleGeometry(radius, 24);
+  geo.rotateX(-Math.PI / 2);
+  const mat = new THREE.MeshStandardMaterial({ color, roughness: opts.roughness ?? 0.9, metalness: 0 });
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.receiveShadow = true;
+  return mesh;
+}
+
+function ribbon(THREE, pts, half, color) {
+  // A flat strip of quads following the polyline — enough to read as a
+  // fairway from above without a real mesh-skinning pass.
+  const group = new THREE.Group();
+  for (let i = 0; i < pts.length - 1; i++) {
+    const [ax, az] = pts[i], [bx, bz] = pts[i + 1];
+    const dx = bx - ax, dz = bz - az;
+    const len = Math.hypot(dx, dz) || 1;
+    const geo = new THREE.PlaneGeometry(half * 2, len);
+    geo.rotateX(-Math.PI / 2);
+    const mesh = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ color, roughness: 0.95 }));
+    mesh.position.set((ax + bx) / 2, 0.01, (az + bz) / 2);
+    mesh.rotation.y = -Math.atan2(dz, dx) + Math.PI / 2;
+    mesh.receiveShadow = true;
+    group.add(mesh);
+  }
+  return group;
+}
+
+function flag(THREE, pos, colour = 0xe0453f) {
+  const g = new THREE.Group();
+  const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 2.1, 6), new THREE.MeshStandardMaterial({ color: 0xd9dde2 }));
+  pole.position.y = 1.05;
+  const cloth = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 0.32), new THREE.MeshStandardMaterial({ color: colour, side: THREE.DoubleSide }));
+  cloth.position.set(0.26, 1.85, 0);
+  const cup = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 0.05, 12), new THREE.MeshStandardMaterial({ color: 0x11140f }));
+  cup.position.y = 0.02;
+  g.add(pole, cloth, cup);
+  g.position.set(pos[0], 0, pos[1]);
+  return g;
+}
+
+function teeMarkers(THREE, pos) {
+  const g = new THREE.Group();
+  for (const side of [-1, 1]) {
+    const m = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.18, 0.18), new THREE.MeshStandardMaterial({ color: 0x2f6fe0 }));
+    m.position.set(pos[0] + side * 1.1, 0.09, pos[1]);
+    g.add(m);
+  }
+  return g;
+}
+
+/**
+ * Builds the whole park into `parent` (a THREE.Group). `opts.THREE` is the
+ * three.js module the app already has loaded (this stub never imports its
+ * own copy, so it never fights the app's version). Kept to a modest mesh
+ * budget: a handful of flat shapes per hole rather than sculpted terrain.
+ */
+function buildFairwayPark(parent, opts = {}) {
+  const THREE = opts.THREE;
+  if (!THREE) throw new Error("buildFairwayPark(parent, { THREE }) needs a three.js module");
+  const root = new THREE.Group();
+  root.name = "fairway-park";
+
+  const roughMat = new THREE.MeshStandardMaterial({ color: 0x2f6b2f, roughness: 1 });
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(FAIRWAY_HOLES.length * LANE + 400, 400), roughMat);
+  ground.rotation.x = -Math.PI / 2;
+  ground.position.set((FAIRWAY_HOLES.length * LANE) / 2, -0.02, -60);
+  ground.receiveShadow = true;
+  root.add(ground);
+
+  for (const h of FAIRWAY_HOLES) {
+    root.add(ribbon(THREE, h.fairway, FAIRWAY_HALF, 0x4c9a3f));
+    root.add(disc(THREE, h.green.radius, 0x63c24a, { roughness: 0.6 }));
+    const g = root.children[root.children.length - 1];
+    g.position.set(h.green.centre[0], 0.015, h.green.centre[1]);
+    for (const b of h.bunkers) {
+      const bm = disc(THREE, b.radius, 0xdcc281, { roughness: 1 });
+      bm.position.set(b.centre[0], 0.012, b.centre[1]);
+      root.add(bm);
+    }
+    for (const w of h.water) {
+      const wm = disc(THREE, w.radius, 0x2f7fbf, { roughness: 0.2, metalness: 0.1 });
+      wm.position.set(w.centre[0], 0.008, w.centre[1]);
+      root.add(wm);
+    }
+    root.add(teeMarkers(THREE, h.tee));
+    root.add(flag(THREE, h.pin));
+  }
+
+  // The path: a thin grey ribbon linking green to next tee.
+  const pathPts = FAIRWAY_HOLES.map((h) => h.pin).flatMap((p, i) => (i === 0 ? [p] : [p]));
+  for (let i = 0; i < FAIRWAY_HOLES.length - 1; i++) {
+    root.add(ribbon(THREE, [FAIRWAY_HOLES[i].pin, FAIRWAY_HOLES[i + 1].tee], 1.4, 0x9a978d));
+  }
+
+  // The sports facility: a track oval (outline only), a court disc with a
+  // hoop post, and a pitch rectangle with a goal frame.
+  const fac = new THREE.Group();
+  fac.name = "fairway-facility";
+  const trackMat = new THREE.MeshStandardMaterial({ color: 0xaa5a3a, roughness: 1 });
+  const trackLen = Math.hypot(FAIRWAY_FACILITY.track.finish[0] - FAIRWAY_FACILITY.track.start[0], FAIRWAY_FACILITY.track.finish[1] - FAIRWAY_FACILITY.track.start[1]);
+  const trackGeo = new THREE.PlaneGeometry(FAIRWAY_FACILITY.track.laneWidth * FAIRWAY_FACILITY.track.lanes, trackLen);
+  trackGeo.rotateX(-Math.PI / 2);
+  const trackMesh = new THREE.Mesh(trackGeo, trackMat);
+  trackMesh.position.set(FAIRWAY_FACILITY.track.start[0], 0.01, (FAIRWAY_FACILITY.track.start[1] + FAIRWAY_FACILITY.track.finish[1]) / 2);
+  fac.add(trackMesh);
+
+  const courtMesh = disc(THREE, FAIRWAY_FACILITY.court.radius, 0xc98a4b, { roughness: 0.8 });
+  courtMesh.position.set(FAIRWAY_FACILITY.court.centre[0], 0.01, FAIRWAY_FACILITY.court.centre[1]);
+  fac.add(courtMesh);
+  const hoopPost = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 3.05, 8), new THREE.MeshStandardMaterial({ color: 0x333333 }));
+  hoopPost.position.set(FAIRWAY_FACILITY.court.hoop[0], 1.52, FAIRWAY_FACILITY.court.hoop[1]);
+  fac.add(hoopPost);
+  const rim = new THREE.Mesh(new THREE.TorusGeometry(0.23, 0.02, 8, 16), new THREE.MeshStandardMaterial({ color: 0xff7a1a }));
+  rim.position.set(FAIRWAY_FACILITY.court.hoop[0], 3.05, FAIRWAY_FACILITY.court.hoop[1] + 0.25);
+  rim.rotation.x = Math.PI / 2;
+  fac.add(rim);
+
+  const pitchMesh = new THREE.Mesh(new THREE.PlaneGeometry(FAIRWAY_FACILITY.pitch.radius * 1.6, FAIRWAY_FACILITY.pitch.radius * 2.2), new THREE.MeshStandardMaterial({ color: 0x3d8f3d, roughness: 1 }));
+  pitchMesh.rotation.x = -Math.PI / 2;
+  pitchMesh.position.set(FAIRWAY_FACILITY.pitch.spot[0], 0.005, (FAIRWAY_FACILITY.pitch.spot[1] + FAIRWAY_FACILITY.pitch.goal[1]) / 2);
+  fac.add(pitchMesh);
+  const goalMat = new THREE.MeshStandardMaterial({ color: 0xf4f4f4 });
+  const postGeo = new THREE.CylinderGeometry(0.06, 0.06, 2.44, 8);
+  for (const side of [-1, 1]) {
+    const post = new THREE.Mesh(postGeo, goalMat);
+    post.position.set(FAIRWAY_FACILITY.pitch.goal[0] + side * FAIRWAY_FACILITY.pitch.goalWidth / 2, 1.22, FAIRWAY_FACILITY.pitch.goal[1]);
+    fac.add(post);
+  }
+  const bar = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, FAIRWAY_FACILITY.pitch.goalWidth, 8), goalMat);
+  bar.rotation.z = Math.PI / 2;
+  bar.position.set(FAIRWAY_FACILITY.pitch.goal[0], 2.44, FAIRWAY_FACILITY.pitch.goal[1]);
+  fac.add(bar);
+
+  root.add(fac);
+  parent.add(root);
+  return root;
+}
+
+
+/* ===== fairway/js/course.js ===== */
+// The course, one import away from the real thing.
+//
+// Team OW1 is landing WebXR/shared/fairway.js with this exact interface:
+// FAIRWAY_HOLES, FAIRWAY_FACILITY, buildFairwayPark(parent, opts),
+// fairwayHeight(x, z) and fairwayLieAt(x, z). Fairway Park is written against
+// that interface from day one but ships today against course-stub.js's small
+// original nine-hole layout, so the app and its checks run before the real
+// course lands.
+//
+// The switch is exactly the one import line below: once
+// WebXR/shared/fairway.js exists, change "./course-stub.js" to
+// "../shared/fairway.js" here, and swap the matching line in
+// tools/bundle_webxr.py's "fairway" module list from
+// WEBXR / "fairway/js/course-stub.js" to SHARED / "fairway.js". Nothing else
+// in this app names the course module directly — every other file imports
+// from here.
+
+
+/* ===== fairway/js/golf.js ===== */
+// Fairway Park — the golf engine.
+//
+// Pure and store-injectable, exactly like WebXR/race/js/sim.js and the arcade
+// cabinets' engines: create()/swing()/putt() touch no DOM, canvas, three.js
+// or audio, so tools/check_fairway_game.mjs drives a full nine holes headless
+// against a stubbed course with no browser at all. WebXR/fairway/js/world.js
+// and app.js are the only files that touch three.js or the page.
+//
+// The swing model is a power/timing pair, the way a swing-meter UI naturally
+// produces one: `power` (0..1) is how far the meter filled before the first
+// click, `timing` (-1..1) is how far off-centre the second click landed on
+// the accuracy band, 0 being a pure strike. Distance and lateral drift both
+// come from those two numbers, the club, the lie and the wind — nothing here
+// depends on a frame rate or an animation, so the same two numbers always
+// produce the same shot (seeded noise aside), which is what makes a scripted
+// round in the checker deterministic.
+
+
+// ------------------------------------------------------------------ clubs
+
+/**
+ * carry: full-power, perfect-strike distance on the tee in metres.
+ * loft: flavour text only, shown in the HUD.
+ * spread: lateral drift at full carry, in metres, before lie/timing scale it.
+ * windMul: how much a metre of wind's worth of drift this club picks up
+ *          (a low, hot driver ball flies through wind more than a wedge's).
+ */
+const GOLF_CLUBS = [
+  { id: "driver", name: "Driver", loft: "low", carry: 205, spread: 14, windMul: 1.0 },
+  { id: "iron", name: "Iron", loft: "mid", carry: 140, spread: 8, windMul: 0.7 },
+  { id: "wedge", name: "Wedge", loft: "high", carry: 75, spread: 5, windMul: 0.45 },
+  { id: "putter", name: "Putter", loft: "none", carry: 15, spread: 0.9, windMul: 0 },
+];
+const CLUB_BY_ID = Object.fromEntries(GOLF_CLUBS.map((c) => [c.id, c]));
+
+/** Full-swing lie effects. Water and out have none — they never take a swing. */
+const LIE_FACTORS = {
+  tee: { carry: 1.0, spread: 1.0 },
+  fairway: { carry: 1.0, spread: 1.0 },
+  path: { carry: 0.92, spread: 1.15 },
+  rough: { carry: 0.72, spread: 1.7 },
+  bunker: { carry: 0.5, spread: 1.4 },
+};
+
+const HOLE_CUP_RADIUS = 0.15; // metres: the ball must finish inside this of the pin to be holed
+const GREEN_FRINGE = 1.2; // metres of "just off" tolerance before a putt is refused
+
+function glRng(seed) {
+  let a = (seed >>> 0) || 0x9e3779b9;
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = a;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+const clamp = (v, lo, hi) => (v < lo ? lo : v > hi ? hi : v);
+const dist = (a, b) => Math.hypot(a.x - b.x, a.z - b.z);
+
+// -------------------------------------------------------------- care habits
+
+/** One row per habit the groundskeeper's log scores. Order is the panel order. */
+const CARE_HABITS = [
+  { id: "rake", label: "Rake the bunker", ok: 2, miss: -4 },
+  { id: "divot", label: "Replace the divot", ok: 2, miss: -4 },
+  { id: "repair", label: "Repair the ball mark", ok: 2, miss: -4 },
+  { id: "cartPath", label: "Keep carts on the path", ok: 1, miss: -3 },
+];
+const HABIT_BY_ID = Object.fromEntries(CARE_HABITS.map((h) => [h.id, h]));
+
+const CARE_LINES = {
+  rake: {
+    ok: (n) => `Raked the bunker smooth on hole ${n}, per the course's maintenance plan.`,
+    miss: (n) => `Left the bunker unraked on hole ${n} — the course's maintenance plan expects it smoothed before the next group plays through.`,
+  },
+  divot: {
+    ok: (n) => `Replaced the divot on hole ${n}, per the course's maintenance plan.`,
+    miss: (n) => `Left a divot unrepaired on hole ${n} — the course's maintenance plan calls for tamping or filling it right away.`,
+  },
+  repair: {
+    ok: (n) => `Repaired the ball mark on the hole ${n} green, per the course's maintenance plan.`,
+    miss: (n) => `Putted over an unrepaired ball mark on the hole ${n} green — the course's maintenance plan asks that it be fixed before the next putt.`,
+  },
+  cartPath: {
+    ok: (n) => `Kept the cart on the path leaving the hole ${n} green, per the course's maintenance plan.`,
+    miss: (n) => `Cut across the turf instead of the cart path leaving the hole ${n} green — against the course's maintenance plan.`,
+  },
+};
+
+function glNewCare() {
+  return { score: 100, opportunities: 0, met: 0, pending: {}, log: [] };
+}
+
+function careResolve(state, habitId, ok) {
+  const pend = state.care.pending[habitId];
+  if (!pend) return;
+  const h = HABIT_BY_ID[habitId];
+  state.care.opportunities += 1;
+  if (ok) state.care.met += 1;
+  state.care.score = clamp(state.care.score + (ok ? h.ok : h.miss), 0, 100);
+  state.care.log.push({ habit: habitId, hole: pend.hole, ok, line: CARE_LINES[habitId][ok ? "ok" : "miss"](pend.hole) });
+  delete state.care.pending[habitId];
+}
+
+/** Resolve every habit still open as a miss — called on hole-out and round end. */
+function careSweep(state) {
+  for (const id of Object.keys(state.care.pending)) careResolve(state, id, false);
+}
+
+/**
+ * The player claims a courtesy — rake the bunker, replace a divot, repair a
+ * ball mark, or confirm the cart stayed on the path. A call with no matching
+ * open opportunity is simply ignored (the panel only offers the ones open).
+ */
+function glCareEvent(state, habitId) {
+  if (!HABIT_BY_ID[habitId]) throw new Error(`unknown care habit: ${habitId}`);
+  careResolve(state, habitId, true);
+  return state.care;
+}
+
+// ------------------------------------------------------------------ round
+
+/**
+ * `course` is the { FAIRWAY_HOLES, ... } shape from course.js — passed in
+ * rather than imported twice, so a caller (or the checker) can hand this a
+ * fixture course as easily as the real one.
+ */
+function glCreateRound({ seed = 1, holes } = {}) {
+  const H = holes ?? [];
+  if (!H.length) throw new Error("glCreateRound needs at least one hole");
+  const rng = glRng(seed);
+  const state = {
+    seed, rng, holes: H,
+    holeIndex: 0,
+    strokesThisHole: 0,
+    club: "driver",
+    aimOffset: 0,
+    lastLie: "tee",
+    wind: { speed: 0, dir: 0 },
+    scorecard: [],
+    totalStrokes: 0,
+    totalPar: 0,
+    penalties: 0,
+    holedOuts: 0,
+    events: [],
+    care: glNewCare(),
+    finished: false,
+  };
+  state.ball = { x: H[0].tee[0], z: H[0].tee[1] };
+  rollWind(state);
+  return state;
+}
+
+function rollWind(state) {
+  state.wind = { speed: state.rng() * 6, dir: state.rng() * Math.PI * 2 };
+}
+
+/** Lets the app feed a live reading (e.g. shared/weather.js's gust, scaled to
+ *  m/s) in place of the round's own random wind. Optional — a round never
+ *  needs this called to work. */
+function glSetWind(state, { speed = 0, dir = 0 } = {}) {
+  state.wind = { speed: Math.max(0, speed), dir };
+}
+
+function glCurrentHole(state) { return state.holes[state.holeIndex]; }
+
+function glSetClub(state, clubId) {
+  if (!CLUB_BY_ID[clubId]) throw new Error(`unknown club: ${clubId}`);
+  state.club = clubId;
+}
+
+/** Aim is the pin direction plus this offset, in radians (positive = right). */
+function glAdjustAim(state, deltaRad) { state.aimOffset += deltaRad; }
+function glSetAim(state, offsetRad) { state.aimOffset = offsetRad; }
+
+function pinDir(hole, ball) {
+  return Math.atan2(hole.pin[0] - ball.x, hole.pin[1] - ball.z);
+}
+
+function glAimYaw(state) {
+  return pinDir(glCurrentHole(state), state.ball) + state.aimOffset;
+}
+
+function glDistanceToPin(state) {
+  const h = glCurrentHole(state);
+  return Math.hypot(h.pin[0] - state.ball.x, h.pin[1] - state.ball.z);
+}
+
+function glCanPutt(state) { return state.lastLie === "green"; }
+
+function advanceHole(state) {
+  const h = glCurrentHole(state);
+  state.scorecard.push({ hole: h.number, par: h.par, strokes: state.strokesThisHole, rel: state.strokesThisHole - h.par });
+  state.totalStrokes += state.strokesThisHole;
+  state.totalPar += h.par;
+  state.holedOuts += 1;
+  careSweep(state);
+  // The cart-path opportunity opens the moment a hole ends, resolved before
+  // (or forgotten by) the first swing of the next one.
+  state.care.pending.cartPath = { hole: h.number };
+  if (state.holeIndex + 1 >= state.holes.length) {
+    careSweep(state); // in case the round ends without another swing to catch the last cart-path check
+    state.finished = true;
+    return;
+  }
+  state.holeIndex += 1;
+  const nh = glCurrentHole(state);
+  state.ball = { x: nh.tee[0], z: nh.tee[1] };
+  state.lastLie = "tee";
+  state.club = "driver";
+  state.aimOffset = 0;
+  state.strokesThisHole = 0;
+  rollWind(state);
+}
+
+/** Any habit opportunity still open when a new swing starts was missed. */
+function closeStaleOpportunities(state, keep) {
+  for (const id of Object.keys(state.care.pending)) {
+    if (id === keep) continue;
+    careResolve(state, id, false);
+  }
+}
+
+/**
+ * A full swing with the current club, from the current lie. `power` in
+ * [0,1], `timing` in [-1,1] (0 = pure strike). Returns the shot's own event;
+ * the same object is pushed onto state.events for a UI to drain.
+ */
+function glSwing(state, { power, timing = 0 } = {}) {
+  if (state.finished) throw new Error("the round is already finished");
+  if (state.club === "putter") return glPutt(state, { power, timing });
+  if (state.lastLie === "water" || state.lastLie === "out") throw new Error(`cannot swing from lie "${state.lastLie}" — take the drop first`);
+
+  closeStaleOpportunities(state, null);
+
+  const club = CLUB_BY_ID[state.club];
+  const lieF = LIE_FACTORS[state.lastLie] ?? LIE_FACTORS.rough;
+  const p = clamp(power, 0, 1);
+  const t = clamp(timing, -1, 1);
+  const hole = glCurrentHole(state);
+  const fromLie = state.lastLie;
+  const fromBall = { ...state.ball };
+
+  const carry = club.carry * p * lieF.carry;
+  const noise = (state.rng() - 0.5) * club.spread * 0.35 * lieF.spread;
+  const lateral = (t * club.spread + noise) * (carry / (club.carry || 1)) * lieF.spread;
+
+  const yaw = pinDir(hole, state.ball) + state.aimOffset;
+  const fx = Math.sin(yaw), fz = Math.cos(yaw);
+  const px = Math.cos(yaw), pz = -Math.sin(yaw);
+
+  const windAlong = Math.cos(state.wind.dir - yaw) * state.wind.speed * club.windMul * (carry / 100);
+  const windCross = Math.sin(state.wind.dir - yaw) * state.wind.speed * club.windMul * (carry / 100);
+
+  const dx = fx * (carry + windAlong) + px * (lateral + windCross);
+  const dz = fz * (carry + windAlong) + pz * (lateral + windCross);
+  const landing = { x: state.ball.x + dx, z: state.ball.z + dz };
+  const newLie = fairwayLieAt(landing.x, landing.z);
+
+  state.strokesThisHole += 1;
+  let event = { type: "swing", hole: hole.number, club: club.id, fromLie, carry, newLie, penalty: false, holed: false };
+
+  if (newLie === "water" || newLie === "out") {
+    // Stroke and distance: the shot counts, plus one penalty stroke, and the
+    // ball is replayed from where it was before this swing.
+    state.strokesThisHole += 1;
+    state.penalties += 1;
+    state.ball = fromBall;
+    event.penalty = true;
+    event.newLie = fromLie;
+  } else {
+    const holedHere = newLie === "green" && dist(landing, { x: hole.pin[0], z: hole.pin[1] }) <= HOLE_CUP_RADIUS;
+    // A courtesy is only owed on a shot that leaves the hole still to play —
+    // a chip-in ends the hole outright, with nothing left to tend to.
+    if (!holedHere) {
+      if (fromLie === "bunker" && newLie !== "bunker") state.care.pending.rake = { hole: hole.number };
+      if (fromLie === "fairway" || fromLie === "rough" || fromLie === "tee") state.care.pending.divot = { hole: hole.number };
+      if (newLie === "green" && fromLie !== "green") state.care.pending.repair = { hole: hole.number };
+    }
+    state.ball = landing;
+    state.lastLie = newLie;
+    event.holed = holedHere;
+  }
+
+  state.events.push(event);
+  if (event.holed) advanceHole(state);
+  return event;
+}
+
+/**
+ * A putt on the green. Direction is the pin line plus the aim offset (for a
+ * deliberate miss-left/right read); the local slope from fairwayHeight bends
+ * the line the rest of the way, the way a real green would.
+ */
+function glPutt(state, { power, timing = 0 } = {}) {
+  if (state.finished) throw new Error("the round is already finished");
+  if (!glCanPutt(state)) throw new Error(`cannot putt from lie "${state.lastLie}"`);
+
+  closeStaleOpportunities(state, "repair");
+  // A putt without repairing an open ball mark plays over it — resolved as a
+  // miss right here, whether or not the player ever gets around to it.
+  if (state.care.pending.repair) careResolve(state, "repair", false);
+
+  const club = CLUB_BY_ID.putter;
+  const hole = glCurrentHole(state);
+  const p = clamp(power, 0, 1);
+  const t = clamp(timing, -1, 1);
+  const rollDist = club.carry * p;
+
+  const yaw = pinDir(hole, state.ball) + state.aimOffset;
+  const eps = 0.4;
+  const gx = (fairwayHeight(state.ball.x + eps, state.ball.z) - fairwayHeight(state.ball.x - eps, state.ball.z)) / (2 * eps);
+  const gz = (fairwayHeight(state.ball.x, state.ball.z + eps) - fairwayHeight(state.ball.x, state.ball.z - eps)) / (2 * eps);
+  // The ball breaks downhill: subtract the gradient (uphill direction),
+  // scaled by how far it travels, so a longer putt breaks more.
+  const breakScale = rollDist * 1.8;
+  const lateralRad = t * club.spread * 0.12 + (-gx * Math.cos(yaw) + gz * Math.sin(yaw)) * breakScale * 0.02;
+
+  const fx = Math.sin(yaw), fz = Math.cos(yaw);
+  const px = Math.cos(yaw), pz = -Math.sin(yaw);
+  const landing = { x: state.ball.x + fx * rollDist + px * lateralRad, z: state.ball.z + fz * rollDist + pz * lateralRad };
+  const newLie = fairwayLieAt(landing.x, landing.z);
+
+  state.strokesThisHole += 1;
+  const holed = dist(landing, { x: hole.pin[0], z: hole.pin[1] }) <= HOLE_CUP_RADIUS;
+  const event = { type: "putt", hole: hole.number, club: "putter", newLie, holed, penalty: false };
+  if (holed) {
+    state.ball = { x: hole.pin[0], z: hole.pin[1] };
+  } else {
+    state.ball = landing;
+    state.lastLie = newLie === "green" || dist(landing, { x: hole.pin[0], z: hole.pin[1] }) <= HOLE_CUP_RADIUS + GREEN_FRINGE ? "green" : newLie;
+  }
+  state.events.push(event);
+  if (holed) advanceHole(state);
+  return event;
+}
+
+/** A voluntary drop from a hazard without swinging into it (rare — normally
+ *  glSwing resolves water/OB itself). Kept for a UI "take the drop" button
+ *  offered while the ball sits in a hazard from a source other than a swing. */
+function glTakeDrop(state) {
+  if (state.lastLie !== "water" && state.lastLie !== "out") return false;
+  state.penalties += 1;
+  state.strokesThisHole += 1;
+  state.lastLie = fairwayLieAt(state.ball.x, state.ball.z);
+  return true;
+}
+
+/** A plain scorecard summary for the HUD and for TrainingRecords. */
+function glSummary(state) {
+  return {
+    holes: state.scorecard.length,
+    totalStrokes: state.totalStrokes,
+    totalPar: state.totalPar,
+    relative: state.totalStrokes - state.totalPar,
+    penalties: state.penalties,
+    care: { score: state.care.score, opportunities: state.care.opportunities, met: state.care.met, log: state.care.log.slice() },
+    scorecard: state.scorecard.slice(),
+  };
+}
+
+
+/* ===== fairway/js/minigames.js ===== */
+// Fairway Park — the three outdoor sports mini-games (track, court, pitch).
+// Each engine is pure — create()/step() touch no DOM, canvas or three.js —
+// exactly like the arcade cabinets' engines under WebXR/arcade/js/games/, so
+// tools/check_fairway_game.mjs drives a full round of each headless.
+//
+// All three cap a round at MINIGAME_TIME_LIMIT seconds and keep their own
+// best-score table (WebXR/fairway/js/scores.js), the same shape as the
+// arcade's high-score tables.
+
+const MINIGAME_TIME_LIMIT = 60;
+
+function rng32(seed) {
+  let a = (seed >>> 0) || 0x9e3779b9;
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = a;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+const mgClamp = (v, lo, hi) => (v < lo ? lo : v > hi ? hi : v);
+
+// ------------------------------------------------------------------ sprint
+//
+// A reaction start (jump too early and it costs you) followed by an
+// alternating left/right rhythm tap that keeps the runner's speed up —
+// exactly the "timed reaction + rhythm taps" the brief asks for. `input.tap`
+// is edge-triggered: the caller sends `true` for exactly the step a key or
+// button went down, not for as long as it is held, the same convention the
+// arcade cabinets use for a jump or a rotate.
+
+const SPRINT_DISTANCE = 100; // metres
+
+function sprintCreate({ seed = 1 } = {}) {
+  const rng = rng32(seed);
+  return {
+    seed, rng,
+    phase: "ready", // ready -> set -> running -> finished
+    clock: 0,
+    waitFor: 0.9 + rng() * 1.4,
+    position: 0,
+    speed: 0,
+    raceTime: 0,
+    penaltyTime: 0,
+    nextSide: "left",
+    goodTaps: 0,
+    taps: 0,
+    falseStarts: 0,
+    timeLeft: MINIGAME_TIME_LIMIT,
+    finishTime: null,
+    score: 0,
+    over: false,
+  };
+}
+
+function sprintStep(state, dt, input = {}) {
+  if (state.over) return [];
+  const events = [];
+  state.timeLeft = Math.max(0, state.timeLeft - dt);
+
+  if (state.phase === "ready" || state.phase === "set") {
+    if (state.phase === "ready") { state.phase = "set"; }
+    state.clock += dt;
+    if (input.tap) {
+      state.falseStarts += 1;
+      state.penaltyTime += 1.0;
+      events.push({ type: "false-start" });
+      // A jump costs a second rather than resetting the whole start, so a
+      // scripted session always terminates in bounded time.
+    }
+    if (state.clock >= state.waitFor) {
+      state.phase = "running";
+      events.push({ type: "go" });
+    }
+  } else if (state.phase === "running") {
+    state.raceTime += dt;
+    if (input.tap) {
+      state.taps += 1;
+      const wanted = state.nextSide;
+      const side = input.side === "right" ? "right" : "left";
+      const good = side === wanted;
+      if (good) { state.goodTaps += 1; state.speed += 2.4; state.nextSide = wanted === "left" ? "right" : "left"; }
+      else { state.speed += 0.6; } // an out-of-rhythm tap still helps, just far less
+    }
+    state.speed = Math.max(0, state.speed - state.speed * Math.min(1, 1.6 * dt));
+    state.position += state.speed * dt;
+    if (state.position >= SPRINT_DISTANCE) {
+      state.position = SPRINT_DISTANCE;
+      state.phase = "finished";
+      state.finishTime = state.raceTime + state.penaltyTime;
+      state.score = Math.max(0, Math.round(10000 - state.finishTime * 380));
+      state.over = true;
+      events.push({ type: "finish", time: state.finishTime });
+    }
+  }
+
+  if (!state.over && state.timeLeft <= 0) { state.over = true; events.push({ type: "over" }); }
+  return events;
+}
+
+// --------------------------------------------------------------- free throw
+//
+// A hold-and-release power/arc pair per shot, the same "power/timing" shape
+// as the golf swing — `input.shoot` fires exactly one attempt with the
+// power/arc read at the moment of release.
+
+const FT_IDEAL_POWER = 0.6, FT_IDEAL_ARC = 0.55;
+
+function freethrowCreate({ seed = 1 } = {}) {
+  return {
+    seed, rng: rng32(seed),
+    timeLeft: MINIGAME_TIME_LIMIT,
+    attempts: 0, makes: 0, streak: 0, bestStreak: 0, score: 0, over: false, lastMade: null,
+  };
+}
+
+function freethrowStep(state, dt, input = {}) {
+  if (state.over) return [];
+  const events = [];
+  state.timeLeft = Math.max(0, state.timeLeft - dt);
+  if (input.shoot) {
+    const power = mgClamp(input.power ?? 0.5, 0, 1), arc = mgClamp(input.arc ?? 0.5, 0, 1);
+    const err = Math.hypot((power - FT_IDEAL_POWER) / 0.45, (arc - FT_IDEAL_ARC) / 0.45);
+    const madeProb = mgClamp(1 - err * 0.85, 0.03, 0.97);
+    const made = state.rng() < madeProb;
+    state.attempts += 1;
+    state.lastMade = made;
+    if (made) {
+      state.makes += 1; state.streak += 1; state.bestStreak = Math.max(state.bestStreak, state.streak);
+      state.score += 2 + Math.min(3, Math.floor(state.streak / 3));
+      events.push({ type: "make", streak: state.streak });
+    } else {
+      state.streak = 0;
+      events.push({ type: "miss" });
+    }
+  }
+  if (state.timeLeft <= 0) { state.over = true; events.push({ type: "over" }); }
+  return events;
+}
+
+// -------------------------------------------------------------- penalty kicks
+//
+// One discrete kick per `input.kick`: `side` in [-1, 1] (left post to right
+// post), `power` in [0, 1]. The keeper's dive is seeded, not read from the
+// shot, so it cannot be gamed by peeking at state between kicks.
+
+const PK_POST = 1.0;
+
+function penaltyCreate({ seed = 1 } = {}) {
+  return {
+    seed, rng: rng32(seed),
+    timeLeft: MINIGAME_TIME_LIMIT,
+    kicks: 0, goals: 0, saved: 0, wide: 0, score: 0, over: false, lastResult: null,
+  };
+}
+
+function penaltyStep(state, dt, input = {}) {
+  if (state.over) return [];
+  const events = [];
+  state.timeLeft = Math.max(0, state.timeLeft - dt);
+  if (input.kick) {
+    const side = mgClamp(input.side ?? 0, -1, 1);
+    const power = mgClamp(input.power ?? 0.7, 0, 1);
+    state.kicks += 1;
+    if (Math.abs(side) > PK_POST * 0.96) {
+      state.wide += 1;
+      state.lastResult = "wide";
+      events.push({ type: "wide" });
+    } else {
+      const keeperDive = state.rng() * 2 - 1;
+      // A harder, better-placed shot is less savable even with a good guess.
+      const savable = Math.abs(side - keeperDive) < 0.4 - power * 0.15;
+      const saved = savable && state.rng() < 0.6;
+      if (saved) {
+        state.saved += 1;
+        state.lastResult = "saved";
+        events.push({ type: "saved" });
+      } else {
+        state.goals += 1;
+        state.score += 10;
+        state.lastResult = "goal";
+        events.push({ type: "goal" });
+      }
+    }
+  }
+  if (state.timeLeft <= 0) { state.over = true; events.push({ type: "over" }); }
+  return events;
+}
+
+// ------------------------------------------------------------------ roster
+
+/** One row per mini-game for the facility menu, id matching scores.js's
+ *  FAIRWAY_MINIGAMES so a card, an engine and a score table always line up. */
+const FAIRWAY_MINIGAMES_INFO = [
+  {
+    id: "sprint", name: "Hundred-Metre Dash", venue: "the track",
+    blurb: "React off the line, then keep an even left-right rhythm to hold your speed to the tape.",
+    controls: "Tap to react off the line; alternate left/right taps to run.",
+  },
+  {
+    id: "freethrow", name: "Free-Throw Shootout", venue: "the court",
+    blurb: "Hold for power, release on arc — sixty seconds of free throws, streaks pay a bonus.",
+    controls: "Hold to charge power, release at the right arc to shoot.",
+  },
+  {
+    id: "penalties", name: "Penalty Kicks", venue: "the pitch",
+    blurb: "Pick a side and a power before the keeper commits — sixty seconds of spot kicks.",
+    controls: "Aim left/right, set power, and strike.",
+  },
+];
+
+
+/* ===== fairway/js/scores.js ===== */
+// Fairway Park — best rounds, the crew leaderboard, and mini-game high
+// scores. One localStorage key, pure and store-injectable, exactly like
+// WebXR/arcade/js/scores.js, so tools/check_fairway_game.mjs round-trips it
+// against a stubbed store with no browser.
+//
+// The golf leaderboard is keyed by a typed crew tag rather than the arcade's
+// three-letter initials — the same free-text, twelve-character tag every
+// other app's HUD and leaderboard uses (see shared/identity.js's tag()) —
+// ranked by strokes relative to par (lower is better), ties broken by the
+// lower raw stroke count.
+
+const FAIRWAY_STORAGE_KEY = "fairway-park-v1";
+const FAIRWAY_TABLE_SIZE = 10;
+const FAIRWAY_MINIGAMES = ["sprint", "freethrow", "penalties"];
+
+/** The same crew-tag shape as shared/identity.js's tag(): up to 12 characters,
+ *  collapsed whitespace, upper-cased. Kept local so this module never needs
+ *  to import identity.js just for one line of formatting. */
+function fgCrewTag(name) {
+  const s = String(name ?? "").replace(/\s+/g, " ").trim().slice(0, 12).trim().toUpperCase();
+  return s || "CREW";
+}
+
+function freshData() {
+  const out = { v: 1, rounds: [], best: null };
+  for (const g of FAIRWAY_MINIGAMES) out[g] = [];
+  return out;
+}
+
+function cleanRoundRow(r) {
+  if (!r || typeof r.strokes !== "number" || typeof r.par !== "number") return null;
+  if (!Number.isFinite(r.strokes) || !Number.isFinite(r.par)) return null;
+  return {
+    name: fgCrewTag(r.name),
+    strokes: Math.max(1, Math.round(r.strokes)),
+    par: Math.max(1, Math.round(r.par)),
+    rel: Math.round(r.strokes) - Math.round(r.par),
+    at: typeof r.at === "string" ? r.at : new Date().toISOString(),
+  };
+}
+
+function cleanArcadeRow(r) {
+  if (!r || typeof r.score !== "number" || !Number.isFinite(r.score)) return null;
+  return { name: fgCrewTag(r.name), score: Math.max(0, Math.round(r.score)) };
+}
+
+function sortRounds(rows) {
+  rows.sort((a, b) => a.rel - b.rel || a.strokes - b.strokes);
+  return rows;
+}
+
+function fgLoadScores(store) {
+  const fresh = freshData();
+  try {
+    const raw = store?.getItem?.(FAIRWAY_STORAGE_KEY);
+    if (!raw) return fresh;
+    const data = JSON.parse(raw);
+    if (!data || typeof data !== "object") return fresh;
+    const rounds = Array.isArray(data.rounds) ? data.rounds.map(cleanRoundRow).filter(Boolean) : [];
+    fresh.rounds = sortRounds(rounds).slice(0, FAIRWAY_TABLE_SIZE);
+    fresh.best = fresh.rounds[0] ?? null;
+    for (const g of FAIRWAY_MINIGAMES) {
+      const rows = Array.isArray(data[g]) ? data[g].map(cleanArcadeRow).filter(Boolean) : [];
+      rows.sort((a, b) => b.score - a.score);
+      fresh[g] = rows.slice(0, FAIRWAY_TABLE_SIZE);
+    }
+    return fresh;
+  } catch {
+    return fresh;
+  }
+}
+
+function fgStoreScores(store, data) {
+  try { store?.setItem?.(FAIRWAY_STORAGE_KEY, JSON.stringify(data)); return true; }
+  catch { return false; }
+}
+
+/**
+ * Submits a finished nine-hole round. Returns the updated table and the new
+ * round's rank (1-based) if it made the leaderboard, or null.
+ */
+function fgSubmitRound(store, name, strokes, par) {
+  const data = fgLoadScores(store);
+  const entry = cleanRoundRow({ name, strokes, par });
+  data.rounds.push(entry);
+  sortRounds(data.rounds);
+  const rankIdx = data.rounds.indexOf(entry);
+  data.rounds.length = Math.min(data.rounds.length, FAIRWAY_TABLE_SIZE);
+  data.best = data.rounds[0] ?? null;
+  fgStoreScores(store, data);
+  return { data, table: data.rounds, rank: rankIdx >= 0 && rankIdx < FAIRWAY_TABLE_SIZE ? rankIdx + 1 : null };
+}
+
+/** Submits a mini-game score (higher is better), same shape as the arcade's. */
+function fgSubmitMinigame(store, game, name, score) {
+  if (!FAIRWAY_MINIGAMES.includes(game)) throw new Error(`unknown mini-game: ${game}`);
+  const data = fgLoadScores(store);
+  const table = data[game];
+  const entry = cleanArcadeRow({ name, score });
+  table.push(entry);
+  table.sort((a, b) => b.score - a.score);
+  const rankIdx = table.indexOf(entry);
+  table.length = Math.min(table.length, FAIRWAY_TABLE_SIZE);
+  data[game] = table;
+  fgStoreScores(store, data);
+  return { data, table, rank: rankIdx >= 0 && rankIdx < FAIRWAY_TABLE_SIZE ? rankIdx + 1 : null };
+}
+
+/** The single best round ever posted in this browser, or null. */
+function fgBestRound(store) { return fgLoadScores(store).best; }
+
+
+/* ===== fairway/js/world.js ===== */
+// Fairway Park — the three.js scene: the park (course.js's buildFairwayPark),
+// the ball, and the two cameras (third-person follow, first-person address).
+// Everything that touches three.js lives here and in app.js; golf.js,
+// minigames.js and scores.js never import three.js, so they run headless.
+
+
+const EYE_HEIGHT = 1.55;
+
+function fwBuildWorld(root, THREE, opts = {}) {
+  const park = buildFairwayPark(root, { THREE });
+
+  const sky = new THREE.HemisphereLight(0xdcefff, 0x1c2a14, 1.0);
+  const sun = new THREE.DirectionalLight(0xfff3d6, 0.95);
+  sun.position.set(80, 140, 60);
+  root.add(sky, sun);
+
+  const ball = new THREE.Mesh(
+    new THREE.SphereGeometry(0.11, 16, 12),
+    new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.35 }),
+  );
+  ball.castShadow = true;
+  root.add(ball);
+
+  function placeBall(x, z) {
+    ball.position.set(x, fairwayHeight(x, z) + 0.11, z);
+  }
+
+  /**
+   * Aims the given camera at the ball. `mode` is "follow" (third-person,
+   * behind the ball looking toward the aim yaw) or "address" (first-person,
+   * eye height, standing just behind the ball). `yaw` is the current aim
+   * direction in radians (0 = +z).
+   */
+  function placeCamera(camera, mode, x, z, yaw) {
+    const y = fairwayHeight(x, z);
+    const fx = Math.sin(yaw), fz = Math.cos(yaw);
+    if (mode === "address") {
+      camera.position.set(x - fx * 0.6, y + EYE_HEIGHT, z - fz * 0.6);
+      camera.lookAt(x + fx * 20, y + EYE_HEIGHT - 0.4, z + fz * 20);
+    } else {
+      camera.position.set(x - fx * 7, y + 3.4, z - fz * 7);
+      camera.lookAt(x + fx * 10, y + 0.6, z + fz * 10);
+    }
+  }
+
+  return { park, ball, placeBall, placeCamera };
+}
+
+
+/* ===== fairway/js/app.js ===== */
+// Fairway Park — the app: menus, the golf HUD and swing meter, camera and
+// input for the course, and the three sports-facility mini-games. Every
+// scoring rule lives in golf.js / minigames.js / scores.js (pure, headless —
+// see tools/check_fairway_game.mjs); this file only wires input, the DOM and
+// three.js around them.
+
+const $ = (id) => document.getElementById(id);
+const fwStore = (() => { try { return window.localStorage; } catch { return null; } })();
+
+const CREW_KEY = "fairway-crew-tag";
+const WEATHER_ROTATION = ["clear", "overcast", "wind"]; // outdoor conditions this park actually models
+
+const app = {
+  screen: "menu",
+  crewTag: fgCrewTag(fwStore?.getItem(CREW_KEY) ?? "CREW"),
+  round: null,
+  scene: null, camera: null, renderer: null, world: null,
+  cameraMode: "follow", // "follow" | "address"
+  aimRate: 1.1, // rad/s at full stick or held key
+  meter: { stage: "idle", t: 0, power: 0, timing: 0 },
+  mg: null, // { id, state, kind }
+  lastHoleCount: 0,
+};
+
+// -------------------------------------------------------------------- toast
+
+let toastT = null;
+function toast(text, ms = 2600) {
+  const t = $("toast");
+  t.textContent = text;
+  t.classList.add("on");
+  clearTimeout(toastT);
+  toastT = setTimeout(() => t.classList.remove("on"), ms);
+}
+
+// ------------------------------------------------------------------- input
+
+const fwKeys = new Set();
+const fwEdge = new Set(); // codes that went down THIS frame — cleared after each read
+window.addEventListener("keydown", (e) => {
+  if (document.activeElement && document.activeElement.tagName === "INPUT") return;
+  if (e.repeat) return;
+  if (["ArrowLeft", "ArrowRight", "Space", "KeyV", "KeyC", "Digit1", "Digit2", "Digit3", "Digit4"].includes(e.code)) e.preventDefault();
+  fwKeys.add(e.code);
+  fwEdge.add(e.code);
+  if (e.code === "Escape") fwOnEscape();
+});
+window.addEventListener("keyup", (e) => fwKeys.delete(e.code));
+window.addEventListener("blur", () => fwKeys.clear());
+
+const fwPad = createGamepad({
+  getGamepads: () => { const all = navigator.getGamepads ? navigator.getGamepads() : []; return all?.[0] ? [all[0]] : []; },
+  bindings: [], axisBindings: [],
+  onConnect: (info) => { if (info.connected) toast(`Gamepad connected (${detectPadVendor(info.id)} labels).`); },
+});
+const fwPadPrev = {};
+let fwPadSnap = null;
+function fwPollPad(dt) {
+  fwPadSnap = fwPad.poll(dt);
+  const b = fwPadSnap?.buttons ?? [];
+  for (const i of [0, 1, 4, 5]) {
+    const now = !!b[i]?.pressed;
+    if (now && !fwPadPrev[i]) fwEdge.add(`Pad${i}`);
+    fwPadPrev[i] = now;
+  }
+}
+function fwPadAxisX() {
+  const a = fwPadSnap?.axes?.[0]?.value ?? 0;
+  return Math.abs(a) > GAMEPAD_DEADZONE ? a : 0;
+}
+
+function fwOnEscape() {
+  if (app.screen === "playing") { fwToMenu(); return; }
+  if (app.screen === "mg-playing") { fwEndMinigame(true); return; }
+}
+
+// -------------------------------------------------------------------- scene
+
+function fwInitScene() {
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+  renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  $("stage").appendChild(renderer.domElement);
+
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x8fd0ec);
+  scene.fog = new THREE.Fog(0x8fd0ec, 80, 420);
+
+  const camera = new THREE.PerspectiveCamera(62, window.innerWidth / window.innerHeight, 0.05, 900);
+  const root = new THREE.Group();
+  scene.add(root);
+
+  const world = fwBuildWorld(root, THREE);
+
+  window.addEventListener("resize", () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+
+  app.scene = scene; app.camera = camera; app.renderer = renderer; app.world = world;
+}
+
+// -------------------------------------------------------------------- menu
+
+$("crew-tag").value = app.crewTag;
+$("crew-tag").addEventListener("change", () => {
+  app.crewTag = fgCrewTag($("crew-tag").value);
+  $("crew-tag").value = app.crewTag;
+  try { fwStore?.setItem(CREW_KEY, app.crewTag); } catch { /* private mode */ }
+});
+
+function fwShow(id) {
+  for (const s of document.querySelectorAll(".screen")) s.hidden = s.id !== id;
+}
+
+$("menu-play").addEventListener("click", fwStartRound);
+$("menu-facility").addEventListener("click", () => { fwRenderFacilityMenu(); fwShow("scr-facility"); });
+$("menu-scores").addEventListener("click", () => { fwRenderScoresScreen(); fwShow("scr-scores"); });
+$("facility-back").addEventListener("click", () => fwShow("scr-menu"));
+$("scores-back").addEventListener("click", () => fwShow("scr-menu"));
+$("sc-again").addEventListener("click", fwStartRound);
+$("sc-menu").addEventListener("click", () => fwShow("scr-menu"));
+
+function fwToMenu() {
+  app.screen = "menu";
+  $("hud").hidden = true;
+  $("view-toggle").hidden = true;
+  fwShow("scr-menu");
+}
+
+// -------------------------------------------------------------------- round
+
+function fwStartRound() {
+  if (!app.scene) fwInitScene();
+  const seed = (Date.now() % 1e6) + Math.floor(Math.random() * 1000);
+  app.round = glCreateRound({ seed, holes: FAIRWAY_HOLES });
+  const kind = WEATHER_ROTATION[Math.floor(Math.random() * WEATHER_ROTATION.length)];
+  const gust = WEATHER[kind]?.gust ?? 0;
+  glSetWind(app.round, { speed: gust * 6, dir: Math.random() * Math.PI * 2 });
+  app.weatherLabel = WEATHER[kind]?.label ?? "Clear";
+  app.meter = { stage: "idle", t: 0, power: 0, timing: 0 };
+  app.cameraMode = "follow";
+  app.lastHoleCount = 0;
+  app.screen = "playing";
+  $("hud").hidden = false;
+  $("view-toggle").hidden = false;
+  fwShow(null);
+  document.querySelectorAll(".screen").forEach((s) => { s.hidden = true; });
+  fwRenderClubs();
+  fwSyncBall();
+  toast(`Nine holes, par 35 — ${app.weatherLabel.toLowerCase()} today.`);
+}
+
+function fwSyncBall() {
+  const r = app.round;
+  app.world.placeBall(r.ball.x, r.ball.z);
+  app.world.placeCamera(app.camera, app.cameraMode, r.ball.x, r.ball.z, glAimYaw(r));
+}
+
+function fwRenderClubs() {
+  const wrap = $("hud-clubs");
+  wrap.textContent = "";
+  for (const c of GOLF_CLUBS) {
+    const b = document.createElement("button");
+    b.textContent = c.name;
+    b.dataset.club = c.id;
+    b.addEventListener("click", () => fwSelectClub(c.id));
+    wrap.append(b);
+  }
+  fwUpdateClubButtons();
+}
+function fwUpdateClubButtons() {
+  const r = app.round;
+  if (!r) return;
+  for (const b of $("hud-clubs").children) {
+    b.classList.toggle("on", b.dataset.club === r.club);
+    b.disabled = b.dataset.club === "putter" && !glCanPutt(r);
+  }
+}
+function fwSelectClub(id) {
+  const r = app.round;
+  if (!r || r.finished) return;
+  if (id === "putter" && !glCanPutt(r)) { toast("Only on the green."); return; }
+  glSetClub(r, id);
+  fwUpdateClubButtons();
+}
+$("aim-left").addEventListener("pointerdown", () => fwEdge.add("AimLeftBtn"));
+$("aim-right").addEventListener("pointerdown", () => fwEdge.add("AimRightBtn"));
+
+// ---------------------------------------------------------------- swing meter
+
+const POWER_HZ = 0.62; // one full 0->1->0 sweep every ~1.6 s
+const TIMING_HZ = 1.05;
+
+function meterPowerAt(t) { return (Math.sin(t * POWER_HZ * Math.PI * 2 - Math.PI / 2) + 1) / 2; }
+function meterTimingAt(t) { return Math.sin(t * TIMING_HZ * Math.PI * 2); }
+
+function fwAdvanceMeter() {
+  const r = app.round;
+  if (!r || r.finished) return;
+  const m = app.meter;
+  if (m.stage === "idle") {
+    m.stage = "power"; m.t = 0;
+    $("hud-meter").hidden = false;
+    $("meter-label").textContent = "Power — tap again to lock it";
+    return;
+  }
+  if (m.stage === "power") {
+    m.power = meterPowerAt(m.t);
+    m.stage = "timing"; m.t = 0;
+    $("meter-label").textContent = "Accuracy — tap on centre";
+    return;
+  }
+  if (m.stage === "timing") {
+    m.timing = meterTimingAt(m.t);
+    fwExecuteSwing(m.power, m.timing);
+    m.stage = "idle";
+    $("hud-meter").hidden = true;
+  }
+}
+$("swing-btn").addEventListener("click", fwAdvanceMeter);
+
+function fwExecuteSwing(power, timing) {
+  const r = app.round;
+  const holesBefore = r.scorecard.length;
+  let ev;
+  try {
+    ev = r.club === "putter" ? glPutt(r, { power, timing }) : glSwing(r, { power, timing });
+  } catch (err) {
+    toast(String(err.message ?? err));
+    return;
+  }
+  if (ev.penalty) toast(`Into the ${ev.newLie === "fairway" ? "hazard" : ev.newLie} — stroke and distance, replay from where you were.`);
+  else if (ev.holed) toast(`Holed it! ${ev.club === "putter" ? "Nice putt." : "Chip-in!"}`);
+  else toast(`${ev.club[0].toUpperCase()}${ev.club.slice(1)} — now in the ${ev.newLie}.`);
+
+  if (r.scorecard.length > holesBefore) fwOnHoleOut(r.scorecard[r.scorecard.length - 1]);
+  fwUpdateClubButtons();
+  fwSyncBall();
+  if (r.finished) fwFinishRound();
+}
+
+function fwOnHoleOut(entry) {
+  const rel = entry.rel;
+  const word = rel <= -2 ? "Eagle or better" : rel === -1 ? "Birdie" : rel === 0 ? "Par" : rel === 1 ? "Bogey" : "Over par";
+  toast(`Hole ${entry.hole}: ${entry.strokes} strokes (${word}).`, 3200);
+}
+
+// ------------------------------------------------------------ groundskeeper
+
+function fwRenderCare() {
+  const r = app.round;
+  if (!r) return;
+  $("care-score").textContent = r.care.score;
+  const wrap = $("care-actions");
+  wrap.textContent = "";
+  for (const id of Object.keys(r.care.pending)) {
+    const h = CARE_HABITS.find((x) => x.id === id);
+    if (!h) continue;
+    const b = document.createElement("button");
+    b.className = "courtesy";
+    b.textContent = h.label;
+    b.addEventListener("click", () => { glCareEvent(r, id); fwRenderCare(); toast(`${h.label} — logged.`); });
+    wrap.append(b);
+  }
+}
+function fwDoFirstCourtesy() {
+  const r = app.round;
+  if (!r) return;
+  const id = Object.keys(r.care.pending)[0];
+  if (!id) return;
+  glCareEvent(r, id);
+  fwRenderCare();
+  const h = CARE_HABITS.find((x) => x.id === id);
+  toast(`${h.label} — logged.`);
+}
+
+// -------------------------------------------------------------------- view
+
+$("view-toggle").addEventListener("click", fwToggleView);
+function fwToggleView() {
+  app.cameraMode = app.cameraMode === "follow" ? "address" : "follow";
+  $("view-toggle").textContent = app.cameraMode === "follow" ? "First person (V)" : "Third person (V)";
+  fwSyncBall();
+}
+
+// -------------------------------------------------------------------- finish
+
+function fwFinishRound() {
+  const r = app.round;
+  const summary = glSummary(r);
+  const submit = fgSubmitRound(fwStore, app.crewTag, summary.totalStrokes, summary.totalPar);
+  const habitsTried = summary.care.opportunities;
+  const habitsMet = summary.care.met;
+  TrainingRecords.record({
+    app: "fairway",
+    simId: "fairway-course",
+    simName: "Fairway Park — the nine",
+    category: "Grounds & Facilities Care",
+    trade: "Groundskeeping",
+    certification: null,
+    score: summary.care.score,
+    stars: summary.care.score >= 85 ? 3 : summary.care.score >= 60 ? 2 : summary.care.score >= 35 ? 1 : 0,
+    errors: Math.max(0, habitsTried - habitsMet),
+    hazardHits: 0,
+    seconds: null,
+    parSeconds: null,
+    learner: app.crewTag,
+    debrief: {
+      cleanSteps: habitsMet,
+      steps: summary.care.log.map((l, i) => ({ id: `${l.habit}-${i}`, seconds: 0, corrections: l.ok ? 0 : 1, hazards: 0 })),
+    },
+    note: `Nine holes, ${summary.totalStrokes} strokes (par ${summary.totalPar}, ${summary.relative >= 0 ? "+" : ""}${summary.relative}); course-care score ${summary.care.score}/100 over ${habitsTried} opportunit${habitsTried === 1 ? "y" : "ies"}.`,
+  });
+
+  $("sc-title").textContent = `Round complete — ${summary.totalStrokes} (par ${summary.totalPar}, ${summary.relative >= 0 ? "+" : ""}${summary.relative})`;
+  const table = $("sc-table");
+  table.innerHTML = "<tr><th>Hole</th><th>Par</th><th>Strokes</th><th>+/-</th></tr>" +
+    summary.scorecard.map((h) => `<tr><td>${h.hole}</td><td>${h.par}</td><td>${h.strokes}</td><td>${h.rel > 0 ? "+" : ""}${h.rel || "E"}</td></tr>`).join("");
+  $("sc-summary").textContent = `${summary.penalties} penalt${summary.penalties === 1 ? "y" : "ies"} stroke${summary.penalties === 1 ? "" : "s"} taken.`;
+  $("sc-care-summary").textContent = `Care score ${summary.care.score}/100 — ${habitsMet} of ${habitsTried} courtesies kept, per the course's maintenance plan.`;
+  $("sc-care-log").innerHTML = summary.care.log.map((l) => `<div class="care-line ${l.ok ? "ok" : "miss"}">${l.line}</div>`).join("") || "<div class=\"care-line\">No bunkers, divots or ball marks came up this round.</div>";
+  const board = fgLoadScores(fwStore).rounds;
+  $("sc-board").innerHTML = board.map((row) => `<li>${row.name} — ${row.strokes} (${row.rel > 0 ? "+" : ""}${row.rel || "E"})${submit.rank && row === board[submit.rank - 1] ? " ← you" : ""}</li>`).join("") || "<li>No rounds posted yet.</li>";
+
+  app.screen = "scorecard";
+  $("hud").hidden = true;
+  $("view-toggle").hidden = true;
+  fwShow("scr-scorecard");
+}
+
+// -------------------------------------------------------------- scores screen
+
+function fwRenderScoresScreen() {
+  const data = fgLoadScores(fwStore);
+  $("scores-best").textContent = data.best ? `Best round: ${data.best.name} — ${data.best.strokes} (par ${data.best.par}, ${data.best.rel > 0 ? "+" : ""}${data.best.rel || "E"})` : "No rounds posted yet.";
+  $("scores-board").innerHTML = data.rounds.map((r) => `<li>${r.name} — ${r.strokes} (${r.rel > 0 ? "+" : ""}${r.rel || "E"})</li>`).join("") || "<li>—</li>";
+  const wrap = $("scores-minigames");
+  wrap.innerHTML = FAIRWAY_MINIGAMES_INFO.map((g) => {
+    const rows = data[g.id] ?? [];
+    return `<h2>${g.name}</h2><ol class="board">${rows.map((r) => `<li>${r.name} — ${r.score}</li>`).join("") || "<li>—</li>"}</ol>`;
+  }).join("");
+}
+
+// ---------------------------------------------------------------- facility
+
+function fwRenderFacilityMenu() {
+  const wrap = $("facility-list");
+  wrap.textContent = "";
+  for (const g of FAIRWAY_MINIGAMES_INFO) {
+    const b = document.createElement("button");
+    b.className = "mode";
+    b.innerHTML = `<b>${g.name}</b><span>${g.blurb}</span>`;
+    b.addEventListener("click", () => fwStartMinigame(g.id));
+    wrap.append(b);
+  }
+}
+
+const MG_ENGINES = {
+  sprint: { create: sprintCreate, step: sprintStep },
+  freethrow: { create: freethrowCreate, step: freethrowStep },
+  penalties: { create: penaltyCreate, step: penaltyStep },
+};
+
+function fwStartMinigame(id) {
+  const info = FAIRWAY_MINIGAMES_INFO.find((g) => g.id === id);
+  app.mg = { id, info, state: MG_ENGINES[id].create({ seed: Date.now() % 1e6 }), meter: { stage: "idle", t: 0 }, side: 0 };
+  app.screen = "mg-playing";
+  $("mg-name").textContent = info.name;
+  $("mg-stat-label").textContent = id === "sprint" ? "Metres" : id === "freethrow" ? "Makes" : "Goals";
+  fwRenderMgControls();
+  fwShow(null);
+  document.querySelectorAll(".screen").forEach((s) => { s.hidden = true; });
+  $("mg").hidden = false;
+}
+
+function fwRenderMgControls() {
+  const wrap = $("mg-controls");
+  wrap.textContent = "";
+  const { id } = app.mg;
+  if (id === "sprint") {
+    $("mg-bar1").hidden = false; $("mg-bar2").hidden = true;
+    $("mg-message").textContent = "Wait for it… then alternate left/right taps.";
+    const l = document.createElement("button"); l.className = "btn"; l.textContent = "Left (←)";
+    l.addEventListener("pointerdown", () => fwEdge.add("MgTapLeft"));
+    const rr = document.createElement("button"); rr.className = "btn"; rr.textContent = "Right (→)";
+    rr.addEventListener("pointerdown", () => fwEdge.add("MgTapRight"));
+    wrap.append(l, rr);
+  } else if (id === "freethrow") {
+    $("mg-bar1").hidden = false; $("mg-bar2").hidden = false;
+    $("mg-message").textContent = "Tap to charge power, tap again to lock it and read the arc, tap again to shoot.";
+    const b = document.createElement("button"); b.className = "btn primary"; b.textContent = "Shoot";
+    b.addEventListener("click", fwFreethrowAdvance);
+    wrap.append(b);
+  } else if (id === "penalties") {
+    $("mg-bar1").hidden = false; $("mg-bar2").hidden = false;
+    $("mg-message").textContent = "Pick a side, tap to lock power, then kick.";
+    const left = document.createElement("button"); left.className = "btn"; left.textContent = "← Side";
+    left.addEventListener("click", () => { app.mg.side = Math.max(-1, app.mg.side - 0.2); });
+    const right = document.createElement("button"); right.className = "btn"; right.textContent = "Side →";
+    right.addEventListener("click", () => { app.mg.side = Math.min(1, app.mg.side + 0.2); });
+    const kick = document.createElement("button"); kick.className = "btn primary"; kick.textContent = "Power / Kick";
+    kick.addEventListener("click", fwPenaltyAdvance);
+    wrap.append(left, right, kick);
+  }
+}
+
+function fwFreethrowAdvance() {
+  const m = app.mg.meter;
+  if (m.stage === "idle") { m.stage = "power"; m.t = 0; $("mg-message").textContent = "Charging power…"; return; }
+  if (m.stage === "power") { m.power = meterPowerAt(m.t); m.stage = "arc"; m.t = 0; $("mg-message").textContent = "Reading the arc…"; return; }
+  const arc = meterPowerAt(m.t);
+  const events = freethrowStep(app.mg.state, 0, { shoot: true, power: m.power, arc });
+  $("mg-message").textContent = events.some((e) => e.type === "make") ? "Nothing but net." : "Off the rim.";
+  m.stage = "idle";
+}
+function fwPenaltyAdvance() {
+  const m = app.mg.meter;
+  if (m.stage === "idle") { m.stage = "power"; m.t = 0; $("mg-message").textContent = "Charging power…"; return; }
+  const power = meterPowerAt(m.t);
+  const events = penaltyStep(app.mg.state, 0, { kick: true, side: app.mg.side, power });
+  const kind = events[0]?.type;
+  $("mg-message").textContent = kind === "goal" ? "Goal!" : kind === "saved" ? "Saved!" : "Wide!";
+  m.stage = "idle";
+}
+
+function fwEndMinigame(cancelled) {
+  const { id, state } = app.mg;
+  if (!cancelled) {
+    const submit = fgSubmitMinigame(fwStore, id, app.crewTag, state.score);
+    $("mgo-venue").textContent = FAIRWAY_MINIGAMES_INFO.find((g) => g.id === id).venue;
+    $("mgo-title").textContent = `Round over — ${state.score} points`;
+    $("mgo-summary").textContent = id === "sprint"
+      ? (state.finishTime != null ? `Finished in ${state.finishTime.toFixed(2)} s (${state.falseStarts} false start${state.falseStarts === 1 ? "" : "s"}).` : "Didn't finish inside sixty seconds.")
+      : id === "freethrow" ? `${state.makes} of ${state.attempts} made, best streak ${state.bestStreak}.`
+      : `${state.goals} of ${state.kicks} scored (${state.saved} saved, ${state.wide} wide).`;
+    $("mgo-board").innerHTML = (fgLoadScores(fwStore)[id] ?? []).map((r, i) => `<li>${r.name} — ${r.score}${submit.rank === i + 1 ? " ← you" : ""}</li>`).join("") || "<li>—</li>";
+    app.screen = "mg-over";
+    $("mg").hidden = true;
+    fwShow("scr-mg-over");
+  } else {
+    app.mg = null;
+    app.screen = "facility";
+    $("mg").hidden = true;
+    fwRenderFacilityMenu();
+    fwShow("scr-facility");
+  }
+}
+$("mgo-again").addEventListener("click", () => fwStartMinigame(app.mg.id));
+$("mgo-menu").addEventListener("click", () => { app.mg = null; app.screen = "facility"; fwRenderFacilityMenu(); fwShow("scr-facility"); });
+
+// ------------------------------------------------------------------- loop
+
+let fwLast = performance.now();
+function fwFrame(now) {
+  requestAnimationFrame(fwFrame);
+  const dt = Math.min(0.05, (now - fwLast) / 1000);
+  fwLast = now;
+  fwPollPad(dt);
+
+  if (app.screen === "playing") fwTickPlaying(dt);
+  else if (app.screen === "mg-playing") fwTickMinigame(dt);
+
+  fwEdge.clear();
+}
+
+function fwTickPlaying(dt) {
+  const r = app.round;
+  if (!r || r.finished) return;
+
+  let turn = 0;
+  if (fwKeys.has("ArrowLeft") || fwKeys.has("KeyA")) turn -= 1;
+  if (fwKeys.has("ArrowRight") || fwKeys.has("KeyD")) turn += 1;
+  turn += fwPadAxisX();
+  if (fwEdge.has("AimLeftBtn")) turn -= 1;
+  if (fwEdge.has("AimRightBtn")) turn += 1;
+  if (turn) { glAdjustAim(r, turn * app.aimRate * dt); fwSyncBall(); }
+
+  if (fwEdge.has("Space") || fwEdge.has("Pad0")) fwAdvanceMeter();
+  if (fwEdge.has("KeyV")) fwToggleView();
+  if (fwEdge.has("KeyC") || fwEdge.has("Pad1")) fwDoFirstCourtesy();
+  for (const [i, code] of ["Digit1", "Digit2", "Digit3", "Digit4"].entries()) {
+    if (fwEdge.has(code)) fwSelectClub(GOLF_CLUBS[i].id);
+  }
+
+  const m = app.meter;
+  if (m.stage === "power") { m.t += dt; fwRenderMeterBar(meterPowerAt(m.t)); }
+  else if (m.stage === "timing") { m.t += dt; fwRenderMeterBar((meterTimingAt(m.t) + 1) / 2); }
+
+  $("hud-hole").querySelector(".n").textContent = `Hole ${glCurrentHole(r).number} · Par ${glCurrentHole(r).par}`;
+  $("hud-hole").querySelector(".sub").textContent = `${glCurrentHole(r).yards} yd · ${glDistanceToPin(r).toFixed(0)} m to pin · Stroke ${r.strokesThisHole + 1}`;
+  const relSoFar = r.scorecard.reduce((s, h) => s + h.rel, 0);
+  $("hud-score").querySelector("b").textContent = `${r.totalStrokes + r.strokesThisHole} (${relSoFar >= 0 ? "+" : ""}${relSoFar || "E"})`;
+  $("hud-wind").textContent = r.wind.speed > 0.4 ? `Wind ${r.wind.speed.toFixed(1)} m/s` : "Calm";
+  $("hud-lie").textContent = `Lie: ${r.lastLie}`;
+  fwRenderCare();
+
+  app.renderer.render(app.scene, app.camera);
+}
+
+function fwRenderMeterBar(v) {
+  $("meter-fill").style.width = `${Math.round(v * 100)}%`;
+}
+
+function fwTickMinigame(dt) {
+  const { id, state, meter } = app.mg;
+  const engine = MG_ENGINES[id];
+  const input = {};
+  if (id === "sprint") {
+    if (fwEdge.has("ArrowLeft") || fwEdge.has("MgTapLeft") || fwEdge.has("Pad0")) { input.tap = true; input.side = "left"; }
+    else if (fwEdge.has("ArrowRight") || fwEdge.has("MgTapRight") || fwEdge.has("Pad1")) { input.tap = true; input.side = "right"; }
+  }
+  engine.step(state, dt, input);
+
+  if (id === "sprint") {
+    $("mg-bar1-fill").style.width = `${Math.min(100, (state.position / 100) * 100)}%`;
+    $("mg-stat-value").textContent = state.position.toFixed(0);
+    $("mg-message").textContent = state.phase === "set" ? "Steady… don't jump the gun." : state.phase === "running" ? "Go! Alternate left/right." : state.phase === "finished" ? "Finished!" : "";
+  } else if (id === "freethrow") {
+    $("mg-stat-value").textContent = `${state.makes}/${state.attempts}`;
+    if (meter.stage === "power") { meter.t += dt; $("mg-bar1-fill").style.width = `${meterPowerAt(meter.t) * 100}%`; }
+    if (meter.stage === "arc") { meter.t += dt; $("mg-bar2-fill").style.width = `${meterPowerAt(meter.t) * 100}%`; }
+  } else if (id === "penalties") {
+    $("mg-stat-value").textContent = `${state.goals}/${state.kicks}`;
+    $("mg-bar1-fill").style.width = `${((app.mg.side + 1) / 2) * 100}%`;
+    if (meter.stage === "power") { meter.t += dt; $("mg-bar2-fill").style.width = `${meterPowerAt(meter.t) * 100}%`; }
+  }
+  $("mg-time").textContent = `${state.timeLeft.toFixed(0)}s`;
+
+  if (state.over) fwEndMinigame(false);
+}
+
+requestAnimationFrame(fwFrame);
+fwShow("scr-menu");
+
+</script>
+</body>
+</html>

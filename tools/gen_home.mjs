@@ -110,7 +110,7 @@ export function deviceLine(devicesMd) {
 const LAYOUTS = {
   repo: {
     out: "index.html",
-    app: { smartcity: "smartcity/index.html", trades: "trades/index.html", holodeck: "holodeck/index.html", instructor: "instructor/index.html" },
+    app: { smartcity: "smartcity/index.html", trades: "trades/index.html", holodeck: "holodeck/index.html", instructor: "instructor/index.html", fairway: "fairway/index.html" },
     aside: { portal: "portal/index.html", verify: "verify/index.html", campus: "campus/index.html" },
     doc: (name) => `../docs/${name}`,
     accessibility: "ACCESSIBILITY.md",
@@ -120,7 +120,7 @@ const LAYOUTS = {
   },
   flat: {
     out: "home.html",
-    app: { smartcity: "smartcity-x.html", trades: "trade-skills-simulator.html", holodeck: "holodeck.html", instructor: "instructor-console.html" },
+    app: { smartcity: "smartcity-x.html", trades: "trade-skills-simulator.html", holodeck: "holodeck.html", instructor: "instructor-console.html", fairway: "fairway.html" },
     // The portal, the verifier and the Safety Campus page have no single-file
     // bundle, so in the flat layout they are named where they actually live
     // rather than linked to a file that is not in the folder.
@@ -946,6 +946,11 @@ export function renderHome(catalog, devicesMd, layoutName = "repo") {
       href: layout.app.instructor, tint: "#f2c14b", count: "Live",
       name: "Instructor Console", go: "Open the console",
       blurb: "The class as it runs: where each learner is, every unsafe action as it happens, and the commands an instructor can put in front of one of them.",
+    }),
+    appCard(layout, {
+      href: layout.app.fairway, tint: "#8cff5a", count: "Nine holes",
+      name: "Fairway Park", go: "Play Fairway Park",
+      blurb: "An original nine-hole course and an outdoor sports facility, played for real strokes and real scores — with a groundskeeper's log that scores course care right alongside them.",
     }),
   ].join("\n");
 
