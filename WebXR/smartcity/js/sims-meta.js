@@ -24472,5 +24472,341 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "mm-hot-strip-mill-stand",
+    "index": "708",
+    "domain": "Manufacturing",
+    "trade": "Hot-strip mill roll-shop operator",
+    "category": "Manufacturing & Automation",
+    "certification": "USW Tony Mazzocchi Center health and safety training; OSHA 29 CFR 1910.147 control of hazardous energy (lockout/tagout); OSHA 29 CFR 1910.212 general machine guarding; ASME B30.2 overhead and gantry cranes",
+    "name": "Hot-Strip Mill Stand",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Hot-Strip Mill Stand VR",
+    "tagline": "A finishing-stand roll change: drive and screwdown locked out, zero speed proven, the crane path called, the old rolls rigged out and the new set coupled and set",
+    "accent": 14705454,
+    "accentCss": "#e0632e",
+    "parSeconds": 320,
+    "badge": {
+      "id": "stand-cleared",
+      "name": "Stand Cleared",
+      "note": "A roll change made locked out, zero speed proven, the crane path called clear, and the guard back before the stand turned again"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Roll Shop Authority",
+      "currency": "COIL",
+      "ranks": [
+        "Roll-Shop Helper",
+        "Millwright",
+        "Roll-Shop Operator",
+        "Turn Boss",
+        "Roll Shop Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "mm-ladle-pour",
+    "index": "709",
+    "domain": "Manufacturing",
+    "trade": "Steelmaking ladle crew",
+    "category": "Manufacturing & Automation",
+    "certification": "USW Tony Mazzocchi Center health and safety training; OSHA 29 CFR 1910.132 personal protective equipment; OSHA 29 CFR 1910.133 eye and face protection; ANSI/ISEA 105 hand protection classification; ANSI/ISEA Z358.1 emergency eyewash and shower equipment",
+    "name": "Ladle Pour",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Ladle Pour VR",
+    "tagline": "A molten-metal ladle tilted to pour: PPE on, the splash barrier closed, additions dry and through the chute, the tilt held to a controlled rate",
+    "accent": 14177578,
+    "accentCss": "#d8552a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "clean-heat",
+      "name": "Clean Heat",
+      "note": "A heat poured behind a closed barrier, in full PPE, with the tilt held steady and nothing wet ever going near the metal"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Pour Deck Authority",
+      "currency": "HEAT",
+      "ranks": [
+        "Ladle Helper",
+        "Pourer",
+        "Ladle Operator",
+        "Melt Shop Lead",
+        "Pour Deck Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "mm-coke-oven-heat-rotation",
+    "index": "710",
+    "domain": "Manufacturing",
+    "trade": "Coke oven battery topside worker",
+    "category": "Manufacturing & Automation",
+    "certification": "USW Tony Mazzocchi Center health and safety training; ACGIH Threshold Limit Values heat stress guidance; NIOSH criteria documents on occupational heat exposure; OSHA 29 CFR 1910.132 personal protective equipment",
+    "name": "Coke Oven Heat Rotation",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Coke Oven Heat Rotation VR",
+    "tagline": "A battery topside shift worked to the plan's heat-stress rotation: PPE on, a buddy checked in with, a leaking door seal luted, the larry car's path respected, cooldown taken in full",
+    "accent": 14242844,
+    "accentCss": "#d9541c",
+    "parSeconds": 300,
+    "badge": {
+      "id": "rotation-held",
+      "name": "Rotation Held",
+      "note": "A topside shift worked to the plan's rotation, PPE on, the buddy system kept, and every cooldown taken in full"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Battery Topside Authority",
+      "currency": "CHARGE",
+      "ranks": [
+        "Larry Car Helper",
+        "Topside Worker",
+        "Battery Operator",
+        "Battery Foreman",
+        "Battery Topside Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "mm-paper-machine-dryer",
+    "index": "711",
+    "domain": "Manufacturing",
+    "trade": "Paper machine dryer section operator",
+    "category": "Manufacturing & Automation",
+    "certification": "USW Tony Mazzocchi Center health and safety training; OSHA 29 CFR 1910.147 control of hazardous energy (lockout/tagout); OSHA 29 CFR 1910.212 general machine guarding; ANSI B11 general safety requirements for machines",
+    "name": "Paper Machine Dryer Section",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Paper Machine Dryer Section VR",
+    "tagline": "A dryer-section felt change: drive and steam locked out, pressure bled to zero, the nip guarded, the felt threaded and tensioned, the section proved before power comes back",
+    "accent": 3833000,
+    "accentCss": "#3a7ca8",
+    "parSeconds": 300,
+    "badge": {
+      "id": "felt-changed-clean",
+      "name": "Felt Changed Clean",
+      "note": "A dryer section locked out, bled to zero and reguarded before power went back on it, with the neighbouring section never touched"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Dryer Section Authority",
+      "currency": "REEL",
+      "ranks": [
+        "Machine Tender Helper",
+        "Fourth Hand",
+        "Machine Tender",
+        "Dryer Section Lead",
+        "Dryer Section Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "mm-continuous-miner-face",
+    "index": "712",
+    "domain": "Mining",
+    "trade": "Underground continuous miner operator / roof bolter",
+    "category": "Manufacturing & Automation",
+    "certification": "UMWA health and safety training; per the section's roof-control plan and the mine safety regulations, named generically; NIOSH criteria documents on occupational exposure; ANSI B11 general safety requirements for machines",
+    "name": "Continuous Miner Face",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Continuous Miner Face VR",
+    "tagline": "A cut-and-bolt cycle at the face: cut, retreat behind support, dust, drill and bolt to the roof-control plan, sound the roof, advance",
+    "accent": 12092974,
+    "accentCss": "#b8862e",
+    "parSeconds": 320,
+    "badge": {
+      "id": "face-supported",
+      "name": "Face Supported",
+      "note": "A cut-and-bolt cycle run to the roof-control plan, never past the last row of support without a reason the plan accounts for"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Face Authority",
+      "currency": "CUT",
+      "ranks": [
+        "Roof Bolter Helper",
+        "Continuous Miner Operator",
+        "Section Foreman",
+        "Mine Examiner",
+        "Face Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "mm-mine-escapeway-drill",
+    "index": "713",
+    "domain": "Mining",
+    "trade": "Underground miner — mine emergency and evacuation drill",
+    "category": "Manufacturing & Automation",
+    "certification": "UMWA health and safety training; per the mine's emergency plan and the mine safety regulations, named generically; NIOSH criteria documents on occupational safety and emergency evacuation; NIMS/ICS incident command coordination with surface command",
+    "name": "Mine Escapeway & Self-Rescuer Drill",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Mine Escapeway & Self-Rescuer Drill VR",
+    "tagline": "An evacuation drill to the mine's emergency plan: the self-rescuer donned complete, the alternate escapeway taken, the lifeline followed by feel, a changeover made, the refuge sealed and reported",
+    "accent": 4890207,
+    "accentCss": "#4a9e5f",
+    "parSeconds": 300,
+    "badge": {
+      "id": "escape-drilled",
+      "name": "Escape Drilled",
+      "note": "An evacuation drill run to the plan: self-rescuer donned complete, the lifeline followed, the refuge sealed and the crew accounted for"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Mine Escape Authority",
+      "currency": "AIR",
+      "ranks": [
+        "New Miner",
+        "Section Hand",
+        "Fire Boss",
+        "Mine Examiner",
+        "Mine Escape Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "mm-haul-truck-berm",
+    "index": "714",
+    "domain": "Mining",
+    "trade": "Surface mine haul truck operator",
+    "category": "Manufacturing & Automation",
+    "certification": "UMWA health and safety training; per the mine's traffic and dump-point plan and the mine safety regulations, named generically; ANSI B11 general safety requirements for machines; NIOSH criteria documents on haul-truck traffic and berm safety research",
+    "name": "Haul Truck Berm & Dump Point",
+    "weather": "heat-haze",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Haul Truck Berm & Dump Point VR",
+    "tagline": "A loaded haul run to the dump point: the berm read against the axle, a spotter's signal before backing, a controlled back and dump, an empty return logged",
+    "accent": 13072942,
+    "accentCss": "#c77a2e",
+    "parSeconds": 320,
+    "badge": {
+      "id": "berm-respected",
+      "name": "Berm Respected",
+      "note": "A haul run made with the berm read before backing, the spotter's signal taken, and the highwall never trusted on a guess"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Haul Road Authority",
+      "currency": "LOAD",
+      "ranks": [
+        "Haul Truck Trainee",
+        "Haul Truck Operator",
+        "Lead Operator",
+        "Pit Foreman",
+        "Haul Road Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "mm-conveyor-fire-and-gas-monitoring",
+    "index": "715",
+    "domain": "Mining",
+    "trade": "Underground belt examiner / conveyor attendant",
+    "category": "Manufacturing & Automation",
+    "certification": "UMWA health and safety training; per the mine's examination and ventilation plan and the mine safety regulations, named generically; NFPA 69 explosion prevention systems; OSHA 29 CFR 1910.147 control of hazardous energy (lockout/tagout)",
+    "name": "Conveyor Belt Fire & Gas Monitoring",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Conveyor Belt Fire & Gas Monitoring VR",
+    "tagline": "A belt-entry exam: a stuck roller freed under lockout, the dust swept up, suppression proven armed, and the CO and methane monitors read and trusted",
+    "accent": 9071262,
+    "accentCss": "#8a6a9e",
+    "parSeconds": 300,
+    "badge": {
+      "id": "belt-entry-examined",
+      "name": "Belt Entry Examined",
+      "note": "A belt examined to the plan: the friction source found and freed under lockout, the dust cleared, suppression armed, both monitors read and trusted"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Belt Examiner Authority",
+      "currency": "ROLLER",
+      "ranks": [
+        "Beltman Helper",
+        "Belt Attendant",
+        "Mine Examiner",
+        "Fire Boss",
+        "Belt Examiner Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

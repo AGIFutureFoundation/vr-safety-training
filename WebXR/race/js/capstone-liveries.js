@@ -245,5 +245,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "airline-cabin-and-flight-crew",
     "name": "Airline Cabin and Flight Crew — AFA-CWA and ALPA",
     "accent": "#5a8fd8"
+  },
+  {
+    "programme": "mill-and-mine",
+    "name": "Mill and Mine",
+    "accent": "#c77a2e"
   }
 ];

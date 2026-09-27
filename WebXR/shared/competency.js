@@ -211,6 +211,9 @@ export const STANDARDS = Object.fromEntries([
   S("epa-fifra-pesticide-label", "EPA", "Federal Insecticide, Fungicide, and Rodenticide Act (FIFRA) — the pesticide product label as a legal document, and EPA's pesticide applicator and worker-protection requirements", ["Grounds & Landscaping"], "unverified"),
   S("afa-cwa-training", "union", "AFA-CWA member education and cabin-safety training for flight attendants", ["Transit & Logistics"], "unverified"),
   S("alpa-training", "union", "ALPA member professional-standards and safety training for airline pilots", ["Transit & Logistics"], "unverified"),
+  S("usw-mazzocchi-center", "union", "USW Tony Mazzocchi Center health, safety and environmental training", ["Manufacturing"]),
+  S("umwa-training", "union", "UMWA — United Mine Workers of America health and safety training for underground and surface mine crews", ["Manufacturing"], "unverified"),
+  S("niosh-criteria", "NIOSH", "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards", ["Manufacturing"]),
 ].map((s) => [s.id, { ...s, slug: standardSlug(s.body, s.title) }]));
 
 /** The body and title behind a standard id, or a placeholder for an unknown one. */
@@ -834,6 +837,17 @@ export const PROGRAMME_COMPETENCIES = [
     stations: [
       "ca-cabin-preflight-safety-check", "ca-galley-and-cart-safety", "ca-cabin-medical-event-response", "ca-unruly-passenger-deescalation",
       "ca-cabin-decompression-and-oxygen-masks", "ca-door-evacuation-drill", "ca-flight-deck-crew-resource-management", "ca-fatigue-and-duty-time-self-check"
+    ],
+    require: 4,
+  },
+  {
+    id: "mill-and-mine",
+    title: "Lock out a mill stand, tilt a ladle behind a closed barrier, and run a mine face and its escapeway to the roof-control and emergency plans",
+    kind: "programme",
+    standards: ["usw-mazzocchi-center", "umwa-training", "osha-1910-147", "niosh-criteria"],
+    stations: [
+      "mm-hot-strip-mill-stand", "mm-ladle-pour", "mm-coke-oven-heat-rotation", "mm-paper-machine-dryer",
+      "mm-continuous-miner-face", "mm-mine-escapeway-drill", "mm-haul-truck-berm", "mm-conveyor-fire-and-gas-monitoring"
     ],
     require: 4,
   },

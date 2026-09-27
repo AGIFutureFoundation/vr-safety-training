@@ -194,7 +194,7 @@ export const BAY_SITES = [
   { id: "port-rail-yard", name: "Port Rail Yard", zone: "port", position: [-416, 383],
     programmes: ["railroad-crafts"], stations: ["ra-roadway-worker-protection-and-job-briefing", "ra-tie-and-rail-replacement-with-track-machines"] },
   { id: "port-maintenance-shop", name: "Port Maintenance Shop", zone: "port", position: [-375, 293],
-    programmes: ["plumbers-and-pipefitters", "insulators-and-boilermakers"], stations: ["pl-medical-gas-brazing-and-purge", "ib-mechanical-insulation-pipe-and-jacketing"] },
+    programmes: ["mill-and-mine", "plumbers-and-pipefitters", "insulators-and-boilermakers"], stations: ["pl-medical-gas-brazing-and-purge", "ib-mechanical-insulation-pipe-and-jacketing"] },
   { id: "port-hazmat-response-yard", name: "Port Hazmat Response Yard", zone: "port", position: [-356, 381],
     programmes: ["hazmat-environmental"], stations: ["hunters-point", "abatement-chamber", "decon-line"] },
   { id: "estuary-shoreline-park-trailhead", name: "Shoreline Park Trailhead", zone: "estuary-waterfront", position: [135, 300],

@@ -4336,6 +4336,90 @@ export const SIDE_QUESTS = [
       "xp": 250,
       "badge": "Airline Cabin and Flight Crew — AFA-CWA and ALPA — Capstone"
     }
+  },
+  {
+    "id": "bw-side-mill-and-mine-opener",
+    "title": "Mill and Mine — First Shift",
+    "giver": "the programme's training lead",
+    "site": "Mill and Mine",
+    "kind": "side",
+    "tier": 1,
+    "requires": null,
+    "programmeId": "mill-and-mine",
+    "role": "opener",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Mill and Mine",
+        "text": "The training lead meets you at Mill and Mine and points you to the first bench."
+      },
+      {
+        "type": "station",
+        "target": "mm-hot-strip-mill-stand",
+        "text": "The mill's opener: a roll change locked out on the drive and the screwdown both, zero speed proven, and the crane's own path called clear before the old rolls ever come out."
+      },
+      {
+        "type": "station",
+        "target": "mm-ladle-pour",
+        "text": "PPE on before the ladle is ever approached, the splash barrier closed before the tilt starts, and every addition going in dry and through the chute, never by hand."
+      },
+      {
+        "type": "station",
+        "target": "mm-coke-oven-heat-rotation",
+        "text": "A battery topside worked to the plan's own heat-stress rotation, with the buddy system kept and every cooldown taken in full rather than cut short to get back to work."
+      },
+      {
+        "type": "talk",
+        "target": "training-lead",
+        "text": "\"Four mill stations and four mine stations under one steelworkers-and-miners pack: a hot-strip stand's roll change, a ladle tilted to pour, a coke battery's heat rotation, a paper machine's felt change; then a continuous miner's cut-and-bolt cycle, an escapeway and self-rescuer drill, a haul truck's berm and dump point, and a belt entry's fire and gas exam.\""
+      }
+    ],
+    "reward": {
+      "xp": 100,
+      "badge": "Mill and Mine — Opener"
+    }
+  },
+  {
+    "id": "bw-side-mill-and-mine-capstone",
+    "title": "Mill and Mine — Capstone",
+    "giver": "the programme's certifying evaluator",
+    "site": "Mill and Mine",
+    "kind": "side",
+    "tier": 2,
+    "requires": "bw-side-mill-and-mine-opener",
+    "programmeId": "mill-and-mine",
+    "role": "capstone",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Mill and Mine",
+        "text": "The certifying evaluator is waiting at the last bench, sign-off sheet in hand."
+      },
+      {
+        "type": "station",
+        "target": "mm-mine-escapeway-drill",
+        "text": "The self-rescuer donned complete before a step is taken, the alternate escapeway taken the moment the primary is found blocked, and the lifeline's own cones read by feel rather than guessed at."
+      },
+      {
+        "type": "station",
+        "target": "mm-haul-truck-berm",
+        "text": "The berm read against the truck's own axle before backing toward it, the spotter's signal taken before the edge, and the highwall above the dump point given the respect an unstable rock face is owed."
+      },
+      {
+        "type": "station",
+        "target": "mm-conveyor-fire-and-gas-monitoring",
+        "text": "A belt entry's own exam: a stuck roller freed under lockout before it grinds a fire into the dust beside it, and the CO and methane monitors read and trusted rather than covered or guessed at."
+      },
+      {
+        "type": "talk",
+        "target": "certifying-evaluator",
+        "text": "\"Certified under: USW Tony Mazzocchi Center health and safety training; UMWA health and safety training; OSHA 29 CFR 1910.147 control of hazardous energy for the mill stations; the mine safety regulations, named generically, and each mine's own roof-control, ventilation and emergency plans for the mine stations\""
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": "Mill and Mine — Capstone"
+    }
   }
 ];
 
