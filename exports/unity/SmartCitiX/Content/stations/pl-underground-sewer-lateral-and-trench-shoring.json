@@ -1,0 +1,422 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "lateral-proven",
+    "name": "Lateral Proven",
+    "note": "A sewer lateral trenched, shored, laid to a checked fall and air-tested before backfill closes over it for good"
+  },
+  "category": "Water & Environmental",
+  "certification": "UA plumbers and pipefitters apprenticeship; the Uniform Plumbing Code (UPC) for the lateral's slope and joints; 29 CFR 1926 Subpart P Excavations; 29 CFR 1926 for the site as a whole; 8 CCR 3203 injury and illness prevention",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3203",
+        "id": "cal-osha-3203",
+        "title": "8 CCR 3203 — Injury and Illness Prevention Program"
+      },
+      {
+        "body": "IAPMO",
+        "citedAs": "Uniform Plumbing Code",
+        "id": "iapmo-upc",
+        "title": "IAPMO Uniform Plumbing Code (UPC) — the model plumbing code most state and local jurisdictions adopt for drain, waste, vent, water distribution and fuel gas piping"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926 Subpart P Excavations",
+        "id": "osha-1926-subpart-p",
+        "title": "OSHA 29 CFR 1926 Subpart P Excavations"
+      },
+      {
+        "body": "union",
+        "citedAs": "UA",
+        "id": "ua-apprenticeship",
+        "title": "UA — United Association plumber, pipefitter and HVAC service apprenticeship standards and UA Star certification"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Water & Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "shield-before-boots",
+        "name": "Shield Before Boots",
+        "note": "The protective system was placed before anyone entered the trench"
+      },
+      {
+        "id": "never-unshored",
+        "name": "Never Unshored",
+        "note": "No entry and no shield pull happened without the protective system doing its job"
+      },
+      {
+        "id": "true-fall",
+        "name": "True Fall",
+        "note": "Held the slope reading inside the band on every check"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-lay",
+        "name": "Clean Lay",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "unbroken-grade",
+        "name": "Unbroken Grade",
+        "note": "The grade watch never lapsed"
+      },
+      {
+        "id": "trench-closed-fast",
+        "name": "Trench Closed Fast",
+        "note": "Backfilled and signed off inside 80% of par"
+      }
+    ],
+    "currency": "FALL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Pipelayer",
+      "Journeyman",
+      "Lead Pipelayer",
+      "Underground Certified"
+    ],
+    "system": "Ground and Grade"
+  },
+  "hazards": {
+    "gas-line-unpotholed": "You brought the trenching bucket down right next to a marked gas line without hand-exposing it first. Locate paint tells you roughly where a line runs, not its exact depth or the exact swing of the trench it takes through the ground, and a bucket that finds it by feel finds it by striking it.",
+    "pull-shield-early": "You pulled the shield before the backfill behind it reached the level the plan calls for. The shield was the only thing holding that section of wall open — pull it early and the ground it was holding has nothing else in its way, and it comes down on whoever is standing where the shield used to be.",
+    "spoil-too-close": "That spoil pile is sitting right on the edge of the excavation. The extra weight from a pile that close is exactly the surcharge load that pushes a marginal wall past the point it can hold itself up, and it does it from the side nobody is watching because the shield is holding their attention.",
+    "unshored-entry": "You stepped into the trench before the protective system was placed. A cubic metre of soil weighs more than a small car, and a wall with nothing holding it can let go with no warning at all, burying a person from the waist down in seconds."
+  },
+  "id": "pl-underground-sewer-lateral-and-trench-shoring",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "air-check",
+      "alert": "A section of wall just sloughed in behind the shield on the open end, away from where you're reading the meter.",
+      "cue": "That is the ground moving on the unprotected side — check the shield's spreader before you do anything else.",
+      "delay": 3,
+      "id": "wall-sloughs",
+      "kind": "The trench wall sloughs behind the shield",
+      "missNote": "The slough sat there while the meter reading finished. Nobody looked at what the ground had just told them about this section of trench.",
+      "seconds": 12,
+      "target": "shield-spreader",
+      "why": "A wall that sloughs while the shield is already in means the soil found the one section the shield was not covering, and it is telling you the ground here is worse than the plan assumed before anyone is standing under it. Checking the spreader now, while it is still a slough and not a full collapse, is what decides whether the shield needs repositioning before the crew goes back to work at all.",
+      "wrongNote": "It is the shield's spreader, not the meter. The gas reading was never the thing that just moved."
+    },
+    {
+      "after": "joint-pipe",
+      "alert": "Dispatch just radioed — a crew two blocks over hit an unmarked line that was not on their locate ticket.",
+      "cue": "Before this trench goes any further, check your own locate ticket against what's actually in this ground.",
+      "delay": 3,
+      "id": "locate-call",
+      "kind": "Another crew radios a hit on an unmarked line",
+      "missNote": "The ticket never got a second look. Whatever the other crew just found out the hard way, this trench kept going on the same assumptions.",
+      "seconds": 12,
+      "target": "locate-ticket",
+      "why": "A locate ticket is a set of marks somebody made from records and a locator wand, not a guarantee, and a nearby crew just finding an unmarked line is the clearest warning this shift is going to get that a ticket can be wrong. Rechecking this trench's own ticket against the utilities actually exposed in it, before laying another length of pipe, is how that warning gets used instead of just being noted and moved past.",
+      "wrongNote": "It is this trench's own locate ticket. What happened two blocks over is a warning about assumptions, not about the pipe already in the ground here."
+    }
+  ],
+  "lateNotes": {
+    "pipe-section": "The pipe goes onto the checked bedding once the fall is proven, not before the grade has been set and read.",
+    "pull-lift-1": "The shield comes out a lift at a time as the backfill behind it takes over, never in one pull off a trench that is still standing open below it.",
+    "trench-shield": "The shield goes into the excavation and is proven set before anyone works below the level it protects, not after the first length of pipe is already in the trench."
+  },
+  "name": "Underground Sewer Lateral & Trench Shoring",
+  "parSeconds": 275,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "plumbers-and-pipefitters"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "air-test-plug",
+      "as-built-log",
+      "bedding-line",
+      "compactor",
+      "gas-line-flag",
+      "gas-line-unpotholed",
+      "gas-meter",
+      "hard-spot",
+      "high-spot",
+      "laser-level",
+      "locate-ticket",
+      "lube-gasket",
+      "mark-insertion",
+      "pipe-section",
+      "pull-lift-1",
+      "pull-lift-2",
+      "pull-lift-3",
+      "pull-shield-early",
+      "push-home",
+      "shield-spreader",
+      "slope-gauge",
+      "soil-class-board",
+      "spoil-too-close",
+      "trench-shield",
+      "trench-socket",
+      "unshored-entry",
+      "unstable-spoil"
+    ],
+    "meshes": 160
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the locate ticket against the drawing: what utilities are marked, and what fall the lateral is designed to run at.",
+      "id": "ticket",
+      "kind": "select",
+      "prompt": "Check the locate ticket against the drawing: what utilities are marked, and what fall the lateral is designed to run at.",
+      "target": "locate-ticket",
+      "title": "Confirm the locate ticket and the install drawing",
+      "why": "The Uniform Plumbing Code sizes a lateral's minimum fall around what the pipe needs to carry solids without backing up, and that number lives on the drawing next to whatever the locate ticket marked in this ground — a trench dug to the wrong fall or across a utility the ticket missed is a different, more dangerous job than the one that was planned."
+    },
+    {
+      "cue": "Check the competent person's soil classification board before choosing shield or slope.",
+      "id": "soil-class",
+      "kind": "select",
+      "prompt": "Check the competent person's soil classification board before choosing shield or slope.",
+      "target": "soil-class-board",
+      "title": "Read the soil classification for the protective system",
+      "why": "29 CFR 1926 Subpart P Excavations sets the protective system a trench needs around the actual soil it is dug in, not around what a crew hopes the ground will do — a classification made from looking at the spoil and the wall face, not guessed at from the last job in a different yard."
+    },
+    {
+      "cue": "Walk the marked area and find what is going to matter once the ground is open.",
+      "id": "hazard-walk",
+      "itemNames": {
+        "gas-line-flag": "gas line locate flag",
+        "unstable-spoil": "spoil piled at the edge"
+      },
+      "itemNotes": {
+        "gas-line-flag": "There is a yellow locate flag close to the planned trench line — that gas main has to be hand-exposed before any bucket comes near it.",
+        "unstable-spoil": "The spoil from test-pitting is piled right at the edge of where the trench is about to open, adding surcharge exactly where the wall will need to hold itself up."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the marked area and find what is going to matter once the ground is open.",
+      "targets": [
+        "gas-line-flag",
+        "unstable-spoil"
+      ],
+      "title": "Walk the site before the trench opens",
+      "why": "A gas line flag and a spoil pile in the wrong place are both invisible once the trench is open and full of equipment — finding them now, while the ground is still flat and everybody can see the whole picture, is what keeps either one from becoming a strike or a wall failure nobody saw building."
+    },
+    {
+      "cue": "Lower the trench shield into the excavation before anyone works below the level it protects.",
+      "drag": {
+        "missNote": "Not seated in the excavation — a shield left half in does not protect the section it is only halfway covering.",
+        "radius": 0.45,
+        "to": "trench-socket"
+      },
+      "id": "place-shield",
+      "kind": "drag",
+      "prompt": "Lower the trench shield into the excavation before anyone works below the level it protects.",
+      "target": "trench-shield",
+      "title": "Place the protective system",
+      "why": "The shield is the physical protection this whole job depends on, not a formality that follows the digging — it goes in as soon as the trench reaches the depth the plan calls for, so that nobody is ever standing below grade with only the wall's own word that it will hold."
+    },
+    {
+      "cue": "Hold the gas meter at the bottom of the trench until the reading settles before anyone climbs down.",
+      "holdBreakNote": "The meter came up before the reading settled — hold it again at the bottom until it is steady, this is the one check that has to be right before anyone enters.",
+      "id": "air-check",
+      "kind": "hold",
+      "prompt": "Hold the gas meter at the bottom of the trench until the reading settles before anyone climbs down.",
+      "seconds": 5,
+      "target": "gas-meter",
+      "title": "Check the atmosphere before entry",
+      "why": "A trench cut near a gas main and backfilled with disturbed soil can carry gas into a low pocket with no smell and no colour to warn a pipelayer climbing down into it, and the only way to know before it matters is a meter read at the bottom, not assumed clear because the surface air was fine."
+    },
+    {
+      "cue": "Turn the laser level's grade dial to the fall the drawing specifies for this run.",
+      "id": "set-grade",
+      "kind": "turn",
+      "prompt": "Turn the laser level's grade dial to the fall the drawing specifies for this run.",
+      "target": "laser-level",
+      "title": "Set the grade laser to the lateral's fall",
+      "turn": {
+        "axis": "y",
+        "label": "GRADE LASER",
+        "turns": 0.4
+      },
+      "why": "Every joint in this lateral is checked against one reference for the rest of the job, and that reference is only as good as the number dialled into it here — a laser set to the wrong fall makes every single downstream reading confidently wrong in exactly the same way."
+    },
+    {
+      "cue": "Look over the prepared bedding for anything that will throw the pipe off its fall.",
+      "id": "bedding",
+      "itemNames": {
+        "hard-spot": "hard spot in the bedding",
+        "high-spot": "high spot under the pipe line"
+      },
+      "itemNotes": {
+        "hard-spot": "There is a chunk of broken concrete left in the bedding — a hard point under the pipe becomes the one spot the whole lateral's weight bears on once it's backfilled.",
+        "high-spot": "The bedding is proud of the line here — laid on it as-is, the pipe rides up and loses fall exactly where a lateral cannot afford to."
+      },
+      "kind": "find",
+      "prompt": "Look over the prepared bedding for anything that will throw the pipe off its fall.",
+      "targets": [
+        "hard-spot",
+        "high-spot"
+      ],
+      "title": "Check the bedding before the pipe goes down",
+      "why": "Bedding is what the pipe actually rests on for the rest of its life, and a hard spot or a high spot hiding under a smooth-looking surface becomes a permanent bird's mouth or belly in the line the moment backfill locks it in place — both are found now, on bare bedding, or not at all once the trench is closed."
+    },
+    {
+      "cue": "Bring the new length down onto the checked bedding, spigot end forward.",
+      "drag": {
+        "missNote": "Not seated on the checked bedding — a pipe set outside the prepared line rides on whatever is actually under it, hard spot or not.",
+        "radius": 0.42,
+        "to": "bedding-line"
+      },
+      "id": "lay-pipe",
+      "kind": "drag",
+      "prompt": "Bring the new length down onto the checked bedding, spigot end forward.",
+      "target": "pipe-section",
+      "title": "Lower the pipe section onto the bedding",
+      "why": "The pipe goes down spigot-first onto bedding that has already been checked, because setting it down before the bedding is proven means finding the hard spot or the high spot with the pipe already resting on it instead of with an empty trench still easy to fix."
+    },
+    {
+      "cue": "Read the level against the laser and commit once the fall sits in the band the drawing calls for.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "FALL",
+        "missNote": "Off the fall on this length — reset the bedding under it before the next section goes down, not after.",
+        "speed": 0.7
+      },
+      "id": "check-fall",
+      "kind": "gauge",
+      "prompt": "Read the level against the laser and commit once the fall sits in the band the drawing calls for.",
+      "target": "slope-gauge",
+      "title": "Check the fall on this length",
+      "why": "A lateral's fall has to stay inside a narrow band for its whole run — too flat and solids stop moving through it, too steep and the liquid outruns the solids and leaves them behind — and the only way either failure gets caught before it is buried for good is a level read against the laser on every single length."
+    },
+    {
+      "cue": "Lubricate the gasket, push the spigot home, then check the insertion mark.",
+      "id": "joint-pipe",
+      "itemNames": {
+        "lube-gasket": "gasket lubricated",
+        "mark-insertion": "insertion depth marked and checked",
+        "push-home": "spigot pushed home"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Lubricate, then push it home, then check the mark — checking the mark before the joint is fully made confirms nothing.",
+      "prompt": "Lubricate the gasket, push the spigot home, then check the insertion mark.",
+      "targets": [
+        "lube-gasket",
+        "push-home",
+        "mark-insertion"
+      ],
+      "title": "Joint the pipe to the previous length",
+      "why": "A gasketed joint depends on the spigot going in far enough to seat the gasket fully and no farther, and the insertion mark is the only way to confirm that by sight rather than by how it felt going in — a joint that looks seated but is short of the mark can pull apart under the very backfill that is about to bury it."
+    },
+    {
+      "cue": "Run the compactor at a steady pace over the bedding zone, lift by lift, without walking it straight over the pipe crown.",
+      "holdBreakNote": "That pass ran outside the band — recheck this lift before the next one goes on top of it.",
+      "id": "backfill",
+      "kind": "track",
+      "prompt": "Run the compactor at a steady pace over the bedding zone, lift by lift, without walking it straight over the pipe crown.",
+      "seconds": 7,
+      "target": "compactor",
+      "title": "Compact the pipe zone in lifts",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.3,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "COMPACTION PASS",
+        "rise": 0.12,
+        "start": 0.5
+      },
+      "why": "The pipe zone is compacted in shallow lifts at a controlled pace because a compactor run too fast skips density the pipe needs for support, and one run directly over an unprotected crown transmits impact straight into the pipe wall instead of into the soil beside it."
+    },
+    {
+      "cue": "Raise the shield one lift at a time as the backfill behind it reaches each level, never all at once.",
+      "id": "pull-shield",
+      "itemNames": {
+        "pull-lift-1": "shield raised after lift one",
+        "pull-lift-2": "shield raised after lift two",
+        "pull-lift-3": "shield fully clear after lift three"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "One lift, then the next, then the last — the shield only comes up as far as the backfill behind it has already risen.",
+      "prompt": "Raise the shield one lift at a time as the backfill behind it reaches each level, never all at once.",
+      "targets": [
+        "pull-lift-1",
+        "pull-lift-2",
+        "pull-lift-3"
+      ],
+      "title": "Pull the shield as the backfill rises",
+      "why": "The shield is holding a wall open, and pulling it clear in one motion hands that job back to soil that has had no chance to settle or be compacted against it — raising it a lift at a time lets the backfill itself take over holding the wall exactly as fast as the shield stops doing it."
+    },
+    {
+      "cue": "Bring the test plug up to the pressure the code and the drawing call for, then commit once it holds.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.76
+        ],
+        "label": "TEST PRESSURE",
+        "missNote": "Did not hold — there is a joint under this backfill that needs to be found before the trench is called finished.",
+        "speed": 0.68
+      },
+      "id": "air-test",
+      "kind": "gauge",
+      "prompt": "Bring the test plug up to the pressure the code and the drawing call for, then commit once it holds.",
+      "target": "air-test-plug",
+      "title": "Air-test the completed lateral",
+      "why": "An air test on the finished lateral is the only proof that every joint made it through backfill and compaction still sealed, because a joint that looked perfect going together can still be pulled or crushed by the very soil that is now covering it for good."
+    },
+    {
+      "cue": "Mark the as-built log with the fall, the depth, and the test result before the crew moves off site.",
+      "id": "as-built",
+      "kind": "select",
+      "prompt": "Mark the as-built log with the fall, the depth, and the test result before the crew moves off site.",
+      "target": "as-built-log",
+      "title": "Complete the as-built record",
+      "why": "Once this trench is closed, the as-built record is the only thing that tells the next person — a homeowner's plumber locating the line years later, an inspector, a crew doing emergency work nearby — exactly where this lateral runs and what fall it was proven to carry."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A protective system placed before anyone works below grade, a sewer lateral laid and jointed on a proven fall, and the shield pulled a lift at a time as the backfill takes over holding the wall — never yanked clear of ground still standing open on its own",
+  "title": "SmartCiti.X~ Underground Sewer Lateral & Trench Shoring VR",
+  "trade": "UA pipelayer / underground plumbing installer",
+  "underwater": null,
+  "weather": "rain"
+}

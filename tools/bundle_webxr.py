@@ -155,6 +155,12 @@ APPS = {
             # its "bay-world" scenic-district preview.
             SHARED / "bayworld-data.js",
             SHARED / "bayworld.js",
+            # The Deep (docs/underwater.md): the shared seabed layout and
+            # builder, after citykit.js for the same reason (underwater.js
+            # borrows holoTag) and before districts.js, which builds its
+            # "the-deep" scenic-district vignette.
+            SHARED / "underwater-data.js",
+            SHARED / "underwater.js",
             WEBXR / "smartcity/js/gamify.js",
             WEBXR / "smartcity/js/districts.js",
             WEBXR / "smartcity/js/interiors.js", WEBXR / "smartcity/js/ambient.js", WEBXR / "smartcity/js/apron.js",
@@ -403,12 +409,12 @@ APPS = {
     },
     # The Deep (WebXR/underwater): the dive game under the bay, whose job
     # boards launch the platform's real dive and restoration stations by deep
-    # link. Built against js/seabed-stub.js (data) and js/seabed-stub-scene.js
-    # (builder) in DEEP1's exact contract shape; when WebXR/shared/
-    # underwater-data.js and underwater.js are on the branch, js/seabed.js and
-    # js/world.js each switch one import line, the two shared modules take the
-    # stubs' places in this list and the stubs stay in the tree unbundled, the
-    # way bayworld/js/world-stub.js does.
+    # link. The shared seabed (WebXR/shared/underwater-data.js + underwater.js,
+    # team DEEP1) has landed; js/seabed.js and js/world.js adapt it (see each
+    # file's header). js/seabed-stub.js and js/seabed-stub-scene.js are the
+    # pre-integration snapshots this app shipped against before that — kept in
+    # the tree but no longer bundled, the same way bayworld/js/world-stub.js
+    # stays after city.js switched to the real map.
     "underwater": {
         "index": "underwater.html",
         "out": "underwater.html",
@@ -421,8 +427,14 @@ APPS = {
             SHARED / "ladder-milestones-data.js",
             SHARED / "ladder.js",
             SHARED / "tracking.js",
-            WEBXR / "underwater/js/seabed-stub.js",
-            WEBXR / "underwater/js/seabed-stub-scene.js",
+            SHARED / "kit.js",
+            SHARED / "textures.js",
+            SHARED / "perf.js",
+            SHARED / "fleet.js",
+            SHARED / "props.js",
+            WEBXR / "smartcity/js/citykit.js",
+            SHARED / "underwater-data.js",
+            SHARED / "underwater.js",
             WEBXR / "underwater/js/seabed.js",
             WEBXR / "underwater/js/dives-data.js",
             WEBXR / "underwater/js/dives.js",

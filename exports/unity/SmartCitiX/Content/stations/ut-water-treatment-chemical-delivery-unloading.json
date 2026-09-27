@@ -1,0 +1,393 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "delivery-proven",
+    "name": "Delivery Proven",
+    "note": "A chemical delivery checked against its papers, its SDS and the tank's own label, grounded, watched at the connection, stopped inside the tank's capacity, and logged before the driver left"
+  },
+  "category": "Water & Environmental",
+  "certification": "UWUA water treatment operator training; OSHA 29 CFR 1910.1200 hazard communication for the safety data sheet check before any connection is made; 49 CFR Part 172 (PHMSA) hazardous materials communications for the delivery driver's shipping papers and placard; OSHA 29 CFR 1910.132 personal protective equipment for the unloading itself",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "UWUA",
+        "id": "uwua-training",
+        "title": "UWUA — Utility Workers Union of America training and safety education for water, gas and electric utility crews"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Water",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "papers-before-hose",
+        "name": "Papers Before Hose",
+        "note": "The manifest, SDS and tank label were all checked before the hose ever connected"
+      },
+      {
+        "id": "right-tank-every-time",
+        "name": "Right Tank Every Time",
+        "note": "No unsafe action was recorded through the whole delivery"
+      },
+      {
+        "id": "steady-level-watch",
+        "name": "Steady Level Watch",
+        "note": "Held the tank level watch inside the band the whole transfer"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-delivery",
+        "name": "Clean Delivery",
+        "note": "No corrections from the manifest to the log"
+      },
+      {
+        "id": "unbroken-level-watch",
+        "name": "Unbroken Level Watch",
+        "note": "The tank level watch ran to completion without a break"
+      },
+      {
+        "id": "driver-gone-fast",
+        "name": "Driver Gone Fast",
+        "note": "Logged and released inside 80% of par"
+      }
+    ],
+    "currency": "GAL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Plant Operator Trainee",
+      "Water Treatment Operator",
+      "Shift Lead",
+      "Water Treatment Authority Certified"
+    ],
+    "system": "Water Treatment Authority"
+  },
+  "hazards": {
+    "cross-connect-wrong-tank": "You went to connect the fill hose to the wrong storage tank. Two incompatible chemicals meeting at a fitting do not wait for anybody to notice — the reaction starts the instant they touch, and it does not stay contained to the hose or the fitting that caused it.",
+    "overfill-tank": "You went to keep the transfer running past the point the level gauge showed this tank was nearly full. This tank's own capacity was checked before the delivery started for exactly this reason — running past it now turns a delivery into an overflow that has nowhere to go but the containment this crew is about to need.",
+    "skip-grounding": "You went to start the transfer without grounding the tanker to the plant's grounding lug first. A tank truck and a storage tank can build up a static charge neither one intends to, and grounding them together before anything flows is what gives that charge somewhere to go besides through the chemical itself.",
+    "skip-sds-check": "You went to connect the hose without ever reading the safety data sheet for this chemical. The SDS is where an incompatibility, a specific PPE requirement or a reaction hazard this exact chemical carries is actually written down — connecting first and checking later finds out what the sheet would have said the hard way."
+  },
+  "id": "ut-water-treatment-chemical-delivery-unloading",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "watch-connection-start",
+      "alert": "A forklift elsewhere on site has started moving toward the walkway this delivery hose is stretched across, with no idea it is there.",
+      "cue": "Radio the forklift operator before they reach the hose.",
+      "delay": 3,
+      "id": "forklift-near-hose",
+      "kind": "A forklift starts moving toward the hose run",
+      "missNote": "The forklift kept coming with nobody warning the operator. A hose that gets run over while a chemical transfer is live is a hose that can fail at the exact connection this crew is supposed to be watching.",
+      "seconds": 11,
+      "target": "forklift-radio",
+      "why": "A forklift running over a live chemical delivery hose does not just damage the hose — it can pull the coupling loose at the tank end while the transfer is still running, and the radio is what stops that before the forklift is anywhere near close enough to find out.",
+      "wrongNote": "It is the radio, to the forklift operator. The coupling itself has not changed — the hose in the forklift's path is the actual problem."
+    },
+    {
+      "after": "watch-tank-level",
+      "alert": "The plant operator is calling from the control room to confirm which tank this delivery is actually filling, before the SCADA system logs it against the wrong one.",
+      "cue": "Answer the radio and confirm the tank before the level watch continues.",
+      "delay": 3,
+      "id": "confirm-correct-tank-call",
+      "kind": "The plant operator radios to confirm the tank",
+      "missNote": "The call went unanswered while the level watch continued. The control room's own record of this delivery was never confirmed against what is actually happening at the tank.",
+      "seconds": 12,
+      "target": "plant-radio",
+      "why": "The control room's own record of which tank received this delivery matters as much as the physical connection itself, and confirming it over the radio now is what keeps this delivery from being logged against a tank it never actually went into.",
+      "wrongNote": "It is the plant operator's call, about which tank this is. The level gauge in front of you already knows which tank it is reading."
+    }
+  ],
+  "lateNotes": {
+    "fill-hose": "The fill hose connects to the tank this delivery's manifest actually names, not to whichever tank happens to be closer.",
+    "transfer-valve": "The transfer valve opens only once the hose is connected to the correct tank and the tanker is grounded — not before either of those."
+  },
+  "name": "Water Treatment Chemical Delivery Unloading",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "water-and-gas-utility-crews"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "cap-hose-ends",
+      "correct-tank-socket",
+      "coupling-drip",
+      "cross-connect-wrong-tank",
+      "delivery-log",
+      "delivery-manifest",
+      "don-ppe",
+      "drain-hose-residual",
+      "fill-hose",
+      "forklift-radio",
+      "ground-tanker",
+      "hose-coupling",
+      "hose-weep",
+      "overfill-tank",
+      "plant-radio",
+      "sds-binder",
+      "skip-grounding",
+      "skip-sds-check",
+      "spill-kit",
+      "tank-label",
+      "tank-level-gauge",
+      "transfer-valve",
+      "truck-placard"
+    ],
+    "meshes": 113
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the manifest: the chemical, the quantity, and that this is today's ordered delivery.",
+      "id": "read-manifest",
+      "kind": "select",
+      "prompt": "Check the manifest: the chemical, the quantity, and that this is today's ordered delivery.",
+      "target": "delivery-manifest",
+      "title": "Read the delivery manifest",
+      "why": "The manifest is what should match everything else on this delivery — the driver's papers, the tanker's placard and the tank's own label — and reading it first is what gives this crew something to check the rest of the delivery against."
+    },
+    {
+      "cue": "Check the SDS for this exact chemical before anything connects.",
+      "id": "check-sds",
+      "kind": "select",
+      "prompt": "Check the SDS for this exact chemical before anything connects.",
+      "target": "sds-binder",
+      "title": "Review the safety data sheet",
+      "why": "The SDS is where this chemical's specific incompatibilities, PPE requirements and reaction hazards are actually written down — read now, it tells this crew what to watch for before the delivery starts, not after something has already gone wrong."
+    },
+    {
+      "cue": "Find and compare the tanker's placard and the storage tank's own label.",
+      "id": "verify-placards",
+      "itemNames": {
+        "tank-label": "the storage tank's own label",
+        "truck-placard": "the tanker's hazard placard"
+      },
+      "itemNotes": {
+        "tank-label": "The storage tank's label names what belongs in it. If this does not match the placard on the tanker, nothing connects until that is resolved.",
+        "truck-placard": "The tanker's placard names the chemical on board — this is checked against the manifest and against the tank label before either one is trusted alone."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find and compare the tanker's placard and the storage tank's own label.",
+      "targets": [
+        "truck-placard",
+        "tank-label"
+      ],
+      "title": "Verify the placard against the tank label",
+      "why": "A manifest can be misread and a driver can be at the wrong address, but the placard and the label are what is physically in front of this crew right now — the two of them agreeing is the actual proof this delivery is going where it is supposed to."
+    },
+    {
+      "cue": "Confirm the spill kit and containment are staged at the connection point before anything flows.",
+      "id": "spill-kit-staged",
+      "kind": "select",
+      "prompt": "Confirm the spill kit and containment are staged at the connection point before anything flows.",
+      "target": "spill-kit",
+      "title": "Stage the spill kit before the transfer",
+      "why": "A spill kit found after a release has started is a spill kit that is already behind — staged here, at the connection, before the transfer begins, it is ready for the one moment it might actually be needed instead of being fetched while chemical is still running."
+    },
+    {
+      "cue": "Put on the PPE this chemical's SDS calls for, then ground the tanker to the plant's lug.",
+      "id": "ppe-and-ground",
+      "itemNames": {
+        "don-ppe": "PPE donned",
+        "ground-tanker": "tanker grounded"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "PPE first, then the ground cable — grounding the tanker is not a substitute for the protection this chemical's SDS actually calls for.",
+      "prompt": "Put on the PPE this chemical's SDS calls for, then ground the tanker to the plant's lug.",
+      "targets": [
+        "don-ppe",
+        "ground-tanker"
+      ],
+      "title": "Don PPE and ground the tanker",
+      "why": "The ground cable is what gives a static charge somewhere to go besides through the chemical itself, and it goes on before the hose does — a tanker connected and flowing before it is grounded has already skipped the one step that exists for exactly this moment."
+    },
+    {
+      "cue": "Carry the fill hose to the tank this delivery's manifest actually names.",
+      "drag": {
+        "missNote": "Not on the tank this delivery is for — check the manifest and the label again before this hose connects anywhere.",
+        "radius": 0.45,
+        "to": "correct-tank-socket"
+      },
+      "id": "connect-fill-hose",
+      "kind": "drag",
+      "prompt": "Carry the fill hose to the tank this delivery's manifest actually names.",
+      "target": "fill-hose",
+      "title": "Connect the fill hose to the correct tank",
+      "why": "This hose reaches every tank in this yard, and the only thing that makes it safe to connect anywhere is connecting it to the one tank this specific delivery is actually for — checked against the manifest and the label, not against which tank happens to be closest to the truck."
+    },
+    {
+      "cue": "Bring the level reading up to where the tank actually sits, then commit.",
+      "gauge": {
+        "green": [
+          0.2,
+          0.45
+        ],
+        "label": "TANK LEVEL",
+        "missNote": "That reading does not leave enough room for this delivery — confirm the tank's actual level before the transfer starts.",
+        "speed": 0.6
+      },
+      "id": "check-tank-capacity",
+      "kind": "gauge",
+      "prompt": "Bring the level reading up to where the tank actually sits, then commit.",
+      "target": "tank-level-gauge",
+      "title": "Check the tank's available capacity",
+      "why": "This tank's available room decides how much of this delivery it can actually take, and checking it before the transfer starts is what turns 'the truck holds this much' into 'this tank can actually hold what the truck is about to send it.'"
+    },
+    {
+      "cue": "Wind the transfer valve open slowly, watching the coupling as flow begins.",
+      "id": "open-transfer-valve",
+      "kind": "turn",
+      "prompt": "Wind the transfer valve open slowly, watching the coupling as flow begins.",
+      "target": "transfer-valve",
+      "title": "Open the transfer valve slowly",
+      "turn": {
+        "axis": "y",
+        "label": "TRANSFER VALVE",
+        "turns": 0.5
+      },
+      "why": "Opened slowly, any weep at the coupling shows itself at low flow and low pressure, where it is easy to stop — opened fast, the same weak connection is already under full flow before anyone has had a chance to look at it."
+    },
+    {
+      "cue": "Hold your attention on the coupling for the full watch as the transfer gets going.",
+      "holdBreakNote": "Attention came off the coupling before the watch finished — hold again, a weep that starts in the first moments of flow does not announce itself twice.",
+      "id": "watch-connection-start",
+      "kind": "hold",
+      "prompt": "Hold your attention on the coupling for the full watch as the transfer gets going.",
+      "seconds": 5,
+      "target": "hose-coupling",
+      "title": "Watch the coupling as flow begins",
+      "why": "The first moments of flow are when a coupling that was not fully seated shows it — held under watch through that window rather than glanced at once, a weep at the fitting is caught before the transfer has been running long enough to call it normal."
+    },
+    {
+      "cue": "Watch the level rise and stay under the high-level band for the whole transfer.",
+      "holdBreakNote": "That level pushed past the safe band during the transfer — slow the valve and recheck the tank's actual capacity before this delivery goes any further.",
+      "id": "watch-tank-level",
+      "kind": "track",
+      "prompt": "Watch the level rise and stay under the high-level band for the whole transfer.",
+      "seconds": 7,
+      "target": "tank-level-gauge",
+      "title": "Watch the tank level through the transfer",
+      "track": {
+        "drift": 0.08,
+        "fall": -0.01,
+        "green": [
+          0.2,
+          0.7
+        ],
+        "label": "TANK LEVEL",
+        "rise": 0.06,
+        "start": 0.3
+      },
+      "why": "A tank filling faster than expected, or a level gauge that stops tracking the actual flow, both show up here — watched through the whole transfer rather than checked once at the start, either problem is caught with the valve still in this crew's hand instead of after the tank is already full."
+    },
+    {
+      "cue": "Walk the full length of the hose and find what the watch at the tank end cannot see.",
+      "id": "leak-inspection-walk",
+      "itemNames": {
+        "coupling-drip": "a drip at a second coupling",
+        "hose-weep": "a weep along the hose"
+      },
+      "itemNotes": {
+        "coupling-drip": "This coupling is dripping at the threads — snugged or remade now, while the transfer can still be paused to deal with it.",
+        "hose-weep": "This section of hose is weeping under pressure — a slow leak here becomes a fast one the longer the transfer keeps running at full flow."
+      },
+      "kind": "find",
+      "prompt": "Walk the full length of the hose and find what the watch at the tank end cannot see.",
+      "targets": [
+        "hose-weep",
+        "coupling-drip"
+      ],
+      "title": "Walk the hose run mid-transfer",
+      "why": "The coupling watch covers one end of this hose; the rest of the run is only checked by actually walking it — a weep partway along, or a second coupling nobody has looked at since it was made up, both need eyes on them while the transfer is still live enough to act on what is found."
+    },
+    {
+      "cue": "Wind the valve shut slowly once the delivery is complete.",
+      "id": "close-transfer-valve",
+      "kind": "turn",
+      "prompt": "Wind the valve shut slowly once the delivery is complete.",
+      "target": "transfer-valve",
+      "title": "Close the transfer valve slowly",
+      "turn": {
+        "axis": "y",
+        "label": "TRANSFER VALVE",
+        "reverse": true,
+        "turns": 0.5
+      },
+      "why": "Closed the same way it opened, the column of chemical still moving in the hose slows gradually instead of slamming to a stop against a shut valve — a valve closed too fast can drive a pressure spike back through a hose that has been running at full flow the whole delivery."
+    },
+    {
+      "cue": "Drain the hose's residual chemical to containment, then cap both ends.",
+      "id": "disconnect-and-cap",
+      "itemNames": {
+        "cap-hose-ends": "both ends capped",
+        "drain-hose-residual": "residual drained to containment"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Drain to containment, then cap both ends — capping a hose that still has residual in it just moves the spill to wherever it gets uncapped next.",
+      "prompt": "Drain the hose's residual chemical to containment, then cap both ends.",
+      "targets": [
+        "drain-hose-residual",
+        "cap-hose-ends"
+      ],
+      "title": "Drain and cap the hose",
+      "why": "Whatever chemical is still sitting in this hose after the valve closes has to go somewhere controlled rather than onto the ground the moment the coupling comes apart — drained to containment first, then capped, the hose leaves this connection clean for whoever uses it next."
+    },
+    {
+      "cue": "Log the quantity received, the tank's level after the delivery, and the chemical's lot number.",
+      "id": "complete-log",
+      "kind": "select",
+      "prompt": "Log the quantity received, the tank's level after the delivery, and the chemical's lot number.",
+      "target": "delivery-log",
+      "title": "Complete the delivery log",
+      "why": "This log is what lets the plant trace this exact delivery back to a specific lot if a water quality question ever comes up later, and a delivery that is never logged is a delivery this plant can never actually account for months from now."
+    }
+  ],
+  "supportLine": "your utility's employee assistance programme, or your UWUA steward if you are not sure how to reach it",
+  "tagline": "The shipping papers, the safety data sheet and the tank's own label all proven to agree before a single hose connects, the tanker grounded and watched from the first moment it flows, and the transfer stopped well short of a tank already checked for room",
+  "title": "SmartCiti.X~ Water Treatment Chemical Delivery Unloading VR",
+  "trade": "UWUA water treatment operator — chemical delivery unloading",
+  "underwater": null,
+  "weather": "overcast"
+}

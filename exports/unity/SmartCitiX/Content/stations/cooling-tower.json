@@ -1,0 +1,379 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "no-aerosol",
+    "name": "No Aerosol",
+    "note": "Fan locked before the basin was touched, respirator on, biofilm removed and the shock dosed to the label — first time"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "IUOE Local stationary engineer; ASHRAE 188 building water management program and Guideline 12 Legionella control; CDC / OSHA Legionella toolkit for cooling towers; OSHA 29 CFR 1910.134 respiratory protection and 1910.147 lockout/tagout; EPA FIFRA-registered biocide label compliance",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASHRAE",
+        "citedAs": "ASHRAE 188",
+        "id": "ashrae-188",
+        "title": "ANSI/ASHRAE 188 — Legionellosis: risk management for building water systems"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "FIFRA",
+        "id": "epa-fifra-pesticide-label",
+        "title": "Federal Insecticide, Fungicide, and Rodenticide Act (FIFRA) — the pesticide product label as a legal document, and EPA's pesticide applicator and worker-protection requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Building Systems & Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "fan-locked",
+        "name": "Fan Locked",
+        "note": "Tower down and fan locked out before the basin was disturbed, first time"
+      },
+      {
+        "id": "no-shortcut-clean",
+        "name": "No Shortcut",
+        "note": "Never a hose on dry biofilm, never the basin open with the fan live, never a dose off the label"
+      },
+      {
+        "id": "in-range",
+        "name": "In Range",
+        "note": "Halogen and conductivity both brought inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-quarter",
+        "name": "Clean Quarter",
+        "note": "No corrections anywhere in the service"
+      },
+      {
+        "id": "full-contact",
+        "name": "Full Contact Time",
+        "note": "The biocide contact time held for its whole duration"
+      },
+      {
+        "id": "quarter-fast",
+        "name": "Serviced In Time",
+        "note": "Tower back in service inside 80% of par"
+      }
+    ],
+    "currency": "PPM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Oiler",
+      "Stationary Engineer",
+      "Water Treatment Lead",
+      "Chief Engineer",
+      "Water Management Certified"
+    ],
+    "system": "Water Management"
+  },
+  "hazards": {
+    "dose-off-label": "You dosed the biocide off the label rate. The label is enforceable law under FIFRA: under-dose and the shock does nothing to the biofilm, over-dose and the discharge is a permit violation and a corrosion event.",
+    "dry-brush-biofilm": "You dry-brushed the biofilm. Dry scale and biofilm go airborne as respirable dust carrying the organism; the surfaces are kept wet through the whole clean for that reason.",
+    "fan-live-basin": "You opened the basin with the fan running. A disturbed basin aerosolises everything in it, and the fan puts that plume over the roof, the intake and the street — this is exactly how a building outbreak starts.",
+    "no-respirator": "You went into the basin with no respiratory protection. A cooling tower basin at cleaning is the highest-exposure task in the building, and a surgical mask is not respiratory protection."
+  },
+  "id": "cooling-tower",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "clean",
+      "alert": "The building automation system is issuing a scheduled restart command to the tower fan, straight through the lockout relay it does not know is engaged.",
+      "cue": "The fan is about to get a call it should never receive mid-clean — go re-confirm the lock before it lands.",
+      "delay": 4,
+      "id": "bas-restart",
+      "kind": "Automation call",
+      "missNote": "The restart command went unanswered and the lock was never reconfirmed. On a tower without a positively verified lockout, that command turns the fan over an open, wet basin.",
+      "seconds": 12,
+      "target": "fan-lock",
+      "why": "A software schedule has no idea a technician is standing over an open, wet basin. If that restart command reaches a fan that is only administratively off, the lock and tag on the breaker are the one thing standing between a scheduled economiser cycle and blades turning over open water — go re-seat the lock so the command has nothing left to act on.",
+      "wrongNote": "That does not stop a scheduling system. The lock and tag on the fan breaker is what stops it — go confirm that."
+    },
+    {
+      "after": "contact",
+      "alert": "An HVAC technician has climbed up to the tower looking for the hatch, with no idea the basin is mid-shock at full biocide contact concentration.",
+      "cue": "Stop them before that hatch opens — wave them off from here.",
+      "delay": 4,
+      "id": "tech-at-hatch",
+      "kind": "Unplanned entry",
+      "missNote": "The hatch came open mid-contact. The contact time is broken and has to restart from zero, and the technician just took a breath of concentrated shock residual they had no reason to expect.",
+      "seconds": 12,
+      "target": "basin-hatch",
+      "why": "Contact time only works if the shock concentration stays sealed in the basin for its full duration, and the hatch is also the single highest-exposure point on this whole task — concentrated biocide, not the diluted operating dose it will be once the tower restarts. Somebody opening that hatch now breaks the contact time and walks straight into the strongest chemical on this roof with no idea it is there.",
+      "wrongNote": "That will not reach them in time. Get to the hatch and stop them physically before they lift it."
+    }
+  ],
+  "lateNotes": {
+    "biocide-pump": "The shock is dosed after the basin is physically clean — a biocide on top of biofilm never reaches the organism.",
+    "halogen-test": "Free halogen is read after the shock has had its contact time.",
+    "wet-wash": "The basin is opened and washed after the tower is off, the fan is locked out, the crew is in respiratory protection and the basin is drained."
+  },
+  "name": "Cooling Tower",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "stationary-engineer"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "basin-drain",
+      "basin-hatch",
+      "biocide-pump",
+      "contact-timer",
+      "culture-report",
+      "dose-off-label",
+      "drift-gap",
+      "dry-brush-biofilm",
+      "eyewash-check",
+      "fan-breaker",
+      "fan-live-basin",
+      "fan-lock",
+      "fan-on",
+      "halogen-test",
+      "lock-off",
+      "log-signed",
+      "no-respirator",
+      "respirator",
+      "sump-debris",
+      "tower-off",
+      "tyvek-gloves",
+      "wet-wash",
+      "wmp-board"
+    ],
+    "meshes": 186
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the control limits, the last culture result and the quarterly task list.",
+      "id": "plan",
+      "kind": "select",
+      "prompt": "Check the control limits, the last culture result and the quarterly task list.",
+      "target": "wmp-board",
+      "title": "Read the water management plan",
+      "why": "ASHRAE 188 makes this plan the single document the building is judged against, by a health department or by an outbreak investigator, whichever comes first. Every control limit, every dose calculation and every entry in today's log traces back to a number written on this board, not to what worked on a previous tower or what feels safe by habit."
+    },
+    {
+      "cue": "Look at the last Legionella culture and the trend behind it.",
+      "id": "culture",
+      "kind": "select",
+      "prompt": "Look at the last Legionella culture and the trend behind it.",
+      "target": "culture-report",
+      "title": "Read the last culture",
+      "why": "A rising culture count changes what this visit actually is: a routine clean and a disinfection are different tasks with different dose rates and different documentation, and the number on this report decides which one you are doing today. It also decides whether the building's risk group — the people most likely to get sick from an aerosol release — has to be notified before the basin is even opened."
+    },
+    {
+      "cue": "Take the tower off at the control panel, open the fan breaker, then lock and tag.",
+      "id": "lockout",
+      "itemNames": {
+        "fan-breaker": "fan breaker open",
+        "fan-lock": "lock and tag",
+        "tower-off": "tower off at the panel"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Off at the panel, then the breaker, then the lock — the load is removed before the power and the lock goes on last.",
+      "prompt": "Take the tower off at the control panel, open the fan breaker, then lock and tag.",
+      "targets": [
+        "tower-off",
+        "fan-breaker",
+        "fan-lock"
+      ],
+      "title": "Shut down and lock out the fan",
+      "why": "Taking the tower off at the control panel only silences the automation's normal call to run — it does not stop a scheduled restart, an override, or somebody two floors down who has no idea you are up here. A fan that turns over while you are in the basin is both a direct mechanical hazard and an aerosol release over the roof and the intake below it. The lock on the breaker is the one thing here that makes the shutdown physically impossible to undo rather than just administratively likely."
+    },
+    {
+      "anyOrder": true,
+      "cue": "P100 respirator fitted, coveralls and chemical gloves on, eyewash checked before the biocide comes out.",
+      "id": "ppe",
+      "itemNames": {
+        "eyewash-check": "eyewash station checked",
+        "respirator": "half-face respirator with P100",
+        "tyvek-gloves": "coveralls and chemical gloves"
+      },
+      "kind": "sequence",
+      "prompt": "P100 respirator fitted, coveralls and chemical gloves on, eyewash checked before the biocide comes out.",
+      "targets": [
+        "respirator",
+        "tyvek-gloves",
+        "eyewash-check"
+      ],
+      "title": "Put on respiratory and chemical protection",
+      "why": "This task carries two separate exposures that need different protection: the aerosol coming off a disturbed basin, which the P100 respirator is rated to filter, and the concentrated biocide handled at full strength before it is diluted into the tower, which the chemical gloves and a working eyewash station exist for. Skipping either one leaves exactly one of those exposures completely uncovered."
+    },
+    {
+      "cue": "Open the basin drain to the sanitary connection and let the tower empty.",
+      "id": "drain",
+      "kind": "turn",
+      "prompt": "Open the basin drain to the sanitary connection and let the tower empty.",
+      "target": "basin-drain",
+      "title": "Drain the basin",
+      "turn": {
+        "axis": "y",
+        "label": "BASIN DRAIN",
+        "turns": 1
+      },
+      "why": "The basin drains to the sanitary connection and never to storm, because what comes out of it is treated water carrying a biocide residual and whatever biological load has been growing in the system — exactly the kind of discharge storm drains are built to carry straight into a waterway untreated."
+    },
+    {
+      "cue": "Hold a low-pressure wet wash over the basin floor, the fill and the sump screen — keep every surface wet.",
+      "holdBreakNote": "The surfaces dried out — wet them again before you carry on, or this becomes a dust exposure.",
+      "id": "clean",
+      "kind": "hold",
+      "prompt": "Hold a low-pressure wet wash over the basin floor, the fill and the sump screen — keep every surface wet.",
+      "seconds": 6,
+      "target": "wet-wash",
+      "title": "Wet-wash the basin and fill",
+      "why": "The clean has to be physical, not chemical: biofilm is a structure the organism builds specifically to protect itself, and a biocide poured over an intact layer never reaches what is living underneath it. Low pressure and wet surfaces keep whatever comes off from turning into the exact airborne dust this entire procedure exists to prevent."
+    },
+    {
+      "cue": "Look over the eliminator panels and the sump screen and click what you find.",
+      "id": "drift",
+      "itemNames": {
+        "drift-gap": "gap in the drift eliminator",
+        "sump-debris": "debris in the sump screen"
+      },
+      "itemNotes": {
+        "drift-gap": "A panel of the drift eliminator has slipped and left a gap — the tower is throwing untreated droplets straight out of the top.",
+        "sump-debris": "The sump screen is packed with leaf litter and sludge, which is both a nutrient source and a pump problem."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the eliminator panels and the sump screen and click what you find.",
+      "targets": [
+        "drift-gap",
+        "sump-debris"
+      ],
+      "title": "Inspect the drift eliminator and sump",
+      "why": "The drift eliminator is arguably the single most important piece of Legionella control hardware on this whole tower, because it is the one component whose entire job is stopping aerosol from leaving the unit at all. Every dose, every control limit and every culture result in the plan assumes that barrier is intact — a gap in it lets untreated droplets past all of that chemistry and out over the roof."
+    },
+    {
+      "cue": "Set the shock dose to the label rate for this basin volume and commit inside the band.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.58
+        ],
+        "label": "SHOCK DOSE",
+        "missNote": "Off the label rate — recalculate against the basin volume before you dose.",
+        "speed": 0.7
+      },
+      "id": "shock",
+      "kind": "gauge",
+      "prompt": "Set the shock dose to the label rate for this basin volume and commit inside the band.",
+      "target": "biocide-pump",
+      "title": "Dose the biocide shock",
+      "why": "The label rate is calculated specifically against this basin's own volume, and under FIFRA it is not a guideline, it is enforceable law. Dose under it and the shock does close to nothing to the biofilm you just cleaned off; dose over it and the excess goes out with the discharge as a permit violation while also accelerating corrosion on every metal surface the water touches."
+    },
+    {
+      "cue": "Circulate at the shock concentration and hold it through the required contact period.",
+      "holdBreakNote": "The residual dropped out of the band — the contact time restarts from there.",
+      "id": "contact",
+      "kind": "track",
+      "prompt": "Circulate at the shock concentration and hold it through the required contact period.",
+      "seconds": 7,
+      "target": "contact-timer",
+      "title": "Hold the contact time",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "RESIDUAL",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "Microbial kill is concentration multiplied by time, not concentration alone — a strong dose held for half the required period does roughly the same nothing as a weak dose held for the full one. Letting the residual drop mid-contact hands the advantage straight back to whatever organism survived in the biofilm just scraped off, and it recolonises from there."
+    },
+    {
+      "cue": "Take the free halogen reading after contact and commit inside the operating band.",
+      "gauge": {
+        "green": [
+          0.34,
+          0.5
+        ],
+        "label": "FREE HALOGEN",
+        "missNote": "Outside the control limit — bleed or dose until it is in range before restart.",
+        "speed": 0.75
+      },
+      "id": "halogen",
+      "kind": "gauge",
+      "prompt": "Take the free halogen reading after contact and commit inside the operating band.",
+      "target": "halogen-test",
+      "title": "Test free halogen",
+      "why": "The tower returns to service running at the operating residual, not at the shock concentration just used to kill the biofilm — those are two different numbers doing two different jobs. The operating band is what the plan's control limit is actually written against, and it is the number that goes in the log for the next inspection to check the tower against."
+    },
+    {
+      "cue": "Remove the lock, bring the tower back on, then sign the log and book the next culture.",
+      "id": "restart",
+      "itemNames": {
+        "fan-on": "tower back in service",
+        "lock-off": "lock removed",
+        "log-signed": "log signed and next culture booked"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Lock off, then the tower on, then the log — the person who locked it out is the person who releases it.",
+      "prompt": "Remove the lock, bring the tower back on, then sign the log and book the next culture.",
+      "targets": [
+        "lock-off",
+        "fan-on",
+        "log-signed"
+      ],
+      "title": "Return to service and sign the log",
+      "why": "The signed log is both the building's institutional memory and its defence: it is the record that this exact service happened, on this date, to this specification. The first time a health department or an outbreak investigator asks for it, an unsigned entry reads exactly like a service that was never performed at all, regardless of what actually happened up here."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Quarterly clean and Legionella control: plan and last culture read, tower down and fan locked, respirator before the basin, biofilm physically removed, drift eliminator checked, biocide shock to the label, conductivity and halogen back in range, log signed",
+  "title": "SmartCiti.X~ Cooling Tower VR",
+  "trade": "Stationary engineer — water treatment and cooling towers",
+  "underwater": null,
+  "weather": "wind"
+}

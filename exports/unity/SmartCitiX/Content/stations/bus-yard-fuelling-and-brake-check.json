@@ -1,0 +1,430 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "fuelled-checked-written-up",
+    "name": "Fuelled, Checked, Written Up",
+    "note": "Engine off and a hand on the nozzle, the spill and the hostler both answered, the brake check done by the numbers, and the chafed line kept off the road"
+  },
+  "category": "Mobility & Transit",
+  "certification": "ATU, IAM and TWU bus maintenance training; FMCSA 49 CFR 393 brake and warning-device requirements and 49 CFR 396 inspection, repair and the driver vehicle inspection report for a carrier under FMCSA rules; CVSA out-of-service criteria for brake adjustment and air-line condition; OSHA 29 CFR 1910.1200 hazard communication for diesel and DEF at the island; ANSI/ISEA 107 high-visibility garments in the yard",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI/ISEA 107",
+        "id": "ansi-isea-107",
+        "title": "ANSI/ISEA 107 — High-visibility safety apparel and accessories"
+      },
+      {
+        "body": "union",
+        "citedAs": "ATU",
+        "id": "atu-training",
+        "title": "ATU member training for bus and rail transit operations"
+      },
+      {
+        "body": "CVSA",
+        "citedAs": "CVSA",
+        "id": "cvsa-out-of-service-criteria",
+        "title": "CVSA North American Standard Inspection Program and North American Standard Out-of-Service Criteria for roadside inspection of drivers and commercial motor vehicles"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 393",
+        "id": "fmcsa-49-cfr-393",
+        "title": "49 CFR Part 393 — Parts and accessories necessary for safe operation, including brakes, tires, emergency equipment and Subpart I protection against shifting and falling cargo"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 396",
+        "id": "fmcsa-49-cfr-396",
+        "title": "49 CFR Part 396 — Inspection, repair and maintenance, including the driver vehicle inspection report"
+      },
+      {
+        "body": "union",
+        "citedAs": "IAM",
+        "id": "iam-winpisinger-center",
+        "title": "IAM — the William W. Winpisinger Education and Technology Center's machinist and transportation training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "union",
+        "citedAs": "TWU",
+        "id": "twu-training",
+        "title": "TWU member training for transit and airline ground operations"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Mobility & Transit",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "hand-on-nozzle",
+        "name": "Hand On The Nozzle",
+        "note": "The fill attended from start to finish"
+      },
+      {
+        "id": "steady-application",
+        "name": "Steady Application",
+        "note": "The applied brake held steady through the leak test"
+      },
+      {
+        "id": "never-a-shortcut",
+        "name": "Never A Shortcut",
+        "note": "No idling fill, no latched nozzle, no DEF in the diesel, never under an unchocked coach"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-lane",
+        "name": "Clean Lane",
+        "note": "No corrections anywhere in the lane"
+      },
+      {
+        "id": "cut-out-on-the-mark",
+        "name": "Cut-Out On The Mark",
+        "note": "Governor cut-out committed inside the band first time"
+      },
+      {
+        "id": "lane-turned",
+        "name": "Lane Turned",
+        "note": "Report written inside 80% of par"
+      }
+    ],
+    "currency": "PSI",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Yard Hand",
+      "Fueller",
+      "Service Worker",
+      "Lead Service Worker",
+      "Fuel Lane Certified"
+    ],
+    "system": "Fuel Lane"
+  },
+  "hazards": {
+    "def-at-diesel": "You lifted the DEF nozzle toward the diesel filler. Diesel exhaust fluid in a diesel tank does not burn — it crystallises in the fuel system and can wreck the pumps and injectors, and a coach that leaves the yard with it will fail on the road. The fillers are colour-coded and sized differently for this reason, and each nozzle goes only into its own filler.",
+    "engine-idling-fuel": "You went to start fuelling with the coach's engine still idling. A running engine is a hot exhaust and a live electrical system a metre from a tank breathing diesel vapour, and a coach left running in a fuel lane can be knocked into gear by anyone climbing aboard. The engine goes off and the key comes out before the cap comes off, every time.",
+    "nozzle-latched-walkaway": "You clicked the nozzle's hold-open latch and turned to walk off. A latched nozzle fills until its automatic shutoff trips — if it trips — and the person who latched it is somewhere else when the tank overflows, the nozzle falls out or someone drives off with it in the filler. The fill is attended with a hand on the nozzle from start to finish.",
+    "under-bus-unchocked": "You went to look under the coach before the wheels were chocked. A parked coach with a leaking air system can lose its brakes as the pressure drops, and during a brake check the parking brakes are deliberately released — nobody goes under or in front of a coach during a brake check, and nobody goes under at all until it is chocked."
+  },
+  "id": "bus-yard-fuelling-and-brake-check",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "fuel-fill",
+      "alert": "At the next island a coach has pulled away with the nozzle still in its filler — the hose has snapped off and diesel is pouring across the lane.",
+      "cue": "Hit the emergency fuel shutoff on its post — every dispenser in the lane stops at once.",
+      "delay": 2,
+      "id": "spill-next-island",
+      "kind": "Hose let go at the next island",
+      "missNote": "The dispenser kept pumping through the broken hose; diesel spread across two lanes and into the drain before the yard supervisor ran to the shutoff, and a coach pulling in slid through the edge of it.",
+      "seconds": 12,
+      "target": "fuel-estop",
+      "why": "A breakaway on a fuel hose stops most of the flow, but the fastest way to stop every dispenser in a lane is the emergency fuel shutoff the fire code puts on a post within reach of the islands — and it is hit before anything else, because diesel spreading across a lane with coaches moving through it is a slip hazard, a fire load and a drain to the storm sewer all at once. The fill in your own hand stops with it.",
+      "wrongNote": "The emergency fuel shutoff — the spill is at another island, and the shutoff is the one control that stops every dispenser at once."
+    },
+    {
+      "after": "applied-leak",
+      "alert": "The yard hostler is backing another coach into the lane behind you, reverse alarm going, with nobody spotting and you at the rear wheels.",
+      "cue": "Call the hostler on the yard radio to stop — you are in the lane behind the coach.",
+      "delay": 2,
+      "id": "hostler-backing",
+      "kind": "Coach backing into the lane",
+      "missNote": "The backing coach stopped a metre from the rear of the coach under test only because the hostler happened to check a mirror; the service worker at the wheel never saw it coming.",
+      "seconds": 12,
+      "target": "yard-radio",
+      "why": "A coach reversing in a yard has blind spots the length of a person along its whole rear, and a hostler moving coaches at the end of a shift is looking at the lane markings, not for someone kneeling at a wheel. The radio reaches the driver's cab, and the call goes the moment the reverse alarm starts, because the service worker holding a brake pedal cannot step out of the lane mid-test.",
+      "wrongNote": "The yard radio — the reversing coach's driver cannot see you, and the radio is the only thing that reaches the cab."
+    }
+  ],
+  "lateNotes": {
+    "brake-pedal": "The applied leak test starts once air is built to governor cut-out and the engine is off — not with the compressor still running.",
+    "dvir-tablet": "The report is written once the coach is tagged and the key is in the lock box — the report is the last thing.",
+    "fuel-cap": "The cap goes back on once the fill is complete and the nozzle is back in its holster — the tank is still open."
+  },
+  "name": "Bus Yard Fuelling & Brake Check",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "transit-ramp"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "air-gauge",
+      "brake-pedal",
+      "chafed-air-line",
+      "chock-spot",
+      "coolant-leak",
+      "def-at-diesel",
+      "def-nozzle",
+      "diesel-nozzle",
+      "dvir-tablet",
+      "engine-idling-fuel",
+      "fuel-cap",
+      "fuel-estop",
+      "ignition-key",
+      "key-lockbox",
+      "lane-board",
+      "low-air-lamp",
+      "nozzle-latched-walkaway",
+      "oos-tag",
+      "park-brake",
+      "pushrod-ruler",
+      "under-bus-unchocked",
+      "wheel-chock",
+      "yard-radio"
+    ],
+    "meshes": 195
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the lane board: which lane, the fuelling rules, where the emergency fuel shutoff is, where the spill kit is, and the brake check the coach needs tonight.",
+      "id": "lane-board",
+      "kind": "select",
+      "prompt": "Read the lane board: which lane, the fuelling rules, where the emergency fuel shutoff is, where the spill kit is, and the brake check the coach needs tonight.",
+      "target": "lane-board",
+      "title": "Read the fuel lane board: lane, spill plan and shutoff",
+      "why": "The fuel lane is the one part of the yard where diesel, moving coaches and people on foot all meet, and its rules are posted because they have to be known before they are needed: engine off, nozzle attended, where the emergency fuel shutoff is and what the spill plan says. The coach's paperwork on the board also says what check it is due — a coach that needs its brakes looked at tonight is a coach that does not go out tomorrow if it fails."
+    },
+    {
+      "cue": "Pull the parking brake valve, then shut the engine down and take the key out before anyone touches the filler.",
+      "id": "shutdown",
+      "itemNames": {
+        "ignition-key": "engine off, key out",
+        "park-brake": "parking brake set"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Parking brake first — the coach is held on its brake before the engine is shut down, not after.",
+      "prompt": "Pull the parking brake valve, then shut the engine down and take the key out before anyone touches the filler.",
+      "targets": [
+        "park-brake",
+        "ignition-key"
+      ],
+      "title": "Set the parking brake, then engine off and key out",
+      "why": "A coach in the fuel lane is secured in a fixed order: the parking brake set while the engine and air are still up, then the engine off and the key in the worker's pocket, so the coach cannot be started or driven while its tank is open and someone is at its side. A running engine at the island is heat and electricity next to diesel vapour, and a key left in is an invitation to the next person aboard."
+    },
+    {
+      "cue": "Set the wheel chock tight against the rear drive wheel on the downhill side.",
+      "drag": {
+        "missNote": "Not against the wheel — the chock has to sit tight to the tyre's tread on the downhill side, not beside it on the pavement.",
+        "radius": 0.5,
+        "to": "chock-spot"
+      },
+      "id": "chock",
+      "kind": "drag",
+      "prompt": "Set the wheel chock tight against the rear drive wheel on the downhill side.",
+      "target": "wheel-chock",
+      "title": "Chock the coach's wheels",
+      "why": "The brake check coming up deliberately releases the parking brakes and drains the air, and a coach on even a slight grade will roll when it does. The chock goes against the drive wheel on the downhill side before the check starts and before anyone goes near the wheels or under the coach, because it is the only thing holding the coach once the air is gone."
+    },
+    {
+      "cue": "Put the diesel nozzle in the green-capped filler and hold the trigger through the fill — no latch, eyes on the filler, until it clicks off.",
+      "holdBreakNote": "Let go of the nozzle before the fill clicked off — an unattended fill is how tanks overflow. Take the nozzle again and finish the fill.",
+      "id": "fuel-fill",
+      "kind": "hold",
+      "prompt": "Put the diesel nozzle in the green-capped filler and hold the trigger through the fill — no latch, eyes on the filler, until it clicks off.",
+      "seconds": 5,
+      "target": "diesel-nozzle",
+      "title": "Fill the tank with a hand on the nozzle",
+      "why": "The fill is attended because the automatic shutoff that stops the pump at a full tank is a backup, not a plan — it can fail, the nozzle can slip out, and the first sign of either is diesel on the pavement. A hand on the nozzle and eyes on the filler means the person fuelling is the shutoff. The safety data sheet for diesel, which HazCom puts at the island, is the reason vapour and skin contact are kept to the minimum the job needs."
+    },
+    {
+      "cue": "Take the blue DEF nozzle to the blue-capped DEF filler only, and top up the tank.",
+      "id": "def-fill",
+      "kind": "select",
+      "prompt": "Take the blue DEF nozzle to the blue-capped DEF filler only, and top up the tank.",
+      "target": "def-nozzle",
+      "title": "Top up the DEF from its own blue-capped filler",
+      "why": "Diesel exhaust fluid is what the coach's exhaust treatment uses to clean up its emissions, and it lives in its own tank behind its own blue cap. The two fillers sit side by side on many coaches, which is why the nozzles, caps and filler necks are different colours and sizes — and why the fueller reads the cap, not the position, before a nozzle goes in."
+    },
+    {
+      "cue": "Nozzle back in the holster, then turn the diesel cap on until it clicks and close the filler door.",
+      "id": "cap-torque",
+      "kind": "turn",
+      "prompt": "Nozzle back in the holster, then turn the diesel cap on until it clicks and close the filler door.",
+      "target": "fuel-cap",
+      "title": "Put the fuel cap back on to the click",
+      "turn": {
+        "label": "CAP",
+        "turns": 1
+      },
+      "why": "A diesel cap that is not turned to its click lets fuel slosh out on the first corner and lets water in on the first wash, and a cap left on the island is a coach running with an open tank. The nozzle goes back into its holster first, so the next person does not drive over a hose, and the cap is turned until it clicks because the click is the cap's seal seating."
+    },
+    {
+      "cue": "Walk the coach: fluid under the engine and the axles, the tyres, the lights and the body, before the brake check.",
+      "id": "walkaround",
+      "itemNames": {
+        "coolant-leak": "coolant puddle under the engine bay"
+      },
+      "itemNotes": {
+        "coolant-leak": "A bright green puddle is spreading under the rear engine bay from a weeping radiator hose clamp. It goes on the report — a coach that loses its coolant on the road overheats and strands its passengers."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the coach: fluid under the engine and the axles, the tyres, the lights and the body, before the brake check.",
+      "targets": [
+        "coolant-leak"
+      ],
+      "title": "Walk round the coach for leaks and damage",
+      "why": "The walk-round at the end of the day is when a coach's small faults are found while there is still a night to fix them: a coolant puddle under the engine bay, a tyre gone soft, a light out. The report the driver and the yard write depends on someone actually looking, and a puddle under a parked coach is the easiest fault in the yard to find and the most expensive one to find on the road."
+    },
+    {
+      "cue": "Start the engine, build air pressure and commit the reading where the governor cuts the compressor out, against the coach maker's figure.",
+      "gauge": {
+        "green": [
+          0.58,
+          0.72
+        ],
+        "label": "AIR",
+        "missNote": "Not at cut-out — commit the reading at the moment the governor unloads the compressor, not while the needle is still climbing.",
+        "speed": 0.6
+      },
+      "id": "air-build",
+      "kind": "gauge",
+      "prompt": "Start the engine, build air pressure and commit the reading where the governor cuts the compressor out, against the coach maker's figure.",
+      "target": "air-gauge",
+      "title": "Build the air and read governor cut-out",
+      "why": "The air brake check starts from a known point: the compressor builds pressure until the governor cuts it out at the figure the coach maker sets, and a governor cutting out too low leaves less air than the brakes were designed around, while one that never cuts out is about to cook a compressor. The reading is taken at the moment the compressor unloads, because that is the governor's setting — not a number on the way up."
+    },
+    {
+      "cue": "Engine off, parking brake released on the chocks: press and hold a full application steady, and watch the gauge for a minute after the first drop.",
+      "holdBreakNote": "The application wavered — a pedal that eases off or pumps is spending air and the reading means nothing. Start the minute again with a steady foot.",
+      "id": "applied-leak",
+      "kind": "track",
+      "prompt": "Engine off, parking brake released on the chocks: press and hold a full application steady, and watch the gauge for a minute after the first drop.",
+      "seconds": 6,
+      "target": "brake-pedal",
+      "title": "Hold a full brake application and watch the leak-down",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "APPLICATION",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "The applied leakage test is how the brake system's leaks show: with the engine off and a full application held steady, the pressure is allowed its first drop as the chambers fill and then watched for a minute, and a system losing more than the state CDL manual's limit has a leak that will empty the tanks. The application is held steady because a foot that pumps the pedal is spending air, and the test is measuring the air the system loses on its own."
+    },
+    {
+      "cue": "Fan the brake pedal to bleed the air down and confirm the low-air warning lamp and buzzer come on before the pressure falls below the manual's figure.",
+      "id": "low-air",
+      "kind": "select",
+      "prompt": "Fan the brake pedal to bleed the air down and confirm the low-air warning lamp and buzzer come on before the pressure falls below the manual's figure.",
+      "target": "low-air-lamp",
+      "title": "Fan the air down and prove the low-air warning",
+      "why": "The low-air warning is what tells a driver the brakes are running out of air while there is still enough to stop, and 49 CFR 393 requires coaches with air brakes to have one. It is proven by fanning the pressure down and watching for the lamp and buzzer to come on before the figure in the state CDL manual, because a warning that comes on too late is a warning that arrives with the spring brakes."
+    },
+    {
+      "cue": "With a full application held by your crew mate, measure the pushrod's travel at the rear brake chamber and commit it against the chamber's readjustment limit.",
+      "gauge": {
+        "green": [
+          0.36,
+          0.56
+        ],
+        "label": "PUSHROD STROKE",
+        "missNote": "Not a true stroke — measure from the chamber face to the same mark on the pushrod with the application fully held, then commit.",
+        "speed": 0.7
+      },
+      "id": "pushrod",
+      "kind": "gauge",
+      "prompt": "With a full application held by your crew mate, measure the pushrod's travel at the rear brake chamber and commit it against the chamber's readjustment limit.",
+      "target": "pushrod-ruler",
+      "title": "Measure the pushrod stroke against its limit",
+      "why": "An air brake's stroke grows as its linings wear, and past the readjustment limit for its chamber size the brake reaches the end of its travel before it is fully applied — it looks fine and stops badly. CVSA's out-of-service criteria count brakes past that limit, and a coach with enough of them is off the road. The stroke is measured with a full application held, from the same mark each time, because that is the only reading the limit means anything against."
+    },
+    {
+      "cue": "With the coach chocked, look along the air lines and brake hoses at the axles: chafing, cracking, kinks, and anything rubbing.",
+      "id": "air-line",
+      "itemNames": {
+        "chafed-air-line": "chafed air line rubbing on the axle bracket"
+      },
+      "itemNotes": {
+        "chafed-air-line": "The service air line to the rear axle's left chamber has rubbed through its outer layer on an axle bracket — the reinforcement is showing. CVSA's criteria take a coach off the road for an air line worn through to the braid. It is tagged out tonight."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "With the coach chocked, look along the air lines and brake hoses at the axles: chafing, cracking, kinks, and anything rubbing.",
+      "targets": [
+        "chafed-air-line"
+      ],
+      "title": "Look along the air lines at the axles",
+      "why": "An air line that rubs on a bracket with every bump wears through a layer at a time, and the first sign of failure on the road is a brake that stops working and a pressure that falls. The coach is chocked before anyone looks underneath, and the lines are traced along their whole run to the chambers, because the chafe is always where the line touches something the fitter did not expect it to touch."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Hang the out-of-service tag on the steering wheel and put the key in the shop lock box, so the coach cannot go out in the morning.",
+      "id": "tag-out",
+      "itemNames": {
+        "key-lockbox": "key into the shop lock box",
+        "oos-tag": "out-of-service tag on the steering wheel"
+      },
+      "kind": "sequence",
+      "prompt": "Hang the out-of-service tag on the steering wheel and put the key in the shop lock box, so the coach cannot go out in the morning.",
+      "targets": [
+        "oos-tag",
+        "key-lockbox"
+      ],
+      "title": "Tag the coach out of service and lock the key away",
+      "why": "A chafed air line is a defect that affects safe operation, and 49 CFR 396 has it repaired before the coach runs again — which in a yard that sends coaches out before the day shift arrives means the coach has to be physically stopped from going out, not just written up. The tag on the wheel tells the morning driver, and the key in the shop's lock box makes sure the tag is obeyed."
+    },
+    {
+      "cue": "Record the fuel and DEF, the coolant leak, the brake check readings, the pushrod stroke, and the chafed air line with the coach tagged out.",
+      "id": "dvir-log",
+      "kind": "select",
+      "prompt": "Record the fuel and DEF, the coolant leak, the brake check readings, the pushrod stroke, and the chafed air line with the coach tagged out.",
+      "target": "dvir-tablet",
+      "title": "Write the inspection report for the shop and the morning",
+      "why": "The driver vehicle inspection report is the carrier's record under 49 CFR 396 of what was found and what was fixed, and the mechanic who works on the coach tonight starts from it. A defect that is not on the report is a defect the shop does not know to fix, and the report is also what the next driver reviews and signs before taking the coach — written now, at the coach, it says what is actually wrong with it."
+    },
+    {
+      "cue": "Call the yard dispatcher: the coach is fuelled and tagged out with a chafed air line, and check in with the hostler after the backing in the lane.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the yard dispatcher: the coach is fuelled and tagged out with a chafed air line, and check in with the hostler after the backing in the lane.",
+      "target": "yard-radio",
+      "title": "Check in with the yard dispatcher and the hostler",
+      "why": "Dispatch builds tomorrow's pull-out from this call, so a coach that will not be ready is known now rather than at five in the morning. It is also the crew's check-in: a coach backing into a lane where someone is holding a brake pedal is the near miss the hostler and the service worker will both remember, and the union's practice is to say so on the radio and name the member assistance line alongside it."
+    }
+  ],
+  "supportLine": "your ATU or IAM local's member assistance programme, or your carrier's employee assistance line on the yard board",
+  "tagline": "The fuel lane at the end of the day: the lane board read, the brake set and the engine off, the coach chocked, the tank filled with a hand on the nozzle while a hose lets go at the next island, the DEF into its own filler, the cap on to the click, a coolant leak found, air built to cut-out, the applied leak held while a hostler backs a coach into the lane, the low-air warning proven, a pushrod stroke measured, a chafed air line found, the coach tagged out, and the report written",
+  "title": "SmartCiti.X~ Bus Yard Fuelling & Brake Check VR",
+  "trade": "ATU or IAM coach yard service worker — fuel lane and air brake check, with the yard hostler moving coaches behind",
+  "underwater": null,
+  "weather": "overcast"
+}

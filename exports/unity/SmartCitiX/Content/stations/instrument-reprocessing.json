@@ -1,0 +1,377 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "cycle-verified",
+    "name": "Cycle Verified",
+    "note": "A load cleaned, packaged, run and biologically verified end to end with no shortcut"
+  },
+  "category": "Dental & Oral Health",
+  "certification": "The CDC's Guidelines for Infection Control in Dental Health-Care Settings (2003) and its 2016 Summary; ANSI/AAMI ST79 for steam sterilization in health care facilities; the FDA-cleared reprocessing instructions that ship with a reusable dental device; OSHA 29 CFR 1910.1030 bloodborne pathogens; the Dental Hygiene Board of California practice act",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "AAMI",
+        "citedAs": "AAMI ST79",
+        "id": "aami-st79",
+        "title": "ANSI/AAMI ST79 — Comprehensive guide to steam sterilization and sterility assurance in health care facilities"
+      },
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI/ISEA 105",
+        "id": "ansi-isea-105",
+        "title": "ANSI/ISEA 105 — Hand protection classification, including the A1–A9 cut levels"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "FDA",
+        "citedAs": "FDA-cleared",
+        "id": "fda-cleared-devices",
+        "title": "FDA clearance of medical and dental devices — the labelled indications a device may be used for"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Dental Hygiene",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "never-hand-scrubbed",
+        "name": "Never Hand-Scrubbed",
+        "note": "Instruments cleaned mechanically, never by hand"
+      },
+      {
+        "id": "spore-tested",
+        "name": "Spore Tested",
+        "note": "The weekly biological indicator run and read with its control"
+      },
+      {
+        "id": "pack-precise",
+        "name": "Pack Precise",
+        "note": "Every gauge reading held inside spec"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-cycle",
+        "name": "Clean Cycle",
+        "note": "No corrections anywhere in the load"
+      },
+      {
+        "id": "loaded-right",
+        "name": "Loaded Right",
+        "note": "Held the ultrasonic and the cycle wait the whole time, first try"
+      },
+      {
+        "id": "fast-turnaround",
+        "name": "Fast Turnaround",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "CYCLE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Processor",
+      "Sterile Tech",
+      "Lead Processor",
+      "Sterilization Supervisor",
+      "Sterile Processing Certified"
+    ],
+    "system": "Sterile Processing"
+  },
+  "hazards": {
+    "blank-printout": "That is last cycle's printout, and it never got read — it's sitting torn off and face-down. The cycle counter tells you a cycle happened; the printed time, temperature and pressure are the only record that it happened correctly, and nobody reads them off a strip on the floor.",
+    "hand-scrub-brush": "That brush is for hand-scrubbing wet, contaminated instruments — the CDC's own guidelines prefer mechanical cleaning precisely to get hands away from that. A hand around a wet scaler at a sink is a puncture risk on every stroke, and the ultrasonic does the same job without a hand anywhere near the blade.",
+    "overlapped-pouches": "Those two pouches are stacked flat against each other on the tray. Steam has to reach every surface of every pack to sterilize it, and a pouch shadowed by the one lying on top of it never gets full contact — it comes out of a passed cycle no more sterile than it went in.",
+    "unlabeled-pack": "That pouch has no load number or date on it. An unlabeled pack cannot be traced to the cycle that ran it, which means it cannot be pulled if that cycle's biological indicator later comes back positive — it is untraceable the moment it leaves this room."
+  },
+  "id": "instrument-reprocessing",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "ultrasonic",
+      "alert": "The lab just called back: last week's biological indicator came back positive, and you're mid-cycle on today's load.",
+      "cue": "A positive spore test means every load since the last negative result needs to be recalled.",
+      "delay": 4,
+      "id": "spore-positive",
+      "kind": "Lab result",
+      "missNote": "Today's cycle finished before the recall was opened. Every load that shipped between the last clean spore test and this call is still out there, unaccounted for, and the longer it takes to open that recall the further those packs travel.",
+      "seconds": 12,
+      "target": "sterilization-log",
+      "why": "The CDC's guidance treats a positive biological indicator as a signal about the sterilizer, not the one pack it happened to be riding in — every load run since the last confirmed negative is suspect until it is pulled and the cause is found, whatever else is on your bench right now.",
+      "wrongNote": "It is the sterilization log — a positive spore test opens a recall of every load since the last negative, and that starts here."
+    },
+    {
+      "after": "run-cycle",
+      "alert": "The autoclave has thrown a fault code and stopped mid-cycle. The door is still locked.",
+      "cue": "The cycle stopped before it reached the end — the load inside is not sterile.",
+      "delay": 3,
+      "id": "cycle-abort",
+      "kind": "Equipment fault",
+      "missNote": "The load sat in a stopped, unacknowledged cycle for the rest of the shift. An aborted cycle that nobody clears just looks like a finished one to whoever opens that door next.",
+      "seconds": 11,
+      "target": "restart-button",
+      "why": "A cycle that aborts partway through has not held time, temperature and pressure for as long as the load needed at any point in the run — the fault is acknowledged and the load is treated as unprocessed and re-run, not pulled out and used because it got most of the way there.",
+      "wrongNote": "It is the restart control — acknowledge the fault and requeue the load for a full cycle, not a partial one."
+    }
+  ],
+  "lateNotes": {
+    "packaged-cassette": "Not yet. Instruments packaged wet just steam themselves inside a sealed pouch and never fully sterilize — dry them first.",
+    "printout-reading": "There's no cycle running yet to read a printout from.",
+    "sterile-storage": "Hold that. The log for this load isn't closed — storage rotation comes after the cycle and the biological check are both recorded, not before."
+  },
+  "name": "Instrument Reprocessing",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "dental-hygiene-unspoken-smiles"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "autoclave-panel",
+      "autoclave-slot",
+      "bio-indicator",
+      "blank-printout",
+      "cassette-wrap",
+      "chemical-indicator",
+      "control-indicator",
+      "damaged-tip",
+      "debris-spot",
+      "dirty-intake",
+      "drying-rack",
+      "external-indicator-check",
+      "hand-scrub-brush",
+      "incubator",
+      "overlapped-pouches",
+      "packaged-cassette",
+      "printout-reading",
+      "restart-button",
+      "rinse-station",
+      "seal-date",
+      "sterile-storage",
+      "sterilization-log",
+      "ultrasonic-basket",
+      "unlabeled-pack",
+      "utility-gloves-repro"
+    ],
+    "meshes": 169
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence"
+  ],
+  "steps": [
+    {
+      "cue": "Heavy utility gloves before you touch anything that came off a patient.",
+      "id": "don-gloves",
+      "kind": "select",
+      "prompt": "Heavy utility gloves before you touch anything that came off a patient.",
+      "target": "utility-gloves-repro",
+      "title": "Don utility gloves for the dirty zone",
+      "why": "The dirty side of this room handles instruments that have not been cleaned yet, sharp edges included — a utility glove is bought to a cut level under ANSI/ISEA 105 in a way an exam glove never is, and OSHA 29 CFR 1910.1030 treats reprocessing staff as exposed the same as chairside staff. The glove that is thin enough to feel a calculus ledge through is the wrong glove for a tray of used curettes."
+    },
+    {
+      "cue": "Log the cassette in at the dirty-side bench before it moves any further.",
+      "id": "receive-dirty",
+      "kind": "select",
+      "prompt": "Log the cassette in at the dirty-side bench before it moves any further.",
+      "target": "dirty-intake",
+      "title": "Receive the cassette in the dirty zone",
+      "why": "The dirty zone and the clean zone are kept physically separate for one reason: nothing contaminated ever crosses back over a clean surface. Everything that arrives here is treated as contaminated until it has been through the whole line, cassette included."
+    },
+    {
+      "cue": "Lower the basket and hold it through the full ultrasonic cycle.",
+      "holdBreakNote": "You pulled the basket before the cycle finished. A short ultrasonic run leaves debris in the joints the cavitation never had time to reach.",
+      "id": "ultrasonic",
+      "kind": "hold",
+      "prompt": "Lower the basket and hold it through the full ultrasonic cycle.",
+      "seconds": 6,
+      "target": "ultrasonic-basket",
+      "title": "Clean instruments in the ultrasonic",
+      "why": "The CDC's guidelines favour mechanical cleaning — ultrasonic or an instrument washer — over hand-scrubbing precisely because cavitation reaches into box locks and serrations a hand and a brush cannot, and does it without a hand wrapped around a wet, contaminated blade."
+    },
+    {
+      "cue": "Rinse the ultrasonic detergent off before inspection.",
+      "id": "rinse",
+      "kind": "select",
+      "prompt": "Rinse the ultrasonic detergent off before inspection.",
+      "target": "rinse-station",
+      "title": "Rinse the cleaned instruments",
+      "why": "Detergent residue left on an instrument reads as debris under magnification and can react with steam sterilization — the rinse is what leaves you looking at the instrument itself, not at what cleaned it."
+    },
+    {
+      "cue": "Two things on this tray should not go into a pouch. Find them under the lamp.",
+      "id": "inspect",
+      "itemNames": {
+        "damaged-tip": "a bent scaler tip",
+        "debris-spot": "residual debris in a box lock"
+      },
+      "itemNotes": {
+        "damaged-tip": "This tip is bent past its working angle. A damaged instrument that gets packaged and sterilized anyway is still a damaged instrument on the next patient — sterility does not repair it.",
+        "debris-spot": "Dried debris still sitting in the hinge of this instrument. Sterilization does not clean — it kills what a load carries into the chamber, and organic material can shield microorganisms from steam that would otherwise reach them."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things on this tray should not go into a pouch. Find them under the lamp.",
+      "targets": [
+        "debris-spot",
+        "damaged-tip"
+      ],
+      "title": "Inspect every instrument under magnification",
+      "why": "The naked eye misses what the magnifier catches, which is the entire reason a lighted magnifier sits at this bench rather than the tray being packaged straight off the rinse. Debris and damage are both invisible from arm's length and both defeat the point of everything that happens after this step."
+    },
+    {
+      "cue": "Instruments go on the drying rack before anything is wrapped.",
+      "id": "dry",
+      "kind": "select",
+      "prompt": "Instruments go on the drying rack before anything is wrapped.",
+      "target": "drying-rack",
+      "title": "Dry instruments completely before packaging",
+      "why": "Moisture sealed inside a pouch either wet-packs the load — a pack is considered contaminated the moment it is found wet — or it turns to steam inside its own wrapper during the cycle and can compromise the seal. Dry goes into the pouch, not wet."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Wrap the cassette, drop in the internal chemical indicator, then seal the pouch and write the date and load number on it.",
+      "id": "package",
+      "itemNames": {
+        "cassette-wrap": "wrap the cassette",
+        "chemical-indicator": "internal chemical indicator",
+        "seal-date": "seal and date the pouch"
+      },
+      "kind": "sequence",
+      "prompt": "Wrap the cassette, drop in the internal chemical indicator, then seal the pouch and write the date and load number on it.",
+      "targets": [
+        "cassette-wrap",
+        "chemical-indicator",
+        "seal-date"
+      ],
+      "title": "Package with an internal indicator, then seal and date",
+      "why": "The internal indicator only proves anything if it is inside the pack where steam has to reach it to change colour, and the date and load number are what let this exact pack be pulled later if this exact cycle's biological indicator ever comes back positive."
+    },
+    {
+      "cue": "Set the packaged cassette in the chamber on its own, not stacked against another pouch.",
+      "drag": {
+        "missNote": "Not flat against the other pack — space it so steam reaches every side.",
+        "radius": 0.4,
+        "to": "autoclave-slot"
+      },
+      "id": "load-autoclave",
+      "kind": "drag",
+      "prompt": "Set the packaged cassette in the chamber on its own, not stacked against another pouch.",
+      "target": "packaged-cassette",
+      "title": "Load the autoclave without overlapping packs",
+      "why": "Steam sterilizes by direct contact — a pouch has to have exposed surface on every side for the cycle to actually reach it, which is why AAMI ST79 calls for packs loaded on edge and clear of each other rather than stacked flat."
+    },
+    {
+      "cue": "Start the cycle and hold the door closed until it completes on its own.",
+      "holdBreakNote": "The cycle was interrupted before it finished. A partial cycle is an unsterilized load whatever the timer showed when it stopped.",
+      "id": "run-cycle",
+      "kind": "hold",
+      "prompt": "Start the cycle and hold the door closed until it completes on its own.",
+      "seconds": 7,
+      "target": "autoclave-panel",
+      "title": "Run the cycle",
+      "why": "A steam sterilization cycle is a specific combination of time, temperature and pressure sustained for its full length — opening the chamber early or cutting the cycle short means none of the three parameters was actually held for as long as the load needed."
+    },
+    {
+      "cue": "Check the cycle's printed time, temperature and pressure against spec and commit.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.7
+        ],
+        "label": "CHAMBER TEMP",
+        "missNote": "That reading is outside spec — the load did not see what the cycle needed. Hold it for reprocessing, not release.",
+        "speed": 0.7
+      },
+      "id": "read-printout",
+      "kind": "gauge",
+      "prompt": "Check the cycle's printed time, temperature and pressure against spec and commit.",
+      "target": "printout-reading",
+      "title": "Read the printout",
+      "why": "The printout is the cycle's actual physical record — time at temperature, the peak pressure — not the light that comes on when the door unlocks. AAMI ST79 treats reading it as a required release check, because a light can come on at the end of a cycle that never reached temperature at all."
+    },
+    {
+      "cue": "Confirm the tape or strip on the outside of the pack changed colour.",
+      "id": "external-indicator",
+      "kind": "select",
+      "prompt": "Confirm the tape or strip on the outside of the pack changed colour.",
+      "target": "external-indicator-check",
+      "title": "Check the external indicator",
+      "why": "The external indicator only tells you the pack was exposed to a sterilization process, never that sterilization was actually achieved — it is a quick sort between processed and unprocessed, not a release check on its own, which is exactly why it comes after the printout and not instead of it."
+    },
+    {
+      "cue": "Run a spore test alongside a matched control, and incubate both.",
+      "id": "spore-test",
+      "itemNames": {
+        "bio-indicator": "biological indicator",
+        "control-indicator": "unincubated control",
+        "incubator": "incubator"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Run the challenge indicator with its control, then incubate both together — a spore test without its control proves nothing.",
+      "prompt": "Run a spore test alongside a matched control, and incubate both.",
+      "targets": [
+        "bio-indicator",
+        "control-indicator",
+        "incubator"
+      ],
+      "title": "Run the weekly biological indicator with its control",
+      "why": "A biological indicator is the only test that challenges the cycle with something alive — bacterial spores far hardier than anything on a real instrument — and the unincubated control is what proves the indicator itself was viable to begin with, so a negative result actually means the cycle worked rather than that the test was dead on arrival."
+    },
+    {
+      "cue": "Record the cycle parameters and the biological indicator result in the sterilization log.",
+      "id": "log-result",
+      "kind": "select",
+      "prompt": "Record the cycle parameters and the biological indicator result in the sterilization log.",
+      "target": "sterilization-log",
+      "title": "Log the cycle and the spore test result",
+      "why": "The log is what lets this exact load be traced back to this exact cycle and this exact spore test months later, which is the only way a recall can name the patients a failed load reached instead of every patient seen that week. A record with a gap in it is indistinguishable from a load that was never verified at all."
+    },
+    {
+      "cue": "Shelve the finished pack behind what's already there, and pull from the front.",
+      "id": "storage-fifo",
+      "kind": "select",
+      "prompt": "Shelve the finished pack behind what's already there, and pull from the front.",
+      "target": "sterile-storage",
+      "title": "Rotate sterile storage first-in-first-out",
+      "why": "Even a correctly sterilized pack has a shelf-life tied to event-related sterility — how it's handled and stored, not a fixed calendar date — and FIFO rotation is what keeps the oldest stock moving instead of sitting at the back until its packaging integrity is the question."
+    }
+  ],
+  "supportLine": "the ADHA's member resources, or your employer's employee assistance program if a failed load has you doubting every tray you packaged this month",
+  "tagline": "Sterilization centre: mechanical cleaning, inspection, chemical-indicator packaging, an autoclave cycle read from its own printout, and the weekly spore test that proves it worked",
+  "title": "SmartCiti.X~ Instrument Reprocessing VR",
+  "trade": "Dental hygienist",
+  "underwater": null,
+  "weather": null
+}

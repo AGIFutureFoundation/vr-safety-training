@@ -1,0 +1,398 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "photon-guild",
+    "name": "Photon Guild",
+    "note": "Dark fibre proven, splice inside budget"
+  },
+  "category": "Connectivity & Telecom",
+  "certification": "CWA and IBEW outside-plant technicians; OSHA 29 CFR 1910.268, the telecommunications standard, for work in and around a street node; the ANSI Z136 laser safety series for optical-fibre communication systems; NFPA 70E for the -48 V power plant in the cabinet; BICSI Installer 2, Optical Fiber, and the carrier's own loss budget and port tag-out procedure",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z136",
+        "id": "ansi-z136",
+        "title": "ANSI Z136 — Safe use of lasers, including Z136.2 for optical-fibre communication systems"
+      },
+      {
+        "body": "BICSI",
+        "citedAs": "BICSI",
+        "id": "bicsi-installer",
+        "title": "BICSI Installer 2 and Optical Fiber installer credentials"
+      },
+      {
+        "body": "union",
+        "citedAs": "CWA",
+        "id": "cwa-training",
+        "title": "CWA member training for outside-plant, tower and broadcast work"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBEW",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.268",
+        "id": "osha-1910-268",
+        "title": "29 CFR 1910.268 — Telecommunications"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Connectivity",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "dark-proven",
+        "name": "Dark Proven",
+        "note": "Confirm the fibre is dark before it is ever exposed"
+      },
+      {
+        "id": "sub-tenth",
+        "name": "Sub-Tenth",
+        "note": "Cleave and splice near the centre of every band"
+      },
+      {
+        "id": "eyes-intact",
+        "name": "Eyes Intact",
+        "note": "Never look into a fibre end"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "single-pass",
+        "name": "Single Pass",
+        "note": "No corrections across the whole splice"
+      },
+      {
+        "id": "night-window",
+        "name": "Night Window",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-bench",
+        "name": "Clean Bench",
+        "note": "Eight correct actions in a row"
+      }
+    ],
+    "currency": "PHOTON",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Cable Hand",
+      "Splicer",
+      "Node Technician",
+      "Loss Budget Lead",
+      "Guild Certified"
+    ],
+    "system": "Photon Guild"
+  },
+  "hazards": {
+    "alcohol-heat": "Isopropyl beside a running heat oven. The cleaning solvent is flammable and the oven cycles to 200 °C — one goes away before the other is switched on.",
+    "bare-fibre-end": "You looked into the fibre end. Transmission wavelengths are invisible and your blink reflex never fires — the retinal burn is done before you know the port was live.",
+    "fibre-scraps": "Those are cleaved fibre offcuts on the bench. Bare glass shards work into skin and cannot be seen on an X-ray. They go in the sharps tube, immediately, every time.",
+    "power-shelf": "That is the -48 V battery plant, not a fibre shelf. Telecom DC power will put thousands of amps into a dropped spanner without tripping anything, and the arc takes the tool, the busbar and the hand holding it. Nothing in that shelf is part of a splice — it is worked on isolated, by the power technician, under NFPA 70E.",
+    "unlabelled-port": "That port has no label and no lockout. Working an unidentified port means the service you take down belongs to somebody who did not know it was coming."
+  },
+  "id": "splice-node",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "cleave",
+      "alert": "P3 has come back up on the OLT shelf. Provisioning has re-enabled the port you shut down, and the strand lying open on the bench is live again.",
+      "cue": "You made it dark at the source. Go and make it dark again.",
+      "delay": 4,
+      "id": "port-relit",
+      "kind": "Port back up",
+      "missNote": "You cleaved and spliced a strand that had gone live behind you. If your face was over the tray when that port came up — and it was, that is where the work happens — the retinal burn is done before anything at all tells you the light is there.",
+      "seconds": 12,
+      "target": "olt-port",
+      "why": "Disabling a port is a software state, and software states get undone — by a config rollback, by a change window closing, by a technician three exchanges away clearing alarms off a list. That is why the port is tagged and the strand is metered rather than trusted. A transmission wavelength is invisible, your blink reflex never fires for it, and the end face you are about to put under a cleaver sits forty millimetres from your eye.",
+      "wrongNote": "That is not what brought the light back. The port is on the OLT shelf, and it goes down and stays down before that fibre is touched again."
+    },
+    {
+      "after": "loss",
+      "alert": "The tray stack you propped open has settled. Tray 3 has dropped on its hinge and the strands routed out of it are pulling tight across the lip.",
+      "cue": "Your strand is not the only one in that tray.",
+      "delay": 4,
+      "id": "tray-slump",
+      "kind": "Tray on the move",
+      "missNote": "The tray hung on its own strands for the rest of the job. Nothing failed while you were standing there, which is exactly the problem — the bends went into live fibres and the trouble ticket lands months from now, on a circuit nobody has touched since tonight.",
+      "seconds": 13,
+      "target": "splice-tray",
+      "why": "There are twenty-three other strands in tray 3 and every one of them is somebody's live service. Glass does not tell you when you have hurt it: a macro-bend put in tonight passes a trace at bench temperature and shows up as attenuation when the cabinet swings thirty degrees in August. Take the weight off the tray before you finish your own joint, because the fault you cause here gets found by somebody who has no reason to connect it to your ticket.",
+      "wrongNote": "It is the tray. Take the load off those strands before you carry on with the joint."
+    }
+  ],
+  "lateNotes": {
+    "cleaver": "Nothing gets cleaved before the fibre is proven dark and the buffer is stripped clean.",
+    "splicer": "The splicer only sees what you put in it — cleave quality is set before the arc fires."
+  },
+  "name": "Splice Node",
+  "parSeconds": 200,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": null,
+    "hits": [
+      "alcohol-heat",
+      "bare-fibre-end",
+      "cabinet-handle",
+      "cleaning-kit",
+      "cleaver",
+      "fibre-scraps",
+      "heat-oven",
+      "label-tag",
+      "laser-glasses",
+      "olt-port",
+      "otdr",
+      "port-tag",
+      "power-meter",
+      "power-shelf",
+      "protection-sleeve",
+      "short-slack",
+      "slipped-sleeve",
+      "sound-strand",
+      "splice-tray",
+      "splicer",
+      "stripper",
+      "tight-bend",
+      "unlabelled-port",
+      "work-ticket"
+    ],
+    "meshes": 195
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Confirm the circuit, the port, and that the shutdown window is approved.",
+      "id": "ticket",
+      "kind": "select",
+      "prompt": "Confirm the circuit, the port, and that the shutdown window is approved.",
+      "target": "work-ticket",
+      "title": "Read the ticket and circuit ID",
+      "why": "One strand in that tray is a hospital's imaging link and another is the backhaul for half the traffic signals north of the river. The ticket is what says which of the twelve is yours, which port feeds it, and which four hours the carrier has agreed you may break it in. Cutting the wrong strand is not a splice error — it is an outage somebody else has to explain."
+    },
+    {
+      "cue": "Turn the latch and swing the door back onto its stop, clear of the footway.",
+      "id": "open-cabinet",
+      "kind": "turn",
+      "prompt": "Turn the latch and swing the door back onto its stop, clear of the footway.",
+      "target": "cabinet-handle",
+      "title": "Unlock and open the node cabinet",
+      "turn": {
+        "axis": "z",
+        "label": "CABINET LATCH",
+        "turns": 0.5
+      },
+      "why": "The door goes back against its stop and stays there. A street cabinet door loose in the wind takes the splicer's head or a passer-by's, and keeping the work off the footway is the part of OSHA's telecommunications standard that applies before any of the fibre content does. It is opened once, worked from, and shut — not propped half open for an hour."
+    },
+    {
+      "cue": "Disable the OLT port feeding this strand at the shelf.",
+      "id": "shutdown",
+      "kind": "select",
+      "prompt": "Disable the OLT port feeding this strand at the shelf.",
+      "target": "olt-port",
+      "title": "Shut down the transmitter",
+      "why": "You make the strand dark at the source, on the shelf in front of you, not at the far end where you cannot see who else has their hands in the rack. A 1550 nm carrier is outside the visible band and the blink reflex never fires for it, which is why the ANSI Z136 guidance for fibre communication systems is built around the strand being proven dark before an end face is ever exposed."
+    },
+    {
+      "cue": "Take the tag-out card off the bench and hang it on the port you just disabled.",
+      "drag": {
+        "missNote": "Not on the port. A tag hung on the wrong shelf tells the NOC the wrong strand is down and leaves yours free to be turned straight back up.",
+        "radius": 0.45,
+        "to": "olt-port"
+      },
+      "id": "tag-port",
+      "kind": "drag",
+      "prompt": "Take the tag-out card off the bench and hang it on the port you just disabled.",
+      "target": "port-tag",
+      "title": "Tag the port out",
+      "why": "A disabled port with nothing hanging on it is a port the network operations centre re-enables the moment a customer rings about the service you just took down. The tag carries your name and your window, and in a cabinet nobody else is standing in it is the only thing that speaks for you to somebody two hundred miles away looking at the same alarm."
+    },
+    {
+      "cue": "Meter the strand and commit when the received power is safely dark.",
+      "gauge": {
+        "green": [
+          0,
+          0.12
+        ],
+        "label": "OPTICAL POWER — RECEIVED",
+        "missNote": "Still carrying light. Do not expose that end — go back and find what is still transmitting.",
+        "speed": 0.62
+      },
+      "id": "power-check",
+      "kind": "gauge",
+      "prompt": "Meter the strand and commit when the received power is safely dark.",
+      "target": "power-meter",
+      "title": "Prove the fibre is dark",
+      "why": "Dark is a number in dBm, not an opinion. You shut one end down; the strand still runs miles to a node where a second technician may be doing exactly what you are doing, and the meter is the only thing that proves no light is arriving from their end. Anything above the threshold on the ticket means the end face stays capped until you know where the light is coming from."
+    },
+    {
+      "cue": "Take the wavelength-rated glasses from the case.",
+      "id": "eyewear",
+      "kind": "select",
+      "prompt": "Take the wavelength-rated glasses from the case.",
+      "target": "laser-glasses",
+      "title": "Put on the laser eyewear",
+      "why": "Rated for the wavelengths carried in this node, not the safety glasses out of the van door. They are not there for the strand you have just proven dark — they are there for the port somebody else brings back up while your eye is six inches from an open tray, which is the only way anybody has ever been hurt by a fibre."
+    },
+    {
+      "cue": "Unclip the tray and bring it out flat before you route anything to the bench.",
+      "id": "open-tray",
+      "kind": "select",
+      "prompt": "Unclip the tray and bring it out flat before you route anything to the bench.",
+      "target": "splice-tray",
+      "title": "Open the splice tray",
+      "why": "Trays come out one at a time and they come out flat. Every other strand in there is a live service belonging to somebody who has not been told anything is happening tonight, and a fibre levered against the edge of a tray takes a bend it never recovers from. That loss turns up weeks later as a link that fails on the cold nights and comes back by lunchtime."
+    },
+    {
+      "cue": "Three things in this tray are already wrong. Find them by looking.",
+      "decoyNotes": {
+        "sound-strand": "That one is routed correctly — sleeve seated in its holder, full service loop, no bend anywhere near the limit. Leave it alone."
+      },
+      "id": "inspect",
+      "itemNames": {
+        "short-slack": "the strand with no service loop",
+        "slipped-sleeve": "the splice sleeve out of its holder",
+        "tight-bend": "the strand pulled round the post"
+      },
+      "itemNotes": {
+        "short-slack": "No service loop left on that strand. The next technician who has to re-splice it has nothing to pull into the tray and ends up jointing in new cable to buy the slack you could have left tonight.",
+        "slipped-sleeve": "The protection sleeve has come out of its holder, so the joint is carrying the strain instead of the sleeve. A fusion splice is butt-welded glass with no mechanical strength of its own; the sleeve is all it has.",
+        "tight-bend": "That strand is routed inside its minimum bend radius. A macro-bend leaks light straight out of the core — it is adding loss to a live service right now, and glass held at that radius cracks eventually."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things in this tray are already wrong. Find them by looking.",
+      "targets": [
+        "tight-bend",
+        "slipped-sleeve",
+        "short-slack"
+      ],
+      "title": "Read the tray before you touch it",
+      "why": "Whatever is wrong in a tray gets blamed on the last technician who opened it, and more to the point it is the thing that fails next. A bend inside the minimum radius, a sleeve out of its holder and a strand with no slack all pass a glance and fail a winter, and every one of them is cheaper to put right now, with the tray already open and the truck already here."
+    },
+    {
+      "cue": "Thread the protection sleeve onto the strand, then strip the coating, then clean the bare fibre.",
+      "id": "prep",
+      "itemNames": {
+        "cleaning-kit": "clean the bare fibre",
+        "protection-sleeve": "thread the protection sleeve on",
+        "stripper": "strip the 250 µm buffer"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Sleeve first. Strip and cleave with no sleeve on the strand and the only way to protect the joint afterwards is to cut it out and start the preparation again.",
+      "prompt": "Thread the protection sleeve onto the strand, then strip the coating, then clean the bare fibre.",
+      "targets": [
+        "protection-sleeve",
+        "stripper",
+        "cleaning-kit"
+      ],
+      "title": "Sleeve on first, then strip and clean",
+      "why": "The sleeve goes on before anything else, because there is no way to thread it over a finished joint — forget it and the only remedy is to cut out the splice you just made and prepare both ends again. Then a clean strip with no nick in the cladding, then lint-free and solvent, because contamination is the largest single cause of a high-loss splice and both the cleaver and the arc assume a surface nothing has touched."
+    },
+    {
+      "cue": "Set the cleaver and commit inside the acceptable cleave angle.",
+      "gauge": {
+        "green": [
+          0,
+          0.16
+        ],
+        "label": "CLEAVE ANGLE",
+        "missNote": "Angle out of tolerance. Re-cleave — a bad end face guarantees a bad splice no matter what the splicer does.",
+        "speed": 0.95
+      },
+      "id": "cleave",
+      "kind": "gauge",
+      "prompt": "Set the cleaver and commit inside the acceptable cleave angle.",
+      "target": "cleaver",
+      "title": "Cleave to angle",
+      "why": "The end face has to be square to the axis of the core. Half a degree of angle and the two cores meet across a wedge of air instead of face to face; the arc fuses them anyway, the splicer reports a tidy-looking joint, and the loss stays in that link for the life of the cable. No amount of arc power recovers a bad cleave, so it gets a fresh blade position rather than one more go."
+    },
+    {
+      "cue": "Load both ends, align and fire the arc.",
+      "id": "splice",
+      "kind": "select",
+      "prompt": "Load both ends, align and fire the arc.",
+      "target": "splicer",
+      "title": "Fusion splice the joint",
+      "why": "The splicer aligns the cores, burns off what is left on the faces and fuses the glass, and it will do that just as confidently to a dirty fibre with a two-degree cleave as to a good one. Everything you control happened before this button; the estimate it puts on the screen afterwards measures your preparation, not the machine."
+    },
+    {
+      "cue": "Shoot the OTDR and commit when the splice loss is inside budget.",
+      "gauge": {
+        "green": [
+          0,
+          0.14
+        ],
+        "label": "SPLICE LOSS",
+        "missNote": "Over budget for a fusion splice. Cut it out and re-cleave — a marginal joint drifts worse with temperature.",
+        "speed": 0.72
+      },
+      "id": "loss",
+      "kind": "gauge",
+      "prompt": "Shoot the OTDR and commit when the splice loss is inside budget.",
+      "target": "otdr",
+      "title": "Verify the splice loss",
+      "why": "Every joint in the link spends part of a loss budget that was set when the route was designed, and that budget is what decides whether the far end still has enough light in three years, after the cable has been dug up and re-jointed twice by somebody else. A joint outside budget is cut out and redone now, while the tray is open and the window is still yours."
+    },
+    {
+      "cue": "Slide the sleeve over the joint and hold it in the oven for the whole cycle.",
+      "holdBreakNote": "You lifted it out early. A part-shrunk sleeve looks finished and holds nothing — run the full cycle.",
+      "id": "protect",
+      "kind": "hold",
+      "prompt": "Slide the sleeve over the joint and hold it in the oven for the whole cycle.",
+      "seconds": 6,
+      "target": "heat-oven",
+      "title": "Run the full oven cycle on the sleeve",
+      "why": "That sleeve is the only mechanical strength a fusion splice has — the glass is butt-welded and snaps at the joint the first time anything pulls on it. A cycle cut short leaves the shrink incomplete and the strength member loose inside, which survives the bench, survives the tray, and lets go on the first hot afternoon the cabinet has."
+    },
+    {
+      "cue": "Label the strand, record the loss and restore the port.",
+      "id": "document",
+      "kind": "select",
+      "prompt": "Label the strand, record the loss and restore the port.",
+      "target": "label-tag",
+      "title": "Label and document",
+      "why": "The record is what the next technician trusts at three in the morning with no light in the cabinet and a customer on the phone: strand, port, measured loss, date, your name. Then the port comes back up and the tag comes off, in that order, because a service restored before it is written down is a service nobody can find again when it fails."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Dark-fibre confirmation, laser safety, cleave quality and splice loss budget",
+  "title": "SmartCiti.X~ Splice Node VR",
+  "trade": "Fibre optic technician",
+  "underwater": null,
+  "weather": "rain"
+}

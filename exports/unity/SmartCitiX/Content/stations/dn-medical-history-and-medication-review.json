@@ -1,0 +1,448 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "nothing-missed",
+    "name": "Nothing Missed",
+    "note": "Every medicine in the bag on the list, every flag in front of the dentist, and nothing decided that was the dentist's to decide"
+  },
+  "category": "Dental & Oral Health",
+  "certification": "The state dental board's practice act, under which the decision to consult a physician, change a plan or prescribe is the dentist's, and the history is taken and recorded by the team; the ADHA's standards for clinical dental hygiene practice on assessment; the ADA's guidance on patients taking anticoagulants and antiresorptive bone medicines, and the ADA's CDT code set for the evaluation the dentist records; HIPAA's privacy rule and its minimum-necessary standard for a medication list; OSHA 29 CFR 1910.1030 for a used lancet; the CDC's dental infection-control guidelines for a latex-free setup; SEIU and UFCW clinic and dental staff; Unspoken Smiles, the programme this platform is built for",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADA",
+        "citedAs": "CDT",
+        "id": "ada-cdt-code",
+        "title": "The ADA's Code on Dental Procedures and Nomenclature (CDT), the procedure-code set dental claims and pre-authorisations are written in; cited as the body and the code set, never by a code number"
+      },
+      {
+        "body": "ADA",
+        "citedAs": "ADA's",
+        "id": "ada-radiographic-guidance",
+        "title": "American Dental Association and FDA guidance on prescribing dental radiographs"
+      },
+      {
+        "body": "ADHA",
+        "citedAs": "ADHA",
+        "id": "adha-standards",
+        "title": "ADHA Standards for Clinical Dental Hygiene Practice"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "HHS",
+        "citedAs": "HIPAA",
+        "id": "hipaa-privacy-rule",
+        "title": "HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "state dental board",
+        "citedAs": "state dental board",
+        "id": "state-dental-board",
+        "title": "The state dental board and its dental practice act: licensure, scope of practice, and the allowable-duties rules for dental assistants and hygienists"
+      },
+      {
+        "body": "union",
+        "citedAs": "UFCW",
+        "id": "ufcw-training",
+        "title": "UFCW member training for retail food, clinic and dental support work"
+      },
+      {
+        "body": "Unspoken Smiles",
+        "citedAs": "Unspoken Smiles",
+        "id": "unspoken-smiles-programme",
+        "title": "Unspoken Smiles, the programme this platform is built for; named only, not described — its own materials are not sourced in this repository"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Dental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "bag-checked",
+        "name": "Bag Checked",
+        "note": "Both missing medicines found in the bag first time"
+      },
+      {
+        "id": "within-scope",
+        "name": "Within Scope",
+        "note": "No unsafe action anywhere in the review"
+      },
+      {
+        "id": "heard-them",
+        "name": "Heard Them",
+        "note": "The listening and the read-back carried without a break"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-review",
+        "name": "Clean Review",
+        "note": "No corrections anywhere in the review"
+      },
+      {
+        "id": "alert-right",
+        "name": "Alert Right",
+        "note": "The chart alert set near the middle of its band"
+      },
+      {
+        "id": "on-time",
+        "name": "On Time",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "HIST",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Clinical Student",
+      "History Taker",
+      "Clinical Reviewer",
+      "Hygiene Lead",
+      "History First Certified"
+    ],
+    "system": "History First"
+  },
+  "hazards": {
+    "mhr-antibiotic-sample": "That is a sample pack of penicillin-family antibiotic from the cupboard, offered 'just in case' — to a patient whose chart says penicillin gives them hives. Handing out a medicine is prescribing, which is the dentist's under the practice act, and handing out this one to this patient is how a mild allergy becomes an anaphylaxis in the car park.",
+    "mhr-open-screen": "That is the patient's full record open on the monitor that faces the corridor. A medication list tells anybody walking past about a heart rhythm, a bone condition and a diagnosis the patient may never have mentioned to their own family; HIPAA's minimum-necessary standard means the screen shows what the person using it needs, and it faces away from the door.",
+    "mhr-stop-thinner-note": "That is a pre-printed slip telling the patient to stop their blood thinner three days before the extraction. Stopping an anticoagulant can cause a stroke or a clot, and it is never the dental team's instruction to give: whether anything changes is decided by the dentist together with the physician who prescribed it, and most of the time the answer is to keep taking it and manage bleeding locally.",
+    "mhr-used-lancet": "That is the used lancet from the patient's glucose check, left uncapped on the desk. A used lancet carries blood, and a sharp on a desk is found by a hand reaching for paperwork; under 29 CFR 1910.1030 it goes straight into the sharps container, not onto the nearest flat surface."
+  },
+  "id": "dn-medical-history-and-medication-review",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "mhr-listen",
+      "alert": "Through the open operatory door you can see the assistant laying a box of latex gloves and a latex dam onto this patient's tray.",
+      "cue": "Hang the latex-alert card on the operatory door so the room is reset before this patient is seated.",
+      "delay": 3,
+      "id": "mhr-latex-setup",
+      "kind": "Latex allergy",
+      "missNote": "The latex tray went ahead. This patient, whose chart records lip swelling from latex, would have been seated in front of latex gloves and a latex dam — a reaction the whole review existed to prevent.",
+      "seconds": 12,
+      "target": "mhr-latex-card",
+      "why": "A latex-allergic patient reacts to what touches them and to what is handled around them, so the room has to be latex-free before they are seated, not corrected after. The alert card on the door stops the setup where it is and tells everyone who walks in; the latex items come off the tray and non-latex ones go on.",
+      "wrongNote": "It is the latex-alert card. The problem is in the operatory, so the operatory is what gets stopped and reset."
+    },
+    {
+      "after": "mhr-read-back",
+      "alert": "The medication list you sent to print has come out face up on the shared corridor printer, beside the waiting-room door.",
+      "cue": "Fetch the printout from the corridor tray now — the read-back can pause for that.",
+      "delay": 3,
+      "id": "mhr-printer-leak",
+      "kind": "Privacy breach",
+      "missNote": "The list stayed on the corridor printer. Anyone passing could read the patient's anticoagulant, bone medicine and allergies — a disclosure HIPAA's safeguards exist to prevent, and one that took seconds to stop.",
+      "seconds": 11,
+      "target": "mhr-printer-tray",
+      "why": "A printed medication list sitting face up by a waiting room is a disclosure waiting for somebody to glance down. Picking it up at once ends it; the read-back takes ten seconds to resume. Printing clinical documents to a shared corridor printer at all is worth raising at the next huddle.",
+      "wrongNote": "It is the corridor printer tray. The disclosure is on paper out there, so that is where you go."
+    }
+  ],
+  "lateNotes": {
+    "mhr-consult-form": "Not yet. The consult decision is the dentist's, and the dentist has not seen the flagged history — carry it to them first.",
+    "mhr-history-log": "The review is not finished. The history log is signed at the end, from what was actually confirmed.",
+    "mhr-team-checkin": "The team check-in comes once the dentist's decision is recorded, so the huddle hears the plan rather than the questions."
+  },
+  "name": "Medical History & Medication Review",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "dental-hygiene-unspoken-smiles"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "mhr-alert-dial",
+      "mhr-allergy-latex",
+      "mhr-allergy-penicillin",
+      "mhr-antibiotic-sample",
+      "mhr-bottle-bone",
+      "mhr-bottle-thinner",
+      "mhr-consult-form",
+      "mhr-dentist-tray",
+      "mhr-door-handle",
+      "mhr-drug-reference",
+      "mhr-field-drug",
+      "mhr-field-prescriber",
+      "mhr-field-reason",
+      "mhr-flag-folder",
+      "mhr-history-log",
+      "mhr-latex-card",
+      "mhr-listen-point",
+      "mhr-med-list",
+      "mhr-open-screen",
+      "mhr-printer-tray",
+      "mhr-signature-line",
+      "mhr-stop-thinner-note",
+      "mhr-team-checkin",
+      "mhr-two-identifiers",
+      "mhr-update-date",
+      "mhr-used-lancet"
+    ],
+    "meshes": 185
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Turn the handle and close the door so the conversation stays in the room.",
+      "id": "mhr-door-close",
+      "kind": "turn",
+      "noRobot": false,
+      "prompt": "Turn the handle and close the door so the conversation stays in the room.",
+      "target": "mhr-door-handle",
+      "title": "Close the consult room door before a word about health is said",
+      "turn": {
+        "axis": "z",
+        "label": "DOOR HANDLE",
+        "turns": 0.5
+      },
+      "why": "A medical history is the most sensitive conversation in a dental visit: heart conditions, pregnancy, mental health, medicines a patient may not want anybody else to know about. HIPAA does not ask a practice to whisper, but it does expect reasonable safeguards, and a closed door is the cheapest one there is. Patients tell a closed room things they will not say in an open bay, which is exactly why the history-taker who closes it gets the full story — and why that habit leads toward treatment-coordinator and hygiene roles."
+    },
+    {
+      "cue": "Two identifiers first, then the update date, then the patient's signature.",
+      "id": "mhr-form-check",
+      "itemNames": {
+        "mhr-signature-line": "the patient's signature",
+        "mhr-two-identifiers": "two identifiers — name and date of birth",
+        "mhr-update-date": "today's date on the update"
+      },
+      "kind": "sequence",
+      "noRobot": false,
+      "outOfOrderNote": "Out of order. Confirm whose history it is before checking how recent it is, and sign it off only once both are right — a signature on the wrong person's form proves nothing.",
+      "prompt": "Two identifiers first, then the update date, then the patient's signature.",
+      "targets": [
+        "mhr-two-identifiers",
+        "mhr-update-date",
+        "mhr-signature-line"
+      ],
+      "title": "Confirm whose history this is, that it is today's, and that it is signed",
+      "why": "The most dangerous history is the right history for the wrong patient, or the right patient's history from two years ago. Two identifiers make sure the form belongs to the person in the chair; the update date shows it reflects what they take now; the signature records that they confirmed it. The ADHA's practice standards treat this assessment as the foundation of hygiene care, and getting it right every time is what earns a clinician trust with complex patients."
+    },
+    {
+      "cue": "The patient brought every bottle they take. Two of them are missing from the written history.",
+      "id": "mhr-brown-bag",
+      "itemNames": {
+        "mhr-bottle-bone": "a weekly bone-density tablet",
+        "mhr-bottle-thinner": "an anticoagulant from cardiology"
+      },
+      "itemNotes": {
+        "mhr-bottle-bone": "A weekly antiresorptive tablet for osteoporosis, also missing from the form. Medicines in this family carry a risk of the jaw bone failing to heal after an extraction, and the dentist needs to know before anything is planned.",
+        "mhr-bottle-thinner": "An anticoagulant, prescribed by a cardiologist, that the form does not mention. It changes how the socket will bleed after an extraction, and it is the kind of medicine a patient leaves off because they think of it as a heart pill, not a dental matter."
+      },
+      "kind": "find",
+      "noHint": true,
+      "noRobot": false,
+      "prompt": "The patient brought every bottle they take. Two of them are missing from the written history.",
+      "targets": [
+        "mhr-bottle-thinner",
+        "mhr-bottle-bone"
+      ],
+      "title": "Find the two medicines in the bag that are not on the form",
+      "why": "Patients leave medicines off forms all the time — not to hide them, but because they do not see what a heart pill or a weekly bone tablet has to do with teeth. Asking them to bring every bottle and checking the bag against the form is the most reliable way to close that gap, and the two missing here are exactly the ones that change an extraction. A clinician who reconciles medicines this carefully is the one a practice trusts with its medically complex patients."
+    },
+    {
+      "anyOrder": true,
+      "cue": "For each bottle, fill in the drug and dose, what it is for, and who prescribes it — in any order.",
+      "id": "mhr-reconcile",
+      "itemNames": {
+        "mhr-field-drug": "drug and dose",
+        "mhr-field-prescriber": "who prescribes it",
+        "mhr-field-reason": "what it is for"
+      },
+      "itemNotes": {
+        "mhr-field-drug": "The name and the dose exactly as the label reads, not as the patient remembers it.",
+        "mhr-field-prescriber": "Who prescribes it, because that is the person the dentist would consult.",
+        "mhr-field-reason": "Why they take it, in their words — the reason often tells the dentist more than the drug name."
+      },
+      "kind": "sequence",
+      "noRobot": false,
+      "prompt": "For each bottle, fill in the drug and dose, what it is for, and who prescribes it — in any order.",
+      "targets": [
+        "mhr-field-drug",
+        "mhr-field-reason",
+        "mhr-field-prescriber"
+      ],
+      "title": "Write every medicine onto the list with its dose, reason and prescriber",
+      "why": "A medication list is only useful if each line answers three questions: what exactly the patient takes, why, and who prescribed it. The drug and dose tell the dentist the risk; the reason explains the condition behind it; the prescriber is the person who would be consulted if anything needed to change. A list of names alone answers none of the questions that matter. Accurate reconciliation is a transferable clinical skill that opens doors well beyond dentistry."
+    },
+    {
+      "cue": "Read the allergy section and the reactions. Two entries change what can be used today.",
+      "id": "mhr-allergy-find",
+      "itemNames": {
+        "mhr-allergy-latex": "latex — lip swelling",
+        "mhr-allergy-penicillin": "penicillin — hives"
+      },
+      "itemNotes": {
+        "mhr-allergy-latex": "Latex, with lip swelling as the reaction. That rules out latex gloves, a latex dam and any latex-containing item on the tray for this patient, from the moment they walk in.",
+        "mhr-allergy-penicillin": "Penicillin, with hives as the reaction. If the dentist decides an antibiotic is needed, this line decides which one it cannot be."
+      },
+      "kind": "find",
+      "noHint": true,
+      "noRobot": false,
+      "prompt": "Read the allergy section and the reactions. Two entries change what can be used today.",
+      "targets": [
+        "mhr-allergy-penicillin",
+        "mhr-allergy-latex"
+      ],
+      "title": "Find the two allergies that change today's appointment",
+      "why": "An allergy entry is only half useful without the reaction beside it: hives and lip swelling tell the dentist how seriously to take it, and both of these change the room. A penicillin allergy narrows what can be prescribed; a latex allergy changes the gloves, the dam and anything else on the tray. Reading allergies with their reactions, and acting on them before the patient is seated, is the kind of vigilance that makes an assistant safe to leave in charge of a setup."
+    },
+    {
+      "cue": "Check the practice's drug reference for what each medicine means for dental treatment, and note it for the dentist.",
+      "id": "mhr-drug-reference",
+      "kind": "select",
+      "noRobot": false,
+      "prompt": "Check the practice's drug reference for what each medicine means for dental treatment, and note it for the dentist.",
+      "target": "mhr-drug-reference",
+      "title": "Look up the dental implications of each medicine",
+      "why": "A clinician is not expected to know every drug, but is expected to look each one up. The practice's drug reference says what matters for dentistry: that an anticoagulant means more bleeding and local measures to control it, that an antiresorptive bone medicine raises the risk of the jaw failing to heal after surgery, and that many common drugs cause dry mouth. The ADA's guidance covers both of the medicines here. Knowing where to look, and doing it every time, is a professional habit that separates a clinician from a helper."
+    },
+    {
+      "cue": "Ask what each new medicine is for and how long they have taken it — then listen without interrupting.",
+      "holdBreakNote": "You cut in. The patient was about to say why the blood thinner was started — let them finish; that detail is often the one the dentist needs.",
+      "id": "mhr-listen",
+      "kind": "hold",
+      "noRobot": true,
+      "prompt": "Ask what each new medicine is for and how long they have taken it — then listen without interrupting.",
+      "robotNote": "Hearing a patient explain their own medicines is a conversation whose whole content is a person; it stays with the clinician.",
+      "seconds": 7,
+      "target": "mhr-listen-point",
+      "title": "Let the patient explain their medicines in their own words",
+      "why": "The bottle tells you the drug; the patient tells you the story — the heart rhythm problem that led to the blood thinner, the fracture that led to the bone tablet, the week they stopped it on their own. People give that story to someone who listens without rushing them. Open questions and silence are clinical tools, and a hygienist who can use them finds out what a form never shows, which is exactly the skill that leads into public-health and care-coordination work."
+    },
+    {
+      "cue": "Read each line back and let the patient confirm it — steady enough for them to follow, not so slow they drift.",
+      "holdBreakNote": "The read-back lost the patient. Go back to the last line they confirmed and carry on from there.",
+      "id": "mhr-read-back",
+      "kind": "track",
+      "noRobot": false,
+      "prompt": "Read each line back and let the patient confirm it — steady enough for them to follow, not so slow they drift.",
+      "seconds": 8,
+      "target": "mhr-med-list",
+      "title": "Read the finished list back at the patient's pace",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.42,
+        "green": [
+          0.38,
+          0.62
+        ],
+        "label": "READ-BACK PACE",
+        "rise": 0.5,
+        "start": 0.2
+      },
+      "why": "A read-back is where errors get caught: a dose written wrong, a medicine stopped last month, an allergy that turns out to be a side effect. It only works at a pace the patient can actually follow — rushed, they nod along; dragged out, they drift. Line by line, with a real confirmation for each, turns the list into something both of you have agreed. Closed-loop communication like this is the standard across healthcare, and learning it here carries into every clinical career."
+    },
+    {
+      "cue": "Put the history in the dentist's review tray with the anticoagulant, the bone medicine and the allergies flagged.",
+      "drag": {
+        "missNote": "That is not the dentist's review tray. Carry the flagged history to the tray on the dentist's desk, flags facing up.",
+        "radius": 0.4,
+        "to": "mhr-dentist-tray"
+      },
+      "id": "mhr-flag-dentist",
+      "kind": "drag",
+      "noRobot": false,
+      "prompt": "Put the history in the dentist's review tray with the anticoagulant, the bone medicine and the allergies flagged.",
+      "target": "mhr-flag-folder",
+      "title": "Carry the flagged history to the dentist before anything is planned",
+      "why": "The whole point of finding these things is that the dentist sees them before the plan is final. A flagged history on the dentist's tray, with the anticoagulant, the antiresorptive medicine and both allergies clearly marked, puts the decision where the state dental board says it belongs. A history that stays with the person who took it is a history that never changed anything. Moving information to the right decision-maker on time is the core skill of every coordination role in a practice."
+    },
+    {
+      "cue": "Write down what the dentist decided about consulting the patient's physician, attributed to the dentist.",
+      "id": "mhr-consult-decision",
+      "kind": "select",
+      "noRobot": false,
+      "prompt": "Write down what the dentist decided about consulting the patient's physician, attributed to the dentist.",
+      "target": "mhr-consult-form",
+      "title": "Record the consult decision — per the dentist",
+      "why": "The dentist decides whether to consult the physician who prescribes the anticoagulant or the bone medicine, and whether today's plan changes. What the team records is that decision, attributed to the dentist — 'medical consult requested before the extraction, per the dentist' — and never a decision of its own. Getting the attribution right protects the patient, the practice and the person writing it, and it is the discipline expected of anyone who hopes to coordinate treatment or manage a practice."
+    },
+    {
+      "cue": "Set the record's medical alert so the anticoagulant, the bone medicine and both allergies appear on the header — and nothing else.",
+      "gauge": {
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "CHART ALERT",
+        "missNote": "Outside the band. Buried in the notes, nobody sees it next visit; flag everything in red and people stop reading the red.",
+        "speed": 0.58
+      },
+      "id": "mhr-alert-level",
+      "kind": "gauge",
+      "noRobot": false,
+      "prompt": "Set the record's medical alert so the anticoagulant, the bone medicine and both allergies appear on the header — and nothing else.",
+      "target": "mhr-alert-dial",
+      "title": "Set the chart alert so it shows at every visit without drowning the record",
+      "why": "A flag nobody sees is useless, and so is a record where every line is red. The right alert puts exactly the items that change treatment — here the anticoagulant, the bone medicine, penicillin and latex — at the top of the record, where everyone opening it will see them without scrolling. Alarm fatigue is a real hazard in every clinical system, and setting alerts that people actually read is a small skill that shows real clinical judgement."
+    },
+    {
+      "cue": "Share the four flags and the dentist's decision at the huddle, and ask how everyone's day is going.",
+      "id": "mhr-team-checkin",
+      "kind": "select",
+      "noRobot": false,
+      "prompt": "Share the four flags and the dentist's decision at the huddle, and ask how everyone's day is going.",
+      "target": "mhr-team-checkin",
+      "title": "Check in with the dentist and the hygiene team",
+      "why": "The dentist has decided; now the whole team needs to know before the patient is seated — the assistant who sets the tray, the front desk who books the consult, the hygienist who treats. The huddle is where a latex allergy stops being one person's knowledge and becomes the room's. Asking how everybody is doing at the same time keeps a busy clinic honest about its own capacity, and the clinician who runs that huddle well is on the way to leading one."
+    },
+    {
+      "cue": "Record the review date, the reconciled list, the flags, the consult decision per the dentist, and your signature.",
+      "id": "mhr-history-log",
+      "kind": "select",
+      "noRobot": false,
+      "prompt": "Record the review date, the reconciled list, the flags, the consult decision per the dentist, and your signature.",
+      "target": "mhr-history-log",
+      "title": "Sign the history log",
+      "why": "The signed log is the record that this review happened, what it found, and who did it: the date, a reconciled list, the four flags, and the consult decision attributed to the dentist. If there is ever a question about the extraction, this is what shows the team found and flagged what mattered. It also supports what the dentist records under the ADA's CDT code set. Careful clinical records are the foundation of every dental career beyond the chair."
+    }
+  ],
+  "supportLine": "your clinic's employee assistance line, or the hygiene lead you debrief with — holding a patient's health worries all day is real work",
+  "tagline": "A history reviewed before anybody picks up an instrument: the door closed, the bottles checked against the form, a blood thinner and a bone medicine flagged, the allergies read, and the consult decision recorded — per the dentist",
+  "title": "SmartCiti.X~ Medical History & Medication Review VR",
+  "trade": "Dental hygienist or assistant — medical history and medication review (RDH, DANB Certified Dental Assistant), SEIU and UFCW clinic and dental staff",
+  "underwater": null,
+  "weather": "clear"
+}

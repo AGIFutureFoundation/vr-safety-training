@@ -1,0 +1,430 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "bag-sealed-clean",
+    "name": "Bag Sealed Clean",
+    "note": "Wetted, stripped and encapsulated inside a proven seal, closed out on a passing air sample"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "Insulators Local 16 asbestos abatement training; OSHA 29 CFR 1926.1101 asbestos in construction; 29 CFR 1910.134 respiratory protection; 29 CFR 1910.1200 hazard communication for the waste label; 29 CFR 1910.1000 air contaminants and the permissible exposure limits; EPA 40 CFR 61 the asbestos NESHAP governing the sealed waste leaving this pipe; NIOSH criteria for the fibre-counting method behind the clearance sample",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "EPA",
+        "citedAs": "40 CFR 61",
+        "id": "epa-40-cfr-61",
+        "title": "40 CFR Part 61 — National Emission Standards for Hazardous Air Pollutants, including the asbestos NESHAP"
+      },
+      {
+        "body": "union",
+        "citedAs": "Insulators Local 16",
+        "id": "insulators-local-16",
+        "title": "Insulators Local 16 — heat and frost insulators and allied workers apprenticeship and training, as a training body"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1000",
+        "id": "osha-1910-1000",
+        "title": "29 CFR 1910.1000 — Air contaminants and the permissible exposure limits"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.1101",
+        "id": "osha-1926-1101",
+        "title": "29 CFR 1926.1101 — Asbestos in construction"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "wet-before-strip",
+        "name": "Wet Before Strip",
+        "note": "Never reached for the dry scraper inside the bag"
+      },
+      {
+        "id": "seal-proven",
+        "name": "Seal Proven",
+        "note": "Held the leak-check reading near band centre"
+      },
+      {
+        "id": "cinch-disciplined",
+        "name": "Cinch Disciplined",
+        "note": "Closed the bottom pouch in the correct order every time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-strip",
+        "name": "Clean Strip",
+        "note": "No corrections from the plan to the sample"
+      },
+      {
+        "id": "steady-encapsulant",
+        "name": "Steady Encapsulant",
+        "note": "Held the encapsulant spray through the whole pass"
+      },
+      {
+        "id": "fast-bag",
+        "name": "Fast Bag",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "ABATE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Bag Handler",
+      "Removal Tech",
+      "Lead Abater",
+      "Abatement Foreman",
+      "Abatement Certified"
+    ],
+    "system": "Abatement Certified"
+  },
+  "hazards": {
+    "dry-strip-inside-bag": "You reached for the dry scraper sitting in the tray instead of wetting the insulation first. A glovebag keeps fibre off the room, not off the person working inside it — strip this material dry and the inside of that bag fills with airborne asbestos exactly at arm's length from your gloves, your sleeves and the seal you are about to break to get out.",
+    "live-steam-branch": "That branch valve into the header you are working on is still live, and it sits close enough to brush against while you are reaching around the glovebag. The header stays in service for this repair, which is the entire reason the glovebag method was chosen over a full shutdown — but that only works if the live branch is respected, not brushed past.",
+    "torn-glovebag-seam": "That glovebag has a visible tear along one seam and you are about to use it anyway. A torn bag does not hold negative pressure and does not contain what comes off the pipe once you start stripping — a bag this job depends on gets replaced the moment a tear is found, not patched with tape and hoped over.",
+    "unlabeled-glovebag-waste": "The sealed glovebag sitting there as waste has no asbestos label on it. Once this bag is cinched off it is regulated asbestos waste like any other, and an unlabeled bag in the corridor is exactly how that waste gets picked up, moved and opened by someone with no idea what is inside it."
+  },
+  "id": "ib-asbestos-glovebag-removal-on-a-pipe",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "wet-strip",
+      "alert": "The glovebag has sagged and is visibly losing its shape — a taped seam has started to lift.",
+      "cue": "Reseal the lifted seam before any more material comes off the pipe.",
+      "delay": 4,
+      "id": "bag-deflate",
+      "kind": "Seal failing",
+      "missNote": "The strip continued while the seam kept lifting. A glovebag sagging open around a hand still working inside it is a containment failing exactly where the fibre is.",
+      "seconds": 12,
+      "target": "reseal-tape",
+      "why": "A bag that is losing its taped seal mid-strip is a containment that is failing in real time, not a cosmetic problem to fix at the end — reaching for more tape on the lifted seam now is what keeps everything stripped so far from finding its way past a seal that no longer holds.",
+      "wrongNote": "It is the lifted seam. Nothing about this bag holds until that tape goes back on."
+    },
+    {
+      "after": "spray-encapsulant",
+      "alert": "A radio call says the building's air handler serving this space is about to restart — its isolation needs reconfirming before that happens.",
+      "cue": "Confirm the HVAC damper is still tagged before the air handler comes back on.",
+      "delay": 4,
+      "id": "hvac-restart-call",
+      "kind": "Air handler restarting",
+      "missNote": "The air handler restart went unconfirmed while the bag was still open. An isolation nobody rechecked at the exact moment it mattered is an isolation that was only ever theoretical.",
+      "seconds": 12,
+      "target": "hvac-damper-tag",
+      "why": "This space's air handler was isolated for the job precisely so nothing inside gets recirculated into the rest of the building, and a restart call is the moment that isolation either holds or gets reversed by someone who does not know a glovebag is still open here. The damper tag gets checked before the fan does, not after.",
+      "wrongNote": "That is not it. The damper tag is what actually keeps this space isolated from the rest of the building's air."
+    }
+  ],
+  "lateNotes": {
+    "encapsulant-sprayer": "The bare pipe gets encapsulated once the insulation is fully stripped and the surface is clean, not sprayed over material still hanging on it.",
+    "sprayer": "The insulation gets wetted inside the bag before anything is stripped — not scraped first and wetted down afterward once fibre is already airborne."
+  },
+  "name": "Asbestos Glovebag Removal on a Pipe",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "insulators-and-boilermakers"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "adjacent-live-branch",
+      "air-sample-pump",
+      "bottom-pouch",
+      "coveralls",
+      "damaged-jacketing",
+      "debris-pile",
+      "dropped-debris",
+      "dry-strip-inside-bag",
+      "encapsulant-sprayer",
+      "glovebag-plan",
+      "glovebag-target",
+      "gloves-taped",
+      "hvac-damper-tag",
+      "ibgl-closing-log",
+      "ibgl-crew-checkin",
+      "leak-check-bulb",
+      "live-steam-branch",
+      "loose-tool",
+      "pouch-cinch",
+      "pouch-tape",
+      "pouch-twist",
+      "reseal-tape",
+      "respirator",
+      "sprayer",
+      "torn-glovebag-seam",
+      "unlabeled-glovebag-waste",
+      "wet-spot-missed",
+      "wrong-section-marked"
+    ],
+    "meshes": 152
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Confirm the pipe section, the material class and that the header stays in service during the work.",
+      "id": "abatement-plan",
+      "kind": "select",
+      "prompt": "Confirm the pipe section, the material class and that the header stays in service during the work.",
+      "target": "glovebag-plan",
+      "title": "Read the glovebag work plan",
+      "why": "The glovebag method is chosen specifically because the header keeps running through this repair, and the plan is what confirms this particular section, this material class and this length are actually within what a glovebag is rated to handle — a run too long or a fitting too complex for the bag turns a contained job into a torn one."
+    },
+    {
+      "cue": "Three things about this pipe are not right yet. Find them before the glovebag goes up.",
+      "id": "pipe-survey",
+      "itemNames": {
+        "adjacent-live-branch": "the live branch beside the target pipe",
+        "damaged-jacketing": "the damaged jacketing below the target section",
+        "wrong-section-marked": "the section marked on the wrong side of the valve"
+      },
+      "itemNotes": {
+        "adjacent-live-branch": "A live branch valve sits close enough to the target section to be brushed while working the bag. It gets flagged and given clearance before anyone's arm goes near it, not discovered by touch mid-strip.",
+        "damaged-jacketing": "Damaged jacketing just past the marked section means fibre may already be exposed there too — the survey widens to that spot before the bag goes up, rather than discovering it once the bag is already sealed to the wrong boundary.",
+        "wrong-section-marked": "The tape marking the removal section is on the wrong side of the isolation valve. Bagging the marked spot as taped would leave the actual target section untouched and put the glovebag over pipe that was never scoped for this job."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things about this pipe are not right yet. Find them before the glovebag goes up.",
+      "targets": [
+        "damaged-jacketing",
+        "wrong-section-marked",
+        "adjacent-live-branch"
+      ],
+      "title": "Survey the pipe before bagging it",
+      "why": "A glovebag sealed to the wrong boundary, over damaged jacketing it never accounted for, or next to a live branch nobody flagged, is a contained job that was never actually scoped correctly — and all three of those are far easier to see now than after the bag is taped shut and full of stripped material."
+    },
+    {
+      "cue": "Coveralls first, then the respirator, then tape the gloves at the wrist.",
+      "id": "ppe-don",
+      "itemNames": {
+        "coveralls": "coveralls",
+        "gloves-taped": "taped gloves",
+        "respirator": "respirator"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — coveralls first, respirator seated against the hood, gloves taped last.",
+      "prompt": "Coveralls first, then the respirator, then tape the gloves at the wrist.",
+      "targets": [
+        "coveralls",
+        "respirator",
+        "gloves-taped"
+      ],
+      "title": "Don PPE in order",
+      "why": "The respirator seals against skin, so it goes on after the coveralls' hood is in place but before the gloves are taped — taping the gloves last is what keeps a sleeve from working loose while both hands are inside the bag's built-in sleeves for the next twenty minutes."
+    },
+    {
+      "cue": "Fit the glovebag around the pipe section and tape every seam to the pipe.",
+      "id": "attach-glovebag",
+      "kind": "select",
+      "prompt": "Fit the glovebag around the pipe section and tape every seam to the pipe.",
+      "target": "glovebag-target",
+      "title": "Attach and seal the glovebag",
+      "why": "Every seam taped to the pipe itself, not just to the insulation jacketing around it, is what turns a bag hanging on a pipe into an actual containment. A seam taped to jacketing that later shifts under the work is a seam that was never really sealed at all."
+    },
+    {
+      "cue": "Work the hand pump and commit once the bag holds the reading inside the sealed range.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.85
+        ],
+        "label": "GLOVEBAG SEAL",
+        "missNote": "Not holding. Recheck every taped seam before a single tool goes into the sleeves.",
+        "speed": 0.6
+      },
+      "id": "leak-check",
+      "kind": "gauge",
+      "prompt": "Work the hand pump and commit once the bag holds the reading inside the sealed range.",
+      "target": "leak-check-bulb",
+      "title": "Prove the bag's seal",
+      "why": "A glovebag that looks taped shut and a glovebag that actually holds a seal are not the same thing, and the only way to tell them apart before fibre is airborne inside it is to pressure it with the hand pump and watch whether it holds. A bag that will not hold a reading now will not hold anything once the stripping starts."
+    },
+    {
+      "cue": "Work the sprayer through the glove sleeves and hold it on the material until fully saturated.",
+      "holdBreakNote": "Let go before the material was fully soaked. Insulation that dries out mid-strip aerosolises inside the bag exactly where your hands are.",
+      "id": "wet-strip",
+      "kind": "hold",
+      "prompt": "Work the sprayer through the glove sleeves and hold it on the material until fully saturated.",
+      "seconds": 5,
+      "target": "sprayer",
+      "title": "Wet the insulation inside the bag",
+      "why": "Wetting is what keeps this a contained job instead of a fibre release inside a sealed bag around your own hands — amended water carries a surfactant that soaks through the material rather than beading on the surface, and it only works if it is held on long enough to actually penetrate before the first strip."
+    },
+    {
+      "cue": "Push the wetted, stripped debris down through the sleeves into the bag's bottom pouch.",
+      "drag": {
+        "missNote": "Not down in the pouch yet. Debris left loose in the bag is debris in the way of the next reach through the sleeves.",
+        "radius": 0.45,
+        "to": "bottom-pouch"
+      },
+      "id": "collect-debris",
+      "kind": "drag",
+      "prompt": "Push the wetted, stripped debris down through the sleeves into the bag's bottom pouch.",
+      "target": "debris-pile",
+      "title": "Move the stripped material to the bottom pouch",
+      "why": "Everything stripped goes down into the pouch as it comes off the pipe rather than piling up around the pipe inside the bag, because a bag crowded with loose debris is a bag more likely to snag or tear the next time a hand reaches through the sleeves."
+    },
+    {
+      "cue": "Cinch the built-in strap on the bottom pouch, twist it closed, then tape it off.",
+      "id": "cinch-bottom",
+      "itemNames": {
+        "pouch-cinch": "pouch cinched shut",
+        "pouch-tape": "taped off",
+        "pouch-twist": "twisted closed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — cinch the strap first, twist it closed, then tape it off.",
+      "prompt": "Cinch the built-in strap on the bottom pouch, twist it closed, then tape it off.",
+      "targets": [
+        "pouch-cinch",
+        "pouch-twist",
+        "pouch-tape"
+      ],
+      "title": "Close off the bottom pouch",
+      "why": "The cinch strap draws the pouch tight before the twist locks that shape in, and the tape goes on last because a twist without tape works itself loose the moment the pouch is handled again — three steps that together separate the stripped material from the rest of the bag as its own sealed unit."
+    },
+    {
+      "cue": "Hold the encapsulant sprayer steady across the now-bare pipe inside the bag.",
+      "holdBreakNote": "Coverage slipped out of band. An uneven coat leaves exactly the thin spot this whole step exists to prevent.",
+      "id": "spray-encapsulant",
+      "kind": "track",
+      "prompt": "Hold the encapsulant sprayer steady across the now-bare pipe inside the bag.",
+      "seconds": 6,
+      "target": "encapsulant-sprayer",
+      "title": "Encapsulate the bare pipe",
+      "track": {
+        "drift": 0.11,
+        "fall": 0.44,
+        "green": [
+          0.36,
+          0.6
+        ],
+        "label": "ENCAPSULANT COVERAGE",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "A lockdown encapsulant sealed over the bare pipe is what keeps any fibre that settled during the strip from becoming airborne again the moment the bag comes down — an even pass matters because a thin spot is a spot that was never actually locked down."
+    },
+    {
+      "cue": "Cut the glovebag free from the pipe above the sealed pouch and remove the whole bag as sealed waste.",
+      "id": "cut-and-remove-bag",
+      "kind": "select",
+      "prompt": "Cut the glovebag free from the pipe above the sealed pouch and remove the whole bag as sealed waste.",
+      "target": "glovebag-target",
+      "title": "Cut the bag free and bag it as waste",
+      "why": "The cut happens above the pouch that is already sealed, so the waste leaving this pipe is one continuously sealed unit from the moment the material left the pipe to the moment it leaves the building — not a bag reopened partway through to make the cut easier."
+    },
+    {
+      "cue": "Start the personal air sampling pump and commit once the reading clears the protocol's level.",
+      "gauge": {
+        "green": [
+          0,
+          0.22
+        ],
+        "label": "CLEARANCE AIR SAMPLE",
+        "missNote": "Above the clearance level. The barricade stays up and the area stays restricted until a retest clears it.",
+        "speed": 0.55
+      },
+      "id": "clearance-air-sample",
+      "kind": "gauge",
+      "prompt": "Start the personal air sampling pump and commit once the reading clears the protocol's level.",
+      "target": "air-sample-pump",
+      "title": "Run the clearance air sample",
+      "why": "The area does not get called clean because the pipe looks bare and the bag is gone — it gets called clean because a sample proves the fibre count in the air is below the level the protocol sets, measured rather than assumed from how tidy the work looks."
+    },
+    {
+      "cue": "Three things about this area are not right yet. Find them before calling it clear.",
+      "id": "final-walk",
+      "itemNames": {
+        "dropped-debris": "the dropped scrap of insulation",
+        "loose-tool": "the tool left on the pipe rack",
+        "wet-spot-missed": "the wet spot on the floor"
+      },
+      "itemNotes": {
+        "dropped-debris": "A scrap of insulation on the floor outside the bag is material that never made it into the sealed pouch — it gets picked up and bagged as waste before anyone assumes the area is clear of it.",
+        "loose-tool": "A tool left on the pipe rack after the bag comes down either goes back to the cart clean or gets decontaminated before it does — a tool assumed clean because the job looks finished is how contamination leaves with the next task.",
+        "wet-spot-missed": "A wet spot on the floor below the work is amended water that carried debris with it on the way down — it gets wiped and that wipe goes into the waste bag too, not left to dry and lift as dust later."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things about this area are not right yet. Find them before calling it clear.",
+      "targets": [
+        "dropped-debris",
+        "wet-spot-missed",
+        "loose-tool"
+      ],
+      "title": "Walk the area before pulling the barricade",
+      "why": "The air sample proves the atmosphere is clear; the walk-down is what proves the area is too — the dropped scrap, the wet spot and the loose tool are the three things a clean-looking pipe does not tell you on its own."
+    },
+    {
+      "cue": "Report the wrong-side marking, the live branch found close by, and how the bag held up.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Report the wrong-side marking, the live branch found close by, and how the bag held up.",
+      "target": "ibgl-crew-checkin",
+      "title": "Check in with the abatement foreman",
+      "why": "The wrong-side marking needs correcting on the drawing before the next section is scoped from it, and the live branch needs its own clearance note for whoever works this rack next. The check-in is also where a bag that felt marginal under pressure gets flagged before it is issued to the next crew."
+    },
+    {
+      "cue": "Record the material quantity, the waste manifest number and the clearance sample result, then sign.",
+      "id": "closing-log",
+      "kind": "select",
+      "prompt": "Record the material quantity, the waste manifest number and the clearance sample result, then sign.",
+      "target": "ibgl-closing-log",
+      "title": "Sign the abatement closeout log",
+      "why": "The closeout log ties the waste manifest to the clearance sample and the section actually worked, so months from now the paperwork can answer exactly what came off this pipe, where it went, and what reading cleared the area — rather than relying on anyone's memory of the shift."
+    }
+  ],
+  "supportLine": "your employer's employee assistance programme, or your Insulators Local 16 business agent if you are not sure how to reach it",
+  "tagline": "A short run of pipe insulation stripped inside a sealed glovebag while the header stays in service, closed out on an air sample rather than a look",
+  "title": "SmartCiti.X~ Asbestos Glovebag Removal on a Pipe VR",
+  "trade": "Insulator, asbestos abatement by the glovebag method — Insulators Local 16",
+  "underwater": null,
+  "weather": null
+}

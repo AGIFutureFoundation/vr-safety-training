@@ -1,0 +1,429 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "good-game",
+    "name": "Good Game",
+    "note": "A scrimmage played hard and fair, every flare-up cooled, and every player leaving heard and in one piece"
+  },
+  "category": "Youth Sports & Coaching",
+  "certification": "USA Basketball youth development guidelines on shorter periods, equal playing time, fair teams and a positive, development-first game; NFHS basketball rules and its sportsmanship expectations for players, coaches and spectators; CDC Heads Up for a fall to the head in game play — recognise, remove, refer; the U.S. Center for SafeSport for calm, observable handling of conflict and emotional well-being; the American Red Cross first aid course for a player hurt in the scrimmage",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CDC",
+        "citedAs": "CDC Heads Up",
+        "id": "cdc-heads-up",
+        "title": "CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance"
+      },
+      {
+        "body": "NFHS",
+        "citedAs": "NFHS",
+        "id": "nfhs-basketball-rules",
+        "title": "National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport"
+      },
+      {
+        "body": "Red Cross",
+        "citedAs": "American Red Cross first aid",
+        "id": "red-cross-first-aid-course",
+        "title": "American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services"
+      },
+      {
+        "body": "U.S. Center for SafeSport",
+        "citedAs": "U.S. Center for SafeSport",
+        "id": "safesport-code",
+        "title": "U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting"
+      },
+      {
+        "body": "USA Basketball",
+        "citedAs": "USA Basketball",
+        "id": "usa-basketball-youth-guidelines",
+        "title": "USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them"
+      }
+    ]
+  },
+  "district": "gym-court",
+  "domain": "Youth Sports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clear-sideline",
+        "name": "Clear Sideline",
+        "note": "Every sideline hazard found before tip-off"
+      },
+      {
+        "id": "fair-play",
+        "name": "Fair Play",
+        "note": "No unsafe action in the whole scrimmage"
+      },
+      {
+        "id": "even-and-calm",
+        "name": "Even and Calm",
+        "note": "Game temperature and minutes both inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-game",
+        "name": "Clean Game",
+        "note": "No corrections anywhere in the scrimmage"
+      },
+      {
+        "id": "cool-heads",
+        "name": "Cool Heads",
+        "note": "Held the game's temperature in band the whole time"
+      },
+      {
+        "id": "on-schedule",
+        "name": "On Schedule",
+        "note": "Practice log reached inside 80% of par"
+      }
+    ],
+    "currency": "GOOD GAMES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Scorekeeper",
+      "Bench Coach",
+      "Assistant Coach",
+      "Head Coach",
+      "Programme Mentor"
+    ],
+    "system": "Box Score"
+  },
+  "hazards": {
+    "drink-spill-by-the-table": "You played on past the sports drink spilled on the court by the scorer's table. A sideline spill is where players save balls going out of bounds and where subs step on; sticky or slick, it is a fall waiting for the next fast break.",
+    "extend-past-the-plan": "You kept the scrimmage going well past the planned time because it was close. Game minutes are the most intense load of practice, and running past the plan stacks unplanned volume onto tired legs — the late-session fatigue in which ankles roll and technique falls apart.",
+    "overtime-no-water": "You added an extra overtime period and skipped the water break to finish the game. The end of a scrimmage is when players are hottest and most tired, and a gym full of young players who have not had a drink since the last break is how dizziness and heat illness arrive.",
+    "play-on-after-head-hits-floor": "You waved play on after a player's head hit the floor on a fall because they got straight up. Getting up quickly says nothing about the brain: concussion signs can appear later, and a player left in the game is one collision away from a second blow before anyone has checked."
+  },
+  "id": "bb-scrimmage-and-sportsmanship-debrief",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-the-temperature",
+      "alert": "A hard foul on a drive, the fouled player shoves back, and now both benches are on their feet shouting.",
+      "cue": "Call timeout at the scorer's table, bring both teams to their benches, and separate the two players — calm voice, no crowd.",
+      "delay": 3,
+      "id": "hard-foul-and-a-shove",
+      "kind": "Heated moment",
+      "missNote": "Play restarted with both players still furious, the next possession ended in another hard foul, and a bench player ran on to get involved. What was one heated moment is now a scuffle with half the gym in it.",
+      "seconds": 12,
+      "target": "timeout-table",
+      "why": "When a game boils over, the first move is to stop it: a timeout empties the floor, both teams go to their benches, and the two players are separated before anything else happens. A calm voice from the coach resets the room faster than a raised one, and the talk with each player happens privately, in view of another adult, once they are calm.",
+      "wrongNote": "That does not stop the game. Call timeout at the scorer's table and get both teams to their benches."
+    },
+    {
+      "after": "timeout-huddle",
+      "alert": "The fire alarm goes off in the middle of the timeout huddle, with both teams, the scorer and a few parents in the gym.",
+      "cue": "Everyone out through the marked fire exit — both teams, the scorer and the parents — headcount by team outside.",
+      "delay": 3,
+      "id": "fire-alarm-mid-game",
+      "kind": "Fire alarm",
+      "missNote": "The huddle finished its talk, then players went back for bags and parents waited to see if it was real. By the time the gym was empty, nobody could say for sure that everyone — players, parents and the scorer — had come out.",
+      "seconds": 12,
+      "target": "fire-exit-door",
+      "why": "An alarm during a game means more people to move: both teams, the scorer, the parents in the bleachers. Everyone leaves through the marked exit together, with the adults at the front and back, and each coach counts their own team against their list at the assembly point. Nobody goes back for bags, phones or the scoreboard.",
+      "wrongNote": "The alarm comes first. Everyone out through the marked fire exit."
+    }
+  ],
+  "lateNotes": {
+    "crew-checkin-board": "The staff check-in comes after the log, at the very end.",
+    "practice-log-board": "The log closes the scrimmage once the debrief and the cool-down are done — nothing to record yet."
+  },
+  "name": "Scrimmage and Sportsmanship Debrief",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "basketball-fundamentals"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "balance-experience",
+      "balance-friends",
+      "balance-size",
+      "cool-down-marker",
+      "crew-checkin-board",
+      "debrief-improve",
+      "debrief-next-time",
+      "debrief-shout-out",
+      "debrief-went-well",
+      "drink-spill-by-the-table",
+      "extend-past-the-plan",
+      "fire-exit-door",
+      "game-clock-dial",
+      "handshake-line-marker",
+      "huddle-hold-marker",
+      "minutes-meter",
+      "moment-celebrating",
+      "moment-help-up",
+      "moment-ref-complaint",
+      "moment-trash-talk",
+      "overtime-no-water",
+      "play-on-after-head-hits-floor",
+      "practice-log-board",
+      "pre-bracelet",
+      "pre-glasses-no-strap",
+      "pre-knee-sleeve",
+      "pre-spare-balls",
+      "rest-socket",
+      "sportsmanship-board",
+      "temperature-meter",
+      "timeout-table",
+      "tired-player-token"
+    ],
+    "meshes": 226
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Look along the sideline and at each player. Mark everything that has to be fixed before the game starts.",
+      "decoyNotes": {
+        "pre-knee-sleeve": "A knee sleeve is fine to play in. Look for what will roll underfoot, shatter or catch."
+      },
+      "id": "check-the-sideline",
+      "itemNames": {
+        "pre-bracelet": "a bracelet still on a wrist",
+        "pre-glasses-no-strap": "a player in everyday glasses with no sports strap",
+        "pre-spare-balls": "spare balls loose on the sideline"
+      },
+      "itemNotes": {
+        "pre-bracelet": "Jewellery comes off before play — a bracelet catches fingers and scratches in every scramble for the ball.",
+        "pre-glasses-no-strap": "Everyday glasses fly off and shatter on contact. Sports goggles or a strap, or the player sits this one out and plays in drills.",
+        "pre-spare-balls": "A spare ball that rolls onto the court mid-game ends up under a player's foot. Rack every one before tip-off."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the sideline and at each player. Mark everything that has to be fixed before the game starts.",
+      "targets": [
+        "pre-spare-balls",
+        "pre-glasses-no-strap",
+        "pre-bracelet"
+      ],
+      "title": "Check the sideline and the players before tip-off",
+      "why": "A scrimmage is the least controlled part of practice: ten players at game speed, loose balls and bodies going out of bounds. Loose spare balls, everyday glasses and jewellery are the three things that turn game contact into an injury, and they are all fixed in the minute before tip-off rather than after the first scramble."
+    },
+    {
+      "cue": "Respect the referee's call, help an opponent up, no trash talk, and the whistle stops everything.",
+      "id": "say-the-ground-rules",
+      "kind": "select",
+      "prompt": "Respect the referee's call, help an opponent up, no trash talk, and the whistle stops everything.",
+      "target": "sportsmanship-board",
+      "title": "Say the ground rules out loud",
+      "why": "Sportsmanship is a rule of the game, not a mood: NFHS basketball rules and its sportsmanship expectations hold players and coaches to respecting officials and opponents. Saying the ground rules before the tip gives every player the same standard to be held to, and gives the coach something clear to point back to when the game gets heated."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Balance by size and experience, and split the friend groups so nobody plays as a clique.",
+      "id": "pick-fair-teams",
+      "itemNames": {
+        "balance-experience": "balance the teams by experience",
+        "balance-friends": "split up the close friend groups",
+        "balance-size": "balance the teams by size"
+      },
+      "kind": "sequence",
+      "prompt": "Balance by size and experience, and split the friend groups so nobody plays as a clique.",
+      "targets": [
+        "balance-size",
+        "balance-experience",
+        "balance-friends"
+      ],
+      "title": "Pick fair teams",
+      "why": "Lopsided teams make for rough games: the losing side gets frustrated and the bigger side plays out of control. Balancing size and experience, the way youth development guidance recommends, keeps the contest close and the contact fair, and splitting friend groups means nobody is left out and nobody gangs up."
+    },
+    {
+      "cue": "Turn the game clock to short periods with a break between each.",
+      "id": "set-the-game-clock",
+      "kind": "turn",
+      "prompt": "Turn the game clock to short periods with a break between each.",
+      "target": "game-clock-dial",
+      "title": "Set short periods on the game clock",
+      "turn": {
+        "axis": "z",
+        "label": "PERIODS",
+        "turns": 0.5
+      },
+      "why": "Youth development guidance favours shorter periods for young players so that intensity stays high and fatigue stays low. Short periods with a break between them also build natural water breaks and substitution points into the game, which does more for safety than any reminder shouted from the bench."
+    },
+    {
+      "cue": "Keep the game competitive but calm — enough intensity to play hard, never boiling over.",
+      "holdBreakNote": "The game's temperature left the band — boiling over, or gone completely flat. Bring it back to hard and fair.",
+      "id": "hold-the-temperature",
+      "kind": "track",
+      "prompt": "Keep the game competitive but calm — enough intensity to play hard, never boiling over.",
+      "seconds": 8,
+      "target": "temperature-meter",
+      "title": "Hold the game's temperature in band",
+      "track": {
+        "drift": 0.16,
+        "fall": 0.44,
+        "green": [
+          0.38,
+          0.62
+        ],
+        "label": "TEMPERATURE",
+        "rise": 0.55,
+        "start": 0.3
+      },
+      "why": "A good scrimmage is competitive, and competition raises the temperature. The coach's job is to keep it in the band — calling fouls consistently, praising effort, stepping in early on the first sharp word — so the game stays hard and fair. Let it boil and contact turns into retaliation; let it go flat and nobody learns to compete."
+    },
+    {
+      "cue": "Commit when every player's minutes read even — nobody stuck on the bench, nobody playing the whole game.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "MINUTES",
+        "missNote": "Uneven. Players stuck on the bench learn nothing and players never resting get tired and hurt. Find even and commit.",
+        "speed": 0.6
+      },
+      "id": "share-the-minutes",
+      "kind": "gauge",
+      "prompt": "Commit when every player's minutes read even — nobody stuck on the bench, nobody playing the whole game.",
+      "target": "minutes-meter",
+      "title": "Share the minutes fairly",
+      "why": "Equal playing time is central to youth development guidance for a reason beyond fairness: the players who never come off are the ones most tired and most likely to get hurt late in the game, and the ones who never go on miss the practice they came for. Reading minutes as the game goes is how a coach keeps both from happening."
+    },
+    {
+      "cue": "Call a timeout and keep the huddle quiet and focused — one message, every player listening — while you watch the floor.",
+      "holdBreakNote": "The huddle broke up before the message landed. Bring them back in, quiet, and finish the timeout.",
+      "id": "timeout-huddle",
+      "kind": "hold",
+      "prompt": "Call a timeout and keep the huddle quiet and focused — one message, every player listening — while you watch the floor.",
+      "seconds": 7,
+      "target": "huddle-hold-marker",
+      "title": "Hold a calm, quiet timeout huddle",
+      "why": "A timeout is the coach's reset button: a moment to cool a game down, give one clear message and let tired players breathe. Holding the huddle quiet and calm — not a lecture, not shouting — models the composure the ground rules asked for, and gives the coach a moment to see who looks exhausted, overheated or upset."
+    },
+    {
+      "cue": "Move the tired player's token from the court column to the rest column on the sub board.",
+      "drag": {
+        "missNote": "Not on the rest column. A tired player left on the court is the next rolled ankle — move the token all the way across.",
+        "radius": 0.45,
+        "to": "rest-socket"
+      },
+      "id": "rest-the-tired",
+      "kind": "drag",
+      "prompt": "Move the tired player's token from the court column to the rest column on the sub board.",
+      "target": "tired-player-token",
+      "title": "Rotate the tired player onto the rest bench",
+      "why": "Fatigue is when young players get hurt: technique slips, reactions slow and landings get sloppy. A sub board that makes rest visible — the tired player moved to the rest column, water in hand — gets them off the floor before the fatigue does the deciding, and it tells the whole team that resting is part of the game."
+    },
+    {
+      "cue": "Watch the game for the moments to praise and the moments to correct. Mark each one.",
+      "decoyNotes": {
+        "moment-celebrating": "Celebrating a good basket with a teammate is fine. Look for the moments worth praising or correcting."
+      },
+      "id": "notice-sportsmanship",
+      "itemNames": {
+        "moment-help-up": "a player helping an opponent up after a fall",
+        "moment-ref-complaint": "a player arguing with the referee's call",
+        "moment-trash-talk": "a player trash-talking after a basket"
+      },
+      "itemNotes": {
+        "moment-help-up": "That is the standard. Name it out loud in the debrief so the whole team hears what good sportsmanship looks like.",
+        "moment-ref-complaint": "The call stands and the referee is respected. Speak to the player privately, then move on.",
+        "moment-trash-talk": "A quiet word now, not a scene — and the ground rule repeated in the debrief without naming anyone."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Watch the game for the moments to praise and the moments to correct. Mark each one.",
+      "targets": [
+        "moment-help-up",
+        "moment-trash-talk",
+        "moment-ref-complaint"
+      ],
+      "title": "Notice the sportsmanship moments",
+      "why": "What a coach notices is what a team learns to value. Praising the player who helped an opponent up, and correcting trash talk and arguing with officials quietly and privately, builds the culture the ground rules described. Correction done calmly and away from the crowd is the kind SafeSport guidance asks of adults working with young athletes."
+    },
+    {
+      "cue": "Both teams line up and shake hands or bump fists, and say 'good game' to every player.",
+      "id": "handshake-line",
+      "kind": "select",
+      "prompt": "Both teams line up and shake hands or bump fists, and say 'good game' to every player.",
+      "target": "handshake-line-marker",
+      "title": "End the game with a handshake line",
+      "why": "The handshake line closes a competitive game with a gesture of respect, whatever the score. It gives every player a moment to put the game down, helps defuse anything left over from a hard foul, and reinforces that the opponent was a partner in the practice, not an enemy."
+    },
+    {
+      "cue": "What went well, one thing to improve, a sportsmanship shout-out, then what we work on next time.",
+      "id": "run-the-debrief",
+      "itemNames": {
+        "debrief-improve": "one thing to improve",
+        "debrief-next-time": "what we work on next practice",
+        "debrief-shout-out": "a sportsmanship shout-out",
+        "debrief-went-well": "what went well"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Start with what went well — a debrief that opens with mistakes loses the room before the useful part.",
+      "prompt": "What went well, one thing to improve, a sportsmanship shout-out, then what we work on next time.",
+      "targets": [
+        "debrief-went-well",
+        "debrief-improve",
+        "debrief-shout-out",
+        "debrief-next-time"
+      ],
+      "title": "Run the debrief in the right order",
+      "why": "A debrief that starts with what went well lets players hear the correction that follows; one thing to improve is something they can actually hold on to; the sportsmanship shout-out makes the ground rules real; and ending on the next practice sends them home looking forward. Out of order, a debrief becomes a list of mistakes that nobody remembers."
+    },
+    {
+      "cue": "Everyone walks, breathes and stretches gently for a short count before heading for the door.",
+      "holdBreakNote": "The cool-down broke up before the count. Bring them back and finish it — the door can wait a moment.",
+      "id": "cool-down",
+      "kind": "hold",
+      "prompt": "Everyone walks, breathes and stretches gently for a short count before heading for the door.",
+      "seconds": 5,
+      "target": "cool-down-marker",
+      "title": "Hold a short cool-down",
+      "why": "A short cool-down brings heart rate and breathing down gradually after the hardest part of practice, and it gives the coach one last look at every player: the one limping, the one very flushed, the one who has gone quiet. It is also a calm moment to end on, which matters after a game that got heated."
+    },
+    {
+      "cue": "Record the minutes, the flare-up and how it was handled, the evacuation, the sportsmanship moments and anything the athletic trainer saw.",
+      "id": "log-the-scrimmage",
+      "kind": "select",
+      "prompt": "Record the minutes, the flare-up and how it was handled, the evacuation, the sportsmanship moments and anything the athletic trainer saw.",
+      "target": "practice-log-board",
+      "title": "Log the scrimmage",
+      "why": "The scrimmage log carries the most for the least effort: the flare-up and how it was settled, the evacuation and the headcount, minutes played, the sportsmanship moments named, and anything the athletic trainer noticed. Written at the time, it is the fairest account for players and parents and the best starting point for the next session."
+    },
+    {
+      "cue": "Two minutes after the gym empties: how are each of you after the flare-up and the alarm, and is there anything to follow up with a player or a family?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "Two minutes after the gym empties: how are each of you after the flare-up and the alarm, and is there anything to follow up with a player or a family?",
+      "target": "crew-checkin-board",
+      "title": "Check in with the assistant coach and the athletic trainer — how did that land?",
+      "why": "A heated game and an alarm in one session leave something with the adults as well as the players. Checking in afterwards — how did that land, is there a player or family to follow up with, does anyone need support — is the peer support the guide's check-in points to, and it is what keeps a coaching staff able to run the next practice as well as this one."
+    }
+  ],
+  "supportLine": "your league's coach coordinator, or the assistant and athletic trainer who ran the game with you — a heated game can stay with the adults as much as the players, and saying so is part of coaching",
+  "tagline": "The sideline checked, ground rules said, fair teams, short periods, the game's temperature held, minutes shared, tired players rested, sportsmanship noticed, a handshake line, a debrief in order, and a check-in on how everyone is",
+  "title": "SmartCiti.X~ Scrimmage and Sportsmanship Debrief VR",
+  "trade": "Youth basketball coach",
+  "underwater": null,
+  "weather": "clear"
+}

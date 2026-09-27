@@ -1,0 +1,429 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-hands",
+    "name": "Clean Hands",
+    "note": "Every interest disclosed, every gift reported and every recusal done in the open, without being asked"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "The Political Reform Act of 1974, administered by the Fair Political Practices Commission (FPPC): the Statement of Economic Interests (Form 700), disqualification from any decision an official has a financial interest in, and gift limits and gift reporting — no dollar limit is quoted here because it is adjusted over time; the municipal ethics code for lobbyist contact, misuse of position and the revolving door; the Ralph M. Brown Act (California Government Code section 54950 and following) for a recusal announced in the open meeting; Robert's Rules of Order as the body's adopted practice, where an abstention is not a recusal; SAMHSA's trauma-informed principles of safety and of trustworthiness and transparency for receiving a staff member's report; SEIU and AFSCME for the staff who raise concerns. The leadership principles practised here are principles commonly taught in civic-leadership programmes; the foundation's own curriculum is not sourced in this repository",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "California Government Code",
+        "citedAs": "Ralph M. Brown Act",
+        "id": "brown-act",
+        "title": "The Ralph M. Brown Act, California Government Code section 54950 and following — open and public meetings of local legislative bodies: the posted agenda, the public's right to comment, action only on noticed items, and the bar on serial meetings of a majority"
+      },
+      {
+        "body": "municipal ethics code",
+        "citedAs": "municipal ethics code",
+        "id": "municipal-ethics-code",
+        "title": "A city or county ethics code and the charter's ethics provisions — gifts from interested parties, lobbyist contact, misuse of public position and the revolving door; named generically, with no one jurisdiction's sections cited"
+      },
+      {
+        "body": "FPPC",
+        "citedAs": "Form 700",
+        "id": "political-reform-act",
+        "title": "The Political Reform Act of 1974, administered by the Fair Political Practices Commission — annual economic-interest disclosure on the Statement of Economic Interests (Form 700), disqualification from any decision an official has a financial interest in, and gift limits and gift reporting"
+      },
+      {
+        "body": "Robert's Rules",
+        "citedAs": "Robert's Rules of Order",
+        "id": "roberts-rules",
+        "title": "Robert's Rules of Order Newly Revised — the parliamentary authority a body adopts in its own rules of procedure: a practice the body chooses, not a law"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Civic",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "all-disclosed",
+        "name": "All Disclosed",
+        "note": "Every reportable interest found on the first read"
+      },
+      {
+        "id": "nothing-taken",
+        "name": "Nothing Taken",
+        "note": "No unsafe action anywhere in the month"
+      },
+      {
+        "id": "sat-it-out",
+        "name": "Sat It Out",
+        "note": "The recusal and the pressure both carried their full count"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-record",
+        "name": "Clean Record",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "fair-value",
+        "name": "Fair Value",
+        "note": "The gift valued inside the band"
+      },
+      {
+        "id": "revolving-door-seen",
+        "name": "Door Seen",
+        "note": "Every part of the job offer's problem found first time"
+      }
+    ],
+    "currency": "INTEGRITY",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Appointee",
+      "Commissioner",
+      "Vice Chair",
+      "Chair",
+      "Ethics Mentor"
+    ],
+    "system": "Clear Conscience"
+  },
+  "hazards": {
+    "applicant-tickets": "You accepted the concert tickets from the applicant whose permit your commission hears next month. A gift from somebody with business before you is the textbook conflict: reportable at best, disqualifying at worst, and the thing a reporter will ask about first if the permit is approved.",
+    "favour-promise": "You told a campaign supporter you would \"take care of\" his permit. You cannot promise an outcome the commission has not voted on, and a public official promising a supporter a result is misuse of position under the ethics code — the promise alone is the problem, whether or not you keep it.",
+    "lunch-with-two-members": "You set up lunch with two fellow commissioners to go over next week's item. Three of five is a majority of the commission; a majority discussing an item outside a noticed meeting is the serial meeting the open-meeting law forbids, however informal the sandwiches.",
+    "wave-off-staffer": "You told the staff member not to make waves. She came to you with a concern that a contract was steered, which takes courage from somebody junior; brushing her off teaches her and every colleague she tells that reporting a problem here is the risk, not the problem itself."
+  },
+  "id": "ethics-and-conflict-of-interest",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "sit-out-the-item",
+      "alert": "The applicant for the item you are recused from has followed you into the hallway and wants to \"just clarify one thing\" about his project.",
+      "cue": "Decline and walk away: you are recused, and anything he wants to say belongs in the public record.",
+      "delay": 3,
+      "id": "applicant-in-hallway",
+      "kind": "Approached while recused",
+      "missNote": "You let him talk. Two minutes in the hallway about the project you are recused from, in front of a door with a window in it, and the approval your colleagues vote on inside now comes with a question nobody can answer.",
+      "seconds": 12,
+      "target": "walk-away-card",
+      "why": "A recused official who discusses the item with the applicant in the hallway has undone the recusal without casting a vote. Declining plainly, saying you are recused, and pointing him to the public record protects the decision your colleagues are making inside — and it protects the applicant too, whose approval would otherwise carry the question of what was said outside.",
+      "wrongNote": "Staying in the hallway is right; talking to him is not. Decline, say you are recused, and walk away."
+    },
+    {
+      "after": "steady-under-pressure",
+      "alert": "A junior staff member has knocked and is standing in the doorway: she thinks a colleague steered a contract to a friend's firm and does not know who else to tell.",
+      "cue": "Put the call down, bring her in, close the door and hear the report.",
+      "delay": 3,
+      "id": "staffer-knocks",
+      "kind": "A concern reported",
+      "missNote": "She waited in the doorway while you finished the call, then said it did not matter and left. The concern did not go away; it just stopped coming to you, and if the contract was steered, the one person who noticed has learned not to say so.",
+      "seconds": 12,
+      "target": "hear-the-report-card",
+      "why": "A report of wrongdoing from a junior employee is the most valuable and most fragile thing an official receives. Ending the call, bringing her in and closing the door, then listening fully and saying plainly that she is protected from retaliation follows the trauma-informed principles of safety and of trust and transparency — and it is the only way the concern reaches the people who can investigate it.",
+      "wrongNote": "The resolve meter is the friend on the phone. She needs you to end that call and hear her — now."
+    }
+  ],
+  "lateNotes": {
+    "ethics-log-board": "The log closes once the job offer is disclosed and put in writing; there is still something to record.",
+    "gift-card-item": "Log the gift once you have put an honest value on it — the register asks what it was worth."
+  },
+  "name": "Ethics and Conflict of Interest",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "civic-leadership-and-ei"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "applicant-tickets",
+      "crew-checkin-board",
+      "ethics-log-board",
+      "favour-promise",
+      "form-700-card",
+      "gift-card-item",
+      "gift-register-tray",
+      "gift-value-meter",
+      "hallway-marker",
+      "hear-the-report-card",
+      "interest-consulting-client",
+      "interest-rental-property",
+      "interest-savings-account",
+      "interest-spouse-employer",
+      "lunch-with-two-members",
+      "nameplate",
+      "offer-from-vendor",
+      "offer-keep-it-quiet",
+      "offer-timed-to-contract",
+      "offer-unrelated-nonprofit",
+      "put-it-in-writing",
+      "recuse-announce-interest",
+      "recuse-clerk-records",
+      "recuse-leave-the-room",
+      "recuse-return-after-vote",
+      "resolve-meter",
+      "step-back-from-vendor",
+      "tell-ethics-officer",
+      "visitor-log",
+      "walk-away-card",
+      "wave-off-staffer"
+    ],
+    "meshes": 188
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Go through the worksheet. Mark every interest that belongs on the statement and could touch a decision in front of you.",
+      "decoyNotes": {
+        "interest-savings-account": "An ordinary savings account at a bank is generally not the kind of investment the statement asks about. Leave it; the three that matter are elsewhere on the sheet."
+      },
+      "id": "read-your-interests",
+      "itemNames": {
+        "interest-consulting-client": "a consulting client from last year",
+        "interest-rental-property": "the rental unit you own in the city",
+        "interest-spouse-employer": "your spouse's income from a firm that appears before the commission"
+      },
+      "itemNotes": {
+        "interest-consulting-client": "A client who paid you in the last twelve months is a source of income on the statement, even though the work is finished.",
+        "interest-rental-property": "Real property in the jurisdiction goes on the statement, and it is the interest most likely to touch a land-use item in front of you.",
+        "interest-spouse-employer": "Your spouse's income is treated as partly yours. A firm that pays your household and appears before you is an interest to disclose and to watch for."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Go through the worksheet. Mark every interest that belongs on the statement and could touch a decision in front of you.",
+      "targets": [
+        "interest-rental-property",
+        "interest-spouse-employer",
+        "interest-consulting-client"
+      ],
+      "title": "Read your own interests before anybody else does",
+      "why": "A conflict of interest is almost never discovered by the official who has it; it is discovered by a journalist, an opponent or an applicant who lost. Reading your own interests honestly on day one — the rental unit, the spouse's employer, last year's client — is how you know in advance which items you will have to step away from, rather than finding out in the newspaper after you voted."
+    },
+    {
+      "cue": "File your assuming-office Form 700 with every interest you found, before the deadline.",
+      "id": "file-on-time",
+      "kind": "select",
+      "prompt": "File your assuming-office Form 700 with every interest you found, before the deadline.",
+      "target": "form-700-card",
+      "title": "File the statement of economic interests on time",
+      "why": "The statement is a public document for a reason: it lets any resident check whether the people deciding their permits and contracts have a stake in them. Filing it complete and on time is the cheapest ethical act in public life, and filing it late or thin is the one most likely to be found — because it is a date and a document, and anybody can ask for both."
+    },
+    {
+      "cue": "A neighbourhood nonprofit gave you a dinner ticket at its gala. Commit the fair value inside the band.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "FAIR VALUE",
+        "missNote": "Not the fair value. Low-balling a gift to stay under a limit is the most common way small gifts become large problems. Value it at what it would cost you to buy.",
+        "speed": 0.62
+      },
+      "id": "value-the-gift",
+      "kind": "gauge",
+      "prompt": "A neighbourhood nonprofit gave you a dinner ticket at its gala. Commit the fair value inside the band.",
+      "target": "gift-value-meter",
+      "title": "Put an honest value on the gift you were given",
+      "why": "Most gifts to officials are neither bribes nor nothing; they are ordinary things with a real value that has to be written down honestly. Valuing a gala ticket at what it would actually cost to buy, not at the cost of the meal inside it, is what keeps the gift register meaningful — and it is the habit that stops a string of small, undervalued gifts adding up to an obligation."
+    },
+    {
+      "cue": "Carry the gala ticket to the gift register so it is on the public record.",
+      "drag": {
+        "missNote": "Not in the register. A reportable gift that is not reported is a problem whatever its value — put it on the record.",
+        "radius": 0.5,
+        "to": "gift-register-tray"
+      },
+      "id": "log-the-gift",
+      "kind": "drag",
+      "prompt": "Carry the gala ticket to the gift register so it is on the public record.",
+      "target": "gift-card-item",
+      "title": "Report the gift in the register",
+      "why": "Reporting is what turns a gift from a private favour into a public fact. A ticket in the register can be seen, questioned and weighed by anybody; the same ticket in a desk drawer is the start of a story that ends badly. The act takes a minute and it is the whole difference between a gift that was accepted properly and one that was taken."
+    },
+    {
+      "cue": "The next item is your client's project. Turn your nameplate round so the room sees RECUSED before the item is called.",
+      "id": "turn-the-placard",
+      "kind": "turn",
+      "prompt": "The next item is your client's project. Turn your nameplate round so the room sees RECUSED before the item is called.",
+      "target": "nameplate",
+      "title": "Turn your nameplate to recused",
+      "turn": {
+        "axis": "y",
+        "label": "NAMEPLATE",
+        "turns": 0.5
+      },
+      "why": "A recusal the public cannot see is a recusal nobody can trust. Turning the nameplate before the item is called makes the disqualification visible to the room and to the stream in a way that an entry in the minutes never is, and it signals to your colleagues that you will not be part of the discussion — including the part that happens at the break."
+    },
+    {
+      "cue": "Announce the interest, leave the room, let the clerk record it, return only after the vote.",
+      "id": "recuse-in-public",
+      "itemNames": {
+        "recuse-announce-interest": "announce the interest, in plain words",
+        "recuse-clerk-records": "the clerk records the recusal and its reason",
+        "recuse-leave-the-room": "leave the room",
+        "recuse-return-after-vote": "come back only after the vote"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Announce, leave, record, return after the vote. Leaving before you announce why looks like avoidance; coming back before the vote puts you back in the decision.",
+      "prompt": "Announce the interest, leave the room, let the clerk record it, return only after the vote.",
+      "targets": [
+        "recuse-announce-interest",
+        "recuse-leave-the-room",
+        "recuse-clerk-records",
+        "recuse-return-after-vote"
+      ],
+      "title": "Recuse in public, in the right order",
+      "why": "Disqualification is a procedure, not a feeling. Saying the interest out loud before the item is heard tells the public exactly why you are stepping away; leaving the room removes your presence as well as your vote; the clerk's record makes it permanent; and returning only after the vote means you were never part of it. Staying in the seat and simply abstaining is a different thing, and it does not do the same job."
+    },
+    {
+      "cue": "Wait in the hallway until the vote is taken. Do not hover at the door.",
+      "holdBreakNote": "You drifted back towards the door before the vote. Step back and wait it out — the item is not over.",
+      "id": "sit-out-the-item",
+      "kind": "hold",
+      "prompt": "Wait in the hallway until the vote is taken. Do not hover at the door.",
+      "seconds": 8,
+      "target": "hallway-marker",
+      "title": "Stay out of the room for the whole item",
+      "why": "A recusal ends when the item ends, not when your part of it would have. Hovering at the door, catching a colleague's eye, or drifting back in for the closing comments all put you back in the decision without a vote. Waiting out of sight for the whole item, however long it runs, is what makes the disqualification real rather than ceremonial."
+    },
+    {
+      "cue": "A registered lobbyist met you this morning about a zoning item. Record who, when and on what.",
+      "id": "log-lobbyist-contact",
+      "kind": "select",
+      "prompt": "A registered lobbyist met you this morning about a zoning item. Record who, when and on what.",
+      "target": "visitor-log",
+      "title": "Log the lobbyist's visit on your public calendar",
+      "why": "Meeting lobbyists is part of the job; hiding it is not. Recording the contact on the public calendar — who came, whom they represent, when, and on what item — lets residents see who is talking to the people deciding, which is the whole point of lobbyist rules. The entry protects the official too: it is the answer, already written, to the question of what that meeting was about."
+    },
+    {
+      "cue": "A friend who donated to your campaign is on the phone asking for help. Keep your answer in the band.",
+      "holdBreakNote": "The line slipped — you started to give way, or you went cold on him. Come back: you can be kind and still not promise anything.",
+      "id": "steady-under-pressure",
+      "kind": "track",
+      "prompt": "A friend who donated to your campaign is on the phone asking for help. Keep your answer in the band.",
+      "seconds": 8,
+      "target": "resolve-meter",
+      "title": "Stay warm but firm with an old friend who wants a favour",
+      "track": {
+        "drift": 0.16,
+        "fall": 0.4,
+        "green": [
+          0.3,
+          0.7
+        ],
+        "label": "RESOLVE",
+        "rise": 0.48,
+        "start": 0.5
+      },
+      "why": "Pressure to do favours rarely arrives as a bribe; it arrives as a friend. The line has to be held continuously through the conversation: warm enough that the friendship survives, firm enough that no promise leaves your mouth. Slide towards giving way and a vague yes becomes a commitment; slide towards cold and you have lost a friend over something you could have explained kindly."
+    },
+    {
+      "cue": "Open the email. Mark every part of it that makes it a conflict.",
+      "decoyNotes": {
+        "offer-unrelated-nonprofit": "An invitation to join the board of a nonprofit with no business before the commission is not the problem here. Note it and move on."
+      },
+      "id": "spot-the-revolving-door",
+      "itemNames": {
+        "offer-from-vendor": "the job offer is from a firm with a contract before you",
+        "offer-keep-it-quiet": "it asks you to keep it quiet until then",
+        "offer-timed-to-contract": "it is timed to the week the contract is decided"
+      },
+      "itemNotes": {
+        "offer-from-vendor": "A firm that is asking the commission for a contract is offering you a job. That is a financial interest in the decision the moment you consider it.",
+        "offer-keep-it-quiet": "Any offer that asks for silence has told you exactly how it would look in daylight.",
+        "offer-timed-to-contract": "Start date the week after the award. The timing is the question it is really asking."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Open the email. Mark every part of it that makes it a conflict.",
+      "targets": [
+        "offer-from-vendor",
+        "offer-timed-to-contract",
+        "offer-keep-it-quiet"
+      ],
+      "title": "Read the job offer for what it is really asking",
+      "why": "The revolving door is the conflict officials most often talk themselves into, because a job offer feels like a compliment rather than a transaction. Read coldly, this one comes from a firm bidding on a contract in front of you, starts the week after the award and asks you to keep quiet until then. Each of those facts alone would need disclosing; together they are the question the ethics code exists to answer."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Tell the ethics officer, step away from the firm's contract, and put it in writing.",
+      "id": "disclose-the-offer",
+      "itemNames": {
+        "put-it-in-writing": "put the disclosure in writing",
+        "step-back-from-vendor": "step away from the firm's contract",
+        "tell-ethics-officer": "tell the ethics officer today"
+      },
+      "kind": "sequence",
+      "prompt": "Tell the ethics officer, step away from the firm's contract, and put it in writing.",
+      "targets": [
+        "tell-ethics-officer",
+        "step-back-from-vendor",
+        "put-it-in-writing"
+      ],
+      "title": "Disclose the offer the same day",
+      "why": "Taking the hard call and owning it here means acting before anybody asks. Telling the ethics officer the same day, stepping back from any decision on the firm's contract and putting the disclosure in writing turns a compromising email into a documented, handled matter. Waiting to see whether you want the job first is how officials end up explaining the timeline to an investigator."
+    },
+    {
+      "cue": "Statement filed, gift reported, recusal made, lobbyist logged, offer disclosed — each with its date.",
+      "id": "close-ethics-log",
+      "kind": "select",
+      "prompt": "Statement filed, gift reported, recusal made, lobbyist logged, offer disclosed — each with its date.",
+      "target": "ethics-log-board",
+      "title": "Record the month in your ethics log",
+      "why": "An official's own ethics log is the running record that answers questions before they are asked. Each entry — filed, reported, recused, logged, disclosed — with its date is proof that the rules were followed at the time, not reconstructed later. It also makes the next month easier: the interests and the recusals it lists are the ones to watch for on every agenda."
+    },
+    {
+      "cue": "Two minutes: thank her, tell her what happens next, and make sure she knows she is protected.",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "Two minutes: thank her, tell her what happens next, and make sure she knows she is protected.",
+      "target": "crew-checkin-board",
+      "title": "Check in with the staff member who raised the concern",
+      "why": "The person who reported a steered contract took a risk to do it, and how the first week afterwards goes decides whether anybody in the building reports anything again. Checking in — thanking her, saying plainly what happens next, confirming she is protected from retaliation and naming the support line if the stress stays with her — is part of handling the report, not an extra."
+    }
+  ],
+  "supportLine": "your employee assistance program, or the ethics officer — whose job is to be asked, in confidence, before anything goes wrong",
+  "tagline": "Your first month in office in one room: interests disclosed, a gift valued and reported, a recusal done in public and sat out in full, a lobbyist logged, a job offer disclosed — and a staff member's concern heard rather than waved away",
+  "title": "SmartCiti.X~ Ethics and Conflict of Interest VR",
+  "trade": "Appointed commissioner — ethics and disclosure",
+  "underwater": null,
+  "weather": "overcast"
+}

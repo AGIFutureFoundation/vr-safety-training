@@ -1,0 +1,405 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "sight-side",
+    "name": "Sight Side",
+    "note": "A sight-side alley dock with two looks, the spotter always in view and the trailer chocked at the door — first time"
+  },
+  "category": "Mobility & Transit",
+  "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A range curriculum includes straight-line, offset and alley-dock backing, delivered by a provider on the Training Provider Registry; 49 CFR 393 for the mirrors and lamps backing depends on; 49 CFR 395 hours of service and the electronic logging device's duty status at the dock; OSHA 29 CFR 1910.178 for the trailer brakes and wheel chocks a warehouse needs before its forklifts board; ANSI/ISEA 107 high-visibility apparel for the spotter; Teamsters (IBT) freight locals' driver training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI/ISEA 107",
+        "id": "ansi-isea-107",
+        "title": "ANSI/ISEA 107 — High-visibility safety apparel and accessories"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 380 Subpart F",
+        "id": "fmcsa-49-cfr-380-subpart-f",
+        "title": "49 CFR Part 380 Subpart F — Entry-level driver training requirements for Class A and Class B commercial driver licence applicants, delivered by a provider listed on the Training Provider Registry"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 393",
+        "id": "fmcsa-49-cfr-393",
+        "title": "49 CFR Part 393 — Parts and accessories necessary for safe operation, including brakes, tires, emergency equipment and Subpart I protection against shifting and falling cargo"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 395",
+        "id": "fmcsa-49-cfr-395",
+        "title": "49 CFR Part 395 — Hours of service of drivers, including electronic logging devices"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.178",
+        "id": "osha-1910-178",
+        "title": "29 CFR 1910.178 — Powered industrial trucks"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBT",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": "Mobility & Transit",
+  "domain": "Commercial Driving",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "got-out",
+        "name": "Got Out and Looked",
+        "note": "Both walks found everything without a hint"
+      },
+      {
+        "id": "never-blind",
+        "name": "Never Blind",
+        "note": "Never set up blind-side, put the spotter behind the trailer, picked up the phone or pulled on a red light"
+      },
+      {
+        "id": "dead-slow",
+        "name": "Dead Slow",
+        "note": "The back held in band the whole way"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-dock",
+        "name": "Clean Dock",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "right-angle",
+        "name": "Right Angle",
+        "note": "Set-up angle read near the centre of the band"
+      },
+      {
+        "id": "on-time",
+        "name": "On Time",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "FOOT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Permit Holder",
+      "Driver Trainee",
+      "Class A Driver",
+      "Yard Lead",
+      "Backing Certified"
+    ],
+    "system": "Backing"
+  },
+  "hazards": {
+    "bkd-blind-side": "You went to set up for a blind-side back when the door could be taken from the sight side. Backing toward the passenger side leaves the trailer's rear corner in a mirror you can barely use; backing toward the driver's side lets you see the trailer through your own window. Sight side whenever the yard allows it.",
+    "bkd-phone": "You went to pick up the phone while backing. Hand-held phone use while driving a commercial vehicle is prohibited by FMCSA, and backing is the moment you need both hands, both mirrors and your spotter's signals. The call waits until the brakes are set.",
+    "bkd-pull-red": "You went to pull away from the door with the dock light showing red. Red means the dock is working the trailer — a forklift may be inside it right now. You move only when the light is green and the dock has released you.",
+    "bkd-spotter-behind": "You went to put the spotter directly behind the trailer, between it and the dock. That is the one place a spotter must never stand: if the trailer moves further than you think, they are pinned against the bumpers. A spotter stands off the rear corner on the sight side, where you can see them and they can see the gap."
+  },
+  "id": "tdl-backing-and-docking",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "back",
+      "alert": "Your spotter has stepped out of the mirror, round behind the trailer, and you can no longer see them or their signals.",
+      "cue": "Stop the truck.",
+      "delay": 3,
+      "id": "spotter-out-of-view",
+      "kind": "Spotter lost",
+      "missNote": "You kept backing without your spotter in view. Spotters are struck and pinned by the trucks they are guiding precisely when they step out of the driver's sight to get a better look.",
+      "seconds": 10,
+      "target": "bkd-brake-pedal",
+      "why": "The rule with a spotter has no exceptions: lose sight of them and you stop. A spotter out of view may have gone round the trailer to look at something, stepped into the gap to wave you back, or fallen — and in every case the next foot of reverse is toward them.",
+      "wrongNote": "It is the brake. You have lost sight of the person guiding you, and the rig stops until you see them again."
+    },
+    {
+      "after": "feather",
+      "alert": "The dock door has rolled up and a dock worker has stepped onto the leveler lip, looking into the gap as your trailer closes the last feet.",
+      "cue": "Warn them before the trailer arrives.",
+      "delay": 3,
+      "id": "dock-worker-at-edge",
+      "kind": "Person at the dock edge",
+      "missNote": "You closed on the dock with someone on the leveler lip. A trailer landing on the bumpers can throw a person off the lip into the gap or pin their feet against the plate.",
+      "seconds": 10,
+      "target": "bkd-horn",
+      "why": "A person standing on the leveler lip is between a closing trailer and the building. The horn gets their attention and gets them back from the edge; the trailer does not touch the bumpers until they are clear.",
+      "wrongNote": "It is the horn. Somebody is standing on the edge your trailer is about to land against."
+    }
+  ],
+  "lateNotes": {
+    "bkd-eld-status": "The log is changed once the trailer is handed over, so the time on the dock is logged as what it is.",
+    "bkd-steering": "The wheel is turned for the back once the set-up angle is right — steering before the set-up just makes the angle worse.",
+    "bkd-wheel-chock": "The chock goes in once the trailer is on the bumpers and the brakes are set — never while the rig can still move."
+  },
+  "name": "Backing and Docking",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "job-readiness-edition",
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bkd-blind-side",
+      "bkd-brake-pedal",
+      "bkd-chock-socket",
+      "bkd-crew-checkin",
+      "bkd-dock-assignment",
+      "bkd-dock-light-red",
+      "bkd-eld-status",
+      "bkd-flashers",
+      "bkd-horn",
+      "bkd-keys-office",
+      "bkd-low-canopy",
+      "bkd-pallet-debris",
+      "bkd-phone",
+      "bkd-pothole",
+      "bkd-pull-red",
+      "bkd-restraint-check",
+      "bkd-set-brakes",
+      "bkd-setup-angle",
+      "bkd-spotter-behind",
+      "bkd-steering",
+      "bkd-throttle",
+      "bkd-trailer-gap",
+      "bkd-wheel-chock",
+      "bkd-window"
+    ],
+    "meshes": 163
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the door number, what is parked either side, and the receiver's rules for chocks and keys.",
+      "id": "assignment",
+      "kind": "select",
+      "prompt": "Read the door number, what is parked either side, and the receiver's rules for chocks and keys.",
+      "target": "bkd-dock-assignment",
+      "title": "Read the door assignment",
+      "why": "An alley dock is planned before the truck moves: which door, what is parked either side of it, where the yard gives you room to swing, and what the receiver expects once you are in — chocks, keys to the office, a light system. Reading it first is what lets you choose a sight-side set-up and know where your spotter should stand, instead of improvising halfway into the back."
+    },
+    {
+      "cue": "Wind the window down so you can hear the spotter, put the four-ways on, and tap the horn before you move.",
+      "id": "prep",
+      "itemNames": {
+        "bkd-flashers": "four-way flashers on",
+        "bkd-horn": "tap the horn",
+        "bkd-window": "window down"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Window, flashers, then the horn — you want to hear the answer to the horn before you move.",
+      "prompt": "Wind the window down so you can hear the spotter, put the four-ways on, and tap the horn before you move.",
+      "targets": [
+        "bkd-window",
+        "bkd-flashers",
+        "bkd-horn"
+      ],
+      "title": "Window down, flashers on, horn",
+      "why": "Backing is done with every sense you have: the window down lets you hear the spotter and anyone shouting, the four-ways and the reverse alarm tell everyone in the yard the rig is about to move backwards, and a tap of the horn is the last warning before it does. None of it costs time, and all of it is for the person you have not seen yet."
+    },
+    {
+      "cue": "Get out and walk the path the trailer will take. Find what it will hit or drop into.",
+      "id": "goal-walk",
+      "itemNames": {
+        "bkd-low-canopy": "the low canopy edge over the next door",
+        "bkd-pallet-debris": "the broken pallet in the door lane",
+        "bkd-pothole": "the pothole in the swing path"
+      },
+      "itemNotes": {
+        "bkd-low-canopy": "The canopy edge over the next door hangs lower than the trailer roof. A trailer swung too wide catches it — a torn roof and a canopy on the ground.",
+        "bkd-pallet-debris": "A broken pallet lying in the door lane. Backed over, it spears a tire or jams under the trailer; it is moved before the back, not after.",
+        "bkd-pothole": "A deep pothole right where the trailer tandem will track in the swing. A tire dropped into it jolts the trailer and can snap a landing-gear foot on a dropped trailer."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Get out and walk the path the trailer will take. Find what it will hit or drop into.",
+      "targets": [
+        "bkd-pothole",
+        "bkd-pallet-debris",
+        "bkd-low-canopy"
+      ],
+      "title": "Get out and look",
+      "why": "GOAL — get out and look — is the most reliable backing tool a driver has, because mirrors show only strips of the world and nothing directly behind the trailer. Walking the path before the back finds the potholes, debris, low overheads and parked cars that no mirror will show until you are already in them, and it is what range training drills from the first day."
+    },
+    {
+      "cue": "Pull forward past the door so the trailer sits at the set-up angle on the sight side, then commit.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "SET-UP ANGLE",
+        "missNote": "That angle will not make the door — pull up and set up again rather than fighting it in reverse.",
+        "speed": 0.7
+      },
+      "id": "setup",
+      "kind": "gauge",
+      "prompt": "Pull forward past the door so the trailer sits at the set-up angle on the sight side, then commit.",
+      "target": "bkd-setup-angle",
+      "title": "Set up at the right angle, sight side",
+      "why": "A good alley dock is decided before the first foot of reverse: pulled far enough past the door and angled so the trailer's rear already points toward it, on the driver's side so you can see it through your window. Too shallow and you run out of room; too sharp and the trailer jackknifes into the tractor. Getting the set-up right is most of the back."
+    },
+    {
+      "cue": "Hand at the bottom of the wheel: move it toward the side you want the trailer's rear to go.",
+      "id": "steer",
+      "kind": "turn",
+      "prompt": "Hand at the bottom of the wheel: move it toward the side you want the trailer's rear to go.",
+      "target": "bkd-steering",
+      "title": "Turn the wheel the trailer's way",
+      "turn": {
+        "axis": "z",
+        "label": "STEERING",
+        "turns": 0.75
+      },
+      "why": "In reverse a trailer goes the opposite way from the steering wheel, which is why range training teaches the hand at the bottom of the wheel: move your hand the way you want the trailer to go. Small, early corrections work; big late ones swing the trailer past the line and start a jackknife. When the correction stops working, you pull up and start again."
+    },
+    {
+      "cue": "Back at idle speed, watching both mirrors and your spotter's signals, and correct early.",
+      "holdBreakNote": "Speed out of band — back at idle, or you cannot stop in time when the spotter signals.",
+      "id": "back",
+      "kind": "track",
+      "prompt": "Back at idle speed, watching both mirrors and your spotter's signals, and correct early.",
+      "seconds": 8,
+      "target": "bkd-throttle",
+      "title": "Back dead slow with the spotter in the mirror",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.32,
+          0.52
+        ],
+        "label": "REVERSE",
+        "rise": 0.52,
+        "start": 0.1
+      },
+      "why": "Idle speed in the lowest reverse gear is the speed at which you can stop within a few inches, and backing is all about stopping in time. Your eyes go mirror to mirror to spotter, never to one of them for long. The rule with a spotter is absolute: if you cannot see them, you stop, because a spotter you cannot see may be exactly where the trailer is going."
+    },
+    {
+      "cue": "Halfway in, stop, get out and look. Find what has changed.",
+      "id": "second-look",
+      "itemNames": {
+        "bkd-dock-light-red": "the outside dock light still red",
+        "bkd-trailer-gap": "your rear corner a hand's width from the parked trailer"
+      },
+      "itemNotes": {
+        "bkd-dock-light-red": "The outside light at this door is red. The door is not ready — the leveler or the restraint is not set for you — and you wait for green before you finish the back.",
+        "bkd-trailer-gap": "Your trailer's rear corner is closing on the parked trailer beside the door. Pull up and straighten now; another foot and the two trailers meet."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Halfway in, stop, get out and look. Find what has changed.",
+      "targets": [
+        "bkd-trailer-gap",
+        "bkd-dock-light-red"
+      ],
+      "title": "Get out and look again",
+      "why": "A second look halfway through the back catches what the first could not: how the trailer is actually tracking, how close the corners are to the trailers either side, and whether the door is ready for you. Drivers who stop and look twice hit fewer things, and a second look costs a minute where a scraped trailer costs a claim and a report."
+    },
+    {
+      "cue": "Cover the brake and feather it for the last few feet, so the trailer touches the bumpers without a hit.",
+      "holdBreakNote": "You came off the brake in the last feet. Cover it and feather the trailer onto the bumpers.",
+      "id": "feather",
+      "kind": "hold",
+      "prompt": "Cover the brake and feather it for the last few feet, so the trailer touches the bumpers without a hit.",
+      "seconds": 8,
+      "target": "bkd-brake-pedal",
+      "title": "Feather the last feet onto the bumpers",
+      "why": "The last few feet of a dock are where people and property get hurt: a trailer that hits the dock bumpers hard shoves the building, damages the leveler and can throw anyone standing at the door edge. Feathering the brake lets the trailer settle onto the bumpers square and gentle, and a trailer that lands square is one the restraint can hook."
+    },
+    {
+      "cue": "Set the parking brakes on the tractor and trailer and put the transmission in neutral.",
+      "id": "set-brakes",
+      "kind": "select",
+      "prompt": "Set the parking brakes on the tractor and trailer and put the transmission in neutral.",
+      "target": "bkd-set-brakes",
+      "title": "Set the brakes at the door",
+      "why": "A trailer at a dock is about to be driven onto by forklifts, and every pass pushes it away from the building. Parking brakes on both the tractor and the trailer are the first thing holding it there; OSHA expects the trailer's brakes to be set and its wheels chocked before a powered truck boards it, and the driver is the one who sets them."
+    },
+    {
+      "cue": "Get down facing the cab with three points of contact, and set the chock at the trailer's rear tandem.",
+      "drag": {
+        "missNote": "Not against the tire — set the chock snug to the trailer's rear tandem.",
+        "radius": 0.45,
+        "to": "bkd-chock-socket"
+      },
+      "id": "chock",
+      "kind": "drag",
+      "prompt": "Get down facing the cab with three points of contact, and set the chock at the trailer's rear tandem.",
+      "target": "bkd-wheel-chock",
+      "title": "Chock the trailer wheel",
+      "why": "Brakes hold a trailer; a chock stops it creeping when brakes leak off or forklifts shove it. Many receivers require the driver to chock before the door opens, and it takes seconds. The trailer that walks away from a dock with a forklift halfway across the plate is the accident the chock exists to prevent."
+    },
+    {
+      "cue": "Check the restraint has hooked and the outside light is red, then take your keys to the dock office.",
+      "id": "handoff",
+      "itemNames": {
+        "bkd-keys-office": "keys to the dock office",
+        "bkd-restraint-check": "restraint hooked, light red outside"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Restraint and light first, then the keys — the dock has to have the trailer before you give up the tractor.",
+      "prompt": "Check the restraint has hooked and the outside light is red, then take your keys to the dock office.",
+      "targets": [
+        "bkd-restraint-check",
+        "bkd-keys-office"
+      ],
+      "title": "Hand the door over",
+      "why": "The handover is what stops the trailer leaving while it is being worked. The restraint hooked and the light red tell you the dock has it; your keys at the office mean the tractor cannot be driven away with a forklift in the trailer, by you or anyone else. It is the driver's half of the same system the loader relies on inside."
+    },
+    {
+      "cue": "Talk the back through with the spotter: where they lost sight of you, what the second look caught, and how it felt.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Talk the back through with the spotter: where they lost sight of you, what the second look caught, and how it felt.",
+      "target": "bkd-crew-checkin",
+      "title": "Debrief with the spotter",
+      "why": "A thirty-second debrief with the spotter is how both of you get better at the next door: the moment they stepped out of the mirror, the corner that closed faster than you expected, the signal that was not clear. It is also a check-in with yourself — backing under pressure at a busy dock is stressful, and saying so is part of doing it safely day after day."
+    },
+    {
+      "cue": "Change the electronic log from driving to on duty, not driving, and note the door and the time.",
+      "id": "eld-status",
+      "kind": "select",
+      "prompt": "Change the electronic log from driving to on duty, not driving, and note the door and the time.",
+      "target": "bkd-eld-status",
+      "title": "Change your duty status in the log",
+      "why": "Under 49 CFR 395 time spent at a dock waiting, supervising or being loaded is on-duty time, not driving and not off duty, and the electronic logging device records it as whatever status you give it. Logging it accurately is what keeps your eleven- and fourteen-hour limits true, and a log that shows driving while the truck sat at a door is a log that fails an inspection."
+    }
+  ],
+  "supportLine": "your carrier's employee assistance programme, or your Teamsters steward if you are not sure how to reach it",
+  "tagline": "An alley dock between two trailers: the door read, window down and flashers on, get out and look, a sight-side set-up, the wheel turned the trailer's way, dead slow with a spotter in the mirror, look again, feather onto the bumpers, brakes, chock, hand over and change the log",
+  "title": "SmartCiti.X~ Backing and Docking VR",
+  "trade": "Class A driver trainee, TDL pre-apprenticeship — Teamsters freight driving: backing and docking under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+  "underwater": null,
+  "weather": "clear"
+}

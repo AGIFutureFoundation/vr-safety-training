@@ -1,0 +1,395 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "cell-for-every-drum",
+    "name": "A Cell for Every Drum",
+    "note": "Every drum staged in its own class's cell, on its own pallet, with the aisle never pinched under the chart's minimum"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "OSHA 29 CFR 1910.120 HAZWOPER for the apron's own PPE and monitoring practice, 29 CFR 1910.1200 hazard communication for reading the placard before a drum moves, 29 CFR 1910.134 respiratory protection for the fit-tested half-mask worn on the apron, 40 CFR 262 for the generator accumulation-start-date clock the tag begins, and LIUNA Training's hazardous waste worker curriculum",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "LIUNA Training",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "RCRA",
+        "citedAs": "40 CFR 262",
+        "id": "rcra-40-cfr-262",
+        "title": "40 CFR Part 262 — Standards applicable to generators of hazardous waste, including the manifest"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Environmental Monitoring",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-placement",
+        "name": "Clean Placement",
+        "note": "Every drum forked into its own class's cell, first time"
+      },
+      {
+        "id": "chart-held",
+        "name": "Chart Held",
+        "note": "The PID reading held in band the whole walk down the row"
+      },
+      {
+        "id": "never-a-shortcut",
+        "name": "Never a Shortcut",
+        "note": "Never a drum forced onto the forks, never a cell doubled up, never the spill kit blocked"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "aisle-on-the-chart",
+        "name": "Aisle On The Chart",
+        "note": "Aisle gauge committed inside the band first time"
+      },
+      {
+        "id": "apron-cleared-fast",
+        "name": "Apron Cleared Fast",
+        "note": "Shift log closed inside 80% of par"
+      }
+    ],
+    "currency": "TAG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apron Hand",
+      "Staging Crew",
+      "Segregation Lead",
+      "Manifest Certified",
+      "Hazmat Laborer Certified"
+    ],
+    "system": "Staging Apron"
+  },
+  "hazards": {
+    "block-spill-kit-access": "You stacked empty pallets in front of the spill kit instead of beside it. The kit is staged at the row for the same reason a fire extinguisher is staged at a door — reachable in the seconds after something starts, not behind a stack of pallets someone now has to move before they can reach the absorbent.",
+    "force-swollen-drum": "You lined the forks up on the swollen drum instead of setting it aside. A drum that has bulged has already built pressure past what its own bung was meant to hold, and forks jarring it, rather than an overpack lowered gently around it from the outside, is exactly the kind of shock that turns a slow problem into the moment it lets go.",
+    "skip-secondary-containment": "You set the drum straight on bare pavement instead of onto a spill pallet. A pallet is what keeps a slow weep or a punctured bung inside a bermed lip instead of running to the nearest storm drain, and a drum staged without one is a drum whose first failure is also the apron's first release to the yard.",
+    "stage-incompatible-adjacent": "You forked the drum into the gap beside a cell that holds an incompatible class instead of its own cell. The chart's cells exist because an oxidizer and a flammable sitting close enough to share a spill do not stay two separate small problems if either drum ever leaks — the aisle between classes is the only thing keeping a single spill from becoming a reaction."
+  },
+  "id": "hz-drum-staging-and-compatibility-segregation",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "read-placard",
+      "alert": "A drum with no legible placard has just come off the truck, mixed in with the rest of today's delivery.",
+      "cue": "Break off and fork the unlabeled drum straight to the quarantine pad — it does not get a cell until it is identified.",
+      "delay": 2,
+      "id": "unlabeled-drum-arrival",
+      "kind": "An unlabeled drum shows up in the middle of the shift",
+      "missNote": "The unlabeled drum went into a cell with the others anyway; it sat there unidentified next to drums whose class was actually known, which is the exact adjacency the chart exists to prevent.",
+      "seconds": 14,
+      "target": "quarantine-pad",
+      "why": "A drum with no legible placard is a drum whose hazard class nobody on the apron actually knows, and staging it in any cell — even the one that looks most likely — is a guess the compatibility chart was built specifically to remove from this job. The quarantine pad holds it apart until somebody can identify it properly, which is the only place it can go until then.",
+      "wrongNote": "The quarantine pad — an unidentified drum gets held apart, not guessed into whichever cell looks closest."
+    },
+    {
+      "after": "aisle-gauge",
+      "alert": "The drum on the forks has started weeping at the bung — a thin line is already running down the shell.",
+      "cue": "Set it down where it stands and get the spill kit open — the aisle gauge waits.",
+      "delay": 2,
+      "id": "drum-leak-during-move",
+      "kind": "A drum starts weeping at the bung mid-move",
+      "missNote": "The aisle gauge finished first while the weep kept running; by the time the spill kit opened, the line had already reached the nearest drain grate.",
+      "seconds": 12,
+      "target": "spill-kit-station",
+      "why": "A weep that started on the forks does not wait for the aisle to finish being measured, and the spill kit staged at the row exists for exactly this moment — absorbent down before the line reaches the apron's own drain, not after the tape measure is put away first.",
+      "wrongNote": "The spill kit — a weeping drum is answered with absorbent immediately, not with finishing the measurement already underway."
+    }
+  ],
+  "lateNotes": {
+    "accumulation-tag": "Nothing to date yet — a drum gets its accumulation tag once it is actually staged in its own cell, not before.",
+    "aisle-tape": "Nothing to measure yet — the aisle is gauged between cells once the drum in this row is actually staged.",
+    "spill-pallet": "There is no drum on a pallet to check yet — stage it in its cell first."
+  },
+  "name": "Drum Staging & Compatibility Segregation",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hazmat-environmental"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "forkliftCounterbalance",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "accumulation-tag",
+      "aisle-tape",
+      "block-spill-kit-access",
+      "chem-gloves",
+      "compatibility-chart",
+      "drum-placard",
+      "extinguisher-mount",
+      "face-shield",
+      "flammables-cell",
+      "force-swollen-drum",
+      "forklift-controls",
+      "manifest-board",
+      "next-drum",
+      "pid-meter",
+      "quarantine-pad",
+      "shift-log",
+      "skip-secondary-containment",
+      "spill-kit-station",
+      "spill-pallet",
+      "stage-incompatible-adjacent",
+      "swollen-drum",
+      "tech-radio"
+    ],
+    "meshes": 236
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Read the chart: which classes may share a row, the aisle's minimum width, the spill-pallet rule, and where an unlabeled drum goes.",
+      "id": "segregation-chart",
+      "kind": "select",
+      "prompt": "Read the chart: which classes may share a row, the aisle's minimum width, the spill-pallet rule, and where an unlabeled drum goes.",
+      "target": "compatibility-chart",
+      "title": "Read the compatibility chart: cells, aisle minimum and the quarantine pad",
+      "why": "The compatibility chart is what turns a fenced apron into a set of rules the whole crew is working from — which hazard classes may sit near each other, how wide the aisle between cells has to stay, and that anything without a legible label goes to the quarantine pad rather than into a cell with everyone else's drums. It is read before the first drum moves, because the chart cannot be consulted mid-lift with a load already on the forks."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Chemical-resistant gloves and a face shield on before handling any drum or reading a placard up close.",
+      "id": "don-ppe",
+      "itemNames": {
+        "chem-gloves": "chemical-resistant gloves",
+        "face-shield": "face shield"
+      },
+      "kind": "sequence",
+      "prompt": "Chemical-resistant gloves and a face shield on before handling any drum or reading a placard up close.",
+      "targets": [
+        "chem-gloves",
+        "face-shield"
+      ],
+      "title": "Chemical gloves and face shield on before the first drum is touched",
+      "why": "A drum on this apron can be venting something the label has not fully described yet, and gloves and a face shield are what stand between a laborer's skin and eyes and whatever residue is on the bung or the outside of the shell. They go on before the first drum is touched, not after the first one turns out to be dirtier than expected."
+    },
+    {
+      "cue": "Look over every drum in the new delivery for a bulge, a dome in the lid, or a stain running down the shell before touching any of them.",
+      "id": "inspect-delivery",
+      "itemNames": {
+        "swollen-drum": "swollen drum in the new delivery"
+      },
+      "itemNotes": {
+        "swollen-drum": "One drum in the new delivery has a visibly domed lid and a bulge low on the shell — it has built internal pressure and is set aside for an overpack, never forked like the rest of the load."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over every drum in the new delivery for a bulge, a dome in the lid, or a stain running down the shell before touching any of them.",
+      "targets": [
+        "swollen-drum"
+      ],
+      "title": "Walk the new delivery before any drum is forked",
+      "why": "A drum's outside is the only information the apron has before the bung is ever opened, and a bulge or a domed lid is that drum telling you it has already built pressure past what a normal handling plan assumes. Finding it on the walk-through, before the forks are anywhere near it, is what keeps the discovery from happening under load."
+    },
+    {
+      "cue": "Read the DOT hazard-class placard on the next drum and match it to the chart's cell for that class.",
+      "id": "read-placard",
+      "kind": "select",
+      "prompt": "Read the DOT hazard-class placard on the next drum and match it to the chart's cell for that class.",
+      "target": "drum-placard",
+      "title": "Read the next drum's placard before it moves",
+      "why": "29 CFR 1910.1200 puts the hazard class on the outside of the drum precisely so it can be read before anyone commits to a cell, and reading it now — with the drum still on the ground and the chart still in view — is what keeps the placement decision from being made from memory once the drum is already swinging on the forks."
+    },
+    {
+      "cue": "Raise the drum and set it down inside the cell marked for its own hazard class, clear of the aisle.",
+      "drag": {
+        "missNote": "Not inside the marked cell — the drum's own hazard class has one cell on this chart, and it is set down inside its markers, not in the gap beside them.",
+        "radius": 0.55,
+        "to": "flammables-cell"
+      },
+      "id": "stage-drum",
+      "kind": "drag",
+      "prompt": "Raise the drum and set it down inside the cell marked for its own hazard class, clear of the aisle.",
+      "target": "next-drum",
+      "title": "Fork the drum smooth into its own class's cell",
+      "why": "The cell the placard named is the only place this drum can go without creating the exact adjacency the compatibility chart exists to prevent, and setting it down inside the cell's own markers — not the gap beside it, not the next cell over — is what keeps today's placement matching the chart tomorrow, when nobody remembers which truck it came off."
+    },
+    {
+      "cue": "Check that the staged drum sits square on the cell's spill pallet, not on the bare apron beside it.",
+      "id": "spill-pallet-check",
+      "kind": "select",
+      "prompt": "Check that the staged drum sits square on the cell's spill pallet, not on the bare apron beside it.",
+      "target": "spill-pallet",
+      "title": "Confirm the drum is sitting on its spill pallet",
+      "why": "A spill pallet is the last line between a slow weep at the bung and a release that reaches the yard's storm drain, and it only works if the drum is actually sitting inside its bermed lip rather than beside it. Checking it right after staging, while the drum is still easy to nudge, is cheaper than finding it off the pallet during the next inspection."
+    },
+    {
+      "cue": "Measure the aisle between this cell and the next and commit the reading once it settles inside the chart's band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "AISLE",
+        "missNote": "Not settled inside the chart's minimum — hold the tape steady at the narrowest point between the cells, not at the open end, until the reading stops moving.",
+        "speed": 0.65
+      },
+      "id": "aisle-gauge",
+      "kind": "gauge",
+      "prompt": "Measure the aisle between this cell and the next and commit the reading once it settles inside the chart's band.",
+      "target": "aisle-tape",
+      "title": "Gauge the aisle against the chart's minimum",
+      "why": "An aisle pinched narrower than the chart's minimum is an aisle that no longer gives a forklift room to set the next drum down without clipping the row already staged, and it is measured now, with the tape held steady until the reading settles, rather than eyeballed once the whole row is full and harder to change."
+    },
+    {
+      "cue": "Write today's date on the drum's accumulation tag the moment it is staged in its cell.",
+      "id": "date-tag",
+      "kind": "select",
+      "prompt": "Write today's date on the drum's accumulation tag the moment it is staged in its cell.",
+      "target": "accumulation-tag",
+      "title": "Tag the drum with its accumulation start date",
+      "why": "40 CFR 262 runs a generator's accumulation clock from the day a drum is actually staged, and a tag written late is a clock that starts wrong for the one document — the manifest — that has to account for exactly how long each drum sat on this apron."
+    },
+    {
+      "cue": "Record the drum's class, its cell and its accumulation date on the manifest board before moving to the next one.",
+      "id": "manifest-log",
+      "kind": "select",
+      "prompt": "Record the drum's class, its cell and its accumulation date on the manifest board before moving to the next one.",
+      "target": "manifest-board",
+      "title": "Log the drum on the manifest board",
+      "why": "The manifest board is how the environmental technician running the apron knows, without walking every cell, exactly what is staged where and since when — the same information the hauler will ask for the day this drum actually leaves. A drum staged but never logged is a drum the manifest cannot account for."
+    },
+    {
+      "cue": "Walk to the spill kit and confirm nothing is stacked in front of it before moving to the next drum.",
+      "id": "spill-kit-check",
+      "kind": "select",
+      "prompt": "Walk to the spill kit and confirm nothing is stacked in front of it before moving to the next drum.",
+      "target": "spill-kit-station",
+      "title": "Check the spill kit is clear to reach",
+      "why": "A spill kit staged at the row is only as useful as the seconds it takes to actually reach it, and checking that path now, before the apron fills up with the day's deliveries, is what keeps a stack of empty pallets from becoming the reason absorbent arrives too late for a weep that started small."
+    },
+    {
+      "cue": "Look along the fence line for the extinguisher and check its gauge and its mount before logging the apron ready for the next delivery.",
+      "id": "extinguisher-check",
+      "itemNames": {
+        "extinguisher-mount": "extinguisher on its mount"
+      },
+      "itemNotes": {
+        "extinguisher-mount": "The extinguisher is easy to lose track of against the apron's own clutter — found on its mount, its gauge checked charged, before the apron is logged ready for the next delivery."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the fence line for the extinguisher and check its gauge and its mount before logging the apron ready for the next delivery.",
+      "targets": [
+        "extinguisher-mount"
+      ],
+      "title": "Find the extinguisher and check it is staged and charged",
+      "why": "The flammables cell is the one part of this apron where a small fire has the shortest path to something much worse, and an extinguisher confirmed charged and in its mount now is the difference between reaching for it and reaching for an empty bracket the one time it matters."
+    },
+    {
+      "cue": "Hold the forklift's lift control steady through the full raise, without a jerk partway up.",
+      "holdBreakNote": "The lift control let go partway up — the drum jolted on the forks. Hold the raise smooth from the ground to the carry height in one motion.",
+      "id": "smooth-lift",
+      "kind": "hold",
+      "prompt": "Hold the forklift's lift control steady through the full raise, without a jerk partway up.",
+      "seconds": 5,
+      "target": "forklift-controls",
+      "title": "Hold the lift control smooth on the next raise",
+      "why": "A drum that shifts on the forks partway through a raise is a drum whose bung, cap or seam just took a load it was never staged to take, and holding the lift control smooth through the whole motion — rather than bumping it in short stabs — is what keeps a legal drum from becoming a leaking one on the ride to its cell."
+    },
+    {
+      "cue": "Walk the length of the staged row with the PID meter, keeping its reading inside the safe band the whole way.",
+      "holdBreakNote": "The reading ran past the safe band while the walk continued anyway — a PID climbing along the row is answered by stopping and rechecking, not by finishing the walk first.",
+      "id": "pid-walk",
+      "kind": "track",
+      "prompt": "Walk the length of the staged row with the PID meter, keeping its reading inside the safe band the whole way.",
+      "seconds": 6,
+      "target": "pid-meter",
+      "title": "Walk the row holding the PID reading in band",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.3,
+        "green": [
+          0.2,
+          0.42
+        ],
+        "label": "PID",
+        "rise": 0.42,
+        "start": 0.3
+      },
+      "why": "A vapor reading taken once at the gate does not describe the whole row once ten drums are staged along it, and walking the row with the meter held out, watching the number rather than the drums, is what catches a reading climbing near one cell before it is the only thing anyone notices."
+    },
+    {
+      "cue": "Call the technician running the manifest board: cells current, aisle on the chart, spill kit and extinguisher both checked.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the technician running the manifest board: cells current, aisle on the chart, spill kit and extinguisher both checked.",
+      "target": "tech-radio",
+      "title": "Check in with the environmental technician",
+      "why": "The technician's own manifest is only as good as what the apron actually radios in, and a laborer who logs it out loud rather than assuming the board already reflects the day's work is what keeps the two records — the forklift's and the desk's — from drifting apart by the end of the shift."
+    },
+    {
+      "cue": "Record every drum staged today, the swollen one set aside for overpack, and confirm every cell against the chart before signing off.",
+      "id": "close-shift-log",
+      "kind": "select",
+      "prompt": "Record every drum staged today, the swollen one set aside for overpack, and confirm every cell against the chart before signing off.",
+      "target": "shift-log",
+      "title": "Close the apron log for the shift",
+      "why": "The shift log is what the next crew reads before the next truck backs up to the apron, and a drum set aside for overpack that never made the log is a drum the next shift finds by hand instead of by the page that was supposed to warn them."
+    }
+  ],
+  "supportLine": "your LIUNA local's member assistance programme",
+  "tagline": "The apron before the next truck: the compatibility chart read for its cells and aisle minimum, gloves and a face shield on, the delivery checked for a drum that should never have left the dock, the next drum's placard read before it moves, the forklift raised smooth and staged in its own class's cell, a spill pallet confirmed underneath it, the aisle gauged against the chart's minimum, the drum dated for its generator clock, the manifest logged, the spill kit's access checked clear, the extinguisher checked in reach, a PID reading walked and held in band down the row, the crew checked in, and the shift closed",
+  "title": "SmartCiti.X~ Drum Staging & Compatibility Segregation VR VR",
+  "trade": "LIUNA hazmat laborer running the forklift on the drum staging apron, with an environmental technician keeping the manifest board",
+  "underwater": null,
+  "weather": "overcast"
+}

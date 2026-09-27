@@ -1,0 +1,416 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "yard-handled-clean",
+    "name": "Yard Handled Clean",
+    "note": "A delivered lite unstrapped, lifted to the rack on a proven vacuum beam and a second lite carted clear, with nobody under the load the whole time"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "IUPAT District Council 16 glaziers apprenticeship and training (architectural glass and metal); IUPAT Finishing Trades Institute glazier curriculum; ANSI/ASSP Z97.1 safety glazing materials; OSHA 29 CFR 1926.501 duty to have fall protection and 29 CFR 1926.502 fall protection systems criteria for work on the flatbed deck; the vacuum lifter manufacturer's rated capacity and the crane's own load chart for the beam and its cups",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IUPAT District Council 16",
+        "id": "iupat-dc16-glaziers",
+        "title": "IUPAT District Council 16 — glaziers apprenticeship and training, architectural glass and metal"
+      },
+      {
+        "body": "union",
+        "citedAs": "Finishing Trades Institute",
+        "id": "iupat-fti",
+        "title": "IUPAT Finishing Trades Institute — industrial painter, glazier and drywall finisher apprenticeship, including lead and containment training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.501",
+        "id": "osha-1926-501",
+        "title": "29 CFR 1926.501 — Duty to have fall protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.502",
+        "id": "osha-1926-502",
+        "title": "29 CFR 1926.502 — Fall protection systems criteria and practices"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "beam-proven",
+        "name": "Beam Proven",
+        "note": "The crane's vacuum beam read and proven before it carried a real lite"
+      },
+      {
+        "id": "nobody-under",
+        "name": "Nobody Under",
+        "note": "No unsafe action under a suspended lite the whole run"
+      },
+      {
+        "id": "tag-held",
+        "name": "Tag Held",
+        "note": "The tag line held steady the full count"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-unload",
+        "name": "Clean Unload",
+        "note": "The lite unloaded without a correction"
+      },
+      {
+        "id": "square-read",
+        "name": "Square Read",
+        "note": "The vacuum gauge read inside the green band, first time"
+      },
+      {
+        "id": "yard-in-time",
+        "name": "Yard In Time",
+        "note": "Unloaded, racked and carted inside 80% of par"
+      }
+    ],
+    "currency": "LITE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Pre-apprentice",
+      "Yard Hand",
+      "Rigger",
+      "Lead Glazier",
+      "Material Handling Certified"
+    ],
+    "system": "Yard Crew"
+  },
+  "hazards": {
+    "cracked-lite-edge": "You picked up the cracked lite from the stack by hand instead of leaving it for the cups. A crack changes how a tempered or laminated lite carries its own weight, and an edge that has already started to fail is an edge that can let go under a grip that a sound lite would have carried all day. A cracked lite gets flagged and moved on the cups, gloved, never carried freehand.",
+    "lite-wind-swing": "You let the tag line go slack while the lite was still clear of the rack on the crane hook. A lite on a vacuum beam is exactly the kind of load a gust turns into a pendulum, and a slack tag line is a tag line doing nothing the moment the wind decides to use it. The line stays under tension from the moment the lite clears the trailer to the moment it is set on the rack.",
+    "ratchet-pinch": "You reached for the ratchet handle while it was still under tension from the strap. A loaded ratchet strap releases its handle with the whole strap's tension behind it, and a hand caught between the handle and the frame at that moment gets exactly what the tension was holding back. The handle is worked slowly, watched, with fingers clear of where it swings.",
+    "trailer-edge-fall": "You climbed onto the flatbed deck to reach the strap without anything to stop a fall off the side. The deck sits well over a metre off the yard with no edge protection of its own, and a foot that slips reaching for a ratchet handle at the edge is a fall the same way a deck at height falls at any other job. The strap is reached from the ground or from a step with a rail, not by climbing the load."
+  },
+  "id": "gl-glass-handling-cart-and-crane-vacuum-lifter",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "tagline-hold",
+      "alert": "A gust has caught the lite on the hook and it is swinging toward the crane's own outriggers.",
+      "cue": "The suspended lite is swinging on the hook.",
+      "delay": 3,
+      "id": "gust-swing",
+      "kind": "Gust on the suspended lite",
+      "missNote": "The lite swung until the gust dropped on its own. It missed the outrigger by less than its own width. The beam's rated wind limit exists for exactly this gust, and the estop was never reached for while it was happening.",
+      "seconds": 12,
+      "target": "crane-estop",
+      "why": "A lite already swinging on a vacuum beam does not stop swinging because someone pulls harder on the tag line — the crane's own emergency stop is what takes the boom out of motion so the swing has nothing left to feed on. The tag line can be retaken once the boom is still; it cannot out-pull a boom that is still moving.",
+      "wrongNote": "It is the crane's emergency stop. Take the boom out of motion before anyone pulls on that tag line again."
+    },
+    {
+      "after": "cart-transfer",
+      "alert": "A yard forklift has turned into the lane under the crane's swing path, not looking up at the load still on the hook.",
+      "cue": "A forklift is crossing under the crane's swing path.",
+      "delay": 3,
+      "id": "forklift-crossing",
+      "kind": "Forklift crossing the lift path",
+      "missNote": "The forklift crossed and came out the other side. Nobody was under the load when it happened, this time. The operator never knew the boom was there, and the horn that would have told them sat unsounded the whole time they were in the lane.",
+      "seconds": 11,
+      "target": "yard-horn",
+      "why": "A forklift operator watching their forks has no reason to look up at a boom they cannot see from the seat, and the horn on the dock control panel is the one thing loud enough to reach them before they are under a load. It gets sounded now, not after the forklift has already crossed.",
+      "wrongNote": "It is the yard horn on the dock panel. Sound it before the forklift finishes crossing that lane."
+    }
+  ],
+  "lateNotes": {
+    "cart-lite": "The second lite moves to the cart only after its own cups read a full vacuum. A lite carried on a cup reading that was never checked is a lite carried on a guess.",
+    "trailer-lite": "The strap comes off after the tie-down is inspected and the crane's beam has been proven on the ground. A strap released before the beam is trusted is a load with nothing under it and nothing over it either."
+  },
+  "name": "Glass Handling Cart And Crane Vacuum Lifter",
+  "parSeconds": 285,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "glaziers-and-architectural-metal"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "mobileCrane",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "glassVacuumLifter",
+        "count": 2,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "anemometer",
+      "beam-lifter",
+      "broken-pallet",
+      "cart-lite",
+      "cart-slot",
+      "corner-protector",
+      "cracked-lite-edge",
+      "crane-estop",
+      "cups-vacuum",
+      "flag-crack",
+      "lite-wind-swing",
+      "log-corner-chip",
+      "rack-pin",
+      "ratchet-handle",
+      "ratchet-pinch",
+      "receiving-rack",
+      "strap-tension",
+      "strap-webbing",
+      "tag-line",
+      "tailboard",
+      "trailer-edge-fall",
+      "trailer-lite",
+      "unchocked-cart",
+      "unchocked-trailer",
+      "yard-clutter",
+      "yard-horn",
+      "yard-log"
+    ],
+    "meshes": 210
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the day's tailboard — the crane's load chart for today's reach, who holds the tag line, the wind limit — and sign it.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Read the day's tailboard — the crane's load chart for today's reach, who holds the tag line, the wind limit — and sign it.",
+      "target": "tailboard",
+      "title": "Sign the tailboard with the crew",
+      "why": "The tailboard for a yard lift names the one number that changes every day: the crane's rated load at today's reach and boom angle, not a number off a chart from last week's delivery. Signing it is what makes the crew responsible for reading that number before the first strap comes off, rather than assuming yesterday's lift plan still applies."
+    },
+    {
+      "cue": "Take the anemometer reading at the yard and commit it inside the working band before the crane's beam takes any weight.",
+      "gauge": {
+        "green": [
+          0.18,
+          0.48
+        ],
+        "label": "WIND",
+        "missNote": "That reading is outside the working band for a vacuum-lifted load — over it, the lite stays strapped; under it, read it again at the yard.",
+        "speed": 0.7
+      },
+      "id": "wind-read",
+      "kind": "gauge",
+      "prompt": "Take the anemometer reading at the yard and commit it inside the working band before the crane's beam takes any weight.",
+      "target": "anemometer",
+      "title": "Read the wind before the crane picks",
+      "why": "A vacuum-lifted lite on a crane hook has more sail area than almost anything else this crane picks, and the manufacturer's rated wind limit for the beam is lower than the crane's own limit for a compact load. A reading over the band means the lite waits strapped to the trailer, because a beam that loses vacuum in a gust drops a lite with nothing underneath it."
+    },
+    {
+      "cue": "Webbing first, then the corner protector at the stillage edge, then the tension itself — in that order, before the ratchet is touched.",
+      "id": "tie-down-seq",
+      "itemNames": {
+        "corner-protector": "corner protector seated under the strap",
+        "strap-tension": "tension checked before release",
+        "strap-webbing": "strap webbing checked for cuts"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Webbing, then the corner protector, then tension — the ratchet is the last thing touched, on a strap you have already checked twice.",
+      "prompt": "Webbing first, then the corner protector at the stillage edge, then the tension itself — in that order, before the ratchet is touched.",
+      "targets": [
+        "strap-webbing",
+        "corner-protector",
+        "strap-tension"
+      ],
+      "title": "Inspect the tie-down before releasing it",
+      "why": "The strap is inspected in the order that finds a problem before it becomes the crew's problem: cut webbing that could let go under the ratchet's own tension, a corner protector that has slipped and let the strap bite into the glass edge underneath it, and the tension itself, which tells you how much the ratchet handle is about to give back the moment it is worked."
+    },
+    {
+      "cue": "Look at the trailer and the crane's swing path — click the two things wrong before the beam takes any weight.",
+      "id": "yard-walk",
+      "itemNames": {
+        "unchocked-trailer": "the trailer's wheel not chocked",
+        "yard-clutter": "a broken pallet in the crane's swing path"
+      },
+      "itemNotes": {
+        "unchocked-trailer": "The trailer's wheel has no chock under it, and a trailer that rolls even a few centimetres while a lite is being lifted off its deck changes where the load actually sits.",
+        "yard-clutter": "A broken pallet is sitting inside the crane's swing radius between the trailer and the rack — exactly where the boom sweeps once the lite is up."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the trailer and the crane's swing path — click the two things wrong before the beam takes any weight.",
+      "targets": [
+        "unchocked-trailer",
+        "yard-clutter"
+      ],
+      "title": "Walk the yard before the crane picks",
+      "why": "The trailer's chock and a clear swing path are both things that read as fine from a glance and are not things the crane operator can see from the cab once the lite is up and blocking the view forward. Both get answered on the ground, on foot, before the hook goes anywhere near the strap."
+    },
+    {
+      "cue": "Pump the beam's cups, watch the vacuum gauge settle in the green, and check the release before the hook goes anywhere near the trailer.",
+      "id": "lifter-check",
+      "kind": "select",
+      "prompt": "Pump the beam's cups, watch the vacuum gauge settle in the green, and check the release before the hook goes anywhere near the trailer.",
+      "target": "beam-lifter",
+      "title": "Prove the crane's vacuum beam empty before it carries a lite",
+      "why": "The vacuum beam is proven the same way a hand cup is — on nothing, before it is trusted with something — because a beam that reads full vacuum against open air can still be carrying a nicked seal that only shows itself once a lite's weight is actually pulling against it. This is checked at the ground, where a cup that fails is an inconvenience rather than a lite over the trailer."
+    },
+    {
+      "cue": "Work the ratchet handle slowly to release the tension, fingers clear of the handle's swing, until the strap goes slack.",
+      "id": "strap-release",
+      "kind": "turn",
+      "prompt": "Work the ratchet handle slowly to release the tension, fingers clear of the handle's swing, until the strap goes slack.",
+      "target": "ratchet-handle",
+      "title": "Release the ratchet strap",
+      "turn": {
+        "axis": "z",
+        "label": "RELEASE",
+        "turns": 1
+      },
+      "why": "The ratchet gives back the tension it has been holding the moment its handle is worked, and doing that slowly rather than snapping it open is what keeps the handle's swing predictable — the strap comes off the stillage in the crew's control rather than all at once the moment the ratchet lets go."
+    },
+    {
+      "cue": "Cups seated on the lite's face, guide it up off the trailer deck and across to the receiving rack — not released until it is offered up square.",
+      "drag": {
+        "missNote": "Not square to the rack — a lite set down at an angle rocks against the uprights.",
+        "radius": 0.5,
+        "to": "receiving-rack"
+      },
+      "id": "lite-lift",
+      "kind": "drag",
+      "prompt": "Cups seated on the lite's face, guide it up off the trailer deck and across to the receiving rack — not released until it is offered up square.",
+      "target": "trailer-lite",
+      "title": "Lift the lite from the trailer to the rack",
+      "why": "The beam does the lifting; the crew's job is guiding it so the lite travels flat and square rather than swinging on its own momentum, and it is offered to the rack square because a lite set down at an angle rocks against the rack's own uprights and chips a corner nobody saw happen."
+    },
+    {
+      "cue": "Both hands on the tag line, keep it taut while the lite comes down onto the rack — do not let it go slack until the lite is landed.",
+      "holdBreakNote": "The tag line went slack before the lite landed — it started to turn on the hook. Take up the tension again and hold it until the lite is down.",
+      "id": "tagline-hold",
+      "kind": "hold",
+      "prompt": "Both hands on the tag line, keep it taut while the lite comes down onto the rack — do not let it go slack until the lite is landed.",
+      "seconds": 4,
+      "target": "tag-line",
+      "title": "Hold the tag line under tension while the crane lowers the lite",
+      "why": "The tag line is the one thing keeping a suspended lite from finding its own rotation on the way down, and it only works taut — a slack line has already let the load start turning before anyone can react to it. It stays under tension from the moment the lite clears the trailer to the moment it settles onto the rack."
+    },
+    {
+      "cue": "Turn the locking pin home once the lite is resting in its slot, so the separator cannot walk clear under vibration.",
+      "id": "rack-lock",
+      "kind": "turn",
+      "prompt": "Turn the locking pin home once the lite is resting in its slot, so the separator cannot walk clear under vibration.",
+      "target": "rack-pin",
+      "title": "Lock the rack's foam separator pin",
+      "turn": {
+        "axis": "z",
+        "label": "LOCK",
+        "turns": 1
+      },
+      "why": "The foam separator is what keeps this lite from riding against its neighbour's edge every time a forklift crosses the yard, and the pin is what keeps the separator from walking loose over a week of that vibration. A rack that looks loaded correctly today is only still correct next week if the pin is actually turned home."
+    },
+    {
+      "cue": "Cups seated on the smaller lite's face, guide it from the rack to the A-frame cart — not released until it is seated on the cart's felt.",
+      "drag": {
+        "missNote": "Not seated on the cart's felt — a lite resting on the frame's bare rail chips the first time the cart moves.",
+        "radius": 0.45,
+        "to": "cart-slot"
+      },
+      "id": "cart-transfer",
+      "kind": "drag",
+      "prompt": "Cups seated on the smaller lite's face, guide it from the rack to the A-frame cart — not released until it is seated on the cart's felt.",
+      "target": "cart-lite",
+      "title": "Move the second lite to the cart on hand cups",
+      "why": "The smaller lite goes by hand cups rather than the crane beam because rigging the crane for a piece this size costs more time than it saves, and it is guided rather than carried edge-on for the same reason every lite in this yard is: an edge held by hand is an edge with nothing between it and a slip."
+    },
+    {
+      "cue": "Read the vacuum gauge on the hand cups and commit it inside the green band before releasing the lite onto the cart.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.75
+        ],
+        "label": "VAC kPa",
+        "missNote": "That reading is outside the green band — the cups may be bleeding down. Reseat them before letting go.",
+        "speed": 0.7
+      },
+      "id": "cups-gauge",
+      "kind": "gauge",
+      "prompt": "Read the vacuum gauge on the hand cups and commit it inside the green band before releasing the lite onto the cart.",
+      "target": "cups-vacuum",
+      "title": "Read the hand cups before letting go on the cart",
+      "why": "The hand cups are read the same way the crane's beam was — because a cup carrying a lite for the length of a yard has had more time for a slow seal to bleed down than one just tested on scrap, and the gauge is what tells you whether it is still safe to trust before your hands come off it."
+    },
+    {
+      "cue": "Flag the cracked lite first, then log the chipped corner on the stillage sheet — in that order.",
+      "id": "edge-check-seq",
+      "itemNames": {
+        "flag-crack": "the cracked lite flagged for scrap",
+        "log-corner-chip": "a chipped corner logged on the stillage sheet"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Flag the crack first, then log the chip — the flag is the one that changes how the next person handles this stack.",
+      "prompt": "Flag the cracked lite first, then log the chipped corner on the stillage sheet — in that order.",
+      "targets": [
+        "flag-crack",
+        "log-corner-chip"
+      ],
+      "title": "Check the stack for damage before it is called delivered",
+      "why": "The cracked lite gets flagged before anything else because it is the one item in this stack nobody should pick up by hand again, and the chipped corner gets logged rather than quietly set aside because the stillage sheet is what the supplier's claim is built on — a chip nobody wrote down is a chip the crew paid for."
+    },
+    {
+      "cue": "Look at the forklift lane and the cart — click the two things still wrong before the yard is signed off.",
+      "id": "dock-walk",
+      "itemNames": {
+        "broken-pallet": "the broken pallet still in the forklift lane",
+        "unchocked-cart": "the A-frame cart's wheel not chocked"
+      },
+      "itemNotes": {
+        "broken-pallet": "That broken pallet from the swing-path check earlier never actually got moved out of the forklift lane.",
+        "unchocked-cart": "The A-frame cart carrying the second lite has no chock on its wheel, on a yard that is not perfectly level."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the forklift lane and the cart — click the two things still wrong before the yard is signed off.",
+      "targets": [
+        "broken-pallet",
+        "unchocked-cart"
+      ],
+      "title": "Walk the dock before the crew calls it done",
+      "why": "A yard that is finished from the crane's point of view is not finished until the lane a forklift actually drives is clear and the cart holding a fresh lite cannot roll on its own — both are exactly the kind of thing that gets assumed fixed because it was flagged once, earlier, and never checked again."
+    },
+    {
+      "cue": "Lite count, the cracked one flagged, wind readings, and the faults found and fixed, and sign it.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Lite count, the cracked one flagged, wind readings, and the faults found and fixed, and sign it.",
+      "target": "yard-log",
+      "title": "Log the delivery",
+      "why": "The log ties this delivery's damage claim and wind readings to a date and a name, which is what the crew shows the supplier when the cracked lite is disputed. It also carries the pallet and the cart chock as fixed rather than assumed, for whoever crosses this yard on foot after the crew has moved on."
+    }
+  ],
+  "supportLine": "your IUPAT District Council 16 apprenticeship coordinator or job steward, or your employer's employee assistance program if the swinging lite on the hook is what you keep seeing",
+  "tagline": "Tailboard and wind read, the strap inspected before it is released, the crane's vacuum beam proven, the lite lifted to the rack on a held tag line, and a second lite walked to the cart on hand cups",
+  "title": "SmartCiti.X~ Glass Handling Cart And Crane Vacuum Lifter VR",
+  "trade": "Glazier — IUPAT District Council 16 material handling",
+  "underwater": null,
+  "weather": "wind"
+}

@@ -1,0 +1,450 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "flipped-not-rushed",
+    "name": "Flipped, Not Rushed",
+    "note": "The room turned on the plan with every lift called, every cable ramped and every exit clear, and the doors held rather than a corner cut"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "NFPA 101 Life Safety Code for the aisles, exit access and exit signs of an assembly room set to the approved floor plan; OSHA 29 CFR 1910.36 on exit routes kept unobstructed, and 29 CFR 1910.22 on walking-working surfaces kept free of trip hazards such as loose cable; the Revised NIOSH Lifting Equation behind team lifts of stage decks and folded rounds; Cal/OSHA's injury and illness prevention program, 8 CCR 3203, for the hazards of a room flip; UNITE HERE banquet training on lifting, carts and staffing a flip",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3203",
+        "id": "cal-osha-3203",
+        "title": "8 CCR 3203 — Injury and Illness Prevention Program"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 101",
+        "id": "nfpa-101",
+        "title": "NFPA 101 — Life Safety Code"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "Revised NIOSH Lifting Equation",
+        "id": "niosh-lifting-equation",
+        "title": "Revised NIOSH Lifting Equation and its Applications Manual — recommended weight limit and lifting index for two-handed manual lifting"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.22",
+        "id": "osha-1910-22",
+        "title": "29 CFR 1910.22 — Walking-working surfaces, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.36",
+        "id": "osha-1910-36",
+        "title": "29 CFR 1910.36 — Design and construction requirements for exit routes"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Culinary & Hospitality",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "every-lift-called",
+        "name": "Every Lift Called",
+        "note": "No deck carried alone, no cart ridden, no cable under the carpet, nothing parked in the exit corridor"
+      },
+      {
+        "id": "doors-held",
+        "name": "Doors Held",
+        "note": "The early-doors push answered by holding the doors, not by skipping the ramps"
+      },
+      {
+        "id": "on-the-plan",
+        "name": "On the Plan",
+        "note": "No corrections from the event order to the log"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "flip-window",
+        "name": "Inside the Window",
+        "note": "Room flipped inside 80% of par"
+      },
+      {
+        "id": "steady-cart",
+        "name": "Steady Cart",
+        "note": "The riser cart held in band the whole push"
+      },
+      {
+        "id": "aisle-true",
+        "name": "Aisle True",
+        "note": "The aisle read against the plan inside the band first time"
+      }
+    ],
+    "currency": "COVERS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Banquet Extra",
+      "Houseman",
+      "Set-up Lead",
+      "Banquet Captain",
+      "Room Flip Certified"
+    ],
+    "system": "Banquet Flip"
+  },
+  "hazards": {
+    "cable-under-carpet": "You started to push the AV snake under the edge of the carpet runner to hide it. A cable under a rug is still a trip ridge, now invisible, and every chair leg and cart wheel that crosses it crushes the jacket until it shorts. It goes over the aisle in a cable ramp that people can see and roll across.",
+    "park-in-exit": "You began to park the empty table trucks in the exit corridor to get them out of the room. The exit corridor is the route three hundred guests take if the alarm sounds during dinner; a row of trucks there is the obstruction NFPA 101 and 29 CFR 1910.36 exist to prevent. Empty trucks go back to the storage room or a marked holding bay, never into the exit access.",
+    "ride-the-cart": "You were about to ride the table truck down the service ramp. A loaded truck on a slope has more momentum than a person can stop from on top of it, the tables shift forward, and the rider goes off the front under the load. On a ramp the cart is controlled from the uphill end by two people walking.",
+    "solo-deck-carry": "You went to pick up a stage deck on your own. A deck section is a wide, heavy, awkward panel whose weight sits far out from the body, the case the Revised NIOSH Lifting Equation shows costs the back most, and one person carrying it flat cannot see the floor, the cable or the step down. Decks move on the riser cart and come off it with a called team, every time."
+  },
+  "id": "hw-banquet-room-flip-and-staging",
+  "indoor": "hotel",
+  "interrupts": [
+    {
+      "after": "riser-cart-push",
+      "alert": "The banquet captain storms in: the guests are early, the doors open in ten minutes, skip the cable ramps, tape the cords and leave the trucks in the corridor.",
+      "cue": "Do not skip the ramps or park in the exit. Call the banquet manager on the house phone to hold the doors until the room is safe.",
+      "delay": 2,
+      "id": "doors-early",
+      "kind": "Pushed to skip steps",
+      "missNote": "The captain's clock won. The crew taped the snake down, stacked the empty trucks in the exit corridor and opened the doors on a room that no longer matched its plan — and a server went down over the taped cable with a full tray inside the first half hour.",
+      "seconds": 13,
+      "target": "house-phone",
+      "why": "Time pressure is how the hazards of a flip get made: taped cords, trucks in the exit corridor, a stage with no rail. The doors are held by the person who owns the event, the banquet manager, and that call takes a minute; skipping the ramps takes a guest to the emergency room. Refusing to skip a safety step is the crew doing its job, and the union contract backs a worker who says so.",
+      "wrongNote": "That does not hold the doors. The house phone to the banquet manager is how the clock gets moved — not by the crew skipping the ramps."
+    },
+    {
+      "after": "team-lift",
+      "alert": "While the team is mid-lift, a cake vendor wheels a tall delivery cart through the side exit and parks it squarely in front of the exit door.",
+      "cue": "Once the deck is set, get to the side exit and move the cart out of the exit access — then tell the vendor where to stage.",
+      "delay": 2,
+      "id": "vendor-in-exit",
+      "kind": "Exit blocked",
+      "missNote": "The cake cart stayed in front of the side exit through the flip and into the dinner. When a fire alarm tripped in the kitchen during the salad course, the guests at that end of the room found their nearest exit blocked and had to cross the whole ballroom to the doors.",
+      "seconds": 12,
+      "target": "side-exit",
+      "why": "An exit access blocked for 'just a minute' during a flip is blocked when the room is full, because nobody who parked there comes back. The side exit is part of the room's approved egress, and moving the cart — and telling the vendor where the holding bay is — takes less time than arguing about whose cart it is.",
+      "wrongNote": "The side exit is the problem now. Move the vendor's cart out of the exit access; the rest of the set can wait a minute."
+    }
+  ],
+  "lateNotes": {
+    "aisle-tape": "The aisle is read once the rounds are set on their marks, not across an empty floor.",
+    "flip-log": "The log is the last thing, once the room is walked with the captain against the plan.",
+    "strap-ratchet": "The strap goes over once the rounds are all on the truck and standing in the cradle — not over a half-loaded cart."
+  },
+  "name": "Banquet Room Flip & Staging",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hotel-workers"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "radio",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "tapeMeasure",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "tieDownStrap",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "aisle-tape",
+      "back-guardrail",
+      "bent-leg-brace",
+      "cable-ramp",
+      "cable-under-carpet",
+      "captain-sign-line",
+      "captain-signoff",
+      "chairs-at-crash-bar",
+      "cord-under-door",
+      "crew-radio",
+      "drape-over-exit-sign",
+      "event-order",
+      "flip-log",
+      "folded-round",
+      "house-phone",
+      "lift-call",
+      "missing-leg-pin",
+      "park-in-exit",
+      "ramp-socket",
+      "ride-the-cart",
+      "riser-cart-handle",
+      "side-exit",
+      "solo-deck-carry",
+      "stair-handrail",
+      "stair-unit",
+      "strap-ratchet",
+      "strike-chairs",
+      "strike-fold-tables",
+      "strike-tabletops",
+      "truck-cradle"
+    ],
+    "meshes": 189
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read tonight's event order: the flip window, the dinner set with a stage, and the floor plan with its aisles and exits as approved.",
+      "id": "event-order",
+      "kind": "select",
+      "prompt": "Read tonight's event order: the flip window, the dinner set with a stage, and the floor plan with its aisles and exits as approved.",
+      "target": "event-order",
+      "title": "Read the event order and the approved floor plan",
+      "why": "The event order is the contract between the sales office and the crew, and the floor plan attached to it is the version of the room the fire marshal approved for this many guests — the aisle widths, the exit access, where the stage may sit. Everything done in the next hour is measured against that plan, so it is read before a single chair moves, while there is still time to ask about a stage that looks like it covers an exit."
+    },
+    {
+      "cue": "Clear the tabletops first, then fold and stand the classroom tables, then stack the chairs onto their cart.",
+      "id": "strike-order",
+      "itemNames": {
+        "strike-chairs": "chairs stacked to the cart",
+        "strike-fold-tables": "classroom tables folded and stood",
+        "strike-tabletops": "tabletops cleared into bus tubs"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Tops, then tables, then chairs — folding a table with glass still on it is how the strike starts with broken glass on the carpet.",
+      "prompt": "Clear the tabletops first, then fold and stand the classroom tables, then stack the chairs onto their cart.",
+      "targets": [
+        "strike-tabletops",
+        "strike-fold-tables",
+        "strike-chairs"
+      ],
+      "title": "Strike the classroom set in order",
+      "why": "A strike done in the wrong order puts people carrying glassware through a forest of half-folded table legs. Tops first gets the breakables and the water pitchers off the floor while the tables are still stable; tables second opens the room; chairs last, because they are the one thing people use to stand on, sit on and block aisles with while waiting. The order is how a crew of four keeps the floor walkable for itself."
+    },
+    {
+      "cue": "Tip the folded round onto its edge and roll it like a wheel into the table truck's cradle — do not carry it flat.",
+      "drag": {
+        "missNote": "Not seated in the cradle — roll it on its edge right into the truck's slot so it stands against the others, not leaning off the side.",
+        "radius": 0.55,
+        "to": "truck-cradle"
+      },
+      "id": "table-truck",
+      "kind": "drag",
+      "prompt": "Tip the folded round onto its edge and roll it like a wheel into the table truck's cradle — do not carry it flat.",
+      "target": "folded-round",
+      "title": "Roll the folded round onto the table truck",
+      "why": "A folded banquet round is heavy and wider than a person's reach, and carried flat it loads the back at full arm's length. On its edge it rolls, and the job becomes steering rather than lifting; the truck's cradle holds each round upright against the last. The lift that matters is avoided rather than done well, which is the first answer the Revised NIOSH Lifting Equation gives to any heavy, awkward load."
+    },
+    {
+      "cue": "Two of the rounds going onto the truck should not be set tonight. Find them.",
+      "id": "table-inspect",
+      "itemNames": {
+        "bent-leg-brace": "a round with a bent leg brace",
+        "missing-leg-pin": "a leg-lock pin missing on another"
+      },
+      "itemNotes": {
+        "bent-leg-brace": "The brace on this round's leg is bent — it will fold under a guest's elbows at dinner. It is tagged and set aside, not set.",
+        "missing-leg-pin": "This round's leg-lock pin is gone; the leg can swing shut under load. Tag it and pull a spare from storage."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two of the rounds going onto the truck should not be set tonight. Find them.",
+      "targets": [
+        "bent-leg-brace",
+        "missing-leg-pin"
+      ],
+      "title": "Look over the rounds as they go on the truck",
+      "why": "The flip is the only time each table is handled by someone looking at its underside. A bent brace or a missing pin is invisible once a cloth is on it, and it shows up at dinner as a table folding into a guest's lap with hot plates on it. Tagging the bad ones now costs one spare from storage; missing them costs an incident report and a burn."
+    },
+    {
+      "cue": "Pass the strap over the rounds and work the ratchet until the load is snug against the cradle.",
+      "id": "strap-truck",
+      "kind": "turn",
+      "prompt": "Pass the strap over the rounds and work the ratchet until the load is snug against the cradle.",
+      "target": "strap-ratchet",
+      "title": "Strap the loaded table truck",
+      "turn": {
+        "axis": "x",
+        "label": "RATCHET",
+        "turns": 0.75
+      },
+      "why": "Rounds on a truck lean on each other, and the first bump at a door threshold or the service ramp can walk the outer one off the cart onto somebody's foot. A snug strap makes the load one piece for the trip. It is ratcheted until it holds, not until it crushes the table edges, and it stays on until the truck is parked where the rounds will be set."
+    },
+    {
+      "cue": "With your partner, push the stage-deck cart through the service door and across the ballroom at a steady walk.",
+      "holdBreakNote": "The cart pace went out of band. A stall at the carpet seam or a rush at the door frame is where decks shift and hands get pinched — bring it back to a steady walk.",
+      "id": "riser-cart-push",
+      "kind": "track",
+      "prompt": "With your partner, push the stage-deck cart through the service door and across the ballroom at a steady walk.",
+      "seconds": 7,
+      "target": "riser-cart-handle",
+      "title": "Push the riser cart in, two on the handle",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "CART",
+        "rise": 0.55,
+        "start": 0.12
+      },
+      "why": "A cart stacked with stage decks is tall and heavy, and it is the most likely thing in the flip to tip at a threshold or pin someone against a door frame. Two people on the handle, pushing at a walking pace with one watching the front corner, is how it goes through a doorway without a lurch. A cart rushed across carpet stops dead at the seam and throws its decks forward."
+    },
+    {
+      "cue": "One person calls it: hands on, lift on three, walk it to the stage legs together, set on the call. Hold until the deck is down.",
+      "holdBreakNote": "You let go before the set-down call. Somebody else just took your corner of the deck by surprise — hold until the call, every time.",
+      "id": "team-lift",
+      "kind": "hold",
+      "prompt": "One person calls it: hands on, lift on three, walk it to the stage legs together, set on the call. Hold until the deck is down.",
+      "seconds": 6,
+      "target": "lift-call",
+      "title": "Lift the deck off the cart as a called team of four",
+      "why": "A stage deck is lifted by four because four people can each keep it close and upright, but only if they move together; a lift where one person goes early puts the whole weight through the last one to lift. The caller counts the lift, the walk and the set down, and nobody lets go until the call. The team is the engineering control here, and the call is what makes it one."
+    },
+    {
+      "cue": "Set the stair unit at the stage front, fit the guardrail along the open back edge, then the handrail on the stair.",
+      "id": "stage-edge",
+      "itemNames": {
+        "back-guardrail": "guardrail on the open back edge",
+        "stair-handrail": "handrail on the stair",
+        "stair-unit": "stair unit set at the stage front"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Stair first, then the back rail, then the handrail — the way up exists before anyone is working on the deck, and the edge is guarded before the stair is finished.",
+      "prompt": "Set the stair unit at the stage front, fit the guardrail along the open back edge, then the handrail on the stair.",
+      "targets": [
+        "stair-unit",
+        "back-guardrail",
+        "stair-handrail"
+      ],
+      "title": "Guard the stage: stair, back-edge rail, handrail",
+      "why": "The stage's open back edge is where a speaker steps back for a photo and where the crew works in the dark before doors. A guardrail there is what the venue's rules and the walking-working surfaces standard expect wherever the drop calls for one, and the stair with a handrail is how everyone gets up without stepping onto a chair. They go in before the linens, because a skirted stage hides the edge that needs the rail."
+    },
+    {
+      "cue": "Carry the cable ramp to where the AV snake crosses the aisle and seat it over the cable.",
+      "drag": {
+        "missNote": "Not over the cable crossing — seat the ramp right where the snake crosses the service aisle, cable in its channel.",
+        "radius": 0.55,
+        "to": "ramp-socket"
+      },
+      "id": "cable-ramp",
+      "kind": "drag",
+      "prompt": "Carry the cable ramp to where the AV snake crosses the aisle and seat it over the cable.",
+      "target": "cable-ramp",
+      "title": "Ramp the AV snake across the service aisle",
+      "why": "The AV snake from the stage to the mixing desk crosses the aisle servers will use all night with full trays and no view of their feet. A cable ramp covers it with a ridge that is bright, low and angled so a cart wheel and a shoe both roll over it, and the lid keeps the cable from being crushed. The walking-working surfaces standard wants the floor free of trip hazards; this is how a cable crossing meets that."
+    },
+    {
+      "cue": "Run the tape across the main aisle between the table rows and commit when the width reads true to the approved plan's mark.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.64
+        ],
+        "label": "AISLE vs PLAN",
+        "missNote": "Not true to the plan — slide the rows back onto their floor marks and run the tape again before the linens go on.",
+        "speed": 0.7
+      },
+      "id": "aisle-width",
+      "kind": "gauge",
+      "prompt": "Run the tape across the main aisle between the table rows and commit when the width reads true to the approved plan's mark.",
+      "target": "aisle-tape",
+      "title": "Read the main aisle against the floor plan",
+      "why": "A room set by eye loses a hand's width of aisle at every row as tables creep toward the stage, and by the back of the room the aisle the fire marshal approved is a squeeze. NFPA 101 sizes assembly aisles for the occupant load, and the plan carries those widths; the tape is how the crew knows the room matches it before three hundred people and their chairs make it narrower still."
+    },
+    {
+      "cue": "Three things are wrong with the exits and the way to them. Find them.",
+      "id": "egress-walk",
+      "itemNames": {
+        "chairs-at-crash-bar": "a chair stack against the exit's crash bar",
+        "cord-under-door": "an extension cord run under the exit door",
+        "drape-over-exit-sign": "pipe-and-drape hiding an exit sign"
+      },
+      "itemNotes": {
+        "chairs-at-crash-bar": "Spare chairs are stacked against the exit door's crash bar. An exit door has to open with one push from inside, every minute the room is occupied.",
+        "cord-under-door": "An extension cord runs under the exit door to the corridor. It stops the door closing, props it for smoke, and is a trip at the threshold.",
+        "drape-over-exit-sign": "The decorator's drape has been hung across the exit sign. In smoke, a guest looks for that sign first; it has to be visible from the room."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things are wrong with the exits and the way to them. Find them.",
+      "targets": [
+        "drape-over-exit-sign",
+        "chairs-at-crash-bar",
+        "cord-under-door"
+      ],
+      "title": "Walk the exits before the linens go on",
+      "why": "Exits fail quietly during a flip: a decorator's drape, a spare chair stack, a cord for a photo booth. Each one is somebody else solving their problem, and together they turn an exit into a wall. The walk is done before the linens and centrepieces, because afterwards the room looks finished and nobody looks at the doors again until the alarm sounds."
+    },
+    {
+      "cue": "Walk the finished set with the banquet captain, the floor plan in hand, and sign the flip over only once it matches.",
+      "id": "captain-walk",
+      "itemNames": {
+        "captain-sign-line": "the flip signed over on the plan",
+        "captain-signoff": "the set walked against the floor plan"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Walk it first, then sign — a signature on a room nobody compared to the plan is a signature on a guess.",
+      "prompt": "Walk the finished set with the banquet captain, the floor plan in hand, and sign the flip over only once it matches.",
+      "targets": [
+        "captain-signoff",
+        "captain-sign-line"
+      ],
+      "title": "Walk the room with the captain, then sign it over",
+      "why": "The captain signs the room over to the event, and the crew signs it over to the captain; a joint walk against the plan is where the tagged tables, the held doors and the cleared exit get seen by the person who will be running the room at dinner. A sign-off on a room the captain never walked is a signature on a guess."
+    },
+    {
+      "cue": "Write the flip time, who was on each team lift, the two tables tagged out, and the vendor's cart moved from the exit.",
+      "id": "flip-log",
+      "kind": "select",
+      "prompt": "Write the flip time, who was on each team lift, the two tables tagged out, and the vendor's cart moved from the exit.",
+      "target": "flip-log",
+      "title": "Log the flip: time, lifts, tags and the exit",
+      "why": "The flip log is how the banquet office learns what a flip really takes: a window too short for the crew it was given shows up as the early-doors push, tables tagged out become a repair order, and a vendor who parked in an exit becomes a conversation with the vendor. It is also the record that the lifts were done as teams, which is what the staffing argument next month rests on."
+    },
+    {
+      "cue": "Radio the banquet manager that the room is set to the plan and the doors can open, and check in with the crew on how the flip went.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Radio the banquet manager that the room is set to the plan and the doors can open, and check in with the crew on how the flip went.",
+      "target": "crew-radio",
+      "title": "Check in with the crew and the banquet manager",
+      "why": "The doors open on the manager's word, and they need the room's status from the crew, not from the clock. A flip under pressure is also hard on the people who did it — a near miss with a deck, a captain leaning on them to skip steps — and the member assistance line and the steward are there for that, as much as the union contract is there for the staffing."
+    }
+  ],
+  "supportLine": "your UNITE HERE local's member assistance line, or the employee assistance number on the banquet office board",
+  "tagline": "A ballroom flipped from classroom to dinner with a stage, against the clock: the strike in order, rounds rolled onto the table truck and strapped, the riser cart pushed in, stage decks lifted by a called team of four while a vendor parks in the exit, the open back edge guarded, the AV snake ramped, aisles read against the floor plan, the exits walked and the flip logged — without skipping what the captain wants skipped",
+  "title": "SmartCiti.X~ Banquet Room Flip & Staging VR",
+  "trade": "Banquet houseman — UNITE HERE banquet crew, room flip and staging",
+  "underwater": null,
+  "weather": null
+}

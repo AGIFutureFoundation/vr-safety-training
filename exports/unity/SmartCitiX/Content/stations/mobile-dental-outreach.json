@@ -1,0 +1,415 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "outreach-clean-day",
+    "name": "Clean Day",
+    "note": "A full outreach day run with nothing reprocessed in the field and every child's paperwork matched before the chair"
+  },
+  "category": "Dental & Oral Health",
+  "certification": "The Dental Hygiene Board of California's registered dental hygienist in alternative practice (RDHAP) rules for practice in community and portable settings; the CDC's Guidelines for Infection Control in Dental Health-Care Settings and its guidance for portable and mobile dental units; OSHA 29 CFR 1910.1030 bloodborne pathogens; HIPAA for records handled in the field; SEIU and UFCW dental and clinic staff, and AFSCME public-health hygienists, as the workforce's unions; the ADHA as the profession's body",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADHA",
+        "citedAs": "ADHA",
+        "id": "adha-standards",
+        "title": "ADHA Standards for Clinical Dental Hygiene Practice"
+      },
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "HHS",
+        "citedAs": "HIPAA",
+        "id": "hipaa-privacy-rule",
+        "title": "HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "union",
+        "citedAs": "UFCW",
+        "id": "ufcw-training",
+        "title": "UFCW member training for retail food, clinic and dental support work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Public health",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "nothing-reprocessed",
+        "name": "Nothing Reprocessed",
+        "note": "Never touched the field-reprocessing trap"
+      },
+      {
+        "id": "water-true",
+        "name": "Water True",
+        "note": "Held the water test reading near band centre"
+      },
+      {
+        "id": "consent-clean",
+        "name": "Consent Clean",
+        "note": "Matched the roster, form and card with no correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "pack-down-fast",
+        "name": "Pack-Down Fast",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "no-shortcuts",
+        "name": "No Shortcuts",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "outreach-streak",
+        "name": "Outreach Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "SMILE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Van Assistant",
+      "Outreach Hygienist",
+      "Site Lead",
+      "Programme Coordinator",
+      "RDHAP Certified"
+    ],
+    "system": "Outreach Command"
+  },
+  "hazards": {
+    "co-exhaust-trap": "That is the generator running with its exhaust aimed straight at the van's open side door. Carbon monoxide has no smell and no colour, and a generator sited that close to an opening feeds it directly into the space people are working in — the CDC's mobile-unit guidance treats generator placement as a site-setup item for exactly this reason, not an afterthought once it is running.",
+    "field-reprocess-pot": "That hot plate is set up to boil the used instruments right here on the table. A mobile clinic is not a sterilisation centre — the CDC's guidance for portable and mobile dental settings is explicit that nothing gets reprocessed in the field. Every instrument that leaves this van dirty goes back to the base clinic's autoclave in the transport case, and every one that arrives clean already came from it, sealed.",
+    "loose-sharps-bin": "That sharps container is standing free on the grass, not clamped to the cart. A gust or a curious child can tip it in a way a mounted container cannot, and a used needle or a scaler blade on a schoolyard is not a hazard that waits for the end of the day to matter.",
+    "stray-biohaz-bag": "That is a filled biohazard bag sitting on the ground with no label and no manifest line against it. Every bag that leaves this site has to be accounted for on the waste manifest going back to the clinic — an unlabelled bag is untracked medical waste the moment it is out of your hands."
+  },
+  "id": "mobile-dental-outreach",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "sealant-cure",
+      "alert": "The wind has swung round. The generator's exhaust is drifting straight under the canopy where you are curing this sealant.",
+      "cue": "Your hands are full with the light. The exhaust is not staying downwind any more.",
+      "delay": 3,
+      "id": "wind-shift-fumes",
+      "kind": "Generator exhaust",
+      "missNote": "The exhaust kept drifting under the canopy for the rest of that child's visit. Carbon monoxide is odourless — nobody in that canopy would have known anything was wrong until somebody started feeling it, and a sealant appointment is not where you want to discover a generator was ever sited wrong.",
+      "seconds": 13,
+      "target": "generator",
+      "why": "Wind on an open schoolyard changes direction all morning, and a generator sited correctly at eight o'clock can be feeding exhaust under the canopy by nine. The CDC's mobile-unit guidance treats generator placement as something checked through the day, not set once and forgotten, because the wind does not read the site plan.",
+      "wrongNote": "It is the generator. Reposition it before anything else — the sealant can wait four seconds, the air under that canopy cannot."
+    },
+    {
+      "after": "surface-disinfect",
+      "alert": "The next child from the class line has no signed consent form with them, and their name is not checked off on your roster copy either.",
+      "cue": "A child is standing at the chair with no paperwork behind them.",
+      "delay": 3,
+      "id": "child-without-form",
+      "kind": "Missing consent",
+      "missNote": "That child was screened with no signed consent on file anywhere. If a parent never actually agreed to it, this programme just treated a minor without consent on a public school site — exactly the failure the roster-and-consent match exists to catch before it happens, not after.",
+      "seconds": 14,
+      "target": "office-radio",
+      "why": "A five-year-old cannot consent for their own dental treatment, and a hygienist working alone on a school lot has no way to independently verify a parent agreed to anything — the whole reason the roster and the signed form exist is to put that decision on record before the chair, not to trust a child's own say-so about what their parent wants.",
+      "wrongNote": "Call the school office over the radio and hold that child out of the chair until the form turns up. Nothing about this child's paperwork gets solved from here."
+    }
+  ],
+  "lateNotes": {
+    "curing-light": "There is no sealant placed to cure yet.",
+    "referral-pad": "Finish the screening before deciding whether this child needs a referral.",
+    "tablet": "There is no child in the chair yet — nothing to record.",
+    "van-lockbox": "The waste and the gear are still out on the table — that goes in before the box is locked."
+  },
+  "name": "Mobile Dental Outreach",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "dental-hygiene-unspoken-smiles"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.7,
+    "hits": [
+      "biohazard-bag",
+      "class-roster",
+      "co-exhaust-trap",
+      "consent-form",
+      "curing-light",
+      "disinfectant-wipe",
+      "field-reprocess-pot",
+      "generator",
+      "generator-safe-spot",
+      "headrest-bare",
+      "instrument-transport-case",
+      "light-handle-bare",
+      "loose-sharps-bin",
+      "office-radio",
+      "referral-pad",
+      "sharps-mount",
+      "site-plan",
+      "sterile-pouch-box",
+      "stray-biohaz-bag",
+      "student-id-card",
+      "tablet",
+      "tray-bare",
+      "van-door-latch",
+      "van-lockbox",
+      "waste-manifest",
+      "water-test-strip",
+      "waterline-doser"
+    ],
+    "meshes": 183
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the site plan: power, water access, and where the van can actually park.",
+      "id": "site-survey",
+      "kind": "select",
+      "prompt": "Read the site plan: power, water access, and where the van can actually park.",
+      "target": "site-plan",
+      "title": "Confirm the site plan",
+      "why": "A school lot was never designed to host a dental clinic, and the RDHAP rules for practising in a community setting start with the site itself — where the van sits, what surface it sits on, and where the nearest water and power actually are, confirmed before anything comes off the van rather than discovered halfway through the morning."
+    },
+    {
+      "cue": "Move the generator downwind of the canopy and clear of the van's side door.",
+      "drag": {
+        "missNote": "Not clear of the doors yet — walk it further from the van and the canopy before it goes anywhere near a fuel line.",
+        "radius": 0.55,
+        "to": "generator-safe-spot"
+      },
+      "id": "generator-placement",
+      "kind": "drag",
+      "prompt": "Move the generator downwind of the canopy and clear of the van's side door.",
+      "target": "generator",
+      "title": "Place the generator away from the doors",
+      "why": "The CDC's guidance for portable and mobile dental units treats generator siting as part of setting up the site, not something you fix once it is already running and somebody has already been breathing the exhaust. Downwind and away from every opening is the whole rule, and it costs nothing to get right before the first extension cord goes out."
+    },
+    {
+      "cue": "Run the shock treatment through the waterline and commit once it holds the correct dose.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "WATERLINE TREATMENT — DOSE",
+        "missNote": "Off the dose the protocol calls for. Flush and redose before it goes anywhere near a handpiece.",
+        "speed": 0.68
+      },
+      "id": "waterline-treatment",
+      "kind": "gauge",
+      "prompt": "Run the shock treatment through the waterline and commit once it holds the correct dose.",
+      "target": "waterline-doser",
+      "title": "Shock-treat the portable unit's waterline",
+      "why": "A self-contained water system that sat in a van since the last outreach day is exactly the still, warm, low-flow line dental unit waterline biofilm needs, and it does not clear itself. The line gets shock-treated before the first patient of the day, at the concentration the manufacturer's protocol sets — under-dose it and the biofilm survives; over-dose it and the next patient is rinsing with residual disinfectant."
+    },
+    {
+      "cue": "Dip the strip and confirm the line reads within the potable-quality band.",
+      "id": "water-test",
+      "kind": "select",
+      "prompt": "Dip the strip and confirm the line reads within the potable-quality band.",
+      "target": "water-test-strip",
+      "title": "Test the treated water",
+      "why": "Treating the line is a step in a protocol; testing it is the proof the protocol worked on this van, on this morning. Water used for nonsurgical dental treatment is expected to meet a potable-quality standard, and the only honest way to know this line meets it today is to test it today, not to trust that yesterday's treatment is still holding."
+    },
+    {
+      "cue": "Roster, then the signed consent form, then the child's own ID card — all three have to agree.",
+      "id": "consent-match",
+      "itemNames": {
+        "class-roster": "class roster",
+        "consent-form": "signed consent form",
+        "student-id-card": "child's ID card"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Check the roster first, then the signed form, then the child's own card — that is the only order that catches a mismatch before the chair, not after it.",
+      "prompt": "Roster, then the signed consent form, then the child's own ID card — all three have to agree.",
+      "targets": [
+        "class-roster",
+        "consent-form",
+        "student-id-card"
+      ],
+      "title": "Match the child to the class roster and the signed consent",
+      "why": "A school outreach day runs on paperwork a hygienist did not write and a child cannot be expected to vouch for themselves. The roster says who is supposed to be in this class, the signed form says a parent actually agreed to treatment, and the card on the child in the chair is what ties the two together — skip any one of them and a child could be seen, or missed, on somebody else's say-so."
+    },
+    {
+      "cue": "Check the pouches are sealed, dated and came from the base clinic's own autoclave load.",
+      "id": "sterile-pouch-check",
+      "kind": "select",
+      "prompt": "Check the pouches are sealed, dated and came from the base clinic's own autoclave load.",
+      "target": "sterile-pouch-box",
+      "title": "Confirm the sterile pouch stock",
+      "why": "Every pouch on this van was sterilised at the base clinic before the van left, never on site — a mobile unit has nowhere to validate a sterilisation cycle the way a fixed sterilisation centre can. A sealed, dated pouch is the only proof that survives the drive; a torn one, however clean it looks, is a pouch you cannot vouch for."
+    },
+    {
+      "cue": "Open the rigid, leak-proof case that used instruments will ride back to the clinic in.",
+      "id": "instrument-transport",
+      "kind": "select",
+      "prompt": "Open the rigid, leak-proof case that used instruments will ride back to the clinic in.",
+      "target": "instrument-transport-case",
+      "title": "Set up the used-instrument transport case",
+      "why": "The CDC's guidance for portable and mobile settings is specific that contaminated instruments are transported to a central facility for reprocessing, never reprocessed on site. That only works if the case for them is open and ready before the first child sits down — not improvised out of whatever is on the table once the tray is already full of used instruments."
+    },
+    {
+      "cue": "Three surfaces on this chair are not barriered yet. Find them before the first child sits down.",
+      "forceClass": "light",
+      "id": "barrier-placement",
+      "itemNames": {
+        "headrest-bare": "the bare headrest",
+        "light-handle-bare": "the bare light handle",
+        "tray-bare": "the bare instrument tray"
+      },
+      "itemNotes": {
+        "headrest-bare": "The headrest sleeve is missing. Skin contact surfaces are barriered precisely so the surface itself does not need a full disinfectant cycle between every single child.",
+        "light-handle-bare": "The light handle has no barrier on it. Bare handles are what turn a between-child wipe-down into a guess about what got missed.",
+        "tray-bare": "The tray liner is missing. An unbarriered tray means every surface under the instruments has to be treated as contaminated the moment the tray is used."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three surfaces on this chair are not barriered yet. Find them before the first child sits down.",
+      "robotNote": "The headrest barrier goes exactly where the child's head will be.",
+      "targets": [
+        "light-handle-bare",
+        "headrest-bare",
+        "tray-bare"
+      ],
+      "title": "Find what still needs a surface barrier",
+      "why": "A single portable chair sees every child in the class in one morning, which is exactly the setting where surface barriers earn their keep — cover what hands and faces touch once, and swap the barrier between children rather than fully disinfecting bare equipment on a schedule the day cannot afford."
+    },
+    {
+      "cue": "Wipe the chair and tray, then hold the surface wet for the full contact time before it dries.",
+      "holdBreakNote": "Wiped dry before the contact time was up. That surface is disinfected on the label's terms or it is not disinfected at all — hold it wet the full count.",
+      "id": "surface-disinfect",
+      "kind": "hold",
+      "prompt": "Wipe the chair and tray, then hold the surface wet for the full contact time before it dries.",
+      "seconds": 8,
+      "target": "disinfectant-wipe",
+      "title": "Hold the surface disinfectant for its wet-contact time",
+      "why": "A registered hospital-grade surface disinfectant of the tier the CDC's dental infection-control guidelines call for only kills what its label says it kills if the surface stays visibly wet for the full contact time printed on that label — wiping it on and immediately wiping it off again is application, not disinfection, and between every child on a school day is exactly when that shortcut is tempting."
+    },
+    {
+      "cue": "Clamp the sharps container to the cart so it cannot tip on uneven ground.",
+      "id": "sharps-secure",
+      "kind": "select",
+      "prompt": "Clamp the sharps container to the cart so it cannot tip on uneven ground.",
+      "target": "sharps-mount",
+      "title": "Mount the sharps container to the cart",
+      "why": "A sharps container standing free on a schoolyard is one gust or one bumped table leg away from going over, and a used needle or scaler on grass a five-year-old is standing on is not a risk this programme can absorb. Clamped to the cart, it stays upright through a windy morning the same way a fixed clinic's wall-mounted unit does."
+    },
+    {
+      "cue": "Enter this child's findings on the encrypted tablet before they leave the chair.",
+      "id": "screening-record",
+      "kind": "select",
+      "prompt": "Enter this child's findings on the encrypted tablet before they leave the chair.",
+      "target": "tablet",
+      "title": "Record the screening on the encrypted tablet",
+      "why": "A paper note on a clipboard in a schoolyard is a HIPAA-covered record with no lock on it. The encrypted tablet is what lets this programme carry a child's oral health information off a fixed site at all, and it is entered while the child is still in the chair, not reconstructed from memory back at the van at the end of the day."
+    },
+    {
+      "cue": "Hold the curing light steady on the sealant for the full cure time.",
+      "forceClass": "light",
+      "holdBreakNote": "Pulled the light away before the cure finished. An undercured sealant fails within the week — hold it the full time.",
+      "id": "sealant-cure",
+      "kind": "hold",
+      "noRobot": true,
+      "prompt": "Hold the curing light steady on the sealant for the full cure time.",
+      "robotNote": "The curing light is in a child's mouth, in a van, off-site.",
+      "seconds": 4,
+      "target": "curing-light",
+      "title": "Cure the sealant with the LED light",
+      "why": "A sealant that has not fully polymerised is soft enough to shear off the first time this molar meets a cracker, which defeats the entire point of a sealant day — the light has to sit still on the tooth for its full rated time, not waved across it while the next child is already climbing into the chair."
+    },
+    {
+      "cue": "Complete a referral letter home for any urgent finding on this child.",
+      "id": "referral-letter",
+      "kind": "select",
+      "prompt": "Complete a referral letter home for any urgent finding on this child.",
+      "target": "referral-pad",
+      "title": "Write the referral letter",
+      "why": "A school screening finds things a screening chair cannot treat — visible decay, an abscess, a fractured tooth — and an RDHAP's scope in a community setting is to identify and refer, not to restore on a folding table. The letter is what turns a finding into something a parent can actually act on with a dentist."
+    },
+    {
+      "cue": "Seal the bag, log it on the manifest, then it goes in the van's lockbox for the ride back.",
+      "id": "pack-waste",
+      "itemNames": {
+        "biohazard-bag": "sealed biohazard bag",
+        "van-lockbox": "van's lockbox",
+        "waste-manifest": "waste manifest"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Seal it, log it on the manifest, then lock it away — a bag in the lockbox with no manifest line is exactly the untracked waste the manifest exists to prevent.",
+      "prompt": "Seal the bag, log it on the manifest, then it goes in the van's lockbox for the ride back.",
+      "targets": [
+        "biohazard-bag",
+        "waste-manifest",
+        "van-lockbox"
+      ],
+      "title": "Pack down and manifest the biohazard waste",
+      "why": "The bag gets sealed and logged on the manifest before it goes anywhere near the van, because a bag that rode home unlogged is waste nobody downstream can account for. The clinic that receives it at the other end reads the manifest, not your memory of what happened at the school."
+    },
+    {
+      "cue": "Throw the latch on the side door before the van moves.",
+      "id": "door-latch",
+      "kind": "turn",
+      "prompt": "Throw the latch on the side door before the van moves.",
+      "target": "van-door-latch",
+      "title": "Lock the van's side door for transport",
+      "turn": {
+        "axis": "z",
+        "label": "SIDE DOOR",
+        "turns": 0.2
+      },
+      "why": "Everything on this van — the sharps, the sterile stock, the transport case of used instruments, every child's record on the tablet — is only secured for the drive back once that door is actually latched, not just pushed to."
+    }
+  ],
+  "supportLine": "the ADHA's member resources, or your employer's employee assistance program, both of which reach you in the van as well as in the clinic",
+  "tagline": "A school screening and sealant day run off the van: site, water and sterile stock proven before the first child sits down",
+  "title": "SmartCiti.X~ Mobile Dental Outreach VR",
+  "trade": "Registered dental hygienist in alternative practice (RDHAP)",
+  "underwater": null,
+  "weather": "wind"
+}

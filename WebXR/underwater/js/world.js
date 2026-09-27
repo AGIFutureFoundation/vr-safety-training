@@ -5,12 +5,11 @@
 // seabed.js, dive-sim.js, dive-career.js, dive-engine.js, dive-map.js and
 // activities.js never import three.js, so they all run headless.
 //
-// buildUnderwater()/deepLighting() are imported from the seabed builder — for
-// now ./seabed-stub-scene.js in DEEP1's exact contract shape; once
-// WebXR/shared/underwater.js is on the branch the ONE import line below
-// switches to "../../shared/underwater.js" and the stub stays in the tree,
-// unbundled (see seabed.js for the data side of the same switch).
-import { buildUnderwater, deepLighting } from "./seabed-stub-scene.js";
+// buildUnderwater()/deepLighting() are imported straight from DEEP1's
+// ../../shared/underwater.js (the ONE import line below); ./seabed-stub-scene.js
+// is the pre-integration builder stub in the same shape, kept in the tree but
+// no longer bundled (see seabed.js for the data side of the same switch).
+import { buildUnderwater, deepLighting } from "../../shared/underwater.js";
 import { DV_SITES, dvFloorY } from "./seabed.js";
 import { dvAscentLines, dvLightBand, dvDaylightFactor } from "./dive-sim.js";
 
@@ -140,12 +139,17 @@ export function dvBuildWorld(root, THREE, opts = {}) {
     if (hemi) { hemi.color?.setHex?.(L.hemi[0]); hemi.groundColor?.setHex?.(L.hemi[1]); hemi.intensity = L.hemiI * (0.35 + f); }
     if (key) { key.color?.setHex?.(L.key[0]); key.intensity = L.key[1] * (0.2 + f); }
     if (lamp) lamp.intensity = 0.5 + (1 - f) * 1.2;
+    // deepLighting()'s fog is a colour with its density beside it
+    // (`fogDensity`); the pre-integration stub carried `{ color, density }`.
+    const fogColor = typeof L.fog === "object" ? L.fog.color : L.fog;
+    const fogDensity = L.fogDensity ?? L.fog?.density ?? 0.02;
     if (scene) {
-      if (!scene.fog && THREE.FogExp2) scene.fog = new THREE.FogExp2(L.fog.color, L.fog.density);
-      if (scene.fog) { scene.fog.color?.setHex?.(L.fog.color); if ("density" in scene.fog) scene.fog.density = L.fog.density; }
-      scene.background?.setHex?.(L.fog.color);
+      if (!scene.fog && THREE.FogExp2) scene.fog = new THREE.FogExp2(fogColor, fogDensity);
+      if (scene.fog) { scene.fog.color?.setHex?.(fogColor); if ("density" in scene.fog) scene.fog.density = fogDensity; }
+      scene.background?.setHex?.(fogColor);
     }
-    return { band, daylight: f, caustic: L.caustic * f, particulate: L.particulate };
+    const caustic = typeof L.caustic === "object" ? L.caustic.intensity : L.caustic;
+    return { band, daylight: f, caustic: (caustic ?? 0) * f, particulate: L.particulate };
   }
 
   /** Chase or first-person camera behind/at (x, y, z) facing `heading`. */

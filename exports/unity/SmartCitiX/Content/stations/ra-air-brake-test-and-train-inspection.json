@@ -1,0 +1,386 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "test-sheet-clean",
+    "name": "Clean Test Sheet",
+    "note": "Every car set, confirmed, inspected and released with the blue signal up the whole time"
+  },
+  "category": "Mobility & Transit",
+  "certification": "Carman qualification under FRA 49 CFR Part 232 brake system safety standards, working a cut protected by its own blue signal under FRA 49 CFR Part 214 before anyone goes between the cars, with the engineer's brake application called and confirmed over the radio the way a BLET-qualified engineer and a SMART-TD conductor both expect a car inspector to work a terminal test",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "BLET",
+        "id": "blet-training",
+        "title": "BLET certification and training for locomotive engineers and trainmen"
+      },
+      {
+        "body": "union",
+        "citedAs": "SMART-TD",
+        "id": "smarttd-training",
+        "title": "SMART Transportation Division training for conductors, trainmen and yardmasters"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Track",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "never-between",
+        "name": "Never Between",
+        "note": "Never once between the cars without the blue signal up"
+      },
+      {
+        "id": "gauge-true",
+        "name": "Gauge True",
+        "note": "Every gauge reading near band centre"
+      },
+      {
+        "id": "test-clean",
+        "name": "Clean Test",
+        "note": "Set and release steps worked with no correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "yard-time",
+        "name": "Yard Time",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "first-test",
+        "name": "First Test",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "ten-clear",
+        "name": "Ten Clear",
+        "note": "Ten correct actions in a row"
+      }
+    ],
+    "currency": "BRAKE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Car Inspector Trainee",
+      "Qualified Carman",
+      "Lead Inspector",
+      "Car Foreman",
+      "Brake Test Certified"
+    ],
+    "system": "Car Inspection Authority"
+  },
+  "hazards": {
+    "between-cars-unprotected": "You went between the cars to check a hose before confirming the blue signal was up. A blue signal is the one thing that keeps this cut from being coupled to or moved while you are inside it, and going in ahead of it is trusting that nobody else is about to move equipment you have not actually protected yet.",
+    "dragging-rigging": "You reached up under the car at a piece of brake rigging that is hanging loose. A rod or a lever that has dropped off its hanger is still connected to a system that can move the instant air is applied, and a hand near it when that happens is exactly the injury this inspection exists to prevent somewhere else on the railroad.",
+    "fouling-adjacent-lead": "You stepped onto the adjacent track to get a look at the far side of a car. Your blue signal protects this cut, not the track next to it — that lead is still open to a movement running under its own authority.",
+    "hot-flat-wheel": "You touched the wheel with the flat spot. A wheel that has been sliding against the rail carries that heat in the tread long after the car has stopped, and a flat spot itself is a wheel that is going to hammer the rail everywhere it rolls until it is set out."
+  },
+  "id": "ra-air-brake-test-and-train-inspection",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hose-check",
+      "alert": "You hear the train line charge and the couplers take up slack. Somebody has put air to this cut while your hand is still on the hose between two cars.",
+      "cue": "That sound means air is moving, and your hand is exactly where a coupling shifts.",
+      "delay": 4,
+      "id": "unexpected-air",
+      "kind": "Air moving in the train line with a hand between the cars",
+      "missNote": "You kept working with air already moving in the line. A train line charging shifts slack through every coupler in the cut at once, and a hand between two cars when that happens does not get a second chance to move first.",
+      "seconds": 12,
+      "target": "blue-signal",
+      "why": "A blue signal is the one thing that is supposed to make this exact moment impossible, and the sound of air moving in a line you did not charge means somewhere that protection has failed — the first thing to check, with your hand still clear, is whether your own signal is still displayed and whoever put air to this cut simply did not see it, or whether it came down.",
+      "wrongNote": "That does not answer what just happened between the cars. Check your own blue signal first."
+    },
+    {
+      "after": "rigging-walk",
+      "alert": "A switch crew you have not talked to is backing a cut of cars toward this string to couple on.",
+      "cue": "Somebody is about to couple onto cars you are still inspecting.",
+      "delay": 4,
+      "id": "coupling-attempt",
+      "kind": "Another crew moves to couple onto the cut",
+      "missNote": "You kept inspecting while the other cut kept coming. A coupling impact runs down the whole string it lands on, through every car and every hand still on one of them, and nothing about the approaching crew's job told them anyone was there.",
+      "seconds": 11,
+      "target": "radio-handset",
+      "why": "This cut is out of service for the length of the test, but a crew working the yard has no way to know that unless the blue signal has actually been logged with whoever is dispatching moves in this yard — the radio is the fastest way to reach that crew directly and stop the move before it reaches the string you are standing beside.",
+      "wrongNote": "That will not reach the crew that is moving. The radio is what stops a move commanded from somewhere else."
+    }
+  ],
+  "lateNotes": {
+    "bad-order-tag": "The tag goes on once the defect is actually found and confirmed, not before.",
+    "left-tool": "Nothing gets logged clear until the walk is actually done."
+  },
+  "name": "Air Brake Test & Train Inspection",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "railroad-crafts"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "angle-cock",
+      "angle-cock-coupling",
+      "bad-order-tag",
+      "between-cars-unprotected",
+      "blue-signal",
+      "brake-hose",
+      "brake-stand",
+      "car-1-brake",
+      "car-2-brake",
+      "car-3-brake",
+      "clearance-dial",
+      "defective-car",
+      "dragging-rigging",
+      "flat-wheel",
+      "fouling-adjacent-lead",
+      "hot-flat-wheel",
+      "left-tool",
+      "loose-rigging",
+      "piston-gauge",
+      "radio-handset",
+      "test-sheet-board",
+      "worn-shoe"
+    ],
+    "meshes": 153
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the consist, the class of test required, and which cars are new to this cut.",
+      "id": "briefing",
+      "kind": "select",
+      "prompt": "Check the consist, the class of test required, and which cars are new to this cut.",
+      "target": "test-sheet-board",
+      "title": "Read the test sheet",
+      "why": "A brake test is scoped by how the consist changed since the last one — cars added since the last terminal test need a full test, and treating them like the rest of an already-tested cut skips exactly the inspection that would catch a car nobody has looked at yet."
+    },
+    {
+      "cue": "Check that your own blue signal is displayed at the cut before you go anywhere near it.",
+      "id": "blue-check",
+      "kind": "select",
+      "prompt": "Check that your own blue signal is displayed at the cut before you go anywhere near it.",
+      "target": "blue-signal",
+      "title": "Confirm the blue signal is up",
+      "why": "The blue signal is what keeps this cut from being coupled to or moved while the test is underway, and it has to be up and confirmed before the first hand goes between any two cars — checking it after starting the inspection is checking a fact that needed to be true first."
+    },
+    {
+      "cue": "Bring the train line up to charge and commit once the gauge reads full.",
+      "gauge": {
+        "green": [
+          0.82,
+          1
+        ],
+        "label": "TRAIN LINE",
+        "missNote": "Not fully charged. Give the line more time before calling for a set.",
+        "speed": 0.66
+      },
+      "id": "charge",
+      "kind": "gauge",
+      "prompt": "Bring the train line up to charge and commit once the gauge reads full.",
+      "target": "brake-stand",
+      "title": "Charge the train line",
+      "why": "Every test that follows depends on the reservoirs actually being at charge first — a piston travel or a release check run on a train line that never fully charged tells you nothing about how the brakes behave when they are."
+    },
+    {
+      "cue": "Radio the engineer and request a service application to test the brakes.",
+      "id": "call-set",
+      "kind": "select",
+      "prompt": "Radio the engineer and request a service application to test the brakes.",
+      "target": "radio-handset",
+      "title": "Call the engineer for a set",
+      "why": "The set is called over the radio, not assumed from a schedule, because the inspector walking the train and the engineer at the valve have to agree on the exact moment the application happens — otherwise a car that applied late looks the same as a car that applied on time."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Check each car's brake shoe is actually against the wheel after the set.",
+      "id": "car-walk",
+      "itemNames": {
+        "car-1-brake": "car 1 — brake shoe applied",
+        "car-2-brake": "car 2 — brake shoe applied",
+        "car-3-brake": "car 3 — brake shoe applied"
+      },
+      "kind": "sequence",
+      "prompt": "Check each car's brake shoe is actually against the wheel after the set.",
+      "targets": [
+        "car-1-brake",
+        "car-2-brake",
+        "car-3-brake"
+      ],
+      "title": "Walk the cut and confirm the set",
+      "why": "A car with air in the system and a car with a brake shoe actually against the wheel are not always the same car — a stuck slack adjuster or a bent lever can leave a shoe hanging clear of the tread with a perfectly normal gauge reading in the cab."
+    },
+    {
+      "cue": "Measure the brake cylinder piston travel and commit inside tolerance.",
+      "gauge": {
+        "green": [
+          0.32,
+          0.56
+        ],
+        "label": "PISTON TRAVEL",
+        "missNote": "Outside tolerance. Log the car for adjustment before it moves.",
+        "speed": 0.68
+      },
+      "id": "piston-gauge",
+      "kind": "gauge",
+      "prompt": "Measure the brake cylinder piston travel and commit inside tolerance.",
+      "target": "piston-gauge",
+      "title": "Check piston travel",
+      "why": "Too little travel and the shoes never fully release; too much and there is not enough stroke left for the brake to develop full force by the time the piston bottoms out — either one is a car that behaves differently than the rest of the train expects it to."
+    },
+    {
+      "cue": "Turn the angle cock handle and confirm it seats fully open in line with the hose.",
+      "id": "angle-cock",
+      "kind": "turn",
+      "prompt": "Turn the angle cock handle and confirm it seats fully open in line with the hose.",
+      "target": "angle-cock",
+      "title": "Check the angle cock is fully open",
+      "turn": {
+        "axis": "z",
+        "label": "ANGLE COCK",
+        "turns": 0.25
+      },
+      "why": "An angle cock left even slightly closed restricts brake pipe flow through that joint, and on a long train that restriction is exactly what turns a normal service application into an uneven one, with some cars braking hard before others have felt anything yet."
+    },
+    {
+      "cue": "Check the hose for cracking and the glad hand for a worn gasket.",
+      "id": "hose-check",
+      "kind": "select",
+      "prompt": "Check the hose for cracking and the glad hand for a worn gasket.",
+      "target": "brake-hose",
+      "title": "Inspect the brake hose and coupling",
+      "why": "A brake hose that cracks or a glad hand that leaks under pressure loses train line air exactly where the crew cannot see it happening, and on a long train a slow leak at one joint can mask itself as a normal brake pipe gradient until the whole train starts running short of air."
+    },
+    {
+      "cue": "Scan the brake rigging under the cut for anything loose, worn or hanging low.",
+      "id": "rigging-walk",
+      "itemNames": {
+        "loose-rigging": "brake rod hanging off its hanger",
+        "worn-shoe": "brake shoe worn to the backing plate"
+      },
+      "itemNotes": {
+        "loose-rigging": "A rod off its hanger can swing into the wheel or drag on the ballast the first time this car rolls.",
+        "worn-shoe": "A shoe worn to the plate is metal on metal — it stops the wheel far less than the gauge reading in the cab would suggest."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Scan the brake rigging under the cut for anything loose, worn or hanging low.",
+      "targets": [
+        "loose-rigging",
+        "worn-shoe"
+      ],
+      "title": "Walk the rigging under each car",
+      "why": "The rigging under a car does its job unseen for thousands of miles between inspections, and a hanger that has worked loose or a shoe worn past its wear line does not announce itself on any gauge in the cab — it only shows up to somebody who actually looks underneath."
+    },
+    {
+      "cue": "Carry the bad-order tag to the car with the worn shoe and hang it where the next crew will see it.",
+      "drag": {
+        "missNote": "Not hung on the car — carry the tag the rest of the way to where the crew will see it.",
+        "radius": 0.32,
+        "to": "defective-car"
+      },
+      "id": "tag-defect",
+      "kind": "drag",
+      "prompt": "Carry the bad-order tag to the car with the worn shoe and hang it where the next crew will see it.",
+      "target": "bad-order-tag",
+      "title": "Tag the defective car",
+      "why": "A defect found and not tagged is a defect the next crew has no way to know about — the tag is what turns what you just found into something the car is actually held for, rather than a fact that dies with today's inspection."
+    },
+    {
+      "cue": "Look at the wheel tread for a flat, without putting a hand on it.",
+      "id": "wheel-check",
+      "kind": "select",
+      "prompt": "Look at the wheel tread for a flat, without putting a hand on it.",
+      "target": "flat-wheel",
+      "title": "Check the wheel for a flat spot",
+      "why": "A flat spot is checked by eye first because the wheel that made it is often still carrying the heat of the slide — and a flat wheel found now is a car set out now, before that flat hammers the rail hard enough to start a defect somewhere else in the track."
+    },
+    {
+      "cue": "Hold the clearance reading in the green band while the engineer releases the brakes.",
+      "holdBreakNote": "Clearance dropped out of band during the release. A hand still under a car when the piston moves back is exactly what this step exists to prevent.",
+      "id": "release-clear",
+      "kind": "track",
+      "prompt": "Hold the clearance reading in the green band while the engineer releases the brakes.",
+      "seconds": 6,
+      "target": "clearance-dial",
+      "title": "Stay clear while the release is called",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.4,
+        "green": [
+          0.4,
+          0.66
+        ],
+        "label": "CLEARANCE",
+        "rise": 0.48
+      },
+      "why": "A release moves every piston in the train back at once, and standing clear of the rigging while it happens is what keeps a release test of the brakes from becoming a test of anyone still reaching underneath one."
+    },
+    {
+      "cue": "Radio the engineer to release, then confirm every shoe actually comes off the wheel.",
+      "id": "call-release",
+      "kind": "select",
+      "prompt": "Radio the engineer to release, then confirm every shoe actually comes off the wheel.",
+      "target": "radio-handset",
+      "title": "Confirm the release",
+      "why": "The release is confirmed the same way the set was — by walking it and looking, not by trusting the gauge in the cab — because a shoe that stays dragging after a release is a wheel that heats up and wears flat over the very next mile of running."
+    },
+    {
+      "cue": "Scan the string and clear anything that didn't make it back into the kit.",
+      "id": "walk-tools",
+      "itemNames": {
+        "left-tool": "gauge left on the running rail"
+      },
+      "itemNotes": {
+        "left-tool": "Caught before the tally closed — a tool on the rail is a foreign object under the first wheel that reaches it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Scan the string and clear anything that didn't make it back into the kit.",
+      "targets": [
+        "left-tool"
+      ],
+      "title": "Walk the string for anything left behind",
+      "why": "A full brake test puts a lot of tools and tags in play along the length of a cut, and the only check that catches what got left behind is somebody actually walking the string before the blue signal comes down."
+    },
+    {
+      "cue": "Log the piston travel readings, the tagged car and the class of test performed.",
+      "id": "close-log",
+      "kind": "select",
+      "prompt": "Log the piston travel readings, the tagged car and the class of test performed.",
+      "target": "test-sheet-board",
+      "title": "Sign the test sheet",
+      "why": "The signed test sheet is what the crew's dispatcher and the next terminal both rely on to know this cut does not need testing again before it moves — an unsigned test is, on paper, a test that never happened."
+    }
+  ],
+  "supportLine": "your car foreman or your BMWED local if a close call between the cars is still sitting with you after shift",
+  "tagline": "The cut charged, a set called and confirmed car by car, the rigging and wheels walked end to end, a defect tagged the moment it is found, and the release confirmed the same way the set was — never a hand between the cars until the blue signal says so",
+  "title": "SmartCiti.X~ Air Brake Test & Train Inspection VR",
+  "trade": "Freight car inspector / carman",
+  "underwater": null,
+  "weather": "overcast"
+}

@@ -1,0 +1,423 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "still-in-the-game",
+    "name": "Still in the Game",
+    "note": "A bad call and a hostile heckle both met with the routine instead of an argument, and the bench stayed calm around it"
+  },
+  "category": "Youth Sports & Coaching",
+  "certification": "USA Basketball youth development guidelines on coaching a young athlete's emotional response to officiating rather than the call itself; the Association for Applied Sport Psychology's guidance on a short composure routine under provocation — a breath, a cue word, and attention returned to the bench; NFHS basketball rules on technical fouls and its sportsmanship expectations for players, coaches and benches; the U.S. Center for SafeSport for protecting a young athlete from personal, targeted abuse from a spectator, and for calm, observable adult handling of a hostile fan; CDC Heads Up for a head knock taken in a courtside scramble; the American Red Cross first aid course for a spilled drink or a fall along the baseline",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Association for Applied Sport Psychology",
+        "citedAs": "Association for Applied Sport Psychology",
+        "id": "aasp-sport-psychology-guidance",
+        "title": "Association for Applied Sport Psychology guidance on mental-skills routines for young athletes: composure after a mistake, pre-performance routines, coach feedback and growth mindset, and decision-making under pressure"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC Heads Up",
+        "id": "cdc-heads-up",
+        "title": "CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance"
+      },
+      {
+        "body": "NFHS",
+        "citedAs": "NFHS",
+        "id": "nfhs-basketball-rules",
+        "title": "National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport"
+      },
+      {
+        "body": "Red Cross",
+        "citedAs": "American Red Cross first aid",
+        "id": "red-cross-first-aid-course",
+        "title": "American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services"
+      },
+      {
+        "body": "U.S. Center for SafeSport",
+        "citedAs": "U.S. Center for SafeSport",
+        "id": "safesport-code",
+        "title": "U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting"
+      },
+      {
+        "body": "USA Basketball",
+        "citedAs": "USA Basketball",
+        "id": "usa-basketball-youth-guidelines",
+        "title": "USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them"
+      }
+    ]
+  },
+  "district": "gym-court",
+  "domain": "Youth Sports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clear-baseline-first",
+        "name": "Clear Baseline First",
+        "note": "Every hazard on the sideline found before the first bad call lands"
+      },
+      {
+        "id": "no-blow-up",
+        "name": "No Blow-Up",
+        "note": "No unsafe action anywhere in the session"
+      },
+      {
+        "id": "steady-under-heckling",
+        "name": "Steady Under Heckling",
+        "note": "Composure tempo and the heckling meter both inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-session",
+        "name": "Clean Session",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "unshaken",
+        "name": "Unshaken",
+        "note": "Held composure in band through the whole heckling stretch"
+      },
+      {
+        "id": "quick-reset",
+        "name": "Quick Reset",
+        "note": "Practice log reached inside 80% of par"
+      }
+    ],
+    "currency": "STEADY POINTS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Bench Helper",
+      "Line Coach",
+      "Assistant Coach",
+      "Head Coach",
+      "Composure Mentor"
+    ],
+    "system": "Bench Composure Board"
+  },
+  "hazards": {
+    "argue-the-call-nose-to-nose": "You let the player who disagreed with the call get nose-to-nose with the official instead of stepping in yourself. NFHS rules treat that as a technical foul waiting to happen, and a young player nose-to-nose with an adult authority figure is one more shouted word away from an ejection that ends their night over a call that was never theirs to argue.",
+    "bench-empties-onto-the-court": "You let the whole bench get up and come onto the court toward the official and the shouting parent instead of holding the team where they were. A crowd of players converging on one heated spot is how a two-person disagreement becomes a ten-person incident, and NFHS sportsmanship rules hold the bench, not just the player at the center of it, responsible for staying off the floor.",
+    "let-the-heckler-keep-going-unanswered": "You let the parent in the second row keep shouting personal insults at a fourteen-year-old by name without anyone from the gym stepping in. A spectator targeting a minor by name with personal, sustained abuse is exactly the unwatched moment SafeSport guidance expects an adult in charge of the gym to notice and stop, not wait out.",
+    "spilled-drink-left-on-the-baseline": "You left a spilled drink sitting on the baseline while everyone's attention was on the argument at half-court. A player sprinting back on defence with their eyes on the scoreboard, not the floor, is one slick patch away from a fall at full speed, and a heated moment is exactly when nobody is watching the floor for it."
+  },
+  "id": "bb-composure-with-a-hostile-crowd-and-officials",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "breath-after-the-bad-call",
+      "alert": "The player squares up nose-to-nose with the official, still shouting about the call, and the official's hand is already reaching for the whistle.",
+      "cue": "Step between them at the buffer spot, calm and quick — not a lecture yet, just get your body between them.",
+      "delay": 3,
+      "id": "player-nose-to-nose-with-the-official",
+      "kind": "Bad call",
+      "missNote": "The argument ran another ten seconds before anyone stepped in, and the official reached for the whistle. The technical foul that followed cost more than the bad call ever would have.",
+      "seconds": 12,
+      "target": "coach-buffer-spot",
+      "why": "A player nose-to-nose with an official is seconds from a technical foul or an ejection, and the fastest way to stop it is not words from the sideline but a coach's body physically between the two of them. Getting to the buffer spot quickly, calm rather than shouting louder than the player, is what actually breaks the confrontation up before the whistle decides it for you.",
+      "wrongNote": "That does not get between them. Go to the buffer spot, between the player and the official."
+    },
+    {
+      "after": "hold-composure-through-the-heckling",
+      "alert": "The parent in the second row leans right over the rail toward the bench, shouting something personal at your player by name.",
+      "cue": "Send the assistant to the rail to ask the parent to step back, calm and clear — the head coach stays with the team.",
+      "delay": 3,
+      "id": "heckler-leans-over-the-rail",
+      "kind": "Heckler",
+      "missNote": "Nobody went to the rail, and the shouting kept going right through the next two possessions. Your player heard every word of it with no adult stepping in.",
+      "seconds": 12,
+      "target": "rail-escort-spot",
+      "why": "A spectator leaning over the rail to target a young player by name has crossed from loud into personal, and that is a conversation for an adult who is not also trying to run the game. Sending the assistant to handle it calmly at the rail keeps the head coach with the team and keeps the whole exchange in the open, the way safe-sport guidance expects a hostile-spectator moment to be handled.",
+      "wrongNote": "That does not reach the rail. Send the assistant to the rail, calm and clear."
+    }
+  ],
+  "lateNotes": {
+    "crew-checkin-board": "The staff check-in comes after the log, at the very end.",
+    "practice-log-board": "The log closes the composure session once the heckling has run and the routine has held — nothing to record yet."
+  },
+  "name": "Composure with a Hostile Crowd and Officials",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "basketball-fundamentals"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "argue-the-call-nose-to-nose",
+      "bench-empties-onto-the-court",
+      "breath-marker",
+      "call-token",
+      "coach-buffer-spot",
+      "comp-breath",
+      "comp-cue-word",
+      "comp-eyes-on-bench",
+      "comp-shoulders-down",
+      "composure-clock",
+      "crew-checkin-board",
+      "crowd-fan-cheering-normally",
+      "crowd-heckler-parent",
+      "crowd-player-squaring-up",
+      "crowd-spilled-drink",
+      "cue-word-card",
+      "focus-dial",
+      "foul-line-card",
+      "heckle-composure-meter",
+      "let-the-heckler-keep-going-unanswered",
+      "practice-log-board",
+      "quiet-word-spot",
+      "rail-escort-spot",
+      "release-bin",
+      "retry-breath-marker",
+      "spilled-drink-left-on-the-baseline",
+      "warn-clapping-it-off",
+      "warn-clenched-fists",
+      "warn-mouthing-off",
+      "warn-teammate-egging-on"
+    ],
+    "meshes": 252
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Look at the stands, the floor and your own player. Mark what has to be handled and what has to be fixed underfoot.",
+      "decoyNotes": {
+        "crowd-fan-cheering-normally": "A fan cheering loudly for a good play is the crowd doing exactly what it should. Look for what is actually a problem."
+      },
+      "id": "scan-the-stands-for-trouble",
+      "itemNames": {
+        "crowd-heckler-parent": "a parent leaning over the rail, already shouting",
+        "crowd-player-squaring-up": "a player squaring up toward the official",
+        "crowd-spilled-drink": "a spilled drink pooling on the baseline"
+      },
+      "itemNotes": {
+        "crowd-heckler-parent": "That is personal, not just loud. Note it now so the assistant is ready to move the moment it crosses the line.",
+        "crowd-player-squaring-up": "That is the flashpoint the whole routine exists for. Get there before the second word is said.",
+        "crowd-spilled-drink": "A slick patch on the baseline gets missed by everyone watching the argument instead of the floor. Flag it before someone sprints through it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the stands, the floor and your own player. Mark what has to be handled and what has to be fixed underfoot.",
+      "targets": [
+        "crowd-heckler-parent",
+        "crowd-spilled-drink",
+        "crowd-player-squaring-up"
+      ],
+      "title": "Scan the sideline the moment a call goes wrong",
+      "why": "A bad call changes the room in one second: a parent's tone turns personal, a spilled drink nobody was watching becomes a slip risk, and a player's shoulders square up before a coach can get a word in. Reading all three in the same glance — the crowd, the floor and the player — is what lets the routine start before any of them gets worse."
+    },
+    {
+      "cue": "Post the reminder: arguing a call is a coach's conversation with an official, never a player's shouting match.",
+      "id": "read-the-technical-foul-line",
+      "kind": "select",
+      "prompt": "Post the reminder: arguing a call is a coach's conversation with an official, never a player's shouting match.",
+      "target": "foul-line-card",
+      "title": "Read the technical-foul line before anyone crosses it",
+      "why": "NFHS rules put a real cost on arguing a call — a technical foul that can hand the other team points and a player an early exit from the game. Posting that line where the bench can see it is a reminder that the conversation with an official belongs to the coach, calmly, and never to a player standing in the heat of the play."
+    },
+    {
+      "cue": "Player stops, one slow breath in, a longer one out — hold here and watch it happen, no talking over it.",
+      "holdBreakNote": "The breath got cut short before it finished. Let the player take the whole slow breath before the routine moves on.",
+      "id": "breath-after-the-bad-call",
+      "kind": "hold",
+      "prompt": "Player stops, one slow breath in, a longer one out — hold here and watch it happen, no talking over it.",
+      "seconds": 6,
+      "target": "breath-marker",
+      "title": "Hold one slow breath right after the bad call",
+      "why": "The Association for Applied Sport Psychology's guidance on composure under provocation starts the same way a reset after a miss does: something physical before anything said. A slow exhale brings a player's body down from the jolt of a call that felt unfair, so whatever happens next is a decision made by their skill, not by the adrenaline of the moment."
+    },
+    {
+      "cue": "Breath first, then the cue word, then shoulders down, then eyes back on the bench and the coach.",
+      "id": "build-the-composure-routine",
+      "itemNames": {
+        "comp-breath": "one slow breath",
+        "comp-cue-word": "say the cue word",
+        "comp-eyes-on-bench": "eyes back on the bench",
+        "comp-shoulders-down": "shoulders down, unclench"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. The breath comes first — a cue word said to a racing body does not stick, and eyes on the bench before the shoulders drop still reads as squared up for a fight.",
+      "prompt": "Breath first, then the cue word, then shoulders down, then eyes back on the bench and the coach.",
+      "targets": [
+        "comp-breath",
+        "comp-cue-word",
+        "comp-shoulders-down",
+        "comp-eyes-on-bench"
+      ],
+      "title": "Build the composure routine in order",
+      "why": "Each part sets up the next: the breath calms the body so the cue word actually lands instead of getting lost in adrenaline, dropping the shoulders undoes the physical posture of an argument before it starts one, and only then are the player's eyes free to find the bench instead of staying locked on the official or the stands."
+    },
+    {
+      "cue": "Pick a cue word short enough to say to yourself mid-argument — 'Bench', not a whole sentence.",
+      "id": "choose-a-composure-cue",
+      "kind": "select",
+      "prompt": "Pick a cue word short enough to say to yourself mid-argument — 'Bench', not a whole sentence.",
+      "target": "cue-word-card",
+      "title": "Choose one short composure cue",
+      "why": "A cue word works under provocation for the same reason it works after a miss: it is short enough to say silently in the two seconds after a bad call, and specific enough to mean something a player has actually practised. A vague 'stay calm' gives the mind nothing to do; one practised word gives it a job to do instead of arguing."
+    },
+    {
+      "cue": "Turn the focus dial toward the bench — the routine ends pointed at the coach, not at the official or the stands.",
+      "id": "turn-focus-back-to-the-bench",
+      "kind": "turn",
+      "prompt": "Turn the focus dial toward the bench — the routine ends pointed at the coach, not at the official or the stands.",
+      "target": "focus-dial",
+      "title": "Turn attention back to the bench",
+      "turn": {
+        "axis": "y",
+        "label": "TO BENCH",
+        "turns": 0.5
+      },
+      "why": "Turning attention physically toward the bench gives the composure routine somewhere concrete to end, the same way calling the next play ends a reset after a miss. A player left facing the official or the crowd is still in the argument even if they have stopped talking; one turned back toward the coach has actually left it."
+    },
+    {
+      "cue": "Commit when the routine reads steady — not skipped, not dragged out into a staring match.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "TEMPO",
+        "missNote": "Outside the band. Rushed skips the breath that makes the cue word work; stalled keeps the player locked in a staring match with the official or the stands. Find steady and commit.",
+        "speed": 0.62
+      },
+      "id": "composure-tempo",
+      "kind": "gauge",
+      "prompt": "Commit when the routine reads steady — not skipped, not dragged out into a staring match.",
+      "target": "composure-clock",
+      "title": "Keep the composure routine at the right tempo",
+      "why": "A composure routine run too fast skips straight past the breath that calms the body, so the cue word lands on a nervous system that never came down; run too slow, it turns into a staring match that keeps the confrontation alive instead of ending it. The routine only works at its own pace, the same way it does after a miss."
+    },
+    {
+      "cue": "Right before the ball is back in play, the same one breath — hold it here, no rushing back onto the floor.",
+      "holdBreakNote": "Play started before the breath finished. Hold it the whole way through — the inbound can wait one more second.",
+      "id": "hold-the-breath-before-play-resumes",
+      "kind": "hold",
+      "prompt": "Right before the ball is back in play, the same one breath — hold it here, no rushing back onto the floor.",
+      "seconds": 5,
+      "target": "retry-breath-marker",
+      "title": "Hold the breath again before play resumes",
+      "why": "The routine only matters if it gets used the moment it is needed most, which is the inbound pass right after a call that stung, not only in the calm of a walk-through. Holding the same breath before play resumes is what turns a routine talked about into one a player actually reaches for with the whole gym still watching."
+    },
+    {
+      "cue": "Watch the bench and the floor for who is still carrying the argument. Mark what needs a quiet word.",
+      "decoyNotes": {
+        "warn-clapping-it-off": "A player clapping and moving on has already reset. Look for who has not."
+      },
+      "id": "spot-the-warning-signs",
+      "itemNames": {
+        "warn-clenched-fists": "a player with fists clenched at their sides",
+        "warn-mouthing-off": "a player still mouthing off at the official",
+        "warn-teammate-egging-on": "a teammate egging the argument on from the bench"
+      },
+      "itemNotes": {
+        "warn-clenched-fists": "Clenched fists are the body still arguing even after the mouth has stopped. Get the quiet word in before it becomes a hand.",
+        "warn-mouthing-off": "Still talking is the routine not having landed. Pull them back to the breath, not to a lecture.",
+        "warn-teammate-egging-on": "A teammate stoking it from the bench keeps the fire lit even if the player at the center has calmed down. Quiet that voice too."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Watch the bench and the floor for who is still carrying the argument. Mark what needs a quiet word.",
+      "targets": [
+        "warn-clenched-fists",
+        "warn-mouthing-off",
+        "warn-teammate-egging-on"
+      ],
+      "title": "Spot the warning signs the routine has not landed",
+      "why": "A hostile call does not end when the whistle stops — it lingers in clenched fists, a mouth that keeps going, and a teammate who keeps the fire lit from the bench. Catching those signs here, before the next possession, is what a composure routine is actually for: not just one player calming down, but the whole bench staying out of it."
+    },
+    {
+      "cue": "Drag the call token from the 'still arguing it' side of the board to the 'let go' bin.",
+      "drag": {
+        "missNote": "Still on the 'still arguing it' side. A call talked about but not physically moved off the board is a call still being carried — move it all the way to the bin.",
+        "radius": 0.45,
+        "to": "release-bin"
+      },
+      "id": "let-the-call-go",
+      "kind": "drag",
+      "prompt": "Drag the call token from the 'still arguing it' side of the board to the 'let go' bin.",
+      "target": "call-token",
+      "title": "Physically let the bad call go",
+      "why": "Letting go of a call a player believes was wrong is an abstract idea, and abstract ideas are hard to actually do while a crowd is still loud. A physical action — moving a token off the board — gives the mental step something concrete to stand for, the same trick that works for letting a missed shot go, and it works here for the same reason."
+    },
+    {
+      "cue": "Step to the side with the player still carrying the call — a short, calm sentence, away from the bench and the crowd.",
+      "id": "quiet-word-with-the-heated-player",
+      "kind": "select",
+      "prompt": "Step to the side with the player still carrying the call — a short, calm sentence, away from the bench and the crowd.",
+      "target": "quiet-word-spot",
+      "title": "Give the most heated player a quiet word, not a lecture",
+      "why": "A correction given quietly, one to one, and briefly is heard; the same words said loudly in front of the bench become a second public moment for a player already embarrassed by the first one. Calm, private and observable correction is the kind safe-sport guidance asks of adults working with young athletes, in a heated moment as much as a quiet one."
+    },
+    {
+      "cue": "Keep the bench and the player's composure in band while the heckling continues — not flat and checked out, not boiling over.",
+      "holdBreakNote": "Composure left the band — boiling over, or gone flat. Bring it back to steady before the next possession.",
+      "id": "hold-composure-through-the-heckling",
+      "kind": "track",
+      "prompt": "Keep the bench and the player's composure in band while the heckling continues — not flat and checked out, not boiling over.",
+      "seconds": 8,
+      "target": "heckle-composure-meter",
+      "title": "Hold composure through the ongoing heckling",
+      "track": {
+        "drift": 0.15,
+        "fall": 0.42,
+        "green": [
+          0.38,
+          0.62
+        ],
+        "label": "COMPOSURE",
+        "rise": 0.5,
+        "start": 0.32
+      },
+      "why": "A hostile crowd tests a composure routine longer than a single bad call does, because the heckling does not stop when the routine finishes once. Holding the bench's composure in band — not letting frustration boil over, not letting the player check out and go flat — is what keeps the routine available for the tenth shouted comment the same way it was for the first."
+    },
+    {
+      "cue": "Record the cue word used, how the heckling was handled, and anything the athletic trainer saw on the baseline.",
+      "id": "log-the-composure-session",
+      "kind": "select",
+      "prompt": "Record the cue word used, how the heckling was handled, and anything the athletic trainer saw on the baseline.",
+      "target": "practice-log-board",
+      "title": "Log the composure session",
+      "why": "The cue word a player settled on, how sustained heckling was handled and anything the athletic trainer noticed on the baseline are what the next game needs to build on. Written down at the time, the log is the fairest record for the player and the clearest starting point for the same routine again next week."
+    },
+    {
+      "cue": "At the bench: how the heckling felt to manage, anything seen on the baseline, and is everybody good to carry on?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "At the bench: how the heckling felt to manage, anything seen on the baseline, and is everybody good to carry on?",
+      "target": "crew-checkin-board",
+      "title": "Check in with the assistant coach and the athletic trainer",
+      "why": "Managing a hostile crowd and a bad call takes something out of the adults on the bench too. A short check-in — what did you see, how did that feel to handle, is anyone worth a follow-up call — keeps the staff working as a team and is exactly the kind of noticing the guide's check-in points to."
+    }
+  ],
+  "supportLine": "your league's coach coordinator, or the assistant who walked the heckler back from the rail with you — a hostile crowd can rattle the adults on the bench as much as the player wearing the jersey",
+  "tagline": "A bad call and a heckling parent are not something a player can win an argument with — one breath, a cue word and eyes back on the bench keep the game the one thing still in their control",
+  "title": "SmartCiti.X~ Composure with a Hostile Crowd and Officials VR",
+  "trade": "Youth basketball coach",
+  "underwater": null,
+  "weather": "clear"
+}

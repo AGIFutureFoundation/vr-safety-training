@@ -1,0 +1,429 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "kettle-run-clean",
+    "name": "Kettle Run Clean",
+    "note": "A course mopped to coverage, a flareup and a foamover both caught, and nobody carried hot asphalt against their body to do it"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "OSHA 29 CFR 1926.501 and 29 CFR 1926.502 fall protection at the roof edge, and 29 CFR 1926 Subpart M Fall protection generally; NFPA 51B and 29 CFR 1910.252 for the kettle's open flame and the fire watch it needs; ANSI Z359 for the harness and anchor; NRCA kettle and tanker safety practice; Roofers Local 40 apprenticeship and training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z359",
+        "id": "ansi-z359",
+        "title": "ANSI/ASSP Z359 — Fall Protection Code"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 51B",
+        "id": "nfpa-51b",
+        "title": "NFPA 51B — Fire Prevention During Welding, Cutting and Other Hot Work"
+      },
+      {
+        "body": "NRCA",
+        "citedAs": "NRCA",
+        "id": "nrca-roofing-practices",
+        "title": "National Roofing Contractors Association — roofing and waterproofing application, safety and quality practices"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.252",
+        "id": "osha-1910-252",
+        "title": "29 CFR 1910.252 — Welding, cutting and brazing, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.1053",
+        "id": "osha-1926-1053",
+        "title": "29 CFR 1926.1053 — Ladders"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.501",
+        "id": "osha-1926-501",
+        "title": "29 CFR 1926.501 — Duty to have fall protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.502",
+        "id": "osha-1926-502",
+        "title": "29 CFR 1926.502 — Fall protection systems criteria and practices"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926 Subpart M Fall protection",
+        "id": "osha-1926-subpart-m",
+        "title": "OSHA 29 CFR 1926 Subpart M Fall protection"
+      },
+      {
+        "body": "union",
+        "citedAs": "Roofers Local 40",
+        "id": "roofers-local-40-training",
+        "title": "Roofers Local 40 — United Union of Roofers, Waterproofers and Allied Workers apprenticeship and training"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "plan-first",
+        "name": "Plan First",
+        "note": "The kettle plan read before the burner was ever lit"
+      },
+      {
+        "id": "steady-mop",
+        "name": "Steady Mop",
+        "note": "The mop swept the whole course without a break in pace"
+      },
+      {
+        "id": "never-carried-close",
+        "name": "Never Carried Close",
+        "note": "No lugger overfilled, no ladder unsecured, no hoist grabbed by hand"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-course",
+        "name": "Clean Course",
+        "note": "No corrections anywhere on the roof"
+      },
+      {
+        "id": "on-the-evt",
+        "name": "On The EVT",
+        "note": "The asphalt temperature committed inside the band first time"
+      },
+      {
+        "id": "course-closed",
+        "name": "Course Closed",
+        "note": "Kettle shut down inside 80% of par"
+      }
+    ],
+    "currency": "MOP",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Kettle Hand",
+      "Mop Runner",
+      "Lead Kettleman",
+      "Kettle Safety Certified"
+    ],
+    "system": "Kettle Watch"
+  },
+  "hazards": {
+    "hoist-swinging": "The loaded hoist bucket is swinging on its rope in the gust and you are about to steady it by grabbing it with your hand. A bucket of hot asphalt in motion does not stop because a hand is in its way — it transfers its swing into whatever it hits. A tag line steadies a swinging load; a bare hand next to one just adds a burn to the near miss.",
+    "ladder-unsecured": "You are about to climb the extension ladder to the roof without it tied off or footed at the base. 29 CFR 1926.1053's requirement to secure a ladder at the top and foot it at the bottom exists because a ladder carrying a roofer and a hot lugger bucket is exactly the load that kicks a loose base out from under someone, and it happens on the way up, not while anyone is watching for it.",
+    "no-fume-hood": "The kettle's fume hood is folded back and the flue is running open right where you are standing to check the brew. Asphalt fumes off a running kettle are a known respiratory irritant, and the hood exists to route them up and away from exactly the spot the kettleman stands — folded back, that spot is the one place on the roof the fumes are thickest.",
+    "overfilled-lugger": "That lugger bucket is filled above its safe line and you are about to carry it against your hip to save a trip. Hot asphalt at working temperature slops out of an overfilled bucket with every step, and carried close to the body it lands on skin rather than the deck. NRCA's kettle practice fills a lugger to its marked line and carries it at arm's length precisely so a slop has somewhere to fall that is not a person."
+  },
+  "id": "rf-hot-asphalt-kettle-and-mop",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "kettle-burner",
+      "alert": "A gust off the parapet pushes the burner's flame sideways, leaning it toward the stack of felt rolls staged a few feet away.",
+      "cue": "Pull the wind screen around to block the gust before the flame reaches the felt.",
+      "delay": 2,
+      "id": "kettle-flareup",
+      "kind": "Gust pushes the flame toward the felt stack",
+      "missNote": "The flame kept leaning into the felt stack until the outer roll started to scorch — a few more seconds and the stack itself would have been alight.",
+      "seconds": 14,
+      "target": "wind-screen",
+      "why": "A kettle's flame is only ever a gust away from leaning into whatever is downwind of it, which is exactly why NRCA's kettle siting practice keeps combustibles clear and a wind screen at hand — the screen is not decoration, it is the one thing standing between a normal gust and a stack of felt catching alight.",
+      "wrongNote": "That does not block the wind. Pull the screen around the burner before the flame reaches the felt."
+    },
+    {
+      "after": "mop-sweep",
+      "alert": "The kettle starts foaming hard over its rim — a pocket of moisture nobody caught has hit the brew.",
+      "cue": "Back off and hit the kettle's emergency shutoff — do not add anything to a foaming kettle.",
+      "delay": 3,
+      "id": "kettle-foaming",
+      "kind": "Kettle foaming over",
+      "missNote": "The foam kept climbing over the rim while nobody backed away from it — exactly the moment a kettle throws hot asphalt furthest from where anyone expected it to land.",
+      "seconds": 14,
+      "target": "kettle-eshutoff",
+      "why": "A foaming kettle is asphalt and steam trying to occupy the same space at once, and it can throw hot material well past the kettle's own rim while it works itself out. NRCA's kettle safety practice is unambiguous here: back away, cut the heat at the emergency shutoff, and let it settle — never add cold material or water to a kettle that is already foaming.",
+      "wrongNote": "Not that. Back off and hit the emergency shutoff — nothing else stops a kettle that is already foaming."
+    }
+  ],
+  "lateNotes": {
+    "coverage-scale": "Coverage is read once the mop has actually passed over that stretch of felt — there is nothing to check yet.",
+    "kettle-burner": "The burner lights once the plan has been read and the shield, valve and block have all been checked — not before.",
+    "log-board": "The log is written after the kettle is shut down, not while it is still running."
+  },
+  "name": "Hot Asphalt Kettle & Mop",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "roofers-and-waterproofers"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "anchor-clip",
+      "coverage-scale",
+      "cracked-faceshield",
+      "damp-block",
+      "felt-lap",
+      "flood-coat",
+      "gravel-hopper",
+      "harness",
+      "hoist-swinging",
+      "hoist-winch",
+      "kettle-burner",
+      "kettle-eshutoff",
+      "kettle-relief-stuck",
+      "kettle-temp",
+      "ladder-unsecured",
+      "lap-line",
+      "log-board",
+      "mop-cart",
+      "mop-handle",
+      "no-fume-hood",
+      "overfilled-lugger",
+      "plan-board",
+      "radio",
+      "wind-screen"
+    ],
+    "meshes": 150
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the plan: the kettle's distance from combustibles and the building, the wind screen, the extinguisher at hand, and the PPE required to work it.",
+      "id": "kettle-plan",
+      "kind": "select",
+      "prompt": "Read the plan: the kettle's distance from combustibles and the building, the wind screen, the extinguisher at hand, and the PPE required to work it.",
+      "target": "plan-board",
+      "title": "Read the kettle's siting and safe-operation plan",
+      "why": "A kettle is an open flame under a vat of asphalt held well above its flash point, and NRCA's kettle and tanker safety guidance sites it a set distance from anything that burns, with a wind screen, an extinguisher and a fire watch before it is ever lit — the same open-flame logic NFPA 51B applies to a torch, applied to a much larger fire if it ever gets away."
+    },
+    {
+      "cue": "Put the harness on and snug it, then clip the lanyard to the certified roof anchor before working toward the edge where the hoist lands.",
+      "id": "harness-on",
+      "itemNames": {
+        "anchor-clip": "lanyard clipped to the roof anchor",
+        "harness": "full-body harness on and snugged"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Harness first — the lanyard clips to the back D-ring of a harness that is already on, not to one still on the rack.",
+      "prompt": "Put the harness on and snug it, then clip the lanyard to the certified roof anchor before working toward the edge where the hoist lands.",
+      "targets": [
+        "harness",
+        "anchor-clip"
+      ],
+      "title": "Harness on, then clipped to the roof anchor",
+      "why": "The hoist lands its bucket right at the edge, which is exactly where a roofer reaching for a swinging load is most exposed. 29 CFR 1926.502 makes the anchor, harness and connection one rated system, snugged before it is clipped, so reaching for the hoist is not the moment the harness turns out to be loose."
+    },
+    {
+      "cue": "Check the face shield and gauntlets on the rack, the kettle's high-limit thermostat, and feel the next batch of blocks for dampness.",
+      "id": "kettle-inspect",
+      "itemNames": {
+        "cracked-faceshield": "a cracked face shield on the PPE rack",
+        "damp-block": "a damp block of asphalt in the next batch to load",
+        "kettle-relief-stuck": "the kettle's high-limit thermostat stuck at its last reading"
+      },
+      "itemNotes": {
+        "cracked-faceshield": "The face shield on the rack has a crack straight across the lens — it will not stop a splash of hot asphalt from reaching the eyes, which is the one thing it is worn for.",
+        "damp-block": "One block in the next batch feels damp to the touch. Moisture trapped inside a block of asphalt flashes to steam the instant it hits the kettle's hot brew, and that steam can throw hot asphalt out of the kettle before anyone standing nearby has time to react.",
+        "kettle-relief-stuck": "The high-limit thermostat's needle has not moved off its last reading since the kettle was lit yesterday — stuck there, it will not cut the burner if today's brew runs away past a safe temperature."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the face shield and gauntlets on the rack, the kettle's high-limit thermostat, and feel the next batch of blocks for dampness.",
+      "targets": [
+        "cracked-faceshield",
+        "kettle-relief-stuck",
+        "damp-block"
+      ],
+      "title": "Inspect the PPE, the kettle and the next batch before lighting",
+      "why": "A kettle's failure modes are almost all invisible until the moment they are not: a stuck thermostat gives no warning that the burner has stopped answering it, and a damp block looks exactly like a dry one until it hits the brew. Checking all three before the burner is lit is the only point in the day none of them has had a chance to hurt anyone yet."
+    },
+    {
+      "cue": "Read the kettle's thermometer and commit once the asphalt sits in the manufacturer's equiviscous temperature band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "KETTLE — ASPHALT TEMPERATURE",
+        "missNote": "Off the manufacturer's equiviscous temperature band. Let it settle and read it again before the first bucket is hoisted.",
+        "speed": 0.55
+      },
+      "id": "kettle-temp",
+      "kind": "gauge",
+      "prompt": "Read the kettle's thermometer and commit once the asphalt sits in the manufacturer's equiviscous temperature band.",
+      "target": "kettle-temp",
+      "title": "Bring the asphalt to its working temperature",
+      "why": "Asphalt mopped too cool sets before it bonds the felt, leaving plies that lift the first time the roof flexes; mopped too hot, it oxidizes fast and loses the adhesion it was heated for in the first place, while running closer to its flash point the whole time. The manufacturer's band is the temperature the material was actually designed to be applied at."
+    },
+    {
+      "cue": "Open the burner's fuel valve and light it with the wind screen already in place around the flame.",
+      "id": "kettle-burner",
+      "kind": "turn",
+      "prompt": "Open the burner's fuel valve and light it with the wind screen already in place around the flame.",
+      "target": "kettle-burner",
+      "title": "Open the burner valve and light the kettle",
+      "turn": {
+        "axis": "z",
+        "label": "BURNER VALVE",
+        "turns": 0.4
+      },
+      "why": "The wind screen goes up before the flame does, not after, because a kettle burner lit into an open gust is a flame with no idea which way it is about to lean. Lighting it with the screen already around it is what keeps the first few seconds of an open flame from being the ones nobody had prepared for."
+    },
+    {
+      "cue": "Take up the hoist rope at a steady rate and hold it smooth all the way to the roof edge — no jerking, no letting it swing.",
+      "holdBreakNote": "The hoist stopped partway and the bucket started swinging on the rope — take up the pace again smooth and steady rather than in jerks.",
+      "id": "hoist-bucket",
+      "kind": "hold",
+      "prompt": "Take up the hoist rope at a steady rate and hold it smooth all the way to the roof edge — no jerking, no letting it swing.",
+      "seconds": 5,
+      "target": "hoist-winch",
+      "title": "Hoist the lugger bucket up to the roof, steady",
+      "why": "A hot lugger raised in fits and starts swings further with every jerk, and a swinging bucket of asphalt at working temperature is a load nobody wants to be standing under or reaching for. A steady, continuous pull is what keeps the bucket's swing small enough that it lands where the tender is actually standing."
+    },
+    {
+      "cue": "Wheel the loaded mop bucket and mop out to the chalked lap line for the next felt course.",
+      "drag": {
+        "missNote": "Not on the lap line. Wheel the mop cart all the way out to the chalk mark before pouring.",
+        "radius": 0.55,
+        "to": "lap-line"
+      },
+      "id": "mop-cart",
+      "kind": "drag",
+      "prompt": "Wheel the loaded mop bucket and mop out to the chalked lap line for the next felt course.",
+      "target": "mop-cart",
+      "title": "Bring the mop cart to the next course",
+      "why": "The lap line is where the plan's overlap is measured from, and getting the mop cart set up there before pouring keeps the first stroke of hot asphalt landing exactly where the felt actually needs it rather than wherever the cart happened to stop."
+    },
+    {
+      "cue": "Pour and spread the hot asphalt at a steady pace across the felt — too slow pools and cools, too fast starves the coverage.",
+      "holdBreakNote": "The sweep broke out of the steady band. Bring the mop back to a steady pace before the bed cools unevenly.",
+      "id": "mop-sweep",
+      "kind": "track",
+      "prompt": "Pour and spread the hot asphalt at a steady pace across the felt — too slow pools and cools, too fast starves the coverage.",
+      "seconds": 6,
+      "target": "mop-handle",
+      "title": "Mop the felt at a steady pace",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "MOP SWEEP RATE",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "Hot asphalt is only a bonding agent while it is still hot and evenly spread; poured too slowly it cools into ridges before the felt is unrolled over it, and swept too fast it starves whole patches of the coverage weight the specification calls for. A steady pace is what keeps the mop laying an even, full bed the whole length of the course."
+    },
+    {
+      "cue": "Weigh the coverage sample and commit once it sits inside the specification's pounds-per-square band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "INTERPLY COVERAGE",
+        "missNote": "Off the specification's coverage band. Mop the light stretch again before it cools past re-working.",
+        "speed": 0.55
+      },
+      "id": "coverage-check",
+      "kind": "gauge",
+      "prompt": "Weigh the coverage sample and commit once it sits inside the specification's pounds-per-square band.",
+      "target": "coverage-scale",
+      "title": "Check the interply mopping coverage",
+      "why": "A mopped course that looks solid can still be light on weight per square, and a light interply mopping is a ply that is not actually bonded to the one below it — a fact that only shows up later as a blister or a lifted lap. The scale is what turns 'looks about right' into a number the specification actually asks for."
+    },
+    {
+      "cue": "Check the new felt ply's overlap against the plan before the next course is mopped over it.",
+      "id": "felt-lap",
+      "kind": "select",
+      "prompt": "Check the new felt ply's overlap against the plan before the next course is mopped over it.",
+      "target": "felt-lap",
+      "title": "Confirm the felt lap before the next ply",
+      "why": "Every ply's overlap is what makes a built-up roof one continuous membrane instead of a stack of separate sheets, and a lap that has drifted narrow in one course keeps drifting narrower in every course mopped on top of it until water finds the gap."
+    },
+    {
+      "cue": "Wheel the gravel hopper over the flood coat while it is still hot and spread the aggregate evenly into it.",
+      "drag": {
+        "missNote": "Not over the flood coat. Wheel the hopper out while the coat is still hot enough to embed the gravel.",
+        "radius": 0.55,
+        "to": "flood-coat"
+      },
+      "id": "gravel-embed",
+      "kind": "drag",
+      "prompt": "Wheel the gravel hopper over the flood coat while it is still hot and spread the aggregate evenly into it.",
+      "target": "gravel-hopper",
+      "title": "Embed gravel into the hot flood coat",
+      "why": "Gravel only bonds into a flood coat while the asphalt underneath it is still hot enough to grip the stone — spread it after the coat has skinned over and the surfacing just sits loose, ready to migrate to the drains the first time it rains."
+    },
+    {
+      "cue": "Close the burner valve and let the kettle stand covered rather than leaving the flame running unattended.",
+      "id": "kettle-shutdown",
+      "kind": "turn",
+      "prompt": "Close the burner valve and let the kettle stand covered rather than leaving the flame running unattended.",
+      "target": "kettle-burner",
+      "title": "Shut the burner down at the end of the course",
+      "turn": {
+        "axis": "z",
+        "label": "BURNER VALVE",
+        "reverse": true,
+        "turns": 0.25
+      },
+      "why": "A kettle left running with nobody watching it is a fire waiting for whatever changes first — the wind, the fuel level, a stack of felt rolled too close. Shutting the burner down the moment the day's mopping is done is the difference between an attended flame and an unattended one."
+    },
+    {
+      "cue": "Write the cracked shield replaced, the thermostat serviced, the damp block rejected, and the coverage readings into the log.",
+      "id": "log-board",
+      "kind": "select",
+      "prompt": "Write the cracked shield replaced, the thermostat serviced, the damp block rejected, and the coverage readings into the log.",
+      "target": "log-board",
+      "title": "Log the course, the finds and the coverage",
+      "why": "A kettle that ran clean today is only proof of that for the crew that watched it; the log is what tells tomorrow's kettleman the thermostat was already serviced once and the coverage held its number, instead of them finding both things out the hard way."
+    },
+    {
+      "cue": "Radio the hoist tender and the ground crew: the kettle is shut down, the course is logged, and name the support line.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Radio the hoist tender and the ground crew: the kettle is shut down, the course is logged, and name the support line.",
+      "target": "radio",
+      "title": "Check in with the hoist tender and the ground",
+      "why": "The hoist tender has spent the whole course watching a rope with a hot load on the end of it, and a short check-in when the kettle goes cold is what lets them stand down knowing the burner they cannot see from the ground is actually out."
+    }
+  ],
+  "supportLine": "Roofers Local 40's member assistance programme, or your contractor's employee assistance line",
+  "tagline": "The kettle plan read, harness clipped, the shield, valve and a felt block checked, the asphalt brought to temperature, the burner lit, a bucket hoisted steady, the felt mopped at a steady rate and its coverage checked, the lap confirmed, gravel embedded in the flood coat, the kettle shut down and logged, with a gust pushing the flame at a felt stack and the kettle foaming without warning along the way",
+  "title": "SmartCiti.X~ Hot Asphalt Kettle & Mop VR",
+  "trade": "Roofer running a hot asphalt kettle and hot-mopping a built-up roof toward a gravel flood coat",
+  "underwater": null,
+  "weather": "wind"
+}

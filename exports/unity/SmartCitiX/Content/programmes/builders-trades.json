@@ -1,0 +1,116 @@
+{
+  "accent": "#c9a36b",
+  "anchors": [
+    {
+      "id": "uptown-construction-site",
+      "name": "Uptown Construction Site",
+      "position": [
+        -9,
+        -230
+      ],
+      "stations": [
+        "concrete-pour",
+        "cm-slab-screed-bull-float-and-trowel"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "uptown"
+    }
+  ],
+  "certification": "OSHA 29 CFR 1926 Subparts Q (concrete and formwork), L (scaffolds), CC (cranes) and 1926.1153 respirable crystalline silica; ANSI A10.9 concrete and masonry; the engineer's shoring and reshoring drawings",
+  "competency": {
+    "id": "builders-trades",
+    "kind": "programme",
+    "require": 4,
+    "standards": [
+      "osha-1926-subpart-q",
+      "osha-1926-subpart-l",
+      "osha-1926-1153",
+      "ansi-a10-9"
+    ],
+    "stations": [
+      "concrete-pour",
+      "formwork-shoring",
+      "mass-timber-panel-set",
+      "masonry-silica-scaffold",
+      "bt-formwork-stripping-and-reshoring",
+      "bt-rebar-tying-and-impalement-protection",
+      "bt-masonry-wall-layout-and-mortar",
+      "or-ranch-road-grading-and-culvert"
+    ],
+    "title": "Form, shore, set and cut to the engineer's drawings without breathing silica"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "carpenters-ictf",
+    "liuna-training-fund",
+    "bac-imi",
+    "iuoe-training",
+    "osha-1926-701",
+    "osha-1926-703",
+    "osha-1926-451",
+    "osha-1926-1153",
+    "ansi-a10-9",
+    "ansi-a10-8",
+    "aci-concrete-practice",
+    "pti-post-tensioning",
+    "asme-b30-9"
+  ],
+  "id": "builders-trades",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1633,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 120
+  },
+  "name": "Builders — Carpenters, Laborers and Masons",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "concrete-pour",
+      "why": "The pour the formwork exists for, with the pump remote and the crane over the deck as the interruptions that make it real."
+    },
+    {
+      "app": "smartcity",
+      "id": "formwork-shoring",
+      "why": "The shoring that carries the pour above it — mudsills, plumbed and pinned post shores, and a sign-off the truck outside does not get to skip."
+    },
+    {
+      "app": "smartcity",
+      "id": "mass-timber-panel-set",
+      "why": "The carpenters' own crane pick, flown by the IUOE operator this programme already names, with the deck kept clear and the panel braced before the hook lets go."
+    },
+    {
+      "app": "smartcity",
+      "id": "masonry-silica-scaffold",
+      "why": "The bricklayers' station the programme's silica citation is for — a course laid off a scaffold that was actually checked, cut wet to Table 1."
+    },
+    {
+      "app": "smartcity",
+      "id": "bt-formwork-stripping-and-reshoring",
+      "why": "The other end of the shoring: a bay stripped only on the engineer's strength ticket, one strip at a time, with a reshore snugged in behind each before the floor above is poured onto it."
+    },
+    {
+      "app": "smartcity",
+      "id": "bt-rebar-tying-and-impalement-protection",
+      "why": "The steel the pour buries: a slab mat placed off walk boards and tied to the drawing, beside a row of dowels guarded by rated impalement caps rather than the mushrooms that only stop a scratch."
+    },
+    {
+      "app": "smartcity",
+      "id": "bt-masonry-wall-layout-and-mortar",
+      "why": "Where a bricklayer's wall begins: laid out square off the gridlines, dry-bonded, batched to the specification's proportions with the dust kept wet, and braced per the bracing plan inside its limited access zone."
+    },
+    {
+      "app": "smartcity",
+      "id": "or-ranch-road-grading-and-culvert",
+      "why": "The operating engineer's own station, off the slab entirely: a crown cut to the plan on open range, a culvert set in a trench respected as an excavation, and a school bus on the same road escorted through on the flagger's call."
+    }
+  ],
+  "summary": "The building trades' own stations: formwork and shoring to the engineer's drawings, a mass-timber panel picked and set, and masonry on a scaffold under the silica rule — beside the concrete pour and scaffold erection the construction programme already teaches.",
+  "union": "UBC carpenters, LIUNA laborers, BAC bricklayers and IUOE operators"
+}

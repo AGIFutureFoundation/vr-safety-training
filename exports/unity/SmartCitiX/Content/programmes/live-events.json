@@ -1,0 +1,106 @@
+{
+  "accent": "#c58cff",
+  "anchors": [
+    {
+      "id": "coliseum-stadium",
+      "name": "Coliseum Stadium",
+      "position": [
+        635,
+        370
+      ],
+      "stations": [
+        "stage-power",
+        "fly-system",
+        "rigging-loft"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "coliseum"
+    }
+  ],
+  "certification": "ETCP Certified Rigger and Certified Entertainment Electrician, ANSI E1.4-1 counterweight rigging and NFPA 70E for the power tie-in",
+  "competency": {
+    "id": "live-events",
+    "kind": "programme",
+    "require": 4,
+    "standards": [
+      "etcp-certification",
+      "ansi-e1-4",
+      "nfpa-70e"
+    ],
+    "stations": [
+      "stage-power",
+      "fly-system",
+      "rigging-loft",
+      "chain-hoist",
+      "stage-load-in-and-truss-rigging",
+      "le-followspot-and-truss-access-at-height",
+      "le-crowd-barricade-and-show-stop-call"
+    ],
+    "title": "Rig and power a performance space to entertainment practice"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "iatse-training-trust",
+    "etcp-certification",
+    "ansi-e1-4",
+    "ansi-e1-6",
+    "asme-b30-16",
+    "nfpa-70e",
+    "nfpa-1126",
+    "atf-27-cfr-555",
+    "osha-1910-28"
+  ],
+  "id": "live-events",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1620,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 130
+  },
+  "name": "Live Events Production",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "stage-power",
+      "why": "The company switch tie-in: cam-locks ground first, and the phase check before anything is energised."
+    },
+    {
+      "app": "smartcity",
+      "id": "fly-system",
+      "why": "Loading a lineset, where an unbalanced arbor is a runaway with a person on the rope."
+    },
+    {
+      "app": "smartcity",
+      "id": "rigging-loft",
+      "why": "Points overhead, with automation cues proven before the house is let in."
+    },
+    {
+      "app": "smartcity",
+      "id": "chain-hoist",
+      "why": "Motors: inspection, capacity and never leaving a load hanging on a brake."
+    },
+    {
+      "app": "smartcity",
+      "id": "stage-load-in-and-truss-rigging",
+      "why": "The arena load-in from the deck: truss inspected and spliced, flown level on its motors with nobody under it, and every point dead-hung on its steel."
+    },
+    {
+      "app": "smartcity",
+      "id": "le-followspot-and-truss-access-at-height",
+      "why": "A spot tower before doors: the lift ridden held, the tower anchor clipped before the gate opens, a cracked coupler caught, and the lamp struck from its own switch clear of the housing."
+    },
+    {
+      "app": "smartcity",
+      "id": "le-crowd-barricade-and-show-stop-call",
+      "why": "The front-of-house rail before doors: a bent pin caught, the line built and gauged to the plan, and the show-stop chain briefed and used when the load gauge spikes."
+    }
+  ],
+  "summary": "A load-in from the truck to the house lights, in the order a call actually runs, with the two things that kill on a stage: what is overhead and what is energised.",
+  "union": "IATSE — International Alliance of Theatrical Stage Employees"
+}

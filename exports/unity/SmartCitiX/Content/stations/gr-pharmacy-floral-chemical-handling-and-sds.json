@@ -1,0 +1,389 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "sheet-checked",
+    "name": "Sheet Checked",
+    "note": "Every chemical handled today was checked against its own SDS before it was stored, mixed or cleaned up"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "UFCW member training for retail food, clinic and dental support work; OSHA 29 CFR 1910.1200 hazard communication; ANSI/ISEA Z358.1 emergency eyewash and shower equipment; OSHA 29 CFR 1910.132 personal protective equipment; OSHA 29 CFR 1910.133 eye and face protection; OSHA 29 CFR 1910.138 hand protection",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.133",
+        "id": "osha-1910-133",
+        "title": "29 CFR 1910.133 — Eye and face protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.138",
+        "id": "osha-1910-138",
+        "title": "29 CFR 1910.138 — Hand protection"
+      },
+      {
+        "body": "union",
+        "citedAs": "UFCW",
+        "id": "ufcw-training",
+        "title": "UFCW member training for retail food, clinic and dental support work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Grocery pharmacy and floral departments",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "sheet-first",
+        "name": "Sheet First",
+        "note": "Checked the SDS before the container was ever opened"
+      },
+      {
+        "id": "no-mix",
+        "name": "No Mix",
+        "note": "Never combined two chemicals without checking compatibility first"
+      },
+      {
+        "id": "steady-dilute",
+        "name": "Steady Dilute",
+        "note": "Mixed to the label's own ratio inside the band every time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "No corrections through the whole chemical handling check"
+      },
+      {
+        "id": "held-the-hold",
+        "name": "Held The Hold",
+        "note": "Never broke a timed step early"
+      },
+      {
+        "id": "shift-fast",
+        "name": "Handled Fast",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "SDS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Clerk",
+      "Pharmacy/Floral Clerk",
+      "Lead Clerk",
+      "Department Supervisor",
+      "Chemical Handling Authority Certified"
+    ],
+    "system": "Chemical Handling Authority"
+  },
+  "hazards": {
+    "block-eyewash-path": "Those cases are stacked directly in front of the eyewash station. An eyewash that takes ten seconds to reach because of a delivery nobody moved yet is an eyewash that misses the one window that actually matters after a splash.",
+    "mix-incompatible-chemicals": "You're about to pour that returned cleaner straight into the floral preservative bucket to save a trip to the shelf. Two chemicals with no checked compatibility do not get combined on a guess — the SDS for each one is what tells you whether that's a reaction waiting to happen, not how full the bucket looks.",
+    "skip-ppe-goggles": "You're reaching for the concentrate with no eye protection on. The splash risk on a concentrate is exactly what OSHA 29 CFR 1910.133 rates eye protection for — the goggles go on before the cap comes off, not after something already went wrong.",
+    "unlabeled-bottle": "That spray bottle has no label on it at all. A decanted chemical with nothing written on the bottle is a chemical nobody after you can identify — OSHA's hazard communication rule exists because the one thing worse than a hazardous chemical is one nobody can name in an emergency."
+  },
+  "id": "gr-pharmacy-floral-chemical-handling-and-sds",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "dilute-preservative",
+      "alert": "A coworker is about to pour a different floral chemical straight into your mixed preservative bucket to save a second trip to the shelf.",
+      "cue": "That's two chemicals about to combine with nobody having checked compatibility.",
+      "delay": 4,
+      "id": "coworker-combines-concentrates",
+      "kind": "About to mix without checking",
+      "missNote": "The pour happened before anyone checked the chart. Whatever that combination does, nobody standing there actually knew it was safe before it happened — which is exactly what the chart was there to answer.",
+      "seconds": 12,
+      "target": "compat-chart",
+      "why": "Pointing them at the compatibility chart before that pour happens is the entire lesson this station teaches, handed to somebody else in real time — a shortcut that skips the chart is a shortcut that skips the one thing standing between a convenience and a reaction.",
+      "wrongNote": "It's the compatibility chart — check it before that second chemical goes into the bucket."
+    },
+    {
+      "after": "spill-kit-response",
+      "alert": "Someone from another department is walking straight toward the spill area, unaware it's an active chemical cleanup.",
+      "cue": "Get them behind the barrier before they walk through it.",
+      "delay": 3,
+      "id": "bystander-near-spill",
+      "kind": "Walking toward an active spill",
+      "missNote": "They walked through the spill area before anyone redirected them. Whatever was in that spill, it's now on a second person's shoes, tracked toward wherever they were headed.",
+      "seconds": 12,
+      "target": "spill-barrier",
+      "why": "A spill area with no barrier around it looks, to anyone who wasn't there when it happened, like an ordinary wet spot to step around — pointing them behind the barrier is what keeps a contained cleanup from becoming a second person's exposure.",
+      "wrongNote": "It's the spill barrier — get them behind it before they walk through the area."
+    }
+  ],
+  "lateNotes": {
+    "goggles": "Not yet — these go on before the concentrate's cap does, not after.",
+    "preservative-meter": "Not until the SDS and the compatibility chart are both checked. This gets mixed to the label, not from memory."
+  },
+  "name": "Pharmacy & Floral Chemical Handling and SDS",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "grocery-and-meatpacking"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "block-eyewash-path",
+      "chem-gloves",
+      "chem-inventory-board",
+      "chem-log",
+      "clean-container",
+      "compat-chart",
+      "eyewash-station",
+      "faded-label",
+      "goggles",
+      "hazmat-bin",
+      "incident-form",
+      "incompatible-container",
+      "leaking-container",
+      "mix-incompatible-chemicals",
+      "preservative-meter",
+      "sds-binder",
+      "segregated-shelf",
+      "skip-ppe-goggles",
+      "spill-barrier",
+      "spill-broom",
+      "spill-kit",
+      "spill-waste-bag",
+      "unlabeled-bottle",
+      "vent-fan-switch"
+    ],
+    "meshes": 146
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Compare what's on the shelf against today's inventory list for both departments.",
+      "id": "chem-inventory",
+      "kind": "select",
+      "prompt": "Compare what's on the shelf against today's inventory list for both departments.",
+      "target": "chem-inventory-board",
+      "title": "Check the chemical inventory board",
+      "why": "The inventory board is the only record of what's actually supposed to be on these shelves — a chemical that shows up without a line on the board is one nobody has checked against an SDS yet, and that gets caught here, not after it's already stored."
+    },
+    {
+      "cue": "Pull the safety data sheet for the chemical you're about to store or mix.",
+      "id": "sds-lookup",
+      "kind": "select",
+      "prompt": "Pull the safety data sheet for the chemical you're about to store or mix.",
+      "target": "sds-binder",
+      "title": "Look up the SDS before handling anything",
+      "why": "OSHA 29 CFR 1910.1200 puts the SDS at the centre of hazard communication for exactly this reason — it's the one document that tells you the storage, handling and first-aid facts for this specific chemical, checked before the container is opened, not guessed at from the label's front panel."
+    },
+    {
+      "cue": "Pull on the chemical-resistant gloves, then the splash goggles — in that order.",
+      "id": "don-ppe-chem",
+      "itemNames": {
+        "chem-gloves": "chemical-resistant gloves",
+        "goggles": "splash goggles"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — gloves go on first, then the goggles, so your hands are already protected before they touch anything else.",
+      "prompt": "Pull on the chemical-resistant gloves, then the splash goggles — in that order.",
+      "targets": [
+        "chem-gloves",
+        "goggles"
+      ],
+      "title": "Glove and goggle up",
+      "why": "OSHA 29 CFR 1910.138 and 1910.133 rate each piece for a different part of the same splash — gloves first so your hands are already covered by the time you reach for the goggles, not the other way around."
+    },
+    {
+      "cue": "Check the chart before shelving this chemical anywhere near what's already stored.",
+      "id": "check-compatibility",
+      "kind": "select",
+      "prompt": "Check the chart before shelving this chemical anywhere near what's already stored.",
+      "target": "compat-chart",
+      "title": "Check the storage compatibility chart",
+      "why": "A compatibility chart is what turns \"there's room on this shelf\" into an actual answer about whether two chemicals belong near each other — an acid and a base sharing a shelf because there was space is exactly the gap this chart exists to close."
+    },
+    {
+      "cue": "Move the container that failed the compatibility check to its own segregated shelf.",
+      "drag": {
+        "missNote": "Not on the segregated shelf — an incompatible container anywhere else is one more thing somebody has to remember not to shelve beside it.",
+        "radius": 0.3,
+        "to": "segregated-shelf"
+      },
+      "id": "segregate-incompatible",
+      "kind": "drag",
+      "prompt": "Move the container that failed the compatibility check to its own segregated shelf.",
+      "target": "incompatible-container",
+      "title": "Move the incompatible container",
+      "why": "A container that fails the compatibility chart doesn't get left where it is because moving it is inconvenient — it goes to the shelf built for exactly this, right away, not on the next slow afternoon."
+    },
+    {
+      "cue": "Two things in this storage area are wrong. Find them by looking.",
+      "decoyNotes": {
+        "clean-container": "This container is sealed, labelled and dry. Leave it."
+      },
+      "id": "walk-chem-storage",
+      "itemNames": {
+        "faded-label": "a container with a faded, unreadable label",
+        "leaking-container": "a container leaking at the cap"
+      },
+      "itemNotes": {
+        "faded-label": "This label has faded past the point of actually being readable. A container nobody can positively identify anymore is treated as unknown, not assumed to still be whatever it was originally labelled.",
+        "leaking-container": "This container is leaking at the cap seal. A slow leak on a shelf is a chemical exposure with nobody's name on it yet — it gets contained and reported, not left for the next person to find by touching it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things in this storage area are wrong. Find them by looking.",
+      "targets": [
+        "leaking-container",
+        "faded-label"
+      ],
+      "title": "Walk the chemical storage before it's touched",
+      "why": "A chemical storage check isn't finished when the shelf looks organised — it's finished when every container on it is actually sound and actually identifiable. Two things left wrong here become the next clerk's exposure."
+    },
+    {
+      "cue": "Meter the concentrate into the water and commit once the mix is at the label's own ratio.",
+      "gauge": {
+        "green": [
+          0.35,
+          0.6
+        ],
+        "label": "PRESERVATIVE MIX",
+        "missNote": "Off the label's own ratio — remix rather than eyeball it closer next time.",
+        "speed": 0.6
+      },
+      "id": "dilute-preservative",
+      "kind": "gauge",
+      "prompt": "Meter the concentrate into the water and commit once the mix is at the label's own ratio.",
+      "target": "preservative-meter",
+      "title": "Mix the floral preservative to the label",
+      "why": "The label's ratio is the only number this mix is measured against — too weak and the preservative does nothing for the flowers it's meant to protect, too strong and it's an unnecessary chemical exposure for whoever handles the buckets next."
+    },
+    {
+      "cue": "Open the spill kit and apply the absorbent, holding it down for the SDS's own dwell guidance.",
+      "holdBreakNote": "Lifted the absorbent early. Hold it down for the SDS's own guidance — a fast lift leaves the spill underneath it, not gone.",
+      "id": "spill-kit-response",
+      "kind": "hold",
+      "prompt": "Open the spill kit and apply the absorbent, holding it down for the SDS's own dwell guidance.",
+      "seconds": 6,
+      "target": "spill-kit",
+      "title": "Apply the spill kit per the SDS",
+      "why": "The spill kit's absorbent only does its job over the dwell time the SDS actually calls for — lifting it early leaves exactly the residue underneath that the kit was supposed to take care of."
+    },
+    {
+      "cue": "Sweep the absorbed residue toward the containment bag at a slow, controlled pace.",
+      "holdBreakNote": "Out of the controlled band — slow the sweep before residue goes past the containment area.",
+      "id": "sweep-controlled",
+      "kind": "track",
+      "prompt": "Sweep the absorbed residue toward the containment bag at a slow, controlled pace.",
+      "seconds": 6,
+      "target": "spill-broom",
+      "title": "Sweep the residue at a controlled pace",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.4,
+        "green": [
+          0.3,
+          0.55
+        ],
+        "label": "SWEEP RATE",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "A fast sweep flings residue outward past the containment area you just set up — a slow, controlled pass keeps everything the spill kit already absorbed inside the area meant to hold it."
+    },
+    {
+      "cue": "Check that the path to the eyewash is clear and the unit activates.",
+      "id": "eyewash-confirm",
+      "kind": "select",
+      "prompt": "Check that the path to the eyewash is clear and the unit activates.",
+      "target": "eyewash-station",
+      "title": "Confirm the eyewash is clear and functional",
+      "why": "An eyewash confirmed clear before a chemical is even opened is what makes the ten seconds after a real splash a routine flush instead of a search for a station nobody checked was working."
+    },
+    {
+      "cue": "Turn the ventilation fan switch on before working with the concentrate, per the SDS's guidance.",
+      "id": "ventilation-fan",
+      "kind": "turn",
+      "prompt": "Turn the ventilation fan switch on before working with the concentrate, per the SDS's guidance.",
+      "target": "vent-fan-switch",
+      "title": "Turn on the back-room ventilation",
+      "turn": {
+        "axis": "y",
+        "label": "VENT FAN",
+        "turns": 0.5
+      },
+      "why": "The SDS's own ventilation guidance exists because a concentrate's fumes build up fastest in exactly the small back room this work happens in — the fan runs before the container opens, not after somebody notices the air feels wrong."
+    },
+    {
+      "cue": "Move the used spill kit materials to the hazardous waste container, not the regular trash.",
+      "drag": {
+        "missNote": "Not in the hazmat bin — spill waste doesn't go in with the regular trash.",
+        "radius": 0.3,
+        "to": "hazmat-bin"
+      },
+      "id": "dispose-spill-waste",
+      "kind": "drag",
+      "prompt": "Move the used spill kit materials to the hazardous waste container, not the regular trash.",
+      "target": "spill-waste-bag",
+      "title": "Dispose of the spill materials properly",
+      "why": "Absorbent that just took up a chemical is not regular trash anymore — the SDS's own disposal guidance is what tells you it goes to a hazardous waste container, and skipping that step just relocates the exposure instead of ending it."
+    },
+    {
+      "cue": "Fill out the incident form for the spill before the shift moves on.",
+      "id": "log-incident",
+      "kind": "select",
+      "prompt": "Fill out the incident form for the spill before the shift moves on.",
+      "target": "incident-form",
+      "title": "Log the spill",
+      "why": "A spill that isn't logged is a spill the next shift has no way of knowing happened — the form is what turns a cleaned-up mess into a record somebody can actually act on if it happens again."
+    },
+    {
+      "cue": "Sign the log to close out today's chemical handling check.",
+      "id": "sign-chem-log",
+      "kind": "select",
+      "prompt": "Sign the log to close out today's chemical handling check.",
+      "target": "chem-log",
+      "title": "Sign the chemical handling log",
+      "why": "The signature is the clerk taking responsibility for the whole check — every chemical inventoried, checked against its SDS, stored compatibly and any spill logged — and it's the record read if either department's chemical handling is ever questioned."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A chemical checked against its own SDS before it's stored, mixed to the label or cleaned up, with the eyewash proven clear and the incident logged",
+  "title": "SmartCiti.X~ Pharmacy & Floral Chemical Handling and SDS VR",
+  "trade": "Pharmacy technician / floral clerk",
+  "underwater": null,
+  "weather": null
+}

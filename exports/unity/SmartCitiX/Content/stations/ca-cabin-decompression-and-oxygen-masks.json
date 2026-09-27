@@ -1,0 +1,373 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "cabin-repressurized",
+    "name": "Cabin Repressurized",
+    "note": "Own mask on first, every mask in the row confirmed, the loose items caught, and the cabin swept and logged once it was safe to move again"
+  },
+  "category": "Mobility & Transit",
+  "certification": "AFA-CWA cabin-safety training; the airline's own rapid decompression and emergency descent checklist under 14 CFR 121; OSHA 29 CFR 1910.151 medical services and first aid for the oxygen equipment this drill covers",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFA-CWA",
+        "id": "afa-cwa-training",
+        "title": "AFA-CWA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "FAA",
+        "citedAs": "14 CFR 121",
+        "id": "faa-14-cfr-121",
+        "title": "14 CFR Part 121 — Operating requirements for domestic, flag and supplemental air carriers"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.151",
+        "id": "osha-1910-151",
+        "title": "29 CFR 1910.151 — Medical services and first aid"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Aviation",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "own-mask-first",
+        "name": "Own Mask First",
+        "note": "Secured your own mask before touching anyone else's row"
+      },
+      {
+        "id": "row-swept",
+        "name": "Row Swept",
+        "note": "Every mask in the cabin confirmed before moving on"
+      },
+      {
+        "id": "backup-o2-delivered",
+        "name": "Backup O2 Delivered",
+        "note": "The portable bottle reached the row with the failed compartment"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-drill",
+        "name": "Clean Drill",
+        "note": "No corrections anywhere in the drill"
+      },
+      {
+        "id": "steady-watch",
+        "name": "Steady Watch",
+        "note": "Held the cabin-altitude watch the full count, first try"
+      },
+      {
+        "id": "fast-drill",
+        "name": "Fast Drill",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "O2",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Flight Attendant",
+      "Line Qualified",
+      "Lead Flight Attendant",
+      "Purser",
+      "Cabin Repressurized Certified"
+    ],
+    "system": "Cabin Repressurized"
+  },
+  "hazards": {
+    "child-unassisted-hazard": "That child's mask is hanging by their seat, not on their face. A child this age cannot always manage the mask alone even after the adult beside them has theirs on — this is exactly the row this crew's sweep exists to catch once their own mask is already secure.",
+    "loose-laptop-hazard": "That laptop is still sitting open on the tray table. Anything not stowed becomes exactly what physics makes it the instant this aircraft pitches hard, and a heavy object flying loose in a cabin full of people reaching for their own masks is its own injury waiting to happen.",
+    "mask-not-deployed-hazard": "That overhead compartment never dropped its mask. A compartment that stays shut is not a row that's fine — it's a row that needs the manual release pulled and, if that fails, a portable bottle brought to it directly.",
+    "own-mask-skipped-hazard": "That's a crew member reaching to help a passenger with their own mask still hanging unused. Every briefing says it for a reason: a crew member who passes out from hypoxia while helping someone else's row is one more person who now needs help, not one less problem in this cabin."
+  },
+  "id": "ca-cabin-decompression-and-oxygen-masks",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-mask-on-passenger",
+      "alert": "A second overhead compartment across the aisle also never dropped its mask.",
+      "cue": "That row needs the manual release pulled right now.",
+      "delay": 3,
+      "id": "second-mask-fails",
+      "kind": "A second compartment fails to drop",
+      "missNote": "The second failed compartment sat undiscovered while attention stayed on the first row. That's a whole row still without oxygen.",
+      "seconds": 12,
+      "target": "mask-not-deployed",
+      "why": "A second failed compartment doesn't wait its turn behind the first — it gets the same manual release the instant it's spotted, because every second that row goes without oxygen is a second this crew already knows exactly how to fix.",
+      "wrongNote": "Pull the manual release on the second compartment — it doesn't wait behind the first one."
+    },
+    {
+      "after": "watch-cabin-altitude",
+      "alert": "A passenger starts unbuckling to go help a family member two rows away during the descent.",
+      "cue": "That gets a firm stay-seated instruction, not a debate.",
+      "delay": 3,
+      "id": "passenger-tries-to-unbuckle",
+      "kind": "A passenger tries to unbuckle to help someone else",
+      "missNote": "The passenger unbuckled and started moving through the cabin mid-descent. That's exactly the fall risk this instruction exists to prevent.",
+      "seconds": 12,
+      "target": "stay-seated-command",
+      "why": "Anyone moving through this cabin during an active descent is a fall risk this crew does not need on top of everything already happening — a firm, immediate instruction to stay seated with the mask on is what keeps one more person from becoming a second problem.",
+      "wrongNote": "A firm stay-seated instruction, right now — this isn't a conversation to have while the aircraft is still descending."
+    }
+  ],
+  "lateNotes": {
+    "portable-o2-bottle": "Not yet — your own mask goes on first, before this crew moves to help anyone else's row."
+  },
+  "name": "Cabin Decompression and Oxygen Mask Drill",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "airline-cabin-and-flight-crew"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "cabinInterior",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.7,
+    "hits": [
+      "backup-o2-cylinder-valve",
+      "brace-command",
+      "cabin-altitude-gauge",
+      "cabin-repressurize-panel",
+      "cabin-sweep-log",
+      "child-mask",
+      "child-unassisted-hazard",
+      "crew-oxygen-mask",
+      "decompression-checklist-board",
+      "decompression-log",
+      "emergency-descent-pa",
+      "failed-row-spot",
+      "loose-laptop",
+      "loose-laptop-hazard",
+      "mask-not-deployed",
+      "mask-not-deployed-hazard",
+      "o2-pressure-gauge-dx",
+      "own-mask-skipped-hazard",
+      "portable-mask",
+      "portable-o2-bottle",
+      "seatbelt-sign-on",
+      "stay-seated-command"
+    ],
+    "meshes": 207
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Open the rapid decompression and emergency descent checklist immediately.",
+      "id": "pull-checklist",
+      "kind": "select",
+      "prompt": "Open the rapid decompression and emergency descent checklist immediately.",
+      "target": "decompression-checklist-board",
+      "title": "Pull the decompression checklist",
+      "why": "This is the one checklist a crew member has the least time to think through from memory — pulling it and running it in order is what keeps every step in the sequence the airline actually trained for, not whatever comes to mind first under pressure."
+    },
+    {
+      "cue": "Put on your own oxygen mask and confirm flow before doing anything else.",
+      "id": "don-own-mask",
+      "kind": "select",
+      "prompt": "Put on your own oxygen mask and confirm flow before doing anything else.",
+      "target": "crew-oxygen-mask",
+      "title": "Secure your own mask first",
+      "why": "A crew member who cannot think clearly is a crew member who cannot help anyone, and the only way to stay useful to this whole cabin is securing your own oxygen before turning to help with a single other row."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Make the emergency descent PA per the checklist, then confirm the seatbelt sign is illuminated.",
+      "id": "descent-command",
+      "itemNames": {
+        "emergency-descent-pa": "make the emergency descent announcement",
+        "seatbelt-sign-on": "confirm the seatbelt sign is on"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Announcement first, then the sign — the sign confirms an instruction that has to already have been given.",
+      "prompt": "Make the emergency descent PA per the checklist, then confirm the seatbelt sign is illuminated.",
+      "targets": [
+        "emergency-descent-pa",
+        "seatbelt-sign-on"
+      ],
+      "title": "Announce the descent, then confirm the sign",
+      "why": "Passengers need to hear what's happening from this crew's own voice before anything else, and confirming the sign right after is what makes sure the instruction to stay seated is actually backed up by the cabin's own visible signal."
+    },
+    {
+      "cue": "Two things in this cabin aren't right for the descent. Find them once your own mask is already on.",
+      "id": "scan-masks",
+      "itemNames": {
+        "loose-laptop": "a laptop still open on a tray table",
+        "mask-not-deployed": "an overhead compartment that never dropped its mask"
+      },
+      "itemNotes": {
+        "loose-laptop": "This gets stowed or held down now — anything loose becomes a projectile the instant the aircraft pitches, and a tray table is not a secure place for it during a descent.",
+        "mask-not-deployed": "This row gets the manual release pulled immediately — a mask that never dropped is not a row this crew can leave for later."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things in this cabin aren't right for the descent. Find them once your own mask is already on.",
+      "targets": [
+        "mask-not-deployed",
+        "loose-laptop"
+      ],
+      "title": "Sweep the cabin for what's wrong",
+      "why": "This sweep only starts once this crew member's own mask is secure — everything it catches, from a compartment that never dropped to an object still loose on a tray table, is a real hazard to whoever is sitting near it for the rest of the descent."
+    },
+    {
+      "cue": "Carry the portable oxygen bottle to the row whose compartment never dropped.",
+      "drag": {
+        "missNote": "Not at the row — a bottle that never arrives is oxygen this row still doesn't have.",
+        "radius": 0.45,
+        "to": "failed-row-spot"
+      },
+      "id": "assist-failed-mask",
+      "kind": "drag",
+      "prompt": "Carry the portable oxygen bottle to the row whose compartment never dropped.",
+      "target": "portable-o2-bottle",
+      "title": "Bring the portable bottle to the failed row",
+      "why": "A row with no working mask has no oxygen at all until this crew physically brings a portable bottle to it — this happens the moment the failed compartment is found, not after the rest of the sweep is finished."
+    },
+    {
+      "cue": "Hold the portable mask to the passenger's face and confirm oxygen is actually flowing.",
+      "holdBreakNote": "Let go before flow was actually confirmed. A mask that wasn't held long enough to check is a row this crew still doesn't know is getting oxygen.",
+      "id": "hold-mask-on-passenger",
+      "kind": "hold",
+      "prompt": "Hold the portable mask to the passenger's face and confirm oxygen is actually flowing.",
+      "seconds": 5,
+      "target": "portable-mask",
+      "title": "Hold the mask in place and confirm flow",
+      "why": "A mask held loosely against someone's face who cannot secure it themselves right now delivers nothing — holding it firmly in place long enough to actually confirm flow is the only way to know this row is getting oxygen at all."
+    },
+    {
+      "cue": "Turn the backup cylinder's valve open per its own placard.",
+      "id": "open-backup-cylinder",
+      "kind": "turn",
+      "prompt": "Turn the backup cylinder's valve open per its own placard.",
+      "target": "backup-o2-cylinder-valve",
+      "title": "Open the backup oxygen cylinder",
+      "turn": {
+        "axis": "y",
+        "label": "BACKUP O2",
+        "turns": 0.3
+      },
+      "why": "The backup cylinder is what this crew reaches for once the fixed system alone isn't covering every row that needs it, and opening it correctly is a mechanical step the placard spells out, not a judgment call about how much any one passenger needs."
+    },
+    {
+      "cue": "Check the pressure gauge before relying on the backup cylinder for the rest of the descent.",
+      "gauge": {
+        "green": [
+          0.5,
+          1
+        ],
+        "label": "O2 PRESSURE",
+        "missNote": "Moved on without confirming the backup cylinder actually had pressure. A crew relying on an unchecked cylinder is relying on a guess.",
+        "speed": 0.55
+      },
+      "id": "check-o2-pressure",
+      "kind": "gauge",
+      "prompt": "Check the pressure gauge before relying on the backup cylinder for the rest of the descent.",
+      "target": "o2-pressure-gauge-dx",
+      "title": "Read the backup cylinder's pressure",
+      "why": "A backup cylinder this crew is about to depend on for the rest of the descent needs its pressure actually confirmed, not assumed from how full it looked in the bracket."
+    },
+    {
+      "cue": "Keep an eye on the cabin altitude readout until it settles back into the normal band.",
+      "holdBreakNote": "Lost track of the cabin altitude before it actually settled. This crew calls the all-clear off this reading, not off a feeling that things seem calmer.",
+      "id": "watch-cabin-altitude",
+      "kind": "track",
+      "prompt": "Keep an eye on the cabin altitude readout until it settles back into the normal band.",
+      "seconds": 7,
+      "target": "cabin-altitude-gauge",
+      "title": "Watch the cabin altitude come back down",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.3,
+        "green": [
+          0.45,
+          0.65
+        ],
+        "label": "CABIN ALT",
+        "rise": 0.35,
+        "start": 0.2
+      },
+      "why": "The decision to stand up and move through this cabin again rests on the cabin altitude actually reading normal, not on how the descent felt — watching it settle is what turns a guess into a confirmed fact."
+    },
+    {
+      "cue": "Now that your own mask is secure, help the child whose mask isn't on.",
+      "id": "check-on-child",
+      "kind": "select",
+      "prompt": "Now that your own mask is secure, help the child whose mask isn't on.",
+      "target": "child-mask",
+      "title": "Help the unassisted child",
+      "why": "This is exactly the help this crew's own mask being secured first was for — a child who needs a hand gets one now, from a crew member who can actually think clearly enough to give it safely."
+    },
+    {
+      "cue": "Read the pressure gauge and confirm the cabin has actually returned to a safe reading before standing passengers down from oxygen.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.9
+        ],
+        "label": "CABIN PSI",
+        "missNote": "Stood passengers down before the gauge actually confirmed a normal reading. That's a guess dressed up as a confirmation.",
+        "speed": 0.6
+      },
+      "id": "confirm-cabin-repressurized",
+      "kind": "gauge",
+      "prompt": "Read the pressure gauge and confirm the cabin has actually returned to a safe reading before standing passengers down from oxygen.",
+      "target": "cabin-repressurize-panel",
+      "title": "Confirm the cabin is repressurized",
+      "why": "Passengers come off their masks only once this crew has an actual confirmed reading that the cabin is safe again — not once the descent feels like it's over, which is a guess this checklist has no use for."
+    },
+    {
+      "cue": "Walk the aisle, check on every row, and note anything that still needs attention.",
+      "id": "sweep-and-check",
+      "kind": "select",
+      "prompt": "Walk the aisle, check on every row, and note anything that still needs attention.",
+      "target": "cabin-sweep-log",
+      "title": "Sweep the cabin and check on passengers",
+      "why": "A cabin that just went through a rapid decompression has people who are shaken, some who may be hurt, and equipment that needs resetting — this walk-through is what actually finds out which of those apply, row by row, instead of assuming everyone is fine because the drill is technically over."
+    },
+    {
+      "cue": "Record the sequence, the times, and anything found during the sweep.",
+      "id": "log-decompression-event",
+      "kind": "select",
+      "prompt": "Record the sequence, the times, and anything found during the sweep.",
+      "target": "decompression-log",
+      "title": "Log the event",
+      "why": "This log is what the airline reviews afterward to confirm the equipment performed and the checklist was followed — a decompression handled perfectly but never logged leaves nothing behind to prove either one."
+    }
+  ],
+  "supportLine": "your AFA-CWA local's member assistance resources, or the airline's own employee assistance line — a real decompression drill can bring back what an actual event felt like, and that's worth talking through",
+  "tagline": "This crew member's own mask on first, every time, then the sweep down the aisle for the mask that never dropped, the child who needs a hand, and the loose item that turns into a projectile — no altitude or descent number this platform is not certain of",
+  "title": "SmartCiti.X~ Cabin Decompression and Oxygen Mask Drill VR",
+  "trade": "Flight attendant — AFA-CWA cabin crew",
+  "underwater": null,
+  "weather": null
+}

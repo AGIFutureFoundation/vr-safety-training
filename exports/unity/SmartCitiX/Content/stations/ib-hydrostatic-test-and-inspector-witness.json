@@ -1,0 +1,426 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "test-witnessed-clean",
+    "name": "Test Witnessed Clean",
+    "note": "Filled, vented, pressurised and held clean, with the inspector's own signature on the result"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "Boilermakers Local 549 apprenticeship and training; ASME Section I rules for the hydrostatic test of power boilers and pressure vessels; National Board Inspection Code (NBIC) repair and alteration practice; OSHA 29 CFR 1910.147 the control of hazardous energy; OSHA 29 CFR 1910.146 permit-required confined spaces for the post-test inspection",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME Section I",
+        "id": "asme-section-i",
+        "title": "ASME Boiler and Pressure Vessel Code, Section I — Rules for Construction of Power Boilers"
+      },
+      {
+        "body": "union",
+        "citedAs": "Boilermakers Local 549",
+        "id": "boilermakers-local-549",
+        "title": "Boilermakers Local 549 apprenticeship and training, as a training body"
+      },
+      {
+        "body": "NBIC",
+        "citedAs": "National Board Inspection Code",
+        "id": "nbic",
+        "title": "National Board Inspection Code, maintained by the National Board of Boiler and Pressure Vessel Inspectors — inspection, repair and alteration practice for boilers and pressure vessels in service"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.146",
+        "id": "osha-1910-146",
+        "title": "29 CFR 1910.146 — Permit-required confined spaces"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "air-purged-first",
+        "name": "Air Purged First",
+        "note": "Never pressurised before trapped air was fully vented"
+      },
+      {
+        "id": "hold-precise",
+        "name": "Hold Precise",
+        "note": "Held every gauge and track reading near band centre"
+      },
+      {
+        "id": "blind-disciplined",
+        "name": "Blind Disciplined",
+        "note": "Completed the blind-and-vent sequence with no correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-test",
+        "name": "Clean Test",
+        "note": "No corrections from the procedure to the certificate"
+      },
+      {
+        "id": "steady-ramp",
+        "name": "Steady Ramp",
+        "note": "Held the pressurisation ramp through the whole rise"
+      },
+      {
+        "id": "fast-witness",
+        "name": "Fast Witness",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "PSI",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Helper",
+      "Test Technician",
+      "Lead Tester",
+      "Test Foreman",
+      "Test Certified"
+    ],
+    "system": "Test Certified"
+  },
+  "hazards": {
+    "bystander-line-of-fire": "There is a coworker standing directly in line with that blind flange while the vessel is at test pressure. A joint under hydrostatic test is exactly where a fitting can let go, and water at test pressure through a gap in a flange is a line of fire nobody needs to be standing in — this walk happens from the side of every joint, not from in front of it.",
+    "capped-vent": "That high-point vent is still capped and you are about to start pressurising anyway. A vent left capped during fill traps air inside the vessel, and trapped gas under a hydrostatic test is compressible in a way water is not — if this vessel lets go under pressure, the energy stored in that trapped air is what turns a leak into something far more violent.",
+    "gauge-out-of-cal": "You reached for the spare gauge on the cart instead of the tagged master gauge. A test result is only as good as the instrument that read it, and a gauge with no current calibration tag is a number nobody can actually stand behind — the inspector witnesses the master gauge specifically because its calibration is the one thing on this cart that has been proven.",
+    "over-pressurize-past-test": "The pump is still running well past the specified test pressure. Every psi above the number the procedure calls for is margin the vessel was never actually asked to prove, and pushing past it on the theory that a little extra shows more confidence risks a real, undocumented failure of a vessel the whole test exists to prove is sound."
+  },
+  "id": "ib-hydrostatic-test-and-inspector-witness",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "hold-pressure",
+      "alert": "The gauge has started dropping suddenly during the hold, and water is visible spraying from a joint.",
+      "cue": "Isolate the pump and bring the pressure down before the leak gets worse.",
+      "delay": 4,
+      "id": "sudden-pressure-drop",
+      "kind": "Pressure drop",
+      "missNote": "The pump kept running while pressure dropped and water sprayed from the joint. A leak that is actively growing under a pump still adding pressure is exactly the direction this does not get better on its own.",
+      "seconds": 12,
+      "target": "isolation-valve",
+      "why": "A sudden drop during a hold, with visible spray, is not a reading to keep watching — it is an active failure at a joint under pressure, and isolating the pump is what stops adding energy to a system that has already shown it cannot hold the current pressure safely.",
+      "wrongNote": "It is the isolation valve. Nothing about this test continues safely with a joint spraying under pressure and the pump still running."
+    },
+    {
+      "after": "leak-walk",
+      "alert": "The inspector has been called away by radio in the middle of witnessing the hold.",
+      "cue": "Pause the test until the inspector is back and watching.",
+      "delay": 4,
+      "id": "inspector-called-away",
+      "kind": "Witness interrupted",
+      "missNote": "The test continued through the inspector's absence with nothing marked. A hold nobody independent was watching for part of its duration is a hold that cannot honestly be certified as fully witnessed.",
+      "seconds": 12,
+      "target": "witness-hold-flag",
+      "why": "A hold that continues without the inspector actually watching it is a hold with no independent witness for whatever happens in that window — the flag is what pauses the test on record rather than quietly continuing through a gap in the witness and hoping nothing happened while nobody but the crew was looking.",
+      "wrongNote": "That is not it. The witness-hold flag is what actually marks this test as paused until the inspector is back."
+    }
+  ],
+  "lateNotes": {
+    "hold-gauge": "The hold only starts once the ramp has actually reached the specified test pressure, not partway up the rise.",
+    "test-pump": "The pump only pressurises once the vessel has been filled with the vents open and confirmed free of trapped air — not before the air purge is proven."
+  },
+  "name": "Hydrostatic Test and Inspector Witness",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "insulators-and-boilermakers"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "blind-removed",
+      "bystander-line-of-fire",
+      "capped-vent",
+      "depressurize-valve",
+      "fill-connection",
+      "flange-weep",
+      "gauge-out-of-cal",
+      "high-vent-close",
+      "high-vent-open",
+      "high-vent-target",
+      "hold-gauge",
+      "ibht-closing-log",
+      "ibht-crew-checkin",
+      "inspector-figure",
+      "isolation-valve",
+      "loose-blind-flag",
+      "low-drain-closed",
+      "low-drain-open",
+      "master-gauge",
+      "over-pressurize-past-test",
+      "retained-water",
+      "test-blind",
+      "test-certificate",
+      "test-procedure-panel",
+      "test-pump",
+      "test-pump-throttle",
+      "threaded-weep",
+      "tool-on-vessel",
+      "weld-weep",
+      "witness-hold-flag"
+    ],
+    "meshes": 190
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Confirm the test pressure, the hold time and the inspector witness requirement.",
+      "id": "test-procedure",
+      "kind": "select",
+      "prompt": "Confirm the test pressure, the hold time and the inspector witness requirement.",
+      "target": "test-procedure-panel",
+      "title": "Read the hydrostatic test procedure",
+      "why": "The procedure is what turns a pump and a gauge into an actual test — the pressure, the hold time and exactly which parts of it the inspector has to personally witness are all set here, and a test run to the wrong number proves nothing about the vessel this repair was actually meant to qualify."
+    },
+    {
+      "cue": "Install the test blind, open the high-point vent, then close the low-point drain.",
+      "id": "blind-and-vent",
+      "itemNames": {
+        "high-vent-open": "high-point vent opened",
+        "low-drain-closed": "low-point drain closed",
+        "test-blind": "test blind installed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — blind the vessel, open the high vent, then close the low drain once the vessel is ready to fill.",
+      "prompt": "Install the test blind, open the high-point vent, then close the low-point drain.",
+      "targets": [
+        "test-blind",
+        "high-vent-open",
+        "low-drain-closed"
+      ],
+      "title": "Blind, vent and drain the vessel for test",
+      "why": "The blind isolates the vessel from the rest of the system so the test pressure stays exactly where it is supposed to be tested; the high vent opens before fill starts so trapped air has somewhere to go; and the low drain closes last, once the vessel is actually ready to hold water rather than lose it out the bottom."
+    },
+    {
+      "cue": "Read the calibration tag on the master test gauge and confirm it is current before connecting it.",
+      "id": "gauge-cal-check",
+      "kind": "select",
+      "prompt": "Read the calibration tag on the master test gauge and confirm it is current before connecting it.",
+      "target": "master-gauge",
+      "title": "Check the master gauge's calibration tag",
+      "why": "An inspector witnesses this test on the assumption that the instrument reading it is trustworthy, and that assumption rests entirely on a calibration date somebody actually checked before the gauge went on the vessel — a result read off an out-of-date gauge is a number with nothing standing behind it."
+    },
+    {
+      "cue": "Carry the hydro test pump's hose to the fill connection and connect it.",
+      "drag": {
+        "missNote": "Not connected at the fill point yet. The pump has to be on the connection the procedure names before anything about this test is standard.",
+        "radius": 0.5,
+        "to": "fill-connection"
+      },
+      "id": "connect-pump",
+      "kind": "drag",
+      "prompt": "Carry the hydro test pump's hose to the fill connection and connect it.",
+      "target": "test-pump",
+      "title": "Connect the test pump",
+      "why": "The pump connects to the fill point the procedure names, not the most convenient opening on the vessel — a test rigged to a different connection can pressurise unevenly or miss the isolation the blind was just installed to create."
+    },
+    {
+      "cue": "Hold the high-point vent open until a solid stream of water confirms the vessel is full and the air is out.",
+      "holdBreakNote": "Vent closed before the stream ran solid. Air still trapped in this vessel means the test that follows is not the test the procedure is asking for.",
+      "id": "fill-vent",
+      "kind": "hold",
+      "prompt": "Hold the high-point vent open until a solid stream of water confirms the vessel is full and the air is out.",
+      "seconds": 5,
+      "target": "high-vent-target",
+      "title": "Fill and vent trapped air",
+      "why": "Air trapped in the highest point of the vessel stays there through a fill unless it is actively vented, and a vessel filled with air still pocketed inside it is not actually the low-compressibility test the whole hydrostatic method depends on — a solid stream out the vent, not a sputter, is what proves the air is really gone."
+    },
+    {
+      "cue": "Hold the pump throttle steady as pressure rises toward the test value.",
+      "holdBreakNote": "Ramp rate slipped out of band. A surging rise is exactly what a marginal joint is least able to tolerate.",
+      "id": "pressurize-ramp",
+      "kind": "track",
+      "prompt": "Hold the pump throttle steady as pressure rises toward the test value.",
+      "seconds": 7,
+      "target": "test-pump-throttle",
+      "title": "Pressurise on a steady ramp",
+      "track": {
+        "drift": 0.11,
+        "fall": 0.44,
+        "green": [
+          0.36,
+          0.6
+        ],
+        "label": "PRESSURISATION RATE",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "A steady ramp gives every joint in the system time to show a problem gradually — a weep, a seep, a fitting working loose — while the pressure is still low enough to shut the pump down safely. A ramp that jumps in surges can drive a marginal joint straight past the point where a slow rise would have caught it first."
+    },
+    {
+      "cue": "Watch the gauge through the hold and commit once it has held steady for the specified time.",
+      "gauge": {
+        "green": [
+          0.85,
+          1
+        ],
+        "label": "HOLD PRESSURE — STEADY",
+        "missNote": "Pressure drifted during the hold. Find the leak before calling this test result good.",
+        "speed": 0.5
+      },
+      "id": "hold-pressure",
+      "kind": "gauge",
+      "prompt": "Watch the gauge through the hold and commit once it has held steady for the specified time.",
+      "target": "hold-gauge",
+      "title": "Hold at test pressure",
+      "why": "A pressure that holds flat for the specified time is a vessel with no active leak; a pressure that drifts down during the same window is a vessel with a leak somewhere, however small, and the only way to tell the two apart is watching the gauge for the whole hold rather than reading it once at the start."
+    },
+    {
+      "cue": "Three joints on this vessel are weeping under test pressure. Find them from the side, not from in front of them.",
+      "id": "leak-walk",
+      "itemNames": {
+        "flange-weep": "the weep at the flange",
+        "threaded-weep": "the weep at the threaded connection",
+        "weld-weep": "the weep at the seam weld"
+      },
+      "itemNotes": {
+        "flange-weep": "A weeping flange under test pressure may be nothing more than an under-torqued bolt, but at test pressure it gets treated the same as any other leak until it is actually run down and fixed.",
+        "threaded-weep": "A threaded connection weeping under test is a joint that will weep in service too, just more slowly — it gets remade now, while the vessel is already pressurised and the leak is easy to find.",
+        "weld-weep": "A weep at the seam weld under test pressure is exactly the defect this test exists to find — it gets marked and the joint reworked before this vessel is declared sound, not explained away as normal for a repair this size."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three joints on this vessel are weeping under test pressure. Find them from the side, not from in front of them.",
+      "targets": [
+        "weld-weep",
+        "flange-weep",
+        "threaded-weep"
+      ],
+      "title": "Walk the vessel for weeps",
+      "why": "A gauge holding steady tells you the total leak rate is small enough not to matter over the hold time — it does not tell you where a leak is, or whether it is getting worse. The walk is what finds the actual joint, and it is done from beside each connection rather than in front of it for exactly the reason the line-of-fire hazard on this vessel exists."
+    },
+    {
+      "cue": "Bring the inspector to the vessel to witness the pressure hold and sign the test report.",
+      "id": "inspector-witness",
+      "kind": "select",
+      "prompt": "Bring the inspector to the vessel to witness the pressure hold and sign the test report.",
+      "target": "inspector-figure",
+      "title": "Call the inspector to witness the hold",
+      "why": "A hydrostatic test that nobody outside the crew doing it actually watched is a test with no independent witness behind the result, and the National Board Inspection Code is built on exactly that independence — the inspector's signature is what turns this crew's own reading of the gauge into a result somebody else can trust."
+    },
+    {
+      "cue": "Turn the depressurisation valve slowly to bring the vessel down off test pressure.",
+      "id": "depressurize-valve",
+      "kind": "turn",
+      "prompt": "Turn the depressurisation valve slowly to bring the vessel down off test pressure.",
+      "target": "depressurize-valve",
+      "title": "Bleed the pressure down",
+      "turn": {
+        "axis": "z",
+        "label": "DEPRESSURISE RATE",
+        "turns": 1.3
+      },
+      "why": "Bleeding down slowly, rather than dumping the pressure all at once, is what keeps the same joints that just held under test from being shocked by a sudden pressure change on the way back down — the valve is turned at a controlled rate for the whole way, not opened wide the moment the hold is over."
+    },
+    {
+      "cue": "Open the low drain, close the high vent, then remove the test blind.",
+      "id": "drain-and-vent",
+      "itemNames": {
+        "blind-removed": "test blind removed",
+        "high-vent-close": "high vent closed",
+        "low-drain-open": "low drain opened"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — drain first, then close the vent, then pull the blind once the vessel is empty and at atmospheric.",
+      "prompt": "Open the low drain, close the high vent, then remove the test blind.",
+      "targets": [
+        "low-drain-open",
+        "high-vent-close",
+        "blind-removed"
+      ],
+      "title": "Drain, close the vent and remove the blind",
+      "why": "The drain opens first so the water actually has somewhere to go; the vent closes once the vessel is empty rather than while water is still draining past it; and the blind comes out last, once the vessel is fully back to atmospheric and there is nothing left for it to be isolating against."
+    },
+    {
+      "cue": "Fill out the test certificate with the pressure, hold time and result, then confirm the inspector's signature.",
+      "id": "cert-paperwork",
+      "kind": "select",
+      "prompt": "Fill out the test certificate with the pressure, hold time and result, then confirm the inspector's signature.",
+      "target": "test-certificate",
+      "title": "Complete the test certificate",
+      "why": "The certificate is the permanent record of a test that otherwise exists only in the memory of the people who watched the gauge — the pressure actually reached, the time actually held and the inspector's own signature are what let this vessel go back into service on paper as well as in fact."
+    },
+    {
+      "cue": "Three things about this vessel are not right yet. Find them before the certificate is final.",
+      "id": "final-walk",
+      "itemNames": {
+        "loose-blind-flag": "the blind's identification flag left on",
+        "retained-water": "retained water at a low point",
+        "tool-on-vessel": "a tool left on the vessel"
+      },
+      "itemNotes": {
+        "loose-blind-flag": "A blind's identification flag left hanging after the blind itself is removed is exactly how the next crew assumes an isolation is still in place when it is not — it comes off the moment the blind does.",
+        "retained-water": "Water pooled at a low point after the drain is water that was never actually drained — it adds weight nobody accounted for and, in a vessel headed back into hot service, it flashes to steam the moment it is fired.",
+        "tool-on-vessel": "A tool left sitting on the vessel after the test is debris the moment this vessel is back in service — it goes back to the cart before anyone signs off that the job here is finished."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things about this vessel are not right yet. Find them before the certificate is final.",
+      "targets": [
+        "retained-water",
+        "loose-blind-flag",
+        "tool-on-vessel"
+      ],
+      "title": "Walk the vessel before signing off",
+      "why": "The certificate says the test is finished; the walk-down is what makes sure the vessel actually is too — retained water, a stray blind flag and a forgotten tool are the three things a clean-looking test result does not tell you on its own."
+    },
+    {
+      "cue": "Report the weeps found, the gauge swap avoided, and how the ramp behaved.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Report the weeps found, the gauge swap avoided, and how the ramp behaved.",
+      "target": "ibht-crew-checkin",
+      "title": "Check in with the test foreman",
+      "why": "The weeps found during the walk need to go on the rework list even though the test ultimately passed, and the spare gauge that almost got used needs to be pulled from the cart entirely so nobody reaches for it on the next test. The check-in is also where a ramp that felt rougher than usual gets flagged before the same pump goes on the next vessel."
+    },
+    {
+      "cue": "Record the test pressure, the hold result and the inspector's witness, then sign.",
+      "id": "closing-log",
+      "kind": "select",
+      "prompt": "Record the test pressure, the hold result and the inspector's witness, then sign.",
+      "target": "ibht-closing-log",
+      "title": "Sign the test closeout log",
+      "why": "The closeout log is what lets anyone who was not standing at this vessel today confirm exactly what pressure it was tested to, for how long, and who witnessed the result — the difference between a vessel that passed a test and a vessel that can prove it."
+    }
+  ],
+  "supportLine": "your employer's employee assistance programme, or your Boilermakers Local 549 business agent if you are not sure how to reach it",
+  "tagline": "A repaired vessel proven on a hydrostatic test, vented of trapped air before pressurising, walked for weeps at the hold, and signed by the inspector who watched it",
+  "title": "SmartCiti.X~ Hydrostatic Test and Inspector Witness VR",
+  "trade": "Boilermaker, hydrostatic testing and inspector witness — Boilermakers Local 549",
+  "underwater": null,
+  "weather": null
+}

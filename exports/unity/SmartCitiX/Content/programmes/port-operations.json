@@ -1,0 +1,199 @@
+{
+  "accent": "#3fa9d8",
+  "anchors": [
+    {
+      "id": "channel-buoy-tender-pier",
+      "name": "Channel Buoy Tender Pier",
+      "position": [
+        -690,
+        485
+      ],
+      "stations": [
+        "mooring-line",
+        "pilot-transfer",
+        "spill-boom-deploy",
+        "vessel-gangway-and-hatch-cover-safety"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "outer-bay"
+    },
+    {
+      "id": "island-yacht-harbor",
+      "name": "Island Yacht Harbor",
+      "position": [
+        105,
+        640
+      ],
+      "stations": [
+        "mooring-line",
+        "mw-workboat-towing-and-line-handling",
+        "mw-ferry-deckhand-and-passenger-safety",
+        "bunkering-watch",
+        "yc-pre-departure-safety-briefing-and-guest-count",
+        "yc-line-handling-and-docking-in-crosswind",
+        "yc-fuel-dock-transfer-and-spill-kit",
+        "yc-engine-room-pre-start-and-bilge-check",
+        "yc-man-overboard-recovery-drill",
+        "yc-galley-fire-and-fixed-system",
+        "yc-tender-launch-and-guest-transfer",
+        "yc-shore-power-connection-and-in-water-electrical-safety"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "island-harbour"
+    },
+    {
+      "id": "port-container-terminal",
+      "name": "Port Container Terminal",
+      "position": [
+        -340,
+        350
+      ],
+      "stations": [
+        "mooring-line",
+        "bunkering-watch",
+        "crane-yard",
+        "dock-crane"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "port"
+    },
+    {
+      "id": "south-shoreline-marina",
+      "name": "South Shoreline Marina",
+      "position": [
+        790,
+        690
+      ],
+      "stations": [
+        "br-cold-water-immersion-and-mob-recovery",
+        "br-boom-towing-between-two-vessels",
+        "mooring-line"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "south-shoreline"
+    },
+    {
+      "id": "approach-buoy-tender-station",
+      "name": "Approach Buoy Tender Station",
+      "position": [
+        -740,
+        -20
+      ],
+      "stations": [
+        "mooring-line",
+        "pilot-transfer",
+        "spill-boom-deploy"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "channel-approach"
+    },
+    {
+      "id": "reef-ball-placement-site",
+      "name": "Reef Ball Placement Site",
+      "position": [
+        330,
+        40
+      ],
+      "stations": [
+        "br-workboat-crane-lift-from-water",
+        "br-derelict-vessel-salvage-rigging",
+        "container-lashing"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "reef-ball-field"
+    }
+  ],
+  "certification": "USCG 33 CFR 155/156 oil transfer, IMO Cargo Securing Manual practice, and OSHA 1917 marine terminals",
+  "competency": {
+    "id": "port-operations",
+    "kind": "programme",
+    "require": 4,
+    "standards": [
+      "uscg-33-cfr-156-150",
+      "imo-csm",
+      "osha-1917"
+    ],
+    "stations": [
+      "mooring-line",
+      "bunkering-watch",
+      "container-lashing",
+      "dock-crane",
+      "vessel-gangway-and-hatch-cover-safety",
+      "po-lashing-gear-inspection-and-tagging",
+      "po-yard-hostler-and-pedestrian-separation"
+    ],
+    "title": "Work a marine terminal transfer, mooring and lashing watch"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "ilwu-pma-training",
+    "meba-calhoon-school",
+    "siu-paul-hall-center",
+    "teamsters-training",
+    "marad-mariner-training",
+    "osha-1917",
+    "osha-1918",
+    "uscg-33-cfr-155-710",
+    "uscg-33-cfr-156-150",
+    "imo-solas",
+    "asme-b30-4"
+  ],
+  "id": "port-operations",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1660,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 130
+  },
+  "name": "Port and Terminal Operations",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "mooring-line",
+      "why": "Taking the lines: snap-back zones and the bight nobody stands in."
+    },
+    {
+      "app": "smartcity",
+      "id": "bunkering-watch",
+      "why": "Fuel transfer as person in charge, with the deck contained before the hose comes aboard."
+    },
+    {
+      "app": "smartcity",
+      "id": "container-lashing",
+      "why": "Deck stow: every twist-lock proven and the rods to the pattern the manual calls for."
+    },
+    {
+      "app": "smartcity",
+      "id": "dock-crane",
+      "why": "The crane over all of it, with the lashing gang's positions as the constraint."
+    },
+    {
+      "app": "smartcity",
+      "id": "vessel-gangway-and-hatch-cover-safety",
+      "why": "Going aboard to work her: the gangway and its net, the hatch cover opened with nobody in its fold, and the hold's air read before anyone climbs down."
+    },
+    {
+      "app": "smartcity",
+      "id": "po-lashing-gear-inspection-and-tagging",
+      "why": "The gear before it ever carries a load: a cracked rod caught in the rack, the pattern checked against the plan, and the gang held clear while the spreader swings overhead."
+    },
+    {
+      "app": "smartcity",
+      "id": "po-yard-hostler-and-pedestrian-separation",
+      "why": "The yard tractor's own lane, where the horn comes before the back and the marked crossing is the one place a driver and a longshoreman are both expected to be."
+    }
+  ],
+  "summary": "A ship comes alongside, is secured, is fuelled, is worked and leaves. Four stations that follow that order, each with a different way to put oil or steel where it should not be.",
+  "union": "ILWU longshore, MEBA and SIU marine engineers, IBT terminal drivers"
+}

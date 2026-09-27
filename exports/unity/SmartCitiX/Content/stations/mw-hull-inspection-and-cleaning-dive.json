@@ -1,0 +1,401 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "locked-out-below",
+    "name": "Locked Out Below",
+    "note": "Nothing touched until the ship's lockouts were confirmed, never a hand between blade and hull, never a lift bag without its dump, never under the keel"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Pile Drivers of the Carpenters commercial diver apprenticeship and the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations, including the vessel's own hazards to the diver; ADCI consensus standards for commercial diving and ships' husbandry; USCG 46 CFR 197 Subpart B for a dive worked from or under a vessel; MEBA engineering practice for the ship's shaft and sea-suction lockouts; depth, gas and decompression per the dive plan and the tables the supervisor holds",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADCI",
+        "citedAs": "ADCI",
+        "id": "adci-consensus-standards",
+        "title": "Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations"
+      },
+      {
+        "body": "union",
+        "citedAs": "UBC",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "MEBA",
+        "id": "meba-calhoon-school",
+        "title": "MEBA — the Calhoon MEBA Engineering School's licensed marine engineer training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910 Subpart T",
+        "id": "osha-1910-subpart-t",
+        "title": "29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 197 Subpart B",
+        "id": "uscg-46-cfr-197-subpart-b",
+        "title": "46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction"
+      }
+    ]
+  },
+  "district": "bay-underwater",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "lockouts-first",
+        "name": "Lockouts First",
+        "note": "The ship's shaft and sea suctions confirmed locked out before going under the hull"
+      },
+      {
+        "id": "gauged-true",
+        "name": "Gauged True",
+        "note": "Pneumo and plate gauge committed inside the band"
+      },
+      {
+        "id": "clear-of-the-gear",
+        "name": "Clear Of The Gear",
+        "note": "Never between blade and hull, never at the grating untagged, never a sealed lift bag, never under the keel"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-husbandry",
+        "name": "Clean Dive",
+        "note": "No corrections from the lockouts to the log"
+      },
+      {
+        "id": "steady-strake",
+        "name": "Steady Strake",
+        "note": "Breathing held on the supply the whole strake"
+      },
+      {
+        "id": "berth-window-hull",
+        "name": "Berth Window",
+        "note": "Findings read up inside 80% of par"
+      }
+    ],
+    "currency": "STRAKE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Diver Trainee",
+      "Diver",
+      "Husbandry Diver",
+      "Lead Husbandry Diver",
+      "Ship's Husbandry Certified"
+    ],
+    "system": "Ship's Husbandry"
+  },
+  "hazards": {
+    "between-blade-and-hull": "You put yourself between a propeller blade and the hull to look at the shaft. Even with the shaft locked, the gap between a blade and the hull or the rudder is where a diver is crushed if anything moves — the lock slipping, the ship's crew mistaking the tag, the current turning a free-wheeling blade. You inspect the running gear from outside the blade's arc.",
+    "grating-untagged": "You reached into the sea chest grating before confirming its valve was shut and tagged. A sea chest is where the ship draws cooling and ballast water, and a pump started on it pulls a diver's hand, arm or body onto the grating with a force no one can pull against. The grating is touched only after the ship's engineer has confirmed on comms, through the supervisor, that its valve is shut, locked and tagged.",
+    "lift-bag-sealed": "You started filling the lift bag on the brush with its dump valve shut. A lift bag expands as it rises and the pressure falls, and one with no way to vent runs away to the surface — dragging whatever is rigged to it, and a diver fouled in its rigging, through an uncontrolled ascent. A lift bag is filled in small amounts with the dump valve working and the diver clear of the rigging.",
+    "under-the-keel": "You went under the keel to reach the other side of the hull. Your umbilical follows you, and under a ship's keel it can be pinched against the bottom by the ship settling on the tide or fouled on the bilge keel on the way back — the other side is worked from its own descent, not reached under the ship."
+  },
+  "id": "mw-hull-inspection-and-cleaning-dive",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "umbilical-check",
+      "alert": "A tug is working its engine at the next berth — you can hear the screw and the water is starting to pull toward its wash.",
+      "cue": "Get off the hull onto the downline and hold it, then tell the supervisor you can hear a screw turning.",
+      "delay": 2,
+      "id": "tug-screw-next-berth",
+      "kind": "Vessel's screw turning near the dive",
+      "missNote": "You carried on checking the umbilical while the tug's wash drew a belly of it off the hull and toward the next berth, and the tender felt it go before you did.",
+      "seconds": 14,
+      "target": "hc-downline",
+      "why": "A turning screw pulls water, silt and anything slack in the water toward it, and a diver's umbilical is exactly the kind of slack thing it takes. Getting onto the fixed downline stops you and your umbilical being drawn off the hull while the supervisor has the tug stopped — the diver cannot stop the screw, but can stop being where its wash reaches.",
+      "wrongNote": "The downline — get onto the fixed line so the wash cannot draw you or your umbilical toward the screw."
+    },
+    {
+      "after": "brush-strake",
+      "alert": "The water is moving toward the sea chest grating — silt and bits of growth are being drawn onto it, and the lockout was supposed to have it shut.",
+      "cue": "Call all stop on the comms: the sea chest is drawing — have the supervisor get the ship's engineer to shut it now.",
+      "delay": 2,
+      "id": "sea-suction-draws",
+      "kind": "Sea suction drawing at the grating",
+      "missNote": "You kept brushing the strake while the suction drew growth onto the grating a metre away, and nobody in the engine room knew a valve was open until the brush's hose was pulled toward it.",
+      "seconds": 14,
+      "target": "hc-comms",
+      "why": "A sea chest drawing when it was confirmed locked out means a lockout has failed, and the only people who can stop it are in the ship's engine room. The diver's job is to get the word to them immediately, through the supervisor, while staying away from the grating — 'all stop' is the call that stops every job on the ship until the suction is proven shut again.",
+      "wrongNote": "The comms — only the ship's engine room can shut the suction, and the call has to reach them through the supervisor now."
+    }
+  ],
+  "lateNotes": {
+    "brush-valve": "The brush's hydraulics open once the brush is flat on the plate — never with it hanging free in the water.",
+    "hc-slate": "The findings are read up once the plate has been gauged and the tools are back on the stage.",
+    "sea-chest-grating": "The sea chest grating is worked once the lockout on its valve has been confirmed — read the tag and hear it from topside first."
+  },
+  "name": "Hull Inspection & Cleaning Dive",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "anode-wasted",
+      "between-blade-and-hull",
+      "blade-nick",
+      "brush-start-mark",
+      "brush-valve",
+      "coating-blister",
+      "grating-untagged",
+      "hc-camera",
+      "hc-comms",
+      "hc-downline",
+      "hc-pneumo",
+      "hc-slate",
+      "hc-stage-rail",
+      "hc-tool-bag",
+      "hc-umbilical-harness",
+      "hull-brush",
+      "lift-bag-sealed",
+      "rope-on-shaft",
+      "sea-chest-grating",
+      "sea-chest-tag",
+      "under-the-keel",
+      "ut-gauge"
+    ],
+    "meshes": 203
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Ask the supervisor to confirm with the ship's engineer: shaft locked and tagged, sea suctions and overboard discharges shut, thrusters locked out — and hear it repeated back.",
+      "id": "confirm-lockouts",
+      "kind": "select",
+      "prompt": "Ask the supervisor to confirm with the ship's engineer: shaft locked and tagged, sea suctions and overboard discharges shut, thrusters locked out — and hear it repeated back.",
+      "target": "hc-comms",
+      "title": "Confirm the ship's lockouts on comms before going under",
+      "why": "A ship alongside is full of machinery that can kill a diver under it: the shaft and propeller, the thrusters, and the sea suctions that draw water through the hull. 29 CFR 1910 Subpart T and the ADCI consensus standards both expect the vessel's hazards to be secured before a diver goes under, and the diver hears it confirmed through the supervisor because the diver is the one who cannot see the ship's control room."
+    },
+    {
+      "cue": "Run your hand down the umbilical to the harness ring: strain relief clipped, no turns round the stage bridle, and a clear lead back to the stage away from the ship's bilge keel.",
+      "holdBreakNote": "Released before the check reached the harness ring — the length you skipped is the length that fouls. Start again from the helmet.",
+      "id": "umbilical-check",
+      "kind": "hold",
+      "prompt": "Run your hand down the umbilical to the harness ring: strain relief clipped, no turns round the stage bridle, and a clear lead back to the stage away from the ship's bilge keel.",
+      "seconds": 4,
+      "target": "hc-umbilical-harness",
+      "title": "Check your umbilical from the helmet to the harness",
+      "why": "Under a hull the umbilical has more to foul on than on open bottom: the bilge keel, the anodes, the rudder and the propeller. Proving its lead at the start, by hand from helmet to harness, means the tender can recover you in a straight line, and a turn round the stage bridle found now is found by you rather than by the standby."
+    },
+    {
+      "cue": "Look along the hull: the zinc anodes and how much of each is left, the coating for blisters and breakdown, weld seams and any damage from fenders or tugs.",
+      "id": "hull-survey",
+      "itemNames": {
+        "anode-wasted": "zinc anode wasted to a sliver",
+        "coating-blister": "blistered coating with rust weeping"
+      },
+      "itemNotes": {
+        "anode-wasted": "The middle anode has wasted away to a sliver on its straps — it has spent itself protecting the hull and is about to stop, after which the hull plate corrodes in its place.",
+        "coating-blister": "A patch of the hull coating has blistered and a blister has broken, with rust weeping from the plate underneath — the coating has failed there and the steel is now doing the protecting."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the hull: the zinc anodes and how much of each is left, the coating for blisters and breakdown, weld seams and any damage from fenders or tugs.",
+      "targets": [
+        "anode-wasted",
+        "coating-blister"
+      ],
+      "title": "Survey the hull plate, the anodes and the coating",
+      "why": "A hull under water is protected twice — by its coating and by sacrificial anodes that corrode in its place — and a husbandry dive exists to find where either has stopped working. An anode wasted to a sliver and a coating that has blistered both look like small things; both are the start of the plate itself corroding, and the owner can only plan the dry-docking around what the diver reports."
+    },
+    {
+      "cue": "Hold the pneumo hose's end at the wasted anode while the supervisor bleeds it, and commit the reading against the depth the dive plan gives for this part of the hull.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "PNEUMO AT ANODE",
+        "missNote": "Outside the band — hold the pneumo end still at the anode while the supervisor reads it against the plan.",
+        "speed": 0.7
+      },
+      "id": "hull-pneumo",
+      "kind": "gauge",
+      "prompt": "Hold the pneumo hose's end at the wasted anode while the supervisor bleeds it, and commit the reading against the depth the dive plan gives for this part of the hull.",
+      "target": "hc-pneumo",
+      "title": "Hold the pneumo at the anode for the record",
+      "why": "The reading places the defect on the hull for the owner's record and tells the supervisor where you are against the plan — under a ship, working down toward the flat of bottom takes a diver deeper than the side plate they started on, and that changes which line of the tables the supervisor holds applies. It is read at the defect, not guessed from the waterline."
+    },
+    {
+      "cue": "Take the hydraulic brush off the stage on its lift line and set it flat on the hull plate at the marked start, handles to you.",
+      "drag": {
+        "missNote": "Not on the plate — set the brush flat at the marked start on the hull before anything else.",
+        "radius": 0.55,
+        "to": "brush-start-mark"
+      },
+      "id": "brush-down",
+      "kind": "drag",
+      "prompt": "Take the hydraulic brush off the stage on its lift line and set it flat on the hull plate at the marked start, handles to you.",
+      "target": "hull-brush",
+      "title": "Bring the hull brush off the stage and set it on the plate",
+      "why": "The brush is heavy and comes down on the stage and its own line, never carried by a diver swimming with it. It goes onto the plate flat before anything else, because a hydraulic brush started off the plate spins up in open water, drags the diver by its handles and whips its hoses round the umbilical; flat on the plate, the hull takes its torque."
+    },
+    {
+      "cue": "With the brush flat on the plate and both hands on its handles, open the hydraulic valve on the handle steadily.",
+      "id": "open-brush",
+      "kind": "turn",
+      "prompt": "With the brush flat on the plate and both hands on its handles, open the hydraulic valve on the handle steadily.",
+      "target": "brush-valve",
+      "title": "Open the brush's hydraulic valve on the plate",
+      "turn": {
+        "label": "BRUSH VALVE",
+        "turns": 0.75
+      },
+      "why": "The brush's valve is under the diver's hand on purpose: it is the diver who knows the brush is flat on the plate and both hands are on it, and the valve is opened only then and steadily so the brush takes up against the hull rather than jumping. Letting go of the valve is also the brush's stop — the one control that works faster than calling the surface."
+    },
+    {
+      "cue": "Walk the brush along the strake steadily, keeping your breathing paced so the supervisor sees you steady on the supply.",
+      "holdBreakNote": "The pace went out of band — either overbreathing or stalled. Settle your breathing and pick the strake up again steadily.",
+      "id": "brush-strake",
+      "kind": "track",
+      "prompt": "Walk the brush along the strake steadily, keeping your breathing paced so the supervisor sees you steady on the supply.",
+      "seconds": 6,
+      "target": "hull-brush",
+      "title": "Clean the strake at a pace your breathing holds",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "BREATHING ON THE SUPPLY",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "Holding a hydraulic brush against a hull is hard physical work in a place with no footing, and a diver who works it too hard overbreathes the helmet — which feels like not getting enough gas and makes a diver work harder still. The pace is set by the breathing, not the brush, so the gas stays within what the dive plan and the supervisor's panel allow."
+    },
+    {
+      "cue": "From outside the blades' arc, look at each blade's edge, the rope guard and the shaft behind it, and the rudder's pintles.",
+      "id": "running-gear",
+      "itemNames": {
+        "blade-nick": "nick in a propeller blade's edge",
+        "rope-on-shaft": "rope wound round the shaft at the rope guard"
+      },
+      "itemNotes": {
+        "blade-nick": "One blade's leading edge has a nick in it, the kind a floating log or a line leaves; a nicked blade vibrates, cavitates and cracks from the nick.",
+        "rope-on-shaft": "A length of mooring rope has wound round the tail shaft behind the rope guard — it will chew into the shaft seal as it turns, and a failed seal lets seawater into the ship and oil into the bay."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "From outside the blades' arc, look at each blade's edge, the rope guard and the shaft behind it, and the rudder's pintles.",
+      "targets": [
+        "rope-on-shaft",
+        "blade-nick"
+      ],
+      "title": "Walk the propeller, rope guard and rudder from outside the arc",
+      "why": "The running gear is inspected from outside the arc of the blades, because the gap between a blade and the hull is the most dangerous place on a ship for a diver even with the shaft locked. What is found there is expensive to leave: a rope on the shaft eats the seal that keeps the sea out and the oil in, and a nicked blade cracks from the nick outwards."
+    },
+    {
+      "cue": "Read the engineer's lockout tag on the sea chest and confirm it with the supervisor first, then clean the growth off the grating, then photograph it clean for the owner.",
+      "id": "sea-chest",
+      "itemNames": {
+        "hc-camera": "grating photographed for the owner",
+        "sea-chest-grating": "sea chest grating cleaned",
+        "sea-chest-tag": "lockout tag on the sea chest confirmed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — the lockout tag is read and confirmed before a hand goes near the grating, and the photograph is of the grating once it is clean.",
+      "prompt": "Read the engineer's lockout tag on the sea chest and confirm it with the supervisor first, then clean the growth off the grating, then photograph it clean for the owner.",
+      "targets": [
+        "sea-chest-tag",
+        "sea-chest-grating",
+        "hc-camera"
+      ],
+      "title": "Clean the sea chest grating only behind its lockout",
+      "why": "A sea chest grating is the one place on a hull that can pull a diver in, and it is worked only after the lockout on its valve has been confirmed twice: the tag read at the grating and the engineer's confirmation heard through the supervisor. The order is the protection — a grating cleaned first and the tag read afterwards is a grating a diver touched on the assumption that the pump was off."
+    },
+    {
+      "cue": "Clean the spot back to steel, couple the underwater thickness gauge to the plate and commit the reading against the owner's minimum for the strake.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "PLATE THICKNESS",
+        "missNote": "Outside the band — clean the spot back to steel and seat the probe square before you read it.",
+        "speed": 0.72
+      },
+      "id": "plate-gauge",
+      "kind": "gauge",
+      "prompt": "Clean the spot back to steel, couple the underwater thickness gauge to the plate and commit the reading against the owner's minimum for the strake.",
+      "target": "ut-gauge",
+      "title": "Gauge the plate at the weeping blister",
+      "why": "A blister weeping rust is a coating failure and possibly a plate losing thickness under it, and the owner needs a number to decide whether it waits for dry-dock or needs attention now. The thickness gauge gives that number when it is coupled square to clean steel, and it is read against the owner's minimum for that strake rather than against what the plate looks like."
+    },
+    {
+      "cue": "Clip the tool bag with the gauge and the scraper to the stage rail, with the brush left on its lift line for the tender.",
+      "drag": {
+        "missNote": "Not on the stage — clip the bag to the stage rail so it comes up with you.",
+        "radius": 0.5,
+        "to": "hc-stage-rail"
+      },
+      "id": "tools-up",
+      "kind": "drag",
+      "prompt": "Clip the tool bag with the gauge and the scraper to the stage rail, with the brush left on its lift line for the tender.",
+      "target": "hc-tool-bag",
+      "title": "Send the tools back up on the stage",
+      "why": "Nothing is left under a ship: a tool on the bottom beneath a hull is out of reach once the ship moves and a hazard to the next diver, and a tool loose in the water column is a weight on an umbilical. Clipped to the stage, the tools come up with you on the supervisor's ascent, and the brush comes up on its own line with the tender hauling it, clear of you."
+    },
+    {
+      "cue": "Read your slate to the supervisor: the wasted anode and its depth, the blister and the plate reading, the rope on the shaft, the nicked blade, the grating cleaned and the suction that drew.",
+      "id": "findings-up",
+      "kind": "select",
+      "prompt": "Read your slate to the supervisor: the wasted anode and its depth, the blister and the plate reading, the rope on the shaft, the nicked blade, the grating cleaned and the suction that drew.",
+      "target": "hc-slate",
+      "title": "Read your findings up for the dive log",
+      "why": "The supervisor's dive log and the owner's hull report are both written from what the diver reads up, and it is read while still under the hull so anything uncertain can be looked at again. The sea suction drawing against a confirmed lockout goes in as well, because a lockout that did not hold is the most important thing the ship's engineer will read today."
+    },
+    {
+      "cue": "Tell the supervisor you are on the stage and clipped on, how you are after the suction and the tug, and wait for the call to leave the bottom.",
+      "id": "leave-hull",
+      "kind": "select",
+      "prompt": "Tell the supervisor you are on the stage and clipped on, how you are after the suction and the tug, and wait for the call to leave the bottom.",
+      "target": "hc-comms",
+      "title": "Check in and leave the hull on the supervisor's call",
+      "why": "The ascent is the supervisor's, read from the tables they hold, and the check-in is what tells them you are on the stage and well. A sea suction drawing while you were near the grating and a tug's screw turning at the next berth are the kind of minutes that stay with a diver, and the check-in is the first place to say so — the member assistance line is there for anything that does not get said on the comms."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — the Pile Drivers of the Carpenters or MEBA — with the employer's employee assistance line behind it",
+  "tagline": "Under a ship's stern quarter: the ship's lockouts confirmed on comms, the umbilical checked while a tug's screw turns at the next berth, the anodes and coating inspected, the pneumo read, the brush brought off the stage and opened only on the plate, a strake cleaned at a breathing pace while the sea suction starts to draw, the running gear walked, the sea chest cleaned only behind its tag, the plate gauged, the tools sent up and the findings read up for the dive log",
+  "title": "SmartCiti.X~ Hull Inspection & Cleaning Dive VR",
+  "trade": "Pile Drivers of the Carpenters commercial diver on a hull inspection and cleaning dive, with the ship's MEBA licensed engineer holding the shaft and sea-suction lockouts and the dive supervisor on the comms",
+  "underwater": {
+    "bottomTimeSeconds": 600,
+    "depthLabel": "Per dive plan"
+  },
+  "weather": "clear"
+}

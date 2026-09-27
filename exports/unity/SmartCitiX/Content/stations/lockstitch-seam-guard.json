@@ -1,0 +1,371 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "bundle-clean",
+    "name": "Bundle Clean",
+    "note": "A full bundle chained through at speed with a needle break handled cleanly and the count reconciled"
+  },
+  "category": "Sewing & Garment Trades",
+  "certification": "Workers United (SEIU) and state apprenticeship standards for industrial sewing machine operators; OSHA 29 CFR 1910.212 machine guarding for the needle guard behind which every seam runs, 1910.147 control of hazardous energy for a needle break, and NIOSH ergonomics guidance for the seated, repetitive pace a production line runs at",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Garment manufacturing",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "break-clean",
+        "name": "Break Handled Clean",
+        "note": "Every piece of a broken needle found and logged before the machine ran again"
+      },
+      {
+        "id": "guard-kept",
+        "name": "Guard Kept",
+        "note": "Never reached into the needle zone while the machine could move"
+      },
+      {
+        "id": "seam-steady",
+        "name": "Seam Steady",
+        "note": "Held the feed rate inside the band on both the straight seam and the curve"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections through the whole bundle"
+      },
+      {
+        "id": "unbroken-feed",
+        "name": "Unbroken Feed",
+        "note": "Never dropped out of the feed band"
+      },
+      {
+        "id": "bundle-fast",
+        "name": "Bundle Fast",
+        "note": "Bundle complete inside 80% of par"
+      }
+    ],
+    "currency": "SEAM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Floor Trainee",
+      "Machine Operator",
+      "Line Operator",
+      "Lead Operator",
+      "Line Authority Certified"
+    ],
+    "system": "Line Authority"
+  },
+  "hazards": {
+    "belt-guard-gap": "The treadle motor's belt guard is hanging open with the pulley turning behind it. A worn latch left unfixed is still a missing guard the moment the machine is running, and 29 CFR 1910.212 does not treat a guard that is present but open as a guard that is on.",
+    "bundle-blocking-pedal": "Loose-cut pieces from the bundle are piled over the foot pedal. A pedal that cannot travel its full stroke either fails to stop the machine when the foot comes off it or launches the seam at a speed the operator did not ask for — the pedal's travel stays clear, every bundle, not just the tidy ones.",
+    "needle-zone-reach": "You reached into the needle and presser-foot zone while the machine was still able to run. A production machine left live between pieces restarts on a bumped pedal exactly as fast as it does mid-seam — the zone behind the guard is not somewhere a hand rests while you reach for the next piece.",
+    "snips-blade-up": "The thread snips are lying open, blade up, on the feed table where the next piece gets picked up. A blade left open in the one spot a hand reaches for cloth without looking is a cut that has nothing to do with the needle at all."
+  },
+  "id": "lockstitch-seam-guard",
+  "indoor": "shop",
+  "interrupts": [
+    {
+      "after": "straight-seam",
+      "alert": "The needle snaps mid-seam with a sharp crack, and the machine is still trying to feed the piece through.",
+      "cue": "That was the needle breaking, not a skipped stitch.",
+      "delay": 3,
+      "id": "needle-snap",
+      "kind": "Needle break",
+      "missNote": "The machine kept feeding after the needle snapped. Whatever is left of that needle just went further into the piece or the hook than it was a second ago, and now it has to be found blind instead of found where it broke.",
+      "seconds": 10,
+      "target": "power-switch",
+      "why": "A snapped needle can put a piece of itself anywhere from the fabric to the bobbin case in the half-second it takes to notice, and every second the machine keeps running afterward is a chance for the feed dogs to drive a broken tip further into the piece or into the hook — the power comes off before anything else happens, including finishing the stitch you were on.",
+      "wrongNote": "That's not the ticket — the machine is still running on a broken needle. Power off first."
+    },
+    {
+      "after": "chain-next",
+      "alert": "The piece you just chained in is a different pattern size than the one printed on your bundle ticket.",
+      "cue": "That piece does not match what your ticket says this bundle is.",
+      "delay": 4,
+      "id": "ticket-mismatch",
+      "kind": "Ticket does not match the cut",
+      "missNote": "The mismatched piece went into the seam anyway. Whatever size that piece actually is, it is now sewn into a bundle labelled for a different one, and it will not be caught again until someone downstream is holding the finished piece.",
+      "seconds": 12,
+      "target": "bundle-ticket",
+      "why": "A bundle that got mixed at the cutting table looks identical piece to piece until somebody actually checks the ticket against what is in their hands — sewing a mismatched piece into a seam produces a garment that fails at final inspection for a reason nobody on this line caused, and it is far cheaper to catch here than after it is sewn.",
+      "wrongNote": "The pedal isn't the problem — check the piece in your hands against the ticket before it goes under the foot."
+    }
+  ],
+  "lateNotes": {
+    "foot-pedal": "Not yet — the guard, the ticket and the alignment come first, in that order.",
+    "power-switch": "That is the needle-break control — nothing is wrong with the machine yet. Keep feeding the seam.",
+    "reverse-lever": "The backtack happens at the very start and the very end of the seam, not in the middle of it."
+  },
+  "name": "Lockstitch Seam Behind the Guard",
+  "parSeconds": 240,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "sewing-garment-trades"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "belt-guard-gap",
+      "bundle",
+      "bundle-blocking-pedal",
+      "bundle-ticket",
+      "count-tally",
+      "feed-socket",
+      "foot-pedal",
+      "guard-propped",
+      "handwheel",
+      "log-board",
+      "needle-guard",
+      "needle-zone-reach",
+      "next-piece",
+      "pins-floor",
+      "power-switch",
+      "reverse-lever",
+      "seam-guide",
+      "snips-blade-up",
+      "tip-in-fabric",
+      "tip-on-floor"
+    ],
+    "meshes": 144
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the operation, the style and the quantity this bundle is cut for.",
+      "id": "ticket",
+      "kind": "select",
+      "prompt": "Check the operation, the style and the quantity this bundle is cut for.",
+      "target": "bundle-ticket",
+      "title": "Read the bundle ticket",
+      "why": "The ticket is what says this bundle is this operation on this style, not the one that looks the same from across the room — a seam sewn to the wrong ticket's spec is a whole bundle recut on the clock, and the mistake is invisible until quality control finds it three operations later."
+    },
+    {
+      "cue": "Check the finger guard is swung down in front of the needle before the machine runs at production speed.",
+      "id": "guard-check",
+      "kind": "select",
+      "prompt": "Check the finger guard is swung down in front of the needle before the machine runs at production speed.",
+      "target": "needle-guard",
+      "title": "Confirm the needle guard is down",
+      "why": "A guard that was down at the last threading check does not stay down on its own — it gets checked at the start of every bundle, because a shift's worth of seams run at a working pace with nothing between a guiding finger and the needle is exactly the exposure the guard exists to remove."
+    },
+    {
+      "cue": "Confirm the edge guide on the bed is set to this ticket's seam allowance.",
+      "id": "align-guide",
+      "kind": "select",
+      "prompt": "Confirm the edge guide on the bed is set to this ticket's seam allowance.",
+      "target": "seam-guide",
+      "title": "Check the seam guide is set",
+      "why": "The guide is what turns a hand-eye judgement into a repeatable seam allowance across an entire bundle — a guide left set for the last operation's allowance sews every piece in this bundle a consistent amount wrong, which is worse than random error because nothing about it looks off piece to piece."
+    },
+    {
+      "cue": "Carry the top piece from the bundle onto the bed, aligned to the seam guide.",
+      "drag": {
+        "missNote": "Not aligned on the guide — carry the piece fully onto the bed against the edge guide.",
+        "radius": 0.32,
+        "to": "feed-socket"
+      },
+      "id": "load-first",
+      "kind": "drag",
+      "prompt": "Carry the top piece from the bundle onto the bed, aligned to the seam guide.",
+      "target": "bundle",
+      "title": "Feed the first piece under the foot",
+      "why": "The first piece sets the pace for the whole bundle — fed square to the guide before the foot ever comes down, not squared up after the needle has already started, because a seam that starts crooked stays crooked for its whole length."
+    },
+    {
+      "cue": "Turn the handwheel by hand to set the needle down before the pedal takes over.",
+      "id": "needle-down",
+      "kind": "turn",
+      "prompt": "Turn the handwheel by hand to set the needle down before the pedal takes over.",
+      "target": "handwheel",
+      "title": "Hand-turn the needle down into the cloth",
+      "turn": {
+        "axis": "z",
+        "label": "NEEDLE DOWN",
+        "turns": 0.15
+      },
+      "why": "Starting a seam with the needle already down and located exactly where the first stitch belongs is what keeps the first stitch from wandering off the seam line the instant the pedal is pressed — a seam that starts a stitch length off the mark is a flaw at the one point in the seam every inspection actually looks at."
+    },
+    {
+      "cue": "Hold the reverse lever for a few stitches before running the seam forward.",
+      "holdBreakNote": "Released the reverse lever too soon. A short backtack does not lock the seam — hold it for the full few stitches.",
+      "id": "backtack-start",
+      "kind": "hold",
+      "prompt": "Hold the reverse lever for a few stitches before running the seam forward.",
+      "seconds": 2,
+      "target": "reverse-lever",
+      "title": "Backtack at the start",
+      "why": "A seam that starts with a plain forward stitch and nothing locking it pulls out the first time the garment is handled roughly — the backtack at the start is what keeps the whole seam from unravelling from one end the moment it takes any load."
+    },
+    {
+      "cue": "Feed the piece through at a steady production pace, guiding rather than pushing it.",
+      "holdBreakNote": "Feed rate broke out of the working band. Bring it back to a pace you can actually react inside before continuing.",
+      "id": "straight-seam",
+      "kind": "track",
+      "prompt": "Feed the piece through at a steady production pace, guiding rather than pushing it.",
+      "seconds": 6,
+      "target": "foot-pedal",
+      "title": "Run the straight seam at a working speed",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "FEED RATE",
+        "rise": 0.55,
+        "start": 0.15
+      },
+      "why": "A working pace is fast enough to make the bundle's quota and slow enough that a hand two inches from a needle moving several hundred times a minute has time to react to anything wrong — running too fast to correct a wander, or so slow the line falls behind, are both the wrong answer to what this step is actually asking for."
+    },
+    {
+      "cue": "Hold the reverse lever again for a few stitches to lock the far end of the seam.",
+      "holdBreakNote": "Released too soon again. Both ends of this seam get the same lock — hold the full backtack.",
+      "id": "backtack-end",
+      "kind": "hold",
+      "prompt": "Hold the reverse lever again for a few stitches to lock the far end of the seam.",
+      "seconds": 2,
+      "target": "reverse-lever",
+      "title": "Backtack at the end",
+      "why": "The end of the seam takes the same load the start does the first time the garment is pulled the other way — locking both ends the same way is what makes the seam a closed loop of stitching instead of a run that only holds until somebody tugs the wrong corner."
+    },
+    {
+      "cue": "Turn the piece through the curve with your hands, keeping the feed rate steady rather than pulling cloth through faster than the feed dogs move it.",
+      "holdBreakNote": "The curve got pulled out of the feed band. Let the feed dogs set the pace and just steer the piece.",
+      "id": "curve-feed",
+      "kind": "track",
+      "prompt": "Turn the piece through the curve with your hands, keeping the feed rate steady rather than pulling cloth through faster than the feed dogs move it.",
+      "seconds": 6,
+      "target": "foot-pedal",
+      "title": "Feed the curve by guiding, not pulling",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.4,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "FEED RATE",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "Pulling cloth through a curve faster than the feed dogs are moving it stretches the seam allowance on the inside of the curve and puckers it, which is a defect that shows on the finished garment no amount of pressing fixes — the feed dogs set the pace on a curve exactly the way they do on a straight line, and the hands only steer."
+    },
+    {
+      "cue": "Without cutting the thread, carry the next piece from the bundle up to the foot.",
+      "drag": {
+        "missNote": "Not aligned to feed — carry the next piece fully onto the guide before it reaches the foot.",
+        "radius": 0.32,
+        "to": "feed-socket"
+      },
+      "id": "chain-next",
+      "kind": "drag",
+      "prompt": "Without cutting the thread, carry the next piece from the bundle up to the foot.",
+      "target": "next-piece",
+      "title": "Chain straight into the next piece",
+      "why": "Chaining pieces one after another with the thread still connecting them is what a piece-rate line actually runs on — stopping to cut thread and re-thread the start of every single piece costs more time across a bundle than it is ever worth, so the pieces are separated afterward, at the trimming table, not here."
+    },
+    {
+      "cue": "Power off the instant it snaps, then account for every broken piece before you log it.",
+      "id": "needle-break",
+      "itemNames": {
+        "log-board": "break logged",
+        "power-switch": "power off",
+        "tip-in-fabric": "broken tip found in the fabric",
+        "tip-on-floor": "broken tip found on the floor"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Power off first, then find every piece, then log it — not the other way around.",
+      "prompt": "Power off the instant it snaps, then account for every broken piece before you log it.",
+      "targets": [
+        "power-switch",
+        "tip-in-fabric",
+        "tip-on-floor",
+        "log-board"
+      ],
+      "title": "Handle a needle break",
+      "why": "A needle that snaps leaves at least two pieces — the stub still in the clamp and the tip, which can be anywhere from the fabric to the floor to inside the bobbin case — and a tip that is not found stays lost inside a garment that ships, which is exactly the kind of defect a metal detector at the end of the line exists to catch after it was already avoidable here."
+    },
+    {
+      "cue": "Check the finished pieces against the ticket's quantity on the tally counter.",
+      "id": "count",
+      "kind": "select",
+      "prompt": "Check the finished pieces against the ticket's quantity on the tally counter.",
+      "target": "count-tally",
+      "title": "Reconcile the count",
+      "why": "The count is what tells the next operation this bundle is complete rather than short a piece that got set aside and forgotten — a bundle passed on short is a shortage nobody notices until it is somebody else's missing piece at final inspection."
+    },
+    {
+      "cue": "Two things at this bench are out of place. Find them by looking.",
+      "id": "walk",
+      "itemNames": {
+        "guard-propped": "guard propped open with a bobbin",
+        "pins-floor": "pins on the floor by the treadle"
+      },
+      "itemNotes": {
+        "guard-propped": "Somebody propped the needle guard open with a spare bobbin to \"see the needle better.\" That is the guard defeated, not adjusted.",
+        "pins-floor": "Loose pins dropped by the treadle are a puncture waiting for the next person who kicks off their shoe under the table."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things at this bench are out of place. Find them by looking.",
+      "targets": [
+        "guard-propped",
+        "pins-floor"
+      ],
+      "title": "Walk the station before the next bundle",
+      "why": "A bundle that ran clean can still leave the station worse than it found it — a propped guard or pins on the floor are both invisible from the operator's chair and both somebody else's injury if the next person to sit down does not catch them first."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A straight seam at speed behind the guard, backtacked, a curve fed not pulled, chained bundle to bundle, a needle break accounted for, and the count",
+  "title": "SmartCiti.X~ Lockstitch Seam Behind the Guard VR",
+  "trade": "Industrial sewing machine operator — Workers United (SEIU)",
+  "underwater": null,
+  "weather": null
+}

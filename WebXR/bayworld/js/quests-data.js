@@ -4588,6 +4588,90 @@ export const SIDE_QUESTS = [
       "xp": 250,
       "badge": "Postal & Mail Processing Crew — Capstone"
     }
+  },
+  {
+    "id": "bw-side-yacht-and-charter-crew-opener",
+    "title": "Yacht & Charter Crew — First Shift",
+    "giver": "the programme's training lead",
+    "site": "Yacht & Charter Crew",
+    "kind": "side",
+    "tier": 1,
+    "requires": null,
+    "programmeId": "yacht-and-charter-crew",
+    "role": "opener",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Yacht & Charter Crew",
+        "text": "The training lead meets you at Yacht & Charter Crew and points you to the first bench."
+      },
+      {
+        "type": "station",
+        "target": "yc-pre-departure-safety-briefing-and-guest-count",
+        "text": "Every head counted against the manifest with the gangway chained through a late arrival, the life jacket shown on a person from the locker the guests will use, and the standing orders read back to the captain before a line moves."
+      },
+      {
+        "type": "station",
+        "target": "yc-line-handling-and-docking-in-crosswind",
+        "text": "Coming alongside with the wind on the beam: the spring passed first from outside the bight, the stern line hitched and tended through a wake, and the gap called steadily to a captain who cannot see it."
+      },
+      {
+        "type": "station",
+        "target": "yc-fuel-dock-transfer-and-spill-kit",
+        "text": "The declaration signed and the boom staged down-current before the nozzle moves, the vent watched with a hand on the trigger, and the pump killed at its stop the moment the vent spits."
+      },
+      {
+        "type": "talk",
+        "target": "training-lead",
+        "text": "\"Eight jobs on a mid-size motor yacht at her marina berth and under way on the estuary: the charter briefing with every head counted against the manifest, coming alongside on the spring in a crosswind, the fuel transfer declared and boomed before the nozzle moves, the engine room sniffed and blown before the key, the person-overboard drill with the ring thrown first and the propellers stopped before the platform, the galley fire with the fuel off before the blanket, the tender lowered steady and every guest across with two hands free, and shore power connected boat end first with a tingle in the water treated as an emergency. No fuel quantity, wind speed, weight or voltage is ever stated — those live in the vessel's plans, the captain's standing orders and the tender's plate.\""
+      }
+    ],
+    "reward": {
+      "xp": 100,
+      "badge": "Yacht & Charter Crew — Opener"
+    }
+  },
+  {
+    "id": "bw-side-yacht-and-charter-crew-capstone",
+    "title": "Yacht & Charter Crew — Capstone",
+    "giver": "the programme's certifying evaluator",
+    "site": "Yacht & Charter Crew",
+    "kind": "side",
+    "tier": 2,
+    "requires": "bw-side-yacht-and-charter-crew-opener",
+    "programmeId": "yacht-and-charter-crew",
+    "role": "capstone",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Yacht & Charter Crew",
+        "text": "The certifying evaluator is waiting at the last bench, sign-off sheet in hand."
+      },
+      {
+        "type": "station",
+        "target": "yc-galley-fire-and-fixed-system",
+        "text": "The galley fuel shut before the blanket, the extinguisher swept at the base, the fixed system pulled with the door shut, and the hatch cracked to the plan rather than thrown wide on a pan that may reflash."
+      },
+      {
+        "type": "station",
+        "target": "yc-tender-launch-and-guest-transfer",
+        "text": "The tender walked for the missing plug in her chocks, lowered steady on the davit with a tag line for the swing, loaded to the plate and no further, and every guest across with bags passed first and two hands free."
+      },
+      {
+        "type": "station",
+        "target": "yc-shore-power-connection-and-in-water-electrical-safety",
+        "text": "Breaker off before the cord moves, boat end locked before the dock end goes in, the polarity and leakage watched at the panel, nobody in the water at the berth, and a reported tingle treated as the emergency it is."
+      },
+      {
+        "type": "talk",
+        "target": "certifying-evaluator",
+        "text": "\"Certified under: IBU and SIU deck training and MEBA engineering practice for charter yacht crew, tested against USCG 33 CFR 83 Inland Navigation Rules, 33 CFR 155 and 33 CFR 156.150 for the fuel transfer, 46 CFR 25 and 46 CFR 199 for lifesaving and fire-fighting equipment as the vessel's certificate applies them, NFPA 306 for gas hazards below decks, NFPA 70E for the shore-power connection, OSHA 29 CFR 1910.147 the control of hazardous energy, 29 CFR 1910.95 occupational noise exposure, 29 CFR 1910.157 portable fire extinguishers and 29 CFR 1910.132 personal protective equipment, and IMO STCW basic safety training, across eight jobs a deckhand, mate, engineer and steward actually rotate through on a mid-size motor yacht\""
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": "Yacht & Charter Crew — Capstone"
+    }
   }
 ];
 
@@ -5383,6 +5467,72 @@ export const EGG_QUESTS = [
         "text": "Tucked near the sign at Lake Merritt, a field note reads: \"A pull station three seconds away by sightline and ten seconds away around a stack of totes is a pull station that costs a kitchen the difference between a scorched hood and a working fire — NFPA 96 calls for it visible and reachable for exactly that reason, and reachable is something you confirm standing there, not something you assume from memory.\""
       }
     ]
+  },
+  {
+    "id": "bw-egg-cleat-hitch",
+    "title": "Field Note — Estuary Marina",
+    "giver": "found, not given",
+    "site": "Estuary Marina",
+    "kind": "egg",
+    "tier": 0,
+    "requires": null,
+    "landmark": "Estuary Marina",
+    "method": "goto",
+    "cites": {
+      "app": "smartcity",
+      "stationId": "yc-line-handling-and-docking-in-crosswind",
+      "stepId": "stern-hitch"
+    },
+    "lesson": "A cleat hitch holds because the load goes round the base of the cleat first and the figure-eights take the strain off the hitch; a line dropped straight into a hitch with no turn under it slips under load or jams so hard it cannot be cast off in a hurry.",
+    "reward": {
+      "xp": 25,
+      "badge": "Field Note"
+    },
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Estuary Marina",
+        "text": "Walk to Estuary Marina and look for the marker."
+      },
+      {
+        "type": "find",
+        "target": "bw-egg-cleat-hitch",
+        "text": "Tucked near the sign at Estuary Marina, a field note reads: \"A cleat hitch holds because the load goes round the base of the cleat first and the figure-eights take the strain off the hitch; a line dropped straight into a hitch with no turn under it slips under load or jams so hard it cannot be cast off in a hurry.\""
+      }
+    ]
+  },
+  {
+    "id": "bw-egg-tender-light",
+    "title": "Field Note — Estuary Marina",
+    "giver": "found, not given",
+    "site": "Estuary Marina",
+    "kind": "egg",
+    "tier": 0,
+    "requires": null,
+    "landmark": "Estuary Marina",
+    "method": "radio",
+    "cites": {
+      "app": "smartcity",
+      "stationId": "yc-tender-launch-and-guest-transfer",
+      "stepId": "nav-light-check"
+    },
+    "lesson": "A tender running back to the yacht at dusk without a light is invisible to every other vessel in the anchorage and outside the navigation rules that let those vessels avoid her; the light is checked in daylight because a dead lamp is discovered alongside a platform, not in the channel.",
+    "reward": {
+      "xp": 25,
+      "badge": "Field Note"
+    },
+    "steps": [
+      {
+        "type": "talk",
+        "target": "maintenance-radio",
+        "text": "The marina's maintenance radio hums: 'Dusk run tonight — tell me what the tender crew check before slipping the painter.'"
+      },
+      {
+        "type": "find",
+        "target": "bw-egg-tender-light",
+        "text": "The radio crackles once more and gives up the note: \"A tender running back to the yacht at dusk without a light is invisible to every other vessel in the anchorage and outside the navigation rules that let those vessels avoid her; the light is checked in daylight because a dead lamp is discovered alongside a platform, not in the channel.\""
+      }
+    ]
   }
 ];
 
@@ -5432,6 +5582,28 @@ export const SIDE_ACTIVITIES = [
     }
   },
   {
+    "id": "bw-activity-harbor-cruise",
+    "title": "Harbor Cruise",
+    "kind": "cruise",
+    "vessel": "motor yacht",
+    "site": "Estuary Marina",
+    "route": {
+      "from": "Estuary Marina",
+      "to": "Estuary Marina"
+    },
+    "description": "Take the charter yacht off her berth, out along the estuary and back to the same berth, scored on the same crew habits the yacht and charter crew stations teach.",
+    "scoring": {
+      "time": false,
+      "criteria": [
+        "guest count read back to the captain before a line moves",
+        "lines and fenders stowed before leaving the marina",
+        "no-wake speed held inside the marina",
+        "wake watch kept on the estuary for other vessels and the shoreline",
+        "a clean return to the berth: spring first, engines confirmed stopped before the gangway"
+      ]
+    }
+  },
+  {
     "id": "bw-activity-hills-photo",
     "title": "Skyline Lookout Photo Mode",
     "kind": "photo",
@@ -5462,6 +5634,7 @@ export const LANDMARK_NOTES = {
   "Alameda Point": "A former base site at the tip of the island's shoreline.",
   "Alameda Marina": "A small-craft marina on the estuary side of the island.",
   "Emeryville Marina": "A small-craft marina on the bay shoreline.",
+  "Estuary Marina": "A small-craft marina with floating docks along the estuary.",
   "Berkeley Marina": "A marina along the bay shoreline to the north.",
   "Berkeley Pier": "A long fishing pier reaching out over the bay.",
   "Redwood Regional Park": "A regional park of forested hillside trails.",

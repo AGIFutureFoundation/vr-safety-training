@@ -1,0 +1,397 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-close",
+    "name": "Clean Close",
+    "note": "Last call, the cutoff, the rides and the sweep all answered clean, and the building locked down behind a crew that walked out together"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "California ABC Act §25631 (hours of sale) and §25602 (sale to an obviously intoxicated person); the ABC licence's own posted hours; Cal/OSHA's workplace violence prevention plan (8 CCR §3342, SB 553), which names the closing shift and the walk to the parking lot as elevated-risk periods; federal OSHA's recordkeeping rule (29 CFR 1904) for anything the shift needs to report; UNITE HERE Local 2's closing-shift and safety-committee language",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Cal. ABC",
+        "citedAs": "§25602",
+        "id": "abc-25602",
+        "title": "California Business and Professions Code §25602 — sale to an obviously intoxicated person"
+      },
+      {
+        "body": "Cal. ABC",
+        "citedAs": "§25631",
+        "id": "abc-25631",
+        "title": "California Business and Professions Code §25631 — hours of legal sale of alcoholic beverages"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1904",
+        "id": "osha-1904",
+        "title": "29 CFR 1904 — Recording and reporting occupational injuries and illnesses"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Culinary & Hospitality",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "on-the-clock",
+        "name": "On the Clock",
+        "note": "Last call and the 2 a.m. cutoff both answered clean, first time"
+      },
+      {
+        "id": "nobody-left-behind",
+        "name": "Nobody Left Behind",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "steady-sweep",
+        "name": "Steady Sweep",
+        "note": "Every timed hold and sweep carried clean the whole way"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-close",
+        "name": "Clean Close",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "six-straight",
+        "name": "Six Straight",
+        "note": "Six correct actions in a row"
+      },
+      {
+        "id": "out-on-time",
+        "name": "Out on Time",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "CLOSE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Barback",
+      "Closer",
+      "Shift Lead",
+      "Manager on Duty",
+      "Closing Certified"
+    ],
+    "system": "Closing Shift"
+  },
+  "hazards": {
+    "handed-back-keys": "You handed the keys back to a patron who was visibly unsteady on their feet. Business and Professions Code §25602 is about the pour, but what happens after last call is about not putting somebody who can't drive behind a wheel because asking them to wait for a ride felt awkward.",
+    "skip-sweep": "You reached for the lock before the restrooms were swept. A building locked up with somebody still inside it is not a faster close, it is a person trapped in the dark with the alarm about to arm around them.",
+    "sneak-pour": "You poured the \"one more\" instead of refusing it. Business and Professions Code §25631 sets 2 a.m. as the hard stop on sale, not a target to get close to for a regular who's asking nicely — the licence that lets this bar operate at all is the thing actually on the line.",
+    "solo-walkout": "You went out to your car alone instead of waiting for the group. Cal/OSHA's workplace violence prevention standard names the closing shift and the walk to an empty parking lot as an elevated-risk period for exactly this reason — the group walkout is the control, not a courtesy extended when it's convenient."
+  },
+  "id": "last-call-lockup",
+  "indoor": "bar",
+  "interrupts": [
+    {
+      "after": "clear-drinks",
+      "alert": "A regular is asking the manager for \"one after hours, door locked\" — and a colleague is already reaching for a bottle.",
+      "cue": "Stop the pour before it happens.",
+      "delay": 3,
+      "id": "after-hours-request",
+      "kind": "Off-the-clock sale",
+      "missNote": "The bottle came off the shelf. A locked door was never the thing making that pour legal, and the licence this whole bar operates under does not know or care that it happened quietly.",
+      "seconds": 12,
+      "target": "stop-pour",
+      "why": "A locked door does not change what Business and Professions Code §25631 says about the hour — an after-hours pour behind a locked door is still a sale after the cutoff, and it is the licence, not the lock, that answers for it.",
+      "wrongNote": "It's the bottle your colleague is reaching for. Stop that pour — the door being locked changes nothing about the hour."
+    },
+    {
+      "after": "restroom-sweep",
+      "alert": "A stall door that looked locked wasn't — someone is asleep on the floor of the restroom, still inside the building.",
+      "cue": "Wake them and get them a ride. Do not lock up around them.",
+      "delay": 2,
+      "id": "sleeping-patron",
+      "kind": "Person on the sweep",
+      "missNote": "The sweep moved on without waking them. A building locked and alarmed with somebody still asleep inside it is the exact failure this sweep exists to prevent, and it very nearly just happened.",
+      "seconds": 13,
+      "target": "wake-and-ride",
+      "why": "Someone asleep in a restroom is not a housekeeping problem to note and move past — they wake up, they get a ride home the same as anyone else checked on the way out, and the sweep is not finished until they are actually gone.",
+      "wrongNote": "Somebody is still in the building. Wake them and arrange a ride — nothing else on this closing list matters until that's done."
+    }
+  ],
+  "lateNotes": {
+    "alarm-panel": "The alarm gets set after the sweep confirms the building is empty, not before it.",
+    "checklist-sheet": "The checklist gets signed once the building is actually secured, not as a substitute for securing it."
+  },
+  "name": "Last Call & Lockup",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bartending-course"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "alarm-panel",
+      "chairs-stacked",
+      "checklist-sheet",
+      "clear-sweep",
+      "dumpster-spot",
+      "gas-off",
+      "group-exit",
+      "handed-back-keys",
+      "incident-log-sign",
+      "last-call-sign",
+      "lights-off",
+      "patron-keys",
+      "patron-unsteady",
+      "propped-door",
+      "refuse-request",
+      "restroom-mens",
+      "restroom-womens",
+      "skip-sweep",
+      "sneak-pour",
+      "solo-walkout",
+      "stop-pour",
+      "sweep-hallway",
+      "tap-shutoff",
+      "trash-bag",
+      "unlocked-window",
+      "wake-and-ride"
+    ],
+    "meshes": 169
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Announce it early enough that every open tab can actually be finished before 2 a.m.",
+      "id": "last-call-announce",
+      "kind": "select",
+      "prompt": "Announce it early enough that every open tab can actually be finished before 2 a.m.",
+      "target": "last-call-sign",
+      "title": "Call last call on the ABC's clock",
+      "why": "Business and Professions Code §25631 sets the hard stop on the sale of alcohol at 2 a.m., and last call is announced early enough before that line that a drink poured in time can actually be finished — not timed to the minute the law stops mattering."
+    },
+    {
+      "cue": "Steady sweep of the tables — collect what's finished, don't rush what isn't.",
+      "holdBreakNote": "Pace drifted out of band. Too slow leaves tabs open past the cutoff; too fast leaves glasses uncleared on tables you skipped.",
+      "id": "clear-drinks",
+      "kind": "track",
+      "prompt": "Steady sweep of the tables — collect what's finished, don't rush what isn't.",
+      "seconds": 5,
+      "target": "clear-sweep",
+      "title": "Clear the room by the deadline",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "SWEEP PACE",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "Every glass still on a table after the cutoff is a glass somebody could argue was poured before it. Clearing the room at a steady, visible pace is what makes the 2 a.m. line an actual line rather than a suggestion nobody can prove either way."
+    },
+    {
+      "cue": "Taps off, register to no-sale, on the clock.",
+      "id": "no-sale-2am",
+      "kind": "turn",
+      "prompt": "Taps off, register to no-sale, on the clock.",
+      "target": "tap-shutoff",
+      "title": "No sale after 2 a.m. — shut it down",
+      "turn": {
+        "axis": "y",
+        "label": "TAPS",
+        "turns": 1
+      },
+      "why": "The cutoff does not bend for a good customer, a big tab, or a slow night — the licence that lets this building sell alcohol at all is written around that one hour, and it is the one rule in this job with no manager override that matters."
+    },
+    {
+      "cue": "Say no, clearly, and mean it — this is the same rule as the last step, asked a different way.",
+      "id": "refuse-one-more",
+      "kind": "select",
+      "prompt": "Say no, clearly, and mean it — this is the same rule as the last step, asked a different way.",
+      "target": "refuse-request",
+      "title": "Refuse the \"one more\"",
+      "why": "A regular asking for one more after last call is asking the same question the clock already answered. Refusing it clearly and without apology is what the cutoff is actually worth — a cutoff that bends for the right customer was never a cutoff."
+    },
+    {
+      "cue": "Look over the room — keys on the bar, anyone unsteady on their feet.",
+      "id": "rides-check",
+      "itemNames": {
+        "patron-keys": "keys on the bar",
+        "patron-unsteady": "unsteady on their feet"
+      },
+      "itemNotes": {
+        "patron-keys": "Keys sitting on the bar next to an empty glass are worth noticing before the person reaching for them is halfway to the parking lot.",
+        "patron-unsteady": "Someone who can't walk a straight line to the door can't be trusted to drive one either, whatever they say about how far home is."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the room — keys on the bar, anyone unsteady on their feet.",
+      "targets": [
+        "patron-keys",
+        "patron-unsteady"
+      ],
+      "title": "Check who needs a ride before they leave",
+      "why": "Business and Professions Code §25602 covers the pour, but the hour after last call is about the walk to the parking lot — a rideshare arranged from behind the bar costs five minutes and is cheaper than any version of the alternative."
+    },
+    {
+      "cue": "Hold the group at the door until everyone closing tonight is actually in it.",
+      "holdBreakNote": "The group broke up before everyone was accounted for. Hold it — the walkout works because it's everyone together, not most of everyone.",
+      "id": "walk-out-together",
+      "kind": "hold",
+      "prompt": "Hold the group at the door until everyone closing tonight is actually in it.",
+      "seconds": 5,
+      "target": "group-exit",
+      "title": "Walk the staff out together",
+      "why": "Cal/OSHA's workplace violence prevention standard calls out the closing shift and the walk to an empty lot by name as an elevated-risk period, which is exactly why nobody leaves alone — the group is the control the standard is asking for, not an afterthought."
+    },
+    {
+      "cue": "Check every stall in both restrooms before anything gets locked.",
+      "holdBreakNote": "The sweep broke off mid-hallway. An unchecked stall is exactly the gap this sweep exists to close — finish it before anything else happens.",
+      "id": "restroom-sweep",
+      "kind": "track",
+      "prompt": "Check every stall in both restrooms before anything gets locked.",
+      "seconds": 5,
+      "target": "sweep-hallway",
+      "title": "Sweep the restrooms",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.42,
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "SWEEP",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "A restroom is the one part of the building somebody can be in without anyone behind the bar knowing it, which is exactly why the sweep checks every stall by hand rather than assuming an empty-looking room actually is one."
+    },
+    {
+      "cue": "Every window and door, checked shut and locked before the alarm goes on.",
+      "id": "walk-perimeter",
+      "itemNames": {
+        "propped-door": "propped patio door",
+        "unlocked-window": "unlocked side window"
+      },
+      "itemNotes": {
+        "propped-door": "A patio door propped for the night's last smoke break and never unpropped is a door that was never actually closed.",
+        "unlocked-window": "A window left on the latch is an open building with the alarm about to be told otherwise."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Every window and door, checked shut and locked before the alarm goes on.",
+      "targets": [
+        "unlocked-window",
+        "propped-door"
+      ],
+      "title": "Walk the perimeter",
+      "why": "The alarm only protects a building that is actually closed — a single unlocked window or propped door behind it is a false sense of security wired straight into the panel."
+    },
+    {
+      "cue": "Carry the sealed bag to the dumpster before the building's locked down.",
+      "drag": {
+        "missNote": "Not at the dumpster. Set down anywhere else along the way, it's still trash behind the bar tomorrow morning.",
+        "radius": 0.4,
+        "to": "dumpster-spot"
+      },
+      "id": "trash-out",
+      "kind": "drag",
+      "prompt": "Carry the sealed bag to the dumpster before the building's locked down.",
+      "target": "trash-bag",
+      "title": "Take the trash out",
+      "why": "Trash left behind the bar overnight is a pest problem the health inspector will find before any customer does — it goes out with the rest of the close, not first thing tomorrow."
+    },
+    {
+      "cue": "Stack them clear of the floor.",
+      "id": "chairs-up",
+      "kind": "select",
+      "prompt": "Stack them clear of the floor.",
+      "target": "chairs-stacked",
+      "title": "Chairs up for the cleaning crew",
+      "why": "The overnight cleaning crew works the floor the chairs are sitting on — stacked and clear is the difference between them mopping tonight and working around furniture instead."
+    },
+    {
+      "cue": "Shut the torch valve first — then the lights, not the other way around.",
+      "id": "gas-lights-off",
+      "itemNames": {
+        "gas-off": "shut the bar-top torch gas valve",
+        "lights-off": "lights off behind the bar"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Gas off before the lights — closing the valve in the dark is how a half-turned valve gets missed.",
+      "prompt": "Shut the torch valve first — then the lights, not the other way around.",
+      "targets": [
+        "gas-off",
+        "lights-off"
+      ],
+      "title": "Gas off, then the lights",
+      "why": "The gas valve for the bar-top torch gets shut while the lights are still on to see it done properly — cutting the lights first just means finding a gas valve by phone light instead of doing it right the first time."
+    },
+    {
+      "cue": "Arm it on the way out, once the building is confirmed clear.",
+      "id": "alarm-set",
+      "kind": "turn",
+      "prompt": "Arm it on the way out, once the building is confirmed clear.",
+      "target": "alarm-panel",
+      "title": "Set the alarm",
+      "turn": {
+        "axis": "y",
+        "label": "ALARM",
+        "turns": 1
+      },
+      "why": "The alarm is the last thing armed because it's the one system that assumes everyone who should be gone already is — setting it early on an assumption is how the sweep that came before it stops meaning anything."
+    },
+    {
+      "cue": "Every line, initialled, before you're the last one out.",
+      "id": "closing-checklist",
+      "kind": "select",
+      "prompt": "Every line, initialled, before you're the last one out.",
+      "target": "checklist-sheet",
+      "title": "Sign the closing checklist",
+      "why": "The checklist is what tomorrow's opener and the manager both read to know the building was actually closed the way it's supposed to be, rather than trusting that whoever locked up remembered everything correctly."
+    },
+    {
+      "cue": "Note anything refused, any ride arranged, anything found on the sweep.",
+      "id": "incident-log-sign",
+      "kind": "select",
+      "prompt": "Note anything refused, any ride arranged, anything found on the sweep.",
+      "target": "incident-log-sign",
+      "title": "Sign the incident log",
+      "why": "A refusal, a ride arranged, or somebody found asleep in a stall are all things worth a manager reading in daylight rather than only living in tonight's memory of how the shift went."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Last call on the clock the ABC licence sets, no sale after 2 a.m., the \"one more\" refused, rides checked, staff walked out together, the restrooms swept, and the building locked down behind you",
+  "title": "SmartCiti.X~ Last Call & Lockup VR",
+  "trade": "Bartender — UNITE HERE Local 2",
+  "underwater": null,
+  "weather": "clear"
+}

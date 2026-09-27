@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "drain-proven",
+    "name": "Drain Proven",
+    "note": "Locate confirmed, the trench inspected by a competent person, the pipe graded, and the bunker finished to an even sand depth"
+  },
+  "category": "Grounds & Landscaping",
+  "certification": "OSHA 29 CFR 1926 Subpart P Excavations, including the trench's own competent person inspection duties; OSHA 29 CFR 1910.132 personal protective equipment and 29 CFR 1926.21 safety training and education; NIOSH guidance on manual material handling; LIUNA grounds and landscaping crew training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.21",
+        "id": "osha-1926-21",
+        "title": "29 CFR 1926.21 — Safety training and education in construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926 Subpart P Excavations",
+        "id": "osha-1926-subpart-p",
+        "title": "OSHA 29 CFR 1926 Subpart P Excavations"
+      }
+    ]
+  },
+  "district": "fairway-park",
+  "domain": "Grounds & Landscaping",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "locate-confirmed",
+        "name": "Locate Confirmed",
+        "note": "Never dug before the utility locate was confirmed"
+      },
+      {
+        "id": "edge-respected",
+        "name": "Edge Respected",
+        "note": "Never stood or piled spoil at the unshored trench edge"
+      },
+      {
+        "id": "competent-inspected",
+        "name": "Competent Person Inspected",
+        "note": "Confirmed the competent person's trench inspection before entry"
+      },
+      {
+        "id": "even-sand",
+        "name": "Even Sand",
+        "note": "Held the grade gauge and the raking pass near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-bunker",
+        "name": "Quick Bunker",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-round",
+        "name": "Clean Round",
+        "note": "No corrections across the whole run"
+      },
+      {
+        "id": "grounds-streak",
+        "name": "Grounds Streak",
+        "note": "Eight correct actions in a row"
+      }
+    ],
+    "currency": "TURF",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Hand",
+      "Bunker Crew",
+      "Drainage Certified",
+      "Crew Lead",
+      "Grounds Certified"
+    ],
+    "system": "Grounds Crew"
+  },
+  "hazards": {
+    "cut-marked-utility-line": "You cut straight through the ground over the marked utility line instead of hand-digging it. A locate mark is where the utility is, not a suggestion of roughly where it might be, and machine or blind digging over that mark risks striking a line the whole locate process existed to protect.",
+    "reach-into-trench-unprotected": "You reached down into the trench before it was confirmed safe. A trench that has not been inspected by a competent person is not a trench anyone's arm — let alone the rest of them — has any business going into, no matter how shallow it looks from standing height.",
+    "spoil-pile-at-edge": "You piled the spoil right at the edge of the open trench. Spoil stacked at the edge adds weight exactly where the trench wall is already carrying the least support, and that surcharge is what turns a stable-looking wall into one that gives way under its own added load.",
+    "stand-at-unshored-trench-edge": "You are standing right at the edge of the open trench with no protective slope confirmed. A trench wall that has not been checked by a competent person can give way with no warning at all, and standing at that edge trusts ground that nobody has actually confirmed is stable."
+  },
+  "id": "gk-bunker-renovation-and-drainage",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "brace-drain-pipe",
+      "alert": "The trench wall has started to slough near the brace point, sending loose sand sliding toward the pipe.",
+      "cue": "Sound the evacuate horn and clear the trench before the slough spreads.",
+      "delay": 3,
+      "id": "trench-wall-sloughs",
+      "kind": "Ground failure",
+      "missNote": "The bracing continued while the wall kept sloughing. Ground that is already moving does not wait for the crew to finish what they were doing.",
+      "seconds": 10,
+      "target": "evacuate-horn",
+      "why": "A wall that has already started sloughing is telling the crew the ground there is actively failing, not settling, and sounding the evacuate horn immediately — rather than trying to finish bracing the pipe first — is what gets everyone clear before a small slough becomes a wall coming down on top of them.",
+      "wrongNote": "Not that — the evacuate horn is what this slough needs, before anything else in the trench continues."
+    },
+    {
+      "after": "rake-sand-under-guide",
+      "alert": "A nearby sprinkler head has burst and is spraying water straight into the bunker over the freshly raked sand.",
+      "cue": "Shut off the irrigation zone before the spray erodes the new grade.",
+      "delay": 4,
+      "id": "sprinkler-head-bursts",
+      "kind": "Line failure",
+      "missNote": "The spray kept running while the sand washed out. A grade this fresh does not survive being sprayed on for long.",
+      "seconds": 11,
+      "target": "irrigation-shutoff",
+      "why": "Water spraying into a freshly raked bunker does not just wet the sand — it washes out the even grade the raking pass just set and can undercut the drain line underneath it, and shutting the zone off immediately is what stops that damage before the whole bunker has to be re-raked.",
+      "wrongNote": "Not that — the irrigation shutoff is what this burst needs, before the spray does any more damage."
+    }
+  ],
+  "lateNotes": {
+    "competent-person-tag": "The competent person's inspection happens before anyone steps into the trench, not after someone already has and it turned out fine.",
+    "irrigation-head-in-path": "A sprinkler head sitting in the planned trench line is exactly what a shovel or a trencher hits blind if the bunker is not walked and marked before the first cut."
+  },
+  "name": "Bunker Renovation & Drainage",
+  "parSeconds": 310,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "grounds-and-landscaping"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "backfill-check",
+      "bunker-face-socket",
+      "clear-sand-area",
+      "closing-log",
+      "competent-person-tag",
+      "cut-marked-utility-line",
+      "edge-sod",
+      "evacuate-horn",
+      "eye-protection",
+      "grade-level",
+      "grade-string",
+      "irrigation-head-in-path",
+      "irrigation-shutoff",
+      "liner-install",
+      "locate-tickets-board",
+      "pipe-brace",
+      "pipe-coupling",
+      "plan-board",
+      "reach-into-trench-unprotected",
+      "sand-bag",
+      "spoil-pile-at-edge",
+      "spoil-pile-staged",
+      "stand-at-unshored-trench-edge",
+      "trench-line-marked",
+      "unclear-cable-marker",
+      "unstable-bunker-face",
+      "work-gloves"
+    ],
+    "meshes": 99
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the plan's own bunker shape and drainage layout before touching a shovel.",
+      "id": "read-renovation-plan",
+      "kind": "select",
+      "prompt": "Check the plan's own bunker shape and drainage layout before touching a shovel.",
+      "target": "plan-board",
+      "title": "Read the renovation plan",
+      "why": "The renovation plan is what sets the bunker's shape and where the new drain line actually runs — reading it before digging is what keeps today's trench following the design instead of an approximation of it made by eye."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Work gloves and eye protection before the trench is opened.",
+      "id": "ppe-up",
+      "itemNames": {
+        "eye-protection": "eye protection",
+        "work-gloves": "work gloves"
+      },
+      "kind": "sequence",
+      "prompt": "Work gloves and eye protection before the trench is opened.",
+      "targets": [
+        "work-gloves",
+        "eye-protection"
+      ],
+      "title": "Suit up before excavation",
+      "why": "Handling pipe fittings, gravel and sand all day is exactly the kind of work gloves and eye protection are for — small cuts and grit in the eyes add up over a shift that a few seconds of PPE at the start would have prevented entirely."
+    },
+    {
+      "cue": "Three things about this bunker change the plan — find them before the first cut.",
+      "decoyNotes": {
+        "clear-sand-area": "That stretch of sand is stable and clear of anything hidden. Nothing to flag there."
+      },
+      "id": "walk-the-bunker",
+      "itemNames": {
+        "irrigation-head-in-path": "the sprinkler head sitting in the planned trench line",
+        "unclear-cable-marker": "the faded, unclear utility marker",
+        "unstable-bunker-face": "the section of bunker face already sloughing"
+      },
+      "itemNotes": {
+        "irrigation-head-in-path": "A sprinkler head sitting in the trench line is exactly what gets struck blind if the bunker is not walked and marked before the first cut.",
+        "unclear-cable-marker": "A marker this faded is not a marker anyone can actually trust the location from — it gets confirmed with the utility before it gets dug near.",
+        "unstable-bunker-face": "A bunker face already sloughing on its own, before anyone has touched it, is ground that was never going to hold a trench cut into it without extra care."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things about this bunker change the plan — find them before the first cut.",
+      "targets": [
+        "irrigation-head-in-path",
+        "unclear-cable-marker",
+        "unstable-bunker-face"
+      ],
+      "title": "Walk the bunker before opening the trench",
+      "why": "A bunker that looks like straightforward sand from the cart path is not the same thing as a bunker someone has actually walked, and a buried sprinkler head, an unclear marker or an already-sloughing face are exactly what a walk-down catches before the trench is opened."
+    },
+    {
+      "cue": "Check the locate tickets against the marked lines before the trench is opened.",
+      "id": "confirm-locate",
+      "kind": "select",
+      "prompt": "Check the locate tickets against the marked lines before the trench is opened.",
+      "target": "locate-tickets-board",
+      "title": "Confirm the utility locate",
+      "why": "A locate ticket confirmed against the actual marks on the ground is what turns 'call before you dig' from a box checked at the office into an actual fact the crew can trust before the first cut goes anywhere near a marked line."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Mark the trench line to the plan and stage the spoil pile well back from the edge.",
+      "id": "excavation-prep",
+      "itemNames": {
+        "spoil-pile-staged": "spoil pile staged back from the edge",
+        "trench-line-marked": "trench line marked"
+      },
+      "kind": "sequence",
+      "prompt": "Mark the trench line to the plan and stage the spoil pile well back from the edge.",
+      "targets": [
+        "trench-line-marked",
+        "spoil-pile-staged"
+      ],
+      "title": "Prep the excavation",
+      "why": "Marking the trench line before cutting keeps the excavation on the plan's own drainage layout, and staging spoil back from the edge — rather than piling it right beside the cut — is what keeps that extra weight from adding to the load the trench wall already has to carry."
+    },
+    {
+      "cue": "Check the competent person's own inspection tag on the trench before anyone enters it.",
+      "id": "confirm-competent-person",
+      "kind": "select",
+      "prompt": "Check the competent person's own inspection tag on the trench before anyone enters it.",
+      "target": "competent-person-tag",
+      "title": "Confirm the competent person's inspection",
+      "why": "A competent person's inspection is what actually confirms this specific trench is safe to enter today — ground conditions change with weather and depth, and a tag from an inspection done before anyone steps in is what makes that safety a checked fact rather than an assumption carried over from the last trench."
+    },
+    {
+      "cue": "Hold the pipe braced in the trench for the full grade check.",
+      "holdBreakNote": "Released the brace before the grade check finished. Hold the pipe steady for the whole check, every time.",
+      "id": "brace-drain-pipe",
+      "kind": "hold",
+      "prompt": "Hold the pipe braced in the trench for the full grade check.",
+      "seconds": 4,
+      "target": "pipe-brace",
+      "title": "Brace the drain pipe while checking grade",
+      "why": "A pipe that shifts while the grade is being checked gives a reading that means nothing the moment it moves again — holding it braced for the whole check is what makes the grade reading something the crew can actually trust before backfilling locks it in place."
+    },
+    {
+      "cue": "Turn the coupling to seat the two pipe sections fully home.",
+      "id": "join-pipe-coupling",
+      "kind": "turn",
+      "prompt": "Turn the coupling to seat the two pipe sections fully home.",
+      "target": "pipe-coupling",
+      "title": "Join the drain pipe sections",
+      "turn": {
+        "axis": "z",
+        "label": "PIPE COUPLING",
+        "turns": 0.4
+      },
+      "why": "A coupling that is not turned fully home leaves a gap sand and silt work into over the first season, which is exactly the slow failure a drain line built today is supposed to prevent for years, not months."
+    },
+    {
+      "cue": "Read the grade level and commit only inside the plan's own fall band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.68
+        ],
+        "label": "DRAIN LINE FALL",
+        "missNote": "Outside the plan's fall band. Adjust the bedding and let the reading settle before committing it.",
+        "speed": 0.58
+      },
+      "id": "check-drain-grade",
+      "kind": "gauge",
+      "prompt": "Read the grade level and commit only inside the plan's own fall band.",
+      "target": "grade-level",
+      "title": "Check the drain line's fall",
+      "why": "A drain pipe laid flat or laid backward does not drain no matter how well it was joined — the grade level is what actually proves the pipe falls the direction and the amount the plan calls for, before it disappears under backfill where nobody can check it again."
+    },
+    {
+      "cue": "Carry the bagged sand from the stockpile to the marked bunker face.",
+      "drag": {
+        "missNote": "Not at the bunker face — carry the sand to where the bunker face actually is.",
+        "radius": 0.4,
+        "to": "bunker-face-socket"
+      },
+      "id": "carry-sand-bags",
+      "kind": "drag",
+      "prompt": "Carry the bagged sand from the stockpile to the marked bunker face.",
+      "target": "sand-bag",
+      "title": "Carry sand to the bunker face",
+      "why": "Staging the sand at the bunker face before backfilling the trench means the raking pass that follows can run start to finish without a break to fetch more material partway through."
+    },
+    {
+      "cue": "Keep the rake depth steady under the grade string across the whole bunker face.",
+      "holdBreakNote": "The sand depth drifted off the grade string. Bring the raking pass back to an even depth before continuing.",
+      "id": "rake-sand-under-guide",
+      "kind": "track",
+      "prompt": "Keep the rake depth steady under the grade string across the whole bunker face.",
+      "seconds": 8,
+      "target": "grade-string",
+      "title": "Rake the sand under the grade string",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "SAND DEPTH",
+        "rise": 0.5,
+        "start": 0.16
+      },
+      "why": "The grade string is the one reference that keeps sand depth consistent across a bunker face big enough that eye alone drifts — a raking pass that strays from it leaves thin spots that wash out and high spots that catch a club or a mower the first time either one crosses them."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Lay the bunker liner over the graded sand and set the edge sod tight to the new line.",
+      "id": "install-liner-and-sod",
+      "itemNames": {
+        "edge-sod": "edge sod",
+        "liner-install": "bunker liner"
+      },
+      "kind": "sequence",
+      "prompt": "Lay the bunker liner over the graded sand and set the edge sod tight to the new line.",
+      "targets": [
+        "liner-install",
+        "edge-sod"
+      ],
+      "title": "Install the liner and the edge sod",
+      "why": "The liner is what keeps the sand from mixing into the soil underneath it over time, and edge sod set tight to the new bunker line is what gives the renovation a clean, finished edge instead of a scar in the turf around it."
+    },
+    {
+      "cue": "Confirm the backfill is compacted in lifts around the pipe before it is buried for good.",
+      "id": "backfill-and-compact",
+      "kind": "select",
+      "prompt": "Confirm the backfill is compacted in lifts around the pipe before it is buried for good.",
+      "target": "backfill-check",
+      "title": "Backfill and compact around the drain",
+      "why": "Backfill dumped in all at once and never compacted settles unevenly over the following seasons, which telegraphs straight up through the sand as a dip right over the drain line — compacting it in lifts now is what keeps that from becoming next year's repair."
+    },
+    {
+      "cue": "Log the locate confirmation, the grade reading and the finished sand depth before leaving the site.",
+      "id": "shutdown-log",
+      "kind": "select",
+      "prompt": "Log the locate confirmation, the grade reading and the finished sand depth before leaving the site.",
+      "target": "closing-log",
+      "title": "Close out the bunker renovation log",
+      "why": "The renovation log is what the next crew and the next inspection both read — a bunker finished cleanly but never logged leaves nothing behind to prove the locate was confirmed and the drain actually graded before it disappeared under the sand."
+    }
+  ],
+  "supportLine": "your union steward or the parks department's employee assistance line",
+  "tagline": "A sand bunker rebuilt around a new drain line: the plan read, the locate confirmed, the trench line marked and the spoil kept back from the edge, a competent person's inspection confirmed, the pipe joined and graded, and the sand raked even under a grade string",
+  "title": "SmartCiti.X~ Bunker Renovation & Drainage VR",
+  "trade": "Sports-turf and golf course grounds crew — LIUNA grounds and landscaping crew",
+  "underwater": null,
+  "weather": "clear"
+}

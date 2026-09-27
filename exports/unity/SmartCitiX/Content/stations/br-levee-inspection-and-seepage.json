@@ -1,0 +1,451 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "levee-sound",
+    "name": "Levee Read Sound",
+    "note": "Every deficiency flagged, the boil ringed not blocked, nothing left unreported — first time"
+  },
+  "category": "Water & Environmental",
+  "certification": "LIUNA Local 261 laborers — levee inspection and patrol crew; OSHA 29 CFR 1926 general construction safety; USACE Levee Safety Program periodic inspection protocol; U.S. Army Corps of Engineers Clean Water Act (CWA) Section 404 permit conditions; San Francisco Bay Regional Water Quality Control Board CWA Section 401 water quality certification; San Francisco Bay Conservation and Development Commission (BCDC) permit; California Department of Fish and Wildlife habitat protections; U.S. Fish and Wildlife Service Endangered Species Act reporting for a protected burrow",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "BCDC",
+        "citedAs": "BCDC",
+        "id": "bcdc-bay-plan",
+        "title": "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act"
+      },
+      {
+        "body": "CDFW",
+        "citedAs": "California Department of Fish and Wildlife",
+        "id": "cdfw-lake-streambed-alteration",
+        "title": "California Department of Fish and Wildlife oversight under the California Fish and Game Code, including Lake and Streambed Alteration Agreements (§1602) for work affecting a river, stream or lake"
+      },
+      {
+        "body": "union",
+        "citedAs": "CWA",
+        "id": "cwa-training",
+        "title": "CWA member training for outside-plant, tower and broadcast work"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "Section 401",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      },
+      {
+        "body": "USACE",
+        "citedAs": "USACE Levee Safety Program",
+        "id": "usace-levee-safety-program",
+        "title": "USACE Levee Safety Program periodic inspections and the National Levee Safety Program's guidance on seepage, underseepage, sand boils and levee deficiency reporting"
+      },
+      {
+        "body": "USACE",
+        "citedAs": "Section 404",
+        "id": "usace-section-404",
+        "title": "Clean Water Act §404 permit conditions for the discharge of dredged or fill material"
+      },
+      {
+        "body": "USFWS",
+        "citedAs": "Endangered Species Act",
+        "id": "usfws-esa",
+        "title": "Endangered Species Act §7 consultation and species protection measures set by the U.S. Fish and Wildlife Service"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "no-blowout",
+        "name": "No Blowout Risk",
+        "note": "Never a hazard, the boil always ringed and never blocked"
+      },
+      {
+        "id": "reach-true",
+        "name": "Reach Read True",
+        "note": "The piezometer reading held inside the expected band"
+      },
+      {
+        "id": "stations-first",
+        "name": "Stations Read Clean",
+        "note": "Station markers and the piezometer both read clean before the walk started"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-reach",
+        "name": "Clean Reach",
+        "note": "No corrections across the whole patrol"
+      },
+      {
+        "id": "steady-walk",
+        "name": "Steady Walk",
+        "note": "Held the crown walk inside the working band the whole pass"
+      },
+      {
+        "id": "reach-fast",
+        "name": "Reach Cleared Fast",
+        "note": "Patrol closed out inside 80% of par"
+      }
+    ],
+    "currency": "REACH",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Laborer",
+      "Patrol Hand",
+      "Lead Patrol",
+      "Site Steward",
+      "Levee Inspection Certified"
+    ],
+    "system": "Patrol Crew"
+  },
+  "hazards": {
+    "animal-burrow-reach-in": "You reached a bare hand into the burrow to feel how deep it went instead of using the probe staged for exactly that. A burrow this size can hold anything from a protected species to a snake denning for the season, and a hand is not the tool this crew is trained to use to find out which.",
+    "boil-block-not-ring": "You started stacking sandbags directly on top of the sand boil instead of building a ring around it. Blocking a boil outright traps the pressure that was finding its own way out through it, and that pressure has to go somewhere — usually into a bigger, faster failure a few feet away. The ring works because it raises the water level over the boil without ever stopping the flow through it.",
+    "truck-unspotted-back": "You backed the patrol truck along the crown road without checking for the public trail traffic this levee also carries. A levee crown this width is a shared trail as much as it is a patrol road, and backing on a guess instead of a confirmed all-clear is how a truck finds a cyclist the mirror never showed.",
+    "walk-levee-crest-edge-unmarked-crack": "You stepped past the unmarked crack instead of flagging it and routing the crew around it. A crack on a levee crown is not cosmetic — it can be the surface sign of a slip plane already moving underneath, and walking over it instead of around it risks being the exact load that finishes what the crack already started."
+  },
+  "id": "br-levee-inspection-and-seepage",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "boil-ring",
+      "alert": "The boil's flow has picked up noticeably since the ring went in — the water inside the ring is rising faster than it was a few minutes ago.",
+      "cue": "Notify the levee watch now over the radio, not at the end of the patrol — this is exactly the change they need to hear about while it's happening.",
+      "delay": 3,
+      "id": "boil-flow-increasing",
+      "kind": "Sand boil flow visibly increasing",
+      "missNote": "The flow kept increasing while the crew finished the rest of the patrol before calling it in, and the watch found out about a boil that had already been getting worse for the better part of an hour instead of the few minutes it actually took to notice.",
+      "seconds": 13,
+      "target": "emergency-notify",
+      "why": "A boil that is quietly seeping and a boil whose flow is visibly increasing are two different situations, and the difference is exactly what the levee watch needs to know about in real time — calling it in the moment the change is seen is what turns a patrol's observation into a decision somebody with the authority to act on it can actually make.",
+      "wrongNote": "That is not it. The levee watch radio is what gets this change reported while it still matters — nothing else on this patrol does that job."
+    },
+    {
+      "after": "crown-walk",
+      "alert": "A cyclist on the public trail is approaching the stretch of crown the crew is working, and there is no closure sign up yet to route them around it.",
+      "cue": "Get the trail closure sign out now, before the cyclist reaches the work zone.",
+      "delay": 4,
+      "id": "cyclist-approaches-work-zone",
+      "kind": "Cyclist approaches the unmarked work zone",
+      "missNote": "The cyclist rode straight into the work zone before anyone got the sign out, close enough to the flagged crack that the whole point of flagging it — keeping foot and wheel traffic off it — was already undone for this one rider.",
+      "seconds": 12,
+      "target": "trail-closure-sign",
+      "why": "This levee crown is a public trail as much as it is a patrol route, and a crew working it without a closure sign up is relying on every single trail user to notice and avoid them on their own — the sign is what makes that everyone else's problem to solve instead of this crew's problem to hope works out.",
+      "wrongNote": "It's the trail closure sign. Nothing else on this crown routes a cyclist around the work zone before they reach it."
+    }
+  ],
+  "lateNotes": {
+    "deficiency-flag-1": "Flag the deficiencies only after the crack has been measured — a flag placed before the measurement is a flag with no record behind it for the engineer who reads this log next.",
+    "sandbags": "Ring the boil only after the piezometer reading and the crown walk both confirm where the seepage is coming from — sandbagging blind just guesses at a ring that may not even be centered on the boil.",
+    "toe-drain-valve": "Check the toe drain valve only after the boil is ringed — a valve reading taken before the ring is in place does not reflect what the ring itself is about to change."
+  },
+  "name": "Levee Inspection And Seepage",
+  "parSeconds": 310,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "pickup",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.7,
+    "hits": [
+      "animal-burrow",
+      "animal-burrow-reach-in",
+      "boil-block-not-ring",
+      "boil-ring-line",
+      "burrow-probe",
+      "closing-log",
+      "crack-tape",
+      "crown-path",
+      "deficiency-flag-1",
+      "deficiency-flag-2",
+      "deficiency-flag-3",
+      "emergency-notify",
+      "inspection-plan-board",
+      "loose-flag",
+      "piezometer",
+      "sand-boil",
+      "sandbags",
+      "stage-boots",
+      "stage-gloves",
+      "stage-hi-vis",
+      "station-marker-1",
+      "station-marker-2",
+      "station-marker-3",
+      "toe-drain-valve",
+      "trail-closure-sign",
+      "trail-debris",
+      "truck-spotter-radio",
+      "truck-unspotted-back",
+      "walk-levee-crest-edge-unmarked-crack",
+      "wet-spot"
+    ],
+    "meshes": 198
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the USACE Levee Safety Program schedule, the permit conditions, and the work window before stepping onto the crown.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Read the USACE Levee Safety Program schedule, the permit conditions, and the work window before stepping onto the crown.",
+      "target": "inspection-plan-board",
+      "title": "Check the inspection plan before the patrol starts",
+      "why": "This levee is inspected on the same schedule the USACE Levee Safety Program sets for it, and the permit conditions under the Corps' Section 404 authorization and the Water Board's 401 certification apply to anything the patrol finds and treats along the way — a crew that skips the plan because 'it's just a walk-through' still answers for every condition on it."
+    },
+    {
+      "anyOrder": true,
+      "cue": "High-visibility vest, waterproof boots and gloves before anyone walks the crown.",
+      "id": "stage-ppe",
+      "itemNames": {
+        "stage-boots": "waterproof boots",
+        "stage-gloves": "gloves",
+        "stage-hi-vis": "high-visibility vest"
+      },
+      "kind": "sequence",
+      "prompt": "High-visibility vest, waterproof boots and gloves before anyone walks the crown.",
+      "targets": [
+        "stage-hi-vis",
+        "stage-boots",
+        "stage-gloves"
+      ],
+      "title": "Stage the patrol crew's PPE",
+      "why": "The vest is what lets a cyclist or a patrol truck see a body on a crown that doubles as a public trail; waterproof boots are for the toe of the levee, which is wet ground on an ordinary day and worse the moment a boil turns up; gloves are for sandbags and whatever else the patrol ends up handling along the way."
+    },
+    {
+      "cue": "Walk the crown and click the three station markers the reach is built from.",
+      "id": "find-stations",
+      "itemNames": {
+        "station-marker-1": "station marker — 10+00",
+        "station-marker-2": "station marker — 15+00",
+        "station-marker-3": "station marker — 20+00"
+      },
+      "itemNotes": {
+        "station-marker-1": "Marker 10+00 sets the start of today's inspection reach. The patrol walks from here, not from wherever looks like a reasonable start.",
+        "station-marker-2": "Marker 15+00 is the mid-reach control — it is what lets the log record exactly where along the levee anything found today actually is.",
+        "station-marker-3": "Marker 20+00 sets the end of today's reach. Past it is the next patrol's stretch, not today's."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the crown and click the three station markers the reach is built from.",
+      "targets": [
+        "station-marker-1",
+        "station-marker-2",
+        "station-marker-3"
+      ],
+      "title": "Find the station markers that set today's inspection reach",
+      "why": "A levee deficiency reported without a station number is a deficiency the next inspector cannot find again — finding all three markers first is what turns today's patrol into a located record instead of a memory of roughly where something was."
+    },
+    {
+      "cue": "Take the groundwater level reading at the piezometer and commit it inside the expected band.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "PIEZOMETER",
+        "missNote": "Outside the expected band. Let the reading settle and commit again before starting the walk.",
+        "speed": 0.7
+      },
+      "id": "piezometer-reading",
+      "kind": "gauge",
+      "prompt": "Take the groundwater level reading at the piezometer and commit it inside the expected band.",
+      "target": "piezometer",
+      "title": "Read the piezometer before starting the walk",
+      "why": "The piezometer is the one instrument on this levee that reads what the water table is doing inside the embankment, not just what the crew can see on the surface — a reading taken before the walk is the baseline every seepage sign found today gets compared against."
+    },
+    {
+      "cue": "Walk the reach at a steady pace, staying inside the working band so nothing on the slopes gets missed.",
+      "holdBreakNote": "The pace broke and drifted off the working band. Bring it back to a steady scan before the next station.",
+      "id": "crown-walk",
+      "kind": "track",
+      "prompt": "Walk the reach at a steady pace, staying inside the working band so nothing on the slopes gets missed.",
+      "seconds": 7,
+      "target": "crown-path",
+      "title": "Walk the crown at a systematic scanning pace",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.36,
+          0.58
+        ],
+        "label": "PACE",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "A steady pace is what lets an inspector's eye actually cover both slopes and the crown itself; walk too fast and the toe on the far side never gets a real look, walk too slow and the patrol burns the whole shift on one reach the schedule needs covered along with several others."
+    },
+    {
+      "cue": "Walk the toe and click the boil, the wet spot and the burrow.",
+      "id": "find-seepage",
+      "itemNotes": {
+        "animal-burrow": "A burrow opens into the levee fill here. It gets flagged and reported, not probed or dug at on the spot.",
+        "sand-boil": "Water is welling up here carrying fine sand with it — a sand boil, and the single most urgent thing this patrol can find.",
+        "wet-spot": "This patch of the toe stays wet well after the last rain — worth noting even though it is not yet an active boil."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the toe and click the boil, the wet spot and the burrow.",
+      "targets": [
+        "sand-boil",
+        "wet-spot",
+        "animal-burrow"
+      ],
+      "title": "Find the seepage signs at the toe",
+      "why": "None of these three looks urgent from the crown, and all three change what the rest of today's patrol has to do — a boil gets ringed within minutes, a wet spot gets logged for the next inspector to watch, and a burrow gets flagged for a report instead of a repair this crew is not equipped to make."
+    },
+    {
+      "cue": "Carry the sandbags out and ring the boil completely — never stack them on top of it.",
+      "drag": {
+        "missNote": "Not a complete ring — a gap in the sandbags is a gap the boil's own flow finds first.",
+        "radius": 0.5,
+        "to": "boil-ring-line"
+      },
+      "id": "boil-ring",
+      "kind": "drag",
+      "prompt": "Carry the sandbags out and ring the boil completely — never stack them on top of it.",
+      "target": "sandbags",
+      "title": "Build a sandbag ring around the boil",
+      "why": "A ring raises the water level over the boil, which reduces the pressure difference driving the flow without ever blocking the path that pressure is already using — blocking it outright just moves the same pressure to whatever weaker path finds it next, which is a worse problem in a worse place."
+    },
+    {
+      "cue": "Hold the measuring tape steady across the crack while the width is read and recorded.",
+      "holdBreakNote": "The tape shifted before the reading was taken — reset it across the crack and hold steady until the measurement is recorded.",
+      "id": "crack-measure",
+      "kind": "hold",
+      "prompt": "Hold the measuring tape steady across the crack while the width is read and recorded.",
+      "seconds": 5,
+      "target": "crack-tape",
+      "title": "Hold the tape steady to measure the crack",
+      "why": "A crack's width only means something if it is measured the same way every time it is checked — held steady long enough for an honest reading, it becomes a number the next inspection can compare against instead of an estimate nobody can verify was taken the same way twice."
+    },
+    {
+      "cue": "Turn the toe drain valve to confirm it moves freely and is not seized open or shut.",
+      "id": "toe-drain-valve",
+      "kind": "turn",
+      "prompt": "Turn the toe drain valve to confirm it moves freely and is not seized open or shut.",
+      "target": "toe-drain-valve",
+      "title": "Check the toe drain valve",
+      "turn": {
+        "axis": "y",
+        "label": "TOE DRAIN",
+        "turns": 0.6
+      },
+      "why": "The toe drain is what carries ordinary underseepage safely out from under the levee instead of letting it build up pressure inside the embankment, and a valve seized shut turns a designed drainage path into one more thing holding pressure in — checking it is part of the same seepage picture the boil and the piezometer are already building."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Place a numbered flag at the crack, the wet spot and the burrow before leaving this reach.",
+      "id": "flag-deficiencies",
+      "itemNames": {
+        "deficiency-flag-1": "flag — the crack",
+        "deficiency-flag-2": "flag — the wet spot",
+        "deficiency-flag-3": "flag — the burrow"
+      },
+      "kind": "sequence",
+      "prompt": "Place a numbered flag at the crack, the wet spot and the burrow before leaving this reach.",
+      "targets": [
+        "deficiency-flag-1",
+        "deficiency-flag-2",
+        "deficiency-flag-3"
+      ],
+      "title": "Flag every deficiency found on this reach",
+      "why": "A deficiency found and not flagged is a deficiency the next patrol has to find all over again, on a levee where finding it a second time might mean it grew in between — flagging all three now is what makes today's find part of a continuous record instead of a one-time observation nobody else can locate."
+    },
+    {
+      "cue": "Log the burrow's location and note it for wildlife and habitat follow-up — do not dig at it or force anything into it.",
+      "id": "burrow-report",
+      "kind": "select",
+      "prompt": "Log the burrow's location and note it for wildlife and habitat follow-up — do not dig at it or force anything into it.",
+      "target": "burrow-probe",
+      "title": "Report the burrow instead of disturbing it",
+      "why": "This crew's job stops at finding and reporting; a burrow may belong to a species California Department of Fish and Wildlife or the Endangered Species Act protects, and even where it does not, digging into it is exactly the kind of disturbance that turns a small piping pathway into a bigger one this crew is not equipped to repair on the spot."
+    },
+    {
+      "cue": "Call the spotter on the radio and get a clear signal before backing the truck along the crown road.",
+      "id": "trail-checkin",
+      "kind": "select",
+      "prompt": "Call the spotter on the radio and get a clear signal before backing the truck along the crown road.",
+      "target": "truck-spotter-radio",
+      "title": "Check in with the spotter before repositioning the truck",
+      "why": "The crown road doubles as a public trail, and the truck's own body blocks the driver's view of that shared use — backing without the spotter's call is backing on a guess about who else might be on this crown right now."
+    },
+    {
+      "cue": "Check the loose flag and the trail debris before the crew calls this reach done.",
+      "id": "walk-hazards",
+      "itemNotes": {
+        "loose-flag": "A flag has come loose from its stake here — click it to confirm the crew resets it before leaving.",
+        "trail-debris": "Debris from today's work is still sitting on the public trail surface, a trip hazard for the next cyclist through."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the loose flag and the trail debris before the crew calls this reach done.",
+      "targets": [
+        "loose-flag",
+        "trail-debris"
+      ],
+      "title": "Walk the reach and confirm nothing is left behind",
+      "why": "A flag that comes loose or debris left on a shared trail is easy to miss once the crew's attention has moved to the next reach — walking it now, before anyone leaves, is the last chance to catch what the next trail user or the next patrol would otherwise find instead."
+    },
+    {
+      "cue": "Record the reach walked, the piezometer reading, the boil and its ring, and every flagged deficiency for the crew's record.",
+      "id": "log-inspection",
+      "kind": "select",
+      "prompt": "Record the reach walked, the piezometer reading, the boil and its ring, and every flagged deficiency for the crew's record.",
+      "target": "closing-log",
+      "title": "Log the day's inspection",
+      "why": "The engineer who reviews this levee's condition reads today's log, not today's memory of it — an inspection that was thorough but never logged looks, from the record, exactly like a reach nobody has walked yet, and a boil that was ringed but never written down is a fact the next patrol has no way to confirm on its own."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Walking a bay levee's crown and toe on a routine patrol: stations and the piezometer read before the walk starts, a sand boil ringed with sandbags instead of blocked, a crack measured and every deficiency flagged and logged, a burrow reported instead of disturbed, and the trail closed to the public before the crew works an unmarked hazard beside it",
+  "title": "SmartCiti.X~ Levee Inspection And Seepage VR",
+  "trade": "Levee inspection laborer — flood control patrol crew",
+  "underwater": null,
+  "weather": "overcast"
+}

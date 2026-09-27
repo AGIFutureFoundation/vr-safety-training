@@ -1,0 +1,387 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "proven-dead-and-patched",
+    "name": "Proven Dead and Patched",
+    "note": "The breaker locked and proven dead before any lug was touched, the load checked under the breaker's rating, and both crossings ramped before anyone wheeled a cart across them"
+  },
+  "category": "Entertainment & Live Events",
+  "certification": "IATSE set lighting and electrical department training; NFPA 70E electrical safety in the workplace for the lockout and prove-dead steps; NEC/NFPA 70 wiring practice for the distribution and the cable crossings; OSHA 29 CFR 1910.147 lockout/tagout on the distro breaker; OSHA 29 CFR 1910.305 wiring methods for temporary stage cable runs",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IATSE",
+        "id": "iatse-training-trust",
+        "title": "IATSE Training Trust Fund — stagecraft, rigging and entertainment electrical skills training"
+      },
+      {
+        "body": "NEC/NFPA 70",
+        "citedAs": "NFPA 70",
+        "id": "nec-nfpa-70",
+        "title": "NFPA 70 — National Electrical Code"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.305",
+        "id": "osha-1910-305",
+        "title": "29 CFR 1910.305 — Wiring methods, components and equipment for general use"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Screen & Media Crafts",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "dead-before-lug",
+        "name": "Dead Before Lug",
+        "note": "Never landed a lug before the tester proved the circuit dead"
+      },
+      {
+        "id": "second-electrician-answered",
+        "name": "Second Electrician Answered",
+        "note": "The second electrician's reach was stopped off the radio, not ignored"
+      },
+      {
+        "id": "never-past-the-cover",
+        "name": "Never Past the Cover",
+        "note": "Never reached a lug before it was proven dead, never crossed an unramped run, never added a fixture past the breaker's rating, never opened the panel live"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-patch",
+        "name": "Clean Patch",
+        "note": "No corrections from the plot to the closing log"
+      },
+      {
+        "id": "smooth-fade",
+        "name": "Smooth Fade",
+        "note": "The dimmer fade held its band the whole way up, first time"
+      },
+      {
+        "id": "rig-on-time",
+        "name": "Rig On Time",
+        "note": "Proven, patched and logged inside 80% of par"
+      }
+    ],
+    "currency": "AMP",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Loader",
+      "Set Lighting Trainee",
+      "Board Operator",
+      "Set Electrician",
+      "Gaffer Certified"
+    ],
+    "system": "Distro Bench"
+  },
+  "hazards": {
+    "cross-cable-without-ramp": "You stepped across the walkway's bare cable crossing before the ramp was down. A cable underfoot on a busy soundstage floor is a trip for the first person not watching it and a crush hazard for the cable itself the moment a loaded cart rolls over the same spot — the ramp is what turns a crossing into something safe to cross rather than something to step over carefully every single time.",
+    "open-panel-cover-live": "You opened the distro panel's dead-front cover while the panel was still energised. That cover exists specifically to keep hands away from live bus bars during normal work, and taking it off with the panel hot turns routine access into a hand's reach from exposed conductors carrying the whole rig's load.",
+    "overload-circuit-add-fixture": "You added another fixture to a circuit the clamp meter had already read close to the breaker's rating. A breaker trips because the circuit behind it is asked to carry more than it was built for, and 'it worked fine a minute ago' is not the same fact once one more fixture's draw gets added on top of a load that was already close.",
+    "reach-live-lug-before-proven-dead": "You reached for the circuit's lug before the tester actually proved it dead. A breaker locked open is a breaker that is very probably dead, and 'very probably' is exactly the gap the prove-dead step exists to close — a lockout can be on the wrong breaker, and the only way to know is to test the conductor you're about to touch, every time, before your hand goes anywhere near it."
+  },
+  "id": "md-sound-stage-electrical-distribution-and-cable-crossings",
+  "indoor": "theatre",
+  "interrupts": [
+    {
+      "after": "prove-dead-check",
+      "alert": "A second electrician has walked up and is reaching for the same lug, assuming the circuit is already proven dead.",
+      "cue": "Call them off on the radio before they touch it — the tester hasn't confirmed zero yet.",
+      "delay": 2,
+      "id": "second-electrician-reaches-lug",
+      "kind": "Second electrician reaches for the lug",
+      "missNote": "The second electrician touched the lug before the test confirmed zero. The circuit happened to already be dead — this time.",
+      "seconds": 12,
+      "target": "gaffer-radio",
+      "why": "A shout across a soundstage floor competes with every other department's own noise, and a radio call reaches a specific person the way a general shout does not. The lockout is yours; the moment somebody else's hand is heading for the same conductor, the radio is what actually stops them before your own test is even finished.",
+      "wrongNote": "Not the tester in your other hand — it can't stop someone else's hand. The radio is what reaches them in time."
+    },
+    {
+      "after": "dimmer-fade",
+      "alert": "A grip crew member has started wheeling a heavy cart straight across the still-unramped cable crossing.",
+      "cue": "Call them to hold at the crossing over the gaffer's channel before the cart rolls over the bare cable.",
+      "delay": 2,
+      "id": "cart-crosses-unramped-run",
+      "kind": "Grip cart crosses the unramped run",
+      "missNote": "The cart rolled across anyway. The cable jacket showed a fresh scrape where the wheel caught it mid-crossing.",
+      "seconds": 12,
+      "target": "gaffer-radio",
+      "why": "A cart's wheel finds a bare cable exactly where the cable is at its most exposed — mid-crossing, under full weight — and a call over the radio reaches a crew member already walking toward it faster than closing the distance to shout does. The ramp fixes the crossing for good; the radio is what buys the seconds before it's down.",
+      "wrongNote": "Not the ramp step itself — it isn't down yet. The radio is what reaches a crew member already walking toward the crossing."
+    }
+  ],
+  "lateNotes": {
+    "dimmer-fader": "The fade happens once the circuit is back on and clamp-metered under the rating — fading a channel with no proven, safe circuit behind it fades nothing real.",
+    "electrical-log": "The log is written last, after both crossings are ramped and the panel cover is back on.",
+    "prove-dead-tester": "The tester only proves anything once the breaker is actually locked out — testing a live circuit just tells you it's live."
+  },
+  "name": "Sound Stage Electrical Distribution & Cable Crossings",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "screen-and-media-crafts"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "bare-splice-under-tape",
+      "breaker-lockout",
+      "cable-ramp",
+      "cable-snagged-on-walkway-rail",
+      "clamp-meter",
+      "cross-cable-without-ramp",
+      "crossing-mark",
+      "dimmer-fader",
+      "electrical-log",
+      "gaffer-radio",
+      "insulated-gloves",
+      "load-calc-sheet",
+      "open-panel-cover-live",
+      "overload-circuit-add-fixture",
+      "panel-cover",
+      "patch-panel",
+      "power-plot-panel",
+      "prove-dead-tester",
+      "reach-live-lug-before-proven-dead",
+      "safety-glasses",
+      "second-crossing-no-ramp"
+    ],
+    "meshes": 154
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read today's power plot: which circuits feed which departments, and the load each one is planned to carry.",
+      "id": "read-power-plot",
+      "kind": "select",
+      "prompt": "Read today's power plot: which circuits feed which departments, and the load each one is planned to carry.",
+      "target": "power-plot-panel",
+      "title": "Read the power plot's circuit loads",
+      "why": "The plot is where today's rig is actually specified before a single lug is touched — which circuit the practical patches into, what else is already on it, and what the whole rig is meant to draw against a distro that has a real, finite rating."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Put on insulated gloves and safety glasses before the distro panel's cover ever comes off.",
+      "id": "ppe-donning",
+      "itemNames": {
+        "insulated-gloves": "insulated gloves",
+        "safety-glasses": "safety glasses"
+      },
+      "kind": "sequence",
+      "prompt": "Put on insulated gloves and safety glasses before the distro panel's cover ever comes off.",
+      "targets": [
+        "insulated-gloves",
+        "safety-glasses"
+      ],
+      "title": "Glove up and glasses on before opening any panel",
+      "why": "Both go on before the cover comes off, not after — an insulated glove is only doing its job if it's already on the hand that reaches for the cover, and glasses are what keep an arc's first warning sign out of an eye rather than off a lens that was still sitting in the truck."
+    },
+    {
+      "cue": "Walk the cable runs and click the three things wrong with how they were laid.",
+      "id": "cable-sweep",
+      "itemNames": {
+        "bare-splice-under-tape": "exposed splice under a strip of tape",
+        "cable-snagged-on-walkway-rail": "cable snagged on the walkway rail",
+        "second-crossing-no-ramp": "second cable crossing with no ramp at all"
+      },
+      "itemNotes": {
+        "bare-splice-under-tape": "A splice has been taped over instead of properly joined and insulated — tape looks like a fix from a glance but does nothing for a conductor that flexes every time the cable is walked on. It gets re-terminated properly, not re-taped.",
+        "cable-snagged-on-walkway-rail": "A cable is snagged tight against the walkway's rail where a cart caught it earlier in the day. A cable under that kind of tension pulls at its own connectors with every step someone takes near it, long before anyone notices the strain.",
+        "second-crossing-no-ramp": "A second walkway crossing, away from the main one, has no ramp over it at all — easy to miss because it isn't the crossing anyone's attention is on. Every crossing gets the same ramp, not just the one in the middle of the floor."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the cable runs and click the three things wrong with how they were laid.",
+      "targets": [
+        "bare-splice-under-tape",
+        "second-crossing-no-ramp",
+        "cable-snagged-on-walkway-rail"
+      ],
+      "title": "Sweep the floor before the rig goes live",
+      "why": "A cable run reads the same whether it's actually safe or almost safe, and these three — a taped splice, a second crossing nobody ramped, and a snagged run under tension — are exactly the kind of thing that looks fine in a walkthrough and fails the moment the day's actual foot and cart traffic finds it."
+    },
+    {
+      "cue": "Check today's load calculation sheet against the distro breaker's own rated capacity before patching anything new.",
+      "id": "load-calc-check",
+      "kind": "select",
+      "prompt": "Check today's load calculation sheet against the distro breaker's own rated capacity before patching anything new.",
+      "target": "load-calc-sheet",
+      "title": "Check the load calculation against the breaker's rating",
+      "why": "The calculation is what turns 'should be fine' into an actual number — every fixture on this circuit has a rated draw, and the sheet is where those numbers get added up against a breaker that trips at a specific point, not at however close it happens to feel."
+    },
+    {
+      "cue": "Turn the distro breaker to OFF and hang your lock before the panel's cover comes off.",
+      "id": "breaker-lockout",
+      "kind": "turn",
+      "prompt": "Turn the distro breaker to OFF and hang your lock before the panel's cover comes off.",
+      "target": "breaker-lockout",
+      "title": "Lock out the distro breaker before opening the panel",
+      "turn": {
+        "axis": "z",
+        "label": "DISTRO BREAKER",
+        "turns": 0.6
+      },
+      "why": "The breaker is locked before the cover comes off, every time, because your lock is the only thing that stops someone else closing it while your hands are inside the panel — the same rule that governs every electrical panel on this circuit, soundstage or otherwise."
+    },
+    {
+      "cue": "Hold the tester on the circuit's own conductor until it confirms zero — a locked breaker is not the same fact as a proven-dead conductor.",
+      "holdBreakNote": "You let go before the tester actually confirmed zero. A lockout is not a substitute for a conductor you tested yourself.",
+      "id": "prove-dead-check",
+      "kind": "hold",
+      "prompt": "Hold the tester on the circuit's own conductor until it confirms zero — a locked breaker is not the same fact as a proven-dead conductor.",
+      "seconds": 4,
+      "target": "prove-dead-tester",
+      "title": "Prove the circuit dead before touching a lug",
+      "why": "A lockout tells you which breaker you turned off; it does not tell you the conductor in front of you is actually the one that breaker feeds. Testing it directly, every time, is what catches a mislabeled panel before a hand does."
+    },
+    {
+      "cue": "Patch today's practical into the dimmer channel the power plot calls for.",
+      "id": "patch-new-circuit",
+      "kind": "select",
+      "prompt": "Patch today's practical into the dimmer channel the power plot calls for.",
+      "target": "patch-panel",
+      "title": "Patch the new circuit into the dimmer rack",
+      "why": "The patch is where the plot's plan actually becomes a live connection — patching the wrong channel means the board operator's fader is moving a light nobody's watching, while the one the camera sees never comes up at all."
+    },
+    {
+      "cue": "Take your lock off, confirm the panel's clear, and close the distro breaker.",
+      "id": "breaker-energize",
+      "kind": "turn",
+      "prompt": "Take your lock off, confirm the panel's clear, and close the distro breaker.",
+      "target": "breaker-lockout",
+      "title": "Remove the lock and re-energise",
+      "turn": {
+        "axis": "z",
+        "label": "DISTRO BREAKER",
+        "turns": 0.6
+      },
+      "why": "Your lock, your key, your call to re-energise — the same as any lockout, closed only once you're certain nobody else's hands are still inside the panel you locked."
+    },
+    {
+      "cue": "Clamp the meter on the patched circuit and confirm the reading sits under the breaker's rated capacity.",
+      "gauge": {
+        "green": [
+          0.2,
+          0.62
+        ],
+        "label": "LOAD",
+        "missNote": "Too close to the breaker's rating — pull a fixture off this circuit before trusting it with today's full rig.",
+        "speed": 0.65
+      },
+      "id": "clamp-meter-check",
+      "kind": "gauge",
+      "prompt": "Clamp the meter on the patched circuit and confirm the reading sits under the breaker's rated capacity.",
+      "target": "clamp-meter",
+      "title": "Clamp-meter the circuit under the breaker's rating",
+      "why": "The calculation on paper is only a prediction until the clamp meter reads the circuit actually carrying today's load — a number that reads right on the sheet and wrong on the meter means something on this circuit is drawing more than the plot accounted for."
+    },
+    {
+      "cue": "Call the gaffer on the radio to confirm the circuit is patched, proven and clear before the board touches any fader.",
+      "id": "gaffer-radio-check",
+      "kind": "select",
+      "prompt": "Call the gaffer on the radio to confirm the circuit is patched, proven and clear before the board touches any fader.",
+      "target": "gaffer-radio",
+      "title": "Confirm with the gaffer before the board runs anything",
+      "why": "The board operator has no way to see the panel from the lighting console, and a fader pushed on a circuit nobody confirmed is a fader pushed on a guess. The radio call is what turns 'should be ready' into an actual answer from the person who was standing at the panel."
+    },
+    {
+      "cue": "Bring the practical's dimmer up smoothly to the level the cue sheet plots — a snap to level reads on camera as much as a flicker would.",
+      "holdBreakNote": "The fade overshot or undershot the cue's level — ease it back rather than snapping to the mark.",
+      "id": "dimmer-fade",
+      "kind": "track",
+      "prompt": "Bring the practical's dimmer up smoothly to the level the cue sheet plots — a snap to level reads on camera as much as a flicker would.",
+      "seconds": 5,
+      "target": "dimmer-fader",
+      "title": "Fade the practical smoothly to the cue's level",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.4,
+        "green": [
+          0.55,
+          0.72
+        ],
+        "label": "DIMMER",
+        "rise": 0.4,
+        "start": 0.1
+      },
+      "why": "A practical lamp in shot is lit the way the scene calls for, not just turned on — a smooth fade to the cue's own plotted level is the difference between a lamp that looks like it was always burning at that level and one that visibly just came up."
+    },
+    {
+      "cue": "Carry the cable ramp from the gear line and lay it over the main walkway crossing.",
+      "drag": {
+        "missNote": "Not over the crossing mark — the ramp has to sit square over the cable, not beside it.",
+        "radius": 0.5,
+        "to": "crossing-mark"
+      },
+      "id": "ramp-crossing",
+      "kind": "drag",
+      "prompt": "Carry the cable ramp from the gear line and lay it over the main walkway crossing.",
+      "target": "cable-ramp",
+      "title": "Ramp the first cable crossing",
+      "why": "The main crossing carries the most foot and cart traffic all day, and it is the one no rig is considered finished without ramping — a cable run without a ramp over the busiest crossing on the floor is a run that hasn't actually been finished yet."
+    },
+    {
+      "cue": "Close and latch the distro panel's dead-front cover once the patch is proven good.",
+      "id": "panel-cover-close",
+      "kind": "select",
+      "prompt": "Close and latch the distro panel's dead-front cover once the patch is proven good.",
+      "target": "panel-cover",
+      "title": "Close the distro panel's dead-front cover",
+      "why": "The cover is what keeps the panel routine to walk past for the rest of the day — an open dead-front on an energised panel is an invitation for anyone's hand or cart to find the one thing on this floor that isn't supposed to be touched."
+    },
+    {
+      "cue": "Log the circuit patched, the clamp-meter reading, the splice re-terminated, and both crossings ramped.",
+      "id": "electrical-log",
+      "kind": "select",
+      "prompt": "Log the circuit patched, the clamp-meter reading, the splice re-terminated, and both crossings ramped.",
+      "target": "electrical-log",
+      "title": "Log the circuit, the load and both crossings",
+      "why": "The log is what the next electrician on this panel reads before they touch it — a circuit already carrying a load close to its rating is a fact the next person needs before they add one more fixture to it, not something they should have to find out from the breaker tripping."
+    }
+  ],
+  "supportLine": "your IATSE local's member assistance contact, or the production's own employee assistance programme",
+  "tagline": "A soundstage rig before the day's first cue: the power plot's circuit loads read, gloves and glasses on, the floor swept for a taped-over splice and a bare second crossing, the load calc checked against the breaker, the breaker locked out and proven dead before a lug is touched, the new circuit patched, re-energised, clamp-metered under the rating, the gaffer's radio confirmed, the practical's dimmer faded smooth to the cue, the first crossing ramped, the panel's cover closed, and the rig logged — a second electrician reaching for a live lug and a cart crossing the unramped run both answered off a control that isn't the one already in the learner's hand",
+  "title": "SmartCiti.X~ Sound Stage Electrical Distribution & Cable Crossings VR",
+  "trade": "IATSE set electrician, running a soundstage's temporary distribution to the dimmer rack and today's practical",
+  "underwater": null,
+  "weather": null
+}

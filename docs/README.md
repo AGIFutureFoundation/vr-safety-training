@@ -41,6 +41,7 @@ Every page under `docs/`, one line each. Pages marked *generated* are written by
 | [wallets-and-sharing.md](wallets-and-sharing.md) | Opt-in sharing of anonymised training engagement with agent-protocol platforms: the wallet connection (EIP-6963/EIP-1193, `personal_sign`), the consent record, what is shared and what never is, the bundle and its content hash, and how to revoke. |
 | [agent-protocols.md](agent-protocols.md) | The provider-agnostic adapter (`describe`/`offer`/`deliver`/`status`) over `virtuals`, `singularitynet`, `generic-attestation` and `cloudflare-relay` — every field unset by default, and what "configure per the provider's current documentation" means. |
 | [mapbox.md](mapbox.md) | The Bay Atlas and the real-world map under Bay World: how to get a Mapbox public token, the three places it can be put (launch URL, this browser, `auth-config.json`), what is and is not sent, where Mapbox mode works and where the built-in SVG map takes over. No token ships. |
+| [underwater.md](underwater.md) | The Deep, the shared dive map under the bay: `shared/underwater-data.js`'s zones, landmarks, sites and dive lines with the depth/zone/line lookups, `shared/underwater.js`'s builder and `deepLighting` bands, the `the-deep` district, the facts rule under water (no depth, gas, decompression or current limit is ever stated) and what `check_underwater` proves. |
 | [robot-datasets.md](robot-datasets.md) | The episode recorder (`shared/episodes.js`) and the model-ready dataset exporter (`tools/export_dataset.mjs`): schema, the pose track, data minimisation, the observation/action/reward/done/info field mapping, licence and provenance. |
 
 ## Unity prototype
@@ -49,6 +50,7 @@ Every page under `docs/`, one line each. Pages marked *generated* are written by
 |---|---|
 | [modules/xr-immersive-lab.md](modules/xr-immersive-lab.md) | Curriculum for the Unity build's Immersive Lab module: XR headset safety — play-space clearance, tethers, AR route separation, hygiene and comfort handover — with objectives, layout, script, assessment and sources. |
 | [images/](images/) | The captures and the mechanics diagram the top-level README embeds for the Unity build. |
+| [unity.md](unity.md) | The Unity content bridge: `tools/export_unity.mjs` writes every station, programme, world and fleet/equipment model under `exports/unity/SmartCitiX/` as a UPM package with a C# runtime that applies the WebXR engine's step kinds, scoring and pass rule; how to run it, what is exported, what is not. |
 
 ## Screenshots
 

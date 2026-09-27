@@ -1,0 +1,453 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "nothing-back-unfiltered",
+    "name": "Nothing Back Unfiltered",
+    "note": "Not a drop of decant went to the Bay around the filter train, and every sample left the pad under custody"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "LIUNA Local 261 hazardous waste and environmental remediation training (LIUNA Training and Education Fund); IUOE Local 3 operating engineer apprenticeship for the rehandling excavator; OSHA HAZWOPER, 29 CFR 1910.120, for everyone inside the pad's exclusion zone; the Regional Water Quality Control Board's Section 401 certification and waste discharge requirements for the decant returned to the Bay; Army Corps Section 404 permit conditions for the dredging the pad serves; DMMO testing of the dredged material; EPA QA/G-5 chain-of-custody practice for the decant samples; RCRA 40 CFR 262 generator duties and DTSC rules only if the work plan's profile makes any of the spoils hazardous waste",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "DMMO",
+        "citedAs": "DMMO",
+        "id": "dmmo-dredged-material-testing",
+        "title": "San Francisco Bay Dredged Material Management Office — sediment testing, suitability determinations and placement-site review for dredged material"
+      },
+      {
+        "body": "DTSC",
+        "citedAs": "DTSC",
+        "id": "dtsc-hazardous-waste-control",
+        "title": "California Department of Toxic Substances Control — state hazardous waste control rules and oversight of contaminated-site cleanups"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "EPA QA/G-5",
+        "id": "epa-qa-g5",
+        "title": "EPA QA/G-5 — Guidance for quality assurance project plans, and the chain-of-custody practice built on it"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA Training",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      },
+      {
+        "body": "RCRA",
+        "citedAs": "40 CFR 262",
+        "id": "rcra-40-cfr-262",
+        "title": "40 CFR Part 262 — Standards applicable to generators of hazardous waste, including the manifest"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "Section 401",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      },
+      {
+        "body": "USACE",
+        "citedAs": "Section 404",
+        "id": "usace-section-404",
+        "title": "Clean Water Act §404 permit conditions for the discharge of dredged or fill material"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "liner-first",
+        "name": "Liner First",
+        "note": "The work plan read and the liner and berm walked clean before anything was rehandled"
+      },
+      {
+        "id": "never-around-the-train",
+        "name": "Never Around The Train",
+        "note": "Never a bypass, never a boot on the spoils, never a walk through the swing"
+      },
+      {
+        "id": "freeboard-true",
+        "name": "Freeboard True",
+        "note": "Sump and free-liquid readings both committed inside their bands"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-pad",
+        "name": "Clean Pad",
+        "note": "No corrections from the work plan to the check-in"
+      },
+      {
+        "id": "steady-rehandle",
+        "name": "Steady Rehandle",
+        "note": "The rehandle call held in band the whole time"
+      },
+      {
+        "id": "cell-drained",
+        "name": "Cell Drained",
+        "note": "Pad logged inside 80% of par"
+      }
+    ],
+    "currency": "CELL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Pad Hand",
+      "Decant Tender",
+      "Pad Lead",
+      "Rehandle Foreman",
+      "Decant Control Certified"
+    ],
+    "system": "Decant Control"
+  },
+  "hazards": {
+    "decant-bypass": "You reached for the bypass that dumps the sump straight to the Bay to bring the level down fast. The decant is the part of the sediment that carries the fine particles and whatever is bound to them, and the pad's discharge conditions exist for that water; sending it round the bag and the carbon is an unpermitted discharge whatever the sump level. A high sump means slowing the rehandle, not opening the bypass.",
+    "liner-knife": "You went to slit the liner at the corner to drain a puddle faster. The liner is the only thing between the spoils' pore water and the ground under the pad; a cut made to hurry one puddle becomes the path everything on the pad drains through for the rest of the job. Standing water is pumped to the sump or left to the decant line — the liner is never opened.",
+    "swing-radius-walk": "You cut through the excavator's swing radius to look at the barge. The operator is watching the bucket and the barge, not the ground behind the counterweight, and a house slewing with a loaded bucket sweeps its tail through exactly the strip you walked across. The way to the bulkhead is round the barricade, with the operator's eyes on you and the bucket grounded.",
+    "walk-on-spoils": "You stepped onto the spoils mound to reach the sump hose. Freshly placed dredged sediment has almost no strength until it drains — it holds a boot for a step and then takes the leg to the knee, and a person mired in wet spoils cannot free themselves and should not be pulled straight up by others. Hoses are reached from the berm with a hook, never from the pile."
+  },
+  "id": "br-dredge-spoils-dewatering-pad",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "rehandle-call",
+      "alert": "A slug of spoils has slid off the bucket's lip into the gap between the barge and the bulkhead — there is a brown plume spreading in the water below the swing.",
+      "cue": "Lower the spill apron across the gap so the bucket swings over steel, not water.",
+      "delay": 3,
+      "id": "spoils-in-the-gap",
+      "kind": "Spoils falling between the barge and the bulkhead",
+      "missNote": "The operator kept swinging across the open gap with the apron up; two more slugs went into the water, and the plume drifted along the bulkhead past the turbidity monitor the permit is judged on.",
+      "seconds": 14,
+      "target": "spill-apron",
+      "why": "Every bucket rehandled from a barge crosses a strip of open water, and the spill apron is the plate that closes it: anything that drops off the lip lands on steel that drains back into the barge. With the apron up, what falls goes straight into the Bay the dredging permit is protecting, so the apron is lowered before the next swing, not after the plume has drifted.",
+      "wrongNote": "The spill apron — it closes the gap under the swing so nothing else falls into the water."
+    },
+    {
+      "after": "decant-sample",
+      "alert": "The turbidity meter on the effluent line has tripped past its setpoint and its lamp has gone red — the water heading for the outfall is cloudier than the pad's conditions allow.",
+      "cue": "Throw the divert valve: send the effluent back to the pad, not to the Bay, while the train is checked.",
+      "delay": 2,
+      "id": "effluent-turbidity-trip",
+      "kind": "Effluent turbidity meter tripped",
+      "missNote": "The cloudy effluent kept running to the outfall while the sample finished filling; the day's discharge monitoring report now carries an exceedance and the bag was found split an hour later.",
+      "seconds": 14,
+      "target": "divert-valve",
+      "why": "A trip on the effluent meter means something in the train has stopped holding — a bag seated badly, a burst, carbon blinded — and until it is found the water leaving is not water the pad is allowed to discharge. The divert sends it back into the cell to go round again, which keeps the pad in compliance while the cause is found; the sample in hand gets a note that the trip happened during it.",
+      "wrongNote": "The divert valve — send the effluent back to the pad first, then find what failed in the train."
+    }
+  ],
+  "lateNotes": {
+    "decant-sample-port": "The compliance sample is drawn once the decant is actually running through the train — a sample from a dry port is not a sample of anything.",
+    "decant-valve": "Line the decant up to the filter once a fresh bag is seated in the housing — water sent at an empty housing goes straight through to the carbon and loads it with fines.",
+    "pad-log": "The pad log is written once the close-out walk is done — it records what the walk found as well as what the day did.",
+    "paint-filter": "The free-liquid test is run on spoils that have been left to drain, after the day's rehandle and decant sampling — not on the load that has just come off the barge."
+  },
+  "name": "Dredge Spoils Dewatering Pad",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "excavator",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "spudBarge",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "berm-low",
+      "coc-label",
+      "coc-seal",
+      "coc-sign",
+      "crew-radio",
+      "decant-bypass",
+      "decant-sample-port",
+      "decant-valve",
+      "divert-valve",
+      "filter-bag",
+      "filter-housing",
+      "hold-tag",
+      "hose-chafe",
+      "liner-knife",
+      "liner-tear",
+      "pad-log",
+      "paint-filter",
+      "ppe-boots",
+      "ppe-gloves",
+      "ppe-suit",
+      "rehandle-paddle",
+      "spill-apron",
+      "sump-screen-clog",
+      "sump-staff",
+      "swing-radius-walk",
+      "walk-on-spoils",
+      "work-plan-board"
+    ],
+    "meshes": 214
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read today's page of the work plan at the board: the pad cell in use, the decant route, the discharge conditions, the sampling schedule and who decides where the spoils go.",
+      "id": "work-plan",
+      "kind": "select",
+      "prompt": "Read today's page of the work plan at the board: the pad cell in use, the decant route, the discharge conditions, the sampling schedule and who decides where the spoils go.",
+      "target": "work-plan-board",
+      "title": "Read the work plan and the pad's discharge conditions",
+      "why": "The pad exists because the Section 401 certification and the waste discharge requirements let decant go back to the Bay only through a filter train and only while it meets their conditions, and the work plan is where those conditions, the sampling schedule and the disposal decisions are written down. A pad lead who has not read today's page is guessing at what the Water Board will judge the day against."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Coated coverall, steel-toe rubber boots and two pairs of gloves, as the site safety and health plan sets for the wet spoils.",
+      "id": "ppe",
+      "itemNames": {
+        "ppe-boots": "steel-toe rubber boots",
+        "ppe-gloves": "inner and outer chemical gloves",
+        "ppe-suit": "coated coverall"
+      },
+      "kind": "sequence",
+      "prompt": "Coated coverall, steel-toe rubber boots and two pairs of gloves, as the site safety and health plan sets for the wet spoils.",
+      "targets": [
+        "ppe-suit",
+        "ppe-boots",
+        "ppe-gloves"
+      ],
+      "title": "Dress for the exclusion zone",
+      "why": "Dredged sediment is wet, fine and sticky, and whatever the profile finds in it is carried on whatever it touches — skin, cuffs, the cab of a truck. HAZWOPER makes the site safety and health plan the rule for what is worn inside the exclusion zone, and the coverall, boots and double gloves keep the spoils on things that are left at the decon line instead of taken home."
+    },
+    {
+      "cue": "Walk the cell's edge: the liner seams and corners, and the berm crest all the way round.",
+      "id": "liner-walk",
+      "itemNames": {
+        "berm-low": "a low, slumped section of the berm crest",
+        "liner-tear": "a tear in the liner at the berm corner"
+      },
+      "itemNotes": {
+        "berm-low": "The berm crest has slumped low on the bay side; a full cell overtops there first, and water that overtops a berm has skipped the filter train entirely.",
+        "liner-tear": "The liner has torn where it folds over the berm corner — decant pooling against it will find the ground through that tear before it finds the sump."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the cell's edge: the liner seams and corners, and the berm crest all the way round.",
+      "targets": [
+        "liner-tear",
+        "berm-low"
+      ],
+      "title": "Walk the liner and the berm before anything is rehandled",
+      "why": "The pad is a lined bowl, and it only works while both halves hold: the liner keeps the pore water out of the ground and the berm keeps it inside the liner. Both fail quietly — a tear at a fold, a crest slumped after rain — and both are far easier to fix on an empty cell than under a bucket of wet spoils."
+    },
+    {
+      "cue": "Read the staff gauge in the sump and commit it against the freeboard mark the work plan sets before the barge is worked.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "SUMP FREEBOARD",
+        "missNote": "Outside the band — let the water settle on the staff and read it against the work plan's freeboard mark, not the last shift's.",
+        "speed": 0.66
+      },
+      "id": "sump-freeboard",
+      "kind": "gauge",
+      "prompt": "Read the staff gauge in the sump and commit it against the freeboard mark the work plan sets before the barge is worked.",
+      "target": "sump-staff",
+      "title": "Read the sump's freeboard against the work plan's mark",
+      "why": "Every bucket of wet sediment puts more water into the pad than it takes out, and the sump has to have room for it before the rehandle starts. The freeboard mark is set in the work plan for this cell, and reading the staff first tells the pad lead whether the decant line must be running before the first bucket, not after the sump is already brimming."
+    },
+    {
+      "cue": "Carry a fresh filter bag to the housing and seat it in the basket before the decant is lined up.",
+      "drag": {
+        "missNote": "Not in the basket — the bag has to sit down in the housing with its ring on the seat, or the decant goes round it.",
+        "radius": 0.45,
+        "to": "filter-housing"
+      },
+      "id": "seat-bag",
+      "kind": "drag",
+      "prompt": "Carry a fresh filter bag to the housing and seat it in the basket before the decant is lined up.",
+      "target": "filter-bag",
+      "title": "Seat a fresh bag in the filter housing",
+      "why": "The bag takes out the fine sediment the decant carries, which is where most of what the pad is controlling is bound; the carbon behind it is for what dissolves. A spent or torn bag passes fines straight onto the carbon, which blinds it, and then nothing in the train is doing its job — so a fresh bag is seated and the lid closed before any water moves."
+    },
+    {
+      "cue": "Open the decant pump's discharge valve to the filter train, steadily, and watch the housing gauge come up.",
+      "id": "line-up",
+      "kind": "turn",
+      "prompt": "Open the decant pump's discharge valve to the filter train, steadily, and watch the housing gauge come up.",
+      "target": "decant-valve",
+      "title": "Line the decant up to the filter train",
+      "turn": {
+        "label": "DECANT VALVE",
+        "turns": 1.5
+      },
+      "why": "The decant is sent through the bag and the carbon before anything goes near the outfall, and the valve is opened steadily so the housing fills and seats the bag instead of slamming it. Lining up before the rehandle starts means the sump is being drawn down from the first bucket rather than chased once it is already near the mark."
+    },
+    {
+      "cue": "Hold the call steady: the bucket low over the cell, a slow release, no swing over the berm or anyone on the ground.",
+      "holdBreakNote": "The call broke and the bucket came up high and fast over the berm. Bring it back down to a low, slow release inside the cell.",
+      "id": "rehandle-call",
+      "kind": "track",
+      "prompt": "Hold the call steady: the bucket low over the cell, a slow release, no swing over the berm or anyone on the ground.",
+      "seconds": 7,
+      "target": "rehandle-paddle",
+      "title": "Call the rehandle into the cell",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "REHANDLE CALL",
+        "rise": 0.56,
+        "start": 0.12
+      },
+      "why": "A bucket of wet spoils dropped from height splashes out of the cell and over the berm, and one swung fast throws water off its lip on the way; both put sediment where the liner cannot hold it. The pad lead holds the operator to a low, slow release inside the cell, because the operator's view of the cell floor from the cab is worse than the ground's."
+    },
+    {
+      "cue": "Hold the bottle under the effluent port, gloved, until it fills to the shoulder without touching the tap.",
+      "holdBreakNote": "The bottle came away before it filled and touched the tap. Start a fresh bottle and hold it under the port until it fills cleanly.",
+      "id": "decant-sample",
+      "kind": "hold",
+      "prompt": "Hold the bottle under the effluent port, gloved, until it fills to the shoulder without touching the tap.",
+      "seconds": 5,
+      "target": "decant-sample-port",
+      "title": "Draw the decant compliance sample",
+      "why": "The decant sample is the proof the water leaving the pad met its conditions, and it is only worth anything if it is the water that actually went to the Bay: drawn at the effluent port after the carbon, filled without the bottle touching the tap, and taken on the schedule the work plan sets. A sample topped up from the sump or filled in a hurry is a number that describes nothing."
+    },
+    {
+      "cue": "Label the bottle, put it on ice and seal the cooler, then sign the chain-of-custody form as you relinquish it to the courier.",
+      "id": "custody",
+      "itemNames": {
+        "coc-label": "bottle label",
+        "coc-seal": "custody seal on the cooler",
+        "coc-sign": "chain-of-custody form signed to the courier"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — the bottle is labelled first, the cooler sealed second, and the custody form signed as the cooler changes hands.",
+      "prompt": "Label the bottle, put it on ice and seal the cooler, then sign the chain-of-custody form as you relinquish it to the courier.",
+      "targets": [
+        "coc-label",
+        "coc-seal",
+        "coc-sign"
+      ],
+      "title": "Label, seal and hand the sample over under custody",
+      "why": "A compliance sample changes hands at least twice before a lab opens it, and at every hand-off somebody has to be able to say who had it and that nobody else did. The label ties it to the port and the time, the seal shows the cooler was not opened, and the signed relinquish is the courier taking responsibility — EPA QA/G-5 practice, and the reason a lab result can be defended."
+    },
+    {
+      "cue": "Run the paint filter test on a sample of yesterday's drained spoils and read it against the work plan's criterion before anything is released for loading.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "FREE LIQUID",
+        "missNote": "Outside the band — give the filter its full time and read it again before calling the spoils drained.",
+        "speed": 0.7
+      },
+      "id": "free-liquid",
+      "kind": "gauge",
+      "prompt": "Run the paint filter test on a sample of yesterday's drained spoils and read it against the work plan's criterion before anything is released for loading.",
+      "target": "paint-filter",
+      "title": "Test the drained spoils for free liquid",
+      "why": "Spoils go on a truck or a disposal site only once they stop giving up water, because a load that still drains leaks out of a truck bed and fails a landfill's acceptance. The paint filter test is the plain field check the work plan names — whether free liquid passes through the filter — and it decides whether a cell keeps draining another day."
+    },
+    {
+      "cue": "Hang the hold tag on yesterday's cell: drained, sampled, awaiting the profile results and the disposal decision per the work plan.",
+      "id": "hold-tag",
+      "kind": "select",
+      "prompt": "Hang the hold tag on yesterday's cell: drained, sampled, awaiting the profile results and the disposal decision per the work plan.",
+      "target": "hold-tag",
+      "title": "Tag the drained cell on hold for its profile",
+      "why": "Whether a cell goes to a reuse site, a landfill or somewhere more restrictive is decided from its profile results by the people the work plan names, not by the pad crew's eye. The hold tag stops a truck being loaded from a cell that looks dry before that decision exists, which is the easiest way for the wrong spoils to end up in the wrong place."
+    },
+    {
+      "cue": "Walk the sump and the decant line: the intake screen, and the hose where it crosses the berm.",
+      "id": "close-out",
+      "itemNames": {
+        "hose-chafe": "the decant hose chafing where it crosses the berm",
+        "sump-screen-clog": "the sump intake screen matted with fines"
+      },
+      "itemNotes": {
+        "hose-chafe": "The decant hose has rubbed through its outer cover where it crosses the berm crest — the next failure is a split spraying decant outside the liner.",
+        "sump-screen-clog": "The intake screen in the sump is matted over with fines. Left overnight, the pump draws air, the sump rises in the rain, and the berm is what holds it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the sump and the decant line: the intake screen, and the hose where it crosses the berm.",
+      "targets": [
+        "sump-screen-clog",
+        "hose-chafe"
+      ],
+      "title": "Walk the pad before it is left for the night",
+      "why": "The pad keeps working after the crew leaves: rain falls on it, the sump fills, and the pump runs unattended. What fails overnight is what was already failing at close-out, so the sump screen and the hose crossing get one more look now, while the fix is a rake and a length of chafe guard rather than a spill report."
+    },
+    {
+      "cue": "Log the barge load rehandled, the freeboard readings, the bag change, the decant sample and its custody, the effluent trip and the divert, the free-liquid result, the hold tag and the close-out fixes.",
+      "id": "pad-log",
+      "kind": "select",
+      "prompt": "Log the barge load rehandled, the freeboard readings, the bag change, the decant sample and its custody, the effluent trip and the divert, the free-liquid result, the hold tag and the close-out fixes.",
+      "target": "pad-log",
+      "title": "Write the pad log",
+      "why": "The pad log is the record the discharge monitoring report and the disposal decision are both built from, and the Water Board reads it after the fact, when the only thing that matters is what was written that day. The effluent trip and the divert go in with their times, because a trip that is logged with its response is a control working and a trip nobody wrote down is an unexplained gap."
+    },
+    {
+      "cue": "On the radio: the pad is logged and the pump is on its overnight setting, and how the operator and the deckhand are after a long rehandle and a trip on the effluent.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the radio: the pad is logged and the pump is on its overnight setting, and how the operator and the deckhand are after a long rehandle and a trip on the effluent.",
+      "target": "crew-radio",
+      "title": "Check in with the operator and the barge",
+      "why": "The operator spent the day swinging loaded buckets over a barge and a pad with people on the ground, and the deckhand worked a barge deck slick with spoils. The check-in closes the day's plan out loud so the night pump and the barge moorings are known to everyone, and it is also the crew's own — the member assistance line is there for anything that is still with someone after the radio goes quiet."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — LIUNA Local 261 or IUOE Local 3 — with the employer's employee assistance line behind it",
+  "tagline": "Wet dredged sediment rehandled off a barge into a lined pad: the work plan read, the liner and berm walked, the sump's freeboard read, a fresh bag in the filter and the decant lined up, the bucket called low over the cell while spoils fall into the barge gap, the decant sampled while the effluent meter trips, custody sealed, the spoils tested for free liquid and held for their profile, the pad walked, logged and the crew checked in",
+  "title": "SmartCiti.X~ Dredge Spoils Dewatering Pad VR",
+  "trade": "LIUNA Local 261 hazardous-waste laborer as the dewatering pad lead, with an IUOE Local 3 operating engineer rehandling spoils off the barge and an Inlandboatmen's Union deckhand on the barge",
+  "underwater": null,
+  "weather": "overcast"
+}

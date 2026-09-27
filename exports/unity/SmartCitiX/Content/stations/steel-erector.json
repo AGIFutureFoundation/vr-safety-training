@@ -1,0 +1,347 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "iron-certified",
+    "name": "Iron Certified",
+    "note": "Every connection made with fall protection live and the tag line in hand"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "Ironworkers (IW) — OSHA 29 CFR 1926 Subpart R qualified connector; fall protection under ANSI Z359 and rigging signals per ASME B30.5",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z359",
+        "id": "ansi-z359",
+        "title": "ANSI/ASSP Z359 — Fall Protection Code"
+      },
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.5",
+        "id": "asme-b30-5",
+        "title": "ASME B30.5 — Mobile and locomotive cranes"
+      },
+      {
+        "body": "union",
+        "citedAs": "Ironworkers",
+        "id": "ironworkers-impact",
+        "title": "Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "always-anchored",
+        "name": "Always Anchored",
+        "note": "Never work the leading edge unclipped"
+      },
+      {
+        "id": "tag-line-control",
+        "name": "Tag Line Control",
+        "note": "Guide every member with the tag line, hand free of the steel"
+      },
+      {
+        "id": "torque-true",
+        "name": "Torque True",
+        "note": "Hold the plumb reading near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "raising-gang",
+        "name": "Raising Gang",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-connection",
+        "name": "Clean Connection",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "iron-streak",
+        "name": "Iron Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "IRON",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Rigger",
+      "Connector",
+      "Raising Gang Lead",
+      "Bolt-Up Certified",
+      "Iron Certified"
+    ],
+    "system": "Iron Certified"
+  },
+  "hazards": {
+    "hand-guided-member": "You grabbed the swinging member with your hand instead of the tag line. A ton of suspended steel does not stop when your grip does — it keeps moving and takes your hand, or you, with it.",
+    "open-floor-hole": "That deck opening has no cover and no barricade. On a structural floor, a leading edge you cannot see coming is exactly how a fall happens on a surface that looks solid from three steps away.",
+    "suspended-load-path": "You are standing under the load path. A suspended steel member has nothing holding it up but a sling and a hook — if either lets go, you are standing exactly where it lands.",
+    "unclipped-leading-edge": "You stepped to the leading edge without your lanyard connected to the overhead lifeline. At height, the edge of unfinished decking is a fall with nothing between you and the ground below."
+  },
+  "id": "steel-erector",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "land-member",
+      "alert": "The member is landed but still on the hook, and the crane has swung. It has drifted over the bay you are standing in.",
+      "cue": "Get the tag line on it before it finds you.",
+      "delay": 4,
+      "id": "load-drifting",
+      "kind": "Load in the path",
+      "missNote": "The member drifted the length of the bay overhead while you worked. Nothing came down. A load that is moving and unattended is one gust from being a load that is somewhere else, and you were underneath it the whole time.",
+      "seconds": 12,
+      "target": "tag-line",
+      "why": "A load under a crane hook is never still — it swings on the boom, it drifts on the wind, and it goes where the last movement sent it. The tag line is how a connector controls a load they cannot see the operator from.",
+      "wrongNote": "It is the tag line. Nothing else on this steel matters while a suspended load is drifting over your head."
+    },
+    {
+      "after": "bolt-sequence",
+      "alert": "The deck crew have pulled the cover off the opening behind you to drop a bundle through, and walked away from it.",
+      "cue": "There is an uncovered hole in the deck behind you.",
+      "delay": 3,
+      "id": "hole-uncovered",
+      "kind": "Floor opening opened",
+      "missNote": "The opening stayed uncovered behind you for the rest of the connection. You knew it was there. The next trade up this deck does not, and they are the reason the rule is about covering it rather than remembering it.",
+      "seconds": 11,
+      "target": "hole-cover",
+      "why": "Deck openings get covered, secured and marked because on a working floor nobody looks down. A cover that comes off for one lift and does not go back is the single commonest fall through a deck there is.",
+      "wrongNote": "It is the hole cover. An open deck penetration behind you outranks the bolt-up in front of you."
+    }
+  ],
+  "lateNotes": {
+    "tag-line": "The tag line gets picked up once the member is already hooked and clear of the stack — never before the rigger signals it is ready to swing.",
+    "torque-wrench": "Final torque is the last thing that happens on a connection, after every temporary and erection bolt is already snug."
+  },
+  "name": "Steel Erector",
+  "parSeconds": 235,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition",
+    "bridge-and-structural",
+    "fall-protection",
+    "situational-awareness"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": null,
+    "hits": [
+      "column-splice",
+      "connection-log",
+      "covered-hole",
+      "damaged-plank",
+      "erection-bolt",
+      "erection-plan",
+      "hand-guided-member",
+      "harness",
+      "hole-cover",
+      "lifeline-anchor",
+      "open-floor-hole",
+      "plumb-level",
+      "rigger-radio",
+      "secure-plank",
+      "stray-decking",
+      "suspended-load-path",
+      "tag-line",
+      "temp-bolt-a",
+      "temp-bolt-b",
+      "torque-wrench",
+      "unclipped-leading-edge",
+      "unmarked-hole"
+    ],
+    "meshes": 111
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence"
+  ],
+  "steps": [
+    {
+      "cue": "Confirm today's pick sequence, connection details and crane pattern.",
+      "id": "briefing",
+      "kind": "select",
+      "prompt": "Confirm today's pick sequence, connection details and crane pattern.",
+      "target": "erection-plan",
+      "title": "Read the erection plan",
+      "why": "OSHA's steel erection standard, 29 CFR 1926 Subpart R, requires the erector to follow the controlling contractor's site-specific erection plan because a multi-story frame is only as stable as whatever bracing is actually in place at that moment. The raising gang works one pick at a time in the sequence the engineer set — skip ahead and the next member lands on steel that was never designed to carry it unbraced."
+    },
+    {
+      "cue": "Clip your lanyard to the lifeline before stepping onto the steel.",
+      "id": "anchor",
+      "kind": "select",
+      "prompt": "Clip your lanyard to the lifeline before stepping onto the steel.",
+      "target": "lifeline-anchor",
+      "title": "Connect to the horizontal lifeline",
+      "why": "ANSI/ASSP Z359 fall protection standards and OSHA 29 CFR 1926 Subpart M both start from the same fact: a connector working the leading edge of unfinished decking has nothing else rated to arrest a fall. The horizontal lifeline is anchored and inspected before the shift starts precisely so it is already load-rated before anyone needs it to work — clipping in after you are already out on the beam is clipping in one step too late."
+    },
+    {
+      "cue": "Check the D-rings, webbing and lanyard shock pack for damage.",
+      "id": "harness-check",
+      "kind": "select",
+      "prompt": "Check the D-rings, webbing and lanyard shock pack for damage.",
+      "target": "harness",
+      "title": "Inspect the harness and positioning lanyard",
+      "why": "A connector's fall arrest harness will not announce webbing that has taken a shock load, a D-ring that is bent, or a lanyard shock pack that has already deployed — the damage stays invisible until the moment it is asked to catch a real fall. OSHA 1926 Subpart M treats a pre-use inspection as part of using the equipment, not an optional extra, because steel connecting is exactly the trade where a bad harness gets found out by falling in it."
+    },
+    {
+      "cue": "Establish hand signals and radio call-outs with the crane operator and rigger.",
+      "id": "signal-crane",
+      "kind": "select",
+      "prompt": "Establish hand signals and radio call-outs with the crane operator and rigger.",
+      "target": "rigger-radio",
+      "title": "Confirm crane signal protocol",
+      "why": "ASME B30.5 governs the hand signals and radio communication a mobile crane crew works under, for one simple reason: the operator sitting in the cab cannot see the connection point where the load is landing. Every signal that moves the load has to mean the same thing to the operator, the rigger and the connector, because a load moving on a guess stops wherever the guess turns out to be wrong."
+    },
+    {
+      "cue": "Walk the deck. Three hazards are hiding among the finished work — find them by looking.",
+      "decoyNotes": {
+        "covered-hole": "That opening already has its cover fastened down and marked. Move on.",
+        "secure-plank": "That plank is sound and properly supported. Nothing to flag."
+      },
+      "id": "hazard-scan",
+      "itemNames": {
+        "damaged-plank": "cracked temporary plank",
+        "stray-decking": "loose decking sheet",
+        "unmarked-hole": "unmarked deck opening"
+      },
+      "itemNotes": {
+        "damaged-plank": "A cracked plank can fail under a load it was rated for yesterday. It gets pulled from service, not walked on 'one more time'.",
+        "stray-decking": "A decking sheet that is not fastened down can shift or flip the moment weight lands on the wrong edge of it.",
+        "unmarked-hole": "An opening with no cover or barricade is invisible to anyone walking the deck with their eyes on the next connection, not their feet."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the deck. Three hazards are hiding among the finished work — find them by looking.",
+      "targets": [
+        "unmarked-hole",
+        "damaged-plank",
+        "stray-decking"
+      ],
+      "title": "Scan the deck for hazards",
+      "why": "A deck that looks finished from the ladder is not the same thing as a deck that has been walked and checked — that is the whole logic behind requiring a hazard scan before anyone crosses a new section. OSHA's steel erection standard treats an unmarked opening, a damaged plank and loose decking as the three ways a floor that reads as solid turns out not to be, and the scan is what catches them before somebody's boot does."
+    },
+    {
+      "cue": "Carry the cover over to the opening the scan found and fit it in place.",
+      "drag": {
+        "missNote": "Not lined up with the opening — carry the cover over the hole the scan found.",
+        "radius": 0.3,
+        "to": "unmarked-hole"
+      },
+      "id": "secure-deck",
+      "kind": "drag",
+      "prompt": "Carry the cover over to the opening the scan found and fit it in place.",
+      "target": "hole-cover",
+      "title": "Cover and barricade the opening",
+      "why": "A hazard the scan found and nobody corrected is not a safer hazard — it is the same hole with one more person now aware of it and still not covering it. OSHA 29 CFR 1926 Subpart R treats an unprotected floor opening as a fall hazard requiring a cover rated for the loads that might cross it, fastened down and marked, before the next trade walks that section of deck."
+    },
+    {
+      "cue": "Hold the tag line steady as the rigger swings the column into position.",
+      "holdBreakNote": "Tag line let go mid-swing. A member with no one steering it will find its own path, and that path runs through whatever is in the way.",
+      "id": "guide-member",
+      "kind": "hold",
+      "prompt": "Hold the tag line steady as the rigger swings the column into position.",
+      "seconds": 6,
+      "target": "tag-line",
+      "title": "Guide the suspended column with the tag line",
+      "why": "A suspended column swinging on a crane hook has no brakes and no sense of who is standing where — the tag line is the only thing keeping a connector's hands a rope's length from a ton of moving steel while still giving enough control to place it precisely. ASME B30 rigging practice calls for a tag line on any load that can rotate or drift, because a hand on the steel itself stops moving only when the steel does."
+    },
+    {
+      "cue": "Seat the column onto the receiving splice plate below.",
+      "id": "land-member",
+      "kind": "select",
+      "prompt": "Seat the column onto the receiving splice plate below.",
+      "target": "column-splice",
+      "title": "Land the member on the splice plate",
+      "why": "The splice plate below is machined to receive the column's base in one specific alignment, and it only tolerates that landing correctly once. Forcing a column down onto a plate it has not been squared to bends the plate before the first bolt is even started, turning a landing error into a fabrication problem nobody upstairs signed off on."
+    },
+    {
+      "cue": "Adjust the turnbuckle and commit once the column reads plumb.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.58
+        ],
+        "label": "COLUMN PLUMB",
+        "missNote": "Still out of plumb. Work the turnbuckle before a single bolt goes to final torque.",
+        "speed": 0.65
+      },
+      "id": "align-plumb",
+      "kind": "gauge",
+      "prompt": "Adjust the turnbuckle and commit once the column reads plumb.",
+      "target": "plumb-level",
+      "title": "Plumb and align the column",
+      "why": "Every connection erected above this one inherits whatever lean gets accepted at this column, because steel does not correct itself on the way up — it only adds error on top of error. OSHA's steel erection rule and standard ironworker practice both treat plumbing and bracing a column as the point where a lean is still a turnbuckle adjustment; wait until three more floors are landed on it and it is a structural problem instead."
+    },
+    {
+      "cue": "Temporary bolt A, then temporary bolt B, then the erection bolt.",
+      "id": "bolt-sequence",
+      "itemNames": {
+        "erection-bolt": "erection bolt",
+        "temp-bolt-a": "temporary bolt A",
+        "temp-bolt-b": "temporary bolt B"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — the temporary bolts stabilise the joint before the erection bolt is added to it.",
+      "prompt": "Temporary bolt A, then temporary bolt B, then the erection bolt.",
+      "targets": [
+        "temp-bolt-a",
+        "temp-bolt-b",
+        "erection-bolt"
+      ],
+      "title": "Install bolts in the required order",
+      "why": "Temporary bolts hold a connection snug while it is checked, plumbed and braced — that is their entire job, and it is a job the erection bolt cannot do, because putting it in early locks the joint before it has been verified. OSHA 29 CFR 1926 Subpart R sets minimum bolt counts and sequencing for exactly this reason: a joint fastened out of order can look complete while still being unable to carry what the connection is rated for."
+    },
+    {
+      "cue": "Torque every bolt in the connection to the specified value in the required pattern.",
+      "id": "torque-final",
+      "kind": "select",
+      "prompt": "Torque every bolt in the connection to the specified value in the required pattern.",
+      "target": "torque-wrench",
+      "title": "Apply final torque",
+      "why": "Final torque is a one-way operation — once a bolt is torqued to the connection's specified value in the required pattern, backing it off to fix an alignment problem means starting the joint over. IW apprenticeship practice and the erection plan both hold final torque until the minimum bolt count is in and the column already reads plumb, so torquing never has to double as a shortcut past the checks that came before it."
+    },
+    {
+      "cue": "Record the bolt count and torque values, then release the crane hook.",
+      "id": "connection-log",
+      "kind": "select",
+      "prompt": "Record the bolt count and torque values, then release the crane hook.",
+      "target": "connection-log",
+      "title": "Log the connection complete",
+      "why": "The crane hook stays on the load until the connection is logged as self-supporting, because that log is the only record the inspector and the next raising gang have that this joint was actually finished to the plan — bolt count, torque values, and who signed off on it. Releasing the hook before that record exists means trusting a connection that nobody but the connector has confirmed."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Structural steel connecting: fall protection, tag-line control and the bolt-up sequence",
+  "title": "SmartCiti.X~ Steel Erector VR",
+  "trade": "Ironworker / structural steel connector",
+  "underwater": null,
+  "weather": "wind"
+}

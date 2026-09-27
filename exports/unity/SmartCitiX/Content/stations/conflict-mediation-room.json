@@ -1,0 +1,438 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "both-heard",
+    "name": "Both Heard",
+    "note": "A whole mediation run level: neither side favoured, nothing promised, and an agreement both parties wrote"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "SAMHSA's trauma-informed care principles of safety, trustworthiness and transparency, and empowerment, voice and choice, for two parties who each feel unheard; Psychological First Aid (NCTSN) for a party who is overwhelmed mid-session; Title II of the ADA for an interpreter and any accommodation a party asks for in a city-run programme; the municipal ethics code for a mediator's duty to disclose a connection to a party and to refuse gifts; SEIU and AFSCME for the public-service staff who run community mediation programmes. The leadership principles practised here are principles commonly taught in civic-leadership programmes; the foundation's own curriculum is not sourced in this repository",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "DOJ",
+        "citedAs": "Title II of the ADA",
+        "id": "ada-title-ii",
+        "title": "Americans with Disabilities Act Title II — programme accessibility for public entities and their services"
+      },
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "municipal ethics code",
+        "citedAs": "municipal ethics code",
+        "id": "municipal-ethics-code",
+        "title": "A city or county ethics code and the charter's ethics provisions — gifts from interested parties, lobbyist contact, misuse of public position and the revolving door; named generically, with no one jurisdiction's sections cited"
+      },
+      {
+        "body": "NCTSN",
+        "citedAs": "Psychological First Aid",
+        "id": "pfa-field-guide",
+        "title": "Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "trauma-informed care",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Civic",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "room-ready",
+        "name": "Room Ready",
+        "note": "Every part of the room set level before the parties arrived"
+      },
+      {
+        "id": "no-sides",
+        "name": "No Sides",
+        "note": "No unsafe action anywhere in the mediation"
+      },
+      {
+        "id": "options-found",
+        "name": "Options Found",
+        "note": "Every option that meets both interests found first time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-session",
+        "name": "Clean Session",
+        "note": "No corrections anywhere in the session"
+      },
+      {
+        "id": "honest-reality",
+        "name": "Honest Reality",
+        "note": "The cost of no agreement read inside the band"
+      },
+      {
+        "id": "level-held",
+        "name": "Level Held",
+        "note": "The listening and the balance both carried their full count"
+      }
+    ],
+    "currency": "ACCORD",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Observer",
+      "Co-Mediator",
+      "Mediator",
+      "Lead Mediator",
+      "Mediation Mentor"
+    ],
+    "system": "Level Table"
+  },
+  "hazards": {
+    "accept-thank-you-gift": "You accepted the jar of preserves and the gift card she pressed on you before any agreement. A gift from a party while the mediation is open is exactly what the ethics code tells a city mediator to refuse, and he watched it change hands.",
+    "hallway-with-one-party": "You slipped out to talk to her in the hallway without telling him. A private session is a recognised tool when both parties know it is happening and why; a quiet word with one side behind the other's back is how a mediator loses the trust of the person left in the room.",
+    "promise-enforcement": "You told her the city will ticket the truck if he does not agree. A mediator cannot promise enforcement, the city may not have grounds to issue one, and a threat dressed as a promise turns a voluntary process into pressure he will rightly resent.",
+    "take-her-side": "You told her she is obviously in the right. The truck owner heard a mediator pick a side in the first half hour, and from here on everything you say to him sounds like her lawyer talking — the one thing a mediator has to offer both people is that neither can say that."
+  },
+  "id": "conflict-mediation-room",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "hear-her-whole",
+      "alert": "While she is speaking, the truck owner has taken out his phone, pointed it at her, and started recording.",
+      "cue": "Pause and restate the recording rule from the opening — calmly, to both of them.",
+      "delay": 3,
+      "id": "recording-attempt",
+      "kind": "Confidentiality broken",
+      "missNote": "She noticed the phone and stopped mid-sentence. The rest of the session happened on the record as far as she was concerned, and she said nothing that mattered for the next hour.",
+      "seconds": 12,
+      "target": "recording-rule-card",
+      "why": "A recording breaks the confidentiality both parties agreed to and makes her guard every word from now on. Pausing, restating the rule from the opening to both of them rather than scolding him, and asking him to put the phone away treats it as a process matter rather than a moral failing — which keeps him in the room and keeps the room safe for her.",
+      "wrongNote": "Not by listening harder to her — the phone is the problem. Pause and restate the recording rule to both of them."
+    },
+    {
+      "after": "balance-the-voices",
+      "alert": "She has stopped mid-sentence and started to cry: the garden was her husband's, and she has not said that out loud to anybody since he died.",
+      "cue": "Offer a break — water, a quiet minute, the option to step out. Do not push past it.",
+      "delay": 3,
+      "id": "party-overwhelmed",
+      "kind": "Party overwhelmed",
+      "missNote": "You pressed on to the options while she was still crying. She agreed to nothing, left early, and the one thing that could have changed his mind — why the garden matters — was lost in the rush.",
+      "seconds": 12,
+      "target": "offer-a-break-card",
+      "why": "This is the interest underneath the whole dispute, and it has arrived as grief. Psychological First Aid says slow down: offer a break, water and the choice to step out, and let her decide when to go on. He hears, often for the first time, what the garden actually means — which frequently does more for the agreement than anything the mediator says.",
+      "wrongNote": "The balance meter is for the conversation. She needs a pause, not a rebalance — offer the break."
+    }
+  ],
+  "lateNotes": {
+    "mediation-log-board": "The log closes once the agreement is drafted in their words. There is nothing to record yet.",
+    "shared-concern-card": "The shared concern goes in the middle once each side's complaint has been heard and reframed — not before."
+  },
+  "name": "Conflict Mediation Room",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "civic-leadership-and-ei"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "accept-thank-you-gift",
+      "balance-meter",
+      "crew-checkin-board",
+      "disclosure-card",
+      "draft-by-when",
+      "draft-if-it-slips",
+      "draft-who-does-what",
+      "hallway-with-one-party",
+      "listen-bead",
+      "mediation-log-board",
+      "no-deal-meter",
+      "offer-a-break-card",
+      "open-confidential",
+      "open-ground-rules",
+      "open-my-role",
+      "open-voluntary",
+      "option-afternoon-schedule",
+      "option-city-orders-it",
+      "option-shore-power",
+      "option-trial-month",
+      "promise-enforcement",
+      "recording-rule-card",
+      "reframe-hear-accusation",
+      "reframe-name-need",
+      "reframe-strip-blame",
+      "reframe-turn-forward",
+      "room-interpreter-booked",
+      "room-matching-chairs",
+      "room-mediator-certificate",
+      "room-two-exits",
+      "shared-concern-card",
+      "sound-masker-dial",
+      "table-centre",
+      "take-her-side"
+    ],
+    "meshes": 191
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Before they arrive, check the three things that make this room equal for both of them.",
+      "decoyNotes": {
+        "room-mediator-certificate": "Your framed certificate is not preparation. It can stay on the wall or come down; it will not change what happens at the table."
+      },
+      "id": "prepare-the-room",
+      "itemNames": {
+        "room-interpreter-booked": "the interpreter he asked for, confirmed",
+        "room-matching-chairs": "matching chairs at the same height",
+        "room-two-exits": "two ways out, so nobody has to pass the other to leave"
+      },
+      "itemNotes": {
+        "room-interpreter-booked": "He asked for an interpreter. Without one, the mediation is in her first language and not his — which is a side.",
+        "room-matching-chairs": "The same chair at the same height for both, on opposite sides at equal distance from you. The room itself must not choose a side.",
+        "room-two-exits": "Either of them may need to step out. Two exits mean nobody is trapped and nobody has to walk past the person they are angry with."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before they arrive, check the three things that make this room equal for both of them.",
+      "targets": [
+        "room-two-exits",
+        "room-matching-chairs",
+        "room-interpreter-booked"
+      ],
+      "title": "Set the room up so it takes no side",
+      "why": "Two people in conflict read everything about a room for signs of who it favours: whose chair is bigger, who sits nearer the door, whose language the conversation will be in. Two exits, matching chairs at equal distance and a confirmed interpreter tell both parties before a word is spoken that the process is level. Getting it wrong costs trust that the mediator then spends the first hour trying to win back."
+    },
+    {
+      "cue": "\"Before we start: I know her slightly from the community garden network. If either of you would rather have a different mediator, say so now.\"",
+      "id": "disclose-your-connection",
+      "kind": "select",
+      "prompt": "\"Before we start: I know her slightly from the community garden network. If either of you would rather have a different mediator, say so now.\"",
+      "target": "disclosure-card",
+      "title": "Disclose your connection to one of the parties",
+      "why": "A mediator who knows one party and says nothing has handed the other a reason to reject every outcome the moment he finds out — and in a neighbourhood, he will. Disclosing the connection plainly, before anything else, and offering either party the chance to ask for somebody else turns a hidden conflict into an open choice, which is what the ethics code asks and what trust requires."
+    },
+    {
+      "cue": "Turn the dial so the waiting area cannot hear what is said in here.",
+      "id": "turn-on-the-masker",
+      "kind": "turn",
+      "prompt": "Turn the dial so the waiting area cannot hear what is said in here.",
+      "target": "sound-masker-dial",
+      "title": "Turn the sound masker on outside the door",
+      "turn": {
+        "axis": "y",
+        "label": "SOUND MASKER",
+        "turns": 0.5
+      },
+      "why": "Confidentiality is only real if it is physical. A mediation room whose voices carry into the waiting area makes both parties guard every sentence, and the things they most need to say — the grief, the money worry — are exactly the things they will not say if they think the next appointment can hear. The masker is a small switch that makes the promise of confidentiality true."
+    },
+    {
+      "cue": "Your role, confidentiality and its limits, the ground rules, and that it is voluntary.",
+      "id": "opening-statement",
+      "itemNames": {
+        "open-confidential": "what stays in this room, and its limits",
+        "open-ground-rules": "one speaker at a time, no names called",
+        "open-my-role": "my role: I don't decide, you do",
+        "open-voluntary": "either of you can stop at any time"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Role, confidentiality, ground rules, voluntary. Starting with the rules before they know you will not decide sounds like a hearing, not a mediation.",
+      "prompt": "Your role, confidentiality and its limits, the ground rules, and that it is voluntary.",
+      "targets": [
+        "open-my-role",
+        "open-confidential",
+        "open-ground-rules",
+        "open-voluntary"
+      ],
+      "title": "Give the opening statement in order",
+      "why": "The opening tells both parties what kind of room they are in. Saying first that the mediator decides nothing puts the outcome in their hands; confidentiality with its honest limits comes next so they know what is safe to say; then the ground rules they will be held to; and last that either can stop at any time, because an agreement is only worth anything if both parties could have walked away from it."
+    },
+    {
+      "cue": "Hold your attention on her. No questions, no summarising, no glance at him.",
+      "holdBreakNote": "You glanced at him while she was speaking, and she saw it. Come back to her until she is finished.",
+      "id": "hear-her-whole",
+      "kind": "hold",
+      "prompt": "Hold your attention on her. No questions, no summarising, no glance at him.",
+      "seconds": 8,
+      "target": "listen-bead",
+      "title": "Hear the first party without interruption",
+      "why": "The person who speaks first has usually been waiting months for somebody to hear the whole thing. Listening without interrupting — not to clarify, not to summarise, not to check how he is reacting — lets her say it all, including the part she did not plan to say. That unplanned part is usually where the real dispute is, and it only surfaces if she believes she will be allowed to finish."
+    },
+    {
+      "cue": "Hear the accusation, strip the blame, name the need, then turn it forward.",
+      "id": "reframe-the-complaint",
+      "itemNames": {
+        "reframe-hear-accusation": "hear the accusation as she said it",
+        "reframe-name-need": "name the need underneath",
+        "reframe-strip-blame": "take the blame words out",
+        "reframe-turn-forward": "turn it towards the future"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Hear it, strip the blame, name the need, turn it forward. Naming her need before you have heard her words sounds like you decided what she meant.",
+      "prompt": "Hear the accusation, strip the blame, name the need, then turn it forward.",
+      "targets": [
+        "reframe-hear-accusation",
+        "reframe-strip-blame",
+        "reframe-name-need",
+        "reframe-turn-forward"
+      ],
+      "title": "Reframe her complaint so he can hear it",
+      "why": "\"He poisons my garden with that filthy generator\" is a position he can only defend against. \"You need the air around the garden to be clean enough to grow food, especially in the afternoons\" is an interest he can respond to. Reframing takes the blame out without taking the substance out, and it has to go in order: hear the words first, or the reframe sounds like the mediator editing her."
+    },
+    {
+      "cue": "Both of them want the street to stay somewhere they can make a living and a life. Carry that card to the centre.",
+      "drag": {
+        "missNote": "Not in the centre. A concern both parties share belongs where both can reach it — in the middle of the table, not on either side.",
+        "radius": 0.5,
+        "to": "table-centre"
+      },
+      "id": "move-to-common-ground",
+      "kind": "drag",
+      "prompt": "Both of them want the street to stay somewhere they can make a living and a life. Carry that card to the centre.",
+      "target": "shared-concern-card",
+      "title": "Put the shared concern in the middle of the table",
+      "why": "Most disputes have more shared ground than either party believes. She wants her garden to thrive; he wants his business to survive; both want to keep living and working on this street without a war. Putting that shared concern physically in the middle of the table gives the rest of the conversation something both of them are facing together rather than across."
+    },
+    {
+      "cue": "Commit an honest read of the cost of no deal — neither frightening them into it nor pretending it is nothing.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "NO-DEAL COST",
+        "missNote": "Not honest. Pretending there is no cost to walking away wastes the session; overstating it is pressure. Say plainly what each of them faces without an agreement.",
+        "speed": 0.6
+      },
+      "id": "reality-test",
+      "kind": "gauge",
+      "prompt": "Commit an honest read of the cost of no deal — neither frightening them into it nor pretending it is nothing.",
+      "target": "no-deal-meter",
+      "title": "Reality-test what happens if there is no agreement",
+      "why": "People settle when an agreement is better than the alternative, and they can only judge that if the alternative is described honestly. Without a deal, the complaint goes back into the city's slow enforcement process and the two of them keep living side by side in a feud. Saying that plainly — without minimising it and without turning it into a threat — lets each party make a real choice."
+    },
+    {
+      "cue": "He is quieter and she is dominating. Keep the balance inside the band — draw him in without silencing her.",
+      "holdBreakNote": "The balance slipped — one of them took over the room. Bring it back: an open question to whoever has gone quiet.",
+      "id": "balance-the-voices",
+      "kind": "track",
+      "prompt": "He is quieter and she is dominating. Keep the balance inside the band — draw him in without silencing her.",
+      "seconds": 8,
+      "target": "balance-meter",
+      "title": "Keep the power in the room level",
+      "track": {
+        "drift": 0.16,
+        "fall": 0.4,
+        "green": [
+          0.3,
+          0.7
+        ],
+        "label": "BALANCE",
+        "rise": 0.48,
+        "start": 0.5
+      },
+      "why": "Power is never equal between two parties: one is older, one is more fluent, one has lived on the street longer. A mediator keeps it level continuously — an open question to the quieter party, a gentle hold on the louder one, equal time and equal eye contact — because an agreement reached by the more powerful party talking the other into it will not survive the first bad week."
+    },
+    {
+      "cue": "Look at the options board. Mark every option that serves her garden and his livelihood at once.",
+      "decoyNotes": {
+        "option-city-orders-it": "\"The city orders him off the street\" is not an option either party can agree to — it is an outcome imposed from outside, and not one the mediator can deliver."
+      },
+      "id": "options-that-meet-both",
+      "itemNames": {
+        "option-afternoon-schedule": "the truck moves to the corner spot in the afternoons",
+        "option-shore-power": "a shared outlet so the generator stays off",
+        "option-trial-month": "a one-month trial, then meet again"
+      },
+      "itemNotes": {
+        "option-afternoon-schedule": "He keeps the lunchtime trade where his customers are; she gets clean air in the afternoons when she is in the garden.",
+        "option-shore-power": "Power from her side of the fence for a monthly fee: no fumes for her, lower fuel costs for him.",
+        "option-trial-month": "A trial makes it low-risk for both, and a date to meet again keeps the conversation going."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the options board. Mark every option that serves her garden and his livelihood at once.",
+      "targets": [
+        "option-afternoon-schedule",
+        "option-shore-power",
+        "option-trial-month"
+      ],
+      "title": "Find the options that meet both interests",
+      "why": "Once interests are on the table, options appear that neither position allowed. A schedule that keeps his lunchtime trade and her afternoon air, a shared power outlet that silences the generator, and a one-month trial that makes both low-risk were invisible while the argument was about whether the truck could park there at all. Finding them together is the point of knowing the interest behind the position."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Who does what, by when, and what they will do if it slips — written the way they said it.",
+      "id": "write-it-in-their-words",
+      "itemNames": {
+        "draft-by-when": "by when",
+        "draft-if-it-slips": "what happens if it slips",
+        "draft-who-does-what": "who does what, in their own words"
+      },
+      "kind": "sequence",
+      "prompt": "Who does what, by when, and what they will do if it slips — written the way they said it.",
+      "targets": [
+        "draft-who-does-what",
+        "draft-by-when",
+        "draft-if-it-slips"
+      ],
+      "title": "Draft the agreement in their words",
+      "why": "An agreement written in the mediator's language belongs to the mediator. Written in the parties' own words — who moves the truck when, who fits the outlet by which date, and what they will do if one of them slips — it belongs to them, and they are far more likely to keep it. The clause about slipping matters most: it turns the first missed day into a phone call instead of a new complaint."
+    },
+    {
+      "cue": "Record that an agreement was reached, the trial date and the follow-up — nothing either party said in confidence.",
+      "id": "close-mediation-log",
+      "kind": "select",
+      "prompt": "Record that an agreement was reached, the trial date and the follow-up — nothing either party said in confidence.",
+      "target": "mediation-log-board",
+      "title": "Log the outcome without the confidential detail",
+      "why": "The programme needs to know that a mediation happened and how it ended, so the complaint can be closed and the follow-up scheduled; it does not need, and must not get, what either party said inside the room. Logging the outcome, the trial month and the follow-up date — and nothing else — keeps the confidentiality promise made in the opening and keeps the programme's record honest."
+    },
+    {
+      "cue": "Two minutes after they leave: how did that land on each of you, and did either of you take a side without meaning to?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "Two minutes after they leave: how did that land on each of you, and did either of you take a side without meaning to?",
+      "target": "crew-checkin-board",
+      "title": "Check in with your co-mediator",
+      "why": "Mediation asks the mediator to absorb two people's anger and grief while showing neither, and it lands afterwards. A short check-in with the co-mediator — how did it land, did either of us lean without meaning to, the employee assistance line if it stays — is peer support and quality control at once, and it is what keeps a mediator level for the next pair who walk in."
+    }
+  ],
+  "supportLine": "your programme's employee assistance line, or the co-mediator you debrief with — holding two people's anger for two hours is real work",
+  "tagline": "A garden, a food truck and two neighbours who stopped talking months ago: your own connection disclosed, the rules said out loud, each side heard whole, the blame taken out of the complaint, the power kept level — and an agreement written in their words, not yours",
+  "title": "SmartCiti.X~ Conflict Mediation Room VR",
+  "trade": "Community mediator",
+  "underwater": null,
+  "weather": "overcast"
+}

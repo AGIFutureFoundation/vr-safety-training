@@ -1,0 +1,383 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-evac",
+    "name": "Clean Evacuation",
+    "note": "Every zone out, mustered and accounted for with nobody going back in before the plan's own all-clear"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "UFCW member training for retail food and engineering work; ASHRAE 15 safety standard for refrigeration systems; IIAR 2 safe design of closed-circuit ammonia refrigeration systems; IIAR 6 inspection, testing and maintenance of closed-circuit ammonia refrigeration systems; OSHA 29 CFR 1910.119 process safety management of highly hazardous chemicals; OSHA 29 CFR 1910.38 emergency action plans; NFPA 101 Life Safety Code egress requirements",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASHRAE",
+        "citedAs": "ASHRAE 15",
+        "id": "ashrae-15",
+        "title": "ANSI/ASHRAE 15 — Safety Standard for Refrigeration Systems"
+      },
+      {
+        "body": "IIAR",
+        "citedAs": "IIAR 2",
+        "id": "iiar-2",
+        "title": "ANSI/IIAR 2 — Safe design of closed-circuit ammonia refrigeration systems"
+      },
+      {
+        "body": "IIAR",
+        "citedAs": "IIAR 6",
+        "id": "iiar-6",
+        "title": "ANSI/IIAR 6 — Inspection, testing and maintenance of closed-circuit ammonia refrigeration systems"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 101",
+        "id": "nfpa-101",
+        "title": "NFPA 101 — Life Safety Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.119",
+        "id": "osha-1910-119",
+        "title": "29 CFR 1910.119 — Process safety management of highly hazardous chemicals"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.38",
+        "id": "osha-1910-38",
+        "title": "29 CFR 1910.38 — Emergency action plans"
+      },
+      {
+        "body": "union",
+        "citedAs": "UFCW",
+        "id": "ufcw-training",
+        "title": "UFCW member training for retail food, clinic and dental support work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Grocery cold plant / ammonia refrigeration",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "out-first",
+        "name": "Out First",
+        "note": "Left the machine room before anything else was attempted"
+      },
+      {
+        "id": "no-reentry",
+        "name": "No Reentry",
+        "note": "Never went back in and never reached for the alarm panel"
+      },
+      {
+        "id": "steady-muster",
+        "name": "Steady Muster",
+        "note": "Reached the muster point at a steady, controlled pace every time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-response",
+        "name": "Clean Response",
+        "note": "No corrections through the whole evacuation"
+      },
+      {
+        "id": "held-the-hold",
+        "name": "Held The Hold",
+        "note": "Never left the muster point early"
+      },
+      {
+        "id": "muster-fast",
+        "name": "Mustered Fast",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "MUSTER",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Plant Trainee",
+      "Plant Engineer",
+      "Lead Engineer",
+      "Plant Supervisor",
+      "Cold Plant Authority Certified"
+    ],
+    "system": "Cold Plant Authority"
+  },
+  "hazards": {
+    "prop-door-open": "You wedged the machine room door open instead of letting it swing shut behind you. A door left open behind an ammonia leak is the leak's own path into the rest of the building, spreading past the one room built to contain it.",
+    "reenter-for-belongings": "You're heading back in for a phone left on the bench. Nothing left inside that machine room is worth a single step back through that door once the alarm has sounded — the plan does not have an exception for a quick grab.",
+    "silence-alarm-panel": "You reached to silence the alarm panel yourself. That panel is exactly what tells an arriving responder which zone still needs attention — silencing it because it's loud and inconvenient erases the one piece of information they're arriving to use.",
+    "wrong-way-approach": "You're walking back toward the machine room instead of continuing to muster. Every step back toward a room you just evacuated is a step the plan already told you not to take — the muster point is the only direction that matters right now."
+  },
+  "id": "gr-ammonia-leak-alarm-response-cold-plant",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "close-door-behind",
+      "alert": "A coworker just behind you has turned around and is jogging back toward the machine room door, saying they forgot to shut something off.",
+      "cue": "They're heading the wrong way — get them turned back toward muster.",
+      "delay": 4,
+      "id": "coworker-heads-back",
+      "kind": "Wrong direction",
+      "missNote": "They went back in before anyone stopped them. The muster roster now has a gap where their name should be, and the plan has no faster way to notice that gap than someone actually catching it before it happens.",
+      "seconds": 12,
+      "target": "headcount-board",
+      "why": "Nothing behind that door is worth turning around for once the alarm has sounded, and a coworker who doesn't hear that from you in the moment is a coworker the muster roster is about to be missing a name for.",
+      "wrongNote": "It's the muster roster — get them turned back toward it instead of the machine room door."
+    },
+    {
+      "after": "await-all-clear",
+      "alert": "Someone unfamiliar with the plan has wandered up near the machine room and is reaching for the alarm panel to make the noise stop.",
+      "cue": "That panel is telling responders which zone still needs them — stop them before it goes quiet.",
+      "delay": 3,
+      "id": "bystander-reaches-panel",
+      "kind": "About to silence the alarm",
+      "missNote": "The panel went quiet before responders ever arrived. Whatever they find when they get there, the one signal that told them exactly where to go first is now gone.",
+      "seconds": 12,
+      "target": "emergency-plan-poster",
+      "why": "Pointing them at the posted plan instead of letting them touch that panel is what keeps the one piece of information responders are relying on intact — the alarm stops when authorized personnel clear the zone, not when somebody nearby finds it too loud.",
+      "wrongNote": "It's the posted plan — point them to it and get their hand off that panel."
+    }
+  ],
+  "lateNotes": {
+    "alarm-panel": "This gets read once, on your way out — it does not get touched again after that.",
+    "machine-room-door": "This gets closed behind you on your way out, not opened again once you're clear of it."
+  },
+  "name": "Ammonia Leak Alarm Response, Cold Plant",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "grocery-and-meatpacking"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "alarm-panel",
+      "dead-detector",
+      "door-frame",
+      "emergency-plan-poster",
+      "evac-route",
+      "evac-signage",
+      "hand-over-roster",
+      "headcount-board",
+      "incident-log",
+      "machine-room-door",
+      "muster-flagpole",
+      "muster-radio",
+      "point-entry",
+      "prop-door-open",
+      "reenter-for-belongings",
+      "silence-alarm-panel",
+      "unlatched-window",
+      "wind-sock",
+      "working-detector",
+      "wrong-way-approach"
+    ],
+    "meshes": 131
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the annunciator panel to see which zone tripped the ammonia alarm.",
+      "id": "alarm-panel",
+      "kind": "select",
+      "prompt": "Check the annunciator panel to see which zone tripped the ammonia alarm.",
+      "target": "alarm-panel",
+      "title": "Read the alarm annunciator",
+      "why": "The panel is the first fact this whole response runs on — which zone tripped tells the plan's own muster and headcount who was actually in the affected area, and it's read once, on the way out, not investigated up close."
+    },
+    {
+      "cue": "Confirm the call: leave the machine room now, per the plant's own emergency plan.",
+      "id": "evac-decision",
+      "kind": "select",
+      "prompt": "Confirm the call: leave the machine room now, per the plant's own emergency plan.",
+      "target": "evac-signage",
+      "title": "Commit to evacuate, not investigate",
+      "why": "The plan does not ask an engineer to confirm the leak by smell, by sound or by looking for it — it asks for an immediate evacuation the moment the alarm sounds, because the alternative is one person's judgment standing in for a plan built by people who were not standing in the room when it went off."
+    },
+    {
+      "cue": "Pull the door shut behind you as you leave, rather than leaving it open.",
+      "drag": {
+        "missNote": "Not fully shut — the door has to close behind you, not swing open again on its own.",
+        "radius": 0.3,
+        "to": "door-frame"
+      },
+      "id": "close-door-behind",
+      "kind": "drag",
+      "prompt": "Pull the door shut behind you as you leave, rather than leaving it open.",
+      "target": "machine-room-door",
+      "title": "Close the machine room door behind you",
+      "why": "A door pulled shut behind you is the plant's own first layer of containment — it keeps whatever is in that room in that room for the minutes it takes a responder to actually arrive."
+    },
+    {
+      "cue": "Two things along your evacuation route are worth reporting. Find them without stopping.",
+      "decoyNotes": {
+        "working-detector": "This detector's battery indicator reads healthy and current. Leave it."
+      },
+      "id": "hazard-en-route",
+      "itemNames": {
+        "dead-detector": "a portable gas detector with a dead battery",
+        "unlatched-window": "an unlatched machine-room window"
+      },
+      "itemNotes": {
+        "dead-detector": "This portable gas detector's battery indicator is dead. A detector nobody can trust is a detector that isn't actually monitoring anything — it gets reported and swapped, not carried on believing it works.",
+        "unlatched-window": "This machine-room window is unlatched, swinging slightly. An unlatched opening on your way past is worth reporting to whoever handles the room after you — it's one more path out of a room the door alone was supposed to seal."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things along your evacuation route are worth reporting. Find them without stopping.",
+      "targets": [
+        "unlatched-window",
+        "dead-detector"
+      ],
+      "title": "Notice two things on your way out",
+      "why": "Evacuating is not the same as evacuating with your eyes closed — noticing what's wrong on the way out, without stopping to fix any of it, is what gives the responders arriving behind you a fuller picture than the alarm alone gives them."
+    },
+    {
+      "cue": "Read the wind sock and commit once your route to muster is upwind of the plant.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.7
+        ],
+        "label": "WIND DIRECTION",
+        "missNote": "That route reads downwind of the plant — hold for the sock to confirm an upwind path before you commit to it.",
+        "speed": 0.55
+      },
+      "id": "check-wind-sock",
+      "kind": "gauge",
+      "prompt": "Read the wind sock and commit once your route to muster is upwind of the plant.",
+      "target": "wind-sock",
+      "title": "Check the wind indicator before mustering",
+      "why": "Ammonia is lighter than air and disperses with the wind, so the muster point the plan posted only does its job if you actually approach it from upwind — the sock is what confirms that before you commit to a route, not after you're already standing in the wrong spot."
+    },
+    {
+      "cue": "Walk briskly on the marked route — not a run, not a stroll — the whole way to muster.",
+      "holdBreakNote": "Out of the steady band — settle your pace before you either fall or spend longer than you need to near the affected zone.",
+      "id": "move-to-muster",
+      "kind": "track",
+      "prompt": "Walk briskly on the marked route — not a run, not a stroll — the whole way to muster.",
+      "seconds": 6,
+      "target": "evac-route",
+      "title": "Move to the muster point on the marked route",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.65
+        ],
+        "label": "EVACUATION PACE",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "A run risks a fall on a route other people are also using; a stroll leaves you and everyone behind you closer to the affected zone longer than the plan intends. A steady, brisk pace on the marked route is what the plan is actually asking for."
+    },
+    {
+      "cue": "Mark yourself present on the muster point's roster board.",
+      "id": "headcount-board",
+      "kind": "select",
+      "prompt": "Mark yourself present on the muster point's roster board.",
+      "target": "headcount-board",
+      "title": "Check in at the muster roster",
+      "why": "A muster point only proves everyone is out once every name on the shift roster is actually accounted for — the board is what turns \"I think everyone made it\" into a fact somebody can act on."
+    },
+    {
+      "cue": "Stay at the muster point and hold until authorized personnel give the all-clear.",
+      "holdBreakNote": "You left the muster point before the all-clear. Return and hold — a headcount with somebody wandering off is a headcount nobody can actually trust.",
+      "id": "await-all-clear",
+      "kind": "hold",
+      "prompt": "Stay at the muster point and hold until authorized personnel give the all-clear.",
+      "seconds": 6,
+      "target": "muster-flagpole",
+      "title": "Hold your position at muster",
+      "why": "The muster point does its job only if people actually stay there — drifting off to check on the building, your car or anything else is exactly the gap that turns a clean headcount back into an unaccounted-for name."
+    },
+    {
+      "cue": "Call the plant's posted emergency contact and report the zone and the headcount.",
+      "id": "notify-dispatch",
+      "kind": "select",
+      "prompt": "Call the plant's posted emergency contact and report the zone and the headcount.",
+      "target": "muster-radio",
+      "title": "Notify the plant's emergency dispatch",
+      "why": "Dispatch is the plan's own link to the responders who are actually equipped and trained to go back into that room — a call now with the zone and the headcount already in hand gets them moving with the facts, not guessing at them on arrival."
+    },
+    {
+      "cue": "Turn the flagpole crank to raise the flag showing your zone has fully mustered.",
+      "id": "raise-muster-flag",
+      "kind": "turn",
+      "prompt": "Turn the flagpole crank to raise the flag showing your zone has fully mustered.",
+      "target": "muster-flagpole",
+      "title": "Raise the zone-mustered flag",
+      "turn": {
+        "axis": "y",
+        "label": "MUSTER FLAG",
+        "turns": 0.6
+      },
+      "why": "A raised flag is a fact a responder can see from across the lot without asking — it's the plan's own way of telling everyone arriving which zones are already accounted for and which still need a headcount taken."
+    },
+    {
+      "cue": "Read the posted plan and confirm what it asks: nobody goes back in until authorized personnel say so.",
+      "id": "confirm-no-reentry",
+      "kind": "select",
+      "prompt": "Read the posted plan and confirm what it asks: nobody goes back in until authorized personnel say so.",
+      "target": "emergency-plan-poster",
+      "title": "Confirm the plan: no reentry before the all-clear",
+      "why": "This is the one rule the entire response depends on — everything before this step only works if it's followed by nobody deciding, on their own judgment, that it's probably fine to go check."
+    },
+    {
+      "cue": "Point out the machine room entry first, then hand over the completed muster roster — in that order.",
+      "id": "brief-responders",
+      "itemNames": {
+        "hand-over-roster": "hand over the muster roster",
+        "point-entry": "point out the machine room entry"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — point them to the entry first, then hand over the roster once they're already moving toward it.",
+      "prompt": "Point out the machine room entry first, then hand over the completed muster roster — in that order.",
+      "targets": [
+        "point-entry",
+        "hand-over-roster"
+      ],
+      "title": "Brief the responders on arrival",
+      "why": "A responder arriving needs to know where to go before they need the paperwork — pointing them to the entry first gets them moving toward the actual problem while the roster, handed over right behind it, tells them exactly who is already accounted for."
+    },
+    {
+      "cue": "Sign the log once responders have things in hand, closing out your part of the response.",
+      "id": "sign-incident-log",
+      "kind": "select",
+      "prompt": "Sign the log once responders have things in hand, closing out your part of the response.",
+      "target": "incident-log",
+      "title": "Sign the incident log",
+      "why": "The signature is your record of exactly what you did — read the panel, evacuated, mustered, notified — and it's the account a plant manager or an inspector reads afterward to understand how this response actually went."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "The alarm read, the machine room left and sealed behind you, the muster point reached on the marked route, and nobody going back in until the plan's own all-clear",
+  "title": "SmartCiti.X~ Ammonia Leak Alarm Response, Cold Plant VR",
+  "trade": "Grocery engineering / refrigeration technician",
+  "underwater": null,
+  "weather": null
+}

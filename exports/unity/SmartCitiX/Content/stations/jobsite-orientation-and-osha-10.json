@@ -1,0 +1,421 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "oriented-not-rushed",
+    "name": "Oriented, Not Rushed",
+    "note": "The whole orientation done before the first task, with nobody talked into skipping any of it"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "OSHA 29 CFR 1926.21 — the employer's duty to instruct each employee in recognising and avoiding the unsafe conditions of the site; OSHA 10 through the OSHA Outreach Training Program, a voluntary ten-hour awareness course taught by an authorized trainer that some states and many contractors require; OSHA 29 CFR 1926.501 and 29 CFR 1926.502 for fall protection from six feet and the personal fall arrest system; OSHA 29 CFR 1926.416 on worn or damaged cords; OSHA 29 CFR 1926.1153 for wet cutting under the silica standard; the ladder rules in 29 CFR 1926; the apprenticeship standard's requirement that an apprentice works under a journey-level worker; LIUNA's training fund as one of the building-trades programmes that trains first-period apprentices for exactly this morning",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "DOL",
+        "citedAs": "apprenticeship standard",
+        "id": "dol-apprenticeship-standards",
+        "title": "Registered apprenticeship standards, as a category — the written standards a sponsor registers with the U.S. Department of Labor or a State Apprenticeship Agency: the term, on-the-job learning, related instruction, the progressive wage schedule, the ratio, the probationary period and the selection procedure"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.1153",
+        "id": "osha-1926-1153",
+        "title": "29 CFR 1926.1153 — Respirable crystalline silica in construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.21",
+        "id": "osha-1926-21",
+        "title": "29 CFR 1926.21 — Safety training and education in construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.416",
+        "id": "osha-1926-416",
+        "title": "29 CFR 1926.416 — General requirements for electrical work practices in construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.501",
+        "id": "osha-1926-501",
+        "title": "29 CFR 1926.501 — Duty to have fall protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.502",
+        "id": "osha-1926-502",
+        "title": "29 CFR 1926.502 — Fall protection systems criteria and practices"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "OSHA 10",
+        "id": "osha-outreach-10",
+        "title": "OSHA Outreach Training Program — the 10-hour construction course (OSHA 10): voluntary awareness training taught by an authorized trainer, not a certification and not a substitute for the employer's own training"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      }
+    ]
+  },
+  "district": "Construction & Structural Trades",
+  "domain": "Apprenticeship navigation",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "saw-it-first",
+        "name": "Saw It First",
+        "note": "The site hazards and the emergency kit both found clean"
+      },
+      {
+        "id": "no-shortcuts",
+        "name": "No Shortcuts",
+        "note": "No unsafe action anywhere on site"
+      },
+      {
+        "id": "four-to-one",
+        "name": "Four To One",
+        "note": "The ladder angle set near the middle of the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-first-day",
+        "name": "Clean First Day",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "kept-the-lane",
+        "name": "Kept The Lane",
+        "note": "Every timed passage carried without a break"
+      },
+      {
+        "id": "on-the-tools-early",
+        "name": "On The Tools Early",
+        "note": "Finish inside 80% of par"
+      }
+    ],
+    "currency": "TAG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Face",
+      "Signed In",
+      "Oriented",
+      "Tied Off",
+      "Site Ready Certified"
+    ],
+    "system": "Site Ready"
+  },
+  "hazards": {
+    "jso-climb-formwork": "You went to climb the formwork to reach the deck instead of using the ladder. Formwork is not built to be climbed and gives no handhold you can trust, and the deck edge above it is exactly the kind of drop 29 CFR 1926.501 requires protection from at six feet. The ladder is ten steps away; the shortcut is how first-day falls happen.",
+    "jso-dry-cut": "You reached for the saw to make a dry cut. Cutting concrete or masonry dry sends respirable crystalline silica into the air you and the crew breathe, and 29 CFR 1926.1153 sets out water or dust collection as the controls for exactly this cut. Silicosis does not show up on the first day; it shows up years later and does not go away.",
+    "jso-fence-gap": "You went through the gap in the fence instead of signing in at the trailer. The sign-in is how the site knows who is on it if something goes wrong, and it is where the orientation starts. Walking on through a gap means being on a live site nobody knows you are on, before anybody has told you where the hazards are.",
+    "jso-under-load": "You took the shortcut under the suspended bundle of rebar. Nobody walks under a load on a hook — rigging slips, a tag line jerks, a sling fails — and on a site the route around the swing area is marked for exactly that reason. The few seconds saved are the only thing the shortcut buys."
+  },
+  "id": "jobsite-orientation-and-osha-10",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "site-orientation",
+      "alert": "A foreman leans in at the board: 'Skip that, grab a shovel — we're pouring in ten minutes and I need hands.'",
+      "cue": "Do not leave the orientation. Take it to the person who runs it.",
+      "delay": 3,
+      "id": "jso-foreman-skip",
+      "kind": "Foreman skipping the orientation",
+      "missNote": "You stayed put while the foreman waited, and in the version where you went with him you spent the pour next to a deck edge you had not been shown, under a swing area nobody had pointed out, with no idea where the muster point was.",
+      "seconds": 12,
+      "target": "jso-safety-lead",
+      "why": "The orientation exists because 29 CFR 1926.21 puts the duty to instruct on the employer, and a first-day apprentice cannot weigh a pour schedule against it alone. Taking it to the safety lead is not refusing work — it puts the decision with the person responsible for the orientation, who will usually finish it in minutes. Walking off with the shovel means working a pour on a site you have not been shown.",
+      "wrongNote": "Not that. The answer is the safety lead — the person who runs the orientation — not the shovel, and not arguing with the foreman yourself."
+    },
+    {
+      "after": "walk-the-route",
+      "alert": "A dump truck's backup alarm starts and it begins reversing toward the walkway — nobody is guiding it back, and the driver cannot see the lane behind the bed.",
+      "cue": "Get out of its path to the protected area.",
+      "delay": 3,
+      "id": "jso-truck-backing",
+      "kind": "Truck backing across the walkway",
+      "missNote": "You kept walking the lane as the truck came back, and in the version where it did not stop you were in the blind area behind the bed when it reached the walkway. Backing vehicles are one of the most common ways people are killed on construction sites.",
+      "seconds": 12,
+      "target": "jso-safe-zone",
+      "why": "A reversing truck has a large blind area behind it, and the rule on every site is the same: get out of its path to a protected place and make yourself visible — not stand in the lane waving, and not try to beat it across. The barriered safe zone beside the walkway is there for exactly this. Sorting out who should have been guiding the truck happens after you are out of the way.",
+      "wrongNote": "Not that. The answer is the barriered safe zone — out of the truck's path first, visible to the driver, everything else after."
+    }
+  ],
+  "lateNotes": {
+    "jso-lanyard-hook": "Not yet. The harness goes on and gets adjusted before anything is clipped to an anchor — a lanyard on a loose harness does not arrest a fall the way it should.",
+    "jso-signoff-sheet": "The sign-off comes last. You sign that you were oriented after the orientation has actually happened — reading what you are signing on the way."
+  },
+  "name": "Jobsite Orientation & OSHA 10",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "job-readiness-edition",
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "jso-anchor-point",
+      "jso-climb-formwork",
+      "jso-damaged-cord",
+      "jso-dry-cut",
+      "jso-extinguisher",
+      "jso-fence-gap",
+      "jso-first-aid",
+      "jso-h-chest",
+      "jso-h-dring",
+      "jso-h-legs",
+      "jso-ladder-gauge",
+      "jso-lanyard-hook",
+      "jso-mentor",
+      "jso-missing-rail",
+      "jso-muster-sign",
+      "jso-open-hole",
+      "jso-orientation-board",
+      "jso-osha10-card",
+      "jso-safe-zone",
+      "jso-safety-lead",
+      "jso-signoff-sheet",
+      "jso-toolbox-talk",
+      "jso-under-load",
+      "jso-walkway",
+      "jso-water-valve"
+    ],
+    "meshes": 231
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Sign the sheet at the trailer window and show your OSHA 10 card.",
+      "id": "show-card",
+      "kind": "select",
+      "prompt": "Sign the sheet at the trailer window and show your OSHA 10 card.",
+      "target": "jso-osha10-card",
+      "title": "Sign in at the trailer and show your OSHA 10 card",
+      "why": "Many contractors, and some states, require the OSHA 10 card for construction work, and the trailer is where it is checked. It is worth knowing what it is: OSHA 10 is a voluntary ten-hour awareness course from the OSHA Outreach Training Program, taught by an authorized trainer. It shows you have the vocabulary of site safety; it is not a licence, and it does not replace the site's own orientation."
+    },
+    {
+      "cue": "Hold at the orientation board while the safety lead walks through this site's hazards, rules and emergency plan.",
+      "holdBreakNote": "You walked away before the orientation finished. The part you missed is about this site — the muster point, the swing area, the edges — and nothing on your card covers it.",
+      "id": "site-orientation",
+      "kind": "hold",
+      "prompt": "Hold at the orientation board while the safety lead walks through this site's hazards, rules and emergency plan.",
+      "seconds": 6,
+      "target": "jso-orientation-board",
+      "title": "Take the site-specific orientation",
+      "why": "29 CFR 1926.21 puts a duty on the employer to instruct each employee in recognising and avoiding the unsafe conditions of the job, and the site orientation is where that happens for this site: where the deck edges are, where loads swing, what PPE the site requires, where the muster point is. An OSHA 10 card is general; this is specific, and nobody should be working before it is done."
+    },
+    {
+      "cue": "Walking the site with your mentor, find the uncovered opening, the gap in the guardrail and the damaged cord.",
+      "id": "site-hazards",
+      "itemNames": {
+        "jso-damaged-cord": "a damaged extension cord",
+        "jso-missing-rail": "a gap in the deck guardrail",
+        "jso-open-hole": "an uncovered opening"
+      },
+      "itemNotes": {
+        "jso-damaged-cord": "A cord with a cut jacket or a taped splice is out of service: 29 CFR 1926.416 says worn or frayed cords are not to be used. Tag it and swap it.",
+        "jso-missing-rail": "A missing section of guardrail on a deck edge six feet or more up is the fall hazard 29 CFR 1926.501 is written for. It gets reported and fixed before anyone works near it.",
+        "jso-open-hole": "An opening with no cover, or a cover that is not secured and marked, is a fall hazard and a trip hazard at once. Report it; do not walk around it and hope."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walking the site with your mentor, find the uncovered opening, the gap in the guardrail and the damaged cord.",
+      "targets": [
+        "jso-open-hole",
+        "jso-missing-rail",
+        "jso-damaged-cord"
+      ],
+      "title": "Find the three hazards on the way in",
+      "why": "A first-period apprentice is often the only person on site seeing it with fresh eyes, and the hazards that hurt people are usually the ordinary ones everyone has walked past: an opening without a cover, a guardrail section taken down and not replaced, a cord with a taped splice. The OSHA standards for falls and electrical cords name them; the skill is seeing them and saying so the first time."
+    },
+    {
+      "cue": "Commit when the base sits about a quarter of the working length out from the deck — the four-to-one angle.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.58
+        ],
+        "label": "LADDER ANGLE",
+        "missNote": "That angle will not hold. Too flat and the base kicks out; too steep and it tips backward when you lean. The base goes out about a quarter of the working length.",
+        "speed": 0.6
+      },
+      "id": "ladder-angle",
+      "kind": "gauge",
+      "prompt": "Commit when the base sits about a quarter of the working length out from the deck — the four-to-one angle.",
+      "target": "jso-ladder-gauge",
+      "title": "Set the ladder at the right angle",
+      "why": "A straight or extension ladder is set with its base about a quarter of its working length out from the top support — the four-to-one angle in the ladder rules of 29 CFR 1926 — and its rails running about three feet past the landing so there is something to hold on the step off. Most ladder falls start with the setup, not the climb, which is why the angle is checked before anyone steps on."
+    },
+    {
+      "cue": "Hold the harness by the back D-ring and shoulder it, buckle the chest strap, then the leg straps, snug.",
+      "id": "harness-on",
+      "itemNames": {
+        "jso-h-chest": "buckle the chest strap",
+        "jso-h-dring": "hold it by the back D-ring and shoulder it",
+        "jso-h-legs": "buckle and snug the leg straps"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Pick the harness up by the back D-ring so it hangs right, put the shoulder straps on, then the chest strap, then the leg straps, snug.",
+      "prompt": "Hold the harness by the back D-ring and shoulder it, buckle the chest strap, then the leg straps, snug.",
+      "targets": [
+        "jso-h-dring",
+        "jso-h-chest",
+        "jso-h-legs"
+      ],
+      "title": "Put the harness on in order",
+      "why": "A personal fall arrest system only works if the harness is on right: the D-ring between the shoulder blades, the chest strap across the chest, the leg straps snug. Picking it up by the D-ring first makes it hang the right way; buckling in order stops the twisted strap that a fall would find. 29 CFR 1926.502 sets the requirements for the system; putting it on properly is where it starts."
+    },
+    {
+      "cue": "Carry the lanyard's snap hook to the rated anchor point on the deck post — at or above your D-ring.",
+      "drag": {
+        "missNote": "Not on the rated anchor. A rail, a pipe or a piece of formwork is not an anchor — clip to the one marked for it.",
+        "radius": 0.4,
+        "to": "jso-anchor-point"
+      },
+      "id": "tie-off",
+      "kind": "drag",
+      "prompt": "Carry the lanyard's snap hook to the rated anchor point on the deck post — at or above your D-ring.",
+      "target": "jso-lanyard-hook",
+      "title": "Clip the lanyard to the anchor before stepping onto the deck",
+      "why": "Fall protection from six feet up, under 29 CFR 1926.501, means being tied off before you are exposed, not after you reach the work. The anchor has to be one rated for it, and rigging it at or above the D-ring keeps any fall short, which is what 29 CFR 1926.502 is after. Clipping on at the top of the ladder, before the first step onto the deck, is the habit that matters."
+    },
+    {
+      "cue": "Join the crew at the toolbox-talk board for today's topic and the day's plan.",
+      "id": "toolbox-talk",
+      "kind": "select",
+      "prompt": "Join the crew at the toolbox-talk board for today's topic and the day's plan.",
+      "target": "jso-toolbox-talk",
+      "title": "Stand in for the morning toolbox talk",
+      "why": "The toolbox talk is where the crew hears the day's plan, the one hazard that matters most today and who is doing what. For a first-period apprentice it is also where you learn names and who to ask. Standing in and listening — and asking the question you are not sure about — is part of the orientation that never stops, and it is where a journey-level worker notices who is paying attention."
+    },
+    {
+      "cue": "Open the water valve on the saw so the blade is wet before it touches the block.",
+      "id": "wet-cut",
+      "kind": "turn",
+      "prompt": "Open the water valve on the saw so the blade is wet before it touches the block.",
+      "target": "jso-water-valve",
+      "title": "Turn the saw's water on before the cut",
+      "turn": {
+        "axis": "y",
+        "label": "WATER FEED",
+        "turns": 0.5
+      },
+      "why": "Cutting concrete or masonry releases respirable crystalline silica, and 29 CFR 1926.1153 sets out wet cutting — water delivered to the blade — as one of the controls for saws like this one. The water goes on before the blade touches the block, not partway through, because the first seconds of a dry cut put dust straight into the air. NIOSH has documented silicosis in construction workers for decades; the water protects the whole crew, not just whoever holds the saw."
+    },
+    {
+      "cue": "Keep a steady pace inside the marked walkway — not a rush past the equipment, not a stop in the lane.",
+      "holdBreakNote": "You dropped out of the walkway. The marked route is where the equipment operators expect people to be — stay in it at a steady pace.",
+      "id": "walk-the-route",
+      "kind": "track",
+      "prompt": "Keep a steady pace inside the marked walkway — not a rush past the equipment, not a stop in the lane.",
+      "seconds": 7,
+      "target": "jso-walkway",
+      "title": "Walk the pedestrian route behind your mentor",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "PACE",
+        "rise": 0.5,
+        "start": 0.16
+      },
+      "why": "A site's pedestrian route is marked to keep people out of the swing and travel paths of equipment, and walking it steadily behind your mentor is how a new apprentice learns the site without walking into a machine's blind spot. Rushing means eyes off the equipment; stopping in the lane leaves you where a backing truck does not expect you. The orientation board showed the route; this is where it gets walked."
+    },
+    {
+      "cue": "Before the first task, locate the three things you would need in an emergency.",
+      "id": "emergency-kit",
+      "itemNames": {
+        "jso-extinguisher": "the fire extinguisher",
+        "jso-first-aid": "the first-aid kit",
+        "jso-muster-sign": "the muster point"
+      },
+      "itemNotes": {
+        "jso-extinguisher": "The fire extinguisher by the trailer — and how far it is from where hot work happens today.",
+        "jso-first-aid": "The first-aid kit, and who on site is trained to use it. In an emergency nobody has time to look for either.",
+        "jso-muster-sign": "The muster point is where everyone goes when the alarm sounds, so the headcount can happen. Know it before you need it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before the first task, locate the three things you would need in an emergency.",
+      "targets": [
+        "jso-muster-sign",
+        "jso-first-aid",
+        "jso-extinguisher"
+      ],
+      "title": "Find the muster point, the first-aid kit and the extinguisher",
+      "why": "An emergency is the worst time to learn where anything is. The muster point is where the headcount happens, the first-aid kit is where a cut gets treated, and the extinguisher is what stops a small fire becoming a large one. Knowing all three before the first task is part of the orientation the employer owes you under 29 CFR 1926.21, and part of what you owe the crew."
+    },
+    {
+      "cue": "Before the first task, tell your mentor what you found and ask what they want from you today — and say how you are doing.",
+      "id": "mentor-checkin",
+      "kind": "select",
+      "prompt": "Before the first task, tell your mentor what you found and ask what they want from you today — and say how you are doing.",
+      "target": "jso-mentor",
+      "title": "Check in with your journey-level mentor",
+      "why": "An apprentice works under a journey-level worker, as the apprenticeship standard requires, and the check-in is how that works in practice: what you found, what you are not sure about, what the first task is. First days are overwhelming, and a mentor who hears 'I have never done this' before the task can teach it; one who finds out halfway through has to fix it. If more than nerves is going on, SAMHSA's National Helpline is free and confidential."
+    },
+    {
+      "cue": "Read the sign-off sheet — what was covered — and sign it only for what actually happened.",
+      "id": "signoff",
+      "kind": "select",
+      "prompt": "Read the sign-off sheet — what was covered — and sign it only for what actually happened.",
+      "target": "jso-signoff-sheet",
+      "title": "Read and sign the orientation sign-off",
+      "why": "The sign-off is the site's record that you were oriented, and it lists what that covered. Reading it before signing is how you notice a line that was not covered — and signing only for what happened is what makes the record worth anything. It is also the one piece of paper that shows, later, that the employer met its duty under 29 CFR 1926.21 for you."
+    }
+  ],
+  "supportLine": "your journey-level mentor or your steward if the first days are rough, 988 if it has turned into a crisis, or SAMHSA's National Helpline (1-800-662-4357, free and confidential) if drinking or using is part of how you are getting through the week",
+  "tagline": "The first morning on site: the OSHA 10 card shown and understood, the site orientation the employer owes you, hazards found, a ladder set, a harness on and tied off, water on the saw — while a foreman tries to skip it all",
+  "title": "SmartCiti.X~ Jobsite Orientation & OSHA 10 VR",
+  "trade": "First-period construction apprentice — the first day on site",
+  "underwater": null,
+  "weather": "clear"
+}

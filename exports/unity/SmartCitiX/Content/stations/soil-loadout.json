@@ -1,0 +1,383 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-load",
+    "name": "Clean Load",
+    "note": "Zones set from the wind, dust read clean before the first bucket, the load lined, tarped and manifested, and the alarm answered the instant it sounded"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "IUOE Local 3 operating engineers on the excavator; LIUNA hazmat laborers under OSHA HAZWOPER 40-hour (29 CFR 1910.120) directing the load from the ground; Teamsters drivers with DOT hazmat endorsements hauling it; EPA RCRA hazardous-waste manifest (40 CFR 262); the site's Air Monitoring Plan",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.120",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      },
+      {
+        "body": "RCRA",
+        "citedAs": "RCRA",
+        "id": "rcra-40-cfr-262",
+        "title": "40 CFR Part 262 — Standards applicable to generators of hazardous waste, including the manifest"
+      },
+      {
+        "body": "union",
+        "citedAs": "Teamsters",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "wind-set",
+        "name": "Wind Set",
+        "note": "Exclusion zone and corridor taped from the wind reading, first time, in order"
+      },
+      {
+        "id": "never-through-alarm",
+        "name": "Never Through The Alarm",
+        "note": "Never kept loading through a dust alarm or waved a load through unchecked"
+      },
+      {
+        "id": "swing-true",
+        "name": "Swing True",
+        "note": "Held the bucket's swing inside the safe corridor the whole load"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the loadout"
+      },
+      {
+        "id": "unbroken-signal",
+        "name": "Unbroken Signal",
+        "note": "Never broke the swing-path signal"
+      },
+      {
+        "id": "gate-early",
+        "name": "Gate Early",
+        "note": "Load through the gate inside 80% of par"
+      }
+    ],
+    "currency": "MANIFEST",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Guide",
+      "Loadout Hand",
+      "Manifest Lead",
+      "Zone Authority",
+      "Load Control Certified"
+    ],
+    "system": "Load Control"
+  },
+  "hazards": {
+    "load-through-alarm": "You hit continue on the dust monitor while it was alarming, to keep the bucket moving. The monitor is the fence line's only real-time protection from this dig — silencing it while the plume is over the action level just means the people on the other side of that fence are the ones absorbing the difference.",
+    "manifest-skip": "You let the truck roll for the gate meaning to sign the manifest after. Once that truck is on a public road, the load is being hauled with nothing proving what's in it or where it's legally supposed to go — signing it 'later' is signing it never, from the seat of a truck that's already gone.",
+    "operator-blind-signal": "You stepped into the excavator's blind quadrant to give hand signals from what felt like a better angle. The whole reason signals come from a fixed, agreed position is that the operator knows exactly where to look for them — stand somewhere the cab can't see and the operator is swinging a loaded bucket on faith.",
+    "uncovered-haul": "You waved the truck through the gate before the tarp was checked. An untarped load moving at road speed is a dust source with no fence line and no monitor watching it at all — everything the exclusion zone and the corridor were built to contain is now blowing off the back of a moving truck."
+  },
+  "id": "soil-loadout",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "direct-load",
+      "alert": "The downwind perimeter monitor just alarmed above the action level — the wind has swung and the bucket is still cutting into the face.",
+      "cue": "Signal the operator to stop the bucket now, before anything else in the Air Monitoring Plan matters.",
+      "delay": 4,
+      "id": "dust-alarm",
+      "kind": "Dust alarm",
+      "missNote": "The bucket kept cutting for another two loads while the monitor sat above the action level, and the plume that crossed the fence line during those minutes is not something wetting the face afterward gets back.",
+      "seconds": 14,
+      "target": "excavator-stop",
+      "why": "Stop is the first word in the plan's own response for a reason — every second the bucket keeps cutting after an alarm adds more dust to a plume that is already over the line, and nothing else in the response does any good while the source is still running.",
+      "wrongNote": "Not that — the excavator has to stop first. Everything else in the plan's response waits on the bucket actually being still."
+    },
+    {
+      "after": "decon",
+      "alert": "The driver's cab door shuts and the brake lights go dark — he's about to pull through the gate with the manifest still blank on the clipboard.",
+      "cue": "Get the manifest signed before that truck reaches the gate.",
+      "delay": 3,
+      "id": "early-departure",
+      "kind": "Early departure",
+      "missNote": "The truck cleared the gate with the manifest still blank, and the driver was three miles down the road hauling a load with no paper trail before anyone at the cell noticed it never got signed.",
+      "seconds": 12,
+      "target": "manifest-clipboard",
+      "why": "A truck through the gate with an unsigned manifest is a load nobody can trace if it's stopped for inspection down the road — under RCRA the generator is responsible for that paperwork the moment the load leaves the scale, not whenever it's convenient to fill out.",
+      "wrongNote": "Not that — get to the clipboard and the manifest signed before the truck actually reaches the gate."
+    }
+  ],
+  "lateNotes": {
+    "manifest-clipboard": "Nothing to sign until the load is tarped and ready to leave the cell — a manifest filled out before the load exists is guessing at a weight and a description nobody has actually checked.",
+    "water-cannon": "The valve opens the line, but the face doesn't get held wet on this step until the excavator is actually about to make the first cut — running it earlier just spends tank water on ground nobody's digging yet."
+  },
+  "name": "Soil Loadout",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "air-quality-monitoring",
+    "hunters-point-bay-restoration"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "cannon-valve",
+      "crc-perimeter",
+      "decon-wash",
+      "dust-monitor",
+      "excavator-stop",
+      "ez-perimeter",
+      "hand-signals",
+      "hard-hat",
+      "hi-vis-vest",
+      "liner-roll",
+      "load-through-alarm",
+      "manifest-clipboard",
+      "manifest-skip",
+      "operator-blind-signal",
+      "scale-readout",
+      "tarp-gap",
+      "tarp-roll",
+      "truck-bed-socket",
+      "truck-load-socket",
+      "uncovered-haul",
+      "water-cannon",
+      "wind-vane"
+    ],
+    "meshes": 243
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Hi-vis vest and hard hat before you're anywhere near the swing radius.",
+      "id": "ppe",
+      "itemNames": {
+        "hard-hat": "hard hat",
+        "hi-vis-vest": "hi-vis vest"
+      },
+      "kind": "sequence",
+      "prompt": "Hi-vis vest and hard hat before you're anywhere near the swing radius.",
+      "targets": [
+        "hi-vis-vest",
+        "hard-hat"
+      ],
+      "title": "Suit up before the cell",
+      "why": "The operator's whole read on where the ground crew is standing depends on actually being able to see them against the dirt and the truck — vest and hardhat are what make a person visible from a cab twelve feet up, not a formality before the interesting part starts."
+    },
+    {
+      "cue": "Check the vane and the anemometer before anything gets marked out.",
+      "id": "wind-check",
+      "kind": "select",
+      "prompt": "Check the vane and the anemometer before anything gets marked out.",
+      "target": "wind-vane",
+      "title": "Read the wind",
+      "why": "Everything that follows — where the exclusion zone sits, where the contamination-reduction corridor sits, which way the dust off the first bucket is going to travel — is set from this reading, not from where the cell happens to sit relative to the road."
+    },
+    {
+      "cue": "Tape the exclusion zone around the cell first, downwind of the reading, then the contamination-reduction corridor between it and clean ground.",
+      "id": "zones",
+      "itemNames": {
+        "crc-perimeter": "contamination-reduction corridor tape",
+        "ez-perimeter": "exclusion zone tape"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "The corridor is the transition out of the exclusion zone — taping it before the zone it's supposed to lead out of exists is a corridor to nowhere.",
+      "prompt": "Tape the exclusion zone around the cell first, downwind of the reading, then the contamination-reduction corridor between it and clean ground.",
+      "targets": [
+        "ez-perimeter",
+        "crc-perimeter"
+      ],
+      "title": "Set the zones from the wind",
+      "why": "The exclusion zone is the hot side and has to exist before anyone works inside it; the corridor is the one-way transition a person or a load passes through to get clean, and it only makes sense once the boundary it's transitioning out of is already taped."
+    },
+    {
+      "cue": "Check both perimeter monitors and commit only inside the pre-work baseline band, before the first bucket.",
+      "gauge": {
+        "green": [
+          0.38,
+          0.55
+        ],
+        "label": "PM10 BASELINE",
+        "missNote": "That is not a settled baseline — read the monitors again before the excavator ever cuts into the cell.",
+        "speed": 0.6
+      },
+      "id": "dust-baseline",
+      "kind": "gauge",
+      "prompt": "Check both perimeter monitors and commit only inside the pre-work baseline band, before the first bucket.",
+      "target": "dust-monitor",
+      "title": "Read the perimeter dust monitors",
+      "why": "This is the number the whole shift gets measured against. An excavator that starts cutting before the baseline is read has no way to prove an alarm later was the dig and not just wherever the monitors always happened to sit."
+    },
+    {
+      "cue": "Carry the liner to the truck and lay it into the bed before the first bucket loads.",
+      "drag": {
+        "missNote": "Not seated in the bed — a liner bunched at one corner leaves bare steel the load sits directly on.",
+        "radius": 0.4,
+        "to": "truck-bed-socket"
+      },
+      "id": "liner",
+      "kind": "drag",
+      "prompt": "Carry the liner to the truck and lay it into the bed before the first bucket loads.",
+      "target": "liner-roll",
+      "title": "Line the bed",
+      "why": "The liner is what keeps this load's own leachate off the truck frame and off the road between here and the disposal facility — a bucket that goes into an unlined bed can't be undone by lining it after the fact."
+    },
+    {
+      "cue": "Turn the valve on the water truck's cannon before the bucket cuts into the face.",
+      "id": "cannon-valve",
+      "kind": "turn",
+      "prompt": "Turn the valve on the water truck's cannon before the bucket cuts into the face.",
+      "target": "cannon-valve",
+      "title": "Open the water cannon",
+      "turn": {
+        "axis": "y",
+        "label": "CANNON",
+        "turns": 0.6
+      },
+      "why": "The face has to already be wetting down when the first cut happens, not after dust is already airborne and moving toward the fence line — opening the valve is the step that comes first, not the one that follows a cloud."
+    },
+    {
+      "cue": "Hold the cannon on the face until it's visibly damped down, not just sprayed.",
+      "holdBreakNote": "Released the cannon before the face was actually damped — a half-second spray just moves dust around, it doesn't hold it down.",
+      "id": "wet-face",
+      "kind": "hold",
+      "prompt": "Hold the cannon on the face until it's visibly damped down, not just sprayed.",
+      "seconds": 5,
+      "target": "water-cannon",
+      "title": "Wet the work face",
+      "why": "A quick pass that wets the surface and nothing underneath dries out again in the time it takes the bucket to swing back — the face needs to actually be damped through before the excavator commits to the first cut."
+    },
+    {
+      "cue": "Signal the operator continuously, keeping the bucket's swing inside the safe corridor clear of the ground crew.",
+      "holdBreakNote": "The swing path drifted out of the safe corridor — bring the signal back on line before the bucket swings again.",
+      "id": "direct-load",
+      "kind": "track",
+      "prompt": "Signal the operator continuously, keeping the bucket's swing inside the safe corridor clear of the ground crew.",
+      "seconds": 9,
+      "target": "hand-signals",
+      "title": "Direct the load",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "SWING PATH",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "The operator's cab has blind spots the ground crew doesn't, which is the entire reason a laborer directs this load instead of the operator eyeballing it alone — continuous signals are what keeps the bucket's swing where the crew actually is, not where the operator assumes they are."
+    },
+    {
+      "cue": "Pull the tarp over the full bed and secure every corner before the truck moves.",
+      "drag": {
+        "missNote": "Not pulled over the load — a tarp bunched at one end leaves the rest of the bed open to the wind the second the truck moves.",
+        "radius": 0.42,
+        "to": "truck-load-socket"
+      },
+      "id": "tarp",
+      "kind": "drag",
+      "prompt": "Pull the tarp over the full bed and secure every corner before the truck moves.",
+      "target": "tarp-roll",
+      "title": "Tarp the load",
+      "why": "A loaded bed is a dust source the moment the truck starts moving — the tarp is what keeps this load from becoming its own uncontrolled release the instant it leaves the cell, on a road with no perimeter monitors watching it at all."
+    },
+    {
+      "cue": "Fill out and sign the hazardous-waste manifest for this load before the truck reaches the gate.",
+      "id": "manifest",
+      "kind": "select",
+      "prompt": "Fill out and sign the hazardous-waste manifest for this load before the truck reaches the gate.",
+      "target": "manifest-clipboard",
+      "title": "Complete the manifest",
+      "why": "Under RCRA, this load doesn't exist as a legal shipment until the manifest says what's in it, where it came from and where it's going — a truck that leaves without one is just dirt in a bed as far as anyone downstream can prove."
+    },
+    {
+      "cue": "Hold the wheel wash running until the undercarriage and tires run clear.",
+      "holdBreakNote": "Cut the wash short — the wheels were still running dirty when it stopped. Hold it until they actually run clear.",
+      "id": "decon",
+      "kind": "hold",
+      "prompt": "Hold the wheel wash running until the undercarriage and tires run clear.",
+      "seconds": 5,
+      "target": "decon-wash",
+      "title": "Run the truck through decon",
+      "why": "Tracked soil off this cell is exactly what a decon pad exists to stop before it reaches a public road — cutting the wash short means the truck carries the cell out through its tires no matter how well the load itself was tarped."
+    },
+    {
+      "cue": "Confirm the load weight against the manifest and the legal haul limit before the gate opens.",
+      "id": "weigh",
+      "kind": "select",
+      "prompt": "Confirm the load weight against the manifest and the legal haul limit before the gate opens.",
+      "target": "scale-readout",
+      "title": "Weigh the load",
+      "why": "A manifest with the wrong weight on it and a truck that's actually over the legal haul limit are two different problems that both start at the scale — reading it here is what catches either one before the truck is out on a public road."
+    },
+    {
+      "cue": "Walk the full truck and click the one thing that's still wrong before it goes through the gate.",
+      "id": "walk-check",
+      "itemNames": {
+        "tarp-gap": "loose tarp corner"
+      },
+      "itemNotes": {
+        "tarp-gap": "That corner of the tarp isn't cinched down — at road speed it's going to work loose, and the load underneath it is exactly what the tarp was supposed to keep off the highway."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the full truck and click the one thing that's still wrong before it goes through the gate.",
+      "targets": [
+        "tarp-gap"
+      ],
+      "title": "Walk the load before the gate",
+      "why": "The tarp step and this walk are different skills — pulling a tarp over a load is not the same as noticing, from the ground, that one corner never actually cinched down. This is the last look before the manifest's promises are out on a public road."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Excavation and haul-out from a remediation cell: zones set from the wind, dust read clean before the first bucket, a lined and tarped load under a hazardous-waste manifest, and the perimeter alarm that stops everything",
+  "title": "SmartCiti.X~ Soil Loadout VR",
+  "trade": "Excavation & haul-out crew — IUOE operator, LIUNA hazmat laborer directing, Teamsters driver",
+  "underwater": null,
+  "weather": "wind"
+}

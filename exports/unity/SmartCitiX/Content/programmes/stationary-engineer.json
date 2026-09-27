@@ -1,0 +1,124 @@
+{
+  "accent": "#6fc9e8",
+  "anchors": [
+    {
+      "id": "downtown-central-plant",
+      "name": "Downtown Central Plant",
+      "position": [
+        5,
+        -57
+      ],
+      "stations": [
+        "boiler-room",
+        "chiller-plant",
+        "cooling-tower"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "downtown"
+    },
+    {
+      "id": "south-treatment-plant",
+      "name": "South Treatment Plant",
+      "position": [
+        715,
+        585
+      ],
+      "stations": [
+        "ut-water-treatment-chemical-delivery-unloading",
+        "chlorine-room",
+        "lift-station",
+        "cs-permit-entry-and-attendant-duties"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "south-shoreline"
+    }
+  ],
+  "certification": "State stationary engineer licence, ASME boiler practice, ASHRAE 188 water management and NFPA 25 fire-pump testing",
+  "competency": {
+    "id": "stationary-engineer",
+    "kind": "programme",
+    "require": 4,
+    "standards": [
+      "asme-bpvc",
+      "ashrae-188",
+      "nfpa-25"
+    ],
+    "stations": [
+      "boiler-room",
+      "chiller-plant",
+      "cooling-tower",
+      "fire-pump",
+      "elevator-pit",
+      "se-steam-trap-survey-and-condensate-return",
+      "se-building-automation-alarm-triage"
+    ],
+    "title": "Operate and prove a building's boiler, chiller and fire-protection plant"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "iuoe-training",
+    "ua-apprenticeship",
+    "nfpa-85",
+    "nfpa-25",
+    "ashrae-15",
+    "ashrae-188",
+    "epa-section-608",
+    "asme-a17-1",
+    "osha-1910-147",
+    "osha-1910-146"
+  ],
+  "id": "stationary-engineer",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1530,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 120
+  },
+  "name": "Stationary Engineer — Building Plant",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "boiler-room",
+      "why": "Start-up and purge: the sequence that stops a furnace explosion."
+    },
+    {
+      "app": "smartcity",
+      "id": "chiller-plant",
+      "why": "Refrigerant, isolation and the machine that is the building's whole cooling capacity."
+    },
+    {
+      "app": "smartcity",
+      "id": "cooling-tower",
+      "why": "The Legionella task: the tower is the one plant that can make the neighbourhood sick."
+    },
+    {
+      "app": "smartcity",
+      "id": "fire-pump",
+      "why": "The annual flow test, where the curve either matches the nameplate or the building has no fire protection."
+    },
+    {
+      "app": "smartcity",
+      "id": "elevator-pit",
+      "why": "The pit: a confined space with a moving car above it, entered by the person who maintains it."
+    },
+    {
+      "app": "smartcity",
+      "id": "se-steam-trap-survey-and-condensate-return",
+      "why": "The annual survey down the steam main, where a blow-through is read from the trap itself and the swap is made only once the line is actually locked out."
+    },
+    {
+      "app": "smartcity",
+      "id": "se-building-automation-alarm-triage",
+      "why": "The queue at shift start, where the panel's own arc-flash label and a lockout come before a breaker reset, and a buried freeze-stat alarm never gets scrolled past."
+    }
+  ],
+  "summary": "The four plants a building engineer is responsible for at two in the morning, and the tests that prove each one will work when it is needed.",
+  "union": "IUOE — International Union of Operating Engineers, stationary locals"
+}

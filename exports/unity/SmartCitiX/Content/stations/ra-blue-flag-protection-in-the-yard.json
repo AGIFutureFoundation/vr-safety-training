@@ -1,0 +1,369 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "flag-is-yours",
+    "name": "Flag Is Yours",
+    "note": "Every flag placed and removed by the hand that put it up, and never assumed clear on someone else's say-so"
+  },
+  "category": "Mobility & Transit",
+  "certification": "Blue signal protection of workers under FRA 49 CFR Part 218 Subpart B, on equipment shared with another mechanical department crew, backed by a locked derail under BMWED practice and respected by every hostler, a BLET-qualified engineer and a SMART-TD-qualified conductor alike before touching a control that could move it",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "BLET",
+        "id": "blet-training",
+        "title": "BLET certification and training for locomotive engineers and trainmen"
+      },
+      {
+        "body": "union",
+        "citedAs": "BMWED",
+        "id": "bmwed-training",
+        "title": "BMWED roadway worker training for track and structures maintenance"
+      },
+      {
+        "body": "union",
+        "citedAs": "SMART-TD",
+        "id": "smarttd-training",
+        "title": "SMART Transportation Division training for conductors, trainmen and yardmasters"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Rail",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "never-borrowed",
+        "name": "Never Borrowed",
+        "note": "Never once relied on somebody else's flag instead of your own"
+      },
+      {
+        "id": "reading-true",
+        "name": "Reading True",
+        "note": "Every gauge reading near band centre"
+      },
+      {
+        "id": "flags-clean",
+        "name": "Clean Flags",
+        "note": "Placement and radio steps worked with no correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "yard-time",
+        "name": "Yard Time",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "first-flag",
+        "name": "First Flag",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "ten-clear",
+        "name": "Ten Clear",
+        "note": "Ten correct actions in a row"
+      }
+    ],
+    "currency": "FLAG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Mechanical Helper",
+      "Qualified Car Inspector",
+      "Lead Inspector",
+      "Car Foreman",
+      "Blue Flag Certified"
+    ],
+    "system": "Blue Flag Authority"
+  },
+  "hazards": {
+    "assumed-clear": "You reached for the control stand without checking the flag board first. Equipment sitting quiet in a yard track looks exactly the same whether it is protected or not, and the only way to tell the difference is checking, never assuming, before a hand goes anywhere near a control that could move it.",
+    "between-cars-no-flag": "You went between the cars before your own flag was up. Somebody else's flag on this equipment protects them, not you, and going in on the strength of a protection that was never yours is exactly the gap a second flag exists to close.",
+    "moved-flagged-equipment": "You put a hand on the throttle with blue flags displayed at both ends of this equipment. A blue flag is not a request — for as long as it is up, this equipment is not coupled to and is not moved by anybody, whatever the yard's own schedule says should be happening next.",
+    "removed-someone-elses-flag": "You reached for a flag that is not yours. A blue signal is personal — displayed and removed by the one worker it protects — and taking somebody else's flag down removes protection for a person who has no way of knowing you just did it."
+  },
+  "id": "ra-blue-flag-protection-in-the-yard",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "task-focus",
+      "alert": "A hostler is walking up to the control stand, reaching for the throttle without a glance at the flag board.",
+      "cue": "That is somebody about to move equipment you are still working under.",
+      "delay": 4,
+      "id": "hostler-approaches",
+      "kind": "A hostler walks toward the controls",
+      "missNote": "You kept working and said nothing. The hostler had no reason to expect anyone was still under this equipment, because from the ground, quiet equipment with no flag actually checked looks exactly like equipment nobody is on.",
+      "seconds": 11,
+      "target": "stop-whistle",
+      "why": "A hostler who has not checked the flag board has no way of knowing this equipment is protected, and a shout from underneath a car does not carry the way a whistle does — the whistle is built to be heard over yard noise from exactly this distance, and it is the fastest way to stop a hand before it reaches the throttle rather than after.",
+      "wrongNote": "That will not reach somebody walking up to the controls. The whistle is built to carry over yard noise from exactly this distance."
+    },
+    {
+      "after": "notify-flagged",
+      "alert": "You hear the compressor cut in and air building in the consist while you are still on the radio telling the hostler the flags are up.",
+      "cue": "That sound means somebody is already preparing to move this equipment.",
+      "delay": 4,
+      "id": "hostler-moves-anyway",
+      "kind": "Air building in the consist mid-call",
+      "missNote": "You kept talking while the air kept building. The call was supposed to prevent this, and once it clearly hadn't, finishing the sentence did nothing that reaching for the emergency stop would not have done faster.",
+      "seconds": 12,
+      "target": "emergency-stop",
+      "why": "A call in progress does not stop a hand that is already moving toward a control, and the emergency stop is the one thing in reach that removes the ability to move this equipment regardless of what is or isn't understood on the other end of that radio call — it is reached for the instant the equipment itself starts answering, not after the conversation finishes.",
+      "wrongNote": "That does not remove this equipment's ability to move. The emergency stop is the control built for exactly this moment."
+    }
+  ],
+  "lateNotes": {
+    "forgotten-flag-tag": "A tag left behind after the flag itself is stowed reads like protection that is still up.",
+    "left-tool": "Nothing gets logged clear until the walk is actually done."
+  },
+  "name": "Blue Flag Protection in the Yard",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "railroad-crafts"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "assumed-clear",
+      "between-cars-no-flag",
+      "closing-log",
+      "derail-lever",
+      "emergency-stop",
+      "flag-board",
+      "forgotten-flag-tag",
+      "inspection-gauge",
+      "inspection-tool",
+      "job-order-board",
+      "left-tool",
+      "moved-flagged-equipment",
+      "other-crew-flag",
+      "own-flag-far",
+      "own-flag-near",
+      "parts-crate",
+      "radio-handset",
+      "removed-someone-elses-flag",
+      "second-worker-flag",
+      "stop-whistle",
+      "watch-dial",
+      "work-site"
+    ],
+    "meshes": 157
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check which equipment, and note that the mechanical department already has a crew on this cut.",
+      "id": "briefing",
+      "kind": "select",
+      "prompt": "Check which equipment, and note that the mechanical department already has a crew on this cut.",
+      "target": "job-order-board",
+      "title": "Read the job order",
+      "why": "Two crews sharing one cut of equipment is routine, but it changes what 'clear' means for each of them — this equipment is not clear the moment your own work is done, it is clear once every crew's own flags are down."
+    },
+    {
+      "cue": "Check the flag board and the equipment itself for any flag already displayed.",
+      "id": "check-board",
+      "kind": "select",
+      "prompt": "Check the flag board and the equipment itself for any flag already displayed.",
+      "target": "flag-board",
+      "title": "Check the flag board",
+      "why": "A flag board is only as good as somebody actually reading it before assuming anything — equipment with no flag showing from where you are standing might still have one up at the far end that you have not walked to yet."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Place your own flag at every point this equipment could be moved from.",
+      "id": "place-flags",
+      "itemNames": {
+        "own-flag-far": "display your flag — far end",
+        "own-flag-near": "display your flag — near end"
+      },
+      "kind": "sequence",
+      "prompt": "Place your own flag at every point this equipment could be moved from.",
+      "targets": [
+        "own-flag-near",
+        "own-flag-far"
+      ],
+      "title": "Display your own blue flag at both ends",
+      "why": "A blue flag protects the point it is displayed at, not the whole piece of equipment by implication — a control stand with no flag of yours in sight is a control stand somebody else has every reason to believe is clear to use."
+    },
+    {
+      "cue": "Turn the derail lever over and lock it in the derailing position.",
+      "id": "lock-derail",
+      "kind": "turn",
+      "prompt": "Turn the derail lever over and lock it in the derailing position.",
+      "target": "derail-lever",
+      "title": "Apply and lock the derail",
+      "turn": {
+        "axis": "z",
+        "label": "DERAIL",
+        "turns": 0.25
+      },
+      "why": "A derail backs up the flags with something that stops equipment mechanically rather than by agreement — if a movement ever did come toward this track despite every flag in place, the derail is what actually keeps it off the equipment your crew is standing under."
+    },
+    {
+      "cue": "Check the mechanical department crew's own flag is actually displayed, rather than assuming it.",
+      "id": "verify-other-crew",
+      "kind": "select",
+      "prompt": "Check the mechanical department crew's own flag is actually displayed, rather than assuming it.",
+      "target": "other-crew-flag",
+      "title": "Confirm the other crew's flag",
+      "why": "Confirming a second crew's flag is not about trusting them less — it is that your safety depends on a fact about the physical world, and the only way to know that fact is to look at it yourself rather than take someone's word that they already did."
+    },
+    {
+      "cue": "Call the yardmaster and hold the radio for the acknowledgement before starting work.",
+      "holdBreakNote": "You let go before the acknowledgement came back. The yardmaster's record does not change until they have said so in your own hearing.",
+      "id": "notify-flagged",
+      "kind": "hold",
+      "prompt": "Call the yardmaster and hold the radio for the acknowledgement before starting work.",
+      "seconds": 5,
+      "target": "radio-handset",
+      "title": "Notify the yardmaster the equipment is flagged",
+      "why": "The yardmaster's own record of this equipment being flagged is what keeps a hostler from being sent to move it in the first place — that record does not change until you have said so and had it read back, and until it does, every other crew in this yard is working from an assumption instead of a fact."
+    },
+    {
+      "cue": "Carry the tool from the cart to the work site now that the equipment is fully flagged.",
+      "drag": {
+        "missNote": "Not at the work site — carry the tool the rest of the way to the car.",
+        "radius": 0.3,
+        "to": "work-site"
+      },
+      "id": "carry-tool",
+      "kind": "drag",
+      "prompt": "Carry the tool from the cart to the work site now that the equipment is fully flagged.",
+      "target": "inspection-tool",
+      "title": "Carry the inspection tool to the car",
+      "why": "The tool goes to the car only once every flag this job needs is actually up — carrying it in earlier changes nothing about the protection and only puts a hand near the equipment sooner than the flags were ready for it."
+    },
+    {
+      "cue": "Set the gauge against the component and commit the reading.",
+      "gauge": {
+        "green": [
+          0,
+          0.24
+        ],
+        "label": "COMPONENT WEAR",
+        "missNote": "Outside tolerance. Log the defect before moving on.",
+        "speed": 0.68
+      },
+      "id": "inspection-reading",
+      "kind": "gauge",
+      "prompt": "Set the gauge against the component and commit the reading.",
+      "target": "inspection-gauge",
+      "title": "Take the inspection reading",
+      "why": "This is the work the flags exist to protect — a reading taken with a hand actually inside equipment that cannot be moved by anyone else while that hand is there, which is the whole reason every earlier step existed before this one was allowed to happen."
+    },
+    {
+      "cue": "Hold your attention in the green band while you finish the inspection.",
+      "holdBreakNote": "Attention dropped out of band during the inspection. A hand reaching for the controls with nobody watching for it is exactly the gap the flags cannot close on their own.",
+      "id": "task-focus",
+      "kind": "track",
+      "prompt": "Hold your attention in the green band while you finish the inspection.",
+      "seconds": 6,
+      "target": "watch-dial",
+      "title": "Keep half an eye on the control stand",
+      "why": "Flags protect the equipment from being moved on purpose by somebody who checked them — they do nothing about somebody who never looked, and a crew that also keeps half an eye on the control stand catches that gap before it becomes a problem instead of after."
+    },
+    {
+      "cue": "Confirm the new arrival displays their own flag before they go anywhere near the equipment.",
+      "id": "second-worker",
+      "kind": "select",
+      "prompt": "Confirm the new arrival displays their own flag before they go anywhere near the equipment.",
+      "target": "second-worker-flag",
+      "title": "A second worker joins and flags in",
+      "why": "Every worker under this equipment needs their own flag, full stop — a second pair of hands borrowing the protection already in place is a second person this equipment's actual protection does not know exists, and removing the first flag later would strand that second worker with nothing."
+    },
+    {
+      "cue": "Answer the hostler's call and hold the radio while you confirm the flags are still displayed.",
+      "holdBreakNote": "You let go of the call before confirming the flags were still up. An unfinished answer leaves the hostler exactly as uncertain as the call was supposed to fix.",
+      "id": "deny-move",
+      "kind": "hold",
+      "prompt": "Answer the hostler's call and hold the radio while you confirm the flags are still displayed.",
+      "seconds": 5,
+      "target": "radio-handset",
+      "title": "Tell the hostler the flags are still up",
+      "why": "A hostler asking to move this equipment is a hostler who has not yet checked the flag board themselves, and the call is where that gap gets closed — with the actual state of the flags, not with an assumption about how close your crew must be to finishing."
+    },
+    {
+      "cue": "Take down your own flag at the far end now that your work there is finished.",
+      "id": "remove-far",
+      "kind": "select",
+      "prompt": "Take down your own flag at the far end now that your work there is finished.",
+      "target": "own-flag-far",
+      "title": "Remove your far flag",
+      "why": "Your flag comes down by your own hand, and only once your own work at that point is actually done — removing it because the job feels close to finished is removing protection based on a feeling, not a fact, and a feeling is not what the other crew's safety is supposed to rest on."
+    },
+    {
+      "cue": "Take down your own flag at the near end now that all of your work is finished.",
+      "id": "remove-near",
+      "kind": "select",
+      "prompt": "Take down your own flag at the near end now that all of your work is finished.",
+      "target": "own-flag-near",
+      "title": "Remove your near flag",
+      "why": "This equipment is not clear the moment your own flags are down — it is clear once every crew's flags are down, which is exactly why the other crew's flag gets checked again before anyone tells the yardmaster this is over."
+    },
+    {
+      "cue": "Scan the work platform and the flag points for anything left behind.",
+      "id": "walk",
+      "itemNames": {
+        "forgotten-flag-tag": "flag tag left hanging after the flag was stowed",
+        "left-tool": "tool left on the work platform"
+      },
+      "itemNotes": {
+        "forgotten-flag-tag": "A tag still hanging where the flag used to be reads like protection that is still up, to anyone who glances at it in passing.",
+        "left-tool": "A tool left behind is a tool the next crew has to go looking for."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Scan the work platform and the flag points for anything left behind.",
+      "targets": [
+        "left-tool",
+        "forgotten-flag-tag"
+      ],
+      "title": "Walk the site before you leave it",
+      "why": "A tag or a tool left where a flag used to be is a small thing that reads, to the next person walking past, like this equipment might still be protected — the walk is what makes sure nothing left behind says something that is no longer true."
+    },
+    {
+      "cue": "Call the yardmaster and hold for the read-back confirming every crew's flags are down.",
+      "holdBreakNote": "You let go before the read-back came back. The yardmaster's record does not change until they have said so in your own hearing.",
+      "id": "confirm-clear",
+      "kind": "hold",
+      "prompt": "Call the yardmaster and hold for the read-back confirming every crew's flags are down.",
+      "seconds": 4,
+      "target": "radio-handset",
+      "title": "Confirm the equipment is fully clear",
+      "why": "The yardmaster only releases this equipment to a hostler once every crew's flags are confirmed down, not just yours — the call is what turns two crews finishing their own work into one shared fact the yardmaster can actually act on."
+    }
+  ],
+  "supportLine": "your car foreman or your BMWED local if a close call under blue flag protection is still sitting with you after shift",
+  "tagline": "The flag board checked before anything is assumed clear, your own blue flag displayed at every point that could move this equipment, a second crew's flag confirmed rather than trusted, and every flag down only by the hand that put it up",
+  "title": "SmartCiti.X~ Blue Flag Protection in the Yard VR",
+  "trade": "Car inspector / mechanical department utility worker",
+  "underwater": null,
+  "weather": "clear"
+}

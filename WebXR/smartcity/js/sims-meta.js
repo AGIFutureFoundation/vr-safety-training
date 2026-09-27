@@ -25354,5 +25354,341 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "yc-pre-departure-safety-briefing-and-guest-count",
+    "index": "yc-1",
+    "domain": "Maritime & Ports",
+    "trade": "Charter yacht deckhand and steward, IBU and SIU trained, with an MEBA engineer aboard and the captain on the flybridge",
+    "category": "Maritime & Ports",
+    "certification": "IBU and SIU deck training for small passenger and charter vessel crew; MEBA engineering watch; USCG lifesaving equipment and passenger safety rules at 46 CFR 25 and 46 CFR 199 as the vessel's certificate applies them; 33 CFR 83 Inland Navigation Rules; OSHA 29 CFR 1910.132 personal protective equipment; IMO STCW basic safety training; marine VHF practice under 47 CFR 80",
+    "name": "Pre-Departure Safety Briefing & Guest Count",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Pre-Departure Safety Briefing & Guest Count VR",
+    "tagline": "Guests coming aboard for a charter: the standing orders read at the crew board, vest and radio on, the deck walked for the jammed locker and the open hatch, every head counted against the manifest through a late arrival at the gangway, the life jacket shown, the muster point and the no-go areas set, the hailer brought into band, the standing orders read back to the captain while a guest lights up at the fuel fill, the weather door dogged, the count logged and the crew checked in",
+    "accent": 2846622,
+    "accentCss": "#2b6f9e",
+    "parSeconds": 270,
+    "badge": {
+      "id": "every-head-counted",
+      "name": "Every Head Counted",
+      "note": "The manifest matched before a line was touched, the life jacket shown rather than pointed at, and both the late guest and the lit cigarette answered"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Charter Deck",
+      "currency": "KNOT",
+      "ranks": [
+        "Green Hand",
+        "Deckhand",
+        "Lead Deckhand",
+        "Mate",
+        "Charter Deck Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "yc-line-handling-and-docking-in-crosswind",
+    "index": "yc-2",
+    "domain": "Maritime & Ports",
+    "trade": "Charter yacht deckhand on the side deck, IBU and SIU trained, with the mate on the dock and the captain at the flybridge helm",
+    "category": "Maritime & Ports",
+    "certification": "IBU and SIU deck training in line handling and coming alongside; USCG 33 CFR 83 Inland Navigation Rules for the approach through the marina; 46 CFR 25 equipment for uninspected vessels as the vessel's certificate applies it; OSHA 29 CFR 1910.132 personal protective equipment for gloves and the work vest; IMO STCW basic safety training; MEBA engineering watch on the engines through the approach",
+    "name": "Line Handling & Docking In A Crosswind",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Line Handling & Docking In A Crosswind VR",
+    "tagline": "Coming alongside with the wind on the beam: the docking plan read, gloves and vest on, the lines walked for chafe and the fender hung low, the closing distance called to the captain through a gust that sets the bow off, the spring passed first and the stern line cleated with a hitch, the spring tended through a passing wake, the bow line sent forward, the tension sighted, engines confirmed stopped, the docking logged and the deck checked in",
+    "accent": 2846622,
+    "accentCss": "#2b6f9e",
+    "parSeconds": 280,
+    "badge": {
+      "id": "spring-first",
+      "name": "Spring First",
+      "note": "The spring line ashore before any other, hands outside every bight, no jump to the dock and no line stopped by hand"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Alongside",
+      "currency": "FATHOM",
+      "ranks": [
+        "Green Hand",
+        "Line Handler",
+        "Lead Deckhand",
+        "Mate",
+        "Alongside Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "yc-fuel-dock-transfer-and-spill-kit",
+    "index": "yc-3",
+    "domain": "Maritime & Ports",
+    "trade": "Charter yacht deckhand taking fuel at the marina fuel dock, IBU and SIU trained, with the MEBA engineer below at the tank gauges",
+    "category": "Maritime & Ports",
+    "certification": "IBU and SIU deck training; MEBA engineering watch on the tanks; USCG oil pollution prevention rules at 33 CFR 155, the declaration of inspection at 33 CFR 156.150 and the person in charge under 33 CFR 155.710 as the fuel dock's own transfer procedure mirrors them; 46 CFR 25 fire-fighting equipment for uninspected vessels; NFPA 306 control of gas hazards on vessels; IMO MARPOL; OSHA 29 CFR 1910.132 personal protective equipment",
+    "name": "Fuel Dock Transfer & Spill Kit",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Fuel Dock Transfer & Spill Kit VR",
+    "tagline": "Taking fuel port side to the dock: the fuel plan read, gloves and glasses on and the phones in the basket, the fill and vent walked for the cracked fitting and the worn nozzle, the declaration signed with the attendant, the boom staged and the collar fitted, the nozzle held through a slow start as the vent spits, the vent watched while a guest walks up with a phone, the rate read against the plan, the cap torqued, the spill kit proven and the transfer logged",
+    "accent": 2846622,
+    "accentCss": "#2b6f9e",
+    "parSeconds": 280,
+    "badge": {
+      "id": "not-a-drop",
+      "name": "Not A Drop",
+      "note": "Declaration before the pump, boom before the nozzle, no phone and no engine through the transfer, and both the vent spit and the guest answered"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Fuel Dock",
+      "currency": "KNOT",
+      "ranks": [
+        "Green Hand",
+        "Deckhand",
+        "Lead Deckhand",
+        "Transfer PIC",
+        "Fuel Dock Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "yc-engine-room-pre-start-and-bilge-check",
+    "index": "yc-4",
+    "domain": "Maritime & Ports",
+    "trade": "Charter yacht deckhand-engineer at the pre-start, under the MEBA licensed engineer's checklist, with the IBU and SIU deck crew above",
+    "category": "Maritime & Ports",
+    "certification": "MEBA engineering watch practice from the Calhoon MEBA Engineering School as a training body; IBU and SIU deck training; NFPA 306 control of gas hazards on vessels for the bilge vapour check and the blower run; OSHA 29 CFR 1910.95 occupational noise exposure and 29 CFR 1910.147 the control of hazardous energy for the open generator panel; 46 CFR 25 equipment for uninspected vessels; IMO STCW engineering watch basics",
+    "name": "Engine Room Pre-Start & Bilge Check",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Engine Room Pre-Start & Bilge Check VR",
+    "tagline": "The first start of the day: the checklist read, muffs and gloves on, the belts and hoses walked for the cracked belt and the loose clamp, the bilge sniffed for vapour through a detector alarm, the blower run for the plan's time, the float switch lifted to prove the pump, the strainer cleared, the oil read on the stick, the valves opened in order, the raw water watched after the start as the filter drips, the generator's open panel tagged out, the engine log written and the engineer checked in",
+    "accent": 2846622,
+    "accentCss": "#2b6f9e",
+    "parSeconds": 290,
+    "badge": {
+      "id": "blower-before-key",
+      "name": "Blower Before Key",
+      "note": "Vapour sniffed and the blower run before anything sparked, no hand near a belt, no rag on the manifold, and both the detector and the drip answered"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Below Decks",
+      "currency": "HOUR",
+      "ranks": [
+        "Wiper",
+        "Oiler",
+        "Deckhand-Engineer",
+        "Watch Engineer",
+        "Below Decks Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "yc-man-overboard-recovery-drill",
+    "index": "yc-5",
+    "domain": "Maritime & Ports",
+    "trade": "Charter yacht deckhand in the recovery drill, IBU and SIU trained, with the mate as spotter and the captain at the helm",
+    "category": "Maritime & Ports",
+    "certification": "IBU and SIU deck training in person-overboard recovery; USCG lifesaving rules at 46 CFR 199 and 46 CFR 25 as the vessel's certificate applies them; 33 CFR 83 Inland Navigation Rules for the manoeuvre in the channel; marine VHF distress and urgency practice under 47 CFR 80; IMO STCW personal survival techniques; MEBA engineering watch on the engines through the recovery",
+    "name": "Man Overboard Recovery Drill",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Man Overboard Recovery Drill VR",
+    "tagline": "A drill dummy off the quarter: the drill briefed, the spotter posted and never looking away, the ring thrown first, the button and the radio call in order, the bearing held through a swell that hides the casualty, the approach called from downwind while a guest heads for the swim platform, the propellers confirmed stopped, the sling snugged, the casualty brought up the platform, the ladder locked, every head counted again, the drill logged and the crew checked in",
+    "accent": 2846622,
+    "accentCss": "#2b6f9e",
+    "parSeconds": 280,
+    "badge": {
+      "id": "never-lost-sight",
+      "name": "Never Lost Sight",
+      "note": "Throwable first, the spotter's arm never dropped, propellers stopped before anyone touched the platform, and both the swell and the guest answered"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Recovery",
+      "currency": "KNOT",
+      "ranks": [
+        "Green Hand",
+        "Deckhand",
+        "Lead Deckhand",
+        "Recovery Lead",
+        "Recovery Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "yc-galley-fire-and-fixed-system",
+    "index": "yc-6",
+    "domain": "Maritime & Ports",
+    "trade": "Charter yacht steward-deckhand at the galley fire, IBU and SIU trained, with the MEBA engineer isolating fuel below and the captain mustering guests",
+    "category": "Maritime & Ports",
+    "certification": "IBU and SIU deck training in shipboard fire-fighting; MEBA engineering watch on the fuel isolation; USCG fire-fighting equipment rules at 46 CFR 25 as the vessel's certificate applies them; NFPA 306 control of gas hazards on vessels; OSHA 29 CFR 1910.157 portable fire extinguishers and 29 CFR 1910.132 personal protective equipment; IMO STCW fire prevention and fire fighting",
+    "name": "Galley Fire & Fixed System",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Galley Fire & Fixed System VR",
+    "tagline": "A pan fire on the range: the fire plan read, gloves on and the blanket checked, the galley walked for the loaded grease filter and the low extinguisher gauge, the fuel shut off first, the blanket held over the pan while a guest opens the galley door, the extinguisher swept at the base, the fixed system pulled, the alarm, the hailer and the headcount in order, the smoke watched as the pan reflashes, the hatch cracked to the plan, the engineer's fuel tag confirmed, the fire logged and the crew checked in",
+    "accent": 2846622,
+    "accentCss": "#2b6f9e",
+    "parSeconds": 280,
+    "badge": {
+      "id": "fuel-off-first",
+      "name": "Fuel Off First",
+      "note": "The fuel shut before anything else, no water near the grease, the hatch cracked and never thrown open, and both the door and the reflash answered"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Galley Watch",
+      "currency": "KNOT",
+      "ranks": [
+        "Green Hand",
+        "Steward",
+        "Lead Steward",
+        "Fire Party Lead",
+        "Galley Watch Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "yc-tender-launch-and-guest-transfer",
+    "index": "yc-7",
+    "domain": "Maritime & Ports",
+    "trade": "Charter yacht deckhand launching and driving the tender, IBU and SIU trained, with the mate on the davit and the captain on the flybridge",
+    "category": "Maritime & Ports",
+    "certification": "IBU and SIU deck training in small-boat handling and davit launching; USCG lifesaving and equipment rules at 46 CFR 25 and 46 CFR 199 as they apply to the tender and her parent vessel; 33 CFR 83 Inland Navigation Rules for the tender under way; OSHA 29 CFR 1910.132 personal protective equipment; IMO STCW personal survival techniques; MEBA engineering watch on the davit's hydraulics",
+    "name": "Tender Launch & Guest Transfer",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Tender Launch & Guest Transfer VR",
+    "tagline": "Guests ashore by tender: the plan read, jacket and kill-cord in hand, the tender walked for the missing drain plug and the cracked fuel line, the sling on the davit hook, the tender lowered steady as a wake swings it, the painter cleated, the outboard tilted and started on the cord, the load read against the plate, the guest steadied across with two hands free while another arrives with both hands full, the guests seated in order, the navigation light checked, the launch logged and the crew checked in",
+    "accent": 2846622,
+    "accentCss": "#2b6f9e",
+    "parSeconds": 280,
+    "badge": {
+      "id": "two-hands-free",
+      "name": "Two Hands Free",
+      "note": "Kill-cord on before the start, the plate never exceeded, every guest across with both hands free, and both the wake and the bags answered"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Tender Ops",
+      "currency": "KNOT",
+      "ranks": [
+        "Green Hand",
+        "Tender Crew",
+        "Tender Driver",
+        "Boat Officer",
+        "Tender Ops Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "yc-shore-power-connection-and-in-water-electrical-safety",
+    "index": "yc-8",
+    "domain": "Maritime & Ports",
+    "trade": "Charter yacht deckhand connecting shore power at the berth, IBU and SIU trained, with the MEBA engineer at the panel",
+    "category": "Maritime & Ports",
+    "certification": "IBU and SIU deck training; MEBA engineering practice from the Calhoon MEBA Engineering School as a training body for the vessel's electrical panel; NFPA 70E electrical safety in the workplace for the order of connection and the gloves; OSHA 29 CFR 1910.305 wiring methods for flexible cords and 29 CFR 1910.132 personal protective equipment; USCG 46 CFR 25 equipment for uninspected vessels; IMO STCW basic safety training",
+    "name": "Shore Power Connection & In-Water Electrical Safety",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Shore Power Connection & In-Water Electrical Safety VR",
+    "tagline": "Shore power at dusk: the plan read, gloves and tester in hand, the cord walked for the cut jacket and the scorched pin, the pedestal breaker off first, the boat end connected and locked before the dock end, the polarity indicator watched as a swimmer heads for the berth, the leakage read against the plan, the hull potential held while the engineer switches loads and a guest reports a tingle, the cord hung with a drip loop, the connection logged and the crew checked in",
+    "accent": 2846622,
+    "accentCss": "#2b6f9e",
+    "parSeconds": 270,
+    "badge": {
+      "id": "boat-end-first",
+      "name": "Boat End First",
+      "note": "Breaker off before the cord moved, boat end before dock end, the tingle treated as an emergency, and both the swimmer and the report answered"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Berth Power",
+      "currency": "KNOT",
+      "ranks": [
+        "Green Hand",
+        "Deckhand",
+        "Lead Deckhand",
+        "Shore Power Lead",
+        "Berth Power Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

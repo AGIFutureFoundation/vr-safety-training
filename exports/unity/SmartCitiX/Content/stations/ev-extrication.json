@@ -1,0 +1,406 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "ev-rescue",
+    "name": "EV Rescue",
+    "note": "An occupant freed from a battery-electric car with the high voltage down, the wait kept, nothing orange cut, and the pack still being watched when the patient left"
+  },
+  "category": "Emergency Services",
+  "certification": "IAFF / IAEP — vehicle rescue technician; NFPA 1006 technical rescue vehicle and machinery competencies; NFPA 1670 vehicle and machinery search and rescue; the vehicle manufacturer's Emergency Response Guide for the high-voltage shutdown, the crib points and the cut points",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IAEP",
+        "id": "iaff-training",
+        "title": "IAFF training programmes, including Fire Ground Survival and the peer support model"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 1006",
+        "id": "nfpa-1006",
+        "title": "NFPA 1006 — Technical Rescue Personnel Professional Qualifications"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 1670",
+        "id": "nfpa-1670",
+        "title": "NFPA 1670 — Operations and Training for Technical Search and Rescue Incidents"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Emergency response",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "shut-it-down",
+        "name": "Shut It Down",
+        "note": "High voltage isolated the way the guide said, first time"
+      },
+      {
+        "id": "nothing-orange",
+        "name": "Nothing Orange",
+        "note": "Nothing cut, crushed or leaned into that was not on the sheet"
+      },
+      {
+        "id": "read-the-pack",
+        "name": "Read The Pack",
+        "note": "Thermal read on the pack committed inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-extrication",
+        "name": "Clean Extrication",
+        "note": "No corrections anywhere in the job"
+      },
+      {
+        "id": "waited-it-out",
+        "name": "Waited It Out",
+        "note": "Every timed hold carried the full count, bleed-down included"
+      },
+      {
+        "id": "patient-out",
+        "name": "Patient Out",
+        "note": "Occupant freed inside 80% of par"
+      }
+    ],
+    "currency": "RESCUE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Firefighter",
+      "Vehicle Rescue Operations",
+      "Vehicle Rescue Technician",
+      "Extrication Officer",
+      "EV Rescue Certified"
+    ],
+    "system": "Rescue Group"
+  },
+  "hazards": {
+    "crush-pack": "You set the spreader tip on the floor pan. On this car the floor pan is the battery: the pack case runs the length of the cabin between the sills, and a spreader or a ram loaded onto it is a crush load applied straight to cells. Crushed cells are one of the ways a pack that survived the collision goes into runaway afterwards.",
+    "curtain-path": "You put your head through the door opening and in front of the curtain. Every undeployed airbag and every seat-belt pretensioner on this car holds its own charge and can still fire after both batteries are disconnected — that is exactly why the wait exists. Work outside the keep-out distance the guide gives, and never put a head, an arm or a tool in the path an inflator would take.",
+    "cut-orange": "You put the cutter on an orange cable. Orange is the colour the industry reserves for high-voltage conductors, and there is no situation in a vehicle rescue where cutting one is the answer — not to make room, not to isolate, not to prove it is dead. It is never cut and it is never crushed; the only cut points on this car are the ones on the manufacturer's sheet.",
+    "powder-extinguisher": "You reached for the dry-powder extinguisher with the pack off-gassing. A cell in thermal runaway is not simply burning fuel in air — it is decomposing, and it keeps making its own gas and its own heat whatever you smother the flame with. Powder knocks the visible fire down and changes nothing inside the case, which keeps heating and lights again. This is a water problem, in the volumes the manufacturer's guide publishes, for as long as it takes."
+  },
+  "id": "ev-extrication",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "bleed",
+      "alert": "While the clock has been running, somebody has pushed a step block in under the middle of the floor pan to stop the body rocking.",
+      "cue": "There is cribbing under the battery.",
+      "delay": 3,
+      "id": "crib-under-pack",
+      "kind": "Cribbing on the pack",
+      "missNote": "The block stayed where it was and the car settled onto it while you worked. Nothing happened on scene, which is the problem — the crush is done, and the pack goes onto the truck with a load path through it that nobody wrote down. It becomes somebody else's vehicle fire hours after the street was reopened.",
+      "seconds": 11,
+      "target": "crib-block",
+      "why": "The floor pan between the sills is the battery case. Cribbing belongs on the crib points the sheet marks, which are structure; a block taking the car's weight through the pack case is a crush load applied straight to cells, and it is one of the quiet ways a pack that survived the collision is made to fail later.",
+      "wrongNote": "It is the cribbing. Get it off the floor pan and onto the crib point the sheet marks."
+    },
+    {
+      "after": "cut",
+      "alert": "White vapour is pushing out from under the driver's side and there is a sound like popping coming from inside the floor.",
+      "cue": "The pack has started.",
+      "delay": 4,
+      "id": "runaway",
+      "kind": "Pack in runaway",
+      "missNote": "Nobody moved the line. The venting turned into fire under a car with a patient still being worked at the opening, the crew went to the extinguisher because it was nearer, and the pack kept heating behind it — so the same car lit twice more, once in the street and once on the back of the truck.",
+      "seconds": 12,
+      "target": "charged-line",
+      "why": "Off-gassing, popping and smoke from underneath are the pack going into runaway, and it starts whenever it starts — during the job, or hours later in the yard. It is not an extinguisher problem: the answer is water, in the volume the manufacturer's guide publishes, directed at the pack, and kept on it long after the flame has gone.",
+      "wrongNote": "It is the charged line. A venting pack is a water problem and it needs the line on it now, not the extinguisher."
+    }
+  ],
+  "lateNotes": {
+    "glass-tool": "Glass comes out after the patient is covered and the hard protection is in, not before — the person in that seat is downwind of every fragment.",
+    "hydraulic-cutter": "The cutter comes out last: after the shutdown, after the stored-energy wait, after the orange and the airbags are marked, and after the patient is protected.",
+    "service-disconnect": "The shutdown is done from the vehicle's own emergency response guide — the guide comes out of the apparatus before anybody touches the disconnect."
+  },
+  "name": "EV Extrication",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bleed-clock",
+      "charged-line",
+      "chock-seat",
+      "coolant-drip",
+      "crib-block",
+      "crib-seat",
+      "crush-pack",
+      "curtain-bag",
+      "curtain-path",
+      "cut-orange",
+      "glass-tool",
+      "hard-protection",
+      "hydraulic-cutter",
+      "key-fob",
+      "orange-run",
+      "park-brake",
+      "powder-extinguisher",
+      "power-off",
+      "pretensioner",
+      "protect-seat",
+      "rescue-sheet",
+      "service-disconnect",
+      "size-up-board",
+      "swollen-case",
+      "thermal-cam",
+      "twelve-volt",
+      "wheel-chock"
+    ],
+    "meshes": 244
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the board: one vehicle, one occupant trapped, battery electric, and a ready light with no engine noise behind it.",
+      "id": "size-up",
+      "kind": "select",
+      "prompt": "Read the board: one vehicle, one occupant trapped, battery electric, and a ready light with no engine noise behind it.",
+      "target": "size-up-board",
+      "title": "Size up the car before anybody touches it",
+      "why": "On this car silence proves nothing. A combustion vehicle tells you it is running; a battery-electric one sitting in ready mode makes no sound at all, and the only evidence it is live is a lamp on a dash you may not be able to see from where you are standing."
+    },
+    {
+      "cue": "Carry the chocks in and set them hard against the tyres before anything else is done to the car.",
+      "drag": {
+        "missNote": "Not against the tyre — a chock lying near a wheel stops nothing.",
+        "radius": 0.6,
+        "to": "chock-seat"
+      },
+      "id": "chock",
+      "kind": "drag",
+      "prompt": "Carry the chocks in and set them hard against the tyres before anything else is done to the car.",
+      "target": "wheel-chock",
+      "title": "Chock the wheels first",
+      "why": "A car in drive with nobody's foot on the brake creeps forward silently. Chocks come first because they are the part of the stabilisation that works whether or not the car is still powered, and whether or not anybody has yet worked out what kind of car it is."
+    },
+    {
+      "cue": "Park brake on, shut the vehicle down at its own switch, and carry the fob right away from the car.",
+      "id": "immobilise",
+      "itemNames": {
+        "key-fob": "fob carried well clear",
+        "park-brake": "park brake set",
+        "power-off": "vehicle shut down at its own switch"
+      },
+      "kind": "sequence",
+      "prompt": "Park brake on, shut the vehicle down at its own switch, and carry the fob right away from the car.",
+      "targets": [
+        "park-brake",
+        "power-off",
+        "key-fob"
+      ],
+      "title": "Take the car out of anybody's hands",
+      "why": "Shutting it down is not enough on a keyless car. Leave the fob in the footwell, or in a bystander's hand at the kerb, and the vehicle can be woken back to ready by somebody who has no idea they are doing it. The fob goes far enough away that proximity cannot reach it."
+    },
+    {
+      "cue": "Pull this vehicle's rescue sheet and read it before committing to anything: shutdown, wait, crib points, cut points.",
+      "id": "guide",
+      "kind": "select",
+      "prompt": "Pull this vehicle's rescue sheet and read it before committing to anything: shutdown, wait, crib points, cut points.",
+      "target": "rescue-sheet",
+      "title": "Get the manufacturer's emergency response guide out",
+      "why": "Every one of those four things is model-specific and none of them can be worked out by looking at the car. The guide is the difference between a procedure and a guess, and it is the reason nobody on this scene has to invent where the high voltage runs."
+    },
+    {
+      "cue": "Carry the step cribbing to the sill and build it up until the body cannot move on its springs.",
+      "drag": {
+        "missNote": "Not under the sill — and nowhere near the floor pan, which is the pack.",
+        "radius": 0.6,
+        "to": "crib-seat"
+      },
+      "id": "crib",
+      "kind": "drag",
+      "prompt": "Carry the step cribbing to the sill and build it up until the body cannot move on its springs.",
+      "target": "crib-block",
+      "title": "Crib it at the points the sheet marks",
+      "why": "Chocks stop it rolling; cribbing stops it rocking every time somebody leans on it or a tool loads it. On this car the crib points matter more than usual, because the floor between the sills is the battery case — a block under the middle of the car is a block under the pack."
+    },
+    {
+      "cue": "Go to the point the guide marks and carry out its shutdown — on this car, the service disconnect behind the near-side rear trim.",
+      "id": "shutdown",
+      "kind": "select",
+      "prompt": "Go to the point the guide marks and carry out its shutdown — on this car, the service disconnect behind the near-side rear trim.",
+      "target": "service-disconnect",
+      "title": "Disable the high-voltage system the way the guide says",
+      "why": "Manufacturers build a defined way to isolate the pack into every one of these vehicles and then publish where it is, because the alternative is crews improvising on a live traction system. What it is varies by model — a loop, a plug, a fuse, a handle — so you do what the sheet says, at the place the sheet marks, and you do not go looking for something to cut."
+    },
+    {
+      "cue": "Open the front compartment and back the negative terminal off the 12-volt battery.",
+      "id": "low-voltage",
+      "kind": "turn",
+      "prompt": "Open the front compartment and back the negative terminal off the 12-volt battery.",
+      "target": "twelve-volt",
+      "title": "Disconnect the low-voltage battery",
+      "turn": {
+        "axis": "z",
+        "label": "12V NEG",
+        "turns": 1.5
+      },
+      "why": "The low-voltage system is what lets the car wake up, close its contactors and fire its restraints. Taking the negative off stops it being restarted and starts the clock on the restraint system — it does not make the restraints safe, because they hold their own charge."
+    },
+    {
+      "cue": "Hold the crew off the car and run the clock for the stored-energy time on the manufacturer's sheet.",
+      "holdBreakNote": "The wait was cut short. A partial bleed-down is not a bleed-down — restart the clock and let it run.",
+      "id": "bleed",
+      "kind": "hold",
+      "prompt": "Hold the crew off the car and run the clock for the stored-energy time on the manufacturer's sheet.",
+      "seconds": 6,
+      "target": "bleed-clock",
+      "title": "Wait out the stored energy",
+      "why": "Opening the disconnect does not empty the system. Capacitors in the drive electronics stay charged and the restraint system keeps its own reserve, so both take time to bleed down. That time is published on the vehicle's sheet, it is real minutes rather than a formality, and the only way to spend it is to stand there and spend it."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Trace the orange, find the undeployed curtain in the roof rail and the pretensioner at the post, and mark the keep-outs for the whole crew.",
+      "id": "no-go",
+      "itemNames": {
+        "curtain-bag": "undeployed curtain airbag",
+        "orange-run": "the orange high-voltage run",
+        "pretensioner": "seat-belt pretensioner"
+      },
+      "itemNotes": {
+        "curtain-bag": "The curtain is folded into the roof rail for the whole length of the opening, and it has not fired. Mark the keep-out and nobody's head goes inside it.",
+        "orange-run": "Orange cable, running from the pack forward under the sill. Marked as no-go: never cut, never crushed by a spreader, never used as a handhold.",
+        "pretensioner": "The pretensioner sits at the foot of the B-post. It fires on stored charge, it fires hard, and a cutter working that post finds it before you do."
+      },
+      "kind": "sequence",
+      "prompt": "Trace the orange, find the undeployed curtain in the roof rail and the pretensioner at the post, and mark the keep-outs for the whole crew.",
+      "targets": [
+        "orange-run",
+        "curtain-bag",
+        "pretensioner"
+      ],
+      "title": "Mark everything that must not be cut or leaned into",
+      "why": "Two different families of thing hurt people on this job: conductors carrying traction voltage, and stored-charge devices waiting to fire. Marking them turns one person's knowledge into something the firefighter who arrives in five minutes can see without being told."
+    },
+    {
+      "cue": "Get a line charged and in somebody's hands, with a water supply behind it — not a booster tank on its own.",
+      "id": "water",
+      "kind": "select",
+      "prompt": "Get a line charged and in somebody's hands, with a water supply behind it — not a booster tank on its own.",
+      "target": "charged-line",
+      "title": "Charged line and a supply behind it, before the first cut",
+      "why": "If the pack lights during the extrication, the answer is water in volume and it has to be there already. The volumes manufacturers publish for a pack fire are far beyond what an apparatus tank holds, so the supply is established before the tools start rather than called for once smoke is showing."
+    },
+    {
+      "cue": "Carry the hard protection in, set it between the work area and the person in the seat, and cover them.",
+      "drag": {
+        "missNote": "Not between the patient and the work — protection anywhere else protects nobody.",
+        "radius": 0.6,
+        "to": "protect-seat"
+      },
+      "id": "protect",
+      "kind": "drag",
+      "prompt": "Carry the hard protection in, set it between the work area and the person in the seat, and cover them.",
+      "target": "hard-protection",
+      "title": "Hard protection between the tool and the patient",
+      "why": "Everything from here on throws glass, sprays hydraulic oil and moves sharp steel within arm's reach of somebody who cannot move out of the way. Soft cover stops the fragments; hard protection stops the tool."
+    },
+    {
+      "cue": "Work the glass tool and keep the stroke rate in the band — steady, not fast.",
+      "id": "glass",
+      "kind": "track",
+      "prompt": "Work the glass tool and keep the stroke rate in the band — steady, not fast.",
+      "seconds": 6,
+      "target": "glass-tool",
+      "title": "Take the glass out under control",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.42,
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "STROKE",
+        "rise": 0.52
+      },
+      "why": "Glass is removed deliberately rather than smashed, because a shattered side window over a covered cabin is a shower onto a patient who cannot turn their face away. Steady strokes keep the fragments in the cut and let the crew catch what comes away."
+    },
+    {
+      "cue": "Cutter onto the marked point on the post, and hold it closed until the section is right through.",
+      "holdBreakNote": "The cutter came off half way. A partly cut post is worse than an uncut one — close it again and take the section right through.",
+      "id": "cut",
+      "kind": "hold",
+      "prompt": "Cutter onto the marked point on the post, and hold it closed until the section is right through.",
+      "seconds": 6,
+      "target": "hydraulic-cutter",
+      "title": "Cut at the marked points and hold the cut through",
+      "why": "The marks came off the rescue sheet, which is what keeps the blades out of the orange run, the pretensioner and the inflator. Holding the cut through matters because a part-cut post sprung open is a stored load standing right beside the patient."
+    },
+    {
+      "cue": "Run the thermal camera along the pack case and commit on how far above ambient it reads.",
+      "gauge": {
+        "green": [
+          0.02,
+          0.14
+        ],
+        "label": "OVER AMBIENT",
+        "missNote": "The case is warmer than everything around it with no fire and no charging to explain it. That heat is coming from inside the cells — back everyone off and get water on it.",
+        "speed": 0.7
+      },
+      "id": "pack-watch",
+      "kind": "gauge",
+      "prompt": "Run the thermal camera along the pack case and commit on how far above ambient it reads.",
+      "target": "thermal-cam",
+      "title": "Read the pack before the car is handed on",
+      "why": "There is no temperature that makes a damaged pack safe, so this number is not a pass mark — what the camera gives you is a trend and a hot spot. A pack sitting at the temperature of everything around it is doing nothing; a warm one, with no fire and nothing charging to explain it, is making heat inside the case, and that is where runaway starts."
+    },
+    {
+      "cue": "The patient is out; the car is not finished. Walk it and click what the tow operator and the yard have to be warned about.",
+      "id": "walk",
+      "itemNames": {
+        "coolant-drip": "coolant running out from under the pack",
+        "swollen-case": "bulge in the pack case"
+      },
+      "itemNotes": {
+        "coolant-drip": "Coolant is running out from under the pack. The loop that keeps the modules at temperature is breached, so even a pack that looks intact has lost its only way of shedding heat, and it will sit in the yard with nothing carrying that heat away.",
+        "swollen-case": "The case is bulged outward at the near-side rear. Cells swell when they vent internally, so at least one module has already let go — this car is a re-ignition risk for as long as it exists, and the tow operator, the yard and the next crew all have to be told."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "The patient is out; the car is not finished. Walk it and click what the tow operator and the yard have to be warned about.",
+      "targets": [
+        "swollen-case",
+        "coolant-drip"
+      ],
+      "title": "Walk the car before it goes on the truck",
+      "why": "A damaged pack can go into runaway minutes or hours after the incident, and it re-ignites after it has been put out. The last thing this crew does is hand the car on with the damage described, because the people it burns next are the ones who were never on the scene."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Trapped occupant in a battery-electric car: chock and crib first, shut the high voltage down off the manufacturer's guide, wait out the stored energy, mark the orange and the undeployed airbags, protect the patient, cut only where the sheet says, and watch the pack",
+  "title": "SmartCiti.X~ EV Extrication VR",
+  "trade": "Firefighter — vehicle rescue technician",
+  "underwater": null,
+  "weather": "rain"
+}

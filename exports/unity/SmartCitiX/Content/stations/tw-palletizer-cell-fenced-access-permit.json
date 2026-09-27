@@ -1,0 +1,429 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "palletizer-cell-certified",
+    "name": "Palletizer Cell Certified",
+    "note": "Confirmed the curtain and interlock, isolated and locked the arm before entering, and proved zero energy before touching anything inside the fence"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "Teamsters warehouse and logistics automation training; ANSI R15.06 and ISO 10218 for industrial robots and robot systems, worked the way a site's own robot-cell risk assessment applies them; OSHA 29 CFR 1910.147 the control of hazardous energy and 29 CFR 1910.212 machine guarding; NIOSH findings on struck-by incidents during robot-cell entry",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI R15.06",
+        "id": "ansi-r15-06",
+        "title": "ANSI/RIA R15.06 — Industrial robots and robot systems: safety requirements"
+      },
+      {
+        "body": "ISO",
+        "citedAs": "ISO 10218",
+        "id": "iso-10218",
+        "title": "ISO 10218 — Robots and robotic devices: safety requirements for industrial robots"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "union",
+        "citedAs": "Teamsters",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Warehousing & Logistics",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "locked-before-entered",
+        "name": "Locked Before Entered",
+        "note": "Isolated and locked the arm before the gate ever opened"
+      },
+      {
+        "id": "never-trust-a-taped-curtain",
+        "name": "Never Trust a Taped Curtain",
+        "note": "Never missed a hazard on the cell read"
+      },
+      {
+        "id": "steady-proving-run",
+        "name": "Steady Proving Run",
+        "note": "Held the proving-cycle speed near band centre"
+      },
+      {
+        "id": "clean-release",
+        "name": "Clean Release",
+        "note": "Released the cell in order, first try"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-entry",
+        "name": "Quick Entry",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "permit-streak",
+        "name": "Permit Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "PERMIT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Fence Line",
+      "Cell Aware",
+      "Cell Access Handler",
+      "Cell Access Authority",
+      "Palletizer Cell Certified"
+    ],
+    "system": "Cell Access Control"
+  },
+  "hazards": {
+    "curtain-taped-hazard": "That light curtain sensor has tape over the lens. A curtain that cannot see anything crossing it is not stopping the arm for anything crossing it, no matter how many times someone has walked through since the tape went on without incident.",
+    "estop-covered-hazard": "That emergency stop is covered by a stacked case. An e-stop that takes three extra seconds to reach because a box has to move first is three seconds too many the one time somebody actually needs it.",
+    "gate-defeated-hazard": "That gate interlock has been defeated with a zip tie holding the switch depressed. A gate that reads closed whether or not it actually is stops confirming anything at all — it is a formality wearing the shape of a safety device.",
+    "skip-permit-hazard": "That is the shortcut lever that opens the gate without the permit-to-enter sequence. A cell entered once without a permit is a cell that gets entered the same way again, and the one time the arm was not actually where the last person assumed looks exactly the same from outside the fence."
+  },
+  "id": "tw-palletizer-cell-fenced-access-permit",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "zero-energy-check",
+      "alert": "The arm has visibly settled and drifted slightly even though the isolation is confirmed — stored energy bleeding off.",
+      "cue": "Do not enter yet. Report the drift to the controls technician and have the isolation re-verified.",
+      "delay": 4,
+      "id": "stored-energy-drift-fault",
+      "kind": "Stored-energy drift",
+      "missNote": "The drift was treated as normal and entry continued. Stored energy that moves the arm once will move it again, and the second time may be with a hand already inside its reach.",
+      "seconds": 12,
+      "target": "controls-tech-radio",
+      "why": "Isolating the arm's main power does not always empty an accumulator or relax a counterbalance spring instantly, and a drift after isolation is exactly that stored energy finding somewhere to go — reporting it before entering is what confirms the cell is actually at zero energy, not just switched off.",
+      "wrongNote": "Not that — a drift after isolation goes to the controls technician before anyone enters."
+    },
+    {
+      "after": "gate-open",
+      "alert": "The cell's automation has sent a restart signal while the gate is still open.",
+      "cue": "Hit the cell's local emergency stop immediately. Do not rely on the gate interlock alone to catch this.",
+      "delay": 3,
+      "id": "auto-restart-signal-fault",
+      "kind": "Automatic restart signal",
+      "missNote": "The restart signal was left unanswered. An interlock chain that let one restart signal through while the gate was open will let the next one through too.",
+      "seconds": 12,
+      "target": "cell-estop",
+      "why": "A restart signal that reaches the cell while the gate is open means the interlock chain has a gap somewhere upstream of the gate itself, and the local e-stop is the one control that does not depend on that chain being intact — hitting it is what stops the arm regardless of what sent the signal or why.",
+      "wrongNote": "Not that — a restart signal with the gate open goes straight to the cell's local e-stop."
+    }
+  ],
+  "lateNotes": {
+    "cell-gate": "The gate only opens once the permit sequence — curtain, interlock, isolation, lock — is actually complete, never as the first move at the fence.",
+    "cell-isolator": "The arm's power gets isolated and locked before the gate opens, not checked by watching the arm for a while first."
+  },
+  "name": "Palletizer Cell Fenced-Access Permit",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "warehouse-and-logistics-automation"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "roboticPalletizer",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "1.04x1.7x1.24",
+        "count": 2,
+        "kit": "unknown"
+      },
+      {
+        "builder": "3.05x1.9x0.07",
+        "count": 8,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "arm-parked-marker",
+      "cell-controller",
+      "cell-estop",
+      "cell-gate",
+      "cell-isolator",
+      "cell-lock",
+      "cell-lock-remove",
+      "cell-tag",
+      "cell-tag-remove",
+      "closing-log",
+      "controller-notify",
+      "controls-tech-radio",
+      "curtain-taped-hazard",
+      "estop-covered-hazard",
+      "gate-defeated-hazard",
+      "hearing-protection",
+      "hi-vis-vest",
+      "intact-fence-panel",
+      "jammed-pallet",
+      "permit-board",
+      "proving-cycle",
+      "reject-area",
+      "residual-motion-gauge",
+      "skip-permit-hazard"
+    ],
+    "meshes": 161
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Hi-vis vest and hearing protection before approaching the palletizer cell.",
+      "id": "ppe",
+      "itemNames": {
+        "hearing-protection": "hearing protection",
+        "hi-vis-vest": "hi-vis vest"
+      },
+      "kind": "sequence",
+      "prompt": "Hi-vis vest and hearing protection before approaching the palletizer cell.",
+      "targets": [
+        "hi-vis-vest",
+        "hearing-protection"
+      ],
+      "title": "Suit up before approaching the cell",
+      "why": "A palletizer cell runs pneumatics and servo drives loud enough to matter over a full shift, and hearing protection is what keeps today's five-minute entry from adding up with every other cell entry this associate makes this year into a loss nobody notices until it is already permanent."
+    },
+    {
+      "cue": "Confirm today's permit-to-enter before approaching the fence line.",
+      "id": "permit-read",
+      "kind": "select",
+      "prompt": "Confirm today's permit-to-enter before approaching the fence line.",
+      "target": "permit-board",
+      "title": "Read the permit-to-enter board",
+      "why": "The permit is what confirms this specific cell is actually scheduled and authorised for entry right now — approaching the fence because the arm happens to be idle is not the same thing as this cell being cleared for someone to be inside it."
+    },
+    {
+      "cue": "Look the cell over before approaching the gate. Three things are already wrong with it — find them.",
+      "decoyNotes": {
+        "intact-fence-panel": "That fence panel is intact and properly anchored. Nothing to flag there."
+      },
+      "id": "cell-hazard-read",
+      "itemNames": {
+        "curtain-taped-hazard": "light curtain lens taped over",
+        "estop-covered-hazard": "e-stop covered by a stacked case",
+        "gate-defeated-hazard": "gate interlock defeated with a zip tie"
+      },
+      "itemNotes": {
+        "curtain-taped-hazard": "The tape comes off the curtain before this fence is trusted to catch anything crossing it.",
+        "estop-covered-hazard": "The case comes off the e-stop before anyone works inside this fence.",
+        "gate-defeated-hazard": "The zip tie comes off the interlock before the gate means anything again."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look the cell over before approaching the gate. Three things are already wrong with it — find them.",
+      "targets": [
+        "curtain-taped-hazard",
+        "gate-defeated-hazard",
+        "estop-covered-hazard"
+      ],
+      "title": "Read the cell for what is already wrong with it",
+      "why": "A cell that looks routine from the fence line is not the same thing as one an associate has actually checked — a taped curtain, a defeated interlock or a covered e-stop each quietly removes a control the entry depends on, and finding them now costs a work order instead of costing someone the one time the arm was not actually done moving."
+    },
+    {
+      "cue": "Request entry at the cell controller before touching the gate.",
+      "id": "request-permit",
+      "kind": "select",
+      "prompt": "Request entry at the cell controller before touching the gate.",
+      "target": "cell-controller",
+      "title": "Request entry from the cell controller",
+      "why": "Requesting entry through the controller is what tells the automation a person is about to be inside the fence, so the system holds any queued cycle instead of treating the cell as simply idle between pallets and starting the next one the moment stock arrives."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Isolate the arm's power, apply your own lock, then apply the tag — in that order.",
+      "id": "cell-loto",
+      "itemNames": {
+        "cell-isolator": "cell power isolator",
+        "cell-lock": "personal lock",
+        "cell-tag": "danger tag"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Isolate, then lock, then tag — a lock with nothing isolated behind it protects nobody.",
+      "prompt": "Isolate the arm's power, apply your own lock, then apply the tag — in that order.",
+      "targets": [
+        "cell-isolator",
+        "cell-lock",
+        "cell-tag"
+      ],
+      "title": "Isolate and lock the cell",
+      "why": "The isolator alone can be re-energised by anyone who does not know a person is behind the fence; the lock is what makes that impossible without that associate's own key, and the tag is what tells the next person at the panel why the lock is there — skip any one of the three and the cell is entered on a promise, not a proof."
+    },
+    {
+      "cue": "Read the residual motion gauge and commit only once it shows fully at zero.",
+      "gauge": {
+        "green": [
+          0,
+          0.12
+        ],
+        "label": "RESIDUAL ENERGY",
+        "missNote": "Committed while residual energy was still present. The gate does not open until this reads fully at zero.",
+        "speed": 0.55
+      },
+      "id": "zero-energy-check",
+      "kind": "gauge",
+      "prompt": "Read the residual motion gauge and commit only once it shows fully at zero.",
+      "target": "residual-motion-gauge",
+      "title": "Confirm zero residual energy",
+      "why": "Isolating the main power does not always account for stored energy in an accumulator or a counterbalance, and the gauge is the only honest read of whether the arm is actually at zero — not how still it has looked for the last minute."
+    },
+    {
+      "cue": "Turn the gate latch now that the cell is isolated, locked and proven at zero energy.",
+      "id": "gate-open",
+      "kind": "turn",
+      "prompt": "Turn the gate latch now that the cell is isolated, locked and proven at zero energy.",
+      "target": "cell-gate",
+      "title": "Open the cell gate",
+      "turn": {
+        "axis": "y",
+        "label": "CELL GATE",
+        "turns": 0.4
+      },
+      "why": "Opening the gate only after every prior control is confirmed is what keeps this step from ever being the one where the cell turns out to still have something behind it that could move — a sequence run in order, not a gate opened on general confidence that the cell is probably fine by now."
+    },
+    {
+      "cue": "Confirm the arm is in its marked safe-park position before entering fully.",
+      "id": "arm-position-check",
+      "kind": "select",
+      "prompt": "Confirm the arm is in its marked safe-park position before entering fully.",
+      "target": "arm-parked-marker",
+      "title": "Confirm the arm is parked safely",
+      "why": "An arm parked outside its marked position may still be within reach of the entry path even while fully powered down — confirming its position now is what keeps the walk to the jam from ever passing closer to it than planned, isolated or not."
+    },
+    {
+      "cue": "Carry the jammed pallet clear of the cell to the marked reject area.",
+      "drag": {
+        "missNote": "Not clear of the cell — carry the pallet all the way to the marked reject area before letting go.",
+        "radius": 0.45,
+        "to": "reject-area"
+      },
+      "id": "clear-jam",
+      "kind": "drag",
+      "prompt": "Carry the jammed pallet clear of the cell to the marked reject area.",
+      "target": "jammed-pallet",
+      "title": "Clear the jam inside the cell",
+      "why": "Clearing the jam with the arm confirmed isolated, locked and parked is what makes this the routine maintenance task it should be, rather than a reach into a cell whose arm someone is trusting rather than proving, on the strength of how still it happened to look a minute ago."
+    },
+    {
+      "cue": "Turn the gate latch closed and confirm it seats before releasing the isolation.",
+      "id": "gate-close",
+      "kind": "turn",
+      "prompt": "Turn the gate latch closed and confirm it seats before releasing the isolation.",
+      "target": "cell-gate",
+      "title": "Close the cell gate",
+      "turn": {
+        "axis": "y",
+        "label": "CELL GATE",
+        "turns": 0.4
+      },
+      "why": "A gate that is not actually latched will not hold the interlock closed once the cell is back on power — confirming it now is what keeps the very next cycle from opening onto an unlatched fence with nobody around to notice until the arm is already moving."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Remove the tag, remove your lock, then notify the cell controller — in that order, before the arm is re-energised.",
+      "id": "cell-release",
+      "itemNames": {
+        "cell-lock-remove": "remove your lock",
+        "cell-tag-remove": "remove the tag",
+        "controller-notify": "notify the cell controller"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Tag off, then lock off, then the controller notified — notifying before both are physically off risks a restart onto a lock that has not actually been removed yet.",
+      "prompt": "Remove the tag, remove your lock, then notify the cell controller — in that order, before the arm is re-energised.",
+      "targets": [
+        "cell-tag-remove",
+        "cell-lock-remove",
+        "controller-notify"
+      ],
+      "title": "Release the cell",
+      "why": "Removing the tag and the lock in the order they went on, and notifying the controller only once both are actually off, is what keeps the cell from being re-energised while anyone still believes it is locked out — reversing this order is how a restart happens on an assumption instead of a confirmation."
+    },
+    {
+      "cue": "Run the arm's slow-speed proving cycle from outside the fence, keeping its swing speed inside the safe band.",
+      "holdBreakNote": "The proving-cycle speed left the safe band. Bring it back under control before trusting this cell at full speed.",
+      "id": "proving-run",
+      "kind": "track",
+      "prompt": "Run the arm's slow-speed proving cycle from outside the fence, keeping its swing speed inside the safe band.",
+      "seconds": 8,
+      "target": "proving-cycle",
+      "title": "Run the proving cycle",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.4,
+        "green": [
+          0.2,
+          0.55
+        ],
+        "label": "ARM SWING SPEED",
+        "rise": 0.35,
+        "start": 0.3
+      },
+      "why": "A proving cycle run at reduced speed, watched the whole way through, is what confirms the cell is actually back to normal before it goes back to full production speed — skipping straight to full speed on the assumption that the maintenance fixed everything is how a problem that was almost caught gets caught for real the hard way."
+    },
+    {
+      "cue": "Sign the cell entry log before releasing the cell back to production.",
+      "id": "closing-log",
+      "kind": "select",
+      "prompt": "Sign the cell entry log before releasing the cell back to production.",
+      "target": "closing-log",
+      "title": "Sign the cell entry log",
+      "why": "The signed log is the record that this specific entry, on this specific cell, actually followed the permit sequence — not assumed fine because the last entry usually goes this way, and not reconstructed from memory once the shift has already moved on to the next cell."
+    }
+  ],
+  "supportLine": "your Teamsters local's member assistance programme, or the site's employee assistance line if a close call entering a robot cell is what stayed with you",
+  "tagline": "Entering a robotic palletizer cell the way its own permit-to-enter sequence requires it: the light curtain and gate interlock confirmed honest, the arm's power isolated and locked, the residual motion proven at zero, and the release run in the order that keeps the cell from restarting on someone still inside it",
+  "title": "SmartCiti.X~ Palletizer Cell Fenced-Access Permit VR",
+  "trade": "Teamsters warehouse associate — palletizer cell entry",
+  "underwater": null,
+  "weather": null
+}

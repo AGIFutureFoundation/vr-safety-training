@@ -1,0 +1,405 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "pick-to-light-certified",
+    "name": "Pick-to-Light Ergonomics Certified",
+    "note": "Confirmed every pick against the display, used the lift-assist for the heavy case, held a sustainable pace, and took the rotation on schedule"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "Teamsters warehouse and logistics automation training; the Revised NIOSH Lifting Equation for manual material handling, worked the way the site's own ergonomics programme applies it; OSHA 29 CFR 1910.147 the control of hazardous energy for the tote lane's drive and 29 CFR 1910.212 machine guarding; ASME B20.1 safety standard for conveyors and related equipment for the tote lane itself",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME B20.1",
+        "id": "asme-b20-1",
+        "title": "ASME B20.1 — Safety standard for conveyors and related equipment"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "Revised NIOSH Lifting Equation",
+        "id": "niosh-lifting-equation",
+        "title": "Revised NIOSH Lifting Equation and its Applications Manual — recommended weight limit and lifting index for two-handed manual lifting"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "union",
+        "citedAs": "Teamsters",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Warehousing & Logistics",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "display-over-light",
+        "name": "Display Over Light",
+        "note": "Confirmed the display before every pick, first try"
+      },
+      {
+        "id": "lift-assist-every-time",
+        "name": "Lift-Assist Every Time",
+        "note": "Used the lift-assist table for the heavy case"
+      },
+      {
+        "id": "steady-pace",
+        "name": "Steady Pace",
+        "note": "Held the pick pace near band centre through the shift"
+      },
+      {
+        "id": "clean-module-read",
+        "name": "Clean Module Read",
+        "note": "Never missed a hazard on the module read"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-cycle",
+        "name": "Quick Cycle",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "pace-streak",
+        "name": "Pace Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "PACE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Picker",
+      "Pace Aware",
+      "Pick Module Handler",
+      "Pick Pace Authority",
+      "Pick-to-Light Ergonomics Certified"
+    ],
+    "system": "Pick Pace Discipline"
+  },
+  "hazards": {
+    "missing-tote-guard-hazard": "That tote-lane guard has been removed from over the drive roller. A guard missing from a moving lane is a pinch point sitting in reach of anyone loading a tote, whether or not it has caught anyone yet.",
+    "overhead-overweight-hazard": "That case is marked overweight and stacked above shoulder height. Reaching overhead for a case heavier than the rest is exactly the combination — height plus load — that turns an ordinary pick into the rep that actually hurts a shoulder.",
+    "skip-rotation-hazard": "That sign reads 'skip rotation, stay on pick' taped over the rotation schedule. Skipping the scheduled rotation to keep the count up trades a short-term pace gain for exactly the kind of repetitive strain the rotation schedule exists to prevent.",
+    "stuck-pick-light-hazard": "That pick light has stuck on, lit over a bin nobody actually queued a pick from. A light trusted on its own, without checking the display's quantity against it, sends a pick from the wrong bin exactly as confidently as it sends one from the right one."
+  },
+  "id": "tw-pick-to-light-ergonomics-and-rotation",
+  "indoor": "datahall",
+  "interrupts": [
+    {
+      "after": "pace-check",
+      "alert": "The system's demanded pick rate has spiked well above the sustainable pace.",
+      "cue": "Signal the shift lead rather than matching the system's demanded pace.",
+      "delay": 3,
+      "id": "pace-spike-fault",
+      "kind": "Pace demand spike",
+      "missNote": "The pace spike was matched instead of reported. A pace held past what is sustainable for one spike gets asked for again the next time the system sees it worked once.",
+      "seconds": 12,
+      "target": "lead-call",
+      "why": "A pace demand that spikes from the system is a scheduling problem, not a challenge to personally absorb — signalling the lead is what gets the demand corrected or the task shared, instead of one associate quietly working through a rate nobody actually planned for a whole shift.",
+      "wrongNote": "Not that — a pace demand spike goes to the shift lead before it gets matched."
+    },
+    {
+      "after": "carry-case-to-tote",
+      "alert": "An overloaded neighbouring bin has visibly shifted and is tipping forward slightly.",
+      "cue": "Stop and report the tipping shelf to the shift lead rather than pushing it back into place by hand.",
+      "delay": 4,
+      "id": "shelf-tip-fault",
+      "kind": "Shelf shift",
+      "missNote": "The tipping shelf was pushed back into place instead of reported. A shelf that tips once under an overload will tip again unless the overload is actually addressed.",
+      "seconds": 12,
+      "target": "shift-lead-call",
+      "why": "A shelf that has already started to tip is carrying more than it should, and pushing it back by hand risks having it come down while a hand is still on it — reporting it is what gets it unloaded and secured by someone who can see the whole bay, not guessed at from underneath it.",
+      "wrongNote": "Not that — a tipping shelf gets reported to the shift lead, not pushed back into place."
+    }
+  ],
+  "lateNotes": {
+    "lift-assist-crank": "The lift-assist table gets used for a heavy case before it is lifted, not reached for after a back has already bent to get it.",
+    "pick-display": "The display's quantity gets confirmed before every pick, not trusted to the light by itself."
+  },
+  "name": "Pick-to-Light Ergonomics & Rotation",
+  "parSeconds": 265,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "warehouse-and-logistics-automation"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "conveyorSection",
+        "count": 2,
+        "kit": "equipment"
+      },
+      {
+        "builder": "1.04x1.7x1.24",
+        "count": 1,
+        "kit": "unknown"
+      },
+      {
+        "builder": "1.6x2.44x0.51",
+        "count": 3,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "back-stretch-point",
+      "back-support-belt",
+      "closing-log",
+      "hi-vis-vest",
+      "intact-shelf-light",
+      "lead-call",
+      "lift-assist-crank",
+      "lit-bin",
+      "missing-tote-guard-hazard",
+      "next-station-marker",
+      "overhead-overweight-hazard",
+      "pace-gauge",
+      "pick-display",
+      "picked-case",
+      "rotation-board",
+      "shift-lead-call",
+      "shoulder-stretch-point",
+      "skip-rotation-hazard",
+      "stuck-pick-light-hazard",
+      "tote-advance-button",
+      "tote-lane",
+      "tote-socket"
+    ],
+    "meshes": 146
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Hi-vis vest and back-support belt before starting today's picks.",
+      "id": "ppe",
+      "itemNames": {
+        "back-support-belt": "back-support belt",
+        "hi-vis-vest": "hi-vis vest"
+      },
+      "kind": "sequence",
+      "prompt": "Hi-vis vest and back-support belt before starting today's picks.",
+      "targets": [
+        "hi-vis-vest",
+        "back-support-belt"
+      ],
+      "title": "Suit up before starting the module",
+      "why": "A back-support belt worn before the first pick, not partway through the shift once something already feels off, is what actually reinforces good lifting habits instead of arriving after the habit that needed reinforcing."
+    },
+    {
+      "cue": "Confirm today's job-rotation schedule before starting the module.",
+      "id": "schedule-read",
+      "kind": "select",
+      "prompt": "Confirm today's job-rotation schedule before starting the module.",
+      "target": "rotation-board",
+      "title": "Read the rotation schedule",
+      "why": "The rotation schedule is what keeps this module from being the only thing an associate's body does for an entire shift — reading it now is what makes the rotation something planned for, not something skipped when the pick count is going well."
+    },
+    {
+      "cue": "Look the module over before starting. Three things are already wrong with it — find them.",
+      "decoyNotes": {
+        "intact-shelf-light": "That shelf's pick light is lit correctly with a live display behind it. Nothing to flag there."
+      },
+      "id": "module-hazard-read",
+      "itemNames": {
+        "missing-tote-guard-hazard": "tote-lane guard removed",
+        "overhead-overweight-hazard": "overweight case stacked overhead",
+        "stuck-pick-light-hazard": "pick light stuck on the wrong bin"
+      },
+      "itemNotes": {
+        "missing-tote-guard-hazard": "A missing guard gets reported and the lane treated as off-limits until it is back on.",
+        "overhead-overweight-hazard": "An overweight case above shoulder height gets moved down by two people or a lift aid, not reached for solo.",
+        "stuck-pick-light-hazard": "A pick light stuck on gets reported before anyone trusts it over the display again."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look the module over before starting. Three things are already wrong with it — find them.",
+      "targets": [
+        "overhead-overweight-hazard",
+        "stuck-pick-light-hazard",
+        "missing-tote-guard-hazard"
+      ],
+      "title": "Read the module for what is already wrong with it",
+      "why": "A module that looks routine at the start of a shift is not the same thing as one an associate has actually checked — an overhead overweight case, a stuck light or a missing guard each quietly turns an ordinary pick into the one that goes wrong, and finding them now costs a report instead of costing someone a strain or a caught hand."
+    },
+    {
+      "cue": "Confirm the display's quantity before reaching for the lit bin.",
+      "id": "confirm-quantity",
+      "kind": "select",
+      "prompt": "Confirm the display's quantity before reaching for the lit bin.",
+      "target": "pick-display",
+      "title": "Confirm the pick quantity",
+      "why": "The display is what actually says how many to pick — the light only says which bin, and trusting the light alone is how a quantity gets picked wrong even when the bin was exactly right."
+    },
+    {
+      "cue": "Pick from the bin the light and the display both point to.",
+      "id": "pick-correct-bin",
+      "kind": "select",
+      "prompt": "Pick from the bin the light and the display both point to.",
+      "target": "lit-bin",
+      "title": "Pick from the lit bin",
+      "why": "Picking from the bin both signals agree on, rather than the one that is simply closest, is what keeps the warehouse management system's count accurate for whoever pulls from this module next."
+    },
+    {
+      "cue": "Turn the lift-assist crank to bring the heavy case down to waist height before lifting it.",
+      "id": "lift-assist-lower",
+      "kind": "turn",
+      "prompt": "Turn the lift-assist crank to bring the heavy case down to waist height before lifting it.",
+      "target": "lift-assist-crank",
+      "title": "Lower the lift-assist table",
+      "turn": {
+        "axis": "x",
+        "label": "LIFT-ASSIST CRANK",
+        "turns": 0.5
+      },
+      "why": "Bringing the case to waist height with the lift-assist, rather than reaching up or bending down to where it sits, is what keeps this lift inside the posture range a back can repeat all shift without accumulating the strain the awkward version of the same lift would."
+    },
+    {
+      "cue": "Hold the advance button until the tote reaches the pack station.",
+      "holdBreakNote": "Released the advance button before the tote reached the pack station. A tote stopped short is a reach nobody planned for the next person in line.",
+      "id": "advance-tote",
+      "kind": "hold",
+      "prompt": "Hold the advance button until the tote reaches the pack station.",
+      "seconds": 5,
+      "target": "tote-advance-button",
+      "title": "Advance the tote",
+      "why": "Holding the advance the whole way, rather than bumping it and walking away, is what keeps the tote from stopping short at a point on the lane it was never meant to sit — exactly where the next associate would have to reach further than planned to reach it."
+    },
+    {
+      "cue": "Read the pace gauge and commit only within the sustainable band.",
+      "gauge": {
+        "green": [
+          0.35,
+          0.65
+        ],
+        "label": "PICK PACE",
+        "missNote": "Committed outside the sustainable band. An unsustainable pace gets reported, not matched for the rest of the shift.",
+        "speed": 0.5
+      },
+      "id": "pace-check",
+      "kind": "gauge",
+      "prompt": "Read the pace gauge and commit only within the sustainable band.",
+      "target": "pace-gauge",
+      "title": "Confirm the pick pace",
+      "why": "The pace gauge is the only honest read of whether this rate is sustainable for a full shift — matching whatever the system asks for, rather than what the gauge shows as sustainable, is exactly how a pace that feels fine for an hour stops feeling fine by the end of a shift."
+    },
+    {
+      "cue": "Carry the picked case to the waiting tote.",
+      "drag": {
+        "missNote": "Not into the tote — carry the case all the way in rather than setting it down short and sliding it the rest of the way.",
+        "radius": 0.4,
+        "to": "tote-socket"
+      },
+      "id": "carry-case-to-tote",
+      "kind": "drag",
+      "prompt": "Carry the picked case to the waiting tote.",
+      "target": "picked-case",
+      "title": "Carry the case to the tote",
+      "why": "Carrying the case close to the body for the short distance to the tote, rather than swinging it out at arm's length, is what keeps even a light case from loading the lower back the way an extended reach would."
+    },
+    {
+      "cue": "Load the tote onto the lane while keeping the lane speed indicator inside the safe band.",
+      "holdBreakNote": "The lane speed left the safe band. Bring it back under control before loading the next tote.",
+      "id": "lane-speed-track",
+      "kind": "track",
+      "prompt": "Load the tote onto the lane while keeping the lane speed indicator inside the safe band.",
+      "seconds": 8,
+      "target": "tote-lane",
+      "title": "Load the tote lane",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.42,
+        "green": [
+          0.38,
+          0.62
+        ],
+        "label": "LANE SPEED",
+        "rise": 0.4,
+        "start": 0.5
+      },
+      "why": "Watching the lane speed while loading is what keeps a tote from being set down onto a lane running too fast to receive it gently — a tote dropped onto a fast lane is a tote that can bounce back into the hand that just set it down."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Run both stretches on the posted guide before the next cycle.",
+      "id": "stretch-break",
+      "itemNames": {
+        "back-stretch-point": "back stretch",
+        "shoulder-stretch-point": "shoulder stretch"
+      },
+      "kind": "sequence",
+      "prompt": "Run both stretches on the posted guide before the next cycle.",
+      "targets": [
+        "shoulder-stretch-point",
+        "back-stretch-point"
+      ],
+      "title": "Take the scheduled stretch break",
+      "why": "A stretch break taken on schedule, rather than skipped because the pick count is going well, is what the site's own ergonomics programme is actually counting on to offset a shift's worth of the same repeated motion."
+    },
+    {
+      "cue": "Move to the next task on the rotation schedule.",
+      "id": "rotate-next-station",
+      "kind": "select",
+      "prompt": "Move to the next task on the rotation schedule.",
+      "target": "next-station-marker",
+      "title": "Rotate to the next task",
+      "why": "Taking the rotation for real, rather than treating the schedule as a suggestion, is what actually varies the muscles and joints this shift asks something of — the whole point of a rotation is a body that is not doing the exact same motion for the exact same eight hours."
+    },
+    {
+      "cue": "Sign the rotation log before leaving the module.",
+      "id": "closing-log",
+      "kind": "select",
+      "prompt": "Sign the rotation log before leaving the module.",
+      "target": "closing-log",
+      "title": "Sign the rotation log",
+      "why": "The signed log is the record that this specific rotation was actually taken — not assumed fine because the schedule says it should have been."
+    }
+  ],
+  "supportLine": "your Teamsters local's member assistance programme, or the site's employee assistance line if repetitive strain from a pick module is what brought you here",
+  "tagline": "Working a pick-to-light module the way its own ergonomics sequence requires it: the pick confirmed against the display rather than trusted to the light alone, a heavy case brought to waist height with the lift-assist table, the pace held inside a sustainable band instead of chased, and the job rotation actually taken on schedule",
+  "title": "SmartCiti.X~ Pick-to-Light Ergonomics & Rotation VR",
+  "trade": "Teamsters warehouse associate — pick-to-light module",
+  "underwater": null,
+  "weather": null
+}

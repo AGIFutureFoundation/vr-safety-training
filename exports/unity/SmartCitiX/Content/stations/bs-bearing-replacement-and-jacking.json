@@ -1,0 +1,429 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "cribbed-and-locked",
+    "name": "Cribbed And Locked",
+    "note": "A girder that never hung on hydraulics alone: cribbing tight under it, the lock ring down, and the lift held to the plan"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "Ironworkers IMPACT bridge and structural maintenance training and the LIUNA Training and Education Fund flagger and work-zone curriculum; the engineer of record's jacking plan; OSHA 29 CFR 1926.305 jacks (rated capacity, firm footing, blocking) and 29 CFR 1926 Subpart R; the MUTCD temporary traffic control plan for the lane under the span; AASHTO bridge maintenance practice for bearing replacement",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "AASHTO",
+        "citedAs": "AASHTO",
+        "id": "aashto-bridge-inspection",
+        "title": "AASHTO Manual for Bridge Element Inspection and the LRFD Bridge Design Specifications"
+      },
+      {
+        "body": "union",
+        "citedAs": "IMPACT",
+        "id": "ironworkers-impact",
+        "title": "Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA Training",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "MUTCD",
+        "citedAs": "MUTCD",
+        "id": "mutcd",
+        "title": "Manual on Uniform Traffic Control Devices — temporary traffic control for work zones (Part 6)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.305",
+        "id": "osha-1926-305",
+        "title": "29 CFR 1926.305 — Jacks: lever and ratchet, screw and hydraulic, including blocking and firm footing"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "load-on-the-gauge",
+        "name": "Load On The Gauge",
+        "note": "The jack's load held inside the plan's band the whole lift"
+      },
+      {
+        "id": "seat-read",
+        "name": "Seat Read",
+        "note": "Every defect in the seat and the kit found first look"
+      },
+      {
+        "id": "never-on-hydraulics",
+        "name": "Never On Hydraulics",
+        "note": "No hand under the girder, no work beside a jack with no crib, no step into the live lane, no pumping past the plan"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-swap",
+        "name": "Clean Swap",
+        "note": "No corrections through the whole bearing swap"
+      },
+      {
+        "id": "lift-on-the-mark",
+        "name": "Lift On The Mark",
+        "note": "The lift committed inside the plan's band first time"
+      },
+      {
+        "id": "lane-back-early",
+        "name": "Lane Back Early",
+        "note": "Bearing logged inside 80% of par"
+      }
+    ],
+    "currency": "LIFT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Jack Hand",
+      "Bearing Setter",
+      "Jacking Lead",
+      "Bearing Crew Certified"
+    ],
+    "system": "Bearing Crew"
+  },
+  "hazards": {
+    "hand-under-girder": "You reached in between the girder and the pier cap to pull the bearing while the girder was held up by the jack alone. A hydraulic jack holds a load only as long as every seal and fitting in it holds, and a girder settling even a finger's width onto a hand is a crush injury. OSHA's jack rule asks for the load to be blocked or cribbed as it rises; nobody puts a body part where the girder would land.",
+    "jack-no-crib": "You went to work beside the west girder's jack, which has no cribbing under the girder beside it. A jack is a lifting device, not a support: if it bleeds down, the only thing that stops the girder is cribbing built up to it as it rose. A jacked girder with no crib beside it is a girder standing on a seal.",
+    "live-lane": "You stepped past the cones into the open traffic lane. The traffic control plan closes one lane under the span for the crew and leaves the other running at speed; drivers are watching the cones, not for a person stepping out between them. The work stays inside the channelised lane.",
+    "pump-past-limit": "You went to keep pumping the jack for a little more room. The jacking plan limits the lift because the girder, its diaphragms and the deck over it are continuous with the girders beside it: lift one too far and the deck slab and cross-frames take bending they were never designed for. The lift stops at the plan's figure, whatever the old bearing's grip."
+  },
+  "id": "bs-bearing-replacement-and-jacking",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "load-gauge",
+      "alert": "A truck's mirror has clipped the taper and flattened a cone, leaving a gap in the line that closes the lane under the span.",
+      "cue": "Stand the cone back up and close the gap in the taper.",
+      "delay": 2,
+      "id": "cone-struck",
+      "kind": "Taper cone knocked down",
+      "missNote": "The gap stayed open for the rest of the lift; a van followed the line of cones through it and braked to a stop inside the closed lane a few metres from the pier cap.",
+      "seconds": 12,
+      "target": "struck-cone",
+      "why": "A taper with a cone missing is an opening drivers read as a way through, straight toward the crew under the span. The laborer on the lane resets it immediately, from the closed side, and the pumping waits: a gap in the traffic control outranks the reading on the gauge.",
+      "wrongNote": "The struck cone — the taper has an opening in it now, and the lane under the span is not closed until it is back."
+    },
+    {
+      "after": "lock-ring",
+      "alert": "Oil is spraying from the jack's hose coupling and the load gauge is falling — the girder is settling toward whatever is under it.",
+      "cue": "Drive the crib shims tight so the girder settles onto the cribbing, not the failing jack.",
+      "delay": 2,
+      "id": "hose-weeping",
+      "kind": "Jack losing pressure",
+      "missNote": "The girder settled a finger's width onto the old bearing's edge as the jack bled down; the crib stack caught it, but only after the last shim fell out of the gap.",
+      "seconds": 12,
+      "target": "crib-shims",
+      "why": "This is the failure the cribbing was built for. Driven tight, the shims close the last gap between the stack and the flange, so the girder settles onto timber a millimetre down rather than onto the old bearing and the hands near it. The jack is isolated and swapped only once the girder is resting on the crib.",
+      "wrongNote": "The crib shims — the jack is failing, and the cribbing is the only thing that can take the girder now."
+    }
+  ],
+  "lateNotes": {
+    "load-gauge": "The load is taken on the gauge once the jack is on its point and the crib stack is built beside it — pumping before the crib is there is lifting on hydraulics alone.",
+    "old-bearing": "The old bearing comes out once the lift is read and the lock ring is down — not while the girder is held by oil pressure.",
+    "release-valve": "The girder is let down once the new bearing is centred on its seat and the crib stack has been lowered to follow it."
+  },
+  "name": "Bearing Replacement & Jacking",
+  "parSeconds": 310,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bridge-and-structural"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "pickup",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "sedan",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "hammer",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "radio",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "advance-sign",
+      "bearing-seat",
+      "crew-radio",
+      "crib-pile",
+      "crib-shims",
+      "dial-indicator",
+      "feeler-gauge",
+      "hand-under-girder",
+      "jack",
+      "jack-log",
+      "jack-no-crib",
+      "jack-point",
+      "jacking-plan",
+      "live-lane",
+      "load-gauge",
+      "lock-ring",
+      "new-bearing",
+      "old-bearing",
+      "pump-past-limit",
+      "release-valve",
+      "spalled-seat",
+      "split-crib",
+      "struck-cone",
+      "taper-cones",
+      "weeping-coupling",
+      "work-cones"
+    ],
+    "meshes": 224
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the plan: jack locations and capacity, the load per jack, the maximum lift, the cribbing, the sequence, and the traffic control under the span.",
+      "id": "jacking-plan",
+      "kind": "select",
+      "prompt": "Read the plan: jack locations and capacity, the load per jack, the maximum lift, the cribbing, the sequence, and the traffic control under the span.",
+      "target": "jacking-plan",
+      "title": "Read the engineer's jacking plan",
+      "why": "A girder in a bridge is not a free piece of steel: it is tied to its neighbours by cross-frames and to the deck slab over it, so lifting one end moves everything connected to it. The engineer's jacking plan sets where the jacks go, how much load each takes, how far the girder may be lifted and what cribbing follows it, so that the lift frees the bearing without cracking the deck or overstressing a diaphragm. It is read before a jack comes off the truck."
+    },
+    {
+      "cue": "Set the advance warning sign upstream, then the taper that closes the lane, then the cones along the work area under the span.",
+      "id": "traffic-control",
+      "itemNames": {
+        "advance-sign": "advance warning sign set upstream",
+        "taper-cones": "the taper closing the lane",
+        "work-cones": "cones along the work area under the span"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Advance warning first, then the taper, then the work-area cones — a taper with no warning ahead of it is a wall of cones drivers meet at speed.",
+      "prompt": "Set the advance warning sign upstream, then the taper that closes the lane, then the cones along the work area under the span.",
+      "targets": [
+        "advance-sign",
+        "taper-cones",
+        "work-cones"
+      ],
+      "title": "Close the lane under the span to the traffic control plan",
+      "why": "The MUTCD's temporary traffic control is built in the direction traffic arrives from: drivers need the warning before they meet the taper, and the taper before they meet the work. Laid out the other way round, the crew setting the last cones is standing in a live lane with nothing upstream to slow anybody down. The lane under the jacking stays closed for the whole lift, because anything dropped from the pier cap lands in it."
+    },
+    {
+      "cue": "Look over the pier cap at the jacking points, the jacks and hoses, and the cribbing before anything takes load.",
+      "id": "seat-find",
+      "itemNames": {
+        "spalled-seat": "spalled concrete at the edge of the jacking point",
+        "split-crib": "a split crib block in the cribbing pile",
+        "weeping-coupling": "oil weeping from the spare jack's hose coupling"
+      },
+      "itemNotes": {
+        "spalled-seat": "The pier cap's edge under the west girder's jacking point has spalled back to the reinforcing steel. A jack bearing on broken concrete can punch through it or kick sideways under load, which is why the plan names the jacking point and nobody moves it without the engineer.",
+        "split-crib": "One crib block has a split running most of its length. Cribbing works by carrying load across its grain; a split block can fail in the stack, and a stack is only as strong as its worst block.",
+        "weeping-coupling": "The spare jack's hose coupling is wet with oil. A weeping fitting is a fitting that will let go under pressure, and it is tagged out before anyone uses that jack as a back-up."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the pier cap at the jacking points, the jacks and hoses, and the cribbing before anything takes load.",
+      "targets": [
+        "spalled-seat",
+        "weeping-coupling",
+        "split-crib"
+      ],
+      "title": "Inspect the seat, the jacks and the cribbing",
+      "why": "Everything that will carry the girder for the next hour is looked at before it carries anything: the concrete the jack bears on, the hydraulics that lift it, and the timber that will hold it if the hydraulics do not. OSHA's jack rule requires a firm, level footing and a jack in sound condition, and each of these three defects is a way a girder comes down with nobody having done anything wrong on the day."
+    },
+    {
+      "cue": "Carry the jack to the point the plan marks under the centre girder's end, plumb, with its base fully on sound concrete.",
+      "drag": {
+        "missNote": "Not on the jacking point — the jack goes on the mark the plan gives under the centre girder, not wherever there is room.",
+        "radius": 0.35,
+        "to": "jack-point"
+      },
+      "id": "set-jack",
+      "kind": "drag",
+      "prompt": "Carry the jack to the point the plan marks under the centre girder's end, plumb, with its base fully on sound concrete.",
+      "target": "jack",
+      "title": "Set the jack on its marked point",
+      "why": "The jacking point is where the engineer checked the girder's flange and web can take a concentrated load, and where the pier cap can take it too. A jack set a hand's width off the mark bears on flange that may buckle or on concrete near an edge that may break, and a jack that is not plumb pushes sideways as it lifts. It goes exactly on the mark, square."
+    },
+    {
+      "cue": "Build the crib stack up under the girder beside the jack, crossed in layers, and shim it snug to the flange before the lift starts.",
+      "id": "crib-stack",
+      "kind": "select",
+      "prompt": "Build the crib stack up under the girder beside the jack, crossed in layers, and shim it snug to the flange before the lift starts.",
+      "target": "crib-pile",
+      "title": "Build the safety crib stack beside the jack",
+      "why": "Cribbing is what the girder rests on if the jack fails, and it only does that job if it is built before the lift and kept tight during it. Crossed layers spread the load across the grain, and shims keep the gap between the top of the stack and the flange to almost nothing, so that a jack that bleeds down drops the girder a few millimetres onto timber instead of all the way onto the old bearing and whoever is near it."
+    },
+    {
+      "cue": "Pump the jack slowly and keep the load reading inside the band the plan predicts for this girder as it takes the weight off the bearing.",
+      "holdBreakNote": "The load reading left the plan's band while nobody was watching it. Stop pumping, find out why, and bring it back.",
+      "id": "load-gauge",
+      "kind": "track",
+      "prompt": "Pump the jack slowly and keep the load reading inside the band the plan predicts for this girder as it takes the weight off the bearing.",
+      "seconds": 7,
+      "target": "load-gauge",
+      "title": "Take the load on the jack and watch the gauge",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "JACK LOAD",
+        "rise": 0.52,
+        "start": 0.18
+      },
+      "why": "The gauge is how the crew sees the girder: a reading climbing well past what the plan predicts means the girder is binding on something the engineer did not expect — a seized bearing, a diaphragm, debris — and the jack is now fighting the structure rather than lifting a girder. Pumped slowly and watched, the load comes off the bearing smoothly; pumped by feel, the first sign of trouble is a crack in the deck."
+    },
+    {
+      "cue": "Watch the dial indicator on the girder flange and stop the lift at the plan's figure — enough to free the bearing and no more.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "LIFT",
+        "missNote": "Off the plan's lift — under it the bearing will not slide out, over it the deck is taking bending. Read the dial again.",
+        "speed": 0.68
+      },
+      "id": "lift-dial",
+      "kind": "gauge",
+      "prompt": "Watch the dial indicator on the girder flange and stop the lift at the plan's figure — enough to free the bearing and no more.",
+      "target": "dial-indicator",
+      "title": "Read the lift on the dial indicator",
+      "why": "The lift is measured, not judged by eye: the dial indicator reads the girder's movement off the pier cap directly, and the plan's maximum is the most the deck and the cross-frames can take without damage. The bearing needs only enough clearance to slide out; every millimetre past that is bending put into a continuous structure for no reason."
+    },
+    {
+      "cue": "Spin the jack's lock ring down onto its body and hold it there while the pump is eased back, so the load sits on the ring and not on the oil.",
+      "holdBreakNote": "The lock ring came off the body before the load was on it — the girder is back on the oil. Run it down and hold it again.",
+      "id": "lock-ring",
+      "kind": "hold",
+      "prompt": "Spin the jack's lock ring down onto its body and hold it there while the pump is eased back, so the load sits on the ring and not on the oil.",
+      "seconds": 5,
+      "target": "lock-ring",
+      "title": "Run the lock ring down and hold it while the load transfers",
+      "why": "A hydraulic jack under load is holding a girder on a column of oil behind a seal. The lock ring turns it into a mechanical post: run down tight to the body and then loaded as the pressure is eased off, it holds the girder even if a hose or a seal lets go. The ring is held down while the load transfers, and only once it is carrying the girder does anybody reach toward the bearing."
+    },
+    {
+      "cue": "Slide the old bearing out sideways with the puller bar, from beside the girder — never reaching in underneath it.",
+      "id": "old-bearing",
+      "kind": "select",
+      "prompt": "Slide the old bearing out sideways with the puller bar, from beside the girder — never reaching in underneath it.",
+      "target": "old-bearing",
+      "title": "Pull the old bearing out from the side",
+      "why": "The worn bearing comes out from the side with a bar or a puller, with the girder sitting on its lock ring and its cribbing, because the space between the flange and the seat is exactly where the girder lands if anything gives. Its condition is noted as it comes out — split, walked or bulged — because that is the engineer's evidence for why the bearings are being replaced and whether the others need to be."
+    },
+    {
+      "cue": "Carry the new elastomeric bearing to the cleaned seat and centre it on the layout marks under the girder.",
+      "drag": {
+        "missNote": "Not on the seat marks — the new bearing is centred on the layout marks under the girder, flat on the cleaned seat.",
+        "radius": 0.3,
+        "to": "bearing-seat"
+      },
+      "id": "new-bearing",
+      "kind": "drag",
+      "prompt": "Carry the new elastomeric bearing to the cleaned seat and centre it on the layout marks under the girder.",
+      "target": "new-bearing",
+      "title": "Set the new bearing centred on the seat",
+      "why": "An elastomeric bearing carries the girder's load and lets it move as the bridge expands and contracts, and it only does both if it sits flat, centred and square on a clean seat. Set off-centre it is loaded on one edge, which makes it bulge and walk out over the seasons, which is usually how the old one failed in the first place."
+    },
+    {
+      "cue": "Back the lock ring off, then crack the release valve open slowly, lowering the crib stack with the girder, until the girder sits on the new bearing.",
+      "id": "release-valve",
+      "kind": "turn",
+      "prompt": "Back the lock ring off, then crack the release valve open slowly, lowering the crib stack with the girder, until the girder sits on the new bearing.",
+      "target": "release-valve",
+      "title": "Let the girder down slowly onto the new bearing",
+      "turn": {
+        "label": "RELEASE VALVE",
+        "turns": 1
+      },
+      "why": "Letting a girder down is the lift in reverse and it is just as controlled: the lock ring comes up, the cribbing is taken down layer by layer to follow the girder, and the release valve is opened a little at a time. Opened fast, the girder drops onto the new bearing in a jolt that can tear it or crack the concrete of the seat, and the crib is left high and dry."
+    },
+    {
+      "cue": "Work the feeler gauge round the new bearing's edges and commit when it will not enter anywhere — the girder bearing evenly, the pad not rolled or shifted.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.58
+        ],
+        "label": "SEATING",
+        "missNote": "The feeler still enters under one edge — the girder is bearing on part of the pad. Re-seat it while the jack is still in place.",
+        "speed": 0.7
+      },
+      "id": "seat-check",
+      "kind": "gauge",
+      "prompt": "Work the feeler gauge round the new bearing's edges and commit when it will not enter anywhere — the girder bearing evenly, the pad not rolled or shifted.",
+      "target": "feeler-gauge",
+      "title": "Check the girder is seated on the new bearing",
+      "why": "A bearing that is seated on three edges and gapped on the fourth is carrying the girder on a corner, which is how the old one was destroyed. The feeler gauge check is quick and it is the only way to know from outside that the girder's full flange is bearing on the full pad; anything the gauge finds is fixed now, while the jack is still in place and the lane is still closed."
+    },
+    {
+      "cue": "Record the lift and the load read, the old bearing's condition, the defects tagged out, the weeping hose and the cone knocked down in the taper.",
+      "id": "jack-log",
+      "kind": "select",
+      "prompt": "Record the lift and the load read, the old bearing's condition, the defects tagged out, the weeping hose and the cone knocked down in the taper.",
+      "target": "jack-log",
+      "title": "Log the bearing change",
+      "why": "The jacking log is the engineer's record of what the girder actually did: the load it took to lift and how far it moved, set against what the plan predicted, and the condition of the bearing that came out. It is also where the tagged-out jack and the struck cone become work orders, so the next girder on this pier starts with sound kit and a taper the crew trusts."
+    },
+    {
+      "cue": "Call the foreman and the flagger: bearing set, lane ready to be picked up. Then check in with the crew about the struck cone and the leaking hose.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the foreman and the flagger: bearing set, lane ready to be picked up. Then check in with the crew about the struck cone and the leaking hose.",
+      "target": "crew-radio",
+      "title": "Check in with the crew and the flagger",
+      "why": "The flagger picks up the lane only on this call, and the foreman moves the jacks to the next girder around it. It is also the crew's check-in: a truck mirror taking out a cone in the taper and a jack bleeding down under a girder are both moments that stay with the people who were beside them, and the building trades' practice is to say so on the radio and name the member assistance line with it."
+    }
+  ],
+  "supportLine": "your Ironworkers or LIUNA local's member assistance programme, or the employee assistance line posted on the contractor's site board",
+  "tagline": "A girder lifted off its bearing to the engineer's plan: the lane under the span closed, the seat and the kit inspected, the jack set on its point, cribbing built beside it, the load watched on the gauge, the lift read on the dial, the lock ring run down, the old bearing out and the new one in, and the girder let down again slowly",
+  "title": "SmartCiti.X~ Bearing Replacement & Jacking VR",
+  "trade": "Ironworker bridge maintenance crew with LIUNA traffic control — girder jacking and bearing replacement",
+  "underwater": null,
+  "weather": "clear"
+}

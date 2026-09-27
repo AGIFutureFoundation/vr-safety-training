@@ -1,0 +1,415 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "full-house",
+    "name": "Full House, Clear Exits",
+    "note": "Set to the posted load, every exit and detector clear, and the count held under the sign all night"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "NFPA 101 occupant load, aisle widths and panic hardware for an assembly room; NFPA 72 for the detectors and notification appliances decorations must never cover; OSHA 29 CFR 1910.36 exit routes and 29 CFR 1910.38 the building's emergency action plan; 29 CFR 1910.157 portable extinguishers; 29 CFR 1910.305 and the NEC for temporary cords at a DJ table; the Fair Housing Act for equal access to the community room; UNITE HERE residential hospitality training, SEIU building staff and the apartment association's CAM credential",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "NEC/NFPA 70",
+        "citedAs": "NEC",
+        "id": "nec-nfpa-70",
+        "title": "NFPA 70 — National Electrical Code"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 101",
+        "id": "nfpa-101",
+        "title": "NFPA 101 — Life Safety Code"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 72",
+        "id": "nfpa-72",
+        "title": "NFPA 72 National Fire Alarm and Signaling Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.157",
+        "id": "osha-1910-157",
+        "title": "29 CFR 1910.157 — Portable fire extinguishers"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.305",
+        "id": "osha-1910-305",
+        "title": "29 CFR 1910.305 — Wiring methods, components and equipment for general use"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.36",
+        "id": "osha-1910-36",
+        "title": "29 CFR 1910.36 — Design and construction requirements for exit routes"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.38",
+        "id": "osha-1910-38",
+        "title": "29 CFR 1910.38 — Emergency action plans"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Building Systems & Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "true-aisle",
+        "name": "True Aisle",
+        "note": "Aisle width read inside the band first time"
+      },
+      {
+        "id": "nothing-covered",
+        "name": "Nothing Covered",
+        "note": "No unsafe act anywhere in the set"
+      },
+      {
+        "id": "under-the-sign",
+        "name": "Under the Sign",
+        "note": "Held the door count under the posted load"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-set",
+        "name": "Clean Set",
+        "note": "No corrections across the whole event"
+      },
+      {
+        "id": "steady-door",
+        "name": "Steady Door",
+        "note": "Held the door count without breaking the band"
+      },
+      {
+        "id": "doors-on-time",
+        "name": "Doors On Time",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "GUESTS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Houseman",
+      "Setup Lead",
+      "Events Captain",
+      "Events Manager",
+      "Community Room Certified"
+    ],
+    "system": "Community Room"
+  },
+  "hazards": {
+    "candle-near-drape": "You lit the centrepiece candles on the table right under the drape. Open flame a hand's width from fabric is how community-room fires start, and most building rules — and fire marshals — ban it for exactly that reason; the battery candles in the box look the same from across the room.",
+    "chair-as-ladder": "You stood on a folding chair to tape the banner to the ceiling. Folding chairs fold — sideways, under an off-centre foot — and a fall onto a table edge from that height is a head injury. The step ladder is in the storage alcove for exactly this.",
+    "daisy-chain-strips": "You plugged the DJ's power strip into another power strip. Chained strips put a whole sound rig through one strip's cord and one wall receptacle; the cord heats where nobody is looking, under a table skirt, and the first sign is smoke at the back of a crowded room.",
+    "propped-fire-door": "You wedged the corridor fire door open so guests could carry food in. That door is part of the building's fire separation and it only works closed: propped, it lets smoke from anywhere in the corridor into a room with sixty people and a single other exit."
+  },
+  "id": "pm-community-room-and-events",
+  "indoor": "hotel",
+  "interrupts": [
+    {
+      "after": "test-panic-bar",
+      "alert": "The balloon vendor's helium cylinder, standing loose by the wall, is rocking — a guest's chair has bumped it and it is starting to tip.",
+      "cue": "Chain the cylinder to the wall bracket. Don't try to catch a falling cylinder by its valve.",
+      "delay": 3,
+      "id": "helium-tip",
+      "kind": "Helium cylinder tipping",
+      "missNote": "The cylinder rocked the whole window with nobody securing it. The next bump brings it down, valve first, in a room full of guests.",
+      "seconds": 12,
+      "target": "cylinder-chain",
+      "why": "A compressed gas cylinder that falls can snap its valve off, and a cylinder with a broken valve becomes a projectile across a room full of people. Chained upright to a bracket it cannot fall at all — which is why every cylinder in the building is secured, a balloon vendor's included.",
+      "wrongNote": "That doesn't secure it. The chain on the wall bracket is what holds the cylinder upright."
+    },
+    {
+      "after": "count-door",
+      "alert": "A tray of punch goes over in the main aisle just inside the door — a sticky puddle right where the arriving guests are walking.",
+      "cue": "Get the spill kit: wet-floor sign down first, then mop. Keep an eye on the door.",
+      "delay": 3,
+      "id": "punch-spill",
+      "kind": "Spill in the aisle",
+      "missNote": "The puddle sat in the aisle the whole window. Guests walked through it — the room's slip-and-fall is now a question of when, not if.",
+      "seconds": 12,
+      "target": "spill-kit",
+      "why": "A spill in the busiest aisle of a crowded room is a fall waiting for the next guest, and in a room full of people carrying plates and children it will not wait long. The wet-floor sign goes down first to hold people off while it is mopped, because a mop in progress with no sign is still a slip.",
+      "wrongNote": "That doesn't deal with the spill. The spill kit by the kitchenette has the sign and the mop."
+    }
+  ],
+  "lateNotes": {
+    "door-count": "Not yet — the door is counted once guests start arriving, after the host has been briefed on the exits.",
+    "hvac-dial": "Set the room's ventilation once the room is full and the kitchenette is checked — not before the doors open."
+  },
+  "name": "Community Room & Events",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "property-management"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "aisle-tape",
+      "blocked-extinguisher",
+      "building-log",
+      "candle-near-drape",
+      "chair-as-ladder",
+      "chair-cart",
+      "cord-cover",
+      "cord-inspect",
+      "cord-over-sink",
+      "covered-smoke-detector",
+      "cylinder-chain",
+      "daisy-chain-strips",
+      "door-count",
+      "event-sheet",
+      "exit-door-bar",
+      "gfci-outlet",
+      "host-brief",
+      "houseman-checkin",
+      "hvac-dial",
+      "partition-crank",
+      "propped-fire-door",
+      "spill-kit",
+      "storage-alcove-slot",
+      "strobe-blocked"
+    ],
+    "meshes": 225
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the guest count, the DJ, the decorations and the food against the room's rules.",
+      "id": "read-event-sheet",
+      "kind": "select",
+      "prompt": "Check the guest count, the DJ, the decorations and the food against the room's rules.",
+      "target": "event-sheet",
+      "title": "Read the reservation and event sheet",
+      "why": "The event sheet is where the resident's plans meet the room's limits: sixty guests against the posted occupant load, a DJ rig against the circuits, balloons and a banner against the detectors in the ceiling. Reservation rules apply the same way to every household — the Fair Housing Act reaches common areas — so the same checklist goes for a child's birthday as for the residents' association meeting."
+    },
+    {
+      "cue": "Find the alarm devices the decorations have already defeated.",
+      "id": "walk-life-safety",
+      "itemNames": {
+        "covered-smoke-detector": "bag taped over the smoke detector",
+        "strobe-blocked": "banner hung across the horn-strobe"
+      },
+      "itemNotes": {
+        "covered-smoke-detector": "Somebody has taped a plastic bag over the smoke detector so a smoke machine will not set it off. With it covered, a real fire in this room reaches the corridor before the building knows.",
+        "strobe-blocked": "The party banner hangs straight across the horn-strobe. A resident who cannot hear the alarm over the music — or cannot hear at all — depends on that strobe being seen."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the alarm devices the decorations have already defeated.",
+      "targets": [
+        "covered-smoke-detector",
+        "strobe-blocked"
+      ],
+      "title": "Walk the room's fire alarm devices",
+      "why": "NFPA 72 puts a detector and a notification appliance in an assembly room for the one night the room is full and loud. Party decorations are the commonest way they get defeated — a bag over the detector for the smoke machine, a banner across the strobe — and neither shows up on the fire panel as a fault."
+    },
+    {
+      "cue": "Crank the partition wall fully open and seat it in its pocket.",
+      "id": "open-partition",
+      "kind": "turn",
+      "prompt": "Crank the partition wall fully open and seat it in its pocket.",
+      "target": "partition-crank",
+      "title": "Open the operable partition to full width",
+      "turn": {
+        "axis": "z",
+        "label": "PARTITION CRANK",
+        "turns": 1
+      },
+      "why": "The posted occupant load assumes the room at full size, with the partition stacked in its pocket and both halves' exits usable. A partition half-open leaves a folded panel swinging into the room at head height and cuts off one of the exits the sign was calculated for — and its hinges are a pinch point for anyone's fingers while it moves."
+    },
+    {
+      "cue": "Roll the empty chair cart from the exit path into the storage alcove.",
+      "drag": {
+        "missNote": "Not in the alcove — a cart parked anywhere near the exit path is still in it when the lights go out.",
+        "radius": 0.55,
+        "to": "storage-alcove-slot"
+      },
+      "id": "clear-exit-path",
+      "kind": "drag",
+      "prompt": "Roll the empty chair cart from the exit path into the storage alcove.",
+      "target": "chair-cart",
+      "title": "Move the chair cart off the exit path",
+      "why": "An exit route is only a route if it is clear all the way to the door, and a chair cart left in it is the thing a crowd piles up against in the dark. OSHA's exit-route rule and the Life Safety Code say the same thing in different words: nothing stored in the path, whatever the event."
+    },
+    {
+      "cue": "Inspect the cord, plug it straight into the wall GFCI receptacle, then lay the cord cover over the run.",
+      "id": "power-dj",
+      "itemNames": {
+        "cord-cover": "cord cover laid over the run",
+        "cord-inspect": "cord inspected for damage",
+        "gfci-outlet": "plugged into the wall GFCI"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Inspect, plug in, then cover — a cord covered before it is inspected hides the damage you were meant to find.",
+      "prompt": "Inspect the cord, plug it straight into the wall GFCI receptacle, then lay the cord cover over the run.",
+      "targets": [
+        "cord-inspect",
+        "gfci-outlet",
+        "cord-cover"
+      ],
+      "title": "Run power to the DJ table",
+      "why": "A temporary cord is exactly that, and the wiring rule sets its limits: inspected for damage, plugged into a receptacle rather than another strip, and never run under a rug or through a doorway where it is crushed. The cord cover over the run is what turns a trip hazard across an aisle into a floor people walk over without noticing."
+    },
+    {
+      "cue": "Run the tape across the aisle and commit when it reads inside the width the code asks for.",
+      "gauge": {
+        "green": [
+          0.6,
+          0.85
+        ],
+        "label": "AISLE WIDTH",
+        "missNote": "Outside the band — too narrow for a crowd to move to the exits, or you measured across the wrong gap. Read it again.",
+        "speed": 0.55
+      },
+      "id": "measure-aisle",
+      "kind": "gauge",
+      "prompt": "Run the tape across the aisle and commit when it reads inside the width the code asks for.",
+      "target": "aisle-tape",
+      "title": "Measure the aisle between the table rows",
+      "why": "Aisles are sized for a crowd moving to the exits at once, not for a waiter with a tray, and every table pulled six inches closer to fit a centrepiece takes width off the one path everyone will use. The Life Safety Code sets the minimum for a room like this; the tape is how you know the set still meets it after the host's cousins have rearranged it."
+    },
+    {
+      "cue": "Push the panic bar and hold until the door opens and swings back to latch.",
+      "holdBreakNote": "You let go before the door swung back and latched. A door that opens but does not close again is half a test — hold it through the cycle.",
+      "id": "test-panic-bar",
+      "kind": "hold",
+      "prompt": "Push the panic bar and hold until the door opens and swings back to latch.",
+      "seconds": 4,
+      "target": "exit-door-bar",
+      "title": "Test the exit door's panic bar",
+      "why": "A room this full needs doors that open with a push from a crowd, not a key or a handle, and the panic bar has to release every time and let the door close and latch behind the last person out. Held through a full cycle, the test proves both halves — the release and the closer — which a glance at the hardware cannot."
+    },
+    {
+      "cue": "Show the host both exits, the extinguisher and the muster point, and who to call.",
+      "id": "brief-host",
+      "kind": "select",
+      "prompt": "Show the host both exits, the extinguisher and the muster point, and who to call.",
+      "target": "host-brief",
+      "title": "Brief the host on the exits and the plan",
+      "why": "The host is the one person who can get sixty of their own guests moving when an alarm sounds, and they can only do it if they know where the exits and the muster point are before the music starts. The building's emergency action plan reaches a resident's event through that two-minute conversation, or it does not reach it at all."
+    },
+    {
+      "cue": "Keep the running count under the posted occupant load as guests come in.",
+      "holdBreakNote": "The count left the band. Over the sign is a room its exits were not sized for — hold the door until it comes back under.",
+      "id": "count-door",
+      "kind": "track",
+      "prompt": "Keep the running count under the posted occupant load as guests come in.",
+      "seconds": 7,
+      "target": "door-count",
+      "title": "Count the door as guests arrive",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.38,
+        "green": [
+          0.35,
+          0.7
+        ],
+        "label": "DOOR COUNT",
+        "rise": 0.44,
+        "start": 0.25
+      },
+      "why": "The posted occupant load is a life-safety number worked out from the room's exits and floor area, and it is only real if somebody is counting. A party that grows past the sign by word of mouth is the ordinary way a room ends up with more people than its doors can empty in time."
+    },
+    {
+      "cue": "Find what the food set-up has put in the way or in the water.",
+      "id": "walk-kitchenette",
+      "itemNames": {
+        "blocked-extinguisher": "extinguisher hidden behind the gift table",
+        "cord-over-sink": "slow cooker cord draped over the sink"
+      },
+      "itemNotes": {
+        "blocked-extinguisher": "The gift table has been pushed in front of the extinguisher cabinet. Nobody reaching for it in a hurry will find it behind a pile of presents.",
+        "cord-over-sink": "A slow cooker's cord runs across the edge of the sink with the tap running beside it. Water and a live cord meet at the exact spot a guest will reach to rinse a plate."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find what the food set-up has put in the way or in the water.",
+      "targets": [
+        "cord-over-sink",
+        "blocked-extinguisher"
+      ],
+      "title": "Walk the kitchenette",
+      "why": "The kitchenette is where a party's electrical load, water and heat all end up in one small corner, set up by guests who have never seen the building's rules. Portable extinguishers have to be visible and reachable, and cords have to stay away from sinks — two rules that the first half hour of any party usually breaks."
+    },
+    {
+      "cue": "Turn the room controller to occupied mode for the head count.",
+      "id": "set-ventilation",
+      "kind": "turn",
+      "prompt": "Turn the room controller to occupied mode for the head count.",
+      "target": "hvac-dial",
+      "title": "Set the room's ventilation for a full room",
+      "turn": {
+        "axis": "z",
+        "label": "ROOM MODE",
+        "turns": 0.5
+      },
+      "why": "Sixty people, a DJ rig and a kitchenette put more heat, moisture and exhaled air into the room than its setback mode was ever meant to handle. Switching the room controller to occupied mode brings in the outside air a full room needs, before it gets stuffy enough that somebody props the fire door open for air."
+    },
+    {
+      "cue": "Hand over the partition, the spill and the fire door, and ask how the houseman is doing.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Hand over the partition, the spill and the fire door, and ask how the houseman is doing.",
+      "target": "houseman-checkin",
+      "title": "Check in with the houseman",
+      "why": "The UNITE HERE houseman who breaks the room down tonight needs to know the partition's crank sticks and the fire door was propped once already, so the strike does not undo the set. A long Saturday on your feet with a crowd is also worth a question about how they are actually doing — asked in person, not left to a group text."
+    },
+    {
+      "cue": "Log the head count, the devices uncovered, the spill, the cylinder and the door test.",
+      "id": "building-log",
+      "kind": "select",
+      "prompt": "Log the head count, the devices uncovered, the spill, the cylinder and the door test.",
+      "target": "building-log",
+      "title": "Enter the event in the building log",
+      "why": "The building log is the record that the room was set to its load and its devices were working, which matters to the manager, the insurer and the fire marshal if anything goes wrong at the next event. It is also where a pattern shows — the detector bagged at every party — that turns into a rule change instead of a repeat."
+    }
+  ],
+  "supportLine": "your union steward or member-assistance contact, or your employer's employee assistance program",
+  "tagline": "A Saturday party for sixty: the room set to its posted load, aisles and exits clear, detectors and strobes left uncovered, the host briefed, and the door counted as guests arrive",
+  "title": "SmartCiti.X~ Community Room & Events VR",
+  "trade": "Residential events and hospitality staff — UNITE HERE, with SEIU building staff setting the room and the apartment association's CAM-credentialed manager signing off",
+  "underwater": null,
+  "weather": null
+}

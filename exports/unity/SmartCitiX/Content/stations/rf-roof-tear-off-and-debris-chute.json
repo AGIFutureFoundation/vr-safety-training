@@ -1,0 +1,406 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "deck-scanned-clean",
+    "name": "Deck Scanned Clean",
+    "note": "A strip torn off, scanned and dried in with nobody stepping on an open hole or a fastener left in the chute's path"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "OSHA 29 CFR 1926.501 and 29 CFR 1926.502 fall protection at the roof edge and any hole opened in the deck, and 29 CFR 1926 Subpart M Fall protection generally; ANSI Z359 for the harness and anchor; 29 CFR 1926.1153 for silica dust from cutting into a concrete curb or nailer; NRCA tear-off and dry-in practice; Roofers Local 40 apprenticeship and training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z359",
+        "id": "ansi-z359",
+        "title": "ANSI/ASSP Z359 — Fall Protection Code"
+      },
+      {
+        "body": "NRCA",
+        "citedAs": "NRCA",
+        "id": "nrca-roofing-practices",
+        "title": "National Roofing Contractors Association — roofing and waterproofing application, safety and quality practices"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.1153",
+        "id": "osha-1926-1153",
+        "title": "29 CFR 1926.1153 — Respirable crystalline silica in construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.501",
+        "id": "osha-1926-501",
+        "title": "29 CFR 1926.501 — Duty to have fall protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.502",
+        "id": "osha-1926-502",
+        "title": "29 CFR 1926.502 — Fall protection systems criteria and practices"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926 Subpart M Fall protection",
+        "id": "osha-1926-subpart-m",
+        "title": "OSHA 29 CFR 1926 Subpart M Fall protection"
+      },
+      {
+        "body": "union",
+        "citedAs": "Roofers Local 40",
+        "id": "roofers-local-40-training",
+        "title": "Roofers Local 40 — United Union of Roofers, Waterproofers and Allied Workers apprenticeship and training"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "plan-first",
+        "name": "Plan First",
+        "note": "The tear-off plan read before the first fastener came out"
+      },
+      {
+        "id": "steady-cut",
+        "name": "Steady Cut",
+        "note": "The cut line ran the whole strip without a break in pace"
+      },
+      {
+        "id": "never-stepped-the-hole",
+        "name": "Never Stepped The Hole",
+        "note": "No boot on a rotted section, no spark into the debris, no cutting dust without a respirator"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-strip",
+        "name": "Clean Strip",
+        "note": "No corrections anywhere on the roof"
+      },
+      {
+        "id": "chute-steady",
+        "name": "Chute Steady",
+        "note": "The chute load held inside the band the whole feed"
+      },
+      {
+        "id": "strip-closed",
+        "name": "Strip Closed",
+        "note": "Dried in and logged inside 80% of par"
+      }
+    ],
+    "currency": "STRIP",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Tear-Off Hand",
+      "Chute Runner",
+      "Lead Stripper",
+      "Tear-Off Certified"
+    ],
+    "system": "Tear-Off Run"
+  },
+  "hazards": {
+    "debris-pile-blowing": "The pile of loose tear-off debris staged at the edge is starting to lift and scatter in the gust. A ripped-up section of old felt caught by wind does not just make a mess of the roof — it goes over the edge onto whatever, or whoever, is below, which is why staged debris gets weighted or bagged the moment it is pulled, not left loose until there is time to deal with it.",
+    "grinder-sparks-into-debris": "You are grinding through an old fastener with a pile of dry tear-off debris sitting right behind the wheel. Old felt and dried-out insulation catch a spark far more easily than anyone expects standing next to a roof that has never had a fire on it — the debris gets moved clear of any cutting or grinding before the wheel ever starts turning, not after the first spark lands in it.",
+    "rotted-deck-section": "You are about to step onto a section of deck the tear-off just exposed, and it is visibly rotted where old moisture sat under the membrane for years. 29 CFR 1926.501 treats a hole in the roof — including a deck too weak to carry weight — as an edge to be guarded, and a rotted deck gives out from underfoot with no more warning than a hole covered by debris does.",
+    "silica-dust-no-respirator": "You are cutting into the concrete curb without a respirator or a water suppression line on the saw. 29 CFR 1926.1153 exists because that fine dust does not settle where you can see it — it goes exactly as deep into a lung as it goes into the air, and a respirator or wet cutting is what keeps most of it out of both."
+  },
+  "id": "rf-roof-tear-off-and-debris-chute",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "tear-off-cart",
+      "alert": "A gust off the parapet catches the pile of debris staged for the next cart load, and it starts scattering across the deck toward the edge.",
+      "cue": "Get to the debris and bag it down before more of it reaches the edge.",
+      "delay": 2,
+      "id": "gust-scatters-debris",
+      "kind": "Gust scatters the staged debris",
+      "missNote": "A double handful of old felt went over the edge before anyone reached the pile, landing on the sidewalk below with no one down there to see it coming.",
+      "seconds": 14,
+      "target": "debris-secured",
+      "why": "Loose tear-off debris scattering toward an open edge is a falling-object hazard for the ground below the instant any of it goes over, which is exactly why staged debris is bagged or weighted the moment it is pulled rather than left loose between cart trips.",
+      "wrongNote": "That does not stop scattering debris. Get to the pile and bag it down before more of it reaches the edge."
+    },
+    {
+      "after": "deck-scan",
+      "alert": "A coworker at the far end of the strip radios that they have found a section of deck with daylight showing through it, and it is not marked or covered yet.",
+      "cue": "Get the hole cover over to that section before anyone else walks that stretch of deck.",
+      "delay": 2,
+      "id": "hole-flagged-elsewhere",
+      "kind": "Coworker flags an uncovered hole",
+      "missNote": "The hole stayed uncovered while the crew kept working the strip, one careless step away from a section of deck that would not have held anyone's weight.",
+      "seconds": 14,
+      "target": "hole-cover",
+      "why": "A hole in an exposed deck is invisible from a few feet away under the same dust and debris that made it hard to spot in the first place, and the only thing that actually protects the next person who walks that stretch is a cover physically over it, not a mental note that it is somewhere back there.",
+      "wrongNote": "Not that. Get the hole cover over to the section the coworker flagged before anyone walks it."
+    }
+  ],
+  "lateNotes": {
+    "cut-saw": "The cut line is run once the old fasteners along it have actually been backed out — there is nothing to cut cleanly through yet.",
+    "deck-scan": "The deck is scanned once a strip has actually been torn off — there is nothing exposed to look at yet.",
+    "log-board": "The log is written once the walk-round has found what it is going to find, not before."
+  },
+  "name": "Roof Tear-Off & Debris Chute",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "roofers-and-waterproofers"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "anchor-clip",
+      "chute-hopper",
+      "cut-saw",
+      "debris-left-on-deck",
+      "debris-pile-blowing",
+      "debris-secured",
+      "deck-scan",
+      "dry-in-tarp",
+      "exposed-nail-pop",
+      "extinguisher",
+      "fastener-tool",
+      "grinder-sparks-into-debris",
+      "harness",
+      "hidden-conduit",
+      "hole-cover",
+      "log-board",
+      "missed-fastener",
+      "plan-board",
+      "radio",
+      "rotted-deck-section",
+      "silica-dust-no-respirator",
+      "tear-off-cart",
+      "wind-gauge"
+    ],
+    "meshes": 144
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the plan: the strip width that can be dried in before weather, the chute location, the dumpster below, and the fall protection required at the exposed deck.",
+      "id": "tear-off-plan",
+      "kind": "select",
+      "prompt": "Read the plan: the strip width that can be dried in before weather, the chute location, the dumpster below, and the fall protection required at the exposed deck.",
+      "target": "plan-board",
+      "title": "Read the tear-off plan",
+      "why": "A tear-off is only ever opened as wide as the crew can dry back in before the weather changes, and the plan is where that width is actually decided — by the competent person, in daylight, rather than by however much felt has already been pulled when the sky starts to change."
+    },
+    {
+      "cue": "Check the extinguisher's gauge is in the green and that it is staged within reach of the cutting and grinding work.",
+      "id": "extinguisher-check",
+      "kind": "select",
+      "prompt": "Check the extinguisher's gauge is in the green and that it is staged within reach of the cutting and grinding work.",
+      "target": "extinguisher",
+      "title": "Confirm the extinguisher before any cutting or grinding",
+      "why": "Old built-up roofing is dry felt and asphalt waiting for a spark, and cutting or grinding through embedded fasteners is exactly the work that throws one — the extinguisher is confirmed at hand before either tool is powered on, not fetched after the first ember catches."
+    },
+    {
+      "cue": "Put the harness on and snug it, then clip the lanyard to the certified roof anchor before working toward the strip being torn off.",
+      "id": "harness-on",
+      "itemNames": {
+        "anchor-clip": "lanyard clipped to the roof anchor",
+        "harness": "full-body harness on and snugged"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Harness first — the lanyard clips to the back D-ring of a harness that is already on, not to one still on the rack.",
+      "prompt": "Put the harness on and snug it, then clip the lanyard to the certified roof anchor before working toward the strip being torn off.",
+      "targets": [
+        "harness",
+        "anchor-clip"
+      ],
+      "title": "Harness on, then clipped to the roof anchor",
+      "why": "A tear-off opens holes in the roof on purpose, on a schedule the crew controls, which is exactly why 29 CFR 1926.502 has the anchor, harness and connection working as one system the whole time — the edge and the hole are both live hazards for as long as the strip stays open."
+    },
+    {
+      "cue": "Feel along the strip for anything standing proud under the membrane and look for any conduit or pipe the old roof might be hiding.",
+      "id": "tear-off-inspect",
+      "itemNames": {
+        "exposed-nail-pop": "a popped nail standing proud of the old deck",
+        "hidden-conduit": "an electrical conduit hidden under the old membrane"
+      },
+      "itemNotes": {
+        "exposed-nail-pop": "A fastener from the old roof has backed most of the way out and is standing proud of the deck under a thin skin of membrane — invisible until a boot finds it, and sharp enough to go straight through a sole when it does.",
+        "hidden-conduit": "There is a conduit run under the old membrane exactly where the next strip's cut line is marked — cut through without knowing it is there, it is a fastener-removal job that turns into an electrical one."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Feel along the strip for anything standing proud under the membrane and look for any conduit or pipe the old roof might be hiding.",
+      "targets": [
+        "exposed-nail-pop",
+        "hidden-conduit"
+      ],
+      "title": "Inspect the old roof before the first cut",
+      "why": "Everything under an old built-up roof was covered up on purpose decades ago, and a tear-off is the one time all of it is about to be exposed to a pry bar, a saw and a boot at the same time — finding it first is cheaper than finding it with the tool already moving."
+    },
+    {
+      "cue": "Read the anemometer and commit only if the gusts are under the tear-off's wind limit.",
+      "gauge": {
+        "green": [
+          0.08,
+          0.4
+        ],
+        "label": "WIND AT THE PARAPET — GUSTS",
+        "missNote": "Gusting over the tear-off limit. Wait and read it again before the strip is opened any wider.",
+        "speed": 0.55
+      },
+      "id": "wind-check",
+      "kind": "gauge",
+      "prompt": "Read the anemometer and commit only if the gusts are under the tear-off's wind limit.",
+      "target": "wind-gauge",
+      "title": "Read the wind before opening the strip",
+      "why": "An open strip with no membrane on it is a strip with nothing to stop a gust getting under whatever is still loose on the deck, and the wind limit for tear-off work is set well below what it takes to turn staged debris into a falling-object hazard for the ground below."
+    },
+    {
+      "cue": "Run the reversing driver along the strip's fasteners and back each one out before the felt is pulled over it.",
+      "id": "fastener-removal",
+      "kind": "turn",
+      "prompt": "Run the reversing driver along the strip's fasteners and back each one out before the felt is pulled over it.",
+      "target": "fastener-tool",
+      "title": "Back out the old deck fasteners along the strip",
+      "turn": {
+        "axis": "z",
+        "label": "FASTENER DRIVER",
+        "reverse": true,
+        "turns": 0.5
+      },
+      "why": "A fastener still gripping the deck under a sheet of felt is what turns a pull into a tear that goes the wrong direction, and backing them out first is what makes the next strip come up in one controlled piece instead of shredding wherever it was still held down."
+    },
+    {
+      "cue": "Wheel the loaded cart of old felt and insulation to the chute hopper rather than piling it loose on the deck.",
+      "drag": {
+        "missNote": "Not at the hopper. Wheel the cart all the way to the chute before tipping it.",
+        "radius": 0.55,
+        "to": "chute-hopper"
+      },
+      "id": "tear-off-cart",
+      "kind": "drag",
+      "prompt": "Wheel the loaded cart of old felt and insulation to the chute hopper rather than piling it loose on the deck.",
+      "target": "tear-off-cart",
+      "title": "Cart the torn-off debris to the chute hopper",
+      "why": "Debris piled loose on a roof is debris that has to be carted twice — once to a pile, once from the pile to the chute — and it is also exactly what a gust picks up in between. Carting it straight to the hopper is the version of this job that only moves it once."
+    },
+    {
+      "cue": "Tip the cart and hold a steady feed into the chute — dumping it all at once jams the chute and can bounce debris back up out of the hopper.",
+      "holdBreakNote": "The feed rushed and the chute backed up — slow down and let it clear before feeding more in.",
+      "id": "chute-feed",
+      "kind": "hold",
+      "prompt": "Tip the cart and hold a steady feed into the chute — dumping it all at once jams the chute and can bounce debris back up out of the hopper.",
+      "seconds": 5,
+      "target": "chute-hopper",
+      "title": "Feed the chute at a steady rate",
+      "why": "A debris chute empties at a fixed rate, and dumping a full cart into it at once overloads that rate the same way pouring a bucket down a drain faster than it can swallow backs the sink up — the difference here is what backs up is old asphalt and nails, coming back up at whoever is standing over the hopper."
+    },
+    {
+      "cue": "Run the saw along the marked cut line at a steady pace — too slow burns the blade into the deck, too fast wanders off the line.",
+      "holdBreakNote": "The saw's pace broke out of the steady band. Bring it back to a steady travel speed along the cut line.",
+      "id": "cut-line",
+      "kind": "track",
+      "prompt": "Run the saw along the marked cut line at a steady pace — too slow burns the blade into the deck, too fast wanders off the line.",
+      "seconds": 6,
+      "target": "cut-saw",
+      "title": "Cut the strip to its marked line at a steady pace",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "CUT SAW TRAVEL SPEED",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "The cut line is where this strip ends and tomorrow's dry-in begins, and a saw run too fast wanders off that line into deck that was supposed to stay covered overnight, while one run too slow can burn through the deck sheathing along with the old roofing on top of it. A steady pace keeps the cut exactly where the plan needs it."
+    },
+    {
+      "cue": "Walk the newly exposed strip with your eyes first: soft spots, rot, daylight showing through, anything that was hidden a minute ago.",
+      "id": "deck-scan",
+      "kind": "select",
+      "prompt": "Walk the newly exposed strip with your eyes first: soft spots, rot, daylight showing through, anything that was hidden a minute ago.",
+      "target": "deck-scan",
+      "title": "Scan the exposed deck before anyone walks it",
+      "why": "The moment a strip is stripped bare is the one moment its deck can actually be looked at, and a deck that looked fine covered in three layers of old roofing can turn out to be rotted through in a spot nobody could have seen until right now."
+    },
+    {
+      "cue": "Lay the temporary dry-in felt over the exposed strip and secure it against the wind before leaving the deck open overnight.",
+      "id": "dry-in",
+      "kind": "select",
+      "prompt": "Lay the temporary dry-in felt over the exposed strip and secure it against the wind before leaving the deck open overnight.",
+      "target": "dry-in-tarp",
+      "title": "Dry the exposed strip in before the shift ends",
+      "why": "An exposed deck left uncovered is a roof with no roof on it the moment weather changes, and NRCA's tear-off practice never opens more than a dry-in can cover by the end of the shift — the temporary felt is what keeps tonight's forecast from becoming tomorrow's water damage to the building below."
+    },
+    {
+      "cue": "Walk the finished strip against the plan: find the fastener that never came out and the debris that never made it to the chute.",
+      "id": "strip-walk",
+      "itemNames": {
+        "debris-left-on-deck": "tear-off debris left on the finished deck",
+        "missed-fastener": "a fastener left standing in the dried-in strip"
+      },
+      "itemNotes": {
+        "debris-left-on-deck": "A scrap of old felt and a handful of nails were never carted to the chute — loose on a dried-in deck, they are exactly what tears the temporary felt the next time the wind gets under it.",
+        "missed-fastener": "One fastener along the strip never got backed out — left under the dry-in felt, it is a puncture waiting for the first person who walks that stretch tomorrow morning."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the finished strip against the plan: find the fastener that never came out and the debris that never made it to the chute.",
+      "targets": [
+        "missed-fastener",
+        "debris-left-on-deck"
+      ],
+      "title": "Walk the strip and find what should already be gone",
+      "why": "A strip that looks finished from the hatch can still be hiding a fastener under the dry-in or a scrap of debris nobody carted, and the walk-round is the last chance to find either before the deck is covered again tomorrow and both are out of sight for good."
+    },
+    {
+      "cue": "Write the conduit found, the rotted deck flagged, the missed fastener pulled, and the debris chute's load count into the log.",
+      "id": "log-board",
+      "kind": "select",
+      "prompt": "Write the conduit found, the rotted deck flagged, the missed fastener pulled, and the debris chute's load count into the log.",
+      "target": "log-board",
+      "title": "Log the strip, the finds and the chute count",
+      "why": "Tomorrow's crew opens the next strip based on what this log says about today's — a conduit marked, a rotted section flagged for the framer, a fastener count that tells the dumpster hauler when the bin is actually full — none of which survives past the end of the shift unless it is written down."
+    },
+    {
+      "cue": "Radio the chute tender and the ground crew: the strip is torn off, dried in and logged, and name the support line.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Radio the chute tender and the ground crew: the strip is torn off, dried in and logged, and name the support line.",
+      "target": "radio",
+      "title": "Check in with the chute tender and the ground",
+      "why": "The chute tender at grade has spent the whole shift watching a hopper for debris they cannot see coming, and a short check-in when the strip closes out is what lets them stand down and step clear of the chute for good."
+    }
+  ],
+  "supportLine": "Roofers Local 40's member assistance programme, or your contractor's employee assistance line",
+  "tagline": "The tear-off plan and the extinguisher read, harness clipped, a popped nail and a hidden conduit found, the wind read, old fasteners backed out, debris carted to the chute and fed down at a steady rate, the strip cut to its line, the exposed deck scanned and dried in, a missed fastener and leftover debris found on the walk-round, and the day logged, with a gust scattering staged debris and a second crew member flagging an uncovered hole along the way",
+  "title": "SmartCiti.X~ Roof Tear-Off & Debris Chute VR",
+  "trade": "Roofer tearing off an old built-up roof and running debris down a chute to the dumpster",
+  "underwater": null,
+  "weather": "wind"
+}

@@ -1,0 +1,139 @@
+{
+  "accent": "#e4622a",
+  "anchors": [
+    {
+      "id": "emery-distribution-center",
+      "name": "Emery Distribution Center",
+      "position": [
+        -640,
+        -400
+      ],
+      "stations": [
+        "tw-conveyor-jam-clearing-and-loto",
+        "tw-dock-leveler-and-trailer-restraint-check",
+        "tdl-trailer-loading-and-dock-plate"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "emery-crossing"
+    },
+    {
+      "id": "west-oakland-warehouse-district",
+      "name": "West Oakland Warehouse District",
+      "position": [
+        -327,
+        70
+      ],
+      "stations": [
+        "salon",
+        "machine-threading-needle",
+        "tw-amr-traffic-zone-entry-and-lockout"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "west-oakland"
+    }
+  ],
+  "certification": "Teamsters (IBT) warehouse and logistics automation training, tested against OSHA 29 CFR 1910.147, 1910.178, 1910.212, 1910.132, 1910.1200, 1910.28 and 1910.36, 29 CFR 1926.602, ASME B20.1, ANSI R15.06 and ISO 10218 for robots, ASHRAE 15 and ANSI/IIAR 2 and 6 for refrigeration, and the Revised NIOSH Lifting Equation across eight distinct union jobs",
+  "competency": {
+    "id": "warehouse-and-logistics-automation",
+    "kind": "programme",
+    "require": 4,
+    "standards": [
+      "osha-1910-147",
+      "osha-1910-178",
+      "osha-1910-212",
+      "ansi-r15-06",
+      "iso-10218",
+      "ashrae-15"
+    ],
+    "stations": [
+      "tw-amr-traffic-zone-entry-and-lockout",
+      "tw-conveyor-jam-clearing-and-loto",
+      "tw-high-bay-order-picker-fall-protection",
+      "tw-dock-leveler-and-trailer-restraint-check",
+      "tw-battery-change-and-charging-bay-safety",
+      "tw-palletizer-cell-fenced-access-permit",
+      "tw-cold-storage-ppe-and-rotation",
+      "tw-pick-to-light-ergonomics-and-rotation"
+    ],
+    "title": "Enter, isolate and prove eight distinct Teamsters warehouse and logistics automation jobs"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "teamsters-training",
+    "osha-1910-147",
+    "osha-1910-178",
+    "osha-1910-212",
+    "osha-1910-132",
+    "osha-1910-1200",
+    "osha-1910-28",
+    "osha-1910-36",
+    "osha-1926-602",
+    "asme-b20-1",
+    "ansi-r15-06",
+    "iso-10218",
+    "ashrae-15",
+    "iiar-2",
+    "iiar-6",
+    "niosh-lifting-equation",
+    "niosh-criteria"
+  ],
+  "id": "warehouse-and-logistics-automation",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1568,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 120
+  },
+  "name": "Warehouse and Logistics Automation — Teamsters Distribution Floor",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "tw-amr-traffic-zone-entry-and-lockout",
+      "why": "Crossing into a live autonomous-mobile-robot floor means the map is read for what is already wrong with it, access is requested at the gate instead of stepped past, and the charging dock's power is isolated and locked before anyone touches it."
+    },
+    {
+      "app": "smartcity",
+      "id": "tw-conveyor-jam-clearing-and-loto",
+      "why": "A jammed carton only gets pulled free once the pull-cord is tried, the drive is isolated and locked at its own disconnect, and the residual motion is actually checked rather than assumed stopped."
+    },
+    {
+      "app": "smartcity",
+      "id": "tw-high-bay-order-picker-fall-protection",
+      "why": "The platform's own gate closes and the harness clips to the platform's own anchor before the platform ever leaves the ground, and the unclip waits until it is back down."
+    },
+    {
+      "app": "smartcity",
+      "id": "tw-dock-leveler-and-trailer-restraint-check",
+      "why": "A trailer only gets crossed once it is backed flush to the bumpers, the ICC bar restraint is engaged, the wheels are chocked as the backup the restraint was never meant to be alone, and the dock light is read rather than assumed."
+    },
+    {
+      "app": "smartcity",
+      "id": "tw-battery-change-and-charging-bay-safety",
+      "why": "The eyewash and the ventilation get confirmed clear before anything is unplugged, the truck is powered down before the spent battery is extracted, and the charge is proven inside its safe amperage band before it is trusted."
+    },
+    {
+      "app": "smartcity",
+      "id": "tw-palletizer-cell-fenced-access-permit",
+      "why": "Entering a robotic palletizer cell means the light curtain and gate interlock are confirmed honest, the arm's power is isolated and locked, and the residual energy is proven at zero before anyone is inside the fence."
+    },
+    {
+      "app": "smartcity",
+      "id": "tw-cold-storage-ppe-and-rotation",
+      "why": "A cold room gets entered with a buddy actually checked in, the ice and the propped door and the torn seal caught before they become a fall or a temperature excursion, and the rotation-marked pallet pulled by date rather than convenience."
+    },
+    {
+      "app": "smartcity",
+      "id": "tw-pick-to-light-ergonomics-and-rotation",
+      "why": "A pick-to-light module is worked with the display confirmed over the light alone, a heavy case brought to waist height on the lift-assist table, and the scheduled rotation actually taken instead of skipped for one more cycle."
+    }
+  ],
+  "summary": "Eight jobs on a modern automated distribution floor: an AMR traffic zone entered and locked out the way the fleet's own controller expects it, a conveyor jam cleared behind a proven isolation, a high-bay order picker ridden with a harness clipped to its own anchor, a trailer proven restrained before a forklift ever crosses the leveler, a lift-truck battery changed in a bay whose eyewash and ventilation were actually confirmed, a robotic palletizer cell entered on a permit and proven at zero energy, a cold room worked with a buddy actually checked in, and a pick-to-light module run at a pace and a posture that hold up for a whole shift. Every station ends on a proof — a gauge, a locked-and-tagged isolation, a signed log — rather than on how routine the task felt going in.",
+  "union": "Teamsters (IBT) warehouse and logistics automation training"
+}

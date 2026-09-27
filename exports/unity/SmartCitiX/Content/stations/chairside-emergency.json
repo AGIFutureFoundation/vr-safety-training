@@ -1,0 +1,430 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "chair-to-code",
+    "name": "Chair to Code",
+    "note": "The full escalation answered clean — syncope, anaphylaxis and the AED"
+  },
+  "category": "Dental & Oral Health",
+  "certification": "The American Heart Association's Basic Life Support for Healthcare Providers; the ADA's guidance on the recognition and management of medical emergencies in the dental office, including the office emergency kit; the ADHA's Standards for Clinical Dental Hygiene Practice, which put recognising and responding to a medical emergency inside the hygienist's own assessment duty; NFPA 99 for the office's medical gas and emergency oxygen; the state dental board's practice act for first response before EMS arrival; OSHA 29 CFR 1910.1030 bloodborne pathogens for rescue breaths and any blood or saliva exposure",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADA",
+        "citedAs": "ADA's",
+        "id": "ada-radiographic-guidance",
+        "title": "American Dental Association and FDA guidance on prescribing dental radiographs"
+      },
+      {
+        "body": "ADHA",
+        "citedAs": "ADHA",
+        "id": "adha-standards",
+        "title": "ADHA Standards for Clinical Dental Hygiene Practice"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 99",
+        "id": "nfpa-99",
+        "title": "NFPA 99 — Health Care Facilities Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "state dental board",
+        "citedAs": "state dental board",
+        "id": "state-dental-board",
+        "title": "The state dental board and its dental practice act: licensure, scope of practice, and the allowable-duties rules for dental assistants and hygienists"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Dental & Oral Health",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "kit-known",
+        "name": "Kit Known",
+        "note": "Every item in the emergency kit identified before it is needed"
+      },
+      {
+        "id": "no-hesitation",
+        "name": "No Hesitation",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "steady-compressions",
+        "name": "Steady Compressions",
+        "note": "Held compression depth in band the whole cycle"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "fast-response",
+        "name": "Fast Response",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-code",
+        "name": "Clean Code",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "six-straight",
+        "name": "Six Straight",
+        "note": "Six correct actions in a row"
+      }
+    ],
+    "currency": "BLS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "First on Scene",
+      "Kit Trained",
+      "Code Lead",
+      "Team Captain",
+      "Response Certified"
+    ],
+    "system": "Emergency Response"
+  },
+  "hazards": {
+    "chair-upright-shortcut": "You sat the patient upright right after they came round. A syncope patient who is stood or sat up too soon drops their blood pressure again and faints a second time — supine with the legs raised is held until they are genuinely steady, not until they open their eyes.",
+    "expired-o2-tank": "That cylinder's inspection date is years past due and the gauge sits on empty. An emergency oxygen supply is checked on a schedule for exactly this reason — the one time it is needed is the one time a dead or out-of-date tank cannot be discovered for the first time.",
+    "mouth-to-mouth": "You went for direct mouth-to-mouth instead of the pocket mask in the kit. Bloodborne pathogen exposure runs through saliva and vomitus as well as blood, and a barrier device is in every kit for exactly this moment — it is reached for before rescue breaths, not after.",
+    "sharps-in-trash": "The used auto-injector needle went into the general waste bin. A fired epinephrine auto-injector is a used sharp like any other and goes into the sharps container — dropping it in the trash puts the next person to touch that bag at risk for no reason at all."
+  },
+  "id": "chairside-emergency",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "airway",
+      "alert": "A full minute has passed and the patient has not come round — this is no longer ordinary syncope.",
+      "cue": "Escalate now. Call for help.",
+      "delay": 3,
+      "id": "syncope-not-recovering",
+      "kind": "Patient deteriorating",
+      "missNote": "The patient stayed down while the routine syncope response continued unchanged. A minute without recovery is the threshold this protocol uses to call for help — past it, waiting to see costs the time EMS needed to already be moving.",
+      "seconds": 11,
+      "target": "call-911",
+      "why": "Ordinary vasovagal syncope resolves within roughly a minute of the legs going up; a patient who does not come round in that time has stopped being a simple faint and needs EMS on the way while the rest of the assessment continues, not after it.",
+      "wrongNote": "Escalate — call 911. Continuing the same steps that have not worked for a full minute is not the same as reassessing."
+    },
+    {
+      "after": "cpr",
+      "alert": "The AED pads pack you grabbed is past its expiry date — the gel has likely dried and the connection cannot be trusted.",
+      "cue": "Grab the backup pack, not the expired one.",
+      "delay": 3,
+      "id": "aed-pads-expired",
+      "kind": "Equipment fault",
+      "missNote": "The expired pads went on anyway. A poor connection at the one moment a shock might be needed is exactly what a kit-check schedule for the AED pads exists to prevent — checking dates only after they have already failed defeats the point.",
+      "seconds": 11,
+      "target": "backup-pads",
+      "why": "Dried gel on an expired pad set breaks skin contact and can stop the AED from reading a rhythm or delivering a shock at all — the fix is switching to the backup pack immediately, not attaching the expired one because a patient is already down.",
+      "wrongNote": "It is the pads pack. An expired set stays out of the kit precisely because failure shows up only when it is finally used."
+    }
+  ],
+  "lateNotes": {
+    "aed-analyze": "CPR has to be running and the pads have to be placed before the AED analyses anything — pressing analyse now reads no rhythm off a patient with nothing attached yet.",
+    "call-911": "Epinephrine goes first. The call matters, but it does not treat the airway closing while you dial.",
+    "o2-mask": "The cylinder valve is not open yet — a mask with no flow behind it does nothing for a patient who is not breathing well."
+  },
+  "name": "Chairside Emergency",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "dental-hygiene-unspoken-smiles"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "aed-analyze",
+      "aed-pads-expired",
+      "backup-pads",
+      "bp-cuff",
+      "call-911",
+      "chair-supine",
+      "chair-upright-shortcut",
+      "cpr-point",
+      "epi-autoinjector",
+      "expired-o2-tank",
+      "incident-log",
+      "kit-aed",
+      "kit-aspirin",
+      "kit-epi",
+      "kit-glucose",
+      "kit-nitro",
+      "kit-o2",
+      "legs-raised",
+      "mouth-to-mouth",
+      "o2-mask",
+      "o2-valve",
+      "patient-airway",
+      "patient-chest",
+      "pulse-ox",
+      "sharps-in-trash",
+      "sign-pallor",
+      "sign-pulse",
+      "sign-sweat",
+      "vitals-record"
+    ],
+    "meshes": 159
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Open the kit and confirm each item is present and in date.",
+      "id": "kit-check",
+      "itemNames": {
+        "kit-aed": "the AED",
+        "kit-aspirin": "aspirin",
+        "kit-epi": "epinephrine auto-injector",
+        "kit-glucose": "oral glucose",
+        "kit-nitro": "nitroglycerin",
+        "kit-o2": "oxygen"
+      },
+      "itemNotes": {
+        "kit-aed": "Automated external defibrillator — voice-prompted, and the ADA's emergency guidance expects one in every office reachable inside minutes.",
+        "kit-aspirin": "Chewed and swallowed for suspected cardiac chest pain, once the patient can confirm no allergy or contraindication.",
+        "kit-epi": "The first-line drug for anaphylaxis, and the only one in this kit given by auto-injector rather than by mouth.",
+        "kit-glucose": "For a conscious hypoglycaemic patient who can still swallow — not for one who cannot protect their own airway.",
+        "kit-nitro": "For a patient's own prescribed angina pain, given from their own supply where the office kit carries it as a backup.",
+        "kit-o2": "Oxygen treats more emergencies in this kit than any other single item — syncope, chest pain and anaphylaxis all start with it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Open the kit and confirm each item is present and in date.",
+      "targets": [
+        "kit-o2",
+        "kit-epi",
+        "kit-glucose",
+        "kit-aspirin",
+        "kit-nitro",
+        "kit-aed"
+      ],
+      "title": "Know the emergency kit before you need it",
+      "why": "The ADA's guidance on office emergencies names this exact list — oxygen, an epinephrine auto-injector, glucose, aspirin, nitroglycerin and an AED — because a kit checked cold, during an actual emergency, costs the minutes that decide the outcome. The ADHA's practice standards put that check on the hygienist rather than on whoever happens to be free: knowing the kit before the chair needs it is the whole point of keeping one."
+    },
+    {
+      "cue": "Look at your patient. Three signs say this is more than nerves before a procedure.",
+      "forceClass": "light",
+      "id": "recognize",
+      "itemNames": {
+        "sign-pallor": "pale skin",
+        "sign-pulse": "weak, slow pulse",
+        "sign-sweat": "cold sweat"
+      },
+      "itemNotes": {
+        "sign-pallor": "Blood pooling away from the skin and toward the core is one of the earliest visible signs a vasovagal episode is starting.",
+        "sign-pulse": "A pulse that has gone slow and thin, rather than fast and thin, points toward vasovagal syncope rather than a bleed.",
+        "sign-sweat": "A sudden cold sweat with no exertion behind it is autonomic, not incidental — it belongs on the same list as the pallor."
+      },
+      "kind": "find",
+      "noHint": true,
+      "noRobot": true,
+      "prompt": "Look at your patient. Three signs say this is more than nerves before a procedure.",
+      "robotNote": "Reading pallor, sweat and a pulse is hands on a collapsing patient.",
+      "targets": [
+        "sign-pallor",
+        "sign-sweat",
+        "sign-pulse"
+      ],
+      "title": "Recognise syncope in the chair",
+      "why": "Pale, sweating and a pulse gone slow and weak together are the recognisable shape of vasovagal syncope, and naming it correctly in the first seconds is what sends the response toward reclining the chair rather than toward reassurance that does nothing for a patient about to lose consciousness."
+    },
+    {
+      "cue": "Lay the chair fully back, then raise the patient's legs above heart level.",
+      "forceClass": "firm",
+      "id": "position",
+      "itemNames": {
+        "chair-supine": "chair to supine",
+        "legs-raised": "legs raised"
+      },
+      "kind": "sequence",
+      "noRobot": true,
+      "outOfOrderNote": "The chair goes fully supine before the legs come up — raising the legs on a half-reclined chair does not restore circulation the way flat does.",
+      "prompt": "Lay the chair fully back, then raise the patient's legs above heart level.",
+      "robotNote": "Reclining the chair and raising the legs of somebody who has just lost consciousness.",
+      "targets": [
+        "chair-supine",
+        "legs-raised"
+      ],
+      "title": "Recline the chair and raise the legs",
+      "why": "Supine with the legs raised restores blood flow to the brain by gravity alone, before any drug or device is involved, and it is the single most effective first action for ordinary vasovagal syncope. The legs go up after the chair is flat, because raising them on a half-reclined chair mostly just folds the patient in half."
+    },
+    {
+      "cue": "Hold the head-tilt chin-lift and confirm breathing.",
+      "forceClass": "light",
+      "holdBreakNote": "You let go before confirming breathing. A partially open airway can look clear for a second and close again — the check is held for the full count, not sampled.",
+      "id": "airway",
+      "kind": "hold",
+      "noRobot": true,
+      "prompt": "Hold the head-tilt chin-lift and confirm breathing.",
+      "robotNote": "The airway. Never the robot's, at any skill.",
+      "seconds": 6,
+      "target": "patient-airway",
+      "title": "Open the airway and check breathing",
+      "why": "An unconscious or semi-conscious patient's own tongue is the most common airway obstruction in the chair, and the head-tilt chin-lift clears it in the same motion that lets you watch for breathing. This is checked before oxygen goes on, because oxygen delivered to a closed airway does not reach anywhere that matters."
+    },
+    {
+      "cue": "Turn the cylinder valve open before reaching for the mask.",
+      "id": "o2-valve",
+      "kind": "turn",
+      "prompt": "Turn the cylinder valve open before reaching for the mask.",
+      "target": "o2-valve",
+      "title": "Open the emergency oxygen cylinder",
+      "turn": {
+        "axis": "y",
+        "label": "O2 CYLINDER",
+        "turns": 1
+      },
+      "why": "The valve opens first because a mask placed on a closed line delivers nothing and costs the seconds it takes someone to notice. Confirming flow at the cylinder is the difference between administering oxygen and going through the motions of administering oxygen — and it is the reason NFPA 99 has the office check and secure this cylinder on a schedule rather than the morning it is finally needed."
+    },
+    {
+      "cue": "Place the mask once flow is confirmed.",
+      "forceClass": "light",
+      "id": "o2-mask",
+      "kind": "select",
+      "noRobot": true,
+      "prompt": "Place the mask once flow is confirmed.",
+      "robotNote": "Oxygen onto a patient's face.",
+      "target": "o2-mask",
+      "title": "Apply oxygen",
+      "why": "Oxygen is the single item in this kit that helps almost every emergency it might be reached for, which is why it is applied early and kept running rather than held back to see whether the patient needs it after all."
+    },
+    {
+      "cue": "Blood pressure, then pulse oximetry, then record both.",
+      "forceClass": "light",
+      "id": "vitals",
+      "itemNames": {
+        "bp-cuff": "blood pressure",
+        "pulse-ox": "pulse oximeter",
+        "vitals-record": "record vitals"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Blood pressure first, then the pulse oximeter, then the record — writing down a number you have not taken yet is not a record of anything.",
+      "prompt": "Blood pressure, then pulse oximetry, then record both.",
+      "robotNote": "Cuff and oximeter placement is assistant work the robot may do while the clinician holds the airway.",
+      "targets": [
+        "bp-cuff",
+        "pulse-ox",
+        "vitals-record"
+      ],
+      "title": "Take and record vitals",
+      "why": "Vitals taken and written down are what turns 'the patient looked better' into something the responding paramedics can actually use when they walk in — a trend across two or three readings tells them more than any one number does on its own."
+    },
+    {
+      "cue": "The patient's throat is tightening and hives are spreading — give epinephrine, then call 911.",
+      "forceClass": "firm",
+      "id": "anaphylaxis",
+      "itemNames": {
+        "call-911": "call 911",
+        "epi-autoinjector": "epinephrine auto-injector"
+      },
+      "kind": "sequence",
+      "noRobot": true,
+      "outOfOrderNote": "Epinephrine before the call — a closing airway does not wait for EMS to be notified.",
+      "prompt": "The patient's throat is tightening and hives are spreading — give epinephrine, then call 911.",
+      "robotNote": "An injection into a patient's thigh, and the call that has to follow it.",
+      "targets": [
+        "epi-autoinjector",
+        "call-911"
+      ],
+      "title": "Anaphylaxis to the local anaesthetic — epinephrine, then the call",
+      "why": "Epinephrine is the first-line treatment for anaphylaxis and the one intervention that can reverse a closing airway in the minutes before EMS arrives, so it is given immediately rather than after the call is placed. The 911 call follows straight after, because a patient who responds to one dose can still deteriorate again on the way to the hospital."
+    },
+    {
+      "cue": "Compress at the correct depth and hold it steady — too shallow does nothing, too hard risks injury.",
+      "forceClass": "firm",
+      "holdBreakNote": "Depth drifted out of band. Shallow compressions do not circulate blood, and compressions that are too hard risk rib injury — bring it back into the band and hold it.",
+      "id": "cpr",
+      "kind": "track",
+      "noRobot": true,
+      "prompt": "Compress at the correct depth and hold it steady — too shallow does nothing, too hard risks injury.",
+      "robotNote": "Compressions on a human chest.",
+      "seconds": 8,
+      "target": "cpr-point",
+      "title": "Start chest compressions — no pulse",
+      "track": {
+        "drift": 0.09,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "COMPRESSION DEPTH",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "The American Heart Association's Basic Life Support sequence calls for compressions the instant a pulse cannot be found, at a depth and rate that actually generates circulation — a compression that never reaches full depth moves no blood, and this is the one part of the whole response where doing it approximately is the same as not doing it."
+    },
+    {
+      "cue": "Place the pads on the bare chest, upper right and lower left, without stopping compressions longer than necessary.",
+      "drag": {
+        "missNote": "Not placed on the chest. A pad set down anywhere else reads nothing and shocks nothing.",
+        "radius": 0.4,
+        "to": "patient-chest"
+      },
+      "forceClass": "light",
+      "id": "aed-pads",
+      "kind": "drag",
+      "noRobot": true,
+      "prompt": "Place the pads on the bare chest, upper right and lower left, without stopping compressions longer than necessary.",
+      "robotNote": "Pads onto a bare chest, positioned by eye.",
+      "target": "backup-pads",
+      "title": "Attach the AED pads",
+      "why": "Pad placement follows the diagram on the pack — upper right of the sternum, lower left ribs — because a pad placed by guesswork can read the rhythm wrong or fail to deliver a shock through the heart at all. Compressions pause only for the seconds the AED actually needs to analyse."
+    },
+    {
+      "cue": "Stand clear and follow the AED's voice prompts.",
+      "forceClass": "none",
+      "id": "aed-shock",
+      "kind": "select",
+      "noRobot": true,
+      "prompt": "Stand clear and follow the AED's voice prompts.",
+      "robotNote": "The decision to shock a person stays with the person who can be held to it.",
+      "target": "aed-analyze",
+      "title": "Analyse and shock as prompted",
+      "why": "The AED decides whether a shock is indicated from the rhythm it reads — the operator's job is staying clear during analysis and delivering the shock the device calls for, not second-guessing the prompt. Voice-prompted devices exist so that this step needs no judgement call under pressure."
+    },
+    {
+      "cue": "Log the timeline, the interventions given and the outcome once EMS has the patient.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Log the timeline, the interventions given and the outcome once EMS has the patient.",
+      "target": "incident-log",
+      "title": "Record the incident",
+      "why": "A written timeline — when the emergency was recognised, what was given and when, when EMS arrived — is what the receiving hospital, the state dental board and the office's own review of the response all rely on afterward. None of that exists if it is only remembered."
+    }
+  ],
+  "supportLine": "your employer's employee assistance program, and the ADHA's member resources — an emergency in your own chair is exactly the run people carry home",
+  "tagline": "Syncope, escalating to anaphylaxis and a pulseless patient — the office emergency kit, BLS and the AED",
+  "title": "SmartCiti.X~ Chairside Emergency VR",
+  "trade": "Dental hygienist",
+  "underwater": null,
+  "weather": null
+}

@@ -1,0 +1,405 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "zeroed-and-marked",
+    "name": "Zeroed and Marked",
+    "note": "The probe zeroed to the benchmark before any reading counted, the deepest point flagged and logged, and never a hand in the undercut or a tool dropped into the hole"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.421 pre-dive procedures (planning and assessment of the dive) and 29 CFR 1910.423 post-dive procedures (the record of dive); ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds; scour findings measured against the bridge owner's own monitoring plan, never against an invented number",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADCI",
+        "citedAs": "ADCI",
+        "id": "adci-consensus-standards",
+        "title": "Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations"
+      },
+      {
+        "body": "union",
+        "citedAs": "Pile Drivers",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.421",
+        "id": "osha-1910-421",
+        "title": "29 CFR 1910.421 — Pre-dive procedures (emergency aid list, planning and assessment of the dive, hazardous activities nearby, the team briefing, equipment inspection and the warning signal)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.423",
+        "id": "osha-1910-423",
+        "title": "29 CFR 1910.423 — Post-dive procedures (the diver's condition, instructions to report symptoms, the recompression chamber and the record of dive)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910 Subpart T",
+        "id": "osha-1910-subpart-t",
+        "title": "29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 197 Subpart B",
+        "id": "uscg-46-cfr-197-subpart-b",
+        "title": "46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction"
+      }
+    ]
+  },
+  "district": "bay-underwater",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "zeroed-first",
+        "name": "Zeroed First",
+        "note": "The probe zeroed against the benchmark before the perimeter was swum"
+      },
+      {
+        "id": "true-depth",
+        "name": "True Depth",
+        "note": "The scour probe read inside the band first time"
+      },
+      {
+        "id": "clear-of-the-undercut",
+        "name": "Clear Of The Undercut",
+        "note": "Never a hand in the undercut, never through the exposed rebar, never a tool let fall into the hole, never the umbilical left on the rebar"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-survey",
+        "name": "Clean Survey",
+        "note": "No corrections from the on-bottom report to the check-in"
+      },
+      {
+        "id": "steady-perimeter",
+        "name": "Steady Perimeter",
+        "note": "The perimeter swum in band the whole way"
+      },
+      {
+        "id": "surveyed-in-time",
+        "name": "Surveyed In Time",
+        "note": "Findings reported inside 80% of par"
+      }
+    ],
+    "currency": "ELEVATION",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Diver Trainee",
+      "Diver",
+      "Survey Diver",
+      "Lead Survey Diver",
+      "Scour Survey Certified"
+    ],
+    "system": "Scour Survey"
+  },
+  "hazards": {
+    "drop-probe-in-hole": "You let the probe slip into the scour hole to free a hand instead of clipping it off first. A probe left in the hole is a foreign object the next survey has to explain, and one that has wedged up under the undermined footing can jam a probe reading, or a diver's hand, the next time anyone works this pier. Every tool comes off your harness clipped, and goes back on clipped, never let fall to free a hand.",
+    "enter-scour-gap": "You put your head and shoulders into the gap under the undermined footing to look at how far it goes back. Current funnelling under an undercut footing speeds up the same way water speeds up through any narrower gap, and that accelerated flow can pull a diver further into the gap than they meant to go, with a slab of concrete over their head and an umbilical trailing back through the same narrow space. The gap is measured from outside with the probe, never entered.",
+    "swim-into-rebar": "You swam straight through the exposed rebar instead of round the footing. Scour has left this rebar standing free of the concrete that used to hold it, bent and sharp-edged from where it tore, and a diver who takes it as a shortcut round the pier gives it a suit, a hose or a fin to catch on. It gets photographed and measured from outside; it does not get swum through.",
+    "umbilical-on-rebar": "You worked the far side of the footing with your umbilical draped straight across the exposed rebar behind you. Every move you make after that drags the umbilical over sharp, bent steel that can nick the jacket or hang the line up outright, and you cannot see it happening from where you are working. The umbilical is walked round clear of the rebar before you start, not left to find its own way across it."
+  },
+  "id": "uw-bridge-pier-scour-survey",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "swim-perimeter",
+      "alert": "Fine material stirred up out of the hole has spread into a cloud thick enough that the footing's edge has disappeared in front of your mask.",
+      "cue": "Stop where you are and find the guide clip on the perimeter rope rather than guessing which way the footing runs.",
+      "delay": 2,
+      "id": "silt-hides-perimeter",
+      "kind": "A cloud off the scour hole swallows the perimeter",
+      "missNote": "You kept moving through the cloud on a guess at the footing's line; the survey ended up with the same stretch covered twice and another stretch never reached at all.",
+      "seconds": 14,
+      "target": "perimeter-guide-clip",
+      "why": "A diver who keeps circling blind through a cloud like this is just as likely to walk straight back over ground already covered as to find anything new, and every fin stroke through it only spreads the cloud wider. The guide clip on the rope strung earlier is the one thing in the cloud that still tells you exactly how far round you have come, which is worth far more right now than another few metres of guessing.",
+      "wrongNote": "The guide clip on the perimeter rope — find it rather than guessing your way through the cloud."
+    },
+    {
+      "after": "hold-for-readback",
+      "alert": "A wake from the surface has rolled through and snapped your umbilical bar-taut across the exposed rebar's edge behind you.",
+      "cue": "Get a flat hand braced on the footing and ride the load out rather than pulling back against a line that is already at its limit.",
+      "delay": 2,
+      "id": "wake-surge-snaps-line",
+      "kind": "A passing wake snaps the umbilical taut against the rebar",
+      "missNote": "You pulled back against the taut line instead of bracing; the jacket started to fray right where it crossed the rebar's edge before the surge finally eased.",
+      "seconds": 14,
+      "target": "footing-brace-point",
+      "why": "A line already snapped taut across a sharp edge is a line one more hard pull could part right where the steel bites into it, and pulling back against that load is the instinct that actually makes it worse. Bracing against the footing instead takes the strain off your own body and gives the surge somewhere to spend itself besides the umbilical's jacket.",
+      "wrongNote": "Brace flat against the footing — do not pull back against a line that is already snapped taut."
+    }
+  ],
+  "lateNotes": {
+    "hold-for-readback": "Position is held for the read-back once the rebar and the accelerated flow have been found along the perimeter.",
+    "marker-stake": "The stake is placed once the deepest point has actually been found by probing — not planted to mark a guess at where it might be.",
+    "scour-probe": "The probe is read once it has been zeroed against the benchmark — a reading off an uncalibrated probe means nothing set against last year's survey."
+  },
+  "name": "Bridge Pier Scour Survey",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "baseline-benchmark",
+      "drop-probe-in-hole",
+      "enter-scour-gap",
+      "exposed-footing",
+      "footing-brace-point",
+      "footing-toe",
+      "hold-for-readback",
+      "marker-stake",
+      "perimeter-guide-clip",
+      "pier-perimeter",
+      "probe-zero-dial",
+      "rebar-snag",
+      "scour-comms",
+      "scour-deepest-point",
+      "scour-photo-point",
+      "scour-probe",
+      "slate-entry",
+      "stage-checkin",
+      "stake-flag",
+      "swim-into-rebar",
+      "umbilical-on-rebar",
+      "undermined-riprap",
+      "venturi-gap"
+    ],
+    "meshes": 168
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Call the supervisor: on the bottom at the pier, off the stage, feeling good, and starting the survey at the benchmark.",
+      "id": "report-on-bottom",
+      "kind": "select",
+      "prompt": "Call the supervisor: on the bottom at the pier, off the stage, feeling good, and starting the survey at the benchmark.",
+      "target": "scour-comms",
+      "title": "Report on the bottom at the pier",
+      "why": "The supervisor at the panel can see your gas and your depth but not the footing, and the on-bottom report is how the surface learns the survey has actually started where the plan says it should. It is also the comms check that proves the voice circuit works before you leave the benchmark, so a lost signal at the far side of the pier is a real fault, not an unproven line."
+    },
+    {
+      "cue": "At the pier, before probing anything: find the benchmark plate and the line where the footing meets the mudline.",
+      "id": "find-benchmark",
+      "itemNames": {
+        "baseline-benchmark": "benchmark plate set into the pier",
+        "footing-toe": "footing's toe where it meets the mudline"
+      },
+      "itemNotes": {
+        "baseline-benchmark": "A stainless plate set into the pier at a known elevation on a past survey — the one fixed point every scour reading on this pier is measured against.",
+        "footing-toe": "The edge where the pier's footing meets the silt, the line the scour survey exists to check for any change since last time."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "At the pier, before probing anything: find the benchmark plate and the line where the footing meets the mudline.",
+      "targets": [
+        "baseline-benchmark",
+        "footing-toe"
+      ],
+      "title": "Find the benchmark and the footing's toe",
+      "why": "Nothing you read today means anything by itself — a scour depth only matters next to the number someone wrote down at this same pier a year ago, and the benchmark plate is the single elevation that ties this dive to that one. Skip finding it first and every probe reading you take afterward is a number with no year to compare it to, which is the same as not having taken it."
+    },
+    {
+      "cue": "Set the probe against the benchmark plate and turn the zero dial until the readout reads true at the known elevation.",
+      "id": "calibrate-probe",
+      "kind": "turn",
+      "prompt": "Set the probe against the benchmark plate and turn the zero dial until the readout reads true at the known elevation.",
+      "target": "probe-zero-dial",
+      "title": "Zero the probe against the benchmark",
+      "turn": {
+        "label": "PROBE ZERO",
+        "turns": 0.6
+      },
+      "why": "A probe that has drifted even a little reads every scour depth on the whole survey wrong by the same amount, and there is no way to catch that error later except by comparing against a reading you already know is right. Zeroing it here, against the one elevation on this pier that is not in question, is what makes every reading that follows worth comparing to last year's at all."
+    },
+    {
+      "cue": "Work your way all the way round the footing's edge, letting your fin beat settle into a rhythm that neither outruns your own eyes nor lets you drift to a stop.",
+      "holdBreakNote": "The rhythm broke — you either stalled against the footing or outran what you could actually see. Settle back into an even beat and carry on round.",
+      "id": "swim-perimeter",
+      "kind": "track",
+      "prompt": "Work your way all the way round the footing's edge, letting your fin beat settle into a rhythm that neither outruns your own eyes nor lets you drift to a stop.",
+      "seconds": 6,
+      "target": "pier-perimeter",
+      "title": "Circle the whole footing, one edge at a time",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "CIRCLING RHYTHM",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "A scour survey that only circles the footing once, unevenly, is a survey with blind spots on whichever side the diver hurried past, and next year's crew has no way to know which side that was. Keeping one even rhythm all the way round is what turns 'I looked at the pier' into 'I looked at every side of it the same way,' which is the only kind of coverage the comparison to last year's survey can actually trust."
+    },
+    {
+      "cue": "Work the rod down through the loosened material at the bottom of the hole until it stops on something that will not give any further, then commit that stopping point.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "ROD STOP AGAINST THE ENGINEER'S LIMIT",
+        "speed": 0.7
+      },
+      "id": "probe-scour-depth",
+      "kind": "gauge",
+      "prompt": "Work the rod down through the loosened material at the bottom of the hole until it stops on something that will not give any further, then commit that stopping point.",
+      "target": "scour-probe",
+      "title": "Push the rod through to something solid",
+      "why": "Engineers back on land have already drawn a line on paper below which this footing cannot lose ground without the whole pier's capacity coming into question, and this rod is the only thing in the water that can say honestly which side of that line the pier is actually on today. Call the stop too early, on loose fill that only feels solid, and the pier reads safer on paper than it stands in the mud."
+    },
+    {
+      "cue": "Working round the perimeter: look for footing concrete standing bare of silt, and for riprap that has slumped instead of holding its ground.",
+      "id": "footing-hazards",
+      "itemNames": {
+        "exposed-footing": "footing concrete exposed by the scour",
+        "undermined-riprap": "riprap undermined and slumped into the hole"
+      },
+      "itemNotes": {
+        "exposed-footing": "A face of the footing's own concrete standing clear of the silt that used to bury it, exactly the surface the scour has been cutting into.",
+        "undermined-riprap": "A run of protective riprap that has lost its own footing to the same scour and slumped down into the hole instead of covering it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Working round the perimeter: look for footing concrete standing bare of silt, and for riprap that has slumped instead of holding its ground.",
+      "targets": [
+        "exposed-footing",
+        "undermined-riprap"
+      ],
+      "title": "Find the exposed footing and the undermined riprap",
+      "why": "Exposed footing tells the engineers exactly how far the scour has already cut, and riprap that has slumped instead of protecting the footing is itself a finding — a countermeasure that used to work and no longer does. Both change what the bridge owner has to plan for at this pier, and both are found by eye, round the whole perimeter, before the deepest point is marked."
+    },
+    {
+      "cue": "Position the camera over the deepest part of the hole and hold it still while the frame is recorded for the report.",
+      "holdBreakNote": "The camera moved before the frame was recorded — hold it steady over the deepest point until the frame is confirmed.",
+      "id": "hold-photo",
+      "kind": "hold",
+      "prompt": "Position the camera over the deepest part of the hole and hold it still while the frame is recorded for the report.",
+      "seconds": 4,
+      "target": "scour-photo-point",
+      "title": "Hold the camera steady over the deepest point",
+      "why": "A scour hole photographed from a drifting camera is hard to line up against last year's photo taken from roughly the same spot, and the comparison is most of what makes the photo worth having at all. Holding it steady over the deepest point, the same point the probe just read, is what lets the engineers actually see the change the numbers describe."
+    },
+    {
+      "cue": "Carry the stake over from your kit and set it standing exactly where the rod bottomed out, not somewhere nearby that looks about right.",
+      "drag": {
+        "missNote": "Off the mark — the stake belongs exactly where the rod stopped, not near it.",
+        "radius": 0.5,
+        "to": "scour-deepest-point"
+      },
+      "id": "place-marker",
+      "kind": "drag",
+      "prompt": "Carry the stake over from your kit and set it standing exactly where the rod bottomed out, not somewhere nearby that looks about right.",
+      "target": "marker-stake",
+      "title": "Push the stake in where the rod actually stopped",
+      "why": "Whoever comes back to this pier — a diver next season, or an ROV sent down between full surveys — is going to trust this stake completely and start their own work from wherever it is standing. Plant it a body-length off from where the rod actually stopped and you have not saved anyone time; you have handed them a wrong answer they will not know to question."
+    },
+    {
+      "cue": "Tie a number onto the stake before you write anything down, so the slate entry you make afterward is describing a number that already exists in the water.",
+      "id": "flag-then-log",
+      "itemNames": {
+        "slate-entry": "reading written on the slate with its position",
+        "stake-flag": "numbered flag tied to the stake"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Backwards — the stake needs its number before the slate can describe it truthfully.",
+      "prompt": "Tie a number onto the stake before you write anything down, so the slate entry you make afterward is describing a number that already exists in the water.",
+      "targets": [
+        "stake-flag",
+        "slate-entry"
+      ],
+      "title": "Number it, then write down what the number means",
+      "why": "Write the entry first and you are describing a stake that does not have its number yet, which leaves you guessing what to tie on when you circle back — and a guess made twice rarely comes out the same way both times. Tying the number on first means everything that goes on the slate afterward is describing something real, not something you are about to make up."
+    },
+    {
+      "cue": "Ahead on the perimeter: any rebar standing clear of the footing, and any gap where the current is visibly speeding up as it funnels through.",
+      "id": "route-hazards",
+      "itemNames": {
+        "rebar-snag": "exposed rebar torn loose by the scour",
+        "venturi-gap": "gap under the footing with accelerated flow"
+      },
+      "itemNotes": {
+        "rebar-snag": "A length of reinforcing bar standing clear of the footing where the scour has torn the concrete cover away from around it.",
+        "venturi-gap": "A narrow opening under the undermined footing where the current visibly speeds up, funnelled by the same undercut the survey has been measuring."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Ahead on the perimeter: any rebar standing clear of the footing, and any gap where the current is visibly speeding up as it funnels through.",
+      "targets": [
+        "rebar-snag",
+        "venturi-gap"
+      ],
+      "title": "Find the rebar and the accelerated flow before passing them",
+      "why": "Both of these are exactly what the next diver on this pier needs marked before they arrive — a snag that can hold an umbilical, and a gap that can pull a diver further in than the current outside it ever suggested. Found here and reported, they are a line on the survey; missed until a diver is already alongside them, they are the reason the next dive gets hurt."
+    },
+    {
+      "cue": "Grip the stake itself and stop kicking while the supervisor repeats every reading back to you for confirmation, one at a time.",
+      "holdBreakNote": "You let go of the stake and drifted while the numbers were still being confirmed — the record would carry a position that was never really checked. Take hold of the stake again and let the read-back finish.",
+      "id": "hold-for-readback",
+      "kind": "hold",
+      "prompt": "Grip the stake itself and stop kicking while the supervisor repeats every reading back to you for confirmation, one at a time.",
+      "seconds": 5,
+      "target": "hold-for-readback",
+      "title": "Anchor yourself at the stake while the numbers go back and forth",
+      "why": "This survey exists to be trusted years from now by an engineer who was never in the water, and the only quality control it gets is you and the supervisor saying the same numbers back to each other before either of you writes anything down for good. A diver who keeps finning gently in place while that happens is a diver whose own drift can put the stake's readings a foot from where they actually belong on the drawing."
+    },
+    {
+      "cue": "Tell the supervisor: the deepest reading against the critical elevation, the undermined riprap, and the rebar and the accelerated flow left for the work plan.",
+      "id": "report-findings",
+      "kind": "select",
+      "prompt": "Tell the supervisor: the deepest reading against the critical elevation, the undermined riprap, and the rebar and the accelerated flow left for the work plan.",
+      "target": "scour-comms",
+      "title": "Report the survey's findings",
+      "why": "The bridge owner's engineers only know what this survey actually found through this report, and a reading approaching or at the critical elevation is worth more to them than every other finding combined. Reporting it now, at the pier, while you can still describe exactly how far the undercut runs, is worth more than a line added to the record after the dive."
+    },
+    {
+      "cue": "Get yourself clipped onto the stage, then talk the dive through out loud with the supervisor before you give any sign you are ready to leave.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Get yourself clipped onto the stage, then talk the dive through out loud with the supervisor before you give any sign you are ready to leave.",
+      "target": "stage-checkin",
+      "title": "Clip on at the stage and wait for the word to come up",
+      "why": "Nobody starts the ascent on this pier until the diver who was actually down there has said, in their own words, how it went — not just handed over a clean list of numbers. The pull through the undercut and the umbilical hanging up on the rebar both belong in that conversation as much as any reading does, and the Pile Drivers Local 34 member assistance line is there afterward for anything the conversation on the comms was never going to be the right place for."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — Pile Drivers Local 34 — with the employer's employee assistance line behind it",
+  "tagline": "The footing read against last year's survey: the benchmark and the footing's toe found, the probe zeroed against the benchmark, the perimeter swum at the mudline through an accelerating current, the scour hole probed against the critical elevation, the exposed footing and the undermined riprap found, the deepest point marked, flagged and logged in order, the exposed rebar and the accelerated flow through the undercut found, position held for the read-back while the umbilical catches the rebar, and the findings reported before the crew checks in",
+  "title": "SmartCiti.X~ Bridge Pier Scour Survey VR",
+  "trade": "Pile Drivers Local 34 commercial diver on a bridge pier scour survey, with the dive supervisor on the comms, the tender on the umbilical and the standby diver dressed at the ladder",
+  "underwater": {
+    "bottomTimeSeconds": 660,
+    "depthLabel": "Per dive plan"
+  },
+  "weather": "clear"
+}

@@ -112,7 +112,11 @@ await check("the adapted seabed is sound: zones, sites, landmarks, lines and a c
 // ------------------------------------------------------------- 2. the scene
 
 await check("the scene builds behind a three.js stub at both detail levels, inside the mesh budget", async () => {
-  const modules = ["underwater/js/seabed-stub.js", "underwater/js/seabed-stub-scene.js", "underwater/js/seabed.js", "underwater/js/dive-sim.js", "underwater/js/world.js"];
+  const modules = [
+    "shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/fleet.js", "shared/props.js", "smartcity/js/citykit.js",
+    "shared/underwater-data.js", "shared/underwater.js",
+    "underwater/js/seabed.js", "underwater/js/dive-sim.js", "underwater/js/world.js",
+  ];
   const S = await buildSuite(modules, `export { dvBuildWorld, buildUnderwater, deepLighting, DEEP_MESH_BUDGET, THREE };`, "underwater-world");
   const bareGroup = () => ({ children: [], add(...cs) { this.children.push(...cs); }, remove() {}, traverse(fn) { fn(this); for (const c of this.children) if (c.traverse) c.traverse(fn); } });
   for (const detail of ["low", "high"]) {
@@ -121,8 +125,9 @@ await check("the scene builds behind a three.js stub at both detail levels, insi
     assert(root.children.length > 0, `buildUnderwater() at detail=${detail} added nothing`);
     assert(built.meshCount <= S.DEEP_MESH_BUDGET[detail], `detail=${detail} built ${built.meshCount} meshes, over the budget of ${S.DEEP_MESH_BUDGET[detail]}`);
   }
-  for (const band of ["shallow", "mid", "deep"]) { const L = S.deepLighting(band); assert(L.fog && L.hemi && L.key, `deepLighting(${band}) is missing a field`); }
-  assert(S.deepLighting("deep").fog.density > S.deepLighting("shallow").fog.density, "the deep should be murkier than the shallows");
+  const density = (L) => L.fogDensity ?? L.fog?.density;
+  for (const band of ["shallow", "mid", "deep"]) { const L = S.deepLighting(band); assert(L.fog != null && L.hemi && L.key && density(L) > 0, `deepLighting(${band}) is missing a field`); }
+  assert(density(S.deepLighting("deep")) > density(S.deepLighting("shallow")), "the deep should be murkier than the shallows");
   const root = bareGroup();
   const w = S.dvBuildWorld(root, S.THREE, { detail: "high" });
   assert(w.diver && w.buddy && w.rov && w.buddyLine && w.tether, "the world is missing the diver, buddy, ROV or a line");

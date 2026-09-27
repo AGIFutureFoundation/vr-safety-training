@@ -1,0 +1,408 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "over-the-side-clean",
+    "name": "Over The Side Clean",
+    "note": "A fender panel lowered to the barge on the tag line, never with anyone under it, and the water below held clear"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "Pile Drivers of the Carpenters and the Carpenters International Training Fund; OSHA 29 CFR 1926.106 for work over water, flotation and the rescue skiff; ASME B30.9 slings and ASME B30.26 rigging hardware on the lift; ASME B30.5 practice for the davit crane and its signals; OSHA 29 CFR 1926.502 for the tie-off at the railing; BCDC and the permit's conditions for work in the bay; the owner's lift plan and fender drawing",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.26",
+        "id": "asme-b30-26",
+        "title": "ASME B30.26 — Rigging hardware"
+      },
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.5",
+        "id": "asme-b30-5",
+        "title": "ASME B30.5 — Mobile and locomotive cranes"
+      },
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.9",
+        "id": "asme-b30-9",
+        "title": "ASME B30.9 — Slings"
+      },
+      {
+        "body": "BCDC",
+        "citedAs": "BCDC",
+        "id": "bcdc-bay-plan",
+        "title": "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act"
+      },
+      {
+        "body": "union",
+        "citedAs": "Carpenters",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.106",
+        "id": "osha-1926-106",
+        "title": "29 CFR 1926.106 — Working over or near water"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.502",
+        "id": "osha-1926-502",
+        "title": "29 CFR 1926.502 — Fall protection systems criteria and practices"
+      }
+    ]
+  },
+  "district": "golden-gate-deck",
+  "domain": "Construction",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "test-lift-held",
+        "name": "Test Lift Held",
+        "note": "The test lift held clean before the panel went over"
+      },
+      {
+        "id": "tag-line-steady",
+        "name": "Tag Line Steady",
+        "note": "The panel lowered inside its band on the tag line"
+      },
+      {
+        "id": "never-under",
+        "name": "Never Under",
+        "note": "Never under the panel, never a hand in the sling, never at the rail without the vest"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-lift",
+        "name": "Clean Lift",
+        "note": "No corrections from the lift plan to the log"
+      },
+      {
+        "id": "no-spin",
+        "name": "No Spin",
+        "note": "The lowering never dropped out of band"
+      },
+      {
+        "id": "fender-inside-par",
+        "name": "Fender Inside Par",
+        "note": "Logged inside 80% of par"
+      }
+    ],
+    "currency": "WALE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Deck Hand",
+      "Pile Driver Apprentice",
+      "Rigger",
+      "Fender Foreman",
+      "Pile Butt Crew Certified"
+    ],
+    "system": "Pile Butt Crew"
+  },
+  "hazards": {
+    "hand-in-pinch": "You put a hand between the sling and the wale to straighten it as the davit took up the slack. As a sling tensions it closes on whatever is between it and the load, with the weight of the panel behind it, and there is no gap left for fingers. Slings are straightened before the take-up with the hook slack, or with a stick, never by hand under tension.",
+    "lean-over-rail-no-pfd": "You leaned out over the railing to watch the barge below with no flotation vest on and your lanyard unclipped. The rail is the edge of a deck high over the water, and a person leaning over it to watch a lift is a person not holding on; 29 CFR 1926.106 puts flotation on anyone working where a fall into water is possible, and the lanyard keeps the fall from happening at all.",
+    "under-slung-panel": "You stepped under the fender panel while it hung on the davit. A panel of timber wales and steel bolts on a sling is a suspended load like any other, and ASME B30 practice and every lift plan put the same rule on it: nobody under it, for any reason. A hitch that has held all morning does not warn anyone before it rolls.",
+    "untethered-maul": "The maul is lying untethered on the deck at the foot of the railing, where it was put down after driving the last bolt. At the railing, a tool knocked over the edge falls to the barge crew working directly below — the one place on this job where people are guaranteed to be under the deck. Hand tools at the rail ride on tethers, and the maul goes back in the gang box."
+  },
+  "id": "gg-pile-driver-fender-repair",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "test-lift",
+      "alert": "A boat has come in past the barge and under the lift — inside the exclusion the permit and the lift plan set on the water below the panel.",
+      "cue": "Hold the panel where it is and call the barge and the rescue skiff on the marine radio: clear the boat from under the lift.",
+      "delay": 2,
+      "id": "boat-under-the-lift",
+      "kind": "Boat under the work zone",
+      "missNote": "The lift carried on with a boat under the panel's path. Had the rigging let go, the panel would have fallen onto people who never knew there was a load above them.",
+      "seconds": 13,
+      "target": "barge-radio",
+      "why": "The exclusion on the water exists because if the panel does come off the sling, whatever is under it takes the whole fall. The deck can see the boat and the load at once and the boat cannot see the load at all, so the call goes out at once: the panel is held where it is on the test lift, the skiff moves the boat on, and the lift resumes only when the water under it is clear.",
+      "wrongNote": "The marine radio — the boat is out of reach, and the barge and the skiff are the ones who can move it."
+    },
+    {
+      "after": "lower",
+      "alert": "A fog bank rolls in over the railing as the panel goes down — the barge and the signal person below disappear into grey.",
+      "cue": "Set the davit's load brake and hold the panel where it is until the signal person is back in sight or on the radio.",
+      "delay": 3,
+      "id": "fog-on-the-lift",
+      "kind": "Fog bank rolling in",
+      "missNote": "The panel kept going down into the fog with nobody able to see the barge crew below it, and the operator lowering on a signal that could no longer be seen.",
+      "seconds": 13,
+      "target": "load-brake",
+      "why": "A load lowered blind is a load lowered onto whoever is under it. When the fog takes the barge out of sight, the operator has lost the signal person's hand signals and the deck has lost sight of the barge crew, so the panel stops on the brake where it is; it moves again only on a signal the operator can actually receive, by radio if the fog has not lifted.",
+      "wrongNote": "The load brake — stop the panel where it is. Nothing moves blind over the barge crew."
+    }
+  ],
+  "lateNotes": {
+    "fender-log": "The lift is logged once the hook is back and the deck has been checked.",
+    "hoist-lever": "The test lift comes once the sling is shackled to the panel's lifting eyes — there is nothing to lift yet.",
+    "tag-line": "The panel is lowered once the test lift has held clean and the water below is clear."
+  },
+  "name": "Pile Driver Fender Repair",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "barge-radio",
+      "barge-signal",
+      "chafed-sling",
+      "deck-radio",
+      "fender-log",
+      "fender-repair-plan",
+      "hand-in-pinch",
+      "hoist-lever",
+      "hoist-slack",
+      "hook-latch",
+      "lean-over-rail-no-pfd",
+      "lift-eye",
+      "load-brake",
+      "marine-borer",
+      "pfd-vest",
+      "rail-lanyard",
+      "sling-shackle",
+      "split-wale",
+      "tag-line",
+      "through-bolt-nut",
+      "under-slung-panel",
+      "untethered-maul",
+      "washer-at-rail",
+      "wasted-bolt",
+      "wind-meter"
+    ],
+    "meshes": 225
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the lift plan: the panel's weight, the davit's rating at this reach, the rigging, the barge's position below, the boat exclusion on the water, and the signal person.",
+      "id": "lift-plan",
+      "kind": "select",
+      "prompt": "Read the lift plan: the panel's weight, the davit's rating at this reach, the rigging, the barge's position below, the boat exclusion on the water, and the signal person.",
+      "target": "fender-repair-plan",
+      "title": "Read the lift plan and the fender drawing",
+      "why": "A lift over the side of a bridge has two crews, one above and one below, who cannot easily see each other, and the plan is what puts them on the same page: the panel's weight against the davit's rating at its reach, the rigging that carries it, where the barge sits and who gives the signals. The fender drawing says which panel goes where, so the barge crew receives the panel they are expecting."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Put on the flotation vest and zip it, and clip your lanyard to the rated anchor at the railing, before anyone goes to the edge.",
+      "id": "rail-ppe",
+      "itemNames": {
+        "pfd-vest": "flotation vest on and zipped",
+        "rail-lanyard": "lanyard on the anchor at the rail"
+      },
+      "kind": "sequence",
+      "prompt": "Put on the flotation vest and zip it, and clip your lanyard to the rated anchor at the railing, before anyone goes to the edge.",
+      "targets": [
+        "pfd-vest",
+        "rail-lanyard"
+      ],
+      "title": "Vest on and clipped to the rail anchor",
+      "why": "The lowering is done at the railing, and 29 CFR 1926.106 puts a flotation vest on anyone working where a fall into water is possible; the lanyard is what stops the fall from happening at all. Both go on before the edge, because the moment someone is leaning to watch a panel go down is the moment they have stopped thinking about where their feet are."
+    },
+    {
+      "cue": "Look over the old wale the barge crew sent up and find why it failed: borers, splits, wasted bolts.",
+      "id": "old-wale",
+      "itemNames": {
+        "marine-borer": "borer holes in the wale below the waterline mark",
+        "split-wale": "a split running along the wale from a bolt hole",
+        "wasted-bolt": "a through-bolt wasted thin by corrosion"
+      },
+      "itemNotes": {
+        "marine-borer": "Below the waterline mark the wale is riddled with small holes — marine borers have been eating it from inside. It looks sound from outside until it is cut, and it crushes under a vessel's touch.",
+        "split-wale": "A split runs along the grain from a bolt hole. The bolt has been working in the hole under every knock, and a split wale lets the bolt pull through.",
+        "wasted-bolt": "A through-bolt has corroded to a fraction of its diameter at the face of the wale. It was carrying the wale's load on what was left of it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the old wale the barge crew sent up and find why it failed: borers, splits, wasted bolts.",
+      "targets": [
+        "marine-borer",
+        "split-wale",
+        "wasted-bolt"
+      ],
+      "title": "Read the removed wale for what failed",
+      "why": "The old wale is evidence: what failed on it is what will fail on the new one, in time, and the repair crew reads it before the new panel goes down. Borer damage says the treatment or the timber needs to change at that level, a split at a bolt hole says the bolt pattern is working the wood, and a wasted bolt says the hardware is not lasting as long as the timber."
+    },
+    {
+      "cue": "Read the anemometer at the davit and commit the reading while it sits inside the band below the lift plan's limit.",
+      "gauge": {
+        "green": [
+          0.14,
+          0.48
+        ],
+        "label": "WIND · % OF LIFT LIMIT",
+        "missNote": "That is past the lift plan's limit, or a lull. The panel stays on the deck until a steady reading sits inside the band.",
+        "speed": 0.64
+      },
+      "id": "wind",
+      "kind": "gauge",
+      "prompt": "Read the anemometer at the davit and commit the reading while it sits inside the band below the lift plan's limit.",
+      "target": "wind-meter",
+      "title": "Take the wind before the lift",
+      "why": "A fender panel on a sling is a broad flat surface hanging over the side of a bridge, and the wind across a strait turns it into a sail: it spins on the sling, swings against the deck edge and pulls the tag line out of hands. The lift plan's wind limit is read at the davit before the lift starts, not guessed from the deck."
+    },
+    {
+      "cue": "Run the through-bolts up on the new panel in the drawing's order, washers square to the timber, to the figure on the drawing.",
+      "id": "through-bolts",
+      "kind": "turn",
+      "prompt": "Run the through-bolts up on the new panel in the drawing's order, washers square to the timber, to the figure on the drawing.",
+      "target": "through-bolt-nut",
+      "title": "Torque the new panel's through-bolts",
+      "turn": {
+        "label": "THROUGH-BOLTS",
+        "turns": 1.1
+      },
+      "why": "The through-bolts hold the rubbing strip and the wales to the piles through timber that will swell, shrink and take knocks for years. Taken up in the drawing's order they pull the panel down evenly; to the figure, they seat the washers without crushing the wood fibres, which is where a split starts. A bolt set by feel is a bolt set to whoever tightened it."
+    },
+    {
+      "cue": "Carry the sling's shackle to the lifting eye on the panel, pin it and mouse the pin.",
+      "drag": {
+        "missNote": "Not on the lifting eye — the shackle goes on the eye itself, not round a wale or a bolt head.",
+        "radius": 0.45,
+        "to": "lift-eye"
+      },
+      "id": "shackle",
+      "kind": "drag",
+      "prompt": "Carry the sling's shackle to the lifting eye on the panel, pin it and mouse the pin.",
+      "target": "sling-shackle",
+      "title": "Shackle the sling to the panel's lifting eyes",
+      "why": "The panel is lifted by its lifting eyes and nothing else: not by a wale, not by a bolt. The shackle is pinned and the pin moused so it cannot back out while the panel turns on the way down, and under ASME B30.26 the shackle is one rated for the load and inspected before use; a panel dropped from the davit falls onto the barge crew."
+    },
+    {
+      "cue": "Take up the slack and lift the panel a few centimetres off the cribbing, and hold it there while the rigging and the davit are checked.",
+      "holdBreakNote": "The panel came back down before the rigging had been checked. Take it up again and hold the test lift.",
+      "id": "test-lift",
+      "kind": "hold",
+      "prompt": "Take up the slack and lift the panel a few centimetres off the cribbing, and hold it there while the rigging and the davit are checked.",
+      "seconds": 5,
+      "target": "hoist-lever",
+      "title": "Make the test lift and hold it",
+      "why": "A test lift is the lift in miniature: the panel just clear of the cribbing, where if anything is wrong — a hitch slipping, the davit's base moving, the panel hanging out of level — it drops a few centimetres onto timber instead of the height of a bridge onto a barge. It is held long enough to look at every part of the rigging, and the lift continues only if everything held."
+    },
+    {
+      "cue": "With the davit lowering steadily, keep the panel from spinning on the tag line — firm, not fighting it — as it goes over the rail and down to the barge.",
+      "holdBreakNote": "The tag line went slack or hard and the panel started to spin. Settle it back to a steady hold.",
+      "id": "lower",
+      "kind": "track",
+      "prompt": "With the davit lowering steadily, keep the panel from spinning on the tag line — firm, not fighting it — as it goes over the rail and down to the barge.",
+      "seconds": 7,
+      "target": "tag-line",
+      "title": "Lower the panel over the rail on the tag line",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "TAG LINE",
+        "rise": 0.56,
+        "start": 0.1
+      },
+      "why": "The tag line is the only control the deck has over the panel once it is over the side: held firm, it stops the panel spinning and swinging into the deck edge or the barge crew's hands; held too hard, it pulls the panel off plumb and can pull the person holding it toward the rail. The lowering is steady so the barge crew can see the panel coming and the signal person can call it down."
+    },
+    {
+      "cue": "As the panel reaches the barge crew's reach, hand the signals to the barge's signal person and let go of the tag line on their word.",
+      "id": "hand-over",
+      "kind": "select",
+      "prompt": "As the panel reaches the barge crew's reach, hand the signals to the barge's signal person and let go of the tag line on their word.",
+      "target": "barge-signal",
+      "title": "Hand the lift to the barge's signal person",
+      "why": "Once the panel is down at the barge, the people who can see it are the barge crew, and the davit operator takes signals from one person at a time. The hand-over is called clearly, so there is never a moment when two people are signalling or nobody is, and the tag line goes to the barge crew on their signal so the panel is always held by someone who can see it."
+    },
+    {
+      "cue": "Slack the hoist line only when the barge's signal person calls it, then bring the empty hook up with its safety latch closed.",
+      "id": "recover",
+      "itemNames": {
+        "hoist-slack": "hoist slacked on the barge's signal",
+        "hook-latch": "empty hook up with its latch closed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Slack first, on the barge's signal — the hook stays loaded until the barge crew has the panel.",
+      "prompt": "Slack the hoist line only when the barge's signal person calls it, then bring the empty hook up with its safety latch closed.",
+      "targets": [
+        "hoist-slack",
+        "hook-latch"
+      ],
+      "title": "Slack on the barge's signal, then bring the hook up latched",
+      "why": "The line is slacked only on the barge's signal because the barge crew is the one with hands on the panel, and slack given early drops the panel onto them before they are ready. The empty hook comes up with its latch closed, so nothing swinging below the deck edge can catch it on the way up."
+    },
+    {
+      "cue": "Walk the rail and the rigging after the lift and find what the lift left behind.",
+      "id": "deck-check",
+      "itemNames": {
+        "chafed-sling": "a chafed patch on the sling where it crossed the rail",
+        "washer-at-rail": "a loose washer at the foot of the rail"
+      },
+      "itemNotes": {
+        "chafed-sling": "The sling's cover has chafed where it crossed the rail on the way over. The sling is tagged out of service and inspected before it lifts anything again.",
+        "washer-at-rail": "A washer from the bolt-up is lying at the foot of the railing, one kick from the edge and the barge below. It goes back in the bin now."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the rail and the rigging after the lift and find what the lift left behind.",
+      "targets": [
+        "washer-at-rail",
+        "chafed-sling"
+      ],
+      "title": "Check the deck and the rigging after the lift",
+      "why": "A lift over the side leaves things where the crew was working: a washer at the rail, a sling that rubbed on the edge on the way over. The deck check catches the first before it goes over the side onto the barge, and the second before the sling lifts the next panel with its strength reduced; ASME B30.9 has a sling taken out of service on exactly that kind of damage."
+    },
+    {
+      "cue": "Record the panel lowered and its position on the drawing, the wind, the old wale's borers, split and wasted bolt, and the sling taken out of service.",
+      "id": "fender-log",
+      "kind": "select",
+      "prompt": "Record the panel lowered and its position on the drawing, the wind, the old wale's borers, split and wasted bolt, and the sling taken out of service.",
+      "target": "fender-log",
+      "title": "Log the lift and the old wale's findings",
+      "why": "The fender log is how the next repair is planned: which panel went in, where, and why the old one failed. The borer damage and the wasted bolt are findings for the engineer who specifies the next timber and hardware, and the chafed sling is a record that it left service before anything else could be lifted on it."
+    },
+    {
+      "cue": "Call the barge crew and the operator: panel down, hook up, lift logged — and how everyone is after a lift over the side in the fog.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the barge crew and the operator: panel down, hook up, lift logged — and how everyone is after a lift over the side in the fog.",
+      "target": "deck-radio",
+      "title": "Check in with the barge crew and the davit operator",
+      "why": "The barge crew below and the operator above worked a blind lift together through a boat and a fog bank, and each needs to hear it is finished from the other end. It is also the moment to ask how people are: a lift over the side of a bridge is a long concentration, and the Carpenters' member assistance line is there for anything that does not clear with the shift."
+    }
+  ],
+  "supportLine": "the Carpenters' member assistance programme through your local, and the crew's peer-support contact",
+  "tagline": "The deck side of a pier fender repair: the lift plan read, vest and lanyard on at the rail, the old wale read for borers and wasted bolts, the wind taken, the new panel's through-bolts torqued, the sling shackled, the test lift held while a boat comes under, the panel lowered on the tag line into the fog, handed to the barge's signal, the hook recovered, the deck checked and the lift logged",
+  "title": "SmartCiti.X~ Pile Driver Fender Repair VR",
+  "trade": "Pile Drivers of the Carpenters (UBC) — fender repair crew, trained through the Carpenters International Training Fund, with the barge crew below and the davit operator",
+  "underwater": null,
+  "weather": null
+}

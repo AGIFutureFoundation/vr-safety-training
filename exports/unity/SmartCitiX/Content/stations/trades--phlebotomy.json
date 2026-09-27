@@ -1,0 +1,280 @@
+{
+  "app": "trades",
+  "badge": {
+    "id": "order-of-draw",
+    "name": "Order of Draw",
+    "note": "Correct draw sequence with no additive carryover"
+  },
+  "category": "Trade Skills Simulator",
+  "certification": "NHA CPT or ASCP PBT phlebotomy technician certification; CLSI GP41, the American National Standard for collection of diagnostic venous blood specimens (two-identifier check, order of draw); ISO 6710 single-use evacuated blood collection tubes and ISO 23908 for the sharps injury protection engineered into the needle assembly; OSHA Bloodborne Pathogens, 29 CFR 1910.1030, and the Needlestick Safety and Prevention Act that put engineered protection into it; CDC hand-hygiene and infection-prevention guidance for everything that happens either side of the draw",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "ISO",
+        "citedAs": "ISO 23908",
+        "id": "iso-23908",
+        "title": "ISO 23908 — Sharps injury protection: requirements and test methods"
+      },
+      {
+        "body": "ISO",
+        "citedAs": "ISO 6710",
+        "id": "iso-6710",
+        "title": "ISO 6710 — Single-use containers for human venous blood specimen collection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      }
+    ]
+  },
+  "district": null,
+  "domain": null,
+  "flat": false,
+  "game": null,
+  "hazards": {
+    "iv-arm": "There is an infusion running in that arm. Drawing above an IV dilutes the sample with whatever is in the bag — wrong arm, wrong result.",
+    "pre-labelled": "Those tubes were labelled before the draw. Pre-labelling is how samples get attributed to the wrong patient; tubes are labelled at the bedside, after they are filled.",
+    "recap": "Never recap a used needle two-handed. That is the classic needlestick — activate the safety device and drop it straight into sharps.",
+    "sharps-full": "That container is past the fill line. Forcing another sharp in is how the one already inside comes back out at your hand. Seal it and start a fresh one."
+  },
+  "id": "phlebotomy",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "draw",
+      "alert": "The patient has gone quiet and grey and their head has tipped back against the rest.",
+      "cue": "Look at your patient, not at the tubes.",
+      "delay": 4,
+      "id": "patient-faint",
+      "kind": "Patient reaction",
+      "missNote": "You finished the draw and looked up to a patient who had fainted in the chair. Most of them come round with their feet up and no harm done — the ones that do not are the ones who slid out of the chair onto the floor while nobody was watching.",
+      "seconds": 11,
+      "target": "patient",
+      "why": "Vasovagal reactions are common, they come on in seconds, and the person who catches them is whoever is looking at the patient's face. Everything else in this bay can wait; a patient about to lose consciousness in a chair cannot.",
+      "wrongNote": "It is the patient. Nothing on that tray is more urgent than a person going grey in front of you."
+    },
+    {
+      "after": "pressure",
+      "alert": "Someone has set a pre-labelled tube set down on your tray and told you to save time and use those.",
+      "cue": "Those labels were printed somewhere other than here.",
+      "delay": 3,
+      "id": "pre-labelled-offered",
+      "kind": "Shortcut offered",
+      "missNote": "The pre-labelled tubes went to the lab. If those labels were right, nothing happens. If they were not, a result belonging to somebody else now sits in this patient's chart, and the first sign of it will be a treatment decision.",
+      "seconds": 11,
+      "target": "label-printer",
+      "why": "Tubes are labelled at the bedside, after the draw, with the patient in front of you. A label printed anywhere else has already been separated from the person it belongs to, and no downstream check can put them back together.",
+      "wrongNote": "It is the label printer. The labels get printed here, at the chair, or the sample is not identified."
+    }
+  ],
+  "lateNotes": {
+    "label-printer": "Labels are printed once the tubes are filled and the patient is still in front of you.",
+    "needle": "Not yet. The site is not prepped, and a needle in hand before the tourniquet and the prep is how the sequence falls apart.",
+    "tube-culture": "The needle is not in the vein yet — tubes are filled from a live draw, not staged ahead of it."
+  },
+  "name": "phlebotomy",
+  "parSeconds": 220,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "dental-hygiene-unspoken-smiles",
+    "situational-awareness"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": null,
+    "hits": [
+      "alcohol-pad",
+      "bed-card",
+      "draw-site",
+      "gauze",
+      "glove-box",
+      "iv-arm",
+      "label-printer",
+      "needle",
+      "patient",
+      "pre-labelled",
+      "recap",
+      "requisition",
+      "sharps-container",
+      "sharps-full",
+      "tourniquet",
+      "tube-blue",
+      "tube-culture",
+      "tube-gold",
+      "tube-gray",
+      "tube-green",
+      "tube-lavender",
+      "upper-arm",
+      "wristband"
+    ],
+    "meshes": 227
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence"
+  ],
+  "steps": [
+    {
+      "cue": "Check both documents against each other — name and date of birth on each, and the hints will not tell you which two.",
+      "decoyNotes": {
+        "bed-card": "That is the chair card. A bed or chair number is not a patient identifier — patients get moved, and the card stays where it was."
+      },
+      "id": "identify",
+      "itemNames": {
+        "requisition": "the requisition",
+        "wristband": "the wristband"
+      },
+      "itemNotes": {
+        "requisition": "The same two fields on the requisition, compared character by character — a matching surname with a different date of birth is two patients, not one.",
+        "wristband": "Name and date of birth read straight off the band, not recited from memory and not confirmed by the patient nodding."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check both documents against each other — name and date of birth on each, and the hints will not tell you which two.",
+      "targets": [
+        "wristband",
+        "requisition"
+      ],
+      "title": "Verify two patient identifiers",
+      "why": "Two identifiers, actively confirmed against each other in front of you — full name and date of birth, read off the band and off the requisition. Bed number is not one of them, and neither is a patient answering yes to a name called across the bay: someone drowsy, hard of hearing or confused will answer to anything, and GP41 puts the matching on you rather than on them."
+    },
+    {
+      "cue": "Sanitise and glove before you touch the patient or the tray.",
+      "id": "gloves",
+      "kind": "select",
+      "prompt": "Sanitise and glove before you touch the patient or the tray.",
+      "target": "glove-box",
+      "title": "Hand hygiene and gloves",
+      "why": "Gloves go on after hand hygiene, never instead of it — OSHA's bloodborne pathogens standard treats them as the last barrier, not the only one. They work in both directions: your hands away from this patient's blood, and the next patient away from whatever your hands picked up in the bay before this one."
+    },
+    {
+      "cue": "Carry the tourniquet from the tray and set it on the upper arm, three to four inches above the site.",
+      "drag": {
+        "missNote": "Not where a tourniquet goes. Too close to the site and you cannot prep or anchor the vein without touching it; too high and it never occludes the vein at all.",
+        "radius": 0.3,
+        "to": "upper-arm"
+      },
+      "id": "tourniquet",
+      "kind": "drag",
+      "prompt": "Carry the tourniquet from the tray and set it on the upper arm, three to four inches above the site.",
+      "target": "tourniquet",
+      "title": "Apply the tourniquet",
+      "why": "Three to four inches above the intended site is the placement, and it is a placement rather than a rule of thumb: closer than that and the band sits in the field you are about to prep and anchor, further and the venous return is not occluded where it matters. The tourniquet comes off inside a minute. Past that, trapped blood loses plasma water through the vessel wall and everything measured as a concentration climbs with it — potassium, calcium, total protein, packed cell volume. The result has already shifted before the needle goes in, and no one downstream can tell that from real disease."
+    },
+    {
+      "cue": "Prep the site with alcohol and let it air dry.",
+      "id": "clean",
+      "kind": "select",
+      "prompt": "Prep the site with alcohol and let it air dry.",
+      "target": "alcohol-pad",
+      "title": "Clean the site and let it dry",
+      "why": "Seventy per cent alcohol needs its contact time and then needs to air dry; the drying is part of the antisepsis and not a pause before it. Wet alcohol carried into the vein stings sharply and haemolyses the sample, and haemolysis releases potassium from the cells — enough to have a perfectly well patient treated for hyperkalaemia."
+    },
+    {
+      "cue": "Set the insertion angle and commit inside the band.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.6
+        ],
+        "label": "INSERTION ANGLE",
+        "missNote": "Outside the safe window. Anchor the vein below the site and reset your angle.",
+        "speed": 0.8
+      },
+      "id": "insert",
+      "kind": "gauge",
+      "prompt": "Set the insertion angle and commit inside the band.",
+      "target": "needle",
+      "title": "Insert bevel up at the right angle",
+      "why": "Fifteen to thirty degrees, bevel up, with the vein anchored by your thumb below the site. Too shallow and the bevel skates over a vein that rolls away from it; too steep and you go through the back wall into tissue — or, working the medial side of the antecubital fossa, into the brachial artery and the median nerve lying alongside it."
+    },
+    {
+      "cue": "Blood culture, light blue, gold, green, lavender, grey — in that order.",
+      "id": "draw",
+      "itemNames": {
+        "tube-blue": "light blue — citrate",
+        "tube-culture": "blood culture",
+        "tube-gold": "gold — SST",
+        "tube-gray": "grey — fluoride",
+        "tube-green": "green — heparin",
+        "tube-lavender": "lavender — EDTA"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong tube for this point in the sequence. Additive carryover contaminates every tube after it — the order is the control.",
+      "prompt": "Blood culture, light blue, gold, green, lavender, grey — in that order.",
+      "targets": [
+        "tube-culture",
+        "tube-blue",
+        "tube-gold",
+        "tube-green",
+        "tube-lavender",
+        "tube-gray"
+      ],
+      "title": "Fill tubes in the order of draw",
+      "why": "Additive carries over on the needle from one tube to the next, which is why the order is the control and why ISO 6710 colour-codes the closures at all. EDTA dragged into a chemistry tube chelates the calcium and sends potassium through the roof; a citrate tube drawn late or left short breaks the 9:1 blood-to-anticoagulant ratio every clotting result is calculated from."
+    },
+    {
+      "cue": "Release the tourniquet before you withdraw the needle.",
+      "id": "release",
+      "kind": "select",
+      "prompt": "Release the tourniquet before you withdraw the needle.",
+      "target": "tourniquet",
+      "title": "Release the tourniquet",
+      "why": "The tourniquet comes off before the needle does. Pull out while the vein is still distended and the pressure behind it pushes blood into the surrounding tissue at the puncture site — that is the haematoma the patient shows everybody for a fortnight, and the reason they insist on the other arm next time."
+    },
+    {
+      "cue": "Engage the needle guard and drop it into the sharps container.",
+      "id": "sharps",
+      "kind": "select",
+      "prompt": "Engage the needle guard and drop it into the sharps container.",
+      "target": "sharps-container",
+      "title": "Activate the safety device and dispose",
+      "why": "The safety device is engaged before your hand leaves the needle, and the needle goes straight into sharps — not onto the tray, not into a pocket, and never recapped. Almost every needlestick happens in the few seconds between the vein and the container, to a device nobody armed, which is exactly the gap engineered sharps protection was made law to close."
+    },
+    {
+      "cue": "Hold gauze on the site with the arm straight.",
+      "holdBreakNote": "You let go early — the site is still bleeding. Reapply and hold the full time.",
+      "id": "pressure",
+      "kind": "hold",
+      "prompt": "Hold gauze on the site with the arm straight.",
+      "seconds": 10,
+      "target": "gauze",
+      "title": "Hold pressure on the site",
+      "why": "Direct pressure with the arm held straight until the bleeding has actually stopped — longer again if the patient is on warfarin or a direct oral anticoagulant. Bending the elbow over the gauze feels like pressure and is not: it holds the puncture open inside a fold of skin and fills the fossa with blood."
+    },
+    {
+      "cue": "Print and apply the labels here, in front of the patient.",
+      "id": "label",
+      "kind": "select",
+      "prompt": "Print and apply the labels here, in front of the patient.",
+      "target": "label-printer",
+      "title": "Label the tubes at the bedside",
+      "why": "Labelling happens here, at the chair, after the draw, with the patient still in front of you and the band still readable. Every metre between the tube and the person is a chance for it to become somebody else's sample, and a mislabelled tube arrives at the lab indistinguishable from a correct one — the error surfaces in the treatment it causes."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Two-identifier check, venipuncture technique and the order of draw",
+  "title": "Draw Station",
+  "trade": "Phlebotomy technician",
+  "underwater": null,
+  "weather": null
+}

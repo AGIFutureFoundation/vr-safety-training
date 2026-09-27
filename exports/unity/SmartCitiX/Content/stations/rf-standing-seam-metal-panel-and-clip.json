@@ -1,0 +1,420 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "seam-locked-clean",
+    "name": "Seam Locked Clean",
+    "note": "Every panel clipped to the plan, every seam locked, and nobody carried a panel across the wind or a lungful of coating fume to do it"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "OSHA 29 CFR 1926.501 and 29 CFR 1926.502 fall protection at the roof edge, and 29 CFR 1926 Subpart M Fall protection generally; ANSI Z359 for the harness and anchor; 29 CFR 1926.1153 for coating dust from cutting or grinding; NRCA standing-seam metal roofing practice; Roofers Local 40 apprenticeship and training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z359",
+        "id": "ansi-z359",
+        "title": "ANSI/ASSP Z359 — Fall Protection Code"
+      },
+      {
+        "body": "NRCA",
+        "citedAs": "NRCA",
+        "id": "nrca-roofing-practices",
+        "title": "National Roofing Contractors Association — roofing and waterproofing application, safety and quality practices"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.1153",
+        "id": "osha-1926-1153",
+        "title": "29 CFR 1926.1153 — Respirable crystalline silica in construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.501",
+        "id": "osha-1926-501",
+        "title": "29 CFR 1926.501 — Duty to have fall protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.502",
+        "id": "osha-1926-502",
+        "title": "29 CFR 1926.502 — Fall protection systems criteria and practices"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926 Subpart M Fall protection",
+        "id": "osha-1926-subpart-m",
+        "title": "OSHA 29 CFR 1926 Subpart M Fall protection"
+      },
+      {
+        "body": "union",
+        "citedAs": "Roofers Local 40",
+        "id": "roofers-local-40-training",
+        "title": "Roofers Local 40 — United Union of Roofers, Waterproofers and Allied Workers apprenticeship and training"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "plan-first",
+        "name": "Plan First",
+        "note": "The clip plan read before the first panel was carried"
+      },
+      {
+        "id": "steady-seamer",
+        "name": "Steady Seamer",
+        "note": "The seamer ran the whole panel without a break in pace"
+      },
+      {
+        "id": "never-carried-broadside",
+        "name": "Never Carried Broadside",
+        "note": "No panel walked across the wind, no bare hand on a hot panel, no cutting without ventilation"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-panel",
+        "name": "Clean Panel",
+        "note": "No corrections anywhere on the roof"
+      },
+      {
+        "id": "locked-tight",
+        "name": "Locked Tight",
+        "note": "The seam-lock reading committed inside the band first time"
+      },
+      {
+        "id": "field-closed",
+        "name": "Field Closed",
+        "note": "Day logged inside 80% of par"
+      }
+    ],
+    "currency": "CLIP",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Panel Hand",
+      "Seam Runner",
+      "Lead Mechanic",
+      "Standing-Seam Certified"
+    ],
+    "system": "Seam Run"
+  },
+  "hazards": {
+    "coating-fume-cutting": "A coworker is grinding through a painted, galvanized panel at the parapet corner with no dust shroud and no respirator. Cutting or grinding a coated steel panel throws up a mix of paint and zinc-coating fume that 29 CFR 1926.1153-style dust controls and a respirator are there to keep out of someone's lungs — it is set up in the open air with a shroud and extraction before the first cut, not worked through and dealt with after.",
+    "hot-panel-surface": "You are about to grab that panel bare-handed at midday. A painted metal panel in direct sun runs well past a temperature that raises a blister on contact, and it gives no warning before it burns the way a stove element does — gloves stay on for handling panels in the sun, full stop.",
+    "panel-catch-wind": "You are about to carry that full panel flat, broadside to the gust coming off the parapet. A standing-seam panel is a wide, light sheet of steel, and carried flat across the wind it catches exactly like a sail — it is carried edge-on into the wind, with a second person steadying the leading edge, never carried flat across an open gust.",
+    "unclipped-panel-walk": "You are stepping onto the new panel before its clips are engaged, right at the leading edge. An unclipped standing-seam panel is resting on its purlins by friction alone, and it can slide or tip under a boot the same way an unfastened membrane sheet does — the difference is this one is also slick, painted steel. It is clipped down before anyone's weight goes on it."
+  },
+  "id": "rf-standing-seam-metal-panel-and-clip",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "panel-carry",
+      "alert": "A gust catches the panel as it is being carried, and it starts twisting out of your hands toward the open eave.",
+      "cue": "Set the panel down flat immediately and let it settle before the gust gets any more of it.",
+      "delay": 2,
+      "id": "wind-catches-panel",
+      "kind": "Gust catches the panel mid-carry",
+      "missNote": "The panel kept twisting until it flipped out of reach entirely and slid toward the eave, dragging a scrape across two finished seams on its way.",
+      "seconds": 14,
+      "target": "panel-flat",
+      "why": "A panel already twisting in a gust is not a panel to fight for balance while still on your feet — setting it down flat the instant it starts moving takes the wind's leverage away, where trying to walk it the rest of the way to the layout line gives the gust more time to work.",
+      "wrongNote": "That does not stop a panel already twisting in the wind. Set it down flat right now."
+    },
+    {
+      "after": "seam-lock",
+      "alert": "A coworker has started grinding a notch in a panel at the parapet corner with no shroud on the grinder and no respirator on.",
+      "cue": "Stop them and move the cut to the ventilated cutting station before another spark flies.",
+      "delay": 2,
+      "id": "coworker-cutting-unventilated",
+      "kind": "Coworker grinding without ventilation",
+      "missNote": "The coworker kept grinding at the parapet corner, coating dust drifting across the whole leeward side of the roof, until the notch was finished.",
+      "seconds": 14,
+      "target": "cutoff-station",
+      "why": "Coating and zinc fume from a ground cut do not announce themselves the way a spark does, and by the time anyone smells anything the exposure has already happened. Moving the cut to the shrouded, ventilated station is what a hot second at the parapet corner should never have been instead.",
+      "wrongNote": "That does not stop the fume. Move the cut to the ventilated cutting station before another pass of the grinder."
+    }
+  ],
+  "lateNotes": {
+    "clip-driver": "The clip is driven once the panel is carried out and seated on its purlins — there is nothing to drive it into yet.",
+    "log-board": "The log is written once the walk-round has found what it is going to find, not before.",
+    "seam-lock": "The lock is checked once the seamer has actually run the length of that seam."
+  },
+  "name": "Standing-Seam Metal Panel & Clip",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "roofers-and-waterproofers"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "anchor-clip",
+      "bent-clip",
+      "bin-socket",
+      "clip-driver",
+      "clip-spacing-gap",
+      "coating-fume-cutting",
+      "cutoff-station",
+      "harness",
+      "hot-panel-surface",
+      "layout-line",
+      "log-board",
+      "loose-panel-edge",
+      "panel-align",
+      "panel-catch-wind",
+      "panel-flat",
+      "panel-stack",
+      "panel-temp",
+      "plan-board",
+      "radio",
+      "scrap-bin",
+      "seam-lock",
+      "seamer",
+      "sharp-panel-edge",
+      "unclipped-panel-walk"
+    ],
+    "meshes": 146
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the plan: the panel run direction, the clip spacing at the field and the eave, and the wind-uplift rating it is built to.",
+      "id": "layout-plan",
+      "kind": "select",
+      "prompt": "Read the plan: the panel run direction, the clip spacing at the field and the eave, and the wind-uplift rating it is built to.",
+      "target": "plan-board",
+      "title": "Read the panel layout and clip-spacing plan",
+      "why": "A standing-seam roof's wind-uplift performance comes entirely from its concealed clips holding to the pattern the engineering behind the rating assumes — tighter at the eave and corners than in the field, per the manufacturer's plan. A clip spaced from habit instead of the plan is a roof rated for a wind zone it was never actually built to resist."
+    },
+    {
+      "cue": "Put the harness on and snug it, then clip the lanyard to the certified roof anchor before working toward the eave.",
+      "id": "harness-on",
+      "itemNames": {
+        "anchor-clip": "lanyard clipped to the roof anchor",
+        "harness": "full-body harness on and snugged"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Harness first — the lanyard clips to the back D-ring of a harness that is already on, not to one still on the rack.",
+      "prompt": "Put the harness on and snug it, then clip the lanyard to the certified roof anchor before working toward the eave.",
+      "targets": [
+        "harness",
+        "anchor-clip"
+      ],
+      "title": "Harness on, then clipped to the roof anchor",
+      "why": "A standing-seam roof is slicker underfoot than almost anything else a roofer walks, painted steel included, and 29 CFR 1926.502 makes the anchor, harness and connection one rated system rather than three pieces of gear worn out of habit. Snugged before it is clipped, because a loose harness slides under load exactly where it should not."
+    },
+    {
+      "cue": "Run a gloved hand along the next panel's edge and check the clips in the box for anything bent before either goes to the roof.",
+      "id": "panel-inspect",
+      "itemNames": {
+        "bent-clip": "a bent clip in the box",
+        "sharp-panel-edge": "a sharp, unrolled edge on the next panel"
+      },
+      "itemNotes": {
+        "bent-clip": "One clip in the box is bent enough that it will not seat square on the seam rib. A clip that does not seat square does not hold its rated pull-out load no matter how well the fastener under it is driven.",
+        "sharp-panel-edge": "The next panel's factory edge has not been de-burred — a hand run along it the wrong way opens a clean slice, the way any freshly sheared steel edge will."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Run a gloved hand along the next panel's edge and check the clips in the box for anything bent before either goes to the roof.",
+      "targets": [
+        "sharp-panel-edge",
+        "bent-clip"
+      ],
+      "title": "Inspect the next panel and the clip box before carrying either",
+      "why": "A sharp panel edge and a bent clip both fail the same way — quietly, until the moment someone's hand meets the edge or the wind meets a clip that never actually held. Both are cheaper to find in the stack than on the roof."
+    },
+    {
+      "cue": "Read the surface thermometer on the staged panel and commit once you know whether bare-hand handling is safe.",
+      "gauge": {
+        "green": [
+          0.15,
+          0.42
+        ],
+        "label": "PANEL SURFACE TEMPERATURE",
+        "missNote": "That reading says gloves are not optional right now — read it again and handle the panel accordingly.",
+        "speed": 0.5
+      },
+      "id": "panel-temp",
+      "kind": "gauge",
+      "prompt": "Read the surface thermometer on the staged panel and commit once you know whether bare-hand handling is safe.",
+      "target": "panel-temp",
+      "title": "Check the panel's surface temperature",
+      "why": "A painted metal panel's surface temperature in full sun can climb well past a safe bare-hand contact limit within an hour of sunrise, and it gives no visual warning that it has crossed that line. Reading it before the first panel is carried is what decides whether gloves are optional today or not."
+    },
+    {
+      "cue": "Carry the next panel out to the layout line turned edge-on into the wind, not carried flat and broadside.",
+      "drag": {
+        "missNote": "Not on the layout line. Carry the panel all the way out, edge-on to the wind, before setting it down.",
+        "radius": 0.55,
+        "to": "layout-line"
+      },
+      "id": "panel-carry",
+      "kind": "drag",
+      "prompt": "Carry the next panel out to the layout line turned edge-on into the wind, not carried flat and broadside.",
+      "target": "panel-stack",
+      "title": "Carry the panel out edge-on to the wind",
+      "why": "Carried edge-on, a panel slices through moving air the way a sail does when it is luffed; carried flat and broadside, the same panel becomes the sail itself. Which way it is carried is decided before it leaves the stack, not partway across the roof when a gust already has hold of it."
+    },
+    {
+      "cue": "Set the clip on its mark and drive the fastener until the clip seats flush against the seam rib.",
+      "id": "clip-driver",
+      "kind": "turn",
+      "prompt": "Set the clip on its mark and drive the fastener until the clip seats flush against the seam rib.",
+      "target": "clip-driver",
+      "title": "Drive the clip fastener to seat the panel",
+      "turn": {
+        "axis": "z",
+        "label": "CLIP DRIVER",
+        "turns": 0.5
+      },
+      "why": "A clip driven flush holds its rated pull-out load; one left proud rocks under load and one driven through the purlin loses its grip entirely. The wind-uplift pattern the plan calls for only works if every clip on it is actually seated the way this one is."
+    },
+    {
+      "cue": "Hold the panel's rib pressed square against the last course while the clips take it up — do not let it drift before the seamer runs.",
+      "holdBreakNote": "The panel drifted out of alignment before the clips took hold — square it back up and hold it there.",
+      "id": "panel-align",
+      "kind": "hold",
+      "prompt": "Hold the panel's rib pressed square against the last course while the clips take it up — do not let it drift before the seamer runs.",
+      "seconds": 4,
+      "target": "panel-align",
+      "title": "Hold the panel aligned before seaming",
+      "why": "The seamer folds whatever two rib edges are actually sitting against each other when it runs, and a panel that has drifted a few millimetres out of alignment gets that drift folded permanently into the seam. Holding it square until the clips have taken the panel up is what keeps the run straight."
+    },
+    {
+      "cue": "Guide the motorized seamer along the seam at a steady pace — too slow doubles back on itself, too fast skips the fold.",
+      "holdBreakNote": "The seamer's pace broke out of the steady band. Bring it back to a steady travel speed along the seam.",
+      "id": "seamer-pass",
+      "kind": "track",
+      "prompt": "Guide the motorized seamer along the seam at a steady pace — too slow doubles back on itself, too fast skips the fold.",
+      "seconds": 6,
+      "target": "seamer",
+      "title": "Run the seamer along the standing seam at a steady pace",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "SEAMER TRAVEL SPEED",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "The seamer's rollers fold the two rib edges into a continuous double-lock seam as it travels, and that fold only forms cleanly inside a narrow speed range: too slow and it can double-crimp the same stretch, too fast and it skips past metal that never gets folded at all. A steady pace is what the manufacturer's seamer is built to run at."
+    },
+    {
+      "cue": "Test the seam's fold with the lock gauge and commit once it reads a fully engaged double lock end to end.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "SEAM LOCK ENGAGEMENT",
+        "missNote": "That stretch is not fully double-locked. Run the seamer over it again before moving to the next panel.",
+        "speed": 0.55
+      },
+      "id": "seam-lock",
+      "kind": "gauge",
+      "prompt": "Test the seam's fold with the lock gauge and commit once it reads a fully engaged double lock end to end.",
+      "target": "seam-lock",
+      "title": "Check the seam's lock engagement",
+      "why": "A seam that looks folded can still be a single fold where a double lock was specified, and a single-locked seam holds less wind-uplift load and lets more water past it in a wind-driven rain. The gauge is what turns 'looks seamed' into a confirmed double lock the whole length of the run."
+    },
+    {
+      "cue": "Move the cutting station into open air, fit the shroud on the grinder and put the respirator on before notching the next panel.",
+      "id": "cutoff-station",
+      "kind": "select",
+      "prompt": "Move the cutting station into open air, fit the shroud on the grinder and put the respirator on before notching the next panel.",
+      "target": "cutoff-station",
+      "title": "Set up the cutting station with ventilation",
+      "why": "Cutting or grinding through a painted, galvanized panel throws coating and zinc fume that a shroud and moving air carry away, and a respirator is what catches whatever gets past both — set up before the first cut, this is prevention; done afterward at the corner nobody chose, it is exposure that already happened."
+    },
+    {
+      "cue": "Walk the finished panels against the clip plan: find the skipped clip and the panel edge that never got its second seamer pass.",
+      "id": "clip-walk",
+      "itemNames": {
+        "clip-spacing-gap": "a skipped clip in the finished field",
+        "loose-panel-edge": "a panel edge not yet fully engaged in its seam"
+      },
+      "itemNotes": {
+        "clip-spacing-gap": "One clip position along the finished field was skipped — it will not show as a leak, only as the one spot in a real wind event that a gust can start working the panel loose from.",
+        "loose-panel-edge": "This panel's edge is sitting in its seam but not fully engaged — it needs another pass of the seamer before it is actually locked, not just resting in place."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the finished panels against the clip plan: find the skipped clip and the panel edge that never got its second seamer pass.",
+      "targets": [
+        "clip-spacing-gap",
+        "loose-panel-edge"
+      ],
+      "title": "Walk the finished field and find what the plan says should already be closed",
+      "why": "A field that looks complete from a few feet away can still be hiding a skipped clip or a half-seamed edge, and the walk-round with the plan in hand is the last chance to catch either before the next course of panels covers the mark that would have shown it."
+    },
+    {
+      "cue": "Carry the panel offcuts and clip scrap to the bin rather than leaving sharp trim loose on the deck.",
+      "drag": {
+        "missNote": "Not in the bin. Carry the offcuts all the way to the scrap bin before letting go.",
+        "radius": 0.55,
+        "to": "bin-socket"
+      },
+      "id": "scrap-haul",
+      "kind": "drag",
+      "prompt": "Carry the panel offcuts and clip scrap to the bin rather than leaving sharp trim loose on the deck.",
+      "target": "scrap-bin",
+      "title": "Haul the metal offcuts to the scrap bin",
+      "why": "A sheared metal offcut left on a finished panel is a cut waiting for the next boot that steps near it, and loose trim blown off an open roof edge is a falling-object hazard for anyone below. The bin takes it off the roof the same day it is cut."
+    },
+    {
+      "cue": "Write the bent clip discarded, the sharp edge de-burred, the skipped clip added, and the seam-lock readings into the log.",
+      "id": "log-board",
+      "kind": "select",
+      "prompt": "Write the bent clip discarded, the sharp edge de-burred, the skipped clip added, and the seam-lock readings into the log.",
+      "target": "log-board",
+      "title": "Log the field, the finds and the clip count",
+      "why": "The next crew inherits whatever the log says rather than what actually happened on the panel underneath their boots, so the finds that never show up in a finished field — a clip added after the fact, an edge de-burred before it cut someone — are exactly what is worth writing down while they are fresh."
+    },
+    {
+      "cue": "Radio the crew fastening panels behind you: the field is clipped, seamed and checked, and name the support line.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Radio the crew fastening panels behind you: the field is clipped, seamed and checked, and name the support line.",
+      "target": "radio",
+      "title": "Check in with the crew and the ground",
+      "why": "A panel crew works a few feet apart the whole shift, each person trusting the last one's clips and seams without re-checking them, and a short check-in at the end of the run is what confirms that trust was earned today rather than assumed."
+    }
+  ],
+  "supportLine": "Roofers Local 40's member assistance programme, or your contractor's employee assistance line",
+  "tagline": "The panel layout and clip plan read, harness clipped, a sharp edge and a bent clip found, the panel's surface temperature checked, a panel carried out of the wind, its clip driven, the panel held aligned, the seam run and its lock checked, the cutting station ventilated, a skipped clip found on the walk-round, offcuts hauled off and the day logged, with a gust catching the panel mid-carry and a coworker cutting coated steel without ventilation along the way",
+  "title": "SmartCiti.X~ Standing-Seam Metal Panel & Clip VR",
+  "trade": "Roofer installing standing-seam metal panels on concealed clips and running the mechanical seamer",
+  "underwater": null,
+  "weather": "wind"
+}

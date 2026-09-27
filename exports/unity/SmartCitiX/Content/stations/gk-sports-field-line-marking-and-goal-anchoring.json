@@ -1,0 +1,452 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "field-ready",
+    "name": "Field Ready",
+    "note": "Field walked, paint label read, lines run straight and steady, and the goal anchored to the manufacturer's own instructions"
+  },
+  "category": "Grounds & Landscaping",
+  "certification": "CPSC guidance on movable soccer goal safety — anchoring before use and never climbing or hanging on a goal; OSHA 29 CFR 1910.132 personal protective equipment, 29 CFR 1910.133 eye and face protection and 29 CFR 1910.1200 hazard communication; NIOSH guidance on manual material handling; AFSCME parks and grounds member training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "CPSC",
+        "citedAs": "CPSC",
+        "id": "cpsc-movable-soccer-goals",
+        "title": "CPSC guidance on movable soccer goal safety — anchoring before use and never climbing or hanging on a goal"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.133",
+        "id": "osha-1910-133",
+        "title": "29 CFR 1910.133 — Eye and face protection"
+      }
+    ]
+  },
+  "district": "fairway-park",
+  "domain": "Grounds & Landscaping",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "anchored-fully",
+        "name": "Fully Anchored",
+        "note": "Never skipped a stake or a ground sleeve the instructions called for"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcut",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "steady-line",
+        "name": "Steady Line",
+        "note": "Held the paint flow gauge and the marking pass near band centre"
+      },
+      {
+        "id": "field-walked",
+        "name": "Field Walked",
+        "note": "Found every hazard on the pre-marking walk"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-field",
+        "name": "Quick Field",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-round",
+        "name": "Clean Round",
+        "note": "No corrections across the whole run"
+      },
+      {
+        "id": "grounds-streak",
+        "name": "Grounds Streak",
+        "note": "Eight correct actions in a row"
+      }
+    ],
+    "currency": "TURF",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Hand",
+      "Field Crew",
+      "Field Certified",
+      "Crew Lead",
+      "Grounds Certified"
+    ],
+    "system": "Grounds Crew"
+  },
+  "hazards": {
+    "anchor-skip-sleeve": "You skipped one of the ground sleeves the goal's own instructions call for. A goal anchored at some but not all of its rated points is not a goal that has actually met the manufacturer's own stability spec — it is one that looks anchored right up until the point nobody set is the one that gives way.",
+    "climb-on-unanchored-goal": "You climbed on the goal before it was anchored. CPSC's own guidance on movable soccer goals exists because an unanchored goal can tip forward onto anyone hanging from the crossbar, and the goal is not safe to touch that way until every stake and sleeve the instructions call for is actually in the ground.",
+    "reach-into-hopper-running": "You reached into the paint hopper while the agitator was still turning. The mechanism that keeps striping paint mixed and flowing evenly does not stop just because a hand is near it, and clearing a clog by feel instead of shutting the machine down first is how that hand finds out the hard way.",
+    "spray-toward-bystander": "You aimed the marking wand toward a bystander instead of the turf. Striping paint is meant to mark grass, not people, and the operator choosing where the wand points is the only thing keeping a passer-by from walking away with paint on their clothes or in their eyes."
+  },
+  "id": "gk-sports-field-line-marking-and-goal-anchoring",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "mark-the-goal-arc",
+      "alert": "A gust has caught the marking wand's spray and is carrying it off-line toward the sideline where spectators will stand.",
+      "cue": "Shut the paint flow off at the hopper before the drift reaches the sideline.",
+      "delay": 3,
+      "id": "wind-blows-spray-off-line",
+      "kind": "Drift risk",
+      "missNote": "The spray kept drifting toward the sideline while the flow stayed on. Wind-carried paint does not stay inside the field the way a straight line would.",
+      "seconds": 10,
+      "target": "flow-shutoff",
+      "why": "Paint drifting toward where spectators will stand is not a line anyone asked for, and shutting the flow off at the hopper the moment the gust catches it is what stops the mess before it reaches clothing, shoes or a folding chair someone set up early.",
+      "wrongNote": "Not that — the flow shutoff is what this gust needs, before the drift reaches the sideline."
+    },
+    {
+      "after": "run-the-marking-lines",
+      "alert": "A child has run onto the field chasing a loose ball, straight toward the marking machine's path.",
+      "cue": "Hit the emergency stop before the machine reaches them.",
+      "delay": 4,
+      "id": "child-runs-onto-field",
+      "kind": "Bystander incursion",
+      "missNote": "The marking machine kept moving toward the child. A machine that size does not stop the instant someone notices it should.",
+      "seconds": 11,
+      "target": "emergency-stop-lever",
+      "why": "A child chasing a ball is watching the ball, not the marking machine, and the emergency stop is the one control that actually removes the risk immediately — waiting to see if they notice the machine on their own is not a plan a moving liner can afford to run.",
+      "wrongNote": "Not that — the emergency stop is what this moment needs, before the machine continues."
+    }
+  ],
+  "lateNotes": {
+    "ground-sleeve-check": "The goal's own instructions set how many stakes or sleeves this specific model actually needs — a goal that looks stable on two anchors is not the same as one built and rated for four.",
+    "sprinkler-head-in-path": "A sprinkler head sitting in the planned line path is exactly what a striping machine's wheel catches and damages if the field is not walked before the first pass."
+  },
+  "name": "Sports-Field Line Marking & Goal Anchoring",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "grounds-and-landscaping"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "anchor-instructions-tag",
+      "anchor-skip-sleeve",
+      "clear-turf-strip",
+      "climb-on-unanchored-goal",
+      "closing-log",
+      "corner-marker-socket",
+      "emergency-stop-lever",
+      "eye-protection",
+      "flow-gauge",
+      "flow-shutoff",
+      "ground-sleeve-check",
+      "hopper-fill",
+      "hopper-valve",
+      "layout-board",
+      "marker-handle",
+      "marker-rig",
+      "old-line-residue",
+      "paint-label",
+      "reach-into-hopper-running",
+      "spray-toward-bystander",
+      "sprinkler-head-in-path",
+      "stake-anchor-a",
+      "stake-anchor-b",
+      "string-line",
+      "turf-divot",
+      "wet-paint-sign",
+      "wheel-calibration-check",
+      "work-gloves"
+    ],
+    "meshes": 105
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "drive",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the field's own layout diagram for the line pattern and goal placement before marking anything.",
+      "id": "read-field-layout",
+      "kind": "select",
+      "prompt": "Check the field's own layout diagram for the line pattern and goal placement before marking anything.",
+      "target": "layout-board",
+      "title": "Read the field layout diagram",
+      "why": "The layout diagram is where the field's own dimensions and goal placement are set for this sport and this site — reading it before the first line is marked is what keeps the field consistent with what the league or the school actually needs, not an approximation from memory."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Eye protection and work gloves before the paint hopper is opened.",
+      "id": "ppe-up",
+      "itemNames": {
+        "eye-protection": "eye protection",
+        "work-gloves": "work gloves"
+      },
+      "kind": "sequence",
+      "prompt": "Eye protection and work gloves before the paint hopper is opened.",
+      "targets": [
+        "eye-protection",
+        "work-gloves"
+      ],
+      "title": "Suit up before handling the paint",
+      "why": "Striping paint splashes when a hopper is filled and mists slightly at the wand, and eye protection and gloves are what keep that contact off skin and out of eyes during the one part of the job where the paint is not yet safely contained in the machine."
+    },
+    {
+      "cue": "Three things along this field change the marking plan — find them before the liner ever rolls.",
+      "decoyNotes": {
+        "clear-turf-strip": "That stretch of turf is level, clean and ready for a straight line. Nothing to flag there."
+      },
+      "id": "walk-the-field",
+      "itemNames": {
+        "old-line-residue": "the old line residue that will bleed through",
+        "sprinkler-head-in-path": "the sprinkler head in the planned line path",
+        "turf-divot": "the uneven divot in the turf"
+      },
+      "itemNotes": {
+        "old-line-residue": "Old paint residue bleeding through a fresh line reads as a double line to anyone trying to follow it during play.",
+        "sprinkler-head-in-path": "A sprinkler head in the line path is exactly what a striping machine's wheel catches and damages if it is not found first.",
+        "turf-divot": "A divot along the planned line throws the machine's wheel off level and leaves a crooked stretch in an otherwise straight line."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things along this field change the marking plan — find them before the liner ever rolls.",
+      "targets": [
+        "sprinkler-head-in-path",
+        "turf-divot",
+        "old-line-residue"
+      ],
+      "title": "Walk the field before marking anything",
+      "why": "A field that looks ready from the sideline is not the same thing as a field someone has actually walked, and a sprinkler head, a divot or old paint bleeding through are exactly what a walk-down catches before the striping machine finds them the hard way."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Fill the hopper to the label's own level and confirm the wheel calibration before the first pass.",
+      "id": "stage-line-marker",
+      "itemNames": {
+        "hopper-fill": "fill the hopper per the label",
+        "wheel-calibration-check": "check the wheel calibration"
+      },
+      "kind": "sequence",
+      "prompt": "Fill the hopper to the label's own level and confirm the wheel calibration before the first pass.",
+      "targets": [
+        "hopper-fill",
+        "wheel-calibration-check"
+      ],
+      "title": "Stage the line marking machine",
+      "why": "A hopper filled past the label's own level splatters on the first bump, and a wheel that has not been checked for calibration lays a line width nobody asked for — confirming both before the first pass is what makes the whole field consistent from the first line to the last."
+    },
+    {
+      "cue": "Check the paint's own label and safety data sheet before filling the hopper.",
+      "id": "read-paint-label",
+      "kind": "select",
+      "prompt": "Check the paint's own label and safety data sheet before filling the hopper.",
+      "target": "paint-label",
+      "title": "Read the paint label",
+      "why": "The paint label sets the fill level, the flow setting and the ventilation the manufacturer actually calls for — reading it before the hopper is filled is what keeps this step following the label rather than habit from a different product used last season."
+    },
+    {
+      "cue": "Carry the string line from the reel to the corner marker before the first pass.",
+      "drag": {
+        "missNote": "Not at the corner marker — carry the string line to where the reference point actually is.",
+        "radius": 0.4,
+        "to": "corner-marker-socket"
+      },
+      "id": "stage-string-line",
+      "kind": "drag",
+      "prompt": "Carry the string line from the reel to the corner marker before the first pass.",
+      "target": "string-line",
+      "title": "Stage the reference string line",
+      "why": "A string line staged from a fixed reference point before the machine ever starts is what keeps the first pass straight — chasing a straight line by eye alone is how a field ends up with a stripe that wanders exactly where the layout diagram did not intend it to."
+    },
+    {
+      "cue": "Follow the staged string line at a steady pace, watching for anyone stepping onto the field.",
+      "drive": {
+        "bandLabel": "marking pace, per the layout diagram",
+        "checkWindow": 1,
+        "checks": [
+          {
+            "at": 2,
+            "kind": "mirror-left",
+            "note": "Check for anyone approaching from the sideline as the pass continues."
+          }
+        ],
+        "controls": {
+          "emergencyStop": "emergency-stop-lever"
+        },
+        "graceSeconds": 1.6,
+        "laneNote": "Off the string line. A line this far off the reference reads as crooked from anywhere in the stands.",
+        "laneWidth": 0.5,
+        "path": [
+          [
+            -1.6,
+            1.4
+          ],
+          [
+            -0.8,
+            1.4
+          ],
+          [
+            0,
+            1.4
+          ],
+          [
+            0.8,
+            1.4
+          ],
+          [
+            1.6,
+            1.4
+          ]
+        ],
+        "sceneRate": 0.2,
+        "speedBand": [
+          2,
+          5
+        ]
+      },
+      "holdBreakNote": "Off the string line or outside the pace band. Settle back onto the reference line before continuing the pass.",
+      "id": "run-the-marking-lines",
+      "kind": "drive",
+      "prompt": "Follow the staged string line at a steady pace, watching for anyone stepping onto the field.",
+      "target": "marker-rig",
+      "title": "Run the marking lines along the string",
+      "why": "The string line is the reference the whole field's geometry depends on, and a steady pace along it — with regular checks for anyone approaching — is what keeps the line straight and even while still catching a bystander in time to stop before they are in the machine's path."
+    },
+    {
+      "cue": "Read the flow gauge and commit only inside the label's own coverage band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.66
+        ],
+        "label": "PAINT FLOW RATE",
+        "missNote": "Outside the label's coverage band. Adjust the flow and let the reading settle before committing it.",
+        "speed": 0.58
+      },
+      "id": "check-paint-flow",
+      "kind": "gauge",
+      "prompt": "Read the flow gauge and commit only inside the label's own coverage band.",
+      "target": "flow-gauge",
+      "title": "Check the paint flow rate",
+      "why": "A flow set too low leaves a thin, patchy line that fades within a week; set too high, it puddles and bleeds past the line's own edge — the gauge is what confirms the flow is actually inside the label's coverage band before the whole field is marked at the wrong rate."
+    },
+    {
+      "cue": "Turn the valve open smoothly once the wand is aimed at the turf.",
+      "id": "open-hopper-valve",
+      "kind": "turn",
+      "prompt": "Turn the valve open smoothly once the wand is aimed at the turf.",
+      "target": "hopper-valve",
+      "title": "Open the hopper valve",
+      "turn": {
+        "axis": "z",
+        "label": "HOPPER VALVE",
+        "turns": 0.4
+      },
+      "why": "Opening the valve only once the wand is already aimed at open turf is what keeps that first burst of paint from landing wherever the wand happened to be pointed while the valve was still being adjusted."
+    },
+    {
+      "cue": "Hold the wand steady through the full curved pass at the goal mouth.",
+      "holdBreakNote": "Released the wand before the arc finished. Hold it steady through the whole curved pass, every time.",
+      "id": "mark-the-goal-arc",
+      "kind": "hold",
+      "prompt": "Hold the wand steady through the full curved pass at the goal mouth.",
+      "seconds": 4,
+      "target": "marker-handle",
+      "title": "Mark the goal arc",
+      "why": "The curved arc at the goal mouth is the one stretch of line that cannot be laid down in a straight push — holding the wand steady through the whole curve, rather than rushing it, is what keeps that arc reading clean instead of faceted like a line drawn in short straight segments."
+    },
+    {
+      "cue": "Set the wet-paint sign before opening the field, until the label's own dry time has passed.",
+      "id": "confirm-dry-time",
+      "kind": "select",
+      "prompt": "Set the wet-paint sign before opening the field, until the label's own dry time has passed.",
+      "target": "wet-paint-sign",
+      "title": "Post the wet-paint notice",
+      "why": "A line that looks dry from a few feet away can still transfer onto cleats or a ball for longer than it looks — posting the notice until the label's own dry time has actually passed is what keeps a fresh line from being smeared before it has set."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Set both stake anchors and confirm the ground sleeve is fully seated before calling the goal safe.",
+      "id": "anchor-the-goal",
+      "itemNames": {
+        "ground-sleeve-check": "ground sleeve confirmed seated",
+        "stake-anchor-a": "stake anchor, near post",
+        "stake-anchor-b": "stake anchor, far post"
+      },
+      "kind": "sequence",
+      "prompt": "Set both stake anchors and confirm the ground sleeve is fully seated before calling the goal safe.",
+      "targets": [
+        "stake-anchor-a",
+        "stake-anchor-b",
+        "ground-sleeve-check"
+      ],
+      "title": "Anchor the goal at every point",
+      "why": "CPSC's own guidance on movable soccer goals exists because a goal anchored at some but not all of its rated points is not actually stable — setting every stake and confirming the ground sleeve is seated is what turns a goal from something that looks anchored into one that has actually met its own manufacturer's stability spec."
+    },
+    {
+      "cue": "Check the goal's own anchoring instructions tag against what was actually installed.",
+      "id": "confirm-anchor-instructions",
+      "kind": "select",
+      "prompt": "Check the goal's own anchoring instructions tag against what was actually installed.",
+      "target": "anchor-instructions-tag",
+      "title": "Confirm against the manufacturer's instructions",
+      "why": "The manufacturer's instructions are the one document that says how many anchors this specific goal model needs and where — checking the installed anchors against that tag is what confirms the job matches the spec rather than what looked like enough."
+    },
+    {
+      "cue": "Log the marking pass, the flow reading and the anchor confirmation before leaving the field.",
+      "id": "shutdown-log",
+      "kind": "select",
+      "prompt": "Log the marking pass, the flow reading and the anchor confirmation before leaving the field.",
+      "target": "closing-log",
+      "title": "Close out the field prep log",
+      "why": "The field prep log is what the next crew and the next inspection both read — a field marked and anchored cleanly but never logged leaves nothing behind to prove the goal was actually anchored to the manufacturer's own spec."
+    }
+  ],
+  "supportLine": "your union steward or the parks department's employee assistance line",
+  "tagline": "A youth sports field striped and its goals anchored: the field walked before the liner rolls, the paint label read and the hopper calibrated, the lines run along a staged string at a steady rate, and every stake and sleeve the goal's own instructions call for actually set",
+  "title": "SmartCiti.X~ Sports-Field Line Marking & Goal Anchoring VR",
+  "trade": "Grounds sports-turf crew member — AFSCME parks and grounds crew",
+  "underwater": null,
+  "weather": "clear"
+}

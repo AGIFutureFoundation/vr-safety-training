@@ -1,10 +1,10 @@
 // The Deep — the seabed adapter (the dive game's city.js).
 //
-// Imports the pure seabed data — for now from ./seabed-stub.js, DEEP1's
-// exact contract shape; once WebXR/shared/underwater-data.js is on the branch
-// the ONE import line below switches to "../../shared/underwater-data.js" and
-// the stub stays in the tree, unbundled, the way bayworld/js/world-stub.js
-// does — and adapts its shapes to what the rest of this app reads: a zone's
+// Imports the pure seabed data from DEEP1's WebXR/shared/underwater-data.js
+// (the ONE import line below; ./seabed-stub.js is the pre-integration stub
+// in the same contract shape this app shipped against before that landed,
+// kept in the tree but no longer bundled, the way bayworld/js/world-stub.js
+// is) — and adapts its shapes to what the rest of this app reads: a zone's
 // `centre` becomes `center` plus a plain `color` (its palette accent); a site's
 // or landmark's 2-vector `position:[x,z]` becomes this platform's 3-vector
 // `[x, y, z]` with y the seabed at that point (negative: below the surface);
@@ -21,7 +21,7 @@
 import {
   DEEP_BOUNDS, DEEP_DEPTH_RANGE, DEEP_ZONES, DEEP_LANDMARKS, DEEP_SITES, DEEP_LINES, DEEP_MESH_BUDGET,
   deepDepthAt, deepZoneAt, deepLineAt,
-} from "./seabed-stub.js";
+} from "../../shared/underwater-data.js";
 
 export { DEEP_BOUNDS, DEEP_DEPTH_RANGE, DEEP_MESH_BUDGET };
 

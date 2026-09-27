@@ -1,0 +1,335 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "containment-sealed",
+    "name": "Containment Sealed",
+    "note": "Full containment and decon with no shortcut on either"
+  },
+  "category": "Water & Environmental",
+  "certification": "LIUNA abatement workers; OSHA 29 CFR 1926.1101, the asbestos standard for construction, and 29 CFR 1910.134 respiratory protection; EPA AHERA worker accreditation and the EPA asbestos NESHAP for the waste; the project design and clearance criteria in the containment plan",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.1101",
+        "id": "osha-1926-1101",
+        "title": "29 CFR 1926.1101 — Asbestos in construction"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "negative-hold",
+        "name": "Negative Hold",
+        "note": "Never enter before pressure is confirmed"
+      },
+      {
+        "id": "wet-clean",
+        "name": "Wet and Clean",
+        "note": "Hold every pressure reading near band centre"
+      },
+      {
+        "id": "decon-disciplined",
+        "name": "Decon Disciplined",
+        "note": "Clear the airlock stages with no correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "shift-clearance",
+        "name": "Shift Clearance",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-air",
+        "name": "Clean Air",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "chamber-streak",
+        "name": "Chamber Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "ABATE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Bag Handler",
+      "Removal Tech",
+      "Containment Lead",
+      "Decon Supervisor",
+      "Containment Certified"
+    ],
+    "system": "Containment Command"
+  },
+  "hazards": {
+    "break-mug": "That is somebody's coffee, inside the regulated area. Eating, drinking and smoking in a regulated area are prohibited outright by the asbestos standard, for the obvious reason: the respirator has to come off to do any of them, and fibre that settled on the rim of that mug goes straight down somebody's throat.",
+    "containment-flap": "You pushed through the containment flap without confirming negative pressure on the manometer. If the enclosure isn't actually under negative pressure, opening it pushes fibres out into the building instead of holding them in.",
+    "dry-removal-tool": "That is a dry scraper. Working the material dry aerosolises fibres immediately — the entire point of the wet method is that a wetted material does not go airborne when it is disturbed.",
+    "early-respirator-removal": "You reached to pull the respirator off before finishing the decon shower. Contamination sits on the outside of that mask and on your skin and hair — it comes off only once you are standing in the clean room.",
+    "unlabeled-bag": "That waste bag is neither double-bagged nor labeled, and it is sitting in the clean side of the airlock. An unlabeled asbestos or lead bag in a clean area is exactly how contamination leaves the site undetected."
+  },
+  "id": "abatement-chamber",
+  "indoor": "plant",
+  "interrupts": [],
+  "lateNotes": {
+    "respirator": "The respirator does not come off until you are standing in the clean room, on the far side of the shower — not before.",
+    "waste-bag": "Waste only gets bagged and labeled once the wet removal itself is finished, not while material is still coming down."
+  },
+  "name": "Abatement Chamber",
+  "parSeconds": 245,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hazmat-environmental"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": null,
+    "hits": [
+      "acm-material",
+      "bag-out-airlock",
+      "break-mug",
+      "clean-barrier",
+      "clean-room",
+      "containment-flap",
+      "coveralls",
+      "dirty-room",
+      "dry-removal-tool",
+      "early-respirator-removal",
+      "floor-tear",
+      "glove-tape",
+      "manometer",
+      "negative-air-machine",
+      "open-vent",
+      "poly-sheeting",
+      "respirator",
+      "shower-stage",
+      "sprayer",
+      "unlabeled-bag",
+      "waste-bag",
+      "work-plan"
+    ],
+    "meshes": 113
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Confirm the work area, material type and containment class on the plan.",
+      "id": "plan",
+      "kind": "select",
+      "prompt": "Confirm the work area, material type and containment class on the plan.",
+      "target": "work-plan",
+      "title": "Read the containment work plan",
+      "why": "The plan is what sets the containment class, the respirator, the waste route and the clearance criteria for this specific material, and friable pipe insulation is a different job from intact lead paint on a handrail even though the poly looks the same. It also states the negative pressure this enclosure has to hold, which is the number you will be committing to on the manometer in a few minutes."
+    },
+    {
+      "cue": "Three things about this containment are not sealed. Find them by looking.",
+      "decoyNotes": {
+        "clean-barrier": "That run of poly is sound: taped seam, doubled at the floor, no light through it. Leave it."
+      },
+      "id": "barrier-check",
+      "itemNames": {
+        "floor-tear": "the tear at the floor-to-wall joint",
+        "open-vent": "the supply diffuser nobody sealed",
+        "poly-sheeting": "the lifted seam on the barrier"
+      },
+      "itemNotes": {
+        "floor-tear": "A tear where the floor sheet meets the wall sheet. That joint takes every boot in the enclosure and it is the first place a containment opens up, which is why it is doubled and taped rather than laid.",
+        "open-vent": "A supply diffuser still open to the building. Critical barriers cover the vents as well as the doors — leave one and the negative-air unit spends the shift pulling conditioned air out of the rest of the building instead of holding the enclosure down.",
+        "poly-sheeting": "A seam that has lifted off its tape. The poly is only a containment where it is sealed — everywhere else it is a sheet of plastic with air moving past it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things about this containment are not sealed. Find them by looking.",
+      "targets": [
+        "poly-sheeting",
+        "floor-tear",
+        "open-vent"
+      ],
+      "title": "Walk the critical barriers",
+      "why": "The poly is the only thing between this work and the rest of an occupied building, and it fails at seams, at the floor line and at the openings somebody forgot rather than in the middle of a sheet. You find those with your eyes and a hand on the plastic before the machine runs, because after that the enclosure is under pressure and every gap is a measured leak you are pulling building air through."
+    },
+    {
+      "cue": "Run the HEPA-filtered negative-air unit and check the exhaust duct is discharging outside.",
+      "id": "negative-air",
+      "kind": "select",
+      "prompt": "Run the HEPA-filtered negative-air unit and check the exhaust duct is discharging outside.",
+      "target": "negative-air-machine",
+      "title": "Start the negative-air machine",
+      "why": "The machine is what actually makes the enclosure negative, and it runs continuously for the whole job — through breaks, through lunch, through the night if the job runs over — not only while somebody happens to be inside. The filter is HEPA because anything coarser simply relocates the fibre, and the duct discharges outdoors because an exhaust dumped into a corridor has abated nothing."
+    },
+    {
+      "cue": "Read the differential pressure and commit once it holds in the required range.",
+      "gauge": {
+        "green": [
+          0.22,
+          0.5
+        ],
+        "label": "CONTAINMENT — DIFFERENTIAL PRESSURE",
+        "missNote": "Not enough negative pressure. Check the machine and the seals before anyone enters.",
+        "speed": 0.6
+      },
+      "id": "pressure-check",
+      "kind": "gauge",
+      "prompt": "Read the differential pressure and commit once it holds in the required range.",
+      "target": "manometer",
+      "title": "Confirm negative pressure on the manometer",
+      "why": "Negative pressure is what makes air fall into the enclosure every time the flap opens instead of blowing out of it, and it is a number on a manometer rather than an impression from the machine sounding busy. A unit can run flat out against a containment so leaky it never develops any pressure at all, and the gauge is the only thing that tells those two situations apart."
+    },
+    {
+      "cue": "Coveralls first, then the respirator, then tape the gloves and boot covers.",
+      "id": "don-sequence",
+      "itemNames": {
+        "coveralls": "coveralls",
+        "glove-tape": "taped gloves and boot covers",
+        "respirator": "respirator"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — coveralls go on first, then the respirator seats against the hood, then gloves and boots get taped last.",
+      "prompt": "Coveralls first, then the respirator, then tape the gloves and boot covers.",
+      "targets": [
+        "coveralls",
+        "respirator",
+        "glove-tape"
+      ],
+      "title": "Don PPE in the correct order",
+      "why": "The respirator seals against skin, so it goes on after the suit but before the hood — pull the hood up first and you have a facepiece sealing against a sheet of polypropylene, which is not a seal at all. The tape goes on last because it is what stops a sleeve riding up when you reach overhead, and reaching overhead is the whole of this job."
+    },
+    {
+      "cue": "Block the cartridges, inhale, and hold the facepiece collapsed for the full check.",
+      "holdBreakNote": "You released before the check was over. A facepiece that leaks slowly passes a quick squeeze and fails a shift — hold it the full count.",
+      "id": "fit-check",
+      "kind": "hold",
+      "prompt": "Block the cartridges, inhale, and hold the facepiece collapsed for the full check.",
+      "seconds": 6,
+      "target": "respirator",
+      "title": "Hold the user seal check",
+      "why": "A negative-pressure seal check is held, not flicked at: you block the inlets, breathe in, and the facepiece has to stay drawn against your face for the whole count without creeping back out. That is the difference between a respirator and a piece of rubber near your face, and OSHA's respiratory protection standard asks for it every single time the mask goes on — not once a year at the fit test."
+    },
+    {
+      "cue": "Hold the delivery low and steady so the amended water soaks in instead of blasting the surface.",
+      "holdBreakNote": "Delivery out of band — a hard jet drives fibre into the air and a light mist only damps the face. Bring it back and hold it there.",
+      "id": "wet-method",
+      "kind": "track",
+      "prompt": "Hold the delivery low and steady so the amended water soaks in instead of blasting the surface.",
+      "seconds": 7,
+      "target": "sprayer",
+      "title": "Wet the material with amended water",
+      "track": {
+        "drift": 0.11,
+        "fall": 0.44,
+        "green": [
+          0.34,
+          0.54
+        ],
+        "label": "SPRAY DELIVERY",
+        "rise": 0.5,
+        "start": 0.12
+      },
+      "why": "Amended water carries a surfactant so it wets through the material rather than beading on it, and that only happens if it is put on gently. Hit friable insulation with a hard jet and you aerosolise exactly the fibre you were trying to bind, inside a containment, at head height. Too light and you have only damped the face, so the first thing your scraper reaches is still dry."
+    },
+    {
+      "cue": "Take the material down while it is still wet, working in small sections.",
+      "id": "removal",
+      "kind": "select",
+      "prompt": "Take the material down while it is still wet, working in small sections.",
+      "target": "acm-material",
+      "title": "Remove the wetted material",
+      "why": "A section small enough to stay wet through the whole of its removal is the only size worth starting, because insulation dries from the moment you open it and a big run outruns the sprayer. Material that dries in your hands is dry removal, whatever the plan says, and the enclosure is now holding airborne fibre instead of the damp lumps it was designed around."
+    },
+    {
+      "cue": "Seal the material in two labelled bags and carry it to the waste load-out.",
+      "drag": {
+        "missNote": "Not at the load-out. A bag set down anywhere else in the enclosure is a bag somebody carries out through the shower, which is what the load-out exists to prevent.",
+        "radius": 0.5,
+        "to": "bag-out-airlock"
+      },
+      "id": "bag-label",
+      "kind": "drag",
+      "prompt": "Seal the material in two labelled bags and carry it to the waste load-out.",
+      "target": "waste-bag",
+      "title": "Double-bag the waste and take it to the load-out",
+      "why": "Two bags, because the outer one is what stays clean enough to leave the enclosure, and a label because everybody downstream — the hauler, the scale house, the landfill operator, an inspector years later — has a right to know what they are handling. It leaves through the load-out rather than the decon airlock so that waste and people never use the same opening."
+    },
+    {
+      "cue": "Dirty room, then the shower, then the clean room — never out of order.",
+      "id": "decon-sequence",
+      "itemNames": {
+        "clean-room": "clean room",
+        "dirty-room": "dirty room",
+        "shower-stage": "shower"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — the airlock only works dirty room, then shower, then clean room. Reversing it defeats the entire decon.",
+      "prompt": "Dirty room, then the shower, then the clean room — never out of order.",
+      "targets": [
+        "dirty-room",
+        "shower-stage",
+        "clean-room"
+      ],
+      "title": "Exit through the three-stage decon",
+      "why": "Each stage takes off one layer and there is no other way out of this enclosure. Suit and boot covers come off in the dirty room, the shower takes what is on your skin and hair with the respirator still on your face, and only the clean room holds your own clothes. Go through it backwards and you have carried the whole shift's contamination into the one room that was clean."
+    },
+    {
+      "cue": "Take off the respirator only once you are standing in the clean room.",
+      "id": "respirator-off",
+      "kind": "select",
+      "prompt": "Take off the respirator only once you are standing in the clean room.",
+      "target": "respirator",
+      "title": "Remove the respirator in the clean room",
+      "why": "The outside of that facepiece is the dirtiest surface you own, and the shower ran with it on for exactly that reason. This is the first point on the way out where the air around your face has been through the decon too, so it is the first point where taking the mask off does not simply undo the last ten minutes."
+    },
+    {
+      "cue": "Record the pressure log, the waste manifest and the clearance sampling, then sign the plan closed.",
+      "id": "close",
+      "kind": "select",
+      "prompt": "Record the pressure log, the waste manifest and the clearance sampling, then sign the plan closed.",
+      "target": "work-plan",
+      "title": "Close out the containment log",
+      "why": "The log is the evidence that this enclosure actually held the pressure the plan called for, for the hours it was occupied, and that every bag is accounted for on the manifest. It is also where the clearance sampling goes, because the containment does not come down on somebody's opinion that the area looks clean — it comes down on a result, and the inspector reads that first."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Containment integrity, wet-method removal and the three-stage decon airlock",
+  "title": "SmartCiti.X~ Abatement Chamber VR",
+  "trade": "Asbestos / lead abatement worker",
+  "underwater": null,
+  "weather": null
+}

@@ -1,0 +1,109 @@
+{
+  "accent": "#f2c14b",
+  "anchors": [
+    {
+      "id": "downtown-tower-site",
+      "name": "Downtown Tower Site",
+      "position": [
+        40,
+        0
+      ],
+      "stations": [
+        "steel-erector",
+        "gl-curtain-wall-unit-setting-from-the-floor",
+        "ew-hoistway-false-car-and-rail-setting"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "downtown"
+    }
+  ],
+  "certification": "OSHA 29 CFR 1926 Subpart M fall protection, Subpart L scaffolds, and ANSI Z359 personal fall-arrest systems",
+  "competency": {
+    "id": "fall-protection",
+    "kind": "programme",
+    "require": 4,
+    "standards": [
+      "osha-1926-subpart-m",
+      "osha-1926-subpart-l",
+      "ansi-z359"
+    ],
+    "stations": [
+      "scaffold-erection",
+      "steel-erector",
+      "tower-climb",
+      "microwave-backhaul",
+      "aerial-ladder",
+      "leading-edge-and-horizontal-lifeline",
+      "fp-anchor-selection-and-rescue-plan"
+    ],
+    "title": "Work at height on a fall-arrest system the worker has proven"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "ironworkers-impact",
+    "carpenters-ictf",
+    "cwa-training",
+    "nate-climber-training",
+    "osha-1926-501",
+    "osha-1926-502",
+    "osha-1926-451",
+    "osha-1926-454",
+    "osha-1910-28",
+    "ansi-z359",
+    "ansi-a10-8",
+    "ansi-a92"
+  ],
+  "id": "fall-protection",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1650,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 130
+  },
+  "name": "Working at Height — Fall Protection",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "scaffold-erection",
+      "why": "Building the platform: the order in which a scaffold becomes safe to stand on, and the green tag that says so."
+    },
+    {
+      "app": "smartcity",
+      "id": "steel-erector",
+      "why": "Connecting steel, where the anchor moves with the work and the decking is not yet there."
+    },
+    {
+      "app": "smartcity",
+      "id": "tower-climb",
+      "why": "A climb with a hundred metres under it: the transitions are where people fall."
+    },
+    {
+      "app": "smartcity",
+      "id": "microwave-backhaul",
+      "why": "A rooftop parapet, where the hazard is the edge and everything dropped lands on a public footpath."
+    },
+    {
+      "app": "smartcity",
+      "id": "aerial-ladder",
+      "why": "An aerial device, where the platform is the thing that has to be set level before anyone is on it."
+    },
+    {
+      "app": "smartcity",
+      "id": "leading-edge-and-horizontal-lifeline",
+      "why": "The leading edge, where there is no platform yet and the anchor is a lifeline the crew rigs, tensions and checks for clearance to a qualified person's design before anyone clips on."
+    },
+    {
+      "app": "smartcity",
+      "id": "fp-anchor-selection-and-rescue-plan",
+      "why": "The step before any of the other five: choosing an anchor that is actually rated, over the handrail beside it, and writing the rescue plan a suspended worker's own clock depends on."
+    }
+  ],
+  "summary": "Anchor, connect, and the thing you are standing on. Four heights, four different reasons the system has to be right before the first step off the deck.",
+  "union": "Ironworkers, Carpenters, CWA and NATE climbers"
+}

@@ -1,0 +1,118 @@
+{
+  "accent": "#2f6f4a",
+  "anchors": [
+    {
+      "id": "port-maintenance-shop",
+      "name": "Port Maintenance Shop",
+      "position": [
+        -375,
+        293
+      ],
+      "stations": [
+        "pl-medical-gas-brazing-and-purge",
+        "ib-mechanical-insulation-pipe-and-jacketing"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "port"
+    }
+  ],
+  "certification": "UA plumbers and pipefitters apprenticeship standards, tested against NFPA 99, NFPA 13, NFPA 25, NFPA 54, ASME B31.9, the ASME Boiler and Pressure Vessel Code and the Uniform Plumbing Code (UPC) across eight distinct union jobs",
+  "competency": {
+    "id": "plumbers-and-pipefitters",
+    "kind": "programme",
+    "require": 4,
+    "standards": [
+      "asme-b31-9",
+      "iapmo-upc",
+      "nfpa-13",
+      "nfpa-25",
+      "nfpa-54",
+      "nfpa-99",
+      "asme-bpvc",
+      "osha-1910-147"
+    ],
+    "stations": [
+      "pl-medical-gas-brazing-and-purge",
+      "pl-hydronic-boiler-piping-and-hydrotest",
+      "pl-underground-sewer-lateral-and-trench-shoring",
+      "pl-fire-sprinkler-riser-and-flow-test",
+      "pl-copper-press-and-solder-rough-in",
+      "pl-steam-trap-and-condensate-line-repair",
+      "pl-water-heater-and-tpr-valve-replacement",
+      "pl-natural-gas-pressure-test-and-leak-check"
+    ],
+    "title": "Rough in, test and prove eight distinct UA plumbing and pipefitting jobs"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "ua-apprenticeship",
+    "asme-b31-9",
+    "iapmo-upc",
+    "nfpa-13",
+    "nfpa-25",
+    "nfpa-54",
+    "nfpa-99",
+    "asme-bpvc",
+    "osha-1910-147",
+    "osha-1926-subpart-p",
+    "cal-osha-3203"
+  ],
+  "id": "plumbers-and-pipefitters",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1670,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 120
+  },
+  "name": "Plumbers and Pipefitters — Journeyman Rough-In and Test Block",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "pl-medical-gas-brazing-and-purge",
+      "why": "The zone valve is locked and tagged before any pipe opens, the nitrogen purge runs before the torch ever lights, and every outlet is cross-tested against its own gas before the zone goes back to the floor."
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-hydronic-boiler-piping-and-hydrotest",
+      "why": "A new heating loop off a locked-out boiler is assembled in a proven bolt pattern and then walked joint by joint under a hydrostatic test before a single section goes behind insulation."
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-underground-sewer-lateral-and-trench-shoring",
+      "why": "The protective system goes into the excavation before anyone works below grade, the lateral is laid to a fall checked against a laser at every joint, and the shield comes out a lift at a time as the backfill takes over holding the wall."
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-fire-sprinkler-riser-and-flow-test",
+      "why": "The monitoring company is called before a valve moves, the main drain and the inspector's test connection are each read in order, and the alarm is proven all the way to the gong and the panel before the riser is signed off."
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-copper-press-and-solder-rough-in",
+      "why": "A press fitting is proven on a go/no-go gauge rather than trusted by eye, a soldered joint is made in the alloy potable water actually allows, and a nail plate goes on before the line disappears behind drywall."
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-steam-trap-and-condensate-line-repair",
+      "why": "The failed trap's line is vented and proven at zero before the body ever opens, the replacement is matched to the application, and the line is warmed back up slowly enough that trapped condensate boils off instead of hammering through the pipe."
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-water-heater-and-tpr-valve-replacement",
+      "why": "The new tank is strapped against a seismic event before it is ever filled, the relief valve is matched to the tank's own rating rather than its thread size, and the gas connection is tested before the pilot lights."
+    },
+    {
+      "app": "smartcity",
+      "id": "pl-natural-gas-pressure-test-and-leak-check",
+      "why": "The new run is pressure-tested with air rather than fuel, every joint is soap-checked rather than trusted to the gauge alone, and the line is purged outdoors before any appliance ever sees live gas."
+    }
+  ],
+  "summary": "Eight jobs a UA plumber or pipefitter actually rotates through: medical gas brazed under a nitrogen purge, a hydronic loop off a locked-out boiler hydrotested before cover-up, a sewer lateral trenched and shored to a proven fall, a sprinkler riser's annual flow test, a rough-in run both pressed and soldered, a failed steam trap replaced on a vented line, a water heater strapped and relief-valved to its own rating, and a new gas line air-tested and purged before anything is lit. Every station ends on a proof — a gauge, a witness mark, a signed report — rather than on how the joint looked going together.",
+  "union": "UA Local 38 apprenticeship"
+}

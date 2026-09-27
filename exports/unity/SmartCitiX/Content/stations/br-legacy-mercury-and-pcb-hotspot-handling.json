@@ -1,0 +1,465 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "kept-apart",
+    "name": "Kept Apart",
+    "note": "Every bucket of the hotspot went into its own lined bin, the beads were contained without a vacuum or a broom, and nobody left the zone out of order"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "LIUNA Local 261 hazardous waste and environmental remediation training (LIUNA Training and Education Fund) for the hotspot crew; IUOE Local 3 operating engineer apprenticeship for the excavator in the cofferdam; OSHA HAZWOPER, 29 CFR 1910.120, including the site safety and health plan's air monitoring, PPE and decontamination; 40 CFR 761 for the handling, marking and storage of PCB remediation waste; RCRA 40 CFR 262 generator duties and DTSC rules for any of it the profile makes hazardous waste; the Regional Water Quality Control Board's Section 401 certification and Army Corps Section 404 conditions for work below the tide line; EPA QA/G-5 chain-of-custody practice for the confirmation samples",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "DTSC",
+        "citedAs": "DTSC",
+        "id": "dtsc-hazardous-waste-control",
+        "title": "California Department of Toxic Substances Control — state hazardous waste control rules and oversight of contaminated-site cleanups"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "40 CFR 761",
+        "id": "epa-40-cfr-761",
+        "title": "40 CFR Part 761 — Polychlorinated biphenyls (PCB) use, storage and disposal"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "EPA QA/G-5",
+        "id": "epa-qa-g5",
+        "title": "EPA QA/G-5 — Guidance for quality assurance project plans, and the chain-of-custody practice built on it"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA Training",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      },
+      {
+        "body": "RCRA",
+        "citedAs": "40 CFR 262",
+        "id": "rcra-40-cfr-262",
+        "title": "40 CFR Part 262 — Standards applicable to generators of hazardous waste, including the manifest"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "Section 401",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      },
+      {
+        "body": "USACE",
+        "citedAs": "Section 404",
+        "id": "usace-section-404",
+        "title": "Clean Water Act §404 permit conditions for the discharge of dredged or fill material"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "read-before-cut",
+        "name": "Read Before Cut",
+        "note": "The hotspot page read and the vapour baseline taken clean before the first bucket"
+      },
+      {
+        "id": "no-vacuum-no-broom",
+        "name": "No Vacuum, No Broom",
+        "note": "Never a shop vacuum on the beads, never a mask down, never under the bucket, never a side-cast on bare ground"
+      },
+      {
+        "id": "scans-true",
+        "name": "Scans True",
+        "note": "Baseline and release scans both committed inside their bands"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-cell",
+        "name": "Clean Cell",
+        "note": "No corrections from the plan to the check-in"
+      },
+      {
+        "id": "thin-cuts",
+        "name": "Thin Cuts",
+        "note": "Held the cut call in band the whole time"
+      },
+      {
+        "id": "out-by-the-tide",
+        "name": "Out By The Tide",
+        "note": "Cell logged inside 80% of par"
+      }
+    ],
+    "currency": "CUT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Hazmat Hand",
+      "Cut Signaller",
+      "Hotspot Lead",
+      "Remediation Foreman",
+      "Hotspot Cell Certified"
+    ],
+    "system": "Hotspot Cell"
+  },
+  "hazards": {
+    "into-the-cut": "You stepped down into the cut to grab the confirmation sample while the bucket was still working. The floor of a fresh cut in wet sediment is soft and the sheet-pile corner is where a slumping face lands, and the operator cannot see the cut floor behind the bucket. The bucket is grounded and the operator says so before anyone goes in, and the sample is taken from the edge with the long-handled scoop where the plan allows.",
+    "mask-down-to-talk": "You pulled your respirator down to shout to the operator. Mercury vapour has no smell and gives no warning, and the respirator protects only while it is sealed on the face — the seconds it is down are the seconds the site safety plan's action level was set to prevent. Talk on the radio or by the agreed hand signals, with the seal on.",
+    "side-cast": "You waved the operator to side-cast a bucket of hotspot spoil onto the bare ground beside the bin to save a swing. Hotspot material set down on unlined ground has just made a new hotspot, one nobody delineated, and it drains into the cell on the next tide. Every bucket goes into the lined bin kept for its category, or the dig pauses until there is room.",
+    "vacuum-beads": "You reached for the shop vacuum to pick up the mercury beads. A vacuum's motor warms and blows the air it draws across the beads, turning liquid mercury into vapour and spraying it round the cell, and the machine itself is contaminated for good. Beads are covered with the spill kit's amalgamating powder and collected with its sponges and scoops, never vacuumed or swept."
+  },
+  "id": "br-legacy-mercury-and-pcb-hotspot-handling",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "thin-cuts",
+      "alert": "The last bucket has opened a pocket of silver beads — liquid mercury glinting in the spoil on the bucket's lip and on the cut face — and the vapour analyser has started to climb.",
+      "cue": "Signal the bucket down and go to the mercury spill kit: cover the beads before anything else moves.",
+      "delay": 3,
+      "id": "mercury-beads",
+      "kind": "Free mercury beads in the bucket",
+      "missNote": "The bucket kept swinging with beads on its lip; they scattered across the cell floor and the bin rim, the analyser passed the action level, and the whole crew had to withdraw while the cell was decontaminated.",
+      "seconds": 14,
+      "target": "mercury-kit",
+      "why": "Free mercury is the one thing in the hotspot that can reach the air in a hurry: beads spread when they are disturbed and give off vapour while they are exposed. The spill kit's amalgamating powder and covers stop both, so the bucket is grounded and the beads covered before the dig resumes — and the air monitoring decides whether the crew stays in.",
+      "wrongNote": "The mercury spill kit — ground the bucket and cover the beads with it before anything else moves."
+    },
+    {
+      "after": "confirm-sample",
+      "alert": "The dump truck has started backing toward the cell with nobody spotting it — the second laborer is kneeling by the bin in its path, facing away.",
+      "cue": "Blow the air horn: stop the truck before it reaches the bin.",
+      "delay": 2,
+      "id": "truck-backing-blind",
+      "kind": "Truck reversing with no spotter",
+      "missNote": "The truck kept reversing until the second laborer heard the backup alarm and scrambled clear; the tailgate caught the bin's corner and shoved it off its liner onto the unlined ground.",
+      "seconds": 13,
+      "target": "air-horn",
+      "why": "A dump truck reversing into a work area has a blind zone behind it the driver cannot see into, and the rule that nobody backs up without a spotter is there for exactly the person kneeling behind a bin. The air horn is the agreed stop signal everyone on the site knows, and it stops the truck now; the spotter and the backing plan come after.",
+      "wrongNote": "The air horn — the agreed stop signal; stop the truck first, then get a spotter on it."
+    }
+  ],
+  "lateNotes": {
+    "cut-paddle": "The cut is called once the mist is on the face and the bin is lined — a dry face sheds dust and there is nowhere lined for the bucket to go.",
+    "hotspot-log": "The hotspot log is written after the crew has come out through the decon line — it records the doff and the release as well as the dig.",
+    "misting-valve": "Start the mist once the bin is lined and ready — wetting the face before there is anywhere for the spoil to go just runs water into the cell.",
+    "release-scan": "Scan the truck and the bin once the bin is closed and marked — scanning before it is closed only proves what the open load was giving off."
+  },
+  "name": "Legacy Mercury & PCB Hotspot Handling",
+  "parSeconds": 310,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "dumpTruck",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "excavator",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "air-horn",
+      "bin-cover",
+      "bin-liner",
+      "bin-mark",
+      "bin-record",
+      "confirm-scoop",
+      "cover-torn",
+      "crew-radio",
+      "cut-paddle",
+      "doff-coverall",
+      "doff-outer-gloves",
+      "doff-respirator",
+      "flag-wrong",
+      "hg-analyser",
+      "hotspot-log",
+      "hotspot-plan",
+      "into-the-cut",
+      "mask-down-to-talk",
+      "mercury-kit",
+      "misting-valve",
+      "ppe-coverall",
+      "ppe-gloves",
+      "ppe-respirator",
+      "release-scan",
+      "rolloff-bin",
+      "side-cast",
+      "stake-missing",
+      "vacuum-beads",
+      "wash-overflow"
+    ],
+    "meshes": 230
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "At the board: the delineated limits and the stakes, the depth to dig to, the segregation categories and their bins, the tide window, and the air monitoring action levels in the site safety and health plan.",
+      "id": "hotspot-plan",
+      "kind": "select",
+      "prompt": "At the board: the delineated limits and the stakes, the depth to dig to, the segregation categories and their bins, the tide window, and the air monitoring action levels in the site safety and health plan.",
+      "target": "hotspot-plan",
+      "title": "Read the hotspot page of the work plan",
+      "why": "The hotspot exists on paper before it exists in the ground: sampling delineated it, the work plan draws its limits and depth, and the site safety and health plan sets what vapour reading stops the work. Digging it without reading both means guessing where contamination ends and what the air is allowed to carry, which is the one thing HAZWOPER makes sure nobody on the crew has to guess."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Chemical coverall with taped cuffs, two layers of gloves, and the respirator the site safety plan assigns — seal checked before you step in.",
+      "id": "dress",
+      "itemNames": {
+        "ppe-coverall": "chemical coverall, cuffs taped",
+        "ppe-gloves": "inner nitrile and outer chemical gloves",
+        "ppe-respirator": "the fit-tested respirator the plan assigns, seal checked"
+      },
+      "kind": "sequence",
+      "prompt": "Chemical coverall with taped cuffs, two layers of gloves, and the respirator the site safety plan assigns — seal checked before you step in.",
+      "targets": [
+        "ppe-coverall",
+        "ppe-gloves",
+        "ppe-respirator"
+      ],
+      "title": "Dress for the hotspot",
+      "why": "PCBs soak into skin and mercury vapour is breathed, so the hotspot crew is dressed against both: a coverall and taped cuffs keep sediment off skin, two glove layers let the outer pair be shed when fouled, and the respirator the plan assigns — fit-tested to the wearer and seal-checked each time — is the protection the air monitoring is measured against."
+    },
+    {
+      "cue": "Hold the mercury vapour analyser at breathing height by the cut and commit the baseline against the site safety plan's action level.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "Hg VAPOUR",
+        "missNote": "Outside the band — let the analyser finish zeroing and read it at breathing height, not down at the face.",
+        "speed": 0.66
+      },
+      "id": "vapour-baseline",
+      "kind": "gauge",
+      "prompt": "Hold the mercury vapour analyser at breathing height by the cut and commit the baseline against the site safety plan's action level.",
+      "target": "hg-analyser",
+      "title": "Read mercury vapour at the cut before the first bucket",
+      "why": "Mercury vapour cannot be seen or smelled, and the only way anyone knows whether the dig is raising it is to compare readings against a baseline taken before the ground was opened. The baseline is read at breathing height where the crew stands, because that is the air the respirators and the action level exist for."
+    },
+    {
+      "cue": "Walk the hotspot's limits: every corner stake standing where the survey set it, every flag the hotspot's colour.",
+      "id": "stake-walk",
+      "itemNames": {
+        "flag-wrong": "a flag in the wrong category's colour",
+        "stake-missing": "a corner stake of the hotspot knocked out"
+      },
+      "itemNotes": {
+        "flag-wrong": "One flag on the east line is the colour for the general fill category, not the hotspot. Dug by the flags, that strip would go in the wrong bin.",
+        "stake-missing": "The north-east corner stake is lying flat in the mud. Without it the operator is guessing where the hotspot's limit is, and the cut either stops short or runs into material the plan put in another category."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the hotspot's limits: every corner stake standing where the survey set it, every flag the hotspot's colour.",
+      "targets": [
+        "stake-missing",
+        "flag-wrong"
+      ],
+      "title": "Walk the delineation stakes",
+      "why": "The stakes and flags are the only place the work plan's drawing meets the ground, and the operator digs to them. A stake knocked out overnight or a flag in the wrong colour moves the limit without anyone deciding to, and the result is hotspot material left in the ground or clean material sent for expensive disposal — both of which the confirmation sampling will find too late."
+    },
+    {
+      "cue": "Carry the liner to the roll-off bin kept for the hotspot category and lay it in, lapped over the rim on every side.",
+      "drag": {
+        "missNote": "Not in the bin — the liner goes into the hotspot bin and laps over the rim on every side.",
+        "radius": 0.5,
+        "to": "rolloff-bin"
+      },
+      "id": "line-bin",
+      "kind": "drag",
+      "prompt": "Carry the liner to the roll-off bin kept for the hotspot category and lay it in, lapped over the rim on every side.",
+      "target": "bin-liner",
+      "title": "Line the hotspot roll-off bin",
+      "why": "The hotspot goes into its own bin so it is never mixed with anything the plan puts in a lighter category, and the bin is lined so what drains out of wet sediment stays in the load rather than weeping through the door seals onto the road. A liner lapped over the rim is one that cannot slump down under the first bucket and leave bare steel."
+    },
+    {
+      "cue": "Open the misting line's valve until a fine mist lies over the cut face — damp, not running.",
+      "id": "mist-on",
+      "kind": "turn",
+      "prompt": "Open the misting line's valve until a fine mist lies over the cut face — damp, not running.",
+      "target": "misting-valve",
+      "title": "Start the mist over the cut face",
+      "turn": {
+        "label": "MIST VALVE",
+        "turns": 1.25
+      },
+      "why": "Sediment that dries on the face sheds dust carrying PCBs, and a light mist keeps it bound without running water into the cell floor. The valve is opened to a mist, not a spray, because standing water in the cut spreads the hotspot across the floor and becomes water that has to be managed as the work plan says before it goes anywhere."
+    },
+    {
+      "cue": "Hold the call steady: a thin cut inside the stakes, the bucket curled and swung low straight into the lined bin.",
+      "holdBreakNote": "The call broke and the bucket bit deep and swung fast. Bring it back to a thin cut and a low swing into the bin.",
+      "id": "thin-cuts",
+      "kind": "track",
+      "prompt": "Hold the call steady: a thin cut inside the stakes, the bucket curled and swung low straight into the lined bin.",
+      "seconds": 7,
+      "target": "cut-paddle",
+      "title": "Call thin cuts inside the stakes into the bin",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "CUT CALL",
+        "rise": 0.56,
+        "start": 0.12
+      },
+      "why": "The hotspot is taken off in thin cuts so the operator stays inside the delineated limits and depth rather than gouging past them, and each bucket goes straight from the face into the lined bin with no stop on the ground. The laborer's call holds the pace, because a fast, deep bucket spills over its lip and throws sediment across the cell on the swing."
+    },
+    {
+      "cue": "With the bucket grounded, hold the long-handled scoop at the floor's grid node until the jar is filled, then cap it.",
+      "holdBreakNote": "The scoop lifted off the node before the jar filled. Put it back on the grid node and hold it until the jar is full.",
+      "id": "confirm-sample",
+      "kind": "hold",
+      "prompt": "With the bucket grounded, hold the long-handled scoop at the floor's grid node until the jar is filled, then cap it.",
+      "seconds": 5,
+      "target": "confirm-scoop",
+      "title": "Take the confirmation sample off the cut floor",
+      "why": "Whether the hotspot is gone is not decided by how the cut looks; it is decided by confirmation samples from the floor and walls at the grid nodes the work plan sets, analysed under chain of custody. Taken from the edge with the long scoop and the bucket grounded, the sample is the right material from the right place, taken without anyone standing in the cut."
+    },
+    {
+      "cue": "Draw and strap the cover, mark the bin for what is in it, then record its number against the grid cells it came from.",
+      "id": "close-bin",
+      "itemNames": {
+        "bin-cover": "bin cover drawn and strapped",
+        "bin-mark": "the bin marked for its contents as the rules require",
+        "bin-record": "bin number recorded against the grid cells"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — cover it first, then mark it, then record its number against the cells it came from.",
+      "prompt": "Draw and strap the cover, mark the bin for what is in it, then record its number against the grid cells it came from.",
+      "targets": [
+        "bin-cover",
+        "bin-mark",
+        "bin-record"
+      ],
+      "title": "Close, mark and record the bin",
+      "why": "PCB remediation waste is stored covered and marked under 40 CFR 761, and the bin's number is tied to the grid cells it holds so the profile results and the disposal decision can follow it. The order matters: a bin marked before it is covered is marked open, and a record made before the bin is closed may describe a load that changed after."
+    },
+    {
+      "cue": "Run the vapour analyser along the truck's tyres and bed and the closed bin, and commit the reading against the plan's release criterion.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "RELEASE SCAN",
+        "missNote": "Outside the band — hold the wand close along the tread and read again once it steadies.",
+        "speed": 0.7
+      },
+      "id": "release-scan",
+      "kind": "gauge",
+      "prompt": "Run the vapour analyser along the truck's tyres and bed and the closed bin, and commit the reading against the plan's release criterion.",
+      "target": "release-scan",
+      "title": "Scan the truck and the bin before release",
+      "why": "A truck that has worked beside a mercury hotspot can carry sediment on its tyres and body out of the exclusion zone and onto a public road. The release scan, against the criterion the site safety plan sets, is how the crew knows the truck and the closed bin are fit to leave — the exclusion zone's boundary is only real if things are checked as they cross it."
+    },
+    {
+      "cue": "Walk the cell and the decon line: the stockpile cover, the boot wash, the cofferdam corners.",
+      "id": "cell-walk",
+      "itemNames": {
+        "cover-torn": "a tear in the stockpile cover",
+        "wash-overflow": "the boot wash tub brimming over"
+      },
+      "itemNotes": {
+        "cover-torn": "The cover over the general-fill stockpile has torn at a strap; rain on the pile tonight drains into the cell, carrying fines.",
+        "wash-overflow": "The boot wash tub is full to the brim and slopping onto the ground at the decon line — that water is contaminated and is handled as the work plan says, not left to run."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the cell and the decon line: the stockpile cover, the boot wash, the cofferdam corners.",
+      "targets": [
+        "cover-torn",
+        "wash-overflow"
+      ],
+      "title": "Walk the cell before it is left",
+      "why": "The hotspot cell sits below the tide line inside a cofferdam overnight, and what fails there fails into the Bay: a torn cover lets rain carry fines off a pile, a brimming wash tub runs decon water onto open ground. One walk at the end of the shift finds both while they are a strap and a pump-out rather than a release."
+    },
+    {
+      "cue": "Outer gloves off at the drop, the coverall rolled off inside-out, and the respirator off last at the clean end — then wash.",
+      "id": "doff",
+      "itemNames": {
+        "doff-coverall": "coverall rolled off inside-out",
+        "doff-outer-gloves": "outer gloves off at the drop",
+        "doff-respirator": "respirator off last, at the clean end"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — outer gloves first, then the coverall inside-out, and the respirator comes off last at the clean end.",
+      "prompt": "Outer gloves off at the drop, the coverall rolled off inside-out, and the respirator off last at the clean end — then wash.",
+      "targets": [
+        "doff-outer-gloves",
+        "doff-coverall",
+        "doff-respirator"
+      ],
+      "title": "Come out through the decon line in order",
+      "why": "Doffing is where contamination most often reaches skin, and the order is what prevents it: the fouled outer gloves come off first so they do not touch the rest, the coverall is rolled inside-out so its outside never meets the wearer, and the respirator comes off last, at the clean end, so the air being breathed is clean when the seal breaks."
+    },
+    {
+      "cue": "Log the vapour baseline and the readings through the dig, the stake reset, the beads and how they were contained, the confirmation sample and its custody, the bin number and cells, the unspotted truck, the release scan and the doff.",
+      "id": "hotspot-log",
+      "kind": "select",
+      "prompt": "Log the vapour baseline and the readings through the dig, the stake reset, the beads and how they were contained, the confirmation sample and its custody, the bin number and cells, the unspotted truck, the release scan and the doff.",
+      "target": "hotspot-log",
+      "title": "Write the hotspot log",
+      "why": "The hotspot log is what the confirmation results, the bin profiles and the disposal decision are matched against, and it is the crew's record of exposure — the vapour readings with their times are what an occupational health review reads. The beads and the truck go in as they happened, because a log that leaves out the hard parts of the day is a log nobody can rely on for the easy ones."
+    },
+    {
+      "cue": "On the radio: the cell is closed, the bin is staged for its profile, when the tide lets the crew back in, and how everyone is after the beads and a truck backing in blind.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the radio: the cell is closed, the bin is staged for its profile, when the tide lets the crew back in, and how everyone is after the beads and a truck backing in blind.",
+      "target": "crew-radio",
+      "title": "Check in with the operator and the crew",
+      "why": "Free mercury in a bucket and a truck reversing with nobody spotting it are both things that stay with a crew after the shift, and the operator spent the day swinging over people in respirators. The check-in closes the day's plan out loud and it is the crew's own — the member assistance line is there for anything that is still with someone after the radio goes quiet."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — LIUNA Local 261 or IUOE Local 3 — with the employer's employee assistance line behind it",
+  "tagline": "A delineated hotspot dug out and kept apart: the work plan's hotspot page read, the crew dressed and fit-tested, mercury vapour read before the cut, the stakes walked, the bin lined, the mist started, thin cuts called into the bin while free mercury beads show in the bucket, the floor sampled while the truck backs in unspotted, the bin closed and marked, the truck scanned before release, the cell walked, the crew doffed in order, logged and checked in",
+  "title": "SmartCiti.X~ Legacy Mercury & PCB Hotspot Handling VR",
+  "trade": "LIUNA Local 261 hazardous-waste laborer leading the hotspot cut, with an IUOE Local 3 operating engineer on the excavator",
+  "underwater": null,
+  "weather": "overcast"
+}

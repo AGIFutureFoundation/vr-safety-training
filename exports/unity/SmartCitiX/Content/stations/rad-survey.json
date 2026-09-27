@@ -1,0 +1,406 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "bracketed-day",
+    "name": "Bracketed Day",
+    "note": "Instrument proven against the check source before the grid and after it, every flagged reading GPS-logged, and the independent lab's split never touched"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "LIUNA hazmat & environmental laborer — OSHA HAZWOPER 40-hour (29 CFR 1910.120); NRC 10 CFR 20 occupational dose limits; EPA MARSSIM (Multi-Agency Radiation Survey and Site Investigation Manual) walkover and static-count methodology; the site's radiological work plan and QAPP chain of custody",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "MARSSIM",
+        "id": "marssim",
+        "title": "MARSSIM — Multi-Agency Radiation Survey and Site Investigation Manual"
+      },
+      {
+        "body": "NRC",
+        "citedAs": "10 CFR 20",
+        "id": "nrc-10-cfr-20",
+        "title": "10 CFR Part 20 — Standards for protection against radiation"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.120",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "both-brackets",
+        "name": "Both Brackets",
+        "note": "Source-checked the instrument clean at the start of the day and again at the end"
+      },
+      {
+        "id": "never-combined",
+        "name": "Never Combined",
+        "note": "The independent lab's split sample was never poured back into the primary"
+      },
+      {
+        "id": "grid-true",
+        "name": "Grid True",
+        "note": "Held scan speed and detector height in the band the whole lane"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-grid",
+        "name": "Clean Grid",
+        "note": "No corrections anywhere in the survey"
+      },
+      {
+        "id": "steady-scan",
+        "name": "Steady Scan",
+        "note": "Never broke the walkover speed band"
+      },
+      {
+        "id": "cooler-early",
+        "name": "Cooler Early",
+        "note": "Sample on ice inside 80% of par"
+      }
+    ],
+    "currency": "COUNT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Field Tech",
+      "Grid Walker",
+      "Static Counter",
+      "QA Verifier",
+      "Survey Integrity Certified"
+    ],
+    "system": "Survey Integrity"
+  },
+  "hazards": {
+    "combine-split": "You poured the split jar back into the primary to save a container. That split was the only way anyone outside this crew could ever check this result against an independent lab — combine the two and there is nothing left to check it against, only one number trusting itself.",
+    "cross-tape": "You stepped past the exclusion tape onto ground that has not been gridded or surveyed yet. Nobody knows what is under an unsurveyed square by definition — that is exactly the ground the tape exists to keep feet off until the grid actually reaches it.",
+    "log-from-memory": "You wrote the flagged reading into the field notebook from memory instead of logging it with the GPS unit. A remembered number and a remembered location both drift the moment the notebook gets copied out — the whole point of a GPS-tagged entry is that it cannot be misremembered.",
+    "skip-source-check": "You powered up and started scanning without checking the instrument against the source first. Every reading this meter takes today is now unverifiable — there is no way to tell a real hot spot from an instrument that was already reading high before the cap ever came off the check source."
+  },
+  "id": "rad-survey",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "walkover",
+      "alert": "A gust off the water has knocked lane stake 2 flat and dragged it out of the transect line while you're mid-lane.",
+      "cue": "Reset the stake before the lane you're scanning stops matching the grid you laid out.",
+      "delay": 4,
+      "id": "stake-down",
+      "kind": "Stake down",
+      "missNote": "The lane was scanned against a grid that no longer matched the stakes on the ground, and nobody caught it until the field sheet and the tape measure disagreed back at the truck — by then the only fix was re-walking the whole lane.",
+      "seconds": 13,
+      "target": "stake-2",
+      "why": "Once a stake moves, the detector's track and the grid it is supposed to represent are two different things — MARSSIM's coverage claim is about ground inside marked lanes, and ground next to a fallen stake is not provably inside anything.",
+      "wrongNote": "That is not it — it is stake 2, down on the ground, out of the line. Reset it before the scan drifts any further off the grid you actually laid out."
+    },
+    {
+      "after": "static-count",
+      "alert": "A grading crew working the next parcel over has walked past their own fence line and is heading straight for your flagged point while the static count is still running.",
+      "cue": "Key the radio and get them clear before anyone stands on ground that hasn't been surveyed yet.",
+      "delay": 3,
+      "id": "encroach",
+      "kind": "Encroachment",
+      "missNote": "The grading crew reached the flagged point mid-count, the static count had to be thrown out and re-run from zero, and for those minutes an unsurveyed hot spot had somebody standing directly on top of it who was never told it might be one.",
+      "seconds": 13,
+      "target": "radio",
+      "why": "A static count measures a fixed point under fixed conditions — a boot on the point, or even standing close enough to scuff it, changes exactly the ground the count is trying to characterize, and an uncleared crew member has no idea this square hasn't been surveyed.",
+      "wrongNote": "Not that — key the radio and reach the encroaching crew before they reach the point. Everything else waits until that ground is clear again."
+    }
+  ],
+  "lateNotes": {
+    "check-source": "The check source doesn't get touched until the range is set and the coveralls are on — checking a meter you aren't ready to survey with yet just spends the source's certified count for nothing.",
+    "hotspot": "There is nothing to flag yet — the walkover has to actually cross this point and read it elevated before there is a location worth a static count."
+  },
+  "name": "Rad Survey",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-bay-restoration"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "background-post",
+      "check-source",
+      "coc-form",
+      "combine-split",
+      "cross-tape",
+      "detector",
+      "dosimeter",
+      "flag-marker",
+      "gps-logger",
+      "hotspot",
+      "hotspot-socket",
+      "jar-primary",
+      "jar-split",
+      "log-from-memory",
+      "radio",
+      "range-dial",
+      "rwp-board",
+      "scoop",
+      "skip-source-check",
+      "stake-1",
+      "stake-2",
+      "stake-3",
+      "stake-4",
+      "tyvek",
+      "unlabeled-jar"
+    ],
+    "meshes": 196
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the investigation level, the grid spacing and the check-source activity before the meter comes off the truck.",
+      "id": "plan",
+      "kind": "select",
+      "prompt": "Check the investigation level, the grid spacing and the check-source activity before the meter comes off the truck.",
+      "target": "rwp-board",
+      "title": "Read the radiological work plan",
+      "why": "The work plan sets the number every reading on this parcel gets judged against — the investigation level — along with how far apart the grid lines run and which check source certifies the instrument. Walking the grid without reading it first means the technician is choosing those numbers instead of the plan."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Clip on the dosimeter and step into disposable coveralls before touching anything on the parcel.",
+      "id": "dosimetry",
+      "itemNames": {
+        "dosimeter": "dosimeter",
+        "tyvek": "disposable coveralls"
+      },
+      "kind": "sequence",
+      "prompt": "Clip on the dosimeter and step into disposable coveralls before touching anything on the parcel.",
+      "targets": [
+        "dosimeter",
+        "tyvek"
+      ],
+      "title": "Put on dosimetry and coveralls",
+      "why": "The dosimeter is the record of this technician's own exposure for the day, and it only means something if it went on before the first grid square rather than clipped on somewhere mid-survey. Coveralls keep whatever the boots pick up out of the truck and off the crew at shift's end."
+    },
+    {
+      "cue": "Turn the range selector to the scale the work plan calls for before powering up.",
+      "id": "range",
+      "kind": "turn",
+      "prompt": "Turn the range selector to the scale the work plan calls for before powering up.",
+      "target": "range-dial",
+      "title": "Set the instrument's range",
+      "turn": {
+        "axis": "y",
+        "label": "RANGE",
+        "turns": 0.5
+      },
+      "why": "A gamma survey meter left on the wrong range either pins at the top of its scale on a real hot spot or buries a real reading down in the noise floor — the range has to match what the plan expects to find, decided before the meter goes anywhere near the ground."
+    },
+    {
+      "cue": "Hold the probe against the sealed check source until the reading settles, and confirm it falls inside the tagged tolerance.",
+      "holdBreakNote": "Lifted off the source before the reading settled — that is not a check, it's a glance. Hold it on until it settles and reads back inside tolerance.",
+      "id": "source-check-am",
+      "kind": "hold",
+      "prompt": "Hold the probe against the sealed check source until the reading settles, and confirm it falls inside the tagged tolerance.",
+      "seconds": 5,
+      "target": "check-source",
+      "title": "Check the instrument — morning",
+      "why": "This is the first end of the bracket: proof the instrument itself reads true before it ever touches a square foot of the grid. A survey run on an unchecked meter is not evidence of anything, no matter how carefully the grid gets walked afterward — it is a number nobody can stand behind."
+    },
+    {
+      "cue": "Walk the meter off the parcel, let the reading settle, and commit inside the range the plan expects.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.58
+        ],
+        "label": "BACKGROUND",
+        "missNote": "That is not a settled background reading — read it off-parcel again and commit only once it's inside the range the plan expects.",
+        "speed": 0.65
+      },
+      "id": "background",
+      "kind": "gauge",
+      "prompt": "Walk the meter off the parcel, let the reading settle, and commit inside the range the plan expects.",
+      "target": "background-post",
+      "title": "Establish the off-parcel background",
+      "why": "Every reading taken on the grid is judged against this number, not against zero. Skip the off-parcel background and there is no way to tell an elevated reading on the grid from ordinary local background — the whole survey loses the baseline it needs to mean anything."
+    },
+    {
+      "cue": "Set the four lane stakes in the order the plan's transect walks — 1 through 4.",
+      "id": "grid",
+      "itemNames": {
+        "stake-1": "lane stake 1",
+        "stake-2": "lane stake 2",
+        "stake-3": "lane stake 3",
+        "stake-4": "lane stake 4"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "That is not the next stake in the transect — the plan's lane order is 1, 2, 3, 4, and setting them any other way puts the wrong number on the wrong patch of ground.",
+      "prompt": "Set the four lane stakes in the order the plan's transect walks — 1 through 4.",
+      "targets": [
+        "stake-1",
+        "stake-2",
+        "stake-3",
+        "stake-4"
+      ],
+      "title": "Lay out the survey grid",
+      "why": "The stakes are what turn a stretch of open ground into a grid somebody else can re-walk later and land on the same squares. Set them out of order and the lane numbers on the field sheet stop matching the ground actually underfoot."
+    },
+    {
+      "cue": "Hold the detector at the set height and keep your pace inside the band the whole lane.",
+      "holdBreakNote": "Speed drifted out of the band — at that pace the detector is either skating over ground it never really surveyed or falling behind the plan's schedule. Bring it back and hold the lane.",
+      "id": "walkover",
+      "kind": "track",
+      "prompt": "Hold the detector at the set height and keep your pace inside the band the whole lane.",
+      "seconds": 9,
+      "target": "detector",
+      "title": "Walk the grid at survey speed",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "SCAN SPEED",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "MARSSIM's coverage assumption only holds at this speed and height — faster, and a hot spot the size the plan is looking for can pass under the detector between readings; slower, and the crew never finishes the parcel before the day's tide window closes."
+    },
+    {
+      "cue": "Stop over the point the walkover flagged and hold the detector still for the full static count.",
+      "holdBreakNote": "Lifted the detector before the count finished — an incomplete static count is not confirmation of anything, it's a reading that got interrupted.",
+      "id": "static-count",
+      "kind": "hold",
+      "prompt": "Stop over the point the walkover flagged and hold the detector still for the full static count.",
+      "seconds": 6,
+      "target": "hotspot",
+      "title": "Take a static count over the elevated reading",
+      "why": "A walkover reading is a snapshot taken while moving; a static count is what actually confirms a point is over the investigation level rather than a spike in the noise. Nothing gets flagged, logged or sampled off a walkover number alone."
+    },
+    {
+      "cue": "Carry a numbered flag out and set it exactly on the point the static count confirmed.",
+      "drag": {
+        "missNote": "Not set on the point — a flag off by even a stake's width sends the sampling crew and the next survey team to look in the wrong place.",
+        "radius": 0.35,
+        "to": "hotspot-socket"
+      },
+      "id": "flag-place",
+      "kind": "drag",
+      "prompt": "Carry a numbered flag out and set it exactly on the point the static count confirmed.",
+      "target": "flag-marker",
+      "title": "Flag the point",
+      "why": "The flag is what makes this an actual location and not just a number in a logbook — the sampling crew that follows days later is going to trust exactly where this flag is standing, not where the field notes say it was roughly near."
+    },
+    {
+      "cue": "Tie the coordinates and the static-count reading together in one logged entry before moving on.",
+      "id": "gps-log",
+      "kind": "select",
+      "prompt": "Tie the coordinates and the static-count reading together in one logged entry before moving on.",
+      "target": "gps-logger",
+      "title": "Log the GPS-tagged entry",
+      "why": "A reading and a location that are not logged together as one entry can drift apart the moment somebody re-types the field sheet — the GPS tag is what keeps this exact number pinned to this exact spot for anyone who has to find it again."
+    },
+    {
+      "cue": "Use the dedicated scoop for this point, not whatever tool is already in your hand, to pull the sample.",
+      "id": "sample",
+      "kind": "select",
+      "prompt": "Use the dedicated scoop for this point, not whatever tool is already in your hand, to pull the sample.",
+      "target": "scoop",
+      "title": "Collect the soil sample",
+      "why": "A scoop that touched another point on the grid carries that point's soil into this one's result. The dedicated scoop is what keeps a hot reading from one square from showing up as a false positive three squares away from where it actually is."
+    },
+    {
+      "cue": "Fill the project lab's jar first, off the top of the pull, then the independent lab's split jar from what's left.",
+      "id": "split",
+      "itemNames": {
+        "jar-primary": "primary jar",
+        "jar-split": "split jar"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Primary first, off the top of the pull, then the split from what's left — filling the split first shorts the primary's fill line, and the two jars stop being an honest split of the same material.",
+      "prompt": "Fill the project lab's jar first, off the top of the pull, then the independent lab's split jar from what's left.",
+      "targets": [
+        "jar-primary",
+        "jar-split"
+      ],
+      "title": "Fill the primary and split jars",
+      "why": "The split jar is the whole reason anybody outside this crew can trust the number that comes back — it goes to a lab this crew does not run, on the same soil from the same pull, so a result can be checked against a result instead of against itself."
+    },
+    {
+      "cue": "Label both jars — point ID, date, time, sampler — and sign the custody form tying them together as a split.",
+      "id": "custody",
+      "kind": "select",
+      "prompt": "Label both jars — point ID, date, time, sampler — and sign the custody form tying them together as a split.",
+      "target": "coc-form",
+      "title": "Sign the chain of custody",
+      "why": "From here the two jars are evidence, and the form is what proves they came off the same scoop at the same point. A split sample with no custody record linking the pair is just two jars of soil that happen to look similar."
+    },
+    {
+      "cue": "Hold the probe against the same check source again before it goes back in the truck.",
+      "holdBreakNote": "Lifted off the source again before it settled — the closing check has to actually complete, or the day's readings are only bracketed on one end.",
+      "id": "source-check-pm",
+      "kind": "hold",
+      "prompt": "Hold the probe against the same check source again before it goes back in the truck.",
+      "seconds": 5,
+      "target": "check-source",
+      "title": "Check the instrument — end of day",
+      "why": "This closes the bracket the morning check opened. A day's readings verified only at the start are one drifted battery or one bumped calibration away from unverifiable by the time anyone questions them — the closing check is what lets every reading in between stand on its own."
+    },
+    {
+      "cue": "Check every jar on the tray against the custody log and click the one with no label.",
+      "id": "final-walk",
+      "itemNames": {
+        "unlabeled-jar": "unlabeled jar"
+      },
+      "itemNotes": {
+        "unlabeled-jar": "That jar has no point ID, no date and no sampler's initials on it — it is not traceable to any square on the grid, and a lab cannot certify soil it cannot place."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check every jar on the tray against the custody log and click the one with no label.",
+      "targets": [
+        "unlabeled-jar"
+      ],
+      "title": "Walk the sample tray before the cooler closes",
+      "why": "The lab trusts whatever the label says a jar is. One unlabeled jar in a cooler full of labeled ones is a sample that either gets thrown out or gets guessed at, and neither of those is what an independent split sample is supposed to survive to become."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Gamma walkover and static count on a shoreline parcel: instrument bracketed by a check source, a gridded scan, GPS-tagged flags and a split sample under chain of custody",
+  "title": "SmartCiti.X~ Rad Survey VR",
+  "trade": "Radiation control technician",
+  "underwater": null,
+  "weather": "fog"
+}

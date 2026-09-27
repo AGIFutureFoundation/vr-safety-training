@@ -1249,6 +1249,25 @@ export const CURRICULA = [
       { app: "smartcity", id: "ml-parcel-sorter-conveyor-jam-and-loto", why: "A defeated light curtain, a cardboard guard patch and a coworker's own loose drawstring all caught before any of them becomes the reason a hand meets a moving belt." },
     ],
   },
+  {
+    id: "yacht-and-charter-crew",
+    name: "Yacht & Charter Crew",
+    union: "IBU, SIU and MEBA as training bodies for charter yacht deck, steward and engineering crew",
+    certification: "IBU and SIU deck training and MEBA engineering practice for charter yacht crew, tested against USCG 33 CFR 83 Inland Navigation Rules, 33 CFR 155 and 33 CFR 156.150 for the fuel transfer, 46 CFR 25 and 46 CFR 199 for lifesaving and fire-fighting equipment as the vessel's certificate applies them, NFPA 306 for gas hazards below decks, NFPA 70E for the shore-power connection, OSHA 29 CFR 1910.147 the control of hazardous energy, 29 CFR 1910.95 occupational noise exposure, 29 CFR 1910.157 portable fire extinguishers and 29 CFR 1910.132 personal protective equipment, and IMO STCW basic safety training, across eight jobs a deckhand, mate, engineer and steward actually rotate through on a mid-size motor yacht",
+    summary: "Eight jobs on a mid-size motor yacht at her marina berth and under way on the estuary: the charter briefing with every head counted against the manifest, coming alongside on the spring in a crosswind, the fuel transfer declared and boomed before the nozzle moves, the engine room sniffed and blown before the key, the person-overboard drill with the ring thrown first and the propellers stopped before the platform, the galley fire with the fuel off before the blanket, the tender lowered steady and every guest across with two hands free, and shore power connected boat end first with a tingle in the water treated as an emergency. No fuel quantity, wind speed, weight or voltage is ever stated — those live in the vessel's plans, the captain's standing orders and the tender's plate.",
+    accent: "#2b6f9e",
+    guides: ["ilwu-pma-training", "siu-paul-hall-center", "meba-calhoon-school", "uscg-33-cfr-83", "uscg-33-cfr-155", "uscg-33-cfr-156-150", "uscg-46-cfr-25", "uscg-46-cfr-199", "nfpa-306", "nfpa-70e", "osha-1910-147", "osha-1910-132", "imo-stcw"],
+    stations: [
+      { app: "smartcity", id: "yc-pre-departure-safety-briefing-and-guest-count", why: "Every head counted against the manifest with the gangway chained through a late arrival, the life jacket shown on a person from the locker the guests will use, and the standing orders read back to the captain before a line moves." },
+      { app: "smartcity", id: "yc-line-handling-and-docking-in-crosswind", why: "Coming alongside with the wind on the beam: the spring passed first from outside the bight, the stern line hitched and tended through a wake, and the gap called steadily to a captain who cannot see it." },
+      { app: "smartcity", id: "yc-fuel-dock-transfer-and-spill-kit", why: "The declaration signed and the boom staged down-current before the nozzle moves, the vent watched with a hand on the trigger, and the pump killed at its stop the moment the vent spits." },
+      { app: "smartcity", id: "yc-engine-room-pre-start-and-bilge-check", why: "The bilge sniffed and the blower run before anything sparks, the pump proven on its float, the valves opened in the checklist's order, and a dripping filter answered at the tank shut-off rather than with a rag." },
+      { app: "smartcity", id: "yc-man-overboard-recovery-drill", why: "The ring thrown first and the spotter's arm never dropped, the approach called from downwind, and nobody on the swim platform until the indicator and the captain say the shafts are stopped." },
+      { app: "smartcity", id: "yc-galley-fire-and-fixed-system", why: "The galley fuel shut before the blanket, the extinguisher swept at the base, the fixed system pulled with the door shut, and the hatch cracked to the plan rather than thrown wide on a pan that may reflash." },
+      { app: "smartcity", id: "yc-tender-launch-and-guest-transfer", why: "The tender walked for the missing plug in her chocks, lowered steady on the davit with a tag line for the swing, loaded to the plate and no further, and every guest across with bags passed first and two hands free." },
+      { app: "smartcity", id: "yc-shore-power-connection-and-in-water-electrical-safety", why: "Breaker off before the cord moves, boat end locked before the dock end goes in, the polarity and leakage watched at the panel, nobody in the water at the berth, and a reported tingle treated as the emergency it is." },
+    ],
+  },
 ];
 
 /**

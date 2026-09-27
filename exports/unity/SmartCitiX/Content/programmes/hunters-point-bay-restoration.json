@@ -1,0 +1,355 @@
+{
+  "accent": "#8fd18b",
+  "anchors": [
+    {
+      "id": "estuary-shoreline-park-trailhead",
+      "name": "Shoreline Park Trailhead",
+      "position": [
+        135,
+        300
+      ],
+      "stations": [
+        "rad-survey",
+        "can-we-live-story",
+        "air-sensor-install"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "estuary-waterfront"
+    },
+    {
+      "id": "north-shoreline-field-lab",
+      "name": "North Shoreline Field Lab",
+      "position": [
+        -735,
+        -590
+      ],
+      "stations": [
+        "air-monitor",
+        "marsh-transect-survey",
+        "eelgrass-transplant",
+        "br-water-quality-sonde-calibration-and-deploy"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "north-shoreline"
+    },
+    {
+      "id": "channel-dredge-survey",
+      "name": "Channel Dredge Survey",
+      "position": [
+        -140,
+        40
+      ],
+      "stations": [
+        "dredge-barge",
+        "br-dredge-material-screening-and-disposal-decision",
+        "br-barge-loading-of-contaminated-sediment"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "shipping-channel"
+    },
+    {
+      "id": "eelgrass-transplant-plots",
+      "name": "Eelgrass Transplant Plots",
+      "position": [
+        130,
+        -520
+      ],
+      "stations": [
+        "eelgrass-transplant",
+        "br-native-planting-and-erosion-mats"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "eelgrass-meadow"
+    },
+    {
+      "id": "marsh-mouth-invasive-plot",
+      "name": "Marsh Mouth Invasive Plot",
+      "position": [
+        700,
+        -570
+      ],
+      "stations": [
+        "spartina-removal",
+        "br-intertidal-invasive-removal-by-hand-crew",
+        "br-levee-inspection-and-seepage"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "marsh-mouth"
+    },
+    {
+      "id": "marsh-mouth-tide-gate",
+      "name": "Marsh Mouth Tide Gate",
+      "position": [
+        660,
+        -530
+      ],
+      "stations": [
+        "tide-gate",
+        "marsh-transect-survey",
+        "living-shoreline"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "marsh-mouth"
+    },
+    {
+      "id": "mud-plain-hotspot-survey",
+      "name": "Mud Plain Hotspot Survey",
+      "position": [
+        -290,
+        310
+      ],
+      "stations": [
+        "br-legacy-mercury-and-pcb-hotspot-handling",
+        "sediment-cap",
+        "rad-survey"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "mud-plain"
+    },
+    {
+      "id": "pier-creosote-pile-site",
+      "name": "Pier Creosote Pile Site",
+      "position": [
+        -790,
+        -560
+      ],
+      "stations": [
+        "creosote-pile-removal",
+        "op-pile-driving-rig-and-lead-setup",
+        "br-marine-mammal-observer-during-pile-driving"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "pier-pilings"
+    },
+    {
+      "id": "reef-ball-monitoring-plot",
+      "name": "Reef Ball Monitoring Plot",
+      "position": [
+        360,
+        -10
+      ],
+      "stations": [
+        "oyster-reef-monitoring",
+        "ballast-water-sampling"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "reef-ball-field"
+    }
+  ],
+  "certification": "OSHA 29 CFR 1910.120 HAZWOPER as the floor for everyone inside the fence; MARSSIM radiological survey practice and NRC 10 CFR 20 for the survey crew; EPA RCRA 40 CFR 262 manifests for the haul; U.S. Army Corps of Engineers Section 404, BCDC and Regional Water Board 401 permit conditions for every hour of in-water work",
+  "competency": {
+    "id": "hunters-point-bay-restoration",
+    "kind": "programme",
+    "require": 6,
+    "standards": [
+      "osha-1910-120",
+      "marssim",
+      "nrc-10-cfr-20",
+      "rcra-40-cfr-262",
+      "usace-section-404"
+    ],
+    "stations": [
+      "hunters-point",
+      "rad-survey",
+      "building-rad-scan",
+      "air-monitor",
+      "soil-loadout",
+      "haul-road-dust",
+      "pcb-equipment-removal",
+      "transite-pipe-removal",
+      "ust-removal",
+      "decon-line",
+      "sampling-well",
+      "well-install",
+      "pump-and-treat",
+      "vapor-mitigation",
+      "isco-injection",
+      "stormwater-outfall",
+      "bioswale-build",
+      "dredge-barge",
+      "oyster-reef-monitoring",
+      "marsh-transect-survey",
+      "sediment-cap",
+      "creosote-pile-removal",
+      "tide-gate",
+      "living-shoreline",
+      "spartina-removal",
+      "eelgrass-transplant"
+    ],
+    "title": "Work a radiological and chemical cleanup inside the fence and at the water's edge"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "liuna-training-fund",
+    "iuoe-training",
+    "teamsters-training",
+    "carpenters-ictf",
+    "ua-apprenticeship",
+    "ilwu-pma-training",
+    "osha-1910-120",
+    "osha-1910-134",
+    "osha-1926-1101",
+    "marssim",
+    "nrc-10-cfr-20",
+    "rcra-40-cfr-262",
+    "usace-section-404",
+    "bcdc-bay-plan",
+    "rwqcb-401-certification"
+  ],
+  "id": "hunters-point-bay-restoration",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1590,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 122
+  },
+  "name": "Hunters Point Clean-up and Bay Restoration",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "hunters-point",
+      "why": "The record: what the site is, who oversees it, what the contractor data case established, and where the neighbourhood's own air data comes from — before any simulated work."
+    },
+    {
+      "app": "smartcity",
+      "id": "rad-survey",
+      "why": "The gamma walkover done so its numbers can be trusted: source-check, background, grid speed, a static count over the investigation level, a split sample under chain of custody."
+    },
+    {
+      "app": "smartcity",
+      "id": "building-rad-scan",
+      "why": "The same discipline turned indoors, on a derelict building ahead of demolition: floor and walls scanned to the plan's coverage, drains scanned as collection points, and a swipe bagged under chain of custody before a roll-up door opens on ground that isn't released yet."
+    },
+    {
+      "app": "smartcity",
+      "id": "air-monitor",
+      "why": "Fence-line monitoring for the people on the other side of the fence: placement, calibration, and an exceedance response that happens now."
+    },
+    {
+      "app": "smartcity",
+      "id": "soil-loadout",
+      "why": "Excavation and haul-out of what the survey found: zones set from the wind, the face wetted, a lined and manifested truck, and the dust alarm that stops the excavator."
+    },
+    {
+      "app": "smartcity",
+      "id": "haul-road-dust",
+      "why": "What keeps that loaded truck from becoming its own dust source once it's rolling: perimeter monitors read against their action level, the road wetted on schedule, a tarped load washed clean at the gate, and the alarm that stops the haul the moment the wind turns."
+    },
+    {
+      "app": "smartcity",
+      "id": "pcb-equipment-removal",
+      "why": "A derelict switch room's own hazard, found and taken down as its own regulated shipment: the circuit proven dead and locked out before a wrench touches it, the transformer rigged and lined out on a pallet, and the manifest signed before it ever reaches the gate."
+    },
+    {
+      "app": "smartcity",
+      "id": "transite-pipe-removal",
+      "why": "Asbestos-cement pipe out of the same ground as Class II work: wetted and kept wet, cut by hand rather than power tool, bagged where it comes out, and the sampling pump running the whole time."
+    },
+    {
+      "app": "smartcity",
+      "id": "ust-removal",
+      "why": "What the survey and the pipe crew leave behind for the ground itself to answer for: a fuel tank pumped and proven inert on the LEL before the pit ever opens wide, rigged and lifted with nobody under the hook, and the pit sampled under chain of custody and fenced before the crew leaves."
+    },
+    {
+      "app": "smartcity",
+      "id": "decon-line",
+      "why": "The corridor everyone and everything leaves the exclusion zone through."
+    },
+    {
+      "app": "smartcity",
+      "id": "sampling-well",
+      "why": "Low-flow groundwater sampling: the plume's own numbers, volatiles first, chain of custody on every bottle."
+    },
+    {
+      "app": "smartcity",
+      "id": "well-install",
+      "why": "The well that sampling-well later draws from, put in by the book: cleared and cased before it is ever sampled, screened at the interval the geology calls for, and sealed so nothing but formation water ever reaches it."
+    },
+    {
+      "app": "smartcity",
+      "id": "pump-and-treat",
+      "why": "The system that holds the plume for years after the excavators leave: carbon changed out as hazardous waste, the compliance port sampled, the permit log kept."
+    },
+    {
+      "app": "smartcity",
+      "id": "vapor-mitigation",
+      "why": "The plume's other path — up through the slab and into a building's air — cut off at the source: communication proven, the fan hung and vented clear of any intake, and the vacuum verified before anyone signs the placard."
+    },
+    {
+      "app": "smartcity",
+      "id": "isco-injection",
+      "why": "Treating the plume pump-and-treat holds rather than only containing it: permanganate mixed to design, a manifold proven tight before it runs, and the injection held in band while the neighbouring wells are watched for oxidant finding its own way back to the surface."
+    },
+    {
+      "app": "smartcity",
+      "id": "stormwater-outfall",
+      "why": "The wet-weather grab at the outfall, on the permit clock, because the bay is where the site drains."
+    },
+    {
+      "app": "smartcity",
+      "id": "bioswale-build",
+      "why": "What keeps the next storm's runoff from undoing all of it: a bioswale built to the design grade rather than by eye, so the site's own water reaches the bay slower and cleaner than it arrived."
+    },
+    {
+      "app": "smartcity",
+      "id": "dredge-barge",
+      "why": "Contaminated sediment out of the bay inside a turbidity curtain, with the scow never over its freeboard line and decant water tested before it goes anywhere."
+    },
+    {
+      "app": "smartcity",
+      "id": "oyster-reef-monitoring",
+      "why": "The reef that shoreline built, checked on afterward: fixed quadrats found by tag and GPS, density logged before the frame moves, and the sonde read against the Water Board's own flag level before the flood takes the reef back."
+    },
+    {
+      "app": "smartcity",
+      "id": "marsh-transect-survey",
+      "why": "The marsh behind the reef, walked on a fixed line: cover read to protocol class at every quadrat, the invasive hybrid flagged for the control crew, and the transect stopped cold the moment a listed bird flushes near it."
+    },
+    {
+      "app": "smartcity",
+      "id": "sediment-cap",
+      "why": "The sediment that stays behind: an engineered cap placed in thin lifts to a design grid, proven by core rather than by eye, and stopped the moment turbidity or a short reading says so."
+    },
+    {
+      "app": "smartcity",
+      "id": "creosote-pile-removal",
+      "why": "The derelict structures still standing in the mud: a century-old creosote pile pulled whole inside a curtain of its own, drained over the barge rather than the bay, and any stub it leaves behind marked before the barge moves on."
+    },
+    {
+      "app": "smartcity",
+      "id": "tide-gate",
+      "why": "The tide let back into a diked marsh: a self-regulating gate hung at low water, the cofferdam pulled in the order that keeps the levee."
+    },
+    {
+      "app": "smartcity",
+      "id": "living-shoreline",
+      "why": "The water's edge rebuilt as habitat — coir, oyster shell, cordgrass at the design elevation — inside the tide window and the fish window."
+    },
+    {
+      "app": "smartcity",
+      "id": "spartina-removal",
+      "why": "The planted marsh defended from the cordgrass that would take it over: the treatment map read instead of the eye, a buffer held around a nesting endangered rail no label rate excuses crossing, and the herbicide mixed off the marsh and applied under the wind limit."
+    },
+    {
+      "app": "smartcity",
+      "id": "eelgrass-transplant",
+      "why": "The habitat the fill once displaced, replanted underwater: a donor bed cut to its share, shoots bundled inside the clock, and a diver directed to the grid by a supervisor who never gets in the water."
+    }
+  ],
+  "summary": "A Superfund shoreline and the bay beside it, worked in the order a cleanup actually runs: the record first, then survey, then excavation and haul, then the groundwater that stays behind, then the water's edge given back — sediment out, tide back in, marsh planted. The first station is a sourced briefing on the real site and the data-integrity case at the centre of it; every station after it is a union trade doing its part of the work, and the discipline that made the case is taught as procedure: an instrument source-checked before and after, a sample that is the place it came from, and a split for a lab that does not work for you.",
+  "union": "LIUNA Local 261 hazmat and environmental laborers, IUOE Local 3 operating engineers, Teamsters regulated-soil drivers, Pile Drivers Local 34 (Carpenters), UA Local 38 plumbers and pipefitters, and the Inlandboatmen's Union of the Pacific"
+}

@@ -1,0 +1,410 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "two-hands-free",
+    "name": "Two Hands Free",
+    "note": "Kill-cord on before the start, the plate never exceeded, every guest across with both hands free, and both the wake and the bags answered"
+  },
+  "category": "Maritime & Ports",
+  "certification": "IBU and SIU deck training in small-boat handling and davit launching; USCG lifesaving and equipment rules at 46 CFR 25 and 46 CFR 199 as they apply to the tender and her parent vessel; 33 CFR 83 Inland Navigation Rules for the tender under way; OSHA 29 CFR 1910.132 personal protective equipment; IMO STCW personal survival techniques; MEBA engineering watch on the davit's hydraulics",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IBU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "IMO",
+        "citedAs": "IMO STCW",
+        "id": "imo-stcw",
+        "title": "STCW — Convention on Standards of Training, Certification and Watchkeeping for Seafarers"
+      },
+      {
+        "body": "union",
+        "citedAs": "MEBA",
+        "id": "meba-calhoon-school",
+        "title": "MEBA — the Calhoon MEBA Engineering School's licensed marine engineer training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "SIU",
+        "id": "siu-paul-hall-center",
+        "title": "SIU — the Paul Hall Center for Maritime Training and Education's unlicensed mariner programmes"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "Inland Navigation Rules",
+        "id": "uscg-33-cfr-83",
+        "title": "33 CFR Part 83 — Inland Navigation Rules"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 199",
+        "id": "uscg-46-cfr-199",
+        "title": "46 CFR Part 199 — Lifesaving systems for certain inspected vessels"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 25",
+        "id": "uscg-46-cfr-25",
+        "title": "46 CFR Part 25 — Requirements for uninspected vessels, including lifesaving and fire-fighting equipment"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "plan-read",
+        "name": "Plan Read",
+        "note": "The tender plan read before the davit moved"
+      },
+      {
+        "id": "on-the-plate",
+        "name": "On The Plate",
+        "note": "Load committed inside the plate's band first time"
+      },
+      {
+        "id": "cord-on",
+        "name": "Cord On",
+        "note": "No start without the cord, no guest stepping with bags, nobody standing, nobody over the plate"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-launch",
+        "name": "Clean Launch",
+        "note": "No corrections from the plan to the log"
+      },
+      {
+        "id": "steady-lower",
+        "name": "Steady Lower",
+        "note": "The tender lowered in band the whole way"
+      },
+      {
+        "id": "ashore-early",
+        "name": "Ashore Early",
+        "note": "Launch logged inside 80% of par"
+      }
+    ],
+    "currency": "KNOT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Green Hand",
+      "Tender Crew",
+      "Tender Driver",
+      "Boat Officer",
+      "Tender Ops Certified"
+    ],
+    "system": "Tender Ops"
+  },
+  "hazards": {
+    "extra-guest": "You waved one more guest aboard past the number on the tender's plate. The plate is the tender's own limit for people and weight, set by her builder, and one more is a tender low in the water, slow to turn and quick to swamp in the wake of the first passing vessel — with the tender's own gear and the guests' bags already counting against it. The plate is the number; the second trip is what happens to the rest.",
+    "stand-in-tender": "You stood up in the tender to reach the platform while it was alongside. A rigid inflatable is stable with everyone low and unstable with anyone standing, and a tender alongside a platform in any swell is a tender that moves under a standing person's feet at the wrong moment. Everyone in the tender sits low and holds the grab line; the driver stands only at the console with a hand on it, and nobody stands to reach.",
+    "start-no-cord": "You went to start the outboard without the kill-cord clipped to you. The cord is what stops the engine when the driver goes over the side — and a tender driver who goes over the side beside a running outboard is a tender that circles back over them with the propeller. The cord is clipped to the driver before the start, every start, and the engine will not start without it on a tender where the switch works as it should.",
+    "step-with-bags": "You let a guest step across to the tender with a bag in each hand. A step from a swim platform to a tender that is moving on the water needs two hands — one for the grab line, one for the crew member's hand — and a guest with a bag in each hand has neither; they fall between the hulls, and the bags go in with them. Bags are passed first, across the gap, hand to hand, and the guest steps with nothing in their hands."
+  },
+  "id": "yc-tender-launch-and-guest-transfer",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "lower-steady",
+      "alert": "A passing vessel's wake has rolled the yacht and the tender is swinging in the davit, outboard first, toward the swim platform rail.",
+      "cue": "Take up the tag line hard and hold the tender off the rail while the davit control stays where it is — the lowering stops, the swing is checked by the line, not by hands.",
+      "delay": 2,
+      "id": "wake-swings-tender",
+      "kind": "Wake swings the tender in the davit",
+      "missNote": "The tender swung into the platform rail outboard first, the mate reached to fend her off by hand and took the leg across the forearm, and the sling snatched on the rebound.",
+      "seconds": 14,
+      "target": "tag-line",
+      "why": "A tender swinging on a davit is a pendulum with an outboard on the end, and the swim platform rail — and anyone at it — is what it hits. The tag line is the answer because it is the only thing that can check the swing from a distance: hands on the tender itself are hands between it and the rail. The davit control holds where it is, because lowering a swinging tender puts her transom into the water on the swing and rolls her.",
+      "wrongNote": "The tag line — the swing is checked with the line from a distance; nobody's hands go between the tender and the rail, and the davit holds."
+    },
+    {
+      "after": "steady-the-guest",
+      "alert": "The next guest has come down to the swim platform with a bag in each hand and is already lifting a foot toward the tender's tube.",
+      "cue": "Stop them with a word and take the bags across to the bag pass point in the tender first — then the guest steps with two hands free.",
+      "delay": 2,
+      "id": "guest-both-hands-full",
+      "kind": "Guest arrives at the platform with both hands full",
+      "missNote": "The guest stepped with both bags, the tender moved under the foot, and they went between the tube and the platform with the bags on top of them.",
+      "seconds": 14,
+      "target": "bag-pass-point",
+      "why": "A guest stepping with both hands full has no hand for the grab line and none for the deckhand, and the tender's tube under a foot is not a step; it is the fall between the hulls the whole transfer is arranged to prevent. The bags go first, to the pass point in the tender where they are stowed low, and then the guest steps with the two hands the step needs — no exceptions for a small bag or a short step.",
+      "wrongNote": "The bag pass point — the bags cross first and are stowed low; the guest steps after, with both hands free."
+    }
+  ],
+  "lateNotes": {
+    "outboard-tilt": "The outboard is tilted and started once the tender is in the water and the painter is fast — never in the davit.",
+    "tender-log": "The launch is logged once the guests are seated, the light checked and the painter ready to slip — last, not first."
+  },
+  "name": "Tender Launch & Guest Transfer",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "yacht-and-charter-crew"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "motorYacht",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "yachtTender",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bag-pass-point",
+      "cord-on-driver",
+      "davit-control",
+      "davit-hook",
+      "drain-plug-out",
+      "extra-guest",
+      "fuel-line-cracked",
+      "grab-line",
+      "guest-hand-hold",
+      "kill-cord",
+      "lifting-sling",
+      "outboard-tilt",
+      "painter-cleat",
+      "seat-low",
+      "stand-in-tender",
+      "start-no-cord",
+      "step-with-bags",
+      "tag-line",
+      "tender-log",
+      "tender-nav-light",
+      "tender-pfd",
+      "tender-plan-board",
+      "tender-plate",
+      "tender-radio"
+    ],
+    "meshes": 251
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the tender plan on the aft-deck board: the tender's plate figure for people and weight, who drives, who works the davit, the trips, the landing, the light and the radio, and the captain's word before the davit moves.",
+      "id": "tender-plan",
+      "kind": "select",
+      "prompt": "Read the tender plan on the aft-deck board: the tender's plate figure for people and weight, who drives, who works the davit, the trips, the landing, the light and the radio, and the captain's word before the davit moves.",
+      "target": "tender-plan-board",
+      "title": "Read the tender plan with the mate",
+      "why": "A tender run is a small boat leaving a large one with guests aboard, and the plan is where the crew agree the things the guests will argue about on the platform — how many go per trip, who drives, where the landing is — before anyone is standing on the swim platform with a bag. The plate's figure is written on the plan from the plate itself, so the deckhand at the platform is quoting the builder and not negotiating."
+    },
+    {
+      "anyOrder": true,
+      "cue": "The driver's life jacket on and fastened, and the kill-cord unclipped from the tender's console and looped on your wrist before the tender leaves its chocks.",
+      "id": "jacket-and-cord",
+      "itemNames": {
+        "kill-cord": "kill-cord from the console",
+        "tender-pfd": "driver's life jacket"
+      },
+      "kind": "sequence",
+      "prompt": "The driver's life jacket on and fastened, and the kill-cord unclipped from the tender's console and looped on your wrist before the tender leaves its chocks.",
+      "targets": [
+        "tender-pfd",
+        "kill-cord"
+      ],
+      "title": "Life jacket on, the kill-cord in hand",
+      "why": "The tender's driver is the person most likely to end up in the water on a charter — leaning to catch a painter, stepping between hulls, standing at a console in a wake — and the jacket is worn from the aft deck, not put on in the tender. The kill-cord is taken in hand now so that it is on the wrist before the first start and cannot be forgotten in the sequence of painter, outboard, guests; a cord still clipped to the console does nothing for a driver in the water."
+    },
+    {
+      "cue": "Walk the tender before the sling goes on: the drain plug in, the fuel line and connector sound, the tank secure, the grab lines fast, the light and the radio aboard, the painter flaked.",
+      "id": "tender-walk",
+      "itemNames": {
+        "drain-plug-out": "transom drain plug missing",
+        "fuel-line-cracked": "cracked fuel line at the outboard connector"
+      },
+      "itemNotes": {
+        "drain-plug-out": "The transom drain plug is out, left that way to drain the rain — a tender launched without it fills from the transom the moment she is in the water, slowly enough that nobody notices until she is heavy.",
+        "fuel-line-cracked": "The fuel line is cracked at the outboard's connector and sweating fuel — a line that lets go under way is an outboard that stops in the channel and fuel in the tender's bilge under the guests' feet."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the tender before the sling goes on: the drain plug in, the fuel line and connector sound, the tank secure, the grab lines fast, the light and the radio aboard, the painter flaked.",
+      "targets": [
+        "drain-plug-out",
+        "fuel-line-cracked"
+      ],
+      "title": "Walk the tender in her chocks",
+      "why": "A tender is checked in her chocks because that is the last time anyone can look at her transom, her fuel line and her plug without leaning over the water, and the two most common findings — a plug left out to drain rain, a fuel line chafed at the connector — are both things that fail after launch, not before. A tender that fills or stops in the channel with guests aboard is the yacht's emergency, and it is prevented by a hand on the plug and the line in the chocks."
+    },
+    {
+      "cue": "Take the tender's lifting sling from the chocks and hang its ring on the davit hook, the hook's latch closed over it, the legs to the tender's lifting points, nothing twisted.",
+      "drag": {
+        "missNote": "Not on the hook — the sling's ring goes over the davit hook with the latch closed, legs to the lifting points, before the davit takes the weight.",
+        "radius": 0.6,
+        "to": "davit-hook"
+      },
+      "id": "sling-on-hook",
+      "kind": "drag",
+      "prompt": "Take the tender's lifting sling from the chocks and hang its ring on the davit hook, the hook's latch closed over it, the legs to the tender's lifting points, nothing twisted.",
+      "target": "lifting-sling",
+      "title": "Put the sling on the davit hook",
+      "why": "The davit lifts the tender by four legs and a ring, and a sling with a twisted leg or a ring on an open hook is a tender that hangs crooked and dumps the outboard's weight onto one point — or comes off the hook over the swim platform. The latch is closed over the ring by hand and the legs are followed to their points because the tender goes up over the platform and the water with people beneath it, and a sling is the only thing between them."
+    },
+    {
+      "cue": "With the mate on the tag line and the captain's word, work the davit control to lift the tender clear of the chocks, swing it outboard and lower it steadily — no snatching, no dropping — until she floats and the sling goes slack.",
+      "holdBreakNote": "The lowering rate broke — the tender snatched or dropped on the sling. Steady the control and bring her down level to the water.",
+      "id": "lower-steady",
+      "kind": "track",
+      "prompt": "With the mate on the tag line and the captain's word, work the davit control to lift the tender clear of the chocks, swing it outboard and lower it steadily — no snatching, no dropping — until she floats and the sling goes slack.",
+      "seconds": 6,
+      "target": "davit-control",
+      "title": "Lower the tender steadily to the water",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "LOWERING RATE",
+        "rise": 0.6,
+        "start": 0.14
+      },
+      "why": "A tender coming down on a davit is a swinging weight over a swim platform and a piece of water, and it goes down at one steady rate because a snatch shock-loads the sling and a drop puts the tender's transom into the water before her bow; the mate's tag line keeps her from swinging and the control's steady rate keeps her level. The slack sling is the signal she floats — the control stops there, before the hook can foul the tender's console."
+    },
+    {
+      "cue": "Take the painter from the tender's bow eye to the platform cleat: a turn round the base, figure-eights and a hitch — short enough to hold her alongside, long enough to move with the swell.",
+      "id": "painter-fast",
+      "kind": "turn",
+      "prompt": "Take the painter from the tender's bow eye to the platform cleat: a turn round the base, figure-eights and a hitch — short enough to hold her alongside, long enough to move with the swell.",
+      "target": "painter-cleat",
+      "title": "Cleat the painter to the swim platform",
+      "turn": {
+        "label": "PAINTER HITCH",
+        "turns": 1.5
+      },
+      "why": "The painter is what keeps the tender alongside the platform while everything else happens — the sling comes off, the outboard is tilted, the guests step across — and a painter dropped over a cleat with no hitch is a tender drifting off the platform with a guest halfway into her. It is hitched properly because it will be cast off in a hurry when the tender is loaded, and a proper hitch comes off in one movement while a jammed one does not."
+    },
+    {
+      "cue": "With the sling off and the painter fast, tilt the outboard down, clip the kill-cord to your wrist and the switch, and start — the engine idles alongside while the guests board.",
+      "id": "outboard-tilt",
+      "kind": "select",
+      "prompt": "With the sling off and the painter fast, tilt the outboard down, clip the kill-cord to your wrist and the switch, and start — the engine idles alongside while the guests board.",
+      "target": "outboard-tilt",
+      "title": "Tilt the outboard down and start it on the cord",
+      "why": "The outboard is tilted down only when the tender is afloat and alongside, because a leg down in the davit is a leg that meets the platform on the way past; it is started before the guests board so that a tender that will not start is discovered with nobody in her, and it is started on the cord because the switch is the one thing that stops a tender whose driver has gone over the side. Cord to the wrist, cord to the switch, then the start — in that order, every time."
+    },
+    {
+      "cue": "Count the guests for this trip, their bags and the tender's own gear against the plate on the transom — people and weight per the tender's plate — and commit the reading before the first guest steps.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "LOAD vs PLATE",
+        "missNote": "Outside the band — the load is counted against the plate's own figure, bags and gear included, and committed before anyone steps.",
+        "speed": 0.7
+      },
+      "id": "load-check",
+      "kind": "gauge",
+      "prompt": "Count the guests for this trip, their bags and the tender's own gear against the plate on the transom — people and weight per the tender's plate — and commit the reading before the first guest steps.",
+      "target": "tender-plate",
+      "title": "Read the load against the tender's plate",
+      "why": "The tender's plate is her builder's statement of what she carries, and it counts everything: guests, bags, the driver, the fuel and the anchor. The count is done and committed before anyone steps because the platform is the wrong place to tell a guest they are the one too many — the decision is made at the plan board and confirmed at the transom, and the second trip takes the rest."
+    },
+    {
+      "cue": "Bags passed across first; then, one hand on the tender's grab line and the other holding the guest's hand, steady each guest as they step down into the tender and sit — and hold until they are seated.",
+      "holdBreakNote": "The hand came off before the guest was seated — a guest half across and unsupported. Hand back on the grab line, hand back to the guest, until they are sitting.",
+      "id": "steady-the-guest",
+      "kind": "hold",
+      "prompt": "Bags passed across first; then, one hand on the tender's grab line and the other holding the guest's hand, steady each guest as they step down into the tender and sit — and hold until they are seated.",
+      "seconds": 5,
+      "target": "guest-hand-hold",
+      "title": "Steady each guest across with two hands free",
+      "why": "The step from the platform to the tender is where charter guests get hurt: the tender moves, the platform is wet, the guest looks at the water instead of their feet. The deckhand's two hands — one on the tender's grab line to hold her in, one holding the guest — are what make the step a step rather than a fall, and the hold lasts until the guest is seated because a guest standing in a tender is the next hazard."
+    },
+    {
+      "cue": "Guests seated low on the tubes and the thwart with the weight spread, every hand on the grab line, and the kill-cord clipped to the driver's wrist — in that order — before the painter is slipped.",
+      "id": "seating-order",
+      "itemNames": {
+        "cord-on-driver": "kill-cord clipped to the driver",
+        "grab-line": "every guest holding the grab line",
+        "seat-low": "guests seated low, weight spread"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Seated first, then the grab line, then the cord on the driver — the tender is settled before the driver's hand goes to the throttle.",
+      "prompt": "Guests seated low on the tubes and the thwart with the weight spread, every hand on the grab line, and the kill-cord clipped to the driver's wrist — in that order — before the painter is slipped.",
+      "targets": [
+        "seat-low",
+        "grab-line",
+        "cord-on-driver"
+      ],
+      "title": "Seat the guests low, hands on the grab line, cord on the driver",
+      "why": "A rigid inflatable is safe with the weight low and spread and everyone holding on, and it is dangerous with a guest standing up to wave or the weight all aft when the throttle opens; the order puts the tender in her stable state before the driver's hand goes near the throttle. The cord is last because it is the driver's own check that everything else is done — cord on means the tender is ready to move, and not before."
+    },
+    {
+      "cue": "Switch on the tender's all-round light and see it lit, even in daylight — the run back will be at dusk and the light is checked now, not found dead in the dark.",
+      "id": "nav-light-check",
+      "kind": "select",
+      "prompt": "Switch on the tender's all-round light and see it lit, even in daylight — the run back will be at dusk and the light is checked now, not found dead in the dark.",
+      "target": "tender-nav-light",
+      "title": "Check the tender's navigation light before slipping",
+      "why": "A tender running back to the yacht at dusk without a light is invisible to every other vessel in the anchorage and outside the navigation rules that let those vessels avoid her; the light is checked in daylight because a dead lamp is discovered alongside a platform, not in the channel. It is a small step that the plan puts before the painter is slipped for exactly that reason — a tender that leaves with a dead light has nowhere to fix it."
+    },
+    {
+      "cue": "Enter the launch: the guests per trip against the plate, the driver, the drain plug and the fuel line found, the wake in the davit and the guest with the bags, the light checked, the time away and the landing.",
+      "id": "tender-log",
+      "kind": "select",
+      "prompt": "Enter the launch: the guests per trip against the plate, the driver, the drain plug and the fuel line found, the wake in the davit and the guest with the bags, the light checked, the time away and the landing.",
+      "target": "tender-log",
+      "title": "Log the launch and the trip",
+      "why": "The tender log is where the yacht knows who is ashore and when to expect them back, and it is where the missing plug and the cracked fuel line become jobs rather than surprises for the next launch. The wake and the guest with the bags are logged because the next tender run from this anchorage needs to know that the channel traffic reaches the davit and that guests arrive at the platform with their hands full."
+    },
+    {
+      "cue": "On the tender's radio: guests seated and counted against the plate, cord on, light on, painter ready to slip, and how the deck crew are after the wake in the davit.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the tender's radio: guests seated and counted against the plate, cord on, light on, painter ready to slip, and how the deck crew are after the wake in the davit.",
+      "target": "tender-radio",
+      "title": "Check in with the mate and the captain before slipping",
+      "why": "The captain lets the tender go on the strength of the driver's word that she is loaded to the plate and ready, and the mate on the platform needs to hear it before slipping the painter. It is also the crew's own check-in: a tender swinging in a davit over the platform in a wake is a small hard moment for the mate on the tag line, and the union's member assistance line is there for what the radio does not carry."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — the IBU, SIU or MEBA — with the operator's employee assistance line behind it",
+  "tagline": "Guests ashore by tender: the plan read, jacket and kill-cord in hand, the tender walked for the missing drain plug and the cracked fuel line, the sling on the davit hook, the tender lowered steady as a wake swings it, the painter cleated, the outboard tilted and started on the cord, the load read against the plate, the guest steadied across with two hands free while another arrives with both hands full, the guests seated in order, the navigation light checked, the launch logged and the crew checked in",
+  "title": "SmartCiti.X~ Tender Launch & Guest Transfer VR",
+  "trade": "Charter yacht deckhand launching and driving the tender, IBU and SIU trained, with the mate on the davit and the captain on the flybridge",
+  "underwater": null,
+  "weather": "clear"
+}

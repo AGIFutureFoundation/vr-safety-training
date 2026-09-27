@@ -1,0 +1,347 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "press-certified",
+    "name": "Press Certified",
+    "note": "Boiler checked, every cycle run two-handed, a scorch caught, and the press shut down to the end of a real shift"
+  },
+  "category": "Sewing & Garment Trades",
+  "certification": "Workers United (SEIU) garment and apparel production; the state apprenticeship standards for industrial sewing machine operators; OSHA 29 CFR 1910.212 machine guarding for the press head's two-hand control; OSHA 29 CFR 1910.147 lockout before the head is opened for cleaning; ASME Boiler and Pressure Vessel Code requirements for the boiler's safety relief valve; NFPA 70 for the press's electrical supply",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "Boiler and Pressure Vessel Code",
+        "id": "asme-bpvc",
+        "title": "ASME Boiler and Pressure Vessel Code"
+      },
+      {
+        "body": "NEC/NFPA 70",
+        "citedAs": "NFPA 70",
+        "id": "nec-nfpa-70",
+        "title": "NFPA 70 — National Electrical Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Manufacturing",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "two-hands-every-time",
+        "name": "Two Hands Every Time",
+        "note": "Never ran the head one-handed or with the guard bypassed"
+      },
+      {
+        "id": "hands-clear-press",
+        "name": "Hands Clear",
+        "note": "Never reached under the head or into a live steam leak"
+      },
+      {
+        "id": "boiler-precise",
+        "name": "Boiler Precise",
+        "note": "Held the boiler pressure reading near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-press-run",
+        "name": "Clean Run",
+        "note": "No corrections across the whole shift"
+      },
+      {
+        "id": "steady-checks",
+        "name": "Steady Checks",
+        "note": "Held every reading without a break"
+      },
+      {
+        "id": "press-fast",
+        "name": "Press Fast",
+        "note": "Shift closed out inside 80% of par"
+      }
+    ],
+    "currency": "STEAM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Press Helper",
+      "Press Operator",
+      "Lead Presser",
+      "Finishing Supervisor",
+      "Press Standard Certified"
+    ],
+    "system": "Press Standard"
+  },
+  "hazards": {
+    "condensate-drain": "The condensate drain at the base of the boiler is dripping scalding water onto the floor instead of into its trap. Live steam condenses hot, well above a scald threshold, and a puddle of it on a walked path is a burn hazard on the floor of a room where everyone's attention is on a press head, not on where they're stepping.",
+    "guard-bypassed": "That second palm button has a strip of tape holding it down. Taping one side of a two-hand control turns it into a one-hand control, which puts a hand back in exactly the space the second button was there to keep clear of a closing head — the whole reason it takes two hands is that a head this heavy cannot be stopped by one hand that just got caught under it.",
+    "hose-cracked": "That spare steam hose has a bulge and a hairline crack along one side, coiled on the rack like it's still serviceable. A hose that fails under pressure does it suddenly, not gradually, and coiling a cracked one back onto the rack instead of tagging it out is how the next person to grab a spare in a hurry grabs this one.",
+    "relief-tag-expired": "That relief valve's inspection tag expired months ago. A boiler's pressure relief valve is the one thing standing between normal operating pressure and a vessel failure if something upstream sticks, and the ASME code's inspection interval exists because a relief valve can seize shut with age the same way anything else with a spring in it can — nobody finds that out from looking at it."
+  },
+  "id": "industrial-press-steam",
+  "indoor": "shop",
+  "interrupts": [
+    {
+      "after": "press-cycle",
+      "alert": "A fitting on the steam hose feeding the head starts hissing and throwing a visible jet of live steam across the bench.",
+      "cue": "That hose is leaking live steam, not just venting normally.",
+      "delay": 3,
+      "id": "hose-leak",
+      "kind": "Steam leak",
+      "missNote": "The cycle ran on with the hose still leaking. Steam at that pressure and temperature causes a scald through clothing in the time it takes to notice it's happening, and every second the supply stays open is a second that jet keeps reaching whoever is standing near the bench.",
+      "seconds": 12,
+      "target": "steam-valve",
+      "why": "A fitting that lets go under pressure sprays steam at scald temperature in whatever direction it's pointed, and the only thing that stops it is cutting the supply at the valve — not walking toward the leak to look at it, and not waiting for the current cycle to finish on its own. The valve is upstream of every fitting on this line, which is exactly why it's the answer regardless of where the leak actually is.",
+      "wrongNote": "It's the steam supply valve — shut it before doing anything else about that leak."
+    },
+    {
+      "after": "press-cycle",
+      "alert": "A coworker reaches under the head to tug the garment straight while the cycle is still running.",
+      "cue": "There is a hand under a head that has not finished its cycle.",
+      "delay": 6,
+      "id": "hand-under-head",
+      "kind": "Reach under the head",
+      "missNote": "The cycle ran on with a hand under the head. The two-hand control did its job on the person holding it and nothing for the person who reached in past it — the head does not sense a hand, only the buttons it was built to sense.",
+      "seconds": 12,
+      "target": "press-estop",
+      "why": "The two-hand control only protects the operator holding it — it does nothing for a second person who reaches in from the side while the buttons stay held down, which is exactly the gap the emergency stop exists to cover. The stop kills the cycle outright rather than waiting for the operator to notice and let go, because noticing in time is not something this situation can be counted on for.",
+      "wrongNote": "It's the emergency stop — a hand is under the head right now. Hit it before anything else."
+    }
+  ],
+  "lateNotes": {
+    "head-latch": "Not yet — the head opens once the full steam-and-vacuum cycle has actually finished, not partway through it.",
+    "lock-prop": "Not yet — cleaning the buck happens once the head is confirmed open and propped, not while it's only resting on its own weight.",
+    "press-cycle": "Not yet — the boiler has to read in range and the garment has to actually be on the buck before the head goes anywhere near it."
+  },
+  "name": "Industrial Press & Steam",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "sewing-garment-trades"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.7,
+    "hits": [
+      "boiler-drain",
+      "boiler-gauge",
+      "buck-zone",
+      "condensate-drain",
+      "garment",
+      "guard-bypassed",
+      "guard-check",
+      "head-latch",
+      "hose-cracked",
+      "lock-prop",
+      "preset-cotton",
+      "preset-synth",
+      "preset-wool",
+      "press-cycle",
+      "press-estop",
+      "press-power-off",
+      "relief-tag-expired",
+      "relief-valve",
+      "scorched-panel",
+      "steam-shutoff",
+      "steam-valve",
+      "work-order"
+    ],
+    "meshes": 161
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the fabric type, the count and the steam and heat setting this batch calls for.",
+      "id": "work-order",
+      "kind": "select",
+      "prompt": "Check the fabric type, the count and the steam and heat setting this batch calls for.",
+      "target": "work-order",
+      "title": "Read the work order",
+      "why": "Every fabric on this floor presses at a different combination of heat, steam and vacuum, and the work order is the only place that number is written down for this batch rather than guessed at from what the last garment on the buck happened to be. Wool scorches at a setting synthetics need to press flat, and starting from memory instead of the ticket is how one garment in a batch comes out wrong before anyone notices the fabric changed."
+    },
+    {
+      "cue": "Read the boiler pressure gauge and commit once it's holding inside the safe operating band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "BOILER PRESSURE",
+        "missNote": "Outside the safe band — do not load the press until the boiler is holding in range. Check the burner and the relief valve before trying again.",
+        "speed": 0.6
+      },
+      "id": "boiler-pressure",
+      "kind": "gauge",
+      "prompt": "Read the boiler pressure gauge and commit once it's holding inside the safe operating band.",
+      "target": "boiler-gauge",
+      "title": "Check the boiler pressure",
+      "why": "The boiler feeding this press holds real stored energy independent of anything the head is doing, and its pressure is checked before the first garment goes on the buck, not assumed steady because it read fine yesterday. A gauge running low starves the head of steam mid-cycle; one running high is a boiler operating outside the range its relief valve was set to protect, and the only way to know which this shift is, is to read it."
+    },
+    {
+      "cue": "Confirm the boiler's pressure relief valve carries a current inspection tag.",
+      "id": "relief-valve",
+      "kind": "select",
+      "prompt": "Confirm the boiler's pressure relief valve carries a current inspection tag.",
+      "target": "relief-valve",
+      "title": "Check the relief valve's inspection tag",
+      "why": "The relief valve is what actually protects this boiler if pressure runs past the gauge's warning — it is the last mechanical thing standing between a stuck control and a vessel failure, and a spring-loaded valve can seize with age the same as anything else that isn't cycled. The ASME code's inspection interval is what proves this specific valve will still open when it's needed, not just that one exists on the boiler."
+    },
+    {
+      "cue": "Turn the steam supply valve open now that the boiler and relief valve are both confirmed.",
+      "id": "steam-valve",
+      "kind": "turn",
+      "prompt": "Turn the steam supply valve open now that the boiler and relief valve are both confirmed.",
+      "target": "steam-valve",
+      "title": "Open the steam supply to the head",
+      "turn": {
+        "axis": "y",
+        "label": "STEAM SUPPLY",
+        "turns": 0.75
+      },
+      "why": "Steam goes to the head only after the boiler side of this system is confirmed, in that order — opening the supply first and checking the gauge after is a bet that whatever the boiler is doing right now happens to be safe. Turning the valve last means every check that could have caught a problem already ran before live steam is anywhere near the head."
+    },
+    {
+      "cue": "Confirm both palm buttons are free, untaped and spaced so one hand cannot reach both.",
+      "id": "guard-check",
+      "kind": "select",
+      "prompt": "Confirm both palm buttons are free, untaped and spaced so one hand cannot reach both.",
+      "target": "guard-check",
+      "title": "Check the two-hand control",
+      "why": "A two-hand control only works as a guard if both buttons genuinely need two separate hands — spaced far enough apart, and both live — because its entire job is making sure both of an operator's hands are somewhere other than under the head before it can close. A control checked clean before every shift is what keeps that guarantee real instead of theoretical."
+    },
+    {
+      "cue": "Carry the garment onto the buck, arranged flat and square to the fabric's own grain.",
+      "drag": {
+        "missNote": "Not square on the buck — lay the garment flat before the head comes down on it.",
+        "radius": 0.4,
+        "to": "buck-zone"
+      },
+      "id": "lay-garment",
+      "kind": "drag",
+      "prompt": "Carry the garment onto the buck, arranged flat and square to the fabric's own grain.",
+      "target": "garment",
+      "title": "Lay the garment on the buck",
+      "why": "A garment bunched or laid off-square on the buck presses its own wrinkles into permanent creases the instant the head closes, because the press has no way to know the fold underneath wasn't intentional. Laying it flat and square before the head ever moves is the only point in the cycle where a mistake here is still a five-second fix instead of a garment that has to be re-pressed or re-cut."
+    },
+    {
+      "cue": "Choose the preset that matches this batch's fabric from the work order — not the last preset used.",
+      "id": "fabric-setting",
+      "kind": "select",
+      "prompt": "Choose the preset that matches this batch's fabric from the work order — not the last preset used.",
+      "target": "preset-wool",
+      "title": "Select the fabric's steam preset",
+      "why": "The preset sets the actual heat and steam volume the head delivers, and a synthetic preset run on wool scorches it while a wool preset run on synthetics never gets it flat. The preset that was already sitting selected from the last batch is not a safe default — it is whatever fabric happened to go through this press last, and the work order is what says whether that's still true."
+    },
+    {
+      "cue": "Press and hold both palm buttons through the full steam-and-vacuum cycle.",
+      "holdBreakNote": "A palm button let go mid-cycle. That is exactly what the control is supposed to catch — reset, keep both hands on the buttons, and run the full cycle through without a break.",
+      "id": "press-cycle",
+      "kind": "hold",
+      "prompt": "Press and hold both palm buttons through the full steam-and-vacuum cycle.",
+      "seconds": 8,
+      "target": "press-cycle",
+      "title": "Run the press cycle two-handed",
+      "why": "Both palm buttons held down is what proves both of the operator's hands are clear of the buck for the entire time the head is closing and steaming, not just at the instant the cycle started — letting go of either button partway is supposed to stop the head, and holding through the full cycle is the only way this control actually does the job it's built for. The vacuum that follows the steam pulls moisture back out of the fabric so the garment comes off dry, not just hot."
+    },
+    {
+      "cue": "Release the head latch once the full cycle has actually finished.",
+      "id": "head-open",
+      "kind": "select",
+      "prompt": "Release the head latch once the full cycle has actually finished.",
+      "target": "head-latch",
+      "title": "Open the head",
+      "why": "The head only opens once the cycle's own timer says the steam and vacuum phases are both done — cracking it early vents live steam across whoever's hands are anywhere near the buck, and the garment underneath hasn't finished drying under vacuum yet either. The latch is checked, not forced, and it opens when the cycle says it's ready to."
+    },
+    {
+      "cue": "One garment on the finished rack has a scorch mark. Find it.",
+      "id": "scorch-check",
+      "itemNames": {
+        "scorched-panel": "the scorched panel on the finished rack"
+      },
+      "itemNotes": {
+        "scorched-panel": "This panel has a faint yellow-brown scorch mark along one edge — a preset run too hot for this fabric, or a cycle left on too long. It looks like a finished, pressed garment from a glance; the mark only shows once you're actually looking for it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "One garment on the finished rack has a scorch mark. Find it.",
+      "targets": [
+        "scorched-panel"
+      ],
+      "title": "Check the finished pieces before they're bagged",
+      "why": "A scorch mark on a dark fabric under shop lighting is easy to miss from across the room, and it is a garment that goes out the door as a return the moment a customer sees it under a brighter light. Catching it here, against the rest of the batch, is the only point where it costs a re-press instead of a returned sale."
+    },
+    {
+      "cue": "Set the mechanical prop that holds the head open before reaching in to clean the buck's padding.",
+      "id": "lock-open-clean",
+      "kind": "select",
+      "prompt": "Set the mechanical prop that holds the head open before reaching in to clean the buck's padding.",
+      "target": "lock-prop",
+      "title": "Lock the head open to clean the buck",
+      "why": "A head resting on its own weight, latch released, is not the same thing as a head that cannot move — a control fault or somebody bumping a pedal with a hand already on the buck is exactly the scenario a mechanical prop exists to make impossible rather than merely unlikely. The prop goes in before a hand does, the same principle 1910.147 states for any equipment being reached into for servicing."
+    },
+    {
+      "cue": "Close the steam supply, drain the boiler's blowdown, then power the press off.",
+      "id": "shutdown",
+      "itemNames": {
+        "boiler-drain": "boiler blowdown, drained",
+        "press-power-off": "press power, off",
+        "steam-shutoff": "steam supply, closed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Steam off, then the blowdown, then power — killing power first leaves the steam side live with no control panel watching it.",
+      "prompt": "Close the steam supply, drain the boiler's blowdown, then power the press off.",
+      "targets": [
+        "steam-shutoff",
+        "boiler-drain",
+        "press-power-off"
+      ],
+      "title": "Shut the press down for the shift",
+      "why": "Steam goes off first so nothing downstream is still live while the rest of the shutdown happens, the blowdown clears sediment that settles to the bottom of the boiler every shift and left there shortens the vessel's life, and the power only comes off last, once nothing pressurized is depending on the control system still being there. Skipping the blowdown to save five minutes is exactly how a boiler earns an unscheduled inspection instead of a scheduled one."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Boiler pressure checked, the head run on two-hand control, steam and vacuum by fabric, a scorch caught, and the press shut down clean",
+  "title": "SmartCiti.X~ Industrial Press & Steam VR",
+  "trade": "Industrial sewing machine operator — Workers United (SEIU)",
+  "underwater": null,
+  "weather": null
+}

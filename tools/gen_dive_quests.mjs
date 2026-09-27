@@ -86,9 +86,9 @@ const HP = programme("hunters-point-bay-restoration"), hpWhy = whyLookup(HP), hp
 
 const MAIN_DIVES = [
   {
-    id: "dv-main-00-pilings", title: "First Splash", giver: "the dive supervisor", site: siteNamed("pier-dive-station"), kind: "main", tier: 1, requires: null,
+    id: "dv-main-00-pilings", title: "First Splash", giver: "the dive supervisor", site: siteNamed("pier-surface-supplied-station"), kind: "main", tier: 1, requires: null,
     steps: [
-      { type: "goto", target: siteNamed("pier-dive-station"), text: "The dive station is set up on the pier deck above the pilings, the supervisor at the panel." },
+      { type: "goto", target: siteNamed("pier-surface-supplied-station"), text: "The dive station is set up on the pier deck above the pilings, the supervisor at the panel." },
       { type: "talk", target: "dive-supervisor", text: "\"Nobody gets wet until the deck is right. The plan, the hazards, the station — in that order. Then the pilings.\"" },
       { type: "station", target: "br-dive-site-hazard-assessment-and-jsa", text: brw("br-dive-site-hazard-assessment-and-jsa") },
       { type: "station", target: "br-surface-supplied-dive-station-setup", text: brw("br-surface-supplied-dive-station-setup") },
@@ -97,9 +97,9 @@ const MAIN_DIVES = [
     reward: tierReward(1, "First Splash"),
   },
   {
-    id: "dv-main-01-shelf", title: "Shelf Hand", giver: "the standby diver", site: siteNamed("shelf-training-ground"), kind: "main", tier: 2, requires: "dv-main-00-pilings",
+    id: "dv-main-01-shelf", title: "Shelf Hand", giver: "the standby diver", site: siteNamed("shelf-checkout-site"), kind: "main", tier: 2, requires: "dv-main-00-pilings",
     steps: [
-      { type: "goto", target: siteNamed("shelf-training-ground"), text: "Sun-lit sand, a training grid and the standby diver waiting at the down line." },
+      { type: "goto", target: siteNamed("shelf-checkout-site"), text: "Sun-lit sand, a training grid and the standby diver waiting at the down line." },
       { type: "talk", target: "standby-diver", text: "\"Before you survey anything, you learn how we come and get you. Then we read the gauge post together.\"" },
       { type: "station", target: "mw-diver-emergency-and-recovery", text: mww("mw-diver-emergency-and-recovery") },
       { type: "goto", target: landmarkNamed("tide-gauge-post"), text: "Swim to the tide-gauge post on the shelf and read the water from below." },
@@ -108,20 +108,20 @@ const MAIN_DIVES = [
     reward: tierReward(2, "Shelf Hand"),
   },
   {
-    id: "dv-main-02-meadow", title: "The Meadow Grid", giver: "the transplant lead", site: siteNamed("meadow-transplant-grid"), kind: "main", tier: 3, requires: "dv-main-01-shelf",
+    id: "dv-main-02-meadow", title: "The Meadow Grid", giver: "the transplant lead", site: siteNamed("eelgrass-transplant-plots"), kind: "main", tier: 3, requires: "dv-main-01-shelf",
     steps: [
-      { type: "goto", target: siteNamed("meadow-transplant-grid"), text: "Grass blades bend with the tide over a planting grid of numbered stakes." },
+      { type: "goto", target: siteNamed("eelgrass-transplant-plots"), text: "Grass blades bend with the tide over a planting grid of numbered stakes." },
       { type: "talk", target: "transplant-lead", text: "\"The grid is the survey. Every planting has a stake, every stake has a number, and the supervisor never gets in the water.\"" },
       { type: "station", target: "eelgrass-transplant", text: hpw("eelgrass-transplant") },
-      { type: "find", target: landmarkNamed("quadrat-grid"), text: "Find the quadrat grid's corner stake and note its tag." },
+      { type: "find", target: landmarkNamed("eelgrass-nursery-plots"), text: "Find the nursery plots' corner stake and note its tag." },
       { type: "talk", target: "transplant-lead", text: "\"Logged. The meadow's edge is the next line out — the reef field is past it.\"" },
     ],
     reward: tierReward(3, "Meadow Grid"),
   },
   {
-    id: "dv-main-03-reef", title: "Cores and Reef Balls", giver: "the sampling lead", site: siteNamed("reef-core-station"), kind: "main", tier: 4, requires: "dv-main-02-meadow",
+    id: "dv-main-03-reef", title: "Cores on the Flats", giver: "the sampling lead", site: siteNamed("flats-sediment-core-site"), kind: "main", tier: 4, requires: "dv-main-02-meadow",
     steps: [
-      { type: "goto", target: siteNamed("reef-core-station"), text: "Reef balls on a grid, a core rack on the seabed, the sampling lead pointing at the station marker." },
+      { type: "goto", target: siteNamed("flats-sediment-core-site"), text: "A core rack on the flats beside the station marker, the sampling lead pointing at the sampling plan's number." },
       { type: "talk", target: "sampling-lead", text: "\"A core is a record. It only stays one if it goes in straight, comes out sealed and travels under custody.\"" },
       { type: "station", target: "br-underwater-sediment-core-sampling", text: brw("br-underwater-sediment-core-sampling") },
       { type: "station", target: "br-sediment-chain-of-custody-and-lab-prep", text: brw("br-sediment-chain-of-custody-and-lab-prep") },
@@ -141,9 +141,9 @@ const MAIN_DIVES = [
     reward: tierReward(5, "Wreck Surveyor"),
   },
   {
-    id: "dv-main-05-seamount", title: "The Pinnacle", giver: "the compliance biologist", site: siteNamed("seamount-pinnacle-survey"), kind: "main", tier: 6, requires: "dv-main-04-wreck",
+    id: "dv-main-05-seamount", title: "The Pinnacle", giver: "the compliance biologist", site: siteNamed("seamount-capstone-survey"), kind: "main", tier: 6, requires: "dv-main-04-wreck",
     steps: [
-      { type: "goto", target: siteNamed("seamount-pinnacle-survey"), text: "The seamount rises out of deep water; the survey boat lies over its pinnacle." },
+      { type: "goto", target: siteNamed("seamount-capstone-survey"), text: "The seamount rises out of deep water; the survey boat lies over its pinnacle." },
       { type: "talk", target: "compliance-biologist", text: "\"Out here the watch matters as much as the work, and the data only says what the reviewed sheets back up.\"" },
       { type: "station", target: "br-marine-mammal-observer-during-pile-driving", text: brw("br-marine-mammal-observer-during-pile-driving") },
       { type: "station", target: "br-restoration-data-qa-and-public-reporting", text: brw("br-restoration-data-qa-and-public-reporting") },
@@ -208,7 +208,13 @@ const SIDE_DIVES = SIDE_PROGRAMME_IDS.flatMap((id) => {
 // sentence of a real station step's own `why` line, read from the station's
 // source file here (never retyped). Landmark notes are the landmark's name
 // plus one generic sentence: no digit, no fact-shaped word.
-const LANDMARK_NOTES = Object.fromEntries(DV_LANDMARKS.map((l) => [l.name, l.blurb]));
+// A landmark's own blurb, except where this layer keeps a plainer note of
+// its own (the checker refuses any height- or history-shaped word in a note).
+const DV_OWN_NOTES = {
+  "kelp-cathedral": "The grandest stand in the forest, where the stipes rise like columns and the canopy closes overhead.",
+  "marsh-mouth-bar": "A ridge of sand where the marsh channel drops its load, shifting a little with every big tide.",
+};
+const LANDMARK_NOTES = Object.fromEntries(DV_LANDMARKS.map((l) => [l.name, DV_OWN_NOTES[l.id] ?? l.blurb]));
 
 function stepWhyFirstSentence(stationId, stepId) {
   const file = join(SIM_DIR, `${stationId}.js`);
@@ -244,35 +250,38 @@ function lanternEgg(id, landmarkId, method, stationId, stepId, commsPrompt = nul
 }
 
 const EGG_DIVES = [
-  lanternEgg("knot-lead", "rope-knot-piling", "lantern", "br-dive-tender-and-umbilical-management", "lead-umbilical"),
+  lanternEgg("ladder-lead", "pier-ladder", "lantern", "br-dive-tender-and-umbilical-management", "lead-umbilical"),
   lanternEgg("pile-zones", "piling-forest", "lantern", "mw-pier-pile-inspection-dive", "pile-one"),
   lanternEgg("gauge-riddle", "tide-gauge-post", "comms", "tide-gate", "flood-early",
     "The supervisor's voice over the comms: \"The table said one time and the water says another — which one do you believe, and why?\""),
-  lanternEgg("quadrat-stake", "shell-hash-bank", "lantern", "oyster-reef-monitoring", "quadrat-locate"),
-  lanternEgg("slack-water", "eelgrass-meadow-edge", "comms", "eelgrass-transplant", "tide-window",
+  lanternEgg("quadrat-stake", "shelf-boulder-garden", "lantern", "oyster-reef-monitoring", "quadrat-locate"),
+  lanternEgg("slack-water", "eelgrass-edge", "comms", "eelgrass-transplant", "tide-window",
     "The comms crackle: \"You're drifting off the grid on every breath — what did the plan say about the tide, and why?\""),
-  lanternEgg("hull-overhead", "quadrat-grid", "lantern", "eelgrass-transplant", "vessel-incursion"),
+  lanternEgg("hull-overhead", "eelgrass-nursery-plots", "lantern", "eelgrass-transplant", "vessel-incursion"),
   lanternEgg("upcurrent-anchor", "marsh-mouth-bar", "lantern", "br-turbidity-curtain-deployment", "lower-anchor"),
-  lanternEgg("turbidity-proof", "channel-mouth-stakes", "comms", "br-water-quality-sonde-calibration-and-deploy", "turbidity-check",
+  lanternEgg("turbidity-proof", "sonde-mooring", "comms", "br-water-quality-sonde-calibration-and-deploy", "turbidity-check",
     "The supervisor asks over the comms: \"The sonde's calibrated — so what else has to happen before the dredge is stopped on its word?\""),
   lanternEgg("bank-buddy", "outfall-diffuser", "lantern", "stormwater-outfall", "buddy-steps-away"),
   lanternEgg("slow-baseline", "kelp-cathedral", "lantern", "br-underwater-debris-survey-and-mapping", "swim-baseline"),
-  lanternEgg("holdfast-upcurrent", "kelp-holdfast-rock", "lantern", "br-derelict-gear-recovery-dive", "hold-upcurrent"),
-  lanternEgg("follow-line", "rock-arch", "comms", "mw-diver-emergency-and-recovery", "follow-umbilical",
+  lanternEgg("holdfast-upcurrent", "holdfast-ledge", "lantern", "br-derelict-gear-recovery-dive", "hold-upcurrent"),
+  lanternEgg("follow-line", "marsh-drift-line", "comms", "mw-diver-emergency-and-recovery", "follow-umbilical",
     "The comms break in: \"Visibility's gone and your buddy's somewhere ahead — what's the one certain path to him?\""),
   lanternEgg("straight-core", "reef-ball-rows", "lantern", "br-underwater-sediment-core-sampling", "push-core"),
   lanternEgg("cap-first", "settlement-tile-rack", "comms", "br-underwater-sediment-core-sampling", "cap-core",
     "The sampling lead over the comms: \"Core's in. Which cap goes on first, and what happens if you get it backwards?\""),
   lanternEgg("screw-locked", "channel-marker-chain", "lantern", "mw-dive-supervisor-and-dive-plan", "lockout-and-flag"),
-  lanternEgg("steady-pace", "cable-crossing-marker", "lantern", "uw-pipeline-crossing-inspection-dive", "swim-crossing"),
+  lanternEgg("steady-pace", "approach-buoy-chain", "lantern", "uw-pipeline-crossing-inspection-dive", "swim-crossing"),
   lanternEgg("ground-first", "wreck-bow", "comms", "mw-underwater-welding-and-cutting", "ground-and-switch",
     "The comms: \"Before anyone calls 'make it hot' — what goes on first, and where?\""),
   lanternEgg("pin-then-wire", "wreck-stern", "lantern", "uw-lift-bag-rigging-and-object-recovery", "rig-bridle"),
-  lanternEgg("bight", "anchor-line-buoy-block", "lantern", "mooring-line", "hand-in-the-bight"),
+  lanternEgg("bight", "mud-plain-mooring", "lantern", "mooring-line", "hand-in-the-bight"),
   lanternEgg("chamber-plan", "trench-lip", "comms", "br-hyperbaric-chamber-standby", "standby-brief",
     "The supervisor over the comms: \"There's a chamber on the deck above you. Is it an afterthought, or part of something?\""),
   lanternEgg("benchmark", "seamount-pinnacle", "lantern", "uw-bridge-pier-scour-survey", "find-benchmark"),
-  lanternEgg("pfd-gasp", "mooring-block-chain", "lantern", "br-cold-water-immersion-and-mob-recovery", "pfd-on"),
+  lanternEgg("pfd-gasp", "old-anchor", "lantern", "br-cold-water-immersion-and-mob-recovery", "pfd-on"),
+  lanternEgg("prove-zero", "outfall-pipe-run", "comms", "uw-intake-screen-cleaning-with-lockout", "verify-zero-energy",
+    "The supervisor over the comms: \"The breaker's open and the lock is on. So is the intake locked out yet — how do you know?\""),
+  lanternEgg("plan-is-the-dive", "trench-floor-cairn", "lantern", "mw-dive-supervisor-and-dive-plan", "dive-plan"),
 ];
 
 // ========================================================= ACTIVITIES
@@ -292,13 +301,13 @@ const ACTIVITIES = [
     scoring: { competitive: false, viewpointsToFrame: 6 },
   },
   {
-    id: "dv-activity-debris-sweep", title: "Debris Sweep", kind: "sweep", site: siteNamed("kelp-arch-survey"),
-    description: "Collect the marked debris around the arch before the timer runs out — and flag, never lift, the items marked hazardous, which wait for the work plan.",
+    id: "dv-activity-debris-sweep", title: "Debris Sweep", kind: "sweep", site: siteNamed("shelf-debris-sweep"),
+    description: "Collect the marked debris across the shelf before the timer runs out — and flag, never lift, the items marked hazardous, which wait for the work plan.",
     scoring: { time: true, seconds: 180, items: 8, hazardousItems: 2, collectedPoints: 1, flaggedPoints: 2 },
   },
   {
-    id: "dv-activity-marsh-drift", title: "Marsh-Mouth Drift", kind: "drift", line: "marsh-channel-line",
-    site: siteNamed("marsh-mouth-drift-line"),
+    id: "dv-activity-marsh-drift", title: "Marsh-Mouth Drift", kind: "drift", line: "marsh-drift-transect",
+    site: siteNamed("marsh-mouth-culvert"),
     description: "Ride the ebb out of the marsh channel and hold the corridor between the stakes for the whole run.",
     scoring: { seconds: 90, corridorHalfWidth: 8, heldFraction: true },
   },

@@ -1,0 +1,424 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "carbon-clean",
+    "name": "Carbon Clean",
+    "note": "A GAC vessel isolated, bled to zero, drummed as hazardous waste and lead/lag swapped, with the compliance sample sealed under chain of custody"
+  },
+  "category": "Water & Environmental",
+  "certification": "UA Local 38 plumbers and pipefitters on the piping and vessel work; LIUNA hazmat laborers under OSHA HAZWOPER (29 CFR 1910.120); IUOE stationary engineers on the treatment plant; NPDES discharge permit under the Clean Water Act; EPA RCRA hazardous-waste generator standards (40 CFR 262) for spent carbon; the site O&M manual under its Record of Decision",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      },
+      {
+        "body": "RCRA",
+        "citedAs": "40 CFR 262",
+        "id": "rcra-40-cfr-262",
+        "title": "40 CFR Part 262 — Standards applicable to generators of hazardous waste, including the manifest"
+      },
+      {
+        "body": "union",
+        "citedAs": "UA",
+        "id": "ua-apprenticeship",
+        "title": "UA — United Association plumber, pipefitter and HVAC service apprenticeship standards and UA Star certification"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Water",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "design-flow",
+        "name": "Design Flow",
+        "note": "Well flow and drawdown both read against design before anything else moved"
+      },
+      {
+        "id": "never-under-pressure",
+        "name": "Never Under Pressure",
+        "note": "The vessel was never opened, entered or dumped except the safe way"
+      },
+      {
+        "id": "reading-true",
+        "name": "Reading True",
+        "note": "Held the vent rate and the field readings near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-changeout",
+        "name": "Clean Changeout",
+        "note": "No corrections through the whole vessel change"
+      },
+      {
+        "id": "steady-bleed",
+        "name": "Steady Bleed",
+        "note": "Held the bleed-down in band without a dropout"
+      },
+      {
+        "id": "compound-clear",
+        "name": "Compound Clear",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "GPM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Operator I",
+      "Operator II",
+      "Lead Operator",
+      "Plant Supervisor",
+      "Treatment Authority Certified"
+    ],
+    "system": "Treatment Authority"
+  },
+  "hazards": {
+    "carbon-in-dumpster": "You put the spent carbon in the ordinary dumpster. Carbon pulled off a groundwater system is loaded with whatever it stripped out of the plume, and EPA's RCRA hazardous-waste rules (40 CFR 262) require it characterized and manifested to a permitted facility, not hauled off with the site's regular trash. A generator that mishandles its own waste stream is the next enforcement action on a site that already has one open.",
+    "grab-no-coc": "You filled the sample straight into an unlabeled jar and skipped the chain of custody. An NPDES compliance sample with no label, no time and no signed custody form is not evidence of anything the permit can accept — the lab has nothing to tie the number back to this outfall on this day, and an unsupported reading is worse than no reading at all when a regulator asks for the record.",
+    "skip-depressurize": "You went for the manway before the vessel had bled down to zero. A GAC vessel this size holds real stored energy at operating pressure, and a cover cracked open under load does not open politely — it comes off the way a dislodged clamp on a pressure line always does, with the gasket and whatever is loose on top of it going first. It is proven at zero on the gauge before a wrench ever touches the manway bolts.",
+    "step-into-vessel": "You started to climb into the GAC vessel. A carbon vessel is a permit-required confined space: the atmosphere inside can be oxygen-deficient from the carbon bed itself, and nobody enters it under LIUNA's HAZWOPER program without a permit, an attendant and retrieval — which is not this job. The vessel is worked from outside, through the manway, every time."
+  },
+  "id": "pump-and-treat",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "confirm-zero",
+      "alert": "The high-level alarm on the equalization tank has started sounding across the compound. Nobody else is on shift to answer it.",
+      "cue": "Something upstream of the vessel you are bleeding down needs attention now, not when this is finished.",
+      "delay": 5,
+      "id": "eq-tank-alarm",
+      "kind": "Equalization tank high level",
+      "missNote": "The equalization tank came up over its high-level set point with the transfer pump never started. On a site under active regulatory oversight, an uncontrolled overflow from a process tank is exactly the kind of event that turns a routine vessel change into an incident report.",
+      "seconds": 16,
+      "target": "eq-transfer-pump-start",
+      "why": "The equalization tank is what buffers the raw extraction flow ahead of treatment, and it does not stop filling because a GAC vessel is out of service for its changeout — the wells you already confirmed on design flow are still pumping into it. A high level with nothing moving it back down is minutes from overflowing into secondary containment, which is a reportable release on a site that is already under a discharge permit. The standby transfer pump is what pulls the level back down, and starting it is the whole job right now.",
+      "wrongNote": "That does not touch the tank that is alarming. It is the standby transfer pump — that is what pulls the level back down before it reaches the rim."
+    },
+    {
+      "after": "sample",
+      "alert": "The off-gas VOC monitor on the stripper stack has climbed above its action level and is still climbing.",
+      "cue": "The air side is telling you something the water sample in your hand cannot.",
+      "delay": 4,
+      "id": "voc-breakthrough",
+      "kind": "Off-gas VOC monitor high",
+      "missNote": "The off-gas monitor stayed above its action level with the backup canister never opened. Uncontrolled VOC emissions off an air stripper are an air-permit exceedance in their own right, on top of whatever they were pulled out of the water to prevent in the first place.",
+      "seconds": 14,
+      "target": "offgas-backup-valve",
+      "why": "The primary off-gas carbon is what keeps the VOCs the air stripper pulls out of the groundwater from going straight up the stack into the neighborhood's air — that is the whole reason the stripper has a carbon train instead of an open vent. A rising reading past the action level means that bed is breaking through while it is still carrying load, and the fix is to bring the backup off-gas canister on line immediately, not to finish the water sample first and look at it afterward.",
+      "wrongNote": "That is not the off-gas train. The backup canister valve is what takes the load off a breaking-through bed before it reaches the stack."
+    }
+  ],
+  "lateNotes": {
+    "bleed-valve": "The bleed valve opens after the lead vessel is isolated on both ends, not before — cracking it on a vessel still tied into the header just moves flow through the wrong path.",
+    "compliance-port": "The compliance grab is the last field task, once the vessel work and the permit log are square — a sample taken mid-changeout has nothing settled to say about.",
+    "flow-selector": "The lead/lag swap happens after the exhausted vessel is out and the fresh one is ready, not before — swapping the flow path first sends full flow through an empty shell.",
+    "spent-carbon": "The carbon comes out once the vessel has bled to zero and the manway is open, not while it is still sealed and holding pressure."
+  },
+  "name": "Pump and Treat",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-bay-restoration"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bleed-valve",
+      "blower-belt",
+      "carbon-diff",
+      "carbon-in-dumpster",
+      "compliance-port",
+      "containment-crack",
+      "eq-transfer-pump-start",
+      "flow-meter",
+      "flow-selector",
+      "grab-no-coc",
+      "label-sample",
+      "lead-inlet",
+      "lead-outlet",
+      "level-transducer",
+      "monitoring-log-board",
+      "offgas-backup-valve",
+      "om-log",
+      "open-carbon-lid",
+      "seal-sample",
+      "sign-coc",
+      "skip-depressurize",
+      "spent-carbon",
+      "step-into-vessel",
+      "vessel-manway",
+      "waste-drum-socket",
+      "waste-manifest-missing"
+    ],
+    "meshes": 231
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check which extraction wells are running, the GAC vessel changeout schedule and which vessel is due, and the compliance sample due today.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Check which extraction wells are running, the GAC vessel changeout schedule and which vessel is due, and the compliance sample due today.",
+      "target": "om-log",
+      "title": "Read the O&M log and today's work order",
+      "why": "The O&M manual under the site's Record of Decision is what says which vessel is lead, what the design flow and drawdown for each well should read, and when the compliance sample is due — none of that is a judgment call made fresh each shift, it is a schedule someone already set from the system's design."
+    },
+    {
+      "cue": "Watch the flow meter sweep and commit while it sits inside the design band.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "EW-4 FLOW",
+        "missNote": "Outside the design band. Check the pump and re-read before touching anything downstream of this well.",
+        "speed": 0.7
+      },
+      "id": "well-flow",
+      "kind": "gauge",
+      "prompt": "Watch the flow meter sweep and commit while it sits inside the design band.",
+      "target": "flow-meter",
+      "title": "Read extraction well EW-4's flow against design",
+      "why": "The whole plume-capture strategy is built around a design pumping rate for this well. Too little flow and the capture zone shrinks, letting contaminated groundwater slip past the well on its way somewhere the design never accounted for; too much and the well can pull air and lose its prime."
+    },
+    {
+      "cue": "Watch the water-level transducer and commit while the drawdown sits inside the design cone of depression.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "DRAWDOWN",
+        "missNote": "Not inside the design cone of depression. Let it stabilize and read it again before signing off on this well.",
+        "speed": 0.65
+      },
+      "id": "drawdown",
+      "kind": "gauge",
+      "prompt": "Watch the water-level transducer and commit while the drawdown sits inside the design cone of depression.",
+      "target": "level-transducer",
+      "title": "Read the well's drawdown against design",
+      "why": "Drawdown is the other half of the capture-zone picture: a design pumping rate only creates the intended cone of depression if the water level is actually falling the amount the design assumed. Too little drawdown and the capture zone the flow number implies is not really there; too much and the well is close to pumping itself dry, which trips the pump on low level at the worst possible time."
+    },
+    {
+      "cue": "Walk the air side of the system and click whatever needs attention before the vessel work starts.",
+      "id": "blower-check",
+      "itemNames": {
+        "blower-belt": "the blower drive belt",
+        "carbon-diff": "the off-gas carbon differential gauge"
+      },
+      "itemNotes": {
+        "blower-belt": "The blower belt is glazed and slipping. A slipping belt means less air moving through the packed tower, which means less contact time between the air and the water film — the stripper does the job less well every minute it runs like this.",
+        "carbon-diff": "The differential pressure across the primary off-gas carbon bed is climbing toward its own action level. Rising differential on a carbon bed is the bed loading up with moisture and fouling, which is exactly what pushes a bed toward the breakthrough the stack monitor catches later in this shift."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the air side of the system and click whatever needs attention before the vessel work starts.",
+      "targets": [
+        "blower-belt",
+        "carbon-diff"
+      ],
+      "title": "Inspect the air stripper blower and the off-gas carbon",
+      "why": "The stripper only works if air is actually moving through it and the vapor it pulls out is actually being captured afterward — a blower running quiet and a carbon bed nobody looked at are both silent until the stack monitor catches the failure downstream, by which point it has already been happening for a while."
+    },
+    {
+      "cue": "Close the lead vessel's inlet valve, then its outlet valve.",
+      "id": "isolate-lead",
+      "itemNames": {
+        "lead-inlet": "lead vessel inlet valve",
+        "lead-outlet": "lead vessel outlet valve"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Inlet before outlet. Closing the outlet first leaves the vessel pressurized against a shut inlet with no path to relieve.",
+      "prompt": "Close the lead vessel's inlet valve, then its outlet valve.",
+      "targets": [
+        "lead-inlet",
+        "lead-outlet"
+      ],
+      "title": "Isolate the lead GAC vessel",
+      "why": "Inlet first, then outlet — closing the outlet before the inlet traps the vessel full and pressurized against a closed inlet with nowhere for that pressure to go, while closing the inlet first lets the vessel bleed toward the still-open outlet as flow settles before that side shuts too."
+    },
+    {
+      "cue": "Wind the needle bleed valve at the top of the isolated vessel open to start relieving trapped pressure.",
+      "id": "vent-vessel",
+      "kind": "turn",
+      "prompt": "Wind the needle bleed valve at the top of the isolated vessel open to start relieving trapped pressure.",
+      "target": "bleed-valve",
+      "title": "Crack the vessel's bleed valve",
+      "turn": {
+        "axis": "y",
+        "label": "BLEED VALVE",
+        "turns": 0.6
+      },
+      "why": "The vessel is isolated but still full of water at line pressure. The bleed valve is the only path that pressure has back to atmosphere, and it is a needle valve on purpose — a full-bore valve on a pressurized vessel this size would let go all at once rather than as a controlled bleed."
+    },
+    {
+      "cue": "Hold the vent rate steady in the band until the pressure gauge reads zero.",
+      "holdBreakNote": "Vent rate ran out of band — either the bleed stalled with pressure still in the shell, or it ran hard enough to carry carbon fines up the line. Bring it back into the band and hold it there.",
+      "id": "confirm-zero",
+      "kind": "track",
+      "prompt": "Hold the vent rate steady in the band until the pressure gauge reads zero.",
+      "seconds": 7,
+      "target": "bleed-valve",
+      "title": "Bleed the vessel down to zero",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.42,
+        "green": [
+          0.32,
+          0.55
+        ],
+        "label": "VENT RATE",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "Too fast and the venting water carries carbon fines up through the bleed line and out the vent, fouling it and wasting media that is not cheap; too slow and the shift runs long with a vessel still holding pressure the whole time. Steady, in the band, until the needle is actually at zero — not close to it."
+    },
+    {
+      "cue": "With the vessel isolated and proven at zero, unbolt and swing the manway cover.",
+      "id": "open-manway",
+      "kind": "select",
+      "prompt": "With the vessel isolated and proven at zero, unbolt and swing the manway cover.",
+      "target": "vessel-manway",
+      "title": "Open the vessel manway",
+      "why": "This is the moment the vessel actually opens to atmosphere. It happens only after two separate confirmations say it is safe to — the isolation valves are shut and the gauge is at zero — because a manway is the last thing standing between a fitter's hands and whatever pressure the earlier steps did not actually remove."
+    },
+    {
+      "cue": "Carry the spent carbon from the open vessel to the labeled hazardous-waste drum and set it down square.",
+      "drag": {
+        "missNote": "Not on the drum — set the carbon down square in the labeled hazardous-waste drum, not beside it.",
+        "radius": 0.45,
+        "to": "waste-drum-socket"
+      },
+      "id": "drum-carbon",
+      "kind": "drag",
+      "prompt": "Carry the spent carbon from the open vessel to the labeled hazardous-waste drum and set it down square.",
+      "target": "spent-carbon",
+      "title": "Drum the spent carbon as hazardous waste",
+      "why": "Under EPA's RCRA rules (40 CFR 262), carbon that has stripped VOCs out of contaminated groundwater is a hazardous waste from the moment it comes out of the vessel, not from whenever somebody gets around to labeling the drum. It goes straight into the manifested drum, weighed and dated, with nowhere in between for it to sit unlabeled."
+    },
+    {
+      "cue": "Turn the flow-selector so the old lag vessel becomes the new lead and the fresh vessel takes the lag position.",
+      "id": "swap-lead-lag",
+      "kind": "turn",
+      "prompt": "Turn the flow-selector so the old lag vessel becomes the new lead and the fresh vessel takes the lag position.",
+      "target": "flow-selector",
+      "title": "Swap the lead/lag order",
+      "turn": {
+        "axis": "y",
+        "label": "FLOW SELECTOR",
+        "turns": 0.5
+      },
+      "why": "GAC breaks through from the front: the lead vessel sees raw water first and exhausts first, while the lag vessel behind it is the insurance that catches whatever slips past. Putting the fresh media in the lag position — not the lead — means the system always has a proven, still-fresh bed as backup while the vessel actually doing the work is the one already carrying some load."
+    },
+    {
+      "cue": "Hold the sample container steady under the compliance tap until it fills.",
+      "holdBreakNote": "The container came away before it filled — a partial grab is not a representative sample. Empty it and hold the full duration again.",
+      "id": "sample",
+      "kind": "hold",
+      "prompt": "Hold the sample container steady under the compliance tap until it fills.",
+      "seconds": 6,
+      "target": "compliance-port",
+      "title": "Take the effluent grab at the compliance port",
+      "why": "This sample is what proves the system as a whole — well, stripper, carbon train, vessel change and all — is still meeting the discharge permit today, not on the day it was designed. It is taken at the compliance port the permit names, not at a convenient tap somewhere else in the process."
+    },
+    {
+      "cue": "Label the bottle, seal it, then sign the chain of custody.",
+      "id": "coc-log",
+      "itemNames": {
+        "label-sample": "label with site, date and time",
+        "seal-sample": "custody seal",
+        "sign-coc": "chain of custody signed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Label, then seal, then sign — the chain of custody form describes a bottle that is already labeled and sealed.",
+      "prompt": "Label the bottle, seal it, then sign the chain of custody.",
+      "targets": [
+        "label-sample",
+        "seal-sample",
+        "sign-coc"
+      ],
+      "title": "Label, seal and sign the sample's custody",
+      "why": "Custody is what turns a bottle of water into a legal record the permit can rely on. Every hand that touches it after this signs for it, and a sample that was never sealed and signed cannot answer for itself later if the number on it is ever questioned."
+    },
+    {
+      "cue": "Enter today's well flow, drawdown and effluent sample into the NPDES monitoring log.",
+      "id": "permit-log",
+      "kind": "select",
+      "prompt": "Enter today's well flow, drawdown and effluent sample into the NPDES monitoring log.",
+      "target": "monitoring-log-board",
+      "title": "Complete the discharge permit's monitoring log",
+      "why": "The monitoring log is the record a regulator actually reads. A vessel changed out perfectly and a sample taken cleanly are both worth nothing to the permit if the numbers never make it into the log that gets reported."
+    },
+    {
+      "cue": "Look over the containment, the waste area and the fresh-media supply, and click anything that needs fixing before you leave.",
+      "id": "walk-compound",
+      "itemNames": {
+        "containment-crack": "a crack in the secondary containment",
+        "open-carbon-lid": "the fresh-carbon supply bin left uncovered",
+        "waste-manifest-missing": "the drum's manifest paperwork, unfilled"
+      },
+      "itemNotes": {
+        "containment-crack": "There is a crack in the secondary containment berm around the vessel skid. Secondary containment is what keeps a leak from a vessel or a line a contained spill instead of a release to the ground — a cracked berm is not doing that job.",
+        "open-carbon-lid": "The fresh-carbon supply bin was left uncovered. Rained-on or contaminated fresh carbon is media that will underperform the day it goes into a vessel — it belongs sealed until it is loaded.",
+        "waste-manifest-missing": "The hazardous-waste manifest for the drum you just filled has not been started. A generator's paper trail on regulated waste is not optional recordkeeping; without it, the drum has left the vessel skid but has no documented chain to the disposal facility it is supposed to be going to."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the containment, the waste area and the fresh-media supply, and click anything that needs fixing before you leave.",
+      "targets": [
+        "containment-crack",
+        "waste-manifest-missing",
+        "open-carbon-lid"
+      ],
+      "title": "Walk the compound before you sign off",
+      "why": "The vessel change is the interesting part of the shift and these three are the part that gets missed: containment that has to hold if something ever lets go, paperwork that has to exist before a regulator ever asks for it, and supply that has to still be usable the next time this vessel needs fresh media."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Groundwater treatment O&M: well flow and drawdown against design, blower and off-gas carbon checked, a GAC vessel isolated, bled and changed out, lead/lag swapped, and a compliance sample sealed under chain of custody",
+  "title": "SmartCiti.X~ Pump and Treat VR",
+  "trade": "Pipefitter / groundwater pump-and-treat plant operator",
+  "underwater": null,
+  "weather": "overcast"
+}

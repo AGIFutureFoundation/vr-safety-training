@@ -1,0 +1,597 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "tight-to-the-curb",
+    "name": "Tight to the Curb",
+    "note": "Three right turns with every signal and mirror on time, nobody squeezed up the inside, and nothing climbed — first time"
+  },
+  "category": "Mobility & Transit",
+  "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A theory and road curriculum covers turning, space management and visual search; 49 CFR 383 for the Class A skills test the road portion prepares for; 49 CFR 392 for driving a commercial motor vehicle, including the hand-held phone rule; 49 CFR 393 for the mirrors and turn signals the route depends on; 49 CFR 395 for the duty status logged at the end; the state CDL handbook's turning and space-management guidance; CVSA roadside inspection practice; Teamsters (IBT) freight locals' driver training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CVSA",
+        "citedAs": "CVSA",
+        "id": "cvsa-out-of-service-criteria",
+        "title": "CVSA North American Standard Inspection Program and North American Standard Out-of-Service Criteria for roadside inspection of drivers and commercial motor vehicles"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 380 Subpart F",
+        "id": "fmcsa-49-cfr-380-subpart-f",
+        "title": "49 CFR Part 380 Subpart F — Entry-level driver training requirements for Class A and Class B commercial driver licence applicants, delivered by a provider listed on the Training Provider Registry"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 383",
+        "id": "fmcsa-49-cfr-383",
+        "title": "49 CFR Part 383 — Commercial driver's license standards; requirements and penalties, including the Class A, B and C vehicle groups and the knowledge and skills tests"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 392",
+        "id": "fmcsa-49-cfr-392",
+        "title": "49 CFR Part 392 — Driving of commercial motor vehicles, including conduct at railroad grade crossings, hazardous conditions, and the hand-held mobile phone and texting prohibitions"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 393",
+        "id": "fmcsa-49-cfr-393",
+        "title": "49 CFR Part 393 — Parts and accessories necessary for safe operation, including brakes, tires, emergency equipment and Subpart I protection against shifting and falling cargo"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 395",
+        "id": "fmcsa-49-cfr-395",
+        "title": "49 CFR Part 395 — Hours of service of drivers, including electronic logging devices"
+      },
+      {
+        "body": "state CDL handbook",
+        "citedAs": "state CDL handbook",
+        "id": "state-cdl-handbook",
+        "title": "The commercial driver's license manual each state issues for its CDL knowledge and skills tests — driving safely, space management, speed and following distance, mountain, night and fog driving, railroad crossings and backing"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBT",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": "Mobility & Transit",
+  "domain": "Commercial Driving",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "mirror-eyes",
+        "name": "Mirror Eyes",
+        "note": "Every drive step finished with no check missed"
+      },
+      {
+        "id": "no-squeeze",
+        "name": "No Squeeze Play",
+        "note": "Never swung left, cut the corner, rolled a red or picked up the phone"
+      },
+      {
+        "id": "smooth-hands",
+        "name": "Smooth Hands",
+        "note": "Every drive held in lane and band with no excursion"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-block",
+        "name": "Clean Block",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "centre-line",
+        "name": "Centre of the Lane",
+        "note": "Drives and the swing-point read near the centre of their bands"
+      },
+      {
+        "id": "on-schedule",
+        "name": "On Schedule",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "BLOCK",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Permit Holder",
+      "Road Trainee",
+      "City Driver",
+      "Route Lead",
+      "Road Certified"
+    ],
+    "system": "Road"
+  },
+  "hazards": {
+    "drc-corner-cut": "You went to start the turn early and cut the corner. A trailer's tandem tracks well inside the path of the tractor in a turn, so a turn started early puts the trailer wheels over the curb — through the sign post, the pedestrian waiting there, or the corner of the building. Pull further into the intersection before you turn.",
+    "drc-left-swing": "You went to swing out to the left before the right turn. That is the move that invites the squeeze play: it opens a gap between your trailer and the curb that a car or a cyclist rolls into, and then your trailer tandem closes on them as it cuts in. Stay in your own lane, keep the rear tight to the curb, and swing wide only as you finish the turn.",
+    "drc-phone": "You went to pick up the hand-held phone while driving. FMCSA prohibits hand-held mobile phone use and texting by commercial drivers under 49 CFR 392, and a city block is where your eyes are needed on three mirrors at once. The call waits until the brakes are set.",
+    "drc-red-roll": "You went to roll through the right turn on red without stopping. A right on red, where it is allowed at all, starts from a full stop with a look at the crosswalk and the lane you are turning into, and a tractor-trailer that rolls it cannot stop short for the pedestrian its right mirror has not shown yet."
+  },
+  "id": "drive-city-route-and-turns",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "drc-first-turn",
+      "alert": "A car has pulled up on your right, into the gap between your trailer and the curb, just as you start the turn.",
+      "cue": "Stop the turn.",
+      "delay": 3,
+      "id": "drc-car-squeeze",
+      "kind": "Car on your right",
+      "missNote": "You kept turning with a car in the gap on your right. The trailer tandem cuts in as it follows the tractor round, and it rolls onto whatever is between it and the curb — this is the squeeze-play crash.",
+      "seconds": 10,
+      "target": "drc-brake-pedal",
+      "why": "A car squeezed up the inside of a turning trailer is in the one place the tandem is about to go. Stopping — and letting it clear or back out — is the only answer; there is no amount of swinging wider that keeps a trailer off a car already beside it.",
+      "wrongNote": "It is the brake. There is a car in the gap your trailer is about to close, and the rig stops until it is gone."
+    },
+    {
+      "after": "drc-third-turn",
+      "alert": "A pedestrian has stepped off the far curb into the crosswalk ahead, head down at their phone, as your tractor comes round the corner.",
+      "cue": "Stop short of the crosswalk.",
+      "delay": 3,
+      "id": "drc-pedestrian",
+      "kind": "Pedestrian in the crosswalk",
+      "missNote": "You drove on toward the crosswalk with a pedestrian in it. A pedestrian close in front of a conventional cab is below the hood line and invisible from the seat — the reason crosswalk crashes with trucks are so often fatal.",
+      "seconds": 10,
+      "target": "drc-brake-pedal",
+      "why": "A pedestrian in a crosswalk has the right of way, and one looking at a phone has not seen the rig. Stopping short of the crosswalk, with room to spare, is the whole job; the horn can wait until you are stopped and it is clear they have not noticed you.",
+      "wrongNote": "It is the brake. Someone is in the crosswalk ahead, and the rig stops before it."
+    }
+  ],
+  "lateNotes": {
+    "drc-eld-status": "The log changes once the rig is parked for the delivery, so driving time is logged as what it was.",
+    "drc-steering": "Hand-over-hand comes as you finish the turn, once you have pulled far enough into the intersection — not before the trailer has cleared the corner.",
+    "drc-wheel-chock": "The chock goes in at the kerb once the rig is parked and the brakes are set — never while it can still roll."
+  },
+  "name": "City Route and Turns",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "job-readiness-edition",
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "sedan",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "semiTractor",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "tractorTrailer",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "trailer:dryVan",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "drc-brake-pedal",
+      "drc-chock-socket",
+      "drc-corner-cut",
+      "drc-crew-checkin",
+      "drc-cyclist",
+      "drc-double-parked",
+      "drc-eld-status",
+      "drc-gauges",
+      "drc-left-swing",
+      "drc-low-limb",
+      "drc-mirror-adjust",
+      "drc-phone",
+      "drc-red-roll",
+      "drc-rig",
+      "drc-route-card",
+      "drc-seatbelt",
+      "drc-steering",
+      "drc-swing-gauge",
+      "drc-throttle",
+      "drc-wheel-chock"
+    ],
+    "meshes": 273
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "drive",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the route card: the three right turns, the truck route, the tight corner and where you will park.",
+      "id": "drc-route",
+      "kind": "select",
+      "prompt": "Read the route card: the three right turns, the truck route, the tight corner and where you will park.",
+      "target": "drc-route-card",
+      "title": "Read the route and the turns",
+      "why": "A city route is planned before the wheels turn, because the turns are where a tractor-trailer gets into trouble. Knowing that all three turns are rights, which corner is tight, where the truck route runs and where the delivery parks lets you set up lane position and speed for each turn early, instead of discovering a corner you cannot make halfway into it."
+    },
+    {
+      "cue": "Belt on, set both mirrors so each shows the side of the trailer and the lane beside it, then read the gauges.",
+      "id": "drc-cab-setup",
+      "itemNames": {
+        "drc-gauges": "air, oil and temperature gauges read",
+        "drc-mirror-adjust": "both mirrors set to show the trailer's side",
+        "drc-seatbelt": "seat belt on"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Belt first, then mirrors, then the gauges — you set the mirrors from the seat you will drive in, belted.",
+      "prompt": "Belt on, set both mirrors so each shows the side of the trailer and the lane beside it, then read the gauges.",
+      "targets": [
+        "drc-seatbelt",
+        "drc-mirror-adjust",
+        "drc-gauges"
+      ],
+      "title": "Belt, mirrors, gauges",
+      "why": "The mirrors are how you will see the trailer through every turn, so they are set before the truck moves: each one showing a sliver of the trailer's side and the lane beside it, with the convex mirror showing the tandem. The belt goes on first because a sudden stop in the city is not a rare event, and the gauges are read so a low-air or overheat warning is news before you are in traffic."
+    },
+    {
+      "cue": "Signal right before you move, check the right mirror, hold your lane to the corner, then turn — watching the tandem in the right mirror.",
+      "drive": {
+        "bandLabel": "turning speed, per the posted limit",
+        "checkWindow": 2.4,
+        "checks": [
+          {
+            "at": 0,
+            "kind": "signal-right",
+            "note": "Signal before you move and well before the corner, so the drivers behind know the rig is about to slow and turn."
+          },
+          {
+            "at": 1,
+            "kind": "mirror-right",
+            "note": "Right mirror before the turn: anyone alongside on the right is about to be where your trailer is going."
+          },
+          {
+            "at": 3,
+            "kind": "mirror-right",
+            "note": "Right mirror in the turn: the tandem is cutting in toward the corner, and this is the only place you can see it."
+          },
+          {
+            "at": 5,
+            "kind": "mirror-left",
+            "note": "Left mirror as you straighten: the tractor swung wide, and the lane beside you needs checking before you settle."
+          }
+        ],
+        "controls": {
+          "brake": "drc-brake-pedal"
+        },
+        "graceSeconds": 1.6,
+        "laneNote": "You left the lane and stayed out. In a right turn that is either the oncoming lane or the trailer over the curb.",
+        "laneWidth": 1.5,
+        "path": [
+          [
+            3.6,
+            -5.3
+          ],
+          [
+            -1,
+            -5.3
+          ],
+          [
+            -2.5,
+            -5.7
+          ],
+          [
+            -3.6,
+            -6.8
+          ],
+          [
+            -4,
+            -8.3
+          ],
+          [
+            -4,
+            -10.5
+          ]
+        ],
+        "sceneRate": 0.2,
+        "speedBand": [
+          4,
+          14
+        ]
+      },
+      "holdBreakNote": "Out of the lane or out of the band. Hold your lane to the corner at turning speed, and correct early rather than late.",
+      "id": "drc-first-turn",
+      "kind": "drive",
+      "prompt": "Signal right before you move, check the right mirror, hold your lane to the corner, then turn — watching the tandem in the right mirror.",
+      "target": "drc-rig",
+      "title": "First right: signal early, swing late",
+      "why": "A right turn in a tractor-trailer is made from your own lane: signal well before the corner, check the right mirror for anyone alongside, pull further into the intersection than a car would, and swing wide only as you finish so the trailer's tandem clears the curb. Keeping the rear close to the curb is what stops a car or a bike squeezing up the inside while you turn."
+    },
+    {
+      "cue": "Before the next turn, look well ahead. Find what the rig could hit or trap.",
+      "id": "drc-route-scan",
+      "itemNames": {
+        "drc-cyclist": "the cyclist in the curb lane",
+        "drc-double-parked": "the double-parked van",
+        "drc-low-limb": "the low limb over the curb lane"
+      },
+      "itemNotes": {
+        "drc-cyclist": "A cyclist riding the curb lane, right in the gap a right-turning trailer closes. Anyone on your right at a turn is in the tandem's path.",
+        "drc-double-parked": "A delivery van double-parked in the lane ahead. Passing it means leaving your lane — only with a clear left mirror and a signal.",
+        "drc-low-limb": "A tree limb hanging lower than a trailer roof over the curb lane. Hugging the curb here takes the trailer's top rail through it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before the next turn, look well ahead. Find what the rig could hit or trap.",
+      "targets": [
+        "drc-cyclist",
+        "drc-double-parked",
+        "drc-low-limb"
+      ],
+      "title": "Scan the block ahead",
+      "why": "Good city drivers look far enough ahead to see trouble before they are in it — a quarter of a mile, or a block and a half, is the handbook's habit — because a loaded rig needs time and room to change anything. The cyclist, the double-parked van and the low limb are all visible a block away and all a problem once the trailer is beside them."
+    },
+    {
+      "cue": "Set how far into the intersection the tractor goes before you turn the wheel, then commit.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.66
+        ],
+        "label": "SWING POINT",
+        "missNote": "That swing point puts the trailer over the corner or the tractor in oncoming traffic — judge it again before you turn.",
+        "speed": 0.75
+      },
+      "id": "drc-swing-point",
+      "kind": "gauge",
+      "prompt": "Set how far into the intersection the tractor goes before you turn the wheel, then commit.",
+      "target": "drc-swing-gauge",
+      "title": "Judge the swing point",
+      "why": "The swing point decides the whole turn. Turn too early and the trailer tandem climbs the corner; pull too far and the tractor ends up in the oncoming lane of the street you are turning into. The handbook's answer is to go further into the intersection than feels natural, then turn sharply, so the trailer follows round the corner instead of over it."
+    },
+    {
+      "cue": "Left mirror, signal right, pull deep into the intersection, turn, and watch the tandem clear the corner in the right mirror.",
+      "drive": {
+        "bandLabel": "turning speed, per the posted limit",
+        "checkWindow": 2.2,
+        "checks": [
+          {
+            "at": 0,
+            "kind": "mirror-left",
+            "note": "Left mirror before slowing for the turn: nobody should be committing to pass you as you do."
+          },
+          {
+            "at": 0,
+            "kind": "signal-right",
+            "note": "Signal on as you set up — early enough that it is information, not an announcement."
+          },
+          {
+            "at": 2,
+            "kind": "mirror-right",
+            "note": "Right mirror in the turn: the tandem is closest to the corner right now."
+          },
+          {
+            "at": 4,
+            "kind": "mirror-left",
+            "note": "Straightened out — check the lane beside you before you settle into it."
+          }
+        ],
+        "controls": {
+          "brake": "drc-brake-pedal"
+        },
+        "graceSeconds": 1.6,
+        "laneWidth": 1.5,
+        "path": [
+          [
+            -4,
+            -10.5
+          ],
+          [
+            -3.6,
+            -12.1
+          ],
+          [
+            -2.5,
+            -13.2
+          ],
+          [
+            -1,
+            -13.6
+          ],
+          [
+            4.2,
+            -13.6
+          ]
+        ],
+        "sceneRate": 0.2,
+        "speedBand": [
+          4,
+          13
+        ]
+      },
+      "holdBreakNote": "Out of lane or band on the tight corner — slow down before the turn, not in it.",
+      "id": "drc-second-turn",
+      "kind": "drive",
+      "prompt": "Left mirror, signal right, pull deep into the intersection, turn, and watch the tandem clear the corner in the right mirror.",
+      "target": "drc-rig",
+      "title": "Second right: the tight corner",
+      "why": "The tight corner is where the swing point pays off. Checking the left mirror first confirms you are not about to be passed as you slow, the early signal tells the traffic behind what the rig is doing, and pulling deep before turning keeps the tandem off the curb. The right mirror stays busy through the whole turn, because the trailer's rear is where the damage happens."
+    },
+    {
+      "cue": "Hold the brake at the stop line for a full stop, and look left, right and left again before you go.",
+      "holdBreakNote": "You came off the brake before the look was done. Stop fully, look both ways and the crosswalk, then go.",
+      "id": "drc-stop-line",
+      "kind": "hold",
+      "prompt": "Hold the brake at the stop line for a full stop, and look left, right and left again before you go.",
+      "seconds": 4,
+      "target": "drc-brake-pedal",
+      "title": "Full stop at the stop line",
+      "why": "A full stop at the line, with the rig still for a moment, is what lets you look properly: left, right and left again, and a look at the crosswalk you are about to turn across. A rolling stop in a truck that long means you are already committed before you have seen whether anyone is stepping off the curb."
+    },
+    {
+      "cue": "Turn the wheel hand over hand for the next right, keeping both hands on it.",
+      "id": "drc-hand-over-hand",
+      "kind": "turn",
+      "prompt": "Turn the wheel hand over hand for the next right, keeping both hands on it.",
+      "target": "drc-steering",
+      "title": "Hand over hand for the turn",
+      "turn": {
+        "axis": "z",
+        "label": "STEERING",
+        "turns": 0.75
+      },
+      "why": "Hand-over-hand steering keeps both hands on the wheel through a turn and gives you the full lock a trailer turn needs at low speed. Palming the wheel with one hand, or letting it spin back through your fingers, is how a driver loses the wheel over a pothole halfway round a corner with a pedestrian at the curb."
+    },
+    {
+      "cue": "Down a gear, signal right, watch the right mirror through the turn, then check left before the crosswalk.",
+      "drive": {
+        "bandLabel": "turning speed, per the posted limit",
+        "checkWindow": 1.8,
+        "checks": [
+          {
+            "at": 0,
+            "kind": "gear-down",
+            "note": "Down a gear before the turn, not in it — the engine holds the speed and both hands stay for the wheel."
+          },
+          {
+            "at": 1,
+            "kind": "signal-right",
+            "note": "Signal right before the corner, so the crosswalk and the traffic behind know where you are going."
+          },
+          {
+            "at": 2,
+            "kind": "mirror-right",
+            "note": "Right mirror: the tandem is closing on the corner post."
+          },
+          {
+            "at": 4,
+            "kind": "mirror-left",
+            "note": "Left mirror and a look at the crosswalk before you roll up to it."
+          }
+        ],
+        "controls": {
+          "brake": "drc-brake-pedal"
+        },
+        "graceSeconds": 1.6,
+        "laneWidth": 1.5,
+        "path": [
+          [
+            4.2,
+            -13.6
+          ],
+          [
+            5.7,
+            -13.2
+          ],
+          [
+            6.8,
+            -12.1
+          ],
+          [
+            7.2,
+            -10.6
+          ],
+          [
+            7.2,
+            -9.9
+          ]
+        ],
+        "sceneRate": 0.2,
+        "speedBand": [
+          3,
+          12
+        ]
+      },
+      "holdBreakNote": "Out of lane or band approaching the crosswalk — come down to turning speed before the corner.",
+      "id": "drc-third-turn",
+      "kind": "drive",
+      "prompt": "Down a gear, signal right, watch the right mirror through the turn, then check left before the crosswalk.",
+      "target": "drc-rig",
+      "title": "Third right: down a gear, crosswalk ahead",
+      "why": "The third turn ends at a crosswalk, so the approach is slower: a lower gear before the turn gives you control without riding the brakes, the signal warns traffic, the right mirror shows the tandem clearing the corner, and the last look is at the crosswalk ahead, where a pedestrian who stepped off while you were turning is invisible from a cab until you look for them."
+    },
+    {
+      "cue": "Creep at idle past the double-parked van, ready to stop for anyone stepping out from behind it.",
+      "holdBreakNote": "Speed out of band past the van — idle creep, or you cannot stop for whoever steps out.",
+      "id": "drc-creep",
+      "kind": "track",
+      "prompt": "Creep at idle past the double-parked van, ready to stop for anyone stepping out from behind it.",
+      "seconds": 5,
+      "target": "drc-throttle",
+      "title": "Creep past the parked van",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.3,
+          0.52
+        ],
+        "label": "CREEP",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "A vehicle stopped at the curb hides everyone behind it — the driver getting out, the child running for the van, the cyclist coming round. Creeping past at idle means you can stop in a few feet when someone appears, and the pause gives the people who can see your cab the chance to see it before your trailer is beside them."
+    },
+    {
+      "cue": "Set the brakes, get down with three points of contact, and chock the trailer wheel at the curb.",
+      "drag": {
+        "missNote": "Not snug to the tyre — set the chock tight against the trailer wheel on the curb side.",
+        "radius": 0.45,
+        "to": "drc-chock-socket"
+      },
+      "id": "drc-chock",
+      "kind": "drag",
+      "prompt": "Set the brakes, get down with three points of contact, and chock the trailer wheel at the curb.",
+      "target": "drc-wheel-chock",
+      "title": "Park and chock at the curb",
+      "why": "Kerbside, a loaded rig stands on a public street for as long as the drop takes, with pedestrians, prams and delivery dollies passing within arm's length of its wheels. Setting the spring brakes, the four-ways, and a wedge against the kerb-side trailer tyre is cheap insurance on a street that looks level and quietly is not, where a rolling trailer has nowhere to go but into people."
+    },
+    {
+      "cue": "Talk the block through with the trainer: the squeeze on the first turn, the tight corner, and how the traffic felt.",
+      "id": "drc-crew-checkin",
+      "kind": "select",
+      "prompt": "Talk the block through with the trainer: the squeeze on the first turn, the tight corner, and how the traffic felt.",
+      "target": "drc-crew-checkin",
+      "title": "Debrief with the road trainer",
+      "why": "The trainer in the jump seat watched things a new driver cannot see from behind the wheel — how big the gap on the inside grew on the first right, how close the tandem came to the market's corner. Two minutes talking it over turns a near miss into a habit instead of a fright, and naming how tense the block felt is honest data too: fatigue and stress are real hazards on a city route."
+    },
+    {
+      "cue": "Change the electronic log from driving to on duty, not driving, for the delivery.",
+      "id": "drc-eld",
+      "kind": "select",
+      "prompt": "Change the electronic log from driving to on duty, not driving, for the delivery.",
+      "target": "drc-eld-status",
+      "title": "Change your duty status",
+      "why": "Hours of service under 49 CFR 395 count differently for wheels turning and for work at a kerb: handing freight off is on-duty time that is not driving. The electronic logging device will happily keep recording whatever status was last selected, so switching it as the rig stops keeps the day's driving clock honest — and an officer at a roadside inspection reads exactly that record."
+    }
+  ],
+  "supportLine": "your carrier's employee assistance programme, or your Teamsters steward if you are not sure how to reach it",
+  "tagline": "A block of right turns with a trailer behind you: signal early, hold your lane, swing wide only as you finish, keep the rear tight to the curb, and live in the right mirror where the tandem cuts in",
+  "title": "SmartCiti.X~ City Route and Turns VR",
+  "trade": "Class A driver trainee, Job Readiness Edition deep driving — Teamsters freight driving on city streets under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+  "underwater": null,
+  "weather": "overcast"
+}

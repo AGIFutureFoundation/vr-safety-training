@@ -1,0 +1,323 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "well-never-entered",
+    "name": "Well Never Entered",
+    "note": "Gas tested, locked out, bypassed, pump pulled from the top and restarted with the well never entered"
+  },
+  "category": "Water & Environmental",
+  "certification": "AFSCME / LIUNA — state wastewater collection system operator certification (CWEA Collection System Maintenance Grade II or equivalent); OSHA 29 CFR 1910.146 permit-required confined space; 1910.147 lockout/tagout",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.146",
+        "id": "osha-1910-146",
+        "title": "29 CFR 1910.146 — Permit-required confined spaces"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Water",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "gas-first",
+        "name": "Gas First",
+        "note": "Wet well tested before any hatch work, first time"
+      },
+      {
+        "id": "top-side",
+        "name": "Top Side",
+        "note": "Never entered the well, never bypassed the lockout"
+      },
+      {
+        "id": "level-true",
+        "name": "Level True",
+        "note": "Bypass and restart levels held inside band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "dry-basements",
+        "name": "Dry Basements",
+        "note": "No corrections through the whole pull"
+      },
+      {
+        "id": "lift-steady",
+        "name": "Lift Steady",
+        "note": "Held the hoist through the full lift"
+      },
+      {
+        "id": "shift-pull",
+        "name": "Shift Pull",
+        "note": "Pump pulled and restarted inside 80% of par"
+      }
+    ],
+    "currency": "LIFT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Operator I",
+      "Operator II",
+      "Crew Lead",
+      "Collection Supervisor",
+      "Collection Command Certified"
+    ],
+    "system": "Collection Command"
+  },
+  "hazards": {
+    "chain-under-load": "You reached under the pump while it was hanging on the hoist. Four hundred kilograms on a chain is not a thing you put hands under — it is set down on the pad, then handled.",
+    "hatch-no-gas": "You opened the hatch before the gas test. The first breath at the opening is the one the meter is for — H2S at the concentration a wet well can hold takes a person down at the hatch, not at the bottom.",
+    "run-no-bypass": "You pulled the duty pump with no bypass running. The inflow does not stop for maintenance; without bypass pumping, the well overflows into the street and the neighbourhood's basements inside the hour.",
+    "well-ladder": "You started down the wet-well ladder. This is a permit-required confined space with hydrogen sulfide in it; the pump comes out on the guide rail from the top, and nobody goes down without a permit, an attendant and retrieval — which is not this job."
+  },
+  "id": "lift-station",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "lift",
+      "alert": "The bypass has stopped. The six-inch pump has gone quiet behind you and the duty pump is halfway up the rail on the chain.",
+      "cue": "Nothing has stopped arriving at this station.",
+      "delay": 3,
+      "id": "bypass-died",
+      "kind": "Bypass lost",
+      "missNote": "The well came up with the bypass dead and the duty pump in the air. That is a sanitary sewer overflow with your name on the shift log — a reportable discharge, a street closed, and somebody else cleaning out the basements it reached first.",
+      "seconds": 12,
+      "target": "bypass-start",
+      "why": "A lift station is the bottom of a catchment and the catchment does not know you are working. Inflow keeps arriving at whatever the morning is sending — and with the duty pump off its discharge elbow and hanging in the shaft, the bypass is the only thing moving any of it. Bypass pumps lose prime, run their tanks down and trip on their own overload, which is why the bypass is watched rather than started and forgotten. You have minutes at most: the well fills to the overflow and from there it goes to the street and into the lowest basements on the collection system.",
+      "wrongNote": "It is the bypass pump. Everything else on this job assumes something is still moving the flow, and right now nothing is."
+    },
+    {
+      "after": "inspect",
+      "alert": "Your personal monitor has gone off. You are crouched over the impeller at knee height and the open hatch is a metre behind you.",
+      "cue": "Something came out of that well when the pump came out of it.",
+      "delay": 3,
+      "id": "h2s-at-the-opening",
+      "kind": "Gas at the hatch",
+      "missNote": "The hatch stayed open and the monitor kept alarming while you worked at knee height in the layer the gas was sitting in. H2S kills the sense of smell before it kills anything else, so the alarm was the only warning available and it was ignored.",
+      "seconds": 12,
+      "target": "hatch",
+      "why": "Pulling four hundred kilos of pump out of a wet well displaces its headspace, and the level swinging behind the bypass keeps pushing that headspace out through the only opening it has. Hydrogen sulphide is heavier than air, so what comes over the coaming does not rise and disperse — it runs across the slab at knee and ankle height, which is exactly where you are while you are picking rag off an impeller. The grate keeps a person out of the shaft; it does nothing at all about gas. Close the hatch. You will open it again to rail the pump back, and you will do that standing up and upwind.",
+      "wrongNote": "The gas is coming out of the well, and the well has one opening. Shut the hatch before you do anything else with that pump."
+    }
+  ],
+  "lateNotes": {
+    "hoist-lever": "The lift comes after lockout and bypass. A pump lifted live is a pump that starts on the chain.",
+    "restart-panel": "Not yet — the pump goes back on the rail and the bypass comes off before the restart."
+  },
+  "name": "Lift Station",
+  "parSeconds": 245,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "confined-space"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "bypass-discharge",
+      "bypass-start",
+      "bypass-suction",
+      "chain-under-load",
+      "gas-flammable",
+      "gas-h2s",
+      "gas-oxygen",
+      "hatch",
+      "hatch-no-gas",
+      "hoist-lever",
+      "impeller-rag",
+      "level-readout",
+      "pad-socket",
+      "pump-body",
+      "pump-disconnect",
+      "restart-panel",
+      "run-no-bypass",
+      "well-ladder",
+      "work-order"
+    ],
+    "meshes": 155
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check which pump, the wet-well depth, the last gas readings and the bypass plan.",
+      "id": "workorder",
+      "kind": "select",
+      "prompt": "Check which pump, the wet-well depth, the last gas readings and the bypass plan.",
+      "target": "work-order",
+      "title": "Read the work order and the well data",
+      "why": "The order names the pump that tripped and the plan names how the flow keeps moving while it is out on the pad. A crew that starts pulling before the bypass plan is set is scheduling an overflow, not preventing one — the catchment above this station does not pause for maintenance."
+    },
+    {
+      "cue": "Drop the meter probe through the vent port — oxygen, then flammable, then H2S — before the hatch moves.",
+      "id": "gas",
+      "itemNames": {
+        "gas-flammable": "flammable gas",
+        "gas-h2s": "hydrogen sulfide",
+        "gas-oxygen": "oxygen"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Oxygen, flammable, then H2S — the combustible reading depends on the oxygen reading.",
+      "prompt": "Drop the meter probe through the vent port — oxygen, then flammable, then H2S — before the hatch moves.",
+      "targets": [
+        "gas-oxygen",
+        "gas-flammable",
+        "gas-h2s"
+      ],
+      "title": "Test the wet-well atmosphere through the vent",
+      "why": "Testing through the vent with the hatch still closed means the first reading is taken with nobody's face anywhere near the opening it turns out to be bad news at. Oxygen is read first because the flammable sensor's catalytic bead cannot be trusted at all in an oxygen-deficient atmosphere, which a sewer headspace routinely is."
+    },
+    {
+      "cue": "Open the pump's disconnect at the control panel and hang your lock.",
+      "id": "lockout",
+      "kind": "turn",
+      "prompt": "Open the pump's disconnect at the control panel and hang your lock.",
+      "target": "pump-disconnect",
+      "title": "Lock out the duty pump",
+      "turn": {
+        "axis": "y",
+        "label": "DISCONNECT",
+        "turns": 0.5
+      },
+      "why": "The level controller does not know a pump is on the chain — it will call for the duty pump the instant the well rises past its set point, exactly as it does on any ordinary night. Your lock is the only thing standing between that call and a four-hundred-kilogram pump trying to start while it hangs in the shaft."
+    },
+    {
+      "cue": "Suction into the wet well, discharge to the downstream manhole, then start the bypass pump.",
+      "id": "bypass",
+      "itemNames": {
+        "bypass-discharge": "discharge to the downstream manhole",
+        "bypass-start": "bypass pump start",
+        "bypass-suction": "suction hose in the well"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Connect both ends before the bypass starts — a running pump with an open discharge is a spill.",
+      "prompt": "Suction into the wet well, discharge to the downstream manhole, then start the bypass pump.",
+      "targets": [
+        "bypass-suction",
+        "bypass-discharge",
+        "bypass-start"
+      ],
+      "title": "Set up bypass pumping",
+      "why": "Suction and discharge are both connected before the pump ever starts, because starting it with the discharge still open is not a delay, it is a spill onto the ground next to the crew. The bypass exists to take the inflow the duty pump was carrying so the well can be worked on without the level climbing behind everyone's back."
+    },
+    {
+      "cue": "Watch the well level and commit once the bypass holds it steady below the pump-on set point.",
+      "gauge": {
+        "green": [
+          0.36,
+          0.52
+        ],
+        "label": "WELL LEVEL",
+        "missNote": "Level not holding below set point — check the bypass before pulling the pump.",
+        "speed": 0.75
+      },
+      "id": "bypass-level",
+      "kind": "gauge",
+      "prompt": "Watch the well level and commit once the bypass holds it steady below the pump-on set point.",
+      "target": "level-readout",
+      "title": "Confirm the bypass is holding the level",
+      "why": "A bypass that cannot hold the level down is not a bypass, it is a smaller pump adding a false sense of coverage to the same problem. The level has to sit demonstrably below the set point before anyone commits to pulling the duty pump, because once that pump is on the chain there is nothing else in the well to catch a rise."
+    },
+    {
+      "cue": "Open the wet-well hatch and drop the safety grate across the opening.",
+      "id": "hatch",
+      "kind": "select",
+      "prompt": "Open the wet-well hatch and drop the safety grate across the opening.",
+      "target": "hatch",
+      "title": "Open the hatch and set the guard",
+      "why": "The hatch opens onto a four-metre drop into a permit space with hydrogen sulfide sitting in the bottom of it. The grate is what keeps a foot, a tool or a person on the surface once that opening exists, while the pump itself is what actually comes up through it on the rail."
+    },
+    {
+      "cue": "Hold the hoist up until the pump clears the hatch and swings to the pad.",
+      "holdBreakNote": "Hoist stopped mid-lift — the pump is hanging in the well. Bring it up the rest of the way.",
+      "id": "lift",
+      "kind": "hold",
+      "prompt": "Hold the hoist up until the pump clears the hatch and swings to the pad.",
+      "seconds": 6,
+      "target": "hoist-lever",
+      "title": "Lift the pump on the guide rail",
+      "why": "The pump breaks its mechanical seal off the discharge elbow at the bottom of the rail and then rides that rail all the way to the top, guided the whole way so it never swings free over the shaft. A stalled lift leaves four hundred kilograms hanging half out of a permit space on a chain, which is its own hazard on top of the one already down there."
+    },
+    {
+      "cue": "Swing the pump over and set it down on the wash-down pad before anyone handles it.",
+      "drag": {
+        "missNote": "Not on the pad — land it square before the chain goes slack.",
+        "radius": 0.45,
+        "to": "pad-socket"
+      },
+      "id": "set-down",
+      "kind": "drag",
+      "prompt": "Swing the pump over and set it down on the wash-down pad before anyone handles it.",
+      "target": "pump-body",
+      "title": "Land the pump on the pad",
+      "why": "The pump gets handled on solid ground, never in the air, because a load on a chain can shift the instant a hand touches it and a hoist is not a hand rated to catch anything. Hands go on the pump only after the chain has gone slack and the weight is fully on the pad, not before."
+    },
+    {
+      "cue": "Inspect the pump and click the fault.",
+      "id": "inspect",
+      "itemNames": {
+        "impeller-rag": "ragged impeller"
+      },
+      "itemNotes": {
+        "impeller-rag": "The impeller is bound with rags and wipes — the reason the pump tripped. It gets cleared on the pad, never with the pump on the chain or in the well."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Inspect the pump and click the fault.",
+      "targets": [
+        "impeller-rag"
+      ],
+      "title": "Find the fault on the pad",
+      "why": "The whole pull exists to find whatever tripped this pump, and it gets found here, on the pad, in daylight, with the pump locked out and sitting flat on the ground — never on the chain, and never by reaching into the wet well to check it in place, which is exactly the shortcut this pull was designed to avoid."
+    },
+    {
+      "cue": "Pump back on the rail, hatch closed, your lock off, bypass off, duty pump to auto.",
+      "id": "restart",
+      "kind": "select",
+      "prompt": "Pump back on the rail, hatch closed, your lock off, bypass off, duty pump to auto.",
+      "target": "restart-panel",
+      "title": "Rail the pump back, close the hatch, remove the lock, restart",
+      "why": "Everything goes back in reverse order for a reason: the well is closed before the bypass comes off so nothing is exposed while flow transfers back, and the lock comes off last, by the same person who put it on, because that lock was never anyone else's to remove."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Wet-well pump pull: gas test, lockout, bypass pumping, guide-rail lift, no-entry retrieval, restart and level check",
+  "title": "SmartCiti.X~ Lift Station VR",
+  "trade": "Wastewater collection system operator",
+  "underwater": null,
+  "weather": "rain"
+}

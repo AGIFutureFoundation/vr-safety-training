@@ -1,0 +1,407 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "reimbursable-meal",
+    "name": "Reimbursable Meal",
+    "note": "Every tray to the meal pattern, every well in temperature, the count reconciled"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "AFSCME and SEIU school and hospital food service workers; the USDA National School Lunch Program meal pattern and offer-versus-serve rules under 7 CFR Part 210; the California Retail Food Code (the FDA Food Code as adopted) on hot and cold holding; the ANSI-accredited California Food Handler card and ServSafe Manager certification; NSF/ANSI 7 commercial refrigeration for the milk cooler; Cal/OSHA's general industry safety orders",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "CalCode",
+        "citedAs": "California Retail Food Code",
+        "id": "calcode-retail-food",
+        "title": "California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it"
+      },
+      {
+        "body": "FDA",
+        "citedAs": "FDA Food Code",
+        "id": "fda-food-code",
+        "title": "FDA Food Code — the model code for retail food establishments"
+      },
+      {
+        "body": "NSF",
+        "citedAs": "NSF/ANSI 7",
+        "id": "nsf-ansi-7",
+        "title": "NSF/ANSI 7 — Commercial refrigerators and freezers"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "ServSafe",
+        "citedAs": "ServSafe",
+        "id": "servsafe-certification",
+        "title": "ServSafe Food Protection Manager and ServSafe Alcohol certification (National Restaurant Association)"
+      },
+      {
+        "body": "USDA",
+        "citedAs": "USDA",
+        "id": "usda-fsis-marks",
+        "title": "USDA Food Safety and Inspection Service inspection and grading marks on meat and poultry"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Culinary & Hospitality",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "in-temp-all-shift",
+        "name": "In Temp All Shift",
+        "note": "Never served from a well out of range"
+      },
+      {
+        "id": "clean-count",
+        "name": "Clean Count",
+        "note": "No corrections across the whole line"
+      },
+      {
+        "id": "steady-line",
+        "name": "Steady Line",
+        "note": "Held the serving pace inside band without a break"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "line-open-on-time",
+        "name": "Line Open on Time",
+        "note": "Ready inside 80% of par"
+      },
+      {
+        "id": "one-pass-walk",
+        "name": "One-Pass Walk",
+        "note": "Line walk clean on the first pass"
+      },
+      {
+        "id": "seven-in-a-row",
+        "name": "Seven in a Row",
+        "note": "Seven correct actions in a row"
+      }
+    ],
+    "currency": "TRAYS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Cafeteria Aide",
+      "Line Server",
+      "Kitchen Lead",
+      "Nutrition Manager",
+      "Reimbursable Meal Certified"
+    ],
+    "system": "Reimbursable Meal"
+  },
+  "hazards": {
+    "bare-hand-rte": "That is a bare hand going into the fruit cups. Ready-to-eat food gets no further kill step before a student eats it, so a bare hand is the last thing that touches it before they do — gloves or tongs, every time, on anything already ready to serve.",
+    "no-glove-change-register": "Those gloves went from making change at the register straight back onto the line. Cash is one of the dirtiest things that crosses this counter all day, and a glove that touched it and then touched food has carried that contact onto every tray after it.",
+    "unlabeled-allergen": "That pan has tree nuts in it and there is no allergen card posted at the station. A line worker who does not know an item contains a top allergen cannot answer the one question a parent or a student is most likely to ask.",
+    "warm-milk-crate": "That crate has been sitting on the counter, not in the cooler. Milk out of refrigeration is climbing out of the temperature the Food Code and the milk cooler are both built around, and a warm carton on a tray is one a parent complains about before it is ever a safety problem."
+  },
+  "id": "cafeteria-serving",
+  "indoor": "kitchen",
+  "interrupts": [
+    {
+      "after": "dietary-card-check",
+      "alert": "A student with a milk allergy card on file is at the register, and there's a carton of milk sitting on their tray.",
+      "cue": "That card means a substitution, not a carton.",
+      "delay": 4,
+      "id": "milk-allergy-tray",
+      "kind": "Allergy flag",
+      "missNote": "The tray went through with the milk still on it. A documented allergy caught after the student has already left the line is a phone call home, not a substitution.",
+      "seconds": 11,
+      "target": "allergy-tray-milk",
+      "why": "A documented food allergy is exactly the case the meal pattern's substitution rule exists for, and it only works if somebody actually catches the mismatch before the tray is charged and the student walks off with it — the register is the last point that can happen.",
+      "wrongNote": "It's the milk on that tray. Pull it and offer the substitution the card calls for before the tray leaves the register."
+    },
+    {
+      "after": "tray-build",
+      "alert": "The hot well's heating element has just dropped out — the entrée pan is losing temperature and the line behind it is backing up.",
+      "cue": "Nothing serves from a well that isn't holding. Find the fix, not the ladle.",
+      "delay": 3,
+      "id": "hot-well-fail",
+      "kind": "Equipment failure",
+      "missNote": "Service kept moving off a well that had already failed. Every tray served from it after that point was served from food nobody can say was still 135°F or above.",
+      "seconds": 12,
+      "target": "hot-well-probe",
+      "why": "A well that stops holding temperature is not a line problem to push through, it is a food-safety problem the whole tray count now depends on — the pan gets pulled and probed before another tray is served from it, whatever that does to the line behind it.",
+      "wrongNote": "It's the well that just dropped out. Check it before anything else goes on a tray from that pan."
+    }
+  ],
+  "lateNotes": {
+    "finished-tray": "The tray only goes to the register once every station on it has been served in order.",
+    "hot-well-probe": "Not yet — the well gets probed once the pans are actually loaded and the line is about to open, not before."
+  },
+  "name": "Cafeteria Serving",
+  "parSeconds": 250,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "culinary-kitchen"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.7,
+    "hits": [
+      "allergy-tray-milk",
+      "bare-hand-rte",
+      "cold-well-probe",
+      "count-board",
+      "dietary-card-box",
+      "finished-tray",
+      "glove-box-empty",
+      "hand-sink",
+      "hot-well-probe",
+      "line-clock",
+      "menu-board",
+      "milk-cooler",
+      "milk-crate-correct",
+      "no-glove-change-register",
+      "pos-register",
+      "production-board",
+      "serving-spoon-undersized",
+      "sneeze-guard-gap",
+      "station-entree",
+      "station-fruit",
+      "station-grain",
+      "station-milk",
+      "station-veg",
+      "steam-well-valve",
+      "unlabeled-allergen",
+      "warm-milk-crate"
+    ],
+    "meshes": 194
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the posted menu and confirm all five meal-pattern components are on the line.",
+      "id": "menu-board",
+      "kind": "select",
+      "prompt": "Read the posted menu and confirm all five meal-pattern components are on the line.",
+      "target": "menu-board",
+      "title": "Check today's menu against the meal pattern",
+      "why": "A reimbursable lunch needs a meat/meat alternate, a grain, a fruit, a vegetable and milk on the line every day — not on every tray, on the line — because a student who is only offered four of the five cannot build a reimbursable meal no matter what they choose. The board is the line's own check against the federal count before a single tray moves."
+    },
+    {
+      "cue": "Open the fill valve until the water bath under the wells is at its working level.",
+      "id": "steam-well-valve",
+      "kind": "turn",
+      "prompt": "Open the fill valve until the water bath under the wells is at its working level.",
+      "target": "steam-well-valve",
+      "title": "Fill the steam table's water bath",
+      "turn": {
+        "axis": "z",
+        "label": "STEAM TABLE FILL VALVE",
+        "turns": 0.8
+      },
+      "why": "A steam table heats through the water bath, not directly on the pan, and a well run dry heats its own empty tank instead of the food sitting in it — that is exactly how an element burns out mid-service. Filling it before service starts is the whole difference between a well that holds temperature for four hours and one that fails on the busiest line of the day."
+    },
+    {
+      "cue": "Probe the entrée pan and commit once the well reads 135°F or above.",
+      "gauge": {
+        "green": [
+          0.68,
+          0.9
+        ],
+        "label": "HOT WELL — ENTRÉE",
+        "missNote": "Under 135°F. Give the well more time or move the pan to a well that's actually holding before service opens.",
+        "speed": 0.6
+      },
+      "id": "hot-well-probe",
+      "kind": "gauge",
+      "prompt": "Probe the entrée pan and commit once the well reads 135°F or above.",
+      "target": "hot-well-probe",
+      "title": "Probe the hot well",
+      "why": "The well's own thermostat tells you where it is set, not what the food in the pan actually is — a full pan loaded cold can sit under temperature for the first twenty minutes even with the element running correctly. The probe in the food is the number that actually decides whether the line can open."
+    },
+    {
+      "cue": "Probe the fruit cups in the cold well and commit once it reads 41°F or below.",
+      "gauge": {
+        "green": [
+          0.08,
+          0.3
+        ],
+        "label": "COLD WELL — FRUIT",
+        "missNote": "Above 41°F. The cold pan needs more ice or a colder unit setting before fruit goes on the line.",
+        "speed": 0.55
+      },
+      "id": "cold-well-probe",
+      "kind": "gauge",
+      "prompt": "Probe the fruit cups in the cold well and commit once it reads 41°F or below.",
+      "target": "cold-well-probe",
+      "title": "Probe the cold pan",
+      "why": "Cold holding runs the same rule in the other direction: 41°F or below, checked in the food itself rather than assumed from the unit's dial. Fruit and salad items sit in the danger zone just as fast climbing up from 41°F as a hot item does falling from 135°F — the well only protects a tray that is actually probed."
+    },
+    {
+      "cue": "Read the milk cooler's thermometer and confirm it holds at 41°F or below.",
+      "id": "milk-cooler-check",
+      "kind": "select",
+      "prompt": "Read the milk cooler's thermometer and confirm it holds at 41°F or below.",
+      "target": "milk-cooler",
+      "title": "Check the milk cooler",
+      "why": "Milk is the one component on every tray that never gets probed individually — the whole case lives or dies on whether the cooler itself is holding, which is why the cooler's own thermometer is checked before the first carton comes out, not discovered cold or warm one carton at a time."
+    },
+    {
+      "cue": "Hold at the hand sink and scrub before pulling on gloves for the ready-to-eat station.",
+      "holdBreakNote": "You stopped short. A partial wash under gloves still carries whatever was on your hands into the next tray you touch.",
+      "id": "glove-change",
+      "kind": "hold",
+      "prompt": "Hold at the hand sink and scrub before pulling on gloves for the ready-to-eat station.",
+      "seconds": 15,
+      "target": "hand-sink",
+      "title": "Wash hands before gloving up",
+      "why": "Gloves go over clean hands, not instead of them — a glove pulled onto unwashed hands just moves whatever was on the skin onto the inside of the glove, where the next contact spreads it straight back out. The wash happens first, every time gloves come off and go back on."
+    },
+    {
+      "cue": "Three things on this line are not right. Find them before the first tray comes through.",
+      "decoyNotes": {
+        "milk-crate-correct": "That crate is still in the cooler at temperature. Leave it."
+      },
+      "id": "line-walk",
+      "itemNames": {
+        "glove-box-empty": "the empty glove box at the salad station",
+        "serving-spoon-undersized": "the undersized serving spoon at the vegetable",
+        "sneeze-guard-gap": "the gap in the sneeze guard"
+      },
+      "itemNotes": {
+        "glove-box-empty": "No gloves at the ready-to-eat station means the next server reaches for whatever is nearest — usually a bare hand.",
+        "serving-spoon-undersized": "That spoon serves under the posted portion size. A student getting less than the credited portion isn't getting a reimbursable component even if the item is on their tray.",
+        "sneeze-guard-gap": "A panel has been left swung open over the tray rail. The guard only protects a component where it actually spans the pan."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things on this line are not right. Find them before the first tray comes through.",
+      "targets": [
+        "sneeze-guard-gap",
+        "serving-spoon-undersized",
+        "glove-box-empty"
+      ],
+      "title": "Walk the line before the bell",
+      "why": "The line is walked with your own eyes before service the same way a buffet is — a portion tool, a guard panel and a glove box are all things a server has to trust are correct all shift, and the only point anybody actually checks them is right now, before the first student is standing in front of the pan."
+    },
+    {
+      "cue": "Confirm today's allergy and dietary accommodation cards are current at the point of service.",
+      "id": "dietary-card-check",
+      "kind": "select",
+      "prompt": "Confirm today's allergy and dietary accommodation cards are current at the point of service.",
+      "target": "dietary-card-box",
+      "title": "Check the dietary cards at the register",
+      "why": "A medically documented food allergy gets a substitution under the meal pattern's own rule, and the register is the only point in the whole line where a name on a tray meets a name on a card — miss it here and there is no second checkpoint before the tray reaches the table."
+    },
+    {
+      "cue": "Serve all five components in the order the line is set up: entrée, grain, vegetable, fruit, milk.",
+      "id": "tray-build",
+      "itemNames": {
+        "station-entree": "entrée",
+        "station-fruit": "fruit",
+        "station-grain": "grain",
+        "station-milk": "milk",
+        "station-veg": "vegetable"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Serve the line in the order it's set up — entrée, grain, vegetable, fruit, then milk. Serving out of order is how a component gets missed under a tray that's already moving.",
+      "prompt": "Serve all five components in the order the line is set up: entrée, grain, vegetable, fruit, milk.",
+      "targets": [
+        "station-entree",
+        "station-grain",
+        "station-veg",
+        "station-fruit",
+        "station-milk"
+      ],
+      "title": "Serve a full reimbursable tray",
+      "why": "Offer versus serve only works if all five components are actually offered at every tray — the student chooses at least three, one of which has to be a fruit or a vegetable, but that choice is theirs to make only if a server put all five in front of them first. Skipping one at the pan is a choice the server made for them."
+    },
+    {
+      "cue": "Keep the serving rate in the band that matches the lunch period without rushing the portions.",
+      "holdBreakNote": "Pace out of band — too slow backs the line up into the period, too fast starts costing you the portion sizes. Bring it back to steady.",
+      "id": "line-pace",
+      "kind": "track",
+      "prompt": "Keep the serving rate in the band that matches the lunch period without rushing the portions.",
+      "seconds": 7,
+      "target": "line-clock",
+      "title": "Hold the line's pace",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.4,
+        "green": [
+          0.4,
+          0.64
+        ],
+        "label": "SERVING PACE",
+        "rise": 0.42,
+        "start": 0.2
+      },
+      "why": "A twenty-five-minute lunch period is the actual clock this line runs on — serve too slowly and half the students eat in the last five minutes of their own lunch; rush it and portion sizes are the first thing that slips, which quietly turns a reimbursable meal into one that no longer meets the pattern."
+    },
+    {
+      "cue": "Carry the completed tray to the register for the reimbursable count.",
+      "drag": {
+        "missNote": "Not at the register. A tray that never reaches the point of service never gets counted toward the day's reimbursable meals.",
+        "radius": 0.5,
+        "to": "pos-register"
+      },
+      "id": "tray-to-register",
+      "kind": "drag",
+      "prompt": "Carry the completed tray to the register for the reimbursable count.",
+      "target": "finished-tray",
+      "title": "Send the tray to the register",
+      "why": "The register is where the meal actually gets counted for reimbursement, and it only counts a tray it can see was served — a tray that skips the register because the line is backed up is food served for free that the program never gets credit for feeding."
+    },
+    {
+      "cue": "Match the register total against the tray count at the end of service.",
+      "id": "count-reconcile",
+      "kind": "select",
+      "prompt": "Match the register total against the tray count at the end of service.",
+      "target": "count-board",
+      "title": "Reconcile the day's count",
+      "why": "The claim the cafeteria files is only as good as the number behind it, and the two counts — trays served and register rings — are supposed to match. A gap between them is either a tray that walked past the register or a number somebody is going to have to explain to the district."
+    },
+    {
+      "cue": "Log the temperatures taken, the portions served and the components offered on the day's production record.",
+      "id": "production-record",
+      "kind": "select",
+      "prompt": "Log the temperatures taken, the portions served and the components offered on the day's production record.",
+      "target": "production-board",
+      "title": "Close the production record",
+      "why": "The production record is the paperwork that proves the meal pattern was actually met on a given day, not just planned — it is what a state auditor reads first, and it is also the only place tonight's temperatures survive past the end of the shift that took them."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "The school lunch line: meal pattern, offer versus serve, wells probed and logged, and the count for the reimbursement claim",
+  "title": "SmartCiti.X~ Cafeteria Serving VR",
+  "trade": "School nutrition service worker",
+  "underwater": null,
+  "weather": null
+}

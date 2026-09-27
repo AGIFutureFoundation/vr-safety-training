@@ -1,0 +1,413 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "safe-to-play",
+    "name": "Safe to Play",
+    "note": "Equipment inspected, surfacing at depth, sand swept with tongs, old paint left for testing, and every child still welcome"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "The federal public playground safety handbook, with ASTM F1487 for the equipment and ASTM F1292 for the surfacing under it; EPA 40 CFR 745 lead-safe work practices before old paint on a pre-1978 property is disturbed; OSHA 29 CFR 1910.1030 for needles found in the sand, 29 CFR 1910.132 PPE, 29 CFR 1910.23 ladders for the shade sail and 29 CFR 1910.22 for the courtyard's walking surfaces; the Fair Housing Act's protection for families with children; SEIU building staff, UNITE HERE amenity staff and the apartment association's CAM and CAMT credentials",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "EPA",
+        "citedAs": "40 CFR 745",
+        "id": "epa-40-cfr-745",
+        "title": "40 CFR Part 745 — Lead-based paint activities and the Renovation, Repair and Painting rule"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.22",
+        "id": "osha-1910-22",
+        "title": "29 CFR 1910.22 — Walking-working surfaces, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.23",
+        "id": "osha-1910-23",
+        "title": "29 CFR 1910.23 — Ladders"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Building Systems & Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "deep-enough",
+        "name": "Deep Enough",
+        "note": "Mulch depth read inside the band first time"
+      },
+      {
+        "id": "tongs-not-hands",
+        "name": "Tongs Not Hands",
+        "note": "No unsafe act anywhere in the courtyard"
+      },
+      {
+        "id": "steady-sail",
+        "name": "Steady Sail",
+        "note": "Lowered the sail without breaking the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-round",
+        "name": "Clean Round",
+        "note": "No corrections across the whole round"
+      },
+      {
+        "id": "steady-winch",
+        "name": "Steady Winch",
+        "note": "Held the winch without breaking the band"
+      },
+      {
+        "id": "open-for-school",
+        "name": "Open for After School",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "INCHES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Grounds Helper",
+      "Amenity Tech",
+      "Grounds Lead",
+      "Community Manager",
+      "Playground Certified"
+    ],
+    "system": "Courtyard Round"
+  },
+  "hazards": {
+    "barehand-needle": "You reached into the sand to pick up the needle with your fingers. A needle can carry bloodborne disease and there are often more under the one you can see — puncture-resistant gloves, tongs and the sharps container, and never fingers in sand you have not raked.",
+    "blower-near-kids": "You started the leaf blower on the path while children were playing a few feet away. A blower throws grit, twigs and whatever is in the mulch at eye height, and it is loud enough to hurt small ears — the courtyard is blown before the children come out, not while they are in it.",
+    "climb-top-bar": "You climbed onto the swing set's top bar to look at the hanger. The top bar is round, eight feet up and above a mulch pit designed for a child's fall, not an adult's — the step ladder is for the hangers, footed on a board, with a second person holding it.",
+    "sand-lead-paint": "You started sanding the flaking paint off the old bench. On a building this age that paint may well be lead, and dry sanding turns it into fine dust that settles into the sandbox and the mulch where small children play with their hands — the paint is tested first, and if it is lead it is worked lead-safe by someone trained to."
+  },
+  "id": "pm-playground-and-courtyard",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "check-chain",
+      "alert": "While you hold the swing chain, a toddler wanders away from the sandbox toward the street gate — which is standing open onto the sidewalk.",
+      "cue": "Latch the courtyard gate and walk the toddler back to the sandbox. The chain can wait.",
+      "delay": 3,
+      "id": "toddler-at-gate",
+      "kind": "Toddler heading for the street gate",
+      "missNote": "The toddler reached the open gate the whole window with nobody stopping her. The sidewalk and the street are on the other side of it.",
+      "seconds": 12,
+      "target": "courtyard-gate-latch",
+      "why": "An open gate onto the street is the courtyard's one route to real danger, and a toddler moves faster toward it than anyone expects. Latching the gate first puts the barrier back between the child and the traffic, and walking her back finds the parent who looked away for a moment.",
+      "wrongNote": "That doesn't stop her. Latch the courtyard gate and walk her back to the sandbox."
+    },
+    {
+      "after": "lower-sail",
+      "alert": "A resident storms over while you winch the sail, tapes a handmade 'NO KIDS IN COURTYARD' sign to the gate and demands the building ban children from it.",
+      "cue": "Take the handmade sign down, show him the house rules binder — quiet hours apply to everyone — and pass his complaint to the manager.",
+      "delay": 3,
+      "id": "no-kids-demand",
+      "kind": "Resident demanding a rule against children",
+      "missNote": "The handmade sign stayed on the gate the whole window. To every family walking past it, it reads as the building's rule — and that is how a fair housing complaint begins.",
+      "seconds": 13,
+      "target": "rules-binder",
+      "why": "The Fair Housing Act protects families with children, and a rule that bans children from a shared courtyard, rather than setting conduct rules for everyone, is the kind of rule it has been used against. The house rules already cover noise for every resident; showing him those, and passing his complaint to the manager, answers him without the building discriminating against its own families.",
+      "wrongNote": "That doesn't answer him. The house rules binder holds the conduct rules that apply to everyone — show him, and take the sign down."
+    }
+  ],
+  "lateNotes": {
+    "caution-tape": "Not yet — the swing is taped off once the round is done and the parts are ordered, not before it has been inspected.",
+    "light-meter": "The path lighting is read at the end of the round, when the courtyard is starting to get dark."
+  },
+  "name": "Playground & Courtyard",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "property-management"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "attendant-checkin",
+      "barehand-needle",
+      "blower-near-kids",
+      "bolt-cap",
+      "building-log",
+      "caution-tape",
+      "climb-top-bar",
+      "courtyard-gate-latch",
+      "flaking-bench-paint",
+      "inspection-checklist",
+      "lifted-paver",
+      "light-meter",
+      "mulch-bucket",
+      "mulch-depth",
+      "protrusion-bolt",
+      "rules-binder",
+      "s-hook-open",
+      "sail-winch",
+      "sand-lead-paint",
+      "sharps-container",
+      "sharps-gloves",
+      "sharps-tongs",
+      "swing-bay-slot",
+      "swing-chain",
+      "swing-pit-slot"
+    ],
+    "meshes": 220
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check last month's findings and this month's items before walking the equipment.",
+      "id": "read-checklist",
+      "kind": "select",
+      "prompt": "Check last month's findings and this month's items before walking the equipment.",
+      "target": "inspection-checklist",
+      "title": "Read the monthly playground checklist",
+      "why": "A playground wears in predictable places — hangers, S-hooks, bolts, the mulch under the swings — and the checklist is how each of them gets looked at every month rather than whenever somebody notices. Last month's findings tell you what was already on its way out, which is where this month's failure is most likely to be."
+    },
+    {
+      "cue": "Find the hardware that can catch a child's clothing or let go.",
+      "id": "walk-equipment",
+      "itemNames": {
+        "protrusion-bolt": "bolt end sticking out at the slide platform",
+        "s-hook-open": "S-hook opened at the swing seat"
+      },
+      "itemNotes": {
+        "protrusion-bolt": "A bolt at the slide platform sticks out well past its nut. It catches clothing at the top of the slide and cuts heads on the way past.",
+        "s-hook-open": "The S-hook joining the chain to the seat has opened into a gap. A child's clothing drawstring catches in a gap like that, and an open hook can let the seat drop mid-swing."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the hardware that can catch a child's clothing or let go.",
+      "targets": [
+        "s-hook-open",
+        "protrusion-bolt"
+      ],
+      "title": "Walk the equipment",
+      "why": "The playground handbook's hazard list is short and specific — openings that catch clothing, protrusions that snag or cut, hardware that can open — because those are the ways children actually get hurt on equipment. An open S-hook and a protruding bolt are both on it, and both are invisible from the bench where a parent sits."
+    },
+    {
+      "cue": "Push the depth probe into the mulch in the swing pit and commit when it reads in the band.",
+      "gauge": {
+        "green": [
+          0.56,
+          0.8
+        ],
+        "label": "MULCH DEPTH",
+        "missNote": "Outside the band — too shallow and a fall lands on the base underneath. Probe again in the kicked-out pit.",
+        "speed": 0.55
+      },
+      "id": "probe-mulch",
+      "kind": "gauge",
+      "prompt": "Push the depth probe into the mulch in the swing pit and commit when it reads in the band.",
+      "target": "mulch-depth",
+      "title": "Probe the mulch depth under the swings",
+      "why": "Loose-fill surfacing only protects a falling child if it is deep enough for the fall height, and the pits under swings are kicked out first by every pair of feet that drags on the way down. The handbook ties the depth to the equipment's fall height, and ASTM F1292 is the test behind it; the probe is how you know whether this pit still meets it."
+    },
+    {
+      "cue": "Carry the bucket of mulch to the swing pit and rake it in.",
+      "drag": {
+        "missNote": "Not in the pit — mulch dumped beside the swing leaves the landing zone bare.",
+        "radius": 0.5,
+        "to": "swing-pit-slot"
+      },
+      "id": "top-up-mulch",
+      "kind": "drag",
+      "prompt": "Carry the bucket of mulch to the swing pit and rake it in.",
+      "target": "mulch-bucket",
+      "title": "Top up the kicked-out swing pit",
+      "why": "The pit under a swing is the exact spot a child falls onto when a grip fails, and it is also the spot where feet have scraped the mulch away to bare ground. Topping it up and raking it level puts the protection back where the fall actually happens, rather than where the mulch happens to have piled up."
+    },
+    {
+      "cue": "Turn the acorn cap nut onto the trimmed bolt until it seats.",
+      "id": "cap-bolt",
+      "kind": "turn",
+      "prompt": "Turn the acorn cap nut onto the trimmed bolt until it seats.",
+      "target": "bolt-cap",
+      "title": "Cut back and cap the protruding bolt",
+      "turn": {
+        "axis": "z",
+        "label": "CAP NUT",
+        "turns": 0.7
+      },
+      "why": "A protruding bolt end is a snag and a cut at head height for a child, and the fix is simple: trim it back and seat a rounded cap nut over it so nothing sharp or threaded is left exposed. Seated fully, the cap also locks the nut behind it, which is the other thing a loose bolt at a slide platform needed."
+    },
+    {
+      "cue": "Pull the chain taut and hold while you check wear at the top hanger.",
+      "holdBreakNote": "You let the chain drop before you'd checked the hanger. Slack, the worn spot is hidden — hold it taut until you've looked.",
+      "id": "check-chain",
+      "kind": "hold",
+      "prompt": "Pull the chain taut and hold while you check wear at the top hanger.",
+      "seconds": 4,
+      "target": "swing-chain",
+      "title": "Hold the swing chain taut and check the hanger",
+      "why": "Swing hangers wear metal against metal with every swing, and the wear hides at the top where the chain pivots. Holding the chain taut shows whether the hanger's eye has worn thin or the chain link has worn into it — a hanger worn past its limit is the one that lets a swing drop with a child on it."
+    },
+    {
+      "cue": "Gloves on, pick the needle up with the tongs, then drop it point-first into the sharps container.",
+      "id": "sweep-sand",
+      "itemNames": {
+        "sharps-container": "needle into the sharps container",
+        "sharps-gloves": "puncture-resistant gloves on",
+        "sharps-tongs": "needle picked up with tongs"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Gloves, tongs, container — any other order puts a hand near the point.",
+      "prompt": "Gloves on, pick the needle up with the tongs, then drop it point-first into the sharps container.",
+      "targets": [
+        "sharps-gloves",
+        "sharps-tongs",
+        "sharps-container"
+      ],
+      "title": "Pick the needle out of the sandbox",
+      "why": "A needle in a sandbox is a bloodborne pathogen exposure waiting for a small hand, and the safe way to move it is the one that never puts fingers near the point. Puncture-resistant gloves first, tongs second and a rigid sharps container third is the bloodborne pathogens standard's logic worked in a playground — and the rest of the sand is raked before anyone digs in it again."
+    },
+    {
+      "cue": "Winch the sail down steadily, keeping tension in the band so it does not flog.",
+      "holdBreakNote": "The tension left the band. Slack and it flogs, too tight and the post takes the load — bring it back to steady.",
+      "id": "lower-sail",
+      "kind": "track",
+      "prompt": "Winch the sail down steadily, keeping tension in the band so it does not flog.",
+      "seconds": 7,
+      "target": "sail-winch",
+      "title": "Lower the shade sail ahead of the wind",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.38,
+        "green": [
+          0.38,
+          0.64
+        ],
+        "label": "SAIL TENSION",
+        "rise": 0.44,
+        "start": 0.25
+      },
+      "why": "A shade sail left up in strong wind loads its posts and fittings far beyond what they were designed for, and a sail that lets go becomes a flogging sheet of fabric and steel over a playground. Lowering it steadily — tension held, never let run — keeps the corner hardware from snapping and the fabric from whipping across the courtyard."
+    },
+    {
+      "cue": "Find the old surface that could poison a child and the path that will trip a resident.",
+      "id": "walk-courtyard",
+      "itemNames": {
+        "flaking-bench-paint": "paint flaking off the old bench",
+        "lifted-paver": "paver lifted by a tree root"
+      },
+      "itemNotes": {
+        "flaking-bench-paint": "Layers of old paint are flaking off the cast-iron bench beside the sandbox. On a building this age it has to be treated as lead until a test says otherwise, and flakes are falling into the play area.",
+        "lifted-paver": "A tree root has lifted a paver an inch above its neighbours on the main path. That is the trip that residents with walkers and strollers meet first."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the old surface that could poison a child and the path that will trip a resident.",
+      "targets": [
+        "flaking-bench-paint",
+        "lifted-paver"
+      ],
+      "title": "Walk the courtyard's benches and paths",
+      "why": "The courtyard is used by the building's youngest and oldest residents together, and its two classic hazards reflect that: old paint that small children put in their mouths, and a lifted paver that a resident with a walker cannot step over. EPA's lead-safe rules and the walking-surfaces standard are the two laws behind those two findings."
+    },
+    {
+      "cue": "Hold the light meter on the main path and commit when it reads in the band.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.66
+        ],
+        "label": "PATH LIGHT",
+        "missNote": "Outside the band — too dim to see a trip, or you read it under the lamp head. Read it on the path again.",
+        "speed": 0.55
+      },
+      "id": "read-path-light",
+      "kind": "gauge",
+      "prompt": "Hold the light meter on the main path and commit when it reads in the band.",
+      "target": "light-meter",
+      "title": "Read the path lighting at dusk",
+      "why": "A courtyard that is well used by day becomes the building's darkest route home at night, and a lamp that has dimmed or failed is how a resident misses the lifted paver or a gate left open. Reading the path at dusk, rather than assuming the fixtures work, is how the round catches a failing lamp before somebody falls in the dark."
+    },
+    {
+      "cue": "Carry the caution tape and out-of-service tag to the swing bay and hang it across.",
+      "drag": {
+        "missNote": "Not across the swing bay — tape left anywhere else closes nothing.",
+        "radius": 0.55,
+        "to": "swing-bay-slot"
+      },
+      "id": "tape-swing",
+      "kind": "drag",
+      "prompt": "Carry the caution tape and out-of-service tag to the swing bay and hang it across.",
+      "target": "caution-tape",
+      "title": "Tape off the swing until the hook is replaced",
+      "why": "A swing with an open S-hook stays out of service until the hook is replaced with a closed one, and a closed-off swing only stays closed if the tape and tag make that obvious to a six-year-old and a parent alike. Taping the bay rather than removing the seat keeps the fault visible to the parts order and the inspector."
+    },
+    {
+      "cue": "Hand over the taped swing, the paint and the resident's complaint, and ask how the attendant is doing.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Hand over the taped swing, the paint and the resident's complaint, and ask how the attendant is doing.",
+      "target": "attendant-checkin",
+      "title": "Check in with the amenity attendant",
+      "why": "The UNITE HERE amenity attendant is the one in the courtyard at after-school time, fielding parents about the taped swing and neighbours about the noise, so they need the findings and the building's answer on the children's rule in person. A shift that included a needle in the sand and an angry neighbour is also worth a real question about how they are."
+    },
+    {
+      "cue": "Log the checklist results, mulch depth, the needle, the paint for testing and the resident's complaint.",
+      "id": "building-log",
+      "kind": "select",
+      "prompt": "Log the checklist results, mulch depth, the needle, the paint for testing and the resident's complaint.",
+      "target": "building-log",
+      "title": "Enter the inspection in the building log",
+      "why": "The monthly playground inspection is only a defence if it is written down: the building log is what shows the mulch was at depth, the hook was found and taped the same day, and the paint was sent for testing before anyone touched it. It is also where the resident's complaint and the building's answer are recorded, so the next manager answers the same way."
+    }
+  ],
+  "supportLine": "your union steward or member-assistance contact, or your employer's employee assistance program",
+  "tagline": "The monthly courtyard round: swings, bolts and mulch inspected to the handbook, the sand swept with tongs, old paint tested before it is touched, a toddler kept inside the gate, and a rule against children refused",
+  "title": "SmartCiti.X~ Playground & Courtyard VR",
+  "trade": "Grounds and amenity staff — SEIU building staff and UNITE HERE residential hospitality staff, with the apartment association's CAM and CAMT credentials",
+  "underwater": null,
+  "weather": "overcast"
+}

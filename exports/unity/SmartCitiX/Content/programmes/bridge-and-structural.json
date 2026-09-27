@@ -1,0 +1,128 @@
+{
+  "accent": "#8a9bb0",
+  "anchors": [
+    {
+      "id": "bridge-approach-toll-plaza",
+      "name": "Bridge Approach Toll Plaza",
+      "position": [
+        -599,
+        -160
+      ],
+      "stations": [
+        "steel-erector",
+        "bridge-cable-inspection",
+        "bridge-lead-containment"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "bridge-approach"
+    },
+    {
+      "id": "channel-scour-survey",
+      "name": "Channel Scour Survey",
+      "position": [
+        -180,
+        90
+      ],
+      "stations": [
+        "uw-bridge-pier-scour-survey",
+        "uw-underwater-concrete-and-bag-placement",
+        "bridge-cable-inspection"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "shipping-channel"
+    }
+  ],
+  "certification": "OSHA 29 CFR 1926 Subparts M (fall protection), R (steel erection) and CC (cranes); 1926.62 lead in construction for bridge coatings; ANSI Z359; AWS D1.5 bridge welding; the owner's lane-closure and MUTCD traffic control plan",
+  "competency": {
+    "id": "bridge-and-structural",
+    "kind": "programme",
+    "require": 4,
+    "standards": [
+      "osha-1926-subpart-m",
+      "osha-1926-subpart-r",
+      "osha-1926-62",
+      "aws-d1-5",
+      "ansi-z359"
+    ],
+    "stations": [
+      "steel-erector",
+      "bridge-cable-inspection",
+      "bridge-lead-containment",
+      "deck-joint-replacement",
+      "bs-structural-bolting-and-torque",
+      "bs-tandem-lift-girder-set",
+      "bs-bearing-replacement-and-jacking"
+    ],
+    "title": "Inspect, contain and rebuild structural steel and bridge deck work"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "ironworkers-impact",
+    "iupat-fti",
+    "iuoe-training",
+    "liuna-training-fund",
+    "osha-1926-501",
+    "osha-1926-62",
+    "osha-1926-1153",
+    "ansi-z359",
+    "aws-d1-5",
+    "sspc-surface-preparation",
+    "nbis-23-cfr-650",
+    "aashto-bridge-inspection",
+    "mutcd"
+  ],
+  "id": "bridge-and-structural",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1620,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 120
+  },
+  "name": "Bridge and Structural Trades",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "steel-erector",
+      "why": "The connecting the whole series builds on: the load landed and the bolts made up before anyone lets go."
+    },
+    {
+      "app": "smartcity",
+      "id": "bridge-cable-inspection",
+      "why": "The inspection that finds what connecting never checks: two lanyards live on the traveller, the rope read by eye and by flux head, and the wire count carried against the rejection criterion."
+    },
+    {
+      "app": "smartcity",
+      "id": "bridge-lead-containment",
+      "why": "The coatings work the same bridge eventually needs: a truss bay contained and held negative over open water so the lead that comes off it never reaches the water below."
+    },
+    {
+      "app": "smartcity",
+      "id": "deck-joint-replacement",
+      "why": "The maintenance that happens with traffic still running the other lane: the MUTCD closure set, the cut run wet, and the new joint torqued and levelled before the header goes around it."
+    },
+    {
+      "app": "smartcity",
+      "id": "bs-structural-bolting-and-torque",
+      "why": "The bolt-up the connecting leaves behind: a girder field splice verified in the calibrator, snugged from the middle out, turned from its match marks, and the one bolt that spun found before the inspector reads the rest."
+    },
+    {
+      "app": "smartcity",
+      "id": "bs-tandem-lift-girder-set",
+      "why": "The pick that bolting follows: one girder on two IUOE-flown cranes under a multiple-crane lift plan, kept level on the hoist, stopped for the wind, and braced to its neighbour before either hook lets go."
+    },
+    {
+      "app": "smartcity",
+      "id": "bs-bearing-replacement-and-jacking",
+      "why": "The maintenance the bearings eventually need: the lane under the span closed, a girder jacked on the engineer's plan with cribbing tight beside the jack, and the girder let down onto its new bearing without ever hanging on oil alone."
+    }
+  ],
+  "summary": "The bridge as a workplace: cable and hanger inspection at height, lead-paint containment on a truss, deck joint replacement under traffic control, and the erection work the structural programme already teaches.",
+  "union": "Ironworkers (IW), IUPAT bridge painters, IUOE operating engineers and LIUNA on the deck"
+}
