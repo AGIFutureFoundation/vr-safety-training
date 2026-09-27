@@ -627,6 +627,10 @@ IMPORT_RE = re.compile(r"^import\s+[\s\S]*?from\s+[\"'][^\"']+[\"'];\s*$", re.MU
 IMPORT_FROM_RE = re.compile(r"""^import\s+[\s\S]*?from\s+["']([^"']+)["'];\s*$""", re.MULTILINE)
 EXPORT_BLOCK_RE = re.compile(r"^export\s*\{[^}]*\}\s*;\s*$", re.MULTILINE)
 EXPORT_KEYWORD_RE = re.compile(r"^export\s+(?=(const|let|var|function|class|async))", re.MULTILINE)
+# A re-export (`export * from "../shared/textures.js";`, citykit.js's) names a
+# module the bundle already inlines; left in, it is a real network import the
+# flat folder cannot answer, and the page's whole module fails to link.
+EXPORT_STAR_RE = re.compile(r"""^export\s+\*\s+from\s+["'][^"']+["'];\s*$""", re.MULTILINE)
 TOP_DECL_RE = re.compile(r"^(?:const|let|var|function|class)\s+([A-Za-z_$][\w$]*)", re.MULTILINE)
 # Whole statement up to its closing `;`, not just up to the first `=` — a
 # multi-declarator line like `const A = 1, B = 2, C = 3;` used to only ever
@@ -650,6 +654,7 @@ def local_imports(path: Path) -> list[Path]:
 def strip_module_syntax(source: str) -> str:
     source = IMPORT_RE.sub("", source)
     source = EXPORT_BLOCK_RE.sub("", source)
+    source = EXPORT_STAR_RE.sub("", source)
     source = EXPORT_KEYWORD_RE.sub("", source)
     return source.strip() + "\n"
 
