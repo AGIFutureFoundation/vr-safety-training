@@ -7961,7 +7961,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 260,
+          "meshes": 265,
           "materials": 83,
           "interactables": 28
         },
@@ -11718,6 +11718,58 @@
     },
     {
       "app": "smartcity",
+      "id": "cd-decompression-chamber-operations-and-post-dive",
+      "name": "Decompression Chamber Operations & Post-Dive",
+      "category": "Maritime & Ports",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 419,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 10,
+          "inScope": 10,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 196,
+          "materials": 112,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.18988439306358407,
+          "nearest": "br-hyperbaric-chamber-standby",
+          "similarity": 0.3020231213872832
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "cd-underwater-wet-welding-and-cutting",
       "name": "Underwater Wet Welding & Cutting — Surface Side",
       "category": "Maritime & Ports",
@@ -14773,7 +14825,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 263,
+          "meshes": 255,
           "materials": 92,
           "interactables": 29
         },
@@ -15665,6 +15717,58 @@
           "score": 0.39127516778523497,
           "nearest": "bs-bearing-replacement-and-jacking",
           "similarity": 0.26174496644295303
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-hyperbaric-chamber-standby",
+      "name": "Hyperbaric Chamber Standby",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 380,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 235,
+          "materials": 123,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.18988439306358407,
+          "nearest": "cd-decompression-chamber-operations-and-post-dive",
+          "similarity": 0.3020231213872832
         }
       }
     },
@@ -30537,58 +30641,6 @@
           "score": 0.6165763813651138,
           "nearest": "four-handed-dentistry",
           "similarity": 0.21668472372697725
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "br-hyperbaric-chamber-standby",
-      "name": "Hyperbaric Chamber Standby",
-      "category": "Maritime & Ports",
-      "steps": 13,
-      "score": 98,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 380,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 7
-        },
-        "standards": {
-          "score": 1,
-          "cited": 9,
-          "inScope": 9,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 11,
-          "got": 11
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 235,
-          "materials": 123,
-          "interactables": 23
-        },
-        "originality": {
-          "score": 0.4692307692307693,
-          "nearest": "mw-dive-supervisor-and-dive-plan",
-          "similarity": 0.24615384615384617
         }
       }
     },

@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 600
+      "stations": 601
     },
     "trades": {
       "entry": "trades/index.html",
@@ -407,6 +407,7 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "cd-decompression-chamber-operations-and-post-dive",
         "cd-rov-launch-recovery-and-tether-management",
         "cd-pier-piling-inspection-and-wrap-repair",
         "cd-underwater-wet-welding-and-cutting",
@@ -9291,6 +9292,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "cd-decompression-chamber-operations-and-post-dive",
+      "name": "Decompression Chamber Operations & Post-Dive",
+      "title": "SmartCiti.X~ Decompression Chamber Operations & Post-Dive VR",
+      "tagline": "The attendant's chamber: the plan read with the operator, grit on the door seat and an oily rag in the lock found, the medical lock worked one door at a time, the comms proven both ways, the BIBS supply opened, the lighter and the phone left in the bin, the surfaced diver watched through the observation period, a sore shoulder reported instead of shrugged off, the attendant in with the diver, the watch kept as the operator presses down with comms dropping to knock signals, the analyser read to the operator's band, water passed through the lock and the log written",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers of the Carpenters diver-tender as chamber attendant on a decompression dive, with the chamber operator, the dive supervisor holding the tables, and the surfaced diver under observation",
+      "union": null,
+      "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T — 29 CFR 1910.423 post-dive procedures (the diver's condition, instructions to report symptoms, the recompression chamber and the post-dive observation), 29 CFR 1910.430 decompression chambers and their equipment, 29 CFR 1910.410 dive team qualifications including first aid and CPR and 29 CFR 1910.440 the record of the dive and its decompression procedure assessment; ADCI consensus standards for chamber operations and the inside attendant; USCG 46 CFR 197 Subpart B where the chamber is aboard a vessel; the tables the supervisor holds carry every pressure, depth and time",
+      "accent": "#6fb3e0",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "turn",
+        "drag",
+        "hold",
+        "track",
+        "gauge"
+      ],
+      "badge": {
+        "id": "reported-not-shrugged",
+        "name": "Reported, Not Shrugged",
+        "note": "Every symptom the surfaced diver showed said to the supervisor at once, the chamber ready before it was needed"
+      },
+      "meshes": 196,
+      "lights": 0,
+      "overBudget": false,
+      "index": "719",
+      "flat": false,
+      "system": "Inside Attendant",
+      "currency": "LOCK CYCLES",
+      "ranks": [
+        "Tender",
+        "Chamber Tender",
+        "Attendant",
+        "Lead Attendant",
+        "Chamber Crew Certified"
+      ],
+      "awards": [
+        {
+          "id": "lock-clean",
+          "name": "Lock Clean",
+          "note": "The grit and the rag found before the chamber was needed"
+        },
+        {
+          "id": "in-the-band",
+          "name": "In The Band",
+          "note": "The analyser committed inside the operator's band first time"
+        },
+        {
+          "id": "nothing-in-pockets",
+          "name": "Nothing In Pockets",
+          "note": "No hazard reached for from the brief to the log"
+        },
+        {
+          "id": "clean-watch",
+          "name": "Clean Watch",
+          "note": "No corrections from the brief to the check-in"
+        },
+        {
+          "id": "steady-watch",
+          "name": "Steady Watch",
+          "note": "The attendant's watch kept in band the whole press"
+        },
+        {
+          "id": "logged-quick",
+          "name": "Logged Quick",
+          "note": "Chamber log written inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cd-decompression-chamber-operations-and-post-dive"
     },
     {
       "app": "smartcity",
@@ -30562,7 +30646,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 259,
+      "meshes": 260,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -31222,7 +31306,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",

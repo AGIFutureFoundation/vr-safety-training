@@ -25480,5 +25480,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "cd-decompression-chamber-operations-and-post-dive",
+    "index": "719",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers of the Carpenters diver-tender as chamber attendant on a decompression dive, with the chamber operator, the dive supervisor holding the tables, and the surfaced diver under observation",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T — 29 CFR 1910.423 post-dive procedures (the diver's condition, instructions to report symptoms, the recompression chamber and the post-dive observation), 29 CFR 1910.430 decompression chambers and their equipment, 29 CFR 1910.410 dive team qualifications including first aid and CPR and 29 CFR 1910.440 the record of the dive and its decompression procedure assessment; ADCI consensus standards for chamber operations and the inside attendant; USCG 46 CFR 197 Subpart B where the chamber is aboard a vessel; the tables the supervisor holds carry every pressure, depth and time",
+    "name": "Decompression Chamber Operations & Post-Dive",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Decompression Chamber Operations & Post-Dive VR",
+    "tagline": "The attendant's chamber: the plan read with the operator, grit on the door seat and an oily rag in the lock found, the medical lock worked one door at a time, the comms proven both ways, the BIBS supply opened, the lighter and the phone left in the bin, the surfaced diver watched through the observation period, a sore shoulder reported instead of shrugged off, the attendant in with the diver, the watch kept as the operator presses down with comms dropping to knock signals, the analyser read to the operator's band, water passed through the lock and the log written",
+    "accent": 7320544,
+    "accentCss": "#6fb3e0",
+    "parSeconds": 320,
+    "badge": {
+      "id": "reported-not-shrugged",
+      "name": "Reported, Not Shrugged",
+      "note": "Every symptom the surfaced diver showed said to the supervisor at once, the chamber ready before it was needed"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Inside Attendant",
+      "currency": "LOCK CYCLES",
+      "ranks": [
+        "Tender",
+        "Chamber Tender",
+        "Attendant",
+        "Lead Attendant",
+        "Chamber Crew Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
