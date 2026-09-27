@@ -22587,22 +22587,31 @@ function reg(hits, obj, id) {
 //
 // ----------------------------------------------------------------- geometry
 //
-// The world sits on a single field, x:[-800,800] z:[-550,550] — 1600 m by
-// 1100 m in scene units (metres, the scale the rest of the platform already
-// builds in). Ten named zones (BAY_ZONES) tile the field by nearest centre
-// (bayZoneAt() below): a dense downtown and an uptown strip inland of it, a
-// lake, an estuary waterfront, a working port with container cranes, a
-// West Oakland-style industrial flank, a Fruitvale-style market district, a
-// stadium/arena district (the "Coliseum area"), hills that climb to the east,
-// and the approach to a suspension bridge on the western edge. Twenty-one
-// public landmarks (BAY_LANDMARKS) and thirty-seven training sites
-// (BAY_SITES) are scattered across those zones, each one nearest to its own
-// zone's centre than to any other's — bayZoneAt() assigning by nearest centre
-// is what "every landmark/site is inside its own zone" actually means here.
+// The world sits on a single field, x:[-1200,1200] z:[-800,800] — 2400 m by
+// 1600 m in scene units (metres, the scale the rest of the platform already
+// builds in). Sixteen named zones (BAY_ZONES) tile the field by nearest
+// centre (bayZoneAt() below). The original ten sit where they always have
+// (nothing that existed moved when the field grew): a dense downtown and an
+// uptown strip inland of it, a lake, an estuary waterfront, a working port
+// with container cranes, a West Oakland-style industrial flank, a
+// Fruitvale-style market district, a stadium/arena district (the "Coliseum
+// area"), hills that climb to the east, and the approach to a suspension
+// bridge on the western edge. Six more ring them: an island across the
+// estuary with a yacht harbour, a ferry landing and an airfield park; a
+// university-town marina and pier on the north shoreline; a small
+// distribution-and-lab town (Emery Crossing) between the bridge approach
+// and that shoreline; a marina and treatment plant on the south shoreline;
+// the upper hills, a ridge above the hills; and the outer bay, open water
+// west of the port with a shipping channel and a buoy-tender pier at its
+// edge. Twenty-eight public landmarks (BAY_LANDMARKS) and fifty training
+// sites (BAY_SITES) are scattered across those zones, each one nearest to
+// its own zone's centre than to any other's — bayZoneAt() assigning by
+// nearest centre is what "every landmark/site is inside its own zone"
+// actually means here.
 //
 // `buildBayWorld(parent, opts)` has two `opts.detail` levels, the same split
 // shared/fairway.js uses for the same reason:
-//   "high" — the whole 1600×1100 m world, built for a standalone free-roam
+//   "high" — the whole 2400×1600 m world, built for a standalone free-roam
 //     app or a quest layer that brings its own camera and its own mesh
 //     budget. Documented budget: BAY_MESH_BUDGET.high.
 //   "low" — a compact street-corner vignette near the world origin,
@@ -22616,19 +22625,19 @@ function reg(hits, obj, id) {
 
 // --------------------------------------------------------------------- data
 
-/** The world's outer field, in scene units (metres): 1600 m × 1100 m. */
-const BAY_BOUNDS = { minX: -800, maxX: 800, minZ: -550, maxZ: 550 };
+/** The world's outer field, in scene units (metres): 2400 m × 1600 m. */
+const BAY_BOUNDS = { minX: -1200, maxX: 1200, minZ: -800, maxZ: 800 };
 
 /** Bounded, continuous range bayHeight() returns, in metres. */
-const BAY_HEIGHT_RANGE = [0, 95];
+const BAY_HEIGHT_RANGE = [0, 140];
 
 /**
- * Ten zones tiling BAY_BOUNDS by nearest centre (see bayZoneAt()). Each is
+ * Sixteen zones tiling BAY_BOUNDS by nearest centre (see bayZoneAt()). Each is
  * `{ id, name, centre:[x,z], radius, palette:{accent,ground,structure,trim} }`
  * — `radius` is the zone's approximate visual extent for a builder deciding
  * how far to dress it, not a hard edge (bayZoneAt() assigns every point in
- * the field to its nearest zone centre regardless of radius, so the ten
- * zones always tile the whole field with no gap and no double cover).
+ * the field to its nearest zone centre regardless of radius, so the zones
+ * always tile the whole field with no gap and no double cover).
  * `palette` is plain hex numbers in the same {accent, ground, structure,
  * trim} shape shared/textures.js's palette() uses, duplicated here (rather
  * than imported) so this module stays free of any three.js-adjacent import —
@@ -22655,10 +22664,25 @@ const BAY_ZONES = [
     palette: { accent: 0x59c97b, ground: 0x333d22, structure: 0x2a2f36, trim: 0xf2c14b } },
   { id: "bridge-approach", name: "Bridge Approach", centre: [-630, -160], radius: 140,
     palette: { accent: 0xd24a1c, ground: 0x3a3f45, structure: 0x8b98a5, trim: 0xdfe6ec } },
+  // The six zones the expansion added (tools/briefs/bayexpand-brief.md). Every
+  // centre sits far enough from the original ten that no existing landmark or
+  // site changed its nearest centre — tools/check_bayworld.mjs confirms it.
+  { id: "island-harbour", name: "Island Harbour", centre: [150, 620], radius: 170,
+    palette: { accent: 0x4fd6a5, ground: 0xc9b98a, structure: 0xe8e2d4, trim: 0x2b6f8f } },
+  { id: "north-shoreline", name: "North Shoreline", centre: [-760, -620], radius: 170,
+    palette: { accent: 0x3b7bbf, ground: 0x4d5a3a, structure: 0xd9cfb8, trim: 0x233a52 } },
+  { id: "emery-crossing", name: "Emery Crossing", centre: [-680, -370], radius: 140,
+    palette: { accent: 0xf2c14b, ground: 0x3a3f45, structure: 0x8b929a, trim: 0x2b2f33 } },
+  { id: "south-shoreline", name: "South Shoreline", centre: [750, 640], radius: 170,
+    palette: { accent: 0x59c9c9, ground: 0x4a5a4a, structure: 0x9aa6ad, trim: 0xdfe6ec } },
+  { id: "upper-hills", name: "The Upper Hills", centre: [950, -550], radius: 220,
+    palette: { accent: 0xf07a1f, ground: 0x2f3a1e, structure: 0x3a3228, trim: 0xf2c14b } },
+  { id: "outer-bay", name: "The Outer Bay", centre: [-900, 450], radius: 240,
+    palette: { accent: 0xd8232a, ground: 0x0f2e3a, structure: 0x6b7885, trim: 0xdfe6ec } },
 ];
 
 /**
- * Twenty-one public landmarks, `{ id, name, zone, position:[x,z], kind,
+ * Twenty-eight public landmarks, `{ id, name, zone, position:[x,z], kind,
  * blurb }`. Every `name` is a plain generic public-facing name (never a real
  * brand, org or address) and every `blurb` is one generic line asserting no
  * date, height, dimension, count, ownership or history — nothing here could
@@ -22707,16 +22731,35 @@ const BAY_LANDMARKS = [
     blurb: "A fenced yard for staging, fuelling and inspecting trucks and trailers." },
   { id: "estuary-marina", name: "Estuary Marina", zone: "estuary-waterfront", position: [126, 274], kind: "marina",
     blurb: "A small-craft marina with floating docks along the estuary." },
+  // The expansion's landmarks, one or two per new zone.
+  { id: "island-ferry-landing-clock", name: "Ferry Landing Clock", zone: "island-harbour", position: [175, 570], kind: "transit",
+    blurb: "A clock on a post at the head of the ferry ramp, where passengers wait for the next boat." },
+  { id: "island-beach-esplanade", name: "Island Beach Esplanade", zone: "island-harbour", position: [80, 690], kind: "park",
+    blurb: "A paved walk along a sandy beach on the island's open-bay side, with benches facing the water." },
+  { id: "north-pier", name: "North Pier", zone: "north-shoreline", position: [-860, -700], kind: "marina",
+    blurb: "A long public fishing pier reaching out over the shallows from the marina's breakwater." },
+  { id: "emery-public-market", name: "Emery Public Market", zone: "emery-crossing", position: [-690, -330], kind: "market",
+    blurb: "A covered food hall of small stalls beside the town's main crossing." },
+  { id: "south-shoreline-park", name: "South Shoreline Park", zone: "south-shoreline", position: [700, 705], kind: "park",
+    blurb: "A shoreline park of lawns and a bay trail between the marina and the treatment plant." },
+  { id: "ridge-trail-summit", name: "Ridge Trail Summit", zone: "upper-hills", position: [1000, -650], kind: "lookout",
+    blurb: "A trail junction on the ridgeline where the path tops out and the whole bay opens up below." },
+  { id: "channel-marker", name: "Channel Marker", zone: "outer-bay", position: [-950, 520], kind: "infrastructure",
+    blurb: "A lit navigation buoy marking the edge of the shipping channel into the port." },
 ];
 
 /** Lane width, metres, for BAY_ROADS' half-width and bayRoadAt(). */
 const LANE_WIDTH = 3.5;
 
 /**
- * Ten road polylines, `{ id, name, lanes, points:[[x,z],...] }`: a freeway
- * spine running the length of the field, arterials branching off it to each
- * zone's own centre, a waterfront boulevard along the port/estuary shoreline,
- * and a switchback climbing into the hills. Every branch shares an exact
+ * Fifteen road polylines, `{ id, name, lanes, points:[[x,z],...] }`: a
+ * freeway spine running the length of the original field, arterials
+ * branching off it to each zone's own centre, a waterfront boulevard along
+ * the port/estuary shoreline, a switchback climbing into the hills, and the
+ * expansion's five: an island crossing off the waterfront, a north shoreline
+ * arterial through Emery Crossing, a south shoreline arterial off the end of
+ * the freeway, a ridge road on from the top of the switchback, and a short
+ * pier road west from the port to the channel edge. Every branch shares an exact
  * endpoint with the spine (or with another branch), so the network is one
  * connected component by construction — see tools/check_bayworld.mjs, which
  * confirms it rather than trusting this comment.
@@ -22738,10 +22781,27 @@ const BAY_ROADS = [
   { id: "hill-switchback", name: "Hill Switchback Road", lanes: 2, points: [
     [600, 370], [640, 300], [610, 220], [650, 150], [615, 50], [650, -50], [620, -150], [650, -250],
   ] },
+  // The expansion's roads. Each starts on an existing vertex (a junction the
+  // original network already had), so the whole graph stays one piece.
+  { id: "island-crossing", name: "Island Crossing", lanes: 4, points: [
+    [100, 300], [125, 460], [150, 620], [150, 700],
+  ] },
+  { id: "north-shoreline-arterial", name: "North Shoreline Arterial", lanes: 4, points: [
+    [-630, -160], [-680, -370], [-760, -620], [-820, -700],
+  ] },
+  { id: "south-shoreline-arterial", name: "South Shoreline Arterial", lanes: 4, points: [
+    [600, 530], [700, 600], [750, 640], [820, 700],
+  ] },
+  { id: "ridge-road", name: "Ridge Road", lanes: 2, points: [
+    [650, -250], [720, -350], [820, -420], [950, -550], [1000, -620],
+  ] },
+  { id: "channel-pier-road", name: "Channel Pier Road", lanes: 2, points: [
+    [-380, 350], [-520, 420], [-700, 460],
+  ] },
 ];
 
 /**
- * Thirty-seven training anchors, `{ id, name, zone, position:[x,z],
+ * Fifty training anchors, `{ id, name, zone, position:[x,z],
  * programmes:[...], stations:[...] }`. `programmes` names ids from
  * smartcity/js/curricula.js's CURRICULA (every one of that file's programme
  * ids is anchored at least once, somewhere plausible for its trade —
@@ -22825,13 +22885,44 @@ const BAY_SITES = [
     programmes: ["bridge-and-structural"], stations: ["steel-erector", "bridge-cable-inspection", "bridge-lead-containment"] },
   { id: "bridge-approach-maintenance-yard", name: "Bridge Approach Maintenance Yard", zone: "bridge-approach", position: [-658, -134],
     programmes: [], stations: [] },
+  // The expansion's sites (tools/briefs/bayexpand-brief.md), each within a
+  // short walk of one of the expansion's roads.
+  // The yacht harbour anchors the marine stations the catalog already has;
+  // the yacht-and-charter-crew programme and its own stations join this
+  // anchor at integration, once that pack lands in the catalog.
+  { id: "island-yacht-harbor", name: "Island Yacht Harbor", zone: "island-harbour", position: [105, 640],
+    programmes: ["bay-area-union-edition", "port-operations"], stations: ["mooring-line", "mw-workboat-towing-and-line-handling", "mw-ferry-deckhand-and-passenger-safety", "bunkering-watch"] },
+  { id: "island-ferry-landing", name: "Island Ferry Landing", zone: "island-harbour", position: [165, 595],
+    programmes: ["transit-ramp", "bay-area-union-edition"], stations: ["mw-ferry-deckhand-and-passenger-safety", "tr-wheelchair-lift-and-securement-on-a-bus", "forklift-dock"] },
+  { id: "island-boatyard", name: "Island Boatyard", zone: "island-harbour", position: [120, 700],
+    programmes: ["bay-restoration-maritime-underwater", "bay-area-union-edition"], stations: ["br-derelict-vessel-salvage-rigging", "mw-hull-inspection-and-cleaning-dive", "br-dive-tender-and-umbilical-management"] },
+  { id: "island-airfield-park", name: "Island Airfield Park", zone: "island-harbour", position: [190, 690],
+    programmes: ["aviation-maintenance-and-ground", "grounds-and-landscaping"], stations: ["av-marshalling-and-wingwalker-signals", "av-ground-power-and-static-bonding-before-fuel", "gk-sports-field-line-marking-and-goal-anchoring"] },
+  { id: "north-marina-pier", name: "North Marina Pier", zone: "north-shoreline", position: [-800, -640],
+    programmes: ["bay-restoration-maritime-underwater", "ports-maritime-ecology"], stations: ["br-workboat-crane-lift-from-water", "br-vhf-and-navigation-in-a-work-zone", "spill-boom-deploy"] },
+  { id: "north-shoreline-field-lab", name: "North Shoreline Field Lab", zone: "north-shoreline", position: [-735, -590],
+    programmes: ["air-quality-monitoring", "hunters-point-bay-restoration", "bay-restoration-maritime-underwater"], stations: ["air-monitor", "marsh-transect-survey", "eelgrass-transplant", "br-water-quality-sonde-calibration-and-deploy"] },
+  { id: "emery-distribution-center", name: "Emery Distribution Center", zone: "emery-crossing", position: [-640, -400],
+    programmes: ["warehouse-and-logistics-automation", "job-readiness-edition"], stations: ["tw-conveyor-jam-clearing-and-loto", "tw-dock-leveler-and-trailer-restraint-check", "tdl-trailer-loading-and-dock-plate"] },
+  { id: "emery-lab-campus", name: "Emery Lab Campus", zone: "emery-crossing", position: [-720, -350],
+    programmes: ["healthcare-support", "outbreak-response-who"], stations: ["hc-sterile-processing-decontamination-and-assembly", "hc-hazardous-drug-spill-kit-response", "who-surveillance-and-case-definition"] },
+  { id: "south-shoreline-marina", name: "South Shoreline Marina", zone: "south-shoreline", position: [790, 690],
+    programmes: ["bay-restoration-maritime-underwater", "port-operations"], stations: ["br-cold-water-immersion-and-mob-recovery", "br-boom-towing-between-two-vessels", "mooring-line"] },
+  { id: "south-treatment-plant", name: "South Treatment Plant", zone: "south-shoreline", position: [715, 585],
+    programmes: ["water-and-gas-utility-crews", "confined-space", "stationary-engineer"], stations: ["ut-water-treatment-chemical-delivery-unloading", "chlorine-room", "lift-station", "cs-permit-entry-and-attendant-duties"] },
+  { id: "ridge-fire-lookout", name: "Ridge Fire Lookout", zone: "upper-hills", position: [985, -585],
+    programmes: ["first-responders"], stations: ["wildland-urban-interface", "or-wildland-fireline-construction-and-lookout", "damage-assessment-team"] },
+  { id: "ridge-reservoir-yard", name: "Ridge Reservoir Yard", zone: "upper-hills", position: [900, -495],
+    programmes: ["water-and-gas-utility-crews", "energy-transition", "heavy-equipment-operators"], stations: ["ut-cathodic-protection-test-station-reading", "or-solar-farm-tracker-row-maintenance", "op-equipment-daily-walkaround-and-fluids"] },
+  { id: "channel-buoy-tender-pier", name: "Channel Buoy Tender Pier", zone: "outer-bay", position: [-690, 485],
+    programmes: ["port-operations", "ports-maritime-ecology"], stations: ["mooring-line", "pilot-transfer", "spill-boom-deploy", "vessel-gangway-and-hatch-cover-safety"] },
 ];
 
 /** Documented mesh budget, authored (before mergeStatic — see kit.js's
  *  mergeStatic doc and shared/fairway.js's FAIRWAY_MESH_BUDGET, which this
  *  mirrors: "high" is LOD 0, the whole world; "low" is the compact preview
  *  smartcity/js/districts.js registers). */
-const BAY_MESH_BUDGET = { low: 100, high: 3200 };
+const BAY_MESH_BUDGET = { low: 100, high: 3600 };
 
 // ---------------------------------------------------------------- geometry
 
@@ -22856,10 +22947,10 @@ function bwDistToSegment(px, pz, ax, az, bx, bz) {
 }
 
 /** The zone whose centre is nearest (x, z) — a Voronoi assignment over
- *  BAY_ZONES' ten centres, which is what makes the ten zones tile the whole
- *  of BAY_BOUNDS with no gap and no double cover regardless of each zone's
- *  own (approximate, cosmetic) `radius`. Never returns null: every point in
- *  the plane has a nearest one of ten centres. */
+ *  BAY_ZONES' centres, which is what makes the zones tile the whole of
+ *  BAY_BOUNDS with no gap and no double cover regardless of each zone's own
+ *  (approximate, cosmetic) `radius`. Never returns null: every point in the
+ *  plane has a nearest centre. */
 function bayZoneAt(x, z) {
   let best = BAY_ZONES[0], bestDist = Infinity;
   for (const zone of BAY_ZONES) {
@@ -22875,18 +22966,26 @@ function smoothstep(t) {
 }
 
 // The hills climb away from a single high point out past the eastern edge of
-// the Hills zone; every other zone (downtown, the port, the estuary, West
-// Oakland, the bridge approach) is far enough from it that bayHeight() there
-// is only the small citywide undulation below — "flat" in the sense a real
-// downtown grid or a container yard is flat, not perfectly level.
+// the Hills zone, and the upper hills climb on from there to a second, higher
+// dome on the ridge; every other zone (downtown, the port, the estuary, West
+// Oakland, the bridge approach, the island, both shorelines and the outer
+// bay) is far enough from both that bayHeight() there is only the small
+// citywide undulation below — "flat" in the sense a real downtown grid, a
+// container yard or a marina is flat, not perfectly level. The ridge dome's
+// falloff is short enough that it adds only a metre or so at the Hills
+// zone's own centre, so the original hills read as they did before the
+// field grew.
 const HILL_PEAK = [650, -250];
-const HILL_FALLOFF = 650; // metres: bayHeight() is back to the citywide floor at this distance from HILL_PEAK
+const HILL_FALLOFF = 650; // metres: the hill dome is back to the citywide floor at this distance from HILL_PEAK
 const HILL_MAX = 88;
+const RIDGE_PEAK = [950, -550];
+const RIDGE_FALLOFF = 450; // metres: the ridge dome is back to the hill/citywide surface at this distance from RIDGE_PEAK
+const RIDGE_MAX = 100;
 
 /**
  * Deterministic terrain height at (x, z), in metres, bounded to
  * BAY_HEIGHT_RANGE and continuous everywhere (a sum of smooth sine/cosine
- * terms and a clamped smoothstep dome, clamping a continuous function stays
+ * terms and two clamped smoothstep domes, clamping a continuous function stays
  * continuous — see shared/fairway.js's fairwayHeight() for the same
  * reasoning). Used both to give the built terrain its relief and, by a
  * free-roam game or a quest script, to place a vehicle or a walking figure at
@@ -22897,9 +22996,12 @@ function bayHeight(x, z) {
   const t = smoothstep(Math.max(0, 1 - d / HILL_FALLOFF));
   const hill = t * HILL_MAX;
   const ridge = Math.sin(x * 0.01 + z * 0.008) * 3 * t;
+  const d2 = bwDist(x, z, RIDGE_PEAK[0], RIDGE_PEAK[1]);
+  const t2 = smoothstep(Math.max(0, 1 - d2 / RIDGE_FALLOFF));
+  const upper = t2 * RIDGE_MAX;
   const citywide = 1.2 * Math.sin(x * 0.006 + 1.1) * Math.cos(z * 0.005 - 0.4)
     + 0.8 * Math.cos((x - z) * 0.004);
-  const raw = hill + ridge + citywide;
+  const raw = hill + ridge + upper + citywide;
   return Math.max(BAY_HEIGHT_RANGE[0], Math.min(BAY_HEIGHT_RANGE[1], raw));
 }
 
@@ -22944,7 +23046,7 @@ function bayRoadAt(x, z) {
 // quest/objective layer) — see bayworld-data.js's own header for the split.
 //
 // Bay World is deliberately built the same way shared/fairway.js's course
-// is: a "high" LOD 0 build of the whole 1600×1100 m world for a standalone
+// is: a "high" LOD 0 build of the whole 2400×1600 m world for a standalone
 // app with its own camera and mesh budget, and a "low" compact preview
 // vignette, independent of the zone data, for the shared SmartCiti.X stage
 // (smartcity/js/districts.js's "bay-world" entry). `opts.zone` on a "high"
@@ -23105,6 +23207,12 @@ function paintedFace(g, w, h, o = {}) {
 const BUILDING_STYLE = {
   downtown: "glass", uptown: "brick", "west-oakland": "corrugated", port: "corrugated",
   fruitvale: "painted", coliseum: "concrete", lake: "painted", "bridge-approach": null, hills: null,
+  // The expansion's zones: painted houses on the island and the north
+  // shoreline's town, corrugated sheds in Emery Crossing's distribution town,
+  // concrete on the south shoreline's plant side, nothing on the ridge or the
+  // open water.
+  "island-harbour": "painted", "north-shoreline": "painted", "emery-crossing": "corrugated",
+  "south-shoreline": "concrete", "upper-hills": null, "outer-bay": null,
 };
 
 /** One simple building: a textured box body and a roof cap, two meshes.
@@ -23350,6 +23458,105 @@ function buildMarinaDocks(parent, x, z, name) {
   return 5;
 }
 
+// ------------------------------------------------- the expansion's set pieces
+
+/** A marina with berths: a main float, finger docks off it at regular
+ *  spacing and a small hull moored in every other berth — the island's yacht
+ *  harbour, the north shoreline's marina and the south shoreline's marina
+ *  all build this at their own site. `berths` finger docks, so a caller can
+ *  size it to its zone. */
+function buildMarina(parent, x, z, name, accent, berths = 6) {
+  const g = group(parent, x, 0, z);
+  let n = 0;
+  const len = berths * 6 + 6;
+  box(g, 3, 0.25, len, 0, -0.1, 0, 0x8b6a45, { rough: 0.85, cast: false }); n++;
+  for (let i = 0; i < berths; i++) {
+    const bz = -len / 2 + 6 + i * 6;
+    box(g, 12, 0.2, 1.6, 7.5, -0.12, bz, 0x8b6a45, { rough: 0.85, cast: false }); n++;
+    cyl(g, 0.16, 0.16, 1.4, 1.8, 0.5, bz, 0x5c4a34, { rough: 0.85, seg: 8, cast: false }); n++;
+    if (i % 2 === 0) {
+      // A small hull alongside the finger: a low white box and a cabin.
+      box(g, 7, 0.9, 2.4, 8, 0.25, bz + 2.6, 0xf2f2ee, { rough: 0.5, metal: 0.1, cast: false }); n++;
+      box(g, 2.6, 1.0, 1.8, 7.5, 1.2, bz + 2.6, accent, { rough: 0.5, metal: 0.1, cast: false }); n++;
+    }
+  }
+  cyl(g, 0.12, 0.12, 6, -2.2, 3, -len / 2 + 2, 0xb9c0c6, { rough: 0.5, metal: 0.5, seg: 8, cast: false }); n++;
+  ball(g, 0.22, -2.2, 6.2, -len / 2 + 2, 0xffd27a, { emissive: 0xffd27a, ei: 1.2, seg: 8, seg2: 6, cast: false }); n++;
+  labelFor(g, name, 0, 4, -len / 2 - 3);
+  return n + 1;
+}
+
+/** A clock on a post at the head of a ferry ramp, plus the ramp itself. */
+function buildClockPost(parent, x, z, name, accent) {
+  const g = group(parent, x, 0, z);
+  box(g, 10, 0.15, 6, 0, 0.075, 0, 0xb9b29d, { rough: 0.85, cast: false });
+  const ramp = box(g, 4, 0.2, 12, 0, 0.3, 9, 0x8b98a5, { rough: 0.6, metal: 0.3, cast: false });
+  ramp.rotation.x = 0.06;
+  cyl(g, 0.16, 0.2, 4.2, 0, 2.1, -1.5, 0x2b2f33, { rough: 0.5, metal: 0.5, seg: 10, cast: false });
+  cyl(g, 0.8, 0.8, 0.25, 0, 4.6, -1.5, 0xf6f1e4, { rough: 0.4, metal: 0.1, seg: 20, emissive: 0xf6f1e4, ei: 0.25, cast: false });
+  box(g, 0.08, 0.5, 0.05, 0, 4.8, -1.35, accent, { rough: 0.4, cast: false });
+  box(g, 0.35, 0.08, 0.05, 0.14, 4.6, -1.35, accent, { rough: 0.4, cast: false });
+  labelFor(g, name, 0, 6.2, -1.5);
+  return 7;
+}
+
+/** A paved walk along a sandy beach with benches facing the water. */
+function buildEsplanade(parent, x, z, name) {
+  const g = group(parent, x, 0, z);
+  let n = 0;
+  box(g, 40, 0.12, 4, 0, 0.06, 0, 0xb9b29d, { rough: 0.85, cast: false }); n++;
+  const sand = box(g, 40, 0.08, 14, 0, 0.04, 9, 0xd9c79a, { rough: 0.95, cast: false }); n++;
+  sand.receiveShadow = true;
+  for (const bx of [-14, -4, 6, 16]) { parkBench(g, bx, 0.12, -1.2, { ry: Math.PI }); n += 4; }
+  for (const bx of [-18, 0, 18]) { lightMast(g, bx, 0, -3, { lit: 0.8 }); n += 10; }
+  labelFor(g, name, 0, 3.5, -4);
+  return n + 1;
+}
+
+/** A long public pier on piles, railed both sides, with a lamp at the end. */
+function buildPier(parent, x, z, name) {
+  const g = group(parent, x, 0, z);
+  let n = 0;
+  const len = 48;
+  box(g, 5, 0.3, len, 0, 0.9, 0, 0x8b6a45, { rough: 0.85, cast: false }); n++;
+  for (let i = 0; i < 6; i++) {
+    const bz = -len / 2 + 4 + i * 8;
+    for (const sx of [-2, 2]) { cyl(g, 0.22, 0.26, 1.6, sx, 0.2, bz, 0x4a3a28, { rough: 0.9, seg: 8, cast: false }); n++; }
+  }
+  for (const sx of [-2.4, 2.4]) { box(g, 0.08, 0.9, len, sx, 1.5, 0, 0xb8c1c9, { rough: 0.5, metal: 0.4, cast: false }); n++; }
+  lightMast(g, 0, 1.05, len / 2 - 2, { lit: 1.0 }); n += 10;
+  labelFor(g, name, 0, 4.5, -len / 2 - 2);
+  return n + 1;
+}
+
+/** The ridge lookout: a raised viewing deck on posts, a rail, a trail
+ *  signpost and a bench — the summit of the upper hills' trail. */
+function buildRidgeSummit(parent, x, z, name, accent) {
+  const g = group(parent, x, 0, z);
+  let n = 0;
+  for (const [px, pz] of [[-3, -2], [3, -2], [-3, 2], [3, 2]]) { cyl(g, 0.2, 0.24, 2.2, px, 1.1, pz, 0x4a3a28, { rough: 0.9, seg: 8, cast: false }); n++; }
+  box(g, 8, 0.25, 5, 0, 2.3, 0, 0x8b6a45, { rough: 0.85, cast: false }); n++;
+  box(g, 8.2, 0.9, 0.08, 0, 2.9, -2.5, 0xb8c1c9, { rough: 0.5, metal: 0.4, cast: false }); n++;
+  for (const sx of [-4.05, 4.05]) { box(g, 0.08, 0.9, 5, sx, 2.9, 0, 0xb8c1c9, { rough: 0.5, metal: 0.4, cast: false }); n++; }
+  parkBench(g, 0, 2.42, 1.4, {}); n += 4;
+  cyl(g, 0.08, 0.1, 2.6, 6, 1.3, 1, 0x5c4a34, { rough: 0.85, seg: 8, cast: false }); n++;
+  box(g, 1.4, 0.3, 0.06, 6.6, 2.4, 1, accent, { rough: 0.5, emissive: accent, ei: 0.2, cast: false }); n++;
+  labelFor(g, name, 0, 5, -2.5);
+  return n + 1;
+}
+
+/** A lit navigation buoy at the channel's edge: a float, a lattice mast and
+ *  a light. */
+function buildChannelMarker(parent, x, z, name, accent) {
+  const g = group(parent, x, 0, z);
+  cyl(g, 1.6, 1.4, 1.2, 0, 0.2, 0, accent, { rough: 0.5, metal: 0.3, seg: 16, cast: false });
+  cyl(g, 0.12, 0.16, 4.4, 0, 3.0, 0, 0x2b2f33, { rough: 0.5, metal: 0.6, seg: 8, cast: false });
+  box(g, 1.2, 0.08, 1.2, 0, 4.2, 0, 0x2b2f33, { rough: 0.5, metal: 0.6, cast: false });
+  ball(g, 0.3, 0, 5.5, 0, 0xff5f5f, { emissive: 0xff5f5f, ei: 1.8, seg: 8, seg2: 6, cast: false });
+  labelFor(g, name, 0, 7.2, 0);
+  return 5;
+}
+
 const LANDMARK_BUILDERS = {
   "downtown-tower": (p, x, z, l) => buildTower(p, x, z, l.name),
   "historic-theatre": (p, x, z, l) => buildTheatre(p, x, z, l.name),
@@ -23372,6 +23579,24 @@ const LANDMARK_BUILDERS = {
   "warehouse-district": (p, x, z, l, zone, rng) => buildIndustrialBlock(p, x, z, l.name, "warehouse", rng),
   "truck-yard": (p, x, z, l, zone, rng) => buildIndustrialBlock(p, x, z, l.name, "truck-yard", rng),
   "estuary-marina": (p, x, z, l) => buildMarinaDocks(p, x, z, l.name),
+  // The expansion's landmarks.
+  "island-ferry-landing-clock": (p, x, z, l, zone) => buildClockPost(p, x, z, l.name, zone.palette.accent),
+  "island-beach-esplanade": (p, x, z, l) => buildEsplanade(p, x, z, l.name),
+  "north-pier": (p, x, z, l) => buildPier(p, x, z, l.name),
+  "emery-public-market": (p, x, z, l) => buildMarketStalls(p, x, z, l.name),
+  "south-shoreline-park": (p, x, z, l) => buildParkEntrance(p, x, z, l.name, "shoreline"),
+  "ridge-trail-summit": (p, x, z, l, zone) => buildRidgeSummit(p, x, z, l.name, zone.palette.accent),
+  "channel-marker": (p, x, z, l, zone) => buildChannelMarker(p, x, z, l.name, zone.palette.accent),
+};
+
+/** Site-anchored set pieces the expansion's zones build beyond their
+ *  landmarks: a marina with berths at each of the three marina sites. Keyed
+ *  by BAY_SITES id; the builder looks the site's own position up, so a site
+ *  that moves takes its marina with it. */
+const SITE_BUILDERS = {
+  "island-yacht-harbor": (p, x, z, s, zone) => buildMarina(p, x, z, s.name, zone.palette.accent, 8),
+  "north-marina-pier": (p, x, z, s, zone) => buildMarina(p, x, z, s.name, zone.palette.accent, 5),
+  "south-shoreline-marina": (p, x, z, s, zone) => buildMarina(p, x, z, s.name, zone.palette.accent, 6),
 };
 
 // -------------------------------------------------------------- scenery
@@ -23421,7 +23646,10 @@ function dressStreetFurniture(parent, zone, count, rng) {
   }
 }
 
-const FIGURE_OUTFITS = { port: "marine", "west-oakland": "construction", coliseum: "sport" };
+const FIGURE_OUTFITS = {
+  port: "marine", "west-oakland": "construction", coliseum: "sport",
+  "island-harbour": "marine", "north-shoreline": "marine", "south-shoreline": "marine", "emery-crossing": "construction",
+};
 function dressCrowd(parent, zone, count, rng) {
   const [cx, cz] = zone.centre;
   const outfit = FIGURE_OUTFITS[zone.id] ?? "office";
@@ -23444,26 +23672,40 @@ function dressPortContainers(parent, zone, rng) {
 
 // ---------------------------------------------------------------- assembly
 
+/** Zones that are open ground or open water: few parked cars, little street
+ *  furniture, no crowd. */
+const OPEN_ZONES = new Set(["hills", "bridge-approach", "upper-hills", "outer-bay"]);
+
 /** Everything that belongs to one zone: its own buildings, scenery, crowd
- *  and (for the port and the hills) its own special dressing. */
+ *  and (for the port, the hills, the ridge and the marinas) its own special
+ *  dressing. */
 function buildZoneContent(parent, zone, opts) {
   const rng = bwSeededRng(zone.id.split("").reduce((a, c) => a * 31 + c.charCodeAt(0), 7));
   const buildingCounts = {
     downtown: 14, uptown: 10, "west-oakland": 12, fruitvale: 10, coliseum: 8,
     port: 6, lake: 4, "bridge-approach": 3, hills: 0,
+    "island-harbour": 6, "north-shoreline": 6, "emery-crossing": 8, "south-shoreline": 4, "upper-hills": 0, "outer-bay": 0,
   };
+  const open = OPEN_ZONES.has(zone.id);
   dressZoneBuildings(parent, zone, buildingCounts[zone.id] ?? 6, rng);
   if (zone.id === "hills") dressHillTrees(parent, zone, 30, rng);
+  if (zone.id === "upper-hills") dressHillTrees(parent, zone, 24, rng);
   if (zone.id === "port") dressPortContainers(parent, zone, rng);
-  dressParkedFleet(parent, zone, zone.id === "hills" || zone.id === "bridge-approach" ? 1 : 3, rng);
-  dressStreetFurniture(parent, zone, zone.id === "hills" ? 2 : 5, rng);
-  dressCrowd(parent, zone, zone.id === "hills" || zone.id === "bridge-approach" ? 0 : 2, rng);
+  if (zone.id !== "outer-bay") dressParkedFleet(parent, zone, open ? 1 : 3, rng);
+  dressStreetFurniture(parent, zone, zone.id === "outer-bay" ? 0 : open ? 2 : 5, rng);
+  dressCrowd(parent, zone, open ? 0 : 2, rng);
 
   for (const landmark of BAY_LANDMARKS) {
     if (landmark.zone !== zone.id) continue;
     const build = LANDMARK_BUILDERS[landmark.id];
     if (!build) continue;
     build(parent, landmark.position[0], landmark.position[1], landmark, zone, rng);
+  }
+  for (const site of BAY_SITES) {
+    if (site.zone !== zone.id) continue;
+    const build = SITE_BUILDERS[site.id];
+    if (!build) continue;
+    build(parent, site.position[0], site.position[1], site, zone, rng);
   }
 }
 
@@ -23479,6 +23721,13 @@ function buildWorld(parent, opts) {
   // downtown), the same shoreline the port and estuary-waterfront zones sit
   // against.
   buildWater(parent, -180, 460, 900, 260);
+  // The expansion's water: the outer bay and its shipping channel west of
+  // the port, the open water the north shoreline's marina and pier face, and
+  // the strip of bay along the world's southern edge that the island and the
+  // south shoreline both look out on.
+  buildWater(parent, -1000, 380, 400, 840);
+  buildWater(parent, -1060, -420, 280, 760);
+  buildWater(parent, 0, 765, 2400, 70);
   if (!opts.zone) buildRoads(parent, BAY_ROADS);
   else buildRoads(parent, BAY_ROADS.filter((r) => r.points.some(([x, z]) => bayZoneAt(x, z).id === opts.zone)));
   for (const zone of zones) buildZoneContent(parent, zone, opts);
