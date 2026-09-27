@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 552
+      "stations": 553
     },
     "trades": {
       "entry": "trades/index.html",
@@ -361,6 +361,7 @@
         "stage-power",
         "chain-hoist",
         "fly-system",
+        "md-set-safety-meeting-and-stunt-go-no-go",
         "stage-load-in-and-truss-rigging",
         "broadcast-truck",
         "arena-rigging",
@@ -8732,6 +8733,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "md-set-safety-meeting-and-stunt-go-no-go",
+      "name": "Set Safety Meeting & Stunt Go/No-Go",
+      "title": "SmartCiti.X~ Set Safety Meeting & Stunt Go/No-Go VR",
+      "tagline": "A backlot safety meeting before a physical gag: the call sheet's SFX rundown read, the stunt performer's impact pads and harness on, the fall zone swept for a frayed line and a soft pad, the go/no-go board walked, the effect's regulator proven inside its plotted band before the key is armed, the spotter's radio confirmed, the take held for a clear line of sight, the rehearsed path walked at quarter speed, the crash pad spotted onto its mark, the medic and the fire watch staged, and the meeting logged — a late walk-on into the fall zone and a kinking regulator hose both answered off a control that isn't the one already in the learner's hand",
+      "category": "Entertainment & Live Events",
+      "domain": "Screen & Media Crafts",
+      "trade": "On-set safety coordinator, running the stunt coordinator's safety meeting and the SFX go/no-go for a compressed-air rigged effect before a stunt performer's fall",
+      "union": null,
+      "certification": "SAG-AFTRA safety bulletins for stunt and on-camera performers; IATSE grip and rigging crew practice; ANSI/ASSP Z359 fall-protection equipment for the stunt harness and its descender line; OSHA 29 CFR 1910.132 general personal protective equipment requirements; OSHA 29 CFR 1926.501 duty to have fall protection, applied here to the rigged descender",
+      "accent": "#e8a23a",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "turn",
+        "hold",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "cleared-for-the-gag",
+        "name": "Cleared for the Gag",
+        "note": "The go/no-go board walked clean, the regulator proven before the key was armed, the walk-on cleared off the AD's channel, and the kinking hose bled before the line ever saw full pressure"
+      },
+      "meshes": 211,
+      "lights": 0,
+      "overBudget": false,
+      "index": "708",
+      "flat": false,
+      "system": "Safety Meeting",
+      "currency": "CLEAR",
+      "ranks": [
+        "Background Crew",
+        "Second Second AD",
+        "Set Safety Trainee",
+        "Safety Coordinator",
+        "Stunt Safety Certified"
+      ],
+      "awards": [
+        {
+          "id": "gear-checked-first",
+          "name": "Gear Checked First",
+          "note": "Never armed the effect before the regulator read inside the plotted band"
+        },
+        {
+          "id": "line-answered",
+          "name": "Line Answered",
+          "note": "The walk-on into the fall zone was held off the AD's channel, not the hold button already in hand"
+        },
+        {
+          "id": "never-past-the-tape",
+          "name": "Never Past the Tape",
+          "note": "Never reached into the armed rig, never crossed the tape, never grabbed an untagged harness, never climbed the rig frame"
+        },
+        {
+          "id": "clean-meeting",
+          "name": "Clean Meeting",
+          "note": "No corrections from the call sheet to the closing log"
+        },
+        {
+          "id": "on-the-mark",
+          "name": "On the Mark",
+          "note": "The rehearsed path held inside the band, first time"
+        },
+        {
+          "id": "picture-up-on-time",
+          "name": "Picture Up On Time",
+          "note": "Cleared for the gag inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=md-set-safety-meeting-and-stunt-go-no-go"
     },
     {
       "app": "smartcity",
@@ -29090,7 +29174,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 264,
+      "meshes": 265,
       "lights": 0,
       "overBudget": false,
       "index": "92",

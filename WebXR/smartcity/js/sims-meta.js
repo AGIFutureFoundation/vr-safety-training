@@ -23464,5 +23464,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "md-set-safety-meeting-and-stunt-go-no-go",
+    "index": "708",
+    "domain": "Screen & Media Crafts",
+    "trade": "On-set safety coordinator, running the stunt coordinator's safety meeting and the SFX go/no-go for a compressed-air rigged effect before a stunt performer's fall",
+    "category": "Entertainment & Live Events",
+    "certification": "SAG-AFTRA safety bulletins for stunt and on-camera performers; IATSE grip and rigging crew practice; ANSI/ASSP Z359 fall-protection equipment for the stunt harness and its descender line; OSHA 29 CFR 1910.132 general personal protective equipment requirements; OSHA 29 CFR 1926.501 duty to have fall protection, applied here to the rigged descender",
+    "name": "Set Safety Meeting & Stunt Go/No-Go",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Set Safety Meeting & Stunt Go/No-Go VR",
+    "tagline": "A backlot safety meeting before a physical gag: the call sheet's SFX rundown read, the stunt performer's impact pads and harness on, the fall zone swept for a frayed line and a soft pad, the go/no-go board walked, the effect's regulator proven inside its plotted band before the key is armed, the spotter's radio confirmed, the take held for a clear line of sight, the rehearsed path walked at quarter speed, the crash pad spotted onto its mark, the medic and the fire watch staged, and the meeting logged — a late walk-on into the fall zone and a kinking regulator hose both answered off a control that isn't the one already in the learner's hand",
+    "accent": 15245882,
+    "accentCss": "#e8a23a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "cleared-for-the-gag",
+      "name": "Cleared for the Gag",
+      "note": "The go/no-go board walked clean, the regulator proven before the key was armed, the walk-on cleared off the AD's channel, and the kinking hose bled before the line ever saw full pressure"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Safety Meeting",
+      "currency": "CLEAR",
+      "ranks": [
+        "Background Crew",
+        "Second Second AD",
+        "Set Safety Trainee",
+        "Safety Coordinator",
+        "Stunt Safety Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

@@ -20438,6 +20438,10 @@ const UNIONS = [
   {"id":"uwua","abbrev":"UWUA","name":"Utility Workers Union of America","aliases":["UWUA"],"local":null,"colors":null,"trainingBody":"uwua-training","trainingTitle":"UWUA — Utility Workers Union of America training and safety education for water, gas and electric utility crews","scope":["Water & Environmental","Energy & Power"],"note":"Water, gas and electric utility crews. The programme also names IBEW gas locals; no single local of either is carried."},
   {"id":"aft","abbrev":"AFT","name":"American Federation of Teachers","aliases":["AFT"],"local":null,"colors":null,"trainingBody":"aft-training","trainingTitle":"AFT — American Federation of Teachers training for paraprofessionals and school-related personnel","scope":["Building Systems & Facilities","Mobility & Transit","Culinary & Hospitality"],"note":"Represents paraprofessionals and school-related personnel in many districts, alongside classroom teachers."},
   {"id":"csea","abbrev":"CSEA","name":"California School Employees Association","aliases":["CSEA"],"local":null,"colors":null,"trainingBody":"csea-training","trainingTitle":"CSEA — California School Employees Association training for classified school employees","scope":["Building Systems & Facilities","Mobility & Transit","Culinary & Hospitality"],"note":"Classified school employees: custodial, food service, transportation and instructional support staff."},
+  {"id":"sag-aftra","abbrev":"SAG-AFTRA","name":"Screen Actors Guild - American Federation of Television and Radio Artists","aliases":["SAG-AFTRA"],"local":null,"colors":null,"trainingBody":"sag-aftra-training","trainingTitle":"SAG-AFTRA member safety education for on-camera performers and stunt performers, including the production's own safety bulletins","scope":["Entertainment & Live Events"],"note":"Screen and broadcast performers, including stunt performers; named by the screen-and-media-crafts programme's film set safety meeting and stunt go/no-go station."},
+  {"id":"afm","abbrev":"AFM","name":"American Federation of Musicians","aliases":["AFM","American Federation of Musicians"],"local":null,"colors":null,"trainingBody":"afm-training","trainingTitle":"American Federation of Musicians member training for recording, orchestra and touring musicians","scope":["Entertainment & Live Events"],"note":"Recording, orchestra and touring musicians; named by the screen-and-media-crafts programme's recording studio hearing-conservation station."},
+  {"id":"actors-equity","abbrev":"AEA","name":"Actors' Equity Association","aliases":["Actors' Equity Association","AEA"],"local":null,"colors":null,"trainingBody":"actors-equity-training","trainingTitle":"Actors' Equity Association member safety standards for stage actors and stage managers","scope":["Entertainment & Live Events"],"note":"Stage actors and stage managers; named by the screen-and-media-crafts programme's theatre fly-floor and quick-change station."},
+  {"id":"newsguild-cwa","abbrev":"NEWSGUILD-CWA","name":"The NewsGuild-CWA","aliases":["NewsGuild-CWA","NewsGuild"],"local":null,"colors":null,"trainingBody":"newsguild-cwa-training","trainingTitle":"The NewsGuild-CWA member safety guidance for broadcast and news field crews","scope":["Entertainment & Live Events"],"note":"Broadcast and news field crews; named by the screen-and-media-crafts programme's newsroom storm-scene station."},
 ];
 const UNIONS_BY_ID = Object.fromEntries(UNIONS.map((u) => [u.id, u]));
 
@@ -48716,6 +48720,48 @@ const SIMS_META = [
         "Storage Certified",
         "Crew Lead",
         "Grounds Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "md-set-safety-meeting-and-stunt-go-no-go",
+    "index": "708",
+    "domain": "Screen & Media Crafts",
+    "trade": "On-set safety coordinator, running the stunt coordinator's safety meeting and the SFX go/no-go for a compressed-air rigged effect before a stunt performer's fall",
+    "category": "Entertainment & Live Events",
+    "certification": "SAG-AFTRA safety bulletins for stunt and on-camera performers; IATSE grip and rigging crew practice; ANSI/ASSP Z359 fall-protection equipment for the stunt harness and its descender line; OSHA 29 CFR 1910.132 general personal protective equipment requirements; OSHA 29 CFR 1926.501 duty to have fall protection, applied here to the rigged descender",
+    "name": "Set Safety Meeting & Stunt Go/No-Go",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Set Safety Meeting & Stunt Go/No-Go VR",
+    "tagline": "A backlot safety meeting before a physical gag: the call sheet's SFX rundown read, the stunt performer's impact pads and harness on, the fall zone swept for a frayed line and a soft pad, the go/no-go board walked, the effect's regulator proven inside its plotted band before the key is armed, the spotter's radio confirmed, the take held for a clear line of sight, the rehearsed path walked at quarter speed, the crash pad spotted onto its mark, the medic and the fire watch staged, and the meeting logged — a late walk-on into the fall zone and a kinking regulator hose both answered off a control that isn't the one already in the learner's hand",
+    "accent": 15245882,
+    "accentCss": "#e8a23a",
+    "parSeconds": 330,
+    "badge": {
+      "id": "cleared-for-the-gag",
+      "name": "Cleared for the Gag",
+      "note": "The go/no-go board walked clean, the regulator proven before the key was armed, the walk-on cleared off the AD's channel, and the kinking hose bled before the line ever saw full pressure"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Safety Meeting",
+      "currency": "CLEAR",
+      "ranks": [
+        "Background Crew",
+        "Second Second AD",
+        "Set Safety Trainee",
+        "Safety Coordinator",
+        "Stunt Safety Certified"
       ],
       "rankAt": [
         0,
