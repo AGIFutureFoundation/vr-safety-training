@@ -270,6 +270,28 @@ APPS = {
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
     },
+    # Fairway Park (WebXR/fairway): an original nine-hole golf course and an
+    # outdoor sports facility. course-stub.js stands in for the real course
+    # (WebXR/shared/fairway.js, team OW1) until that lands — see
+    # WebXR/fairway/js/course.js's own header for the one-line swap, which
+    # moves course-stub.js out of this list and SHARED / "fairway.js" in, in
+    # its place.
+    "fairway": {
+        "out": "fairway.html",
+        "modules": [
+            SHARED / "input.js",
+            SHARED / "weather.js",
+            SHARED / "records.js",
+            WEBXR / "fairway/js/course-stub.js",
+            WEBXR / "fairway/js/course.js",
+            WEBXR / "fairway/js/golf.js",
+            WEBXR / "fairway/js/minigames.js",
+            WEBXR / "fairway/js/scores.js",
+            WEBXR / "fairway/js/world.js",
+            WEBXR / "fairway/js/app.js",
+        ],
+        "entry": '<script type="module" src="./js/app.js"></script>',
+    },
     # The Easter egg (WebXR/race): an arcade racer on the platform's own fleet.
     # Tracks are data modules under race/tracks/, one per course; a new course
     # is a new file here, in race/js/tracks.js and in tools/check_race.mjs.
@@ -496,6 +518,7 @@ DIST_PAGES = {
     "instructor": "instructor-console.html",
     "race": "race.html",
     "arcade": "arcade.html",
+    "fairway": "fairway.html",
 }
 DIST_SHARED = [
     "auth.js", "identity.js", "records.js", "radio-quiz.js", "radio-quiz-data.js",
