@@ -226,12 +226,11 @@ const BAYWORLD_DATA = join(WEBXR, "shared", "bayworld-data.js");
 if (existsSync(BAYWORLD_DATA)) {
   await check("quest sites and egg landmarks match BAY1's bayworld-data.js", async () => {
     const { BAY_SITES, BAY_LANDMARKS } = await import(pathToFileURL(BAYWORLD_DATA));
-    const siteNames = new Set((BAY_SITES ?? []).map((s) => s.name));
-    const landmarkNames = new Set((BAY_LANDMARKS ?? []).map((l) => l.name));
-    const badSites = [...new Set(ALL_QUESTS.filter((q) => q.kind !== "egg").map((q) => q.site))].filter((s) => !siteNames.has(s));
-    const badLandmarks = [...new Set(EGG_QUESTS.map((e) => e.landmark))].filter((l) => !landmarkNames.has(l));
-    assert(badSites.length === 0, `quest site(s) not in BAY_SITES: ${badSites.join(", ")}`);
-    assert(badLandmarks.length === 0, `egg landmark(s) not in BAY_LANDMARKS: ${badLandmarks.join(", ")}`);
+    const Q = await import(pathToFileURL(join(WEBXR, "bayworld", "js", "quests.js")));
+    const badSites = ALL_QUESTS.filter((q) => q.kind !== "egg" && !Q.resolveQuestSite(q, BAY_SITES)).map((q) => q.site);
+    const badLandmarks = EGG_QUESTS.filter((e) => !Q.resolveLandmark(e.landmark, BAY_LANDMARKS)).map((e) => e.landmark);
+    assert(badSites.length === 0, `quest site(s) that resolve to no BAY_SITES entry: ${[...new Set(badSites)].join(", ")}`);
+    assert(badLandmarks.length === 0, `egg landmark(s) that resolve to no BAY_LANDMARKS entry: ${[...new Set(badLandmarks)].join(", ")}`);
   });
 } else {
   console.log("  ℹ WebXR/shared/bayworld-data.js does not exist yet in this worktree — skipping the site/landmark cross-check against BAY1's data.");

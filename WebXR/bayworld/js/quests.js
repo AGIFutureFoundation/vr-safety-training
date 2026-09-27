@@ -153,3 +153,38 @@ export function findCycle(quests = ALL_QUESTS) {
   }
   return null;
 }
+
+// ------------------------------------------------------------ site resolution
+// Quest data names sites and landmarks by their display names (a programme's
+// name for side quests, the hall's own words for the main arc, a public place
+// name for eggs); the shared map (shared/bayworld-data.js) keys them by id.
+// These resolvers bridge the two so the game and the checker agree.
+export const MAIN_SITE_ALIASES = {
+  "Trades Heritage Walk": "west-oakland-union-hall",
+  "Bay Intermodal Warehouse": "west-oakland-warehouse-district",
+  "Class A Training Yard": "west-oakland-truck-yard",
+  "Apprenticeship Hall": "west-oakland-union-hall",
+  "Financial Coaching Center": "fruitvale-community-college",
+  "Wellness Resource Center": "fruitvale-community-college",
+};
+export const LANDMARK_ALIASES = {
+  "Lake Merritt": "lake-necklace", "Lakeside Park": "lake-necklace", "Snow Park": "lake-necklace", "San Antonio Park": "lake-necklace", "Mosswood Park": "lake-necklace",
+  "Port of Oakland": "port-cranes", "Middle Harbor Shoreline Park": "tidewater-shoreline-park", "Bay Trail — Oakland Segment": "tidewater-shoreline-park",
+  "Jack London Square": "waterfront-square", "Brooklyn Basin": "estuary-marina", "Union Point Park": "estuary-marina", "Estuary Park": "estuary-marina",
+  "Alameda Point": "rail-depot", "Alameda Marina": "estuary-marina", "Berkeley Marina": "estuary-marina", "Berkeley Pier": "estuary-marina", "Emeryville Marina": "estuary-marina",
+  "Skyline Lookout": "overlook-point", "Redwood Regional Park": "redwood-grove-entrance", "Joaquin Miller Park": "redwood-grove-entrance", "Dimond Canyon Park": "redwood-grove-entrance",
+  "Fruitvale Village": "market-street-stalls", "MacArthur BART Station": "elevated-transit-station", "Coliseum Station": "elevated-transit-station",
+};
+/** The map site a quest happens at: by programme anchor for generated quests, by alias for the main arc, else by exact id or name. */
+export function resolveQuestSite(quest, sites) {
+  if (!Array.isArray(sites)) return null;
+  if (quest.programmeId) { const s = sites.find((x) => (x.programmes || []).includes(quest.programmeId)); if (s) return s; }
+  const alias = MAIN_SITE_ALIASES[quest.site];
+  return sites.find((x) => x.id === alias || x.id === quest.site || x.name === quest.site) || null;
+}
+/** The map landmark an egg hides at: by public-name alias, else by exact id or name. */
+export function resolveLandmark(name, landmarks) {
+  if (!Array.isArray(landmarks)) return null;
+  const alias = LANDMARK_ALIASES[name];
+  return landmarks.find((x) => x.id === alias || x.id === name || x.name === name) || null;
+}
