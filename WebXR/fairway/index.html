@@ -78,16 +78,11 @@
   #hud-clubs{bottom:132px;left:10px;display:flex;gap:6px;padding:6px;background:transparent;border:none}
   #hud-clubs button{padding:8px 12px;border-radius:8px;border:1px solid var(--edge-strong);background:rgba(6,16,10,.72);font-family:var(--cond);font-weight:700;text-transform:uppercase;font-size:13px}
   #hud-clubs button.on{background:var(--accent);color:#0c2007;border-color:transparent}
-  #hud-aim{bottom:132px;right:10px;display:flex;gap:6px}
-  #hud-aim button{width:44px;height:44px;border-radius:50%;font-size:18px}
   #hud-meter{left:50%;bottom:56px;transform:translateX(-50%);width:min(420px,90vw);padding:10px 14px}
   #hud-meter .bar{position:relative;height:16px;border-radius:8px;background:#0b1c12;overflow:hidden;margin-top:4px;border:1px solid var(--edge)}
   #hud-meter .fill{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,var(--accent2),var(--accent))}
   #hud-meter .zone{position:absolute;top:0;bottom:0;width:6%;left:47%;background:rgba(255,255,255,.5)}
   #hud-meter .marker{position:absolute;top:-3px;bottom:-3px;width:3px;background:#fff}
-  #hud-swing{bottom:56px;right:10px}
-  #hud-swing button{width:84px;height:84px;border-radius:50%;font-family:var(--cond);font-weight:700;text-transform:uppercase;font-size:13px;
-    background:radial-gradient(circle at 35% 30%, #a9ff7e, var(--accent));color:#0c2007;border:none;box-shadow:0 8px 20px rgba(0,0,0,.4)}
   #hud-care{top:130px;left:10px;padding:8px 12px;font-size:12.5px;max-width:220px}
   #hud-care .courtesy{display:block;width:100%;margin-top:6px;padding:7px 10px;border-radius:7px;border:1px solid var(--amber);background:rgba(255,201,60,.14);color:var(--amber);font-size:12px;text-transform:none;letter-spacing:0;cursor:pointer;text-align:left}
   #toast{position:fixed;left:50%;bottom:150px;transform:translateX(-50%);z-index:30;background:#0d2415;border:1px solid var(--edge-strong);
@@ -109,6 +104,35 @@
   #mg .mg-controls button{min-width:96px}
 
   .kbd{display:inline-block;min-width:20px;padding:1px 6px;border-radius:4px;border:1px solid var(--edge-strong);background:#0b1c12;font-family:var(--cond);font-weight:600;font-size:12.5px;text-align:center}
+  /* ---------- phone HUD (console TOUCH): 360x640 portrait, 640x360 landscape ---------- */
+  @media (max-width:700px), (max-height:500px){
+    #hud *{font-size:14px !important}
+    #hud .panel{min-width:0 !important}
+    #hud .clock, #hud .big, #hud b, #hud .n{font-size:17px !important}
+    #hud-prompt, #hud-warn{bottom:calc(140px + env(safe-area-inset-bottom,0px)) !important;white-space:normal;max-width:60vw}
+    #view-toggle{display:none !important}
+    #toast{bottom:auto;top:45%}
+    .card{max-height:calc(100vh - 24px);overflow:auto;-webkit-overflow-scrolling:touch}
+    .screen{padding:12px}
+  }
+  @media (max-width:700px){
+    #hud-hole{top:calc(40px + env(safe-area-inset-top,0px));left:10px;right:10px;transform:none;padding:6px 10px}
+    #hud-score{top:calc(112px + env(safe-area-inset-top,0px));padding:6px 10px}
+    #hud-wind{top:calc(112px + env(safe-area-inset-top,0px));left:10px;right:auto}
+    #hud-care{top:calc(152px + env(safe-area-inset-top,0px));max-width:150px;max-height:150px;overflow:auto}
+    #hud-lie{top:calc(220px + env(safe-area-inset-top,0px));bottom:auto;left:auto;right:10px}
+    #hud-clubs{bottom:calc(136px + env(safe-area-inset-bottom,0px));left:8px;flex-wrap:wrap}
+    #hud-meter{bottom:calc(190px + env(safe-area-inset-bottom,0px))}
+  }
+  @media (max-height:500px) and (min-width:501px){
+    #hud-hole{top:calc(8px + env(safe-area-inset-top,0px));padding:4px 12px}
+    #hud-score{top:calc(8px + env(safe-area-inset-top,0px));padding:6px 10px}
+    #hud-wind{top:calc(116px + env(safe-area-inset-top,0px))}
+    #hud-lie{top:calc(152px + env(safe-area-inset-top,0px));bottom:auto;left:auto;right:10px}
+    #hud-care{top:calc(44px + env(safe-area-inset-top,0px));max-width:170px;max-height:130px;overflow:auto}
+    #hud-clubs{bottom:calc(12px + env(safe-area-inset-bottom,0px));left:132px}
+    #hud-meter{top:calc(76px + env(safe-area-inset-top,0px));bottom:auto;width:230px}
+  }
 </style>
 </head>
 <body>
@@ -123,15 +147,10 @@
   <div id="hud-wind" class="panel"></div>
   <div id="hud-lie" class="panel"></div>
   <div id="hud-clubs"></div>
-  <div id="hud-aim">
-    <button id="aim-left" aria-label="Aim left">&#8592;</button>
-    <button id="aim-right" aria-label="Aim right">&#8594;</button>
-  </div>
   <div id="hud-meter" class="panel" hidden>
     <div class="sub" id="meter-label">Power</div>
     <div class="bar"><div class="fill" id="meter-fill"></div><div class="zone"></div></div>
   </div>
-  <div id="hud-swing"><button id="swing-btn">Swing</button></div>
   <div id="hud-care" class="panel"><b>Groundskeeper's log</b><div>Care score: <b id="care-score">100</b></div><div id="care-actions"></div></div>
 </div>
 <button id="view-toggle" class="btn ghost" hidden>First person (V)</button>

@@ -63,17 +63,6 @@
   #hud-buttons button{padding:8px 12px;border-radius:8px;border:1px solid var(--edge-strong);background:rgba(6,14,22,.72);font-family:var(--cond);font-weight:700;text-transform:uppercase;font-size:12.5px}
   #view-toggle{position:fixed;bottom:calc(10px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);z-index:15}
 
-  /* ---------- touch controls ---------- */
-  #touch-controls{position:fixed;inset:0;z-index:12;pointer-events:none}
-  #touch-stick{position:absolute;left:24px;bottom:calc(140px + env(safe-area-inset-bottom,0px));width:100px;height:100px;border-radius:50%;background:rgba(20,40,55,.5);border:1px solid var(--edge-strong);pointer-events:auto;touch-action:none}
-  #touch-knob{position:absolute;left:30px;top:30px;width:40px;height:40px;border-radius:50%;background:rgba(79,209,255,.55);pointer-events:none}
-  .touch-btn{position:absolute;width:56px;height:56px;border-radius:50%;background:rgba(20,40,55,.5);border:1px solid var(--edge-strong);color:var(--text);font-family:var(--cond);font-weight:700;font-size:12px;pointer-events:auto;text-transform:uppercase}
-  #touch-run{right:24px;bottom:calc(220px + env(safe-area-inset-bottom,0px))}
-  #touch-brake{right:96px;bottom:calc(220px + env(safe-area-inset-bottom,0px))}
-  #touch-interact{right:24px;bottom:calc(150px + env(safe-area-inset-bottom,0px))}
-  #touch-view{right:96px;bottom:calc(150px + env(safe-area-inset-bottom,0px))}
-  #touch-map{right:60px;bottom:calc(290px + env(safe-area-inset-bottom,0px))}
-  @media (min-width:900px) and (pointer:fine){ #touch-controls{display:none} }
 
   #toast{position:fixed;left:50%;bottom:150px;transform:translateX(-50%);z-index:30;background:#0d1e2b;border:1px solid var(--edge-strong);
     border-radius:8px;padding:9px 16px;font:14px/1.4 var(--sans);opacity:0;pointer-events:none;transition:opacity .25s;max-width:88vw;text-align:center}
@@ -94,6 +83,32 @@
   #map-sites{flex:1 1 220px;min-width:220px;max-height:512px;overflow:auto}
   .map-site-row{display:flex;flex-direction:column;gap:2px;padding:8px 0;border-bottom:1px dashed rgba(140,200,230,.15);font-size:13px}
   .map-site-row .locked{color:var(--dim);font-size:12px}
+  /* ---------- phone HUD (console TOUCH): 360x640 portrait, 640x360 landscape ---------- */
+  @media (max-width:700px), (max-height:500px){
+    #hud *{font-size:14px !important}
+    #hud .panel{min-width:0 !important}
+    #hud .clock, #hud .big, #hud b, #hud .n{font-size:17px !important}
+    #hud-prompt, #hud-warn{bottom:calc(140px + env(safe-area-inset-bottom,0px)) !important;white-space:normal;max-width:60vw}
+    #view-toggle{display:none !important}
+    #toast{bottom:auto;top:45%}
+    .card{max-height:calc(100vh - 24px);overflow:auto;-webkit-overflow-scrolling:touch}
+    .screen{padding:12px}
+  }
+  @media (max-width:700px){
+    #hud-phone, #hud-stats{top:calc(40px + env(safe-area-inset-top,0px));padding:6px 10px}
+    #hud-phone{max-width:calc(50% - 16px)}
+    #hud-stats{max-width:calc(50% - 16px)}
+    #hud-objective{top:calc(150px + env(safe-area-inset-top,0px));max-width:none}
+    #hud-minimap{width:96px;height:96px;bottom:calc(144px + env(safe-area-inset-bottom,0px));right:12px}
+    #hud-buttons{bottom:calc(136px + env(safe-area-inset-bottom,0px));left:12px}
+  }
+  @media (max-height:500px) and (min-width:501px){
+    #hud-phone{top:calc(40px + env(safe-area-inset-top,0px));padding:6px 10px}
+    #hud-stats{top:calc(8px + env(safe-area-inset-top,0px));padding:6px 10px}
+    #hud-objective{top:calc(112px + env(safe-area-inset-top,0px));right:auto;max-width:calc(100% - 220px)}
+    #hud-minimap{width:84px;height:84px;bottom:calc(12px + env(safe-area-inset-bottom,0px));right:152px}
+    #hud-buttons{bottom:calc(12px + env(safe-area-inset-bottom,0px));left:136px}
+  }
 </style>
 </head>
 <body>
@@ -123,14 +138,6 @@
 </div>
 <button id="view-toggle" class="btn ghost" hidden>First person (V)</button>
 
-<div id="touch-controls">
-  <div id="touch-stick"><div id="touch-knob"></div></div>
-  <button class="touch-btn" id="touch-run">Run</button>
-  <button class="touch-btn" id="touch-brake">Brake</button>
-  <button class="touch-btn" id="touch-interact">E</button>
-  <button class="touch-btn" id="touch-view">View</button>
-  <button class="touch-btn" id="touch-map">Map</button>
-</div>
 
 <div class="screen" id="scr-menu">
   <div class="card">
@@ -5066,6 +5073,234 @@ const Perf = {
   },
   LOG_KEY,
 };
+
+// ------------------------------------------------------ play quality tiers
+//
+// Console TOUCH: the render tier a game plays at (distinct from the texture
+// tier above, which only sizes painted canvases). A coarse pointer or a
+// small screen picks "low" on its own — a lower resolution scale, no
+// shadows, nearer fog and fewer wildlife and traffic agents — unless the
+// viewer chose a tier with the HUD's Low / Balanced / High toggle, which is
+// kept in localStorage. `?tier=` on the URL wins over both.
+
+const tcTierKey = "holodeck-quality-tier-v1";
+
+/** The toggle's labels, in order. */
+const tcTierLabels = { low: "Low", balanced: "Balanced", high: "High" };
+
+/** What each tier means to a game. `pixelScale` multiplies the device pixel
+ *  ratio (then capped at `maxPixelRatio`); `fogScale` above 1 brings the fog
+ *  nearer; the agent scales thin out wildlife and traffic. */
+const tcTierSettings = {
+  low: { tier: "low", pixelScale: 0.75, maxPixelRatio: 1, shadows: false, fogScale: 1.6, wildlifeScale: 0.4, trafficScale: 0.5 },
+  balanced: { tier: "balanced", pixelScale: 1, maxPixelRatio: 1.5, shadows: false, fogScale: 1.2, wildlifeScale: 0.7, trafficScale: 0.75 },
+  high: { tier: "high", pixelScale: 1, maxPixelRatio: 2, shadows: true, fogScale: 1, wildlifeScale: 1, trafficScale: 1 },
+};
+
+/** Pure: the tier a device would get with no choice made. A coarse primary
+ *  pointer or a screen whose short side is under 600 CSS px is a phone. */
+function tcAutoTier({ coarse = false, width = 1280, height = 800 } = {}) {
+  return coarse || Math.min(width, height) < 600 ? "low" : "high";
+}
+
+function tcEnv() {
+  if (!hasDom || typeof window === "undefined") return { coarse: false, width: 1280, height: 800 };
+  let coarse = false;
+  try { coarse = typeof matchMedia === "function" && matchMedia("(pointer:coarse)").matches; } catch { /* old browser */ }
+  return { coarse, width: window.innerWidth || 1280, height: window.innerHeight || 800 };
+}
+
+/** The tier in force and why: "url", "chosen" (the toggle) or "auto". */
+function tcTierChoice() {
+  const u = params?.get("tier");
+  if (u && tcTierSettings[u]) return { tier: u, source: "url" };
+  try {
+    const c = typeof localStorage !== "undefined" ? localStorage.getItem(tcTierKey) : null;
+    if (c && tcTierSettings[c]) return { tier: c, source: "chosen" };
+  } catch { /* private mode: fall through to auto */ }
+  return { tier: tcAutoTier(tcEnv()), source: "auto" };
+}
+
+/** Persist the viewer's choice. Returns false when storage is unavailable. */
+function tcSetTier(tier) {
+  if (!tcTierSettings[tier]) return false;
+  try { localStorage.setItem(tcTierKey, tier); return true; } catch { return false; }
+}
+
+/** The settings object for the tier in force (or a named one). */
+function tcTier(tier = tcTierChoice().tier) { return tcTierSettings[tier] ?? tcTierSettings.high; }
+
+/** Apply a tier to a three.js renderer (pixel ratio and shadows) and record
+ *  it on <html data-tier> so a checker or a stylesheet can read it. */
+function tcApplyRenderer(renderer, settings = tcTier()) {
+  const dpr = typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1;
+  renderer?.setPixelRatio?.(Math.min(settings.maxPixelRatio, dpr * settings.pixelScale));
+  if (renderer?.shadowMap) renderer.shadowMap.enabled = !!settings.shadows;
+  if (hasDom) document.documentElement.dataset.tier = settings.tier;
+  return settings;
+}
+
+
+/* ===== shared/touch.js ===== */
+// The shared mobile play surface (console TOUCH). One touch layer for every
+// open-world game — Bay World, the Regatta, the Deep and Fairway Park — so a
+// phone player meets the same controls everywhere: a virtual stick at the
+// bottom left, round context buttons (each at least 48 px) at the bottom
+// right, both kept clear of the notch and the home bar by the safe-area
+// insets, a short buzz on press where the browser can vibrate, and a
+// one-time gesture hint. It also mounts the Low / Balanced / High quality
+// toggle each HUD carries (the tier itself lives in shared/perf.js).
+//
+// The bundler concatenates every module into one scope, so every top-level
+// name here starts with `tc`.
+
+
+const tcHasDom = typeof document !== "undefined";
+const tcHintKey = "holodeck-touch-hint-v1";
+
+/** Smallest side, in CSS px, of any touch target this layer draws. */
+const tcMinTarget = 48;
+
+const tcCss = `
+#tc-layer{position:fixed;inset:0;z-index:12;pointer-events:none}
+#tc-layer .tc-stick{position:absolute;left:calc(12px + env(safe-area-inset-left,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));
+  width:112px;height:112px;border-radius:50%;background:rgba(14,32,44,.52);border:1px solid rgba(160,210,235,.42);pointer-events:auto;touch-action:none}
+#tc-layer .tc-knob{position:absolute;left:32px;top:32px;width:48px;height:48px;border-radius:50%;background:var(--accent,#4fd1ff);opacity:.6;pointer-events:none;transition:transform .05s linear}
+#tc-layer .tc-buttons{position:absolute;right:calc(12px + env(safe-area-inset-right,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));
+  display:grid;gap:8px;direction:rtl;pointer-events:none}
+#tc-layer .tc-btn{direction:ltr;width:56px;height:56px;border-radius:50%;background:rgba(14,32,44,.58);border:1px solid rgba(160,210,235,.42);
+  color:var(--text,#eaf6ff);font:700 14px/1 var(--cond,system-ui,sans-serif);text-transform:uppercase;pointer-events:auto;touch-action:none;padding:0;cursor:pointer}
+#tc-layer .tc-btn.on{background:var(--accent,#4fd1ff);color:#04222e}
+#tc-hint{position:fixed;left:50%;top:40%;transform:translate(-50%,-50%);z-index:31;max-width:min(320px,86vw);padding:12px 16px;border-radius:10px;
+  background:rgba(6,14,22,.9);border:1px solid rgba(160,210,235,.42);color:var(--text,#eaf6ff);font:15px/1.4 var(--sans,system-ui,sans-serif);text-align:center;pointer-events:auto}
+.tc-quality{display:flex;gap:4px;margin-top:6px;justify-content:flex-end;pointer-events:auto}
+.tc-quality button{min-width:44px;height:32px;padding:0 8px;border-radius:7px;border:1px solid rgba(160,210,235,.42);background:rgba(14,32,44,.6);
+  color:var(--text,#eaf6ff);font:600 14px/1 var(--cond,system-ui,sans-serif);cursor:pointer}
+.tc-quality button[aria-pressed="true"]{background:var(--accent,#4fd1ff);color:#04222e;border-color:transparent}
+@media (min-width:900px) and (pointer:fine){#tc-layer{display:none}}
+`;
+
+function tcInjectCss() {
+  if (!tcHasDom || document.getElementById("tc-style")) return;
+  const s = document.createElement("style");
+  s.id = "tc-style"; s.textContent = tcCss;
+  document.head.appendChild(s);
+}
+
+/** A short buzz on phones that can; a no-op everywhere else. */
+function tcBuzz(ms = 12) {
+  try { if (typeof navigator !== "undefined" && typeof navigator.vibrate === "function") navigator.vibrate(ms); } catch { /* blocked */ }
+}
+
+/** Pure stick maths: a finger at (px, py) relative to the stick's centre,
+ *  clamped to radius r. Returns the knob offset and the -1..1 axes. */
+function tcStickAxes(px, py, r) {
+  const d = Math.hypot(px, py);
+  const k = d > r ? r / d : 1;
+  const x = px * k, y = py * k;
+  return { x, y, dx: x / r, dy: y / r };
+}
+
+/** Grid columns for n context buttons: two per row, three once there are five or more. */
+function tcButtonColumns(n) { return n >= 5 ? 3 : Math.max(1, Math.min(2, n)); }
+
+/**
+ * Mount the touch layer. `buttons` is a list of
+ * { id, label, onDown?, onUp?, hold? } — `hold` keeps `state.held[id]` true
+ * while the finger is down. Returns { stick, held, el, button(id), show(on) }.
+ * `stick` is live: { active, dx, dy } with dy negative for "forward".
+ */
+function tcMountTouch({ buttons = [], hint = "Drag the stick to move; tap the round buttons to act.", radius = 44 } = {}) {
+  const state = { stick: { active: false, id: null, dx: 0, dy: 0 }, held: {}, el: null };
+  if (!tcHasDom) return state;
+  tcInjectCss();
+  document.getElementById("tc-layer")?.remove();
+  const layer = document.createElement("div");
+  layer.id = "tc-layer";
+  const stick = document.createElement("div");
+  stick.className = "tc-stick"; stick.id = "tc-stick";
+  stick.setAttribute("role", "application"); stick.setAttribute("aria-label", "Movement stick");
+  const knob = document.createElement("div");
+  knob.className = "tc-knob"; stick.appendChild(knob);
+  layer.appendChild(stick);
+  const s = state.stick;
+  const move = (e) => {
+    const b = stick.getBoundingClientRect();
+    const a = tcStickAxes(e.clientX - (b.left + b.width / 2), e.clientY - (b.top + b.height / 2), radius);
+    s.dx = a.dx; s.dy = a.dy; knob.style.transform = `translate(${a.x}px, ${a.y}px)`;
+  };
+  const end = (e) => { if (e.pointerId !== s.id) return; s.active = false; s.id = null; s.dx = 0; s.dy = 0; knob.style.transform = "translate(0,0)"; };
+  stick.addEventListener("pointerdown", (e) => { s.active = true; s.id = e.pointerId; try { stick.setPointerCapture(e.pointerId); } catch { /* synthetic */ } move(e); tcBuzz(8); });
+  stick.addEventListener("pointermove", (e) => { if (s.active && e.pointerId === s.id) move(e); });
+  stick.addEventListener("pointerup", end);
+  stick.addEventListener("pointercancel", end);
+
+  const wrap = document.createElement("div");
+  wrap.className = "tc-buttons";
+  wrap.style.gridTemplateColumns = `repeat(${tcButtonColumns(buttons.length)}, 56px)`;
+  for (const def of buttons) {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "tc-btn"; b.id = def.id; b.textContent = def.label;
+    b.setAttribute("aria-label", def.aria ?? def.label);
+    b.addEventListener("pointerdown", (e) => { e.preventDefault(); if (def.hold) state.held[def.id] = true; tcBuzz(); def.onDown?.(); });
+    const up = () => { if (def.hold) state.held[def.id] = false; def.onUp?.(); };
+    b.addEventListener("pointerup", up);
+    b.addEventListener("pointercancel", up);
+    b.addEventListener("pointerleave", () => { if (def.hold && state.held[def.id]) up(); });
+    wrap.appendChild(b);
+  }
+  layer.appendChild(wrap);
+  document.body.appendChild(layer);
+  state.el = layer;
+  state.button = (id) => document.getElementById(id);
+  state.show = (on) => { layer.hidden = !on; };
+  tcShowHint(hint);
+  return state;
+}
+
+/** The one-time gesture hint: shown on the first touch-capable visit, gone on the first tap or after a few seconds. */
+function tcShowHint(text) {
+  if (!tcHasDom || !text) return null;
+  let seen = false;
+  try { seen = localStorage.getItem(tcHintKey) === "1"; } catch { /* private mode */ }
+  const coarse = typeof matchMedia === "function" && matchMedia("(pointer:coarse)").matches;
+  if (seen || !coarse) return null;
+  try { localStorage.setItem(tcHintKey, "1"); } catch { /* private mode */ }
+  const el = document.createElement("div");
+  el.id = "tc-hint"; el.setAttribute("role", "status"); el.textContent = text;
+  const close = () => el.remove();
+  el.addEventListener("pointerdown", close);
+  setTimeout(close, 5000);
+  document.body.appendChild(el);
+  return el;
+}
+
+/**
+ * The Low / Balanced / High toggle, appended into `host` (a HUD panel).
+ * A choice is persisted by perf.js and applied on the next load, or at once
+ * through `onChange(tier)` when the game can re-apply its renderer settings.
+ */
+function tcMountQuality(host, onChange) {
+  if (!tcHasDom || !host) return null;
+  tcInjectCss();
+  const box = document.createElement("div");
+  box.className = "tc-quality"; box.id = "tc-quality";
+  box.setAttribute("role", "group"); box.setAttribute("aria-label", "Graphics quality");
+  const cur = tcTierChoice().tier;
+  for (const [tier, label] of Object.entries(tcTierLabels)) {
+    const b = document.createElement("button");
+    b.type = "button"; b.textContent = label; b.dataset.tier = tier;
+    b.setAttribute("aria-pressed", String(tier === cur));
+    b.addEventListener("click", () => {
+      tcSetTier(tier);
+      for (const o of box.children) o.setAttribute("aria-pressed", String(o.dataset.tier === tier));
+      onChange?.(tier);
+    });
+    box.appendChild(b);
+  }
+  host.appendChild(box);
+  return box;
+}
 
 
 /* ===== shared/fleet.js ===== */
@@ -22633,8 +22868,11 @@ function bwBuildWorld(root, THREE, opts = {}) {
   // follows the camera (bwStepSky() below); the wildlife loops in place.
   const startWeather = weatherFor(opts.weather ?? "clear");
   const sky = buildSky(root, { time: "day", weather: startWeather });
+  // A phone's low tier (shared/perf.js) keeps only a share of the herds.
+  const wildScale = opts.wildlifeScale ?? 1;
   const wildlife = BW_WILDLIFE
     .filter((w) => !opts.zone || w.zone === opts.zone)
+    .filter((_, i, all) => wildScale >= 1 || i < Math.max(1, Math.round(all.length * wildScale)))
     .map((w) => buildWildlife(root, { zone: w.area, kind: w.kind }));
   // The drift: this app's own clock (sim.js's bwAdvanceClock()) owns the
   // hour, so dayRate is 0 and advanceSky() only walks the weather.
@@ -22738,7 +22976,7 @@ function bwBuildWorld(root, THREE, opts = {}) {
       // a foggy dusk here is the same foggy dusk on the fairway.
       const S = skyFor(bucket, weatherKind ?? skyDrift.weather);
       if (!scene.fog && THREE.FogExp2) scene.fog = new THREE.FogExp2(S.fog, S.fogDensity);
-      if (scene.fog) { scene.fog.color?.setHex?.(S.fog); if ("density" in scene.fog) scene.fog.density = S.fogDensity; }
+      if (scene.fog) { scene.fog.color?.setHex?.(S.fog); if ("density" in scene.fog) scene.fog.density = S.fogDensity * (opts.fogScale ?? 1); }
       scene.background?.setHex?.(S.sky);
     }
     return { bucket, isNight: bucket === "night", streetlightsOn: bucket !== "day", mast: L.mast };
@@ -22855,35 +23093,23 @@ function heldDrive() {
 
 // ------------------------------------------------------------------ touch
 
+// The shared touch layer (shared/touch.js): stick bottom left, context
+// buttons bottom right. The map has its own HUD button, so it is not
+// repeated here.
 let bwStick = { active: false, id: null, dx: 0, dy: 0 };
-function bwWireTouch() {
-  const base = $("touch-stick");
-  if (!base) return;
-  const knob = $("touch-knob");
-  const R = 44;
-  const move = (t) => {
-    const r = base.getBoundingClientRect();
-    const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-    let dx = t.clientX - cx, dz = t.clientY - cy;
-    const d = Math.hypot(dx, dz);
-    if (d > R) { dx = (dx / d) * R; dz = (dz / d) * R; }
-    bwStick.dx = dx / R; bwStick.dy = dz / R;
-    knob.style.transform = `translate(${dx}px, ${dz}px)`;
-  };
-  base.addEventListener("pointerdown", (e) => { bwStick.active = true; bwStick.id = e.pointerId; base.setPointerCapture(e.pointerId); move(e); });
-  base.addEventListener("pointermove", (e) => { if (bwStick.active && e.pointerId === bwStick.id) move(e); });
-  const end = (e) => { if (e.pointerId === bwStick.id) { bwStick.active = false; bwStick.dx = 0; bwStick.dy = 0; knob.style.transform = "translate(0,0)"; } };
-  base.addEventListener("pointerup", end);
-  base.addEventListener("pointercancel", end);
-  $("touch-run")?.addEventListener("pointerdown", () => { bwTouch.run = true; });
-  $("touch-run")?.addEventListener("pointerup", () => { bwTouch.run = false; });
-  $("touch-interact")?.addEventListener("pointerdown", () => { bwApp.interactPressed = true; bwTryEnterExit(); });
-  $("touch-view")?.addEventListener("pointerdown", () => bwToggleCamera());
-  $("touch-map")?.addEventListener("pointerdown", () => bwToggleMap());
-  $("touch-brake")?.addEventListener("pointerdown", () => { bwTouch.brake = true; });
-  $("touch-brake")?.addEventListener("pointerup", () => { bwTouch.brake = false; });
-}
 const bwTouch = { run: false, brake: false };
+function bwWireTouch() {
+  const t = tcMountTouch({
+    hint: "Drag the stick to walk or steer. Run, Brake, E (enter or use) and View are on the right.",
+    buttons: [
+      { id: "touch-interact", label: "E", aria: "Use or enter", onDown: () => { bwApp.interactPressed = true; bwTryEnterExit(); } },
+      { id: "touch-run", label: "Run", onDown: () => { bwTouch.run = true; }, onUp: () => { bwTouch.run = false; } },
+      { id: "touch-view", label: "View", aria: "Switch camera", onDown: () => bwToggleCamera() },
+      { id: "touch-brake", label: "Brake", onDown: () => { bwTouch.brake = true; }, onUp: () => { bwTouch.brake = false; } },
+    ],
+  });
+  bwStick = t.stick;
+}
 
 // ------------------------------------------------------------------ gamepad
 
@@ -23132,8 +23358,10 @@ function bwDrawFullMap() {
 // ---------------------------------------------------------------- bootstrap
 
 function bwSetup3D() {
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-  renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+  // The play tier (shared/perf.js): low on a phone unless the viewer chose.
+  const tier = tcTier();
+  const renderer = new THREE.WebGLRenderer({ antialias: tier.tier !== "low", alpha: false });
+  tcApplyRenderer(renderer, tier);
   renderer.setSize(window.innerWidth, window.innerHeight);
   $("stage").appendChild(renderer.domElement);
   const scene = new THREE.Scene();
@@ -23145,15 +23373,15 @@ function bwSetup3D() {
   });
   const root = new THREE.Group();
   scene.add(root);
-  const world = bwBuildWorld(root, THREE, { detail: "high", scene });
+  const world = bwBuildWorld(root, THREE, { detail: "high", scene, wildlifeScale: tier.wildlifeScale, fogScale: tier.fogScale });
   bwApp.scene = scene; bwApp.camera = camera; bwApp.renderer = renderer; bwApp.world = world;
 
-  bwApp.traffic = bwSpawnTraffic(2);
+  bwApp.traffic = bwSpawnTraffic(tier.trafficScale < 1 ? 1 : 2);
   world.trafficMeshes = world.bwSpawnTrafficMeshes(bwApp.traffic.length);
   // One pedestrian every third site is plenty of life across a world the
   // size of BAY_BOUNDS without spawning one per site, however many sites the
   // shared map carries.
-  bwApp.pedestrians = BW_SITES.filter((_, i) => i % 3 === 0).map((s, i) => bwCreatePedestrian(`ped-${i}`, s.position[0] + 6, s.position[2] + 6, 10));
+  bwApp.pedestrians = BW_SITES.filter((_, i) => i % (tier.trafficScale < 1 ? 6 : 3) === 0).map((s, i) => bwCreatePedestrian(`ped-${i}`, s.position[0] + 6, s.position[2] + 6, 10));
   world.pedestrianMeshes = world.bwSpawnPedestrianMeshes(bwApp.pedestrians.length);
 }
 
@@ -23251,6 +23479,7 @@ function bwStart() {
   registerQuests(BW_QUESTS);
   bwSetup3D();
   bwWireTouch();
+  tcMountQuality($("hud-stats"), (t) => tcApplyRenderer(bwApp.renderer, tcTier(t)));
   bwOpenScreen("game");
   bwRefreshHudCareer();
   bwRenderQuestHud();

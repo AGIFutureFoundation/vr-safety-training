@@ -1,5 +1,7 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { createGamepad, GAMEPAD_DEADZONE, detectPadVendor } from "../../shared/input.js";
+import { tcTier, tcApplyRenderer } from "../../shared/perf.js";
+import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
 import { TrainingRecords } from "../../shared/records.js";
 import { DV_SITES, DV_LANDMARKS, DV_ZONES, DEEP_DEPTH_RANGE, dvZoneAt } from "./seabed.js";
 import {
@@ -94,32 +96,23 @@ const heldSwim = () => ({
 
 // ------------------------------------------------------------------ touch
 
-const dvStick = { active: false, id: null, dx: 0, dy: 0 };
+// The shared touch layer (shared/touch.js). The map has its own HUD button.
+let dvStick = { active: false, id: null, dx: 0, dy: 0 };
 const dvTouch = { up: false, down: false, sprint: false };
 function dvWireTouch() {
-  const base = $("touch-stick");
-  if (!base) return;
-  const knob = $("touch-knob");
-  const R = 44;
-  const move = (t) => {
-    const r = base.getBoundingClientRect();
-    const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-    let dx = t.clientX - cx, dz = t.clientY - cy;
-    const d = Math.hypot(dx, dz);
-    if (d > R) { dx = (dx / d) * R; dz = (dz / d) * R; }
-    dvStick.dx = dx / R; dvStick.dy = dz / R;
-    knob.style.transform = `translate(${dx}px, ${dz}px)`;
-  };
-  base.addEventListener("pointerdown", (e) => { dvStick.active = true; dvStick.id = e.pointerId; base.setPointerCapture(e.pointerId); move(e); });
-  base.addEventListener("pointermove", (e) => { if (dvStick.active && e.pointerId === dvStick.id) move(e); });
-  const end = (e) => { if (e.pointerId === dvStick.id) { dvStick.active = false; dvStick.dx = 0; dvStick.dy = 0; knob.style.transform = "translate(0,0)"; } };
-  base.addEventListener("pointerup", end);
-  base.addEventListener("pointercancel", end);
-  const hold = (id, key) => { $(id)?.addEventListener("pointerdown", () => { dvTouch[key] = true; }); $(id)?.addEventListener("pointerup", () => { dvTouch[key] = false; }); };
-  hold("touch-up", "up"); hold("touch-down", "down"); hold("touch-sprint", "sprint");
-  $("touch-interact")?.addEventListener("pointerdown", () => { dvApp.interactPressed = true; });
-  $("touch-view")?.addEventListener("pointerdown", () => dvToggleCamera());
-  $("touch-map")?.addEventListener("pointerdown", () => dvToggleMap());
+  const hold = (key) => ({ onDown: () => { dvTouch[key] = true; }, onUp: () => { dvTouch[key] = false; } });
+  const t = tcMountTouch({
+    hint: "Drag the stick to swim. Up and Down rise and sink, Fin sprints, E uses, View switches the camera.",
+    buttons: [
+      { id: "touch-interact", label: "E", aria: "Use", onDown: () => { dvApp.interactPressed = true; } },
+      { id: "touch-up", label: "Up", aria: "Rise", ...hold("up") },
+      { id: "touch-view", label: "View", aria: "Switch camera", onDown: () => dvToggleCamera() },
+      { id: "touch-sprint", label: "Fin", aria: "Sprint", ...hold("sprint") },
+      { id: "touch-down", label: "Down", aria: "Sink", ...hold("down") },
+    ],
+  });
+  dvStick = t.stick;
+  tcMountQuality($("hud-stats"), (q) => tcApplyRenderer(dvApp.renderer, tcTier(q)));
 }
 
 // ------------------------------------------------------------------ gamepad
@@ -354,8 +347,9 @@ function dvDrawFullMap() {
 // ---------------------------------------------------------------- bootstrap
 
 function dvSetup3D() {
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-  renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+  const tier = tcTier();
+  const renderer = new THREE.WebGLRenderer({ antialias: tier.tier !== "low", alpha: false });
+  tcApplyRenderer(renderer, tier);
   renderer.setSize(window.innerWidth, window.innerHeight);
   $("stage").appendChild(renderer.domElement);
   const scene = new THREE.Scene();
@@ -367,7 +361,7 @@ function dvSetup3D() {
   });
   const root = new THREE.Group();
   scene.add(root);
-  const world = dvBuildWorld(root, THREE, { detail: "high" });
+  const world = dvBuildWorld(root, THREE, { detail: "high", fogScale: tier.fogScale });
   dvApp.scene = scene; dvApp.camera = camera; dvApp.renderer = renderer; dvApp.world = world;
   // One lantern per egg dive, at the egg's own anchor, hidden once found.
   const done = new Set(dvDiveState(dvStore).filter((q) => q.done).map((q) => q.id));
