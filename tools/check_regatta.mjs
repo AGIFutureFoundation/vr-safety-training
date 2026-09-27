@@ -61,10 +61,12 @@ const S = await buildSuite([
   "shared/records.js", "shared/a11y.js", "shared/game.js", "shared/competency.js", "shared/ladder-milestones-data.js", "shared/ladder.js", "shared/tracking.js",
   "shared/bayworld-data.js", "shared/yacht-fleet.js", "bayworld/js/career.js",
   "regatta/js/courses.js", "regatta/js/race.js", "regatta/js/events.js",
+  "shared/props.js", "smartcity/js/citykit.js", "shared/bayworld.js", "regatta/js/world.js",
 ], `export { THREE, FLEET_BUDGET, BAY_SITES, BAY_BOUNDS, YACHT_FLEET, RG_BERTHS, RG_YACHT_LENGTH_RANGE, yachtById, rgYachtBerthSite, rgYachtBerthPose, rgYachtsForEvent, buildYacht,
   RG_COURSES, RG_WATER, rgOnWater, TX_BAY_WATER, txWaterTopAt, txGroundMaxAt, txGroundHeight, rgCourseById, rgCourseWaypoints, regattaCourseAt, rgLegOnWater, rgWorldToMap, rgCourseToMap,
   rgCreateRace, rgStepRace, rgAutoHelm, rgScoreRace, rgLearner, rgWindFor, rgMarkVisibility, rgGiveWayDuty, rgTargetFor,
-  RG_EVENTS, rgEventById, rgCalendar, rgBriefingChecklist, rgBriefingResult, rgAwardEvent, rgLifeJacketsNeeded, rgStationLink, bwCareerState };`, "regatta");
+  RG_EVENTS, rgEventById, rgCalendar, rgBriefingChecklist, rgBriefingResult, rgAwardEvent, rgLifeJacketsNeeded, rgStationLink, bwCareerState,
+  rgBuildWorld, txGroundSurfaceAt };`, "regatta");
 
 const catalog = JSON.parse(readFileSync(join(WEBXR, "smartcity", "catalog.json"), "utf8"));
 const STATION_IDS = new Set((catalog.stations ?? []).map((s) => s.id));
@@ -174,6 +176,30 @@ await check("a water surface covers every start line, mark, dock and berth, abov
   // Every Bay World water body, the lake included, reads as water at its centre.
   for (const [x, z] of S.TX_BAY_WATER) afloat(x, z, "water body centre");
   assert(S.txGroundHeight(0, 0) >= 0, "downtown ground must stay dry");
+});
+
+await check("on every course the learner's yacht floats at the start line: boot-top at the water, sheer above it, keel clear of the ground", () => {
+  // The race view once showed a sky-blue lower half with no hull: the
+  // renderer threw mid-frame on a cloned texture's JSON-copied bump map
+  // (fixed in textures.js paintedMat() and bayworld.js txBayTiled()). This
+  // holds the other half of "the yacht floats on the water": the placed
+  // hull against the built water surface at the start line.
+  const root = new S.THREE.Group();
+  const world = S.rgBuildWorld(root, S.THREE, { detail: "low" });
+  for (const c of S.RG_COURSES) {
+    const state = S.rgCreateRace(c.id, "rg-saltmarsh-heron", { weather: "clear" });
+    const me = S.rgLearner(state);
+    const mesh = world.yachts[me.id];
+    assert(mesh, `${c.id}: the learner's yacht was not built`);
+    world.rgPlaceYacht(mesh, me, 0);
+    const top = S.txWaterTopAt(me.x, me.z);
+    assert(top !== null, `${c.id}: no water surface under the learner's yacht at the start (${me.x.toFixed(1)}, ${me.z.toFixed(1)})`);
+    const k = mesh.userData.lengthScale ?? 1, draft = mesh.userData.draft ?? 1.2 * k;
+    const bootTop = mesh.position.y + draft, sheer = mesh.position.y + 2.4 * k;
+    assert(Math.abs(bootTop - top) <= 0.2, `${c.id}: boot-top at ${bootTop.toFixed(2)} m, the water top at ${top.toFixed(2)} m — the hull is ${bootTop < top ? "sunk" : "flying"}`);
+    assert(sheer >= top + 0.5, `${c.id}: the sheer (${sheer.toFixed(2)} m) does not stand above the water (${top.toFixed(2)} m)`);
+    assert(mesh.position.y > S.txGroundSurfaceAt(me.x, me.z), `${c.id}: the keel (${mesh.position.y.toFixed(2)} m) is aground`);
+  }
 });
 
 // --------------------------------------------------------------- 3. the race

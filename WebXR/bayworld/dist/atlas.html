@@ -312,7 +312,7 @@ const BAY_LANDMARKS = [
     blurb: "A shoreline park of lawns and a bay trail between the marina and the treatment plant." },
   { id: "ridge-trail-summit", name: "Ridge Trail Summit", zone: "upper-hills", position: [1000, -650], kind: "lookout",
     blurb: "A trail junction on the ridgeline where the path tops out and the whole bay opens up below." },
-  { id: "channel-marker", name: "Channel Marker", zone: "outer-bay", position: [-950, 520], kind: "infrastructure",
+  { id: "channel-marker", name: "Channel Marker", zone: "outer-bay", position: [-950, 520], kind: "infrastructure", afloat: true,
     blurb: "A lit navigation buoy marking the edge of the shipping channel into the port." },
 ];
 
@@ -649,6 +649,58 @@ function txGroundMaxAt(x, z) {
   for (const [a, b] of [[0, 0], [1, 0], [0, 1], [1, 1]]) hi = Math.max(hi, txGroundHeight(minX + (i + a) * cw, minZ + (j + b) * cd));
   return hi;
 }
+/** The rendered ground height at (x, z) on the full-world terrain, exactly:
+ *  the triangle of the ground cell that holds the point, interpolated.
+ *  three.js's PlaneGeometry splits each cell along the diagonal from its
+ *  (i, j+1) corner to its (i+1, j) corner (world x index i, world z index j,
+ *  after bwTerrain()'s turn), so the first triangle is u + v <= 1. */
+function txGroundSurfaceAt(x, z) {
+  const { minX, maxX, minZ, maxZ } = BAY_BOUNDS;
+  const [sx, sz] = txTerrainSegments(maxX - minX, maxZ - minZ);
+  const cw = (maxX - minX) / sx, cd = (maxZ - minZ) / sz;
+  const i = Math.max(0, Math.min(sx - 1, Math.floor((x - minX) / cw)));
+  const j = Math.max(0, Math.min(sz - 1, Math.floor((z - minZ) / cd)));
+  const u = Math.max(0, Math.min(1, (x - minX) / cw - i)), v = Math.max(0, Math.min(1, (z - minZ) / cd - j));
+  const at = (a, b) => txGroundHeight(minX + (i + a) * cw, minZ + (j + b) * cd);
+  const h00 = at(0, 0), h10 = at(1, 0), h01 = at(0, 1), h11 = at(1, 1);
+  if (u + v <= 1) return h00 + u * (h10 - h00) + v * (h01 - h00);
+  return h11 + (1 - u) * (h01 - h11) + (1 - v) * (h10 - h11);
+}
+
+// ------------------------------------------------------------------ quays
+//
+// The estuary body (TX_BAY_WATER[0]) and the south strip ([3]) carve their
+// seabed under the port, the estuary front, the island and the south shore,
+// so those sites once stood over water (PALETTE's open item). Rather than
+// shrink the water the regatta races on, each shore carries a quay: a
+// concrete slab from the seabed up to TX_QUAY_TOP, just over the water top
+// and just over the flat shore's clamped 0 m ground so the deck never
+// z-fights the turf. Each entry is `[cx, cz, w, d]`; shared/bayworld.js's
+// buildWorld() lays one box per entry, and tools/check_bayworld.mjs holds
+// every site and landmark to ground or a quay and every berth and course
+// point off them. The regatta's rgOnWater() treats a quay as shore.
+const TX_QUAY_TOP = 0.12;
+const TX_BAY_QUAYS = [
+  [-385, 340, 130, 120], // the port: container terminal, rail yard, hazmat yard, cranes, maintenance shop
+  [100, 299, 120, 74],   // the estuary front: research dock, trailhead, waterfront square, shoreline park
+  [177.5, 591.5, 75, 67],  // the island's ferry landing and its clock, east of the regatta's start grid
+  [138.5, 668, 153, 96],   // the island's harbour, boatyard, airfield park and beach esplanade
+  [745, 697.5, 170, 55],   // the south shore: shoreline park and the marina's quay
+];
+/** The index of the quay whose deck covers (x, z) — shrunk by `inset`
+ *  metres on every side — or -1 where no quay does. */
+function txQuayAt(x, z, inset = 0) {
+  return TX_BAY_QUAYS.findIndex(([cx, cz, w, d]) => txInRect(x, z, cx, cz, w, d, -inset));
+}
+/** Where each marina's floats lie: the water beside its quay site, keyed by
+ *  the BAY_SITES or BAY_LANDMARKS id whose set piece they are. The site
+ *  itself stands on the quay; its floats and moored hulls stay afloat. */
+const TX_MARINA_FLOATS = {
+  "island-yacht-harbor": [15, 560],
+  "north-marina-pier": [-930, -640],
+  "south-shoreline-marina": [800, 765],
+  "estuary-marina": [120, 352],
+};
 
 /**
  * Whether (x, z) sits on a BAY_ROADS polyline, and which one: `{ onRoad:

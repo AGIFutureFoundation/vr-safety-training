@@ -308,6 +308,7 @@
       "zone": "upper-hills"
     },
     {
+      "afloat": true,
       "blurb": "A lit navigation buoy marking the edge of the shipping channel into the port.",
       "id": "channel-marker",
       "kind": "infrastructure",
@@ -1780,6 +1781,38 @@
       "radius": 240
     }
   ],
+  "TX_BAY_QUAYS": [
+    [
+      -385,
+      340,
+      130,
+      120
+    ],
+    [
+      100,
+      299,
+      120,
+      74
+    ],
+    [
+      177.5,
+      591.5,
+      75,
+      67
+    ],
+    [
+      138.5,
+      668,
+      153,
+      96
+    ],
+    [
+      745,
+      697.5,
+      170,
+      55
+    ]
+  ],
   "TX_BAY_WATER": [
     [
       -180,
@@ -1817,6 +1850,25 @@
       15.55
     ]
   ],
+  "TX_MARINA_FLOATS": {
+    "estuary-marina": [
+      120,
+      352
+    ],
+    "island-yacht-harbor": [
+      15,
+      560
+    ],
+    "north-marina-pier": [
+      -930,
+      -640
+    ],
+    "south-shoreline-marina": [
+      800,
+      765
+    ]
+  },
+  "TX_QUAY_TOP": 0.12,
   "TX_SEABED_DROP": 2.6,
   "TX_SHORE_MARGIN": 40,
   "TX_WATER_THICKNESS": 0.1,

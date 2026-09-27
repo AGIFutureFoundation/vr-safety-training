@@ -4393,11 +4393,14 @@ function clearFacePaintCache() { _texCache.clear(); }
  */
 function paintedMat(tex, o = {}) {
   const extra = {};
-  if (QUALITY === "high" && tex?.userData?.bumpMap) {
+  // Only a real texture: a clone's userData is deep-copied through JSON, so a
+  // cloned map carries plain-object companions with no .matrix, and handing
+  // those to the renderer throws mid-frame (nothing after it is drawn).
+  if (QUALITY === "high" && tex?.userData?.bumpMap?.isTexture) {
     extra.bumpMap = tex.userData.bumpMap;
     extra.bumpScale = o.bumpScale ?? 0.015;
   }
-  if (QUALITY === "high" && tex?.userData?.roughnessMap) {
+  if (QUALITY === "high" && tex?.userData?.roughnessMap?.isTexture) {
     extra.roughnessMap = tex.userData.roughnessMap;
   }
   const m = new THREE.MeshStandardMaterial({
@@ -5426,6 +5429,7 @@ function txTexture(id, o = {}) {
     _txCanvases.set(key, base);
   }
   const tex = (rep[0] === 1 && rep[1] === 1) || typeof base.clone !== "function" ? base : base.clone();
+  if (tex !== base && base.userData) tex.userData = { ...base.userData };   // share, never JSON-copy, the companions
   if (tex !== base && THREE.RepeatWrapping !== undefined) { tex.wrapS = THREE.RepeatWrapping; tex.wrapT = THREE.RepeatWrapping; }
   tex.repeat?.set?.(rep[0], rep[1]);
   _txTiled.set(tiledKey, tex);
@@ -14434,7 +14438,7 @@ const BAY_LANDMARKS = [
     blurb: "A shoreline park of lawns and a bay trail between the marina and the treatment plant." },
   { id: "ridge-trail-summit", name: "Ridge Trail Summit", zone: "upper-hills", position: [1000, -650], kind: "lookout",
     blurb: "A trail junction on the ridgeline where the path tops out and the whole bay opens up below." },
-  { id: "channel-marker", name: "Channel Marker", zone: "outer-bay", position: [-950, 520], kind: "infrastructure",
+  { id: "channel-marker", name: "Channel Marker", zone: "outer-bay", position: [-950, 520], kind: "infrastructure", afloat: true,
     blurb: "A lit navigation buoy marking the edge of the shipping channel into the port." },
 ];
 
@@ -14771,6 +14775,58 @@ function txGroundMaxAt(x, z) {
   for (const [a, b] of [[0, 0], [1, 0], [0, 1], [1, 1]]) hi = Math.max(hi, txGroundHeight(minX + (i + a) * cw, minZ + (j + b) * cd));
   return hi;
 }
+/** The rendered ground height at (x, z) on the full-world terrain, exactly:
+ *  the triangle of the ground cell that holds the point, interpolated.
+ *  three.js's PlaneGeometry splits each cell along the diagonal from its
+ *  (i, j+1) corner to its (i+1, j) corner (world x index i, world z index j,
+ *  after bwTerrain()'s turn), so the first triangle is u + v <= 1. */
+function txGroundSurfaceAt(x, z) {
+  const { minX, maxX, minZ, maxZ } = BAY_BOUNDS;
+  const [sx, sz] = txTerrainSegments(maxX - minX, maxZ - minZ);
+  const cw = (maxX - minX) / sx, cd = (maxZ - minZ) / sz;
+  const i = Math.max(0, Math.min(sx - 1, Math.floor((x - minX) / cw)));
+  const j = Math.max(0, Math.min(sz - 1, Math.floor((z - minZ) / cd)));
+  const u = Math.max(0, Math.min(1, (x - minX) / cw - i)), v = Math.max(0, Math.min(1, (z - minZ) / cd - j));
+  const at = (a, b) => txGroundHeight(minX + (i + a) * cw, minZ + (j + b) * cd);
+  const h00 = at(0, 0), h10 = at(1, 0), h01 = at(0, 1), h11 = at(1, 1);
+  if (u + v <= 1) return h00 + u * (h10 - h00) + v * (h01 - h00);
+  return h11 + (1 - u) * (h01 - h11) + (1 - v) * (h10 - h11);
+}
+
+// ------------------------------------------------------------------ quays
+//
+// The estuary body (TX_BAY_WATER[0]) and the south strip ([3]) carve their
+// seabed under the port, the estuary front, the island and the south shore,
+// so those sites once stood over water (PALETTE's open item). Rather than
+// shrink the water the regatta races on, each shore carries a quay: a
+// concrete slab from the seabed up to TX_QUAY_TOP, just over the water top
+// and just over the flat shore's clamped 0 m ground so the deck never
+// z-fights the turf. Each entry is `[cx, cz, w, d]`; shared/bayworld.js's
+// buildWorld() lays one box per entry, and tools/check_bayworld.mjs holds
+// every site and landmark to ground or a quay and every berth and course
+// point off them. The regatta's rgOnWater() treats a quay as shore.
+const TX_QUAY_TOP = 0.12;
+const TX_BAY_QUAYS = [
+  [-385, 340, 130, 120], // the port: container terminal, rail yard, hazmat yard, cranes, maintenance shop
+  [100, 299, 120, 74],   // the estuary front: research dock, trailhead, waterfront square, shoreline park
+  [177.5, 591.5, 75, 67],  // the island's ferry landing and its clock, east of the regatta's start grid
+  [138.5, 668, 153, 96],   // the island's harbour, boatyard, airfield park and beach esplanade
+  [745, 697.5, 170, 55],   // the south shore: shoreline park and the marina's quay
+];
+/** The index of the quay whose deck covers (x, z) — shrunk by `inset`
+ *  metres on every side — or -1 where no quay does. */
+function txQuayAt(x, z, inset = 0) {
+  return TX_BAY_QUAYS.findIndex(([cx, cz, w, d]) => txInRect(x, z, cx, cz, w, d, -inset));
+}
+/** Where each marina's floats lie: the water beside its quay site, keyed by
+ *  the BAY_SITES or BAY_LANDMARKS id whose set piece they are. The site
+ *  itself stands on the quay; its floats and moored hulls stay afloat. */
+const TX_MARINA_FLOATS = {
+  "island-yacht-harbor": [15, 560],
+  "north-marina-pier": [-930, -640],
+  "south-shoreline-marina": [800, 765],
+  "estuary-marina": [120, 352],
+};
 
 /**
  * Whether (x, z) sits on a BAY_ROADS polyline, and which one: `{ onRoad:
@@ -14874,6 +14930,12 @@ let txBayPaletteName = "bayworld-night";
  *  facade width. */
 function txBayTiled(tex, ru, rv = ru) {
   const t = typeof tex?.clone === "function" ? tex.clone() : tex;
+  // Texture.clone() deep-copies userData through JSON, which turns the bump
+  // and roughness companions (textures.js attachDetailMaps()) into plain
+  // objects with no .matrix; paintedMat() then hands them to the renderer,
+  // which throws mid-frame and leaves the ground, the water and every hull
+  // unrendered (the regatta's sky-blue lower half). Share the originals.
+  if (t && t !== tex && tex.userData) t.userData = { ...tex.userData };
   if (t && t !== tex && THREE.RepeatWrapping !== undefined) { t.wrapS = THREE.RepeatWrapping; t.wrapT = THREE.RepeatWrapping; }
   t?.repeat?.set?.(ru, rv);
   return t;
@@ -14935,6 +14997,20 @@ function buildWater(parent, cx, cz, w, d, y = -0.4) {
   const m = box(parent, w, TX_WATER_THICKNESS, d, cx, y, cz, 0x0f2e3a, { rough: 0.2, metal: 0.6, cast: false });
   m.material = paintedMat(tex, { rough: 0.22, metal: 0.55 });
   m.receiveShadow = false;
+  return m;
+}
+
+/** One quay (bayworld-data.js's TX_BAY_QUAYS): a concrete slab from the
+ *  seabed under the water at `seaY` up to TX_QUAY_TOP, one mesh, its deck
+ *  painted with the pattern set's broom-finished concrete. */
+function buildQuay(parent, cx, cz, w, d, seaY = -0.4) {
+  const bottom = seaY - TX_SEABED_DROP - 0.2;
+  const h = TX_QUAY_TOP - bottom;
+  const tex = facePaint("bw-quay-deck", (c, cw, ch) => concreteFace(c, cw, ch, { finish: "broom", tone: "#9a9b95", tone2: "#86887f" }),
+    { repeat: 6, px: 256 });
+  const m = box(parent, w, h, d, cx, bottom + h / 2, cz, 0x9a9b95, { rough: 0.9, cast: false });
+  m.material = paintedMat(tex, { rough: 0.9, metal: 0.02 });
+  m.userData.bayQuay = true;
   return m;
 }
 
@@ -15062,7 +15138,13 @@ function dressZoneBuildings(parent, zone, count, rng) {
     const d = tall ? 10 + rng() * 14 : 8 + rng() * 10;
     const h = tall ? 20 + rng() * 55 : style === "corrugated" ? 5 + rng() * 6 : 6 + rng() * 8;
     const tone = zone.palette.structure;
-    buildingBox(parent, x, z, w, d, h, style, bwShade(tone, 0.85 + rng() * 0.3), Math.floor(rng() * 1000));
+    const shade = bwShade(tone, 0.85 + rng() * 0.3), seed = Math.floor(rng() * 1000);
+    // Every draw is taken first, so skipping a lot keeps the rest of the
+    // zone's dressing where it was: no building stands in open water, only
+    // on ground or on a quay (TX_BAY_QUAYS).
+    const top = txWaterTopAt(x, z);
+    if (top !== null && txQuayAt(x, z) < 0 && txGroundSurfaceAt(x, z) <= top + 0.1) continue;
+    buildingBox(parent, x, z, w, d, h, style, shade, seed);
   }
 }
 
@@ -15393,7 +15475,8 @@ const LANDMARK_BUILDERS = {
   "bay-general-hospital": (p, x, z, l) => buildHospitalBlock(p, x, z, l.name),
   "warehouse-district": (p, x, z, l, zone, rng) => buildIndustrialBlock(p, x, z, l.name, "warehouse", rng),
   "truck-yard": (p, x, z, l, zone, rng) => buildIndustrialBlock(p, x, z, l.name, "truck-yard", rng),
-  "estuary-marina": (p, x, z, l) => buildMarinaDocks(p, x, z, l.name),
+  // The marina's floats lie in the water beside its quay (TX_MARINA_FLOATS).
+  "estuary-marina": (p, x, z, l) => buildMarinaDocks(p, ...(TX_MARINA_FLOATS[l.id] ?? [x, z]), l.name),
   // The expansion's landmarks.
   "island-ferry-landing-clock": (p, x, z, l, zone) => buildClockPost(p, x, z, l.name, zone.palette.accent),
   "island-beach-esplanade": (p, x, z, l) => buildEsplanade(p, x, z, l.name),
@@ -15406,12 +15489,13 @@ const LANDMARK_BUILDERS = {
 
 /** Site-anchored set pieces the expansion's zones build beyond their
  *  landmarks: a marina with berths at each of the three marina sites. Keyed
- *  by BAY_SITES id; the builder looks the site's own position up, so a site
- *  that moves takes its marina with it. */
+ *  by BAY_SITES id; the site stands on its quay, and the marina's floats lie
+ *  at the site's TX_MARINA_FLOATS water point beside it (the site's own
+ *  position where none is listed). */
 const SITE_BUILDERS = {
-  "island-yacht-harbor": (p, x, z, s, zone) => buildMarina(p, x, z, s.name, zone.palette.accent, 8),
-  "north-marina-pier": (p, x, z, s, zone) => buildMarina(p, x, z, s.name, zone.palette.accent, 5),
-  "south-shoreline-marina": (p, x, z, s, zone) => buildMarina(p, x, z, s.name, zone.palette.accent, 6),
+  "island-yacht-harbor": (p, x, z, s, zone) => buildMarina(p, ...(TX_MARINA_FLOATS[s.id] ?? [x, z]), s.name, zone.palette.accent, 8),
+  "north-marina-pier": (p, x, z, s, zone) => buildMarina(p, ...(TX_MARINA_FLOATS[s.id] ?? [x, z]), s.name, zone.palette.accent, 5),
+  "south-shoreline-marina": (p, x, z, s, zone) => buildMarina(p, ...(TX_MARINA_FLOATS[s.id] ?? [x, z]), s.name, zone.palette.accent, 6),
 };
 
 // -------------------------------------------------------------- scenery
@@ -15548,6 +15632,13 @@ function buildWorld(parent, opts) {
   // ground never covers the water again.
   for (const [wx, wz, ww, wd, wy] of TX_BAY_WATER) {
     buildWater(parent, wx, wz, ww + TX_SHORE_MARGIN * 4, wd + TX_SHORE_MARGIN * 4, wy);
+  }
+  // The quays the port, the estuary front, the island and the south shore
+  // stand on, where their water carves the ground away (TX_BAY_QUAYS). A
+  // one-zone build lays only the quays inside that zone.
+  for (const [qx, qz, qw, qd] of TX_BAY_QUAYS) {
+    if (opts.zone && bayZoneAt(qx, qz).id !== opts.zone) continue;
+    buildQuay(parent, qx, qz, qw, qd);
   }
   if (!opts.zone) buildRoads(parent, BAY_ROADS);
   else buildRoads(parent, BAY_ROADS.filter((r) => r.points.some(([x, z]) => bayZoneAt(x, z).id === opts.zone)));

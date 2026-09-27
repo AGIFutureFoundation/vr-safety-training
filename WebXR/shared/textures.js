@@ -311,11 +311,14 @@ export function clearFacePaintCache() { _texCache.clear(); }
  */
 export function paintedMat(tex, o = {}) {
   const extra = {};
-  if (QUALITY === "high" && tex?.userData?.bumpMap) {
+  // Only a real texture: a clone's userData is deep-copied through JSON, so a
+  // cloned map carries plain-object companions with no .matrix, and handing
+  // those to the renderer throws mid-frame (nothing after it is drawn).
+  if (QUALITY === "high" && tex?.userData?.bumpMap?.isTexture) {
     extra.bumpMap = tex.userData.bumpMap;
     extra.bumpScale = o.bumpScale ?? 0.015;
   }
-  if (QUALITY === "high" && tex?.userData?.roughnessMap) {
+  if (QUALITY === "high" && tex?.userData?.roughnessMap?.isTexture) {
     extra.roughnessMap = tex.userData.roughnessMap;
   }
   const m = new THREE.MeshStandardMaterial({
@@ -1344,6 +1347,7 @@ export function txTexture(id, o = {}) {
     _txCanvases.set(key, base);
   }
   const tex = (rep[0] === 1 && rep[1] === 1) || typeof base.clone !== "function" ? base : base.clone();
+  if (tex !== base && base.userData) tex.userData = { ...base.userData };   // share, never JSON-copy, the companions
   if (tex !== base && THREE.RepeatWrapping !== undefined) { tex.wrapS = THREE.RepeatWrapping; tex.wrapT = THREE.RepeatWrapping; }
   tex.repeat?.set?.(rep[0], rep[1]);
   _txTiled.set(tiledKey, tex);
