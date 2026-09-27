@@ -8,3 +8,4 @@ Every team keeps its own console under this folder (see `tools/briefs/console-br
 - 17:49 UTC · Bay World expansion merged, gate "All 50 checkers pass" · 4052a21 · next: relay the enlarged bounds to YACHT1 and MAPBOX1.
 - 18:04 UTC · Bay Atlas and the Mapbox layer merged, gate "All 51 checkers pass" · deea4d4 · next: yacht pack.
 - 18:25 UTC · Yacht and charter crew pack merged (eight stations 93–98, builders motorYacht / yachtTender / marinaBerth, harbor-cruise activity, two marina eggs), gate "All 51 checkers pass" · e3a0a90 · next: Deep run hand-backs; republish once TRENCH lands.
+- 18:34 UTC · Regatta run opened inside the Deep run (45 minutes): the yacht fleet, hosted events and racing (REGATTA), skybox, live weather and wildlife with the pier-fishing activity and Field Guide eggs (SKY), the game whitepaper (SCRIBE); a promo of the game and the whitepaper update close the run · next: merge Deep and Regatta hand-backs as they land.
