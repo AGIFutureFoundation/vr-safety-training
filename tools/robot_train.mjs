@@ -40,10 +40,19 @@
  * same policy and the same engine, with a body — poses, grasps, force classes,
  * keep-out volumes, and any step a station marked `noRobot` handed to the
  * clinician instead of attempted.
+ * --from-lerobot <dir> trains the per-primitive baseline on a LeRobot-style
+ * export (tools/export_dataset.mjs writes one under <out>/lerobot) instead of
+ * running the engine: stations split into train and held-out sets by a
+ * stable hash, one tabular policy per primitive of WebXR/shared/skill-
+ * registry.js (the action type the rewarded demonstrations use, and for
+ * hold-in-band the mean commit offset from the band centre), then per
+ * primitive the demonstrations' success rate (share of decisions that earned
+ * reward) and the baseline's held-out agreement with the rewarded ones.
+ * Writes <out>/baseline-primitives.json; touches nothing else.
  * --report prints, per station, the success rate at each skill, the keep-out
  * violations and the steps a robot must never perform.
  */
-import { mkdirSync, writeFileSync, appendFileSync, existsSync, rmSync } from "node:fs";
+import { mkdirSync, writeFileSync, appendFileSync, existsSync, rmSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { ROOT, loadSmartCity, loadTrades } from "./lib/headless.mjs";
 import { CURRICULA } from "../WebXR/smartcity/js/curricula.js";
@@ -75,6 +84,61 @@ const only = programme
 const skillsOpt = opt("skills", "");
 const out = opt("out", join(ROOT, "tools", "out", "robot"));
 const withTrajectories = !flag("no-trajectories");
+const fromLerobot = opt("from-lerobot", "");
+
+// ------------------------------------------------- baseline on the new format
+if (fromLerobot) {
+  const { SK_PRIMITIVES } = await import("../WebXR/shared/skill-registry.js");
+  const readJsonl = (p) => readFileSync(p, "utf8").split("\n").filter(Boolean).map((l) => JSON.parse(l));
+  const meta = readJsonl(join(fromLerobot, "meta", "episodes.jsonl"));
+  const hash = (str) => { let h = 0x811c9dc5; for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 0x01000193); } return h >>> 0; };
+  const stations = [...new Set(meta.map((e) => `${e.app}/${e.station}`))].sort();
+  // Every fourth station (by hash) held out; with fewer than four, the last one.
+  let test = new Set(stations.filter((s) => hash(s) % 4 === 0));
+  if (!test.size || test.size === stations.length) test = new Set(stations.slice(-1));
+  const frames = { train: [], test: [] };
+  for (const dir of readdirSync(join(fromLerobot, "data")).sort()) {
+    for (const f of readdirSync(join(fromLerobot, "data", dir)).sort()) {
+      for (const r of readJsonl(join(fromLerobot, "data", dir, f))) {
+        const e = meta[r.episode_index];
+        (test.has(`${e.app}/${e.station}`) ? frames.test : frames.train).push(r);
+      }
+    }
+  }
+  const byPrim = (rows) => rows.reduce((m, r) => { if (r.primitive && r.action?.type && r.action.type !== "wait") (m[r.primitive] ??= []).push(r); return m; }, {});
+  const train = byPrim(frames.train), held = byPrim(frames.test), all = byPrim([...frames.train, ...frames.test]);
+  const policy = {}, rows = [];
+  for (const p of SK_PRIMITIVES) {
+    const good = (train[p.id] ?? []).filter((r) => r.reward > 0);
+    const counts = good.reduce((m, r) => { m[r.action.type] = (m[r.action.type] ?? 0) + 1; return m; }, {});
+    const action = Object.entries(counts).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0]?.[0] ?? (p.actions[0] ?? null);
+    const offsets = p.id === "hold-in-band"
+      ? good.filter((r) => r.action.type === "commit" && r.observation?.gauge?.green).map((r) => r.action.at - (r.observation.gauge.green[0] + r.observation.gauge.green[1]) / 2)
+      : [];
+    policy[p.id] = { action, ...(offsets.length ? { commitOffset: +(offsets.reduce((a, b) => a + b, 0) / offsets.length).toFixed(4) } : {}) };
+    const demos = all[p.id] ?? [];
+    const heldGood = (held[p.id] ?? []).filter((r) => r.reward > 0);
+    rows.push({
+      primitive: p.id, kind: p.kind, trainDecisions: (train[p.id] ?? []).length, heldOutDecisions: (held[p.id] ?? []).length,
+      demoSuccessRate: demos.length ? +(demos.filter((r) => r.reward > 0).length / demos.length).toFixed(3) : null,
+      baselineHeldOutAgreement: heldGood.length ? +(heldGood.filter((r) => r.action.type === action).length / heldGood.length).toFixed(3) : null,
+      policy: policy[p.id],
+    });
+  }
+  mkdirSync(out, { recursive: true });
+  const result = {
+    source: fromLerobot, episodes: meta.length, trainStations: stations.filter((s) => !test.has(s)), testStations: [...test],
+    note: "A tabular per-primitive baseline: what a policy has to beat, not a controller. demoSuccessRate is the share of that primitive's decisions in the data that earned reward; baselineHeldOutAgreement is how often the baseline picks the rewarded action type on held-out stations.",
+    primitives: rows,
+  };
+  writeFileSync(join(out, "baseline-primitives.json"), JSON.stringify(result, null, 2));
+  console.log(`Per-primitive baseline on ${meta.length} episode(s), ${frames.train.length + frames.test.length} frame(s); held out: ${[...test].join(", ")}`);
+  for (const r of rows) {
+    console.log(`  ${r.primitive.padEnd(24)} success ${r.demoSuccessRate == null ? "  —  " : `${String(Math.round(r.demoSuccessRate * 100)).padStart(3)}%`}  baseline agreement ${r.baselineHeldOutAgreement == null ? "—" : `${Math.round(r.baselineHeldOutAgreement * 100)}%`}  (${r.trainDecisions} train / ${r.heldOutDecisions} held-out)`);
+  }
+  console.log(`Wrote ${join(out, "baseline-primitives.json")}`);
+  process.exit(0);
+}
 
 if (existsSync(out)) rmSync(out, { recursive: true, force: true });
 mkdirSync(out, { recursive: true });

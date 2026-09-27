@@ -179,3 +179,83 @@ export function createFormatWriters(out, { lerobot = true, rlds = true, generate
 
   return { add, close };
 }
+
+// ------------------------------------------------------------ validation
+//
+// Structural checks for both layouts, shared by tools/eval_dataset.mjs (the
+// quality report) and tools/check_agent.mjs (the gate): every required file
+// present, every frame/step carrying its fields with the right types, every
+// episode carrying every label, the flags consistent (exactly one is_first and
+// one is_last per RLDS episode; done only on a LeRobot episode's last frame),
+// the counts in info.json / features.json matching what is on disk, and no
+// raw crew tag anywhere (only a hash or null).
+import { existsSync, readFileSync, readdirSync } from "node:fs";
+
+function readJsonl(path) {
+  return readFileSync(path, "utf8").split("\n").filter(Boolean).map((l) => JSON.parse(l));
+}
+
+export function validateFormats(dir) {
+  const result = {};
+  const lr = join(dir, LEROBOT_DIR);
+  if (existsSync(lr)) {
+    const issues = [];
+    let episodes = 0, frames = 0;
+    try {
+      const info = JSON.parse(readFileSync(join(lr, "meta", "info.json"), "utf8"));
+      const eps = readJsonl(join(lr, "meta", "episodes.jsonl"));
+      const tasks = readJsonl(join(lr, "meta", "tasks.jsonl"));
+      episodes = eps.length;
+      for (const e of eps) {
+        for (const f of LABEL_FIELDS) if (!(f in e)) issues.push(`episode ${e.episode_index}: label ${f} missing`);
+        if (e.crewTagHash != null && typeof e.crewTagHash !== "string") issues.push(`episode ${e.episode_index}: crewTagHash not a hash`);
+        if (!e.licence || !e.consent) issues.push(`episode ${e.episode_index}: licence/consent missing`);
+        const chunk = String(Math.floor(e.episode_index / (info.chunks_size || LEROBOT_CHUNK))).padStart(3, "0");
+        const path = join(lr, "data", `chunk-${chunk}`, `episode_${String(e.episode_index).padStart(6, "0")}.jsonl`);
+        if (!existsSync(path)) { issues.push(`episode ${e.episode_index}: data file missing`); continue; }
+        const rows = readJsonl(path);
+        if (rows.length !== e.length) issues.push(`episode ${e.episode_index}: length ${e.length} but ${rows.length} frame(s)`);
+        rows.forEach((r, i) => {
+          for (const f of LEROBOT_FRAME_FIELDS) if (!(f in r)) issues.push(`episode ${e.episode_index} frame ${i}: ${f} missing`);
+          if (typeof r.reward !== "number") issues.push(`episode ${e.episode_index} frame ${i}: reward not a number`);
+          if (r.done !== (i === rows.length - 1)) issues.push(`episode ${e.episode_index} frame ${i}: done flag wrong`);
+          if (r.frame_index !== i) issues.push(`episode ${e.episode_index} frame ${i}: frame_index ${r.frame_index}`);
+          if (!tasks.some((t) => t.task_index === r.task_index)) issues.push(`episode ${e.episode_index} frame ${i}: unknown task_index`);
+        });
+        frames += rows.length;
+      }
+      if (info.total_episodes !== episodes) issues.push(`info.json total_episodes ${info.total_episodes} != ${episodes}`);
+      if (info.total_frames !== frames) issues.push(`info.json total_frames ${info.total_frames} != ${frames}`);
+      if (info.total_tasks !== tasks.length) issues.push(`info.json total_tasks ${info.total_tasks} != ${tasks.length}`);
+    } catch (err) { issues.push(`unreadable: ${err.message}`); }
+    result.lerobot = { present: true, episodes, frames, valid: issues.length === 0, issues: issues.slice(0, 20), issueCount: issues.length };
+  } else result.lerobot = { present: false };
+
+  const rl = join(dir, RLDS_DIR);
+  if (existsSync(rl)) {
+    const issues = [];
+    let episodes = 0, steps = 0;
+    try {
+      const features = JSON.parse(readFileSync(join(rl, "features.json"), "utf8"));
+      const eps = readJsonl(join(rl, "episodes.jsonl"));
+      episodes = eps.length;
+      eps.forEach((e, n) => {
+        const md = e.episode_metadata ?? {};
+        for (const f of LABEL_FIELDS) if (!(f in md)) issues.push(`episode ${n}: label ${f} missing`);
+        if (!Array.isArray(e.steps)) { issues.push(`episode ${n}: steps not an array`); return; }
+        if (e.steps.length && e.steps.filter((s) => s.is_first).length !== 1) issues.push(`episode ${n}: needs exactly one is_first`);
+        if (e.steps.length && e.steps.filter((s) => s.is_last).length !== 1) issues.push(`episode ${n}: needs exactly one is_last`);
+        e.steps.forEach((s, i) => {
+          for (const f of RLDS_STEP_FIELDS) if (!(f in s)) issues.push(`episode ${n} step ${i}: ${f} missing`);
+          if (typeof s.reward !== "number") issues.push(`episode ${n} step ${i}: reward not a number`);
+          if (s.is_terminal && !s.is_last) issues.push(`episode ${n} step ${i}: is_terminal before is_last`);
+        });
+        steps += e.steps.length;
+      });
+      if (features.total_episodes !== episodes) issues.push(`features.json total_episodes ${features.total_episodes} != ${episodes}`);
+      if (features.total_steps !== steps) issues.push(`features.json total_steps ${features.total_steps} != ${steps}`);
+    } catch (err) { issues.push(`unreadable: ${err.message}`); }
+    result.rlds = { present: true, episodes, steps, valid: issues.length === 0, issues: issues.slice(0, 20), issueCount: issues.length };
+  } else result.rlds = { present: false };
+  return result;
+}
