@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 626
+      "stations": 627
     },
     "trades": {
       "entry": "trades/index.html",
@@ -44,6 +44,7 @@
         "line-truck",
         "substation-switching",
         "battery-yard",
+        "ws-blade-inspection-from-a-platform",
         "ws-nacelle-lockout-and-yaw-brake-fault",
         "ws-turbine-climb-and-rescue-kit-check",
         "battery-storage-container-commissioning",
@@ -9515,6 +9516,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-blade-inspection-from-a-platform",
+      "name": "Blade Inspection from a Platform",
+      "title": "SmartCiti.X~ Blade Inspection from a Platform VR",
+      "tagline": "The wind read against the site's platform limit before the platform leaves the ground, the rotor locked with the blade parked, the platform proven, and every defect photographed and reported rather than guessed at",
+      "category": "Energy & Power",
+      "domain": "Energy",
+      "trade": "Ironworkers / IBEW blade technician",
+      "union": null,
+      "certification": "Ironworkers IMPACT and IBEW/NECA JATC wind training as bodies; ANSI Z359 for the independent lifeline and harness on a suspended platform; 29 CFR 1910.28 and 29 CFR 1926.502 for the fall-protection system; 29 CFR 1910.269 for work on the generation installation; the platform manufacturer's manual and the site's procedure for every wind and load limit",
+      "accent": "#7fc4e8",
+      "parSeconds": 320,
+      "weather": "wind",
+      "indoor": null,
+      "district": "wind-farm",
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "hold",
+        "find",
+        "track",
+        "drag",
+        "turn"
+      ],
+      "badge": {
+        "id": "wind-decides",
+        "name": "The Wind Decides",
+        "note": "The go or no-go made against the written limit, the platform proven and every defect on the record"
+      },
+      "meshes": 137,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ws-03",
+      "flat": false,
+      "system": "Blade Authority",
+      "currency": "PASSES",
+      "ranks": [
+        "Trainee",
+        "Rope Hand",
+        "Blade Technician",
+        "Lead Technician",
+        "Blade Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "limit-read",
+          "name": "Limit Read",
+          "note": "The wind was read against the site's platform limit"
+        },
+        {
+          "id": "no-shortcuts",
+          "name": "No Shortcuts",
+          "note": "No unsafe action was recorded"
+        },
+        {
+          "id": "steady-platform",
+          "name": "Steady Platform",
+          "note": "Held the platform clear of the blade"
+        },
+        {
+          "id": "clean-inspection",
+          "name": "Clean Inspection",
+          "note": "No corrections from the plan to the report"
+        },
+        {
+          "id": "unbroken-raise",
+          "name": "Unbroken Raise",
+          "note": "The platform raise ran without a break"
+        },
+        {
+          "id": "brisk-pass",
+          "name": "Brisk Pass",
+          "note": "Inspected and reported inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ws-blade-inspection-from-a-platform"
     },
     {
       "app": "smartcity",
@@ -31614,7 +31698,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 262,
+      "meshes": 250,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -32274,7 +32358,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "100",

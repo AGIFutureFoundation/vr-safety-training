@@ -26572,5 +26572,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "ws-blade-inspection-from-a-platform",
+    "index": "ws-03",
+    "domain": "Energy",
+    "trade": "Ironworkers / IBEW blade technician",
+    "category": "Energy & Power",
+    "certification": "Ironworkers IMPACT and IBEW/NECA JATC wind training as bodies; ANSI Z359 for the independent lifeline and harness on a suspended platform; 29 CFR 1910.28 and 29 CFR 1926.502 for the fall-protection system; 29 CFR 1910.269 for work on the generation installation; the platform manufacturer's manual and the site's procedure for every wind and load limit",
+    "name": "Blade Inspection from a Platform",
+    "weather": "wind",
+    "indoor": null,
+    "district": "wind-farm",
+    "title": "SmartCiti.X~ Blade Inspection from a Platform VR",
+    "tagline": "The wind read against the site's platform limit before the platform leaves the ground, the rotor locked with the blade parked, the platform proven, and every defect photographed and reported rather than guessed at",
+    "accent": 8373480,
+    "accentCss": "#7fc4e8",
+    "parSeconds": 320,
+    "badge": {
+      "id": "wind-decides",
+      "name": "The Wind Decides",
+      "note": "The go or no-go made against the written limit, the platform proven and every defect on the record"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Blade Authority",
+      "currency": "PASSES",
+      "ranks": [
+        "Trainee",
+        "Rope Hand",
+        "Blade Technician",
+        "Lead Technician",
+        "Blade Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
