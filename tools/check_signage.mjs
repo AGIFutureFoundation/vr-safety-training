@@ -2,11 +2,12 @@
  * Gates the union and safety signage (tools/briefs/assets-brief.md, "Union
  * signage"; docs/signage.md):
  *
- *   1. tools/unions.json is complete and honest: one well-formed entry per
- *      union, every trainingBody a registry union entry, every registry union
- *      entry carried by some union, no colours or locals the file does not
- *      justify, and every programme's `union` string resolving to at least one
- *      entry — and WebXR/shared/unions.js is what gen_unions.mjs writes now
+ *   1. tools/unions.json is complete and honest: at least 111 unions, one
+ *      well-formed entry per union, every trainingBody a registry union
+ *      entry, every registry union entry carried by some union, no colours or
+ *      locals the file does not justify, and every programme's `union`
+ *      string resolving to at least one entry — and WebXR/shared/unions.js is
+ *      what gen_unions.mjs writes now
  *   2. no logo ships: WebXR/assets/brand/ holds the manifest and its README
  *      and nothing else, the manifest carries a licence note and one entry per
  *      union, and every `file` is null
@@ -46,6 +47,8 @@ const registryById = Object.fromEntries(registry.standards.map((s) => [s.id, s])
 {
   const before = failures;
   if (!Array.isArray(data.unions) || !data.unions.length) fail("unions", "tools/unions.json has no `unions` array");
+  const MIN_UNIONS = 111;
+  if ((data.unions ?? []).length < MIN_UNIONS) fail("unions", `tools/unions.json names only ${data.unions.length} unions, fewer than the ${MIN_UNIONS} the registry must carry`);
   if (typeof data.note !== "string" || !/no union logo/i.test(data.note)) fail("unions", "the file's `note` must state that no union logo is reproduced");
   const ids = new Set();
   const hex = /^#[0-9a-f]{6}$/i;
@@ -211,7 +214,7 @@ const STAGE_STUB = THREE_STUB
 if (!STAGE_STUB.includes("getHex()")) throw new Error("check_signage: the headless stub changed shape; update the Color replacement here");
 const STAGE_MODULES = ["shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/a11y.js", "shared/weather.js", "shared/unions.js", "smartcity/js/curricula.js", "shared/signage.js",
   "shared/fleet.js", "shared/props.js",
-  "smartcity/js/citykit.js", "smartcity/js/ambient.js", "smartcity/js/apron.js", "smartcity/js/interiors.js", "shared/fairway-data.js", "shared/fairway.js", "smartcity/js/districts.js", "smartcity/js/stage.js"];
+  "smartcity/js/citykit.js", "smartcity/js/ambient.js", "smartcity/js/apron.js", "smartcity/js/interiors.js", "shared/fairway-data.js", "shared/fairway.js", "shared/bayworld-data.js", "shared/bayworld.js", "smartcity/js/districts.js", "smartcity/js/stage.js"];
 installDomStubs();
 const dir = mkdtempSync(join(tmpdir(), "signage-stage-"));
 process.on("exit", () => { try { rmSync(dir, { recursive: true, force: true }); } catch { /* scratch folder; best effort */ } });

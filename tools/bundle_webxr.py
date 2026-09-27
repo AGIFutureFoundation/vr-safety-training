@@ -149,6 +149,12 @@ APPS = {
             # planting a hard hat live here.
             SHARED / "eggs.js",
             WEBXR / "smartcity/js/citykit.js",
+            # Bay World (docs/districts.md): the shared open-world layout and
+            # builder, after smartcity/js/citykit.js (bayworld.js borrows its
+            # standingFigure/holoTag) and before districts.js, which builds
+            # its "bay-world" scenic-district preview.
+            SHARED / "bayworld-data.js",
+            SHARED / "bayworld.js",
             WEBXR / "smartcity/js/gamify.js",
             WEBXR / "smartcity/js/districts.js",
             WEBXR / "smartcity/js/interiors.js", WEBXR / "smartcity/js/ambient.js", WEBXR / "smartcity/js/apron.js",
