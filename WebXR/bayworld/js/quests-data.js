@@ -5,8 +5,9 @@
  *
  * The Bay World quest layer's data: the Job Readiness Edition's main story
  * arc, one opener and one capstone side quest per every other programme,
- * twenty-four easter-egg field notes at real Bay Area public landmarks,
- * and four scored side activities. See docs/bayworld-quests.md.
+ * the easter-egg field notes at generic public landmarks, the Field Guide's
+ * wildlife-sighting eggs, and the scored side activities. See
+ * docs/bayworld-quests.md.
  *
  * Quest shape (BAY2's WebXR/bayworld/ quest engine):
  *   { id, title, giver, site, kind: "main"|"side"|"egg",
@@ -5536,6 +5537,241 @@ export const EGG_QUESTS = [
   }
 ];
 
+export const FIELD_GUIDE_EGGS = [
+  {
+    "id": "bw-egg-fg-gulls-port",
+    "title": "Field Guide — Harbor Gantry Cranes",
+    "giver": "found, not given",
+    "site": "Harbor Gantry Cranes",
+    "kind": "egg",
+    "tier": 0,
+    "requires": null,
+    "landmark": "Harbor Gantry Cranes",
+    "method": "sight",
+    "wildlife": "gulls",
+    "note": "Gulls work the tide line and the wake of anything that stirs the water; the sound of one over a dock usually means the others are close behind.",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Harbor Gantry Cranes",
+        "text": "Walk to Harbor Gantry Cranes and watch the water and the shore for a while."
+      },
+      {
+        "type": "find",
+        "target": "bw-egg-fg-gulls-port",
+        "text": "A Field Guide page fills in: \"Gulls work the tide line and the wake of anything that stirs the water; the sound of one over a dock usually means the others are close behind.\""
+      }
+    ],
+    "reward": {
+      "xp": 25,
+      "badge": "Field Guide"
+    }
+  },
+  {
+    "id": "bw-egg-fg-gulls-pier",
+    "title": "Field Guide — North Pier",
+    "giver": "found, not given",
+    "site": "North Pier",
+    "kind": "egg",
+    "tier": 0,
+    "requires": null,
+    "landmark": "North Pier",
+    "method": "sight",
+    "wildlife": "gulls",
+    "note": "Gulls on a pier rail are watching the anglers, not the water; bait left on the deck goes first, and a hooked bird is a real hazard.",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "North Pier",
+        "text": "Walk to North Pier and watch the water and the shore for a while."
+      },
+      {
+        "type": "find",
+        "target": "bw-egg-fg-gulls-pier",
+        "text": "A Field Guide page fills in: \"Gulls on a pier rail are watching the anglers, not the water; bait left on the deck goes first, and a hooked bird is a real hazard.\""
+      }
+    ],
+    "reward": {
+      "xp": 25,
+      "badge": "Field Guide"
+    }
+  },
+  {
+    "id": "bw-egg-fg-pelicans-channel",
+    "title": "Field Guide — Channel Marker",
+    "giver": "found, not given",
+    "site": "Channel Marker",
+    "kind": "egg",
+    "tier": 0,
+    "requires": null,
+    "landmark": "Channel Marker",
+    "method": "sight",
+    "wildlife": "pelicans",
+    "note": "Pelicans fly low in a line with slow, deep wingbeats and fold into a plunge when they spot a fish beneath the surface.",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Channel Marker",
+        "text": "Walk to Channel Marker and watch the water and the shore for a while."
+      },
+      {
+        "type": "find",
+        "target": "bw-egg-fg-pelicans-channel",
+        "text": "A Field Guide page fills in: \"Pelicans fly low in a line with slow, deep wingbeats and fold into a plunge when they spot a fish beneath the surface.\""
+      }
+    ],
+    "reward": {
+      "xp": 25,
+      "badge": "Field Guide"
+    }
+  },
+  {
+    "id": "bw-egg-fg-shorebirds-beach",
+    "title": "Field Guide — Island Beach Esplanade",
+    "giver": "found, not given",
+    "site": "Island Beach Esplanade",
+    "kind": "egg",
+    "tier": 0,
+    "requires": null,
+    "landmark": "Island Beach Esplanade",
+    "method": "sight",
+    "wildlife": "shorebirds",
+    "note": "Shorebirds run in short dashes along the wet sand where each wave pulls back, probing for what the water uncovered.",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Island Beach Esplanade",
+        "text": "Walk to Island Beach Esplanade and watch the water and the shore for a while."
+      },
+      {
+        "type": "find",
+        "target": "bw-egg-fg-shorebirds-beach",
+        "text": "A Field Guide page fills in: \"Shorebirds run in short dashes along the wet sand where each wave pulls back, probing for what the water uncovered.\""
+      }
+    ],
+    "reward": {
+      "xp": 25,
+      "badge": "Field Guide"
+    }
+  },
+  {
+    "id": "bw-egg-fg-seals-float",
+    "title": "Field Guide — North Pier",
+    "giver": "found, not given",
+    "site": "North Pier",
+    "kind": "egg",
+    "tier": 0,
+    "requires": null,
+    "landmark": "North Pier",
+    "method": "sight",
+    "wildlife": "seals",
+    "note": "Seals haul out on floats and low rocks to rest and warm up between dives, and slip back in quietly when something comes too close.",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "North Pier",
+        "text": "Walk to North Pier and watch the water and the shore for a while."
+      },
+      {
+        "type": "find",
+        "target": "bw-egg-fg-seals-float",
+        "text": "A Field Guide page fills in: \"Seals haul out on floats and low rocks to rest and warm up between dives, and slip back in quietly when something comes too close.\""
+      }
+    ],
+    "reward": {
+      "xp": 25,
+      "badge": "Field Guide"
+    }
+  },
+  {
+    "id": "bw-egg-fg-fish-school",
+    "title": "Field Guide — Channel Marker",
+    "giver": "found, not given",
+    "site": "Channel Marker",
+    "kind": "egg",
+    "tier": 0,
+    "requires": null,
+    "landmark": "Channel Marker",
+    "method": "sight",
+    "wildlife": "fish",
+    "note": "A fish school moves as one body, turning and tightening together so that no single fish is easy to single out.",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Channel Marker",
+        "text": "Walk to Channel Marker and watch the water and the shore for a while."
+      },
+      {
+        "type": "find",
+        "target": "bw-egg-fg-fish-school",
+        "text": "A Field Guide page fills in: \"A fish school moves as one body, turning and tightening together so that no single fish is easy to single out.\""
+      }
+    ],
+    "reward": {
+      "xp": 25,
+      "badge": "Field Guide"
+    }
+  },
+  {
+    "id": "bw-egg-fg-ray-channel",
+    "title": "Field Guide — Channel Marker",
+    "giver": "found, not given",
+    "site": "Channel Marker",
+    "kind": "egg",
+    "tier": 0,
+    "requires": null,
+    "landmark": "Channel Marker",
+    "method": "sight",
+    "wildlife": "ray",
+    "note": "A ray glides just above the bottom on its wing-like fins and settles into the sand when it stops, showing only its eyes and tail.",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Channel Marker",
+        "text": "Walk to Channel Marker and watch the water and the shore for a while."
+      },
+      {
+        "type": "find",
+        "target": "bw-egg-fg-ray-channel",
+        "text": "A Field Guide page fills in: \"A ray glides just above the bottom on its wing-like fins and settles into the sand when it stops, showing only its eyes and tail.\""
+      }
+    ],
+    "reward": {
+      "xp": 25,
+      "badge": "Field Guide"
+    }
+  },
+  {
+    "id": "bw-egg-fg-crab-breakwater",
+    "title": "Field Guide — North Pier",
+    "giver": "found, not given",
+    "site": "North Pier",
+    "kind": "egg",
+    "tier": 0,
+    "requires": null,
+    "landmark": "North Pier",
+    "method": "sight",
+    "wildlife": "crab",
+    "note": "A kelp crab clings to weed and rock with hooked legs and sidesteps into cover rather than swimming from anything that startles it.",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "North Pier",
+        "text": "Walk to North Pier and watch the water and the shore for a while."
+      },
+      {
+        "type": "find",
+        "target": "bw-egg-fg-crab-breakwater",
+        "text": "A Field Guide page fills in: \"A kelp crab clings to weed and rock with hooked legs and sidesteps into cover rather than swimming from anything that startles it.\""
+      }
+    ],
+    "reward": {
+      "xp": 25,
+      "badge": "Field Guide"
+    }
+  }
+];
+
 export const SIDE_ACTIVITIES = [
   {
     "id": "bw-activity-delivery-run",
@@ -5600,6 +5836,29 @@ export const SIDE_ACTIVITIES = [
         "no-wake speed held inside the marina",
         "wake watch kept on the estuary for other vessels and the shoreline",
         "a clean return to the berth: spring first, engines confirmed stopped before the gangway"
+      ]
+    }
+  },
+  {
+    "id": "bw-activity-pier-fishing",
+    "title": "North Pier Catch and Release",
+    "kind": "fishing",
+    "site": "North Pier",
+    "description": "Catch-and-release fishing from the north pier's rail: rig, cast, land and release, scored on the habits that keep the pier safe for the people and the fish.",
+    "rules": [
+      "rig check before the first cast: knots pulled tight, hook point sharp, no frayed line",
+      "look and call behind before every cast, and cast only with the deck clear behind you",
+      "handle the hook with pliers, never with the line wrapped round a hand",
+      "wet hands before touching a fish, keep it over the water and release it quickly",
+      "carry the licence the state's rules ask for, and follow those rules for anything kept"
+    ],
+    "scoring": {
+      "time": false,
+      "criteria": [
+        "rig checked before the first cast",
+        "area behind the cast confirmed clear every time",
+        "hook handled with pliers",
+        "every fish released with wet hands"
       ]
     }
   },

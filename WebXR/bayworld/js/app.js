@@ -6,7 +6,7 @@ import { BW_SITES, BW_LANDMARKS, BW_ZONES } from "./city.js";
 import {
   BW_VEHICLES, BW_SPEED_CAP, bwStepPlayer, bwStepVehicle, bwVehicleParams, bwMissionLink,
   bwSpawnTraffic, bwStepTraffic, bwCreatePedestrian, bwStepPedestrian,
-  bwAdvanceClock, bwWeatherFor, bwNearestPlace, bwZoneAt,
+  bwAdvanceClock, bwNearestPlace, bwZoneAt,
 } from "./sim.js";
 import {
   bwCareerState, bwAwardMission, bwAwardQuestReward, bwCollectMissionReturns, bwSiteProgress,
@@ -56,6 +56,7 @@ const bwApp = {
   vehicleState: null,
   hours: 9,                  // the day clock, 0-24
   weather: "clear",
+  wind: null,                // { speed, dir } from shared/sky.js's recipe
   traffic: [],
   pedestrians: [],
   nearSite: null, nearVehicle: null, nearLandmark: null,
@@ -200,6 +201,9 @@ function bwOpenJobBoard(site) {
   // carry no station at all — a real place on the map with nothing to launch
   // yet, rather than an invented one just to fill the button.
   $("jb-launch")?.toggleAttribute("hidden", !(site.stations ?? []).length);
+  // The yacht harbour's board also opens the Bay Regatta (WebXR/regatta): the
+  // fleet, the hosted events and the race courses on this same water.
+  $("jb-regatta")?.toggleAttribute("hidden", site.id !== "island-yacht-harbor");
   bwOpenScreen("jobboard");
 }
 $("jb-launch")?.addEventListener("click", () => {
@@ -406,8 +410,12 @@ function bwSetup3D() {
 
 function bwStep(dt) {
   bwApp.hours = bwAdvanceClock(bwApp.hours, dt);
-  const newWeather = bwWeatherFor(bwApp.hours, 0);
-  if (newWeather !== bwApp.weather) { bwApp.weather = newWeather; bwApp.world.bwSetWeather(bwApp.weather); }
+  // The live sky (shared/sky.js): the weather drifts on its own clock, the
+  // dome follows the camera and the wildlife loops; the HUD reads the
+  // weather word and the wind from the same recipe the fog is set from.
+  const skyNow = bwApp.world.bwStepSky(dt, bwApp.hours, bwApp.scene, bwApp.camera);
+  if (skyNow.weather !== bwApp.weather) { bwApp.weather = skyNow.weather; bwToast(`Weather: ${skyNow.label.toLowerCase()}.`); }
+  bwApp.wind = skyNow.wind;
   bwApp.world.bwApplyLighting(bwApp.scene, bwApp.hours);
 
   const pad = bwPadSnapshot();
@@ -476,7 +484,7 @@ function bwStep(dt) {
 
   $("hud-clock").textContent = bwFormatClock(bwApp.hours);
   $("hud-zone").textContent = BW_ZONES.find((z) => z.id === bwZoneAt(bwApp.player.x, bwApp.player.z))?.name ?? "";
-  $("hud-weather").textContent = bwApp.weather;
+  $("hud-weather").textContent = `${skyNow.label} · wind ${skyNow.wind.speed.toFixed(0)} m/s ${skyNow.compass}`;
   if (!bwApp._mapTick || bwApp._mapTick > 6) { bwDrawMinimap(); bwApp._mapTick = 0; }
   bwApp._mapTick = (bwApp._mapTick ?? 0) + 1;
 }
