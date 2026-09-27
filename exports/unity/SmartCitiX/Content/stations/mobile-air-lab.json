@@ -1,0 +1,392 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "van-proven",
+    "name": "Van Proven",
+    "note": "A deployment sited on the wind rather than on convenience, with instruments proven and a reference sample running before the first hour is trusted"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "AFSCME air-district technicians and LIUNA environmental laborers under OSHA HAZWOPER 40-hour (29 CFR 1910.120); Bay Area Air Quality Management District community monitoring practice; EPA 40 CFR Part 58 ambient air quality monitoring and Appendix A quality assurance; the site's Air Monitoring Plan under the cleanup order; California AB 617 community air monitoring",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "40 CFR 58",
+        "id": "epa-40-cfr-58",
+        "title": "40 CFR Part 58 — Ambient air quality surveillance, including monitor siting and quality assurance"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.120",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "sited-on-the-wind",
+        "name": "Sited On The Wind",
+        "note": "Re-sited the van the moment the forecast stopped matching the wind"
+      },
+      {
+        "id": "never-unposted",
+        "name": "Never Unposted",
+        "note": "Never left the van running without its community notice up"
+      },
+      {
+        "id": "span-true",
+        "name": "Span True",
+        "note": "Held every zero and span check inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-deployment",
+        "name": "Clean Deployment",
+        "note": "No corrections through the whole deployment"
+      },
+      {
+        "id": "reference-running",
+        "name": "Reference Running",
+        "note": "Never let the co-located reference sample lapse once started"
+      },
+      {
+        "id": "van-ready",
+        "name": "Van Ready",
+        "note": "Fully deployed and the first hour reviewed inside 80% of par"
+      }
+    ],
+    "currency": "MICROGRAM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Van Trainee",
+      "Field Technician",
+      "Deployment Lead",
+      "QA Technician",
+      "Mobile Air Authority"
+    ],
+    "system": "Mobile Air Authority"
+  },
+  "hazards": {
+    "block-sidewalk": "You swung the rear doors fully open across the sidewalk to work the bench. The doors are the only way into this van's instruments, but a wheelchair or a stroller does not fit through the gap they leave, and a community deployment that blocks the community's own sidewalk to protect its air is not the trade-off AB 617 asks for.",
+    "exhaust-into-sample": "You sited the sample inlet downwind of the van's own idling engine. Every number this deployment produces is supposed to describe the neighbourhood's air, and an inlet reading the van's own exhaust is not measuring the community's exposure — it is measuring the van, and it will read high for a reason that has nothing to do with the site.",
+    "mast-into-wires": "You started cranking the mast up without looking at what is overhead. A telescoping mast does not know the difference between clear sky and a live line, and the clearance check exists precisely because the crank does not stop itself.",
+    "van-in-travel-lane": "You left the van straddling the lot's travel lane instead of pulling it fully onto the shoulder. A monitoring van is not protected by the fact that its crew is looking at instruments instead of traffic — a vehicle parked half in a travel lane gets struck by the next vehicle that does not expect it to be there."
+  },
+  "id": "mobile-air-lab",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "leak-check",
+      "alert": "The wind has backed around while you were working the sample lines — the point you sited as downwind is now upwind of the van.",
+      "cue": "The wind on the vane does not match the siting plan any more.",
+      "delay": 3,
+      "id": "wind-back",
+      "kind": "Wind shift",
+      "missNote": "The deployment carried on with the points sited for a wind that had already backed. The instrument logged as downwind spent the rest of the hour reading upwind background, and the one logged as upwind spent it reading the plume — which means the record now says the opposite of what actually happened at the fence line.",
+      "seconds": 12,
+      "target": "wind-shift-flag",
+      "why": "Part 58 siting is a relationship to the wind, not a fixed pair of stakes in the ground. A wind that backs after the van is sited has made the downwind point upwind and the upwind point downwind, and every reading taken after that shift describes the opposite exposure from the one the plan says it is measuring until the siting is corrected.",
+      "wrongNote": "That does not fix the siting. The wind shift is answered at the flag that re-confirms which point is upwind and which is downwind now, not at the sample line you were already working."
+    },
+    {
+      "after": "review",
+      "alert": "The PM10 channel has crossed above the action level and is still climbing.",
+      "cue": "The first hour just gave you a number the Air Monitoring Plan has an answer for.",
+      "delay": 4,
+      "id": "pm10-spike",
+      "kind": "Action level exceeded",
+      "missNote": "The reading was left on the screen while the review continued as if nothing had crossed the line. An action level is not a number to note for later — it is the plan's own trigger for telling the neighbourhood what is in its air right now, and the window to do that usefully closed with the plume.",
+      "seconds": 13,
+      "target": "notify-contact",
+      "why": "AB 617 community monitoring exists so a neighbourhood gets told when its own air crosses a line, not just so the agency has a record of it afterward. An action-level exceedance triggers the notification the site's Air Monitoring Plan requires, and it triggers it while the plume is still there to explain, not at the end of shift when it is a note in a log nobody at the fence line ever sees.",
+      "wrongNote": "That is not the review screen. The action-level response is the notification, not another look at the same number."
+    }
+  ],
+  "lateNotes": {
+    "bc-monitor": "The PM channel's zero has to be run before any span check means anything — a span checked against a bad zero is a span checked against nothing.",
+    "colo-sampler": "The reference sampler runs on the same clock as the primary instruments, so the logger is synced before it starts.",
+    "data-review": "There is no first hour of data to review until the logger is synced and the reference sample is running."
+  },
+  "name": "Mobile Air Lab",
+  "parSeconds": 265,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "air-quality-monitoring"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "bc-monitor",
+      "block-sidewalk",
+      "colo-sampler",
+      "community-notice",
+      "data-logger",
+      "data-review",
+      "deployment-plan",
+      "downwind-point",
+      "exhaust-into-sample",
+      "field-log",
+      "kinked-sample-line",
+      "loose-mast-guy",
+      "mast-crank",
+      "mast-into-wires",
+      "notify-contact",
+      "overhead-lines",
+      "pm-monitor",
+      "sample-line",
+      "upwind-point",
+      "van-in-travel-lane",
+      "voc-monitor",
+      "wind-forecast-board",
+      "wind-shift-flag"
+    ],
+    "meshes": 197
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check today's monitoring locations, the instruments required and the action levels against the site's Air Monitoring Plan.",
+      "id": "plan",
+      "kind": "select",
+      "prompt": "Check today's monitoring locations, the instruments required and the action levels against the site's Air Monitoring Plan.",
+      "target": "deployment-plan",
+      "title": "Read the deployment plan",
+      "why": "The plan under the cleanup order sets which pollutants this deployment is for, where it is supposed to sample and what level triggers a notification. None of that is decided at the curb — it is read before the van's doors are even opened."
+    },
+    {
+      "cue": "Check today's forecast direction and speed before choosing where to park.",
+      "id": "wind-forecast",
+      "kind": "select",
+      "prompt": "Check today's forecast direction and speed before choosing where to park.",
+      "target": "wind-forecast-board",
+      "title": "Read the wind forecast",
+      "why": "The siting decision that follows is made against the forecast, and the crew needs to know before arriving whether today is a day the wind is likely to hold steady or a day it is forecast to shift — because a shift changes which point is upwind partway through the hour."
+    },
+    {
+      "cue": "Mark the upwind reference point, then the downwind fence-line point, both chosen by the wind you just read.",
+      "id": "siting",
+      "itemNames": {
+        "downwind-point": "downwind fence-line point",
+        "upwind-point": "upwind reference point"
+      },
+      "itemNotes": {
+        "downwind-point": "The downwind point sits at the fence line, on the side the wind is actually carrying toward — not the side that is easiest to park next to.",
+        "upwind-point": "The upwind point goes in first because it is the background every downwind reading is judged against."
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Upwind first — it is the background the downwind point is read against.",
+      "prompt": "Mark the upwind reference point, then the downwind fence-line point, both chosen by the wind you just read.",
+      "targets": [
+        "upwind-point",
+        "downwind-point"
+      ],
+      "title": "Site the van's upwind and downwind points",
+      "why": "A monitoring van sited by convenience instead of by wind direction produces a pair of readings that cannot be compared to each other, because neither one is reliably upwind or downwind of anything. The wind decides the geometry; the parking spot follows it, not the other way round."
+    },
+    {
+      "cue": "Look up along the mast's path before it goes anywhere near a crank.",
+      "id": "clearance",
+      "kind": "select",
+      "prompt": "Look up along the mast's path before it goes anywhere near a crank.",
+      "target": "overhead-lines",
+      "title": "Check the overhead clearance",
+      "why": "A telescoping mast can reach several metres above the van roof in seconds, and a line strung overhead does not announce itself the way a low branch does. The clearance is checked by looking, before the mast is raised, not discovered by the mast."
+    },
+    {
+      "cue": "Crank the mast up to its working height now that the overhead is clear.",
+      "id": "mast",
+      "kind": "turn",
+      "prompt": "Crank the mast up to its working height now that the overhead is clear.",
+      "target": "mast-crank",
+      "title": "Raise the mast",
+      "turn": {
+        "axis": "y",
+        "label": "MAST CRANK",
+        "turns": 0.7
+      },
+      "why": "The wind vane and the sample inlet both need to sit above the van's own roof turbulence to read the air a person at the fence line is actually breathing, not the air recirculating off the vehicle's own body."
+    },
+    {
+      "cue": "Run the zero standard through the particulate monitor and commit inside the band.",
+      "gauge": {
+        "green": [
+          0,
+          0.12
+        ],
+        "label": "PM ZERO",
+        "missNote": "That is not zero. An unproven zero makes every reading the monitor takes for the rest of the shift a guess with a decimal point on it.",
+        "speed": 0.72
+      },
+      "id": "pm-zero",
+      "kind": "gauge",
+      "prompt": "Run the zero standard through the particulate monitor and commit inside the band.",
+      "target": "pm-monitor",
+      "title": "Zero the PM2.5/PM10 monitor",
+      "why": "A particulate monitor that will not read zero on clean, filtered air cannot be trusted at the action level either — the zero is the proof that a reading later in the shift describes the fence line and not a drifting instrument."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Run the span standard through the PM, black carbon and VOC channels — any order.",
+      "id": "instrument-span",
+      "itemNames": {
+        "bc-monitor": "black carbon span",
+        "pm-monitor": "PM2.5/PM10 span",
+        "voc-monitor": "VOC span"
+      },
+      "itemNotes": {
+        "bc-monitor": "Black carbon's span standard is its own — it is not proven by the PM channel's calibration.",
+        "pm-monitor": "Span checked against a known particulate standard now that the zero is proven.",
+        "voc-monitor": "The VOC channel is span-checked against a certified gas standard, the same way the fixed fence-line analysers are."
+      },
+      "kind": "sequence",
+      "prompt": "Run the span standard through the PM, black carbon and VOC channels — any order.",
+      "targets": [
+        "pm-monitor",
+        "bc-monitor",
+        "voc-monitor"
+      ],
+      "title": "Span-check every channel",
+      "why": "40 CFR 58 Appendix A's quality assurance is not satisfied by one instrument reading true; every channel this deployment reports on has to be proven against its own known standard, because a span check on one channel says nothing about whether a different pollutant's channel is reading correctly."
+    },
+    {
+      "cue": "Pull a vacuum on the sample manifold and hold while the gauge is watched for movement.",
+      "holdBreakNote": "You let go before the check ran its full time. A leak this small only shows up if the gauge is watched for the whole hold, not glanced at once.",
+      "id": "leak-check",
+      "kind": "hold",
+      "prompt": "Pull a vacuum on the sample manifold and hold while the gauge is watched for movement.",
+      "seconds": 5,
+      "target": "sample-line",
+      "title": "Check the sample lines for leaks",
+      "why": "A leak in a sample line dilutes whatever the inlet is drawing in with outside air from somewhere between the inlet and the instrument, and it does it invisibly — the readout still shows a number, just not the neighbourhood's number."
+    },
+    {
+      "cue": "Set the logger's clock against the reference time before anything starts recording.",
+      "id": "clock-sync",
+      "kind": "select",
+      "prompt": "Set the logger's clock against the reference time before anything starts recording.",
+      "target": "data-logger",
+      "title": "Synchronise the data logger's clock",
+      "why": "An exceedance is a reading, a wind direction and a time together, and a logger running on its own clock turns that into three numbers that cannot be lined up against anything else at the site — including the reference sample that is about to start on the same hour."
+    },
+    {
+      "cue": "Wind the reference sampler's pump on and set it running beside the primary instrument.",
+      "id": "reference-sample",
+      "kind": "turn",
+      "prompt": "Wind the reference sampler's pump on and set it running beside the primary instrument.",
+      "target": "colo-sampler",
+      "title": "Start the co-located reference sample",
+      "turn": {
+        "axis": "y",
+        "label": "REFERENCE PUMP",
+        "turns": 0.4
+      },
+      "why": "The reference sample is the community's own check on the agency's instrument — a filter an independent lab can weigh against what the van's monitor reported. It is started on the same clock as everything else specifically so the two records can be compared minute for minute."
+    },
+    {
+      "cue": "Put the deployment notice up at the van where the fence-line residents can read it.",
+      "id": "notice",
+      "kind": "select",
+      "prompt": "Put the deployment notice up at the van where the fence-line residents can read it.",
+      "target": "community-notice",
+      "title": "Post the community notice",
+      "why": "AB 617 treats a community deployment as something the neighbourhood is a party to, not something done to it from behind a fence. The notice — what is being monitored, for how long, and who to call — goes up before the first hour of data exists, not after somebody asks what the van is doing there."
+    },
+    {
+      "cue": "Watch the first hour's readings and keep the review centred on the action-level line.",
+      "holdBreakNote": "You looked away from the review before the hour was actually watched through. A channel that crosses the action level for a minute and comes back is still a crossing — it is caught only by watching the whole window, not by checking the number once.",
+      "id": "review",
+      "kind": "track",
+      "prompt": "Watch the first hour's readings and keep the review centred on the action-level line.",
+      "seconds": 8,
+      "target": "data-review",
+      "title": "Review the first hour against the action level",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.4,
+        "green": [
+          0.15,
+          0.42
+        ],
+        "label": "PM10",
+        "rise": 0.46
+      },
+      "why": "The Air Monitoring Plan's action level is a decision rule, not a target — the first hour is reviewed specifically to catch a channel that has already crossed it, because the plan's own notification requirement starts counting from the moment that happens, not from the end of the shift."
+    },
+    {
+      "cue": "Check the lines and the mast, and click the two things that will not survive the shift unnoticed.",
+      "id": "walk",
+      "itemNames": {
+        "kinked-sample-line": "kinked sample line",
+        "loose-mast-guy": "slack mast guy wire"
+      },
+      "itemNotes": {
+        "kinked-sample-line": "The line to the black carbon channel has kinked where it comes off the mast. A kink cuts flow without ever throwing an alarm, and a flow-starved channel under-reports the very thing it is deployed to catch.",
+        "loose-mast-guy": "One of the mast's guy wires has gone slack. A mast that shifts in a gust does not just wobble the wind vane's reading, it can bring the whole assembly down on whoever is working the bench below it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the lines and the mast, and click the two things that will not survive the shift unnoticed.",
+      "targets": [
+        "kinked-sample-line",
+        "loose-mast-guy"
+      ],
+      "title": "Walk the deployment before it runs unattended",
+      "why": "This deployment runs for hours after the crew has proven every instrument once. What fails afterward is almost always something mechanical and quiet — a kinked line, a slack wire — so the walk-round exists to catch it while somebody is still standing there to fix it."
+    },
+    {
+      "cue": "Record the siting, the calibration results, the reference sample start time and the first hour's review.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Record the siting, the calibration results, the reference sample start time and the first hour's review.",
+      "target": "field-log",
+      "title": "Log the deployment",
+      "why": "The log is what lets the next shift, the district and the neighbourhood's own advocates all read the same account of what this van did today. A deployment that is not logged the way it actually happened is a deployment nobody after this shift can vouch for."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A monitoring van sited by the wind, its instruments proven at zero and span, a reference sample running for the community's own check, and the first hour read against the action level",
+  "title": "SmartCiti.X~ Mobile Air Lab VR",
+  "trade": "Community air-monitoring van technician",
+  "underwater": null,
+  "weather": "smoke"
+}

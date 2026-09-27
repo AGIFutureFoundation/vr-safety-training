@@ -1,0 +1,168 @@
+{
+  "accent": "#4fb8c9",
+  "anchors": [
+    {
+      "id": "channel-buoy-tender-pier",
+      "name": "Channel Buoy Tender Pier",
+      "position": [
+        -690,
+        485
+      ],
+      "stations": [
+        "mooring-line",
+        "pilot-transfer",
+        "spill-boom-deploy",
+        "vessel-gangway-and-hatch-cover-safety"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "outer-bay"
+    },
+    {
+      "id": "estuary-research-dock",
+      "name": "Estuary Research Dock",
+      "position": [
+        68,
+        329
+      ],
+      "stations": [
+        "dock-crane",
+        "container-lashing",
+        "shore-power-hookup"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "estuary-waterfront"
+    },
+    {
+      "id": "north-marina-pier",
+      "name": "North Marina Pier",
+      "position": [
+        -800,
+        -640
+      ],
+      "stations": [
+        "br-workboat-crane-lift-from-water",
+        "br-vhf-and-navigation-in-a-work-zone",
+        "spill-boom-deploy"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "north-shoreline"
+    }
+  ],
+  "certification": "OSHA 29 CFR 1918 marine terminal safety, the California Air Resources Board At-Berth Regulation, OSHA HAZWOPER 1910.120 and the U.S. Army Corps of Engineers' Section 404 permit conditions for work at the water's edge",
+  "competency": {
+    "id": "ports-maritime-ecology",
+    "kind": "programme",
+    "require": 6,
+    "standards": [
+      "osha-1918",
+      "carb-at-berth",
+      "osha-1910-120",
+      "usace-section-404"
+    ],
+    "stations": [
+      "dock-crane",
+      "container-lashing",
+      "shore-power-hookup",
+      "bunkering-watch",
+      "ballast-water-sampling",
+      "spill-boom-deploy",
+      "pilot-transfer",
+      "mooring-line",
+      "reefer-yard-monitoring",
+      "straddle-carrier-ops",
+      "hazmat-container-inspection"
+    ],
+    "title": "Work the waterfront without putting it in the bay"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "ilwu-pma-training",
+    "ibew-neca-jatc",
+    "liuna-training-fund",
+    "afscme-training",
+    "osha-1917",
+    "osha-1918",
+    "osha-1910-120",
+    "ieee-80005",
+    "imo-marpol",
+    "usace-section-404",
+    "bcdc-bay-plan",
+    "noaa-tides-and-esa",
+    "usfws-esa"
+  ],
+  "id": "ports-maritime-ecology",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1619,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 126
+  },
+  "name": "Ports, Maritime and Bay Ecology",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "dock-crane",
+      "why": "The crane over all of it, with the wind limit and the lashing gang's positions as the hard constraints on every lift."
+    },
+    {
+      "app": "smartcity",
+      "id": "container-lashing",
+      "why": "Deck stow: every twist-lock proven and the rods to the pattern the ship's own manual calls for, crane held off the bay until the gang is clear."
+    },
+    {
+      "app": "smartcity",
+      "id": "shore-power-hookup",
+      "why": "Cold ironing a berthed ship: ground landed first, the breaker closed only on the port's order, and the auxiliaries shut down clean — the reason the At-Berth Regulation exists."
+    },
+    {
+      "app": "smartcity",
+      "id": "bunkering-watch",
+      "why": "Fuel transfer as person in charge, with the deck contained before the hose comes aboard and the topping-off rate the whole spill risk comes down to."
+    },
+    {
+      "app": "smartcity",
+      "id": "ballast-water-sampling",
+      "why": "The inspection that happens before that same ship ever reaches a working berth: record book and treatment certificate checked, a sample drawn under chain of custody, and the discharge held until the number comes back."
+    },
+    {
+      "app": "smartcity",
+      "id": "spill-boom-deploy",
+      "why": "The response when a transfer or a hookup goes wrong anyway: the source secured, a J-boom worked against the current, and the bay kept out of it."
+    },
+    {
+      "app": "smartcity",
+      "id": "pilot-transfer",
+      "why": "The harbour pilot brought aboard by ladder in open water, where the transfer itself is the highest-risk minute of the whole call."
+    },
+    {
+      "app": "smartcity",
+      "id": "mooring-line",
+      "why": "Taking the lines that hold the ship to all of this: snap-back zones and the bight nobody stands in."
+    },
+    {
+      "app": "smartcity",
+      "id": "reefer-yard-monitoring",
+      "why": "The rack these boxes sit on between the crane and the gate: ground proven before the plug goes in, set point and return air read against the manifest, and a leak isolated before anyone else gets near it."
+    },
+    {
+      "app": "smartcity",
+      "id": "straddle-carrier-ops",
+      "why": "The machine that moves a box between the stack and the quay: twist-locks proven before the lift, the load carried low down the row, and the wind read the same way the crane reads it."
+    },
+    {
+      "app": "smartcity",
+      "id": "hazmat-container-inspection",
+      "why": "The dangerous-goods box on the apron before it ever reaches the crane: placards checked against the declaration, a leak found through the door seam from a safe standoff, and the Coast Guard notified."
+    }
+  ],
+  "summary": "A working port and the bay it sits on, worked by the trades that share the same quay: cargo secured and moved, a ship cold-ironed instead of idling, fuel and lines handled without a drop or a hand in the wrong place, and a spill contained before it ever reaches open water.",
+  "union": "ILWU, the Inlandboatmen's Union of the Pacific, IBEW port electricians, LIUNA and the environmental technicians who monitor the bay"
+}

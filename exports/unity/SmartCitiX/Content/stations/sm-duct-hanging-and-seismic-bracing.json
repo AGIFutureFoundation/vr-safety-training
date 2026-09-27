@@ -1,0 +1,410 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "cured-and-braced",
+    "name": "Cured And Braced",
+    "note": "A run hung on anchors that had cured, on hangers that were locked, with the braces the drawing asked for"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "SMART and its International Training Institute field installation curriculum; SMACNA HVAC Duct Construction Standards for hanger type and spacing by duct size and the SMACNA Seismic Restraint Manual for transverse and longitudinal bracing; OSHA 29 CFR 1926.451 scaffold requirements as applied to a scissor lift, 29 CFR 1926.501 fall protection at the platform, 29 CFR 1926.453 where a boom lift is used; the anchor manufacturer's cure schedule and the engineer's seismic drawing",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.451",
+        "id": "osha-1926-451",
+        "title": "29 CFR 1926.451 — Scaffolds, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.453",
+        "id": "osha-1926-453",
+        "title": "29 CFR 1926.453 — Aerial lifts"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.501",
+        "id": "osha-1926-501",
+        "title": "29 CFR 1926.501 — Duty to have fall protection"
+      },
+      {
+        "body": "SMACNA",
+        "citedAs": "SMACNA",
+        "id": "smacna-hvac-duct-construction",
+        "title": "SMACNA HVAC Duct Construction Standards — Metal and Flexible (pressure classes, seam and joint construction, reinforcement and hangers)"
+      },
+      {
+        "body": "SMACNA",
+        "citedAs": "SMACNA Seismic Restraint Manual",
+        "id": "smacna-seismic-restraint",
+        "title": "SMACNA Seismic Restraint Manual — guidelines for mechanical systems (bracing of duct, pipe and equipment)"
+      },
+      {
+        "body": "union",
+        "citedAs": "SMART",
+        "id": "smart-iti",
+        "title": "SMART and the International Training Institute — sheet metal, rail and transportation apprenticeship"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Manufacturing & Automation",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "cure-read",
+        "name": "Cure Read",
+        "note": "The anchor's cure card read before the first hanger went on"
+      },
+      {
+        "id": "feet-on-deck",
+        "name": "Feet On The Deck",
+        "note": "Never on a rail, never through an open gate, never a load on a wet anchor"
+      },
+      {
+        "id": "on-angle",
+        "name": "On Angle",
+        "note": "Brace angle inside the drawing's band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "The section hung without a correction"
+      },
+      {
+        "id": "level-held",
+        "name": "Level Held",
+        "note": "The run levelled without dropping out of band"
+      },
+      {
+        "id": "run-in-time",
+        "name": "Run In Time",
+        "note": "Hung, braced and logged inside 80% of par"
+      }
+    ],
+    "currency": "HANGER",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Pre-apprentice",
+      "Ground Hand",
+      "Duct Installer",
+      "Run Lead",
+      "Ceiling Crew Certified"
+    ],
+    "system": "Ceiling Crew"
+  },
+  "hazards": {
+    "lift-gate-open": "You worked at height with the platform gate swung open behind you. The gate is the fourth side of the guardrail that 29 CFR 1926.451 and 1926.501 put between you and the slab, and a gate left open on a scissor lift is a guardrail with a person-shaped hole in it, directly behind a person facing the other way.",
+    "midrail-stand": "You stood on the midrail to reach the far hanger. The guardrail is built to stop a person at waist height, and standing on it puts your waist above the top rail, where the rail stops nothing. The lift goes up, the lift moves, or the hanger waits — the rail is never a step.",
+    "sharp-duct-end": "You caught the raw end of the duct section bare-handed as it swung on the jack. A field-cut duct end is a sheared edge nobody hemmed, and a section that swings puts that edge across a palm with its own weight behind it. Gloves on the lift, and the section steered by its flanges and the jack, not its edges.",
+    "wet-anchor": "You went to hang the trapeze on the anchor with the wet-epoxy tag still on it. An adhesive anchor holds nothing until the cartridge's cure time has passed at the slab's temperature — hours, not minutes, and longer on a cold morning — and a hanger loaded early pulls the rod out of uncured epoxy with the duct on it. The tag comes off when the card says so, never because the crew is ready."
+  },
+  "id": "sm-duct-hanging-and-seismic-bracing",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "raise",
+      "alert": "The lift's tilt alarm is sounding. A wheel has rolled onto the debris on the slab and the platform is off level with the section in the air.",
+      "cue": "The floor you are standing on is no longer level.",
+      "delay": 3,
+      "id": "tilt-alarm",
+      "kind": "Lift alarm",
+      "missNote": "You kept cranking with the tilt alarm sounding. The platform stayed up that time. A scissor lift on a tilted slab is a lever with you at the long end, and the alarm is the last warning before the maker's stability calculation stops applying to you.",
+      "seconds": 12,
+      "target": "lift-stop",
+      "why": "A scissor lift's tilt alarm means the chassis is past the angle the maker rated it stable at, and the platform is at height with a duct section and a person on it. The crank stops, the platform's emergency stop is hit so nobody drives it further off level, and it comes down under the emergency lowering to a slab somebody clears first. The section can wait on the jack; the platform cannot wait on the tilt.",
+      "wrongNote": "It is the emergency stop on the platform. Stop the lift first — the section, the crank and the slab are all problems for a platform that is not moving."
+    },
+    {
+      "after": "level",
+      "alert": "The helper below has started hanging the next section on the anchors set this morning. The card on those says two more hours.",
+      "cue": "Somebody is loading epoxy that has not cured, under a run you are levelling.",
+      "delay": 3,
+      "id": "helper-loads-early",
+      "kind": "Load on a wet anchor",
+      "missNote": "You held the level and let the helper hang the section. The anchor held that afternoon. Uncured epoxy creeps under load for hours before it lets go, which is why the failure is at three in the morning with nobody under it — or at three in the afternoon with somebody.",
+      "seconds": 12,
+      "target": "crew-radio",
+      "why": "The cure card on that anchor set is a time, and the time has not come; a hanger loaded on it pulls the rod out of wet epoxy with a duct section on the rod, in the corridor below the platform you are on. The radio stops the helper before the trapeze goes on. The level can be held again in a minute; the anchor cannot be un-loaded once the rod starts to move.",
+      "wrongNote": "It is the radio. Stop the helper before the trapeze goes on the rods — the anchor's card is the answer, and they have not read it."
+    }
+  ],
+  "lateNotes": {
+    "duct-lift-crank": "The section is raised after the hangers are on and locked, so there is something to receive it. A duct on a jack with nowhere to go is a duct held up by a hand.",
+    "trapeze-hanger": "The hanger goes on after the anchor's cure card has been read and the tag is off — a hanger on a wet anchor is a load on nothing."
+  },
+  "name": "Duct Hanging and Seismic Bracing",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "brace-angle",
+      "crew-radio",
+      "cure-card",
+      "duct-lift-crank",
+      "hang-log",
+      "hanger-drawing",
+      "hanger-nut",
+      "hanger-spacing-gap",
+      "joint-sealant",
+      "level-adjust",
+      "lift-controls",
+      "lift-gate-open",
+      "lift-rails",
+      "lift-stop",
+      "lift-tires",
+      "longitudinal-brace",
+      "midrail-stand",
+      "missing-locknut",
+      "rod-pair",
+      "sharp-duct-end",
+      "site-board",
+      "sprinkler-clash",
+      "strut-short",
+      "transverse-brace",
+      "trapeze-hanger",
+      "wet-anchor"
+    ],
+    "meshes": 235
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Sign onto the ceiling crew, note who is on the ground for you, and who else is working this corridor today.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Sign onto the ceiling crew, note who is on the ground for you, and who else is working this corridor today.",
+      "target": "site-board",
+      "title": "Check in at the site board",
+      "why": "A run of duct goes up with one person on the platform and one on the ground, and the board is where both are named before the lift moves; the electricians and the pipe crew working the same corridor are on it too, which is how you learn the sprinkler main is going in above your route this afternoon. SMART crews read the board as the first control on a lift, because a platform going up with nobody named on the ground is a platform with nobody to stop it."
+    },
+    {
+      "cue": "Hanger type and spacing for this duct size, the anchor and its cure time, and where the transverse and longitudinal braces go.",
+      "id": "hanger-schedule",
+      "kind": "select",
+      "prompt": "Hanger type and spacing for this duct size, the anchor and its cure time, and where the transverse and longitudinal braces go.",
+      "target": "hanger-drawing",
+      "title": "Read the hanger schedule and the seismic drawing",
+      "why": "The SMACNA HVAC Duct Construction Standards give the hanger type and maximum spacing by duct size, and the engineer's drawing under the SMACNA Seismic Restraint Manual says where the braces sit and at what angle; both are read before the first anchor is drilled, because a hanger spaced from habit or a brace left for later is a run that passes by eye and fails the seismic inspection or the earthquake. The anchor's cure time on the drawing is the number the whole afternoon is planned around."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Rails and gate, wheels and the slab you will drive across, controls and the emergency lowering valve — all three before the first foot goes on.",
+      "id": "lift-inspect",
+      "itemNames": {
+        "lift-controls": "controls, horn and the emergency lowering",
+        "lift-rails": "guardrails and gate",
+        "lift-tires": "wheels, tyres and the slab under them"
+      },
+      "kind": "sequence",
+      "prompt": "Rails and gate, wheels and the slab you will drive across, controls and the emergency lowering valve — all three before the first foot goes on.",
+      "targets": [
+        "lift-rails",
+        "lift-tires",
+        "lift-controls"
+      ],
+      "title": "Inspect the lift before it leaves the floor",
+      "why": "A scissor lift is a scaffold that drives, and 29 CFR 1926.451 wants it inspected by a competent person before each shift: rails that are pinned and a gate that latches, tyres that are not soft and a slab under them that is not covered in the debris the last trade left, controls that answer and an emergency lowering that works. Each of those is a way the platform ends up tilted or a person ends up on the floor, and each is found in a minute on the ground."
+    },
+    {
+      "cue": "Find the card on the anchor set this morning, check the cartridge's cure time against the slab temperature and the time now.",
+      "id": "anchor-cure",
+      "kind": "select",
+      "prompt": "Find the card on the anchor set this morning, check the cartridge's cure time against the slab temperature and the time now.",
+      "target": "cure-card",
+      "title": "Read the anchor's cure card before anything is hung",
+      "why": "Adhesive anchors are set in the morning so the epoxy is cured by the time the duct goes up, and the cure time on the cartridge is at a stated temperature — a cold slab doubles it. The card on the anchor carries the time it was set and the time it may be loaded, and until that second time has passed the rod is a rod stuck in wet glue; the card is read, not the clock, and the wet-epoxy tag stays on until the card says it comes off."
+    },
+    {
+      "cue": "Lift the trapeze off the platform deck and set it onto the two hanger rods so the strut sits square under both.",
+      "drag": {
+        "missNote": "The strut is not on both rods — a trapeze on one rod is a hinge with a duct on it.",
+        "radius": 0.45,
+        "to": "rod-pair"
+      },
+      "id": "hanger-drag",
+      "kind": "drag",
+      "prompt": "Lift the trapeze off the platform deck and set it onto the two hanger rods so the strut sits square under both.",
+      "target": "trapeze-hanger",
+      "title": "Hang the trapeze on the rods",
+      "why": "The trapeze is a length of strut across two threaded rods, and it carries the duct only when it sits square with a rod through each end and a nut under each; a trapeze hung on one rod and rested on the other is a hinge with a duct on it. It is lifted from the deck with two hands, set onto both rods at once, and held there until the nuts are on, because a trapeze that slides off one rod at height falls on whoever is below."
+    },
+    {
+      "cue": "Nut under the strut on each rod, run down snug, then the lock nut against it — both rods, before the section comes up.",
+      "id": "nut-torque",
+      "kind": "turn",
+      "prompt": "Nut under the strut on each rod, run down snug, then the lock nut against it — both rods, before the section comes up.",
+      "target": "hanger-nut",
+      "title": "Run the nuts down and lock them",
+      "turn": {
+        "axis": "y",
+        "label": "LOCK NUT",
+        "turns": 1
+      },
+      "why": "A hanger holds with two nuts per rod: the one the strut sits on and the lock nut that stops it backing off as the duct moves and the building vibrates. A single nut looks the same from the floor and walks down the rod a thread a week under a fan's vibration until the strut drops; the lock nut goes on before any load, because a load on a hanger with one nut is a load waiting for the thread to let go."
+    },
+    {
+      "cue": "Section strapped to the jack's cradle, then crank it up steadily until the flanges sit on the trapeze — no stopping halfway with a hand under it.",
+      "holdBreakNote": "You stopped the crank with the section in the air. A section halfway up is a section a hand goes under — take it steadily to the trapeze.",
+      "id": "raise",
+      "kind": "hold",
+      "prompt": "Section strapped to the jack's cradle, then crank it up steadily until the flanges sit on the trapeze — no stopping halfway with a hand under it.",
+      "seconds": 4,
+      "target": "duct-lift-crank",
+      "title": "Raise the section on the duct jack",
+      "why": "The duct jack lifts the section to the trapeze so nobody's arms do, and the crank is turned steadily to the top because a section stopped halfway is a section a hand goes under to steady, and the jack's ratchet is the only thing holding it there. The section rides the cradle strapped, so a swing does not put its raw end across the platform, and it is landed on the trapeze with both flanges bearing before the strap comes off."
+    },
+    {
+      "cue": "Laser on the bottom of the run, adjust the nuts until the section reads level and hold it there while the second trapeze is snugged.",
+      "holdBreakNote": "The run drifted off level while the trapeze was being snugged — the joint on the low side has opened. Bring it back into the band and hold it.",
+      "id": "level",
+      "kind": "track",
+      "prompt": "Laser on the bottom of the run, adjust the nuts until the section reads level and hold it there while the second trapeze is snugged.",
+      "seconds": 5,
+      "target": "level-adjust",
+      "title": "Level the run",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "LEVEL",
+        "rise": 0.56
+      },
+      "why": "A duct run out of level pulls its transverse joints open on the low side and pushes them shut on the high, which is a leak at every joint the balancing crew will spend a day chasing; the level is set with the laser on the duct's bottom and the hanger nuts, not by eye against a ceiling grid that is not level either. It is held level while the second trapeze is snugged because a run that was level for a moment is not a level run."
+    },
+    {
+      "cue": "Transverse brace first at the interval on the drawing, then the longitudinal brace at the joint the drawing marks.",
+      "id": "brace",
+      "itemNames": {
+        "longitudinal-brace": "the longitudinal brace along it",
+        "transverse-brace": "the transverse brace across the run"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Transverse first, then longitudinal — the longitudinal brace is fixed to a run the transverse brace has already steadied.",
+      "prompt": "Transverse brace first at the interval on the drawing, then the longitudinal brace at the joint the drawing marks.",
+      "targets": [
+        "transverse-brace",
+        "longitudinal-brace"
+      ],
+      "title": "Set the seismic braces the drawing calls for",
+      "why": "The SMACNA Seismic Restraint Manual braces a run against both directions of shake: transverse braces stop the duct swinging across the corridor, longitudinal braces stop it sliding along it, and the engineer's drawing gives the spacing of each. Transverse goes first because it steadies the run the longitudinal brace is then fixed to; a brace bolted to a duct that is still free to swing is a brace that has been bent before the first tremor."
+    },
+    {
+      "cue": "Read the brace's angle to the slab on the inclinometer and commit inside the drawing's band.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "ANGLE",
+        "missNote": "Off the drawing's band — a brace at the wrong angle loads the anchor in a way it was never sized for. Reset it.",
+        "speed": 0.72
+      },
+      "id": "clearance",
+      "kind": "gauge",
+      "prompt": "Read the brace's angle to the slab on the inclinometer and commit inside the drawing's band.",
+      "target": "brace-angle",
+      "title": "Set the brace angle",
+      "why": "A seismic brace works at the angle it was designed for: too steep and it carries little of the horizontal load it exists for, too shallow and the anchor sees a pull-out it was not sized against. The drawing gives the angle as a band and the inclinometer on the brace is how it is proven, because the eye reads a brace on a ceiling as forty-five degrees whether it is thirty or sixty."
+    },
+    {
+      "cue": "From the platform, look along every rod and every strut of the run you just hung and click the two that are wrong.",
+      "id": "bracing-walk",
+      "itemNames": {
+        "missing-locknut": "a rod with no lock nut",
+        "strut-short": "a strut that stops short of its rod"
+      },
+      "itemNotes": {
+        "missing-locknut": "One nut on that rod and nothing behind it — the strut will walk down the thread under the fan's vibration until it drops.",
+        "strut-short": "That strut was cut short and the rod goes through nothing on that end; the trapeze is a lever bearing on one rod."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "From the platform, look along every rod and every strut of the run you just hung and click the two that are wrong.",
+      "targets": [
+        "missing-locknut",
+        "strut-short"
+      ],
+      "title": "Walk the hangers before the lift moves on",
+      "why": "A hanger fault is invisible from the floor and obvious from the platform, and the platform is about to move to the next bay; this is the one moment the person who hung the run looks at all of it from arm's length. A rod with no lock nut and a strut that misses its rod are the two faults that let a run down months later, and both are fixed in a minute now with the tools already on the deck."
+    },
+    {
+      "cue": "Gasket seated, corners drawn up, then the listed sealant run round the joint to the seal class on the drawing.",
+      "id": "joint-seal",
+      "kind": "select",
+      "prompt": "Gasket seated, corners drawn up, then the listed sealant run round the joint to the seal class on the drawing.",
+      "target": "joint-sealant",
+      "title": "Seal the transverse joint",
+      "why": "The transverse joint is made up on the trapeze with the gasket seated and the corners drawn evenly, and sealed to the seal class the drawing gives, because the leakage test at the end of the job is a test of every joint the crew made overhead where nobody could see them. A joint sealed now, from the platform, costs a minute; the same joint found on the leakage test costs a lift, a ceiling opened and a day."
+    },
+    {
+      "cue": "Sight along the run and the ceiling beyond it and click the two things the next bay has to answer.",
+      "id": "ceiling-walk",
+      "itemNames": {
+        "hanger-spacing-gap": "the hanger spacing over the schedule",
+        "sprinkler-clash": "the sprinkler main the brace will hit"
+      },
+      "itemNotes": {
+        "hanger-spacing-gap": "The gap between those two trapezes is over the schedule's maximum for this duct size — a third hanger goes in before the next section loads it.",
+        "sprinkler-clash": "The longitudinal brace's line runs straight through where the sprinkler main goes in this afternoon. The brace moves now, on the drawing, not after the pipe is in."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Sight along the run and the ceiling beyond it and click the two things the next bay has to answer.",
+      "targets": [
+        "hanger-spacing-gap",
+        "sprinkler-clash"
+      ],
+      "title": "Look along the run before the next section",
+      "why": "The next section is hung to the same schedule as this one, and the ceiling ahead is shared with every other trade's pipe and conduit; a hanger spacing already over the maximum and a brace line through the sprinkler main are both cheaper to find from this platform than from a coordination meeting. The run is looked along, not just at, because a duct is a system and its faults accumulate down its length."
+    },
+    {
+      "cue": "Sections hung, anchors and their cure times, braces set and their angle, the faults found and fixed, and sign it.",
+      "id": "hang-log",
+      "kind": "select",
+      "prompt": "Sections hung, anchors and their cure times, braces set and their angle, the faults found and fixed, and sign it.",
+      "target": "hang-log",
+      "title": "Log the run",
+      "why": "The log is the record the seismic inspector reads against the drawing, and the record the crew reads when a hanger is questioned after the building is occupied: which anchor, set when, loaded when, braced at what angle. It also carries the missing lock nut and the short strut, so the faults are on paper as fixed rather than on somebody's memory as probably fine."
+    }
+  ],
+  "supportLine": "your SMART local's apprenticeship coordinator or the job steward, or your employer's employee assistance program if the lift going over is what you keep feeling",
+  "tagline": "Hanger schedule and seismic drawing read, the lift inspected, the anchor's cure card checked before a load, trapeze hung and locked, the section raised and levelled, braces set to angle, the run walked and logged",
+  "title": "SmartCiti.X~ Duct Hanging and Seismic Bracing VR",
+  "trade": "Sheet metal installer — SMART, International Training Institute field installation curriculum",
+  "underwater": null,
+  "weather": null
+}

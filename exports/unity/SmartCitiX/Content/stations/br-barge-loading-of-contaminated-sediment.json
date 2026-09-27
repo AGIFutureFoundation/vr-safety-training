@@ -1,0 +1,446 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "loaded-level",
+    "name": "Loaded Level",
+    "note": "Never under the bucket, never in the hold, never across the gap, never inside the swing, and both the spill and the list answered"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Inlandboatmen's Union (IBU) barge deck practice; IUOE Local 3 excavator operation; LIUNA Local 261 hazmat laborer training; OSHA 29 CFR 1910.120 HAZWOPER under the site health and safety plan; OSHA 29 CFR 1918 longshoring and 29 CFR 1926.106 work over water; RCRA waste determination and the disposal destination per the work plan; no discharge from the barge under the Regional Water Quality Control Board's requirements and the BCDC permit",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "BCDC",
+        "citedAs": "BCDC",
+        "id": "bcdc-bay-plan",
+        "title": "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1918",
+        "id": "osha-1918",
+        "title": "29 CFR 1918 — Safety and health regulations for longshoring"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.106",
+        "id": "osha-1926-106",
+        "title": "29 CFR 1926.106 — Working over or near water"
+      },
+      {
+        "body": "RCRA",
+        "citedAs": "RCRA",
+        "id": "rcra-40-cfr-262",
+        "title": "40 CFR Part 262 — Standards applicable to generators of hazardous waste, including the manifest"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "Regional Water Quality Control Board",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "liner-first",
+        "name": "Liner First",
+        "note": "The liner and scuppers walked before the first bucket"
+      },
+      {
+        "id": "draft-true",
+        "name": "Draft True",
+        "note": "Drafts read inside the band first time"
+      },
+      {
+        "id": "out-of-the-swing",
+        "name": "Out Of The Swing",
+        "note": "Never under the bucket, never in the hold, never across the gap, never inside the swing"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-load",
+        "name": "Clean Load",
+        "note": "No corrections from the plan to the log"
+      },
+      {
+        "id": "level-load",
+        "name": "Level Load",
+        "note": "Barge held level in band all the way through loading"
+      },
+      {
+        "id": "on-the-tide",
+        "name": "On The Tide",
+        "note": "Load logged inside 80% of par"
+      }
+    ],
+    "currency": "LOAD",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ordinary",
+      "Deckhand",
+      "Barge Hand",
+      "Lead Deckhand",
+      "Barge Loading Certified"
+    ],
+    "system": "Hopper Deck"
+  },
+  "hazards": {
+    "into-hold": "You started down into the hopper to spread a clump of sediment by hand. A lined hold full of wet contaminated sediment is a place a boot sinks and sticks, where the next bucket lands, and where the contaminant exposure is worst — the operator places the sediment, and nobody goes into the hold while loading is under way.",
+    "step-across-gap": "You stepped across the gap between the pier and the barge instead of using the gangway. The barge moves against the fenders with every wake and settles as she loads; the gap opens and closes without warning, and a leg in it is crushed between hull and pier — or the person goes in between them. The gangway is the only way on and off.",
+    "swing-radius": "You walked past the excavator's house inside its swing radius. The operator is watching the bucket and the barge, not the counterweight behind them, and the house swings through the space beside the tracks every cycle — a person there is crushed between the counterweight and whatever is behind them. The swing radius is barricaded and nobody enters it while the machine is working.",
+    "under-bucket": "You stood on the side deck under the bucket's path across the barge. A loaded bucket drops clumps and water as it swings, and a bucket that catches the coaming or drops its load does it onto the side deck — the deckhand works from the ends of the barge and signals from outside the swing path."
+  },
+  "id": "br-barge-loading-of-contaminated-sediment",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "load-level",
+      "alert": "The bucket has caught the far coaming as it swung — a slug of sediment has gone over the barge's outboard side and a brown plume is spreading on the water.",
+      "cue": "Call the stop to the operator and deploy the spill kit: the sorbent and turbidity boom from the kit across the plume on the far side.",
+      "delay": 2,
+      "id": "bucket-spill",
+      "kind": "Bucket spills over the far side",
+      "missNote": "Loading carried on and the plume drifted off on the ebb along the pier face; the spill was found later from the shore, unreported and uncontained.",
+      "seconds": 14,
+      "target": "spill-kit",
+      "why": "Sediment in the water is the discharge the whole job is set up to prevent, and the first minutes decide how far the plume spreads on the tide. Stopping the loading and getting the spill kit's boom across the plume contains what can be contained, and it starts the report the permit conditions require — hoping it settles is not an answer the Regional Water Quality Control Board accepts.",
+      "wrongNote": "The spill kit — stop the loading and get the boom across the plume before it spreads on the tide."
+    },
+    {
+      "after": "tend-spring",
+      "alert": "The heap on the near side has slumped against the coaming and the barge is listing toward the pier, grinding on the fenders and bar-tightening the spring line.",
+      "cue": "Raise the operator on the loading radio: stop, and place the next loads on the high side to bring her back level.",
+      "delay": 2,
+      "id": "load-slump-list",
+      "kind": "Load slumps, barge lists",
+      "missNote": "Nobody told the operator; the next two buckets went on the near side, the list deepened, and the spring line parted with a crack across the side deck.",
+      "seconds": 14,
+      "target": "loading-radio",
+      "why": "A list toward the pier loads the fenders and the spring line and puts the near side deck lower with every bucket; carrying on the same pattern makes it worse. The operator has to hear it at once and put the next loads on the high side, because the barge will only come back level by moving weight — not by tightening the lines harder.",
+      "wrongNote": "The loading radio — the operator has to stop and load the high side to bring her back level."
+    }
+  ],
+  "lateNotes": {
+    "draft-marks": "The drafts are read once the loading is done and she has settled — the plan's maximum is for a loaded barge, not a light one.",
+    "loading-log": "The load is logged once the hopper is covered and the crew have been through decon — last, not first.",
+    "loading-radio": "Loading starts once the liner is walked, the apron rigged, the spring line fast and the radio check done with the operator."
+  },
+  "name": "Barge Loading of Contaminated Sediment",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "excavator",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "deckBarge:hopper",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "radio",
+        "count": 2,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "apron-socket",
+      "barge-vest",
+      "boot-wash",
+      "coaming-overhang",
+      "coverall-gloves",
+      "crew-radio",
+      "deck-spillage",
+      "draft-marks",
+      "glove-change",
+      "hopper-tarp",
+      "into-hold",
+      "liner-tear",
+      "loading-log",
+      "loading-plan",
+      "loading-radio",
+      "scupper-open",
+      "spill-apron",
+      "spill-kit",
+      "spring-cleat",
+      "spring-line",
+      "step-across-gap",
+      "swing-radius",
+      "tarp-socket",
+      "under-bucket"
+    ],
+    "meshes": 203
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "At the head of the barge gangway on the pier: disposable coveralls and chemical gloves per the site health and safety plan, and the work vest on over them and fastened.",
+      "id": "ppe",
+      "itemNames": {
+        "barge-vest": "work vest (PFD) over the coveralls, fastened",
+        "coverall-gloves": "disposable coveralls and chemical gloves per the site plan"
+      },
+      "kind": "sequence",
+      "prompt": "At the head of the barge gangway on the pier: disposable coveralls and chemical gloves per the site health and safety plan, and the work vest on over them and fastened.",
+      "targets": [
+        "barge-vest",
+        "coverall-gloves"
+      ],
+      "title": "Coveralls, gloves and PFD on at the ladder head",
+      "why": "The barge deck is work over water and it is also inside the site's contamination zone, so both kinds of protection go on before the gangway. The work vest goes over the coveralls so it can be seen and so its buckles are not hidden under a zip; the coveralls and gloves are what the site health and safety plan puts between the crew and the sediment, and they go on before anyone touches the barge's rails."
+    },
+    {
+      "cue": "Read the plan: the sediment's profile and destination per the work plan, the barge's maximum draft from her loading plan, the loading pattern fore and aft, the spill controls, and the air monitoring.",
+      "id": "loading-plan",
+      "kind": "select",
+      "prompt": "Read the plan: the sediment's profile and destination per the work plan, the barge's maximum draft from her loading plan, the loading pattern fore and aft, the spill controls, and the air monitoring.",
+      "target": "loading-plan",
+      "title": "Read the loading plan with the loading lead",
+      "why": "A hopper barge loaded unevenly lists, strains her moorings and can put her deck edge under; loaded past her plan she can sink at the pier. The loading plan gives the pattern that keeps her level and the draft she must not exceed, and the work plan gives what the sediment is and where it is going — the deck needs both before the first bucket, because neither can be fixed once she is full."
+    },
+    {
+      "cue": "Walk the hopper's liner round every corner and seam, and every scupper on the side decks, before the first bucket comes over.",
+      "id": "liner-walk",
+      "itemNames": {
+        "liner-tear": "liner torn at the coaming corner",
+        "scupper-open": "deck scupper with its plug missing"
+      },
+      "itemNotes": {
+        "liner-tear": "The hopper liner has split where it folds into the coaming corner — sediment water will get behind it and out through the seams of the hopper.",
+        "scupper-open": "A scupper on the side deck has no plug in it — anything that drains or spills onto the deck goes straight over the side into the Bay."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the hopper's liner round every corner and seam, and every scupper on the side decks, before the first bucket comes over.",
+      "targets": [
+        "liner-tear",
+        "scupper-open"
+      ],
+      "title": "Walk the liner and the scuppers before loading",
+      "why": "The liner and the plugged scuppers are what keep contaminated water from the sediment out of the Bay, which is what the Regional Water Quality Control Board's requirements and the BCDC permit for this work come down to on the barge. A tear at a corner or a missing plug is invisible once the hold is full and the deck is muddy, so they are walked while the barge is empty and clean."
+    },
+    {
+      "cue": "Lay the spill apron from the pier edge to the barge's coaming under the bucket's swing, so anything the bucket drops lands on the apron, not in the water.",
+      "drag": {
+        "missNote": "Not under the swing — the apron has to bridge the gap where the bucket crosses it, or the drops still go in the water.",
+        "radius": 0.7,
+        "to": "apron-socket"
+      },
+      "id": "rig-apron",
+      "kind": "drag",
+      "prompt": "Lay the spill apron from the pier edge to the barge's coaming under the bucket's swing, so anything the bucket drops lands on the apron, not in the water.",
+      "target": "spill-apron",
+      "title": "Rig the spill apron across the gap",
+      "why": "Every bucket crosses the gap between pier and barge, and the gap is where a dropped clump goes straight into the Bay. The spill apron bridges it under the swing path so drips and clumps land on something that can be scraped back into the hold — it is rigged before loading because it cannot be rigged under a working bucket."
+    },
+    {
+      "cue": "Take the spring line's turns round the midships cleat and finish with figure-eights, leaving enough slack for her to settle as she loads.",
+      "id": "spring-fast",
+      "kind": "turn",
+      "prompt": "Take the spring line's turns round the midships cleat and finish with figure-eights, leaving enough slack for her to settle as she loads.",
+      "target": "spring-cleat",
+      "title": "Make the spring line fast on the barge's cleat",
+      "turn": {
+        "label": "SPRING LINE",
+        "turns": 1.5
+      },
+      "why": "A barge settles as she loads and moves along the pier with every surge, and the spring line is what stops her walking fore and aft under the bucket. It is made fast with enough slack for her to settle, because a line made bar-tight on a light barge will be hanging her from the pier once she is loaded — and either part, or pull a bollard."
+    },
+    {
+      "cue": "On the handheld, raise the operator: agree the loading pattern, the hand signals and the stop, and that you will call each bucket's placement.",
+      "id": "radio-check",
+      "kind": "select",
+      "prompt": "On the handheld, raise the operator: agree the loading pattern, the hand signals and the stop, and that you will call each bucket's placement.",
+      "target": "loading-radio",
+      "title": "Radio check with the excavator operator",
+      "why": "The operator places every bucket but cannot see the barge's list or drafts from the cab; the deckhand can. The radio check agrees who calls what before loading starts, so a call to shift the next load aft or to stop is understood the first time and not argued over with a full bucket in the air."
+    },
+    {
+      "cue": "Call the bucket placements on the radio, fore and aft by the plan, holding the barge's list and trim in band as the hopper fills.",
+      "holdBreakNote": "She fell out of level — the loads bunched on one side. Call the next placements back to the pattern and hold her level.",
+      "id": "load-level",
+      "kind": "track",
+      "prompt": "Call the bucket placements on the radio, fore and aft by the plan, holding the barge's list and trim in band as the hopper fills.",
+      "seconds": 6,
+      "target": "loading-radio",
+      "title": "Call each bucket's placement to load her level",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "LIST AND TRIM",
+        "rise": 0.58,
+        "start": 0.14
+      },
+      "why": "Each bucket moves the barge's centre of weight, and a run of loads in one place lists her toward it — onto the pier fenders or away from them, straining the lines. Calling the placements by the plan and watching the inclinometer keeps her level as she fills; the deckhand's calls are the only feedback the operator has about the barge under the bucket."
+    },
+    {
+      "cue": "Walk the ends and the side deck: anything that has come out of the hopper onto the deck, anything heaped past the coaming.",
+      "id": "deck-walk",
+      "itemNames": {
+        "coaming-overhang": "sediment heaped over the coaming top",
+        "deck-spillage": "sediment spilled onto the side deck"
+      },
+      "itemNotes": {
+        "coaming-overhang": "The load is heaped over the top of the coaming on the near side — it will slump onto the side deck, or over it, when she moves.",
+        "deck-spillage": "Clumps have dropped onto the side deck from the bucket's swing — slick underfoot and headed for the deck edge and the next scupper."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the ends and the side deck: anything that has come out of the hopper onto the deck, anything heaped past the coaming.",
+      "targets": [
+        "deck-spillage",
+        "coaming-overhang"
+      ],
+      "title": "Walk the side deck and coaming",
+      "why": "Sediment on the side deck is a slip on a narrow deck beside open water and contamination headed for the edge; sediment over the coaming is weight in the wrong place and a slump waiting to happen. Both are found by walking the deck between loads and fixed before more goes in — scraped back and the operator told to keep the load inside the coaming."
+    },
+    {
+      "cue": "Keep the spring line at a working tension as she settles under the load — easing it through the cleat from outside its bight, never wrapped round a hand.",
+      "holdBreakNote": "Let the spring line go bar-tight as she settled. Take it up again and ease it to a working tension.",
+      "id": "tend-spring",
+      "kind": "hold",
+      "prompt": "Keep the spring line at a working tension as she settles under the load — easing it through the cleat from outside its bight, never wrapped round a hand.",
+      "seconds": 5,
+      "target": "spring-line",
+      "title": "Tend the spring line as she settles",
+      "why": "As she takes the load she settles lower against the pier and the spring line tightens; left alone it takes her weight or parts. Tending it keeps her held without hanging her, and the deckhand works it from outside the bight at the cleat, because a spring line that parts snaps back along the deck toward whoever is standing in line with it."
+    },
+    {
+      "cue": "Read the draft marks at the corners and commit the reading against the maximum in the barge's loading plan.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.58
+        ],
+        "label": "DRAFT VS PLAN",
+        "missNote": "Outside the band — read the marks once she has settled, at the corners, against the loading plan's maximum.",
+        "speed": 0.72
+      },
+      "id": "read-drafts",
+      "kind": "gauge",
+      "prompt": "Read the draft marks at the corners and commit the reading against the maximum in the barge's loading plan.",
+      "target": "draft-marks",
+      "title": "Read her drafts against the loading plan",
+      "why": "The draft marks are the only honest measure of what the barge is carrying, and her loading plan sets the maximum for the water she will cross to the disposal site. The drafts are read once she has settled, at the corners, so a barge down by the head or the stern is caught and trimmed before the tug arrives — not discovered in open water."
+    },
+    {
+      "cue": "Pull the hopper cover out from its roll across the load and secure it at the coaming, so nothing blows or washes out in transit.",
+      "drag": {
+        "missNote": "Not over the load — the cover has to reach across the hopper to the far coaming, not lie folded at the near side.",
+        "radius": 0.8,
+        "to": "tarp-socket"
+      },
+      "id": "cover-hopper",
+      "kind": "drag",
+      "prompt": "Pull the hopper cover out from its roll across the load and secure it at the coaming, so nothing blows or washes out in transit.",
+      "target": "hopper-tarp",
+      "title": "Pull the cover over the hopper",
+      "why": "An uncovered load of contaminated sediment sheds dust as it dries and washes out in spray and rain on the tow to the disposal site. The cover goes on at the pier, secured to the coaming, because nobody climbs onto a loaded hopper once she is under tow."
+    },
+    {
+      "anyOrder": true,
+      "cue": "At the decon line on the pier: scrub your boots at the boot wash, then outer gloves and coveralls off into the bag at the change station.",
+      "id": "decon",
+      "itemNames": {
+        "boot-wash": "boots scrubbed at the boot wash",
+        "glove-change": "outer gloves and coveralls off at the change station"
+      },
+      "kind": "sequence",
+      "prompt": "At the decon line on the pier: scrub your boots at the boot wash, then outer gloves and coveralls off into the bag at the change station.",
+      "targets": [
+        "boot-wash",
+        "glove-change"
+      ],
+      "title": "Go through the decon line before leaving the pier edge",
+      "why": "Everything the crew wore on the barge has been in the sediment, and the decon line is what keeps it inside the contamination zone instead of in the crew truck, the break room and home. The site health and safety plan sets the order, and it is followed every time the crew leave the zone, not just at the end of the day."
+    },
+    {
+      "cue": "Log the load: drafts read against the plan, the liner tear and missing scupper plug, the spill over the far side and what was done, the slump and the list, and the cover secured.",
+      "id": "loading-log",
+      "kind": "select",
+      "prompt": "Log the load: drafts read against the plan, the liner tear and missing scupper plug, the spill over the far side and what was done, the slump and the list, and the cover secured.",
+      "target": "loading-log",
+      "title": "Log the load and what happened loading it",
+      "why": "The loading log goes with the barge to the disposal site and into the project's record for the regulators: the drafts show she left inside her plan, and the spill over the far side is reported because anything that reached the water is exactly what the permit conditions are about. The liner tear goes in so it is repaired before the next load."
+    },
+    {
+      "cue": "On the radio: she is loaded, covered and inside her drafts, the liner and the scupper for repair, and how everyone is after a spill over the side and a barge listing onto the pier.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the radio: she is loaded, covered and inside her drafts, the liner and the scupper for repair, and how everyone is after a spill over the side and a barge listing onto the pier.",
+      "target": "crew-radio",
+      "title": "Check in with the operator and the pier crew",
+      "why": "The operator loaded blind to the barge's list, and the laborers at the pier edge saw the spill first — each needs the deck's report while it is fresh. It is also the crew's own check-in: a long shift in coveralls handling contaminated material takes it out of people, and the union's member assistance line is there for what does not get said on the radio."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — the Inlandboatmen's Union, IUOE Local 3 or LIUNA Local 261 — with the employer's employee assistance line behind it",
+  "tagline": "Contaminated sediment loaded from a pier into a lined hopper barge: PFD over coveralls at the ladder head, the loading plan read, the liner and scuppers walked, the spill apron rigged across the gap, the spring line made fast, a radio check with the operator, the barge loaded level through a bucket spilling over her far side, the deck and coaming walked, the spring line tended as the load slumps and she lists, her drafts read against the plan, the hopper covered, decon and the load logged",
+  "title": "SmartCiti.X~ Barge Loading of Contaminated Sediment VR",
+  "trade": "Inlandboatmen's Union (IBU) barge deckhand loading contaminated sediment at a pier, with an IUOE Local 3 excavator operator and LIUNA Local 261 hazmat laborers on the pier",
+  "underwater": null,
+  "weather": "overcast"
+}

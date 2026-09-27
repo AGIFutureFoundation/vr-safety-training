@@ -1,0 +1,419 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "data-integrity",
+    "name": "Data Integrity",
+    "note": "Every question on site status, oversight, data integrity and crew training answered without an unsafe conclusion"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "LIUNA hazmat & environmental laborer — OSHA HAZWOPER (29 CFR 1910.120) 40-hour with annual refresher; chain-of-custody sampling under EPA QA/QC guidance",
+  "citations": {
+    "sources": [
+      {
+        "label": "EPA Superfund site profile",
+        "url": "https://cumulis.epa.gov/supercpad/cursites/csitinfo.cfm?id=0902722"
+      },
+      {
+        "label": "SF.gov — HPNS cleanup",
+        "url": "https://www.sf.gov/hpns-cleanup-learn"
+      },
+      {
+        "label": "U.S. Department of Justice press release (2026)",
+        "url": "https://www.justice.gov/opa/pr/tetra-tech-ec-inc-agrees-pay-57m-settle-false-claims-act-allegations-falsifying-soil-test"
+      },
+      {
+        "label": "Greenaction — Bayview Hunters Point",
+        "url": "https://greenaction.org/bayview-hunters-point/"
+      },
+      {
+        "label": "Greenaction — in memory of Marie Harrison",
+        "url": "https://greenaction.org/2020/05/06/in-honor-and-memory-of-marie-harrison-1-30-1948-5-5-2019/"
+      },
+      {
+        "label": "OSHA 29 CFR 1910.120 — HAZWOPER",
+        "url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.120"
+      }
+    ],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Environmental",
+  "flat": true,
+  "game": {
+    "badges": [
+      {
+        "id": "sourced",
+        "name": "Sourced",
+        "note": "Site status and oversight answered clean"
+      },
+      {
+        "id": "no-substitution",
+        "name": "No Substitution",
+        "note": "Never chose a shortcut over an honest sample"
+      },
+      {
+        "id": "crew-ready",
+        "name": "Crew Ready",
+        "note": "Trades and training questions answered without correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-sheet",
+        "name": "Clean Sheet",
+        "note": "No corrections anywhere in the check"
+      },
+      {
+        "id": "read-it-first",
+        "name": "Read It First",
+        "note": "Finish the check inside 70% of par — you read the dossier, not the options"
+      }
+    ],
+    "currency": "SAMPLE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Site Aware",
+      "Sampler",
+      "Field Lead",
+      "QA Verifier",
+      "Integrity Certified"
+    ],
+    "system": "Site Awareness"
+  },
+  "hazards": {
+    "dismiss-community": "You dismissed the community's air monitors as noise. Independent neighborhood data is a check on the site's own record — on this site in particular, where the contractor's data was found unreliable, an outside measurement is not a nuisance, it is the control.",
+    "silence-alarm": "You silenced the perimeter dust monitor to keep the excavator moving. The monitor is the neighborhood's only real-time protection from what the dig is lifting; the response to an alarm is stop, wet down, notify — not mute.",
+    "swap-sample": "You chose to swap in a sample that reads clean. That is exactly what the False Claims Act case was about: substituted soil and fabricated readings that a whole cleanup was then judged on. A sample is the location it came from, logged under chain of custody, or it is nothing.",
+    "walk-in": "You treated an active Superfund parcel as open ground. Parcels here are behind fences and institutional controls for a reason: residual contamination, ongoing excavation and radiological survey work. Site access is by the Navy's controls and a HAZWOPER-trained escort, never on your own read of a map."
+  },
+  "id": "hunters-point",
+  "indoor": null,
+  "interrupts": [],
+  "lateNotes": {},
+  "name": "Hunters Point Briefing",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hazmat-environmental",
+    "hunters-point-bay-restoration"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": null,
+    "hits": [],
+    "meshes": 0
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "select",
+    "sequence"
+  ],
+  "steps": [
+    {
+      "cue": "Pick the statement that matches the record.",
+      "id": "status",
+      "kind": "select",
+      "options": [
+        {
+          "id": "status-superfund",
+          "label": "An active EPA Superfund site since 1989; the Navy leads the cleanup under EPA and California oversight"
+        },
+        {
+          "id": "status-done",
+          "label": "A completed cleanup, fully transferred to the city for redevelopment"
+        },
+        {
+          "id": "walk-in",
+          "label": "Former industrial land that is open to walk, like any waterfront park"
+        }
+      ],
+      "prompt": "Pick the statement that matches the record.",
+      "target": "status-superfund",
+      "title": "What is Hunters Point Naval Shipyard today?",
+      "why": "The site's legal status sets every rule for anyone working near it. It has been on the National Priorities List since 1989, the Navy is the lead agency, and the EPA and the state regulators oversee the Navy — that is who signs off on whether a parcel is done."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Select every family that applies — order doesn't matter.",
+      "decoyNotes": {
+        "c-leadpaint": "Lead paint alone would be a residential renovation problem. The record here lists radionuclides, PCBs, heavy metals, petroleum, pesticides and VOCs in soil, groundwater and bay sediment."
+      },
+      "id": "contaminants",
+      "itemNames": {
+        "c-metals": "heavy metals",
+        "c-pcbs": "PCBs",
+        "c-petroleum": "petroleum fuels",
+        "c-radionuclides": "radionuclides"
+      },
+      "kind": "sequence",
+      "options": [
+        {
+          "id": "c-radionuclides",
+          "label": "Radionuclides"
+        },
+        {
+          "id": "c-pcbs",
+          "label": "PCBs"
+        },
+        {
+          "id": "c-metals",
+          "label": "Heavy metals"
+        },
+        {
+          "id": "c-petroleum",
+          "label": "Petroleum fuels"
+        },
+        {
+          "id": "c-leadpaint",
+          "label": "Lead paint only"
+        }
+      ],
+      "prompt": "Select every family that applies — order doesn't matter.",
+      "targets": [
+        "c-radionuclides",
+        "c-pcbs",
+        "c-metals",
+        "c-petroleum"
+      ],
+      "title": "Which contaminants does the record list at the site?",
+      "why": "What is in the ground decides the PPE, the monitoring, the disposal route and the clearance criteria. A crew that thinks it is dealing with one contaminant plans for one and is exposed to the rest."
+    },
+    {
+      "cue": "Pick the statement that matches the Department of Justice record.",
+      "id": "integrity",
+      "kind": "select",
+      "options": [
+        {
+          "id": "int-substituted",
+          "label": "Radiological soil samples were substituted and readings fabricated; a Navy review found about 48% of the data suspect, and a $57M False Claims Act settlement was approved in 2026"
+        },
+        {
+          "id": "int-minor",
+          "label": "A handful of clerical errors in one parcel's paperwork, corrected on re-survey"
+        },
+        {
+          "id": "swap-sample",
+          "label": "Field crews sensibly swapped in clean samples where a reading would have forced expensive rework"
+        }
+      ],
+      "prompt": "Pick the statement that matches the Department of Justice record.",
+      "target": "int-substituted",
+      "title": "What did the contractor data case establish?",
+      "why": "The scale is the point: when roughly half a contractor's radiological data is suspect, every clearance built on it is in question. The whole discipline of environmental monitoring exists so that a number can be trusted — and this case is what it looks like when it can't."
+    },
+    {
+      "cue": "Pick the control that would have caught the problem.",
+      "id": "chain",
+      "kind": "select",
+      "options": [
+        {
+          "id": "chain-independent",
+          "label": "Chain of custody on every sample, independent split samples, and third-party verification of the contractor's results"
+        },
+        {
+          "id": "chain-trust",
+          "label": "Hiring a reputable contractor and trusting its final report"
+        },
+        {
+          "id": "chain-more",
+          "label": "Taking more samples with the same crew and the same instruments"
+        }
+      ],
+      "prompt": "Pick the control that would have caught the problem.",
+      "target": "chain-independent",
+      "title": "What actually protects data integrity on a monitoring crew?",
+      "why": "More samples from the same untrusted process are just more untrusted numbers. Chain of custody ties a result to a place and a person; split samples and an independent lab make a fabricated result disagree with something."
+    },
+    {
+      "cue": "Pick the arrangement the record describes.",
+      "id": "oversight",
+      "kind": "select",
+      "options": [
+        {
+          "id": "ov-agencies",
+          "label": "The Navy leads; the U.S. EPA and California's DTSC and Regional Water Board oversee and enforce; community organizations monitor and litigate"
+        },
+        {
+          "id": "ov-city",
+          "label": "The City of San Francisco runs the cleanup on its own land"
+        },
+        {
+          "id": "ov-contractor",
+          "label": "The cleanup contractor certifies its own parcels as complete"
+        }
+      ],
+      "prompt": "Pick the arrangement the record describes.",
+      "target": "ov-agencies",
+      "title": "Who oversees the cleanup?",
+      "why": "Knowing who signs what tells you whose data you are producing and who will audit it. A contractor certifying its own work is precisely the failure this site is known for."
+    },
+    {
+      "cue": "Pick the real effort.",
+      "id": "community",
+      "kind": "select",
+      "options": [
+        {
+          "id": "cm-monitors",
+          "label": "Community air monitors installed by Bayview Hunters Point residents in Marie Harrison's memory, run by Greenaction with the Marie Harrison Community Foundation"
+        },
+        {
+          "id": "cm-none",
+          "label": "There is none — only the Navy's on-site instruments report air quality"
+        },
+        {
+          "id": "dismiss-community",
+          "label": "Some neighborhood sensors exist, but uncalibrated community data should be disregarded on a regulated site"
+        }
+      ],
+      "prompt": "Pick the real effort.",
+      "target": "cm-monitors",
+      "title": "Where does independent neighborhood air data come from?",
+      "why": "On a site where the official record was found unreliable, an independent measurement is the control, not a courtesy. The community effort is real, named, and ongoing — and it is not something this simulator runs or speaks for."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Select every trade that belongs on the site — order doesn't matter.",
+      "decoyNotes": {
+        "t-untrained": "There is no untrained role on a Superfund excavation. Every worker in the exclusion zone carries HAZWOPER and site-specific training, and the drivers carry DOT hazmat endorsements."
+      },
+      "id": "trades",
+      "itemNames": {
+        "t-laborers": "hazmat laborers (LIUNA)",
+        "t-operators": "operating engineers (IUOE)",
+        "t-radtech": "radiation control technicians",
+        "t-teamsters": "Teamsters hauling regulated soil"
+      },
+      "kind": "sequence",
+      "options": [
+        {
+          "id": "t-laborers",
+          "label": "Hazmat & environmental laborers (LIUNA)"
+        },
+        {
+          "id": "t-operators",
+          "label": "Operating engineers (IUOE)"
+        },
+        {
+          "id": "t-teamsters",
+          "label": "Teamsters — regulated soil hauling"
+        },
+        {
+          "id": "t-radtech",
+          "label": "Radiation control technicians"
+        },
+        {
+          "id": "t-untrained",
+          "label": "General labor with no special training"
+        }
+      ],
+      "prompt": "Select every trade that belongs on the site — order doesn't matter.",
+      "targets": [
+        "t-laborers",
+        "t-operators",
+        "t-teamsters",
+        "t-radtech"
+      ],
+      "title": "Which trades does the actual work call on?",
+      "why": "Environmental monitoring is not one job. Excavation, hauling, survey, sampling and hygiene are separate trades with separate training gates, and the crew is only as safe as the least-trained person inside the fence."
+    },
+    {
+      "cue": "Pick the OSHA requirement.",
+      "id": "hazwoper",
+      "kind": "select",
+      "options": [
+        {
+          "id": "hz-40",
+          "label": "A 40-hour HAZWOPER course, three days of supervised field experience, and an 8-hour refresher every year (29 CFR 1910.120(e))"
+        },
+        {
+          "id": "hz-tbt",
+          "label": "A toolbox talk on the first morning"
+        },
+        {
+          "id": "hz-24",
+          "label": "An 8-hour awareness class, renewed every five years"
+        }
+      ],
+      "prompt": "Pick the OSHA requirement.",
+      "target": "hz-40",
+      "title": "What is the minimum training for a hazmat laborer here?",
+      "why": "HAZWOPER is the federal floor for anyone who could be exposed to hazardous substances on an uncontrolled site. The 40-hour course, the supervised days and the annual refresher are the rule — site-specific training sits on top of it, never instead of it."
+    },
+    {
+      "cue": "Pick the response the site's own controls require.",
+      "id": "dust",
+      "kind": "select",
+      "options": [
+        {
+          "id": "dust-stop",
+          "label": "Stop the excavation, wet the work face down, and notify the site health and safety officer before restarting"
+        },
+        {
+          "id": "silence-alarm",
+          "label": "Silence the monitor and keep the excavator moving — the wind will change"
+        },
+        {
+          "id": "dust-log",
+          "label": "Note it in the log and check again at the end of the shift"
+        }
+      ],
+      "prompt": "Pick the response the site's own controls require.",
+      "target": "dust-stop",
+      "title": "A perimeter dust monitor alarms during excavation. What now?",
+      "why": "The perimeter monitor exists for the neighborhood on the other side of the fence. Stop, control the source, notify — the excavator restarts when the air says so, not when the schedule does."
+    },
+    {
+      "cue": "Pick the statement that matches the 2026 record.",
+      "id": "now",
+      "kind": "select",
+      "options": [
+        {
+          "id": "now-live",
+          "label": "A live matter: the settlement resolved the government's claims in 2026 without resolving the homeowners' suit, and the residents' federal case over the cleanup's adequacy continues"
+        },
+        {
+          "id": "now-closed",
+          "label": "Fully resolved — the settlement closed every question about the site"
+        },
+        {
+          "id": "now-transferred",
+          "label": "Moot — the whole shipyard has already been transferred and built on"
+        }
+      ],
+      "prompt": "Pick the statement that matches the 2026 record.",
+      "target": "now-live",
+      "title": "Where does the record stand?",
+      "why": "Anyone briefing a crew on this site has to say honestly that it is unfinished: parcels still under cleanup, litigation still open, a neighborhood still measuring its own air. That is the frame you work inside — not a story with an ending."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A real Superfund site, a real data-fraud case, a real community air-monitoring effort — flat briefing and knowledge check, not a walkable scene",
+  "title": "SmartCiti.X~ Hunters Point Briefing VR",
+  "trade": "Environmental monitoring technician",
+  "underwater": null,
+  "weather": null
+}

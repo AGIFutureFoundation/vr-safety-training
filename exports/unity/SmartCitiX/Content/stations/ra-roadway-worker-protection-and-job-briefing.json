@@ -1,0 +1,376 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "limits-closed-clean",
+    "name": "Limits Closed Clean",
+    "note": "Working limits requested, worked inside and handed back with nothing skipped and nobody left out of the count"
+  },
+  "category": "Mobility & Transit",
+  "certification": "BMWED roadway worker qualification under FRA 49 CFR Part 214 on-track safety, read against the territory's own FRA 49 CFR Part 213 track safety standards; working limits are requested from and released back to the train dispatcher, whose authority is the only thing that keeps a BLET engineer or a SMART-TD conductor on an approaching train from running through this worksite",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "BLET",
+        "id": "blet-training",
+        "title": "BLET certification and training for locomotive engineers and trainmen"
+      },
+      {
+        "body": "union",
+        "citedAs": "BMWED",
+        "id": "bmwed-training",
+        "title": "BMWED roadway worker training for track and structures maintenance"
+      },
+      {
+        "body": "union",
+        "citedAs": "SMART-TD",
+        "id": "smarttd-training",
+        "title": "SMART Transportation Division training for conductors, trainmen and yardmasters"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Track",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "never-fouled",
+        "name": "Never Fouled",
+        "note": "Never once inside the fouling zone or past the limits unprotected"
+      },
+      {
+        "id": "sighting-true",
+        "name": "Sighting True",
+        "note": "Sighting distance, gauge reading and every measurement near band centre"
+      },
+      {
+        "id": "briefing-clean",
+        "name": "Clean Briefing",
+        "note": "Briefing, limits and handback all worked with no correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "gang-time",
+        "name": "Gang Time",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "first-limits",
+        "name": "First Limits",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "ten-clear",
+        "name": "Ten Clear",
+        "note": "Ten correct actions in a row"
+      }
+    ],
+    "currency": "LIMIT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Trackman",
+      "Qualified Roadway Worker",
+      "Watchman",
+      "Person In Charge",
+      "On-Track Safety Certified"
+    ],
+    "system": "On-Track Authority"
+  },
+  "hazards": {
+    "beyond-limits": "You kept working past the far limit board. Everything on the other side of that board is track the dispatcher has not given you — it is still open to a movement running on its own authority, and nobody out there has any reason to expect you.",
+    "fouling-point": "You are standing inside the clearance point of the adjacent track. Your working limits protect the track you are assigned to and nothing else — a movement on that other track is running under its own authority, with no reason to expect anybody standing this close to it.",
+    "out-of-sight-worker": "One of the gang has drifted around the curve, past where the watchman's sighting distance actually reaches. A watchman can only warn what they can see, and past that curve this worker is, for every practical purpose, working with no protection at all.",
+    "shortcut-crossing": "You cut across the rails at a spot with no crossing and no sighting either way. A hurried step across ballast and two rails takes longer than it feels like it does, and it is exactly the moment a person is looking at their feet instead of down the track."
+  },
+  "id": "ra-roadway-worker-protection-and-job-briefing",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "horn-test",
+      "alert": "A pickup has turned off the access road and is driving down the ballast shoulder toward your limits. Nobody called it in.",
+      "cue": "Something is inside your worksite that never asked the dispatcher for anything.",
+      "delay": 4,
+      "id": "unauthorized-entry",
+      "kind": "Unreported vehicle on the right-of-way",
+      "missNote": "You went to wave the truck off yourself. It kept coming — a driver on a haul road is watching the road, not a hand signal from someone standing in ballast — and the only thing that would have stopped it in time was already in your hand.",
+      "seconds": 12,
+      "target": "radio-handset",
+      "why": "Working limits are authority against train movements; they say nothing to a vehicle that never checked in with anyone, and the dispatcher is the only person in this picture who can reach that driver and every train crew at once. The radio goes up first because it is the fastest way to get that vehicle stopped and everyone else warned — walking toward it on foot leaves the gang exactly as exposed for exactly as long as the walk takes.",
+      "wrongNote": "That will not stop a vehicle that never called in. The radio is what reaches the dispatcher, and the dispatcher is what reaches that driver."
+    },
+    {
+      "after": "vigilance",
+      "alert": "Your watchman has put the radio to their ear and turned away from the line to take a call.",
+      "cue": "The one person watching the track for you has stopped watching it.",
+      "delay": 4,
+      "id": "watchman-distracted",
+      "kind": "Protection lapsed",
+      "missNote": "You kept working with the watchman turned away and the radio to their ear. For as long as that lasted, the gang's whole protection was a sighting distance nobody was using — the horn tells you a train is coming only if somebody is watching for it to sound.",
+      "seconds": 11,
+      "target": "post-watchman",
+      "why": "A watchman is not a formality standing near the job — the sighting distance you measured earlier is worked back from the timetable's authorized speed for exactly one purpose: enough warning time for the gang to clear before a movement arrives, and every second of that warning assumes somebody is actually looking. The moment the watching stops, the work stops with it, because you have no other way to know a movement is coming.",
+      "wrongNote": "That does not get your watchman back on the line. Go get their attention back on the track."
+    }
+  ],
+  "lateNotes": {
+    "defect-gauge": "The defect gets measured and logged before anything is done about it — a repair without a reading is a repair nobody can check.",
+    "left-wrench": "Nothing gets tallied against the closing count until the walk is actually done.",
+    "warning-flag": "The flag goes up once the defect is actually found and confirmed, not before."
+  },
+  "name": "Roadway Worker Protection & Job Briefing",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "railroad-crafts"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "beyond-limits",
+      "briefing-board",
+      "closing-log",
+      "defect-gauge",
+      "defect-site",
+      "fouling-point",
+      "horn-test-button",
+      "left-wrench",
+      "limits-sign",
+      "muster-tally",
+      "open-toolbox",
+      "out-of-sight-worker",
+      "post-watchman",
+      "radio-handset",
+      "roster-clipboard",
+      "scan-dial",
+      "shortcut-crossing",
+      "sighting-scope",
+      "track-tool",
+      "warning-flag"
+    ],
+    "meshes": 157
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the work order: what track, what limits will be requested, and who is watchman.",
+      "id": "briefing",
+      "kind": "select",
+      "prompt": "Read the work order: what track, what limits will be requested, and who is watchman.",
+      "target": "briefing-board",
+      "title": "Attend the job briefing",
+      "why": "Under FRA roadway worker protection rules every person on the gang works from the same plan, and a worker who missed the briefing has no way of knowing where the protection actually starts and ends — nor does the rest of the gang have any way of knowing that they do not know."
+    },
+    {
+      "cue": "Sign in your own name to show you heard the plan.",
+      "id": "roster",
+      "kind": "select",
+      "prompt": "Sign in your own name to show you heard the plan.",
+      "target": "roster-clipboard",
+      "title": "Sign the briefing roster",
+      "why": "The roster is the only record that this exact plan — this track, these limits, this watchman — was actually read out to this exact gang on this exact day. A verbal briefing nobody signed onto is a briefing that cannot be checked afterward by anyone, including the person in charge."
+    },
+    {
+      "cue": "Request the working limits first, then post the watchman inside them.",
+      "id": "protection-plan",
+      "itemNames": {
+        "post-watchman": "post the watchman",
+        "radio-handset": "request working limits from the dispatcher"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — the limits have to exist first. A watchman posted before the dispatcher grants anything is guarding track that is, as far as the signal system knows, still open.",
+      "prompt": "Request the working limits first, then post the watchman inside them.",
+      "targets": [
+        "radio-handset",
+        "post-watchman"
+      ],
+      "title": "Set the on-track safety plan",
+      "why": "The limits have to exist before the watchman is posted inside them — a watchman standing guard over track the dispatcher has not actually granted is protecting a worksite that, as far as the signal and train dispatching system is concerned, is still open to ordinary traffic."
+    },
+    {
+      "cue": "Sight the scope down the approach and commit once it reads the distance this territory's timetable speed requires.",
+      "gauge": {
+        "green": [
+          0.58,
+          0.78
+        ],
+        "label": "SIGHTING DISTANCE",
+        "missNote": "Short of what the timetable speed on this territory needs. Move the watchman back until the scope reads far enough.",
+        "speed": 0.66
+      },
+      "id": "sighting",
+      "kind": "gauge",
+      "prompt": "Sight the scope down the approach and commit once it reads the distance this territory's timetable speed requires.",
+      "target": "sighting-scope",
+      "title": "Calculate the sighting distance",
+      "why": "Sighting distance is worked back from how far a train at this territory's authorized speed travels while the gang hears the horn, stands up, and clears the track — it is not a fixed number and not a guess made by eye. Too short a sighting distance is protection that only looks like protection."
+    },
+    {
+      "cue": "Turn the near limit board face-on to the approach so an oncoming crew can actually read it.",
+      "id": "limits-sign",
+      "kind": "turn",
+      "prompt": "Turn the near limit board face-on to the approach so an oncoming crew can actually read it.",
+      "target": "limits-sign",
+      "title": "Swing the limit board into place",
+      "turn": {
+        "axis": "y",
+        "label": "LIMIT BOARD",
+        "turns": 0.25
+      },
+      "why": "A limit board edge-on to the track is a board nobody moving toward it can read in time. It has to be square to the approach, because the whole point of it is being seen from a moving train long before anyone reaches it on foot."
+    },
+    {
+      "cue": "Sound the horn and hold until every member of the gang has raised a hand to confirm they heard it.",
+      "holdBreakNote": "You let go before every hand went up. A horn you have not confirmed everyone can hear is not a warning system, it is a noise you assume works.",
+      "id": "horn-test",
+      "kind": "hold",
+      "prompt": "Sound the horn and hold until every member of the gang has raised a hand to confirm they heard it.",
+      "seconds": 5,
+      "target": "horn-test-button",
+      "title": "Test the watchman's warning horn",
+      "why": "A horn nobody has actually heard tested is a horn the gang is trusting on faith, and the one time that matters is the one time it fails. Testing it now, with everybody still able to answer, is the only way to know the warning will actually reach them once tools are in their hands and ears are under hearing protection."
+    },
+    {
+      "cue": "Carry the rail gauge tool from the cart to the low joint marked on the work order.",
+      "drag": {
+        "missNote": "Not set down at the joint — carry it the rest of the way to the low rail.",
+        "radius": 0.32,
+        "to": "defect-site"
+      },
+      "id": "repair-carry",
+      "kind": "drag",
+      "prompt": "Carry the rail gauge tool from the cart to the low joint marked on the work order.",
+      "target": "track-tool",
+      "title": "Carry the tool to the defect",
+      "why": "The defect was flagged on a prior inspection and the tool has to reach it before anything can be measured or fixed — carried across and set down at the joint itself, not left at the cart where it does nobody any good."
+    },
+    {
+      "cue": "Set the gauge across the low joint and commit the reading.",
+      "gauge": {
+        "green": [
+          0,
+          0.22
+        ],
+        "label": "JOINT DIP",
+        "missNote": "Outside tolerance for this class of track. Log the defect and flag it before moving on.",
+        "speed": 0.7
+      },
+      "id": "defect-check",
+      "kind": "gauge",
+      "prompt": "Set the gauge across the low joint and commit the reading.",
+      "target": "defect-gauge",
+      "title": "Measure the defect",
+      "why": "A joint that has dropped gets measured, logged and compared against the tolerance this class of track is held to before any decision is made about it — a repair without a reading behind it is a guess nobody can check against what the joint actually did next."
+    },
+    {
+      "cue": "Hold your own sweep of both directions in the green band while you finish logging the defect.",
+      "holdBreakNote": "The sweep dropped out of band. Eyes down on the clipboard for too long is exactly the posture a lookout's warning is meant to interrupt, not replace.",
+      "id": "vigilance",
+      "kind": "track",
+      "prompt": "Hold your own sweep of both directions in the green band while you finish logging the defect.",
+      "seconds": 6,
+      "target": "scan-dial",
+      "title": "Keep the visual sweep going while you work",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.42,
+        "green": [
+          0.34,
+          0.62
+        ],
+        "label": "SWEEP",
+        "rise": 0.5
+      },
+      "why": "A watchman's protection does not excuse the rest of the gang from their own awareness — hands on a clipboard and eyes on the page is exactly the posture that misses the one thing a lookout might already be shouting about. The sweep is a habit worked at the same time as the paperwork, not instead of it."
+    },
+    {
+      "cue": "Set the warning flag at the joint now that it is measured and logged.",
+      "id": "flag-defect",
+      "kind": "select",
+      "prompt": "Set the warning flag at the joint now that it is measured and logged.",
+      "target": "warning-flag",
+      "title": "Flag the joint for follow-up",
+      "why": "A defect this gang does not have the parts or the time to finish today still has to be visible to the next train and the next gang — a flag at the joint is the only thing standing between a defect on a clipboard and a defect somebody driving past can actually see."
+    },
+    {
+      "cue": "Scan the worksite and clear anything that didn't make it back into the cart.",
+      "id": "walk",
+      "itemNames": {
+        "left-wrench": "wrench left on the ballast",
+        "open-toolbox": "toolbox left open on the shoulder"
+      },
+      "itemNotes": {
+        "left-wrench": "Caught before the tally closed — a wrench in the four foot is exactly the foreign object the walk exists to catch.",
+        "open-toolbox": "An open lid catches wind and rain both; closed and latched before it is left for the next gang."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Scan the worksite and clear anything that didn't make it back into the cart.",
+      "targets": [
+        "left-wrench",
+        "open-toolbox"
+      ],
+      "title": "Walk the worksite before you leave it",
+      "why": "Nobody else is walking this stretch tonight. A tool or an open case left on the shoulder is a foreign object under the next train or a piece of kit that walks off in the weather, and the only thing that catches it is somebody actually looking before the limits are given up."
+    },
+    {
+      "cue": "Count the gang against the roster before the limits come back.",
+      "id": "muster",
+      "kind": "select",
+      "prompt": "Count the gang against the roster before the limits come back.",
+      "target": "muster-tally",
+      "title": "Take the headcount",
+      "why": "The limits do not go back to the dispatcher until every name on the roster is accounted for standing clear of the track — a headcount is the one check that catches a gang member still working, still crossing, or simply not where anyone thought they were."
+    },
+    {
+      "cue": "Call the dispatcher and hold the radio for the read-back giving the limits up.",
+      "holdBreakNote": "You let go before the read-back came back. Limits are not released until the dispatcher has said so in your own hearing.",
+      "id": "release-limits",
+      "kind": "hold",
+      "prompt": "Call the dispatcher and hold the radio for the read-back giving the limits up.",
+      "seconds": 4,
+      "target": "radio-handset",
+      "title": "Release the working limits",
+      "why": "The track stays under your protection until the dispatcher has heard you give it up and read it back — walking away without that call is how a set of limits never actually closes, and the next crew that needs that track has no way to know it is clear."
+    },
+    {
+      "cue": "Log the defect, the flag left standing and the time the limits closed.",
+      "id": "close-log",
+      "kind": "select",
+      "prompt": "Log the defect, the flag left standing and the time the limits closed.",
+      "target": "closing-log",
+      "title": "Close the job briefing",
+      "why": "The next gang, and the roadmaster after them, only know what this closing entry tells them — the flagged joint, what was and was not fixed, and the exact minute the track went back to normal authority. An unclosed log is a job that, on paper, never actually finished."
+    }
+  ],
+  "supportLine": "your roadmaster or your BMWED local if a close call on the gang is still sitting with you after shift",
+  "tagline": "The briefing signed, the limits requested and read back, the watchman posted at a sighting distance worked from the timetable speed, the work done inside the limits, and every piece of it handed back before anyone walks away",
+  "title": "SmartCiti.X~ Roadway Worker Protection & Job Briefing VR",
+  "trade": "Roadway worker / track inspector",
+  "underwater": null,
+  "weather": "overcast"
+}

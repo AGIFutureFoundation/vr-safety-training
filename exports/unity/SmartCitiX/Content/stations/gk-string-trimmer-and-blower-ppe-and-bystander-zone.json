@@ -1,0 +1,482 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "zone-held",
+    "name": "Zone Held",
+    "note": "PPE on, guard and interlock confirmed, the bystander zone posted, and the discharge never once crossed toward a person, a pet or the drain"
+  },
+  "category": "Grounds & Landscaping",
+  "certification": "OSHA 29 CFR 1910.132 personal protective equipment, 29 CFR 1910.133 eye and face protection, 29 CFR 1910.95 occupational noise exposure and 29 CFR 1910.138 hand protection; ANSI B71 outdoor power equipment safety specifications for trimmers and blowers; NIOSH guidance on hand-arm vibration and noise from portable power equipment; AFSCME parks and grounds member training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "ANSI",
+        "citedAs": "ANSI B71",
+        "id": "ansi-b71-outdoor-power-equipment",
+        "title": "ANSI B71 series — safety specifications for outdoor power equipment (walk-behind and riding mowers, trimmers and blowers), published with the Outdoor Power Equipment Institute"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.133",
+        "id": "osha-1910-133",
+        "title": "29 CFR 1910.133 — Eye and face protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.138",
+        "id": "osha-1910-138",
+        "title": "29 CFR 1910.138 — Hand protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.95",
+        "id": "osha-1910-95",
+        "title": "29 CFR 1910.95 — Occupational noise exposure"
+      }
+    ]
+  },
+  "district": "fairway-park",
+  "domain": "Grounds & Landscaping",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "guard-on",
+        "name": "Guard On",
+        "note": "Never ran the trimmer with the guard off"
+      },
+      {
+        "id": "zone-posted",
+        "name": "Zone Posted",
+        "note": "Bystander zone posted and barricaded before starting"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcut",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "clean-sweep",
+        "name": "Clean Sweep",
+        "note": "Held the sweep and the vibration gauge near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-edge",
+        "name": "Quick Edge",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-round",
+        "name": "Clean Round",
+        "note": "No corrections across the whole run"
+      },
+      {
+        "id": "grounds-streak",
+        "name": "Grounds Streak",
+        "note": "Eight correct actions in a row"
+      }
+    ],
+    "currency": "TURF",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Hand",
+      "Trimmer Operator",
+      "Zone Certified",
+      "Crew Lead",
+      "Grounds Certified"
+    ],
+    "system": "Grounds Crew"
+  },
+  "hazards": {
+    "blower-toward-bystander": "You aimed the blower's discharge toward a person instead of away from them. A backpack blower moves air fast enough to drive grit, gravel and debris hard enough to cut skin or reach an eye, and the operator choosing where that air goes is the only thing standing between a park path and someone getting hit with it.",
+    "no-guard-operation": "You ran the trimmer with the cutting guard removed. The guard is what stands between the operator's legs and a nylon line spinning fast enough to strip bark off a sapling, and it also catches whatever the line kicks up before it becomes a projectile aimed at whoever is standing nearby.",
+    "reach-near-spinning-head": "You reached toward the trimmer head while the engine was still running. A spinning nylon line looks like nothing is there until it meets skin, and a hand reached in to clear a wrap or a jam finds that out immediately unless the engine is stopped first.",
+    "trigger-lock-defeat": "That wedge is holding the throttle trigger open with nobody's hand on it. The trigger is a dead-man control on purpose — the cutting head is meant to stop the instant the hand lets go — and defeating it turns a machine designed to stop itself into one that keeps spinning after it is dropped or set down."
+  },
+  "id": "gk-string-trimmer-and-blower-ppe-and-bystander-zone",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "idle-warmup-hold",
+      "alert": "A jogger has stepped past the near cone and is closing on the posted bystander zone while the trimmer idles.",
+      "cue": "Sound the warning whistle and wave them back before the trimmer comes up to cutting speed.",
+      "delay": 3,
+      "id": "bystander-crosses-zone",
+      "kind": "Zone breach",
+      "missNote": "The jogger kept closing while the trimmer stayed at idle. The zone was posted for exactly this moment, and a posted zone nobody enforces protects nobody.",
+      "seconds": 10,
+      "target": "warning-whistle",
+      "why": "A trimmer at idle is one throttle squeeze away from cutting speed, and a jogger who has already crossed the posted line has no way of knowing that from the path — the whistle is what stops them before the throttle opens, rather than after.",
+      "wrongNote": "Not that — the whistle and the wave-back are what this moment needs before the throttle opens."
+    },
+    {
+      "after": "sweep-under-watch",
+      "alert": "A gust has carried the blower's own dust cloud back toward the ground-watch, cutting their sightline to the path.",
+      "cue": "Angle the nozzle away from the ground-watch before the cloud reaches them.",
+      "delay": 4,
+      "id": "dust-cloud-toward-watch",
+      "kind": "Visibility loss",
+      "missNote": "The dust cloud stayed on the ground-watch while the sweep continued. A blind spotter is the same as no spotter at all.",
+      "seconds": 11,
+      "target": "nozzle-angle-lever",
+      "why": "A ground-watch who cannot see the path is a ground-watch who cannot warn anyone walking onto it, and the operator holding the blower is the only one who can change where that dust is heading — angling the nozzle away is what gets their sightline back before someone steps into a blind spot nobody can see is there.",
+      "wrongNote": "Not that — angle the nozzle away from the ground-watch before anything else about this sweep matters."
+    }
+  ],
+  "lateNotes": {
+    "buried-rock": "A rock sitting proud of the turf is exactly what a trimmer line — or a blower's air blast — turns into a projectile the moment it is disturbed.",
+    "storm-drain-marker": "Clippings blown into a storm drain do not stay there — they wash straight into whatever the drain feeds, which is why the discharge is aimed away from it every time, not just when someone is watching."
+  },
+  "name": "Trimmer & Blower PPE and Bystander Zone",
+  "parSeconds": 285,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "grounds-and-landscaping"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "1.8x0.94x0.5",
+        "count": 1,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bench-too-close",
+      "blower-staging-spot",
+      "blower-toward-bystander",
+      "blower-unit",
+      "buried-rock",
+      "bystander-zone-sign",
+      "choke-lever",
+      "clear-sidewalk",
+      "clear-turf-patch",
+      "closing-log",
+      "cone-a",
+      "cone-b",
+      "cut-resistant-gloves",
+      "ear-protection",
+      "exposed-sprinkler",
+      "face-shield",
+      "fuel-mix-label",
+      "ground-watch",
+      "guard-attached",
+      "no-guard-operation",
+      "nozzle-angle-lever",
+      "parked-car-window",
+      "pedestrian-sidewalk",
+      "pet-in-yard",
+      "primer-bulb",
+      "pull-cord",
+      "reach-near-spinning-head",
+      "speed-dial",
+      "storm-drain-marker",
+      "string-line-length",
+      "throttle-interlock",
+      "throttle-trigger",
+      "trigger-lock-defeat",
+      "vibration-meter",
+      "warning-whistle",
+      "zone-barrier"
+    ],
+    "meshes": 151
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Face shield, ear protection and cut-resistant gloves before the trimmer or blower come off the rack.",
+      "id": "ppe-up",
+      "itemNames": {
+        "cut-resistant-gloves": "cut-resistant gloves",
+        "ear-protection": "ear protection",
+        "face-shield": "face shield"
+      },
+      "kind": "sequence",
+      "prompt": "Face shield, ear protection and cut-resistant gloves before the trimmer or blower come off the rack.",
+      "targets": [
+        "face-shield",
+        "ear-protection",
+        "cut-resistant-gloves"
+      ],
+      "title": "Suit up before touching the trimmer",
+      "why": "A trimmer line spinning at cutting speed throws grit and debris at eye level, the engine and the head both run well past a level OSHA's noise standard treats as safe for a shift, and a hand that slips near the head is safer for having something between it and the line — the PPE goes on before the rack is touched, not after the first close call."
+    },
+    {
+      "cue": "Read the fuel container's own label before fuelling the trimmer.",
+      "id": "check-fuel-label",
+      "kind": "select",
+      "prompt": "Read the fuel container's own label before fuelling the trimmer.",
+      "target": "fuel-mix-label",
+      "title": "Check the fuel mix against the label",
+      "why": "A two-stroke trimmer's fuel-to-oil ratio is set by that engine's own label and operator's manual, not by habit or by what the can looked like last time — checking it before fuelling is what keeps a lean or rich mix from wrecking the engine or fouling on the first pull."
+    },
+    {
+      "cue": "Three things along this edge are not what they look like from a standing start — find them by walking the line.",
+      "decoyNotes": {
+        "clear-turf-patch": "That stretch of edge is clear turf with nothing hiding in it. Nothing to flag there."
+      },
+      "id": "scan-work-zone",
+      "itemNames": {
+        "bench-too-close": "a park bench sitting inside the planned cutting line",
+        "buried-rock": "a rock sitting proud of the turf",
+        "exposed-sprinkler": "a sprinkler head standing proud of the edge"
+      },
+      "itemNotes": {
+        "bench-too-close": "A bench sitting this close to the planned line means whoever is on it is inside the throw radius the moment the trimmer starts.",
+        "buried-rock": "A rock like this is exactly what a trimmer line turns into a projectile the moment the line catches it.",
+        "exposed-sprinkler": "A sprinkler head standing proud of the edge is what a trimmer line shreds instead of grass, and shreds back at the operator."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things along this edge are not what they look like from a standing start — find them by walking the line.",
+      "targets": [
+        "buried-rock",
+        "exposed-sprinkler",
+        "bench-too-close"
+      ],
+      "title": "Scan the work zone before starting anything",
+      "why": "A work zone that looks clear from where the crew is standing is not the same thing as a zone someone has actually walked and checked, and a rock, a sprinkler head or a bench inside the cutting line are exactly the kind of hazard a walk-down catches before the trimmer ever starts."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Confirm the guard is attached, the line is cut to length and the throttle interlock resets on its own.",
+      "id": "trimmer-precheck",
+      "itemNames": {
+        "guard-attached": "cutting guard",
+        "string-line-length": "trimmer line length",
+        "throttle-interlock": "throttle trigger interlock"
+      },
+      "kind": "sequence",
+      "prompt": "Confirm the guard is attached, the line is cut to length and the throttle interlock resets on its own.",
+      "targets": [
+        "guard-attached",
+        "string-line-length",
+        "throttle-interlock"
+      ],
+      "title": "Precheck the trimmer",
+      "why": "The guard, the line length and the trigger interlock are the three things standing between a spinning nylon line and whoever is nearby — confirming all three before the engine starts is what makes them an actual safeguard rather than a set of parts nobody has checked since the trimmer left the rack."
+    },
+    {
+      "cue": "Set the bystander zone sign at the clearance distance the operator's manual sets, before anyone starts the engine.",
+      "id": "post-bystander-zone",
+      "kind": "select",
+      "prompt": "Set the bystander zone sign at the clearance distance the operator's manual sets, before anyone starts the engine.",
+      "target": "bystander-zone-sign",
+      "title": "Post the bystander zone",
+      "why": "The operator's manual sets the clearance distance this specific trimmer and blower need between the operator and anyone standing by — posting the sign before starting is what turns that distance from a number in a manual into something a passer-by can actually see and respect."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Cone both approaches and set the barrier along the one open side of the work area.",
+      "id": "barricade-zone",
+      "itemNames": {
+        "cone-a": "cone at the near approach",
+        "cone-b": "cone at the far approach",
+        "zone-barrier": "barrier along the open side"
+      },
+      "kind": "sequence",
+      "prompt": "Cone both approaches and set the barrier along the one open side of the work area.",
+      "targets": [
+        "cone-a",
+        "cone-b",
+        "zone-barrier"
+      ],
+      "title": "Barricade the bystander zone",
+      "why": "A posted sign only works on someone who is already looking for it — a cone line and a barrier are what stop a jogger, a cyclist or a dog on a long leash from wandering into the throw radius without ever reading the sign at all."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Prime the bulb, set the choke, then pull the cord — in that order, the way this two-stroke engine starts.",
+      "id": "start-the-trimmer",
+      "itemNames": {
+        "choke-lever": "choke lever",
+        "primer-bulb": "primer bulb",
+        "pull-cord": "pull cord"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "That is out of the two-stroke engine's own starting order. Prime, then choke, then pull — doing it out of order is exactly how a flooded engine or a kickback on the cord happens.",
+      "prompt": "Prime the bulb, set the choke, then pull the cord — in that order, the way this two-stroke engine starts.",
+      "targets": [
+        "primer-bulb",
+        "choke-lever",
+        "pull-cord"
+      ],
+      "title": "Start the trimmer in order",
+      "why": "A two-stroke engine's starting sequence exists because each step sets up the next one — priming loads the carburettor, the choke enriches the mixture for a cold start, and only then does the pull cord have fuel and air actually ready to fire — doing it out of order is how an engine floods or kicks back on the cord instead of starting clean."
+    },
+    {
+      "cue": "Hold the throttle trigger steady at idle for a few seconds before advancing to cutting speed.",
+      "holdBreakNote": "Let go of the trigger before the warm-up finished. Hold it steady at idle for the full few seconds, every time.",
+      "id": "idle-warmup-hold",
+      "kind": "hold",
+      "prompt": "Hold the throttle trigger steady at idle for a few seconds before advancing to cutting speed.",
+      "seconds": 4,
+      "target": "throttle-trigger",
+      "title": "Hold the trimmer at idle to warm up",
+      "why": "A cold two-stroke engine run straight to cutting speed is more likely to bog or stall than one given a few seconds at idle first, and idle is also the safe speed to be at while a last look is taken around the zone before the line is actually spinning fast enough to cut."
+    },
+    {
+      "cue": "Carry the backpack blower from the rack to the marked staging spot before putting it on.",
+      "drag": {
+        "missNote": "Not on the marked spot — carry the blower to where the staging mark actually is.",
+        "radius": 0.4,
+        "to": "blower-staging-spot"
+      },
+      "id": "stage-the-blower",
+      "kind": "drag",
+      "prompt": "Carry the backpack blower from the rack to the marked staging spot before putting it on.",
+      "target": "blower-unit",
+      "title": "Stage the blower at the work area",
+      "why": "Staging the blower at the work area rather than shouldering it back at the rack means the first steps taken with a running engine on the back are steps that are actually needed, not an extra walk across the whole zone with a loaded backpack unit still warming up."
+    },
+    {
+      "cue": "Turn the speed dial up smoothly once the nozzle is aimed away from anyone nearby.",
+      "id": "blower-speed-dial",
+      "kind": "turn",
+      "prompt": "Turn the speed dial up smoothly once the nozzle is aimed away from anyone nearby.",
+      "target": "speed-dial",
+      "title": "Bring the blower up to sweeping speed",
+      "turn": {
+        "axis": "z",
+        "label": "BLOWER SPEED",
+        "turns": 0.45
+      },
+      "why": "A blower brought straight to full speed with the nozzle still swinging around throws whatever is on the ground in whatever direction it happened to be pointed — turning the dial up only once the nozzle is already aimed at open ground is what keeps that first blast of air from becoming the first mistake of the sweep."
+    },
+    {
+      "cue": "Keep the ground-watch's signal steady, sweeping clippings clear of the path rather than across it.",
+      "holdBreakNote": "The sweep drifted off the ground-watch's line. Bring the nozzle back onto the marked sweep before continuing.",
+      "id": "sweep-under-watch",
+      "kind": "track",
+      "prompt": "Keep the ground-watch's signal steady, sweeping clippings clear of the path rather than across it.",
+      "seconds": 8,
+      "target": "ground-watch",
+      "title": "Sweep the path under the ground-watch's signal",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "SWEEP LINE",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "The ground-watch is looking down the path in the direction the operator's own attention is on the nozzle and the debris, and a steady signal is what lets the operator trust that the path ahead is still clear instead of finding out otherwise from someone stepping into the discharge."
+    },
+    {
+      "cue": "Read the vibration meter after the sweep and commit only inside the acceptable band.",
+      "gauge": {
+        "green": [
+          0.2,
+          0.5
+        ],
+        "label": "HAND-ARM VIBRATION",
+        "missNote": "Outside the acceptable band. Ease the grip and let the reading settle before committing it.",
+        "speed": 0.62
+      },
+      "id": "vibration-gauge-check",
+      "kind": "gauge",
+      "prompt": "Read the vibration meter after the sweep and commit only inside the acceptable band.",
+      "target": "vibration-meter",
+      "title": "Check the hand-arm vibration reading",
+      "why": "Hand-arm vibration from a running power tool adds up over a shift in a way no single moment makes obvious, and a meter reading is what tells the crew whether this tool and this grip are actually inside what NIOSH's own guidance treats as manageable rather than just quiet to hold."
+    },
+    {
+      "cue": "Three things ahead change where this sweep can go — find them before the blower gets there.",
+      "decoyNotes": {
+        "clear-sidewalk": "That stretch of sidewalk is empty with nothing parked or standing on it. Nothing to flag there."
+      },
+      "id": "bystander-scan",
+      "itemNames": {
+        "parked-car-window": "the parked car with its window down",
+        "pedestrian-sidewalk": "the pedestrian on the sidewalk ahead",
+        "pet-in-yard": "the pet loose along the fence line"
+      },
+      "itemNotes": {
+        "parked-car-window": "Debris blown into an open car window is a windshield's worth of grit somebody else has to clean up, or worse, catch in the face while driving off.",
+        "pedestrian-sidewalk": "A pedestrian ahead on the sidewalk is exactly who the discharge has to be aimed away from before the sweep ever reaches that stretch.",
+        "pet-in-yard": "A loose pet does not know to stay clear of a blower's discharge the way a person might — the sweep is planned around it, not through it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things ahead change where this sweep can go — find them before the blower gets there.",
+      "targets": [
+        "parked-car-window",
+        "pedestrian-sidewalk",
+        "pet-in-yard"
+      ],
+      "title": "Scan ahead before sweeping the next stretch",
+      "why": "A sweep planned only around what is on the ground and not around who or what is nearby is a sweep that eventually blasts someone's open car window, a pedestrian, or a loose pet — scanning ahead is what keeps the discharge aimed at clippings instead of at people or animals who never agreed to be in its path."
+    },
+    {
+      "cue": "Confirm the storm drain is marked and sweep clippings away from it, not into it.",
+      "id": "direct-away-from-drain",
+      "kind": "select",
+      "prompt": "Confirm the storm drain is marked and sweep clippings away from it, not into it.",
+      "target": "storm-drain-marker",
+      "title": "Keep the discharge off the storm drain",
+      "why": "Clippings and debris blown into a storm drain do not stay there — they wash straight into whatever the drain feeds the next time it rains — so the sweep is planned to carry material away from the drain the whole time, not just when someone happens to be watching."
+    },
+    {
+      "cue": "Log the precheck, the zone posting and the vibration reading before racking the tools.",
+      "id": "shutdown-log",
+      "kind": "select",
+      "prompt": "Log the precheck, the zone posting and the vibration reading before racking the tools.",
+      "target": "closing-log",
+      "title": "Close out the trimmer and blower log",
+      "why": "The tool log is what the next crew member and the next inspection both read — a shift run cleanly but never logged leaves nothing behind to prove the precheck, the posted zone and the vibration reading actually happened before the tools went back on the rack."
+    }
+  ],
+  "supportLine": "your union steward or the parks department's employee assistance line",
+  "tagline": "A string trimmer and a backpack blower on a park path that still has people on it: PPE first, the guard and trigger interlock confirmed, the bystander zone posted and barricaded, and the blower's discharge kept off people, pets and the storm drain",
+  "title": "SmartCiti.X~ Trimmer & Blower PPE and Bystander Zone VR",
+  "trade": "Grounds maintenance worker — AFSCME parks and grounds crew",
+  "underwater": null,
+  "weather": "clear"
+}

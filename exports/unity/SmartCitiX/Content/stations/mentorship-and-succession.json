@@ -1,0 +1,429 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "seat-handed-on",
+    "name": "Seat Handed On",
+    "note": "A successor left able to lead without you: prepared, introduced, trusted with the gavel and told the truth"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "The Ralph M. Brown Act (California Government Code section 54950 and following) as the first thing a new member must know; the Political Reform Act, administered by the FPPC, for the assuming-office Statement of Economic Interests (Form 700) and gift rules; the municipal ethics code and the state's required ethics training for local officials, named generically; Robert's Rules of Order as the commission's adopted practice for running a meeting; SAMHSA's trauma-informed principle of peer support, applied to mentoring; SEIU and AFSCME for the commission staff a new chair relies on. The leadership principles practised here are principles commonly taught in civic-leadership programmes; the foundation's own curriculum is not sourced in this repository",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "California Government Code",
+        "citedAs": "Ralph M. Brown Act",
+        "id": "brown-act",
+        "title": "The Ralph M. Brown Act, California Government Code section 54950 and following — open and public meetings of local legislative bodies: the posted agenda, the public's right to comment, action only on noticed items, and the bar on serial meetings of a majority"
+      },
+      {
+        "body": "municipal ethics code",
+        "citedAs": "municipal ethics code",
+        "id": "municipal-ethics-code",
+        "title": "A city or county ethics code and the charter's ethics provisions — gifts from interested parties, lobbyist contact, misuse of public position and the revolving door; named generically, with no one jurisdiction's sections cited"
+      },
+      {
+        "body": "FPPC",
+        "citedAs": "Form 700",
+        "id": "political-reform-act",
+        "title": "The Political Reform Act of 1974, administered by the Fair Political Practices Commission — annual economic-interest disclosure on the Statement of Economic Interests (Form 700), disqualification from any decision an official has a financial interest in, and gift limits and gift reporting"
+      },
+      {
+        "body": "Robert's Rules",
+        "citedAs": "Robert's Rules of Order",
+        "id": "roberts-rules",
+        "title": "Robert's Rules of Order Newly Revised — the parliamentary authority a body adopts in its own rules of procedure: a practice the body chooses, not a law"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Civic",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "binder-right",
+        "name": "Binder Right",
+        "note": "Every essential in the onboarding binder found first time"
+      },
+      {
+        "id": "hands-off",
+        "name": "Hands Off",
+        "note": "No unsafe action anywhere in the handover"
+      },
+      {
+        "id": "true-feedback",
+        "name": "True Feedback",
+        "note": "Every piece of honest feedback found without the empty one"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-handover",
+        "name": "Clean Handover",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "right-pace",
+        "name": "Right Pace",
+        "note": "The handover paced inside the band"
+      },
+      {
+        "id": "sat-back",
+        "name": "Sat Back",
+        "note": "The practice meeting and the coaching both carried their full count"
+      }
+    ],
+    "currency": "LEGACY",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Member",
+      "Chair",
+      "Mentor",
+      "Senior Mentor",
+      "Leadership Elder"
+    ],
+    "system": "Pass It On"
+  },
+  "hazards": {
+    "gift-basket-fine": "You told her the developer's gift basket is fine to keep. That developer has a project coming to the commission; a gift from somebody with business before the body is reportable at best and disqualifying at worst, and her first lesson in office should not be that it does not matter.",
+    "pre-decide-with-two": "You set up coffee with two members to settle next week's agenda before the meeting. Three of five is a majority; deciding items privately among them is the serial meeting the open-meeting law forbids — and it teaches your successor that this is how the commission really works.",
+    "promise-the-seat": "You promised her the chair's seat will be hers for as long as she wants it. Appointments and elections are not yours to give, and a mentor who promises what they cannot deliver teaches the next leader that promises are how you keep people loyal.",
+    "take-back-the-gavel": "You took the gavel back the moment she hesitated. She will remember that the first time the room got hard, the old chair decided she could not handle it — and so will everybody who watched, which is exactly the authority she needed to be building tonight."
+  },
+  "id": "mentorship-and-succession",
+  "indoor": "hotel",
+  "interrupts": [
+    {
+      "after": "let-them-chair",
+      "alert": "While she is chairing, a long-time ally leans over to you and whispers: keep the real decisions between the old hands — she can run the meetings.",
+      "cue": "Decline, quietly and clearly: she is the chair now, and decisions happen in the meeting.",
+      "delay": 3,
+      "id": "shadow-chair-offer",
+      "kind": "Invitation to stay in charge",
+      "missNote": "You nodded and said you would talk later. The ally tells the others that the old chair is still the one to see, and the new chair spends her first year wondering why decisions keep arriving already made.",
+      "seconds": 12,
+      "target": "no-shadow-card",
+      "why": "A shadow chair is the most common way succession fails: the title moves and the power does not. Declining the ally clearly, and without drama, protects the new chair's authority and keeps decisions where the open-meeting law puts them — in the meeting. It also tells the ally, who will repeat it, that the handover is real.",
+      "wrongNote": "Sitting still is right, but the whisper needs an answer. Decline it: she is the chair now, and decisions happen in the meeting."
+    },
+    {
+      "after": "coach-without-taking-over",
+      "alert": "A resident has stood up and is shouting at the new chair by name. She has frozen, gavel in hand, and is looking at you.",
+      "cue": "Pass her a quiet note — \"warn once, then recess\" — and leave the gavel where it is.",
+      "delay": 3,
+      "id": "successor-freezes",
+      "kind": "Successor under pressure",
+      "missNote": "Nothing reached her. She stood frozen until the resident sat down on his own, and she left the meeting convinced she cannot do the job — which is the opposite of what the evening was for.",
+      "seconds": 12,
+      "target": "pass-a-note-card",
+      "why": "The moment a new leader freezes is the moment a mentor is most tempted to take over and most needs not to. A quiet note with the next step — warn once, then recess — gives her what she needs to act while keeping the authority visibly hers. The room sees her handle it; she learns she can; and the resident learns who is chairing.",
+      "wrongNote": "Coaching from the side is not enough in this moment. She needs the next step in her hand — pass her the note."
+    }
+  ],
+  "lateNotes": {
+    "gavel-item": "The gavel passes once she has run the practice item with you sitting back — let her chair first.",
+    "handover-log-board": "The handover is logged once the feedback is given and the door left open — there is more to hand on yet."
+  },
+  "name": "Mentorship and Succession",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "civic-leadership-and-ei"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "binder-ethics-training",
+      "binder-form-700-deadline",
+      "binder-old-seating-chart",
+      "binder-open-meeting-basics",
+      "coaching-meter",
+      "contacts-wheel",
+      "crew-checkin-board",
+      "door-find-your-own-mentee",
+      "door-own-mistake-story",
+      "door-standing-call",
+      "feedback-one-change",
+      "feedback-specific-moment",
+      "feedback-what-worked",
+      "feedback-you-were-fine",
+      "gavel-item",
+      "gift-basket-fine",
+      "goals-card",
+      "handover-log-board",
+      "handover-meter",
+      "intro-card",
+      "no-shadow-card",
+      "pass-a-note-card",
+      "pre-decide-with-two",
+      "promise-the-seat",
+      "sit-back-bead",
+      "successor-place",
+      "take-back-the-gavel",
+      "walk-brief-in-public",
+      "walk-debrief-after",
+      "walk-hear-the-public",
+      "walk-read-the-packet"
+    ],
+    "meshes": 204
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Go through the binder you are handing her. Mark the three things she must know in her first month.",
+      "decoyNotes": {
+        "binder-old-seating-chart": "The seating chart from six years ago is history, not onboarding. Take it out of the binder."
+      },
+      "id": "onboarding-binder",
+      "itemNames": {
+        "binder-ethics-training": "the required ethics training date",
+        "binder-form-700-deadline": "the assuming-office disclosure deadline",
+        "binder-open-meeting-basics": "the open-meeting basics — agenda, public comment, no serial meetings"
+      },
+      "itemNotes": {
+        "binder-ethics-training": "Local officials have a recurring ethics training requirement. Book her first session now so it is done before it is due.",
+        "binder-form-700-deadline": "Her statement of economic interests is due shortly after she takes the seat. Put the date in her calendar, not just the binder.",
+        "binder-open-meeting-basics": "The rule most likely to trip a new member is the serial meeting — a reply-all or a coffee that becomes a majority. Start here."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Go through the binder you are handing her. Mark the three things she must know in her first month.",
+      "targets": [
+        "binder-open-meeting-basics",
+        "binder-form-700-deadline",
+        "binder-ethics-training"
+      ],
+      "title": "Find what actually matters in the onboarding binder",
+      "why": "Onboarding binders grow for years until the essentials are buried under old seating charts and past agendas. Mentoring the next person starts with deciding what actually matters first: the open-meeting rules she could break by accident, the disclosure she has to file, and the ethics training she is required to take. Everything else she can learn by doing; those three she has to get right from day one."
+    },
+    {
+      "cue": "\"Before I tell you how I did it — what do you want to get done in this role?\"",
+      "id": "ask-their-goals",
+      "kind": "select",
+      "prompt": "\"Before I tell you how I did it — what do you want to get done in this role?\"",
+      "target": "goals-card",
+      "title": "Ask what she wants to do with the seat",
+      "why": "A mentor who starts with how they did it produces a copy of themselves, and a copy is always weaker than the original. Asking first what the successor wants to achieve shapes everything after it around her goals rather than the mentor's legacy, and it signals the most important thing a handover can say: the seat is hers now, not on loan."
+    },
+    {
+      "cue": "Read the packet, brief with staff openly, hear the public, then debrief afterwards.",
+      "id": "walk-a-meeting",
+      "itemNames": {
+        "walk-brief-in-public": "take staff briefings — and questions go on the record",
+        "walk-debrief-after": "debrief the meeting the next day",
+        "walk-hear-the-public": "hear the public before you decide",
+        "walk-read-the-packet": "read the packet the weekend before"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Packet, briefing, public, debrief. Teaching the debrief before she has read a packet leaves her reviewing a meeting she was never prepared for.",
+      "prompt": "Read the packet, brief with staff openly, hear the public, then debrief afterwards.",
+      "targets": [
+        "walk-read-the-packet",
+        "walk-brief-in-public",
+        "walk-hear-the-public",
+        "walk-debrief-after"
+      ],
+      "title": "Walk her through a meeting cycle in order",
+      "why": "Chairing is a cycle, not an evening. Reading the packet early is what lets her ask good questions; briefings with staff happen openly, with anything substantive raised again at the meeting; the public is heard before a decision; and the debrief the next day is where she learns more than in the meeting itself. Taught in order, the cycle becomes her habit rather than a list she was once shown."
+    },
+    {
+      "cue": "Commit how much to hand over now — enough that she owns it, not so much that she sinks.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "HANDOVER",
+        "missNote": "Not the right pace. Holding on keeps her a deputy in your seat; handing over everything at once leaves her alone with a crisis she has never seen. Commit inside the band.",
+        "speed": 0.6
+      },
+      "id": "pace-the-handover",
+      "kind": "gauge",
+      "prompt": "Commit how much to hand over now — enough that she owns it, not so much that she sinks.",
+      "target": "handover-meter",
+      "title": "Pace the handover",
+      "why": "The commonest failure of succession is timing. A mentor who hands over too slowly keeps the successor a deputy for years and quietly makes themselves indispensable; one who hands over everything on day one leaves a new chair alone with a room they have never read. The right pace gives her real authority now, with support close enough to reach and far enough to be her own."
+    },
+    {
+      "cue": "Hold still in the member's seat. Do not prompt, do not nod her through it, do not reach for the gavel.",
+      "holdBreakNote": "You leaned in to prompt her. The room saw who they should look to. Sit back and let her find it.",
+      "id": "let-them-chair",
+      "kind": "hold",
+      "prompt": "Hold still in the member's seat. Do not prompt, do not nod her through it, do not reach for the gavel.",
+      "seconds": 8,
+      "target": "sit-back-bead",
+      "title": "Sit back while she chairs the practice item",
+      "why": "The hardest part of mentoring is doing nothing while someone else does it differently. Sitting back while she chairs — even when she takes the item in an order you would not, even when there is a pause — is how she learns that the room responds to her, not to the person beside her. Every prompt from the old chair is a small announcement that she is not really in charge."
+    },
+    {
+      "cue": "Carry the gavel from your old place to hers at the centre of the table.",
+      "drag": {
+        "missNote": "Not at her place. The gavel is a small object and a large signal — it goes in front of the new chair, in full view of the room.",
+        "radius": 0.5,
+        "to": "successor-place"
+      },
+      "id": "hand-over-the-gavel",
+      "kind": "drag",
+      "prompt": "Carry the gavel from your old place to hers at the centre of the table.",
+      "target": "gavel-item",
+      "title": "Hand the gavel to her place",
+      "why": "Authority in a room is partly symbolic, and the symbols are watched. Moving the gavel from the old chair's place to the new chair's, in front of the commission and the staff, is a public act of handing over that no memo can match. It tells everybody present, including the people who were loyal to the old chair, where the authority now sits."
+    },
+    {
+      "cue": "Turn the card wheel to share every relationship — the neighbourhood leaders, the staff, the critics too.",
+      "id": "open-the-contacts",
+      "kind": "turn",
+      "prompt": "Turn the card wheel to share every relationship — the neighbourhood leaders, the staff, the critics too.",
+      "target": "contacts-wheel",
+      "title": "Open your contacts to her",
+      "turn": {
+        "axis": "y",
+        "label": "CONTACTS",
+        "turns": 0.6
+      },
+      "why": "A chair's real capital is relationships built over years, and a mentor who keeps them is not handing over the job. Sharing them all — the association leaders, the department contacts, and especially the critics who will call her first — gives her the network the role actually runs on. Bringing people in includes bringing your successor into the relationships that made you effective."
+    },
+    {
+      "cue": "\"This is the clerk, this is the planner, this is the analyst — each of them knows more than I do about their part.\"",
+      "id": "introduce-to-staff",
+      "kind": "select",
+      "prompt": "\"This is the clerk, this is the planner, this is the analyst — each of them knows more than I do about their part.\"",
+      "target": "intro-card",
+      "title": "Introduce her to the commission staff by name",
+      "why": "Staff decide whether a new chair succeeds far more than the chair realises. Introducing her to each of them by name, with a sentence about what they know that she does not, tells the staff the new chair will respect their expertise — and tells her that leading a public body means relying on the people who keep it running, not only on the other members."
+    },
+    {
+      "cue": "The item is contentious. Keep your coaching inside the band — present, quiet, never in her place.",
+      "holdBreakNote": "You drifted out of the band — gone, or back in charge. Return to quiet presence: there if she looks, silent if she doesn't.",
+      "id": "coach-without-taking-over",
+      "kind": "track",
+      "prompt": "The item is contentious. Keep your coaching inside the band — present, quiet, never in her place.",
+      "seconds": 8,
+      "target": "coaching-meter",
+      "title": "Coach through the hard item without taking it over",
+      "track": {
+        "drift": 0.16,
+        "fall": 0.4,
+        "green": [
+          0.3,
+          0.7
+        ],
+        "label": "COACHING",
+        "rise": 0.48,
+        "start": 0.5
+      },
+      "why": "Coaching during a live meeting is a narrow band. Drift too far back and a new chair facing her first hostile item is alone; lean too far in and the room sees the old chair running the meeting from the side. The band is continuous — a glance she can find if she needs it, a note if she asks for one, and nothing that puts you back in the seat you have just left."
+    },
+    {
+      "cue": "Pick every piece of feedback that is specific and usable. Leave the empty reassurance.",
+      "decoyNotes": {
+        "feedback-you-were-fine": "\"You were fine\" is kind and useless. She cannot improve on it and she will not believe it."
+      },
+      "id": "honest-feedback",
+      "itemNames": {
+        "feedback-one-change": "one thing to change next time",
+        "feedback-specific-moment": "a specific moment, not a general impression",
+        "feedback-what-worked": "what worked, and why it worked"
+      },
+      "itemNotes": {
+        "feedback-one-change": "One change, not a list. She will act on one; she will be crushed by seven.",
+        "feedback-specific-moment": "\"When the speaker ran over, you let her finish her sentence and then called time\" — something she can recognise and repeat.",
+        "feedback-what-worked": "Name what worked and why, so she keeps doing it on purpose rather than by accident."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Pick every piece of feedback that is specific and usable. Leave the empty reassurance.",
+      "targets": [
+        "feedback-specific-moment",
+        "feedback-what-worked",
+        "feedback-one-change"
+      ],
+      "title": "Give feedback honest enough to use",
+      "why": "Mentoring without honest feedback is flattery with extra steps. A specific moment she can recognise, what worked and why, and one clear change for next time give her something to act on and something to keep. \"You were fine\" feels generous to the mentor and gives the successor nothing — and if she ever finds out she was not fine, it costs the trust the whole handover rests on."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Offer a standing call she controls, tell her about your own worst meeting, and ask her to start looking for her successor.",
+      "id": "leave-the-door-open",
+      "itemNames": {
+        "door-find-your-own-mentee": "an ask: find the person you'll hand this to",
+        "door-own-mistake-story": "the story of your own worst meeting",
+        "door-standing-call": "a standing call she can cancel, not one you can"
+      },
+      "kind": "sequence",
+      "prompt": "Offer a standing call she controls, tell her about your own worst meeting, and ask her to start looking for her successor.",
+      "targets": [
+        "door-standing-call",
+        "door-own-mistake-story",
+        "door-find-your-own-mentee"
+      ],
+      "title": "Leave the door open — on her terms",
+      "why": "A good handover ends with support on the successor's terms, not the mentor's. A standing call she can cancel keeps you available without hovering; the story of your own worst meeting tells her mistakes are survivable; and asking her to start looking for the person she will one day hand the seat to makes mentoring the next person part of the job from her first week."
+    },
+    {
+      "cue": "Log the binder essentials, the dates in her calendar, the introductions made and the standing call.",
+      "id": "succession-log",
+      "kind": "select",
+      "prompt": "Log the binder essentials, the dates in her calendar, the introductions made and the standing call.",
+      "target": "handover-log-board",
+      "title": "Record the handover",
+      "why": "A handover that lives only in two people's memories fades within a season. Recording what was handed on — the essentials, the dates booked, the introductions made, the standing call — gives the successor a checklist she owns and gives the commission a record that the transition was deliberate. It also keeps the mentor honest about what was actually handed over and what was merely talked about."
+    },
+    {
+      "cue": "Two minutes with the clerk: how did that land, and how is she going to support the new chair?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "Two minutes with the clerk: how did that land, and how is she going to support the new chair?",
+      "target": "crew-checkin-board",
+      "title": "Check in with the clerk after the practice meeting",
+      "why": "Transitions are unsettling for the staff who have to learn a new chair's habits, and for the outgoing chair letting go of a role that was part of who they were. A short check-in with the clerk — how did it land, what support the new chair needs, the employee assistance line if the change weighs on anyone — is part of handing over well, not an afterthought."
+    }
+  ],
+  "supportLine": "your employee assistance program, or the mentor who once handed a seat to you — letting go of a role you built is its own kind of hard",
+  "tagline": "Hand the seat on properly: the binder that matters, their goals before yours, a practice meeting you sit back from, the gavel passed, your relationships shared, a freeze coached quietly — and feedback honest enough to use",
+  "title": "SmartCiti.X~ Mentorship and Succession VR",
+  "trade": "Outgoing commission chair — mentor",
+  "underwater": null,
+  "weather": "clear"
+}

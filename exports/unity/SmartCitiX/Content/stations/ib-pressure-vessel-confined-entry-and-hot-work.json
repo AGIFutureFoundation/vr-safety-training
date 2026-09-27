@@ -1,0 +1,423 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "vessel-entered-safe",
+    "name": "Vessel Entered Safe",
+    "note": "Isolated, tested, fire-watched and walked clear before the manway closed"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "Boilermakers Local 549 apprenticeship and training; OSHA 29 CFR 1910.146 permit-required confined spaces; 29 CFR 1910.252 welding, cutting and brazing general requirements; NFPA 51B fire prevention during welding, cutting and other hot work; ASME Section IX welding qualification for the patch",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME Section IX",
+        "id": "asme-section-ix",
+        "title": "ASME Boiler and Pressure Vessel Code, Section IX — Welding, Brazing and Fusing Qualifications"
+      },
+      {
+        "body": "union",
+        "citedAs": "Boilermakers Local 549",
+        "id": "boilermakers-local-549",
+        "title": "Boilermakers Local 549 apprenticeship and training, as a training body"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 51B",
+        "id": "nfpa-51b",
+        "title": "NFPA 51B — Fire Prevention During Welding, Cutting and Other Hot Work"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.146",
+        "id": "osha-1910-146",
+        "title": "29 CFR 1910.146 — Permit-required confined spaces"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.252",
+        "id": "osha-1910-252",
+        "title": "29 CFR 1910.252 — Welding, cutting and brazing, general requirements"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "zero-energy-proven",
+        "name": "Zero Energy Proven",
+        "note": "Never entered before isolation and atmosphere were both confirmed"
+      },
+      {
+        "id": "weld-steady",
+        "name": "Weld Steady",
+        "note": "Held every gauge and track reading near band centre"
+      },
+      {
+        "id": "entry-disciplined",
+        "name": "Entry Disciplined",
+        "note": "Completed the entry sequence with no correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-entry",
+        "name": "Clean Entry",
+        "note": "No corrections from the permit to the headcount"
+      },
+      {
+        "id": "steady-bead",
+        "name": "Steady Bead",
+        "note": "Held the patch weld through the whole pass"
+      },
+      {
+        "id": "fast-patch",
+        "name": "Fast Patch",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "ENTRY",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Hole Watch",
+      "Entrant",
+      "Lead Entrant",
+      "Entry Supervisor",
+      "Confined Entry Certified"
+    ],
+    "system": "Confined Entry Certified"
+  },
+  "hazards": {
+    "solvent-rag-near-weld": "There is a solvent-soaked rag sitting inside the vessel a few feet from where the torch is about to run. Solvent vapour has no respect for how far away the rag looks from the arc — it travels, it pools in the low points of a vessel exactly like this one, and it needs one spark to turn a patch weld into a flash fire with the crew still inside.",
+    "torch-before-fire-watch": "You are reaching for the torch before the fire watch has actually been posted at the vessel opening. Hot work without someone stationed outside watching for what the welder cannot see — a smoulder starting behind them, a spark that landed somewhere out of sight — is exactly the gap NFPA 51B's fire watch requirement exists to close.",
+    "unblanked-line": "That inlet line into the vessel reads closed but was never actually blanked. A closed valve is a single point of failure that can be reopened by someone who does not know you are inside — a blank flange bolted in behind it is what makes the isolation something nobody can accidentally undo while you are welding on the other side of it.",
+    "unclipped-entry": "You are stepping through the manway without your retrieval line clipped to the harness. Inside this vessel there is no second way out if something goes wrong, and a line clipped before entry is what lets the attendant outside actually pull you clear — a line clipped after entry is a line that was never really there when it mattered."
+  },
+  "id": "ib-pressure-vessel-confined-entry-and-hot-work",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "weld-patch",
+      "alert": "The continuous atmosphere monitor has alarmed — oxygen is dropping fast inside the vessel while the weld continues.",
+      "cue": "Get the ventilation blower running before anyone takes another breath of that air.",
+      "delay": 4,
+      "id": "atmosphere-drift",
+      "kind": "Atmosphere alarm",
+      "missNote": "The weld continued while the monitor kept alarming. Oxygen displaced by welding fume inside a closed vessel does not announce itself to the person breathing it until it already has them.",
+      "seconds": 12,
+      "target": "ventilation-blower",
+      "why": "Welding and purge gas can both displace oxygen inside a confined vessel faster than anyone inside will notice on their own, and an alarming monitor is not a reading to keep working through — the blower is what actually restores breathable air, and it starts the moment the alarm sounds, not once the current pass is finished.",
+      "wrongNote": "It is the ventilation blower. Nothing else in this vessel matters until the air is moving again."
+    },
+    {
+      "after": "grind-prep",
+      "alert": "The outside attendant has been pulled into a radio call and has turned away from the manway.",
+      "cue": "Hail the attendant back before continuing — the buddy system just lapsed.",
+      "delay": 4,
+      "id": "attendant-distraction",
+      "kind": "Attendant distracted",
+      "missNote": "Work inside the vessel continued while the attendant stayed turned away. The buddy system exists precisely for the minutes it was not being kept.",
+      "seconds": 12,
+      "target": "attendant-radio",
+      "why": "An attendant who is not actually watching the manway is not an attendant for the minutes their attention is somewhere else, and a confined space entry with nobody watching the door is running without the one safeguard the whole permit depends on — hailing them back is what closes that gap the moment it opens rather than after something goes wrong inside it.",
+      "wrongNote": "That is not it. The attendant radio is what actually brings their eyes back to this manway."
+    }
+  ],
+  "lateNotes": {
+    "grind-target": "The grinding starts once the vessel is confirmed isolated and the atmosphere has tested safe — not while either is still unconfirmed.",
+    "weld-target": "The weld goes on once the surface is ground and prepped and the fire watch is actually posted, not before either one is true."
+  },
+  "name": "Pressure Vessel Confined Entry and Hot Work",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "insulators-and-boilermakers"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "attendant-radio",
+      "bleed-valve",
+      "cardboard-scrap",
+      "dropped-rod",
+      "dual-permit",
+      "fire-watch-station",
+      "gas-meter",
+      "grind-target",
+      "harness-on",
+      "headcount",
+      "ibpv-closing-log",
+      "ibpv-crew-checkin",
+      "inlet-blank",
+      "inspection-mirror",
+      "line-clipped",
+      "line-unclip",
+      "loose-grinding-disc",
+      "manway-exit",
+      "manway-through",
+      "oil-can",
+      "outlet-blank",
+      "smoldering-scrap",
+      "solvent-rag",
+      "solvent-rag-near-weld",
+      "torch-before-fire-watch",
+      "unblanked-line",
+      "unclipped-entry",
+      "ventilation-blower",
+      "weld-target"
+    ],
+    "meshes": 173
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Confirm the vessel, the isolation points and the hot-work conditions named on both permits.",
+      "id": "permit",
+      "kind": "select",
+      "prompt": "Confirm the vessel, the isolation points and the hot-work conditions named on both permits.",
+      "target": "dual-permit",
+      "title": "Read the confined-space and hot-work permits together",
+      "why": "These two permits govern the same few feet of space at the same time, and reading them separately is how a crew ends up isolated for confined entry but not actually cleared for hot work, or fire-watched for welding but never proven zero-energy for entry. Read together, they are one job; read apart, each one only covers half of what is about to happen."
+    },
+    {
+      "cue": "Sample the vessel interior and commit only inside the safe oxygen range.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.6
+        ],
+        "label": "VESSEL ATMOSPHERE — OXYGEN",
+        "missNote": "Outside the safe range. Ventilate the vessel and re-test before anyone's head goes through that manway.",
+        "speed": 0.6
+      },
+      "id": "atmosphere-test",
+      "kind": "gauge",
+      "prompt": "Sample the vessel interior and commit only inside the safe oxygen range.",
+      "target": "gas-meter",
+      "title": "Test the vessel atmosphere",
+      "why": "A vessel that has been closed up holds whatever atmosphere was last inside it, and that does not announce itself to anyone standing at the manway — the meter is the only thing that actually tells oxygen-deficient or oxygen-enriched apart from ordinary air, and both kill for different reasons."
+    },
+    {
+      "cue": "Blank the inlet, blank the outlet, then open the bleed valve to prove zero pressure.",
+      "id": "isolate-vessel",
+      "itemNames": {
+        "bleed-valve": "bleed valve opened",
+        "inlet-blank": "inlet blanked",
+        "outlet-blank": "outlet blanked"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — both blanks go in before the bleed valve opens, so the bleed is confirming zero energy rather than releasing line pressure into an unisolated vessel.",
+      "prompt": "Blank the inlet, blank the outlet, then open the bleed valve to prove zero pressure.",
+      "targets": [
+        "inlet-blank",
+        "outlet-blank",
+        "bleed-valve"
+      ],
+      "title": "Isolate the vessel to zero energy",
+      "why": "Blanks on both the inlet and outlet are what actually separate this vessel from the rest of the process — a valve alone can be reopened by someone who does not know you are inside it, but a bolted blank cannot be undone by a mistake at a control panel three rooms away. The bleed valve open afterward is what proves the isolation rather than assuming it."
+    },
+    {
+      "cue": "Three things in this vessel will burn if the weld throws a spark their way. Find them before hot work starts.",
+      "id": "combustibles-clear",
+      "itemNames": {
+        "cardboard-scrap": "the cardboard scrap",
+        "oil-can": "the open oil can",
+        "solvent-rag": "the solvent-soaked rag"
+      },
+      "itemNotes": {
+        "cardboard-scrap": "Packing cardboard left inside the vessel catches a stray spark as easily as anything designed to burn — hot work does not start until everything combustible is actually removed, not tucked out of the direct line of the torch.",
+        "oil-can": "An open oil can inside the work area is both a fire hazard and a spill waiting for someone's boot — it gets capped and removed before the torch ever gets lit.",
+        "solvent-rag": "A solvent-soaked rag inside a vessel about to see a welding arc is fuel sitting exactly where the spark is going — it comes out of the vessel entirely, not just moved to the far side of it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things in this vessel will burn if the weld throws a spark their way. Find them before hot work starts.",
+      "targets": [
+        "solvent-rag",
+        "cardboard-scrap",
+        "oil-can"
+      ],
+      "title": "Clear combustibles from the work area",
+      "why": "NFPA 51B's combustibles clearance is not a formality around the actual weld — it is the reason a patch job stays a patch job instead of becoming a fire with the crew still inside the vessel it started in. All three of these are easy to spot with the manway open and impossible to see once the torch is running."
+    },
+    {
+      "cue": "Station the fire watch at the manway with an extinguisher before hot work begins.",
+      "id": "fire-watch-post",
+      "kind": "select",
+      "prompt": "Station the fire watch at the manway with an extinguisher before hot work begins.",
+      "target": "fire-watch-station",
+      "title": "Post the fire watch",
+      "why": "The welder's own view is limited to what is directly in front of the hood, and a spark that lands somewhere else in the vessel or drifts out through the manway is exactly what the fire watch is positioned to see and act on — hot work does not start until that second set of eyes is actually in place."
+    },
+    {
+      "cue": "Don the harness, clip the retrieval line, then go through the manway.",
+      "id": "entry-sequence",
+      "itemNames": {
+        "harness-on": "harness donned",
+        "line-clipped": "retrieval line clipped",
+        "manway-through": "through the manway"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — harness on, line clipped, then through the manway with the attendant already holding the other end.",
+      "prompt": "Don the harness, clip the retrieval line, then go through the manway.",
+      "targets": [
+        "harness-on",
+        "line-clipped",
+        "manway-through"
+      ],
+      "title": "Enter through the manway",
+      "why": "The line clips to the harness before anyone's shoulders go through the opening, because a harness without a line attached yet is a harness that does nothing for the first ten feet of an emergency retrieval — and the manway itself comes last, once the attendant outside already has hold of the other end."
+    },
+    {
+      "cue": "Grind the patch area to bright metal and hold the pass steady until it is fully prepped.",
+      "holdBreakNote": "Released before the area was fully bright. A patch welded over anything less than clean metal is a patch that looks finished and was never actually sound.",
+      "id": "grind-prep",
+      "kind": "hold",
+      "prompt": "Grind the patch area to bright metal and hold the pass steady until it is fully prepped.",
+      "seconds": 5,
+      "target": "grind-target",
+      "title": "Grind and prep the patch area",
+      "why": "A weld only fuses to clean base metal, and scale, paint or old coating left under a patch shows up later as porosity and a joint that never actually bonded — the grind is held long enough to reach bright metal across the whole patch, not just where it is easiest to reach."
+    },
+    {
+      "cue": "Hold the torch travel speed steady across the patch.",
+      "holdBreakNote": "Travel speed slipped out of band. Bring it back even before this patch has a thin spot the vessel's next pressure test will find.",
+      "id": "weld-patch",
+      "kind": "track",
+      "prompt": "Hold the torch travel speed steady across the patch.",
+      "seconds": 7,
+      "target": "weld-target",
+      "title": "Run the patch weld",
+      "track": {
+        "drift": 0.11,
+        "fall": 0.44,
+        "green": [
+          0.36,
+          0.6
+        ],
+        "label": "WELD TRAVEL SPEED",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "An even travel speed gives this patch consistent penetration across the whole repair — inside a vessel this size with limited ventilation, an unsteady pass that lingers too long in one spot also means more fume built up in the same air the crew is breathing."
+    },
+    {
+      "cue": "Sample the atmosphere again and commit only inside the safe range.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.6
+        ],
+        "label": "VESSEL ATMOSPHERE — MID-JOB",
+        "missNote": "Drifted outside the safe range. Ventilate before the weld continues — the atmosphere does not wait for a convenient stopping point.",
+        "speed": 0.6
+      },
+      "id": "recheck-atmosphere",
+      "kind": "gauge",
+      "prompt": "Sample the atmosphere again and commit only inside the safe range.",
+      "target": "gas-meter",
+      "title": "Recheck the atmosphere mid-job",
+      "why": "Welding fume and shielding gas both change the air inside a confined vessel while the work is happening, not just before it starts — periodic monitoring is what catches an atmosphere drifting out of the safe range while the crew is still inside breathing it, rather than finding out only when someone starts to feel it."
+    },
+    {
+      "cue": "Check the weld bead with the inspection mirror for undercut, porosity or missed spots.",
+      "id": "weld-inspect",
+      "kind": "select",
+      "prompt": "Check the weld bead with the inspection mirror for undercut, porosity or missed spots.",
+      "target": "inspection-mirror",
+      "title": "Visually inspect the finished patch",
+      "why": "A patch inside a vessel is welded once and inspected before anyone leaves, because a defect found now is a defect fixed with the crew and the equipment still in place — the same defect found during the vessel's next pressure test means reopening a job that was supposed to be finished."
+    },
+    {
+      "cue": "Unclip the retrieval line, exit through the manway, then confirm the headcount with the attendant.",
+      "id": "exit-sequence",
+      "itemNames": {
+        "headcount": "headcount confirmed",
+        "line-unclip": "retrieval line unclipped",
+        "manway-exit": "exit through the manway"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — unclip, exit through the manway, then the headcount confirms everyone is actually out.",
+      "prompt": "Unclip the retrieval line, exit through the manway, then confirm the headcount with the attendant.",
+      "targets": [
+        "line-unclip",
+        "manway-exit",
+        "headcount"
+      ],
+      "title": "Exit and confirm headcount",
+      "why": "The headcount at the end is what actually proves everyone who went in has come out — a count that never happens is how a second entrant, forgotten in the paperwork rush, ends up locked inside a vessel about to be closed up and returned to service."
+    },
+    {
+      "cue": "Three things inside this vessel should not be there. Find them before anyone closes the manway.",
+      "id": "final-walk",
+      "itemNames": {
+        "dropped-rod": "the dropped welding rod stub",
+        "loose-grinding-disc": "the loose grinding disc",
+        "smoldering-scrap": "the smouldering scrap"
+      },
+      "itemNotes": {
+        "dropped-rod": "A welding rod stub left inside the vessel is foreign-object debris the moment the manway closes — it gets picked up now, while the crew that dropped it is still standing right there.",
+        "loose-grinding-disc": "A grinding disc left loose inside the vessel is exactly the kind of debris a foreign-object check exists to catch before it becomes something rattling around inside a pressurised vessel.",
+        "smoldering-scrap": "A scrap of packing still smouldering from a stray spark does not go out on its own inside a closed vessel — it gets found and fully extinguished before the fire watch's post-work watch period even starts, not assumed dead because the flame is not visible."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things inside this vessel should not be there. Find them before anyone closes the manway.",
+      "targets": [
+        "dropped-rod",
+        "loose-grinding-disc",
+        "smoldering-scrap"
+      ],
+      "title": "Walk the vessel before closing the manway",
+      "why": "The manway makes the inside of this vessel invisible again the moment it closes, and a dropped rod, a loose disc or a scrap still smouldering are the three things nobody wants to discover only after that happens — all three are still in plain sight right now, with the crew and their tools still on hand."
+    },
+    {
+      "cue": "Report the atmosphere readings, the fire watch's post-work observation period, and how the entry felt.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Report the atmosphere readings, the fire watch's post-work observation period, and how the entry felt.",
+      "target": "ibpv-crew-checkin",
+      "title": "Check in with the entry supervisor",
+      "why": "The entry supervisor is the one who closes out the confined-space permit, and that closeout depends on both atmosphere readings and confirmation that the fire watch actually held its post-work observation period — none of that happens unless the crew reports it directly rather than assuming the paperwork will catch up on its own."
+    },
+    {
+      "cue": "Record the atmosphere readings, the weld inspection result and the headcount, then sign.",
+      "id": "closing-log",
+      "kind": "select",
+      "prompt": "Record the atmosphere readings, the weld inspection result and the headcount, then sign.",
+      "target": "ibpv-closing-log",
+      "title": "Sign the entry and hot-work closeout log",
+      "why": "The closeout log ties the atmosphere readings, the finished weld and the confirmed headcount to this specific permit, so an inspector or the next crew into this vessel has an actual record of what was tested and found rather than a patch that simply looks finished from the outside."
+    }
+  ],
+  "supportLine": "your employer's employee assistance programme, or your Boilermakers Local 549 business agent if you are not sure how to reach it",
+  "tagline": "A patch weld inside a process vessel, entered on a proven atmosphere and welded behind a posted fire watch with the combustibles already cleared",
+  "title": "SmartCiti.X~ Pressure Vessel Confined Entry and Hot Work VR",
+  "trade": "Boilermaker, pressure vessel confined entry and hot work — Boilermakers Local 549",
+  "underwater": null,
+  "weather": null
+}

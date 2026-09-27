@@ -1,0 +1,348 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "string-swapped-live",
+    "name": "String Swapped Live",
+    "note": "A battery string replaced on a live plant with the cabinet ventilated, tools insulated, terminals covered and every cell checked"
+  },
+  "category": "Connectivity & Telecom",
+  "certification": "CWA — telecom DC power plant (−48 V) technician; OSHA 29 CFR 1910.305(j)(7) / IEEE 450 stationary battery maintenance; NFPA 70E for the electrical work",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "CWA",
+        "id": "cwa-training",
+        "title": "CWA member training for outside-plant, tower and broadcast work"
+      },
+      {
+        "body": "IEEE",
+        "citedAs": "IEEE 450",
+        "id": "ieee-450",
+        "title": "IEEE 450 — Maintenance, testing and replacement of vented lead-acid batteries for stationary applications"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.305",
+        "id": "osha-1910-305",
+        "title": "29 CFR 1910.305 — Wiring methods, components and equipment for general use"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Telecom",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "ventilated",
+        "name": "Ventilated",
+        "note": "Cabinet ventilated before a terminal was touched, first time"
+      },
+      {
+        "id": "no-short",
+        "name": "No Short",
+        "note": "Never bridged a terminal, never worked bare-tooled"
+      },
+      {
+        "id": "cells-true",
+        "name": "Cells True",
+        "note": "Float voltage and cell readings inside spec"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-swap",
+        "name": "Clean Swap",
+        "note": "No corrections through the whole swap"
+      },
+      {
+        "id": "torque-held",
+        "name": "Torque Held",
+        "note": "Held the terminal torque the full count"
+      },
+      {
+        "id": "site-up-fast",
+        "name": "Site Up Fast",
+        "note": "String back on bus inside 80% of par"
+      }
+    ],
+    "currency": "CELL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Site Tech",
+      "Power Tech",
+      "Plant Lead",
+      "Regional Power Lead",
+      "Plant Authority Certified"
+    ],
+    "system": "Plant Authority"
+  },
+  "hazards": {
+    "bare-wrench": "You picked up the uninsulated wrench. Across two battery terminals it is a dead short with hundreds of amps behind it — it welds itself to the posts and sprays molten metal at your face. Insulated tools, and one hand at a time.",
+    "no-vent-spark": "You used the cordless drill inside the unventilated cabinet. Charging batteries make hydrogen; the cabinet is ventilated and checked before a tool that can spark goes inside it.",
+    "ring-on": "You went at the terminals with your ring on. Metal jewellery across a terminal is a short that does not come off; it goes in your pocket before the cabinet opens.",
+    "wrong-string": "You started on string 2 — the live string still feeding the bus. The failed string is isolated at its breaker and identified before a terminal is touched; the other string is what keeps the site up."
+  },
+  "id": "cell-site-battery",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "torque",
+      "alert": "The cabinet door has swung most of the way shut behind you while both hands are on the torque wrench, and the H₂ reading you cleared ten minutes ago is climbing back into the amber.",
+      "cue": "The cabinet's closing up on you.",
+      "delay": 2,
+      "id": "cabinet-door-swings-shut",
+      "kind": "Hydrogen climbing",
+      "missNote": "The door stayed most of the way shut through the whole torque sequence with hydrogen climbing behind it. Nothing sparked this time, but an insulated wrench slipping half an inch onto a bare post in that cabinet would have had exactly the ignition source the ventilation step exists to keep away from that gas.",
+      "seconds": 12,
+      "target": "vent-fan",
+      "why": "Ventilating the cabinet once at the start of the job clears the reading for that moment only — hydrogen keeps coming off every cell on charge for as long as the plant is live, and a door that swings most of the way shut cuts the fan's draw across the head-space back down to almost nothing. IEEE 450's ventilation guidance for stationary battery rooms assumes continuous clearance for exactly this reason, and a hand still on an insulated wrench between two live posts is the worst possible moment to be working inside a cabinet that has quietly stopped venting.",
+      "wrongNote": "It's the fan and the door, not the link. The torque you're holding right now isn't what's putting hydrogen back into the air around you."
+    },
+    {
+      "after": "swap",
+      "alert": "With the new cell seated but its intercell links not yet made up, the plant controller flags a few tenths of a volt on string 1's isolated side — a shared load lead nobody accounted for may be back-feeding it.",
+      "cue": "String 1 isn't reading dead anymore.",
+      "delay": 3,
+      "id": "backfeed-on-string-1",
+      "kind": "Isolation in doubt",
+      "missNote": "The links went on with the isolation only assumed, not reread. A few stray volts across two posts under a torque wrench is a small number until the wrench bridges them, and by then it is exactly the same short a fully live string would have produced.",
+      "seconds": 13,
+      "target": "dc-meter",
+      "why": "An isolation verified once, before the cabinet was opened, does not stay verified through everything that happens afterward — seating a new cell changes the string's wiring at exactly the moment a stray tie to a shared load lead can start putting a few volts back across posts everyone in the cabinet is now treating as dead. The meter is what tells a tech whether that reading is a sensor glitch or a live string, and the intercell links do not get torqued down until it says which.",
+      "wrongNote": "It's the meter, not the new cell. Reseating the battery didn't put the volts back on that string — something upstream of it did, and the meter is what proves it either way."
+    }
+  ],
+  "lateNotes": {
+    "bus-return": "The new string is checked cell by cell before it goes back on the bus.",
+    "string-breaker": "Ventilate and gear up before the breaker — the hydrogen and the PPE come before any switching."
+  },
+  "name": "Cell Site Battery",
+  "parSeconds": 240,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "energy-transition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "bare-wrench",
+      "battery-socket",
+      "bus-return",
+      "cell-meter",
+      "corroded-post",
+      "cover-a",
+      "cover-b",
+      "cover-c",
+      "dc-meter",
+      "face-shield",
+      "insulated-gloves",
+      "jewellery-off",
+      "mop-sheet",
+      "new-battery",
+      "no-vent-spark",
+      "ring-on",
+      "string-breaker",
+      "torque-wrench",
+      "vent-fan",
+      "wrong-string"
+    ],
+    "meshes": 170
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check which string failed, the plant voltage, the breaker, and the torque figures.",
+      "id": "mop",
+      "kind": "select",
+      "prompt": "Check which string failed, the plant voltage, the breaker, and the torque figures.",
+      "target": "mop-sheet",
+      "title": "Read the method of procedure",
+      "why": "The MOP is what turns this from a guess into a job: it names the exact string that failed, the breaker that isolates it, and the torque figure the manufacturer publishes for that link, on a plant that never goes fully dark for the job. Working from memory on a live −48 V plant is how a tech opens the breaker feeding the site instead of the one feeding the dead string."
+    },
+    {
+      "cue": "Start the cabinet fan, open the door, and read the hydrogen monitor before any tool goes in.",
+      "id": "ventilate",
+      "kind": "select",
+      "prompt": "Start the cabinet fan, open the door, and read the hydrogen monitor before any tool goes in.",
+      "target": "vent-fan",
+      "title": "Ventilate the cabinet and check for hydrogen",
+      "why": "Every cell on charge is off-gassing hydrogen continuously, not just when it is being worked on, and a cabinet that has been closed up for a week can hold enough of it that a single tool spark is all it takes to ignite the head-space above the strings. The fan runs and the monitor reads below the limit before a screwdriver, let alone a wrench, goes anywhere near a terminal."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Shield for acid and arc, gloves for the terminals, ring and watch in the pocket.",
+      "id": "ppe",
+      "itemNames": {
+        "face-shield": "face shield",
+        "insulated-gloves": "insulated gloves",
+        "jewellery-off": "jewellery off"
+      },
+      "kind": "sequence",
+      "prompt": "Shield for acid and arc, gloves for the terminals, ring and watch in the pocket.",
+      "targets": [
+        "face-shield",
+        "insulated-gloves",
+        "jewellery-off"
+      ],
+      "title": "Face shield, insulated gloves, jewellery off",
+      "why": "A short across a stationary battery is not a quiet event — it is a flash and a spray of electrolyte from a cell that can push several hundred amps into whatever bridges its posts. The shield and the insulated gloves are sized for exactly that failure, and the ring comes off first because a wedding band across two terminals does not need a dropped tool to complete the circuit — a hand resting the wrong way is enough."
+    },
+    {
+      "cue": "Open string 1's breaker and confirm the plant is carrying the load on string 2 and the rectifiers.",
+      "id": "isolate",
+      "kind": "turn",
+      "prompt": "Open string 1's breaker and confirm the plant is carrying the load on string 2 and the rectifiers.",
+      "target": "string-breaker",
+      "title": "Isolate the failed string",
+      "turn": {
+        "axis": "y",
+        "label": "STRING 1",
+        "turns": 0.5
+      },
+      "why": "Opening the string's own breaker is what actually takes it off the bus rather than merely disconnecting the tech's attention from it — the plant keeps running the whole time on the rectifiers and string 2, which is the entire point of a dual-string design. Skip the breaker and every terminal on the failed string is still riding the same −48 V the site depends on."
+    },
+    {
+      "cue": "Read across the string breaker's load side and commit once it shows the string isolated.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.56
+        ],
+        "label": "STRING VOLTS",
+        "missNote": "That is not an isolated string — recheck the breaker and read it again.",
+        "speed": 0.75
+      },
+      "id": "verify",
+      "kind": "gauge",
+      "prompt": "Read across the string breaker's load side and commit once it shows the string isolated.",
+      "target": "dc-meter",
+      "title": "Verify the string is off the bus",
+      "why": "An open breaker handle is a claim about the world, not a measurement of it — a welded contact, a mislabeled panel, or a breaker thrown on the wrong string all look identical from the front of the cabinet. The meter reading across the load side is what actually tells a tech whether the terminals about to be touched are riding the bus voltage or sitting at zero."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Insulating covers on every terminal you are not working on.",
+      "id": "covers",
+      "itemNames": {
+        "cover-a": "terminal cover 1",
+        "cover-b": "terminal cover 2",
+        "cover-c": "terminal cover 3"
+      },
+      "kind": "sequence",
+      "prompt": "Insulating covers on every terminal you are not working on.",
+      "targets": [
+        "cover-a",
+        "cover-b",
+        "cover-c"
+      ],
+      "title": "Cover the adjacent terminals",
+      "why": "An insulated wrench only protects the two posts it is actually touching, and a live cabinet has a dozen more within reach of a hand or an elbow bracing against the rack. Covering every terminal but the one currently in hand is what keeps an ordinary slip a non-event instead of the moment a socket or a forearm bridges two live posts on the string next door."
+    },
+    {
+      "cue": "Carry the new battery from the cart and set it in the string's empty position.",
+      "drag": {
+        "missNote": "Not in the string position — set it in the empty bay, terminals facing the bus.",
+        "radius": 0.4,
+        "to": "battery-socket"
+      },
+      "id": "swap",
+      "kind": "drag",
+      "prompt": "Carry the new battery from the cart and set it in the string's empty position.",
+      "target": "new-battery",
+      "title": "Fit the replacement battery",
+      "why": "A stationary battery string only floats correctly when every cell in it is the same model at the same state, in the same orientation the manufacturer specified — the replacement goes into the exact bay the failed cell came out of, terminals facing the bus, checked against the position twice before a single intercell link is torqued down onto it."
+    },
+    {
+      "cue": "Insulated torque wrench on each link, one hand, hold to the click.",
+      "holdBreakNote": "Came off before the click — the link is under-torqued. Set it again.",
+      "id": "torque",
+      "kind": "hold",
+      "prompt": "Insulated torque wrench on each link, one hand, hold to the click.",
+      "seconds": 4,
+      "target": "torque-wrench",
+      "title": "Torque the intercell links",
+      "why": "An under-torqued link is a loose connection that heats under load until it eventually fails open on the busiest night of the year, and an over-torqued one cracks the post it is clamped to, which fails in exactly the same way but sooner. The manufacturer's figure, an insulated wrench, and one hand kept clear of every other terminal is what makes this a routine step instead of the moment that creates the next outage."
+    },
+    {
+      "cue": "Read each cell's voltage on the new string and commit inside the float band.",
+      "gauge": {
+        "green": [
+          0.45,
+          0.6
+        ],
+        "label": "CELL",
+        "missNote": "Cell out of the float band — do not return the string; find the cell.",
+        "speed": 0.75
+      },
+      "id": "cells",
+      "kind": "gauge",
+      "prompt": "Read each cell's voltage on the new string and commit inside the float band.",
+      "target": "cell-meter",
+      "title": "Check the string cell by cell",
+      "why": "A string is only as good as its weakest cell — one reading low drags the whole string's capacity down with it, and one reading high is already cooking itself toward the failure that put the last cell in this same bay. Every cell on the new string reads inside the float band before anyone trusts it to sit on the bus next to a string that has been floating there for years."
+    },
+    {
+      "cue": "Close string 1's breaker and confirm both strings share the load.",
+      "id": "return",
+      "kind": "select",
+      "prompt": "Close string 1's breaker and confirm both strings share the load.",
+      "target": "bus-return",
+      "title": "Return the string to the bus",
+      "why": "Closing the breaker only returns the string to the bus; it does not by itself prove the two strings are actually sharing the load the way a healthy plant should. That gets confirmed at the plant controller before the cabinet doors close, because a string that closes onto the bus but never picks up its share is a failure the site will not notice until the other string is asked to carry all of it alone."
+    },
+    {
+      "cue": "Inspect the other string and the bus before the cabinet closes; click what needs the next MOP.",
+      "id": "walk",
+      "itemNames": {
+        "corroded-post": "corroded post on string 2"
+      },
+      "itemNotes": {
+        "corroded-post": "String 2's positive post is crusted with sulfate — a high-resistance connection that will drop the site on the next outage. It is on the next MOP, today."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Inspect the other string and the bus before the cabinet closes; click what needs the next MOP.",
+      "targets": [
+        "corroded-post"
+      ],
+      "title": "Walk the plant before closing up",
+      "why": "The site is up right now on string 2, and a corroded post that reads fine under float voltage today is exactly the connection that opens under load the next time the rectifiers drop out and the plant needs everything that string can give. Whether the site survives that outage depends on whether somebody wrote up the sulfate crust on the way out or left it for the next crew to find the hard way."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "−48 V plant string replacement: ventilate for hydrogen, PPE, isolate the string, insulated tools, terminal covers, cell checks, return to bus",
+  "title": "SmartCiti.X~ Cell Site Battery VR",
+  "trade": "Cell site / DC power technician",
+  "underwater": null,
+  "weather": "overcast"
+}

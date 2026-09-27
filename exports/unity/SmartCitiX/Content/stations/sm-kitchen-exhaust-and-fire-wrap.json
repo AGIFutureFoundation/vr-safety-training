@@ -1,0 +1,413 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "liquid-tight",
+    "name": "Liquid Tight",
+    "note": "A grease duct joint welded continuous, light-tested and wrapped to its listing, with the fire watch on post through the arc"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "SMART and its International Training Institute commercial kitchen exhaust curriculum; NFPA 96 ventilation control and fire protection of commercial cooking operations for liquid-tight grease duct construction, access, clearance to combustibles and listed enclosure; AWS D9.1 Sheet Metal Welding Code for the continuous liquid-tight joint weld; OSHA 29 CFR 1910.252 welding, cutting and brazing and NFPA 51B fire watch for hot work above a cooking line; 29 CFR 1910.134 respiratory protection for the wrap fibre; the wrap and access door listings",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "AWS",
+        "citedAs": "AWS D9.1",
+        "id": "aws-d9-1",
+        "title": "AWS D9.1/D9.1M — Sheet Metal Welding Code"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 51B",
+        "id": "nfpa-51b",
+        "title": "NFPA 51B — Fire Prevention During Welding, Cutting and Other Hot Work"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 96",
+        "id": "nfpa-96",
+        "title": "NFPA 96 — Ventilation Control and Fire Protection of Commercial Cooking Operations"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.252",
+        "id": "osha-1910-252",
+        "title": "29 CFR 1910.252 — Welding, cutting and brazing, general requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "SMART",
+        "id": "smart-iti",
+        "title": "SMART and the International Training Institute — sheet metal, rail and transportation apprenticeship"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Manufacturing & Automation",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "listing-read",
+        "name": "Listing Read",
+        "note": "The duct and wrap listing read before the first section went up"
+      },
+      {
+        "id": "nothing-unlisted",
+        "name": "Nothing Unlisted",
+        "note": "No unsafe action: listed sealant, no screws, nothing combustible in the clearance"
+      },
+      {
+        "id": "clearance-held",
+        "name": "Clearance Held",
+        "note": "Clearance to combustibles measured inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-joint",
+        "name": "Clean Joint",
+        "note": "One joint, no corrections"
+      },
+      {
+        "id": "continuous-weld",
+        "name": "Continuous Weld",
+        "note": "The joint weld never dropped out of band"
+      },
+      {
+        "id": "run-in-time",
+        "name": "Run In Time",
+        "note": "Welded, wrapped and logged inside 80% of par"
+      }
+    ],
+    "currency": "JOINT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Pre-apprentice",
+      "Hood Hand",
+      "Grease Duct Installer",
+      "Kitchen Vent Lead",
+      "Hood Line Certified"
+    ],
+    "system": "Hood Line"
+  },
+  "hazards": {
+    "joist-contact": "You let the duct rest against the timber joist above it. NFPA 96 puts a clearance between a grease duct and anything combustible for exactly the day the duct is a fire, and a joist in contact with the duct is fuel with no distance at all; the clearance is measured and held by the hangers, or the listed enclosure is what makes a reduced clearance legal. Neither is a duct leaning on wood.",
+    "screw-joint": "You went to fix the joint with sheet metal screws. A screw through a grease duct is a hole through a grease duct, and grease finds every one of them; NFPA 96 wants the joints welded or brazed liquid-tight, or made with a listed joint system, for the reason that a duct fire follows the grease that leaked out of the seams. Screws stay on the cart for the wrap banding, not the duct.",
+    "solvent-can": "You left the open can of degreaser on the hood top under the joint you are about to weld. The hood, the fryers under it and the grease in the old duct are already enough fuel above a cooking line for a fire watch to be posted; an open solvent can within reach of spatter is a fire that starts before the arc has finished. Closed, off the hood, out of the room.",
+    "unlisted-sealant": "You reached for the general-purpose silicone to seal the access door. NFPA 96 has the door and its gasket or sealant listed for grease duct service, at the temperature a duct fire reaches; a hardware-store tube softens, drips and burns, and the door it was sealing becomes an opening in a chimney full of burning grease. The listed tube is the one on the cart with the door's listing on it."
+  },
+  "id": "sm-kitchen-exhaust-and-fire-wrap",
+  "indoor": "kitchen",
+  "interrupts": [
+    {
+      "after": "weld-joint",
+      "alert": "The fire watch has walked off to the loading dock. The hood a foot below your weld is lined with grease and there is nobody watching it.",
+      "cue": "You are welding above a fryer hood with no watch under you.",
+      "delay": 3,
+      "id": "fire-watch-gone",
+      "kind": "Fire watch off post",
+      "missNote": "You finished the joint with nobody under the hood. The trough did not catch that time. Hood fires start in the grease trough from a single spark and run up the duct faster than a person can climb down a ladder, which is the whole reason NFPA 96 puts a fire watch there for hot work.",
+      "seconds": 12,
+      "target": "watch-radio",
+      "why": "The fire watch under NFPA 51B and 29 CFR 1910.252 stands where the spatter lands, and above a hood line that is the greasiest surface in the building. A welder in a hood cannot see the grease trough smoulder; the watch can, and a watch on the loading dock can see nothing. The radio brings them back before the arc goes on again, and the bead waits — grease in a hood trough does not.",
+      "wrongNote": "It is the radio. Call the watch back under the hood — nothing else on the ladder sees the trough."
+    },
+    {
+      "after": "light-test",
+      "alert": "The exhaust fan has started upstream. Somebody at the hood has switched it on while your arm and the lamp are in the open duct.",
+      "cue": "The duct you are inside has just become a live exhaust system.",
+      "delay": 3,
+      "id": "fan-starts",
+      "kind": "Fan started with you in the run",
+      "missNote": "You held the lamp and finished the test with the fan running on the open duct. It pulled the wrap offcuts and the old grease up the run past you. The fan was supposed to be locked out at its disconnect before anybody's arm went into the duct, and a switch at the hood is not a lockout.",
+      "seconds": 12,
+      "target": "fan-disconnect",
+      "why": "A grease duct with a section open and a person inside it is a duct that has to be locked out at the fan's disconnect, not switched off at the hood; the hood switch is what somebody just used to start it. The disconnect is thrown, the lock goes on, and the light test starts again. The fan pulling on an open duct is the fan pulling grease, fibre and whatever is loose in the run past your face and the lamp.",
+      "wrongNote": "It is the fan disconnect on the roof curb. Kill the fan and lock it — the hood switch is what started it."
+    }
+  ],
+  "lateNotes": {
+    "duct-welder": "The joint is welded after the section is hung and the fit-up is tight all round — a bead run on a section still swinging on the jack is a weld with a gap under it.",
+    "wrap-layer-one": "The wrap goes on after the light test says the joint is tight. A wrapped pinhole is a pinhole nobody will find until the fire does."
+  },
+  "name": "Kitchen Exhaust and Fire Wrap",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "access-door-latch",
+      "cleanout-label",
+      "clearance-tape",
+      "duct-hanger-set",
+      "duct-welder",
+      "exhaust-log",
+      "fan-disconnect",
+      "fan-drain-missing",
+      "grease-duct-section",
+      "grease-duct-spec",
+      "hood-filter-gap",
+      "inspection-lamp",
+      "joist-contact",
+      "kitchen-board",
+      "listed-sealant",
+      "pin-missing",
+      "screw-joint",
+      "solvent-can",
+      "unlisted-sealant",
+      "watch-radio",
+      "wrap-banding",
+      "wrap-gap",
+      "wrap-glasses",
+      "wrap-gloves",
+      "wrap-layer-one",
+      "wrap-layer-two",
+      "wrap-respirator"
+    ],
+    "meshes": 241
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Sign onto the board, confirm the cooking line is shut down and cold, and who your fire watch is for the weld.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Sign onto the board, confirm the cooking line is shut down and cold, and who your fire watch is for the weld.",
+      "target": "kitchen-board",
+      "title": "Check in with the kitchen crew",
+      "why": "A grease duct goes in above a kitchen that other people are trying to open, and the board is how the sheet metal crew, the kitchen's manager and the fire watch agree on the same afternoon: the line cold and off, the fryers covered, the exhaust fan locked out, the watch named. SMART kitchen crews sign it before a ladder is opened, because hot work above a hood with a live fryer under it is a fire with a start time."
+    },
+    {
+      "cue": "Duct gauge and weld, the wrap system's listing and its layers, the reduced clearance the listing allows, the access door listing and its sealant.",
+      "id": "listing-read",
+      "kind": "select",
+      "prompt": "Duct gauge and weld, the wrap system's listing and its layers, the reduced clearance the listing allows, the access door listing and its sealant.",
+      "target": "grease-duct-spec",
+      "title": "Read the duct and wrap listing against NFPA 96",
+      "why": "NFPA 96 sets the grease duct's construction — liquid-tight welded or brazed joints in the gauge it gives — and its clearance to combustibles, and the wrap's listing is what allows that clearance to be reduced to what the ceiling actually has. A duct installed from habit rather than the listing has the wrong number of wrap layers, the wrong clearance or a door sealed with the wrong thing, and every one of those passes a glance and fails a fire."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Respirator for the wrap's fibre, gloves for the duct edges and the hot joint, glasses for both.",
+      "id": "ppe",
+      "itemNames": {
+        "wrap-glasses": "safety glasses",
+        "wrap-gloves": "gloves",
+        "wrap-respirator": "respirator for the wrap fibre"
+      },
+      "kind": "sequence",
+      "prompt": "Respirator for the wrap's fibre, gloves for the duct edges and the hot joint, glasses for both.",
+      "targets": [
+        "wrap-respirator",
+        "wrap-gloves",
+        "wrap-glasses"
+      ],
+      "title": "Dress for the weld and the wrap",
+      "why": "The wrap is a mineral-fibre blanket that sheds when it is cut, and the respirator under 29 CFR 1910.134 is for that fibre in a ceiling space with no air movement; the gloves are for a grease duct's welded edges and a joint that is hot for an hour after the arc. The glasses cover the arc's spatter and the fibre both, and all three go on before the first section, because the ceiling space is not a place to come back down from for a mask."
+    },
+    {
+      "cue": "Bring the section up on the jack and set it into the hangers so the flanges meet the last section square and tight all round.",
+      "drag": {
+        "missNote": "The section is not in its hangers — a joint fitted with the section on the jack is a joint that moves when the jack does.",
+        "radius": 0.45,
+        "to": "duct-hanger-set"
+      },
+      "id": "section-hang",
+      "kind": "drag",
+      "prompt": "Bring the section up on the jack and set it into the hangers so the flanges meet the last section square and tight all round.",
+      "target": "grease-duct-section",
+      "title": "Hang the section on its hangers",
+      "why": "The joint is only weldable liquid-tight if the two sections meet square with no gap, and the section is set into its hangers so the hangers carry it while the joint is fitted — not the jack, not a hand. NFPA 96 wants the duct supported so the joints never carry the duct's weight, because a welded joint under load cracks along the bead with the first thermal cycle and the crack is where the grease goes."
+    },
+    {
+      "cue": "Fire watch on post, then a continuous bead all the way round the joint at a steady travel — no stops, no skips, no restarts left open.",
+      "holdBreakNote": "The travel dropped out of band — a cold stretch that did not fuse or a burn-through in the gauge. Grind it and run that length again.",
+      "id": "weld-joint",
+      "kind": "track",
+      "prompt": "Fire watch on post, then a continuous bead all the way round the joint at a steady travel — no stops, no skips, no restarts left open.",
+      "seconds": 6,
+      "target": "duct-welder",
+      "title": "Weld the joint liquid-tight",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "TRAVEL",
+        "rise": 0.56
+      },
+      "why": "NFPA 96 asks for a liquid-tight joint because grease runs, and a bead with a skip in it is a joint that leaks at exactly the point where the fire starts; the weld is continuous round the whole flange under AWS D9.1 at a travel that fuses both sections without burning through the gauge. The fire watch is on post before the arc because the hood and the old duct below are lined with the fuel the joint is being welded to contain."
+    },
+    {
+      "cue": "Lamp inside the duct at the joint, room lights down, and hold it while you look round the whole seam from outside for light coming through.",
+      "holdBreakNote": "You pulled the lamp before the whole seam had been looked at — the pinhole is in the part you did not see. Hold it and go round again.",
+      "id": "light-test",
+      "kind": "hold",
+      "prompt": "Lamp inside the duct at the joint, room lights down, and hold it while you look round the whole seam from outside for light coming through.",
+      "seconds": 4,
+      "target": "inspection-lamp",
+      "title": "Light-test the joint for pinholes",
+      "why": "A pinhole in a grease duct weld is a hole grease finds within a week and fire finds within a year, and it is invisible from outside in a lit room; the light test puts the lamp inside and darkens the room so any gap shows as a point of light. The lamp is held through the whole seam because the pinhole is at the one place you stopped looking, and it is done before the wrap goes on, because a wrapped pinhole is found by the fire."
+    },
+    {
+      "cue": "The tube with the door's listing on it, from the cart — not the general-purpose silicone beside it.",
+      "id": "sealant-pick",
+      "kind": "select",
+      "prompt": "The tube with the door's listing on it, from the cart — not the general-purpose silicone beside it.",
+      "target": "listed-sealant",
+      "title": "Pick the listed sealant for the access door",
+      "why": "The access door is a hole in a grease duct that has to seal as tight as the weld and open for cleaning, and NFPA 96 wants it and whatever seals it listed for grease duct service; the listed sealant holds at the temperature of a duct fire and the general-purpose tube does not. The tube is read, not recognised by colour, because the two look the same on a cart and only one of them is legal on this duct."
+    },
+    {
+      "cue": "Door on its gasket, then each latch turned down to the listing's torque so the gasket seats evenly all round.",
+      "id": "door-latch",
+      "kind": "turn",
+      "prompt": "Door on its gasket, then each latch turned down to the listing's torque so the gasket seats evenly all round.",
+      "target": "access-door-latch",
+      "title": "Fit the access door and torque the latches",
+      "turn": {
+        "axis": "z",
+        "label": "LATCH",
+        "turns": 1
+      },
+      "why": "The access door seals on its gasket only if the latches draw it down evenly, and the listing gives the torque because a latch overdriven distorts the frame and one underdriven leaves a corner lifted; both leak grease in service and both fail the fire. The latches are turned in sequence round the door rather than one side at a time, so the gasket compresses flat instead of pinching along one edge."
+    },
+    {
+      "cue": "Tape from the duct's outer skin to the nearest combustible, commit inside the clearance the wrap's listing allows.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.62
+        ],
+        "label": "CLEARANCE",
+        "missNote": "Outside the listing's clearance — under it is fuel in reach of the fire, over it is a hanger that does not match the drawing. Reset the hangers.",
+        "speed": 0.72
+      },
+      "id": "clearance",
+      "kind": "gauge",
+      "prompt": "Tape from the duct's outer skin to the nearest combustible, commit inside the clearance the wrap's listing allows.",
+      "target": "clearance-tape",
+      "title": "Measure the clearance to the joists",
+      "why": "NFPA 96 gives the clearance a bare grease duct needs from anything combustible, and the wrap's listing gives the smaller clearance it earns once wrapped; the tape is what proves the duct hangs inside that number at the closest joist, not at the joist that happens to be in front of you. A clearance short by a hand's width is a joist that chars every time the fryers run and lights the day the duct fire comes."
+    },
+    {
+      "cue": "First layer with its seams overlapped as the listing says, second layer with its seams offset from the first, then banding and pins at the listed spacing.",
+      "id": "wrap",
+      "itemNames": {
+        "wrap-banding": "banding and pins",
+        "wrap-layer-one": "first layer, foil out, seams overlapped",
+        "wrap-layer-two": "second layer, seams offset"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "First layer, second layer, then banding — the banding holds a two-layer enclosure, and a band over one layer leaves the second with nothing to hold it.",
+      "prompt": "First layer with its seams overlapped as the listing says, second layer with its seams offset from the first, then banding and pins at the listed spacing.",
+      "targets": [
+        "wrap-layer-one",
+        "wrap-layer-two",
+        "wrap-banding"
+      ],
+      "title": "Wrap the joint to the listing",
+      "why": "The wrap's listing is a construction, not a blanket: the first layer's overlaps, the second layer's seams offset so no gap lines up through both, and the banding and pins at a spacing that keeps the layers in place when the duct expands in a fire. A wrap put on in one layer, or with the seams stacked, is a wrap that opens along the seam at the temperature it was listed to survive, and the listing is void the moment the layers are wrong."
+    },
+    {
+      "cue": "Look along the wrapped run from both sides and click the two places the enclosure is not an enclosure.",
+      "id": "wrap-walk",
+      "itemNames": {
+        "pin-missing": "a missing pin at the seam",
+        "wrap-gap": "a gap in the wrap at the hanger"
+      },
+      "itemNotes": {
+        "pin-missing": "The seam over the top has no pin for half a metre. It will open when the duct moves, which it will the first time the fryers come on.",
+        "wrap-gap": "The wrap has been cut round the hanger rod and left open — that is bare duct inside the enclosure, with the joist a hand's width away."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the wrapped run from both sides and click the two places the enclosure is not an enclosure.",
+      "targets": [
+        "wrap-gap",
+        "pin-missing"
+      ],
+      "title": "Walk the enclosure before the ceiling closes",
+      "why": "The wrap is inspected by the crew that put it on, from a ladder, before the ceiling closes over it — because the ceiling is the last time anyone sees it. A gap at a hanger and a seam with no pins are the two faults that turn a listed enclosure into a blanket with holes, and they are fixed now in minutes or found by the fire investigator in a year."
+    },
+    {
+      "cue": "Mark the access door's location on the enclosure and the ceiling below it, so the hood cleaner can find it without opening the wrap.",
+      "id": "cleanout-label",
+      "kind": "select",
+      "prompt": "Mark the access door's location on the enclosure and the ceiling below it, so the hood cleaner can find it without opening the wrap.",
+      "target": "cleanout-label",
+      "title": "Label the cleanout",
+      "why": "A grease duct is cleaned through its access doors on a schedule NFPA 96 sets by how much the kitchen cooks, and a door the cleaning crew cannot find is a door that is never opened; the grease builds up behind it until the duct is the fire. The label on the enclosure and the ceiling tile is what makes the door part of the building's maintenance rather than a secret the installer took with them."
+    },
+    {
+      "cue": "The duct is one part of the system NFPA 96 describes — look at the hood below and the fan above and click the two faults that make the new duct pointless.",
+      "id": "hood-walk",
+      "itemNames": {
+        "fan-drain-missing": "the fan's grease drain not connected",
+        "hood-filter-gap": "a gap in the hood's filter bank"
+      },
+      "itemNotes": {
+        "fan-drain-missing": "The up-blast fan's grease drain has no cup under it; the grease it throws off runs onto the roof and back down the duct's outside.",
+        "hood-filter-gap": "One grease filter is missing from the hood — there is a straight path for flame from the fryer into the duct with nothing to stop it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "The duct is one part of the system NFPA 96 describes — look at the hood below and the fan above and click the two faults that make the new duct pointless.",
+      "targets": [
+        "hood-filter-gap",
+        "fan-drain-missing"
+      ],
+      "title": "Walk the hood and the fan before hand-over",
+      "why": "A liquid-tight duct between a hood with a missing filter and a fan with no grease drain is a good pipe in a bad system, and NFPA 96 describes the whole of it: filters that stop flame, a duct that holds grease, a fan that drains it. The sheet metal crew looks at the ends because the crew that hung the duct is the one standing under the hood with a ladder and the drawing."
+    },
+    {
+      "cue": "Sections and joints welded, the light test, the door and sealant listing, the clearance measured, the wrap layers, the faults found, and sign it.",
+      "id": "exhaust-log",
+      "kind": "select",
+      "prompt": "Sections and joints welded, the light test, the door and sealant listing, the clearance measured, the wrap layers, the faults found, and sign it.",
+      "target": "exhaust-log",
+      "title": "Log the run for the inspector",
+      "why": "The grease duct is inspected against NFPA 96 before the ceiling closes and again when the kitchen opens, and the log is how the inspector sees what the ceiling now hides: the weld and the light test on each joint, the listing on the door and its sealant, the clearance measured at the closest joist, the wrap layers. It is also where the missing filter and the fan drain go, so the hood cleaner and the kitchen inherit the faults as a list rather than a fire."
+    }
+  ],
+  "supportLine": "your SMART local's training coordinator or the job steward, or your employer's employee assistance program if the fan starting with you at the duct is what stayed with you",
+  "tagline": "The listing read against NFPA 96, the section hung, the joint welded liquid-tight and light-tested, a listed door with listed sealant, clearance measured, the wrap put on layer by layer, the cleanout labelled and the run logged",
+  "title": "SmartCiti.X~ Kitchen Exhaust and Fire Wrap VR",
+  "trade": "Sheet metal worker, kitchen ventilation — SMART, International Training Institute commercial kitchen exhaust curriculum",
+  "underwater": null,
+  "weather": null
+}

@@ -1,0 +1,367 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "map-read-honestly",
+    "name": "Map Read Honestly",
+    "note": "A smoke day and a local source told apart by the pattern, a stuck sensor caught, and the real outlier reported before the note went public"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "EPA 40 CFR Part 58 Appendix A data quality objectives and Air Quality Index reporting guidance; Cal/OSHA's wildfire smoke rule (8 CCR 5141.1) for telling a smoke day from a local event; the Bay Area Air Quality Management District's complaint and Community Advisory Council process; NIOSH guidance on separating regional smoke episodes from local point sources in a community monitoring network",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 5141.1",
+        "id": "cal-osha-5141-1",
+        "title": "8 CCR 5141.1 — Protection from wildfire smoke"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "pattern-read-right",
+        "name": "Pattern Read Right",
+        "note": "Told the smoke day from a local source by the map's own pattern, not a guess"
+      },
+      {
+        "id": "never-early",
+        "name": "Never Early",
+        "note": "Never gave out a number before QA on it was finished"
+      },
+      {
+        "id": "outlier-proven",
+        "name": "Outlier Proven",
+        "note": "Held the outlier's level and persistence checks inside their bands"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-review",
+        "name": "Clean Review",
+        "note": "No corrections through the whole week's review"
+      },
+      {
+        "id": "watch-unbroken",
+        "name": "Watch Unbroken",
+        "note": "Never broke off the persistence watch on the outlier"
+      },
+      {
+        "id": "review-fast",
+        "name": "Review Fast",
+        "note": "Classified, flagged, reported and noted inside 80% of par"
+      }
+    ],
+    "currency": "DATAPOINT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Review Trainee",
+      "Data Reviewer",
+      "QA Lead",
+      "Network Steward",
+      "Weekly Review Certified"
+    ],
+    "system": "Weekly Review"
+  },
+  "hazards": {
+    "classify-local": "You called a region-wide smoke day a local source. Every one of the ten monitors moved together the same morning the regional smoke forecast said they would, and pinning that on one address blames a specific parcel or business for weather the whole map was reading — which is exactly the kind of honest mistake that costs a community network its credibility the first time somebody checks the satellite imagery against the complaint.",
+    "dismiss-outlier": "You waved off the persistent local outlier as noise without checking whether it held or reporting it. One monitor running well above the smoke-day baseline for hours, on its own, while its neighbours stay near baseline, is the exact pattern a network exists to catch — dismissing it without a second look is choosing not to see the one signal this week's map was actually trying to show you.",
+    "publish-stuck": "You let the flat-lined sensor's reading stay on the public map as if it were current air. A stuck sensor does not report zero or an error, it reports whatever it saw the moment it froze, over and over, and a resident checking that address sees a calm number that has had nothing to do with their air for days.",
+    "release-raw-number": "You gave out a reading straight off the dashboard before the week's QA pass touched it. An unreviewed number can be a stuck sensor's flat line, a humidity artifact, or a genuine reading — nobody looking at it raw, including you five minutes ago, can tell which, and a number handed out before that sorting happens is a guess wearing the network's name."
+  },
+  "id": "air-network-data-qa",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "outlier-rules",
+      "alert": "A reporter has emailed asking for today's number before the QA review is finished.",
+      "cue": "An unread message is flashing on the desk — a reporter wants a number right now.",
+      "delay": 4,
+      "id": "reporter-email",
+      "kind": "Premature request",
+      "missNote": "The email sat unanswered while the review continued, and there is no way to know from here whether the reporter got tired of waiting and used an unreviewed number anyway. Silence is not the same as holding the line — the hold has to be sent, not just intended.",
+      "seconds": 14,
+      "target": "hold-for-qa",
+      "why": "A number handed to a reporter before the stuck sensor is caught or the smoke day is told from a local source is a number the network cannot stand behind if it turns out to be wrong, and a correction printed after the fact reaches far fewer people than the original story did. Replying that the reviewed number is coming once QA is done protects the one thing a community network actually has to sell, which is that its numbers can be trusted.",
+      "wrongNote": "That does not answer the reporter. Reply at the message itself and tell them the reviewed number is coming once QA is finished — do not go looking for a number to send them early."
+    },
+    {
+      "after": "find-stuck",
+      "alert": "A monitor's host has called to say they moved their sensor indoors last week because of the smoke, and forgot to mention it until now.",
+      "cue": "The phone is ringing with news that changes what one tile on the map has actually been measuring.",
+      "delay": 5,
+      "id": "owner-moved-sensor",
+      "kind": "Siting changed",
+      "missNote": "The call ended and the map kept showing that host's tile as an outdoor reading. Every day between the move and whenever somebody finally notices the pattern looks wrong is a day the public map is showing an indoor number as if it were the street's.",
+      "seconds": 15,
+      "target": "flag-moved-indoor",
+      "why": "A sensor moved indoors is no longer measuring the neighbourhood's outdoor air at all, and every reading it has logged since the move describes a living room, not the block it is plotted on. Flagging that tile the moment you learn about the move is what keeps the rest of this week's review — and the public map — from quietly treating a houseplant's air as a fence-line reading.",
+      "wrongNote": "That is not where the move gets recorded. Flag the tile itself as resited, not the reading you were already working on."
+    }
+  ],
+  "lateNotes": {
+    "dashboard-note-panel": "Write the note once the week's classification, the stuck sensor and the outlier are all settled — a note written mid-review will be wrong about something.",
+    "notify-baaqmd": "The outlier has to hold up over the persistence watch before it is worth reporting to the Air District — a single elevated minute is not yet a finding.",
+    "outlier-level": "Confirm you have found the outlier tile before you read its level against the action threshold.",
+    "stuck-sensor-ping": "There is nothing to ping until you have actually spotted which of the ten tiles has gone flat."
+  },
+  "name": "Network Data Review",
+  "parSeconds": 255,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-can-we-live"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "classify-local",
+      "classify-smoke",
+      "dashboard-note-panel",
+      "dismiss-outlier",
+      "fenceline-outlier",
+      "flag-maintenance",
+      "flag-moved-indoor",
+      "hold-for-qa",
+      "notify-baaqmd",
+      "outlier-level",
+      "outlier-rules-card",
+      "outlier-trend",
+      "publish-stuck",
+      "release-raw-number",
+      "reporter-email",
+      "review-log",
+      "sign-pad",
+      "stuck-sensor",
+      "stuck-sensor-ping",
+      "ten-monitor-map",
+      "tile-central",
+      "tile-north",
+      "tile-south"
+    ],
+    "meshes": 159
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Pull up the full network map before looking at any single reading.",
+      "id": "open-map",
+      "kind": "select",
+      "prompt": "Pull up the full network map before looking at any single reading.",
+      "target": "ten-monitor-map",
+      "title": "Open this week's ten-monitor map",
+      "why": "A single sensor's chart never says on its own whether an elevated reading is the whole neighbourhood's weather or one address's problem — that only shows up once all ten monitors are seen together, which is why the review starts with the map and not with whichever tile happens to be flashing."
+    },
+    {
+      "cue": "Check the network's own rules for what counts as an outlier before judging any tile against them.",
+      "id": "outlier-rules",
+      "kind": "select",
+      "prompt": "Check the network's own rules for what counts as an outlier before judging any tile against them.",
+      "target": "outlier-rules-card",
+      "title": "Read the outlier detection rules",
+      "why": "The network's outlier rules set how far a reading has to sit from its neighbours, and for how long, before it counts as something worth acting on rather than ordinary scatter — a reviewer who skips the rules and goes by eye is deciding, alone, what the network's own standard should have decided in advance."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Compare the north, central and south clusters of the map — any order — before deciding what today's bump means.",
+      "id": "spatial-check",
+      "itemNames": {
+        "tile-central": "check the central tiles",
+        "tile-north": "check the north tiles",
+        "tile-south": "check the south tiles"
+      },
+      "itemNotes": {
+        "tile-central": "The central cluster near the shipyard fence is where a local source would show up first and hardest.",
+        "tile-north": "The northern monitors, furthest from the fence line, are the control for whether today's bump is regional.",
+        "tile-south": "The southern monitors, downwind today, are what a region-wide smoke event should lift along with everything else."
+      },
+      "kind": "sequence",
+      "prompt": "Compare the north, central and south clusters of the map — any order — before deciding what today's bump means.",
+      "targets": [
+        "tile-north",
+        "tile-central",
+        "tile-south"
+      ],
+      "title": "Check the spatial pattern across the map",
+      "why": "A wildfire smoke event lifts every monitor together no matter where it sits on the map, while a local source shows up hardest near where it actually is and fades with distance from it — the only way to tell the two apart is to look at the whole map's shape, not at whichever single tile happens to be the highest number today."
+    },
+    {
+      "cue": "Confirm today's readings are a region-wide smoke day, not a local source.",
+      "id": "classify-day",
+      "kind": "select",
+      "prompt": "Confirm today's readings are a region-wide smoke day, not a local source.",
+      "target": "classify-smoke",
+      "title": "Classify today's pattern",
+      "why": "All ten tiles moved together this morning, in step with the regional smoke forecast, which is the signature of smoke drifting over the whole area rather than anything coming from one address — calling it correctly here is what keeps the rest of the review's attention on the one tile that is not behaving like the rest of the map."
+    },
+    {
+      "cue": "Scan all ten tiles for the one whose chart never moved through the smoke event.",
+      "id": "find-stuck",
+      "itemNames": {
+        "stuck-sensor": "the flat-lined sensor"
+      },
+      "itemNotes": {
+        "stuck-sensor": "This tile's line has not moved by a single digit in three days, through a smoke event that lifted every other monitor on the map — that is not calm air, it is a frozen instrument."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Scan all ten tiles for the one whose chart never moved through the smoke event.",
+      "targets": [
+        "stuck-sensor"
+      ],
+      "title": "Find the stuck sensor",
+      "why": "A sensor that has stopped updating does not announce itself with an error on the public map, it just keeps repeating whatever it last measured, and the only way to catch that is to notice a chart that stayed perfectly flat through a week when every honest instrument on the network moved."
+    },
+    {
+      "cue": "Hold the connection test until the sensor either answers or the timeout confirms it has not.",
+      "holdBreakNote": "You let go before the timeout confirmed anything. A ping abandoned partway through proves nothing either way, and this sensor is still exactly as unconfirmed as it was before you touched it.",
+      "id": "ping-stuck",
+      "kind": "hold",
+      "prompt": "Hold the connection test until the sensor either answers or the timeout confirms it has not.",
+      "seconds": 5,
+      "target": "stuck-sensor-ping",
+      "title": "Ping the sensor to confirm it is offline",
+      "why": "A tile that looks stuck could still be a slow connection rather than a dead instrument, and flagging a working sensor for a truck roll wastes a technician's whole afternoon — the ping is what turns a suspicion into a confirmed fault before anyone is dispatched to fix it."
+    },
+    {
+      "cue": "Pull the confirmed-offline sensor from the public map's trusted feed and flag it for a site visit.",
+      "id": "flag-maintenance",
+      "kind": "select",
+      "prompt": "Pull the confirmed-offline sensor from the public map's trusted feed and flag it for a site visit.",
+      "target": "flag-maintenance",
+      "title": "Flag the stuck sensor for service",
+      "why": "Pulling this tile off the trusted feed the moment it is confirmed dead is what keeps the public map from showing a resident a calm, frozen number in place of an honest gap — a gap the map can label as one, but a wrong number never announces itself as wrong."
+    },
+    {
+      "cue": "Look past the smoke-day baseline for the one tile still running hot on its own.",
+      "id": "find-outlier",
+      "itemNames": {
+        "fenceline-outlier": "the fence-line outlier"
+      },
+      "itemNotes": {
+        "fenceline-outlier": "This one monitor sits well above even the smoke-day baseline that every other tile settled at, and it has held there for hours on its own — that is not the region's smoke, it is riding on top of it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look past the smoke-day baseline for the one tile still running hot on its own.",
+      "targets": [
+        "fenceline-outlier"
+      ],
+      "title": "Find the local outlier riding on top of the smoke",
+      "why": "A local source does not stop existing just because a smoke event is also happening that day, and the only way to see it is to look for the one reading that is elevated even relative to the smoke-day baseline every other monitor settled into — a real local event can hide inside a regional one if nobody looks past the obvious explanation."
+    },
+    {
+      "cue": "Read the outlier's level against the network's action threshold and commit once it is confirmed above it.",
+      "gauge": {
+        "green": [
+          0.58,
+          0.85
+        ],
+        "label": "LEVEL",
+        "missNote": "That reading has not been confirmed above the action threshold. Read it again before treating it as a finding.",
+        "speed": 0.68
+      },
+      "id": "outlier-level",
+      "kind": "gauge",
+      "prompt": "Read the outlier's level against the network's action threshold and commit once it is confirmed above it.",
+      "target": "outlier-level",
+      "title": "Check the outlier against the action threshold",
+      "why": "The network's action threshold exists so that a reviewer is not deciding by feel whether a reading is worth escalating — a level confirmed above the threshold is what turns 'that looks high' into a finding the Air District can be told about with a specific number behind it."
+    },
+    {
+      "cue": "Track the outlier's trend and confirm it holds above baseline rather than passing in a minute.",
+      "holdBreakNote": "You looked away before the watch confirmed whether the outlier actually held. A reading you stopped watching halfway through could have dropped back to baseline the moment your attention did — you no longer know which.",
+      "id": "watch-persistence",
+      "kind": "track",
+      "prompt": "Track the outlier's trend and confirm it holds above baseline rather than passing in a minute.",
+      "seconds": 8,
+      "target": "outlier-trend",
+      "title": "Watch the outlier for persistence",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.3,
+        "green": [
+          0.58,
+          0.85
+        ],
+        "label": "OUTLIER",
+        "rise": 0.4
+      },
+      "why": "A single elevated reading can be a passing truck or a gust off a stockpile; a reading that holds above baseline across a sustained watch is a pattern, and a community network reports patterns to the regulator, not single minutes that might already have passed by the time anyone called."
+    },
+    {
+      "cue": "Report the confirmed outlier to the Air District first, then write the dashboard note that tells the neighbourhood what this week's map means.",
+      "id": "close-out",
+      "itemNames": {
+        "dashboard-note-panel": "write the public dashboard note",
+        "notify-baaqmd": "notify the Air District"
+      },
+      "itemNotes": {
+        "dashboard-note-panel": "The public note explains the smoke day, the offline sensor and the reported outlier — in that order, once the Air District already has it.",
+        "notify-baaqmd": "The confirmed, persistent outlier is reported to BAAQMD under the network's data-sharing and complaint agreement before the public note goes up."
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "The Air District is told first. A public note that goes up before the regulator has the finding is the network announcing something it has not yet actually reported.",
+      "prompt": "Report the confirmed outlier to the Air District first, then write the dashboard note that tells the neighbourhood what this week's map means.",
+      "targets": [
+        "notify-baaqmd",
+        "dashboard-note-panel"
+      ],
+      "title": "Notify the Air District, then write the public note",
+      "why": "Reporting the finding to the regulator before the public note goes up means the Air District hears about a genuine local exceedance from the network directly rather than second-hand from a dashboard post, which is what the network's own agreement with the district calls for — and it means the public note can honestly say the report has already been made, not that it is coming."
+    },
+    {
+      "cue": "Record the classification, the flagged sensor, the outlier and what was reported.",
+      "id": "review-log",
+      "kind": "select",
+      "prompt": "Record the classification, the flagged sensor, the outlier and what was reported.",
+      "target": "review-log",
+      "title": "Log the week's review",
+      "why": "The review log is what lets next week's reviewer, and anyone who questions this week's dashboard note later, see exactly what was found and what was done about it — a review that lives only in one person's head is not a record the network can stand behind."
+    },
+    {
+      "cue": "Sign and date the completed weekly review.",
+      "id": "sign-off",
+      "kind": "select",
+      "prompt": "Sign and date the completed weekly review.",
+      "target": "sign-pad",
+      "title": "Sign the weekly review",
+      "why": "A signed review is what turns this week's work into something the foundation, the Air District and the next reviewer can all point to as done — an unsigned log is a set of good decisions nobody can later confirm were actually made this week."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A week of the ten-monitor network read honestly: a smoke day told from a local source by the pattern across the map, a stuck sensor caught, a real outlier confirmed and reported, and the public note that says what the numbers actually mean",
+  "title": "SmartCiti.X~ Network Data Review VR",
+  "trade": "Community environmental monitor",
+  "underwater": null,
+  "weather": "smoke"
+}

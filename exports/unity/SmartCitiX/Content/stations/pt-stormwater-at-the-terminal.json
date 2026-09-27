@@ -1,0 +1,396 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "outfall-held",
+    "name": "Outfall Held",
+    "note": "The sheen kept out of the bay: source found, separator pumped, outfall gated before the storm, and the sample taken to the method"
+  },
+  "category": "Maritime & Ports",
+  "certification": "ILWU maintenance and repair with the PMA training programme; IUOE vacuum truck operation; EPA 40 CFR 122.26 storm water discharges under the terminal's industrial permit; 40 CFR 136 test procedures for the discharge samples; OSHA 29 CFR 1917 marine terminals; 29 CFR 1910.132 for the gloves, goggles and hi-vis at the basin",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "EPA",
+        "citedAs": "40 CFR 122.26",
+        "id": "epa-40-cfr-122-26",
+        "title": "40 CFR 122.26 — Storm water discharges under the NPDES permit programme"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "40 CFR 136",
+        "id": "epa-40-cfr-136",
+        "title": "40 CFR Part 136 — Test procedures for the analysis of pollutants"
+      },
+      {
+        "body": "union",
+        "citedAs": "ILWU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1917",
+        "id": "osha-1917",
+        "title": "29 CFR 1917 — Marine terminals"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "hook-not-hand",
+        "name": "Hook, Not Hand",
+        "note": "The grate came up on the hook, after the cones, every time"
+      },
+      {
+        "id": "source-found",
+        "name": "Source Found",
+        "note": "The sheen traced to its source rather than pumped and forgotten"
+      },
+      {
+        "id": "basin-discipline",
+        "name": "Basin Discipline",
+        "note": "Never fingers under a grate, never a hose to the drain, never in the basin, never an open basin left in a live lane"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-response",
+        "name": "Clean Response",
+        "note": "No corrections anywhere in the response"
+      },
+      {
+        "id": "steady-pumpdown",
+        "name": "Steady Pump-down",
+        "note": "Held the vacuum rate in band for the whole pump-out"
+      },
+      {
+        "id": "before-the-rain",
+        "name": "Before The Rain",
+        "note": "Log closed inside 80% of par"
+      }
+    ],
+    "currency": "LITRE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Yard Hand",
+      "Drainage Mechanic",
+      "Stormwater Tech",
+      "Lead Mechanic",
+      "Stormwater Certified"
+    ],
+    "system": "Stormwater Crew"
+  },
+  "hazards": {
+    "enter-basin": "You started down into the catch basin to reach the insert. A catch basin is a permit-required confined space the moment a person's head goes below its rim — an unmonitored atmosphere, a way in that is not a way out, and a lane of hustlers above it. The insert comes out on its handles from the deck, or with the vacuum truck, never with a person in the basin.",
+    "fingers-under-grate": "You lifted the catch basin grate by getting your fingers under its edge. A cast grate is heavier than it looks and drops the moment its far edge slips off the frame — onto the fingers under the near one. The hook is the tool for the grate and 29 CFR 1917's rule on handling gear by its intended means is written for exactly this piece of iron.",
+    "hose-into-basin": "You reached for the wash-down hose to sluice the sheen off the apron into the basin. The basin drains to the separator and the separator drains to the bay, and the terminal's permit under 40 CFR 122.26 exists to keep exactly that oil out of exactly that water — a spill is absorbed and disposed of, never washed down the drain that is the reason the crew is here.",
+    "open-basin-unbarricaded": "You walked away from the open basin to fetch the insert with no barricade across it in a live lane. An open catch basin in a hustler lane is a hole a wheel drops into and a person steps into, and 29 CFR 1917 has openings guarded whenever nobody is standing at them — the barricade goes across before anyone leaves the rim, or the rim is not left."
+  },
+  "id": "pt-stormwater-at-the-terminal",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "sheen-watch",
+      "alert": "A hustler has turned into the lane toward the open basin with a chassis on — the cones are across it, but the driver is reading the block numbers, not the lane.",
+      "cue": "Set the lane gate flag to stop now — the cones are not enough for a driver looking the other way.",
+      "delay": 2,
+      "id": "hustler-basin-lane",
+      "kind": "Hustler entering the lane at the open basin",
+      "missNote": "The hustler came down the lane with nothing but cones between it and the open basin; the chassis clipped a cone and the wheel passed the open frame by less than its own width while the sheen watch went on.",
+      "seconds": 12,
+      "target": "lane-gate-flag",
+      "why": "Cones mark a hazard for a driver who is looking for one, and a hustler driver hunting a block number is not; the lane gate flag at the head of the lane is the signal every driver in the yard is trained to stop on, and 29 CFR 1917 puts that control on the terminal rather than on the crew's hope of being seen. It is set the moment a vehicle turns in, because an open basin in a lane is a hole a wheel drops into at yard speed.",
+      "wrongNote": "The lane gate flag — the driver answers to the flag at the head of the lane, and nothing else here is in his eyeline from the cab."
+    },
+    {
+      "after": "vac-pumpout",
+      "alert": "The terminal radio calls a storm cell across the bay — heavy rain on the yard inside minutes, and the separator is half pumped with a sheen still in its outlet chamber.",
+      "cue": "Close the outfall gate now — the first flush of the storm would carry the sheen straight to the bay.",
+      "delay": 2,
+      "id": "storm-cell-outfall",
+      "kind": "Storm cell called on the terminal radio",
+      "missNote": "The storm arrived with the outfall gate open and the outlet chamber still carrying sheen — the first flush took it to the bay, and the response became a discharge the terminal now has to report as one.",
+      "seconds": 14,
+      "target": "outfall-gate",
+      "why": "The first flush of a storm is the runoff that carries what the yard has shed since the last one, and a separator half pumped with sheen in its outlet is a separator that will pass that sheen to the outfall the moment the rain arrives. The permit's plan has the outfall gate closed ahead of a storm during a response for exactly this, and it is closed on the radio call rather than the first drops because the flush arrives with the rain, not after it.",
+      "wrongNote": "The outfall gate — the call is about what the storm's first flush carries to the bay, and the gate is the only thing here that stops it."
+    }
+  ],
+  "lateNotes": {
+    "separator-valve": "The separator's outlet is valved off once the oil layer has been measured — there is nothing to isolate until the reading says so.",
+    "stormwater-log": "The log closes once the sample is taken and the spill kits walked — it is the last thing, not the first.",
+    "vac-pump-lever": "The vacuum truck pumps the separator once its outlet is closed — not while the chamber is still flowing to the outfall."
+  },
+  "name": "Stormwater at the Terminal",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "basin-frame",
+      "cone-lane",
+      "empty-spill-kit",
+      "enter-basin",
+      "fingers-under-grate",
+      "grate-hook",
+      "hivis-vest",
+      "hose-into-basin",
+      "insert-lift",
+      "interface-probe",
+      "lane-gate-flag",
+      "leaking-line",
+      "new-insert",
+      "nitrile-gloves",
+      "open-basin-unbarricaded",
+      "outfall-gate",
+      "sample-bottle",
+      "separator-valve",
+      "sheen-window",
+      "splash-goggles",
+      "stormwater-log",
+      "stormwater-plan-board",
+      "vac-pump-lever",
+      "yard-radio"
+    ],
+    "meshes": 261
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the permit's pollution prevention plan: which drainage area the separator serves, the response steps for a sheen, and who is notified.",
+      "id": "plan-read",
+      "kind": "select",
+      "prompt": "Check the permit's pollution prevention plan: which drainage area the separator serves, the response steps for a sheen, and who is notified.",
+      "target": "stormwater-plan-board",
+      "title": "Read the terminal's stormwater plan for the sheen response",
+      "why": "A marine terminal discharges its stormwater under an industrial permit, and 40 CFR 122.26 has that permit carry a pollution prevention plan that says what the crew does when a sheen appears: which basins drain to which separator, what gets sampled, who at the terminal and beyond is told, and by when. Reading it first is what makes the response the terminal's response rather than the crew's improvisation — and the notification clock on a sheen starts when it is seen, not when the paperwork is found."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Chemical-resistant gloves, splash goggles and the hi-vis vest on before the grate or the separator is touched.",
+      "id": "basin-ppe",
+      "itemNames": {
+        "hivis-vest": "hi-vis vest",
+        "nitrile-gloves": "chemical-resistant gloves",
+        "splash-goggles": "splash goggles"
+      },
+      "kind": "sequence",
+      "prompt": "Chemical-resistant gloves, splash goggles and the hi-vis vest on before the grate or the separator is touched.",
+      "targets": [
+        "nitrile-gloves",
+        "splash-goggles",
+        "hivis-vest"
+      ],
+      "title": "Gloves, goggles and hi-vis before the basin",
+      "why": "A catch basin insert comes out dripping with whatever the yard has shed onto it — hydraulic oil, diesel, the reefer wash-down — and the separator chamber is the concentrate of all of it; 29 CFR 1910.132 has the gloves and goggles on before the exposure, not after the first splash. The hi-vis is for the lane: the crew at a basin is kneeling at wheel height beside hustlers that read a vest before they read a person."
+    },
+    {
+      "cue": "Cones across the lane first, then the grate up on the hook, then the insert out by its handles onto the tray.",
+      "id": "open-basin",
+      "itemNames": {
+        "cone-lane": "cones across the lane at the basin",
+        "grate-hook": "grate lifted on the hook",
+        "insert-lift": "filter insert lifted by its handles"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Cones first, then the grate on the hook, then the insert — nobody kneels in the lane before it is coned, and nobody's fingers go under the grate.",
+      "prompt": "Cones across the lane first, then the grate up on the hook, then the insert out by its handles onto the tray.",
+      "targets": [
+        "cone-lane",
+        "grate-hook",
+        "insert-lift"
+      ],
+      "title": "Cone the lane, lift the grate on the hook, lift the insert",
+      "why": "The order is the order the hazards arrive: the lane is coned before anyone kneels at wheel height in it, the grate comes up on the hook because a cast grate lifted by hand drops on the fingers under it, and the insert comes out by its handles onto a tray because it is holding what the yard shed into it and the deck is the drain's own catchment. 29 CFR 1917 puts traffic control before the work and handling gear by its means, and a basin worked in the other order is a basin worked in a live lane by hand."
+    },
+    {
+      "cue": "Hold your watch on the outlet chamber's sight window: sheen on the surface, its colour and how it moves, and whether the outlet weir is carrying it.",
+      "holdBreakNote": "The watch broke before the sheen had shown whether it was thinning or holding — that is the whole question. Watch the window again.",
+      "id": "sheen-watch",
+      "kind": "hold",
+      "prompt": "Hold your watch on the outlet chamber's sight window: sheen on the surface, its colour and how it moves, and whether the outlet weir is carrying it.",
+      "seconds": 4,
+      "target": "sheen-window",
+      "title": "Watch the separator's outlet chamber for sheen",
+      "why": "The separator's outlet chamber is the last place oil can be seen before it reaches the outfall, and a sheen there is either the separator overwhelmed by a slug it was not sized for or oil arriving as an emulsion it cannot split. The watch is held rather than glanced because the two look different over time — a rainbow that thins and breaks is a slug passing; one that holds is a continuing source upstream — and which it is decides whether the crew pumps the separator or goes looking for the leak first."
+    },
+    {
+      "cue": "Carry the new insert from the truck and seat it in the basin frame, its lip on the frame's ledge and its overflow ports clear.",
+      "drag": {
+        "missNote": "Not on the ledge — the insert has to seat on the frame's lip all the way round or the runoff goes past it.",
+        "radius": 0.5,
+        "to": "basin-frame"
+      },
+      "id": "set-insert",
+      "kind": "drag",
+      "prompt": "Carry the new insert from the truck and seat it in the basin frame, its lip on the frame's ledge and its overflow ports clear.",
+      "target": "new-insert",
+      "title": "Set the new filter insert in the basin frame",
+      "why": "The insert is the first thing the yard's runoff meets on its way to the bay, and it works only if it sits on the frame's ledge so water goes through its media rather than around it: an insert dropped in askew passes everything past one side and clogs on the other. The overflow ports stay clear because a basin that cannot pass a storm floods the lane, and a flooded lane is a lane that hustlers are driving through blind — the insert manages oil; it must never manage the flood."
+    },
+    {
+      "cue": "Walk the drainage area upstream of the separator: the trench drain, the apron, the parked equipment — find where the oil is coming from.",
+      "id": "trace-source",
+      "itemNames": {
+        "leaking-line": "leaking hydraulic line on the parked reach stacker"
+      },
+      "itemNotes": {
+        "leaking-line": "The reach stacker parked at the head of the trench drain has a hydraulic line weeping onto the apron, and the trail runs straight into the trench — the sheen is this machine, and it has been dripping since it was parked."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the drainage area upstream of the separator: the trench drain, the apron, the parked equipment — find where the oil is coming from.",
+      "targets": [
+        "leaking-line"
+      ],
+      "title": "Trace the sheen to its source upstream",
+      "why": "Pumping the separator without finding the source is a response that has to be repeated the next time it rains, and a sheen with a continuing source will overwhelm any separator eventually. The permit's plan has the source found and stopped as part of the response because the separator is the last defence, not the first, and a machine weeping onto the apron at the head of a trench drain is the kind of source that is found by walking the drainage area rather than by watching the outlet."
+    },
+    {
+      "cue": "Lower the interface probe into the separator's oil chamber and commit the oil-layer thickness reading.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "OIL LAYER",
+        "missNote": "Outside the band — lower the probe slowly until the interface tone changes and hold it there for the reading.",
+        "speed": 0.7
+      },
+      "id": "oil-layer",
+      "kind": "gauge",
+      "prompt": "Lower the interface probe into the separator's oil chamber and commit the oil-layer thickness reading.",
+      "target": "interface-probe",
+      "title": "Measure the oil layer in the separator with the interface probe",
+      "why": "An oil-water separator holds its oil in a layer on top of the water in its chamber, and that layer has a thickness the unit was designed to hold before the oil starts to carry over the weir with the water. The interface probe reads where the oil ends and the water begins, and the thickness is the number that decides whether the separator is pumped now, before the storm, or can wait — the sight window shows sheen; only the probe shows how much oil is behind it."
+    },
+    {
+      "cue": "Turn the outlet valve closed so nothing leaves the separator to the outfall while it is pumped down.",
+      "id": "isolate-separator",
+      "kind": "turn",
+      "prompt": "Turn the outlet valve closed so nothing leaves the separator to the outfall while it is pumped down.",
+      "target": "separator-valve",
+      "title": "Close the separator's outlet valve before pumping",
+      "turn": {
+        "label": "OUTLET VALVE",
+        "turns": 1
+      },
+      "why": "Pumping a separator disturbs its layers, and a separator pumped with its outlet open sends the disturbed oil over the weir to the outfall while the truck is taking the rest from the top — the one moment in the response most likely to put oil in the bay. The outlet valve is closed first, and it is closed by the crew at the separator rather than assumed closed from the plan, because the valve's position is the fact and the plan is only what it should be."
+    },
+    {
+      "cue": "Bring the vacuum truck's suction up on the lever and hold a steady rate — skim the oil layer, never surge into the water below it.",
+      "holdBreakNote": "The rate broke out of band — the wand pulled water or lost the layer. Bring the suction back to a steady skim.",
+      "id": "vac-pumpout",
+      "kind": "track",
+      "prompt": "Bring the vacuum truck's suction up on the lever and hold a steady rate — skim the oil layer, never surge into the water below it.",
+      "seconds": 6,
+      "target": "vac-pump-lever",
+      "title": "Pump the separator down with the vacuum truck",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.48,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "VACUUM RATE",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "The vacuum truck skims the oil layer off the top of the separator, and the rate is what decides whether it takes oil or water: a surge pulls the interface up into the suction and fills the truck's tank with water the terminal pays to dispose of as oily waste, while a stall lets the layer re-settle behind the wand. The rate is held steady with the operator watching the sight glass on the truck, because the truck's tank is finite and the storm that will refill the separator is on its way."
+    },
+    {
+      "cue": "Take the sample from the outlet chamber in the method's bottle, fill it as the method says, label it and start the chain-of-custody form.",
+      "id": "sample",
+      "kind": "select",
+      "prompt": "Take the sample from the outlet chamber in the method's bottle, fill it as the method says, label it and start the chain-of-custody form.",
+      "target": "sample-bottle",
+      "title": "Take the discharge sample to the method and start its chain of custody",
+      "why": "The terminal's permit has the discharge sampled and analysed by the test procedures in 40 CFR 136, and a sample taken in the wrong bottle, overfilled, unlabelled or with no chain of custody is a sample the laboratory cannot use and the regulator will not accept. The sample is taken now, at the outlet after the response, because it is the terminal's own evidence of what did and did not reach the bay — and a sheen event with no sample is a sheen event the terminal cannot answer for."
+    },
+    {
+      "cue": "Check each spill kit station in the drainage area: sealed, stocked with pads and boom, and where the plan says it is.",
+      "id": "spill-kit-walk",
+      "itemNames": {
+        "empty-spill-kit": "spill kit station stripped of absorbent"
+      },
+      "itemNotes": {
+        "empty-spill-kit": "The spill kit at the head of the lane has been used and never restocked — the drum has two pads and no boom in it. The last crew to use it left the yard with a kit that would not have held this morning's leak."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check each spill kit station in the drainage area: sealed, stocked with pads and boom, and where the plan says it is.",
+      "targets": [
+        "empty-spill-kit"
+      ],
+      "title": "Walk the spill kit stations",
+      "why": "The permit's plan puts spill kits where the yard's leaks happen, and a kit that has been used and not restocked is a plan that has quietly stopped working — the next leaking stacker meets a drum with nothing in it. Walking the stations after a response is how the crew finds the one that was emptied by the last event, and the kits are checked against the plan's list rather than against memory because the plan is what the regulator inspects."
+    },
+    {
+      "cue": "Record the sheen, its source, the insert changed, the oil layer and pump-out, the sample's custody number, and make the notifications the plan requires.",
+      "id": "stormwater-log",
+      "kind": "select",
+      "prompt": "Record the sheen, its source, the insert changed, the oil layer and pump-out, the sample's custody number, and make the notifications the plan requires.",
+      "target": "stormwater-log",
+      "title": "Close the response in the stormwater log and make the notifications",
+      "why": "The stormwater log is the permit's own record of the terminal's discharges and its responses to them, and 40 CFR 122.26 has the terminal keep it and produce it: a sheen with a source found, a separator pumped and a sample in custody is a response the terminal can show; the same event unlogged is a discharge nobody can explain. The notifications go with the log because the plan names who is told and by when, and that clock has been running since the sheen was first seen."
+    },
+    {
+      "cue": "Call the yard and the operator: the separator is back in service, the stacker is tagged out for its leak, and how the crew is after a shift in the rain beside the lane.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the yard and the operator: the separator is back in service, the stacker is tagged out for its leak, and how the crew is after a shift in the rain beside the lane.",
+      "target": "yard-radio",
+      "title": "Check in with the vacuum truck operator and the yard",
+      "why": "The yard takes the lane back on this call and the stacker's operator needs to know the machine is tagged for a leak before the next shift climbs into it, so the call closes two loops at once. It is also the crew's own check-in: a wet shift kneeling at a basin with a hustler turning in and a storm cell on the radio is a shift with something left in it, and the ILWU's way is to ask before the truck leaves — the member assistance line is named because a crew that has heard it named will use it."
+    }
+  ],
+  "supportLine": "your ILWU local's member assistance programme, with the PMA-ILWU benefit plan's counselling line behind it",
+  "tagline": "A sheen in the separator: the permit's plan read, gloves and goggles on, the lane coned before the grate comes up on the hook, the sheen watched while a hustler turns into the lane, a new basin insert set, the leak traced to a parked stacker, the oil layer measured, the separator valved off and pumped down while a storm cell closes on the outfall, the discharge sampled to the method, the empty spill kit found, and the log closed",
+  "title": "SmartCiti.X~ Stormwater at the Terminal VR",
+  "trade": "ILWU maintenance and repair — terminal stormwater crew, PMA training programme, with the IUOE operator on the vacuum truck",
+  "underwater": null,
+  "weather": "rain"
+}

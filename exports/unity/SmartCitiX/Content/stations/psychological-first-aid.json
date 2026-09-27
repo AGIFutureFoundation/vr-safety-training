@@ -1,0 +1,422 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "held-with-care",
+    "name": "Held With Care",
+    "note": "Look, listen and link run clean, practical needs met first, and the boundary between support and therapy never crossed"
+  },
+  "category": "Emergency Services",
+  "certification": "Psychological First Aid as WHO and the National Child Traumatic Stress Network (NCTSN) publish it — look, listen, link — run here at a family assistance centre inside a NIMS/ICS structure (FEMA IS-100/IS-700); the NASW Code of Ethics and SAMHSA's trauma-informed care principles for the boundary between peer support and therapy; Title II of the ADA for the centre's own accessibility; the HIPAA baseline for any health information shared at the desk; the American Red Cross's Disaster Mental Health program and the AFSCME, LIUNA and SEIU-represented crews who staff a centre like this alongside it",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "DOJ",
+        "citedAs": "Title II of the ADA",
+        "id": "ada-title-ii",
+        "title": "Americans with Disabilities Act Title II — programme accessibility for public entities and their services"
+      },
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "FEMA",
+        "citedAs": "FEMA IS-100",
+        "id": "fema-is-courses",
+        "title": "FEMA Emergency Management Institute IS-100 and IS-700 independent-study courses in ICS and NIMS"
+      },
+      {
+        "body": "HHS",
+        "citedAs": "HIPAA",
+        "id": "hipaa-privacy-rule",
+        "title": "HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "union",
+        "citedAs": "NASW Code of Ethics",
+        "id": "nasw-code-of-ethics",
+        "title": "NASW Code of Ethics and the association's practice standards for social work and crisis counselling"
+      },
+      {
+        "body": "NIMS/ICS",
+        "citedAs": "ICS",
+        "id": "nims-ics",
+        "title": "NIMS incident command system — the structure a multi-agency response runs inside"
+      },
+      {
+        "body": "NCTSN",
+        "citedAs": "Psychological First Aid",
+        "id": "pfa-field-guide",
+        "title": "Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide"
+      },
+      {
+        "body": "Red Cross",
+        "citedAs": "Red Cross",
+        "id": "red-cross-disaster-services",
+        "title": "American Red Cross shelter operations, Disaster Mental Health and first aid/CPR course standards"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "trauma-informed care",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO",
+        "id": "who-guidance",
+        "title": "World Health Organization technical and field guidance for health emergencies and outbreak response"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Emergency Services",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "needs-first",
+        "name": "Needs First",
+        "note": "Water, phone and a chair offered before anything emotional was asked"
+      },
+      {
+        "id": "no-diagnosis",
+        "name": "No Diagnosis",
+        "note": "No unsafe or out-of-scope action anywhere in the run"
+      },
+      {
+        "id": "read-it-right",
+        "name": "Read It Right",
+        "note": "Assessed the signs correctly on the first sweep of the dial"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-session",
+        "name": "Clean Session",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-presence",
+        "name": "Steady Presence",
+        "note": "Held both timed moments the full duration"
+      },
+      {
+        "id": "six-straight",
+        "name": "Six Straight",
+        "note": "Six correct actions in a row"
+      }
+    ],
+    "currency": "SUPPORT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Centre Volunteer",
+      "PFA Trained",
+      "Family Support Lead",
+      "Centre Coordinator",
+      "Psychological First Aid Certified"
+    ],
+    "system": "Family Assistance"
+  },
+  "hazards": {
+    "diagnose-attempt": "You told him he has PTSD. Naming a clinical diagnosis is not what Psychological First Aid is for and it is not what this role is licensed to do — it can also be flatly wrong this early, and a label handed out by someone who is not his clinician can follow him into every conversation he has about this day from now on.",
+    "rush-away-mid-conversation": "You stood up and moved toward the next family while she was still mid-sentence. A worker's job here is not to process the line faster — leaving a person while they are still talking teaches them, in the moment they are most vulnerable, that finishing their sentence was not actually worth anyone's time.",
+    "separate-child-decoy": "You walked the child off to 'keep them busy' while the parent talks. A frightened child's sense of safety comes from staying near a trusted adult, not from being managed out of the room — separating them because the conversation is easier without a child underfoot serves the conversation, not the child.",
+    "speculate-outcome": "You told her the missing relative is probably fine. Psychological First Aid is built on giving only what is actually confirmed — a hopeful guess said out loud becomes a fact in a person's memory of the worst day of their life, and if it turns out to be wrong, the person who said it is the one who lied to them, not the one who was trying to comfort them."
+  },
+  "id": "psychological-first-aid",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "listen",
+      "alert": "Her phone rings mid-sentence — you can see from her face that whatever she is being told is bad.",
+      "cue": "Stay with her. Do not step away to give her privacy she has not asked for.",
+      "delay": 3,
+      "id": "bad-news-call",
+      "kind": "Phone call with bad news, mid-conversation",
+      "missNote": "You stepped away while she was still absorbing the call. Whatever she just heard, she absorbed it without anyone there — 'giving her space' and 'leaving her alone with bad news' looked identical from where she was sitting.",
+      "seconds": 13,
+      "target": "stay-present",
+      "why": "Stepping back to be polite in the exact moment someone receives terrible news reads to them as abandonment, not courtesy — Psychological First Aid calls for staying physically present, saying nothing that fills the silence, and letting her decide whether she wants space, rather than deciding it for her by leaving.",
+      "wrongNote": "That does not answer this. Stay present with her through the call — she did not ask to be left alone with it."
+    },
+    {
+      "after": "self-regulate",
+      "alert": "A reporter has walked up to the family with a phone held out, asking for a comment on the record.",
+      "cue": "Redirect the reporter to the public information officer — do not let this family be interviewed here.",
+      "delay": 3,
+      "id": "reporter-approaches",
+      "kind": "Reporter approaches the family",
+      "missNote": "The reporter stayed at the family's side with a phone still recording. A grieving family answering a reporter's question in the middle of a support conversation is exactly the moment the public information officer exists to intercept.",
+      "seconds": 12,
+      "target": "pio-redirect",
+      "why": "A family in the middle of receiving Psychological First Aid is not in a position to consent to being quoted, and the centre's own public information officer, not a volunteer and not the family itself, is who fields press questions — redirecting immediately protects the family's privacy and keeps the centre's actual information consistent with whatever the PIO has been authorized to say.",
+      "wrongNote": "That does not redirect the reporter. Point them to the public information officer — this family does not answer press questions here."
+    }
+  ],
+  "lateNotes": {
+    "referral-packet": "Hold off on the referral — the severity has to actually be assessed first, or there is nothing to base the referral on.",
+    "reflect-card": "There is nothing to reflect yet — listen first, or there are no words of theirs left to reflect back."
+  },
+  "name": "Psychological First Aid",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "first-responders"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "approach-calm",
+      "assessment-dial",
+      "boundary-card",
+      "child-figure",
+      "crew-checkin-board",
+      "diagnose-attempt",
+      "family-adult",
+      "info-board",
+      "introduce-role",
+      "mh-counselor-desk",
+      "offer-chair",
+      "offer-phone",
+      "offer-water",
+      "pio-redirect",
+      "referral-packet",
+      "reflect-card",
+      "rush-away-mid-conversation",
+      "self-check-dial",
+      "separate-child-decoy",
+      "session-log",
+      "sign-avoiding-eyes",
+      "sign-clutching-phone",
+      "sign-shaking",
+      "speculate-outcome",
+      "stay-present"
+    ],
+    "meshes": 186
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Approach from where she can see you coming, then introduce yourself and say what you're here to do.",
+      "id": "approach-introduce",
+      "itemNames": {
+        "approach-calm": "approach calmly, from an angle they can see",
+        "introduce-role": "introduce yourself and your role"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Approach first, so she can see you coming, then introduce yourself — announcing your role before she has even registered someone is there undoes the calm the approach was supposed to establish.",
+      "prompt": "Approach from where she can see you coming, then introduce yourself and say what you're here to do.",
+      "targets": [
+        "approach-calm",
+        "introduce-role"
+      ],
+      "title": "Approach calmly and introduce yourself",
+      "why": "Coming into someone's field of view slowly, rather than appearing suddenly at their side, is the first thing Psychological First Aid asks for because a person who has just lived through a disaster is primed to read anything sudden as another threat. The introduction that follows — your name, your role, that you are here to help — is what turns 'a stranger is near me' into 'someone has actually arrived to help.'"
+    },
+    {
+      "cue": "Take a moment to actually see the person in front of you before you start talking.",
+      "id": "look-signs",
+      "itemNames": {
+        "sign-avoiding-eyes": "avoiding eye contact",
+        "sign-clutching-phone": "clutching a phone with no signal",
+        "sign-shaking": "visible shaking"
+      },
+      "itemNotes": {
+        "sign-avoiding-eyes": "Looking at the floor rather than at anyone approaching — a common, protective response, not rudeness.",
+        "sign-clutching-phone": "Holding a phone that has not had a signal in an hour, still checking it every few seconds for a call that has not come.",
+        "sign-shaking": "Hands and shoulders both — an autonomic response to acute stress, not something she is doing on purpose."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Take a moment to actually see the person in front of you before you start talking.",
+      "targets": [
+        "sign-shaking",
+        "sign-avoiding-eyes",
+        "sign-clutching-phone"
+      ],
+      "title": "Look, before you say anything else",
+      "why": "The first third of look-listen-link is exactly what it says — reading the visible signs of distress and immediate safety before a single question gets asked, because the shape of what somebody needs in the next sixty seconds is written on them before they say a word of it out loud."
+    },
+    {
+      "cue": "Hold your attention on her and let her talk without interrupting or rushing to fix anything.",
+      "holdBreakNote": "You spoke before she had actually finished. A silence that gets filled the instant it appears teaches a person to stop talking before they have said the thing that mattered.",
+      "id": "listen",
+      "kind": "hold",
+      "prompt": "Hold your attention on her and let her talk without interrupting or rushing to fix anything.",
+      "seconds": 6,
+      "target": "family-adult",
+      "title": "Listen without filling the silence",
+      "why": "The second third of look-listen-link is listening in a way that does not steer — no interrupting to reassure, no jumping ahead to solutions, just enough presence that she can say what she needs to say once, in her own order. Held for the length of what she needs to say, not cut short the moment there is a pause to fill."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Water, a working phone, and somewhere to sit — offered before any harder conversation continues.",
+      "id": "practical-needs",
+      "itemNames": {
+        "offer-chair": "offer a chair",
+        "offer-phone": "offer the charging phone",
+        "offer-water": "offer water"
+      },
+      "kind": "sequence",
+      "prompt": "Water, a working phone, and somewhere to sit — offered before any harder conversation continues.",
+      "targets": [
+        "offer-water",
+        "offer-phone",
+        "offer-chair"
+      ],
+      "title": "Meet practical needs before anything emotional",
+      "why": "Psychological First Aid puts practical needs ahead of emotional processing on purpose: a person who is thirsty, cannot charge the one phone that might ring with news, and has been standing for an hour cannot actually take in anything said to them until those three things are handled. Meeting them first is not a delay before the real support starts — it is the real support, in its most concrete form."
+    },
+    {
+      "cue": "Repeat back what she actually said, in her own words, before offering anything of your own.",
+      "id": "reflect-words",
+      "kind": "select",
+      "prompt": "Repeat back what she actually said, in her own words, before offering anything of your own.",
+      "target": "reflect-card",
+      "title": "Reflect her own words back to her",
+      "why": "Reflecting a person's own phrase back to them — not a script, not a professional's paraphrase, their actual words — is what tells them they were heard exactly, rather than sorted into a category a form was already going to ask about anyway."
+    },
+    {
+      "cue": "Tell her what the centre actually knows right now — no more, no less.",
+      "id": "honest-information",
+      "kind": "select",
+      "prompt": "Tell her what the centre actually knows right now — no more, no less.",
+      "target": "info-board",
+      "title": "Give only the information that is actually confirmed",
+      "why": "The honest answer, including 'we don't know yet,' respects a person more than a comforting guess does, and it is the only answer that will still be true the next time she asks somebody else the same question. Psychological First Aid treats honesty as part of the care, not a separate obligation that sits next to it."
+    },
+    {
+      "cue": "Sweep the dial through her presenting signs and commit once it reads where she actually is.",
+      "gauge": {
+        "green": [
+          0.58,
+          0.8
+        ],
+        "label": "SIGNS",
+        "missNote": "That reading does not match what she is actually presenting. Sweep the dial again and commit only once it reads where she really is.",
+        "speed": 0.6
+      },
+      "id": "assess-severity",
+      "kind": "gauge",
+      "prompt": "Sweep the dial through her presenting signs and commit once it reads where she actually is.",
+      "target": "assessment-dial",
+      "title": "Assess whether the signs call for a referral",
+      "why": "Not everyone at this centre needs a referral to mental-health services, and treating every visitor as a clinical case would overload the referral pathway for the people who genuinely need it right now — reading the actual signs, not a blanket assumption either way, is what keeps the referral meaningful when it is made."
+    },
+    {
+      "cue": "Bring the child back beside the parent rather than managing them separately.",
+      "id": "child-with-parent",
+      "kind": "select",
+      "prompt": "Bring the child back beside the parent rather than managing them separately.",
+      "target": "child-figure",
+      "title": "Keep the child with the parent",
+      "why": "A child's own sense that the day is survivable comes largely from staying near a parent who is still present and still in charge, even a parent who is visibly struggling — Psychological First Aid keeps them together for that reason, and works around the child being in the room rather than working around the child's absence."
+    },
+    {
+      "cue": "Carry the referral packet across the room and hand it to the centre's mental-health counsellor.",
+      "drag": {
+        "missNote": "Not at the counsellor's desk. A referral packet that never reaches the person who can act on it is not a link yet.",
+        "radius": 0.5,
+        "to": "mh-counselor-desk"
+      },
+      "id": "link-referral",
+      "kind": "drag",
+      "prompt": "Carry the referral packet across the room and hand it to the centre's mental-health counsellor.",
+      "target": "referral-packet",
+      "title": "Link her to mental-health services",
+      "why": "A referral spoken about but never actually walked across the room and handed to a real person is a referral that depends entirely on a stranger following up on her own, on the worst week of her life — physically making the link, counsellor to visitor, is what turns 'you should talk to someone' into an appointment that actually exists."
+    },
+    {
+      "cue": "Tell her plainly what this conversation is, and that ongoing care is the counsellor's job, not yours.",
+      "id": "boundary-explain",
+      "kind": "select",
+      "prompt": "Tell her plainly what this conversation is, and that ongoing care is the counsellor's job, not yours.",
+      "target": "boundary-card",
+      "title": "Explain the line between this and therapy",
+      "why": "Being clear about the boundary protects her as much as it protects the volunteer role itself — she should not walk away from this conversation believing it was therapy, and should walk away knowing exactly where the actual ongoing care is available if she wants it."
+    },
+    {
+      "cue": "Keep your own composure in the steady band while the conversation continues around you.",
+      "holdBreakNote": "Your own state drifted out of the steady band while the conversation kept going. Supporting someone else does not work from a state you are not actually managing yourself.",
+      "id": "self-regulate",
+      "kind": "track",
+      "prompt": "Keep your own composure in the steady band while the conversation continues around you.",
+      "seconds": 7,
+      "target": "self-check-dial",
+      "title": "Stay regulated while you support her",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.4,
+        "green": [
+          0.3,
+          0.7
+        ],
+        "label": "SELF CHECK",
+        "rise": 0.42,
+        "start": 0.5
+      },
+      "why": "A worker who has quietly gone past their own limit stops actually being present for the person in front of them, however calm they still sound — checking your own state while the conversation is still running, not only afterward, is what keeps you able to give the rest of this conversation the same care as the first minute of it."
+    },
+    {
+      "cue": "Record what was offered, what was referred, and what is still open in the session log.",
+      "id": "worker-log",
+      "kind": "select",
+      "prompt": "Record what was offered, what was referred, and what is still open in the session log.",
+      "target": "session-log",
+      "title": "Log the session's real outcome",
+      "why": "The next volunteer to see this family, or the counsellor she was just linked to, was not in this conversation — the log is the only way they inherit an accurate account instead of asking her to explain her worst day over again to a second stranger."
+    },
+    {
+      "cue": "Tell your own team lead how that conversation actually was, and rotate off before taking the next one.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Tell your own team lead how that conversation actually was, and rotate off before taking the next one.",
+      "target": "crew-checkin-board",
+      "title": "Check in and rotate off before the next family",
+      "why": "A volunteer who runs family after family without checking in is carrying every one of those conversations forward into the next one, and the Red Cross's own Disaster Mental Health program builds rotation and peer check-ins in for exactly that reason — the AFSCME, LIUNA and SEIU peer-support lines are posted here for the same crews who staff this centre, not as an afterthought to it."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A family assistance centre run on look, listen, link: practical needs met first, a person's own words reflected, honest information, a child kept with their parent, a real referral, and the worker's own check-in after",
+  "title": "SmartCiti.X~ Psychological First Aid VR",
+  "trade": "Disaster relief worker — AFSCME / LIUNA with the Red Cross volunteer workforce",
+  "underwater": null,
+  "weather": "overcast"
+}

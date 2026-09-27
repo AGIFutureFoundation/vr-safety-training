@@ -1,0 +1,471 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "nothing-back-in",
+    "name": "Nothing Back In",
+    "note": "The full net lifted, emptied and replaced without a piece of its catch going back into the channel or a hand going into it"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "LIUNA Local 261 shoreline crew training (LIUNA Training and Education Fund) for the service crew; IUOE Local 3 operating engineer apprenticeship and NCCCO certification for the crane operator, lifting under ASME B30.5; OSHA 29 CFR 1926.1425 for keeping everyone clear of the suspended net bag; OSHA 29 CFR 1910.1030 bloodborne pathogens practice for the sharps the nets catch; the Regional Water Quality Control Board's municipal stormwater permit trash provisions and the NPDES stormwater rules, 40 CFR 122.26; RCRA 40 CFR 262 and DTSC universal waste rules for batteries and containers pulled from the catch, handled per the work plan; BCDC permit conditions for work on the shoreline",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.5",
+        "id": "asme-b30-5",
+        "title": "ASME B30.5 — Mobile and locomotive cranes"
+      },
+      {
+        "body": "BCDC",
+        "citedAs": "BCDC",
+        "id": "bcdc-bay-plan",
+        "title": "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act"
+      },
+      {
+        "body": "DTSC",
+        "citedAs": "DTSC",
+        "id": "dtsc-hazardous-waste-control",
+        "title": "California Department of Toxic Substances Control — state hazardous waste control rules and oversight of contaminated-site cleanups"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "40 CFR 122.26",
+        "id": "epa-40-cfr-122-26",
+        "title": "40 CFR 122.26 — Storm water discharges under the NPDES permit programme"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA Training",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "NCCCO",
+        "citedAs": "NCCCO",
+        "id": "nccco-certification",
+        "title": "NCCCO mobile crane, tower crane and rigger/signalperson certification"
+      },
+      {
+        "body": "NOAA",
+        "citedAs": "NOAA",
+        "id": "noaa-tides-and-esa",
+        "title": "NOAA tide predictions and NOAA Fisheries Endangered Species Act consultation for in-water work"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.1425",
+        "id": "osha-1926-1425",
+        "title": "29 CFR 1926.1425 — Keeping clear of the load (cranes and derricks in construction)"
+      },
+      {
+        "body": "RCRA",
+        "citedAs": "40 CFR 262",
+        "id": "rcra-40-cfr-262",
+        "title": "40 CFR Part 262 — Standards applicable to generators of hazardous waste, including the manifest"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "Regional Water Quality Control Board",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "eye-checked",
+        "name": "Eye Checked",
+        "note": "The order read and the net and lifting eye inspected clean before the hook went on"
+      },
+      {
+        "id": "clear-of-the-load",
+        "name": "Clear Of The Load",
+        "note": "Never under the bag, never a hand in the catch, never on the headwall edge, never a net shaken over the water"
+      },
+      {
+        "id": "honest-catch",
+        "name": "Honest Catch",
+        "note": "Tide and catch estimate both committed inside their bands"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-service",
+        "name": "Clean Service",
+        "note": "No corrections from the order to the check-in"
+      },
+      {
+        "id": "steady-tag",
+        "name": "Steady Tag",
+        "note": "Held the tag line in band the whole lift"
+      },
+      {
+        "id": "before-the-storm",
+        "name": "Before The Storm",
+        "note": "Service logged inside 80% of par"
+      }
+    ],
+    "currency": "BAG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Net Hand",
+      "Tag Line Hand",
+      "Service Lead",
+      "Stormwater Foreman",
+      "Net Service Certified"
+    ],
+    "system": "Net Service"
+  },
+  "hazards": {
+    "hand-in-catch": "You reached into the emptied catch to pull out a bottle for recycling. Storm drain trash is where needles, broken glass and worse end up, and a glove is not a sharps barrier. Nothing in the catch is picked by hand: the tongs sort what has to be sorted, and sharps go straight into the sharps container.",
+    "headwall-edge": "You climbed onto the headwall's edge to reach the ring clamp. The headwall drops straight into the outfall channel, wet and covered in growth, with the channel's flow and the Bay below it; a slip there is a fall into moving water. The clamp is worked from the service platform behind the rail, with the PFD fastened.",
+    "shake-over-water": "You went to shake the last of the net's catch out over the channel. The net exists to keep that trash out of the Bay, and every piece shaken out over the water is a piece the device caught and the crew then released — which the permit's trash accounting counts against the city as if the device were not there. The net is emptied over the roll-off, and what sticks is picked out there with the tongs.",
+    "under-the-bag": "You walked under the suspended net bag to reach the tag line from the other side. A full net is a heavy, wet, shifting load hanging from one hook, and 29 CFR 1926.1425 keeps everyone out from under a suspended load because rigging, a sling or a torn net gives no warning. The tag line is reached by walking round the swing, never under it."
+  },
+  "id": "br-trash-capture-device-service",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "tag-lift",
+      "alert": "A gust off the Bay has caught the lifted bag and swung it toward the second hand standing by the roll-off.",
+      "cue": "Give the crane operator the all-stop signal, then steady the bag once it hangs still.",
+      "delay": 3,
+      "id": "gust-swing",
+      "kind": "Gust swinging the bag",
+      "missNote": "The operator kept slewing into the gust and the bag swung wide; it clipped the second hand's shoulder and knocked him against the roll-off before the swing died out.",
+      "seconds": 12,
+      "target": "stop-signal",
+      "why": "A load swinging toward a person is stopped at the crane, not wrestled at the tag line — the operator stops all motion on the agreed signal, which ASME B30.5 practice makes the one signal anyone on the ground may give, and the swing dies out on a still hook. The tag line steadies it once it is hanging, not while the crane is still moving it.",
+      "wrongNote": "The all-stop signal to the operator — stop the crane first, then steady the bag."
+    },
+    {
+      "after": "empty-bag",
+      "alert": "As the catch drops, a bundle of needles has spilled over the roll-off's rim onto the ground at your feet.",
+      "cue": "Take the tongs and put the needles in the sharps container — no hands, nothing kicked aside.",
+      "delay": 2,
+      "id": "sharps-spill",
+      "kind": "Sharps in the catch",
+      "missNote": "The needles stayed on the ground while the bag was emptied; one was trodden into a boot sole and another was kicked back toward the channel before anyone went for the tongs.",
+      "seconds": 13,
+      "target": "sharps-tongs",
+      "why": "Needles in a storm drain catch carry the risks 29 CFR 1910.1030 is written for, and the only safe way to move one is with a tool, straight into a rigid sharps container. Left on the ground they are stepped on or kicked into the channel; picked up by hand, a glove is the only thing between the point and the skin.",
+      "wrongNote": "The sharps tongs — pick them up with the tool, straight into the sharps container."
+    }
+  ],
+  "lateNotes": {
+    "clamp-ring": "Open the ring clamp only once the crane has the bag's weight on the bridle — open without the hook holding it, the full net drops into the channel.",
+    "fill-scale": "Estimate the catch once it is in the roll-off and the fresh net is pinned — the estimate describes what the device held this cycle.",
+    "service-log": "The service log is written after the outfall walk — it records what the walk found as well as the lift.",
+    "tag-line": "The tag line is taken once the clamp is open and the bag is free to lift — tension on a bag still clamped to the frame just pulls the frame."
+  },
+  "name": "Trash Capture Device Service",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "mobileCrane",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "pickup",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "clamp-close",
+      "clamp-pin",
+      "clamp-ring",
+      "crew-radio",
+      "drawstring",
+      "eye-corroded",
+      "fill-scale",
+      "fresh-net",
+      "hand-in-catch",
+      "headwall-edge",
+      "litter-riprap",
+      "net-torn",
+      "outrigger-pad",
+      "pad-mark",
+      "photo-point",
+      "ppe-cut-gloves",
+      "ppe-hardhat",
+      "ppe-pfd",
+      "service-log",
+      "service-order",
+      "shake-over-water",
+      "sharps-tongs",
+      "sling-frayed",
+      "stop-signal",
+      "tag-line",
+      "tide-staff",
+      "under-the-bag"
+    ],
+    "meshes": 198
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "At the board: which device, the inspection checklist, the tide window, the crane's lift plan and who is signalling, and what the trash report needs from this visit.",
+      "id": "service-order",
+      "kind": "select",
+      "prompt": "At the board: which device, the inspection checklist, the tide window, the crane's lift plan and who is signalling, and what the trash report needs from this visit.",
+      "target": "service-order",
+      "title": "Read the service order and the device's maintenance plan",
+      "why": "The municipal stormwater permit counts a full-capture device toward keeping trash out of the Bay only while it is maintained to its plan, so the service order and the maintenance plan are what the Regional Water Quality Control Board's accounting rests on. They also carry the lift plan and the tide window, which decide whether the crew and the crane can do the job safely today at all."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Cut- and puncture-resistant gloves, the PFD fastened for the headwall, and a hard hat under the crane.",
+      "id": "gear",
+      "itemNames": {
+        "ppe-cut-gloves": "cut- and puncture-resistant gloves",
+        "ppe-hardhat": "hard hat",
+        "ppe-pfd": "work vest PFD, fastened"
+      },
+      "kind": "sequence",
+      "prompt": "Cut- and puncture-resistant gloves, the PFD fastened for the headwall, and a hard hat under the crane.",
+      "targets": [
+        "ppe-cut-gloves",
+        "ppe-pfd",
+        "ppe-hardhat"
+      ],
+      "title": "Gear up for the outfall",
+      "why": "The catch in a storm drain net holds glass, metal and needles, so gloves rated against cuts and punctures are the minimum between a hand and the net's contents. The service platform is above moving water, so the PFD is fastened, and the hard hat is for the crane's hook and a net bag moving overhead."
+    },
+    {
+      "cue": "Look over the full net and the frame: the net's seams, the ring clamp, and the lifting eye the bridle would hang from.",
+      "id": "pre-lift",
+      "itemNames": {
+        "eye-corroded": "the frame's lifting eye eaten by corrosion",
+        "net-torn": "a tear along the net's lower seam"
+      },
+      "itemNotes": {
+        "eye-corroded": "The lifting eye on the net frame is pitted almost through by salt. It is not lifted on: the bridle goes on the frame's secondary lifting points and the eye is tagged for replacement.",
+        "net-torn": "The net has split along its lower seam, and trash has been going straight through it into the channel. The bag comes out today and the fresh net's seam gets checked before it goes on."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the full net and the frame: the net's seams, the ring clamp, and the lifting eye the bridle would hang from.",
+      "targets": [
+        "net-torn",
+        "eye-corroded"
+      ],
+      "title": "Inspect the net and its lifting points before the hook goes on",
+      "why": "A torn net has been letting trash through since it tore, which the report must say, and a lifting eye eaten by salt water fails under exactly the load the crane is about to put on it. Both are found by looking before the hook goes on, when the answer is a different lifting point and a note rather than a dropped bag and a crew under it."
+    },
+    {
+      "cue": "Read the staff on the wing wall and commit it against the working mark and the day's NOAA prediction.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "TIDE AT HEADWALL",
+        "missNote": "Outside the band — let the swell settle on the staff and read it against the working mark again.",
+        "speed": 0.66
+      },
+      "id": "tide",
+      "kind": "gauge",
+      "prompt": "Read the staff on the wing wall and commit it against the working mark and the day's NOAA prediction.",
+      "target": "tide-staff",
+      "title": "Read the tide against the headwall's working mark",
+      "why": "At high water the outfall's net sits in the Bay, the platform is awash and the bag is full of water that makes it heavier than the lift plan allowed. The working mark on the staff says when the job can be done, and reading it against the tide prediction tells the crew whether the window is opening or closing while they work."
+    },
+    {
+      "cue": "Carry the crane mat to the mark under the front outrigger and set it square before the float comes down.",
+      "drag": {
+        "missNote": "Not on the mark — the pad sits square on the lift plan's mark under the outrigger float.",
+        "radius": 0.5,
+        "to": "pad-mark"
+      },
+      "id": "outrigger-pad",
+      "kind": "drag",
+      "prompt": "Carry the crane mat to the mark under the front outrigger and set it square before the float comes down.",
+      "target": "outrigger-pad",
+      "title": "Set the crane's outrigger on its pad",
+      "why": "A crane lifting over a shoreline sets its outriggers on ground that may be fill over soft bay mud, and the pad spreads the outrigger's load so the float does not punch through. The lift plan marks where the pads go; set off the mark or at an angle, the outrigger loads its edge and the crane can settle toward the water mid-lift."
+    },
+    {
+      "cue": "With the operator holding the bag's weight on the bridle, turn the ring clamp's handle until it frees the net from the frame.",
+      "id": "open-clamp",
+      "kind": "turn",
+      "prompt": "With the operator holding the bag's weight on the bridle, turn the ring clamp's handle until it frees the net from the frame.",
+      "target": "clamp-ring",
+      "title": "Open the ring clamp with the crane holding the bag",
+      "turn": {
+        "label": "RING CLAMP",
+        "turns": 1.25
+      },
+      "why": "The ring clamp holds the net to the frame against the storm drain's flow, and it is opened only once the crane has the weight — opened first, a full, wet bag drops into the channel and takes its catch with it. Turning it steadily lets the net ease off the frame instead of jumping when the last of the clamp lets go."
+    },
+    {
+      "cue": "Hold the tag line with steady tension from outside the swing: no spin, no swing, the bag tracking to the roll-off.",
+      "holdBreakNote": "The tag line went slack or snapped taut and the bag started to swing. Bring it back to steady tension from outside the swing.",
+      "id": "tag-lift",
+      "kind": "track",
+      "prompt": "Hold the tag line with steady tension from outside the swing: no spin, no swing, the bag tracking to the roll-off.",
+      "seconds": 7,
+      "target": "tag-line",
+      "title": "Control the bag on the tag line as it lifts",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.46,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "TAG LINE",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "A net bag full of wet trash swings and spins as it comes off the frame, and in a wind it does both more. The tag line lets the ground steer it without anyone standing under or beside it, and steady tension is the whole skill — slack lets it spin, a yank starts a swing the operator then has to chase."
+    },
+    {
+      "cue": "With the bag low over the roll-off, hold the drawstring release open until the catch has dropped out.",
+      "holdBreakNote": "The release closed with half the catch still in the bag. Hold it open until the bag has emptied into the roll-off.",
+      "id": "empty-bag",
+      "kind": "hold",
+      "prompt": "With the bag low over the roll-off, hold the drawstring release open until the catch has dropped out.",
+      "seconds": 5,
+      "target": "drawstring",
+      "title": "Empty the bag into the roll-off",
+      "why": "The catch is dropped into the roll-off, not the ground or the channel, and the bag is brought low before the drawstring is opened so it falls a short way instead of scattering. Holding the release steady until it is empty keeps the crane's load predictable — a bag that dumps half and snags jerks on the hook."
+    },
+    {
+      "cue": "Hang the fresh net on the frame, close the ring clamp round it, then put the safety pin through the clamp.",
+      "id": "fresh-net",
+      "itemNames": {
+        "clamp-close": "ring clamp closed round it",
+        "clamp-pin": "safety pin through the clamp",
+        "fresh-net": "fresh net hung on the frame"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — hang the net first, then close the clamp round it, and the safety pin goes through last.",
+      "prompt": "Hang the fresh net on the frame, close the ring clamp round it, then put the safety pin through the clamp.",
+      "targets": [
+        "fresh-net",
+        "clamp-close",
+        "clamp-pin"
+      ],
+      "title": "Hang, clamp and pin a fresh net",
+      "why": "The net is hung before it is clamped so the ring seats round the whole cuff, and the pin goes in last because it is what keeps a clamp from vibrating open under the next storm's flow. A net clamped crooked or unpinned is a device the permit counts as capturing trash while the first storm washes it off the frame."
+    },
+    {
+      "cue": "Read the catch's depth in the roll-off against the fill scale and commit the estimate for the trash report.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "CATCH vs SCALE",
+        "missNote": "Outside the band — let the catch settle and read its depth against the fill scale again.",
+        "speed": 0.7
+      },
+      "id": "catch-estimate",
+      "kind": "gauge",
+      "prompt": "Read the catch's depth in the roll-off against the fill scale and commit the estimate for the trash report.",
+      "target": "fill-scale",
+      "title": "Estimate the catch against the fill scale",
+      "why": "The trash report the permit asks for is built from these estimates, visit by visit, and they are how the city shows the device is doing what it claims. An estimate read against the scale — not guessed from the kerb — is also how a device that fills faster than its service interval gets noticed and serviced more often."
+    },
+    {
+      "cue": "From the marked photo point, photograph the fresh net on the frame and the channel below it.",
+      "id": "photo-point",
+      "kind": "select",
+      "prompt": "From the marked photo point, photograph the fresh net on the frame and the channel below it.",
+      "target": "photo-point",
+      "title": "Take the photo at the photo point",
+      "why": "The photo point is fixed so every visit's photograph shows the same view, which is what lets a reviewer see a device's condition over time rather than taking a crew's word for it. The fresh net and a clean channel photographed today are the evidence the service happened and the device went back into service whole."
+    },
+    {
+      "cue": "Look along the channel and the riprap below the headwall, and over the rigging going back in the truck.",
+      "id": "outfall-walk",
+      "itemNames": {
+        "litter-riprap": "trash caught in the riprap below the headwall",
+        "sling-frayed": "a frayed leg on the lifting bridle"
+      },
+      "itemNotes": {
+        "litter-riprap": "Trash from the torn seam has lodged in the riprap below the headwall; the next tide carries it out. It is picked out with the tongs from the platform before the crew leaves.",
+        "sling-frayed": "One leg of the lifting bridle has broken strands at the thimble. It is tagged out of service and replaced before the next lift, not coiled back into the truck."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the channel and the riprap below the headwall, and over the rigging going back in the truck.",
+      "targets": [
+        "litter-riprap",
+        "sling-frayed"
+      ],
+      "title": "Walk the outfall before leaving",
+      "why": "What the torn net let through is still in the channel until someone picks it out, and rigging that did the day's lift is inspected before it goes back in the truck, when a frayed leg is a tag and a replacement rather than a surprise at the next outfall. The walk is the last look before the tide and the next storm take over."
+    },
+    {
+      "cue": "Log the torn seam and how long it may have passed trash, the corroded eye tagged, the tide, the catch estimate, the sharps found and contained, the gust and the stop, the fresh net and the frayed bridle.",
+      "id": "service-log",
+      "kind": "select",
+      "prompt": "Log the torn seam and how long it may have passed trash, the corroded eye tagged, the tide, the catch estimate, the sharps found and contained, the gust and the stop, the fresh net and the frayed bridle.",
+      "target": "service-log",
+      "title": "Write the service log",
+      "why": "The service log feeds the trash report and the device's maintenance record, and it is what shows the permit's reviewer that the device was maintained rather than just visited. The torn seam goes in honestly, with how long it may have been passing trash, because an accounting that hides a failure is one nobody will trust about the successes."
+    },
+    {
+      "cue": "On the radio: the device is back in service and logged, the eye and the bridle are tagged, and how the operator and the second hand are after a swinging bag and a spill of needles.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the radio: the device is back in service and logged, the eye and the bridle are tagged, and how the operator and the second hand are after a swinging bag and a spill of needles.",
+      "target": "crew-radio",
+      "title": "Check in with the operator and the crew",
+      "why": "A bag swinging toward a crewmate and a spill of needles at the bin are both close calls, and close calls stay with people after the job is packed up. The check-in closes the day's tags out loud and is the crew's own — the member assistance line is there for anything that is still with someone after the radio goes quiet."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — LIUNA Local 261 or IUOE Local 3 — with the employer's employee assistance line behind it",
+  "tagline": "An outfall net full of the city's trash, lifted out before the next storm: the service order read, the net and its lifting eye inspected, the tide read, the outrigger on its pad, the ring clamp opened under load, the bag held on a tag line while a gust swings it, emptied into the roll-off while sharps spill out, a fresh net hung and pinned, the catch estimated, the photo point taken, the outfall walked, logged and the crew checked in",
+  "title": "SmartCiti.X~ Trash Capture Device Service VR",
+  "trade": "LIUNA Local 261 shoreline service crew lead on an outfall trash capture device, with an IUOE Local 3 operating engineer on the rough-terrain crane",
+  "underwater": null,
+  "weather": "wind"
+}

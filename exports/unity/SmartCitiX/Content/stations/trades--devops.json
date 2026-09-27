@@ -1,0 +1,256 @@
+{
+  "app": "trades",
+  "badge": {
+    "id": "clean-promote",
+    "name": "Clean Promote",
+    "note": "Prod promotion with a scoped agent, a healthy canary, and a tested rollback"
+  },
+  "category": "Trade Skills Simulator",
+  "certification": "No licensing body governs a production deploy and nobody should pretend otherwise. What governs it is the site's own change-management procedure — the approved change window, the named approver, the recorded rollback — and the control frameworks that procedure is audited against: ISO/IEC 27001 for access control and change management, the SOC 2 change-management criteria, and NIST SP 800-53 AC-6 least privilege for automation identities. CWA organises some technology workplaces but certifies nobody for this. Vendor credentials (CNCF CKA, AWS DevOps Engineer) prove tool knowledge, not authority to ship.",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "CWA",
+        "id": "cwa-training",
+        "title": "CWA member training for outside-plant, tower and broadcast work"
+      },
+      {
+        "body": "ISO",
+        "citedAs": "IEC 27001",
+        "id": "iso-iec-27001",
+        "title": "ISO/IEC 27001 — Information security management systems"
+      }
+    ]
+  },
+  "district": null,
+  "domain": null,
+  "flat": false,
+  "game": null,
+  "hazards": {
+    "admin-token": "That's a standing admin credential, not a scoped token for this job. An automation only needs the access this run requires — a broad, long-lived key turns any bug in its logic into an account-wide blast radius.",
+    "break-glass": "That is the break-glass override, which ships a change without an approver and without a window. It exists for an incident already in progress, it pages the whole on-call chain when it is used, and every audit of this pipeline starts by asking who pulled it and why. Using it to save four minutes on a routine promote is a control failure whether or not the deploy works.",
+    "mute-alerts": "Muting alerting for the deploy window turns the canary into a decoration. The entire reason you route a sliver of traffic at a new build is so the paging system tells you it is broken before the rest of the traffic finds out — silence it and you have kept the ceremony and thrown away the signal.",
+    "prod-console": "That tab is the production console, not staging — it renders identically at a glance, which is exactly how a 2 a.m. mistake happens. Close it and confirm you're back in staging before touching anything.",
+    "prod-db-secret": "That credential is scoped to production, not staging. Handing an automated job a secret for the wrong environment lets a test run read or write real customer data."
+  },
+  "id": "devops",
+  "indoor": null,
+  "interrupts": [],
+  "lateNotes": {
+    "audit-terminal": "The audit entry comes last — it should record what actually happened, not what you're about to try.",
+    "canary-dial": "Don't open traffic to this build yet — the agent's token still needs scoping and its diff still needs a read.",
+    "kill-switch": "Test the rollback once the rollout is live, not before — you're confirming it works while there's something to roll back.",
+    "promote-lever": "Not until the canary's been watched. A rollout that looks fine at a sliver of traffic can still be a full outage at 100%."
+  },
+  "name": "devops",
+  "parSeconds": 215,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": null,
+    "hits": [
+      "admin-token",
+      "agent-diff",
+      "agent-slot",
+      "audit-terminal",
+      "break-glass",
+      "canary-dial",
+      "canary-monitor",
+      "dep-queue",
+      "deploy-ticket",
+      "env-label",
+      "freeze-calendar",
+      "incident-board",
+      "kill-switch",
+      "mute-alerts",
+      "prod-console",
+      "prod-db-secret",
+      "promote-lever",
+      "scoped-token",
+      "staging-api-key",
+      "staging-db-secret",
+      "staging-webhook"
+    ],
+    "meshes": 311
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Open the change ticket and confirm what the automation is about to do.",
+      "id": "runbook",
+      "kind": "select",
+      "prompt": "Open the change ticket and confirm what the automation is about to do.",
+      "target": "deploy-ticket",
+      "title": "Read the deploy ticket",
+      "why": "An agent runs exactly what it is told, at machine speed, and it will not stop halfway through to wonder whether this was a good idea. The ticket is where somebody wrote down what good looks like: the build, the scope, the approver and the rollback. If those four things are not on it, there is nothing here to supervise — only something to watch happen."
+    },
+    {
+      "cue": "Three things on the status wall decide whether this is a safe window. Check all three.",
+      "id": "preflight",
+      "itemNames": {
+        "dep-queue": "the upstream deploy queue",
+        "freeze-calendar": "the change calendar",
+        "incident-board": "the live incident board"
+      },
+      "itemNotes": {
+        "dep-queue": "Nothing upstream mid-deploy. Shipping on top of a dependency that is half rolled out means your canary is measuring their rollout, and it will look fine right up until theirs finishes.",
+        "freeze-calendar": "No freeze on the calendar for this window. Freezes exist because somebody downstream — finance close, a launch, an on-call handover — cannot absorb a surprise today.",
+        "incident-board": "No open incident on this service. Deploying into a live incident means the next graph anybody looks at has two causes in it, and the team spends the outage arguing about which one."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things on the status wall decide whether this is a safe window. Check all three.",
+      "targets": [
+        "incident-board",
+        "freeze-calendar",
+        "dep-queue"
+      ],
+      "title": "Clear the window before you start",
+      "why": "Most bad deploys are not bad code, they are good code shipped into a bad moment. An open incident, a change freeze or a dependency mid-rollout each make the canary unreadable, because you can no longer tell whether what you are seeing is your change or somebody else's. These take fifteen seconds to check now and hours to untangle afterwards."
+    },
+    {
+      "cue": "Check the environment label on the console before touching anything.",
+      "id": "env-check",
+      "kind": "select",
+      "prompt": "Check the environment label on the console before touching anything.",
+      "target": "env-label",
+      "title": "Confirm the target environment",
+      "why": "Staging and production run the same tooling, the same dashboards and very nearly the same hostnames, and at two in the morning they look identical. The label is the only thing standing between a test and an outage, which is why it gets read deliberately rather than assumed from which tab was open when you sat down."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Confirm every secret this run will use is scoped to staging — all three, in any order.",
+      "id": "secrets-sweep",
+      "itemNames": {
+        "staging-api-key": "API key",
+        "staging-db-secret": "database credential",
+        "staging-webhook": "webhook secret"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Already checked — you still have secrets left to verify.",
+      "prompt": "Confirm every secret this run will use is scoped to staging — all three, in any order.",
+      "target": null,
+      "targets": [
+        "staging-db-secret",
+        "staging-api-key",
+        "staging-webhook"
+      ],
+      "title": "Verify environment-scoped secrets",
+      "why": "A secret scoped to the wrong environment is not an error anybody sees: the job runs, the tests pass, and a staging pipeline has just read or written real customer data with a production credential. All three get checked because it is always the third one — the webhook nobody thinks of as a secret — that is still pointing at prod."
+    },
+    {
+      "cue": "Take the scoped, single-purpose token and put it in the agent's credential slot.",
+      "drag": {
+        "missNote": "Not in the slot. A credential left on the bench is not scoped to anything — it is just lying around where the next run can pick it up.",
+        "radius": 0.45,
+        "to": "agent-slot"
+      },
+      "id": "scope-token",
+      "kind": "drag",
+      "prompt": "Take the scoped, single-purpose token and put it in the agent's credential slot.",
+      "target": "scoped-token",
+      "title": "Issue a least-privilege token",
+      "why": "Least privilege is not paperwork, it is the size of the hole in the wall when something goes wrong. A token scoped to this service, this action and this window means the worst a confused agent can do is break this deploy; a standing admin key means the worst it can do is anything the account can do, for as long as the key lives. The admin key beside it will work perfectly, which is the problem with it."
+    },
+    {
+      "cue": "Open the diff the agent generated and read it before approving.",
+      "id": "review-diff",
+      "kind": "select",
+      "prompt": "Open the diff the agent generated and read it before approving.",
+      "target": "agent-diff",
+      "title": "Review the agent's proposed change",
+      "why": "Approving automation output you have not read is how a bad change ships with a human's name on the approval and nobody able to say what it did. Read the diff for what it removes as much as what it adds — a dropped feature flag or a halved timeout is one line, does not look like anything, and is the change that takes the service down at peak."
+    },
+    {
+      "cue": "Turn the traffic dial to route a small slice of real traffic to the new build.",
+      "id": "canary-open",
+      "kind": "turn",
+      "prompt": "Turn the traffic dial to route a small slice of real traffic to the new build.",
+      "target": "canary-dial",
+      "title": "Open the canary to 10%",
+      "turn": {
+        "axis": "z",
+        "label": "CANARY TRAFFIC",
+        "reverse": true,
+        "turns": 0.28
+      },
+      "why": "A canary works because real traffic is the only load test that is actually representative, and ten per cent of it is small enough that the failure you are looking for is survivable. It also has to be big enough to see: a canary at a fraction of a per cent produces error rates that are statistically indistinguishable from nothing, which reads as success."
+    },
+    {
+      "cue": "Watch the live error-rate needle and commit only while it reads healthy.",
+      "gauge": {
+        "green": [
+          0.02,
+          0.24
+        ],
+        "label": "CANARY — ERROR RATE",
+        "missNote": "That's outside the healthy band. Watch the needle and commit while the error rate reads low.",
+        "speed": 0.7
+      },
+      "id": "watch-canary",
+      "kind": "gauge",
+      "prompt": "Watch the live error-rate needle and commit only while it reads healthy.",
+      "target": "canary-monitor",
+      "title": "Watch the canary error rate",
+      "why": "This is the only checkpoint in the whole pipeline where the new build has met real users and the blast radius is still one in ten. A canary that is already unhealthy here is a full outage at a hundred per cent, and the number does not settle instantly — give it long enough to be a reading rather than the first spike of a cold cache, then commit on what it actually says."
+    },
+    {
+      "cue": "Throw the promote lever to send the build the rest of the way to 100%.",
+      "id": "promote",
+      "kind": "turn",
+      "prompt": "Throw the promote lever to send the build the rest of the way to 100%.",
+      "target": "promote-lever",
+      "title": "Promote to full traffic",
+      "turn": {
+        "axis": "z",
+        "label": "PROMOTE",
+        "reverse": true,
+        "turns": 0.32
+      },
+      "why": "Promotion is a separate, deliberate act from opening the canary, on a separate control, because the two decisions are different: one says let us find out, the other says I have looked and I am satisfied. Wire them into a single motion and the canary becomes a delay rather than a gate — which is exactly what it turns into on the deploys nobody remembers going wrong."
+    },
+    {
+      "cue": "Hold the rollback switch to confirm it actually fires before you rely on it.",
+      "holdBreakNote": "Released too early. A rollback test that doesn't run its full course hasn't tested anything.",
+      "id": "killswitch",
+      "kind": "hold",
+      "prompt": "Hold the rollback switch to confirm it actually fires before you rely on it.",
+      "seconds": 4,
+      "target": "kill-switch",
+      "title": "Arm and test the rollback",
+      "why": "A rollback nobody has exercised is a hope with a button on it. Test it now, while the service is healthy and you have all the time in the world, because the alternative is finding out that the previous build's image was garbage-collected at the one moment you needed it — at which point the only way out is forward, through a fix written by somebody who has been awake for nineteen hours."
+    },
+    {
+      "cue": "Write the promotion, the token scope, and the canary result to the audit trail.",
+      "id": "audit-log",
+      "kind": "select",
+      "prompt": "Write the promotion, the token scope, and the canary result to the audit trail.",
+      "target": "audit-terminal",
+      "title": "Log the change and the agent's actions",
+      "why": "Months from now somebody will be reading this line to answer a question nobody has asked yet: which build introduced the regression, what did the automation have access to, who decided it was fine. Written at the end it records what actually happened, including the parts that did not go to plan — which is the only version worth keeping."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Environment promotion, agent permission scoping, and a canary-gated rollout on a live deploy pipeline",
+  "title": "Deploy Bay",
+  "trade": "Platform engineer / SRE",
+  "underwater": null,
+  "weather": null
+}

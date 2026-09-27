@@ -1,0 +1,368 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "door-cleared",
+    "name": "Door Cleared",
+    "note": "Conditions assessed before opening, the slide confirmed, the commands never stopped, and the door frame held clear through the entire flow"
+  },
+  "category": "Mobility & Transit",
+  "certification": "AFA-CWA cabin-safety training; the airline's own emergency evacuation checklist and command set under 14 CFR 121; OSHA 29 CFR 1910.151 medical services and first aid for an evacuation injury this drill is built to prevent",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFA-CWA",
+        "id": "afa-cwa-training",
+        "title": "AFA-CWA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "FAA",
+        "citedAs": "14 CFR 121",
+        "id": "faa-14-cfr-121",
+        "title": "14 CFR Part 121 — Operating requirements for domestic, flag and supplemental air carriers"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.151",
+        "id": "osha-1910-151",
+        "title": "29 CFR 1910.151 — Medical services and first aid"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Aviation",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "assessed-first",
+        "name": "Assessed First",
+        "note": "Looked outside and confirmed the slide before opening the door to the flow"
+      },
+      {
+        "id": "flow-held",
+        "name": "Flow Held",
+        "note": "Blocked the door frame and held the flow moving without a break"
+      },
+      {
+        "id": "bags-left-behind",
+        "name": "Bags Left Behind",
+        "note": "Every carry-on caught and left behind before the slide"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-drill",
+        "name": "Clean Drill",
+        "note": "No corrections anywhere in the drill"
+      },
+      {
+        "id": "fast-drill",
+        "name": "Fast Drill",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "evac-streak",
+        "name": "Command Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "EVAC",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Flight Attendant",
+      "Line Qualified",
+      "Lead Flight Attendant",
+      "Purser",
+      "Door Cleared Certified"
+    ],
+    "system": "Door Cleared"
+  },
+  "hazards": {
+    "blocked-doorway-hazard": "That cart is parked in the doorway itself. Nothing narrows the one path everyone in this section is funneling toward — the doorway stays completely clear the entire time this flow is running.",
+    "carry-on-bag-hazard": "That passenger is bringing a bag to the door. A bag on a slide punctures it, snags on the way down, or becomes exactly what the next person coming down trips over — it gets left behind before this passenger ever reaches the door, not sorted out once it's already causing a jam.",
+    "no-assessment-hazard": "That door is already being pulled open with nobody having looked through the window first. Opening onto conditions nobody actually checked — fire, debris, water — is exactly the mistake this one look before opening exists to prevent.",
+    "slide-unconfirmed-hazard": "That slide has not actually been confirmed inflated and clear. Sending anyone onto a slide nobody has looked at first risks a fall onto a slide that isn't actually ready to take them."
+  },
+  "id": "ca-door-evacuation-drill",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "block-doorway",
+      "alert": "Another passenger stops dead at the sill, blocking the doorway behind them.",
+      "cue": "That gets a firm physical guide onto the slide, right now.",
+      "delay": 3,
+      "id": "passenger-freezes-again",
+      "kind": "A second passenger freezes at the sill",
+      "missNote": "The second frozen passenger sat at the sill while the flow backed up behind them. That's the door stopped again, the same way it already almost did once.",
+      "seconds": 12,
+      "target": "frozen-passenger",
+      "why": "A second person frozen at the sill stops the whole flow just as completely as the first one did, and the same firm, direct guide that worked the first time is exactly what this crew already knows to do again, immediately.",
+      "wrongNote": "Guide them onto the slide, the same as before — a second frozen passenger doesn't get a different answer."
+    },
+    {
+      "after": "keep-flow-moving",
+      "alert": "Smoke becomes visible outside the window at this exact door while the flow is still running.",
+      "cue": "That door gets redirected to another exit immediately.",
+      "delay": 3,
+      "id": "conditions-change-outside",
+      "kind": "Conditions outside this door change",
+      "missNote": "People kept coming through this door after smoke was visible outside it. The whole reason conditions get watched, not just checked once, is exactly this kind of change.",
+      "seconds": 12,
+      "target": "redirect-other-exit",
+      "why": "Conditions outside a door are not a one-time check made before it opened — smoke appearing at this exit mid-evacuation means this crew redirects the flow to another exit right now, because sending anyone else out into that is exactly the outcome the first assessment was meant to prevent.",
+      "wrongNote": "Redirect to another exit now — smoke outside this door changes the answer this crew already gave once."
+    }
+  ],
+  "lateNotes": {
+    "block-doorway-position": "Hold that. The slide has to actually be confirmed before this crew takes up the blocking position at the frame.",
+    "deploy-slide": "Not yet — conditions outside get assessed first. A slide deployed before that check is a step taken out of order."
+  },
+  "name": "Door Evacuation Drill",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "airline-cabin-and-flight-crew"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "cabinInterior",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.7,
+    "hits": [
+      "block-doorway-position",
+      "blocked-doorway",
+      "blocked-doorway-hazard",
+      "cabin-final-check",
+      "carry-on-bag-hazard",
+      "carry-on-passenger",
+      "command-come",
+      "command-jump-and-slide",
+      "command-leave-everything",
+      "deploy-slide",
+      "door-window",
+      "evac-timer-gauge",
+      "evacuation-checklist-board",
+      "flow-rate-gauge",
+      "frozen-passenger",
+      "no-assessment-hazard",
+      "open-door",
+      "redirect-other-exit",
+      "slide-entry-spot",
+      "slide-status",
+      "slide-unconfirmed-hazard"
+    ],
+    "meshes": 198
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Open the airline's own evacuation checklist the instant the command is given.",
+      "id": "pull-evac-checklist",
+      "kind": "select",
+      "prompt": "Open the airline's own evacuation checklist the instant the command is given.",
+      "target": "evacuation-checklist-board",
+      "title": "Pull the evacuation checklist",
+      "why": "This checklist is what turns the command to evacuate into an actual sequence this crew already knows cold — running from it, rather than from memory under pressure, is what keeps every step in the order the airline actually trained for."
+    },
+    {
+      "cue": "Look through the door's window and confirm conditions outside before opening it.",
+      "id": "assess-outside",
+      "kind": "select",
+      "prompt": "Look through the door's window and confirm conditions outside before opening it.",
+      "target": "door-window",
+      "title": "Look outside before opening",
+      "why": "A door opened onto fire, debris or water outside turns a survivable exit into a new hazard — this look is the one thing standing between this crew and finding that out the hard way, and it happens before the handle ever moves."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Open the door fully, then deploy the evacuation slide.",
+      "id": "open-and-deploy",
+      "itemNames": {
+        "deploy-slide": "deploy the slide",
+        "open-door": "open the door"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Door first, then the slide — the slide's own deployment depends on the door already being fully open.",
+      "prompt": "Open the door fully, then deploy the evacuation slide.",
+      "targets": [
+        "open-door",
+        "deploy-slide"
+      ],
+      "title": "Open the door, then deploy the slide",
+      "why": "The slide only deploys once the door is actually all the way open — trying to move to the slide before that is a step this checklist has no use for, because the mechanism needs the door's own travel to work at all."
+    },
+    {
+      "cue": "Confirm the slide is fully inflated and clear before sending anyone onto it.",
+      "id": "confirm-slide",
+      "kind": "select",
+      "prompt": "Confirm the slide is fully inflated and clear before sending anyone onto it.",
+      "target": "slide-status",
+      "title": "Confirm the slide is ready",
+      "why": "A slide that looks deployed and a slide that's actually fully inflated and clear of debris are two different facts — confirming the second one is what this crew is actually staking a passenger's landing on, not the first one alone."
+    },
+    {
+      "cue": "Call out the same three commands, loud and repeated, the whole time this door is running.",
+      "id": "shout-commands",
+      "itemNames": {
+        "command-come": "\"come this way!\"",
+        "command-jump-and-slide": "\"jump and slide!\"",
+        "command-leave-everything": "\"leave everything!\""
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Come this way, then leave everything, then jump and slide — that order gets someone moving, unburdened and off the sill in the sequence that actually works.",
+      "prompt": "Call out the same three commands, loud and repeated, the whole time this door is running.",
+      "targets": [
+        "command-come",
+        "command-leave-everything",
+        "command-jump-and-slide"
+      ],
+      "title": "Shout the commands, in order, over and over",
+      "why": "Short, repeated, identical commands are what actually cut through a loud, frightened cabin — a passenger who hears the same three words over and over knows exactly what to do without having to think, which is the entire point under these conditions."
+    },
+    {
+      "cue": "Two things about this flow aren't right. Find them while people are still moving through the door.",
+      "id": "scan-for-noncompliance",
+      "itemNames": {
+        "blocked-doorway": "a cart blocking the doorway",
+        "carry-on-passenger": "a passenger bringing a bag to the door"
+      },
+      "itemNotes": {
+        "blocked-doorway": "This gets cleared immediately — a doorway this narrow slows down the one flow this entire drill exists to keep moving.",
+        "carry-on-passenger": "This gets redirected the instant it's spotted — a bag reaching the slide is a hazard for every single person coming down after it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things about this flow aren't right. Find them while people are still moving through the door.",
+      "targets": [
+        "carry-on-passenger",
+        "blocked-doorway"
+      ],
+      "title": "Scan the flow for what's going wrong",
+      "why": "A flow that looks fine at a glance can still be carrying a bag toward the slide or narrowing around an obstacle nobody's caught yet — this scan is what catches either one while there's still time to fix it before it actually reaches the door."
+    },
+    {
+      "cue": "Tell the passenger to leave the bag behind, firmly, and keep them moving toward the door.",
+      "id": "redirect-bag",
+      "kind": "select",
+      "prompt": "Tell the passenger to leave the bag behind, firmly, and keep them moving toward the door.",
+      "target": "carry-on-passenger",
+      "title": "Redirect the passenger with the bag",
+      "why": "This instruction is not a request — a bag heading for the slide gets left behind on this crew's word, immediately, because the next several people in line are the ones who actually pay for it if it isn't."
+    },
+    {
+      "cue": "Physically guide the passenger who's stopped moving at the door onto the slide.",
+      "drag": {
+        "missNote": "Still frozen at the sill. Every second this passenger stays there is a second the whole line behind them is stopped too.",
+        "radius": 0.45,
+        "to": "slide-entry-spot"
+      },
+      "id": "guide-frozen-passenger",
+      "kind": "drag",
+      "prompt": "Physically guide the passenger who's stopped moving at the door onto the slide.",
+      "target": "frozen-passenger",
+      "title": "Guide the passenger who's frozen at the sill",
+      "why": "Someone frozen at the sill is not going to talk themselves through it while the line backs up behind them — a firm, direct guide onto the slide is what actually gets them moving again without holding up everyone still coming through this door."
+    },
+    {
+      "cue": "Stand the door frame and hold position, keeping the flow moving through it the whole time.",
+      "holdBreakNote": "Left the frame before the flow was actually done. A door with nobody holding it clear is a door that slows down or jams the instant anything goes wrong at it.",
+      "id": "block-doorway",
+      "kind": "hold",
+      "prompt": "Stand the door frame and hold position, keeping the flow moving through it the whole time.",
+      "seconds": 6,
+      "target": "block-doorway-position",
+      "title": "Hold the door frame clear",
+      "why": "Standing the frame is what keeps this door doing exactly one job — moving people through it as fast as it safely can — instead of becoming a bottleneck the moment this crew member's attention goes somewhere else."
+    },
+    {
+      "cue": "Watch the flow-rate readout and keep people moving through the door at a steady pace.",
+      "holdBreakNote": "The flow dropped out of a safe pace. Too slow leaves people still in the cabin; crowding at the door creates its own fall risk on the sill.",
+      "id": "keep-flow-moving",
+      "kind": "track",
+      "prompt": "Watch the flow-rate readout and keep people moving through the door at a steady pace.",
+      "seconds": 6,
+      "target": "flow-rate-gauge",
+      "title": "Keep the flow rate up",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.32,
+        "green": [
+          0.45,
+          0.7
+        ],
+        "label": "FLOW RATE",
+        "rise": 0.35,
+        "start": 0.3
+      },
+      "why": "A flow that's too slow leaves people still in a cabin this crew is trying to empty, and a flow that's crowding the sill creates its own fall risk — a steady pace in between is what actually gets the most people out safely in the time available."
+    },
+    {
+      "cue": "Check the evacuation timer against the airline's own benchmark for this door.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.75
+        ],
+        "label": "ELAPSED",
+        "missNote": "Read the timer after the drill was already running long. Catching that early is the only version of this reading that's actually useful.",
+        "speed": 0.55
+      },
+      "id": "count-time-elapsed",
+      "kind": "gauge",
+      "prompt": "Check the evacuation timer against the airline's own benchmark for this door.",
+      "target": "evac-timer-gauge",
+      "title": "Read the elapsed time",
+      "why": "The airline's own benchmark for this door is what this timer is read against, and catching a slow pace early is what actually gives this crew a chance to do something about it, rather than finding out only once the drill is already over."
+    },
+    {
+      "cue": "Do a final visual sweep of the cabin for anyone left before this crew member exits.",
+      "id": "final-sweep",
+      "kind": "select",
+      "prompt": "Do a final visual sweep of the cabin for anyone left before this crew member exits.",
+      "target": "cabin-final-check",
+      "title": "Sweep the cabin one last time",
+      "why": "This crew member is the last line between an evacuation that's actually complete and one that quietly left somebody behind — the sweep is what turns \"I think everyone's out\" into an actual confirmed fact."
+    },
+    {
+      "cue": "Confirm the cabin is empty, then exit down the slide yourself, last.",
+      "id": "crew-exits-last",
+      "kind": "select",
+      "prompt": "Confirm the cabin is empty, then exit down the slide yourself, last.",
+      "target": "slide-status",
+      "title": "Exit last, down the slide",
+      "why": "Crew goes down the slide only after every passenger this door was responsible for is already off it — leaving before that confirmed fact is exactly the gap between \"probably done\" and actually done that this whole drill is built to close."
+    }
+  ],
+  "supportLine": "your AFA-CWA local's member assistance resources, or the airline's own employee assistance line — a full evacuation drill run for real is its own kind of intense, even in training",
+  "tagline": "Look before opening, confirm the slide before anyone goes onto it, the same short commands shouted over and over, and the door frame physically blocked so the flow through it never stops for a dropped bag or a frozen passenger",
+  "title": "SmartCiti.X~ Door Evacuation Drill VR",
+  "trade": "Flight attendant — AFA-CWA cabin crew",
+  "underwater": null,
+  "weather": null
+}

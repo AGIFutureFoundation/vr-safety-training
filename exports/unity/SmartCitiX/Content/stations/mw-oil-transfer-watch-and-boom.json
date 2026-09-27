@@ -1,0 +1,400 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "nothing-past-the-boom",
+    "name": "Nothing Past The Boom",
+    "note": "The boom streamed from upcurrent, the pump never ahead of the declaration, the sheen stopped at the source and never dispersed"
+  },
+  "category": "Maritime & Ports",
+  "certification": "MEBA Calhoon School engineering; SIU Paul Hall Center tankerman training; Inlandboatmen's Union of the ILWU deck practice on the boom boat; USCG 33 CFR 155.710 person in charge of an oil transfer; USCG 33 CFR 156.150 declaration of inspection; IMO MARPOL oil pollution prevention; the facility's and the vessel's own transfer procedures and boom plan",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "ILWU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "IMO",
+        "citedAs": "IMO MARPOL",
+        "id": "imo-marpol",
+        "title": "MARPOL — International Convention for the Prevention of Pollution from Ships"
+      },
+      {
+        "body": "union",
+        "citedAs": "MEBA",
+        "id": "meba-calhoon-school",
+        "title": "MEBA — the Calhoon MEBA Engineering School's licensed marine engineer training"
+      },
+      {
+        "body": "union",
+        "citedAs": "SIU",
+        "id": "siu-paul-hall-center",
+        "title": "SIU — the Paul Hall Center for Maritime Training and Education's unlicensed mariner programmes"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "33 CFR 155.710",
+        "id": "uscg-33-cfr-155-710",
+        "title": "33 CFR 155.710 — Duties and qualifications of the person in charge of an oil transfer"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "33 CFR 156.150",
+        "id": "uscg-33-cfr-156-150",
+        "title": "33 CFR 156.150 — Declaration of inspection before an oil transfer"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "signed-before-started",
+        "name": "Signed Before Started",
+        "note": "The declaration of inspection signed before anything moved"
+      },
+      {
+        "id": "boom-read-true",
+        "name": "Boom Read True",
+        "note": "Current and pressure both committed inside the band"
+      },
+      {
+        "id": "no-dispersing",
+        "name": "No Dispersing",
+        "note": "Never a pump ahead of the paperwork, never soap on a sheen, never a boom from downcurrent"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-transfer-watch",
+        "name": "Clean Watch",
+        "note": "No corrections from the procedures to the log"
+      },
+      {
+        "id": "rate-held",
+        "name": "Rate Held",
+        "note": "The agreed rate held in band the whole discharge"
+      },
+      {
+        "id": "berth-turned",
+        "name": "Berth Turned",
+        "note": "Transfer logged inside 80% of par"
+      }
+    ],
+    "currency": "BARREL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Watchstander",
+      "Tankerman",
+      "Person In Charge",
+      "Senior PIC",
+      "Transfer Watch Certified"
+    ],
+    "system": "Transfer Watch"
+  },
+  "hazards": {
+    "boom-downcurrent": "You started streaming the boom from its downcurrent anchor. The current carries a boom and the boat towing it away from the point it was made fast to, so a boom laid from downcurrent peels off the hull and leaves an open gap upstream — which is exactly where oil from the manifold goes. The first end is made fast upcurrent and the current streams the boom down along the hull.",
+    "pump-before-doi": "You started the cargo pump with the declaration of inspection still unsigned. The DOI is the two persons in charge agreeing on the product, the quantity, the rate, the signals and the emergency stop; 33 CFR 156.150 makes it the condition of starting, because a transfer nobody has agreed is a transfer nobody can stop in the same language.",
+    "soap-on-sheen": "You reached for the detergent to break up the sheen. Soap and dispersants do not remove oil — they sink and spread it where no boom or sorbent can recover it, and using them on a sheen is itself a violation. A sheen is stopped at its source, contained with boom and sorbent, and reported — never made to disappear.",
+    "step-on-boom": "You stepped off the dock onto the boom to reach a section that had twisted. A containment boom is a float and a skirt, not a walkway: it rolls under a boot and goes under with a person on it, into water with oil on the surface and a hull alongside. A twisted section is fixed from the boom boat with a boat hook."
+  },
+  "id": "mw-oil-transfer-watch-and-boom",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "slow-start",
+      "alert": "A rainbow sheen is spreading on the water just outside the boom on the downstream side — it was not there a minute ago.",
+      "cue": "Hit the emergency stop at the manifold: stop the transfer first, then find the source.",
+      "delay": 2,
+      "id": "sheen-outside-boom",
+      "kind": "Sheen on the water outside the boom",
+      "missNote": "The pump kept running at the slow start while the sheen spread along the boom; the weep feeding it was at the far hose end, and by the time it was found the sheen had gone past the boom's end.",
+      "seconds": 14,
+      "target": "esd-button",
+      "why": "A sheen that appears during a transfer is treated as this transfer's until it is proven otherwise, and the first move is to stop the product moving — the emergency stop agreed on the DOI — before anyone goes looking. Searching for the source with the pump still running is how a weep becomes a spill; the stop is the one action that makes every other action smaller.",
+      "wrongNote": "The emergency stop — stop the product moving first, then find where the sheen is coming from."
+    },
+    {
+      "after": "agreed-rate",
+      "alert": "The tide has turned and the current has picked up across the berth — the boom is bellying and the skirt is lifting at the upcurrent end.",
+      "cue": "Call the boom boat on the radio: re-angle the boom's upcurrent end to the new set.",
+      "delay": 2,
+      "id": "current-shift-boom",
+      "kind": "Current shift at the boom",
+      "missNote": "The boom bellied square to the new current with nobody moving it, the skirt lifted at the upcurrent end, and the sorbent that had been holding the drip-pan weep went under it.",
+      "seconds": 14,
+      "target": "boat-radio",
+      "why": "A boom holds oil only at the right angle to the current, and a change in set that puts it square to the flow lets anything on the water pass under the skirt. The boom boat is the only thing on the water that can move it, and the person in charge has to tell the deckhand what the barge can see — the belly and the lifted skirt — so the end is re-angled before the current finds the gap.",
+      "wrongNote": "The boom boat's radio — only the boat can re-angle the boom, and the deckhand needs to hear what the barge sees."
+    }
+  ],
+  "lateNotes": {
+    "cargo-pump-control": "The pump comes up to the agreed rate once the slow start has been watched at the flange — not before a drop has been seen to hold.",
+    "manifold-valve": "The manifold is opened once the boom is streamed and the hose and flange are walked — not with the containment still on the reel.",
+    "transfer-log": "The transfer is logged once the line is stopped, drained and blanked — the log is the last thing on the watch."
+  },
+  "name": "Oil Transfer Watch & Boom",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "boat-radio",
+      "boom-anchor-up",
+      "boom-downcurrent",
+      "boom-end",
+      "cargo-pump-control",
+      "current-meter",
+      "doi-board",
+      "drain-valve",
+      "esd-button",
+      "flange-bolt-missing",
+      "flange-watch",
+      "hose-blank",
+      "hose-kink",
+      "manifold-gauge",
+      "manifold-valve",
+      "pump-before-doi",
+      "scupper-open",
+      "soap-on-sheen",
+      "sorbent-soaked",
+      "step-on-boom",
+      "stop-signal",
+      "transfer-log",
+      "transfer-procedures"
+    ],
+    "meshes": 218
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the vessel's transfer procedures at the manifold: the product, the line-up, the rate limits, the watch, the emergency stop and the spill response.",
+      "id": "procedures",
+      "kind": "select",
+      "prompt": "Read the vessel's transfer procedures at the manifold: the product, the line-up, the rate limits, the watch, the emergency stop and the spill response.",
+      "target": "transfer-procedures",
+      "title": "Read the transfer procedures for this barge and this dock",
+      "why": "The person in charge of an oil transfer carries the whole of it — 33 CFR 155.710 sets who may be that person and what they must know — and the procedures are the vessel's written answer to how this barge moves this product. They are read at the manifold before the paperwork with the facility, because the declaration of inspection is only as good as the understanding each person in charge brings to it."
+    },
+    {
+      "cue": "Go through the DOI with the facility's person in charge: the hose and its connections, the containment, the communications and signals, the emergency stop, the rate — both sign before anything moves.",
+      "id": "doi",
+      "kind": "select",
+      "prompt": "Go through the DOI with the facility's person in charge: the hose and its connections, the containment, the communications and signals, the emergency stop, the rate — both sign before anything moves.",
+      "target": "doi-board",
+      "title": "Sign the declaration of inspection with the facility",
+      "why": "The declaration of inspection is the two persons in charge standing at the same list and agreeing, item by item, that the transfer is ready — 33 CFR 156.150 makes it the condition of starting. It is signed rather than nodded through because the signals and the stop agreed on it are what each side will act on when something goes wrong, and a stop signal only one side knows is not a stop signal."
+    },
+    {
+      "cue": "Read the current meter at the dock edge and commit it against the boom plan's figure for this berth — the plan says when the boom holds and when it will not.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "CURRENT vs BOOM PLAN",
+        "missNote": "Outside the band — let the meter settle and read it against the boom plan's figure for this berth, not the last transfer's.",
+        "speed": 0.68
+      },
+      "id": "read-current",
+      "kind": "gauge",
+      "prompt": "Read the current meter at the dock edge and commit it against the boom plan's figure for this berth — the plan says when the boom holds and when it will not.",
+      "target": "current-meter",
+      "title": "Read the current against the boom plan",
+      "why": "A containment boom holds oil only while the water moving past it is slow enough, and past the plan's figure oil is carried under the skirt as if the boom were not there. The boom plan for the berth sets that figure and the angle the boom has to take, and the person in charge reads the current against the plan before streaming it, rather than finding out from a sheen on the far side."
+    },
+    {
+      "cue": "Hand the boom's end to the boom boat and have it made fast at the upcurrent anchor, then let the current stream the boom down along the barge.",
+      "drag": {
+        "missNote": "Not at the upcurrent anchor — the boom's first end is made fast upcurrent so the current streams it down along the hull.",
+        "radius": 0.6,
+        "to": "boom-anchor-up"
+      },
+      "id": "stream-boom",
+      "kind": "drag",
+      "prompt": "Hand the boom's end to the boom boat and have it made fast at the upcurrent anchor, then let the current stream the boom down along the barge.",
+      "target": "boom-end",
+      "title": "Stream the boom from its upcurrent anchor",
+      "why": "A boom is laid so the current works for it: made fast upcurrent, the current carries the rest of the boom down along the hull and holds it there, closing the water round the barge. Laid the other way, the current peels it off and leaves the upstream end open. The boom goes in before the manifold opens, because containment set after a spill is containment chasing oil."
+    },
+    {
+      "cue": "Walk the hose from the facility's rack to the barge's manifold: supported, no kinks or chafe, the flange made up with every bolt and a gasket, the drip pan under it.",
+      "id": "hose-walk",
+      "itemNames": {
+        "flange-bolt-missing": "manifold flange with a bolt hole empty",
+        "hose-kink": "hose kinked over the dock edge with no saddle"
+      },
+      "itemNotes": {
+        "flange-bolt-missing": "One bolt hole on the manifold flange is empty. A flange is made up with every bolt in and drawn down evenly; one missing lets the gasket blow out on that side at the first pressure surge.",
+        "hose-kink": "The transfer hose bends hard over the dock's edge with no saddle under it — a kink under pressure is where a hose bursts, and over the water is the worst place for it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the hose from the facility's rack to the barge's manifold: supported, no kinks or chafe, the flange made up with every bolt and a gasket, the drip pan under it.",
+      "targets": [
+        "hose-kink",
+        "flange-bolt-missing"
+      ],
+      "title": "Walk the hose and the manifold flange",
+      "why": "A hose and its flange are the only thing between the product and the water for the whole transfer, and they fail at the places that are easy to miss: a bend over a dock edge with no saddle, a flange with one bolt left out because it was awkward to reach. Walking them before the valve opens is the last chance to find those with the line empty."
+    },
+    {
+      "cue": "With the facility's valve open and confirmed on the radio, open the manifold valve steadily all the way — the line is lined up from the tank to the shore.",
+      "id": "open-manifold",
+      "kind": "turn",
+      "prompt": "With the facility's valve open and confirmed on the radio, open the manifold valve steadily all the way — the line is lined up from the tank to the shore.",
+      "target": "manifold-valve",
+      "title": "Open the barge's manifold valve",
+      "turn": {
+        "label": "MANIFOLD VALVE",
+        "turns": 2
+      },
+      "why": "The valve is opened with the line-up confirmed at both ends, because a pump started against a closed valve anywhere in the line builds pressure until the weakest point — usually the hose — gives. It is opened fully and steadily rather than cracked and left, so the line is not throttled at the manifold where a partially open valve erodes and chatters under flow."
+    },
+    {
+      "cue": "Pump at the slow start rate agreed on the DOI and stay at the flange: watch every bolt, the gasket and the hose ends for a weep.",
+      "holdBreakNote": "Walked away from the flange before the slow start was over — the weep that shows in the first minutes is only caught by someone watching it. Go back to the flange.",
+      "id": "slow-start",
+      "kind": "hold",
+      "prompt": "Pump at the slow start rate agreed on the DOI and stay at the flange: watch every bolt, the gasket and the hose ends for a weep.",
+      "seconds": 5,
+      "target": "flange-watch",
+      "title": "Watch the flange through the slow start",
+      "why": "The first minutes of a transfer are when a flange that looked right shows that it is not: the gasket takes up, the hose stiffens and moves, and a weep starts where the bolts were drawn unevenly. The slow start exists to find that at a rate the drip pan can hold, with the person in charge standing at the flange rather than at the rate display."
+    },
+    {
+      "cue": "With the flange dry, bring the cargo pump up to the rate agreed on the DOI and hold it steady — no surges, no creeping past the agreement.",
+      "holdBreakNote": "The pump went out of band — a surge or a sag the other end did not agree to. Bring it back to the agreed rate and hold it.",
+      "id": "agreed-rate",
+      "kind": "track",
+      "prompt": "With the flange dry, bring the cargo pump up to the rate agreed on the DOI and hold it steady — no surges, no creeping past the agreement.",
+      "seconds": 6,
+      "target": "cargo-pump-control",
+      "title": "Bring the pump to the agreed rate and hold it",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "CARGO PUMP",
+        "rise": 0.58,
+        "start": 0.14
+      },
+      "why": "The agreed rate is what the facility's tank, the hose and the vent can take, and the person in charge holds the pump to it rather than to what the pump will do: a surge past it raises pressure in the hose and fills the shore tank faster than its watch expects. Held steady, the rate is predictable at both ends, and a predictable transfer is one the other person in charge can stop cleanly."
+    },
+    {
+      "cue": "Walk the deck round the manifold: scuppers plugged, drip pan dry, sorbent clean, nothing weeping at the hose ends.",
+      "id": "deck-round",
+      "itemNames": {
+        "scupper-open": "scupper plug missing on the barge's deck",
+        "sorbent-soaked": "sorbent pad saturated in the drip pan"
+      },
+      "itemNotes": {
+        "scupper-open": "A scupper on the barge's deck has no plug in it — any oil on the deck would go straight through it into the water inside the boom and, if the boom lets go, past it.",
+        "sorbent-soaked": "The sorbent pad in the drip pan is black and saturated: the flange is weeping slowly and the pan will overflow once the pad stops taking it up."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the deck round the manifold: scuppers plugged, drip pan dry, sorbent clean, nothing weeping at the hose ends.",
+      "targets": [
+        "scupper-open",
+        "sorbent-soaked"
+      ],
+      "title": "Walk the deck while the product moves",
+      "why": "A transfer that started dry can start to weep an hour in, as a gasket relaxes or a hose end works under the pressure, and the deck round is how that is found before it reaches the water. A saturated pad means a weep has been going on long enough to fill it, and an open scupper is the path any deck spill takes overboard — both are fixed now, with the product still moving, by stopping and plugging, not by hoping."
+    },
+    {
+      "cue": "Read the manifold pressure gauge and commit it against the working pressure marked on the hose — inside the marking, never at it.",
+      "gauge": {
+        "green": [
+          0.38,
+          0.56
+        ],
+        "label": "MANIFOLD PRESSURE",
+        "missNote": "Outside the band — read the gauge against the hose's own working-pressure marking, not a figure from memory.",
+        "speed": 0.72
+      },
+      "id": "hose-pressure",
+      "kind": "gauge",
+      "prompt": "Read the manifold pressure gauge and commit it against the working pressure marked on the hose — inside the marking, never at it.",
+      "target": "manifold-gauge",
+      "title": "Read the manifold pressure against the hose's marking",
+      "why": "Every transfer hose carries its maximum working pressure on its own marking, and the manifold gauge is how the person in charge knows the line is inside it: a closed valve downstream or a surge from the pump shows here first. It is read against the hose's own marking rather than a remembered figure, because the hose on the dock today may not be the hose that was there last week."
+    },
+    {
+      "cue": "Signal stop and stop the pump, drain the hose back to the tank through the drain valve, then blank the hose end before it leaves the manifold.",
+      "id": "stop-drain-blank",
+      "itemNames": {
+        "drain-valve": "hose drained back to the tank",
+        "hose-blank": "blank flange on the hose end",
+        "stop-signal": "stop signal to the facility, pump stopped"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — the pump stops first, the hose is drained second, and the blank goes on last before anything is disconnected.",
+      "prompt": "Signal stop and stop the pump, drain the hose back to the tank through the drain valve, then blank the hose end before it leaves the manifold.",
+      "targets": [
+        "stop-signal",
+        "drain-valve",
+        "hose-blank"
+      ],
+      "title": "Stop, drain and blank the line",
+      "why": "The end of a transfer is when a lot of spills happen: a hose disconnected full, a flange broken with the pump still turning, a hose end lifted over the water without a blank. The order is the protection — stop, drain, blank — so the hose that swings back to the dock is empty and closed, and the drip pan catches only the few drops a correct disconnection leaves."
+    },
+    {
+      "cue": "Log the quantity, the start and stop times, the sheen and what was done about it, the current shift and the boom's new angle, the missing bolt and the open scupper.",
+      "id": "transfer-log",
+      "kind": "select",
+      "prompt": "Log the quantity, the start and stop times, the sheen and what was done about it, the current shift and the boom's new angle, the missing bolt and the open scupper.",
+      "target": "transfer-log",
+      "title": "Log the transfer",
+      "why": "The transfer is recorded because the vessel's records under IMO MARPOL and its own procedures must account for every oil movement, and because a sheen is reportable — to the National Response Center and the facility — whether or not it came from this barge. The log is written at the manifold with the times still fresh; it is what an investigator reads first and what the next transfer at this berth learns from."
+    },
+    {
+      "cue": "On the radio: the line is blanked and logged, the boom stays until the facility clears it, and how the deckhand on the boat and the tankerman are after the sheen and the set.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the radio: the line is blanked and logged, the boom stays until the facility clears it, and how the deckhand on the boat and the tankerman are after the sheen and the set.",
+      "target": "boat-radio",
+      "title": "Check in with the boom boat and the facility",
+      "why": "The deckhand in the boom boat has been working alone in a current beside a barge, and the facility's person in charge needs to hear the transfer is closed before breaking their side. The check-in is also the crew's own: a sheen on the water and a boom fighting a current shift is stress for everyone on the watch, and the member assistance line is there for what the radio does not carry."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — MEBA, SIU or the Inlandboatmen's Union — with the employer's employee assistance line behind it",
+  "tagline": "A barge discharging ashore: the transfer procedures read and the declaration of inspection signed, the current read against the boom plan, the boom streamed from upcurrent, the hose and flange walked, the manifold opened, a slow start watched at the flange while a sheen shows outside the boom, the pump held at the agreed rate through a current shift, the deck walked, the pressure read against the hose, the line stopped, drained and blanked, and the transfer logged",
+  "title": "SmartCiti.X~ Oil Transfer Watch & Boom VR",
+  "trade": "MEBA licensed engineer as the barge's person in charge of the oil transfer, with an Inlandboatmen's Union of the ILWU deckhand on the boom boat and an SIU-trained tankerman on the pump",
+  "underwater": null,
+  "weather": "overcast"
+}

@@ -1,0 +1,359 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "bucket-cleared",
+    "name": "Bucket Cleared",
+    "note": "A bucket racked out with the remote tool, proven dead, inspected and racked back in with nothing skipped"
+  },
+  "category": "Energy & Power",
+  "certification": "IBEW inside wireman; NFPA 70E arc-flash risk assessment and PPE category; OSHA 29 CFR 1910.147 control of hazardous energy and 1910.333 electrical safe work practices",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IBEW",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Energy",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "label-read",
+        "name": "Label Read",
+        "note": "PPE selected from the bucket's own arc-flash label, every time"
+      },
+      {
+        "id": "hands-clear",
+        "name": "Hands Clear",
+        "note": "Never reached into a bucket that was not proven dead"
+      },
+      {
+        "id": "torque-steady",
+        "name": "Torque Steady",
+        "note": "Held the racking crank smooth through the full travel"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "no-callback",
+        "name": "No Callback",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "crank-held",
+        "name": "Crank Held",
+        "note": "Never let the racking tool slip mid-travel"
+      },
+      {
+        "id": "section-back",
+        "name": "Section Back",
+        "note": "Bucket restored inside 80% of par"
+      }
+    ],
+    "currency": "AMP",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice Wireman",
+      "Journeyman Wireman",
+      "Panel Technician",
+      "Panel Lead",
+      "Panel Authority Certified"
+    ],
+    "system": "Panel Authority"
+  },
+  "hazards": {
+    "hand-rack": "You reached for the racking mechanism by hand instead of fitting the remote tool. The whole reason a motor control centre has a geared racking crank is so the operator's hands stay outside the arc-flash boundary while the stabs separate — the moment of separation under any residual load is exactly when an arcing fault starts, and a hand on the mechanism is a hand at the boundary for it.",
+    "hot-bus": "That is the bucket's stab connection to the vertical bus. The bucket's own disconnect being open says nothing about it — the vertical bus behind the stabs feeds every other bucket in this section and stays live until the section itself is shut down, which this job never called for.",
+    "neighbour-bus": "You reached into the neighbouring bucket. Its door is open because somebody made a mistake, not because it was isolated — the bus behind that door is exactly as live as it was this morning, and nothing about the work you are doing on your own bucket makes it safe to touch.",
+    "no-boundary-ppe": "You went for the open bucket without the suit, hood and gloves on. The label on this bucket states an incident energy this door can release if something behind it is not what the isolation says it is, and the PPE is rated to that number — not to how confident anyone feels about the lockout."
+  },
+  "id": "motor-control-center",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "rack-out",
+      "alert": "Two buckets down, a second electrician has just swung the neighbouring bucket's door open with the section bus still live behind it — he is reaching for something on the shelf inside.",
+      "cue": "You are mid-crank on your own bucket. Stop him before his hand gets to that bus.",
+      "delay": 4,
+      "id": "neighbour-opens",
+      "kind": "Adjacent bucket opened",
+      "missNote": "The neighbouring door stayed open with a hand inside it and the section bus live behind that hand. Your own bucket being correctly isolated would not have helped him at all — the bus he was reaching past has nothing to do with the work you were doing.",
+      "seconds": 12,
+      "target": "neighbour-electrician",
+      "why": "A racked-out bucket only makes the one bucket safe; the vertical bus running behind every door in that section is still carrying full voltage, and an open door two buckets down is a door with that bus sitting exposed behind it. The crank in your hands is not the emergency — the open door is, and it gets dealt with before anything else on this section, including your own procedure.",
+      "wrongNote": "It is the electrician at the open door. Whatever he is reaching for, it is a metre from a live bus and nobody told him to be there."
+    },
+    {
+      "after": "test",
+      "alert": "Your tester just failed to indicate against the known-live proving source — the display is reading the same dead as it read on the bucket a second ago.",
+      "cue": "That reading is worthless. Get the spare tester off the cart and prove it before you touch anything.",
+      "delay": 4,
+      "id": "tester-fails",
+      "kind": "Instrument fault",
+      "missNote": "You carried on with a tester that had just failed its own proving check. The bucket behind that door might be exactly as live as the source the tester lied about a moment ago — the failed reading told you nothing, and nothing was done to fix that before hands went near the bus.",
+      "seconds": 12,
+      "target": "backup-tester",
+      "why": "A dead reading from a tester that also reads dead on a source you know is live is not proof of anything — it is a failed instrument telling you a comfortable lie. The live-dead-live check exists precisely to catch this before the door opens, and the only correct response to catching it is a working meter, proved on its own known source, not a second attempt with the one that just failed.",
+      "wrongNote": "It is the spare tester on the cart. The one in your hand just proved it cannot be trusted — set it aside and prove a working one instead."
+    }
+  ],
+  "lateNotes": {
+    "bucket-disconnect": "The bucket's disconnect opens and gets locked before the racking tool ever touches it.",
+    "rack-tool": "The remote tool keeps your hands outside the boundary while the stabs separate — it is not optional at this label's category.",
+    "test-probe": "Proven dead comes before the door opens, not after."
+  },
+  "name": "Motor Control Center",
+  "parSeconds": 255,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "electrical-first-period"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "arc-flash-label",
+      "arc-hood",
+      "arc-suit",
+      "backup-tester",
+      "boundary-markers",
+      "bucket-disconnect",
+      "bucket-door",
+      "cracked-gasket",
+      "hand-rack",
+      "hot-bus",
+      "insulating-gloves",
+      "lock-station",
+      "mcc-log",
+      "neighbour-bus",
+      "neighbour-electrician",
+      "no-boundary-ppe",
+      "rack-tool",
+      "test-probe",
+      "tripped-overload",
+      "worn-contactor"
+    ],
+    "meshes": 180
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the incident energy, the boundary distances and the PPE category on the bucket's own label before touching anything.",
+      "id": "label",
+      "kind": "select",
+      "prompt": "Read the incident energy, the boundary distances and the PPE category on the bucket's own label before touching anything.",
+      "target": "arc-flash-label",
+      "title": "Read the bucket's arc-flash label",
+      "why": "The label is calculated for this bucket, at this bus, from this section's actual fault current and clearing time — not a general rule of thumb for motor control centres. Everything that follows, the PPE chosen, the boundary set and whether the racking tool is mandatory rather than merely available, comes off the number printed on this door and nowhere else."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Suit, hood and gloves rated to the category the label just gave you.",
+      "id": "ppe",
+      "itemNames": {
+        "arc-hood": "arc-rated hood and face shield",
+        "arc-suit": "arc-rated suit",
+        "insulating-gloves": "insulating gloves with leather protectors"
+      },
+      "kind": "sequence",
+      "prompt": "Suit, hood and gloves rated to the category the label just gave you.",
+      "targets": [
+        "arc-suit",
+        "arc-hood",
+        "insulating-gloves"
+      ],
+      "title": "Arc-rated PPE to the label's category",
+      "why": "The stabs behind this door separate from the live vertical bus during the very operation this job requires, and the label's incident energy is the number the suit, hood and gloves are rated against. Skipping a piece because the bucket looks like it is going to be a quick job is the same bet as skipping the label — it only loses once, and it loses badly."
+    },
+    {
+      "cue": "Cone and tape the boundary distance the label gives, so nobody but you is inside it while the bucket moves.",
+      "id": "boundary",
+      "kind": "select",
+      "prompt": "Cone and tape the boundary distance the label gives, so nobody but you is inside it while the bucket moves.",
+      "target": "boundary-markers",
+      "title": "Set the arc-flash boundary",
+      "why": "The racking operation is the one moment in this job where a fault, if one exists, actually happens — and it happens fast enough that a shout is not a warning system. The boundary is set before the disconnect is touched so that everyone who is not doing this specific job, including the crew working the next section over, is standing somewhere the arc-flash study says is survivable."
+    },
+    {
+      "cue": "Trip the bucket disconnect handle to OFF and confirm the door interlock releases.",
+      "id": "disconnect",
+      "kind": "turn",
+      "prompt": "Trip the bucket disconnect handle to OFF and confirm the door interlock releases.",
+      "target": "bucket-disconnect",
+      "title": "Open the bucket's disconnect",
+      "turn": {
+        "axis": "z",
+        "label": "BUCKET DISC",
+        "turns": 0.4
+      },
+      "why": "The disconnect is the one thing between the motor and the bus that this job is actually allowed to touch by hand — it opens the load side, not the bus side, which is exactly why racking the bucket out afterward still has to be done with the remote tool rather than treated as a formality."
+    },
+    {
+      "cue": "Your padlock and tag on the disconnect handle before the racking tool goes anywhere near it.",
+      "id": "lock",
+      "kind": "select",
+      "prompt": "Your padlock and tag on the disconnect handle before the racking tool goes anywhere near it.",
+      "target": "lock-station",
+      "title": "Lock and tag the bucket disconnect",
+      "why": "A disconnect held open by your hand is open until your hand moves; a disconnect held open by your lock is open until you personally remove that lock. The section this bucket lives in is fed from a source somebody else can operate, and the lock is what keeps this bucket yours for as long as you need it, not as long as nobody else wants it back."
+    },
+    {
+      "cue": "Fit the racking crank and turn it steady until the bucket clears the stabs and stops at the fully racked-out position.",
+      "holdBreakNote": "The crank slipped before the bucket reached the stop. A bucket parked partway out of its stabs is neither in nor isolated — fit the tool again and take it the rest of the way.",
+      "id": "rack-out",
+      "kind": "hold",
+      "prompt": "Fit the racking crank and turn it steady until the bucket clears the stabs and stops at the fully racked-out position.",
+      "seconds": 6,
+      "target": "rack-tool",
+      "title": "Rack the bucket out with the remote tool",
+      "why": "The label called for the remote tool at this incident-energy category specifically because the stabs separating from the vertical bus is the moment a marginal connection or trapped contamination can flash — and the crank's whole geometry exists to put that moment a shaft's length from your hand instead of at it. A crank that is rushed or forced can bind and jump, which is exactly the jolt that turns a clean separation into an arcing one."
+    },
+    {
+      "cue": "Prove the tester on a known live source, test the bucket's line and load terminals, prove the tester again.",
+      "gauge": {
+        "green": [
+          0,
+          0.12
+        ],
+        "label": "BUCKET V",
+        "missNote": "That is not dead. Stop, recheck the disconnect and the racking position, and do not open the door on this reading.",
+        "speed": 0.75
+      },
+      "id": "test",
+      "kind": "gauge",
+      "prompt": "Prove the tester on a known live source, test the bucket's line and load terminals, prove the tester again.",
+      "target": "test-probe",
+      "title": "Prove the bucket dead",
+      "why": "A racked-out bucket has cleared the vertical bus, but it has not been measured — the racking mechanism is a mechanical claim, and the tester is the only actual evidence. Proving the tester on a known source before and after the reading is what stops a failed meter from handing you a comfortable, false dead."
+    },
+    {
+      "cue": "With the bucket proven dead, swing the door open on the contactor compartment.",
+      "id": "door",
+      "kind": "select",
+      "prompt": "With the bucket proven dead, swing the door open on the contactor compartment.",
+      "target": "bucket-door",
+      "title": "Open the bucket door",
+      "why": "Everything before this step exists to make this the safe moment to do the one thing the job actually requires: put your hands inside an enclosure that, an hour ago, had a running motor's full load current behind it. The door only opens once every step ahead of it is actually done, not once it feels like enough of them are."
+    },
+    {
+      "cue": "Look over the contactor, the overload relay and the door seal while the bucket is open and dead; click what needs a work order.",
+      "id": "inspect",
+      "itemNames": {
+        "cracked-gasket": "cracked door gasket",
+        "tripped-overload": "tripped overload relay",
+        "worn-contactor": "pitted contactor contacts"
+      },
+      "itemNotes": {
+        "cracked-gasket": "The door gasket is cracked through at the hinge corner. A compromised gasket lets dust and moisture into a compartment that is supposed to be sealed against exactly that, which is how a clean contactor becomes a tracked one.",
+        "tripped-overload": "The overload relay is sitting tripped, not reset — this bucket did not come off simply because somebody opened a disconnect for an inspection. Whatever tripped it happened on its own, and it goes on the work order before this bucket goes back in service.",
+        "worn-contactor": "The contactor's main contacts are pitted and starting to weld at the corners. Left in service, a pitted contact runs hotter every cycle it closes on, and it is the kind of failure that looks fine right up until it welds shut under load."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the contactor, the overload relay and the door seal while the bucket is open and dead; click what needs a work order.",
+      "targets": [
+        "worn-contactor",
+        "tripped-overload",
+        "cracked-gasket"
+      ],
+      "title": "Inspect the contactor and overloads",
+      "why": "This bucket is dead for the length of this job and not a minute longer. Whatever a close look finds now — pitting, a tripped relay, a failed seal — gets written up while somebody is standing here with the door open; missed now, it is a fault report the next time this motor is asked to start under load."
+    },
+    {
+      "cue": "Close and latch the door before the bucket goes anywhere near the bus again.",
+      "id": "close",
+      "kind": "select",
+      "prompt": "Close and latch the door before the bucket goes anywhere near the bus again.",
+      "target": "bucket-door",
+      "title": "Close the bucket door",
+      "why": "The door is not a formality between inspection and re-energising — it is rated to contain exactly the kind of event the arc-flash label describes, and it does that only when it is actually latched. A bucket racked back in with the door swinging is a bucket with its one piece of containment left off."
+    },
+    {
+      "cue": "Fit the crank and turn it steady until the stabs seat and the bucket reaches the fully racked-in position.",
+      "holdBreakNote": "The crank slipped before the bucket seated fully. A bucket short of its racked-in stop is not making a clean stab connection — fit the tool and finish the travel.",
+      "id": "rack-in",
+      "kind": "hold",
+      "prompt": "Fit the crank and turn it steady until the stabs seat and the bucket reaches the fully racked-in position.",
+      "seconds": 5,
+      "target": "rack-tool",
+      "title": "Rack the bucket back in",
+      "why": "Seating the stabs is the same event as separating them, run in reverse, and it gets the same tool and the same steady hand for the same reason — a rushed final turn can cock the bucket in its guides and land the stabs off-centre, which shows up later as the hot joint the contactor inspection was just trying to catch."
+    },
+    {
+      "cue": "Take your padlock and tag off the disconnect now that the door is closed and the bucket is seated.",
+      "id": "unlock",
+      "kind": "select",
+      "prompt": "Take your padlock and tag off the disconnect now that the door is closed and the bucket is seated.",
+      "target": "lock-station",
+      "title": "Remove your lock",
+      "why": "The lock comes off only once the work it was protecting is actually finished — door closed, bucket seated — because a lock removed early re-opens the possibility of somebody closing this disconnect while the door is still open on a live compartment."
+    },
+    {
+      "cue": "Close the bucket disconnect handle and confirm the door interlock re-engages.",
+      "id": "restore-power",
+      "kind": "turn",
+      "prompt": "Close the bucket disconnect handle and confirm the door interlock re-engages.",
+      "target": "bucket-disconnect",
+      "title": "Close the bucket disconnect",
+      "turn": {
+        "axis": "z",
+        "label": "BUCKET DISC",
+        "reverse": true,
+        "turns": 0.4
+      },
+      "why": "Re-energising is the last step, not an afterthought once the tools are packed — the motor comes back under control the same way it went off, on the disconnect this job has held the whole time, with everyone still clear of the boundary that was set for exactly this moment as much as for the racking."
+    },
+    {
+      "cue": "Write the bucket number, what the inspection found, and the time it was returned to service on the section log.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Write the bucket number, what the inspection found, and the time it was returned to service on the section log.",
+      "target": "mcc-log",
+      "title": "Log the bucket back in service",
+      "why": "The section log is how the next electrician who opens this cabinet knows this bucket was worked today and what was found — a pitted contactor or a tripped overload that goes unwritten is a fault that gets rediscovered the hard way, on whatever shift the motor next tries to start under it."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Racking a bucket out of a live motor control centre: label, PPE, disconnect, remote rack, proven dead, inspected, racked back in",
+  "title": "SmartCiti.X~ Motor Control Center VR",
+  "trade": "Inside wireman — IBEW",
+  "underwater": null,
+  "weather": "overcast"
+}

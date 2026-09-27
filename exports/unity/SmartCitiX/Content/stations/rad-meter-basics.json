@@ -1,0 +1,384 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "class-clean",
+    "name": "Class Clean",
+    "note": "Background counted before the source ever came out, every reading logged with its own photograph, and the check source never out of sight"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Community science training modelled on EPA's MARSSIM walkover methodology; NRC 10 CFR 20 terms for the units a survey meter reports; the kind of hands-on class the Marie Harrison Community Foundation's own community science programmes run; OSHA 29 CFR 1910.120 HAZWOPER as the separate, much longer gate for anyone who goes past the fence, which this class never does",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "EPA",
+        "citedAs": "MARSSIM",
+        "id": "marssim",
+        "title": "MARSSIM — Multi-Agency Radiation Survey and Site Investigation Manual"
+      },
+      {
+        "body": "NRC",
+        "citedAs": "10 CFR 20",
+        "id": "nrc-10-cfr-20",
+        "title": "10 CFR Part 20 — Standards for protection against radiation"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "bracket-honest",
+        "name": "Bracket Honest",
+        "note": "Meter source-checked at the start of class and again at the end"
+      },
+      {
+        "id": "source-in-sight",
+        "name": "Source In Sight",
+        "note": "The check source never left the table for a pocket on your watch"
+      },
+      {
+        "id": "grid-true",
+        "name": "Grid True",
+        "note": "Held pace and detector height inside the band the whole walk"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-class",
+        "name": "Clean Class",
+        "note": "No corrections anywhere in the class"
+      },
+      {
+        "id": "steady-walk",
+        "name": "Steady Walk",
+        "note": "Never broke the walkover pace"
+      },
+      {
+        "id": "report-same-day",
+        "name": "Report Same Day",
+        "note": "Reading logged, photographed and reported inside 80% of par"
+      }
+    ],
+    "currency": "READING",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Newcomer",
+      "Meter Reader",
+      "Grid Walker",
+      "Class Lead",
+      "Community Science Certified"
+    ],
+    "system": "Community Science"
+  },
+  "hazards": {
+    "confuse-units": "You submitted the report with the counts-per-minute number written in as if it were the microsieverts-per-hour dose rate. Those are two different scales measuring two different things, and mislabelling one as the other can make an ordinary background reading look alarming to whoever reads the report, or make a real reading look like nothing worth a second look.",
+    "cross-fence": "You stepped through the gap in the fence to get a closer reading. The parcel on the other side is under a federal cleanup order with institutional controls that exist for a reason — a community monitor works this class from the public side of the fence, full stop, whatever the meter is reading from out here.",
+    "log-from-memory": "You wrote the reading into the class log from memory instead of matching it to the photograph of the flagged point. A remembered number and a remembered location both drift the moment somebody copies the log out later — the whole reason to log a reading against its own photograph is that neither one has to be trusted from memory.",
+    "skip-source-check": "You powered the meter on and started the walk without checking it against the class's own tagged source first. Every number this meter gives the class for the rest of the day is unverifiable — there is no way to tell a real elevated reading from a meter that was already reading high before it ever left the table."
+  },
+  "id": "rad-meter-basics",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "walkover",
+      "alert": "Another class member picked the check source up off the table to look at it while you're mid-lane, and just slipped it into a jacket pocket.",
+      "cue": "Get the source back onto the table and into its case before it leaves the lot in someone's pocket.",
+      "delay": 4,
+      "id": "pocket-source",
+      "kind": "Source out of sight",
+      "missNote": "The source stayed in that pocket for the rest of the walkover, and by the time anyone noticed, the class had no way to say for certain it had never left the lot — the closing check at the end of the day would have been checking a source with an unaccounted-for gap in its own custody.",
+      "seconds": 13,
+      "target": "reclaim-source",
+      "why": "A tagged check source is a controlled item even at the low activity a community class uses, and the whole bracket the class relies on today only means something if the source's location is always known — a source riding around in someone's jacket is a source nobody can certify is even still on this lot by the time the class needs it again.",
+      "wrongNote": "That's not it — the source is the thing that just went into a pocket. Get it back on the table before anyone forgets whose pocket it's in."
+    },
+    {
+      "after": "static-count",
+      "alert": "While you're mid-count on the flagged point, someone scanning the granite kerb along the sidewalk gets an elevated reading and starts drafting a report about it.",
+      "cue": "Check the reference chart before that reading goes in any report — a spike doesn't get called in on its own say-so.",
+      "delay": 3,
+      "id": "kerb-spike",
+      "kind": "Reading not the parcel's",
+      "missNote": "The kerb reading went into the draft report as an unexplained spike before anyone checked it against the reference chart, and now someone downstream has to spend time running down a lead that a minute at the chart would have closed on the spot.",
+      "seconds": 13,
+      "target": "material-guide",
+      "why": "Granite curbstone carries natural thorium and uranium the same way a lot of ordinary building stone does, and it reads elevated on a sensitive meter for reasons that have nothing to do with the fenced parcel across the street — the class exists to teach that a reading gets checked against what is actually known to be a natural source before it becomes a report anyone acts on, not after.",
+      "wrongNote": "Not that — the reference chart is what tells you whether a granite kerb reading is the ordinary kind before it goes anywhere near a report."
+    }
+  ],
+  "lateNotes": {
+    "check-source": "The check source doesn't come off the table until the class is actually ready to survey with it — checking a meter nobody is about to use yet just spends the source's certified count for nothing.",
+    "hotspot": "Nothing to hold a count over yet — the walk has to actually reach this square of the grid and read it elevated before there is a location worth a static count."
+  },
+  "name": "Rad Meter Basics",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-can-we-live"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "background-post",
+      "camera",
+      "check-source",
+      "clipboard",
+      "confuse-units",
+      "cross-fence",
+      "expired-meter",
+      "field-log",
+      "flag-marker",
+      "hotspot",
+      "hotspot-socket",
+      "limits-board",
+      "log-from-memory",
+      "material-guide",
+      "meter",
+      "range-dial",
+      "reclaim-source",
+      "report-radio",
+      "skip-source-check",
+      "stake-1",
+      "stake-2",
+      "stake-3",
+      "stake-4",
+      "units-placard",
+      "vest"
+    ],
+    "meshes": 247
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Put on the hi-vis vest and pick up the clipboard before stepping out toward the fence line.",
+      "id": "gear-up",
+      "itemNames": {
+        "clipboard": "field clipboard",
+        "vest": "hi-vis vest"
+      },
+      "kind": "sequence",
+      "prompt": "Put on the hi-vis vest and pick up the clipboard before stepping out toward the fence line.",
+      "targets": [
+        "vest",
+        "clipboard"
+      ],
+      "title": "Vest and clipboard",
+      "why": "The lot sits on a public street with traffic passing behind the class the whole session, and the vest is what keeps every member of the class visible to a driver who isn't watching for a group standing near a fence. The clipboard is where today's numbers live from the first minute — nothing gets remembered instead of written down."
+    },
+    {
+      "cue": "Read the meter off to the side, away from the fence line and the practice grid, and commit once the reading settles.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.58
+        ],
+        "label": "BACKGROUND",
+        "missNote": "That is not a settled background reading — read it again, away from the grid and the fence, and commit only once it holds steady.",
+        "speed": 0.6
+      },
+      "id": "background",
+      "kind": "gauge",
+      "prompt": "Read the meter off to the side, away from the fence line and the practice grid, and commit once the reading settles.",
+      "target": "background-post",
+      "title": "Count background first",
+      "why": "Every reading the class takes for the rest of the day gets compared against this number, not against zero — and it has to come from ground away from the fence and the grid, before the check source or the grid gives the meter anything else to react to. Skip it and there is no way to tell an elevated reading later from what this particular lot simply reads on an ordinary day."
+    },
+    {
+      "cue": "Hold the meter's probe against the class's tagged check source until the reading settles inside its tolerance.",
+      "holdBreakNote": "Lifted off the source before the reading settled — that's a glance, not a check. Hold it on until it settles and reads back inside tolerance.",
+      "id": "source-check-am",
+      "kind": "hold",
+      "prompt": "Hold the meter's probe against the class's tagged check source until the reading settles inside its tolerance.",
+      "seconds": 5,
+      "target": "check-source",
+      "title": "Check the meter — start of class",
+      "why": "This is the first end of the bracket: proof the meter itself reads true before the class trusts it with anything else today. A reading taken on a meter nobody checked is not evidence of anything, no matter how carefully the rest of the class walks the grid — it is a number nobody can stand behind."
+    },
+    {
+      "cue": "Read the placard on the meter's own housing, then pick the statement that matches what each unit is actually telling you.",
+      "id": "units",
+      "kind": "select",
+      "prompt": "Read the placard on the meter's own housing, then pick the statement that matches what each unit is actually telling you.",
+      "target": "units-placard",
+      "title": "Read the units placard",
+      "why": "Counts per minute is a raw count rate — how many clicks the detector caught, nothing more — and microsieverts per hour is an estimate of dose rate to a person, built from that count rate and an assumption about what's making it click. A resident who cannot tell those apart cannot tell a busy meter from a dangerous one, which is the single most common way a community reading gets over- or under-read."
+    },
+    {
+      "cue": "Turn the range dial to the scale the class handout calls for before the meter goes anywhere near the grid.",
+      "id": "range",
+      "kind": "turn",
+      "prompt": "Turn the range dial to the scale the class handout calls for before the meter goes anywhere near the grid.",
+      "target": "range-dial",
+      "title": "Set the meter's range",
+      "turn": {
+        "axis": "y",
+        "label": "RANGE",
+        "turns": 0.5
+      },
+      "why": "A meter left on the wrong range either pins at the top of its scale on an ordinary reading or buries a real change down in the noise floor where nobody would ever notice it — the range has to match what the class expects to find, set before the meter leaves the table, not adjusted on the fly once the walk is underway."
+    },
+    {
+      "cue": "Set the four corner stakes in order — 1 through 4 — to mark the lot's practice grid.",
+      "id": "grid",
+      "itemNames": {
+        "stake-1": "corner stake 1",
+        "stake-2": "corner stake 2",
+        "stake-3": "corner stake 3",
+        "stake-4": "corner stake 4"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Not the next stake — the grid goes 1, 2, 3, 4 in order, or the lane numbers stop matching the ground the class is actually standing on.",
+      "prompt": "Set the four corner stakes in order — 1 through 4 — to mark the lot's practice grid.",
+      "targets": [
+        "stake-1",
+        "stake-2",
+        "stake-3",
+        "stake-4"
+      ],
+      "title": "Lay out the practice grid",
+      "why": "The stakes turn a stretch of open pavement into a grid the whole class can walk together and describe the same way afterward. Set them out of order and the lane numbers on the field sheet stop matching the patch of lot actually underfoot, which is exactly the kind of small error that turns into a real disagreement later about where a reading came from."
+    },
+    {
+      "cue": "Hold the meter at the set height and keep your pace inside the band the whole lane.",
+      "holdBreakNote": "Pace drifted out of the band — at that speed the meter is either skating over ground it never really read or falling behind the rest of the class. Bring it back and hold the lane.",
+      "id": "walkover",
+      "kind": "track",
+      "prompt": "Hold the meter at the set height and keep your pace inside the band the whole lane.",
+      "seconds": 9,
+      "target": "meter",
+      "title": "Walk the grid at class speed",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "WALK SPEED",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "A walkover only gives a meter time to actually see the ground at a set pace and a set height — faster, and a reading the size the class is looking for can pass under the detector between counts; slower, and the class never finishes the lot before the session's time runs out. The same rule holds whether the meter is walked by a technician on a survey or a resident learning to read one."
+    },
+    {
+      "cue": "Stop over the point the walkover flagged and hold the meter still for the full count.",
+      "holdBreakNote": "Lifted the meter before the count finished — an interrupted count doesn't confirm anything, it's just a reading that got cut short.",
+      "id": "static-count",
+      "kind": "hold",
+      "prompt": "Stop over the point the walkover flagged and hold the meter still for the full count.",
+      "seconds": 6,
+      "target": "hotspot",
+      "title": "Hold a static count over the elevated reading",
+      "why": "A walkover reading is a snapshot taken while moving; a static count held still over the same point is what actually confirms this reading is really twice background rather than a spike that would have settled back down on its own. Nothing gets flagged, photographed or reported off a walkover number alone."
+    },
+    {
+      "cue": "Carry the numbered flag out and set it exactly on the point the static count confirmed.",
+      "drag": {
+        "missNote": "Not set on the point — a flag off by even a stake's width sends anyone who checks this later to look in the wrong place.",
+        "radius": 0.35,
+        "to": "hotspot-socket"
+      },
+      "id": "flag",
+      "kind": "drag",
+      "prompt": "Carry the numbered flag out and set it exactly on the point the static count confirmed.",
+      "target": "flag-marker",
+      "title": "Flag the point",
+      "why": "The flag is what turns a number on a meter into an actual place on the lot, not just a line in a logbook — the photograph and the report that follow are both going to trust exactly where this flag stands, not where someone remembers the reading being roughly near."
+    },
+    {
+      "cue": "Write the number and the location down first, then photograph the flag, then report it to the class lead — in that order.",
+      "id": "record",
+      "itemNames": {
+        "camera": "camera",
+        "field-log": "field log",
+        "report-radio": "report to the class lead"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Log the number first, then the photograph, then the report — reporting or photographing before the number is written down risks the number changing in the retelling.",
+      "prompt": "Write the number and the location down first, then photograph the flag, then report it to the class lead — in that order.",
+      "targets": [
+        "field-log",
+        "camera",
+        "report-radio"
+      ],
+      "title": "Log, photograph and report the reading",
+      "why": "The number goes into the log first, while it's fresh and tied to the flag in front of you, then the photograph ties that same flag to a picture anyone can check later, and the report to the class lead is what turns a personal reading into something the class actually acts on together. Any other order lets one of those three drift away from what the meter actually showed."
+    },
+    {
+      "cue": "Read the limits board and pick the statement that matches what a hand-held survey meter cannot answer on its own.",
+      "id": "limits",
+      "kind": "select",
+      "prompt": "Read the limits board and pick the statement that matches what a hand-held survey meter cannot answer on its own.",
+      "target": "limits-board",
+      "title": "Read what the meter cannot tell you",
+      "why": "A count rate tells a resident that something is making the detector click faster than background, and nothing more — it cannot say which isotope is doing it, and it cannot say how deep under the surface it sits. Those two questions take a laboratory and a different kind of survey, and a class that skips this step leaves residents thinking their meter can answer questions it was never built to answer."
+    },
+    {
+      "cue": "Look over every meter on the spare table and click the one whose calibration sticker is out of date.",
+      "id": "cal-check",
+      "itemNames": {
+        "expired-meter": "meter with an expired calibration sticker"
+      },
+      "itemNotes": {
+        "expired-meter": "That meter's calibration sticker is past its date. A meter due for calibration is a meter whose own numbers nobody can vouch for, whatever the check source says about it today."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over every meter on the spare table and click the one whose calibration sticker is out of date.",
+      "targets": [
+        "expired-meter"
+      ],
+      "title": "Check the spare meters before class breaks",
+      "why": "A class that hands out an out-of-calibration meter next session is a class teaching the discipline of checking a source while skipping the discipline of checking the tool itself — the sticker is the one piece of paper that says whether this particular meter is still one the manufacturer stands behind."
+    },
+    {
+      "cue": "Hold the meter against the same check source again before it goes back in its case.",
+      "holdBreakNote": "Lifted off the source again before it settled — the closing check has to actually finish, or the day's readings are only bracketed on one end.",
+      "id": "source-check-pm",
+      "kind": "hold",
+      "prompt": "Hold the meter against the same check source again before it goes back in its case.",
+      "seconds": 5,
+      "target": "check-source",
+      "title": "Check the meter — end of class",
+      "why": "This closes the bracket the morning check opened. A meter verified only at the start of class is one drifted battery away from unverifiable by the time anyone questions a reading it took — the closing check is what lets every number the class took today stand on its own."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A community class on the public lot beside a fenced parcel: background counted first, the meter proven against its own check source, counts per minute against microsieverts per hour, a grid walked at a set pace and height, and what a hand-held meter cannot tell you",
+  "title": "SmartCiti.X~ Rad Meter Basics VR",
+  "trade": "Community environmental monitor",
+  "underwater": null,
+  "weather": "overcast"
+}

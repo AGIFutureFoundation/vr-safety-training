@@ -1,0 +1,402 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "ground-then-hot",
+    "name": "Ground Then Hot",
+    "note": "The ground on clean steel before every 'make it hot', never a rod changed hot, never between the ground and the work, never a lift bag run away"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Pile Drivers of the Carpenters commercial diver apprenticeship and the UBC International Training Fund; AWS D3.6 underwater welding code for the qualified procedure and the welder's qualification; OSHA 29 CFR 1910 Subpart T commercial diving operations, including electrical safety for underwater welding and cutting; ADCI consensus standards for underwater burning and welding; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas and decompression per the dive plan and the tables the supervisor holds",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADCI",
+        "citedAs": "ADCI",
+        "id": "adci-consensus-standards",
+        "title": "Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations"
+      },
+      {
+        "body": "AWS",
+        "citedAs": "AWS D3.6",
+        "id": "aws-d3-6",
+        "title": "AWS D3.6M — Underwater Welding Code"
+      },
+      {
+        "body": "union",
+        "citedAs": "UBC",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910 Subpart T",
+        "id": "osha-1910-subpart-t",
+        "title": "29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 197 Subpart B",
+        "id": "uscg-46-cfr-197-subpart-b",
+        "title": "46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction"
+      }
+    ]
+  },
+  "district": "bay-underwater",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "switch-discipline",
+        "name": "Switch Discipline",
+        "note": "Ground on, then 'make it hot' — in that order, first time"
+      },
+      {
+        "id": "read-true-weld",
+        "name": "Read True",
+        "note": "Pneumo committed inside the band first time"
+      },
+      {
+        "id": "never-in-the-circuit",
+        "name": "Never In The Circuit",
+        "note": "Never struck without the ground, never a hot rod change, never between ground and work, never a runaway bag"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-burn",
+        "name": "Clean Burn",
+        "note": "No corrections from the switch plan to the log"
+      },
+      {
+        "id": "steady-oxygen",
+        "name": "Steady Oxygen",
+        "note": "Oxygen flow held in band the whole cut"
+      },
+      {
+        "id": "in-the-slack",
+        "name": "In The Slack",
+        "note": "Dive logged inside 80% of par"
+      }
+    ],
+    "currency": "ROD",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Burner's Helper",
+      "Burner",
+      "Diver-Welder",
+      "Lead Diver-Welder",
+      "Wet Weld Certified"
+    ],
+    "system": "Wet Weld"
+  },
+  "hazards": {
+    "between-ground-and-work": "You put yourself between the ground clamp and the cut. With the circuit live, the path the current takes runs between the clamp and the arc, and a diver in that path is part of it. The ground goes on so the diver works facing it, with the arc between the diver and the clamp, never the diver between the two.",
+    "lift-bag-over": "You kept adding air to the lift bag holding the patch plate with the plate already lifting. A lift bag's air expands as it rises and the bag gets more buoyant the higher it goes, so a bag that starts lifting runs away to the surface with the plate — and anyone caught in its rigging — unless air is dumped. You fill it in small amounts, stay clear of the rigging and keep a hand on the dump.",
+    "rod-change-hot": "You reached into the quiver to change the rod with the circuit still live. A spent rod comes out and a new one goes in only after the diver has called 'make it cold' and heard 'cold' back from the tender at the switch; a rod changed hot puts the diver's glove, hand and body into the circuit in water that conducts.",
+    "torch-no-ground": "You went to strike the torch on the pile with the ground clamp still lying on the silt. Without the ground on the work close to the cut, the current finds its own way back — through the water, the pile, the umbilical's fittings and the diver — and the arc, when it comes, is somewhere nobody chose. The ground goes on clean steel close to the work first, then the diver calls for the switch."
+  },
+  "id": "mw-underwater-welding-and-cutting",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "run-cut",
+      "alert": "The comms have gone dead in the middle of the cut — no voice from the surface and no answer to your call.",
+      "cue": "Stop cutting and put the torch in its holster, tip away, hands off — the switch goes cold on silence.",
+      "delay": 2,
+      "id": "comms-lost-mid-cut",
+      "kind": "Comms lost mid-cut",
+      "missNote": "You kept the torch on the cut in silence; topside, hearing nothing, opened the switch as planned — but not before the tender had asked twice, and the rod stayed in the cut, live, the whole time.",
+      "seconds": 14,
+      "target": "torch-holster",
+      "why": "With the comms gone, nobody at the surface knows whether the diver is cutting, changing a rod or in trouble, and the agreed plan is that the switch goes cold on silence. The diver's half of that plan is to take the torch off the work and holster it, tip away, so that whatever state the switch is actually in, the rod is not touching steel or the diver.",
+      "wrongNote": "The torch holster — torch off the work, tip away, hands clear, until the comms are back."
+    },
+    {
+      "after": "weld-pass",
+      "alert": "The current has picked up across the pile and is pushing you off the work — the welding lead is swinging toward your body.",
+      "cue": "Call 'make it cold' now and get the rod off the work before you are pushed round.",
+      "delay": 2,
+      "id": "current-shift-weld",
+      "kind": "Current shift during the pass",
+      "missNote": "You kept the rod on the pass while the current pushed you round the pile, and the welding lead draped across your chest before the tender, hearing nothing, asked if you were still hot.",
+      "seconds": 14,
+      "target": "cold-call",
+      "why": "A current that pushes the diver off the work pushes the diver's body toward the circuit: the rod swings, the lead drapes across the umbilical and the diver's position between the ground and the work stops being the diver's choice. The switch goes cold first, by the diver's call, and only then does the diver deal with the current — nothing about the current matters more than the circuit.",
+      "wrongNote": "'Make it cold' — the circuit goes dead before anything else is dealt with."
+    }
+  ],
+  "lateNotes": {
+    "cut-line": "The cut starts once the ground is on clean steel and the switch has been called hot — not with the circuit still cold and unproven.",
+    "torch-oxygen-valve": "The torch's oxygen is closed once the switch is cold — the rod change comes after 'cold' is heard back from the surface.",
+    "uw-slate": "The dive is logged once the weld has been inspected — the log records the work that was done."
+  },
+  "name": "Underwater Welding & Cutting",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "between-ground-and-work",
+      "coating-at-ground-spot",
+      "cold-call",
+      "cut-line",
+      "cutting-torch",
+      "ground-clamp",
+      "lift-bag-over",
+      "patch-plate",
+      "patch-seat",
+      "porosity",
+      "rod-change-hot",
+      "switch-call",
+      "torch-holster",
+      "torch-no-ground",
+      "torch-oxygen-valve",
+      "undercut",
+      "uw-comms",
+      "uw-pneumo",
+      "uw-slate",
+      "uw-umbilical-harness",
+      "void-gas-pocket",
+      "weld-pass",
+      "work-hook"
+    ],
+    "meshes": 182
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "With the supervisor and the tender at the switch: the cut and the patch, the procedure qualified to AWS D3.6, and the switch stays cold until you call 'make it hot' — and goes cold on 'make it cold' or on silence.",
+      "id": "switch-plan",
+      "kind": "select",
+      "prompt": "With the supervisor and the tender at the switch: the cut and the patch, the procedure qualified to AWS D3.6, and the switch stays cold until you call 'make it hot' — and goes cold on 'make it cold' or on silence.",
+      "target": "uw-comms",
+      "title": "Agree the job and the switch plan on the comms",
+      "why": "Underwater burning and welding put an electrical circuit in the water with the diver, and the only thing that makes it live is the switch at the surface. The plan agreed on the comms is who works the switch, what the calls are, and what happens on silence — the switch goes cold — so that nobody at either end of the umbilical is ever guessing whether the rod in the diver's hand is live."
+    },
+    {
+      "cue": "Run your hand from the helmet down the umbilical to the harness ring, and along the welding lead and ground lead where they run with it: clipped, no turns round the stage, nothing crossing the work.",
+      "holdBreakNote": "Released before the check reached the harness — the lead you did not follow is the one crossing the work. Start again from the helmet.",
+      "id": "umbilical-check",
+      "kind": "hold",
+      "prompt": "Run your hand from the helmet down the umbilical to the harness ring, and along the welding lead and ground lead where they run with it: clipped, no turns round the stage, nothing crossing the work.",
+      "seconds": 4,
+      "target": "uw-umbilical-harness",
+      "title": "Check the umbilical and leads to the harness",
+      "why": "A diver-welder carries two more lines than an inspection diver — the welding lead and the ground lead — and all three have to run clean from the stage to the work. A lead crossing the umbilical where the arc will be is a lead that can burn through the umbilical's jacket, and a turn round the stage bridle is a foul the tender cannot clear from the surface."
+    },
+    {
+      "cue": "Unclip the oxy-arc torch from the stage rail, keep its tip pointed away from you, and hang it on the work hook beside the cut line.",
+      "drag": {
+        "missNote": "Not on the work hook — hang the torch beside the cut line, tip away from you, before anything else.",
+        "radius": 0.5,
+        "to": "work-hook"
+      },
+      "id": "torch-down",
+      "kind": "drag",
+      "prompt": "Unclip the oxy-arc torch from the stage rail, keep its tip pointed away from you, and hang it on the work hook beside the cut line.",
+      "target": "cutting-torch",
+      "title": "Take the cutting torch off the stage to the work",
+      "why": "The torch comes down on the stage and off it on its lead, never carried with its oxygen hose trailing round the umbilical, and it is hung at the work so both hands are free for the ground and the checks that come before any arc. Its tip is kept pointed away from the diver's body from the moment it leaves the stage, because the habit is what protects the diver on the day the switch is made hot by mistake."
+    },
+    {
+      "cue": "Before any arc: is there a closed space behind the cut where gas can collect, and is the ground spot bare, clean steel close to the work?",
+      "id": "pre-burn-check",
+      "itemNames": {
+        "coating-at-ground-spot": "coating on the spot planned for the ground",
+        "void-gas-pocket": "sealed void behind the cut line"
+      },
+      "itemNotes": {
+        "coating-at-ground-spot": "The spot marked for the ground clamp is still coated; a clamp on paint or growth makes a poor contact that heats, arcs at the clamp and leaves the current looking for a better path.",
+        "void-gas-pocket": "The pile is capped above the waterline and closed below the corroded hole: the space behind the cut line is a sealed void, where the oxygen and hydrogen that cutting releases collect until the next spark sets them off."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before any arc: is there a closed space behind the cut where gas can collect, and is the ground spot bare, clean steel close to the work?",
+      "targets": [
+        "void-gas-pocket",
+        "coating-at-ground-spot"
+      ],
+      "title": "Check the work for a sealed void and the ground spot",
+      "why": "The two things that kill underwater burners are the circuit and the gas. Cutting releases oxygen and hydrogen, and in a sealed void behind the cut they collect into a mixture that detonates on the next spark — the void is vented or the cut is planned so gas cannot gather. The ground spot has to be clean steel, because a clamp on paint is a poor contact and a poor contact leaves the current choosing its own way home."
+    },
+    {
+      "cue": "Put the ground clamp on the cleaned spot close to the cut, facing you across the work, then call 'make it hot' and wait to hear 'hot' back from the tender.",
+      "id": "ground-and-switch",
+      "itemNames": {
+        "ground-clamp": "ground clamp on clean steel close to the work",
+        "switch-call": "'make it hot' called and heard back"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — the ground goes on clean steel before any call for the switch. A switch called hot with no ground is current looking for a way home through you.",
+      "prompt": "Put the ground clamp on the cleaned spot close to the cut, facing you across the work, then call 'make it hot' and wait to hear 'hot' back from the tender.",
+      "targets": [
+        "ground-clamp",
+        "switch-call"
+      ],
+      "title": "Ground on clean steel first, then call for the switch",
+      "why": "The order is the whole of the electrical safety: the ground goes on first, on clean steel close to the work and placed so the diver faces it across the arc, and only then is the switch called hot. A switch made hot with no ground on puts current into the water looking for a path, and the diver holding the torch is the nearest one. 'Hot' is heard back before the torch touches steel, because a call nobody acknowledged is a switch in an unknown state."
+    },
+    {
+      "cue": "Hold the pneumo end at the cut line while the supervisor bleeds and reads it, and commit the reading against the depth range the dive plan and the qualified procedure give.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "PNEUMO AT CUT",
+        "missNote": "Outside the band — hold the pneumo end still at the cut while it is bled, and read it against the plan and the procedure's range.",
+        "speed": 0.7
+      },
+      "id": "burn-depth",
+      "kind": "gauge",
+      "prompt": "Hold the pneumo end at the cut line while the supervisor bleeds and reads it, and commit the reading against the depth range the dive plan and the qualified procedure give.",
+      "target": "uw-pneumo",
+      "title": "Hold the pneumo at the cut for the supervisor",
+      "why": "A wet-weld procedure qualified to AWS D3.6 is qualified for a depth range, and a weld made outside it is a weld the procedure does not cover — the depth at the cut is read on the pneumo, not assumed from the stage. The same reading tells the supervisor which line of the tables they hold the dive is on, and cutting is long, heavy work that tends to take a diver deeper than they meant to go."
+    },
+    {
+      "cue": "Hold the torch on the cut line and keep the oxygen flow steady on the trigger as you travel — enough to blow the cut through, never gulping or starving it.",
+      "holdBreakNote": "The oxygen flow went out of band — the cut stalled or the gas started to pool. Settle the trigger and travel steadily again.",
+      "id": "run-cut",
+      "kind": "track",
+      "prompt": "Hold the torch on the cut line and keep the oxygen flow steady on the trigger as you travel — enough to blow the cut through, never gulping or starving it.",
+      "seconds": 6,
+      "target": "cut-line",
+      "title": "Run the cut at a steady oxygen flow",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "OXYGEN FLOW",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "An oxy-arc cut is the arc heating the steel and the oxygen burning it away, and the oxygen is the part the diver controls: starved, the cut stalls and the rod burns without cutting; gulped, excess gas balloons off the work and collects under anything above it. A steady flow on the trigger and a steady travel make a clean cut and the least gas in the water, which is gas as the thing to watch."
+    },
+    {
+      "cue": "Take the torch off the work, call 'make it cold', and wait to hear 'cold' back from the tender before touching the rod.",
+      "id": "make-it-cold",
+      "kind": "select",
+      "prompt": "Take the torch off the work, call 'make it cold', and wait to hear 'cold' back from the tender before touching the rod.",
+      "target": "cold-call",
+      "title": "Call 'make it cold' before the rod change",
+      "why": "Every rod change, every repositioning of the ground and every pause starts with the switch cold, called by the diver and acknowledged by the tender. The diver is the only one who knows the rod is about to be handled, and the tender is the only one who can open the circuit, so the call and the answer are both said out loud, every time — including the hundredth time on a long job."
+    },
+    {
+      "cue": "With the switch cold, close the oxygen valve on the torch fully before the rod comes out and the torch goes back on its hook.",
+      "id": "oxygen-off",
+      "kind": "turn",
+      "prompt": "With the switch cold, close the oxygen valve on the torch fully before the rod comes out and the torch goes back on its hook.",
+      "target": "torch-oxygen-valve",
+      "title": "Close the torch's oxygen valve",
+      "turn": {
+        "label": "TORCH OXYGEN",
+        "turns": 0.75
+      },
+      "why": "An oxygen valve left open on a torch that is not cutting feeds oxygen into the water round the work, and oxygen-rich water and gas pockets are what turn a stray spark into a fire or a blast at the next strike. The valve is closed fully by hand at every rod change and every stop, so the torch hanging on its hook is dead in both senses — no current and no oxygen."
+    },
+    {
+      "cue": "Guide the patch plate down off its lift bag onto the cut-back opening, square to the marks, dumping the bag's air as the plate takes its seat.",
+      "drag": {
+        "missNote": "Not seated — the plate has to sit square to the marks over the opening, bag dumped, before any weld is run.",
+        "radius": 0.5,
+        "to": "patch-seat"
+      },
+      "id": "seat-patch",
+      "kind": "drag",
+      "prompt": "Guide the patch plate down off its lift bag onto the cut-back opening, square to the marks, dumping the bag's air as the plate takes its seat.",
+      "target": "patch-plate",
+      "title": "Seat the patch plate over the cut",
+      "why": "The patch plate is heavy and is brought to the work on a lift bag so the diver guides it rather than carries it, and the bag's air is dumped as the plate seats so it does not float off once it is let go. It goes on square to the marks with even gaps all round, because the qualified procedure assumes a fit-up and a wet weld across an uneven gap is a weld the procedure does not cover."
+    },
+    {
+      "cue": "Ground checked, rod on the work, call 'make it hot', hear 'hot', and run the pass along the patch's edge at a steady drag — then 'make it cold'.",
+      "holdBreakNote": "The pass broke off before the end of the run — a stop in the middle of a wet-weld pass leaves a crater and a cold lap. Take it up again from the stop.",
+      "id": "weld-pass",
+      "kind": "hold",
+      "prompt": "Ground checked, rod on the work, call 'make it hot', hear 'hot', and run the pass along the patch's edge at a steady drag — then 'make it cold'.",
+      "seconds": 5,
+      "target": "weld-pass",
+      "title": "Run the weld pass on the patch",
+      "why": "A wet weld is made in water that quenches it as fast as it is laid, which is why the procedure fixes the rod, the technique and the travel, and why the pass is run steadily from start to stop rather than in bursts. The same switch discipline wraps every pass — ground checked, 'make it hot' called and answered, 'make it cold' at the end — so the circuit is only ever live while the rod is on the work."
+    },
+    {
+      "cue": "Look along the pass with the switch cold: undercut at the toes, porosity, cracks, and the profile against what the procedure accepts.",
+      "id": "weld-inspect",
+      "itemNames": {
+        "porosity": "surface porosity in the pass",
+        "undercut": "undercut along the weld toe"
+      },
+      "itemNotes": {
+        "porosity": "A run of pinholes in the pass where gas was trapped as the water quenched it; porosity is what a wet weld is most prone to and what the procedure's acceptance limits are written about.",
+        "undercut": "Along one edge the arc has cut a groove into the pile beside the weld toe and left it unfilled — a notch that concentrates stress exactly where the weld meets the base metal."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the pass with the switch cold: undercut at the toes, porosity, cracks, and the profile against what the procedure accepts.",
+      "targets": [
+        "undercut",
+        "porosity"
+      ],
+      "title": "Inspect the weld against the procedure",
+      "why": "A wet weld is inspected by the diver who made it before anyone else sees it, and AWS D3.6 sets what each class of weld may and may not show. Undercut and porosity are the defects wet welds are prone to, because the water quenches the pool and traps its gas; they are found now, with the diver and the rods still at the work, rather than on the camera footage after the dive."
+    },
+    {
+      "cue": "Read your slate to the supervisor: the cut and the patch, the depth, the rods used, the sealed void and how it was vented, the lost comms and the current, and the defects to be ground out.",
+      "id": "dive-log-weld",
+      "kind": "select",
+      "prompt": "Read your slate to the supervisor: the cut and the patch, the depth, the rods used, the sealed void and how it was vented, the lost comms and the current, and the defects to be ground out.",
+      "target": "uw-slate",
+      "title": "Read the job up for the dive log",
+      "why": "The dive log and the weld record are both written from what the diver-welder reads up: the procedure, the depth and the rods tie the weld to its qualification, and the defects found go to the repair list before the job is signed off. The sealed void goes in too, because the next burner on this pile needs to know the pile is closed above them."
+    },
+    {
+      "cue": "Switch confirmed cold, torch and stinger on the stage, and on the comms: how you are after the dead comms mid-cut and the current on the pass, and ready for the supervisor's call up.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Switch confirmed cold, torch and stinger on the stage, and on the comms: how you are after the dead comms mid-cut and the current on the pass, and ready for the supervisor's call up.",
+      "target": "uw-comms",
+      "title": "Check in with the supervisor and the tender",
+      "why": "The tender at the switch and the supervisor at the panel spent that dive trusting calls they could not see, and they deserve to hear the job end cleanly from the diver. It is also the diver's own check-in: a comms drop with a torch in hand is a frightening minute, and saying so on the comms, and later at the debrief, is how the team stays honest — the member assistance line is there for what is left."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — the Pile Drivers of the Carpenters — with the employer's employee assistance line behind it",
+  "tagline": "A steel pile cut back and patched: the job and the switch plan agreed on comms, the umbilical checked, the torch taken off the stage, the sealed void and the painted ground spot found, the ground on clean steel before 'make it hot', the pneumo read, the cut run at a steady oxygen flow while the comms drop, 'make it cold' before the rod change, the oxygen closed, the patch seated, the pass run through a current shift, the weld inspected and the dive logged",
+  "title": "SmartCiti.X~ Underwater Welding & Cutting VR",
+  "trade": "Pile Drivers of the Carpenters commercial diver-welder cutting and wet-welding a steel pile, with the tender on the surface switch and the dive supervisor on the comms",
+  "underwater": {
+    "bottomTimeSeconds": 720,
+    "depthLabel": "Per dive plan"
+  },
+  "weather": "clear"
+}

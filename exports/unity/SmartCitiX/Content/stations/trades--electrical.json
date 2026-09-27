@@ -1,0 +1,305 @@
+{
+  "app": "trades",
+  "badge": {
+    "id": "zero-energy",
+    "name": "Zero Energy Verified",
+    "note": "Perfect live-dead-live on the first run"
+  },
+  "category": "Trade Skills Simulator",
+  "certification": "NFPA 70E electrical safety in the workplace; OSHA 29 CFR 1910.147 control of hazardous energy (lockout/tagout) and 1910.333 work practices; IBEW/NECA JATC electrical safety training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IBEW/NECA JATC",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "ISO",
+        "citedAs": "IEC 61010",
+        "id": "iec-61010",
+        "title": "IEC 61010 — Safety requirements for electrical measurement, control and laboratory equipment (the CAT ratings)"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": null,
+  "flat": false,
+  "game": null,
+  "hazards": {
+    "damaged-leads": "Those test leads have cracked insulation at the strain relief. Damaged leads put your hand at line potential — bin them and draw a rated set.",
+    "foreign-lock": "That padlock belongs to another worker. You never remove someone else's lock or tag: their life is on the other end of it. Each worker applies and removes their own.",
+    "live-bus": "You reached into an energised enclosure. Exposed bus at 480 V will not warn you first — nothing enters that cabinet until the disconnect is open, locked, and proven dead.",
+    "meter-cat2": "That handheld is a CAT II instrument — its 300 V transient rating was set for testing at a branch-circuit outlet, not for standing in front of an open 480 V service panel. IEC 61010 grades a meter by where a fault can actually reach it, and a CAT II case and lead set have no fusing or arc rating for a bolted fault behind that deadfront. Draw the CAT III/CAT IV meter instead; the wrong instrument here fails the same way a bad breaker does, in your hand."
+  },
+  "id": "electrical",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "lock",
+      "alert": "The clipboard supervisor from the spares racking is walking straight for the disconnect. They think Feeder 3B tripped on its own and are about to close it back in.",
+      "cue": "Stop them before that handle moves. Your lock does not mean anything if somebody closes the disconnect around it.",
+      "delay": 4,
+      "id": "reclose-attempt",
+      "kind": "Reclose attempt",
+      "missNote": "Somebody else's hand reached the handle before you did. Whether the lock actually held the mechanism open under that kind of force was never the plan — the plan was that nobody with a reason to close it ever got the chance to try, and that depended on you being between them and the panel, not on the hardware.",
+      "seconds": 13,
+      "target": "disconnect-handle",
+      "why": "A hasp with your lock on it stops the handle from moving, but nothing stops a hand from reaching for it before somebody has actually looked at what is hanging there. The notice board and the tag on the hasp exist so that anyone tempted to restore power reads whose name is on the isolation first — but a supervisor mid-stride toward a tripped-looking breaker is exactly the moment that reading does not happen. You get there and stop the attempt before the mechanism, not the paperwork, is what is tested.",
+      "wrongNote": "That is not what stops them. The supervisor is headed for the disconnect handle — get between them and it."
+    },
+    {
+      "after": "test-dead",
+      "alert": "Your lock is off the handle. Somebody has taken it off the hasp while you were testing.",
+      "cue": "Stop testing. That isolation is not yours until your lock is back on it.",
+      "delay": 4,
+      "id": "lock-missing",
+      "kind": "Isolation breach",
+      "missNote": "You carried on working inside a panel you no longer had locked out. That is the sequence behind most re-energisation fatalities: the isolation was correct once, and nobody looked at it again.",
+      "seconds": 13,
+      "target": "lock-station",
+      "why": "A personal lock is the one thing between you and somebody else's hand on that handle. It goes back on first, and then you find out who took it off and why.",
+      "wrongNote": "The lock is the problem. Nothing else in this room is worth touching while that hasp is open."
+    }
+  ],
+  "lateNotes": {
+    "boundary-cone": "The boundary goes down before the panel is opened, not after.",
+    "continuity-tester": "Nothing to bond yet — the grounding cluster goes on before you prove the bond.",
+    "ground-cluster": "Grounds go on after the circuit is proven dead, not before — applying them to a live conductor is a bolted fault.",
+    "meter-cat3": "You already have the right meter staged — check the circuit before you go drawing another instrument.",
+    "test-l1": "Nothing gets touched inside that enclosure until the disconnect is open and your lock is on it.",
+    "test-l2": "Nothing gets touched inside that enclosure until the disconnect is open and your lock is on it.",
+    "test-l3": "Nothing gets touched inside that enclosure until the disconnect is open and your lock is on it."
+  },
+  "name": "electrical",
+  "parSeconds": 180,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "electrical-first-period",
+    "situational-awareness"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": null,
+    "hits": [
+      "boundary-cone",
+      "boundary-spot",
+      "continuity-tester",
+      "damaged-leads",
+      "disconnect-handle",
+      "foreign-lock",
+      "ground-cluster",
+      "live-bus",
+      "lock-station",
+      "meter-cat2",
+      "meter-cat3",
+      "notice-board",
+      "panel-schedule",
+      "ppe-cart",
+      "proving-unit",
+      "test-l1",
+      "test-l2",
+      "test-l3"
+    ],
+    "meshes": 299
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Take arc-rated PPE from the cart before you approach the panel.",
+      "id": "ppe",
+      "kind": "select",
+      "prompt": "Take arc-rated PPE from the cart before you approach the panel.",
+      "target": "ppe-cart",
+      "title": "Don arc-rated PPE",
+      "why": "Arc-rated clothing goes on outside the boundary, before anything is opened. NFPA 70E rates it against incident energy in calories per square centimetre, and the boundary is simply where an arc would deliver about 1.2 cal/cm² — the onset of a second-degree burn on bare skin. Synthetics worn underneath melt into that burn."
+    },
+    {
+      "cue": "Two meters are staged on the bench. Take the one actually rated for this panel.",
+      "id": "meter-check",
+      "itemNames": {
+        "meter-cat3": "CAT III/IV rated meter"
+      },
+      "itemNotes": {
+        "meter-cat3": "This is the rated instrument for a 480 V panel — draw it, not the one sitting next to it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two meters are staged on the bench. Take the one actually rated for this panel.",
+      "targets": [
+        "meter-cat3"
+      ],
+      "title": "Draw a correctly rated meter",
+      "why": "IEC 61010's measurement categories are not a quality grade, they are a statement about where in the system a fault can reach the meter and what the instrument is built to survive when it does. A meter bought for a branch-circuit outlet at home is a CAT II instrument; a 480 V service panel with unlimited available fault current behind the bus needs CAT III or CAT IV. Picking up the wrong one because it was closer is exactly the decision this room is built to catch before you learn it the hard way."
+    },
+    {
+      "cue": "Read the panel schedule and confirm which circuit you are isolating.",
+      "id": "schedule",
+      "kind": "select",
+      "prompt": "Read the panel schedule and confirm which circuit you are isolating.",
+      "target": "panel-schedule",
+      "title": "Identify the circuit",
+      "why": "The schedule names what this breaker feeds and what else drops with it — the sump pump, the lab freezer, the fire pump controller. Pull the wrong feeder and somebody two floors away starts hunting for whatever just died on them, and the only handle they find in the off position is yours."
+    },
+    {
+      "cue": "Post the work notice so everyone downstream knows the feeder is coming out.",
+      "id": "notify",
+      "kind": "select",
+      "prompt": "Post the work notice so everyone downstream knows the feeder is coming out.",
+      "target": "notice-board",
+      "title": "Notify affected workers",
+      "why": "OSHA 1910.147 requires affected employees to be told before the lockout goes on and again after it comes off. An unannounced outage is an invitation: a handle sitting off with no name against it and nothing to say whether the work is done reads, to somebody under pressure, as a thing to put back."
+    },
+    {
+      "cue": "Carry a boundary cone out to the marked line before the panel comes open.",
+      "drag": {
+        "missNote": "Short of the marked line — carry it out to the boundary and set it square on the mark.",
+        "radius": 0.4,
+        "to": "boundary-spot"
+      },
+      "id": "boundary",
+      "kind": "drag",
+      "prompt": "Carry a boundary cone out to the marked line before the panel comes open.",
+      "target": "boundary-cone",
+      "title": "Set the arc-flash boundary",
+      "why": "The restricted approach boundary is not a courtesy line — NFPA 70E draws it at the distance an unqualified bystander has to stay outside of while the enclosure in front of you is open and could still fault. It goes down before the door swings open, because the whole point is that anyone walking the aisle sees the line before they see a reason to ignore it, and a boundary set after the fact has already failed at the one moment it existed to cover."
+    },
+    {
+      "cue": "Take the handle and rotate it all the way to OFF.",
+      "id": "open",
+      "kind": "turn",
+      "prompt": "Take the handle and rotate it all the way to OFF.",
+      "target": "disconnect-handle",
+      "title": "Open the disconnect",
+      "turn": {
+        "axis": "z",
+        "label": "MAIN DISCONNECT",
+        "reverse": true,
+        "turns": 0.23
+      },
+      "why": "Opening the disconnect is the isolation itself; everything after this only verifies and protects it. A rotary handle stopped part way has not broken the contacts — it can leave one phase made up, or the mechanism parked between positions where a knock drops it back in. Drive it to its stop and watch the indicator flip."
+    },
+    {
+      "cue": "Take your personal padlock and tag from the station and apply them to the hasp.",
+      "id": "lock",
+      "kind": "select",
+      "prompt": "Take your personal padlock and tag from the station and apply them to the hasp.",
+      "target": "lock-station",
+      "title": "Apply your lock and tag",
+      "why": "Your lock, your key, nobody else's. One worker one lock is what turns lockout from paperwork into a personal guarantee, and the tag beside it carries the name, the time and the work — so nobody else has to decide on their own whether this is finished or the fitter is simply at lunch."
+    },
+    {
+      "cue": "Test the meter on the known-live proving unit. Commit inside the nominal band.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.64
+        ],
+        "label": "PROVING UNIT — LINE VOLTAGE",
+        "missNote": "That is not the proving unit's nominal output. Hold the leads steady and commit in the green band.",
+        "speed": 0.75,
+        "unit": "V"
+      },
+      "id": "prove-live",
+      "kind": "gauge",
+      "prompt": "Test the meter on the known-live proving unit. Commit inside the nominal band.",
+      "target": "proving-unit",
+      "title": "Prove the meter — live",
+      "why": "A meter reading zero on a blown fuse, an open lead or a flat battery looks precisely like a dead circuit. Proving it against a known live source is the only thing that separates the two, and it is the half of live-dead-live people skip because the instrument was fine this morning."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Test every phase conductor at the work point — all three, in any order.",
+      "id": "test-dead",
+      "itemNames": {
+        "test-l1": "L1 phase conductor",
+        "test-l2": "L2 phase conductor",
+        "test-l3": "L3 phase conductor"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Test each conductor once; you still have phases left to verify.",
+      "prompt": "Test every phase conductor at the work point — all three, in any order.",
+      "target": null,
+      "targets": [
+        "test-l1",
+        "test-l2",
+        "test-l3"
+      ],
+      "title": "Test for absence of voltage",
+      "why": "Absence of voltage means every conductor a hand could reach, phase to phase and phase to ground — not only the one you expect to be dead. A backfeed from a UPS, a control transformer or a mis-landed neighbour sits at 277 V to earth inside a panel already called safe, and says nothing about it."
+    },
+    {
+      "cue": "Return to the proving unit and confirm the meter still reads correctly.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.64
+        ],
+        "label": "PROVING UNIT — CONFIRM",
+        "missNote": "Off the nominal band. Steady the leads and commit inside the green zone.",
+        "speed": 0.95,
+        "unit": "V"
+      },
+      "id": "prove-again",
+      "kind": "gauge",
+      "prompt": "Return to the proving unit and confirm the meter still reads correctly.",
+      "target": "proving-unit",
+      "title": "Re-prove the meter — live",
+      "why": "The instrument can die between the dead test and this moment — a lead works half out of its socket, a fuse opens on a transient. Live-dead-live is one continuous instrument check with the dead reading in the middle, so a meter that can no longer read a known source has just voided everything you measured in that enclosure."
+    },
+    {
+      "cue": "Install the grounding cluster on the isolated conductors.",
+      "id": "ground",
+      "kind": "select",
+      "prompt": "Install the grounding cluster on the isolated conductors.",
+      "target": "ground-cluster",
+      "title": "Apply temporary protective grounds",
+      "why": "Temporary protective grounds bond the conductors to earth, so a back-feed arriving while your hands are inside goes down the cluster and trips the source rather than through you. They also bleed off the capacitive charge a long feeder keeps after opening — easily enough to put somebody off a ladder."
+    },
+    {
+      "cue": "Hold the continuity tester on the cluster until it confirms a solid bond to earth.",
+      "holdBreakNote": "Released before the tester confirmed the bond. Hold it on the clamp the full duration — a bond you didn't stay to prove is a bond you're assuming.",
+      "id": "bond-check",
+      "kind": "hold",
+      "prompt": "Hold the continuity tester on the cluster until it confirms a solid bond to earth.",
+      "seconds": 4,
+      "target": "continuity-tester",
+      "title": "Prove the grounds are bonded",
+      "why": "A clamp that looks seated is not the same thing as a clamp that is actually making metal-to-metal contact — paint, corrosion or a burr under the jaw can leave a ground cluster sitting on the conductor rather than bonded to it, and that failure is invisible until fault current needs the path and does not find one. Proving continuity at every clamp is the last check standing between a ground set that protects you and one that only looks like it does."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Lockout/tagout and absence-of-voltage verification on a 480 V distribution panel",
+  "title": "Isolation Bay",
+  "trade": "Electrical worker",
+  "underwater": null,
+  "weather": null
+}

@@ -1,0 +1,438 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "chain-unbroken",
+    "name": "Chain Unbroken",
+    "note": "A delivery received, culled and segregated correctly, and driven to the walk-in without a single stop along the way"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "UFCW member training for retail food work; FDA Food Code; California Retail Food Code; OSHA 29 CFR 1910.178 powered industrial trucks; ANSI/ITSDF B56.1 low and high lift trucks; OSHA 29 CFR 1910.22 walking-working surfaces; USDA inspection and grading marks on produce",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CalCode",
+        "citedAs": "California Retail Food Code",
+        "id": "calcode-retail-food",
+        "title": "California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it"
+      },
+      {
+        "body": "FDA",
+        "citedAs": "FDA Food Code",
+        "id": "fda-food-code",
+        "title": "FDA Food Code — the model code for retail food establishments"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.178",
+        "id": "osha-1910-178",
+        "title": "29 CFR 1910.178 — Powered industrial trucks"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.22",
+        "id": "osha-1910-22",
+        "title": "29 CFR 1910.22 — Walking-working surfaces, general requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "UFCW",
+        "id": "ufcw-training",
+        "title": "UFCW member training for retail food, clinic and dental support work"
+      },
+      {
+        "body": "USDA",
+        "citedAs": "USDA",
+        "id": "usda-fsis-marks",
+        "title": "USDA Food Safety and Inspection Service inspection and grading marks on meat and poultry"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Grocery receiving / produce",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "chocks-first",
+        "name": "Chocks First",
+        "note": "Confirmed the wheel chocks before the truck was ever trusted still"
+      },
+      {
+        "id": "nothing-mixed",
+        "name": "Nothing Mixed",
+        "note": "Never let an ethylene producer sit against a sensitive case"
+      },
+      {
+        "id": "steady-jack",
+        "name": "Steady Jack",
+        "note": "Drove the pallet jack in lane and in band the whole route"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-delivery",
+        "name": "Clean Delivery",
+        "note": "No corrections anywhere on the receipt"
+      },
+      {
+        "id": "unbroken-drive",
+        "name": "Unbroken Drive",
+        "note": "Reached the walk-in without ever leaving the lane or the band"
+      },
+      {
+        "id": "receive-fast",
+        "name": "Received In Time",
+        "note": "Delivery closed out inside 80% of par"
+      }
+    ],
+    "currency": "DOCK",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Porter",
+      "Receiving Clerk",
+      "Lead Receiver",
+      "Produce Manager",
+      "Receiving Certified"
+    ],
+    "system": "Receiving Line"
+  },
+  "hazards": {
+    "accept-warm-load": "You waved the truck off without reading the reefer display. A trailer that has been running warm on the road has already started this delivery behind, and produce that spent the trip too warm does not recover once it is inside a cold walk-in.",
+    "ethylene-mix": "That banana case is stacked flush against the leafy greens. Bananas are one of the produce department's own heaviest ethylene producers, and stacking one against an ethylene-sensitive case starts ripening — and yellowing — the case next to it before it ever reaches the floor.",
+    "prop-cooler-door": "You propped the walk-in door open with the pallet instead of closing it behind you. A propped cooler door is a slow, continuous temperature excursion for every case already inside it, not just the one you are wheeling through.",
+    "wet-dock-crossing": "You drove the loaded jack straight across the wet, icy patch on the apron instead of matting or clearing it first. A dock apron gets wet from every reefer that runs and every case that drips, and OSHA's walking-working-surfaces rule exists because that surface takes a loaded pallet jack down as easily as it takes a person."
+  },
+  "id": "gr-produce-receiving-cold-chain-and-pallet-jack",
+  "indoor": "garage",
+  "interrupts": [
+    {
+      "after": "reefer-read",
+      "alert": "The driver has climbed back into the cab and is revving the engine — two more stops on the route, and the chocks haven't even been checked yet.",
+      "cue": "This trailer does not get treated as parked until the chocks are actually confirmed.",
+      "delay": 4,
+      "id": "driver-pressing-early",
+      "kind": "Driver pressing to leave",
+      "missNote": "You let the driver's hurry carry the moment and never confirmed the chocks. If that trailer had crept even a few inches with a hand truck on the plate, the schedule that pressured you would not have been the thing anyone remembered.",
+      "seconds": 12,
+      "target": "wheel-chock",
+      "why": "A driver's schedule is not a reason to skip the one check that keeps this trailer from creeping while somebody is standing on the dock plate — confirm the chocks before anything else about the driver's hurry matters.",
+      "wrongNote": "It's the wheel chocks — confirm them before the driver's schedule decides anything else about this delivery."
+    },
+    {
+      "after": "strap-load",
+      "alert": "A stock clerk has grabbed the culled berry flat off the reject zone by mistake and is wheeling it toward the walk-in with the rest of the order.",
+      "cue": "Stop that case before it reaches the walk-in — it already failed inspection.",
+      "delay": 4,
+      "id": "helper-wheeling-reject",
+      "kind": "Wrong case moving",
+      "missNote": "The culled case went into the walk-in with everything else. It now reads, to every clerk who opens that door, exactly like every other case on the shelf — the refusal log sitting back on the dock is the only thing that ever said otherwise.",
+      "seconds": 12,
+      "target": "reject-zone",
+      "why": "A culled case that reaches the walk-in stops being a cull and starts being inventory — the next clerk who opens that door has no way to know it already failed. Catching it here, on the dock, is the last easy chance.",
+      "wrongNote": "It's the reject zone — redirect that case back to it before the clerk reaches the walk-in door."
+    }
+  ],
+  "lateNotes": {
+    "damaged-case": "The reject zone is where this case goes the moment you decide it fails — not back on the pallet, not into the walk-in.",
+    "pallet-jack": "The walk-in is the last stop, not a stop along the way — nothing gets set down between the dock and the cooler door once it has passed inspection."
+  },
+  "name": "Produce Receiving, Cold Chain & Pallet Jack",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "grocery-and-meatpacking"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "accept-warm-load",
+      "clean-crate",
+      "cooler-door",
+      "cooler-thermometer",
+      "crushed-berries",
+      "damaged-case",
+      "dock-leveler",
+      "ethylene-chart",
+      "ethylene-mix",
+      "fifo-card",
+      "invoice-board",
+      "jack-horn",
+      "leafy-case",
+      "moldy-bag",
+      "pallet-jack",
+      "prop-cooler-door",
+      "ratchet-strap",
+      "receiving-log-sign",
+      "reefer-display",
+      "refusal-clipboard",
+      "reject-zone",
+      "truck-doors",
+      "wet-dock-crossing",
+      "wheel-chock"
+    ],
+    "meshes": 151
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "drive",
+    "find",
+    "gauge",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Compare the delivery invoice to today's produce order before the truck is unloaded.",
+      "id": "po-check",
+      "kind": "select",
+      "prompt": "Compare the delivery invoice to today's produce order before the truck is unloaded.",
+      "target": "invoice-board",
+      "title": "Check the invoice against the order",
+      "why": "The invoice is the only record of what was supposed to arrive, at what count. Catching a shortage or a substitution here is a phone call to the supplier; catching it after the truck has left is a credit dispute nobody can prove."
+    },
+    {
+      "cue": "Read the truck's own reefer temperature through the window and commit once it shows the load has held cold the whole trip.",
+      "gauge": {
+        "green": [
+          0.08,
+          0.32
+        ],
+        "label": "REEFER BOX TEMP",
+        "missNote": "Reefer is reading warm — do not break the seal on this load yet; get it re-checked before anything comes off the truck.",
+        "speed": 0.65
+      },
+      "id": "reefer-read",
+      "kind": "gauge",
+      "prompt": "Read the truck's own reefer temperature through the window and commit once it shows the load has held cold the whole trip.",
+      "target": "reefer-display",
+      "title": "Read the truck's reefer display",
+      "why": "The reefer display is the truck's own record of the whole trip, not just the last few minutes at your dock. A trailer reading warm before the door is even open has already failed the delivery, whatever the first case you probe happens to read."
+    },
+    {
+      "cue": "Open the truck doors, then bridge the gap with the dock leveler — in that order.",
+      "id": "open-dock",
+      "itemNames": {
+        "dock-leveler": "dock leveler",
+        "truck-doors": "truck doors"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — the doors open first so you can see the load, then the leveler bridges the gap you can now see.",
+      "prompt": "Open the truck doors, then bridge the gap with the dock leveler — in that order.",
+      "targets": [
+        "truck-doors",
+        "dock-leveler"
+      ],
+      "title": "Open the truck and bridge the dock",
+      "why": "The doors open onto a load that has been sealed and refrigerated for hours; the leveler only bridges a gap you can actually see once the doors are open. Dropping the leveler onto closed doors tells you nothing about the load behind them."
+    },
+    {
+      "cue": "Check that both wheel chocks are seated against the trailer's tires before anyone works the dock plate.",
+      "id": "chock-confirm",
+      "kind": "select",
+      "prompt": "Check that both wheel chocks are seated against the trailer's tires before anyone works the dock plate.",
+      "target": "wheel-chock",
+      "title": "Confirm the trailer's wheel chocks",
+      "why": "A trailer with no tractor still attached can creep away from the dock under its own weight, and the gap that opens between the trailer and the leveler is exactly where a loaded pallet jack goes down. The chocks are what keep that gap from ever opening while the dock is in use."
+    },
+    {
+      "cue": "Probe between two heads in the leafy greens case and commit once the reading is inside the store's posted cold range.",
+      "gauge": {
+        "green": [
+          0.1,
+          0.34
+        ],
+        "label": "LEAFY GREENS — TEMP",
+        "missNote": "Outside the posted cold range — this case is refused, not re-probed until it happens to pass.",
+        "speed": 0.65
+      },
+      "id": "probe-produce",
+      "kind": "gauge",
+      "prompt": "Probe between two heads in the leafy greens case and commit once the reading is inside the store's posted cold range.",
+      "target": "leafy-case",
+      "title": "Probe the leafy greens case",
+      "why": "Leafy greens show field heat and cold-chain gaps faster than almost anything else on this pallet, so probing between two heads — not the outside of the case where the trailer's air has been blowing on it — is what actually tells you whether this delivery held its temperature the whole trip."
+    },
+    {
+      "cue": "Two things on this pallet are not sound. Find them before anything is accepted.",
+      "decoyNotes": {
+        "clean-crate": "This crate is intact and dry, nothing seeping through the slats. Leave it."
+      },
+      "id": "walk-pallet",
+      "itemNames": {
+        "crushed-berries": "a crushed, leaking berry flat",
+        "moldy-bag": "a produce bag showing mold through the film"
+      },
+      "itemNotes": {
+        "crushed-berries": "This berry flat is crushed and leaking through the bottom of its case. Juice from one crushed flat wicks into every case stacked beneath it on the same pallet.",
+        "moldy-bag": "Mold is visible through this bag's film. One spoiled bag left on an otherwise good pallet is what a cull is for — separating the one thing already gone from everything that is still fine."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things on this pallet are not sound. Find them before anything is accepted.",
+      "targets": [
+        "crushed-berries",
+        "moldy-bag"
+      ],
+      "title": "Walk the pallet for damage before it's accepted",
+      "why": "Produce is checked with your hands and your eyes on every case, not sampled on a few — a crushed flat or a spoiled bag left in place keeps doing damage to everything stacked around it for as long as it sits there."
+    },
+    {
+      "cue": "Check the chart before the pallet is broken down, to see what has to be kept apart from what.",
+      "id": "ethylene-check",
+      "kind": "select",
+      "prompt": "Check the chart before the pallet is broken down, to see what has to be kept apart from what.",
+      "target": "ethylene-chart",
+      "title": "Check the ethylene segregation chart",
+      "why": "Ethylene-producing produce and ethylene-sensitive produce riding the same pallet face to face is a fast way to have half a delivery ripening before it reaches the case — the chart is what tells you which is which before the segregation happens, not after a customer notices."
+    },
+    {
+      "cue": "Pull the crushed berry flat and move it to the reject zone.",
+      "drag": {
+        "missNote": "Not in the reject zone — a culled case anywhere else on the dock is one more thing somebody has to remember not to stock.",
+        "radius": 0.45,
+        "to": "reject-zone"
+      },
+      "id": "cull-damaged",
+      "kind": "drag",
+      "prompt": "Pull the crushed berry flat and move it to the reject zone.",
+      "target": "damaged-case",
+      "title": "Cull the failed case",
+      "why": "A culled case leaves the delivery physically, right away — set beside the accepted pallet, it is one distracted moment away from riding to the walk-in with everything else."
+    },
+    {
+      "cue": "Write the item, the reason and the quantity culled on the refusal log.",
+      "id": "log-refusal",
+      "kind": "select",
+      "prompt": "Write the item, the reason and the quantity culled on the refusal log.",
+      "target": "refusal-clipboard",
+      "title": "Log the cull",
+      "why": "The refusal log is what gets a credit from the supplier and tells the next shift why a case on the invoice never made it to the floor. Without it, a cull is just missing inventory nobody can explain."
+    },
+    {
+      "cue": "Ratchet the strap down over the stacked accepted cases before the jack ever moves.",
+      "id": "strap-load",
+      "kind": "turn",
+      "prompt": "Ratchet the strap down over the stacked accepted cases before the jack ever moves.",
+      "target": "ratchet-strap",
+      "title": "Strap the pallet jack's load",
+      "turn": {
+        "axis": "z",
+        "label": "LOAD STRAP",
+        "turns": 1
+      },
+      "why": "A stack that shifts on a moving pallet jack comes down on whoever is driving it, not on the floor first. The strap is what turns a stack of separate cases into one load that goes exactly where the jack points it."
+    },
+    {
+      "cue": "Sound the horn at both blind corners and hold a steady, balanced pace the whole way to the walk-in door.",
+      "drive": {
+        "bandLabel": "walking pace, load balanced",
+        "checkWindow": 1.3,
+        "checks": [
+          {
+            "at": 1,
+            "kind": "horn",
+            "note": "Blind corner past the empty-pallet rack — horn before you round it."
+          },
+          {
+            "at": 3,
+            "kind": "horn",
+            "note": "Blind corner into the walk-in alcove — horn again before the door swings your way."
+          }
+        ],
+        "graceSeconds": 1.8,
+        "laneWidth": 1,
+        "path": [
+          [
+            0,
+            -1.6
+          ],
+          [
+            0.35,
+            -0.6
+          ],
+          [
+            0.85,
+            0.35
+          ],
+          [
+            1.3,
+            1.3
+          ],
+          [
+            1.5,
+            2
+          ]
+        ],
+        "sceneRate": 0.2,
+        "speedBand": [
+          1,
+          4
+        ]
+      },
+      "holdBreakNote": "Out of the lane or out of the load's speed band — settle the jack and hold a steady, balanced pace the rest of the way.",
+      "id": "jack-to-cooler",
+      "kind": "drive",
+      "prompt": "Sound the horn at both blind corners and hold a steady, balanced pace the whole way to the walk-in door.",
+      "target": "pallet-jack",
+      "title": "Drive the load to the walk-in",
+      "why": "The backroom aisle to the walk-in runs past two blind corners a stock clerk could step around at any moment, and a pallet jack loaded to eye height cannot be stopped the way a person on foot can. The horn is what buys the half-second a corner does not give you any other way."
+    },
+    {
+      "cue": "Read the walk-in cooler's posted thermometer and commit once it shows the room is inside its own range.",
+      "gauge": {
+        "green": [
+          0.1,
+          0.3
+        ],
+        "label": "WALK-IN TEMP",
+        "missNote": "The walk-in itself is reading outside its posted range — flag it before this pallet goes inside, not after.",
+        "speed": 0.6
+      },
+      "id": "cooler-check",
+      "kind": "gauge",
+      "prompt": "Read the walk-in cooler's posted thermometer and commit once it shows the room is inside its own range.",
+      "target": "cooler-thermometer",
+      "title": "Read the walk-in's own thermometer",
+      "why": "The delivery's cold chain is not actually unbroken until the room it lands in is proven cold too — a probe that passed at the dock means nothing if the pallet is about to sit inside a walk-in that has been running warm all shift."
+    },
+    {
+      "cue": "Check the FIFO card and place the new pallet behind whatever produce is already in the walk-in.",
+      "id": "rotate-stock",
+      "kind": "select",
+      "prompt": "Check the FIFO card and place the new pallet behind whatever produce is already in the walk-in.",
+      "target": "fifo-card",
+      "title": "Rotate the stock by date",
+      "why": "First in, first out only works if the newest pallet actually goes behind the oldest one every single time — put it in front because it's closer to the door, and the case in back is what a clerk finds spoiled next week."
+    },
+    {
+      "cue": "Sign the receiving log to close out the delivery.",
+      "id": "sign-log",
+      "kind": "select",
+      "prompt": "Sign the receiving log to close out the delivery.",
+      "target": "receiving-log-sign",
+      "title": "Sign the receiving log",
+      "why": "The signature is the clerk taking responsibility for every reading on this delivery — what was accepted, what was culled and why, and what the walk-in itself read when the pallet went inside."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A produce delivery checked, culled and segregated at the dock, then driven on the pallet jack to the walk-in without ever breaking the cold chain",
+  "title": "SmartCiti.X~ Produce Receiving, Cold Chain & Pallet Jack VR",
+  "trade": "Receiving clerk / produce clerk",
+  "underwater": null,
+  "weather": null
+}

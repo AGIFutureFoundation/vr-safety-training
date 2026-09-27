@@ -1,0 +1,415 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "tight-and-sealed",
+    "name": "Tight and Sealed",
+    "note": "A trailer chocked and jacked before the plate, loaded tight with a load bar across the last row and released in order — first time"
+  },
+  "category": "Mobility & Transit",
+  "certification": "OSHA 29 CFR 1910.178 powered industrial trucks, including trailer brakes set, wheel chocks under the rear wheels and fixed jacks under an uncoupled semitrailer while it is boarded by a truck; ANSI B56.1 for the counterbalanced truck; 29 CFR 1910.22 walking-working surfaces and OSHA's dockboard requirements for plates secured against sliding; FMCSA 49 CFR 393 Subpart I, which the carrier's driver answers for at the roadside and the loader builds for at the dock; Teamsters warehouse and freight locals' dock training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI B56.1",
+        "id": "ansi-b56-1",
+        "title": "ANSI/ITSDF B56.1 — Safety standard for low lift and high lift trucks"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 393",
+        "id": "fmcsa-49-cfr-393",
+        "title": "49 CFR Part 393 — Parts and accessories necessary for safe operation, including brakes, tires, emergency equipment and Subpart I protection against shifting and falling cargo"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.178",
+        "id": "osha-1910-178",
+        "title": "29 CFR 1910.178 — Powered industrial trucks"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.22",
+        "id": "osha-1910-22",
+        "title": "29 CFR 1910.22 — Walking-working surfaces, general requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "Teamsters",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Warehouse & Distribution",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "nose-supported",
+        "name": "Nose Supported",
+        "note": "Chock and nose jack in before anything else, first time"
+      },
+      {
+        "id": "never-unpinned",
+        "name": "Never Unpinned",
+        "note": "Never drove onto a loose plate, into an unchocked trailer or off the dock edge"
+      },
+      {
+        "id": "rated-plate",
+        "name": "Rated Plate",
+        "note": "Plate capacity read near the centre of the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-load",
+        "name": "Clean Load",
+        "note": "No corrections anywhere at the door"
+      },
+      {
+        "id": "door-time",
+        "name": "Door Time",
+        "note": "Trailer loaded inside 80% of par"
+      },
+      {
+        "id": "steady-in",
+        "name": "Steady In",
+        "note": "Travel into the trailer held in band"
+      }
+    ],
+    "currency": "LOAD",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Dock Trainee",
+      "Loader",
+      "Lead Loader",
+      "Dock Lead",
+      "Dock Loading Certified"
+    ],
+    "system": "Dock Loading"
+  },
+  "hazards": {
+    "tld-dock-jump": "You went to jump down off the dock edge to the yard. Dock edges are a four-foot drop onto concrete, and jumping is one of the commonest ways dock workers break ankles and knees. The stairs are at the end of the dock.",
+    "tld-overhang-tier": "You went to load the pallet whose top tier overhangs the deck and is not wrapped. An unwrapped overhanging tier falls off the forks on the plate slope and falls off the pallet on the first hard stop the driver makes; it gets squared and wrapped at the staging lane.",
+    "tld-plate-unpinned": "You drove onto the dock plate before its locating legs were down in the gap. A portable plate held only by friction walks with every pass of a truck; it slides off the trailer lip or tips at the dock edge, and the truck on it goes into the gap between the building and the trailer.",
+    "tld-unchocked-entry": "You started into the trailer before the wheels were chocked. The impact of a loaded truck crossing the plate pushes a trailer away from the dock a little at a time; an unchocked trailer walks until the plate falls into the gap with the truck on it."
+  },
+  "id": "tdl-trailer-loading-and-dock-plate",
+  "indoor": "garage",
+  "interrupts": [
+    {
+      "after": "restraint",
+      "alert": "A yard truck has backed under the nose of your trailer and its driver is climbing down to connect the air lines — while you are loading it.",
+      "cue": "Stop the yard truck before it hooks your trailer.",
+      "delay": 3,
+      "id": "yard-truck-early",
+      "kind": "Trailer about to move",
+      "missNote": "The yard truck hooked your trailer while it was being loaded. Trailers pulled from docks mid-load drop forklifts into the gap and carry loaders into the yard; the signal light and the call exist so the yard driver is never guessing.",
+      "seconds": 12,
+      "target": "tld-light-switch",
+      "why": "A yard driver working from a list can pull the wrong door, and a trailer pulled away with a forklift or a person inside is one of the worst accidents a dock has. Throwing the outside signal to red and calling it on the radio is the building's way of saying this trailer is occupied.",
+      "wrongNote": "It is the dock signal switch. Someone is about to connect to a trailer you are loading, and only the red light and the call stop them."
+    },
+    {
+      "after": "load-in",
+      "alert": "Another forklift is crossing the dock behind the trailer doors just as you are about to back out of the trailer.",
+      "cue": "Warn it and hold before you back out.",
+      "delay": 3,
+      "id": "forklift-behind",
+      "kind": "Truck crossing behind",
+      "missNote": "You backed out into the dock lane with a truck crossing it. Two forklifts meeting at a trailer door is a load dropped at best, and a truck backed into a pedestrian behind it at worst.",
+      "seconds": 10,
+      "target": "tld-horn",
+      "why": "Backing out of a trailer, you are reversing from a dim box into bright light with a mast in your view, and the dock behind you is the busiest lane in the building. The horn tells the other operator you are there; holding until the lane is clear means neither of you has to guess.",
+      "wrongNote": "It is the horn. Another truck is crossing directly behind you and you are about to reverse into its path."
+    }
+  ],
+  "lateNotes": {
+    "tld-dock-plate": "The plate goes down only after the trailer is chocked, jacked and held by the restraint — a plate on a free trailer is a bridge to nowhere.",
+    "tld-load-bar": "The load bar goes across the last row, after the load is built — it holds a finished load, it does not hold up an unfinished one.",
+    "tld-warehouse-log": "The log is written once the trailer is sealed and released, so the seal number and the piece count on it are the final ones."
+  },
+  "name": "Trailer Loading and Dock Plate",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "job-readiness-edition",
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "forkliftCounterbalance",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "yardHustler",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "tld-chock-pull",
+      "tld-crew-checkin",
+      "tld-dock-jump",
+      "tld-dock-plate",
+      "tld-etrack-broken",
+      "tld-floor-hole",
+      "tld-horn",
+      "tld-light-switch",
+      "tld-load-bar",
+      "tld-load-plan",
+      "tld-overhang-tier",
+      "tld-plate-legs",
+      "tld-plate-lift",
+      "tld-plate-rating",
+      "tld-plate-socket",
+      "tld-plate-unpinned",
+      "tld-restraint-button",
+      "tld-restraint-release",
+      "tld-roof-daylight",
+      "tld-seal",
+      "tld-shifted-tier",
+      "tld-throttle",
+      "tld-trailer-stand",
+      "tld-unchocked-entry",
+      "tld-void-gap",
+      "tld-warehouse-log",
+      "tld-wheel-chock"
+    ],
+    "meshes": 277
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the plan: stops in reverse order, heavy freight on the floor and forward, the piece count and the weight.",
+      "id": "load-plan",
+      "kind": "select",
+      "prompt": "Read the plan: stops in reverse order, heavy freight on the floor and forward, the piece count and the weight.",
+      "target": "tld-load-plan",
+      "title": "Read the load plan",
+      "why": "A trailer is loaded backwards from how it will be unloaded: the last stop goes in first, against the nose, and the first stop goes in last by the doors. Heavy freight goes low and spread along the length so the driver's axle weights come out legal and the trailer does not handle like a pendulum. A load built out of order is unloaded twice, by the driver, at a customer's dock."
+    },
+    {
+      "cue": "Walk into the empty trailer with a light. Find what makes it unsafe or unfit to load.",
+      "id": "trailer-walk",
+      "itemNames": {
+        "tld-etrack-broken": "the torn logistic track",
+        "tld-floor-hole": "the soft patch in the trailer floor",
+        "tld-roof-daylight": "daylight through the roof"
+      },
+      "itemNotes": {
+        "tld-etrack-broken": "The logistic track is torn loose from the wall. A load bar or strap hooked into broken track holds nothing, and the load it was meant to hold is on the doors at the first stop.",
+        "tld-floor-hole": "This floor board is split and soft. A forklift and its load together weigh several tons, and a rotten trailer floor lets a front wheel through — the truck drops, the mast whips forward and the load comes down.",
+        "tld-roof-daylight": "There is daylight through the roof. A roof leak soaks the freight in the first rain; the trailer is refused or the freight is protected before anything goes in."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk into the empty trailer with a light. Find what makes it unsafe or unfit to load.",
+      "targets": [
+        "tld-floor-hole",
+        "tld-roof-daylight",
+        "tld-etrack-broken"
+      ],
+      "title": "Walk the trailer before the truck goes in",
+      "why": "OSHA expects trailer floors to be checked for breaks and weakness before a powered truck is driven onto them, and the only way to check is to walk in and look. The same walk finds the roof hole that ruins the freight and the broken track the load bar needs. A trailer that fails the walk is refused at the door, not loaded carefully around the soft spot."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Chock the rear tandem and set the trailer stand under the nose of this dropped trailer — both, before anything else.",
+      "id": "secure",
+      "itemNames": {
+        "tld-trailer-stand": "trailer stand under the nose",
+        "tld-wheel-chock": "wheel chock under the rear tandem"
+      },
+      "kind": "sequence",
+      "prompt": "Chock the rear tandem and set the trailer stand under the nose of this dropped trailer — both, before anything else.",
+      "targets": [
+        "tld-wheel-chock",
+        "tld-trailer-stand"
+      ],
+      "title": "Chock the wheels and jack the nose",
+      "why": "A dropped trailer has nothing holding it but its brakes and its landing gear. The chock stops it creeping away from the dock as the truck crosses the plate; the stand under the nose stops the landing gear buckling or the front tipping down when a loaded truck drives all the way forward. OSHA names both for a semitrailer that is not coupled to a tractor, and neither one covers for the other."
+    },
+    {
+      "cue": "Press and hold the restraint's engage button until the hook rises onto the rear impact guard and the inside light turns green.",
+      "holdBreakNote": "You let go before the hook seated. Hold it until the light changes.",
+      "id": "restraint",
+      "kind": "hold",
+      "prompt": "Press and hold the restraint's engage button until the hook rises onto the rear impact guard and the inside light turns green.",
+      "seconds": 8,
+      "target": "tld-restraint-button",
+      "title": "Hold the vehicle restraint until it grips",
+      "why": "The restraint hooks the trailer's rear impact guard to the building. Holding the button until you see the hook seat and the lights change is how you know it gripped steel rather than air; a restraint engaged on a missing or bent guard shows a fault light, and that trailer is chocked and watched rather than trusted. Outside, the same system turns the driver's light red."
+    },
+    {
+      "cue": "Read the plate's capacity against the forklift's weight plus its heaviest load and commit when it carries both.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.64
+        ],
+        "label": "PLATE vs TRUCK + LOAD",
+        "missNote": "Outside the band for this truck and this load — use the heavier plate or a lighter truck.",
+        "speed": 0.75
+      },
+      "id": "plate-rating",
+      "kind": "gauge",
+      "prompt": "Read the plate's capacity against the forklift's weight plus its heaviest load and commit when it carries both.",
+      "target": "tld-plate-rating",
+      "title": "Check the plate against the truck and the load",
+      "why": "A dock plate carries the whole truck, not just the pallet: a forklift weighs more than it lifts, because its counterweight is what keeps it from tipping forward. The number that matters is the truck's service weight plus the heaviest load plus the impact of crossing a lip at speed. A plate rated for the pallet alone is a plate that bends under the first loaded pass."
+    },
+    {
+      "cue": "Bring the plate across and seat its lip flat on the trailer bed with its full bearing.",
+      "drag": {
+        "missNote": "The lip is not bearing on the bed — seat it square and flat on the trailer floor.",
+        "radius": 0.45,
+        "to": "tld-plate-socket"
+      },
+      "id": "plate",
+      "kind": "drag",
+      "prompt": "Bring the plate across and seat its lip flat on the trailer bed with its full bearing.",
+      "target": "tld-dock-plate",
+      "title": "Set the dock plate",
+      "why": "The plate bridges the gap and the height difference between the dock and the trailer bed, and its lip has to bear flat on the trailer floor across its whole width. A lip resting on the door sill or on the edge of the bed rocks under a wheel, and a plate that rocks is a plate that walks. It goes down with the handholds or a truck's forks, never by a person bent under it."
+    },
+    {
+      "cue": "Look at the gap under the plate: both locating legs down between the dock face and the trailer.",
+      "id": "plate-legs",
+      "kind": "select",
+      "prompt": "Look at the gap under the plate: both locating legs down between the dock face and the trailer.",
+      "target": "tld-plate-legs",
+      "title": "Check the locating legs are down",
+      "why": "A portable plate is kept from sliding by the locating legs, or pins, that drop into the gap between the dock and the trailer; OSHA's dockboard requirements ask for exactly that kind of anchoring. Looking at them costs two seconds. Not looking is how a plate that seemed fine on the first pass has walked six inches by the tenth."
+    },
+    {
+      "cue": "Take each pallet up the plate forks-first, low and tilted back, at a steady crawl, and set it tight to the one before.",
+      "holdBreakNote": "Speed out of band on the plate — too fast bounces the load off the lip. Back to a crawl.",
+      "id": "load-in",
+      "kind": "track",
+      "prompt": "Take each pallet up the plate forks-first, low and tilted back, at a steady crawl, and set it tight to the one before.",
+      "seconds": 8,
+      "target": "tld-throttle",
+      "title": "Run the load in",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.36,
+          0.58
+        ],
+        "label": "SPEED",
+        "rise": 0.56,
+        "start": 0.1
+      },
+      "why": "The plate is a slope and a joint, and both are where loads fall: speed makes the truck bounce as it crosses the lip, and a raised load bounces with it. A steady crawl, the load low and tilted back, keeps the pallet on the forks and the truck in control inside a box with its own walls a hand's width from the mast. Pallets set tight to each other cannot shift in transit."
+    },
+    {
+      "cue": "Stand at the doors and look down the load. Find what will move when the driver brakes.",
+      "id": "load-check",
+      "itemNames": {
+        "tld-shifted-tier": "the top tier that shifted on the plate",
+        "tld-void-gap": "the void between the last two rows"
+      },
+      "itemNotes": {
+        "tld-shifted-tier": "This pallet's top tier slid on the plate slope and is hanging over the side. It is restacked and wrapped now, not left for the driver to find leaning on the doors.",
+        "tld-void-gap": "There is a pallet-width void between the last two rows. Freight fills voids on the first hard stop; the gap is filled with an airbag or dunnage, or closed up, before the load bar goes on."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Stand at the doors and look down the load. Find what will move when the driver brakes.",
+      "targets": [
+        "tld-void-gap",
+        "tld-shifted-tier"
+      ],
+      "title": "Look at the load you built",
+      "why": "Freight in a van moves forward under braking and sideways in turns, and anything with room to move will use it. FMCSA 49 CFR 393 holds the driver and carrier to a load that cannot shift or fall, but the loader is the one who can still reach it. A void or a shifted tier found at the dock takes a minute; found at the roadside or at the customer's door it is a claim, a refused load or an injury when the doors open."
+    },
+    {
+      "cue": "Set the load bar across the trailer behind the last row and ratchet it tight into the logistic track.",
+      "id": "load-bar",
+      "kind": "turn",
+      "prompt": "Set the load bar across the trailer behind the last row and ratchet it tight into the logistic track.",
+      "target": "tld-load-bar",
+      "title": "Ratchet the load bar across the last row",
+      "turn": {
+        "axis": "x",
+        "label": "LOAD BAR RATCHET",
+        "turns": 1
+      },
+      "why": "A load bar across the last row is what stops the rear pallets walking back into the doors — the reason drivers get hit by freight when they open a trailer at a customer. It is ratcheted wall to wall until it cannot be moved by hand, into track that the trailer walk already proved sound. Loose, it is a steel bar waiting to fall on the person who opens the doors."
+    },
+    {
+      "cue": "Pull the plate back, close and seal the doors, release the restraint, and only then pull the chock.",
+      "id": "release",
+      "itemNames": {
+        "tld-chock-pull": "chock pulled",
+        "tld-plate-lift": "plate pulled back",
+        "tld-restraint-release": "restraint released",
+        "tld-seal": "doors closed and sealed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Plate, seal, restraint, chock — nothing comes off the trailer that holds it until the plate is out and the doors are sealed.",
+      "prompt": "Pull the plate back, close and seal the doors, release the restraint, and only then pull the chock.",
+      "targets": [
+        "tld-plate-lift",
+        "tld-seal",
+        "tld-restraint-release",
+        "tld-chock-pull"
+      ],
+      "title": "Release the trailer in order",
+      "why": "The order is what keeps anything from being on or under a trailer that can move. The plate comes out first because the doors cannot close on it and because a trailer released with a plate still on it drags the plate into the yard. The seal is applied and its number recorded before the trailer leaves the building's control. The restraint and chock come off last, together, when the trailer is ready for the yard truck."
+    },
+    {
+      "cue": "Report the trailer defects, the restacked pallet and the yard truck that came early, and say how the door went.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Report the trailer defects, the restacked pallet and the yard truck that came early, and say how the door went.",
+      "target": "tld-crew-checkin",
+      "title": "Check in with the dock lead",
+      "why": "The dock lead decides which trailers go to which doors and talks to the yard and the carriers; a trailer with a soft floor or a roof hole goes back to the carrier only if the lead hears about it. The early yard truck is the kind of near miss that happens again tomorrow unless somebody says it out loud today, and the check-in is where the loader gets to say how the shift is actually going."
+    },
+    {
+      "cue": "Log the trailer number, seal number, piece count, the trailer walk findings and the restraint fault, then sign it.",
+      "id": "warehouse-log",
+      "kind": "select",
+      "prompt": "Log the trailer number, seal number, piece count, the trailer walk findings and the restraint fault, then sign it.",
+      "target": "tld-warehouse-log",
+      "title": "Write the warehouse log",
+      "why": "The seal number and piece count are what the receiver checks against at the other end; a mismatch starts a claim, and the log is the warehouse's side of it. The trailer walk findings are the carrier's evidence that its equipment needs repair. A log written at the door, with the numbers in front of you, is worth more than one written from memory at the end of the shift."
+    }
+  ],
+  "supportLine": "your employer's employee assistance programme, or your Teamsters steward if you are not sure how to reach it",
+  "tagline": "A dropped van at a plate door: load plan, trailer walk, chock and nose jack, restraint held till it grips, a plate rated for truck plus load and seated, the load built tight, a load bar across the last row, and a release that never leaves a plate on a trailer that can move",
+  "title": "SmartCiti.X~ Trailer Loading and Dock Plate VR",
+  "trade": "Dock loader, TDL pre-apprenticeship — Teamsters warehouse and dock work: trailer loading and dock plate, ahead of the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F) for those going on to Class A",
+  "underwater": null,
+  "weather": null
+}

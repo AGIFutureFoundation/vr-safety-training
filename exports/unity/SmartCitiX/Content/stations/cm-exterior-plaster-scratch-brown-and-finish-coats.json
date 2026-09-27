@@ -1,0 +1,377 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "three-coats-true",
+    "name": "Three Coats, True",
+    "note": "Scratch, brown and finish built on sound lath, each cured on schedule, with nobody's hand in the mixer or a boot on an unsecured plank"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "OPCMIA Local 300 plasterer apprenticeship as a training body; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction; OSHA 29 CFR 1926 Subpart L scaffolds, as applied to the plastering scaffold; OSHA 29 CFR 1926.1153 respirable crystalline silica for dry plaster mix; ANSI/ASSP A10.9 concrete and masonry construction safety requirements; the plaster specification and the manufacturer's data sheet for coat thickness and cure time",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "OPCMIA",
+        "id": "opcmia-local-300",
+        "title": "OPCMIA Local 300 - cement masons and plasterers apprenticeship, as a training body"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.1153",
+        "id": "osha-1926-1153",
+        "title": "29 CFR 1926.1153 — Respirable crystalline silica in construction"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "walked-the-wall",
+        "name": "Walked The Wall",
+        "note": "The lath walk found the torn mesh and the missing weep screed before a bag opened, first time"
+      },
+      {
+        "id": "never-in-the-mixer",
+        "name": "Never In The Mixer",
+        "note": "Never reached into a running mixer, never a bare hand in the mix, never worked an unsecured plank, never dry-dumped a bag"
+      },
+      {
+        "id": "true-on-the-rod",
+        "name": "True On The Rod",
+        "note": "The batch proportions and the brown coat flatness both held inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-build",
+        "name": "Clean Build",
+        "note": "No corrections through all three coats"
+      },
+      {
+        "id": "held-the-scratch",
+        "name": "Held The Scratch",
+        "note": "The scratch-coat application held for the whole wall"
+      },
+      {
+        "id": "wall-by-break",
+        "name": "Wall By Break",
+        "note": "All three coats built, textured and logged inside 80% of par"
+      }
+    ],
+    "currency": "COAT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Laborer",
+      "Hawk Hand",
+      "Plasterer",
+      "Lead Plasterer",
+      "Plaster Crew Certified"
+    ],
+    "system": "Plaster Crew"
+  },
+  "hazards": {
+    "bare-hand-plaster": "You went to hawk and trowel the coat without gloves. Wet plaster is strongly alkaline the same as concrete and mortar, and it burns skin slowly, often without pain until hours later — a plasterer's hand is in contact with it for the whole coat. Gloves stay on for every minute a coat is wet.",
+    "dry-dump-bag": "You tipped the bag into the mixer dry and from height instead of feeding it in low with the water already running. Dry plaster mix thrown into the air puts respirable crystalline silica into the crew's breathing zone at many times the permissible limit; water first, the bag opened low, is how the silica rule's wet methods reach a plasterer's own mixer, not only a saw.",
+    "mixer-reach-in": "You reached into the mixer to break up a clump while the paddle was still turning. A mortar mixer's paddle keeps moving on its own momentum even after the motor is cut, and a hand that follows a clump into the tub follows it straight into the paddle. The mixer is shut off and the paddle confirmed stopped before anyone's hand goes near the tub.",
+    "unsecured-scaffold": "You stepped out onto the scaffold plank that has not been secured. An unsecured plank can shift, kick out or tip the moment weight comes onto its unsupported end, and OSHA's scaffold rule exists because a plasterer working a wall from height has nothing under a shifting plank to catch a fall. The plank is checked and secured before anyone's weight goes on it."
+  },
+  "id": "cm-exterior-plaster-scratch-brown-and-finish-coats",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hawk-scratch",
+      "alert": "The scaffold plank under the hawk hand has started to shift as he reaches for the far end of the wall.",
+      "cue": "Latch the plank's clamp before he shifts his weight again.",
+      "delay": 2,
+      "id": "plank-shifts",
+      "kind": "Scaffold plank shifting underfoot",
+      "missNote": "The plank kept shifting under his boots through the rest of the reach; it slid a hand's width off its bearer before anyone reached the clamp.",
+      "seconds": 12,
+      "target": "plank-clamp",
+      "why": "A plank that has already started to shift is one more reach away from kicking out from under whoever is standing on it, and there is nothing below a plastering scaffold to catch that fall. The clamp secures the plank to its bearer immediately, which is the only fix that works from where the crew is actually standing, not a general note to be careful.",
+      "wrongNote": "The plank clamp — a plank already shifting underfoot has to be secured before more weight shifts onto it, not just watched."
+    },
+    {
+      "after": "bag-dump",
+      "alert": "The mixer has jammed on a clump of dry mix and a laborer is reaching toward the tub with the paddle still turning inside it.",
+      "cue": "Hit the mixer's emergency stop before his hand reaches the tub.",
+      "delay": 2,
+      "id": "mixer-jam",
+      "kind": "Mixer jammed, paddle still turning",
+      "missNote": "The laborer's hand was inches from the tub when the jam broke free and the paddle kicked through the clump; he pulled back a moment too late for it to matter as a near miss.",
+      "seconds": 12,
+      "target": "mixer-estop",
+      "why": "A jammed mixer's paddle is still carrying the motor's torque against whatever is blocking it, and a hand that follows a clump into the tub follows it into a paddle that can still move the instant the jam breaks free. The emergency stop cuts power immediately, which is the only thing that reaches the mixer faster than a hand already moving toward it.",
+      "wrongNote": "The mixer's emergency stop — a hand is already moving toward a jammed, still-turning paddle, and the mixer has to be killed before it reaches the tub."
+    }
+  ],
+  "lateNotes": {
+    "darby": "The brown coat only goes on once the scratch coat has taken its cure; troweling brown over a scratch coat that has not set enough pulls the whole build off the lath.",
+    "float-tool": "The finish coat only goes on once the brown coat has cured and been checked flat — texturing over a brown coat that is still out of flat just texture-matches the wall's own waves.",
+    "hawk-trowel": "The scratch coat only goes on once the lath is sound and the weep screed is in — plastering over torn lath just buries a defect the wall will crack along later."
+  },
+  "name": "Exterior Plaster Scratch, Brown & Finish Coats",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "cement-masons-and-plasterers"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bare-hand-plaster",
+      "brown-zone",
+      "close-log",
+      "crew-radio",
+      "cure-check",
+      "darby",
+      "dry-dump-bag",
+      "float-tool",
+      "gauge-box",
+      "hawk-trowel",
+      "loose-plank",
+      "missing-weep-screed",
+      "mixer-estop",
+      "mixer-reach-in",
+      "paddle-mixer",
+      "patch-lath",
+      "plank-clamp",
+      "plaster-card",
+      "scratch-tool",
+      "scratch-zone",
+      "secure-plank",
+      "set-weep-screed",
+      "straightedge",
+      "torn-lath",
+      "unsecured-scaffold"
+    ],
+    "meshes": 169
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the lath type, the coat thicknesses for scratch, brown and finish, the cure window between coats, and the finish texture called for.",
+      "id": "plaster-card",
+      "kind": "select",
+      "prompt": "Read the lath type, the coat thicknesses for scratch, brown and finish, the cure window between coats, and the finish texture called for.",
+      "target": "plaster-card",
+      "title": "Read the plaster specification",
+      "why": "A three-coat exterior wall is built to a specification that sets a thickness and a minimum cure time for every coat, because each coat has to gain enough strength to carry the next one without cracking or debonding from it. None of that is a plasterer's call to shorten on site — the specification is read before the first bag opens so the whole build follows the same schedule."
+    },
+    {
+      "cue": "Walk the lath, the base of the wall and the scaffold, and click every defect you find.",
+      "id": "lath-walk",
+      "itemNames": {
+        "loose-plank": "a scaffold plank not secured",
+        "missing-weep-screed": "a run of wall with no weep screed",
+        "torn-lath": "torn wire lath"
+      },
+      "itemNotes": {
+        "loose-plank": "One scaffold plank is resting on its supports with nothing securing it — a plasterer's weight at the wrong point kicks it out from under him.",
+        "missing-weep-screed": "The base of the wall has no weep screed set at the foundation line — without it, moisture behind the finished wall has nowhere to drain back out.",
+        "torn-lath": "A section of the wire lath has been torn loose from its furring, with nothing for the scratch coat to key into along that whole strip."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the lath, the base of the wall and the scaffold, and click every defect you find.",
+      "targets": [
+        "torn-lath",
+        "missing-weep-screed",
+        "loose-plank"
+      ],
+      "title": "Walk the wall before a bag opens",
+      "why": "With nothing on the hawk yet, the lath gets patched, the screed gets set and the plank gets secured in a few minutes each. Miss that window and the same three things become a wall that cracks along its torn lath for the rest of its service life, moisture with nowhere to weep trapped behind a finished surface, and a fall from a plank nobody ever secured."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Patch the torn lath, set the weep screed, and secure the loose plank.",
+      "id": "fix",
+      "itemNames": {
+        "patch-lath": "lath patched",
+        "secure-plank": "plank secured",
+        "set-weep-screed": "weep screed set"
+      },
+      "kind": "sequence",
+      "prompt": "Patch the torn lath, set the weep screed, and secure the loose plank.",
+      "targets": [
+        "patch-lath",
+        "set-weep-screed",
+        "secure-plank"
+      ],
+      "title": "Correct what the walk found",
+      "why": "A note about torn lath or a loose plank that never gets acted on is more dangerous than never having checked, since the crew now works the wall and the scaffold on the assumption both were already handled. Only patching the lath, actually setting the screed and physically securing the plank turns that assumption into something true before the mixer starts."
+    },
+    {
+      "cue": "Fill the gauge box against the bag and commit when the proportions match the specification for the scratch coat.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.58
+        ],
+        "label": "MIX",
+        "missNote": "Off the specification's proportions — level the sand in the gauge box and check it against the bag again.",
+        "speed": 0.7
+      },
+      "id": "mix-ratio",
+      "kind": "gauge",
+      "prompt": "Fill the gauge box against the bag and commit when the proportions match the specification for the scratch coat.",
+      "target": "gauge-box",
+      "title": "Batch the scratch coat to the specification's proportions",
+      "why": "Plaster strength and workability come from its proportions the same as mortar does, and the specification names them for a reason: too lean and the coat is weak and crumbles off the lath, too rich and it shrinks and cracks as it dries. Batching by the gauge box instead of by feel is how every batch comes out the same coat."
+    },
+    {
+      "cue": "Put the water in the tub first, feed the bag in low, and hold the paddle down in the batch so the dust stays wet.",
+      "holdBreakNote": "The paddle came up out of the batch and threw dry mix into the air. Put it back down in the tub and hold it.",
+      "id": "bag-dump",
+      "kind": "hold",
+      "prompt": "Put the water in the tub first, feed the bag in low, and hold the paddle down in the batch so the dust stays wet.",
+      "seconds": 5,
+      "target": "paddle-mixer",
+      "title": "Mix with water first, paddle down in the tub",
+      "why": "Dry plaster mix thrown into the air from a bag tipped at height, or spun in a dry tub, puts respirable crystalline silica into the crew's breathing zone. Water in first, the bag opened low and the paddle held down in the batch keeps the dust wet and in the tub, the same wet-methods principle the silica rule applies anywhere dry masonry material gets handled."
+    },
+    {
+      "cue": "Carry the hawk and trowel to the wall and apply the scratch coat to the lath at the specification's thickness.",
+      "drag": {
+        "missNote": "Not on the wall — the scratch coat has to go on the lath, at the specification's thickness, not on the ground.",
+        "radius": 0.6,
+        "to": "scratch-zone"
+      },
+      "id": "hawk-scratch",
+      "kind": "drag",
+      "prompt": "Carry the hawk and trowel to the wall and apply the scratch coat to the lath at the specification's thickness.",
+      "target": "hawk-trowel",
+      "title": "Apply the scratch coat",
+      "why": "The scratch coat is what actually keys into the lath and gives the wall its first structural bond to the framing behind it — applied thin or spotty, the coats above it have nothing sound to hang on to no matter how well they are finished later."
+    },
+    {
+      "cue": "Draw the scratcher across the fresh coat in horizontal lines while it is still plastic enough to score.",
+      "id": "scratch-tool",
+      "kind": "turn",
+      "prompt": "Draw the scratcher across the fresh coat in horizontal lines while it is still plastic enough to score.",
+      "target": "scratch-tool",
+      "title": "Score the scratch coat horizontally",
+      "turn": {
+        "label": "SCRATCH",
+        "turns": 1
+      },
+      "why": "The horizontal scoring is what gives the brown coat something to mechanically key into, on top of whatever chemical bond the two coats form on their own — a scratch coat troweled smooth and left unscored is a much weaker joint for the brown coat to grip."
+    },
+    {
+      "cue": "Watch the surface and commit once the scratch coat has firmed enough to carry the brown coat without pulling off the lath.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.68
+        ],
+        "label": "SCRATCH CURE",
+        "missNote": "Too early pulls the coat off the lath, too late and the bond needs rewetting — wait for the window and commit there.",
+        "speed": 0.62
+      },
+      "id": "scratch-cure",
+      "kind": "gauge",
+      "prompt": "Watch the surface and commit once the scratch coat has firmed enough to carry the brown coat without pulling off the lath.",
+      "target": "cure-check",
+      "title": "Wait out the scratch coat's cure",
+      "why": "Troweling the brown coat onto a scratch coat that has not set enough pulls the whole build loose from the lath in sheets, and a build that debonds at the lath is a build that has to come off and start over. The cure window is short but it is not zero, and it is watched, not guessed at."
+    },
+    {
+      "cue": "Carry the darby to the wall, apply the brown coat over the cured scratch coat and straighten it true.",
+      "drag": {
+        "missNote": "Not on the wall — the brown coat goes over the cured scratch coat, straightened with the darby, not left as it was troweled on.",
+        "radius": 0.6,
+        "to": "brown-zone"
+      },
+      "id": "hawk-brown",
+      "kind": "drag",
+      "prompt": "Carry the darby to the wall, apply the brown coat over the cured scratch coat and straighten it true.",
+      "target": "darby",
+      "title": "Apply and straighten the brown coat",
+      "why": "The brown coat is what actually brings the wall to a flat, true plane — every wave or dip the darby does not straighten out here is a wave the finish coat can only follow, never correct, since finish is a texture, not a leveling coat."
+    },
+    {
+      "cue": "Draw the straightedge across the brown coat and commit once it reads flat to the specification's tolerance.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "FLATNESS",
+        "missNote": "Out of flat — mark the spot and straighten it with the darby again before it sets.",
+        "speed": 0.66
+      },
+      "id": "brown-flatness",
+      "kind": "gauge",
+      "prompt": "Draw the straightedge across the brown coat and commit once it reads flat to the specification's tolerance.",
+      "target": "straightedge",
+      "title": "Check the brown coat for flatness",
+      "why": "A brown coat that is out of flat telegraphs straight through a trowelled or floated finish coat, because finish texture has no thickness to spare for correcting a wave underneath it. The straightedge is the only check that catches it while the coat is still plastic enough to correct."
+    },
+    {
+      "cue": "Hold the float against the finish coat and work it in the specification's texture pattern.",
+      "holdBreakNote": "The float lifted mid-pass and the texture broke pattern. Reset at the edge of the last clean pass and hold it steady again.",
+      "id": "finish-float",
+      "kind": "hold",
+      "prompt": "Hold the float against the finish coat and work it in the specification's texture pattern.",
+      "seconds": 5,
+      "target": "float-tool",
+      "title": "Float the finish coat to texture",
+      "why": "The finish coat is the wall everyone sees and touches for the life of the building, and the float's pattern — worked evenly across the whole wall rather than started and stopped at different times of day — is what keeps the texture reading as one wall instead of a patchwork of however the plasterer happened to be working that hour."
+    },
+    {
+      "cue": "Record the lath patched, the coats batched and cured on schedule, and the texture finished.",
+      "id": "close-out",
+      "kind": "select",
+      "prompt": "Record the lath patched, the coats batched and cured on schedule, and the texture finished.",
+      "target": "close-log",
+      "title": "Log the wall",
+      "why": "The plaster log is how the foreman and the inspector both know this wall was built to the specification's schedule rather than pushed through it — the lath that was patched, the cure windows that were actually watched, and the mixer clump that got cleared the right way instead of by hand."
+    },
+    {
+      "cue": "Call the foreman: wall built and logged. Then check in with the crew about the plank and the mixer.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the foreman: wall built and logged. Then check in with the crew about the plank and the mixer.",
+      "target": "crew-radio",
+      "title": "Check in with the crew and the foreman",
+      "why": "This call decides how the foreman moves the scaffold and schedules the next wall's coats, so it needs the real version of the day, not the tidy one. A plank shifted underfoot and a mixer jammed with a hand close by — both get said plainly, and so does the fact that the OPCMIA member assistance line exists for exactly the kind of shift that leaves someone shaken afterward."
+    }
+  ],
+  "supportLine": "your OPCMIA Local 300 member assistance programme, or the employee assistance line posted on the contractor's site board",
+  "tagline": "A three-coat exterior wall built right: the lath and the weep screed walked before a bag opens, the scaffold plank secured, the scratch coat batched and scored, the brown coat straightened true, the finish coat floated to its texture, each coat waiting its own cure, and the wall logged and cured before the crew signs off",
+  "title": "SmartCiti.X~ Exterior Plaster Scratch, Brown & Finish Coats VR",
+  "trade": "Plasterer — OPCMIA Local 300",
+  "underwater": null,
+  "weather": "clear"
+}

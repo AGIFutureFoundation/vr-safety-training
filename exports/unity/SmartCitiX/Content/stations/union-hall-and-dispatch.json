@@ -1,0 +1,404 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "dispatched-right",
+    "name": "Dispatched Right",
+    "note": "On the book in your own name, dispatched to work inside your apprenticeship, and there on time with the right tools"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "The local's own referral rules as posted in the hall, and the apprenticeship standard the apprentice is indentured under — registered with the U.S. Department of Labor or a State Apprenticeship Agency — which sets the work processes an apprentice trains in, the supervision by journey-level workers and the ratio; the building-trades training funds that run such programmes, LIUNA and IUOE among them; OSHA 10 through the OSHA Outreach Training Program, which many contractors ask to see on the first morning; IRS guidance that all income, including cash, is reportable; SAMHSA's National Helpline and 988 for the stress of the weeks between jobs",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "DOL",
+        "citedAs": "apprenticeship standard",
+        "id": "dol-apprenticeship-standards",
+        "title": "Registered apprenticeship standards, as a category — the written standards a sponsor registers with the U.S. Department of Labor or a State Apprenticeship Agency: the term, on-the-job learning, related instruction, the progressive wage schedule, the ratio, the probationary period and the selection procedure"
+      },
+      {
+        "body": "IRS",
+        "citedAs": "IRS",
+        "id": "irs-consumer-guidance",
+        "title": "Internal Revenue Service guidance for workers — Form W-4 and the Tax Withholding Estimator, Form W-2, estimated tax on self-employment income, splitting a refund, free tax help, and how the IRS does and does not contact taxpayers"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "OSHA 10",
+        "id": "osha-outreach-10",
+        "title": "OSHA Outreach Training Program — the 10-hour construction course (OSHA 10): voluntary awareness training taught by an authorized trainer, not a certification and not a substitute for the employer's own training"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Apprenticeship navigation",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "read-the-slip",
+        "name": "Read The Slip",
+        "note": "The cards and the dispatch slip both read clean"
+      },
+      {
+        "id": "straight-book",
+        "name": "Straight Book",
+        "note": "No unsafe action anywhere in the hall"
+      },
+      {
+        "id": "on-time",
+        "name": "On Time",
+        "note": "The leave time committed near the middle of the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-dispatch",
+        "name": "Clean Dispatch",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "reachable-all-week",
+        "name": "Reachable All Week",
+        "note": "Every timed passage carried without a break"
+      },
+      {
+        "id": "first-out-the-door",
+        "name": "First Out The Door",
+        "note": "Finish inside 80% of par"
+      }
+    ],
+    "currency": "SLIP",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Walk-In",
+      "On The Book",
+      "Dispatched",
+      "Reported",
+      "Dispatch Certified"
+    ],
+    "system": "Referral Book"
+  },
+  "hazards": {
+    "uhd-blank-form": "Someone handed you a blank form to sign 'so the contractor can fill it in'. A signature on a blank page can end up under a release, a quit or a timecard you have never read. Nothing gets signed until it has been filled in and read — and a form from a contractor that the hall has not seen is worth showing the business agent first.",
+    "uhd-sign-for-buddy": "You went to sign a friend's name on the out-of-work book for him. The book is the order people are referred in, and a name on it that its owner did not sign puts him ahead of everyone who came in themselves. Halls treat it as falsifying the list, and it can cost both of you your place — his, and yours for signing it.",
+    "uhd-ssn-text": "That text says to reply with your Social Security number to 'stay on the out-of-work list'. Your place on the book is kept at the hall, by the rules on the wall — not by text. A Social Security number sent to an unknown number is how identity theft starts, and people waiting for a dispatch are exactly who such texts target.",
+    "uhd-truck-bed": "You were about to ride to the jobsite in the back of a pickup. A truck bed has no seat, no belt and nothing to stop you leaving it in a sudden stop or a turn, and people are killed that way every year. Getting there late is fixable; getting there in the bed is the unsafe shortcut the whole morning is supposed to avoid."
+  },
+  "id": "union-hall-and-dispatch",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "read-rules",
+      "alert": "The dispatcher calls out to you: a small contractor wants 'an apprentice to run the job alone this week' doing electrical tie-ins — not your trade, and no journey-level worker on site.",
+      "cue": "Do not take it on the spot. Ask the person who runs your apprenticeship.",
+      "delay": 3,
+      "id": "uhd-out-of-scope",
+      "kind": "Dispatch outside your apprenticeship",
+      "missNote": "The dispatcher took your silence as a yes, and in the version where you went, you spent a week alone doing electrical work you were never trained for, with nobody to check it — and none of the hours counted toward your own apprenticeship.",
+      "seconds": 12,
+      "target": "uhd-coordinator-phone",
+      "why": "The apprenticeship standard you are indentured under sets the work processes you train in and requires an apprentice to work under journey-level supervision, within a ratio. A job alone, in another trade's work, is outside all of it — for your safety, your hours and your standing. Calling the training coordinator puts the question with the person responsible for your apprenticeship, before anyone signs anything.",
+      "wrongNote": "Not that. The answer is your training coordinator — the apprenticeship standard decides what you can be sent to, not the dispatcher's short list."
+    },
+    {
+      "after": "stay-available",
+      "alert": "A text from someone you met on a job: 'Cash work Saturday, no paperwork, don't tell the hall. $200 for the day.'",
+      "cue": "Do not reply yes. Ask the business agent what it means for you.",
+      "delay": 3,
+      "id": "uhd-cash-offer",
+      "kind": "Cash job offer",
+      "missNote": "The text sat unanswered while you kept checking your phone, and in the version where you said yes, you spent Saturday on a site with no insurance and no record, doing work that could cost you your place on the book if anyone found out.",
+      "seconds": 12,
+      "target": "uhd-agent-window",
+      "why": "Work with no paperwork has no workers' compensation if you are hurt, no hours on your record and no withholding — and the IRS is plain that cash income is still reportable. It can also break your local's rules and put your standing at risk. The business agent is the person who can tell you exactly where you stand, which is why the question goes to the window rather than into a reply.",
+      "wrongNote": "Not that. The answer is the business agent's window — ask before you say anything, because the cost of a cash job lands on you, not the person offering it."
+    }
+  ],
+  "lateNotes": {
+    "uhd-dispatch-log": "The dispatch log is closed out at the end, with the real slip details and the date you reported.",
+    "uhd-name-card": "Not yet. Your card moves to the dispatched column once you have the slip in hand and have read it — not before."
+  },
+  "name": "Union Hall & Dispatch",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "job-readiness-edition",
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "uhd-agent-window",
+      "uhd-alarm-dial",
+      "uhd-apprentice-card",
+      "uhd-availability-track",
+      "uhd-blank-form",
+      "uhd-commute-gauge",
+      "uhd-coordinator-phone",
+      "uhd-dispatch-log",
+      "uhd-dispatch-window",
+      "uhd-dispatched-slot",
+      "uhd-dues-receipt",
+      "uhd-name-card",
+      "uhd-osha10-card",
+      "uhd-out-of-work-book",
+      "uhd-rules-board",
+      "uhd-sign-for-buddy",
+      "uhd-slip-bring",
+      "uhd-slip-contractor",
+      "uhd-slip-location",
+      "uhd-slip-report",
+      "uhd-ssn-text",
+      "uhd-steward",
+      "uhd-tool-hammer",
+      "uhd-tool-knife",
+      "uhd-tool-ppe",
+      "uhd-tool-tape",
+      "uhd-truck-bed"
+    ],
+    "meshes": 211
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Sign the book at the stand with your name, your card number and the date and time — yourself.",
+      "id": "sign-books",
+      "kind": "select",
+      "prompt": "Sign the book at the stand with your name, your card number and the date and time — yourself.",
+      "target": "uhd-out-of-work-book",
+      "title": "Sign the out-of-work book in your own name",
+      "why": "Referral from the hall generally works from the order people signed in and the rules the local posts, and your own signature on the book is what puts you on it. For apprentices, many programmes dispatch through the training coordinator instead, as their apprenticeship standard sets out; either way, signing yourself, accurately, is the start. A place on the book is the one thing in the hall nobody can hold for you."
+    },
+    {
+      "cue": "From your wallet on the bench, find the dues receipt, the apprentice card and the OSHA 10 card.",
+      "id": "bring-cards",
+      "itemNames": {
+        "uhd-apprentice-card": "your apprentice card",
+        "uhd-dues-receipt": "the current dues receipt",
+        "uhd-osha10-card": "your OSHA 10 card"
+      },
+      "itemNotes": {
+        "uhd-apprentice-card": "The apprentice card shows which programme and which period you are in — which decides the jobs you can be referred to and your rate on them.",
+        "uhd-dues-receipt": "Dues paid up is what keeps you in good standing, and most halls check it before a referral. The receipt settles any question on the spot.",
+        "uhd-osha10-card": "Many contractors ask to see OSHA 10 on the first morning. It is an awareness card from the OSHA Outreach Training Program, and it is worth having in your wallet, not at home."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "From your wallet on the bench, find the dues receipt, the apprentice card and the OSHA 10 card.",
+      "targets": [
+        "uhd-dues-receipt",
+        "uhd-apprentice-card",
+        "uhd-osha10-card"
+      ],
+      "title": "Find the three cards you need on the table",
+      "why": "A dispatch can be lost at the window over a card left at home: a dues receipt that shows good standing, an apprentice card that shows your programme and period, and the OSHA 10 card many contractors ask for. Each answers a question somebody will ask before you are referred or let on site, and carrying all three every morning is what keeps the answer from being 'tomorrow'."
+    },
+    {
+      "cue": "Hold at the rules board and read how the book works: the order, what happens if you turn down a call, and how you stay on the list.",
+      "holdBreakNote": "You left the board before the part about re-signing. That rule is the one that quietly drops people off the book — read it through.",
+      "id": "read-rules",
+      "kind": "hold",
+      "prompt": "Hold at the rules board and read how the book works: the order, what happens if you turn down a call, and how you stay on the list.",
+      "seconds": 6,
+      "target": "uhd-rules-board",
+      "title": "Read the referral rules on the wall",
+      "why": "Every local posts its referral rules, and they decide things an apprentice needs to know before the first call: how the order works, how many calls you can turn down, how often you have to re-sign, and what gets you dropped. Reading them once, fully, is how people avoid losing a place over a rule they never knew — and they are the rules the business agent will point to if there is ever a dispute."
+    },
+    {
+      "cue": "When your name is called, go to the window and take the dispatch slip in person.",
+      "id": "take-slip",
+      "kind": "select",
+      "prompt": "When your name is called, go to the window and take the dispatch slip in person.",
+      "target": "uhd-dispatch-window",
+      "title": "Take the dispatch slip at the window",
+      "why": "A dispatch slip is the hall's written referral: which contractor, where, when, and what to bring. Taking it at the window in person means you can ask about anything unclear while the dispatcher is in front of you, and it gives you the written record of the referral — which matters if the job turns out to be different from what the slip says."
+    },
+    {
+      "cue": "On the example slip, find the contractor, the report time, the address and what to bring.",
+      "id": "read-slip",
+      "itemNames": {
+        "uhd-slip-bring": "what to bring",
+        "uhd-slip-contractor": "the contractor",
+        "uhd-slip-location": "the jobsite address",
+        "uhd-slip-report": "the report time"
+      },
+      "itemNotes": {
+        "uhd-slip-bring": "What to bring — tools, PPE, documents. Arriving without them is the fastest way to be sent home on day one.",
+        "uhd-slip-contractor": "The contractor's name, so you know who you are reporting to — and so you can check it is a contractor the hall refers to.",
+        "uhd-slip-location": "The jobsite address, and the gate to report to if the slip gives one. Big sites have several.",
+        "uhd-slip-report": "The report time is when the contractor expects you ready to work, not when you arrive at the gate."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "On the example slip, find the contractor, the report time, the address and what to bring.",
+      "targets": [
+        "uhd-slip-contractor",
+        "uhd-slip-report",
+        "uhd-slip-location",
+        "uhd-slip-bring"
+      ],
+      "title": "Read the slip for the four things that matter",
+      "why": "A slip read in the car park the next morning is a slip read too late. Four things on it decide whether the first day starts well: who you report to, when you are expected ready to work, exactly where, and what to bring. Reading them at the window, while the dispatcher can still answer a question, is what turns a referral into a first day that actually happens."
+    },
+    {
+      "cue": "Carry your name card from 'out of work' to 'dispatched' on the board.",
+      "drag": {
+        "missNote": "Not in the dispatched column. A card left in the wrong column tells the dispatcher you are still available when you are not.",
+        "radius": 0.4,
+        "to": "uhd-dispatched-slot"
+      },
+      "id": "move-card",
+      "kind": "drag",
+      "prompt": "Carry your name card from 'out of work' to 'dispatched' on the board.",
+      "target": "uhd-name-card",
+      "title": "Move your card to the dispatched column",
+      "why": "The board shows who is available and who is out on a job, and keeping your own card accurate keeps the book honest for everyone waiting behind you. It is also your record of when you were dispatched: if the job ends early, the rules on the wall say how you get back on, and the dispatch date is part of that answer."
+    },
+    {
+      "cue": "Commit a leave time that gets you to the gate early enough to park, walk in and be ready at the report time.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.46
+        ],
+        "label": "LEAVE HOME AT (EXAMPLE)",
+        "missNote": "That leave time will not work. Too late and you are at the gate at the report time rather than ready at it; the first morning, traffic and a site you have never found both take longer than you think.",
+        "speed": 0.6
+      },
+      "id": "leave-time",
+      "kind": "gauge",
+      "prompt": "Commit a leave time that gets you to the gate early enough to park, walk in and be ready at the report time.",
+      "target": "uhd-commute-gauge",
+      "title": "Plan the morning back from the report time",
+      "why": "The report time on a slip is when the contractor expects you ready to work, which means parked, walked in, signed in and in your PPE — not pulling into the lot. Planning back from it, with a margin for a site you have never found, is the habit that makes a first impression. The times on the gauge are an example; yours come from the slip and the map."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Pack what the slip and the programme's tool list say — order does not matter.",
+      "id": "pack-tools",
+      "itemNames": {
+        "uhd-tool-hammer": "the hammer",
+        "uhd-tool-knife": "the utility knife",
+        "uhd-tool-ppe": "hard hat, glasses, gloves and boots",
+        "uhd-tool-tape": "the tape measure"
+      },
+      "itemNotes": {
+        "uhd-tool-hammer": "Whatever hammer your programme's list names. Buy what is on the list, not the most expensive one in the store.",
+        "uhd-tool-knife": "A utility knife with spare blades — and a sheath, so it is not loose in the bag.",
+        "uhd-tool-ppe": "Your hard hat, safety glasses, gloves and work boots. Sites will not let you through the gate without them.",
+        "uhd-tool-tape": "A tape measure is on nearly every trade's list. Check the programme's own list for the length it asks for."
+      },
+      "kind": "sequence",
+      "prompt": "Pack what the slip and the programme's tool list say — order does not matter.",
+      "targets": [
+        "uhd-tool-tape",
+        "uhd-tool-knife",
+        "uhd-tool-hammer",
+        "uhd-tool-ppe"
+      ],
+      "title": "Pack the tools on the list",
+      "why": "Apprenticeship programmes publish the hand tools an apprentice is expected to bring, and the slip adds anything the job needs. Packing exactly that — and the PPE the site will check at the gate — is what gets you through the first morning. Buying what is on the list and nothing more until a journey-level worker tells you what you actually need saves money you do not have yet."
+    },
+    {
+      "cue": "Turn the alarm dial to wake you with time to eat, dress and leave at the time you planned.",
+      "id": "alarm",
+      "kind": "turn",
+      "prompt": "Turn the alarm dial to wake you with time to eat, dress and leave at the time you planned.",
+      "target": "uhd-alarm-dial",
+      "title": "Set the alarm for the leave time",
+      "turn": {
+        "axis": "y",
+        "label": "ALARM",
+        "turns": 1
+      },
+      "why": "Construction days start early, and the first one is the one that counts most. An alarm set back from the leave time — with time to eat, because a long morning on an empty stomach is a safety problem in itself — is the simplest step in the whole dispatch and the one most often missed the night before a new job."
+    },
+    {
+      "cue": "Hold the availability track in the band: phone on, messages checked, calls returned inside the window the rules give.",
+      "holdBreakNote": "You dropped out of reach. A missed call can mean a missed dispatch under the rules — back in band, phone on and checked.",
+      "id": "stay-available",
+      "kind": "track",
+      "prompt": "Hold the availability track in the band: phone on, messages checked, calls returned inside the window the rules give.",
+      "seconds": 7,
+      "target": "uhd-availability-track",
+      "title": "Stay reachable through the week",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "REACHABLE",
+        "rise": 0.5,
+        "start": 0.16
+      },
+      "why": "Between jobs, the rules on the wall usually give a window to answer a call, and a missed call can move you down the book. Staying reachable — phone charged, messages checked, calls returned inside the window — is the job during the wait. It also means ignoring the rumours and side offers that come with it, and taking questions to the hall rather than acting on them."
+    },
+    {
+      "cue": "Tell the steward about the call you turned down and the text you got, and how the wait is going.",
+      "id": "steward-checkin",
+      "kind": "select",
+      "prompt": "Tell the steward about the call you turned down and the text you got, and how the wait is going.",
+      "target": "uhd-steward",
+      "title": "Check in with the steward",
+      "why": "The steward is who tells you whether a dispatch you turned down counts against you, and who makes sure the coordinator heard why. The check-in is also the crew check-in of the hall: the weeks between jobs are hard on money and on nerves, and saying so to somebody who has been through it is part of staying in the trade. If it has become more than that, 988 or SAMHSA's National Helpline is the next call."
+    },
+    {
+      "cue": "Log the date you signed, the slip's details, the call you declined and why, and the date you reported.",
+      "id": "dispatch-log",
+      "kind": "select",
+      "prompt": "Log the date you signed, the slip's details, the call you declined and why, and the date you reported.",
+      "target": "uhd-dispatch-log",
+      "title": "Close out your dispatch log",
+      "why": "Your own record of the book — when you signed, what you were offered, what you turned down and why, when you reported — is what answers any question about your place later. Apprentices also need it for their own logbook of hours and work processes, and it is the first thing the business agent will ask for if something about a dispatch needs to be sorted out."
+    }
+  ],
+  "supportLine": "your steward or your training coordinator if the wait between jobs is wearing on you, 988 if it has turned into a crisis, or SAMHSA's National Helpline (1-800-662-4357, free and confidential) if drinking or using is part of how you are getting through it",
+  "tagline": "Sign the book in your own name, bring the cards, read the rules, take the slip and read it, plan the morning back from the report time, and stay reachable — while a dispatch you should not take and a cash job both come calling",
+  "title": "SmartCiti.X~ Union Hall & Dispatch VR",
+  "trade": "Construction apprentice — the union hall and the dispatch",
+  "underwater": null,
+  "weather": "clear"
+}

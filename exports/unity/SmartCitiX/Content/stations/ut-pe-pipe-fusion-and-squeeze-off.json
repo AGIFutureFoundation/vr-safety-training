@@ -1,0 +1,408 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "joint-and-bore-proven",
+    "name": "Joint & Bore Proven",
+    "note": "A section squeezed off, cut, fused on clean faces with an even heat soak, the bead inspected, and the bore released slowly and leak-checked before the crew left"
+  },
+  "category": "Energy & Power",
+  "certification": "UWUA / IBEW gas-utility plastic-pipe joiner qualification; 49 CFR Part 192 (PHMSA) for the operator's qualified-joiner and plastic-pipe-joining procedure; OSHA 29 CFR 1910.147 the control of hazardous energy, applied here as the squeeze-off that stands in for a valve; the fusion machine and pipe manufacturer's own procedure for the facing, heat-soak and joining parameters",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IBEW",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UWUA",
+        "id": "uwua-training",
+        "title": "UWUA — Utility Workers Union of America training and safety education for water, gas and electric utility crews"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Energy",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "bore-fully-collapsed",
+        "name": "Bore Fully Collapsed",
+        "note": "The squeeze-off held its full dwell before anything downstream was cut"
+      },
+      {
+        "id": "clean-faces-only",
+        "name": "Clean Faces Only",
+        "note": "No unsafe action was recorded getting the joint fused"
+      },
+      {
+        "id": "even-heat-soak",
+        "name": "Even Heat Soak",
+        "note": "Held the heater plate temperature steady through the whole soak"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-fusion",
+        "name": "Clean Fusion",
+        "note": "No corrections from the work order to the log"
+      },
+      {
+        "id": "unbroken-cool",
+        "name": "Unbroken Cooling Watch",
+        "note": "The joining pressure watch ran to completion without a break"
+      },
+      {
+        "id": "section-live-fast",
+        "name": "Section Live Fast",
+        "note": "Released and leak-checked inside 80% of par"
+      }
+    ],
+    "currency": "SCFH",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Service Crew",
+      "Qualified Joiner",
+      "Crew Lead",
+      "Distribution Authority Certified"
+    ],
+    "system": "Distribution Authority"
+  },
+  "hazards": {
+    "contaminated-fusion-face": "You went to bring the pipe ends together for fusion without wiping the faced surfaces clean first. Oil, dirt or even a bare hand's own residue left on a freshly scraped face becomes part of the joint the moment the heater plate melts it in, and a contaminated fusion can look identical to a good one right up until it fails under pressure.",
+    "release-squeeze-off-too-fast": "You went to snap the squeeze-off open all at once instead of releasing it slowly. Polyethylene pipe that has been held collapsed for a dwell needs time to round back out on its own — released suddenly, the bore can crease or the pipe wall can crack right at the edge of where the bar was holding it.",
+    "skip-bead-inspection": "You went to log this fusion joint as good without ever inspecting the bead. The bead is the one visible sign of what actually happened inside that joint — uneven, rolled the wrong way, or missing on one side, it is telling this crew something a perfect-looking outside of the pipe never will.",
+    "skip-squeeze-off-dwell": "You went to cut into the pipe before the squeeze-off had held its full dwell. A bore that has not fully collapsed is a bore that is still passing gas, however still the outside of the pipe looks — cutting into it on the strength of a glance rather than the dwell time is cutting into a line this crew has not actually proven closed."
+  },
+  "id": "ut-pe-pipe-fusion-and-squeeze-off",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "squeeze-off-hold",
+      "alert": "Dispatch is calling to confirm a backup squeeze-off point is actually staged downstream before this pipe gets cut.",
+      "cue": "Answer the radio and confirm the backup is in place before the cut proceeds.",
+      "delay": 3,
+      "id": "second-squeeze-off-confirm",
+      "kind": "Dispatch calls to confirm the backup squeeze-off",
+      "missNote": "The call went unanswered while the crew moved toward the cut. Whether a backup squeeze-off was actually staged downstream was never confirmed before this pipe was opened.",
+      "seconds": 12,
+      "target": "backup-radio",
+      "why": "A single squeeze-off standing in for a valve is exactly the kind of thing that is supposed to have a second one staged behind it, and confirming that over the radio now — rather than finding out it was never set up after the pipe is already open — is what keeps a squeeze-off failure from becoming an uncontrolled release with nothing behind it.",
+      "wrongNote": "It is the radio call about the backup. The squeeze-off in front of you has not changed — this is about whether a second one exists at all."
+    },
+    {
+      "after": "heat-soak",
+      "alert": "A gust of wind is blowing straight across the heater plate, cooling one side of the pipe faces faster than the other while they are supposed to be soaking evenly.",
+      "cue": "Get the wind shield up around the heater plate before the soak finishes uneven.",
+      "delay": 3,
+      "id": "wind-affects-heat-soak",
+      "kind": "Wind gusts across the open heater plate",
+      "missNote": "The wind kept cutting across the heater plate with no shield up. One face soaked cooler than the other, and the joint that came from it carries that difference whether or not the bead shows it later.",
+      "seconds": 11,
+      "target": "wind-shield",
+      "why": "An uneven heat soak makes an uneven joint no amount of careful joining afterward can fix, and the wind shield is what keeps both faces soaking at the same rate the machine's procedure actually assumes they are at — skipped, this fusion is compromised before the plate ever comes out.",
+      "wrongNote": "It is the wind shield, round the heater plate. The squeeze-off bar has nothing to do with an uneven heat soak."
+    }
+  ],
+  "lateNotes": {
+    "heater-plate": "The heater plate goes against the pipe ends only once they are faced, cleaned and aligned — not before any of those three are done.",
+    "squeeze-bar-release": "The squeeze-off releases only after the new joint has cooled, been inspected and logged — not on the assumption that a good-looking bead means the job is finished."
+  },
+  "name": "PE Pipe Fusion & Squeeze-Off",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "water-and-gas-utility-crews"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "backup-radio",
+      "carriage-gauge",
+      "carriage-lever",
+      "check-alignment",
+      "clean-faced-ends",
+      "close-squeeze-jaws",
+      "cold-fusion-sign",
+      "contaminated-fusion-face",
+      "face-pipe-ends",
+      "fusion-clamp",
+      "fusion-log",
+      "fusion-pipe-end",
+      "gas-detector",
+      "heater-plate",
+      "pipe-gouge",
+      "pipe-out-of-round",
+      "position-squeeze-bar",
+      "release-squeeze-off-too-fast",
+      "skip-bead-inspection",
+      "skip-squeeze-off-dwell",
+      "squeeze-bar",
+      "squeeze-bar-release",
+      "wind-shield",
+      "witness-marks-aligned",
+      "work-order"
+    ],
+    "meshes": 123
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the work order for pipe size and SDR, and confirm the fusion machine's calibration record.",
+      "id": "work-order",
+      "kind": "select",
+      "prompt": "Check the work order for pipe size and SDR, and confirm the fusion machine's calibration record.",
+      "target": "work-order",
+      "title": "Read the work order and machine record",
+      "why": "A fusion machine's own procedure is matched to a specific pipe size and wall thickness, and a joint made on the wrong setting from an uncalibrated machine can look identical to a correct one until it is tested — checked here, before either pipe end is ever touched."
+    },
+    {
+      "cue": "Walk the pipe and find what has to be dealt with before either the squeeze-off or the fusion joint happens here.",
+      "id": "inspect-pipe",
+      "itemNames": {
+        "pipe-gouge": "a gouge in the pipe wall",
+        "pipe-out-of-round": "an out-of-round section of pipe"
+      },
+      "itemNotes": {
+        "pipe-gouge": "This gouge cuts deep enough into the wall that it has to be cut out of the section entirely — a fusion joint made past it does nothing for a wall that is already thinned here.",
+        "pipe-out-of-round": "This length of pipe has gone oval enough that the squeeze-off bar will not close evenly on it — reround it or move the squeeze point before the bar ever closes."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the pipe and find what has to be dealt with before either the squeeze-off or the fusion joint happens here.",
+      "targets": [
+        "pipe-gouge",
+        "pipe-out-of-round"
+      ],
+      "title": "Inspect the pipe before squeezing or fusing it",
+      "why": "A gouge or an out-of-round section both change what a squeeze-off or a fusion joint actually does at that exact point on the pipe, and catching either one now is the difference between working around a known defect and discovering it mid-procedure."
+    },
+    {
+      "cue": "Position the squeeze bar on sound, round pipe, then close the jaws slowly.",
+      "id": "squeeze-off-setup",
+      "itemNames": {
+        "close-squeeze-jaws": "jaws closed slowly",
+        "position-squeeze-bar": "squeeze bar positioned"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Position the bar first, then close the jaws slowly — jaws closed before the bar is actually positioned close on whatever happened to be underneath them.",
+      "prompt": "Position the squeeze bar on sound, round pipe, then close the jaws slowly.",
+      "targets": [
+        "position-squeeze-bar",
+        "close-squeeze-jaws"
+      ],
+      "title": "Position and close the squeeze-off",
+      "why": "The bar goes on a length of pipe this crew just proved round and sound, because a squeeze-off closed on a flaw does not seal evenly — closed slowly rather than snapped shut, the bore collapses the way the tool is designed to close it rather than however fast the operator's grip happens to move."
+    },
+    {
+      "cue": "Hold the jaws closed for the full dwell time until the bore is fully collapsed.",
+      "holdBreakNote": "The jaws came off before the dwell finished — hold again, a bore that has not fully collapsed is still a bore passing gas downstream of this bar.",
+      "id": "squeeze-off-hold",
+      "kind": "hold",
+      "prompt": "Hold the jaws closed for the full dwell time until the bore is fully collapsed.",
+      "seconds": 5,
+      "target": "squeeze-bar",
+      "title": "Hold the squeeze-off to full dwell",
+      "why": "The bore does not collapse the instant the jaws touch — it takes the dwell time for the pipe wall to actually flatten and stay flattened, and cutting into the pipe before that dwell is finished is cutting into a line that only looks stopped from the outside."
+    },
+    {
+      "cue": "Carry the cut pipe end into the fusion machine's clamps.",
+      "drag": {
+        "missNote": "Not seated in the clamp — a pipe end resting against the machine instead of held square in the jaws will not face or fuse true.",
+        "radius": 0.42,
+        "to": "fusion-clamp"
+      },
+      "id": "position-pipe-ends",
+      "kind": "drag",
+      "prompt": "Carry the cut pipe end into the fusion machine's clamps.",
+      "target": "fusion-pipe-end",
+      "title": "Bring the pipe ends into the fusion machine",
+      "why": "Both ends are carried into the same set of clamps so the machine, not two separate hands, decides the alignment — a pipe end brought in and forced to fit afterward is already fighting the alignment the joint depends on."
+    },
+    {
+      "cue": "Face both pipe ends, wipe the faced surfaces clean, then check the alignment and gap between them.",
+      "id": "face-and-clean",
+      "itemNames": {
+        "check-alignment": "alignment and gap checked",
+        "clean-faced-ends": "faced ends wiped clean",
+        "face-pipe-ends": "both ends faced"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Face, then clean, then check alignment — cleaning before the ends are faced wipes a surface that is about to be scraped away anyway.",
+      "prompt": "Face both pipe ends, wipe the faced surfaces clean, then check the alignment and gap between them.",
+      "targets": [
+        "face-pipe-ends",
+        "clean-faced-ends",
+        "check-alignment"
+      ],
+      "title": "Face, clean, then check alignment",
+      "why": "Facing exposes a fresh, flat surface on each end; cleaning is what keeps that surface fresh rather than contaminated the instant it is touched again; and the alignment check is what confirms the two ends actually meet true before the heater plate ever goes near either one."
+    },
+    {
+      "cue": "Bring the heater plate's reading into the machine's own band, then commit.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.75
+        ],
+        "label": "HEATER PLATE TEMP",
+        "missNote": "That is outside the machine's own fusion temperature band — let it settle and read it again before it ever touches the pipe.",
+        "speed": 0.6
+      },
+      "id": "heater-plate-temp",
+      "kind": "gauge",
+      "prompt": "Bring the heater plate's reading into the machine's own band, then commit.",
+      "target": "heater-plate",
+      "title": "Bring the heater plate to temperature",
+      "why": "A plate that is too cool never fully melts the faces it touches, and one that runs too hot can degrade the material before the pipe ends ever come together — this is checked against the machine's own procedure, not against a guess at how warm the plate feels from the handle."
+    },
+    {
+      "cue": "Hold both pipe ends against the heater plate for the full soak.",
+      "holdBreakNote": "The ends came off the plate before the soak finished — hold again, a short soak melts the surface without the depth this joint needs to hold.",
+      "id": "heat-soak",
+      "kind": "hold",
+      "prompt": "Hold both pipe ends against the heater plate for the full soak.",
+      "seconds": 5,
+      "target": "heater-plate",
+      "title": "Hold both faces on the heater plate",
+      "why": "Both faces need the same soak time against the same plate to melt evenly — held for the full time rather than pulled early because the surface looks shiny enough, the melt actually reaches the depth the joint strength depends on."
+    },
+    {
+      "cue": "Turn the carriage lever to swing the heater plate out and bring the melted faces together.",
+      "id": "swap-and-join",
+      "kind": "turn",
+      "prompt": "Turn the carriage lever to swing the heater plate out and bring the melted faces together.",
+      "target": "carriage-lever",
+      "title": "Swing the plate clear and join the ends",
+      "turn": {
+        "axis": "y",
+        "label": "CARRIAGE LEVER",
+        "turns": 0.5
+      },
+      "why": "The swap from plate to joined faces has to happen fast enough that neither melted surface has time to skin over in the open air — the carriage lever is what makes that one continuous motion instead of two separate ones with a gap the joint cannot afford between them."
+    },
+    {
+      "cue": "Watch the joining pressure hold steady in the band for the whole cooling period.",
+      "holdBreakNote": "That pressure moved out of band during the cooling watch — the joint cooled under conditions the procedure did not call for, and the bead needs a harder look because of it.",
+      "id": "joining-pressure-watch",
+      "kind": "track",
+      "prompt": "Watch the joining pressure hold steady in the band for the whole cooling period.",
+      "seconds": 7,
+      "target": "carriage-gauge",
+      "title": "Hold the joining pressure through cooling",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.3,
+        "green": [
+          0.42,
+          0.65
+        ],
+        "label": "JOINING PRESSURE",
+        "rise": 0.06,
+        "start": 0.55
+      },
+      "why": "The joint is still forming while it cools, and a pressure that drops or spikes mid-cool changes the shape of the bead the machine is actually producing — held steady for the full watch, the cooling happens the way the manufacturer's procedure assumes it will."
+    },
+    {
+      "cue": "Walk the bead once it has cooled and find what it is actually telling this crew.",
+      "id": "inspect-bead",
+      "itemNames": {
+        "cold-fusion-sign": "a sign of a cold fusion in the bead",
+        "witness-marks-aligned": "the witness marks lined up"
+      },
+      "itemNotes": {
+        "cold-fusion-sign": "One side of this bead is thin and glassy compared to the other — a sign the two faces did not actually fuse evenly, whatever the outside of the joint looks like.",
+        "witness-marks-aligned": "The witness marks either side of the joint line up straight, which is what confirms the pipe did not twist during the join."
+      },
+      "kind": "find",
+      "prompt": "Walk the bead once it has cooled and find what it is actually telling this crew.",
+      "targets": [
+        "cold-fusion-sign",
+        "witness-marks-aligned"
+      ],
+      "title": "Inspect the finished bead",
+      "why": "The bead is the only visible record of what happened inside a joint that is otherwise sealed shut — an even, symmetric bead with the witness marks aligned is what a correctly made fusion actually looks like, and anything else is a joint that needs a second opinion before it goes into service."
+    },
+    {
+      "cue": "Record the machine ID, the fusion parameters, and the operator on the fusion log.",
+      "id": "log-fusion",
+      "kind": "select",
+      "prompt": "Record the machine ID, the fusion parameters, and the operator on the fusion log.",
+      "target": "fusion-log",
+      "title": "Log the fusion joint",
+      "why": "A fusion joint with no record is a joint the next crew can never trace back to a specific machine, setting or operator if a problem ever shows up on this line — the log is what turns a good joint into a joint the utility can actually stand behind years from now."
+    },
+    {
+      "cue": "Turn the release screw slowly, letting the pipe round back out on its own.",
+      "id": "release-squeeze-off",
+      "kind": "turn",
+      "prompt": "Turn the release screw slowly, letting the pipe round back out on its own.",
+      "target": "squeeze-bar-release",
+      "title": "Release the squeeze-off slowly",
+      "turn": {
+        "axis": "y",
+        "label": "SQUEEZE-OFF RELEASE",
+        "reverse": true,
+        "turns": 0.6
+      },
+      "why": "The pipe has been held flat for a dwell and needs time to round back out the same way it was closed — released slowly, the bore recovers evenly; snapped open, the wall can crease or crack right where the bar was holding it."
+    },
+    {
+      "cue": "Sweep the new joint with the detector and bring the reading to a clean result before you commit.",
+      "gauge": {
+        "green": [
+          0,
+          0.15
+        ],
+        "label": "COMBUSTIBLE GAS",
+        "missNote": "That is not a clean reading at the new joint — recheck it before this section is called finished.",
+        "speed": 0.6
+      },
+      "id": "leak-check-after-release",
+      "kind": "gauge",
+      "prompt": "Sweep the new joint with the detector and bring the reading to a clean result before you commit.",
+      "target": "gas-detector",
+      "title": "Leak-check the new joint",
+      "why": "Everything up to this point has been proof the procedure was followed correctly; this is proof the pipe itself agrees — a clean sweep on the detector is what actually closes this job out, not the fusion looking right and the bore sounding like it reopened."
+    }
+  ],
+  "supportLine": "your utility's employee assistance programme, or your UWUA or IBEW steward if you are not sure how to reach it",
+  "tagline": "A squeeze-off bar standing in for a valve that does not exist, a butt-fusion joint made from two faces scraped clean and heat-soaked evenly, and the bead inspected and the bore released slowly before either one is trusted",
+  "title": "SmartCiti.X~ PE Pipe Fusion & Squeeze-Off VR",
+  "trade": "UWUA / IBEW gas-utility qualified plastic-pipe joiner",
+  "underwater": null,
+  "weather": "overcast"
+}

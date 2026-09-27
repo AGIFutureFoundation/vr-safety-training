@@ -1,0 +1,410 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "every-contact",
+    "name": "Every Contact",
+    "note": "Every household contact found, checked without touching and logged, the case's name kept private and the sick contact referred, not driven"
+  },
+  "category": "Emergency Services",
+  "certification": "WHO contact-tracing practice as the national response adopts it — contacts listed, visited and followed up daily for the period the case definition sets; WHO infection prevention and control guidance and CDC isolation precautions for distance, hand hygiene and a non-contact temperature check; OSHA 29 CFR 1910.134 for the respirator the team carries and 29 CFR 1910.1030 for anything that could carry blood; WHO outbreak communication guidance for consent, confidentiality and rumours at the gate; the Sphere Handbook's protection principles and IASC cluster coordination for the Health Cluster partners the team reports to; worked by SEIU and AFSCME public-health staff with NNU/CNA nurses",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "IASC",
+        "citedAs": "IASC",
+        "id": "iasc-cluster-coordination",
+        "title": "Inter-Agency Standing Committee (IASC) cluster approach and cluster coordination guidance"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "Sphere",
+        "citedAs": "Sphere Handbook",
+        "id": "sphere-handbook",
+        "title": "The Sphere Handbook: Humanitarian Charter and Minimum Standards in Humanitarian Response"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO",
+        "id": "who-guidance",
+        "title": "World Health Organization technical and field guidance for health emergencies and outbreak response"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO infection prevention and control guidance",
+        "id": "who-ipc-guidance",
+        "title": "WHO guidance on infection prevention and control in health care"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO outbreak communication guidance",
+        "id": "who-outbreak-communication",
+        "title": "WHO outbreak communication guidance"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Emergency Services",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "none-missed",
+        "name": "None Missed",
+        "note": "Every contact found, including the ones not on the list"
+      },
+      {
+        "id": "trusted",
+        "name": "Trusted",
+        "note": "No name shared, no rumour repeated, nobody driven, nobody interviewed indoors"
+      },
+      {
+        "id": "at-distance",
+        "name": "At Distance",
+        "note": "Interview distance set inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-visit",
+        "name": "Clean Visit",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-reading",
+        "name": "Steady Reading",
+        "note": "Temperature check held without a dropout"
+      },
+      {
+        "id": "seven-straight",
+        "name": "Seven Straight",
+        "note": "Seven correct actions in a row"
+      }
+    ],
+    "currency": "TRACE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Volunteer Tracer",
+      "Contact Tracer",
+      "Team Lead",
+      "Tracing Supervisor",
+      "Trace Team Certified"
+    ],
+    "system": "Trace Team"
+  },
+  "hazards": {
+    "wct-enter-house": "You ducked into the dark front room to do the interview out of the sun. A follow-up visit is held outdoors, at distance, because a small closed room with a household of contacts is exactly the setting the team is trying to keep people out of — and the tracer who works indoors all day visits a dozen such rooms.",
+    "wct-name-case": "You told the neighbour at the fence who the sick person is. Tracing depends on households telling the team the truth about who they saw, and they only do that if they trust their names and their relative's name will not be passed around; a case named at the fence is a family shunned by evening and a street that stops answering the door.",
+    "wct-own-vehicle": "You started to put the unwell contact in the team's car to 'save time'. A symptomatic contact is referred through the response's own transport — a dedicated vehicle with a crew in PPE and a vehicle that is disinfected afterwards — not driven in the car the tracing team will use for every other household today.",
+    "wct-repeat-rumour": "You repeated the neighbour's rumour to the household so you could 'correct' it. Saying a rumour aloud to people who had not heard it spreads it further; the team answers with what is known, plainly, and passes the rumour to the risk-communication team through the feedback log."
+  },
+  "id": "who-contact-tracing-visit",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "consent",
+      "alert": "A neighbour has come to the fence, phone up and filming, shouting that the team is bringing the disease to the street.",
+      "cue": "Bring the community focal person in to speak with him — do not argue from the household bench.",
+      "delay": 2,
+      "id": "neighbour-filming",
+      "kind": "Crowd at the gate",
+      "missNote": "The shouting went on and the video went round the neighbourhood by evening, with the household's gate in every frame. The next day the family refused the visit, and two contacts stopped answering the phone.",
+      "seconds": 13,
+      "target": "wct-community-focal",
+      "why": "A tracer arguing with a neighbour on camera helps nobody, and the household ends up the subject of the video. The focal person is known on the street and can calm the moment and take the conversation away from the family; the tracer's job is to keep the household's privacy intact and carry on with them.",
+      "wrongNote": "Not that. Bring the community focal person to the fence to speak with the neighbour."
+    },
+    {
+      "after": "temp-check",
+      "alert": "The visiting cousin says quietly that he has felt unwell since last night, and sits down against the wall.",
+      "cue": "Call the referral line for the response's transport — keep him apart, and do not touch him.",
+      "delay": 2,
+      "id": "contact-feels-unwell",
+      "kind": "Symptomatic contact",
+      "missNote": "The referral was not called. The cousin caught a shared minibus home that afternoon, and the tracing team spent the next week trying to find everyone who had sat beside him.",
+      "seconds": 13,
+      "target": "wct-referral-phone",
+      "why": "A contact who develops symptoms moves out of follow-up and into referral: the response's own transport takes him to be assessed, and the household's other contacts carry on being followed. Calling the referral line at once, while keeping him apart from the others and without touching him, is the whole reason the team visits daily.",
+      "wrongNote": "Not that. Use the referral phone to call the response's transport for him."
+    }
+  ],
+  "lateNotes": {
+    "wct-day-wheel": "Turn the follow-up wheel once today's visit is logged; moving it before the card is filed skips a day on paper that was never checked.",
+    "wct-thermometer": "Temperatures come after consent and after every contact has been found — checking half a household leaves the other half unchecked."
+  },
+  "name": "Contact Tracing Visit",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "outbreak-response-who"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "wct-community-focal",
+      "wct-consent-card",
+      "wct-contact-child",
+      "wct-contact-elder",
+      "wct-contact-sheet",
+      "wct-contact-visitor",
+      "wct-crew-board",
+      "wct-day-wheel",
+      "wct-distance-marker",
+      "wct-enter-house",
+      "wct-followup-card",
+      "wct-handrub-after",
+      "wct-kit-forms",
+      "wct-kit-handrub",
+      "wct-kit-thermometer",
+      "wct-name-case",
+      "wct-own-vehicle",
+      "wct-referral-phone",
+      "wct-repeat-rumour",
+      "wct-sheet-socket",
+      "wct-supervisor-radio",
+      "wct-thermometer",
+      "wct-tracing-log"
+    ],
+    "meshes": 207
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Before you set off, read the household's listed contacts, today's follow-up day and what the case definition says to ask about.",
+      "id": "contact-sheet",
+      "kind": "select",
+      "prompt": "Before you set off, read the household's listed contacts, today's follow-up day and what the case definition says to ask about.",
+      "target": "wct-contact-sheet",
+      "title": "Read the contact list and the follow-up day",
+      "why": "A follow-up visit is a check against a list: who was exposed, when, and which day of their follow-up period today is. A tracer who arrives without it checks the people who happen to be in the yard, and the grandmother who was at the funeral and the cousin who has gone back to his own village never get asked."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Hand rub, the non-contact thermometer and the household's follow-up forms — any order, all three.",
+      "id": "kit-pack",
+      "itemNames": {
+        "wct-kit-forms": "follow-up forms",
+        "wct-kit-handrub": "hand rub",
+        "wct-kit-thermometer": "non-contact thermometer"
+      },
+      "kind": "sequence",
+      "prompt": "Hand rub, the non-contact thermometer and the household's follow-up forms — any order, all three.",
+      "targets": [
+        "wct-kit-handrub",
+        "wct-kit-thermometer",
+        "wct-kit-forms"
+      ],
+      "title": "Pack the visit kit",
+      "why": "Everything the team needs to do the visit without touching anyone or borrowing anything goes in the bag before the car leaves. A thermometer forgotten becomes a hand on a forehead; forms forgotten become notes on the back of a receipt that never reach the line list."
+    },
+    {
+      "cue": "Greet the community focal person at the lane before you go to the household gate.",
+      "id": "focal-point",
+      "kind": "select",
+      "prompt": "Greet the community focal person at the lane before you go to the household gate.",
+      "target": "wct-community-focal",
+      "title": "Meet the community focal person first",
+      "why": "In most communities a household visit from strangers in response vehicles is noticed by everyone on the street. Arriving with the community focal person — someone the neighbourhood already knows and trusts — changes that visit from an inspection into a check-in, and it is the focal person the household will call if a contact falls ill at night."
+    },
+    {
+      "cue": "Step back from the household bench and commit when the marker shows you at the distance your IPC briefing set, outdoors.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.64
+        ],
+        "label": "DISTANCE",
+        "missNote": "Not at the briefed distance. Step back or in and commit where the marker says you are at briefing distance.",
+        "speed": 0.6
+      },
+      "id": "distance",
+      "kind": "gauge",
+      "prompt": "Step back from the household bench and commit when the marker shows you at the distance your IPC briefing set, outdoors.",
+      "target": "wct-distance-marker",
+      "title": "Set the interview distance",
+      "why": "The interview is held outside, in open air, at the distance the team's infection prevention and control briefing sets, because the tracer will repeat this conversation at every household on the list. Getting that distance right once, at the start, is easier than remembering to step back halfway through a hard conversation."
+    },
+    {
+      "cue": "Hold the consent card while you explain who you are, why you visit daily and what happens to their information — and wait for their answer.",
+      "holdBreakNote": "You moved on before they answered. Consent is their answer, not your explanation — hold and wait for it.",
+      "id": "consent",
+      "kind": "hold",
+      "prompt": "Hold the consent card while you explain who you are, why you visit daily and what happens to their information — and wait for their answer.",
+      "seconds": 5,
+      "target": "wct-consent-card",
+      "title": "Explain the visit and ask consent",
+      "why": "People who understand why the team comes every day, and who have been asked rather than told, are the people who will say honestly that a child has a fever. Explaining and waiting for a real answer takes a minute; a household that feels processed stops answering the door around day four."
+    },
+    {
+      "cue": "Look around the compound and find every person who should be on today's follow-up — not just the ones on the sheet.",
+      "id": "list-contacts",
+      "itemNames": {
+        "wct-contact-child": "the youngest child",
+        "wct-contact-elder": "the grandmother",
+        "wct-contact-visitor": "the visiting cousin"
+      },
+      "itemNotes": {
+        "wct-contact-child": "Playing behind the water jars — not on the list, because the first interview only counted adults.",
+        "wct-contact-elder": "Resting in the shade by the wall; she cared for the case before anyone knew what it was.",
+        "wct-contact-visitor": "Visiting from another village and leaving tomorrow — the one most likely to be lost to follow-up."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look around the compound and find every person who should be on today's follow-up — not just the ones on the sheet.",
+      "targets": [
+        "wct-contact-child",
+        "wct-contact-elder",
+        "wct-contact-visitor"
+      ],
+      "title": "Find every contact in the household",
+      "why": "Contact lists are built from a first interview in a frightening moment, and they miss people: children, the person who did the caring, the visitor who is about to leave. Every missed contact is someone who could fall ill without anyone looking for them, so the tracer checks the household as it is, not as the sheet says it is."
+    },
+    {
+      "cue": "Aim the non-contact thermometer steadily at each forehead from your distance and keep the reading in the band.",
+      "holdBreakNote": "The aim drifted. The reading will not be true — steady it back on the forehead from your distance.",
+      "id": "temp-check",
+      "kind": "track",
+      "prompt": "Aim the non-contact thermometer steadily at each forehead from your distance and keep the reading in the band.",
+      "seconds": 6,
+      "target": "wct-thermometer",
+      "title": "Take temperatures without touching",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.5,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "AIM",
+        "rise": 0.6,
+        "start": 0.2
+      },
+      "why": "A non-contact thermometer keeps the tracer's hand off every forehead in every household of the day. It only reads true when it is held steady at the right range, and a reading taken on the move is a number written on a form that means nothing — or worse, a missed fever that reads as normal."
+    },
+    {
+      "cue": "Carry each contact's completed card to the household's follow-up sheet on the clipboard.",
+      "drag": {
+        "missNote": "Not on the sheet. The card belongs on this household's follow-up sheet, or today's visit never happened on paper.",
+        "radius": 0.4,
+        "to": "wct-sheet-socket"
+      },
+      "id": "followup-card",
+      "kind": "drag",
+      "prompt": "Carry each contact's completed card to the household's follow-up sheet on the clipboard.",
+      "target": "wct-followup-card",
+      "title": "Log today's follow-up",
+      "why": "The follow-up sheet is what turns a visit into a record the supervisor can count: who was seen, on which day, with what result. A card left in a pocket is a contact who was checked and still shows up as missed on tonight's line list — and gets visited again tomorrow while someone else does not."
+    },
+    {
+      "cue": "Turn the day wheel on the clipboard one click to the next visit day.",
+      "id": "day-wheel",
+      "kind": "turn",
+      "prompt": "Turn the day wheel on the clipboard one click to the next visit day.",
+      "target": "wct-day-wheel",
+      "title": "Advance the follow-up wheel",
+      "turn": {
+        "axis": "z",
+        "label": "DAY WHEEL",
+        "turns": 0.5
+      },
+      "why": "The follow-up period ends on a date set by the last exposure, not by when the team got tired of visiting. Advancing the wheel after every logged visit keeps the count honest, so the day a household is released from follow-up is the day the case definition says, and not a day early."
+    },
+    {
+      "cue": "Rub your hands at the gate as you leave the compound — before you touch the car door.",
+      "id": "hand-hygiene",
+      "kind": "select",
+      "prompt": "Rub your hands at the gate as you leave the compound — before you touch the car door.",
+      "target": "wct-handrub-after",
+      "title": "Hand hygiene at the gate",
+      "why": "The car, the clipboard and the next household are all downstream of your hands at this gate. Hand hygiene on leaving each household is what keeps the tracing team from becoming the route between the houses on the list — a route that runs through every household visited today."
+    },
+    {
+      "cue": "Hold the radio and report: household seen, contacts checked, the new contact found and the referral made — until the supervisor reads it back.",
+      "holdBreakNote": "You let go before the supervisor read it back. A report nobody confirmed may not reach tomorrow's plan — key up and finish it.",
+      "id": "report-supervisor",
+      "kind": "hold",
+      "prompt": "Hold the radio and report: household seen, contacts checked, the new contact found and the referral made — until the supervisor reads it back.",
+      "seconds": 4,
+      "target": "wct-supervisor-radio",
+      "title": "Report to the tracing supervisor",
+      "why": "The supervisor is building the day's picture from every team, and a new contact or a referral changes tomorrow's plan for the whole area. Reporting from the gate, not at the end of the day, is what gets the new contact onto the list and the referral onto the ambulance crew's route while it still matters."
+    },
+    {
+      "cue": "Before the next household, ask your partner how that visit sat with them, and point to staff care if either of you needs it.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Before the next household, ask your partner how that visit sat with them, and point to staff care if either of you needs it.",
+      "target": "wct-crew-board",
+      "title": "Check in with your tracing partner",
+      "why": "Tracers hear frightened households, grief and anger at every gate, and they take it on the chin all day. A minute between households to check in with your partner — and to remind each other that staff care exists and is meant to be used — is what keeps a team kind at house twelve."
+    },
+    {
+      "cue": "Hold the log open and read back the households seen, contacts checked, any missed and any referred before you sign.",
+      "holdBreakNote": "You signed without reading it back. Open the log and read out who was seen, missed and referred before you sign.",
+      "id": "closing-log",
+      "kind": "hold",
+      "prompt": "Hold the log open and read back the households seen, contacts checked, any missed and any referred before you sign.",
+      "seconds": 4,
+      "target": "wct-tracing-log",
+      "title": "Close the day's tracing log",
+      "why": "The tracing log is how the supervisor knows which contacts were actually seen today and which were not reached. Read back before signing, a missed contact stands out on the page and gets tomorrow's first visit; signed without reading, it vanishes into a total."
+    }
+  ],
+  "supportLine": "your agency's staff welfare or staff counsellor service, or the peer-support contact named at your deployment briefing",
+  "tagline": "A household follow-up visit: the list and the follow-up period read first, the focal person met at the gate, an outdoor interview at distance, consent asked, every contact found, a symptomatic contact referred and the day logged",
+  "title": "SmartCiti.X~ Contact Tracing Visit VR",
+  "trade": "Contact tracer — SEIU and AFSCME public-health staff, NNU/CNA nurses, and the humanitarian workforce deployed under IASC clusters",
+  "underwater": null,
+  "weather": "clear"
+}

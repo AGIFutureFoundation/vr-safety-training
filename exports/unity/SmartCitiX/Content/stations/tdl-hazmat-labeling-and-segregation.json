@@ -1,0 +1,413 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "segregated",
+    "name": "Segregated",
+    "note": "A hazmat shipment staged away from its incompatibles, with every label, mark and placard right and the paper signed — first time"
+  },
+  "category": "Mobility & Transit",
+  "certification": "PHMSA 49 CFR 172 — the hazardous materials table, shipping papers and the shipper's certification, package marking and labels, placarding, emergency response information, and the hazmat employee training every person who handles or prepares a shipment must have, refreshed at least every three years; 49 CFR 177 for loading and segregation on the vehicle; OSHA 29 CFR 1910.1200 hazard communication and the safety data sheet; 29 CFR 1910.132 personal protective equipment; ANSI Z358.1 for the eyewash; 29 CFR 1910.178 for the truck that loads the trailer; Teamsters freight and warehouse locals' hazmat training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z358.1",
+        "id": "ansi-z358-1",
+        "title": "ANSI/ISEA Z358.1 — Emergency eyewash and shower equipment"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.178",
+        "id": "osha-1910-178",
+        "title": "29 CFR 1910.178 — Powered industrial trucks"
+      },
+      {
+        "body": "PHMSA",
+        "citedAs": "49 CFR 172",
+        "id": "phmsa-49-cfr-172",
+        "title": "49 CFR Part 172 — Hazardous materials table, communications, emergency response information and training"
+      },
+      {
+        "body": "PHMSA",
+        "citedAs": "49 CFR 177",
+        "id": "phmsa-49-cfr-177",
+        "title": "49 CFR Part 177 — Carriage by public highway, including loading, unloading and segregation of hazardous materials on the vehicle"
+      },
+      {
+        "body": "union",
+        "citedAs": "Teamsters",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Warehouse & Distribution",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "label-reader",
+        "name": "Label Reader",
+        "note": "Every package fault found without a hint"
+      },
+      {
+        "id": "kept-apart",
+        "name": "Kept Apart",
+        "note": "Never staged with an incompatible, stacked a drum on freight or shipped a damaged package"
+      },
+      {
+        "id": "four-sides",
+        "name": "Four Sides",
+        "note": "The placard walk and the handoff both done clean"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-shipment",
+        "name": "Clean Shipment",
+        "note": "No corrections anywhere in the cage"
+      },
+      {
+        "id": "on-the-paper",
+        "name": "On the Paper",
+        "note": "The drum weight read near the centre of the band"
+      },
+      {
+        "id": "cutoff",
+        "name": "Before the Cutoff",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "PAPER",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Hazmat Trainee",
+      "Hazmat Employee",
+      "Hazmat Shipper",
+      "Hazmat Lead",
+      "Hazmat Shipping Certified"
+    ],
+    "system": "Hazmat Shipping"
+  },
+  "hazards": {
+    "hzl-bare-hand-wipe": "You reached for a rag to wipe the residue off the drum lid with bare hands. Residue on a corrosive drum is corrosive; it goes through skin before it hurts. Gloves on, and the residue is treated as a leak until the safety data sheet says otherwise.",
+    "hzl-bay-oxidizer": "You went to stage the acid drum in the bay beside the pool-chlorine pails. The acid's safety data sheet lists oxidizers such as hypochlorites among its incompatible materials: if either leaks into the other, the mixture gives off chlorine gas in an enclosed trailer. Incompatibles are staged apart in the building and loaded apart on the vehicle.",
+    "hzl-dented-drum": "You went to ship the drum with the crease across its chime and the stain down its side. A damaged or leaking package is not offered for transport: it is overpacked or repackaged by someone trained to do it, because the dent is where it splits when the driver brakes.",
+    "hzl-drum-on-cartons": "You went to stand the drum on top of the carton pallet. A 450 lb drum crushes the cartons under it, and if those are hazmat inner packagings the drum is now standing in whatever leaked from them. Drums go on the floor or on their own pallet, never on top of other freight."
+  },
+  "id": "tdl-hazmat-labeling-and-segregation",
+  "indoor": "garage",
+  "interrupts": [
+    {
+      "after": "drum-truck",
+      "alert": "A jug in the returns cart beside you has started weeping onto the floor, and the puddle is spreading toward the drain.",
+      "cue": "Contain the leak before it spreads.",
+      "delay": 3,
+      "id": "jug-weeping",
+      "kind": "Leak in the cage",
+      "missNote": "You left a leak spreading while you worked. A weeping container that reaches a floor drain becomes an environmental release, and one that reaches the foot traffic becomes a chemical burn through a boot sole.",
+      "seconds": 12,
+      "target": "hzl-spill-kit",
+      "why": "A small leak is contained with the spill kit before it reaches a drain, a pallet or a shoe: absorbent socks around it, pads on it, the leaking container into an overpack. The safety data sheet tells you what it is; the kit is what stops it becoming a bigger problem while you look it up.",
+      "wrongNote": "It is the spill kit. Something is leaking onto the floor right beside you, and containing it comes before anything else in this cage."
+    },
+    {
+      "after": "wrap",
+      "alert": "The corrosive placard on the trailer's rear door has slipped out of its holder and is lying face-down on the dock.",
+      "cue": "Get the placard back on the trailer.",
+      "delay": 3,
+      "id": "placard-falls",
+      "kind": "Placard off",
+      "missNote": "The trailer went unplacarded on one end. A responder coming up behind it after a crash sees a plain van, not a load of corrosive, and walks up to it without protection.",
+      "seconds": 12,
+      "target": "hzl-placard-spare",
+      "why": "A trailer that should be placarded and is not looks like ordinary freight to everyone who sees it. Putting the placard back — a clean one, secured — before the trailer leaves the door is the only fix; nobody downstream will know it fell off.",
+      "wrongNote": "It is the spare placard. The trailer has just lost the one sign that tells a responder what is inside it."
+    }
+  ],
+  "lateNotes": {
+    "hzl-corrosive-drum": "The drum is moved once it has been weighed and its bung checked — a drum is never staged on a guess about what it weighs or whether it is closed.",
+    "hzl-driver-handoff": "The paper goes to the driver last, once it is signed and the placards have been walked.",
+    "hzl-wrap-roll": "The pallet is wrapped once every package on it has passed the label audit — wrapping first hides the labels you still need to read."
+  },
+  "name": "Hazmat Labeling and Segregation",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "job-readiness-edition",
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "hzl-arrows-down",
+      "hzl-bare-hand-wipe",
+      "hzl-bay-oxidizer",
+      "hzl-bay-socket",
+      "hzl-bung",
+      "hzl-cert-sign",
+      "hzl-corrosive-drum",
+      "hzl-crew-checkin",
+      "hzl-dented-drum",
+      "hzl-driver-handoff",
+      "hzl-drum-on-cartons",
+      "hzl-drum-truck",
+      "hzl-emergency-info",
+      "hzl-eyewash-tag",
+      "hzl-glasses",
+      "hzl-gloves",
+      "hzl-hazmat-log",
+      "hzl-leftover-placard",
+      "hzl-missing-label",
+      "hzl-placard-spare",
+      "hzl-scale",
+      "hzl-shipping-papers",
+      "hzl-side-missing",
+      "hzl-spill-kit",
+      "hzl-un-mismatch",
+      "hzl-wrap-roll"
+    ],
+    "meshes": 181
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the UN number, the proper shipping name, the hazard class, the packing group, the quantity and the emergency response phone number.",
+      "id": "papers",
+      "kind": "select",
+      "prompt": "Read the UN number, the proper shipping name, the hazard class, the packing group, the quantity and the emergency response phone number.",
+      "target": "hzl-shipping-papers",
+      "title": "Read the shipping paper",
+      "why": "The shipping paper is what every person after you acts on: the driver, the dock at the other end, and the firefighter who pulls it from the cab door pocket after a crash. The UN number, proper shipping name, class and packing group drive every label, placard and segregation decision in this cage, and an emergency number that nobody answers is a paper that fails the one time it is needed."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Goggles and chemical gloves on, and check the eyewash tag shows it was run this week.",
+      "id": "ppe",
+      "itemNames": {
+        "hzl-eyewash-tag": "eyewash activation tag",
+        "hzl-glasses": "splash goggles",
+        "hzl-gloves": "chemical-resistant gloves"
+      },
+      "kind": "sequence",
+      "prompt": "Goggles and chemical gloves on, and check the eyewash tag shows it was run this week.",
+      "targets": [
+        "hzl-glasses",
+        "hzl-gloves",
+        "hzl-eyewash-tag"
+      ],
+      "title": "PPE on and the eyewash checked",
+      "why": "The safety data sheet for a corrosive names the protection it needs, and 29 CFR 1910.132 puts the duty on the employer to provide it and on the worker to wear it. The eyewash is the one piece of equipment you need within seconds and cannot go looking for; ANSI Z358.1 expects it to be activated weekly so the water in it is flowing and clean, and the tag is the proof."
+    },
+    {
+      "cue": "Walk the staged packages. Find what does not match the paper or the marking rules.",
+      "id": "label-audit",
+      "itemNames": {
+        "hzl-arrows-down": "the carton with its orientation arrows upside down",
+        "hzl-missing-label": "the corrosive carton with no label",
+        "hzl-un-mismatch": "the drum whose UN number does not match the paper"
+      },
+      "itemNotes": {
+        "hzl-arrows-down": "The orientation arrows on this carton point down. Liquids in inner bottles have to travel upright, and the arrows are how every handler knows which way up that is.",
+        "hzl-missing-label": "This carton of corrosive inner bottles has no Class 8 label. A package without its label is a package nobody downstream knows to keep away from food, from oxidizers or from their own hands.",
+        "hzl-un-mismatch": "The UN number stencilled on this drum is not the one on the paper. Either the drum or the paper is wrong, and responders act on both — it does not move until they agree."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the staged packages. Find what does not match the paper or the marking rules.",
+      "targets": [
+        "hzl-missing-label",
+        "hzl-un-mismatch",
+        "hzl-arrows-down"
+      ],
+      "title": "Audit the packages against the paper",
+      "why": "49 CFR 172 requires the marks and labels on every package to match what it is: the proper shipping name and UN number, the hazard label for its class, and orientation arrows on packages of liquids in inner containers. Each check is quick, and each fault is invisible once the package is wrapped on a pallet in a dark trailer. The audit is the last time anybody reads these packages closely before an emergency does it for them."
+    },
+    {
+      "cue": "Set the drum on the floor scale and commit when the gross weight matches the quantity on the paper.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "GROSS vs PAPER",
+        "missNote": "The weight does not match the paper — find out which is wrong before the drum moves.",
+        "speed": 0.7
+      },
+      "id": "weigh",
+      "kind": "gauge",
+      "prompt": "Set the drum on the floor scale and commit when the gross weight matches the quantity on the paper.",
+      "target": "hzl-scale",
+      "title": "Weigh the drum against the paper",
+      "why": "The quantity on the paper decides whether the trailer is placarded, what the driver must carry and what responders plan for. A drum that weighs more or less than its paper says is overfilled, underfilled or not what the paper claims. The aggregate weight of this class on the trailer is what the placarding rules key on, so a wrong weight here can mean a trailer that should be placarded and is not."
+    },
+    {
+      "cue": "Turn the drum's bung with the bung wrench until it seats, and check the vent cap.",
+      "id": "bung",
+      "kind": "turn",
+      "prompt": "Turn the drum's bung with the bung wrench until it seats, and check the vent cap.",
+      "target": "hzl-bung",
+      "title": "Check the bung and vent are tight",
+      "turn": {
+        "axis": "y",
+        "label": "BUNG WRENCH",
+        "turns": 0.75
+      },
+      "why": "A drum that is closed hand-tight at the filler loosens with vibration and temperature, and a corrosive that weeps from a bung on a moving trailer eats through pallets, straps and the next package. The closure is checked with the proper wrench before the drum is moved or staged, because a drum is only as closed as its loosest fitting."
+    },
+    {
+      "cue": "Clamp the drum, tip it back to the balance point, and hold it there across the threshold into the cage.",
+      "holdBreakNote": "The drum came off its balance point. Bring it back and hold it steady.",
+      "id": "drum-truck",
+      "kind": "hold",
+      "prompt": "Clamp the drum, tip it back to the balance point, and hold it there across the threshold into the cage.",
+      "seconds": 8,
+      "target": "hzl-drum-truck",
+      "title": "Balance the drum on the drum truck",
+      "why": "A full drum weighs several hundred pounds and has a balance point just past vertical on a drum truck: short of it, the drum tips forward onto your feet; past it, the weight comes onto your arms. Holding it on the balance point over the threshold, where the floor changes, is the part of the move where drums get dropped and split."
+    },
+    {
+      "cue": "Set the acid drum in the corrosives bay, on the floor, clear of the oxidizer and flammable bays.",
+      "drag": {
+        "missNote": "Not in the corrosives bay — the drum goes in its own class's bay, on the floor.",
+        "radius": 0.45,
+        "to": "hzl-bay-socket"
+      },
+      "id": "stage",
+      "kind": "drag",
+      "prompt": "Set the acid drum in the corrosives bay, on the floor, clear of the oxidizer and flammable bays.",
+      "target": "hzl-corrosive-drum",
+      "title": "Stage the drum in the corrosives bay",
+      "why": "Staging by class is what makes segregation automatic on the dock: when the loader pulls from the corrosives bay, nothing incompatible is standing next to it. 49 CFR 177 sets out which classes may not be loaded together or must be separated on the vehicle, and the safety data sheet says why in chemical terms. A drum staged in the wrong bay is a drum that gets loaded next to the wrong freight."
+    },
+    {
+      "cue": "Attach the emergency response information for this material to the shipping paper.",
+      "id": "emergency-info",
+      "kind": "select",
+      "prompt": "Attach the emergency response information for this material to the shipping paper.",
+      "target": "hzl-emergency-info",
+      "title": "Attach the emergency response information",
+      "why": "49 CFR 172 requires emergency response information to travel with the shipment and to be immediately available: what the material does, the first aid, the fire and spill response, the isolation distance. It is written for a responder who arrives at a crash with no idea what is in the trailer, and it only helps if it is with the paper and not in a binder back at this cage."
+    },
+    {
+      "cue": "Walk the roll around the pallet at a steady tension so the wrap binds the cartons to the pallet, labels facing out.",
+      "holdBreakNote": "Tension out of band — slack wrap lets cartons move, crushing wrap tears them. Settle it.",
+      "id": "wrap",
+      "kind": "track",
+      "prompt": "Walk the roll around the pallet at a steady tension so the wrap binds the cartons to the pallet, labels facing out.",
+      "seconds": 8,
+      "target": "hzl-wrap-roll",
+      "title": "Wrap the carton pallet",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "WRAP TENSION",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "Stretch wrap is what turns a stack of cartons into one unit that cannot shed a package on a turn. Too loose and the cartons shift inside it; too tight and it crushes corners and pulls cartons off square. The labels face out and the wrap stays clear enough to read them, because a label wrapped over with printed film is a label nobody can see."
+    },
+    {
+      "cue": "Walk around the trailer. Find what is wrong with the placards for what is actually on it.",
+      "id": "placard-walk",
+      "itemNames": {
+        "hzl-leftover-placard": "the flammable placard left from the last load",
+        "hzl-side-missing": "the empty placard holder on the side"
+      },
+      "itemNotes": {
+        "hzl-leftover-placard": "This flammable placard belongs to yesterday's load. A placard for a material that is not on board is prohibited — it sends responders to fight the wrong fire.",
+        "hzl-side-missing": "The holder on this side is empty. A placarded trailer shows the placard on each side and each end, because a responder may only ever see one of them."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk around the trailer. Find what is wrong with the placards for what is actually on it.",
+      "targets": [
+        "hzl-side-missing",
+        "hzl-leftover-placard"
+      ],
+      "title": "Walk the trailer's placards",
+      "why": "Placards are for the people who arrive when something has gone wrong: they read the trailer from a distance, from whichever side they come in on, before anyone walks up to it. 49 CFR 172 asks for a placard on each side and each end, and forbids a placard for a material that is not there. A missing placard and a wrong placard both put a responder in the wrong place."
+    },
+    {
+      "cue": "Sign the shipper's certification, then hand the paper and the emergency information to the driver and say what is on board.",
+      "id": "handoff",
+      "itemNames": {
+        "hzl-cert-sign": "shipper's certification signed",
+        "hzl-driver-handoff": "paper handed to the driver"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Sign first, then hand it over — an unsigned paper is not a shipping paper the driver can accept.",
+      "prompt": "Sign the shipper's certification, then hand the paper and the emergency information to the driver and say what is on board.",
+      "targets": [
+        "hzl-cert-sign",
+        "hzl-driver-handoff"
+      ],
+      "title": "Sign the certification and hand the paper to the driver",
+      "why": "The shipper's certification is a signed statement that the materials are properly classified, described, packaged, marked, labelled and in proper condition for transport — every check you just did, in one sentence with your name under it. The driver keeps the paper within reach in the cab so that it is the first thing a responder finds; saying out loud what is on board is how the driver knows before reading it."
+    },
+    {
+      "cue": "Report the held drum, the label faults, the spill and the leftover placard, and say how the shift is going.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Report the held drum, the label faults, the spill and the leftover placard, and say how the shift is going.",
+      "target": "hzl-crew-checkin",
+      "title": "Check in with the shipping lead",
+      "why": "The drum with the wrong UN number and the carton with no label have to go back to whoever packed them, and the lead is the person who can make that happen before the next shipment goes out the same way. A spill cleaned up and never mentioned leaves a leaking container somewhere in the returns flow; the check-in is also where the lead hears whether the work felt rushed."
+    },
+    {
+      "cue": "Log the shipment, the placards applied, the held packages and the spill response, then sign it.",
+      "id": "hazmat-log",
+      "kind": "select",
+      "prompt": "Log the shipment, the placards applied, the held packages and the spill response, then sign it.",
+      "target": "hzl-hazmat-log",
+      "title": "Write the warehouse hazmat log",
+      "why": "The hazmat log is the warehouse's record of what left the building, how it was placarded and what was held back, and it is what an inspector or an incident investigation reads first. A held drum with no log entry is a drum that ships tomorrow by mistake; a spill with no entry is a question nobody can answer when someone reports a burn a day later."
+    }
+  ],
+  "supportLine": "your employer's employee assistance programme, or your Teamsters steward if you are not sure how to reach it",
+  "tagline": "A hazmat staging cage at an outbound door: the paper read, PPE and eyewash, labels, marks and arrows audited, a drum weighed and its bung checked, staged away from what it must never meet, emergency information attached, placards walked on every side, and the paper signed to the driver",
+  "title": "SmartCiti.X~ Hazmat Labeling and Segregation VR",
+  "trade": "Hazmat shipping associate, TDL pre-apprenticeship — Teamsters warehouse and freight work: hazmat labelling and segregation, ahead of the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F) for those going on to Class A",
+  "underwater": null,
+  "weather": null
+}

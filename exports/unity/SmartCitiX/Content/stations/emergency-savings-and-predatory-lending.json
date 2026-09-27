@@ -1,0 +1,385 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "fund-before-loan",
+    "name": "Fund Before Loan",
+    "note": "The repair paid from savings, every loan read by its APR and total, and nothing signed or said on a lender's deadline"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "The Consumer Financial Protection Bureau (CFPB) guidance on building an emergency fund, on payday and small-dollar loans — including its worked example that a fifteen-dollar fee per hundred borrowed for two weeks is an APR of almost 400 percent — and on overdraft coverage for debit purchases, which a bank needs your opt-in to provide; the Truth in Lending Act as the CFPB describes it, under which the APR, finance charge and total of payments are disclosed in writing before you sign; the Fair Credit Reporting Act (FCRA) as the CFPB states it, under which a loan sent to collection can stay on a report for years; IRS guidance that a refund can be split by direct deposit into more than one account; SAMHSA's National Helpline and 988 for the stress money emergencies carry",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CFPB",
+        "citedAs": "CFPB",
+        "id": "cfpb-consumer-guidance",
+        "title": "Consumer Financial Protection Bureau consumer guidance — credit reports and scores, debt collection, budgeting, emergency savings and payday loans"
+      },
+      {
+        "body": "CFPB",
+        "citedAs": "FCRA",
+        "id": "cfpb-fair-credit-reporting",
+        "title": "The Fair Credit Reporting Act as the CFPB describes it — free credit reports from the nationwide credit reporting companies and the right to dispute inaccurate or incomplete information"
+      },
+      {
+        "body": "CFPB",
+        "citedAs": "Truth in Lending",
+        "id": "cfpb-truth-in-lending",
+        "title": "The Truth in Lending Act as the CFPB describes it — the annual percentage rate and finance charge disclosed in writing before a consumer signs for credit"
+      },
+      {
+        "body": "IRS",
+        "citedAs": "IRS",
+        "id": "irs-consumer-guidance",
+        "title": "Internal Revenue Service guidance for workers — Form W-4 and the Tax Withholding Estimator, Form W-2, estimated tax on self-employment income, splitting a refund, free tax help, and how the IRS does and does not contact taxpayers"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Financial coaching",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "read-the-box",
+        "name": "Read The Box",
+        "note": "The disclosure box and the contract's red flags both read clean"
+      },
+      {
+        "id": "no-payday",
+        "name": "No Payday",
+        "note": "No unsafe action anywhere in the session"
+      },
+      {
+        "id": "steady-transfer",
+        "name": "Steady Transfer",
+        "note": "The automatic transfer committed near the middle of the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-save",
+        "name": "Clean Save",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "kept-saving",
+        "name": "Kept Saving",
+        "note": "Every timed passage carried without a break"
+      },
+      {
+        "id": "quick-save",
+        "name": "Quick Save",
+        "note": "Finish inside 80% of par"
+      }
+    ],
+    "currency": "SAVED",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Paycheck Zero",
+      "First Deposit",
+      "Steady Saver",
+      "Offer Reader",
+      "Rainy Day Certified"
+    ],
+    "system": "Rainy Day"
+  },
+  "hazards": {
+    "esp-contract-pen": "You picked up the pen on the loan contract's signature line before the contract was read. A signature is agreement to the rollover terms, the automatic bank debits and every fee inside, whether or not anyone explained them. Under the Truth in Lending Act, as the CFPB describes it, the cost is disclosed before you sign precisely so that you can read it first — signing unread throws that protection away.",
+    "esp-overdraft-optin": "That form opts you in to overdraft coverage on debit card purchases. The CFPB explains that a bank needs your opt-in before it can charge overdraft fees on ATM withdrawals and one-time debit purchases, and that without it the purchase is usually just declined. Opting in turns a declined coffee into a coffee plus an overdraft fee — the opposite of an emergency fund.",
+    "esp-payday-sign": "You headed for the storefront across the street: 'CAR REPAIR CASH TODAY'. That is a payday loan, and the CFPB's own worked example is that a fee of fifteen dollars per hundred borrowed for two weeks is an APR of almost 400 percent. When the whole amount is due on the next payday and the paycheck is already spoken for, the loan is renewed and the fee is paid again — which is how a car repair becomes months of fees.",
+    "esp-ssn-message": "That message slip says a lender called to 'pre-approve' you and wants a callback with your Social Security number and online banking login. No legitimate lender needs your banking password, and a Social Security number read to a caller you cannot verify is how accounts get opened and emptied in your name. The CFPB's advice is not to give personal or financial information to anyone you cannot verify."
+  },
+  "id": "emergency-savings-and-predatory-lending",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "savings-plan",
+      "alert": "Your phone buzzes: the car will not start, the shop says a new starter is four hundred and eighty dollars (example), and the payday lender across the street has a sign in the window.",
+      "cue": "Pay it the way you are building the fund to — not across the street.",
+      "delay": 3,
+      "id": "esp-car-wont-start",
+      "kind": "Car won't start",
+      "missNote": "The call went unanswered while the plan ran, and in the version where the sign won, the starter went on a payday loan due in two weeks. The fund you were building stopped growing while the fee was paid again and again.",
+      "seconds": 12,
+      "target": "esp-emergency-fund",
+      "why": "This is exactly what an emergency fund is for: a real, necessary, one-time cost. Paid from savings, the repair costs the repair. Paid with a payday loan, it costs the repair plus a fee the CFPB's own example puts at an APR of almost 400 percent, repeated every time the loan renews. Even a fund that covers only part of it means borrowing less, for less time.",
+      "wrongNote": "Not that. The repair comes out of the emergency fund you are building for exactly this — not the storefront across the street."
+    },
+    {
+      "after": "read-contract",
+      "alert": "The lender's rep calls: the offer 'expires in ten minutes', you can sign by phone if you read out your Social Security number and your online banking login.",
+      "cue": "Do not read anything out. Walk the comparison over to the credit-union desk.",
+      "delay": 3,
+      "id": "esp-sign-now-call",
+      "kind": "Lender pushing to sign now",
+      "missNote": "The call ran on while you read, and in the version where you answered it, a stranger has your Social Security number and your banking login. The loan was never the point, and the account the fund lives in is the first thing they empty.",
+      "seconds": 12,
+      "target": "esp-cu-desk",
+      "why": "A deadline measured in minutes and a request for your banking login are both signs of a lender, or a scammer, who does not want you to compare. The CFPB describes small-dollar loans from credit unions and banks as alternatives to payday loans, and the Truth in Lending disclosure is what lets you compare them. The credit-union desk is where that comparison happens — no legitimate lender needs your password.",
+      "wrongNote": "Not that. The answer is to take the comparison to the credit-union desk — nothing read out, nothing signed on somebody else's ten-minute clock."
+    }
+  ],
+  "lateNotes": {
+    "esp-refund-slice": "The refund goes into savings once the separate account exists and the transfer is set — there has to be somewhere for it to land.",
+    "esp-savings-log": "The savings log is written at the end, with the fund's real balance after the repair and the next goal on the dial."
+  },
+  "name": "Emergency Savings & Predatory Lending",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "job-readiness-edition",
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "esp-apr-box",
+      "esp-apr-calculator",
+      "esp-coach",
+      "esp-contract-pen",
+      "esp-cu-desk",
+      "esp-emergency-fund",
+      "esp-finance-box",
+      "esp-flag-debit",
+      "esp-flag-nocheck",
+      "esp-flag-rollover",
+      "esp-goal-dial",
+      "esp-loan-contract",
+      "esp-ord-biller",
+      "esp-ord-cu-loan",
+      "esp-ord-fund",
+      "esp-overdraft-optin",
+      "esp-payday-sign",
+      "esp-refund-slice",
+      "esp-savings-card",
+      "esp-savings-log",
+      "esp-savings-slot",
+      "esp-savings-track",
+      "esp-ssn-message",
+      "esp-total-box",
+      "esp-transfer-gauge"
+    ],
+    "meshes": 191
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Open the separate savings account at the credit-union desk — the emergency fund needs a place of its own.",
+      "id": "open-savings",
+      "kind": "select",
+      "prompt": "Open the separate savings account at the credit-union desk — the emergency fund needs a place of its own.",
+      "target": "esp-savings-card",
+      "title": "Open a savings account that is not your checking account",
+      "why": "An emergency fund kept in checking gets spent on things that are not emergencies, a little at a time, without anyone deciding to. The CFPB's guidance on building savings starts with a separate place for the money, so that it is visible, harder to spend by accident, and there when the car will not start. A federally insured account at a credit union or bank keeps it safe while it grows."
+    },
+    {
+      "cue": "Commit a transfer on each payday that the budget can carry every time — small and steady beats big and skipped.",
+      "gauge": {
+        "green": [
+          0.25,
+          0.45
+        ],
+        "label": "PER PAYDAY TO SAVINGS (EXAMPLE)",
+        "missNote": "That transfer will not last. Too small and the fund never reaches a repair; too big and the first tight payday cancels it — and a transfer that gets cancelled once usually stays cancelled.",
+        "speed": 0.6
+      },
+      "id": "auto-transfer",
+      "kind": "gauge",
+      "prompt": "Commit a transfer on each payday that the budget can carry every time — small and steady beats big and skipped.",
+      "target": "esp-transfer-gauge",
+      "title": "Set an automatic transfer you can keep",
+      "why": "Saving works best when it happens before the money can be spent, which is why the CFPB suggests automatic transfers on payday. The amount matters less than the habit: a transfer the budget can carry every single payday builds a fund, and a larger one that gets cancelled in the second month builds nothing. The figure on this gauge is an example; yours comes from your own budget."
+    },
+    {
+      "cue": "Hold the savings track in the band: every payday transfer made, nothing pulled out for things that are not emergencies.",
+      "holdBreakNote": "The savings plan slipped out of band. One skipped transfer is fine — the fix is the next payday, not giving up on the fund.",
+      "id": "savings-plan",
+      "kind": "track",
+      "prompt": "Hold the savings track in the band: every payday transfer made, nothing pulled out for things that are not emergencies.",
+      "seconds": 7,
+      "target": "esp-savings-track",
+      "title": "Keep the savings plan going for twelve weeks",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "SAVINGS",
+        "rise": 0.5,
+        "start": 0.16
+      },
+      "why": "The first few months of an emergency fund are the hardest, because the balance is small and every week offers a reason to borrow from it. Holding the plan steady — every transfer made, withdrawals only for real emergencies — is the whole skill. The CFPB's guidance frames it the same way: a regular habit and a goal, rather than waiting for a month with money left over, which on most budgets never comes."
+    },
+    {
+      "cue": "Carry the savings share of the refund into the savings slot on the direct-deposit form.",
+      "drag": {
+        "missNote": "Not in the savings slot. Money that lands in checking is money that gets spent — carry the share all the way to savings.",
+        "radius": 0.4,
+        "to": "esp-savings-slot"
+      },
+      "id": "refund-split",
+      "kind": "drag",
+      "prompt": "Carry the savings share of the refund into the savings slot on the direct-deposit form.",
+      "target": "esp-refund-slice",
+      "title": "Send part of the tax refund straight to savings",
+      "why": "A tax refund is often the largest single deposit of the year, and the IRS lets you split a refund by direct deposit into more than one account. Sending part of it straight to savings, before it reaches checking, is the fastest way to give an emergency fund a real start — and because it happens on the form, it happens before any decision about spending it has to be made."
+    },
+    {
+      "cue": "Find the APR, the finance charge and the total of payments in the box.",
+      "id": "loan-disclosure",
+      "itemNames": {
+        "esp-apr-box": "the APR",
+        "esp-finance-box": "the finance charge",
+        "esp-total-box": "the total of payments"
+      },
+      "itemNotes": {
+        "esp-apr-box": "The annual percentage rate puts the cost of any loan on the same yearly scale, so a two-week loan and a one-year loan can be compared.",
+        "esp-finance-box": "The finance charge is the cost of the loan in dollars — every fee and all the interest together.",
+        "esp-total-box": "The total of payments is what you will have paid when it is over. Hold it against the amount you are borrowing."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the APR, the finance charge and the total of payments in the box.",
+      "targets": [
+        "esp-apr-box",
+        "esp-finance-box",
+        "esp-total-box"
+      ],
+      "title": "Read the disclosure box on the example loan offer",
+      "why": "Under the Truth in Lending Act, as the CFPB describes it, a lender has to show the cost of credit in writing before you sign: the APR, the finance charge in dollars and the total you will pay. Those three numbers are what let a payday loan, a credit-union loan and a card be compared honestly, and a lender that will not show them before asking for a signature is telling you something."
+    },
+    {
+      "cue": "On the calculator, run the CFPB's worked example: fifteen dollars per hundred for two weeks.",
+      "id": "cfpb-example",
+      "kind": "select",
+      "prompt": "On the calculator, run the CFPB's worked example: fifteen dollars per hundred for two weeks.",
+      "target": "esp-apr-calculator",
+      "title": "Work the CFPB's own payday example",
+      "why": "The CFPB publishes a worked example of what a payday fee really costs: fifteen dollars per hundred borrowed for two weeks is an APR of almost 400 percent. Running it yourself makes the point in a way no warning does — the fee looks small because it is quoted for two weeks, and the APR is what it costs when the loan is renewed, which is what usually happens when the whole amount is due on one payday."
+    },
+    {
+      "cue": "Hold the contract open and read every page: renewals, bank debits, fees, what happens if a payment is missed.",
+      "holdBreakNote": "You put the contract down before the page on renewals. That page is where a two-week loan becomes a four-month one — read it through.",
+      "id": "read-contract",
+      "kind": "hold",
+      "prompt": "Hold the contract open and read every page: renewals, bank debits, fees, what happens if a payment is missed.",
+      "seconds": 6,
+      "target": "esp-loan-contract",
+      "title": "Read the whole loan contract before anything is signed",
+      "why": "The disclosure box gives the headline; the contract gives the terms that decide what happens in a bad month: whether the loan renews automatically, whether the lender can pull money from your bank account, what each late or returned payment costs. Reading all of it before signing is the only point at which you can still say no, and it is the point every high-cost lender would rather you hurried through."
+    },
+    {
+      "cue": "Find the automatic renewal, the bank-debit authorisation and the missing check on whether you can repay.",
+      "id": "contract-flags",
+      "itemNames": {
+        "esp-flag-debit": "authority to debit your bank account",
+        "esp-flag-nocheck": "no look at whether you can repay",
+        "esp-flag-rollover": "automatic renewal"
+      },
+      "itemNotes": {
+        "esp-flag-debit": "Authority to pull payments from your bank account means repeated attempts when the account is short, and an overdraft or returned-payment fee each time.",
+        "esp-flag-nocheck": "'No credit check' also means nobody asked whether you can repay it on this paycheck — which is the question that decides whether it renews.",
+        "esp-flag-rollover": "Automatic renewal — the CFPB calls it rolling over — means paying the fee again to push the due date back, without reducing what you owe."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the automatic renewal, the bank-debit authorisation and the missing check on whether you can repay.",
+      "targets": [
+        "esp-flag-rollover",
+        "esp-flag-debit",
+        "esp-flag-nocheck"
+      ],
+      "title": "Find the three red flags in the contract",
+      "why": "The CFPB's warnings about payday and similar loans come down to these three terms: renewals that pay the fee again without paying down the loan, authority to pull money from your bank account that can trigger fees each time it fails, and lending with no look at whether the payment fits your income. A loan that goes to collection can then stay on your report for years under the Fair Credit Reporting Act (FCRA), as the CFPB states it."
+    },
+    {
+      "cue": "On the emergency card: the fund first, then a payment plan with the biller, then a compared small-dollar loan.",
+      "id": "emergency-order",
+      "itemNames": {
+        "esp-ord-biller": "a payment plan with the biller",
+        "esp-ord-cu-loan": "a small-dollar loan, compared by APR",
+        "esp-ord-fund": "the emergency fund"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. The fund comes first, because it costs nothing; then ask the biller or the shop about a payment plan; and only then a small-dollar loan from a credit union or bank, compared by its APR.",
+      "prompt": "On the emergency card: the fund first, then a payment plan with the biller, then a compared small-dollar loan.",
+      "targets": [
+        "esp-ord-fund",
+        "esp-ord-biller",
+        "esp-ord-cu-loan"
+      ],
+      "title": "Write down the order for the next emergency",
+      "why": "Deciding the order before the emergency is what keeps the storefront across the street from being the first idea. The fund costs nothing to use; a payment plan with the biller or the repair shop often costs little; and a small-dollar loan from a credit union or bank, compared by its APR in the disclosure box, is the fallback. The CFPB describes these alternatives for the same reason: in the moment, the fastest option looks like the only one."
+    },
+    {
+      "cue": "Turn the goal dial from the first milestone to the next — the example fund's first repair covered, then a month of essentials.",
+      "id": "savings-goal",
+      "kind": "turn",
+      "prompt": "Turn the goal dial from the first milestone to the next — the example fund's first repair covered, then a month of essentials.",
+      "target": "esp-goal-dial",
+      "title": "Set the next savings goal",
+      "turn": {
+        "axis": "y",
+        "label": "SAVINGS GOAL",
+        "turns": 1
+      },
+      "why": "A goal turns a savings habit into something with an end, and the CFPB's guidance suggests setting one you can reach and then raising it. A first milestone that covers one ordinary repair is reachable in months on a small transfer; the next — a month of essentials — is what carries a household through a gap between jobs. The numbers on the dial are examples; the point is to always have a next one."
+    },
+    {
+      "cue": "Go over the fund, the repair and the loan you did not take with the coach, and say how the emergency landed on you.",
+      "id": "coach-checkin",
+      "kind": "select",
+      "prompt": "Go over the fund, the repair and the loan you did not take with the coach, and say how the emergency landed on you.",
+      "target": "esp-coach",
+      "title": "Check in with the coach",
+      "why": "A money emergency is stressful even when it goes right, and the check-in covers both the plan and the person. Saying out loud that the car scared you is part of making the next plan better, not a detour from it. If an emergency has turned into a crisis, 988 — or SAMHSA's National Helpline if drinking or using has become part of getting through it — is the right call to make next."
+    },
+    {
+      "cue": "Log the account, the transfer, the refund share, what the fund paid for, the loan you read and declined, and the next goal.",
+      "id": "savings-log",
+      "kind": "select",
+      "prompt": "Log the account, the transfer, the refund share, what the fund paid for, the loan you read and declined, and the next goal.",
+      "target": "esp-savings-log",
+      "title": "Close out the savings log",
+      "why": "The log is the fund's history on one page: when it started, what goes in each payday, what the refund added, what it paid for and what the next goal is. Written down, the fund stops being an abstract idea and becomes a record of a car repair paid without a loan — which is the most persuasive thing there is the next time a storefront offers cash today."
+    }
+  ],
+  "supportLine": "a money coach you trust, 988 if an emergency has turned into a crisis, or SAMHSA's National Helpline (1-800-662-4357, free and confidential) if drinking or using has become part of getting through it",
+  "tagline": "Build the fund that pays for the car repair — automatic, separate, fed by the refund — and read any loan offer by its APR, finance charge and total before signing, past a lender who wants your Social Security number now",
+  "title": "SmartCiti.X~ Emergency Savings & Predatory Lending VR",
+  "trade": "Financial coaching — emergency savings and avoiding predatory loans",
+  "underwater": null,
+  "weather": "clear"
+}

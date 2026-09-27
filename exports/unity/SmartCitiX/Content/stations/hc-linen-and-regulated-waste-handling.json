@@ -1,0 +1,392 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "streams-clean",
+    "name": "Streams Clean",
+    "note": "A shift's linen and waste handled without a single stream crossing another"
+  },
+  "category": "Healthcare Support",
+  "certification": "OSHA 29 CFR 1910.1030 bloodborne pathogens for regulated waste and soiled linen; OSHA 29 CFR 1910.1200 hazard communication for the labelling every stream carries; the CDC's general infection-prevention guidance for handling contaminated laundry and waste; SEIU-UHW and NUHW as the training bodies for linen and waste handling staff",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "union",
+        "citedAs": "NUHW",
+        "id": "nuhw-training",
+        "title": "NUHW member education and safety training for hospital and clinic support staff"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU-UHW",
+        "id": "seiu-uhw-training",
+        "title": "SEIU-UHW member education and safety training for hospital and clinic support staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Healthcare Support",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "leak-caught",
+        "name": "Leak Caught",
+        "note": "Every leaking bag double-bagged before it moved any further"
+      },
+      {
+        "id": "streams-sorted",
+        "name": "Streams Sorted",
+        "note": "General, regulated and sharps never mixed"
+      },
+      {
+        "id": "cart-integrity",
+        "name": "Cart Integrity",
+        "note": "A washed cart never released back into service wet or mixed with a soiled one"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "No corrections anywhere in the shift"
+      },
+      {
+        "id": "steady-spill",
+        "name": "Steady Spill Response",
+        "note": "Held the spill kit application the whole time, first try"
+      },
+      {
+        "id": "fast-room",
+        "name": "Fast Room",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "STREAM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Handler",
+      "Waste Room Certified",
+      "Lead Handler",
+      "Waste Room Supervisor",
+      "Streams Certified"
+    ],
+    "system": "Waste Room Standard"
+  },
+  "hazards": {
+    "blocked-spill-kit-decoy": "Those boxes are stacked right across the spill kit station. The one time this kit actually matters is the one time nobody can afford to dig it out from behind a pallet — it stays clear, always.",
+    "dirty-cart-return-decoy": "That cart came straight off a soiled run and it's parked in the clean bay. A soiled cart in the clean bay contaminates every clean linen load that touches that space next, which defeats the entire reason the two bays are kept apart.",
+    "mixed-waste-stream-decoy": "That yellow hazardous-drug container has ordinary food wrapper and general trash sitting in it. Mixing anything into a dedicated stream doesn't just contaminate that bin — it turns everything else in it into the same problem the label was written to contain.",
+    "unprotected-sharps-handling-decoy": "There's a sharp visibly poking through that bag, and a bare-handed squeeze is exactly what's about to happen to it. A bag that shows a sharp through the plastic gets set down and handled with the tool built for it, never compressed or squeezed by hand to make it fit."
+  },
+  "id": "hc-linen-and-regulated-waste-handling",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "bag-inspect",
+      "alert": "A bag turns up on the sorting line with no colour coding and no label at all — it could be general or it could be regulated.",
+      "cue": "That doesn't get guessed at.",
+      "delay": 3,
+      "id": "unlabeled-bag-found",
+      "kind": "Unidentified waste stream",
+      "missNote": "The unlabeled bag went into general waste on a guess. If it was actually regulated, every bag it touched on the way there now has the same question hanging over it.",
+      "seconds": 12,
+      "target": "notify-supervisor-lw",
+      "why": "An unlabeled bag is treated as the more hazardous stream until someone with the authority to say otherwise actually looks at it — guessing it into general waste because it's probably fine is exactly the shortcut that turns this room's whole segregation system into a coin flip.",
+      "wrongNote": "It's the call to the supervisor — an unlabeled bag doesn't get sorted on a guess."
+    },
+    {
+      "after": "spill-response",
+      "alert": "While you're still finishing the first cleanup, a second spill is spotted a few feet away.",
+      "cue": "One kit, one spill at a time — this one needs another set of hands.",
+      "delay": 3,
+      "id": "second-spill",
+      "kind": "Second spill spotted",
+      "missNote": "Both spills got worked at once, alone. Neither one actually got the kit's full, uninterrupted process, which is the only way either one counts as contained.",
+      "seconds": 11,
+      "target": "call-for-backup",
+      "why": "Splitting attention between two active spills is how both end up half-contained instead of one being handled properly — the second spill gets cordoned and backup called, not started solo while the first one is still open.",
+      "wrongNote": "Call for backup — a second spill doesn't get folded into whatever you're already doing."
+    }
+  ],
+  "lateNotes": {
+    "log-pickup": "Hold that. The hauler hasn't actually taken the load yet.",
+    "seal-manifest-container": "Not yet — the container has to be weighed first, or the manifest is recording a number nobody actually checked.",
+    "sealed-container": "Nothing sealed and manifested yet — there's nothing ready to move to the dock."
+  },
+  "name": "Linen & Regulated Waste Handling",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "healthcare-support"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "blocked-spill-kit-decoy",
+      "call-for-backup",
+      "cart-wash-valve",
+      "clean-cart-release",
+      "dirty-cart-return-decoy",
+      "double-bag-leak",
+      "leaking-bag",
+      "linen-chute-receiving",
+      "loading-dock-slot",
+      "log-pickup",
+      "mislabeled-container",
+      "mixed-waste-stream-decoy",
+      "notify-supervisor-lw",
+      "overfilled-bin",
+      "overweight-bag",
+      "ppe-donning-lw",
+      "seal-manifest-container",
+      "sealed-container",
+      "shelve-stock",
+      "sort-general",
+      "sort-regulated",
+      "sort-sharps-container",
+      "spill-kit-station",
+      "unload-delivery",
+      "unprotected-sharps-handling-decoy",
+      "waste-scale"
+    ],
+    "meshes": 157
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Gown, gloves and eye protection before the first bag comes off the chute.",
+      "id": "ppe-donning-lw",
+      "kind": "select",
+      "prompt": "Gown, gloves and eye protection before the first bag comes off the chute.",
+      "target": "ppe-donning-lw",
+      "title": "Don PPE for the waste room",
+      "why": "Everything that reaches this room is contaminated until proven otherwise — OSHA's bloodborne pathogens standard treats this job the same as any other exposure risk, because a soiled bag doesn't announce what's actually inside it."
+    },
+    {
+      "cue": "Pull each bag off the chute landing and stage it for inspection before it moves any further.",
+      "id": "receive-linen",
+      "kind": "select",
+      "prompt": "Pull each bag off the chute landing and stage it for inspection before it moves any further.",
+      "target": "linen-chute-receiving",
+      "title": "Receive bags from the chute",
+      "why": "The chute is where every floor's laundry lands in one place, from a routine room change to whatever a code or a fall left behind — staging it here rather than carrying it straight through to the sorters is what gives this room its one real chance to catch a problem bag before it ever reaches the line."
+    },
+    {
+      "cue": "Two bags on this landing have a problem that gets worse the further they travel. Find them.",
+      "id": "bag-inspect",
+      "itemNames": {
+        "leaking-bag": "a bag leaking through the plastic",
+        "overweight-bag": "a bag packed past its weight limit"
+      },
+      "itemNotes": {
+        "leaking-bag": "Fluid working through the plastic here means it's already on whatever this bag has touched since it left the floor — it gets contained now, not carried the rest of the way to the sorter first.",
+        "overweight-bag": "A bag packed well past its weight limit is a strain injury waiting for whoever lifts it next — it gets split into two bags at the correct weight, not muscled onto the scale as one."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two bags on this landing have a problem that gets worse the further they travel. Find them.",
+      "targets": [
+        "leaking-bag",
+        "overweight-bag"
+      ],
+      "title": "Inspect every bag before it moves on",
+      "why": "A bag looks the same whether it's fine or failing until somebody actually checks it — this inspection is what catches a leak or an overweight bag while it's still sitting still on the landing, rather than partway down the sorting line where a leak has already spread and an overweight bag has already been lifted."
+    },
+    {
+      "cue": "Contain the leaking bag inside a second bag before it goes anywhere else.",
+      "id": "double-bag-leak",
+      "kind": "select",
+      "prompt": "Contain the leaking bag inside a second bag before it goes anywhere else.",
+      "target": "double-bag-leak",
+      "title": "Double-bag the leaking bag",
+      "why": "A second bag around a leaking one is what stops the contamination at this landing instead of on the cart, the floor, or the next person's gloves — it is the whole reason double-bagging exists as a step rather than a suggestion."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Place today's waste into the regulated, general and sharps containers, each in its own bin.",
+      "id": "waste-segregation",
+      "itemNames": {
+        "sort-general": "general waste bin",
+        "sort-regulated": "regulated waste bin",
+        "sort-sharps-container": "sharps container"
+      },
+      "kind": "sequence",
+      "prompt": "Place today's waste into the regulated, general and sharps containers, each in its own bin.",
+      "targets": [
+        "sort-regulated",
+        "sort-general",
+        "sort-sharps-container"
+      ],
+      "title": "Sort into the three separate streams",
+      "why": "General, regulated and sharps waste are hauled, treated and disposed of under completely different rules — a stream that gets mixed at the sorting stage stays mixed all the way to disposal, which turns a bin of ordinary trash into a bin of regulated medical waste that now has to be treated as one."
+    },
+    {
+      "cue": "Read the scale and confirm the container is within its rated weight before you seal it.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.7
+        ],
+        "label": "CONTAINER WEIGHT",
+        "missNote": "Sealed a container you never actually confirmed was within its rated weight. Reopen it and check before it goes any further.",
+        "speed": 0.6
+      },
+      "id": "weigh-container",
+      "kind": "gauge",
+      "prompt": "Read the scale and confirm the container is within its rated weight before you seal it.",
+      "target": "waste-scale",
+      "title": "Weigh the regulated container before sealing",
+      "why": "Every regulated waste container has a weight rating set by its own manufacturer — a container sealed over that limit is a container that can split, buckle or fail exactly where a hauler has to lift and stack it, and a failure at that point spreads whatever the container was holding across a dock full of other people's loads."
+    },
+    {
+      "cue": "Seal the lid and fill in the manifest tag before the container leaves this room.",
+      "id": "seal-manifest",
+      "kind": "select",
+      "prompt": "Seal the lid and fill in the manifest tag before the container leaves this room.",
+      "target": "seal-manifest-container",
+      "title": "Seal the container and complete the manifest",
+      "why": "The manifest is what makes this container's contents, weight and origin something the hauler and the facility can both be held to later — a container that leaves without one is untraceable the moment it's out the door, and untraceable is exactly the state regulated waste is never supposed to reach."
+    },
+    {
+      "cue": "Two containers on this dock aren't ready to go out. Find them.",
+      "id": "dock-scan",
+      "itemNames": {
+        "mislabeled-container": "a container with no biohazard label",
+        "overfilled-bin": "a bin packed past its fill line"
+      },
+      "itemNotes": {
+        "mislabeled-container": "A regulated waste container with no biohazard label on it reads as ordinary trash to everyone downstream who never opens it to check — the label goes on before it ever reaches the dock, not after someone asks where it went.",
+        "overfilled-bin": "A bin forced shut past its fill line is one more item away from splitting the next time someone tries to close it — it gets emptied into a fresh container, not pressed down to make room."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two containers on this dock aren't ready to go out. Find them.",
+      "targets": [
+        "mislabeled-container",
+        "overfilled-bin"
+      ],
+      "title": "Scan the staging area before loading",
+      "why": "The dock is the last place anything gets caught before it becomes the hauler's problem instead of this room's — a scan here, right before loading, is what keeps a labelling gap or an overfilled bin from riding out the door unnoticed and turning into someone else's discovery later."
+    },
+    {
+      "cue": "Apply the spill kit's absorbent and hold the containment steady through the full cleanup.",
+      "holdBreakNote": "The cleanup broke off before the spill was fully contained. A spill treated halfway is still a spill anyone can walk through.",
+      "id": "spill-response",
+      "kind": "hold",
+      "prompt": "Apply the spill kit's absorbent and hold the containment steady through the full cleanup.",
+      "seconds": 6,
+      "target": "spill-kit-station",
+      "title": "Respond to the spill with its kit",
+      "why": "A body-fluid spill kit is built to be used start to finish in one motion — absorbent down, contained, disposed of as regulated waste — and stopping partway through leaves exactly the kind of half-contained spill the kit exists to prevent."
+    },
+    {
+      "cue": "Roll the sealed, manifested container to its marked slot on the loading dock.",
+      "drag": {
+        "missNote": "Not in the marked slot — a container left off to the side is easy for the hauler to miss on pickup.",
+        "radius": 0.4,
+        "to": "loading-dock-slot"
+      },
+      "id": "dock-move",
+      "kind": "drag",
+      "prompt": "Roll the sealed, manifested container to its marked slot on the loading dock.",
+      "target": "sealed-container",
+      "title": "Move the sealed container to the dock",
+      "why": "The dock slot is where the hauler expects to find exactly what the manifest describes, in the order the pickup route runs — a container parked anywhere else, even a few feet away, is a container the pickup can miss entirely and this room has to explain going nowhere on the manifest that says it left."
+    },
+    {
+      "cue": "Turn the wash valve and run the empty linen cart through its full cycle.",
+      "id": "cart-wash",
+      "kind": "turn",
+      "prompt": "Turn the wash valve and run the empty linen cart through its full cycle.",
+      "target": "cart-wash-valve",
+      "title": "Run the cart washer",
+      "turn": {
+        "axis": "y",
+        "label": "CART WASH",
+        "turns": 0.5
+      },
+      "why": "An empty cart still carries whatever it was hauling right up until it's actually washed, not just emptied out — running it through the washer before it goes anywhere near the clean bay is what keeps yesterday's soiled load off today's clean linen instead of just out of sight."
+    },
+    {
+      "cue": "Confirm the washed cart is fully dry before releasing it to the clean bay.",
+      "id": "clean-cart-release",
+      "kind": "select",
+      "prompt": "Confirm the washed cart is fully dry before releasing it to the clean bay.",
+      "target": "clean-cart-release",
+      "title": "Release the cart once it's dry",
+      "why": "A cart released wet carries moisture into a clean linen load the same way a soiled one carries contamination — dry and actually confirmed is the real bar for clean here, not just recently run through the washer and pushed straight back into service."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Unload today's delivery and shelve it on the clean linen rack.",
+      "id": "restock-linen",
+      "itemNames": {
+        "shelve-stock": "shelve it on the clean rack",
+        "unload-delivery": "unload today's delivery"
+      },
+      "kind": "sequence",
+      "prompt": "Unload today's delivery and shelve it on the clean linen rack.",
+      "targets": [
+        "unload-delivery",
+        "shelve-stock"
+      ],
+      "title": "Restock the clean linen supply",
+      "why": "A floor that runs out of clean linen mid-shift reaches for whatever's closest, which is exactly how corners get cut elsewhere in the building — keeping this shelf actually stocked, unloaded and shelved rather than left sitting on a pallet by the door, is what keeps that pressure from building up in the first place."
+    },
+    {
+      "cue": "Record the hauler's pickup and today's container count in the log.",
+      "id": "log-pickup",
+      "kind": "select",
+      "prompt": "Record the hauler's pickup and today's container count in the log.",
+      "target": "log-pickup",
+      "title": "Log the pickup and the shift's count",
+      "why": "The log is what lets this facility answer, months later, exactly how much regulated waste left the building on a given day and who signed it out — a shift that isn't logged is a shift regulators and auditors alike have no record of."
+    }
+  ],
+  "supportLine": "your employer's employee assistance program, or SEIU-UHW's member resources if a bag or a spill today has you more shaken than usual",
+  "tagline": "Bags checked for a leak on arrival, three waste streams kept apart, a container weighed and sealed to its own limit, a spill met with its kit, and a washed cart never mixed back with a soiled one",
+  "title": "SmartCiti.X~ Linen & Regulated Waste Handling VR",
+  "trade": "Linen and regulated waste handler",
+  "underwater": null,
+  "weather": null
+}

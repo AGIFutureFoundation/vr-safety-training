@@ -1,0 +1,363 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "well-cleared",
+    "name": "Well Cleared",
+    "note": "A contaminated well stopped, burned, sanitised and back on line — and a cut treated clean, first time"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "UNITE HERE Local 2 barbacks; the California Retail Food Code (the ANSI-accredited FDA Food Code as adopted) on ice as a food and the equipment that touches it; OSHA's bloodborne pathogens standard, 29 CFR 1910.1030, for the cut and the clean-up; Cal/OSHA's Injury and Illness Prevention Program (8 CCR §3203) requiring the incident to be logged; NSF-listed ice bins and scoops",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CalCode",
+        "citedAs": "California Retail Food Code",
+        "id": "calcode-retail-food",
+        "title": "California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it"
+      },
+      {
+        "body": "FDA",
+        "citedAs": "FDA Food Code",
+        "id": "fda-food-code",
+        "title": "FDA Food Code — the model code for retail food establishments"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Culinary & Hospitality",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "stopped-first",
+        "name": "Stopped It First",
+        "note": "Took the well out of service before touching anything else"
+      },
+      {
+        "id": "no-bare-hands",
+        "name": "No Bare Hands",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "reads-clean",
+        "name": "Reads Clean",
+        "note": "Sanitiser strip and the whole run inside band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-recovery",
+        "name": "Clean Recovery",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-pressure",
+        "name": "Steady Pressure",
+        "note": "Held bleed control the full count without a break"
+      },
+      {
+        "id": "well-back-fast",
+        "name": "Well Back Fast",
+        "note": "Well back in service inside 80% of par"
+      }
+    ],
+    "currency": "POUR",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Barback",
+      "Well Runner",
+      "Lead Barback",
+      "Service Captain",
+      "Service Recovery Certified"
+    ],
+    "system": "Service Recovery"
+  },
+  "hazards": {
+    "bare-hand-pressure": "You pressed on the cut with a bare hand instead of gloving up first. OSHA's bloodborne pathogens standard exists because you can't tell by looking whether blood — yours or anyone else's — carries something; a barrier goes on before contact, not after the bleeding's already started.",
+    "reuse-chipped-glass": "That rocks glass has a chip out of the rim and it's still sitting in the clean rack. A chip is a broken edge whether or not a piece has come off yet, and the next thing that happens to a chipped glass in service is somebody's lip against it.",
+    "scoop-buried": "The ice scoop is sitting buried in the ice instead of resting in its own holder outside the bin. The Retail Food Code treats a scoop left in the ice the same way it treats a hand in the ice — it's a contact surface that doesn't belong touching what people are about to drink, glass or no glass.",
+    "trash-glass": "You dropped the broken glass in the regular trash. Glass in a bag of ordinary trash is a cut waiting for whoever ties that bag off and swings it into a truck — it goes in the dedicated sharps and broken-glass container, sealed, every time."
+  },
+  "id": "ice-well-breakage",
+  "indoor": "bar",
+  "interrupts": [
+    {
+      "after": "burn-ice",
+      "alert": "Another bartender reaches straight into the marked well for a scoop of ice — there's a customer waiting on a drink.",
+      "cue": "Stop them. Point at the tag — your hands are full with the hose.",
+      "delay": 3,
+      "id": "colleague-reaches",
+      "kind": "Coworker error",
+      "missNote": "The other bartender scooped ice out of the well you'd just marked contaminated, and it went straight into a drink. The tag does nothing if the person reaching past it never gets told to look at it.",
+      "seconds": 11,
+      "target": "broken-tag",
+      "why": "The tape and the tag only work if everyone actually reads them; a colleague reaching in because a customer's waiting puts a scoop that's been in contaminated ice straight into someone's glass, and the fastest fix is pointing at exactly what should have stopped them in the first place.",
+      "wrongNote": "It's the tag on the well, not the hose in your hands. Point at what's already marked instead of trying to explain it from across the bar."
+    },
+    {
+      "after": "bleed-control",
+      "alert": "A customer at the rail hands back the rocks glass they were drinking from — there's a chip out of the rim.",
+      "cue": "That glass goes straight in the box, not back in the rack.",
+      "delay": 3,
+      "id": "chipped-glass-customer",
+      "kind": "Customer at the rail",
+      "missNote": "The chipped glass went back toward the clean rack instead of the sharps box. The next person to pour into it, or drink from it, meets the same broken edge the customer just handed you.",
+      "seconds": 11,
+      "target": "sharps-box",
+      "why": "A chip that's already been noticed and handed across the bar is not a glass anyone quietly slides back into the rack for the next round — it goes straight into the same container the well's own glass just went into, because a chip is a broken edge whether or not a piece is missing yet.",
+      "wrongNote": "It's the sharps box. A chipped glass doesn't go back into rotation no matter how busy the rail is."
+    }
+  ],
+  "lateNotes": {
+    "disinfect-bartop": "The bar top gets disinfected after the cut is under control, not while you're still bleeding on it.",
+    "gauze-pad": "Glove up before you touch the cut at all — direct pressure comes after the barrier, not before it.",
+    "sharps-box": "The glass goes in the box once the well's been sanitised and the cut's dealt with — it's the last thing on the list, not the first."
+  },
+  "name": "Ice Well Breakage",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bartending-course"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "bare-hand-pressure",
+      "biohazard-bag",
+      "broken-tag",
+      "caution-tape",
+      "disinfect-bartop",
+      "first-aid-kit",
+      "gauze-pad",
+      "gloves",
+      "hot-water-hose",
+      "ice-scoop-bin",
+      "incident-log",
+      "residual-shard",
+      "reuse-chipped-glass",
+      "sanitizer-strip",
+      "scoop-buried",
+      "shard-1",
+      "shard-2",
+      "sharps-box",
+      "trash-glass",
+      "well-shutoff",
+      "well-socket"
+    ],
+    "meshes": 192
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence"
+  ],
+  "steps": [
+    {
+      "cue": "Look before you reach. Find what actually broke in there.",
+      "id": "find-glass",
+      "itemNames": {
+        "shard-1": "glass fragment",
+        "shard-2": "glass fragment"
+      },
+      "itemNotes": {
+        "shard-1": "One piece caught in the light doesn't mean it's the only one — glass shatters into more fragments than the eye catches on the first look.",
+        "shard-2": "A second piece, further down in the ice. Confirming there's more than one is exactly why the whole well gets burned rather than picked through."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look before you reach. Find what actually broke in there.",
+      "targets": [
+        "shard-1",
+        "shard-2"
+      ],
+      "title": "Spot the glass in the well",
+      "why": "What you can see is never the whole count — a shattered glass leaves fragments that settle unevenly through the ice, and confirming there's more than one piece is what turns this from 'fish it out' into 'the whole well is contaminated and comes out of service.'"
+    },
+    {
+      "cue": "Flip the well to closed before you touch anything else.",
+      "id": "stop-well",
+      "kind": "select",
+      "prompt": "Flip the well to closed before you touch anything else.",
+      "target": "well-shutoff",
+      "title": "Take the well out of service",
+      "why": "Every scoop that goes into that ice after the break carries the same risk the first one did — a shard nobody saw. The well comes out of service the instant it's known, before the mark goes up and before anyone reaches for a cure, because the alternative is somebody's drink two minutes from now."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Tape the well off and tag it so nobody else on the line scoops from it.",
+      "id": "mark-well",
+      "itemNames": {
+        "broken-tag": "contaminated tag",
+        "caution-tape": "caution tape"
+      },
+      "kind": "sequence",
+      "prompt": "Tape the well off and tag it so nobody else on the line scoops from it.",
+      "targets": [
+        "caution-tape",
+        "broken-tag"
+      ],
+      "title": "Mark the well as contaminated",
+      "why": "A well that's simply switched off in your head is still open to the next bartender who doesn't know what you know — the tape and the tag are what carry the information to whoever gets to it before you're back."
+    },
+    {
+      "cue": "Gloves on before anything goes into that ice by hand.",
+      "id": "glove",
+      "kind": "select",
+      "prompt": "Gloves on before anything goes into that ice by hand.",
+      "target": "gloves",
+      "title": "Glove up before reaching in",
+      "why": "Broken glass in ice is invisible the moment your hand is in the bin, and a bare hand finds it by cutting on it. The glove is the barrier between you and both the glass and, if it comes to that, anyone else's blood in the bin."
+    },
+    {
+      "cue": "Run hot water into the well until the whole batch of ice is melted out — never scoop around the glass.",
+      "holdBreakNote": "You stopped before the ice was fully melted. Any ice left behind can still be hiding glass — run it the full count.",
+      "id": "burn-ice",
+      "kind": "hold",
+      "prompt": "Run hot water into the well until the whole batch of ice is melted out — never scoop around the glass.",
+      "seconds": 6,
+      "target": "hot-water-hose",
+      "title": "Burn the ice down with hot water",
+      "why": "Fishing through ice by feel for glass you can't fully see is how a barback gets cut a second time; hot water melts the entire batch down so every fragment drains out with the water instead of staying hidden in what's left, which is the whole reason the trade calls this 'burning' the well rather than clearing it."
+    },
+    {
+      "cue": "Check the empty bin and the drain strainer before anything goes back in it.",
+      "id": "inspect",
+      "itemNames": {
+        "residual-shard": "fragment in the drain"
+      },
+      "itemNotes": {
+        "residual-shard": "Caught in the drain strainer — proof the melt did its job, and the last piece you'd never have found by scooping."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the empty bin and the drain strainer before anything goes back in it.",
+      "targets": [
+        "residual-shard"
+      ],
+      "title": "Inspect the drained well",
+      "why": "The melt only works if somebody actually looks at what it caught — an empty-looking well is not the same thing as a well somebody has confirmed is clear, and the strainer is where the last fragment always turns up."
+    },
+    {
+      "cue": "Spray the sanitiser and read the test strip — commit while it's inside the labelled concentration band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "SANITISER PPM",
+        "missNote": "Off the labelled band — too little doesn't sanitise, too much is its own hazard. Mix it again to spec.",
+        "speed": 0.75
+      },
+      "id": "sanitize",
+      "kind": "gauge",
+      "prompt": "Spray the sanitiser and read the test strip — commit while it's inside the labelled concentration band.",
+      "target": "sanitizer-strip",
+      "title": "Sanitise the empty well",
+      "why": "The Retail Food Code treats the ice bin as food-contact equipment, which means it gets sanitised to a measured concentration before it goes back into service — reading the strip is what turns 'I sprayed it' into a number an inspector, or the next shift, can trust."
+    },
+    {
+      "cue": "Scoop fresh ice from the machine and carry it to the well.",
+      "drag": {
+        "missNote": "Not into the well — line the scoop up over the bin before you tip it.",
+        "radius": 0.4,
+        "to": "well-socket"
+      },
+      "id": "refill",
+      "kind": "drag",
+      "prompt": "Scoop fresh ice from the machine and carry it to the well.",
+      "target": "ice-scoop-bin",
+      "title": "Refill the well from the machine",
+      "why": "The well only goes back on line once it's carrying ice that was never anywhere near the break — refilling from the machine, not from whatever's left in a bus tub, is what keeps this a closed loop instead of just moving the same risk somewhere else."
+    },
+    {
+      "cue": "The cut on your hand needs dealing with before you do anything else behind this bar.",
+      "id": "first-aid-kit",
+      "kind": "select",
+      "prompt": "The cut on your hand needs dealing with before you do anything else behind this bar.",
+      "target": "first-aid-kit",
+      "title": "Open the first-aid kit",
+      "why": "A cut from the same glass that just came out of the well is bloodborne-pathogens territory the moment it breaks skin — the kit comes out now, not at the end of the shift when it's convenient."
+    },
+    {
+      "cue": "Gauze on the cut, firm and steady, until the bleeding's controlled.",
+      "holdBreakNote": "You let up before it was controlled. Checking too early is how a cut that was almost stopped starts bleeding again — hold it the full count.",
+      "id": "bleed-control",
+      "kind": "hold",
+      "prompt": "Gauze on the cut, firm and steady, until the bleeding's controlled.",
+      "seconds": 6,
+      "target": "gauze-pad",
+      "title": "Apply direct pressure",
+      "why": "Direct pressure held steady is what actually stops bleeding — dabbing at it and checking every few seconds just reopens whatever clot is trying to form. This is the same first-aid fundamental behind every cut this bar has ever logged."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Disinfect anywhere blood touched the bar, then bag the wipes and gauze separately.",
+      "id": "bbp-cleanup",
+      "itemNames": {
+        "biohazard-bag": "bag the contaminated wipes",
+        "disinfect-bartop": "disinfect the bar top"
+      },
+      "kind": "sequence",
+      "prompt": "Disinfect anywhere blood touched the bar, then bag the wipes and gauze separately.",
+      "targets": [
+        "disinfect-bartop",
+        "biohazard-bag"
+      ],
+      "title": "Clean up the bar top",
+      "why": "OSHA's bloodborne pathogens standard treats any blood spill as potentially infectious regardless of whose it is — the surface gets disinfected and everything that touched the blood goes into its own bag, not into the regular bar rags or the trash behind the well."
+    },
+    {
+      "cue": "Record what happened, when, and what was done about it.",
+      "id": "first-aid-log",
+      "kind": "select",
+      "prompt": "Record what happened, when, and what was done about it.",
+      "target": "incident-log",
+      "title": "Log the incident",
+      "why": "An unlogged cut is a cut that never happened as far as the bar's own safety record and the union's own accident reporting are concerned — the log is what lets the next injury prevention review actually catch the pattern instead of guessing at it."
+    },
+    {
+      "cue": "The broken glass goes in the sharps and broken-glass container, sealed.",
+      "id": "sharps-box",
+      "kind": "select",
+      "prompt": "The broken glass goes in the sharps and broken-glass container, sealed.",
+      "target": "sharps-box",
+      "title": "Dispose of the glass",
+      "why": "Broken glass behaves like any other sharp for whoever handles the bag next — it goes into its own rigid, sealed container from the start rather than riding out in a bag of bar trash where the first sign of it is somebody's hand."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A glass breaks into the well: stop the well, mark it, burn the ice, sanitise and refill — and the cut it leaves you treated the same way the exposure plan requires",
+  "title": "SmartCiti.X~ Ice Well Breakage VR",
+  "trade": "Barback — UNITE HERE Local 2",
+  "underwater": null,
+  "weather": "clear"
+}

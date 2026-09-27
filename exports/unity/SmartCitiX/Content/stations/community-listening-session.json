@@ -1,0 +1,423 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "heard-back",
+    "name": "Heard Back",
+    "note": "A whole session run as listening: nothing defended, nobody left out, and a record the room would sign"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "SAMHSA's six principles of a trauma-informed approach — safety, trustworthiness and transparency, peer support, collaboration and mutuality, empowerment, voice and choice, and cultural, historical and gender issues — for a neighbourhood with a long memory of broken promises; Psychological First Aid (NCTSN) for a resident overwhelmed in the room; Title II of the ADA for interpretation, an accessible hall and assistive listening; the Ralph M. Brown Act's rule that a majority of a legislative body attending a community meeting must not discuss the body's business among themselves there; SEIU and AFSCME for the city staff who facilitate and record. The leadership principles practised here are principles commonly taught in civic-leadership programmes; the foundation's own curriculum is not sourced in this repository",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "DOJ",
+        "citedAs": "Title II of the ADA",
+        "id": "ada-title-ii",
+        "title": "Americans with Disabilities Act Title II — programme accessibility for public entities and their services"
+      },
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "California Government Code",
+        "citedAs": "Ralph M. Brown Act",
+        "id": "brown-act",
+        "title": "The Ralph M. Brown Act, California Government Code section 54950 and following — open and public meetings of local legislative bodies: the posted agenda, the public's right to comment, action only on noticed items, and the bar on serial meetings of a majority"
+      },
+      {
+        "body": "NCTSN",
+        "citedAs": "Psychological First Aid",
+        "id": "pfa-field-guide",
+        "title": "Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Civic",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "doors-open",
+        "name": "Doors Open",
+        "note": "Every access need met before anybody arrived"
+      },
+      {
+        "id": "nothing-defended",
+        "name": "Nothing Defended",
+        "note": "No unsafe action anywhere in the session"
+      },
+      {
+        "id": "quiet-voices",
+        "name": "Quiet Voices",
+        "note": "Every table that had not yet spoken found first time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-circle",
+        "name": "Clean Circle",
+        "note": "No corrections anywhere in the session"
+      },
+      {
+        "id": "fair-floor",
+        "name": "Fair Floor",
+        "note": "The floor shared inside the band"
+      },
+      {
+        "id": "space-held",
+        "name": "Space Held",
+        "note": "The listening and the room both carried their full count"
+      }
+    ],
+    "currency": "VOICES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Note Taker",
+      "Co-Facilitator",
+      "Facilitator",
+      "Engagement Lead",
+      "Facilitation Mentor"
+    ],
+    "system": "Open Circle"
+  },
+  "hazards": {
+    "defend-the-project": "You answered her concern with the project's benefits. This session exists to hear, not to persuade; a facilitator who rebuts every comment turns a listening session into a sales pitch, and the neighbourhood stops telling you the things you most need to know.",
+    "members-huddle": "You gathered the council members at the back — three of the five are here tonight — to compare notes on the proposal. Members may attend a community meeting, but a majority of the body discussing its own business among themselves there is exactly what the open-meeting law does not allow — in a room full of residents watching.",
+    "operator-catering": "You accepted the facility operator's offer to cater the session. Food paid for by the company that wants the permit sits on the table at a meeting about whether it should get one; residents will ask who paid, and they will be right to.",
+    "promise-it-wont-be-built": "You promised the facility will not be built here. You do not decide that, the council does, after a process that is not finished — and a neighbourhood that has been promised things before will remember this one exactly."
+  },
+  "id": "community-listening-session",
+  "indoor": "hotel",
+  "interrupts": [
+    {
+      "after": "listen-to-the-first-voice",
+      "alert": "An older resident in the back row has raised her hand and is tapping her headset: it has gone silent, and she has missed the last two minutes.",
+      "cue": "Pause the speaker gently and bring a working headset to her yourself.",
+      "delay": 3,
+      "id": "headset-silent",
+      "kind": "Resident cut out of the room",
+      "missNote": "She sat through the rest of the session in silence, then left early. The record has nothing from the resident who has lived on the block longest, and she has told her neighbours the city's meeting was not meant for people like her.",
+      "seconds": 12,
+      "target": "spare-headset",
+      "why": "A resident who cannot follow the conversation is not in the session, however many chairs are filled. Pausing the speaker for a moment, bringing a working headset over in person and offering to recap is what bringing people in looks like in practice — and the whole room sees that the evening will stop for the person at the back, not only for the person at the microphone.",
+      "wrongNote": "Not by holding your attention on the speaker — the resident at the back has lost the room entirely. Take her a working headset."
+    },
+    {
+      "after": "hold-the-space",
+      "alert": "A woman describing her son's asthma attacks has started to cry and cannot go on. The room has gone quiet around her.",
+      "cue": "Pause the room and send the peer supporter to her with water and a quiet seat — do not push her to finish.",
+      "delay": 3,
+      "id": "resident-in-distress",
+      "kind": "Resident overwhelmed",
+      "missNote": "The session moved on to the next speaker while she was still crying. Nobody went to her, and the room learned in that moment what the city's listening is actually worth.",
+      "seconds": 12,
+      "target": "quiet-corner",
+      "why": "Psychological First Aid starts with safety and comfort: a pause, water, a quiet seat and a companion if she wants one, with no pressure to finish her story. Sending the peer supporter to her, and telling the room plainly that her words are already on the wall, keeps her dignity intact — and shows every resident that the session will care for the people who bring it their hardest things.",
+      "wrongNote": "The room meter is everybody. She needs somebody beside her now — send the peer supporter with water and a quiet seat."
+    }
+  ],
+  "lateNotes": {
+    "facilitator-chair": "The circle gets set before anybody arrives — but first check the access set-up the whole room depends on.",
+    "session-log-board": "The session record closes once people know what happens next and when — not before."
+  },
+  "name": "Community Listening Session",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "civic-leadership-and-ei"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "access-childcare-corner",
+      "access-interpreter-headsets",
+      "access-ramp-door",
+      "access-stage-podium",
+      "circle-gap",
+      "crew-checkin-board",
+      "defend-the-project",
+      "facilitator-chair",
+      "floor-meter",
+      "history-card",
+      "interpretation-dial",
+      "listen-point",
+      "loop-date-back",
+      "loop-report-back",
+      "loop-who-decides",
+      "members-huddle",
+      "operator-catering",
+      "promise-it-wont-be-built",
+      "purpose-card",
+      "quiet-corner",
+      "reflect-check",
+      "reflect-feeling",
+      "reflect-record",
+      "reflect-restate",
+      "room-meter",
+      "session-log-board",
+      "spare-headset",
+      "voice-back-row",
+      "voice-spanish-table",
+      "voice-spoke-twice",
+      "voice-youth-table"
+    ],
+    "meshes": 278
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Before the doors open, check the three things that decide who can actually come and speak.",
+      "decoyNotes": {
+        "access-stage-podium": "The stage and podium are not an access feature — a raised platform puts the city above the residents it came to hear. Leave it empty tonight."
+      },
+      "id": "set-up-for-access",
+      "itemNames": {
+        "access-childcare-corner": "a staffed childcare corner",
+        "access-interpreter-headsets": "interpretation headsets, charged and on the right channel",
+        "access-ramp-door": "the ramp door, unlocked and propped"
+      },
+      "itemNotes": {
+        "access-childcare-corner": "Parents of small children are the residents most affected by truck traffic and least able to come to an evening meeting. Childcare is how they get here.",
+        "access-interpreter-headsets": "Half the block speaks another language at home. Headsets that work are the difference between attending and taking part.",
+        "access-ramp-door": "The accessible entrance is the side door. Locked, it means a wheelchair user waits in the rain while everybody else walks in."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before the doors open, check the three things that decide who can actually come and speak.",
+      "targets": [
+        "access-interpreter-headsets",
+        "access-childcare-corner",
+        "access-ramp-door"
+      ],
+      "title": "Set up the hall so everybody can take part",
+      "why": "Bringing people in rather than shutting them out is decided before the first resident arrives. Headsets that do not work, no childcare and a locked ramp door each quietly remove a group from the session — the non-English speakers, the parents, the disabled residents — and they are often the people a waste facility would affect most. The facilitator checks access first, because a record built without those voices is a record of somebody else's neighbourhood."
+    },
+    {
+      "cue": "Carry your chair off the stage and set it in the gap in the circle.",
+      "drag": {
+        "missNote": "Not in the circle. A facilitator who sits above or outside the residents is presenting to them, not listening to them — put the chair in the gap.",
+        "radius": 0.6,
+        "to": "circle-gap"
+      },
+      "id": "arrange-the-circle",
+      "kind": "drag",
+      "prompt": "Carry your chair off the stage and set it in the gap in the circle.",
+      "target": "facilitator-chair",
+      "title": "Bring the facilitator's chair down into the circle",
+      "why": "Where the city sits is a message before anybody speaks. A stage and a podium say the city has come to tell; a chair in the circle, at the same height as everybody else, says it has come to hear. It costs nothing to move, and in a neighbourhood that has sat through years of presentations it is the first sign that tonight might actually be different."
+    },
+    {
+      "cue": "\"Tonight is for listening. Nothing is decided here. Everything you say goes into a report the council reads before it votes.\"",
+      "id": "open-with-purpose",
+      "kind": "select",
+      "prompt": "\"Tonight is for listening. Nothing is decided here. Everything you say goes into a report the council reads before it votes.\"",
+      "target": "purpose-card",
+      "title": "Say plainly what the session is for, and what it is not",
+      "why": "Trustworthiness and transparency start with saying honestly what the evening can and cannot do. Residents who think a decision is being made tonight will either fight or leave; residents told it is only a formality will not bother to speak. Saying that nothing is decided here, that everything said goes into a report, and who reads it and when, gives people a true reason to spend their evening talking."
+    },
+    {
+      "cue": "Turn the transmitter to the channel on the headset cards — check with the interpreter that it is live.",
+      "id": "tune-the-headsets",
+      "kind": "turn",
+      "prompt": "Turn the transmitter to the channel on the headset cards — check with the interpreter that it is live.",
+      "target": "interpretation-dial",
+      "title": "Set the interpretation transmitter to the right channel",
+      "turn": {
+        "axis": "y",
+        "label": "CHANNEL",
+        "turns": 0.5
+      },
+      "why": "An interpreter speaking into a transmitter on the wrong channel produces headsets full of static and a room where a third of the residents are politely nodding at nothing. Setting the channel and confirming with the interpreter that the first sentence came through is the small technical act that makes the session genuinely multilingual rather than multilingual on paper."
+    },
+    {
+      "cue": "Hold your attention on her. No nodding along to your own talking points, no answers.",
+      "holdBreakNote": "You started to answer before she finished. Stop, let her complete the thought, and say it back afterwards.",
+      "id": "listen-to-the-first-voice",
+      "kind": "hold",
+      "prompt": "Hold your attention on her. No nodding along to your own talking points, no answers.",
+      "seconds": 8,
+      "target": "listen-point",
+      "title": "Hear the first speaker without responding",
+      "why": "The first person to speak sets the temperature for everybody else. If the facilitator listens completely — no rebuttal, no reassurance, no glance at the clock — the room learns that it is safe to say the real thing. If the facilitator answers the first comment, every speaker after her prepares an argument instead of a story, and the session becomes a debate the city was never going to win."
+    },
+    {
+      "cue": "Restate it in her words, name the feeling, check you have it right, then write it on the wall.",
+      "id": "reflect-back",
+      "itemNames": {
+        "reflect-check": "check you got it right",
+        "reflect-feeling": "name the feeling under it",
+        "reflect-record": "write it on the wall as she said it",
+        "reflect-restate": "restate what she said, in her words"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Restate, name the feeling, check, then write. Writing it up before checking with her means the record says what you heard, not what she said.",
+      "prompt": "Restate it in her words, name the feeling, check you have it right, then write it on the wall.",
+      "targets": [
+        "reflect-restate",
+        "reflect-feeling",
+        "reflect-check",
+        "reflect-record"
+      ],
+      "title": "Reflect what you heard back to her",
+      "why": "Reflecting back is how a speaker knows she was heard, and how the record ends up saying what she meant rather than what the city heard. Restating in her own words, naming the feeling underneath, checking — \"did I get that right?\" — and only then writing it on the wall puts her in charge of her own words. Writing first and checking later turns her into material for somebody else's summary."
+    },
+    {
+      "cue": "Commit when the floor time reads balanced — not the three regulars taking it all, not the quiet tables pushed.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "FLOOR SHARE",
+        "missNote": "Not balanced. Either the same three regulars have the floor, or you are pressing the quiet tables to speak before they are ready. Find the balance and commit.",
+        "speed": 0.6
+      },
+      "id": "share-the-floor",
+      "kind": "gauge",
+      "prompt": "Commit when the floor time reads balanced — not the three regulars taking it all, not the quiet tables pushed.",
+      "target": "floor-meter",
+      "title": "Share the floor fairly between the voices in the room",
+      "why": "Every neighbourhood meeting has its regulars — experienced, articulate, often right — and every one also has residents who have never spoken in public. A fair floor is not equal minutes; it is the regulars heard without dominating and the quieter residents invited without being put on the spot. The facilitator reads it continuously and adjusts, because the loudest record is not the truest one."
+    },
+    {
+      "cue": "\"This neighbourhood has been promised things by the city before, and some of those promises were not kept. That is part of why tonight is hard.\"",
+      "id": "name-the-history",
+      "kind": "select",
+      "prompt": "\"This neighbourhood has been promised things by the city before, and some of those promises were not kept. That is part of why tonight is hard.\"",
+      "target": "history-card",
+      "title": "Acknowledge the neighbourhood's history out loud",
+      "why": "The history of the place is in the room whether the city names it or not. Acknowledging it — plainly, without excuses and without promising that this time will be different — is the trauma-informed principle of historical and cultural context in practice. It tells residents the city knows why they are wary, and it is often the moment a room that came to fight starts to talk."
+    },
+    {
+      "cue": "Residents are angry about the trucks. Keep the room inside the band — let the anger be said, keep it safe to stay.",
+      "holdBreakNote": "The room slipped — shut down, or tipping into attacks. Come back to steady: acknowledge the anger and keep it safe for everybody to stay.",
+      "id": "hold-the-space",
+      "kind": "track",
+      "prompt": "Residents are angry about the trucks. Keep the room inside the band — let the anger be said, keep it safe to stay.",
+      "seconds": 8,
+      "target": "room-meter",
+      "title": "Hold the room steady as the anger rises",
+      "track": {
+        "drift": 0.16,
+        "fall": 0.42,
+        "green": [
+          0.3,
+          0.7
+        ],
+        "label": "ROOM",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "Anger is legitimate information in a listening session, and shutting it down tells residents their real feelings are not welcome. Letting it tip into personal attacks makes the room unsafe for the people who came to speak quietly. Holding the space means staying steady and present through the anger — acknowledging it, keeping the ground rules, protecting the quiet speakers — continuously, for as long as it takes."
+    },
+    {
+      "cue": "Look around the circle. Mark every group that has not spoken yet.",
+      "decoyNotes": {
+        "voice-spoke-twice": "The neighbourhood association chair has already spoken twice, well. Thank her; the voices missing tonight are elsewhere."
+      },
+      "id": "reach-the-quiet-tables",
+      "itemNames": {
+        "voice-back-row": "the older residents in the back row",
+        "voice-spanish-table": "the Spanish-speaking table",
+        "voice-youth-table": "the young people's table"
+      },
+      "itemNotes": {
+        "voice-back-row": "The older residents at the back have lived here longest. A roving mic and a direct invitation is often all it takes.",
+        "voice-spanish-table": "The Spanish-speaking table has been listening through headsets all evening. Ask the interpreter to invite them first.",
+        "voice-youth-table": "The teenagers who walk past the site to school have not said a word. Go to their table rather than asking them to stand up."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look around the circle. Mark every group that has not spoken yet.",
+      "targets": [
+        "voice-youth-table",
+        "voice-spanish-table",
+        "voice-back-row"
+      ],
+      "title": "Find the voices that have not been heard yet",
+      "why": "The residents who have not spoken are usually not the ones with nothing to say. Young people, residents speaking through interpretation and older neighbours in the back row are exactly the voices a record is thinnest on and a decision most often overlooks. Finding them, and going to them rather than making them come to the microphone, is how listening first becomes listening to everybody."
+    },
+    {
+      "anyOrder": true,
+      "cue": "What was heard goes into a report, the date it comes back here, and who makes the decision and when.",
+      "id": "close-the-loop",
+      "itemNames": {
+        "loop-date-back": "the date it comes back to this room",
+        "loop-report-back": "a written report of what was heard, in residents' words",
+        "loop-who-decides": "who decides, and when"
+      },
+      "kind": "sequence",
+      "prompt": "What was heard goes into a report, the date it comes back here, and who makes the decision and when.",
+      "targets": [
+        "loop-report-back",
+        "loop-date-back",
+        "loop-who-decides"
+      ],
+      "title": "Tell people exactly what happens next",
+      "why": "Keeping your word begins with making a promise small enough to keep. A written report in residents' own words, a date when it comes back to this room, and a plain statement of who decides and when are three commitments the city can actually honour — and honouring them is what makes the next listening session possible. A session that ends with \"we'll be in touch\" teaches the neighbourhood not to come again."
+    },
+    {
+      "cue": "Log the wall notes, the quiet tables reached, the history acknowledged and the date promised.",
+      "id": "log-the-session",
+      "kind": "select",
+      "prompt": "Log the wall notes, the quiet tables reached, the history acknowledged and the date promised.",
+      "target": "session-log-board",
+      "title": "Record the session in residents' own words",
+      "why": "The session record is what the council will actually read, and whatever is not in it did not happen as far as the decision is concerned. Recording what was said in residents' own words, which groups spoke, the history acknowledged and the date promised keeps faith with everybody who spent their evening here — and gives the neighbourhood something concrete to hold the city to."
+    },
+    {
+      "cue": "Two minutes after the hall empties: how did that land on each of you?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "Two minutes after the hall empties: how did that land on each of you?",
+      "target": "crew-checkin-board",
+      "title": "Check in with the peer supporter and the interpreter",
+      "why": "A listening session asks the people running it to absorb a great deal of other people's pain without answering it, and the interpreter voiced every word of it twice. Checking in afterwards — how did it land, does anybody need support, the employee assistance line if it stays — is peer support in practice, and it is what keeps facilitators able to hold the next room as well as this one."
+    }
+  ],
+  "supportLine": "your employee assistance program, or the peer supporter who worked the session with you — a room full of hard stories stays with the people who held it",
+  "tagline": "A circle, not a stage: access set up before the doors open, what the session is for said plainly, every voice reflected back, the quiet tables reached, a resident in distress cared for — and a date when people will hear what was done with what they said",
+  "title": "SmartCiti.X~ Community Listening Session VR",
+  "trade": "Community engagement facilitator",
+  "underwater": null,
+  "weather": "rain"
+}

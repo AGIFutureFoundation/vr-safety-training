@@ -1,0 +1,433 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "eyes-up",
+    "name": "Eyes Up",
+    "note": "A whole ball-handling block run with the heads up, the lanes clear and nobody pushed past their rest"
+  },
+  "category": "Youth Sports & Coaching",
+  "certification": "USA Basketball youth development guidelines on age-appropriate ball size, skill progression and work-to-rest balance; NFHS basketball rules for the dribble and a school-sport standard of safe equipment; CDC Heads Up for recognising a knock to the head in a crowded drill; the U.S. Center for SafeSport for calm, observable correction of young players; the American Red Cross first aid course for the sprains and jammed fingers ball-handling drills produce",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CDC",
+        "citedAs": "CDC Heads Up",
+        "id": "cdc-heads-up",
+        "title": "CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance"
+      },
+      {
+        "body": "NFHS",
+        "citedAs": "NFHS",
+        "id": "nfhs-basketball-rules",
+        "title": "National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport"
+      },
+      {
+        "body": "Red Cross",
+        "citedAs": "American Red Cross first aid",
+        "id": "red-cross-first-aid-course",
+        "title": "American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services"
+      },
+      {
+        "body": "U.S. Center for SafeSport",
+        "citedAs": "U.S. Center for SafeSport",
+        "id": "safesport-code",
+        "title": "U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting"
+      },
+      {
+        "body": "USA Basketball",
+        "citedAs": "USA Basketball",
+        "id": "usa-basketball-youth-guidelines",
+        "title": "USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them"
+      }
+    ]
+  },
+  "district": "gym-court",
+  "domain": "Youth Sports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "good-ball",
+        "name": "Good Ball",
+        "note": "Every bad ball caught before it reached a player"
+      },
+      {
+        "id": "clear-lanes",
+        "name": "Clear Lanes",
+        "note": "No unsafe action in the whole block"
+      },
+      {
+        "id": "on-rhythm",
+        "name": "On Rhythm",
+        "note": "Ball pressure and crossover rhythm both inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-block",
+        "name": "Clean Block",
+        "note": "No corrections anywhere in the block"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Held the crossover rhythm in band the whole time"
+      },
+      {
+        "id": "quick-block",
+        "name": "Quick Block",
+        "note": "Practice log reached inside 80% of par"
+      }
+    ],
+    "currency": "TOUCHES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ball Boy or Girl",
+      "Drill Helper",
+      "Skills Coach",
+      "Head Coach",
+      "Skills Director"
+    ],
+    "system": "Handle Series"
+  },
+  "hazards": {
+    "dribble-through-sweat": "You kept the drill going over the sweat drips at the end of the lanes. A dribbling player crossing over on a slick patch has their weight on one foot and their eyes up — exactly the moment a slip ends with a hand, a wrist or a head hitting the floor.",
+    "leave-loose-balls": "You let the loose balls roll wherever they stopped. A basketball on the floor is the most common thing a player lands on when an ankle rolls in practice, and in a ball-handling drill there are a dozen of them bouncing away from tired hands every minute.",
+    "no-rest-intervals": "You ran the handling series straight through with no rest intervals. Tired hands stop controlling the ball, tired players stop keeping their eyes up, and continuous repetition without rest is the unplanned load youth guidelines warn builds overuse problems in wrists and forearms.",
+    "overlap-the-lanes": "You squeezed the group into overlapping lanes to fit everyone on one side. Players dribbling with their eyes up are, by design, not watching the player next to them; lanes that overlap guarantee elbows, heads and loose balls meeting at speed, and a clash of heads is the concussion nobody planned for."
+  },
+  "id": "bb-stance-and-ball-handling",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "pound-dribble",
+      "alert": "Two players in neighbouring lanes both went after the same loose ball. Words, then a shove — one of them is squaring up to the other.",
+      "cue": "Stop it calmly: separate them to the two cool-off spots, away from each other and away from the row.",
+      "delay": 3,
+      "id": "shove-over-a-loose-ball",
+      "kind": "Heated moment",
+      "missNote": "Nobody stepped in, and the shove became a scuffle in the middle of the lanes with a dozen balls bouncing around it. Two players and the teammates who crowded in are now at risk of exactly the collision the wide lanes were meant to prevent.",
+      "seconds": 12,
+      "target": "cool-off-spots",
+      "why": "A heated moment between young players is defused by distance and a calm adult voice, not by a lecture in front of the group. Sending each player to a separate cool-off spot breaks the contact at once, keeps everybody in view, and lets the coach talk to each of them privately once the heat has gone — the calm, observable correction SafeSport guidance expects.",
+      "wrongNote": "That does not separate them. Send each player to their own cool-off spot first — everything else can wait until the heat is gone."
+    },
+    {
+      "after": "crossover-rhythm",
+      "alert": "The building fire alarm is sounding and the strobe over the exit is flashing while the whole row is mid-crossover.",
+      "cue": "Balls down, everyone to the marked fire exit with the assistant, then headcount outside.",
+      "delay": 3,
+      "id": "fire-alarm-mid-drill",
+      "kind": "Fire alarm",
+      "missNote": "The drill carried on through the alarm, and when the group did leave it went out in a straggle through two different doors. Nobody can say for certain that every player is out of the building, which is the one thing an evacuation exists to guarantee.",
+      "seconds": 12,
+      "target": "fire-exit-door",
+      "why": "When the alarm sounds, the drill is over: balls down where they stand, everyone out through the marked exit together, and a headcount at the assembly point against the check-in sheet. Treating every alarm as real is the only way a group of young players leaves quickly and completely on the day it is not a drill.",
+      "wrongNote": "Not now — the alarm comes first. Balls down and everybody to the marked fire exit."
+    }
+  ],
+  "lateNotes": {
+    "crew-checkin-board": "The staff check-in comes after the log, at the end of the block.",
+    "practice-log-board": "The log closes the block once the drills have been run and the balls racked — nothing to record yet."
+  },
+  "name": "Stance and Ball Handling",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "basketball-fundamentals"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "ball-cracked-cover",
+      "ball-flat",
+      "ball-good",
+      "ball-overinflated",
+      "ball-rack-socket",
+      "cool-off-spots",
+      "crew-checkin-board",
+      "dribble-through-sweat",
+      "eyes-up-card",
+      "fault-eyes-down",
+      "fault-slapping",
+      "fault-standing-tall",
+      "fault-weak-hand",
+      "fire-exit-door",
+      "interval-timer",
+      "lane-cone",
+      "lane-socket",
+      "leave-loose-balls",
+      "loose-ball-cart",
+      "no-rest-intervals",
+      "overlap-the-lanes",
+      "pound-dribble-pad",
+      "practice-log-board",
+      "pressure-gauge",
+      "progression-board",
+      "rhythm-meter",
+      "series-around-waist",
+      "series-figure-eight",
+      "series-spider",
+      "stance-eyes",
+      "stance-feet",
+      "stance-knees",
+      "stance-pocket"
+    ],
+    "meshes": 230
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Go through the rack. Pull every ball that is soft, rock hard or damaged.",
+      "decoyNotes": {
+        "ball-good": "This one bounces true and the cover is sound. Check the rest of the rack."
+      },
+      "id": "check-the-balls",
+      "itemNames": {
+        "ball-cracked-cover": "a ball with a split cover",
+        "ball-flat": "a ball that will not bounce back to the hand",
+        "ball-overinflated": "a ball pumped rock hard"
+      },
+      "itemNotes": {
+        "ball-cracked-cover": "A split cover catches skin and fingernails on every catch. It comes out of the rack for good.",
+        "ball-flat": "A soft ball dies on the floor and teaches players to slap at it. Pull it and pump it before it goes out.",
+        "ball-overinflated": "A rock-hard ball jumps off the floor and jams the fingers it hits. Let it down to the right pressure."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Go through the rack. Pull every ball that is soft, rock hard or damaged.",
+      "targets": [
+        "ball-flat",
+        "ball-overinflated",
+        "ball-cracked-cover"
+      ],
+      "title": "Check the balls before they go out",
+      "why": "Ball handling is taught through the ball, and a bad ball teaches bad habits and hurts hands. A soft ball dies and players slap it; an over-pumped one jumps and jams fingers; a split cover tears skin on every catch. Pulling them before they are handed out is the same equipment-first habit school-sport rules ask of every piece of gear on the court."
+    },
+    {
+      "cue": "Pump and bleed until the gauge reads inside the band printed on the ball, then commit.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "PRESSURE",
+        "missNote": "Outside the printed range. Soft balls teach slapping and hard ones jam fingers — pump or bleed until it reads in range.",
+        "speed": 0.6
+      },
+      "id": "set-ball-pressure",
+      "kind": "gauge",
+      "prompt": "Pump and bleed until the gauge reads inside the band printed on the ball, then commit.",
+      "target": "pressure-gauge",
+      "title": "Set the ball pressure with the gauge",
+      "why": "The range printed by the valve is what makes a ball bounce back to the same height every dribble, which is the whole feedback loop a young player learns control from. Guessing by squeezing produces a rack of balls that each behave differently, and a player who fights a different ball every rep is learning the ball, not the skill."
+    },
+    {
+      "cue": "Carry the last cone out to the marked spot so every lane has room on both sides.",
+      "drag": {
+        "missNote": "Not on the spot. A cone short of the mark leaves two lanes sharing the same strip of floor — carry it all the way out.",
+        "radius": 0.45,
+        "to": "lane-socket"
+      },
+      "id": "space-the-lanes",
+      "kind": "drag",
+      "prompt": "Carry the last cone out to the marked spot so every lane has room on both sides.",
+      "target": "lane-cone",
+      "title": "Space the dribbling lanes wide",
+      "why": "In a ball-handling drill every player is asked to keep their eyes up, which means nobody is watching the player beside them. Lanes wide enough that two players crossing over at the same moment cannot touch are what make eyes-up coaching safe; a coach who squeezes lanes to fit the group has swapped a drill for a collision waiting to happen."
+    },
+    {
+      "cue": "Feet first, then knees and hips, then the ball in the pocket, then eyes up.",
+      "id": "build-the-stance",
+      "itemNames": {
+        "stance-eyes": "eyes up on the rim and the floor",
+        "stance-feet": "feet shoulder width, weight on the balls of the feet",
+        "stance-knees": "knees and hips bent, back up",
+        "stance-pocket": "ball held firm at the hip, in the pocket"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Build it from the floor: feet, then knees, then the ball, then eyes. Start at the ball and players end up bent at the waist with it hanging out in front.",
+      "prompt": "Feet first, then knees and hips, then the ball in the pocket, then eyes up.",
+      "targets": [
+        "stance-feet",
+        "stance-knees",
+        "stance-pocket",
+        "stance-eyes"
+      ],
+      "title": "Build the triple-threat stance from the feet up",
+      "why": "The triple-threat stance — ready to shoot, pass or drive — is built from the ground up because every part depends on the one below. Feet set wide and on the balls give balance; bent knees and hips give the spring; the ball tucked at the hip keeps it away from a defender; eyes up is what makes the other three worth having. Teaching it in that order stops players bending at the waist with the ball out in front of them."
+    },
+    {
+      "cue": "Keep the dribble hard and low at the side, head up, while you watch the whole row.",
+      "holdBreakNote": "The dribble came up and the eyes went down. Get it back low and hard, head up, before counting again.",
+      "id": "pound-dribble",
+      "kind": "hold",
+      "prompt": "Keep the dribble hard and low at the side, head up, while you watch the whole row.",
+      "seconds": 7,
+      "target": "pound-dribble-pad",
+      "title": "Hold a hard pound dribble with the eyes up",
+      "why": "The pound dribble — hard, low, at the side and below the knee — builds the hand strength and feel every other move needs, and holding it for a set time with the eyes up is how a player learns that the ball will come back without being watched. For the coach it is also the moment to scan the whole row rather than the one player who is struggling."
+    },
+    {
+      "cue": "Hold up fingers and have each player call the number out while they keep dribbling.",
+      "id": "call-the-numbers",
+      "kind": "select",
+      "prompt": "Hold up fingers and have each player call the number out while they keep dribbling.",
+      "target": "eyes-up-card",
+      "title": "Flash numbers so players dribble with their eyes up",
+      "why": "Players say their eyes are up long before they actually are. Flashing a number with your fingers and asking them to call it out while dribbling turns eyes-up from a reminder into something the coach can check, and it trains the habit that keeps a ball handler seeing teammates, defenders and the player they are about to run into."
+    },
+    {
+      "cue": "Turn the interval timer to a short work block followed by an equal rest.",
+      "id": "set-the-intervals",
+      "kind": "turn",
+      "prompt": "Turn the interval timer to a short work block followed by an equal rest.",
+      "target": "interval-timer",
+      "title": "Set the work and rest intervals on the timer",
+      "turn": {
+        "axis": "z",
+        "label": "INTERVAL",
+        "turns": 0.5
+      },
+      "why": "Ball-handling drills are short, sharp efforts; continuous dribbling for minutes on end produces sloppy repetitions and sore wrists rather than skill. Setting the timer to short work blocks with real rest keeps every rep at full quality and builds in the recovery youth guidelines recommend, so fatigue never becomes the thing the drill is actually practising."
+    },
+    {
+      "cue": "Watch the row. Mark every player whose habit needs a correction now.",
+      "decoyNotes": {
+        "fault-weak-hand": "Using the weak hand is not a fault, it is the point of the drill. Leave it be and look for the habits that need fixing."
+      },
+      "id": "coach-the-faults",
+      "itemNames": {
+        "fault-eyes-down": "a player staring at the ball",
+        "fault-slapping": "a player slapping the ball with a flat palm",
+        "fault-standing-tall": "a player dribbling standing straight up"
+      },
+      "itemNotes": {
+        "fault-eyes-down": "Eyes on the ball means no eyes on anything else. Cue 'chin up, see the rim' and flash a number.",
+        "fault-slapping": "Control comes from the finger pads, not a flat palm. Cue 'fingers, not palm' and let them feel the ball push back.",
+        "fault-standing-tall": "A tall dribbler is an easy one to strip and a slow one to start. Cue 'sit down' — knees bent, ball low."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Watch the row. Mark every player whose habit needs a correction now.",
+      "targets": [
+        "fault-eyes-down",
+        "fault-slapping",
+        "fault-standing-tall"
+      ],
+      "title": "Find the faults worth correcting",
+      "why": "A good coaching eye picks out the two or three faults that decide whether a player improves — eyes down, slapping with a flat palm, dribbling upright — and leaves the rest alone. Correcting calmly and specifically, one cue per player, in view of everyone, is the observable, encouraging style SafeSport guidance asks of adults working with young athletes."
+    },
+    {
+      "cue": "Hold the group's crossover rhythm in band — quick enough to be a move, controlled enough that the ball stays low.",
+      "holdBreakNote": "The rhythm went out of band — floating, or so fast the balls started getting away. Bring it back to quick and controlled.",
+      "id": "crossover-rhythm",
+      "kind": "track",
+      "prompt": "Hold the group's crossover rhythm in band — quick enough to be a move, controlled enough that the ball stays low.",
+      "seconds": 8,
+      "target": "rhythm-meter",
+      "title": "Keep the crossover rhythm steady",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "RHYTHM",
+        "rise": 0.56,
+        "start": 0.25
+      },
+      "why": "A crossover is a change of hands that has to be quick and low enough that a defender cannot reach it, yet controlled enough that the ball comes back. Players left to themselves either float it across slowly or speed up until the ball flies away into the next lane; holding the rhythm in the controlled band is what makes the move both real and safe for everybody around."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Around the waist, figure eight and spider dribble — each one for a short, sharp block.",
+      "id": "handling-series",
+      "itemNames": {
+        "series-around-waist": "ball around the waist",
+        "series-figure-eight": "figure eight through the legs",
+        "series-spider": "spider dribble"
+      },
+      "kind": "sequence",
+      "prompt": "Around the waist, figure eight and spider dribble — each one for a short, sharp block.",
+      "targets": [
+        "series-around-waist",
+        "series-figure-eight",
+        "series-spider"
+      ],
+      "title": "Run the stationary handling series",
+      "why": "The stationary series builds the hand speed and feel for the ball that moving moves depend on, without adding the traffic of a full-court drill. Each exercise asks the fingers for something different, and running them as short, sharp blocks with rest between them keeps the quality high and the wrists fresh."
+    },
+    {
+      "cue": "Post the rule: a defender is added only when a player can keep the ball low and the eyes up without one.",
+      "id": "progression-rule",
+      "kind": "select",
+      "prompt": "Post the rule: a defender is added only when a player can keep the ball low and the eyes up without one.",
+      "target": "progression-board",
+      "title": "Add pressure only after control",
+      "why": "Skill progression in youth development guidance runs from control, to control on the move, to control under pressure. Adding a defender before a player can dribble low with their eyes up does not make them tougher; it makes them turn their back, stare at the ball and crash into people, and it teaches the wrong habit at full speed."
+    },
+    {
+      "cue": "Roll the loose-ball cart back into the rack spot at the end of the bench.",
+      "drag": {
+        "missNote": "Not racked. A cart left out on the floor is a dozen balls ready to roll under the next drill — take it all the way to the rack spot.",
+        "radius": 0.5,
+        "to": "ball-rack-socket"
+      },
+      "id": "rack-loose-balls",
+      "kind": "drag",
+      "prompt": "Roll the loose-ball cart back into the rack spot at the end of the bench.",
+      "target": "loose-ball-cart",
+      "title": "Rack every loose ball before the next drill",
+      "why": "Ball-handling drills scatter balls across the floor faster than any other part of practice, and a ball under a foot is the classic way an ankle rolls. Racking them between drills — every time, not when it looks messy — keeps the next drill starting on a clear floor, and it teaches players that clearing the court is part of practising on it."
+    },
+    {
+      "cue": "Record the balls pulled, the corrections made and anything that happened in the lanes.",
+      "id": "log-the-block",
+      "kind": "select",
+      "prompt": "Record the balls pulled, the corrections made and anything that happened in the lanes.",
+      "target": "practice-log-board",
+      "title": "Log the ball-handling block",
+      "why": "A written note of which balls were pulled, what each player is working on and anything that happened in the lanes means the next practice starts where this one ended. It also gives the athletic trainer and the programme a record made at the time if a sore wrist or a knock turns out to matter later in the week."
+    },
+    {
+      "cue": "A minute at the bench: anything either of them saw in the lanes, and is everybody good to go on?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "A minute at the bench: anything either of them saw in the lanes, and is everybody good to go on?",
+      "target": "crew-checkin-board",
+      "title": "Check in with the assistant coach and the athletic trainer",
+      "why": "The assistant coach watched the far end of the lanes and the athletic trainer watched the hands and wrists; the head coach saw neither closely. A quick staff check-in after the block puts those observations together before the next drill, and keeps the adults talking in the open as a team rather than one person carrying the whole practice."
+    }
+  ],
+  "supportLine": "your league's coach coordinator, or the assistant who ran the drill with you — a shove or an alarm mid-practice is worth talking through before the next one",
+  "tagline": "Balls checked before they are handed out, lanes spaced wide, the triple-threat stance built from the feet up, a pound dribble with the eyes up, work and rest on a timer, and every loose ball racked",
+  "title": "SmartCiti.X~ Stance and Ball Handling VR",
+  "trade": "Youth basketball coach",
+  "underwater": null,
+  "weather": "clear"
+}

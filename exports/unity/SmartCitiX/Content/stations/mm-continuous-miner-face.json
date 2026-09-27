@@ -1,0 +1,406 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "face-supported",
+    "name": "Face Supported",
+    "note": "A cut-and-bolt cycle run to the roof-control plan, never past the last row of support without a reason the plan accounts for"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "UMWA health and safety training; per the section's roof-control plan and the mine safety regulations, named generically; NIOSH criteria documents on occupational exposure; ANSI B11 general safety requirements for machines",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI B11",
+        "id": "ansi-b11",
+        "title": "ANSI B11 — Safety of machinery (the B11 series of machine-tool standards)"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "union",
+        "citedAs": "UMWA",
+        "id": "umwa-training",
+        "title": "UMWA — United Mine Workers of America health and safety training for underground and surface mine crews"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Mining",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "bolted-before-advance",
+        "name": "Bolted Before Advance",
+        "note": "Every cut bolted to the plan's pattern before the next one started, first time"
+      },
+      {
+        "id": "never-past-the-line",
+        "name": "Never Past The Line",
+        "note": "Never went past the last row of support, into the cutting head, or into the crush zone"
+      },
+      {
+        "id": "tension-on-plan",
+        "name": "Tension On Plan",
+        "note": "Every bolt tensioned inside the plan's band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-cycle",
+        "name": "Clean Cycle",
+        "note": "No corrections through the whole cut-and-bolt cycle"
+      },
+      {
+        "id": "cut-unbroken",
+        "name": "Cut Unbroken",
+        "note": "The cutting pass never broke its controlled rate"
+      },
+      {
+        "id": "cycle-fast",
+        "name": "Cycle Fast",
+        "note": "Cycle completed inside 80% of par"
+      }
+    ],
+    "currency": "CUT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Roof Bolter Helper",
+      "Continuous Miner Operator",
+      "Section Foreman",
+      "Mine Examiner",
+      "Face Authority Certified"
+    ],
+    "system": "Face Authority"
+  },
+  "hazards": {
+    "cutting-head-reach": "You reached toward the cutting drum. It does not know the difference between coal and a hand, and a machine that can bring down a coal face does the same thing to anything else in reach of the bits — the drum is treated as live any time the machine is energised, whether or not it is turning at that instant.",
+    "pinch-point-tram": "You stood in the crush zone between the machine and the rib while it trammed. Operating from a remote control puts a person close enough to see the cut, which is also close enough to be pinned the moment the machine moves toward the rib — the zone beside the machine is watched and kept clear the whole time it can move, not just while it looks like it is moving.",
+    "red-zone-entry": "You went past the last row of roof support. The roof over freshly cut coal is unsupported until bolts are actually in it, and the plan's whole cut-and-bolt cycle exists so nobody has a reason to stand under it before that — going past the last row on a guess that it will hold removes the one control the plan actually provides.",
+    "trailing-cable-damaged": "You dragged equipment across the machine's trailing cable where the jacket is torn. A cable with its insulation broken open underground is a shock and an arc hazard sitting on the ground the whole section walks over, and it is reported and kept clear of, not driven over on the assumption a torn jacket still means an insulated cable."
+  },
+  "id": "mm-continuous-miner-face",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "position-miner",
+      "alert": "The miner's remote control crossed with another section's signal and the machine has started to tram on its own toward the rib.",
+      "cue": "The machine is moving without you commanding it.",
+      "delay": 3,
+      "id": "unexpected-tram",
+      "kind": "Machine moving",
+      "missNote": "The machine kept tramming toward the rib. A crossed remote signal does not correct itself, and standing in the crush zone waiting to see if it stops is exactly the bet a proximity hazard does not forgive.",
+      "seconds": 11,
+      "target": "tram-estop",
+      "why": "A remote control that has crossed signals is a machine doing something nobody at the controls actually asked for, and the crush zone beside it does not care why the machine is moving. The e-stop is what answers a machine in motion that the operator did not command, before the crush zone closes on whoever is standing in it.",
+      "wrongNote": "It is the tram e-stop. Nothing else stops a machine moving on a signal nobody at the controls sent."
+    },
+    {
+      "after": "install-bolts",
+      "alert": "A loud crack comes from the roof over the row you just bolted, and dust sifts down from a seam in the strata.",
+      "cue": "The roof is making noise right over freshly bolted ground.",
+      "delay": 4,
+      "id": "roof-talks",
+      "kind": "Roof sounding off",
+      "missNote": "The crew kept working under a roof that had just cracked and shed dust. A roof does not make that kind of noise for no reason, and finishing the row before checking it is choosing the schedule over the one signal the roof itself just gave.",
+      "seconds": 13,
+      "target": "roof-monitor-alarm",
+      "why": "A roof that cracks and sheds dust is telling you something the tension readings and the sounding bar have not yet caught — the roof monitor alarm is what calls for an examiner to look at exactly this, and gets the crew back behind fully proven support while that happens, rather than treating a roof that just made noise as one that has already been checked.",
+      "wrongNote": "It is the roof monitor alarm. Nothing else gets an examiner looking at this roof fast enough."
+    }
+  ],
+  "lateNotes": {
+    "cutter-control-lever": "Not yet. The face is checked and the crew is positioned before the machine moves.",
+    "roof-drill": "Not yet. The cut is made and the crew is behind support before the drill comes out."
+  },
+  "name": "Continuous Miner Face",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "mill-and-mine"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "continuousMinerFront",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "bolt-centre",
+      "bolt-outer-left",
+      "bolt-outer-right",
+      "cap-lamp",
+      "cut-position",
+      "cutter-control-lever",
+      "cutting-head-reach",
+      "dust-mask",
+      "gas-detector",
+      "loose-rib-bolt",
+      "miner-body",
+      "pinch-point-tram",
+      "plan-board",
+      "red-zone-entry",
+      "rock-duster",
+      "roof-drill",
+      "roof-monitor-alarm",
+      "section-log",
+      "self-rescuer",
+      "sounding-bar",
+      "supported-zone-marker",
+      "tension-gauge",
+      "trailing-cable-damaged",
+      "tram-estop",
+      "worn-cutting-bit"
+    ],
+    "meshes": 153
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Check the bolt pattern and the support sequence this section is cut to.",
+      "id": "roof-plan",
+      "kind": "select",
+      "prompt": "Check the bolt pattern and the support sequence this section is cut to.",
+      "target": "plan-board",
+      "title": "Read the section's roof-control plan",
+      "why": "The roof-control plan is what says how this section is supported, and it is written for this section's own roof conditions rather than copied from memory of a different one. A crew that bolts from habit instead of from the plan is a crew betting that today's roof behaves like the last section they worked, which is exactly the bet the plan exists to remove."
+    },
+    {
+      "cue": "Check the cutting bits and the rib support and click what you see.",
+      "id": "preop-walk",
+      "itemNames": {
+        "loose-rib-bolt": "a loose bolt in the rib support",
+        "worn-cutting-bit": "a worn bit on the cutting drum"
+      },
+      "itemNotes": {
+        "loose-rib-bolt": "A bolt in the rib support beside the face is backed off and no longer tight against the plate — a rib bolt found loose here is found before it is found by the rib it is supposed to be holding.",
+        "worn-cutting-bit": "One of the bits on the cutting drum is worn down past where it is cutting cleanly — a machine cutting with a dull bit works harder for the same cut and throws more dust doing it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the cutting bits and the rib support and click what you see.",
+      "targets": [
+        "worn-cutting-bit",
+        "loose-rib-bolt"
+      ],
+      "title": "Walk the machine and the rib before cutting",
+      "why": "The machine and the rib are both easiest to check before the cycle starts, while nothing is moving and nothing is under load — a worn bit or a loose rib bolt found here is a work order, and the same thing found mid-cut is a machine or a rib doing something nobody planned for."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Cap lamp on, self-rescuer on your belt, respirator on — all three before going to the face.",
+      "id": "ppe-donning",
+      "itemNames": {
+        "cap-lamp": "cap lamp on",
+        "dust-mask": "respirator on",
+        "self-rescuer": "self-rescuer on the belt"
+      },
+      "kind": "sequence",
+      "prompt": "Cap lamp on, self-rescuer on your belt, respirator on — all three before going to the face.",
+      "targets": [
+        "cap-lamp",
+        "self-rescuer",
+        "dust-mask"
+      ],
+      "title": "Put on the face PPE",
+      "why": "The cap lamp is your light and your visibility to the rest of the crew, the self-rescuer is the one thing between you and an unbreathable atmosphere if something goes wrong, and the respirator is for the dust a cutting machine puts into the air by the nature of the job. None of the three is optional because the shift looks routine — a self-rescuer left on the bench is a self-rescuer that cannot be reached from the face."
+    },
+    {
+      "cue": "Read the handheld gas detector and confirm it is clear to cut before the machine starts.",
+      "gauge": {
+        "green": [
+          0.55,
+          1
+        ],
+        "label": "FACE ATMOSPHERE",
+        "missNote": "Not reading clear — hold the cut and recheck before the machine starts.",
+        "speed": 0.7
+      },
+      "id": "gas-check",
+      "kind": "gauge",
+      "prompt": "Read the handheld gas detector and confirm it is clear to cut before the machine starts.",
+      "target": "gas-detector",
+      "title": "Check the face atmosphere",
+      "why": "The atmosphere at a working face is checked before cutting starts, on the detector's own reading, never on the assumption that the last check still holds — conditions at a coal face change with the cut, and a reading is only good for the moment it was taken."
+    },
+    {
+      "cue": "Move the continuous miner up to the marked cut line.",
+      "drag": {
+        "missNote": "Not on the cut line — square the machine to the marked line before cutting.",
+        "radius": 0.5,
+        "to": "cut-position"
+      },
+      "id": "position-miner",
+      "kind": "drag",
+      "prompt": "Move the continuous miner up to the marked cut line.",
+      "target": "miner-body",
+      "title": "Position the miner at the face",
+      "why": "The cut line is where the plan calls for this pass to start, and positioning to it before cutting is what keeps the cycle's cuts matched to the bolt pattern that follows each one — a cut started off the line is a cut the bolt pattern was not actually planned for."
+    },
+    {
+      "cue": "Hold the tram control steady and cut the pass at a controlled rate.",
+      "holdBreakNote": "Tram rate out of band — bring it back before the cut runs ahead of what the drum can clear.",
+      "id": "cut-pass",
+      "kind": "track",
+      "prompt": "Hold the tram control steady and cut the pass at a controlled rate.",
+      "seconds": 6,
+      "target": "cutter-control-lever",
+      "title": "Make the cutting pass",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.42,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "TRAM RATE",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "A pass cut too fast overloads the drum and the conveyor behind it; cut too slow, it holds the machine — and the crew working it by remote — at the face longer than the cut needs. The controlled rate a crew holds through the pass is what keeps the cut clean and the machine's time at the face to what the cut actually requires."
+    },
+    {
+      "cue": "Step back behind the last row of roof bolts before the drill comes out.",
+      "id": "retreat-support",
+      "kind": "select",
+      "prompt": "Step back behind the last row of roof bolts before the drill comes out.",
+      "target": "supported-zone-marker",
+      "title": "Retreat behind the last row of support",
+      "why": "The newly cut roof has no bolts in it yet, and the plan's cycle is built around nobody being under it until it does. Retreating behind the last supported row before drilling starts is what keeps the crew under roof the plan has already accounted for, the whole time the new section is unsupported."
+    },
+    {
+      "cue": "Rock-dust the freshly cut area before moving on to bolting.",
+      "id": "rock-dust",
+      "kind": "select",
+      "prompt": "Rock-dust the freshly cut area before moving on to bolting.",
+      "target": "rock-duster",
+      "title": "Apply rock dust to the new area",
+      "why": "Coal dust in the air and settled on surfaces is fuel for an explosion if an ignition source ever meets it, and rock dust is what keeps that fuel from being able to propagate one. It goes on the newly cut area as a normal part of the cycle, not as a job that gets caught up on later."
+    },
+    {
+      "cue": "Hold the roof drill steady on each mark until the hole is bored to the plan's pattern.",
+      "holdBreakNote": "You pulled the drill before the hole was through. A partial hole does not seat a bolt.",
+      "id": "drill-bolt-holes",
+      "kind": "hold",
+      "prompt": "Hold the roof drill steady on each mark until the hole is bored to the plan's pattern.",
+      "seconds": 5,
+      "target": "roof-drill",
+      "title": "Drill the bolt holes",
+      "why": "A hole drilled off the plan's pattern puts the bolt somewhere the plan did not account for, which can mean less roof actually held by the row than the pattern calls for. The drill is held steady through the full hole, on the marked spacing, because a hole started and abandoned partway does not hold a bolt any better than no hole at all."
+    },
+    {
+      "cue": "Set the outer bolts first, then the centre bolt, to the plan's pattern.",
+      "id": "install-bolts",
+      "itemNames": {
+        "bolt-centre": "centre bolt",
+        "bolt-outer-left": "outer bolt, left",
+        "bolt-outer-right": "outer bolt, right"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Outer bolts first, then the centre — the edges of the row are pinned before the middle of it is asked to hold anything.",
+      "prompt": "Set the outer bolts first, then the centre bolt, to the plan's pattern.",
+      "targets": [
+        "bolt-outer-left",
+        "bolt-outer-right",
+        "bolt-centre"
+      ],
+      "title": "Install the roof bolt row",
+      "why": "The plan's pattern names an order for a row for a reason — the outer bolts pin the row's edges first, so the centre bolt goes in against roof that is already partly held rather than against a span that is still entirely free."
+    },
+    {
+      "cue": "Read the torque wrench's gauge and confirm each bolt is tensioned to the plan's band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "BOLT TENSION",
+        "missNote": "Outside the plan's band — reset the wrench and tension it again.",
+        "speed": 0.72
+      },
+      "id": "tension-check",
+      "kind": "gauge",
+      "prompt": "Read the torque wrench's gauge and confirm each bolt is tensioned to the plan's band.",
+      "target": "tension-gauge",
+      "title": "Check the bolt tension",
+      "why": "A bolt tensioned too little is not actually gripping the strata it was drilled into; tensioned past the plan's band, it can shear the bolt or the plate it is seated against. The plan's band is what the wrench is read against, not a feel for how tight the bolt seems to turn."
+    },
+    {
+      "cue": "Tap the bar along the new row and feel for a hollow response.",
+      "holdBreakNote": "You stopped sounding before the row was finished. A row sounded halfway tells you about half the roof.",
+      "id": "sound-roof",
+      "kind": "hold",
+      "prompt": "Tap the bar along the new row and feel for a hollow response.",
+      "seconds": 5,
+      "target": "sounding-bar",
+      "title": "Sound the newly bolted roof",
+      "why": "A bolt can be tensioned correctly and the roof between the bolts can still be drummy — the sounding bar is what finds that, working the row from underneath rather than trusting the tension readings alone to say the whole row is sound."
+    },
+    {
+      "cue": "Hold the tram control steady and bring the miner back clear of the newly bolted area.",
+      "holdBreakNote": "Tram rate out of band — this is still the crush zone; bring it back under control.",
+      "id": "tram-clear",
+      "kind": "track",
+      "prompt": "Hold the tram control steady and bring the miner back clear of the newly bolted area.",
+      "seconds": 5,
+      "target": "cutter-control-lever",
+      "title": "Tram the miner back clear",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.4,
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "TRAM RATE",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "The miner comes back off the new area at the same controlled rate it cut with — a machine trammed back too fast through a space the crew is still working in the crush zone beside is the same hazard the cut itself was worked carefully around."
+    },
+    {
+      "cue": "Record the cut, the bolt row and what the walk-round found in the section log.",
+      "id": "log-cycle",
+      "kind": "select",
+      "prompt": "Record the cut, the bolt row and what the walk-round found in the section log.",
+      "target": "section-log",
+      "title": "Log the cut-and-bolt cycle",
+      "why": "The section log is what tells the next crew and the mine examiner what this cycle actually did — the log is checked against the plan by people who were not standing at this face, and a cycle that runs clean but is never logged is a cycle the next shift has to take on faith."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A cut-and-bolt cycle at the face: cut, retreat behind support, dust, drill and bolt to the roof-control plan, sound the roof, advance",
+  "title": "SmartCiti.X~ Continuous Miner Face VR",
+  "trade": "Underground continuous miner operator / roof bolter",
+  "underwater": null,
+  "weather": "clear"
+}

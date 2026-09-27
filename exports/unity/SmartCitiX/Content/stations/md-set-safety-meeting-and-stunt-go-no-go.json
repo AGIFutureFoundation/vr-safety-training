@@ -1,0 +1,368 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "cleared-for-the-gag",
+    "name": "Cleared for the Gag",
+    "note": "The go/no-go board walked clean, the regulator proven before the key was armed, the walk-on cleared off the AD's channel, and the kinking hose bled before the line ever saw full pressure"
+  },
+  "category": "Entertainment & Live Events",
+  "certification": "SAG-AFTRA safety bulletins for stunt and on-camera performers; IATSE grip and rigging crew practice; ANSI/ASSP Z359 fall-protection equipment for the stunt harness and its descender line; OSHA 29 CFR 1910.132 general personal protective equipment requirements; OSHA 29 CFR 1926.501 duty to have fall protection, applied here to the rigged descender",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IATSE",
+        "id": "iatse-training-trust",
+        "title": "IATSE Training Trust Fund — stagecraft, rigging and entertainment electrical skills training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.501",
+        "id": "osha-1926-501",
+        "title": "29 CFR 1926.501 — Duty to have fall protection"
+      },
+      {
+        "body": "union",
+        "citedAs": "SAG-AFTRA",
+        "id": "sag-aftra-training",
+        "title": "SAG-AFTRA apprenticeship and training, as a training body"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Screen & Media Crafts",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "gear-checked-first",
+        "name": "Gear Checked First",
+        "note": "Never armed the effect before the regulator read inside the plotted band"
+      },
+      {
+        "id": "line-answered",
+        "name": "Line Answered",
+        "note": "The walk-on into the fall zone was held off the AD's channel, not the hold button already in hand"
+      },
+      {
+        "id": "never-past-the-tape",
+        "name": "Never Past the Tape",
+        "note": "Never reached into the armed rig, never crossed the tape, never grabbed an untagged harness, never climbed the rig frame"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-meeting",
+        "name": "Clean Meeting",
+        "note": "No corrections from the call sheet to the closing log"
+      },
+      {
+        "id": "on-the-mark",
+        "name": "On the Mark",
+        "note": "The rehearsed path held inside the band, first time"
+      },
+      {
+        "id": "picture-up-on-time",
+        "name": "Picture Up On Time",
+        "note": "Cleared for the gag inside 80% of par"
+      }
+    ],
+    "currency": "CLEAR",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Background Crew",
+      "Second Second AD",
+      "Set Safety Trainee",
+      "Safety Coordinator",
+      "Stunt Safety Certified"
+    ],
+    "system": "Safety Meeting"
+  },
+  "hazards": {
+    "climb-the-rig-frame": "You climbed the effect rig's scaffold frame to get a better sightline instead of using the ladder staged beside it. The frame is built to carry the rig's own hardware in a fixed load path, not a person's weight applied sideways at whatever rung looked closest, and a frame that shifts under a climbing crew member can misalign the very effect everyone is about to trust. The ladder is there so nobody needs to find that out.",
+    "cross-safety-tape": "You stepped past the taped line into the stunt performer's marked fall zone while the rehearsal was live. That tape is the one boundary everyone on this backlot has agreed means 'this space is a fall path, not a walking path,' and it means nothing the moment someone crosses it to get a better look. The zone stays clear until the coordinator calls it clear.",
+    "reach-into-armed-rig": "You reached toward the compressed-air effect's discharge nozzle while the regulator was still armed. A rig that is armed is a rig that can fire the moment its trigger circuit closes, whether or not anyone meant to close it, and a hand at the nozzle is exactly where the stunt performer's fall is supposed to land instead. The rig is only ever touched safed, key out, line bled.",
+    "unlogged-harness": "You grabbed a harness off the loose pile by the gear cart instead of the inspected one hanging tagged on the rack. A stunt harness that has not been logged in today has not been checked today, and the one difference between the two looks the same right up until a stitch that failed inspection lets go under a real fall's load. Only the tagged harness on the rack goes on a performer."
+  },
+  "id": "md-set-safety-meeting-and-stunt-go-no-go",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-for-clear",
+      "alert": "A camera assistant has stepped past the tape to adjust a flag, right inside the marked fall zone, just as the take is about to be called.",
+      "cue": "Call HOLD over the AD's channel before anyone calls action.",
+      "delay": 2,
+      "id": "walk-on-in-fall-zone",
+      "kind": "Crew member walks into the fall zone",
+      "missNote": "Nobody on the AD's channel heard the hold. The take was called with a crew member still inside the tape.",
+      "seconds": 12,
+      "target": "ad-radio",
+      "why": "The hold button under your thumb only stops the call you're already making — it says nothing to a crew that thinks the gag hasn't started yet. The AD's channel is what reaches every department at once, which is the only way to stop a first assistant director from calling action into a fall zone that just quietly stopped being clear.",
+      "wrongNote": "Not that control. The hold button only holds your own call — the AD's channel is what reaches the department calling action."
+    },
+    {
+      "after": "rehearsal-walkthrough",
+      "alert": "The rig's regulator hose has kinked and the gauge needle is climbing past the plotted band toward the red.",
+      "cue": "Open the bleed valve before the line sees full tank pressure.",
+      "delay": 2,
+      "id": "regulator-kink",
+      "kind": "Regulator hose kinks under pressure",
+      "missNote": "The needle went into the red with the bleed valve untouched. The line was carrying pressure nobody had planned this gag around.",
+      "seconds": 12,
+      "target": "effects-bleed-valve",
+      "why": "A kinked hose does not stop pressure building behind it — it just moves where that pressure shows up first, and a rig regulator climbing past its plotted band is a rig about to fire harder than anything it was tested for. The bleed valve is a separate control from the regulator gauge for exactly this: it vents the line directly, without waiting for a reading that is already climbing.",
+      "wrongNote": "Not the regulator gauge — it only reads the pressure. The bleed valve is the one control that actually vents the line."
+    }
+  ],
+  "lateNotes": {
+    "crash-pad": "The pad gets spotted onto its mark once the rehearsal walk-through is done — moving it earlier just means moving it again.",
+    "effects-arm-key": "The key turns once the regulator has read inside the plotted band — there is nothing to arm on a rig that hasn't been proven yet.",
+    "safety-log": "The meeting is logged last, after the medic and the fire watch are staged — the log is what the next call sheet reads."
+  },
+  "name": "Set Safety Meeting & Stunt Go/No-Go",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "screen-and-media-crafts"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "ad-radio",
+      "bystander-in-kill-zone",
+      "call-sheet-panel",
+      "climb-the-rig-frame",
+      "crash-pad",
+      "cross-safety-tape",
+      "effects-arm-key",
+      "effects-bleed-valve",
+      "effects-pressure-gauge",
+      "extinguisher-stage",
+      "frayed-rigging-cable",
+      "go-no-go-board",
+      "hold-call-button",
+      "impact-pads",
+      "medic-station",
+      "pad-mark",
+      "reach-into-armed-rig",
+      "rehearsal-mark",
+      "safety-log",
+      "spotter-radio",
+      "stunt-harness",
+      "underinflated-crash-pad",
+      "unlogged-harness"
+    ],
+    "meshes": 226
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read today's call sheet for the SFX rundown: the gag, the performer, the rigged effect, and who is cleared to be inside the fall zone.",
+      "id": "read-callsheet",
+      "kind": "select",
+      "prompt": "Read today's call sheet for the SFX rundown: the gag, the performer, the rigged effect, and who is cleared to be inside the fall zone.",
+      "target": "call-sheet-panel",
+      "title": "Read the call sheet's SFX rundown",
+      "why": "The call sheet is where the day's stunt is written down before anyone walks onto the backlot: which performer is taking the fall, what the rigged effect actually is, and — just as important — who is on the list to be near it. A safety meeting that starts anywhere else is a meeting about a gag nobody has confirmed is today's gag."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Fit the impact pads and the tagged harness from the rack — never the loose pile — before the performer walks the mark.",
+      "id": "ppe-donning",
+      "itemNames": {
+        "impact-pads": "impact pads",
+        "stunt-harness": "inspected stunt harness"
+      },
+      "kind": "sequence",
+      "prompt": "Fit the impact pads and the tagged harness from the rack — never the loose pile — before the performer walks the mark.",
+      "targets": [
+        "impact-pads",
+        "stunt-harness"
+      ],
+      "title": "Dress the stunt performer's impact pads and inspected harness",
+      "why": "Both go on while the performer is standing still on flat ground, with both hands free to check every strap and buckle — not after they're already walking the mark with a coordinator's attention split three ways. The harness has to be the one hanging tagged on the rack, because a tag is the only thing that says today's inspection actually happened to this exact piece of gear."
+    },
+    {
+      "cue": "Walk the fall zone and click the three things that make today's gag unsafe as staged.",
+      "id": "hazard-sweep",
+      "itemNames": {
+        "bystander-in-kill-zone": "crew member standing in the fall zone",
+        "frayed-rigging-cable": "frayed cable on the rig's tag line",
+        "underinflated-crash-pad": "soft corner on the crash pad"
+      },
+      "itemNotes": {
+        "bystander-in-kill-zone": "A crew member is standing inside the taped fall zone, checking a monitor cable, with their back to the rig. Nobody in that zone is 'just passing through' once the gag is live — the zone exists because the performer's landing spot is not a place to be looking at anything else.",
+        "frayed-rigging-cable": "The tag line steadying the rig's discharge arm has a cable strand frayed almost through where it runs over a sharp edge. A tag line that lets go mid-gag means the arm swings free with nothing steadying it, right as the performer is committed to the fall.",
+        "underinflated-crash-pad": "One corner of the crash pad has gone soft — under-filled compared to the rest of the mat. A performer aiming for the pad's centre and landing a stride off it lands on the one corner that won't catch them the way the rest of the pad will."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the fall zone and click the three things that make today's gag unsafe as staged.",
+      "targets": [
+        "frayed-rigging-cable",
+        "underinflated-crash-pad",
+        "bystander-in-kill-zone"
+      ],
+      "title": "Sweep the fall zone before the gag goes live",
+      "why": "The interesting part of this job is the rig; the part that actually gets someone hurt is everything around it that nobody looked at twice — a fraying tag line, a soft corner on the one thing the performer is trusting to catch them, and a crew member who wandered into the one square of backlot that has to stay empty."
+    },
+    {
+      "cue": "Read the go/no-go board: the rig's tested status, the wind and weather limits, and the coordinator sign-offs still outstanding.",
+      "id": "go-no-go-checklist",
+      "kind": "select",
+      "prompt": "Read the go/no-go board: the rig's tested status, the wind and weather limits, and the coordinator sign-offs still outstanding.",
+      "target": "go-no-go-board",
+      "title": "Walk the effect's go/no-go board",
+      "why": "A rigged effect does not get a single yes or no — it gets a board, because 'go' depends on the rig having been tested today, the weather sitting inside the limits the effects coordinator set, and every sign-off on the board actually being there rather than assumed. Reading it here, before the regulator is even touched, is what keeps 'go' from meaning 'probably fine.'"
+    },
+    {
+      "cue": "Read the compressed-air regulator and commit inside the pressure band the SFX plot calls for this gag.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "REGULATOR",
+        "missNote": "Not on the plotted band — a regulator run high or low behaves like a different rig than the one this gag was tested on.",
+        "speed": 0.65
+      },
+      "id": "effects-pressure-check",
+      "kind": "gauge",
+      "prompt": "Read the compressed-air regulator and commit inside the pressure band the SFX plot calls for this gag.",
+      "target": "effects-pressure-gauge",
+      "title": "Prove the rig's regulator inside the plotted band",
+      "why": "The regulator is what turns a tank of compressed air into a repeatable, controlled push on the rig's discharge arm, and every gag this rig has ever been tested for assumes it is running at the plotted pressure — not whatever the last performer's gag happened to need. Proving it here, before the key ever turns, is what makes the rig behave the way its own test data says it will."
+    },
+    {
+      "cue": "With the board clean and the regulator proven, turn the rig's key to ARM.",
+      "id": "effects-arm-key",
+      "kind": "turn",
+      "prompt": "With the board clean and the regulator proven, turn the rig's key to ARM.",
+      "target": "effects-arm-key",
+      "title": "Arm the effect only after the board and the regulator both clear",
+      "turn": {
+        "label": "RIG KEY",
+        "turns": 1
+      },
+      "why": "The key is the one control on this rig that turns a safed, inert piece of hardware into something that can actually fire, and it is designed to be the very last thing touched — after the board, after the regulator, never before either. A rig armed on a checklist that isn't finished is a rig that is live for reasons nobody has actually confirmed yet."
+    },
+    {
+      "cue": "Call the fall-zone spotter on the radio and confirm they have eyes on the landing area and nobody in it.",
+      "id": "spotter-confirm",
+      "kind": "select",
+      "prompt": "Call the fall-zone spotter on the radio and confirm they have eyes on the landing area and nobody in it.",
+      "target": "spotter-radio",
+      "title": "Confirm the fall-zone spotter's radio check",
+      "why": "The spotter is the one set of eyes whose only job during the gag is the landing area itself — not the shot, not the monitor, not the performer's mark. Confirming that check on the radio, out loud, is what turns 'somebody's probably watching' into an actual answer the coordinator can act on."
+    },
+    {
+      "cue": "Hold the HOLD call until the spotter, the rig and the fall zone all read clear at the same time.",
+      "holdBreakNote": "You let go of HOLD before everything read clear together. A gag called on a zone that isn't clear yet is a gag called on hope.",
+      "id": "hold-for-clear",
+      "kind": "hold",
+      "prompt": "Hold the HOLD call until the spotter, the rig and the fall zone all read clear at the same time.",
+      "seconds": 4,
+      "target": "hold-call-button",
+      "title": "Hold the take for a clear line of sight",
+      "why": "A stunt gag has exactly one moment where everything has to be true at once — rig armed, zone clear, spotter watching — and holding the call rather than releasing it early is what keeps 'about to be clear' from being treated as the same thing as clear. Letting go the instant it looks ready is how a gag gets called on a zone that clears a half-second after the call."
+    },
+    {
+      "cue": "Walk the performer's rehearsed path at quarter speed, keeping your own eye-line on the mark the whole way.",
+      "holdBreakNote": "Off the rehearsed line — ease back toward the mark rather than cutting across, and confirm the sightline again before the gag goes live.",
+      "id": "rehearsal-walkthrough",
+      "kind": "track",
+      "prompt": "Walk the performer's rehearsed path at quarter speed, keeping your own eye-line on the mark the whole way.",
+      "seconds": 5,
+      "target": "rehearsal-mark",
+      "title": "Walk the rehearsed path at quarter speed",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.42,
+          0.58
+        ],
+        "label": "ON MARK",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "A slow walk-through is where the coordinator's own eye-line gets confirmed against the plan — that the mark is where the plot says it is, that the sightline to the spotter holds the whole way, and that nothing in the path has shifted since the last time anyone walked it. Doing this at speed the first time is how a plan on paper meets a backlot that has quietly changed since it was drawn."
+    },
+    {
+      "cue": "Carry the crash pad from the gear line onto the taped mark under the rig's discharge arm.",
+      "drag": {
+        "missNote": "Not on the taped mark — the pad has to sit square on the tape, not near it.",
+        "radius": 0.5,
+        "to": "pad-mark"
+      },
+      "id": "crash-pad-position",
+      "kind": "drag",
+      "prompt": "Carry the crash pad from the gear line onto the taped mark under the rig's discharge arm.",
+      "target": "crash-pad",
+      "title": "Spot the crash pad onto its taped mark",
+      "why": "The pad's mark is set from the rig's own tested arc, not from where it looks like the performer will land — a pad set a stride off that mark is a pad that catches the wrong part of a fall, or misses it. It gets spotted exactly onto the tape, checked square, before anyone commits to the gag."
+    },
+    {
+      "cue": "Check in with the set medic and confirm they are staged at the marked standby point, kit open, before the gag goes live.",
+      "id": "medic-standby",
+      "kind": "select",
+      "prompt": "Check in with the set medic and confirm they are staged at the marked standby point, kit open, before the gag goes live.",
+      "target": "medic-station",
+      "title": "Confirm the set medic is staged at the marked standby point",
+      "why": "A medic staged after the gag is a medic who is still walking over while the clock that actually matters — the first minute after any real fall — is already running. Confirming the standby point and the open kit here is what makes 'medic on set' something the coordinator has actually checked rather than assumed from the call sheet."
+    },
+    {
+      "cue": "Confirm the fire watch is staged at the rig with the extinguisher pulled and ready, not racked on the truck.",
+      "id": "extinguisher-stage",
+      "kind": "select",
+      "prompt": "Confirm the fire watch is staged at the rig with the extinguisher pulled and ready, not racked on the truck.",
+      "target": "extinguisher-stage",
+      "title": "Stage the fire watch at the rig",
+      "why": "A compressed-air rig shares its backlot with hot lights, cable runs and a dozen other ignition sources, and the extinguisher that matters is the one already in a fire watch's hands, not the one still clipped to a truck fifty feet away. Staging it here, before the key turns, is the difference between a fire watch and a fire watch's good intentions."
+    },
+    {
+      "cue": "Log today's meeting: who attended, the frayed line and soft pad corner found and fixed, and the go/no-go result.",
+      "id": "log-safety-meeting",
+      "kind": "select",
+      "prompt": "Log today's meeting: who attended, the frayed line and soft pad corner found and fixed, and the go/no-go result.",
+      "target": "safety-log",
+      "title": "Log the meeting, the finds and the go/no-go",
+      "why": "The log is what the next safety meeting on this rig reads before anyone signs off on it again — a frayed tag line that isn't written down is a frayed tag line the next crew finds the same way this one did. Logging it here, right after the gag clears, is the meeting as it actually happened rather than as anyone remembers it tomorrow."
+    }
+  ],
+  "supportLine": "your SAG-AFTRA or IATSE local's member assistance contact, or the production's own employee assistance programme",
+  "tagline": "A backlot safety meeting before a physical gag: the call sheet's SFX rundown read, the stunt performer's impact pads and harness on, the fall zone swept for a frayed line and a soft pad, the go/no-go board walked, the effect's regulator proven inside its plotted band before the key is armed, the spotter's radio confirmed, the take held for a clear line of sight, the rehearsed path walked at quarter speed, the crash pad spotted onto its mark, the medic and the fire watch staged, and the meeting logged — a late walk-on into the fall zone and a kinking regulator hose both answered off a control that isn't the one already in the learner's hand",
+  "title": "SmartCiti.X~ Set Safety Meeting & Stunt Go/No-Go VR",
+  "trade": "On-set safety coordinator, running the stunt coordinator's safety meeting and the SFX go/no-go for a compressed-air rigged effect before a stunt performer's fall",
+  "underwater": null,
+  "weather": "clear"
+}

@@ -1,0 +1,393 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "fenceline-true",
+    "name": "Fenceline True",
+    "note": "Sited downwind, level and guyed, proven at zero and flow, alarmed to the plan, and an exceedance reported without setting foot past the fence"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "BAAQMD complaint line and Regulation 6 particulate rules; EPA 40 CFR Part 58 ambient monitor siting, zero and flow QA; the site's own Dust Control Plan and posted action level under DTSC and Regional Water Board oversight; OSHA 29 CFR 1910.120 HAZWOPER for anyone who crosses the fence — not required here, because this monitor stands on the public side of it",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "BAAQMD",
+        "citedAs": "BAAQMD",
+        "id": "baaqmd-regulations",
+        "title": "Bay Area Air Quality Management District regulations, complaint line and Community Advisory Council process"
+      },
+      {
+        "body": "DTSC",
+        "citedAs": "DTSC",
+        "id": "dtsc-hazardous-waste-control",
+        "title": "California Department of Toxic Substances Control — state hazardous waste control rules and oversight of contaminated-site cleanups"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "by-the-wind",
+        "name": "By the Wind",
+        "note": "Sited downwind of the work face, first time"
+      },
+      {
+        "id": "never-inside",
+        "name": "Never Inside",
+        "note": "Never crossed the fence, never muted the alarm, never skipped the zero"
+      },
+      {
+        "id": "true-numbers",
+        "name": "True Numbers",
+        "note": "Held the level and flow checks near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-watch",
+        "name": "Clean Watch",
+        "note": "No corrections anywhere in the deployment"
+      },
+      {
+        "id": "zero-held",
+        "name": "Zero Held",
+        "note": "Never broke the zero check"
+      },
+      {
+        "id": "sidewalk-fast",
+        "name": "Sidewalk Fast",
+        "note": "Reported inside 80% of par"
+      }
+    ],
+    "currency": "PM10",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Sidewalk Hand",
+      "Siting Lead",
+      "Zero Proven",
+      "Watch Authority",
+      "Fenceline Certified"
+    ],
+    "system": "Fenceline Watch"
+  },
+  "hazards": {
+    "cross-fence": "You stepped through the gap in the fence to get a closer look at the work face. A community monitor's whole standing is that the record comes from the public side of the fence — cross it once, unbadged and untrained, and every reading this station takes afterward is defensible only until someone asks how you got close enough to take it.",
+    "monitor-blocked": "You set up next to the parked dumpster instead of the open sidewalk stretch. A solid box that close to the inlet does not just block wind from one side, it channels whatever local eddy the dumpster itself throws off straight into the intake — the monitor will read the dumpster's own dead air, not the parcel's plume, and nobody downstream can tell the difference from the number alone.",
+    "mute-alarm": "You hit the monitor's own mute button instead of answering the alarm. The strobe and horn are the only thing that turns a number on a screen into something a passerby or a shift lead actually notices — silencing it because the noise is annoying throws away the one automatic protection this sidewalk deployment has, and the plume it was warning about keeps drifting over houses regardless.",
+    "skip-zero": "You pressed the bypass instead of running the zero check. A monitor that has never been proven to settle at zero on clean, filtered air carries an unknown offset into every reading it takes afterward, and there is no way to tell from a single number in the field whether an alarm later is real dust off the parcel or just the instrument's own drift finally showing."
+  },
+  "id": "fenceline-dust-monitor",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "zero-check",
+      "alert": "The vane just swung hard onshore — the tripod you sited twenty minutes ago is now on the upwind side of the work face, not the downwind side.",
+      "cue": "Pull the tripod's quick-release and carry it to the new downwind mark before the zero check means anything on the wrong side of the fence.",
+      "delay": 4,
+      "id": "wind-shift",
+      "kind": "Wind shift",
+      "missNote": "The tripod sat on the upwind side for the rest of the check, logging the neighbourhood's own background dust as if it were the parcel's — every reading from those minutes is unusable for exactly the exceedance it was placed to catch.",
+      "seconds": 14,
+      "target": "resite-handle",
+      "why": "A downwind reading and an upwind reading answer two completely different questions, and a wind shift can swap which one this tripod is actually taking without moving the tripod an inch. Every minute it keeps logging from the wrong side is a minute of data that looks like a background reading when the plan needs it to be the number the site's own dust gets measured against — and there is no way to fix that after the fact, only by re-siting the moment the wind actually turns.",
+      "wrongNote": "Not that — pull the quick-release and move the tripod itself. Nothing else on this pad puts it back on the downwind side of the fence."
+    },
+    {
+      "after": "baseline-watch",
+      "alert": "The excavator on the other side of the fence just started a dry cut with no wet-down running, and the live reading is already climbing past the posted action level.",
+      "cue": "You cannot stop that excavator from the sidewalk — get on the field radio and report the exceedance while it is still climbing, not after it peaks.",
+      "delay": 4,
+      "id": "dry-cut-exceedance",
+      "kind": "Dry cut exceedance",
+      "missNote": "The reading climbed for another full minute before anyone picked up the radio, and by the time the call went out the peak had already passed — the Air District and the site's own HSO both got a report of what happened, not a chance to do anything about it while it was happening.",
+      "seconds": 14,
+      "target": "field-radio",
+      "why": "A community monitor has no authority to walk onto the parcel and shut down a dry cut — the only lever this station has is the report, and a report made while the plume is still climbing gives the site's own HSO and the Air District a live number to act on instead of a peak that already came and went by the time anyone hears about it. Waiting to see how high it goes before calling it in is choosing a better story over a faster one, and the houses downwind get the difference either way.",
+      "wrongNote": "Not that — get on the field radio. Nothing else at this station reaches a crew you have no authority to walk up to."
+    }
+  ],
+  "lateNotes": {
+    "alarm-dial": "Read the plan's posted action level before you touch this dial — a threshold set from memory is a threshold nobody can defend if the alarm never fires, or fires on nothing.",
+    "data-logger": "Nothing worth logging yet — the alarm has to actually be set to the plan's number first, or the log starts recording a monitor that isn't armed for the one thing it's here to catch.",
+    "flow-cal": "Nothing to calibrate yet — the inlet has to be up at its plan height first, or the flow you're proving is the flow through a mast that isn't even raised.",
+    "tripod-level": "The tripod has to actually be carried to the downwind mark before there's anything to level — a bubble read on a tripod still sitting at the curb proves nothing about where it's about to stand.",
+    "zero-filter": "The sampler has to be flowing at its rated spec before the zero check means anything — a zero read at the wrong flow is a zero for a different instrument."
+  },
+  "name": "Fenceline Dust Monitor",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-can-we-live"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "alarm-dial",
+      "call-airdistrict",
+      "cross-fence",
+      "data-logger",
+      "downwind-socket",
+      "field-log",
+      "field-radio",
+      "flow-cal",
+      "guy-east",
+      "guy-north",
+      "guy-west",
+      "inlet-mast",
+      "loose-guy",
+      "monitor-blocked",
+      "monitor-screen",
+      "mute-alarm",
+      "notify-site-contact",
+      "resite-handle",
+      "siting-plan-board",
+      "skip-zero",
+      "tripod",
+      "tripod-level",
+      "wind-vane",
+      "zero-filter"
+    ],
+    "meshes": 211
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the posted action level, the required inlet height and the siting rule relative to the wind before you touch a tripod.",
+      "id": "read-plan",
+      "kind": "select",
+      "prompt": "Check the posted action level, the required inlet height and the siting rule relative to the wind before you touch a tripod.",
+      "target": "siting-plan-board",
+      "title": "Read the site's community air monitoring plan",
+      "why": "The plan is where the action level actually comes from — the number this whole deployment gets measured against — along with the inlet height and the siting rule that decide where downwind means on this particular pad. A monitor set up from habit instead of this specific plan is defending a threshold nobody posted and a height nobody specified, and neither one holds up the day a reading gets questioned."
+    },
+    {
+      "cue": "Read the vane's current direction — it decides which stretch of sidewalk is actually downwind of the work face today.",
+      "id": "wind-check",
+      "kind": "select",
+      "prompt": "Read the vane's current direction — it decides which stretch of sidewalk is actually downwind of the work face today.",
+      "target": "wind-vane",
+      "title": "Check the wind before you pick a spot",
+      "why": "Downwind is not a fixed spot on this sidewalk; it is whichever direction the vane says the wind is blowing from, and that can be the opposite stretch from where a monitor stood last week. Picking a spot before reading the vane is picking it from memory, and a memory is exactly the kind of thing a wind shift proves wrong an hour into the shift."
+    },
+    {
+      "cue": "Pull the tripod off the curb and set it on the downwind mark, clear of the dumpster and clear of the fence gap.",
+      "drag": {
+        "missNote": "Not seated on the mark — a tripod parked short of it is still standing in whatever eddy the dumpster or the fence gap throws off, not in the clean downwind line the wind check found.",
+        "radius": 0.42,
+        "to": "downwind-socket"
+      },
+      "id": "site-tripod",
+      "kind": "drag",
+      "prompt": "Pull the tripod off the curb and set it on the downwind mark, clear of the dumpster and clear of the fence gap.",
+      "target": "tripod",
+      "title": "Carry the tripod to the downwind mark",
+      "why": "Where this tripod's feet actually land decides what every reading it takes for the rest of the shift is a reading of — parked too close to a solid object and it reads that object's own dead air, parked upwind and it reads the neighbourhood's background as if it were the site's. The mark is the one spot on this stretch of sidewalk that the wind check just proved is actually downwind of the work face."
+    },
+    {
+      "cue": "Walk each leg out and commit only once the bubble settles dead centre.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.54
+        ],
+        "label": "TRIPOD LEVEL",
+        "missNote": "Not level — the bubble drifted off centre before you committed. Walk a leg back out and settle it dead centre.",
+        "speed": 0.55
+      },
+      "id": "level-tripod",
+      "kind": "gauge",
+      "prompt": "Walk each leg out and commit only once the bubble settles dead centre.",
+      "target": "tripod-level",
+      "title": "Level the tripod",
+      "why": "An inlet that leans even a few degrees samples a slightly different slice of the air passing it than the level, plumb inlet the plan's siting guidance assumes — small on any one reading, but it compounds over a shift of continuous logging into a monitor that was never quite measuring what its own paperwork says it was. Levelling it before anything else touches the tripod is what keeps that assumption true."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Stake and tension all three guy lines before you trust the tripod to stand through a gust.",
+      "id": "guy-tripod",
+      "itemNames": {
+        "guy-east": "east guy line",
+        "guy-north": "north guy line",
+        "guy-west": "west guy line"
+      },
+      "kind": "sequence",
+      "prompt": "Stake and tension all three guy lines before you trust the tripod to stand through a gust.",
+      "targets": [
+        "guy-north",
+        "guy-east",
+        "guy-west"
+      ],
+      "title": "Guy the tripod against the wind",
+      "why": "A level tripod on a windy sidewalk is one gust away from being a tipped one, and a tipped inlet is not sampling the air at the plan's required height any more — it is sampling whatever it fell into. Three lines staked to the ground and tensioned before the inlet ever goes up is what keeps the levelling that just happened from being undone by the first freshening gust of the shift."
+    },
+    {
+      "cue": "Wind the mast crank until the inlet locks at the height the plan specifies.",
+      "id": "inlet-height",
+      "kind": "turn",
+      "prompt": "Wind the mast crank until the inlet locks at the height the plan specifies.",
+      "target": "inlet-mast",
+      "title": "Raise the inlet to the plan's height",
+      "turn": {
+        "axis": "y",
+        "label": "INLET MAST",
+        "turns": 0.7
+      },
+      "why": "PM10 sampling height is not a convenience setting — the plan specifies it because air a person actually breathes at head height behaves differently than air a foot off the ground, and a monitor cranked up short of that height is proving a number for a slice of air nobody downwind is standing in. The crank has to be wound all the way to the lock, not to wherever looks about right."
+    },
+    {
+      "cue": "Hold the HEPA zero filter on the inlet until the reading settles at zero.",
+      "holdBreakNote": "Filter lifted early — the reading never actually settled. Hold it on the inlet until it reads zero, not until it looks close.",
+      "id": "zero-check",
+      "kind": "hold",
+      "prompt": "Hold the HEPA zero filter on the inlet until the reading settles at zero.",
+      "seconds": 5,
+      "target": "zero-filter",
+      "title": "Run the zero check",
+      "why": "A monitor that will not settle at zero on filtered air is reading something about itself, not the parcel, and every number it produces for the rest of the shift carries that same unproven offset. The zero check is the only proof in this whole deployment that a climb above the action level later is dust off the work face and not drift in the instrument nobody checked."
+    },
+    {
+      "cue": "Set the sampler to its rated flow against the calibrator and commit inside the band.",
+      "gauge": {
+        "green": [
+          0.45,
+          0.6
+        ],
+        "label": "FLOW",
+        "missNote": "Off the rated flow — the size cut is wrong. Reset the sampler and bring it into the band before you commit.",
+        "speed": 0.7
+      },
+      "id": "flow-check",
+      "kind": "gauge",
+      "prompt": "Set the sampler to its rated flow against the calibrator and commit inside the band.",
+      "target": "flow-cal",
+      "title": "Calibrate the sampler flow",
+      "why": "The PM10 inlet only cuts particles at ten microns when it is pulling air at its rated flow — run it high or low and the size cut moves with it, so the number this monitor eventually compares to the plan's action level is measuring a different, uncalibrated slice of the dust. An exceedance called off an uncalibrated flow does not hold up if the site ever disputes the reading."
+    },
+    {
+      "cue": "Dial the alarm threshold to the number posted on the site's plan — not a round number, the site's own.",
+      "id": "set-alarm",
+      "kind": "turn",
+      "prompt": "Dial the alarm threshold to the number posted on the site's plan — not a round number, the site's own.",
+      "target": "alarm-dial",
+      "title": "Set the alarm to the site's own action level",
+      "turn": {
+        "axis": "z",
+        "label": "ACTION LEVEL",
+        "turns": 0.5
+      },
+      "why": "This dial is what turns a normal reading into a stop-and-report reading, and the number it gets set to is not this station's to invent — it is whatever the site's own Dust Control Plan posted at the first step. A monitor alarmed to a threshold somebody guessed either never fires when the real level is crossed or fires constantly on ordinary variation, and either failure trains everyone nearby to stop trusting it."
+    },
+    {
+      "cue": "Sync the clock, then start logging now that the monitor is proven and armed.",
+      "id": "start-logger",
+      "kind": "select",
+      "prompt": "Sync the clock, then start logging now that the monitor is proven and armed.",
+      "target": "data-logger",
+      "title": "Start the logger with synced time",
+      "why": "Every reading this monitor takes from here on is only as useful as the timestamp attached to it — a logger started before the monitor was proven at zero and flow, or one whose clock drifts from the site's own record, turns an exceedance into two different stories nobody downwind or on the crew can settle by comparing notes."
+    },
+    {
+      "cue": "Watch the live reading and keep it tracked inside the pre-work baseline band before you sign off on the deployment.",
+      "holdBreakNote": "The reading drifted out of the baseline band — bring it back and hold the watch before you call this a settled number.",
+      "id": "baseline-watch",
+      "kind": "track",
+      "prompt": "Watch the live reading and keep it tracked inside the pre-work baseline band before you sign off on the deployment.",
+      "seconds": 8,
+      "target": "monitor-screen",
+      "title": "Watch the reading settle to baseline",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.38,
+          0.56
+        ],
+        "label": "PM10 BASELINE",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "This is the number the whole rest of the shift gets measured against, and it only counts as a baseline if it is watched settling there before the work face does anything — a monitor walked away from the moment it's armed has no way to prove a later alarm was the parcel and not just wherever the instrument always happened to sit on a quiet morning."
+    },
+    {
+      "cue": "Record the time, wind direction, siting mark and baseline reading before you leave the tripod unattended.",
+      "id": "log-entry",
+      "kind": "select",
+      "prompt": "Record the time, wind direction, siting mark and baseline reading before you leave the tripod unattended.",
+      "target": "field-log",
+      "title": "Log the deployment",
+      "why": "The next monitor, the Air District and the site's own HSO all read the same page, so what this deployment actually measured and where it stood has to go in while it is still true — a tripod on the sidewalk with no entry behind it is a monitor nobody can vouch for if its reading is ever questioned later."
+    },
+    {
+      "cue": "The alarm sounded above the posted action level — file with the Air District, then notify the site's own hotline, in that order.",
+      "id": "exceedance-report",
+      "itemNames": {
+        "call-airdistrict": "file the Air District complaint",
+        "notify-site-contact": "notify the site's own dust hotline"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "The Air District first — call the site's own hotline second, or the only record of this exceedance is the one the site itself controls.",
+      "prompt": "The alarm sounded above the posted action level — file with the Air District, then notify the site's own hotline, in that order.",
+      "targets": [
+        "call-airdistrict",
+        "notify-site-contact"
+      ],
+      "title": "Report the exceedance",
+      "why": "The Air District's complaint line is the record a regulator can act on outside the site's own chain, and it goes first precisely because the site's own hotline is the party whose work caused the reading — filing outside first is what keeps this report a community record instead of something the site alone gets to decide how to characterise before anyone independent hears about it."
+    },
+    {
+      "cue": "Walk around the tripod and click the one line that's gone slack.",
+      "id": "walk-line",
+      "itemNames": {
+        "loose-guy": "loose guy line"
+      },
+      "itemNotes": {
+        "loose-guy": "That guy line has worked loose since it was tensioned — a tripod standing on two tight lines and one slack one is one gust away from the exact lean the level check was supposed to rule out for the whole shift."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk around the tripod and click the one line that's gone slack.",
+      "targets": [
+        "loose-guy"
+      ],
+      "title": "Walk the deployment before you leave it",
+      "why": "Tensioning the lines and noticing, an hour later, that one has worked loose are two different skills — this is the last look a monitor gets before it is left running unattended on a public sidewalk for the rest of the shift, and it is the only thing standing between a well-sited deployment and one that quietly leans over by the afternoon."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Deploying a community PM10 monitor on the public side of a cleanup fence: sited by the wind, levelled and guyed, zeroed and flow-checked, alarmed to the site's own action level, logged, and an exceedance reported without ever crossing the fence",
+  "title": "SmartCiti.X~ Fenceline Dust Monitor VR",
+  "trade": "Community environmental monitor",
+  "underwater": null,
+  "weather": "wind"
+}

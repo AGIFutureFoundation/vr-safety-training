@@ -1,0 +1,404 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "stub-read-right",
+    "name": "Stub Read Right",
+    "note": "Rate, hours and deductions all checked, the error raised in writing, and nothing given to a caller using the IRS's name"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "IRS guidance for workers — Form W-4 and when to review it, the IRS Tax Withholding Estimator, who may claim exemption from withholding, free tax help through the IRS's Volunteer Income Tax Assistance programme, the rule that all income including cash is reportable, and the IRS's own statement of how it contacts taxpayers; the progressive wage schedule in the apprenticeship standard the apprentice was indentured under, registered with the U.S. Department of Labor or a State Apprenticeship Agency; LIUNA's dues and benefit deductions as the local's agreement sets them; the CFPB's budgeting guidance, which starts from take-home pay; SAMHSA's National Helpline and 988 for the stress money problems carry",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CFPB",
+        "citedAs": "CFPB",
+        "id": "cfpb-consumer-guidance",
+        "title": "Consumer Financial Protection Bureau consumer guidance — credit reports and scores, debt collection, budgeting, emergency savings and payday loans"
+      },
+      {
+        "body": "DOL",
+        "citedAs": "registered apprenticeship",
+        "id": "dol-apprenticeship-standards",
+        "title": "Registered apprenticeship standards, as a category — the written standards a sponsor registers with the U.S. Department of Labor or a State Apprenticeship Agency: the term, on-the-job learning, related instruction, the progressive wage schedule, the ratio, the probationary period and the selection procedure"
+      },
+      {
+        "body": "IRS",
+        "citedAs": "IRS",
+        "id": "irs-consumer-guidance",
+        "title": "Internal Revenue Service guidance for workers — Form W-4 and the Tax Withholding Estimator, Form W-2, estimated tax on self-employment income, splitting a refund, free tax help, and how the IRS does and does not contact taxpayers"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Financial coaching",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "caught-the-short-pay",
+        "name": "Caught The Short Pay",
+        "note": "The stub lines and the stub errors found clean"
+      },
+      {
+        "id": "nothing-to-a-caller",
+        "name": "Nothing To A Caller",
+        "note": "No unsafe action anywhere at the table"
+      },
+      {
+        "id": "rate-dead-on",
+        "name": "Rate Dead On",
+        "note": "The period rate committed near the middle of the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-payday",
+        "name": "Clean Payday",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "read-it-through",
+        "name": "Read It Through",
+        "note": "Every timed passage carried without a break"
+      },
+      {
+        "id": "before-the-break-ends",
+        "name": "Before The Break Ends",
+        "note": "Finish inside 80% of par"
+      }
+    ],
+    "currency": "STUB",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Hire",
+      "Stub Reader",
+      "Hours Keeper",
+      "Withholding Checked",
+      "Payday Certified"
+    ],
+    "system": "Payday Check"
+  },
+  "hazards": {
+    "pys-blank-timecard": "You were about to sign a blank timecard for the foreman to 'fill in later'. A signature on a timecard says the hours on it are true, and a blank one lets anybody write any hours under your name — including fewer than you worked. You sign a timecard after you have read the hours on it, the same way you would sign anything else.",
+    "pys-cash-flyer": "That flyer offers weekend cash work with no stub. The IRS is plain that all income, including cash, is reportable, and work with no stub also has no withholding, no record of the hours for Social Security, no proof of income for a lease or a loan and no workers' compensation if you are hurt. It costs far more than it pays, and it can put your standing in the apprenticeship at risk.",
+    "pys-exempt-box": "You went to tick EXEMPT on the W-4. The IRS says a worker may claim exemption from withholding only if they had no federal income tax liability last year and expect none this year; claiming it otherwise means nothing is withheld all year and the whole amount comes due at filing time, sometimes with a penalty on top. It is the one box on the form that feels like a raise and works like a loan.",
+    "pys-ssn-callback": "That message slip says 'payroll' called and wants a callback with your Social Security number to fix your W-2. Your employer already has your number from your hiring paperwork and asks for corrections in person or in writing; a callback to a number on a slip is exactly how W-2 and refund fraud starts, and the IRS warns that criminals pose as employers and tax officials to get it."
+  },
+  "id": "pay-stub-and-withholding",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "w4-read",
+      "alert": "Your phone rings: a caller says he is from the IRS, that your W-4 is 'fraudulent', that police are on the way unless you pay today by gift card, and that you must confirm your Social Security number now.",
+      "cue": "Do not pay and do not confirm anything. Check how the IRS actually contacts people.",
+      "delay": 3,
+      "id": "pys-irs-caller",
+      "kind": "Caller using the IRS's name",
+      "missNote": "The call went on while you read the form, and in the version where you went along with it the gift cards are gone and a stranger has your Social Security number — the one thing somebody needs to file a false return in your name and take your refund.",
+      "seconds": 12,
+      "target": "pys-irs-notice",
+      "why": "The IRS publishes how it contacts taxpayers: it generally starts by mail, it does not demand immediate payment by gift card, prepaid card or wire, and it does not threaten to have people arrested. A call that does all three is not the IRS, whatever the caller ID says. The notice on the board says so in the IRS's own words, which is the whole answer.",
+      "wrongNote": "Not that. The IRS's own guidance on the board is the answer: it does not call to demand gift cards or threaten arrest, and you confirm nothing to a caller."
+    },
+    {
+      "after": "ytd-track",
+      "alert": "A coworker hands you a storefront flyer: 'Your refund TODAY — no wait!' with a fee in small print, and says everyone uses it.",
+      "cue": "Point to the free help the IRS itself describes.",
+      "delay": 3,
+      "id": "pys-refund-pitch",
+      "kind": "Refund-advance pitch",
+      "missNote": "The flyer went round the table unanswered, and in the version where everyone used it, a slice of every refund at the table went to a fee for money that was already theirs. The free help was on the board the whole time.",
+      "seconds": 12,
+      "target": "pys-vita-flyer",
+      "why": "The IRS describes free tax help through its Volunteer Income Tax Assistance programme for people who qualify, and free electronic filing with direct deposit is the fastest way the IRS offers to get a refund. A storefront selling your own refund back to you early, for a fee, is paying to borrow your own money — the free option on the board is the one the IRS itself points to.",
+      "wrongNote": "Not that. The answer is the free tax help the IRS describes — on the board beside you — not a fee for getting your own refund a few days sooner."
+    }
+  ],
+  "lateNotes": {
+    "pys-paycheck-log": "The paycheck log is filled in after the stub has been checked and any error raised — logging a stub you have not checked just records the mistake.",
+    "pys-payroll-window": "Not yet. You take a correction to payroll once you know exactly what is wrong on the stub and have your own hours log to show them."
+  },
+  "name": "Pay Stub & Withholding",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "job-readiness-edition",
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "pys-blank-timecard",
+      "pys-cash-flyer",
+      "pys-checkup-dial",
+      "pys-ded-dues",
+      "pys-ded-federal",
+      "pys-ded-fica",
+      "pys-ded-state",
+      "pys-err-dues-twice",
+      "pys-err-overtime",
+      "pys-err-rate",
+      "pys-estimator-laptop",
+      "pys-exempt-box",
+      "pys-gross-line",
+      "pys-hours-card",
+      "pys-irs-notice",
+      "pys-net-line",
+      "pys-paycheck-log",
+      "pys-payroll-window",
+      "pys-period-line",
+      "pys-rate-gauge",
+      "pys-ssn-callback",
+      "pys-steward",
+      "pys-stub-envelope",
+      "pys-stub-slot",
+      "pys-vita-flyer",
+      "pys-w4-form",
+      "pys-ytd-track"
+    ],
+    "meshes": 185
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Take your pay stub out of the envelope — the deposit amount alone tells you nothing about whether it is right.",
+      "id": "open-stub",
+      "kind": "select",
+      "prompt": "Take your pay stub out of the envelope — the deposit amount alone tells you nothing about whether it is right.",
+      "target": "pys-stub-envelope",
+      "title": "Open the stub, not just the deposit",
+      "why": "The deposit in the bank is the last number on the stub and the only one most people look at, which is why short pay goes unnoticed for months. The stub is the employer's written account of the hours, the rate and every deduction, and it is the document you correct against. The CFPB's budgeting guidance also starts from take-home pay, so knowing how the stub gets there is where a budget starts."
+    },
+    {
+      "cue": "On the example stub, find the gross pay, the net pay and the dates of the pay period.",
+      "id": "stub-lines",
+      "itemNames": {
+        "pys-gross-line": "gross pay",
+        "pys-net-line": "net pay",
+        "pys-period-line": "the pay period"
+      },
+      "itemNotes": {
+        "pys-gross-line": "Gross pay is hours times rate, before anything comes out. If gross is wrong, everything below it is wrong too.",
+        "pys-net-line": "Net pay is what is left after every deduction — the number that actually reaches the bank and the one a budget is built on.",
+        "pys-period-line": "The pay period says which days these hours were for. Checking hours against your own log only works if you are checking the same days."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "On the example stub, find the gross pay, the net pay and the dates of the pay period.",
+      "targets": [
+        "pys-gross-line",
+        "pys-net-line",
+        "pys-period-line"
+      ],
+      "title": "Find gross, net and the pay period",
+      "why": "Gross is what you earned, net is what you received, and the pay period is which days it covers — three numbers that let everything else on the stub be checked. People who only read net have no way of knowing whether a smaller deposit is a deduction they agreed to, a tax change, or hours that were simply not paid, and each of those has a different fix."
+    },
+    {
+      "cue": "Commit the first-period rate the apprenticeship standard's wage schedule sets for you — the example chart is on the wall.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.58
+        ],
+        "label": "PERIOD 1 RATE (EXAMPLE)",
+        "missNote": "That is not the first-period rate on the schedule. An apprentice's rate is set as a share of the journey-level rate for each period, and the apprenticeship standard prints it — read it there, not from memory.",
+        "speed": 0.6
+      },
+      "id": "rate-check",
+      "kind": "gauge",
+      "prompt": "Commit the first-period rate the apprenticeship standard's wage schedule sets for you — the example chart is on the wall.",
+      "target": "pys-rate-gauge",
+      "title": "Read your period rate off the wage schedule",
+      "why": "A registered apprenticeship standard includes a progressive wage schedule: the apprentice's rate as a share of the journey-level rate, rising period by period as hours and instruction are completed. The first thing to check on any stub is that the rate matches the period you are in, and the example schedule on the wall is where that number comes from — not the foreman's recollection and not last year's rate sheet."
+    },
+    {
+      "cue": "Carry your pocket hours log onto the stub and compare the days and hours line by line.",
+      "drag": {
+        "missNote": "Not on the stub. The log has to sit beside the pay period it is checking, or you are comparing different weeks.",
+        "radius": 0.4,
+        "to": "pys-stub-slot"
+      },
+      "id": "hours-reconcile",
+      "kind": "drag",
+      "prompt": "Carry your pocket hours log onto the stub and compare the days and hours line by line.",
+      "target": "pys-hours-card",
+      "title": "Lay your own hours log against the stub",
+      "why": "Your own record of the hours you worked, written the same day, is the only thing that can show a stub is short. Payroll works from timecards that pass through several hands; a missing overtime hour or a day left off is common and honest, and it only gets fixed when somebody holds their own log against the stub. Apprentices also need those hours logged for the apprenticeship itself."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Find federal withholding, Social Security and Medicare, state taxes and your dues — order does not matter.",
+      "id": "deductions",
+      "itemNames": {
+        "pys-ded-dues": "union dues you authorised",
+        "pys-ded-federal": "federal income tax withheld",
+        "pys-ded-fica": "Social Security and Medicare",
+        "pys-ded-state": "state taxes"
+      },
+      "itemNotes": {
+        "pys-ded-dues": "Union dues come out because you authorised them. LIUNA's dues and any benefit contributions are set by the local's agreement, and you can ask the steward what each line is.",
+        "pys-ded-federal": "Federal income tax withholding is set by the W-4 you filed. It is an estimate paid ahead, settled when you file.",
+        "pys-ded-fica": "Social Security and Medicare are withheld from wages and are what builds your own record for those programmes later.",
+        "pys-ded-state": "State income tax and any state disability insurance, where the state has them, come out as the state requires."
+      },
+      "kind": "sequence",
+      "prompt": "Find federal withholding, Social Security and Medicare, state taxes and your dues — order does not matter.",
+      "targets": [
+        "pys-ded-federal",
+        "pys-ded-fica",
+        "pys-ded-state",
+        "pys-ded-dues"
+      ],
+      "title": "Name every deduction on the stub",
+      "why": "Every line between gross and net should be something you can name and explain: taxes the law requires to be withheld, and deductions you authorised, like dues. A line you cannot name is a question for payroll or the steward, not something to shrug at, because deductions are where both honest errors and quiet overcharges hide — and the IRS's guidance only covers the tax lines, not the rest."
+    },
+    {
+      "cue": "Hold the W-4 open and read each step through before anything is filled in or signed.",
+      "holdBreakNote": "You put the W-4 down partway through. The step you skipped is the one that decides whether this year's withholding is close — read it to the signature line.",
+      "id": "w4-read",
+      "kind": "hold",
+      "prompt": "Hold the W-4 open and read each step through before anything is filled in or signed.",
+      "seconds": 6,
+      "target": "pys-w4-form",
+      "title": "Read the W-4 before you sign it",
+      "why": "The W-4 is how you tell your employer how much federal income tax to withhold, and the IRS's own instructions on the form explain each step — multiple jobs, dependents, other adjustments. Reading it through before signing is the difference between withholding set on purpose and a default that leaves you owing in April or waiting all year for money that was yours. This station gives no tax advice beyond the form's own instructions."
+    },
+    {
+      "cue": "Open the IRS Tax Withholding Estimator on IRS.gov with the stub beside you.",
+      "id": "estimator",
+      "kind": "select",
+      "prompt": "Open the IRS Tax Withholding Estimator on IRS.gov with the stub beside you.",
+      "target": "pys-estimator-laptop",
+      "title": "Check the withholding with the IRS's own estimator",
+      "why": "The IRS publishes a Tax Withholding Estimator on IRS.gov and recommends using it to check withholding, especially after a new job, a second job or a change at home. It uses the figures on the stub you have just read, which is why the stub comes first. The answer it gives is the IRS's, not a coach's, and it tells you whether to file a new W-4."
+    },
+    {
+      "cue": "Turn the calendar dial to the next point to re-check: a new job, a change at home, or the start of the year.",
+      "id": "checkup-date",
+      "kind": "turn",
+      "prompt": "Turn the calendar dial to the next point to re-check: a new job, a change at home, or the start of the year.",
+      "target": "pys-checkup-dial",
+      "title": "Set the next withholding check",
+      "turn": {
+        "axis": "y",
+        "label": "NEXT CHECK",
+        "turns": 1
+      },
+      "why": "Withholding set once and forgotten drifts out of line as life changes. The IRS suggests checking it at the start of each year and whenever something changes — a second job, a marriage, a child, a big raise between apprenticeship periods. Putting the next check on the calendar now is what makes it happen, rather than finding out at filing time."
+    },
+    {
+      "cue": "With the schedule and your hours log beside it, find the three errors on the example stub.",
+      "id": "stub-errors",
+      "itemNames": {
+        "pys-err-dues-twice": "dues taken twice",
+        "pys-err-overtime": "overtime hours missing",
+        "pys-err-rate": "the wrong period rate"
+      },
+      "itemNotes": {
+        "pys-err-dues-twice": "The same dues line appears twice. One is yours; the other goes back.",
+        "pys-err-overtime": "Your log shows two overtime hours on Thursday; the stub shows none. That is money owed, and your log is the proof.",
+        "pys-err-rate": "The stub's rate is below the first-period rate on the wage schedule. Every hour this period was paid short."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "With the schedule and your hours log beside it, find the three errors on the example stub.",
+      "targets": [
+        "pys-err-overtime",
+        "pys-err-rate",
+        "pys-err-dues-twice"
+      ],
+      "title": "Find the three things wrong with this stub",
+      "why": "The errors on a construction stub are almost always the same three: hours that did not make it from the timecard, a rate that was not moved when a period changed or was never set right, and a deduction entered twice. None of them is anybody's scheme most of the time, and all of them are money you worked for. They are found only by holding the stub against the schedule and your own log."
+    },
+    {
+      "cue": "Take the stub, your hours log and the schedule to the payroll window and ask for the correction in writing — copy the steward.",
+      "id": "payroll-fix",
+      "kind": "select",
+      "prompt": "Take the stub, your hours log and the schedule to the payroll window and ask for the correction in writing — copy the steward.",
+      "target": "pys-payroll-window",
+      "title": "Raise the errors with payroll in writing",
+      "why": "A correction asked for in the hallway is easy to forget and hard to prove. Asking in writing, with the stub, your own hours log and the wage schedule attached, gives payroll everything it needs to fix it and gives you a record with a date on it. Copying the steward matters on a union job: pay problems are exactly what the steward is there for, and an apprentice should not have to chase it alone."
+    },
+    {
+      "cue": "Hold the year-to-date withholding inside the band the estimator gave you, payday after payday.",
+      "holdBreakNote": "The year-to-date line drifted out of band. A raise between periods or a second job moves it — that is the moment to run the estimator again.",
+      "id": "ytd-track",
+      "kind": "track",
+      "prompt": "Hold the year-to-date withholding inside the band the estimator gave you, payday after payday.",
+      "seconds": 7,
+      "target": "pys-ytd-track",
+      "title": "Keep the year's withholding on track",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "YTD WITHHELD",
+        "rise": 0.5,
+        "start": 0.16
+      },
+      "why": "Withholding is a pace over the whole year, not a single number, and the year-to-date line on each stub shows whether it is holding. Under-withheld means a bill at filing time; over-withheld means lending your own money interest-free until the refund. Keeping it near the estimator's line is what the IRS's guidance is for, and a period raise in an apprenticeship is exactly when it drifts."
+    },
+    {
+      "cue": "Tell the steward what you found and what you sent to payroll, and how you are doing with money this month.",
+      "id": "steward-checkin",
+      "kind": "select",
+      "prompt": "Tell the steward what you found and what you sent to payroll, and how you are doing with money this month.",
+      "target": "pys-steward",
+      "title": "Check in with the steward",
+      "why": "The steward is who makes sure the correction actually happens, and the check-in is also a crew check-in in the plain sense: a short paycheck lands hardest on people just starting out, and saying so is not complaining. If the money pressure has become more than a pressure, 988 — or SAMHSA's National Helpline if drinking or using has become part of coping — is the right next call."
+    },
+    {
+      "cue": "Log this stub: period, hours, rate, net, the errors found, the date the correction was asked for, and the next withholding check.",
+      "id": "paycheck-log",
+      "kind": "select",
+      "prompt": "Log this stub: period, hours, rate, net, the errors found, the date the correction was asked for, and the next withholding check.",
+      "target": "pys-paycheck-log",
+      "title": "Close out the paycheck log",
+      "why": "A paycheck log turns every payday into a record you can check the next one against: hours and rate by period, the net that reached the bank, and any correction still owed. It is what you bring to payroll if the fix does not show up next time, what a coach uses to build a budget from real take-home pay, and what an apprentice needs when a period raise is due."
+    }
+  ],
+  "supportLine": "your steward if the pay problem is wearing on you, 988 if it has become a crisis, or SAMHSA's National Helpline (1-800-662-4357, free and confidential) if drinking or using has become part of how you cope",
+  "tagline": "Read the first stub properly: rate against the wage schedule, hours against your own log, every deduction named, the W-4 read before signing and checked with the IRS's own estimator — past a caller using the IRS's name",
+  "title": "SmartCiti.X~ Pay Stub & Withholding VR",
+  "trade": "Financial coaching — reading a pay stub and checking withholding",
+  "underwater": null,
+  "weather": "clear"
+}

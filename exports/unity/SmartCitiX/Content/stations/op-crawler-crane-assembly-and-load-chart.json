@@ -1,0 +1,439 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "boom-authority",
+    "name": "Boom Authority",
+    "note": "Assembly inspected and pinned, the chart read at the planned radius, and a test lift proved before the first real pick"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926 Subpart CC Cranes and derricks in construction and ASME B30.5; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on crane assembly and struck-by incidents",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.5",
+        "id": "asme-b30-5",
+        "title": "ASME B30.5 — Mobile and locomotive cranes"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.21",
+        "id": "osha-1926-21",
+        "title": "29 CFR 1926.21 — Safety training and education in construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926 Subpart CC Cranes and derricks in construction",
+        "id": "osha-1926-subpart-cc",
+        "title": "OSHA 29 CFR 1926 Subpart CC Cranes and derricks in construction"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "pins-confirmed",
+        "name": "Pins Confirmed",
+        "note": "Never swung the boom before every pin was confirmed"
+      },
+      {
+        "id": "swing-held",
+        "name": "Swing Held",
+        "note": "Never let anyone stand in the swing radius"
+      },
+      {
+        "id": "steady-chart",
+        "name": "Steady Chart",
+        "note": "Held the gauge readings near band centre all shift"
+      },
+      {
+        "id": "test-lift-clean",
+        "name": "Test Lift Clean",
+        "note": "Prove the test lift clean, first try"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-close-out",
+        "name": "Quick Close-Out",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "boom-streak",
+        "name": "Boom Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "BOOM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Hand",
+      "Rigger",
+      "Signal Person",
+      "Load Chart Certified",
+      "Boom Authority"
+    ],
+    "system": "Boom Authority"
+  },
+  "hazards": {
+    "chart-exceeded-crane": "That pick is logged past the chart's rated capacity at this radius. The chart already carries its safety factor built into the number on the page, so it is the limit and not a target — a crawler crane tips or fails structurally at the edge of the chart, not with a comfortable margin of warning first.",
+    "swing-radius-stand-crane": "You are standing inside the crane's swing radius while it is rigged to slew. A slewing counterweight on a crawler crane this size sweeps that space at more than walking pace, and OSHA's cranes rule at 29 CFR 1926 Subpart CC puts barricading that radius on the crew, not on whoever happens to be walking through it.",
+    "two-block-risk-crane": "You are hoisting past the anti-two-block limit. Running the hook block into the boom tip parts the hoist line or buckles the tip section, and on a lattice boom that failure travels down the whole structure, not just the last few feet of it.",
+    "unpinned-boom-hazard": "That swings the boom before every section pin was confirmed seated and locked. A boom section pin that looks seated but is not fully engaged can work its way out under load, and a lattice boom that loses a pin connection comes down in sections, not gently."
+  },
+  "id": "op-crawler-crane-assembly-and-load-chart",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "test-lift",
+      "alert": "A section pin has started backing out under the test load, visible from the ground as a gap opening at the lacing joint.",
+      "cue": "Call it out and get the test lift set down before that pin moves any further.",
+      "delay": 4,
+      "id": "boom-pin-shifts",
+      "kind": "Pin working loose",
+      "missNote": "The test lift continued while the pin kept backing out. A lattice boom that loses a section connection under load does not fail at the joint alone — it fails all the way down the structure below it.",
+      "seconds": 12,
+      "target": "signal-person",
+      "why": "A pin working loose under a test load is exactly why the test lift happens before a real one — it is a controlled weight, at a controlled height, specifically so a problem like this shows up now, with somewhere safe to set the load down, instead of on the first pick that actually matters.",
+      "wrongNote": "Not that — the working pin is what has to stop this lift before anything else about it matters."
+    },
+    {
+      "after": "direct-test-swing",
+      "alert": "One crawler track has started settling into softer ground than the rest of the pad, tilting the whole machine slightly as the swing continues.",
+      "cue": "Call for a level recheck before the swing continues on ground that is no longer what it was at setup.",
+      "delay": 4,
+      "id": "crawler-pad-settles",
+      "kind": "Ground settling",
+      "missNote": "The swing continued while the crawler kept settling unevenly. A crane already off level loses capacity in exactly the direction it is leaning, and the chart the crew was reading stopped being the right chart the moment the machine did.",
+      "seconds": 11,
+      "target": "level-recheck-flag",
+      "why": "The chart is only valid for a machine level within the tolerance the manufacturer published it for, and ground checked level at setup can still settle unevenly under a swinging load hours later — a recheck the instant a tilt is noticed is what confirms the chart the crew is working from still applies.",
+      "wrongNote": "Not that — the settling crawler is what has to be checked before this swing means anything against the chart."
+    }
+  ],
+  "lateNotes": {
+    "hook-roll": "The hook block gets rigged onto the boom tip after the assembly is fully pinned and inspected, not before, so nothing is hanging off a structure that has not been confirmed sound yet.",
+    "load-chart": "The chart gets read at the actual planned radius before rigging goes anywhere near a real load, not as a formality once the pick is already hooked up."
+  },
+  "name": "Crawler Crane Assembly & Load Chart",
+  "parSeconds": 285,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "heavy-equipment-operators"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "crawlerCrane",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "2.5x1.5x1",
+        "count": 1,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.7,
+    "hits": [
+      "backstop-left",
+      "backstop-right",
+      "boom-angle-indicator",
+      "chart-exceeded-crane",
+      "closing-log",
+      "cone-a",
+      "cone-b",
+      "crane-controls",
+      "damaged-lacing",
+      "ground-mats-board",
+      "hard-hat",
+      "hi-vis-vest",
+      "hook-roll",
+      "hook-socket",
+      "kinked-pendant",
+      "level-bubble",
+      "level-recheck-flag",
+      "lift-plan-board",
+      "load-chart",
+      "loose-pin",
+      "pin-lock-lever",
+      "signal-person",
+      "sound-connection",
+      "swing-barrier",
+      "swing-radius-stand-crane",
+      "two-block-risk-crane",
+      "unpinned-boom-hazard"
+    ],
+    "meshes": 265
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Hi-vis vest and hard hat before anyone is near the crane.",
+      "id": "ppe",
+      "itemNames": {
+        "hard-hat": "hard hat",
+        "hi-vis-vest": "hi-vis vest"
+      },
+      "kind": "sequence",
+      "prompt": "Hi-vis vest and hard hat before anyone is near the crane.",
+      "targets": [
+        "hi-vis-vest",
+        "hard-hat"
+      ],
+      "title": "Suit up before the assembly",
+      "why": "A crew closing out an assembly works in close under a structure that is about to start swinging — the vest and hard hat are what let the signal person and the operator account for everyone at a glance before anything moves."
+    },
+    {
+      "cue": "Confirm the crane is set on matting rated for this ground and this configuration's weight.",
+      "id": "ground-bearing",
+      "kind": "select",
+      "prompt": "Confirm the crane is set on matting rated for this ground and this configuration's weight.",
+      "target": "ground-mats-board",
+      "title": "Confirm the ground bearing",
+      "why": "A crawler crane's rated capacity assumes the ground under both crawlers can actually carry that weight without settling — matting rated for the ground conditions is what makes that assumption true instead of something the crew finds out the hard way mid-pick."
+    },
+    {
+      "cue": "Walk the boom. Three problems from the assembly are hiding along it — find them by looking.",
+      "decoyNotes": {
+        "sound-connection": "That pin and lacing joint is fully seated, straight and undamaged. Nothing to flag there."
+      },
+      "id": "inspect-assembly",
+      "itemNames": {
+        "damaged-lacing": "damaged lacing member",
+        "kinked-pendant": "kinked boom pendant",
+        "loose-pin": "section pin not fully seated"
+      },
+      "itemNotes": {
+        "damaged-lacing": "A bent or cracked lacing member is the boom's own bracing failing in miniature — enough of them and the section stops behaving like the truss it was designed as.",
+        "kinked-pendant": "A kink in a pendant is a stress point the pendant was never rated to carry, and it is exactly where that pendant lets go first.",
+        "loose-pin": "A pin that has not seated fully can work the rest of the way out under the first real load on the boom."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the boom. Three problems from the assembly are hiding along it — find them by looking.",
+      "targets": [
+        "loose-pin",
+        "kinked-pendant",
+        "damaged-lacing"
+      ],
+      "title": "Inspect the assembly before it swings",
+      "why": "An assembly that looks finished from the ground is not the same thing as one a competent person has actually walked pin by pin — NIOSH's own investigations into crane assembly incidents keep finding a connection that looked fine from a distance and was not fine up close, found only after the boom was already loaded."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Engage both backstop pins before the boom is trusted at a low angle.",
+      "id": "backstop-engage",
+      "itemNames": {
+        "backstop-left": "left backstop pin",
+        "backstop-right": "right backstop pin"
+      },
+      "kind": "sequence",
+      "prompt": "Engage both backstop pins before the boom is trusted at a low angle.",
+      "targets": [
+        "backstop-left",
+        "backstop-right"
+      ],
+      "title": "Engage the boom backstop",
+      "why": "The backstop is what keeps the boom from being blown or driven back past its structural limit at a low angle — engaging both pins before anything is rigged is what makes that limit a fact of the machine rather than something the operator has to feel for."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Cone both approaches and set the barrier around the crane's full swing.",
+      "id": "barricade-swing",
+      "itemNames": {
+        "cone-a": "cone at the approach",
+        "cone-b": "cone at the far side",
+        "swing-barrier": "swing radius barrier"
+      },
+      "kind": "sequence",
+      "prompt": "Cone both approaches and set the barrier around the crane's full swing.",
+      "targets": [
+        "cone-a",
+        "cone-b",
+        "swing-barrier"
+      ],
+      "title": "Barricade the swing radius",
+      "why": "OSHA's cranes rule at 29 CFR 1926 Subpart CC treats the swing radius as ground the crew controls, not ground a passerby is expected to judge for themselves — the barrier is what makes that true before the counterweight ever starts moving."
+    },
+    {
+      "cue": "Agree hand signals and radio call-outs with the dedicated signal person.",
+      "id": "signal-person-brief",
+      "kind": "select",
+      "prompt": "Agree hand signals and radio call-outs with the dedicated signal person.",
+      "target": "signal-person",
+      "title": "Confirm the signal person protocol",
+      "why": "One qualified signal person directs the swing and the operator moves on that person's signal alone, with one standing exception: a stop signal from anyone on site has to be obeyed — everyone on this crew needs to know that before the boom is moving and it matters."
+    },
+    {
+      "cue": "Turn the lock lever fully home on the boom foot pin before trusting the connection.",
+      "id": "pin-lock",
+      "kind": "turn",
+      "prompt": "Turn the lock lever fully home on the boom foot pin before trusting the connection.",
+      "target": "pin-lock-lever",
+      "title": "Confirm the boom foot pin locked",
+      "turn": {
+        "axis": "y",
+        "label": "FOOT PIN LOCK",
+        "turns": 0.55
+      },
+      "why": "A boom foot pin that is inserted but not turned to its locked position can walk under the cyclical load of a swinging boom — the positive lock is the part of the mechanism that actually holds it, not the pin simply being in the hole."
+    },
+    {
+      "cue": "Carry the hook block to the boom tip and reeve it before the test lift.",
+      "drag": {
+        "missNote": "Not seated at the boom tip — carry the block to the sheave before reeving it.",
+        "radius": 0.4,
+        "to": "hook-socket"
+      },
+      "id": "hook-rig",
+      "kind": "drag",
+      "prompt": "Carry the hook block to the boom tip and reeve it before the test lift.",
+      "target": "hook-roll",
+      "title": "Rig the hook block",
+      "why": "The hook block goes on only after the assembly above it is confirmed sound — rigging it earlier just means it is hanging off a structure nobody has finished checking yet, with nothing gained by having it there sooner."
+    },
+    {
+      "cue": "Read the level bubble and commit only when it is centred.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.58
+        ],
+        "label": "CRAWLER LEVEL",
+        "missNote": "Not level. Re-check the crawler pads and matting before anything gets rigged to the hook.",
+        "speed": 0.6
+      },
+      "id": "level-check",
+      "kind": "gauge",
+      "prompt": "Read the level bubble and commit only when it is centred.",
+      "target": "level-bubble",
+      "title": "Check the crane is level",
+      "why": "Every number on the chart assumes a machine level within the manufacturer's own tolerance — a crawler crane leaning even a couple of degrees can shed a meaningful share of its rated capacity, and this is where that gets confirmed rather than assumed."
+    },
+    {
+      "cue": "Walk the boom to the planned radius and commit once the chart shows capacity in hand.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.85
+        ],
+        "label": "CHART CAPACITY MARGIN AT RADIUS",
+        "missNote": "That radius eats too much of the chart's rated capacity for this configuration. Walk the boom in before rigging anything real.",
+        "speed": 0.55
+      },
+      "id": "load-chart-check",
+      "kind": "gauge",
+      "prompt": "Walk the boom to the planned radius and commit once the chart shows capacity in hand.",
+      "target": "load-chart",
+      "title": "Read the load chart for the planned pick",
+      "why": "The chart is read at the actual radius and boom length planned for this pick, never estimated from a job that looked about the same — capacity falls away faster than radius grows on a lattice boom, and the chart, not a feel for the machine, is the limit under 29 CFR 1926 Subpart CC."
+    },
+    {
+      "cue": "Hold the test weight steady clear of the ground before trusting the assembly with a real pick.",
+      "holdBreakNote": "Released the test lift early. Hold it through the full check — that is the only way to prove the assembly before a real load is trusted to it.",
+      "id": "test-lift",
+      "kind": "hold",
+      "prompt": "Hold the test weight steady clear of the ground before trusting the assembly with a real pick.",
+      "seconds": 6,
+      "target": "crane-controls",
+      "title": "Hold the test lift",
+      "why": "A test lift at a controlled weight and a controlled height is what proves the assembly actually holds under load, with somewhere safe to set the weight back down if it does not — that proof happens before the first real load goes on the hook, not during it."
+    },
+    {
+      "cue": "Keep the signal person's signal steady, holding the swing inside the barricaded radius.",
+      "holdBreakNote": "The test swing drifted off the planned arc. Bring it back on the signal person's call before the boom swings again.",
+      "id": "direct-test-swing",
+      "kind": "track",
+      "prompt": "Keep the signal person's signal steady, holding the swing inside the barricaded radius.",
+      "seconds": 8,
+      "target": "signal-person",
+      "title": "Swing the test load under signal",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "TEST SWING",
+        "rise": 0.5,
+        "start": 0.12
+      },
+      "why": "A test swing run under continuous signal is what confirms the whole system — chart, pins, backstop and level — together, under the one condition a static test lift cannot check: the boom actually moving with a load on the hook."
+    },
+    {
+      "cue": "Confirm the boom angle indicator matches the angle the lift plan calls for.",
+      "id": "boom-angle-check",
+      "kind": "select",
+      "prompt": "Confirm the boom angle indicator matches the angle the lift plan calls for.",
+      "target": "boom-angle-indicator",
+      "title": "Confirm the boom angle against the plan",
+      "why": "The chart reading and the boom angle are two different confirmations of the same fact — an angle indicator that does not match the plan means either the boom moved since the chart was read or the indicator itself needs attention, and either one is worth stopping for before the real pick."
+    },
+    {
+      "cue": "Log the inspection, the chart reading and the test lift result before releasing the crane for picks.",
+      "id": "shutdown-log",
+      "kind": "select",
+      "prompt": "Log the inspection, the chart reading and the test lift result before releasing the crane for picks.",
+      "target": "closing-log",
+      "title": "Close out the assembly log",
+      "why": "The assembly log is the record the next shift and the annual inspection both read — an assembly that was inspected and proved cleanly but never logged leaves nothing behind to show any of it actually happened."
+    }
+  ],
+  "supportLine": "your IUOE local's member assistance programme, or the site's employee assistance line if a close call on this assembly is what stayed with you",
+  "tagline": "Crawler crane assembly closed out and proved before the first pick: ground bearing confirmed, every pin and lacing member inspected, the backstop engaged, the chart read at the planned radius, and a test lift held before anything real goes on the hook",
+  "title": "SmartCiti.X~ Crawler Crane Assembly & Load Chart VR",
+  "trade": "Crawler crane operator — IUOE Local 3 operating engineer",
+  "underwater": null,
+  "weather": "wind"
+}

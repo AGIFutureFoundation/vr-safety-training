@@ -1,0 +1,398 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "mapped-not-moved",
+    "name": "Mapped, Not Moved",
+    "note": "Every item placed on the baseline and written up, and nothing hazardous touched, lifted or opened on the bottom"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.422 procedures during the dive (communications, the tended diver, termination of the dive) and 29 CFR 1910.420 the employer's safe practices manual; ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds; hazardous debris handled per the work plan",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADCI",
+        "citedAs": "ADCI",
+        "id": "adci-consensus-standards",
+        "title": "Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations"
+      },
+      {
+        "body": "union",
+        "citedAs": "Pile Drivers",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.420",
+        "id": "osha-1910-420",
+        "title": "29 CFR 1910.420 — Safe practices manual (the employer's written procedures for each diving mode, the dive team's duties and emergency procedures)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.422",
+        "id": "osha-1910-422",
+        "title": "29 CFR 1910.422 — Procedures during the dive (water entry and exit, communications, decompression tables, power tools, termination of the dive)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910 Subpart T",
+        "id": "osha-1910-subpart-t",
+        "title": "29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 197 Subpart B",
+        "id": "uscg-46-cfr-197-subpart-b",
+        "title": "46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction"
+      }
+    ]
+  },
+  "district": "bay-underwater",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "on-bearing",
+        "name": "On Bearing",
+        "note": "The baseline's bearing set first time"
+      },
+      {
+        "id": "offset-true",
+        "name": "Offset True",
+        "note": "The offset read inside the band first time"
+      },
+      {
+        "id": "hands-off",
+        "name": "Hands Off",
+        "note": "No drum opened, no battery lifted, never under the skiff, never kicking through the line"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-survey",
+        "name": "Clean Survey",
+        "note": "No corrections from the on-bottom report to the read-up"
+      },
+      {
+        "id": "steady-baseline",
+        "name": "Steady Baseline",
+        "note": "The baseline swum in band the whole way"
+      },
+      {
+        "id": "mapped-in-time",
+        "name": "Mapped In Time",
+        "note": "Map read up inside 80% of par"
+      }
+    ],
+    "currency": "CHAINAGE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Diver Trainee",
+      "Diver",
+      "Survey Diver",
+      "Lead Survey Diver",
+      "Debris Survey Certified"
+    ],
+    "system": "Debris Survey"
+  },
+  "hazards": {
+    "kick-monofilament": "You tried to swim straight through the tangle of fishing line on the rock. Monofilament is nearly invisible underwater, it wraps fins, the harness and the umbilical as a diver moves, and every kick pulls it tighter. It is gone round, not through, and marked on the map so the removal crew knows it is there.",
+    "lift-battery": "You picked up the car battery to take it up with you. A battery is heavy, its case may be cracked and leaking acid, and a diver carrying a weight up the downline has changed their own buoyancy and their ascent without the supervisor's say. Nothing is lifted during a survey; lifts are planned and rigged later, per the work plan.",
+    "open-drum": "You went to unscrew the drum's bung to see what was inside. A drum on the bottom of the Bay can hold solvent, oil, acid or nothing at all, and the diver who opens it finds out by breathing and wearing it, while the release spreads down-current onto the restoration site. A survey maps a drum and reports it; what happens to it next is decided per the work plan, by people who can test it at the surface.",
+    "under-skiff": "You moved in under the overturned skiff to look at its underside. A hull lying on the bottom is resting on whatever silt holds it, it can settle or roll without warning, and a diver under it has an overhead with an umbilical trailing out behind them — an entrapment the standby would have to dig you out of. The skiff is surveyed from outside and its position mapped."
+  },
+  "id": "br-underwater-debris-survey-and-mapping",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "swim-baseline",
+      "alert": "The current has lifted the fine silt off the bottom — the visibility has gone to nothing and you cannot see the tape in front of your faceplate.",
+      "cue": "Stop, take hold of the baseline tape and stay on it, then tell the supervisor you are in a silt-out.",
+      "delay": 2,
+      "id": "silt-out",
+      "kind": "Visibility lost in a silt-out",
+      "missNote": "You kept swimming into the cloud and came off the tape; with no line to follow you drifted into the rebar and the tender felt the umbilical snag before you did.",
+      "seconds": 14,
+      "target": "baseline-tape",
+      "why": "In a silt-out the tape is the one thing that still tells you where you are and which way the downline lies. A diver who keeps swimming blind drifts off the line into the debris they came to map — the rebar, the skiff, the fishing line — so you stop, take hold of the tape, and let the supervisor and the tender know, while the silt settles or the dive is ended per the dive plan.",
+      "wrongNote": "The baseline tape — take hold of it so you cannot drift off the line in the cloud."
+    },
+    {
+      "after": "hold-position",
+      "alert": "Your left fin has picked up a loop of fishing line drifting off the rock — it is wrapped round your ankle and pulling tighter as you move.",
+      "cue": "Stop moving, take the line cutter off your harness and cut the loops free, then tell the supervisor.",
+      "delay": 2,
+      "id": "fin-fouled",
+      "kind": "Fin fouled in fishing line",
+      "missNote": "You kicked to get free; the loop pulled tight round your ankle and caught the umbilical, and the supervisor had to send the standby down the downline to cut you out.",
+      "seconds": 14,
+      "target": "line-cutter",
+      "why": "Monofilament tightens with every kick, and a diver who thrashes to get free wraps it round the harness and the umbilical as well. The line cutter lives on the harness for exactly this: stop, cut, and report, so the supervisor knows before the tender feels it. If it cannot be cut free, the supervisor sends the standby, which is why the standby is dressed before you leave the surface.",
+      "wrongNote": "The line cutter on your harness — stop moving and cut the loops, do not kick."
+    }
+  ],
+  "lateNotes": {
+    "diver-slate": "The map is read up once the survey bag has been sent up the downline.",
+    "hold-position": "Position is held for the read-back once the sharp and overhead debris has been found.",
+    "offset-tape": "The offset is read once the hazardous items have been found — the survey places what it has seen."
+  },
+  "name": "Underwater Debris Survey & Mapping",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "baseline-tape",
+      "battery",
+      "compass-bezel",
+      "diver-comms",
+      "diver-slate",
+      "downline-clip",
+      "drum-unknown",
+      "far-stake",
+      "hazard-report",
+      "hold-position",
+      "kick-monofilament",
+      "lift-battery",
+      "line-cutter",
+      "marker-float",
+      "offset-tape",
+      "open-drum",
+      "rebar-snag",
+      "skiff-hull",
+      "slate-entry",
+      "stage-checkin",
+      "survey-bag",
+      "tape-reel",
+      "tape-swim",
+      "under-skiff"
+    ],
+    "meshes": 187
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Call the supervisor: on the bottom at the clump weight, off the stage, feeling good, the visibility and the current as you find them, and starting the survey at the baseline's zero stake.",
+      "id": "on-bottom",
+      "kind": "select",
+      "prompt": "Call the supervisor: on the bottom at the clump weight, off the stage, feeling good, the visibility and the current as you find them, and starting the survey at the baseline's zero stake.",
+      "target": "diver-comms",
+      "title": "Report on the bottom at the downline",
+      "why": "The supervisor at the panel can see your gas and your depth but not the bottom, and the on-bottom report is how the surface learns what you have arrived in: how far you can see, which way the current is setting and whether the plan still fits. It also starts the clock the dive is timed against, and it is the comms check that proves the voice circuit works on the bottom before you move away from the downline."
+    },
+    {
+      "cue": "Turn the compass bezel to the baseline bearing the survey plan gives, so the lubber line and the needle agree when you face down the line.",
+      "id": "set-bearing",
+      "kind": "turn",
+      "prompt": "Turn the compass bezel to the baseline bearing the survey plan gives, so the lubber line and the needle agree when you face down the line.",
+      "target": "compass-bezel",
+      "title": "Set the baseline's bearing on your compass",
+      "turn": {
+        "label": "COMPASS BEZEL",
+        "turns": 0.75
+      },
+      "why": "A debris survey is only as good as its baseline, because every item's position is measured from it: chainage along the tape and offset square to it. The bearing comes from the survey plan so the map lines up with the site plan the removal crew will use, and it is set on the bezel before the tape goes out, because in low visibility the compass is the only thing that keeps the line straight."
+    },
+    {
+      "cue": "Pay the tape out from the zero stake along your bearing and hook the reel onto the far stake, tape taut and just off the silt.",
+      "drag": {
+        "missNote": "Not at the far stake — hook the reel on the far stake so the tape is taut along the bearing.",
+        "radius": 0.5,
+        "to": "far-stake"
+      },
+      "id": "run-baseline",
+      "kind": "drag",
+      "prompt": "Pay the tape out from the zero stake along your bearing and hook the reel onto the far stake, tape taut and just off the silt.",
+      "target": "tape-reel",
+      "title": "Run the baseline tape out to the far stake",
+      "why": "The tape is the survey's ruler, laid across the site so every item can be placed on it. Run out along the bearing and made fast at the far stake, it stays straight and taut when you swim it, and it gives the removal crew a line they can find again. A slack tape sags into the silt and reads long, and a tape that wanders off the bearing puts every item it measures in the wrong place on the map."
+    },
+    {
+      "cue": "Swim along the tape just above the silt at a pace your supply holds and your fins do not stir the bottom, scanning both sides of the line.",
+      "holdBreakNote": "The pace broke out of band — racing and stirring the bottom, or stalled. Settle on the tape and take it up again steadily.",
+      "id": "swim-baseline",
+      "kind": "track",
+      "prompt": "Swim along the tape just above the silt at a pace your supply holds and your fins do not stir the bottom, scanning both sides of the line.",
+      "seconds": 6,
+      "target": "tape-swim",
+      "title": "Swim the baseline steadily, looking both ways",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "PACE ALONG THE TAPE",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "The first pass along the baseline is what finds the debris, and it is swum slowly and level so the fins do not lift the silt into a cloud that hides everything behind you. Going faster costs gas the dive plan did not count on and misses what is lying just off the line; going slower burns bottom time. The pace is set by the breathing and the visibility, not by the length of the tape."
+    },
+    {
+      "cue": "Along the line, pick out anything that could hold a hazardous substance — drums, batteries, containers — and look at it without touching it.",
+      "id": "hazard-items",
+      "itemNames": {
+        "battery": "car battery on its side in the silt",
+        "drum-unknown": "corroded drum of unknown contents"
+      },
+      "itemNotes": {
+        "battery": "A car battery on its side half in the silt. Its case may be cracked, and whatever acid and lead it still holds are exactly what the restoration is trying to take out of the Bay.",
+        "drum-unknown": "A steel drum lying on its side, rusted through at one chime, its label long gone. It could hold anything or nothing, and a drum that has been corroding on the bottom can split when it is moved."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Along the line, pick out anything that could hold a hazardous substance — drums, batteries, containers — and look at it without touching it.",
+      "targets": [
+        "drum-unknown",
+        "battery"
+      ],
+      "title": "Find the hazardous debris and leave it where it is",
+      "why": "The point of a survey is to know what is on the bottom before anyone lifts anything, and hazardous items change the whole removal: they need a lift plan, containment and a place to go at the surface. The diver's job is to find them, see their condition and leave them alone, because a drum or a battery moved by hand on the bottom is a release nobody planned for."
+    },
+    {
+      "cue": "Run the offset tape square from the baseline to the drum and commit the reading when the tape's end is at the drum's centre.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "OFFSET TAPE",
+        "missNote": "Outside the band — hold the tape square to the baseline and read it at the drum's centre.",
+        "speed": 0.7
+      },
+      "id": "read-offset",
+      "kind": "gauge",
+      "prompt": "Run the offset tape square from the baseline to the drum and commit the reading when the tape's end is at the drum's centre.",
+      "target": "offset-tape",
+      "title": "Read the drum's offset from the baseline",
+      "why": "Chainage along the baseline and offset square to it are what put the drum on the map within reach of the removal crew's grab. The offset is read to the item's centre with the tape square to the line, because a tape run at an angle reads long and puts the drum somewhere it is not — and the next diver goes looking for it in the dark."
+    },
+    {
+      "cue": "Tie a numbered marker float to the rock beside the drum — not to the drum — then write the number, the chainage, the offset and what it is on your slate.",
+      "id": "tag-item",
+      "itemNames": {
+        "marker-float": "numbered marker float tied off beside the drum",
+        "slate-entry": "item written on the slate with its chainage and offset"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — float the item first so the slate records the number that is really on it.",
+      "prompt": "Tie a numbered marker float to the rock beside the drum — not to the drum — then write the number, the chainage, the offset and what it is on your slate.",
+      "targets": [
+        "marker-float",
+        "slate-entry"
+      ],
+      "title": "Float the item, then write it up",
+      "why": "The float gives the item a number the surface can see and the removal crew can find, and it is tied off beside the drum rather than to it so nobody's first contact with the drum is a pull on its lid. The slate entry follows so the number on the float and the line on the map are the same number; a slate written first ends up out of step with the floats as the survey goes on."
+    },
+    {
+      "cue": "Look for what could cut, snag or trap a diver: rebar, sheet metal, hulls, anything with an underside.",
+      "id": "sharp-items",
+      "itemNames": {
+        "rebar-snag": "concrete block with rebar sticking up out of the silt",
+        "skiff-hull": "overturned skiff lying on the bottom"
+      },
+      "itemNotes": {
+        "rebar-snag": "A slab of broken concrete with bent reinforcing bar standing up out of it at fin height — a snag for the umbilical and a cut for a suit.",
+        "skiff-hull": "A small skiff lying upside down on the silt. It is an overhead to anyone who goes under it, and its lines and fittings are snags; it will need rigging to lift."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look for what could cut, snag or trap a diver: rebar, sheet metal, hulls, anything with an underside.",
+      "targets": [
+        "rebar-snag",
+        "skiff-hull"
+      ],
+      "title": "Find the sharp and overhead debris",
+      "why": "The removal dives that follow the survey will be worked with rigging and lift bags among this debris, and the divers who do them need to know where the snags and overheads are before they arrive. Rebar that cuts a drysuit or catches an umbilical, and a hull that a diver could end up under, are mapped as hazards in their own right so the removal plan can work round them."
+    },
+    {
+      "cue": "Stay still at the skiff's chainage with a hand on the tape while the supervisor reads your position back and plots it — do not drift off the mark.",
+      "holdBreakNote": "You drifted off the mark before the read-back was done — the position would be plotted wrong. Come back to the tape and hold still again.",
+      "id": "hold-position",
+      "kind": "hold",
+      "prompt": "Stay still at the skiff's chainage with a hand on the tape while the supervisor reads your position back and plots it — do not drift off the mark.",
+      "seconds": 5,
+      "target": "hold-position",
+      "title": "Hold still on the tape while the supervisor plots you",
+      "why": "The supervisor plots the map at the surface as you read items up, and a read-back is only worth taking if you are still at the point being plotted. Holding still with a hand on the tape keeps you on the mark while the numbers go up and come back, and it gives the tender a steady umbilical to read — a diver who drifts during the read-back puts the skiff on the map where the diver ended up."
+    },
+    {
+      "cue": "Tell the supervisor: the drum and the battery, their float numbers and condition, left untouched, and that their handling is for the work plan.",
+      "id": "report-hazards",
+      "kind": "select",
+      "prompt": "Tell the supervisor: the drum and the battery, their float numbers and condition, left untouched, and that their handling is for the work plan.",
+      "target": "hazard-report",
+      "title": "Report the hazardous items for the work plan",
+      "why": "Anything hazardous found on a restoration survey goes into the work plan before anyone touches it: the lift, the containment, the testing and where it goes at the surface are all decided there. Reporting it now, while you can still look again at anything the supervisor asks about, is how the surface gets a description good enough to plan with rather than a line on a slate read out later."
+    },
+    {
+      "cue": "Clip the survey bag with the spare floats and the offset tape onto the downline's travelling clip so it goes up with the stage.",
+      "drag": {
+        "missNote": "Not on the downline clip — the bag goes up on the downline, not in your hand.",
+        "radius": 0.5,
+        "to": "downline-clip"
+      },
+      "id": "bag-up",
+      "kind": "drag",
+      "prompt": "Clip the survey bag with the spare floats and the offset tape onto the downline's travelling clip so it goes up with the stage.",
+      "target": "survey-bag",
+      "title": "Send the survey bag up on the downline clip",
+      "why": "Everything that came down for the survey goes back up the same way, clipped to the downline, so nothing is left loose on the bottom to foul the next diver and nothing is carried by hand on the ascent. The floats that stay on the bottom are the ones marking items; the spares go home, so the removal crew is never left guessing which float means something."
+    },
+    {
+      "cue": "Read your slate to the supervisor item by item: number, chainage, offset, what it is and its condition, the line on the rock, and the silt-out and the fouled fin.",
+      "id": "read-up-map",
+      "kind": "select",
+      "prompt": "Read your slate to the supervisor item by item: number, chainage, offset, what it is and its condition, the line on the rock, and the silt-out and the fouled fin.",
+      "target": "diver-slate",
+      "title": "Read the map up for the dive log",
+      "why": "The supervisor turns what you read up into the survey map and the dive log, and both are what the removal plan is written from. It is read from the slate while you are still at the baseline so anything unclear can be looked at again, and the silt-out and the fishing line go in as well, because the next diver on this bottom will meet both."
+    },
+    {
+      "cue": "Back at the stage, clipped on: tell the supervisor how you feel after the survey, the silt-out and the line, and wait for the call to leave the bottom.",
+      "id": "stage-checkin",
+      "kind": "select",
+      "prompt": "Back at the stage, clipped on: tell the supervisor how you feel after the survey, the silt-out and the line, and wait for the call to leave the bottom.",
+      "target": "stage-checkin",
+      "title": "Check in at the stage and leave on the supervisor's call",
+      "why": "The ascent is the supervisor's call, run to the tables they hold, and the check-in tells them you are on the stage, clipped on and well. It is also the diver's own chance to say how the dive was: a silt-out and a fin wrapped in fishing line are frightening minutes, and saying so at the stage is part of the dive, with the Pile Drivers Local 34 member assistance line there for whatever the debrief does not settle."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — Pile Drivers Local 34 — with the employer's employee assistance line behind it",
+  "tagline": "On the bottom before anything is lifted: on-bottom report, the baseline's bearing set, the tape run out to the far stake, the baseline swum steady while the silt blows out the visibility, the drum and the battery found and left alone, the offset read, the item floated and written up, the rebar and the skiff found, position held while fishing line wraps a fin, the hazards reported for the work plan, the survey bag sent up and the map read up for the dive log",
+  "title": "SmartCiti.X~ Underwater Debris Survey & Mapping VR",
+  "trade": "Pile Drivers Local 34 commercial diver on a surface-supplied debris survey for a Bay restoration removal plan, with the supervisor on the comms, the tender on the umbilical and the standby diver at the ladder",
+  "underwater": {
+    "bottomTimeSeconds": 600,
+    "depthLabel": "Per dive plan"
+  },
+  "weather": "clear"
+}

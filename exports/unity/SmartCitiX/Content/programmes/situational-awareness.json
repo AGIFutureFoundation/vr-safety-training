@@ -1,0 +1,199 @@
+{
+  "accent": "#f0645b",
+  "anchors": [
+    {
+      "id": "lake-loop-boathouse",
+      "name": "Lake Loop Boathouse",
+      "position": [
+        289,
+        -60
+      ],
+      "stations": [
+        "electrical",
+        "welding",
+        "trench-box"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "lake"
+    }
+  ],
+  "certification": "OSHA 1926.20(b)(2) competent-person hazard recognition and the human-factors component every one of these standards assumes: NFPA 70E, 1910.146 permit spaces, 1926.651 excavations, 1926.1400 cranes, NFPA 25 impairment control",
+  "competency": {
+    "id": "situational-awareness",
+    "kind": "programme",
+    "require": 6,
+    "standards": [
+      "osha-1926-20-b-2",
+      "nfpa-70e",
+      "osha-1910-146",
+      "osha-1926-subpart-p",
+      "osha-1926-subpart-cc"
+    ],
+    "stations": [
+      "electrical",
+      "welding",
+      "trench-box",
+      "crane-yard",
+      "chlorine-room",
+      "confined-rescue",
+      "substation-switching",
+      "airport-ramp",
+      "fire-pump",
+      "tower-climb",
+      "elevator-pit",
+      "boiler-room",
+      "forklift-dock",
+      "phlebotomy",
+      "transformer-vault",
+      "wind-nacelle",
+      "digester-gas",
+      "data-hall",
+      "steel-erector",
+      "triage-point",
+      "dock-crane",
+      "press-brake"
+    ],
+    "title": "Hold the procedure while the site interrupts you"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "ibew-neca-jatc",
+    "ua-apprenticeship",
+    "liuna-training-fund",
+    "ironworkers-impact",
+    "iaff-training",
+    "osha-1926",
+    "osha-1910-146",
+    "nfpa-70e",
+    "nfpa-25",
+    "cal-osha-3203"
+  ],
+  "id": "situational-awareness",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1628,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 133
+  },
+  "name": "Situational Awareness — Interruption Drill",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "trades",
+      "id": "electrical",
+      "why": "Your lock comes off the hasp while your eyes are on the meter. The isolation was correct once, and nobody looked at it again."
+    },
+    {
+      "app": "trades",
+      "id": "welding",
+      "why": "Two: the extraction trips while you set the machine, and the blanket slips off the conduit run while you lay the bead."
+    },
+    {
+      "app": "smartcity",
+      "id": "trench-box",
+      "why": "Spoil creeping back toward the lip above an entrant, and the spotter walking off while you programme a machine path."
+    },
+    {
+      "app": "smartcity",
+      "id": "crane-yard",
+      "why": "Somebody cutting through the swing radius to save walking round, and a pad settling out of level with the load in the air."
+    },
+    {
+      "app": "smartcity",
+      "id": "chlorine-room",
+      "why": "The room monitor alarming mid-changeout — real until proven otherwise — and an unprotected attendant in an open door during a leak test."
+    },
+    {
+      "app": "smartcity",
+      "id": "confined-rescue",
+      "why": "The atmosphere falling while you rig, and the attendant leaving the hole to help on the rope during the haul."
+    },
+    {
+      "app": "smartcity",
+      "id": "substation-switching",
+      "why": "An unescorted visitor inside the boundary, and control calling with a verbal change to a written switching order."
+    },
+    {
+      "app": "smartcity",
+      "id": "airport-ramp",
+      "why": "A vehicle inbound past an unset equipment line, and a chock a tug kicked clear before the bridge docks."
+    },
+    {
+      "app": "smartcity",
+      "id": "fire-pump",
+      "why": "Hot work opened in a building whose sprinklers are impaired for your test, and a gland that goes from a drip to a stream at rated flow."
+    },
+    {
+      "app": "smartcity",
+      "id": "tower-climb",
+      "why": "A tool you set down creeping toward the platform edge above your ground crew, and the crew themselves walking into the drop zone."
+    },
+    {
+      "app": "smartcity",
+      "id": "elevator-pit",
+      "why": "A hall call registering upstairs while you stand in the runby, and somebody working your lock off the hasp while you are on the car top."
+    },
+    {
+      "app": "smartcity",
+      "id": "boiler-room",
+      "why": "A block valve passing after you proved the isolation, and the building calling for steam while you are inside the firebox."
+    },
+    {
+      "app": "smartcity",
+      "id": "forklift-dock",
+      "why": "The trailer walking off the plate while you are in the box, and a picker stepping into the aisle on the side the load hides."
+    },
+    {
+      "app": "trades",
+      "id": "phlebotomy",
+      "why": "A patient going vasovagal while your eyes are on the tube rack, and a pre-labelled set offered to you as a time-saver."
+    },
+    {
+      "app": "smartcity",
+      "id": "transformer-vault",
+      "why": "SCADA attempting a reclose before your clearance tag is on the switch, and the vault taking water faster than it drains."
+    },
+    {
+      "app": "smartcity",
+      "id": "wind-nacelle",
+      "why": "The wind freshening ninety metres up with the hoist hatch open, and the hatch guard knocked off its catch behind you."
+    },
+    {
+      "app": "smartcity",
+      "id": "digester-gas",
+      "why": "The dome rising because the digester did not stop making gas, and the wind putting your own purge vent over the pit you are reading."
+    },
+    {
+      "app": "smartcity",
+      "id": "data-hall",
+      "why": "The panel schedule contradicting the busway label, and somebody moving your floor-void barrier to get a cart past."
+    },
+    {
+      "app": "smartcity",
+      "id": "steel-erector",
+      "why": "A landed member still on the hook drifting over the bay you are standing in, and a deck opening uncovered behind you."
+    },
+    {
+      "app": "smartcity",
+      "id": "triage-point",
+      "why": "A casualty you tagged green sitting down and going quiet, and the beam over the collapse starting to move."
+    },
+    {
+      "app": "smartcity",
+      "id": "dock-crane",
+      "why": "A lashing hand cutting through the red zone under a suspended box, and a gust front putting the load on the sail."
+    },
+    {
+      "app": "smartcity",
+      "id": "press-brake",
+      "why": "The light curtain left on bypass from the previous shift, and a colleague reaching into the die space to help."
+    }
+  ],
+  "summary": "Twenty-two procedures that interrupt you while you work. Every station in this block is one you may already know the order of — the block is not testing the order. It is testing whether you notice the alarm, the person in the wrong place or the thing that moved while your hands and eyes were somewhere else. Miss one and it scores as an unsafe action, because that is what it is.",
+  "union": "Cross-craft — run as a refresher block by IBEW, UA, LIUNA, Ironworkers and IAFF locals"
+}

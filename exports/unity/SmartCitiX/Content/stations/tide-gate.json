@@ -1,0 +1,477 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "gate-holds",
+    "name": "Gate Holds",
+    "note": "A tide gate swapped inside the low-water window, levelled to design and proven on the first flood"
+  },
+  "category": "Water & Environmental",
+  "certification": "IUOE Local 3 operating engineers on the plant; LIUNA laborers on the cofferdam and gate work; Pile Drivers Local 34 (Carpenters) on the culvert carpentry; a U.S. Army Corps of Engineers Section 404 permit and the Regional Water Board's Clean Water Act (CWA) Section 401 certification; the San Francisco Bay Conservation and Development Commission (BCDC); OSHA 29 CFR 1926.106 for work near water; the fish-window restriction on in-water work",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "BCDC",
+        "citedAs": "BCDC",
+        "id": "bcdc-bay-plan",
+        "title": "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act"
+      },
+      {
+        "body": "union",
+        "citedAs": "Carpenters",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "CWA",
+        "id": "cwa-training",
+        "title": "CWA member training for outside-plant, tower and broadcast work"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.106",
+        "id": "osha-1926-106",
+        "title": "29 CFR 1926.106 — Working over or near water"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "Section 401",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      },
+      {
+        "body": "USACE",
+        "citedAs": "Section 404",
+        "id": "usace-section-404",
+        "title": "Clean Water Act §404 permit conditions for the discharge of dredged or fill material"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Water",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "window-read",
+        "name": "Window Read",
+        "note": "Both water levels read against the tide table before the cofferdam went in"
+      },
+      {
+        "id": "never-flooded",
+        "name": "Never Flooded",
+        "note": "The culvert was never entered open and the cofferdam never pulled early"
+      },
+      {
+        "id": "true-elevation",
+        "name": "True Elevation",
+        "note": "Held the float-arm level and the tide readings near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-swap",
+        "name": "Clean Swap",
+        "note": "No corrections through the whole gate swap"
+      },
+      {
+        "id": "steady-level",
+        "name": "Steady Level",
+        "note": "Held the float-arm adjustment in band without a break"
+      },
+      {
+        "id": "beat-the-tide",
+        "name": "Beat The Tide",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "TIDE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Laborer",
+      "Wetland Hand",
+      "Crew Lead",
+      "Restoration Foreman",
+      "Tidal Works Certified"
+    ],
+    "system": "Tidal Works Authority"
+  },
+  "hazards": {
+    "dump-old-gate": "You dropped the old flap gate into the tidal channel instead of carrying it to the laydown. Anything left in the water on a permitted restoration site is unauthorized fill and debris under the Corps' Section 404 permit and BCDC's jurisdiction — the old gate goes out the same controlled way the new one came in, not over the side.",
+    "enter-open-culvert": "You started into the culvert while it was still open to tidal flow. A culvert this size fills fast once the tide turns, it is a straight pipe with one way out at each end, and nobody works inside it while either end is still open to the water — the cofferdam is what makes this a dry excavation instead of a drowning risk.",
+    "no-pfd": "You went to the water's edge without a personal flotation device. OSHA's rule for work near water (29 CFR 1926.106) exists because a slip off a levee crown into moving tidal water, in boots and a tool belt, is not a swim — a PFD is worn at the edge every time, not fetched after somebody goes in.",
+    "pull-early": "You pulled the cofferdam before the new gate was bolted down. The sandbags are the only thing standing between the works and the tide right now; pull them with the gate still loose on the flange and the first water back in floats it off before a single bolt is torqued."
+  },
+  "id": "tide-gate",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "pack-cofferdam",
+      "alert": "The channel gauge on the bay side has started climbing well ahead of the tide table's predicted turn.",
+      "cue": "The window you planned this whole job around is closing faster than the book said it would.",
+      "delay": 5,
+      "id": "flood-early",
+      "kind": "Tide arriving early",
+      "missNote": "The tide came over the top of the cofferdam while the crew kept working the plan as written. Water arriving faster than a wall can be raised is exactly how a controlled low-tide job turns into an uncontrolled one, with the culvert wide open behind it.",
+      "seconds": 16,
+      "target": "add-flood-course",
+      "why": "A tide table is a prediction built on an average year, and wind, barometric pressure and a wet season upstream can all push a real tide ahead of the printed time. The cofferdam was built to the water level the table promised, and a wall built to yesterday's number does not automatically hold today's — the fix is another course on now, while there is still dry ground to stand on to place it, not a wait-and-see.",
+      "wrongNote": "That does not raise the wall. Another course of sandbags on the cofferdam is what buys the time the table's number just took away."
+    },
+    {
+      "after": "level-float",
+      "alert": "One face of the sandbag wall has slumped and is bulging outward under the head of water behind it.",
+      "cue": "The thing keeping the tide out of the excavation you are standing in just moved.",
+      "delay": 4,
+      "id": "wall-slumping",
+      "kind": "Cofferdam slumping",
+      "missNote": "The slumping face was left alone and kept moving while the gate work continued a few feet away from it. A cofferdam that fails while people are working behind it does not give a second warning after the first one is ignored.",
+      "seconds": 14,
+      "target": "reinforce-slump",
+      "why": "A sandbag wall holds by friction and mass, not by a bond between bags, and a wall built a little too steep or on soft footing creeps before it fails outright — a bulge is the wall telling you it is partway through that process. Reinforcing the slumping face now, while it is still standing, is the difference between a wall that needs a few more bags and a wall that needs the whole crew out of the hole.",
+      "wrongNote": "That is not the slumping face. The bulge in the wall is what needs bags against it right now."
+    }
+  ],
+  "lateNotes": {
+    "float-arm": "The float arm is set once the new gate is actually hung on the flange — there is nothing to level against before it is hanging there.",
+    "new-bolt-a": "The new gate is bolted down after its float is set to design elevation, not before — torquing it down first locks in whatever angle it happened to be hanging at.",
+    "pull-top-course": "The cofferdam comes out once the new gate is bolted down and proven, not while the culvert behind it is still open at a loose flange.",
+    "viewing-point": "The first-flood observation happens once the gate is bolted and the cofferdam is out — there is no exchange to watch while the works are still sealed off and dry."
+  },
+  "name": "Tide Gate",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-bay-restoration"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.7,
+    "hits": [
+      "add-flood-course",
+      "bag-course-1",
+      "bag-course-2",
+      "bag-course-3",
+      "downstream-gauge",
+      "dump-old-gate",
+      "enter-open-culvert",
+      "fish-window-sign-missing",
+      "float-arm",
+      "gate-flange-socket",
+      "laydown-mat",
+      "new-bolt-a",
+      "new-bolt-b",
+      "new-bolt-c",
+      "new-gate",
+      "no-pfd",
+      "old-bolt-a",
+      "old-bolt-b",
+      "old-bolt-c",
+      "old-gate",
+      "permit-board",
+      "pull-base-course",
+      "pull-early",
+      "pull-mid-course",
+      "pull-top-course",
+      "reinforce-slump",
+      "scour-void",
+      "sediment-fence-gap",
+      "spalled-invert",
+      "tamper",
+      "tide-board",
+      "tool-in-marsh",
+      "upstream-gauge",
+      "viewing-point"
+    ],
+    "meshes": 191
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Check today's predicted low tide, the turn time and how long the window actually gives the crew.",
+      "id": "tide-window",
+      "kind": "select",
+      "prompt": "Check today's predicted low tide, the turn time and how long the window actually gives the crew.",
+      "target": "tide-board",
+      "title": "Read the tide table and confirm the low-water window",
+      "why": "The entire job is scheduled around one number: how long the channel stays low enough to work in. Everything from the cofferdam to the last bolt has to fit inside that window, so it is read and confirmed before a single sandbag moves."
+    },
+    {
+      "cue": "Watch the upstream staff gauge and commit while the level sits inside today's predicted band.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "MARSH LEVEL",
+        "missNote": "Outside today's predicted band. Confirm the reading again before committing the crew to the window.",
+        "speed": 0.68
+      },
+      "id": "levels-up",
+      "kind": "gauge",
+      "prompt": "Watch the upstream staff gauge and commit while the level sits inside today's predicted band.",
+      "target": "upstream-gauge",
+      "title": "Read the marsh-side water level",
+      "why": "The marsh side is what the gate is supposed to be reconnecting to tidal exchange, and its level right now is the baseline every later reading is judged against — a marsh already higher or lower than expected changes how much head the cofferdam actually has to hold."
+    },
+    {
+      "cue": "Watch the downstream channel gauge and commit while the level sits inside today's predicted low.",
+      "gauge": {
+        "green": [
+          0.38,
+          0.56
+        ],
+        "label": "CHANNEL LEVEL",
+        "missNote": "Not inside today's predicted low. Re-read before the cofferdam goes in on a number that might already be stale.",
+        "speed": 0.7
+      },
+      "id": "levels-down",
+      "kind": "gauge",
+      "prompt": "Watch the downstream channel gauge and commit while the level sits inside today's predicted low.",
+      "target": "downstream-gauge",
+      "title": "Read the bay-side channel level",
+      "why": "The bay side is where the flood is going to come back from, and this reading is the one the cofferdam height and the whole window's margin are actually built on — a channel not as low as the table predicted means less time than planned, not the same time with less warning."
+    },
+    {
+      "cue": "Lay the base course across the culvert mouth, then the middle course, then the top course.",
+      "id": "build-cofferdam",
+      "itemNames": {
+        "bag-course-1": "base course",
+        "bag-course-2": "middle course",
+        "bag-course-3": "top course"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Base course first, then middle, then top — a wall built out of order has nothing under its own weight.",
+      "prompt": "Lay the base course across the culvert mouth, then the middle course, then the top course.",
+      "targets": [
+        "bag-course-1",
+        "bag-course-2",
+        "bag-course-3"
+      ],
+      "title": "Build the sandbag cofferdam",
+      "why": "Base to top, each course keyed over the joints of the one below it, the way any dry-stacked wall is built — starting at the top or skipping the base leaves a wall with no foundation under the water pressure it is about to be asked to hold."
+    },
+    {
+      "cue": "Hold the tamper on the wall until every course is seated tight against the culvert mouth.",
+      "holdBreakNote": "Released before the wall was fully seated. An unseated cofferdam seeps at every gap between the bags — go back and hold the full duration.",
+      "id": "pack-cofferdam",
+      "kind": "hold",
+      "prompt": "Hold the tamper on the wall until every course is seated tight against the culvert mouth.",
+      "seconds": 6,
+      "target": "tamper",
+      "title": "Tamp and seat the cofferdam",
+      "why": "A stacked wall that has not been tamped down has gaps between the bags that the tide finds immediately — seating it is what turns a pile of sandbags into a wall that actually holds back water rather than seeping through it."
+    },
+    {
+      "cue": "Look over the exposed culvert now that it is dry, and click anything the barrel itself needs before the new gate goes on.",
+      "id": "inspect-culvert",
+      "itemNames": {
+        "scour-void": "a scour void under the culvert",
+        "spalled-invert": "a spalled section of the invert"
+      },
+      "itemNotes": {
+        "scour-void": "There is a void scoured out beneath the culvert barrel where years of tidal flow have undercut the bedding. A new gate bolted onto a pipe sitting over an empty void is a repair that fails again from underneath.",
+        "spalled-invert": "The invert — the low point the flow actually runs along — has spalled concrete exposing the rebar. Left alone, this is where the next failure starts, gate or no gate."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the exposed culvert now that it is dry, and click anything the barrel itself needs before the new gate goes on.",
+      "targets": [
+        "scour-void",
+        "spalled-invert"
+      ],
+      "title": "Inspect the culvert before the old gate comes off",
+      "why": "This is the only time all year the barrel is dry enough to actually see. A defect found now gets fixed on this shift; a defect missed now is buried under the new gate and the tide for another year."
+    },
+    {
+      "cue": "Back the bolts out in a cross pattern — A, then B, then C.",
+      "id": "unbolt-old",
+      "itemNames": {
+        "old-bolt-a": "bolt A",
+        "old-bolt-b": "bolt B",
+        "old-bolt-c": "bolt C"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Cross pattern — A, then B, then C. Working around the flange in order lets the gate bind and jam on the way off.",
+      "prompt": "Back the bolts out in a cross pattern — A, then B, then C.",
+      "targets": [
+        "old-bolt-a",
+        "old-bolt-b",
+        "old-bolt-c"
+      ],
+      "title": "Back out the old flap gate's bolts",
+      "why": "A gate that has sat under tidal load for years is never sitting perfectly square on its seat. Backing the bolts out in a cross pattern releases that load evenly, the same reason a wheel's lug nuts come off in a star pattern rather than around the circle."
+    },
+    {
+      "cue": "Carry the failed gate off the flange and set it down on the laydown mat.",
+      "drag": {
+        "missNote": "Not on the laydown mat — set the old gate down there, not beside it or back on the flange.",
+        "radius": 0.45,
+        "to": "laydown-mat"
+      },
+      "id": "remove-old-gate",
+      "kind": "drag",
+      "prompt": "Carry the failed gate off the flange and set it down on the laydown mat.",
+      "target": "old-gate",
+      "title": "Lift the old flap gate clear",
+      "why": "The old gate is evidence of why it failed and it is disposed of through the proper waste stream, not left where it fell. It comes off the flange and goes straight to the laydown, with nowhere in between for it to end up."
+    },
+    {
+      "cue": "Bring the new gate up to the culvert flange and seat it square.",
+      "drag": {
+        "missNote": "Not seated on the flange — a gate that is not square against the culvert will not seal against the tide.",
+        "radius": 0.45,
+        "to": "gate-flange-socket"
+      },
+      "id": "hang-new-gate",
+      "kind": "drag",
+      "prompt": "Bring the new gate up to the culvert flange and seat it square.",
+      "target": "new-gate",
+      "title": "Hang the new self-regulating tide gate",
+      "why": "A self-regulating tide gate opens on the outgoing flow and swings shut against the incoming tide on its own float, with no operator — which means it only works at all if it is hung square on the flange it was designed for."
+    },
+    {
+      "cue": "Hold the adjustment steady while the bubble level stays in the band at the design elevation.",
+      "holdBreakNote": "The float arm drifted out of band before the level was proven. Bring it back to design elevation and hold it there for the full check.",
+      "id": "level-float",
+      "kind": "track",
+      "prompt": "Hold the adjustment steady while the bubble level stays in the band at the design elevation.",
+      "seconds": 7,
+      "target": "float-arm",
+      "title": "Set the float arm to design elevation",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.42,
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "FLOAT LEVEL",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "The float arm is what tells this gate when the tide has turned. Set too high, the gate opens late and holds water on the marsh longer than the design calls for; set too low, it closes early and starves the marsh of the exchange this whole job exists to restore."
+    },
+    {
+      "cue": "Torque the new gate's bolts in the same cross pattern — A, then B, then C.",
+      "id": "bolt-new",
+      "itemNames": {
+        "new-bolt-a": "bolt A",
+        "new-bolt-b": "bolt B",
+        "new-bolt-c": "bolt C"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Cross pattern — A, then B, then C, same as it came apart. Working around the flange risks cocking the new gate on its seat.",
+      "prompt": "Torque the new gate's bolts in the same cross pattern — A, then B, then C.",
+      "targets": [
+        "new-bolt-a",
+        "new-bolt-b",
+        "new-bolt-c"
+      ],
+      "title": "Bolt the new gate down",
+      "why": "The same cross pattern that took the old gate off evenly is what seats the new one evenly. A gate torqued around the flange in order can end up cocked half a degree off the barrel — enough for the tide to work at for the next twenty years."
+    },
+    {
+      "cue": "Pull the top course first, then the middle course, then the base course.",
+      "id": "pull-cofferdam",
+      "itemNames": {
+        "pull-base-course": "base course",
+        "pull-mid-course": "middle course",
+        "pull-top-course": "top course"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Top course first, then middle, then base. Pulling the base first collapses the wall all at once against the toe it was protecting.",
+      "prompt": "Pull the top course first, then the middle course, then the base course.",
+      "targets": [
+        "pull-top-course",
+        "pull-mid-course",
+        "pull-base-course"
+      ],
+      "title": "Pull the cofferdam, top to base",
+      "why": "Top to base lets water start easing over gradually as the wall comes down, rather than the whole head of water arriving at once against a wall that is suddenly gone at the base — the base course is what is actually protecting the culvert toe, so it is the last thing removed, not the first."
+    },
+    {
+      "cue": "Hold your position at the viewing point and watch the gate swing and seal as the tide returns.",
+      "holdBreakNote": "You looked away before the gate had cycled with the incoming tide. The first flood is the only test this gate gets before the crew leaves the site — watch it through.",
+      "id": "observe-flood",
+      "kind": "hold",
+      "prompt": "Hold your position at the viewing point and watch the gate swing and seal as the tide returns.",
+      "seconds": 6,
+      "target": "viewing-point",
+      "title": "Observe the first flood through the new gate",
+      "why": "The design is only proven once, on the water it was actually built for. Watching the first flood is how the crew confirms the float is really set right and the gate really swings free, rather than assuming it from the bolts and the level check alone."
+    },
+    {
+      "cue": "Log today's work against the Corps' Section 404 permit, the Water Board's 401 certification and the fish-window restriction.",
+      "id": "permit-log",
+      "kind": "select",
+      "prompt": "Log today's work against the Corps' Section 404 permit, the Water Board's 401 certification and the fish-window restriction.",
+      "target": "permit-board",
+      "title": "Sign off against the permits",
+      "why": "This restoration exists inside a permit, not outside one. The Corps, the Regional Water Board and BCDC all conditioned this work on it happening inside the fish window and inside the scope they approved — the log is what proves it did."
+    },
+    {
+      "cue": "Look over the access point, the sediment fence and the marsh below the levee, and click anything that needs fixing.",
+      "id": "walk-site",
+      "itemNames": {
+        "fish-window-sign-missing": "the fish-window posting, taken down",
+        "sediment-fence-gap": "a gap in the sediment fence",
+        "tool-in-marsh": "a tool left down in the marsh grass"
+      },
+      "itemNotes": {
+        "fish-window-sign-missing": "The posted fish-window notice at the work access has come down. It is what tells the next crew, and any inspector who visits, what dates this in-water work is actually authorized for.",
+        "sediment-fence-gap": "There is a gap in the sediment fence along the levee toe. Turbid runoff into the channel past this point is exactly what the 401 certification's conditions exist to prevent.",
+        "tool-in-marsh": "A hand tool was left down in the marsh grass at the base of the levee. Left there, it is debris in a tidal wetland under active restoration — picked up now, it is nothing."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the access point, the sediment fence and the marsh below the levee, and click anything that needs fixing.",
+      "targets": [
+        "fish-window-sign-missing",
+        "sediment-fence-gap",
+        "tool-in-marsh"
+      ],
+      "title": "Walk the site before you leave",
+      "why": "The gate swap is the interesting part of the day and these three are the part that gets missed on the way out: the posting that proves the work was authorized, the fence that is the whole point of the 401 conditions, and anything the crew brought in that has to leave with them."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Tide-window gate swap: levels read before the cofferdam goes in, a failed flap gate backed out and replaced, the new gate levelled to design elevation, and the cofferdam pulled in order before the first flood",
+  "title": "SmartCiti.X~ Tide Gate VR",
+  "trade": "Operating engineer / laborer — tidal wetland restoration crew",
+  "underwater": null,
+  "weather": "wind"
+}

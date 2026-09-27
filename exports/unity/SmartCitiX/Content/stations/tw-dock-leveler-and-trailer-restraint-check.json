@@ -1,0 +1,424 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "dock-restraint-certified",
+    "name": "Dock Restraint Certified",
+    "note": "Confirmed the restraint and the chocks before crossing, read the light instead of assuming it, and proved the leveler before trusting it with a load"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "Teamsters (IBT) warehouse and logistics automation training; OSHA 29 CFR 1910.178 powered industrial trucks, 29 CFR 1910.147 the control of hazardous energy for the leveler's own power and 29 CFR 1910.36 design and construction requirements for exit routes at the dock door; OSHA 29 CFR 1926.602 material handling equipment; NIOSH findings on trailer-creep incidents at loading docks",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.178",
+        "id": "osha-1910-178",
+        "title": "29 CFR 1910.178 — Powered industrial trucks"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.36",
+        "id": "osha-1910-36",
+        "title": "29 CFR 1910.36 — Design and construction requirements for exit routes"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.602",
+        "id": "osha-1926-602",
+        "title": "OSHA 29 CFR 1926.602 Material handling equipment"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBT",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Warehousing & Logistics",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "restraint-before-crossing",
+        "name": "Restraint Before Crossing",
+        "note": "Engaged the restraint and chocks before the first crossing"
+      },
+      {
+        "id": "never-trust-a-taped-light",
+        "name": "Never Trust a Taped Light",
+        "note": "Never missed a hazard on the dock read"
+      },
+      {
+        "id": "steady-crossing",
+        "name": "Steady Crossing",
+        "note": "Held the crossing speed near band centre every time"
+      },
+      {
+        "id": "clean-release",
+        "name": "Clean Release",
+        "note": "Released the restraint sequence in order, first try"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-dock",
+        "name": "Quick Dock",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "restraint-streak",
+        "name": "Restraint Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "RESTRAINT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Dock Hand",
+      "Restraint Aware",
+      "Dock Restraint Handler",
+      "Dock Restraint Authority",
+      "Dock Restraint Certified"
+    ],
+    "system": "Dock Restraint Control"
+  },
+  "hazards": {
+    "gap-at-bumpers-hazard": "That gap between the trailer's rear frame and the dock bumpers means the trailer never actually backed in flush. A leveler resting its lip across a gap like that is bridging a trailer that still has room to roll before the restraint ever takes up the slack.",
+    "green-light-taped-hazard": "That dock light has been taped so it always shows green, restraint engaged or not. A light that cannot ever show red is not a safety control any more — it is a light that has been told to lie.",
+    "restraint-not-engaged-hazard": "That restraint arm is hanging clear of the ICC bar instead of hooked under it. An arm that looks like it is in position from across the dock is not holding anything until it is actually engaged — this one is not.",
+    "skip-restraint-hazard": "That is the shortcut lever that waves a forklift across without waiting for the restraint to actually confirm. A dock light skipped once becomes a habit skipped every time, and the one trailer that was never really restrained looks exactly like every other one right up until it moves."
+  },
+  "id": "tw-dock-leveler-and-trailer-restraint-check",
+  "indoor": "garage",
+  "interrupts": [
+    {
+      "after": "restraint-engage",
+      "alert": "The trailer has visibly crept forward a few centimetres away from the dock bumpers.",
+      "cue": "Stop any crossing immediately and call the driver on the dock radio — do not send the forklift across on a trailer that is moving.",
+      "delay": 4,
+      "id": "trailer-creep-fault",
+      "kind": "Trailer creep",
+      "missNote": "The creeping trailer was crossed anyway. A trailer that has already moved once with a load on the dock will move again, and the next time may be while a forklift is on the leveler.",
+      "seconds": 12,
+      "target": "driver-radio",
+      "why": "A trailer that creeps even a little after the restraint was engaged is a trailer whose brakes or restraint connection cannot be fully trusted, and the gap it opens up is exactly the gap a leveler's lip can silently drop into under a loaded forklift — calling the driver is what gets the trailer reset and re-confirmed before anyone crosses it again.",
+      "wrongNote": "Not that — a creeping trailer goes to the driver on the radio before any crossing continues."
+    },
+    {
+      "after": "crossing-track",
+      "alert": "The leveler's lip has dropped and is vibrating mid-crossing — a loss of hydraulic hold.",
+      "cue": "Stop the forklift immediately and back it off the leveler. Report it to dock maintenance.",
+      "delay": 3,
+      "id": "leveler-drop-fault",
+      "kind": "Leveler lip drop",
+      "missNote": "The crossing continued through the drop. A leveler already losing its hold is not a leveler to finish trusting with the same load.",
+      "seconds": 12,
+      "target": "maintenance-radio",
+      "why": "A leveler that loses its hydraulic hold mid-crossing can drop further without warning, and the safest place for a loaded forklift the instant that happens is off the leveler entirely — reporting it is what gets the leveler locked out and inspected instead of trusted for the next load across it.",
+      "wrongNote": "Not that — a dropping leveler gets the forklift off it and dock maintenance called, before anything else."
+    }
+  ],
+  "lateNotes": {
+    "leveler-control": "The leveler only extends once the trailer is confirmed backed in and restrained, not as the first move at a trailer that just pulled up.",
+    "restraint-arm": "The restraint arm gets engaged before the first forklift ever crosses, not checked after the trailer has already started to creep."
+  },
+  "name": "Dock Leveler & Trailer Restraint Check",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "warehouse-and-logistics-automation"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "dockLevelerBay",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "forkliftCounterbalance",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "chock",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "1.04x1.7x1.24",
+        "count": 1,
+        "kit": "unknown"
+      },
+      {
+        "builder": "2.62x4.22x1.18",
+        "count": 1,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.7,
+    "hits": [
+      "chock-remove",
+      "chock-roll",
+      "chock-socket",
+      "dock-board",
+      "dock-light",
+      "dock-log",
+      "driver-checkin-point",
+      "driver-clear",
+      "driver-radio",
+      "forklift-crossing",
+      "gap-at-bumpers-hazard",
+      "green-light-taped-hazard",
+      "hard-hat",
+      "hi-vis-vest",
+      "intact-bumper",
+      "leveler-angle-gauge",
+      "leveler-control",
+      "maintenance-radio",
+      "restraint-arm",
+      "restraint-not-engaged-hazard",
+      "restraint-release",
+      "skip-restraint-hazard"
+    ],
+    "meshes": 174
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Hi-vis vest and hard hat before approaching the dock door.",
+      "id": "ppe",
+      "itemNames": {
+        "hard-hat": "hard hat",
+        "hi-vis-vest": "hi-vis vest"
+      },
+      "kind": "sequence",
+      "prompt": "Hi-vis vest and hard hat before approaching the dock door.",
+      "targets": [
+        "hi-vis-vest",
+        "hard-hat"
+      ],
+      "title": "Suit up before stepping onto the dock",
+      "why": "A dock door is where a forklift, a trailer and foot traffic all share the same few metres, and the vest is what makes an associate visible to a driver whose mirrors do not cover the space directly behind the trailer."
+    },
+    {
+      "cue": "Confirm today's dock assignment and the trailer's paperwork before approaching it.",
+      "id": "paperwork-read",
+      "kind": "select",
+      "prompt": "Confirm today's dock assignment and the trailer's paperwork before approaching it.",
+      "target": "dock-board",
+      "title": "Read the dock assignment and paperwork",
+      "why": "The dock board is what confirms this is actually the trailer assigned to this door — crossing onto the wrong trailer because it happened to be backed in when the shift started is how a load ends up on the wrong route entirely."
+    },
+    {
+      "cue": "Look the dock over before anything crosses it. Three things are already wrong with it — find them.",
+      "decoyNotes": {
+        "intact-bumper": "That dock bumper is mounted solid, showing no damage. Nothing to flag there."
+      },
+      "id": "dock-hazard-read",
+      "itemNames": {
+        "gap-at-bumpers-hazard": "gap between the trailer and the bumpers",
+        "green-light-taped-hazard": "dock light taped to green",
+        "restraint-not-engaged-hazard": "restraint arm hanging free"
+      },
+      "itemNotes": {
+        "gap-at-bumpers-hazard": "A trailer sitting short of the bumpers gets called back in before anything else about this dock is trusted.",
+        "green-light-taped-hazard": "A taped-green light gets the tape pulled and the bulb tested — a light that cannot show red is worse than no light.",
+        "restraint-not-engaged-hazard": "An unengaged restraint arm gets engaged properly, not assumed close enough from a glance."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look the dock over before anything crosses it. Three things are already wrong with it — find them.",
+      "targets": [
+        "gap-at-bumpers-hazard",
+        "restraint-not-engaged-hazard",
+        "green-light-taped-hazard"
+      ],
+      "title": "Read the dock for what is already wrong with it",
+      "why": "A dock that looks routine from the aisle is not the same thing as one an associate has actually checked — a gap at the bumpers, an unengaged restraint or a taped light each quietly removes a control the crossing depends on, and finding them now costs a callback to the driver instead of costing someone the moment a trailer moves under a loaded forklift."
+    },
+    {
+      "cue": "Confirm with the driver that the trailer's own parking brake is set and the trailer is in gear or blocked.",
+      "id": "driver-checkin",
+      "kind": "select",
+      "prompt": "Confirm with the driver that the trailer's own parking brake is set and the trailer is in gear or blocked.",
+      "target": "driver-checkin-point",
+      "title": "Confirm with the driver",
+      "why": "The restraint arm and the chocks back up the trailer's own brake — they were never designed to be the only thing holding it, so confirming the brake is actually set is the first control, not a formality before the real ones."
+    },
+    {
+      "cue": "Turn the restraint control to hook the arm under the trailer's ICC bar.",
+      "id": "restraint-engage",
+      "kind": "turn",
+      "prompt": "Turn the restraint control to hook the arm under the trailer's ICC bar.",
+      "target": "restraint-arm",
+      "title": "Engage the ICC bar restraint",
+      "turn": {
+        "axis": "x",
+        "label": "RESTRAINT ARM",
+        "turns": 0.5
+      },
+      "why": "The restraint arm is what keeps the trailer from pulling away from the dock while a forklift is on the leveler — engaging it now, before any crossing, is what turns a trailer that happens to be sitting still into one that is actually held."
+    },
+    {
+      "cue": "Carry the wheel chocks to the trailer's rear wheels as the restraint's own backup.",
+      "drag": {
+        "missNote": "Not against the wheel — set the chock so it actually blocks it, not beside it.",
+        "radius": 0.4,
+        "to": "chock-socket"
+      },
+      "id": "chock-place",
+      "kind": "drag",
+      "prompt": "Carry the wheel chocks to the trailer's rear wheels as the restraint's own backup.",
+      "target": "chock-roll",
+      "title": "Chock the trailer wheels",
+      "why": "The chocks are what the restraint arm depends on when the ICC bar's own condition is anything less than perfect — carrying them into place now is what keeps a bent or worn bar from being the only thing between this trailer and the dock."
+    },
+    {
+      "cue": "Confirm the dock light reads green — engaged — before anything crosses.",
+      "id": "light-confirm",
+      "kind": "select",
+      "prompt": "Confirm the dock light reads green — engaged — before anything crosses.",
+      "target": "dock-light",
+      "title": "Confirm the dock light",
+      "why": "The dock light is the one signal visible to every forklift operator approaching the door, and reading it honestly, after the tape hazard was already dealt with, is what makes it worth trusting instead of just another light on the wall."
+    },
+    {
+      "cue": "Read the leveler's deck-angle gauge and commit only inside the safe crossing range.",
+      "gauge": {
+        "green": [
+          0.38,
+          0.62
+        ],
+        "label": "LEVELER DECK ANGLE",
+        "missNote": "Committed outside the safe crossing range. Adjust the leveler before trusting it with a crossing.",
+        "speed": 0.55
+      },
+      "id": "leveler-gauge-check",
+      "kind": "gauge",
+      "prompt": "Read the leveler's deck-angle gauge and commit only inside the safe crossing range.",
+      "target": "leveler-angle-gauge",
+      "title": "Check the leveler's deck angle",
+      "why": "A leveler extended at too steep an angle changes how a loaded forklift handles the instant its wheels cross onto it — the gauge is the only honest read of that angle, not how level the lip happens to look from the dock."
+    },
+    {
+      "cue": "Hold the leveler control until the lip fully seats on the trailer bed.",
+      "holdBreakNote": "Released the leveler control before the lip fully seated. A lip resting short of its seat is a leveler that has not actually bridged the gap yet.",
+      "id": "leveler-extend",
+      "kind": "hold",
+      "prompt": "Hold the leveler control until the lip fully seats on the trailer bed.",
+      "seconds": 6,
+      "target": "leveler-control",
+      "title": "Extend the leveler",
+      "why": "Holding the control the whole way through the extension, rather than bumping it in short presses, is what lets the lip find its seat smoothly on the trailer bed instead of dropping the last few centimetres onto it under its own weight."
+    },
+    {
+      "cue": "Drive the forklift across while keeping the crossing speed indicator inside the safe band.",
+      "holdBreakNote": "The crossing speed left the safe band. Bring it back under control before continuing across the leveler.",
+      "id": "crossing-track",
+      "kind": "track",
+      "prompt": "Drive the forklift across while keeping the crossing speed indicator inside the safe band.",
+      "seconds": 8,
+      "target": "forklift-crossing",
+      "title": "Cross the leveler",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.42,
+        "green": [
+          0.35,
+          0.65
+        ],
+        "label": "CROSSING SPEED",
+        "rise": 0.4,
+        "start": 0.5
+      },
+      "why": "Crossing a leveler too fast bounces a loaded fork exactly where the gap between the dock and the trailer used to be, and watching the speed indicator through the crossing is what keeps that bounce from ever happening in the first place."
+    },
+    {
+      "cue": "Retract the leveler once the trailer is unloaded and the last crossing is complete.",
+      "id": "leveler-retract",
+      "kind": "select",
+      "prompt": "Retract the leveler once the trailer is unloaded and the last crossing is complete.",
+      "target": "leveler-control",
+      "title": "Retract the leveler",
+      "why": "A leveler left extended after the last crossing is a trip hazard sitting in the doorway and a lip with nothing supporting its far end — retracting it is what returns the dock to a state the next trailer, or the next associate walking through, can actually trust."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Release the restraint, remove the chocks, then clear the driver to pull out — in that order.",
+      "id": "release-sequence",
+      "itemNames": {
+        "chock-remove": "remove the chocks",
+        "driver-clear": "clear the driver to pull out",
+        "restraint-release": "release the restraint"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Restraint, then chocks, then the driver cleared — clearing the driver before the chocks are physically clear risks running them over on the way out.",
+      "prompt": "Release the restraint, remove the chocks, then clear the driver to pull out — in that order.",
+      "targets": [
+        "restraint-release",
+        "chock-remove",
+        "driver-clear"
+      ],
+      "title": "Release the trailer",
+      "why": "Releasing the restraint before the chocks are out risks nothing by itself, but clearing the driver before both are actually clear of the trailer is how a chock gets run over or a restraint arm gets caught as the trailer pulls away — the order exists so the last person near the wheels is always the one confirming it, not the driver guessing from the cab."
+    },
+    {
+      "cue": "Sign the dock log before moving on to the next trailer.",
+      "id": "closing-log",
+      "kind": "select",
+      "prompt": "Sign the dock log before moving on to the next trailer.",
+      "target": "dock-log",
+      "title": "Sign the dock log",
+      "why": "The signed log is the record that this specific trailer, at this specific door, was actually restrained and checked before anything crossed it — not assumed fine because the last one usually is."
+    }
+  ],
+  "supportLine": "your Teamsters local's member assistance programme, or the site's employee assistance line if a close call with a moving trailer at the dock is what stayed with you",
+  "tagline": "Proving a trailer is actually held at the dock before the first forklift crosses it: backed fully to the bumpers, the ICC bar restraint engaged, the wheels chocked as the backup the restraint was never meant to be alone, the green light confirmed rather than assumed, and the leveler extended and proven before the crossing starts",
+  "title": "SmartCiti.X~ Dock Leveler & Trailer Restraint Check VR",
+  "trade": "Teamsters warehouse associate — dock leveler and trailer restraint",
+  "underwater": null,
+  "weather": null
+}

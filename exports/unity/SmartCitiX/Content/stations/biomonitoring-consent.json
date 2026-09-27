@@ -1,0 +1,364 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "consented-first",
+    "name": "Consented First",
+    "note": "Every right explained, the signature witnessed, and the participant ID on the record before a single sample existed"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "45 CFR 46 informed consent for human subjects; HIPAA protections for a participant's own health information; CDC biomonitoring and specimen-handling guidance; SEIU community health worker practice standards",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "HHS",
+        "citedAs": "45 CFR 46",
+        "id": "hhs-45-cfr-46",
+        "title": "45 CFR Part 46 — Federal Policy for the Protection of Human Subjects (the Common Rule)"
+      },
+      {
+        "body": "HHS",
+        "citedAs": "HIPAA",
+        "id": "hipaa-privacy-rule",
+        "title": "HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "rights-read",
+        "name": "Rights Read",
+        "note": "Every consent right named before the pen ever moved"
+      },
+      {
+        "id": "never-unconsented",
+        "name": "Never Unconsented",
+        "note": "No shortcut past consent, language access or confidentiality"
+      },
+      {
+        "id": "id-before-sample",
+        "name": "ID Before Sample",
+        "note": "The participant ID existed before anything about the visit turned toward a specimen"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-enrollment",
+        "name": "Clean Enrollment",
+        "note": "No corrections across the whole visit"
+      },
+      {
+        "id": "steady-signature",
+        "name": "Steady Signature",
+        "note": "The signature and the explanation both held without a break"
+      },
+      {
+        "id": "on-time-intake",
+        "name": "On-Time Intake",
+        "note": "Enrollment complete inside 80% of par"
+      }
+    ],
+    "currency": "CONSENT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Outreach Trainee",
+      "Intake Coordinator",
+      "Field Coordinator",
+      "Lead Coordinator",
+      "Consent Certified"
+    ],
+    "system": "Community Biomonitoring"
+  },
+  "hazards": {
+    "collect-before-consent": "You reached for the specimen kit before the consent was ever signed. A person's urine, hair or dust-wipe sample belongs to them until they have agreed in writing to give it — collecting first and explaining afterward is exactly the failure 45 CFR 46 exists to stop, and it does not matter that the resident seemed willing.",
+    "landlord-fax": "You queued the results to go out to the property manager's fax line. Nothing about this participant's biomonitoring results goes anywhere but to them without their own separate authorization — sending a health result to a landlord is exactly the kind of disclosure that costs a community programme the trust it took years to build.",
+    "presign-stack": "You reached for a form from the stack of pre-signed consents instead of walking this participant through their own. A signature collected before the explanation happened is not consent, it is paperwork with a name on it — every participant gets the study, the rights and the questions answered before the pen is theirs to use.",
+    "skip-interpreter": "You pushed past the language question rather than actually offering the interpreter line. A consent explained in a language the participant does not fully follow is not informed consent, whatever they sign — the interpreter is offered before the study is explained, not skipped because the visit is running long."
+  },
+  "id": "biomonitoring-consent",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "explain-study",
+      "alert": "The participant's adult son, sitting in on the visit, starts answering the study questions on their behalf before the participant has said a word.",
+      "cue": "Redirect the explanation back to the participant themselves.",
+      "delay": 2,
+      "id": "family-answers-for-participant",
+      "kind": "Third party answering for the participant",
+      "missNote": "The explanation kept going with the son answering and the participant listening. A consent conversation that never actually reaches the participant produces a signature that does not mean what a signature is supposed to mean.",
+      "seconds": 12,
+      "target": "redirect-participant",
+      "why": "Consent belongs to the participant named on the form, not to whoever in the room is most comfortable speaking — a family member's understanding does not stand in for the participant's own, and a coordinator who lets the explanation continue toward the son is building a consent record for the wrong person's agreement.",
+      "wrongNote": "Redirect to the participant directly — nothing else in this room fixes who the explanation is actually for."
+    },
+    {
+      "after": "consent-sign",
+      "alert": "Pen still on the pad, the participant asks quietly — \"this doesn't go to my landlord, does it? I don't want trouble with my building.\"",
+      "cue": "Answer the confidentiality question before the signature goes any further.",
+      "delay": 2,
+      "id": "landlord-question",
+      "kind": "Confidentiality question mid-signature",
+      "missNote": "The signature finished with the question left hanging in the air. A consent signed over an unanswered fear about housing retaliation is not the free choice 45 CFR 46 is asking this visit to record.",
+      "seconds": 12,
+      "target": "confidentiality-panel",
+      "why": "A participant who is worried about housing retaliation is asking exactly the right question, and a coordinator who waves it off to keep the signature moving is asking someone to sign under a fear that was never actually answered — the confidentiality panel exists to say, clearly, who does and does not see this result before the pen finishes.",
+      "wrongNote": "It's the confidentiality panel. Nothing else in this room actually tells this participant who sees their result."
+    }
+  ],
+  "lateNotes": {
+    "id-console": "No ID to assign yet — the consent has to be signed, and the participant handed their own copy, before the record exists to attach an ID to.",
+    "label-printer": "The console has not issued a participant ID yet — there is nothing for the printer to put on a label.",
+    "schedule-board": "Nothing to schedule yet — the collection visit is booked against a participant ID that does not exist until the consent and the ID assignment are both done.",
+    "signature-pad": "There is nothing to witness yet — the rights on the consent form have to be read and the participant's questions answered first."
+  },
+  "name": "Biomonitoring Consent",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-can-we-live"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "collect-before-consent",
+      "confidentiality-panel",
+      "consent-copy",
+      "id-console",
+      "interpreter-panel",
+      "label-folder",
+      "label-kit",
+      "label-printer",
+      "landlord-fax",
+      "participant-hands",
+      "presign-stack",
+      "qa-panel",
+      "quest-exposure",
+      "quest-health",
+      "quest-occupation",
+      "reception-desk",
+      "redirect-participant",
+      "registry-board",
+      "right-decline",
+      "right-payment",
+      "right-results",
+      "right-withdraw",
+      "schedule-board",
+      "signature-pad",
+      "skip-interpreter",
+      "study-panel"
+    ],
+    "meshes": 193
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the resident against today's outreach list before anything else starts.",
+      "id": "greet",
+      "kind": "select",
+      "prompt": "Check the resident against today's outreach list before anything else starts.",
+      "target": "reception-desk",
+      "title": "Greet the participant and confirm they're expected",
+      "why": "Community biomonitoring runs on a scheduled list built from door-to-door outreach, and starting from that list — not from whoever happens to be in the room — is what keeps the day's visits matched to the people who actually agreed to be contacted about the study."
+    },
+    {
+      "cue": "Offer the interpreter line before saying a word about the study itself.",
+      "id": "interpreter-offer",
+      "kind": "select",
+      "prompt": "Offer the interpreter line before saying a word about the study itself.",
+      "target": "interpreter-panel",
+      "title": "Ask a language preference and offer the interpreter",
+      "why": "The interpreter is offered, not held in reserve for whoever asks for it — a participant who has to request accommodation in a language they are still explaining themselves in has already had the offer made too late to matter."
+    },
+    {
+      "cue": "Hold the plain-language study sheet up and walk through what the biomonitoring initiative actually does.",
+      "holdBreakNote": "The explanation broke off before it was through — a participant who only heard half of what this study does cannot meaningfully agree to it. Start the explanation again and hold it to the end.",
+      "id": "explain-study",
+      "kind": "hold",
+      "prompt": "Hold the plain-language study sheet up and walk through what the biomonitoring initiative actually does.",
+      "seconds": 5,
+      "target": "study-panel",
+      "title": "Explain the study in plain language",
+      "why": "Plain language means what samples are collected, what they are tested for, who sees the results and why the study exists — said out loud, to the participant, not handed over as a page to read alone. This is held for the full explanation rather than clicked through, because a study summarized in ten seconds is not the study this participant is being asked to join."
+    },
+    {
+      "cue": "Find and read out every right this consent form actually grants — the right to decline, to withdraw, and to get their own results.",
+      "decoyNotes": {
+        "right-payment": "A modest participation stipend is real and stated on the form, but it is not one of the three rights 45 CFR 46 requires this visit to name out loud — it is a thank-you, not a protection."
+      },
+      "id": "consent-rights",
+      "itemNames": {
+        "right-decline": "the right to decline any part of the study",
+        "right-results": "the right to get their own results back",
+        "right-withdraw": "the right to withdraw at any time"
+      },
+      "itemNotes": {
+        "right-decline": "Declining is not the same as failing to finish signing — a participant can say no to a specific test, or all of them, and still be treated the same as anyone else who came through the door.",
+        "right-results": "This is the right the whole initiative exists to honour: a resident's own biomonitoring result belongs to them, not just to the study's aggregate data set.",
+        "right-withdraw": "Withdrawal does not require a reason, and it does not undo the visit they've already had — it only stops what happens next."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find and read out every right this consent form actually grants — the right to decline, to withdraw, and to get their own results.",
+      "targets": [
+        "right-decline",
+        "right-withdraw",
+        "right-results"
+      ],
+      "title": "Read the consent form's own rights aloud",
+      "why": "These three rights are what makes this a consent form rather than a release — a participant who has not heard them said aloud, in this room, before they sign has not been given the choice the form claims to be recording. Reading them is the whole reason the visit happens before the sample does."
+    },
+    {
+      "cue": "Open the floor for questions before moving toward the signature.",
+      "id": "answer-questions",
+      "kind": "select",
+      "prompt": "Open the floor for questions before moving toward the signature.",
+      "target": "qa-panel",
+      "title": "Invite and answer questions",
+      "why": "A question asked and answered before signing is what turns a form the participant heard read at them into a decision they actually understand — skipping straight to the pen because nobody raised a hand yet treats silence as agreement, which it is not."
+    },
+    {
+      "cue": "Hold the pad steady while the participant signs their own consent.",
+      "holdBreakNote": "The pad moved before the signature was complete — steady it and let the participant finish signing in their own time.",
+      "id": "consent-sign",
+      "kind": "hold",
+      "prompt": "Hold the pad steady while the participant signs their own consent.",
+      "seconds": 5,
+      "target": "signature-pad",
+      "title": "Witness the signature",
+      "why": "A witnessed signature is what the record can actually stand behind later — held for the participant's own hand to finish the signature, not for the coordinator's hand to hurry it, because a signature interrupted partway through is neither refused nor given."
+    },
+    {
+      "cue": "Give the participant a copy of what they just signed before the folder closes.",
+      "drag": {
+        "missNote": "Not into the participant's own hands. A copy left on the desk after they've walked out is not a copy they were given.",
+        "radius": 0.45,
+        "to": "participant-hands"
+      },
+      "id": "hand-copy",
+      "kind": "drag",
+      "prompt": "Give the participant a copy of what they just signed before the folder closes.",
+      "target": "consent-copy",
+      "title": "Hand the participant their own signed copy",
+      "why": "The right to a copy is not written on the form as a courtesy — a participant who leaves without their own record of what they agreed to has no way to check it later against what actually happens with their sample, which is exactly the gap community biomonitoring is built to close."
+    },
+    {
+      "cue": "Assign this participant a study ID number in the registry now that consent is on file.",
+      "id": "assign-id",
+      "kind": "select",
+      "prompt": "Assign this participant a study ID number in the registry now that consent is on file.",
+      "target": "id-console",
+      "title": "Assign the participant ID",
+      "why": "The whole point of the participant ID is that it exists before a sample does — a tube, a hair sample or a dust wipe travels under a number, never a name, and the only way that holds is if the ID is issued from the signed consent, not attached to a specimen after the fact as an afterthought."
+    },
+    {
+      "cue": "Crank the label printer to issue the ID label for the intake folder and the specimen kit.",
+      "id": "print-label",
+      "kind": "turn",
+      "prompt": "Crank the label printer to issue the ID label for the intake folder and the specimen kit.",
+      "target": "label-printer",
+      "title": "Print the participant ID label",
+      "turn": {
+        "axis": "y",
+        "label": "ID LABEL PRINTER",
+        "turns": 0.8
+      },
+      "why": "A label printed straight from the console is a label that matches the registry exactly — one copied out by hand later is one more chance for a digit to be transposed and a sample to end up answering for the wrong person's exposure."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Put the printed ID label on the intake folder and on the specimen kit tag — either order.",
+      "id": "attach-labels",
+      "itemNames": {
+        "label-folder": "intake folder labelled",
+        "label-kit": "specimen kit tagged"
+      },
+      "kind": "sequence",
+      "prompt": "Put the printed ID label on the intake folder and on the specimen kit tag — either order.",
+      "targets": [
+        "label-folder",
+        "label-kit"
+      ],
+      "title": "Attach the ID label to the folder and the kit",
+      "why": "Both the paper record and the physical kit carry the same number from this point forward, which is what lets the sample-kit-shipping stage that follows this visit match a label to a manifest instead of guessing which folder a tube belongs to."
+    },
+    {
+      "cue": "General health history first, then home and neighbourhood exposure, then occupational history.",
+      "id": "questionnaire",
+      "itemNames": {
+        "quest-exposure": "home and neighbourhood exposure history",
+        "quest-health": "general health history",
+        "quest-occupation": "occupational history"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "General health first, then home and neighbourhood exposure, then occupational history — asking the narrowest questions before the broad ones means missing the context that makes the narrow answers useful.",
+      "prompt": "General health history first, then home and neighbourhood exposure, then occupational history.",
+      "targets": [
+        "quest-health",
+        "quest-exposure",
+        "quest-occupation"
+      ],
+      "title": "Work through the exposure questionnaire, in order",
+      "why": "The questionnaire is read in this order because each section narrows the one before it — a general health history that surfaces a relevant condition changes what the exposure questions actually need to ask, and occupational history is asked last because it is the most specific and the easiest to answer once the broader picture is already on the page."
+    },
+    {
+      "cue": "Book the collection appointment now that consent and the participant ID both exist.",
+      "id": "schedule-collection",
+      "kind": "select",
+      "prompt": "Book the collection appointment now that consent and the participant ID both exist.",
+      "target": "schedule-board",
+      "title": "Schedule the sample collection visit",
+      "why": "Scheduling is the last thing that happens, not the first, because a collection date on the calendar for someone who has not yet consented is a date for a visit that should not happen — the appointment is the outcome of everything before it, not a placeholder set in advance."
+    },
+    {
+      "cue": "Record today's enrollment — consent signed, ID assigned, questionnaire complete — before closing the visit.",
+      "id": "record-consent",
+      "kind": "select",
+      "prompt": "Record today's enrollment — consent signed, ID assigned, questionnaire complete — before closing the visit.",
+      "target": "registry-board",
+      "title": "Log the enrollment in the consent registry",
+      "why": "The registry is what lets the sample collection team, days from now, confirm a participant ID is actually attached to a signed, witnessed consent before anyone touches a tube — a visit that is not logged the day it happened is a visit nobody downstream can verify actually occurred this way."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "The study explained with an interpreter offered, the consent form's rights read out loud, the signature witnessed, a participant ID assigned before any sample exists, the questionnaire, and the collection visit scheduled",
+  "title": "SmartCiti.X~ Biomonitoring Consent VR",
+  "trade": "Biomonitoring field coordinator",
+  "underwater": null,
+  "weather": null
+}

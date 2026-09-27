@@ -1,0 +1,396 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "cut-closed-clean",
+    "name": "Cut Closed Clean",
+    "note": "Tie and rail changed out, the ballast tamped back and the crew never once inside a machine's own hazard zone"
+  },
+  "category": "Mobility & Transit",
+  "certification": "BMWED-qualified roadway equipment operator, working inside FRA 49 CFR Part 214 roadway maintenance machine protection; the finished tie and rail work is held to FRA 49 CFR Part 213 track safety standards for the class of track being restored, and the dispatcher's working limits are the only thing keeping a BLET-qualified engineer or a SMART-TD-qualified conductor off this section while the gang has it apart",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "BLET",
+        "id": "blet-training",
+        "title": "BLET certification and training for locomotive engineers and trainmen"
+      },
+      {
+        "body": "union",
+        "citedAs": "BMWED",
+        "id": "bmwed-training",
+        "title": "BMWED roadway worker training for track and structures maintenance"
+      },
+      {
+        "body": "union",
+        "citedAs": "SMART-TD",
+        "id": "smarttd-training",
+        "title": "SMART Transportation Division training for conductors, trainmen and yardmasters"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Track",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clear-of-swing",
+        "name": "Clear Of Swing",
+        "note": "Never once inside a machine's own working radius"
+      },
+      {
+        "id": "gauge-true",
+        "name": "Gauge True",
+        "note": "Every gauge and torque reading near band centre"
+      },
+      {
+        "id": "cut-clean",
+        "name": "Clean Cut",
+        "note": "Crane, saw and tamper steps worked with no correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "gang-time",
+        "name": "Gang Time",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "first-cut",
+        "name": "First Cut",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "ten-clear",
+        "name": "Ten Clear",
+        "note": "Ten correct actions in a row"
+      }
+    ],
+    "currency": "LIMIT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Track Laborer",
+      "Machine Operator",
+      "Gang Leader",
+      "Track Supervisor",
+      "Machine Gang Certified"
+    ],
+    "system": "Machine Gang Authority"
+  },
+  "hazards": {
+    "adjacent-track-foul": "You stepped onto the adjacent track to get a better angle on the work. Your working limits cover the track the gang is tearing up, not the one next to it — that track is still open to a movement running under its own authority, with no reason to expect anybody standing on it.",
+    "crane-swing-radius": "You are standing inside the tie crane's slew radius while a tie is hanging from the hook. A suspended load swings with the boom whether or not the operator can see you there, and a tie that size does not need to fall far to take a leg out from under someone.",
+    "hot-rail-cut": "You touched the rail end the saw just parted. A cut like that carries the heat of the abrasive wheel straight through the steel for longer than it looks like it should, and a bare hand on it is a burn before the pain even registers.",
+    "tamper-pinch": "You reached into the tamping bank while it was still cycling. The tines close on the ballast with enough force to compact stone, and a hand or a boot caught in that same motion is not something the machine can tell apart from the ballast."
+  },
+  "id": "ra-tie-and-rail-replacement-with-track-machines",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "crane-swing",
+      "alert": "The tie crane's boom has stopped moving but the old tie hanging from the hook is slowly swinging back over the work area on its own.",
+      "cue": "Nobody is driving that swing, and it is heading back over the gang.",
+      "delay": 4,
+      "id": "hydraulic-drift",
+      "kind": "Load creeping under a stopped crane",
+      "missNote": "You kept working under a load that was still moving. A drifting boom does not announce when it is about to swing past the point the operator expected — the tie kept coming, and the gang's own working position was exactly where it was headed.",
+      "seconds": 12,
+      "target": "crane-estop",
+      "why": "A hydraulic system that has lost pressure does not hold a load still, it lets it drift with whatever momentum and wind are already acting on it, and a boom that looks stopped is not the same thing as a boom that is actually locked out. The e-stop is the one control on this machine that removes power from the whole circuit rather than trying to counter-steer a swing nobody commanded.",
+      "wrongNote": "That will not stop a drifting boom. The e-stop kills the circuit the drift is riding on."
+    },
+    {
+      "after": "rail-cut",
+      "alert": "The rail saw's blade has bound in the cut and the whole saw is kicking back toward the operator's hands.",
+      "cue": "The saw is fighting the cut instead of making it.",
+      "delay": 3,
+      "id": "saw-kickback",
+      "kind": "Abrasive wheel binding in the cut",
+      "missNote": "You kept the trigger pulled through the bind. The saw kicked back the full length of the operator's grip before the wheel finally lost enough speed to stop fighting the cut, and there was no part of that path that was clear of a hand.",
+      "seconds": 11,
+      "target": "saw-release",
+      "why": "An abrasive wheel that binds does not stall quietly — the energy already in the spinning wheel has to go somewhere, and without the operator releasing the trigger it goes into throwing the saw back along the same line the operator's hands are braced on. Letting go of the trigger is the only thing that stops the wheel fast enough to matter.",
+      "wrongNote": "That does not stop a bound wheel. Release the trigger first."
+    }
+  ],
+  "lateNotes": {
+    "left-bolt": "Nothing gets tallied against the closing count until the walk is actually done.",
+    "new-rail": "The new rail section is carried in and dressed to the joint only after the old piece has been cut clear and swung out of the way.",
+    "new-tie": "The new tie goes into the bay once the old one is actually out, seated square and centred under both rails."
+  },
+  "name": "Tie & Rail Replacement with Track Machines",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "railroad-crafts"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "adjacent-track-foul",
+      "closing-log",
+      "crane-boom",
+      "crane-estop",
+      "crane-swing-radius",
+      "hot-rail-cut",
+      "job-order-board",
+      "joint-bolts",
+      "left-bolt",
+      "loose-bar",
+      "muster-tally",
+      "new-rail",
+      "new-tie",
+      "post-lookout",
+      "radio-handset",
+      "rail-joint",
+      "saw-release",
+      "saw-trigger",
+      "swing-dial",
+      "tamper-pinch",
+      "tamper-throttle",
+      "tie-bay",
+      "track-gauge"
+    ],
+    "meshes": 153
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the work order: which tie and rail section, which machines, who has the crane's blind side.",
+      "id": "briefing",
+      "kind": "select",
+      "prompt": "Read the work order: which tie and rail section, which machines, who has the crane's blind side.",
+      "target": "job-order-board",
+      "title": "Attend the job briefing",
+      "why": "Three machines are about to work the same short stretch of track, and the only thing keeping their hazard zones from overlapping onto a person is everyone knowing beforehand where each machine will be and who is watching its blind side."
+    },
+    {
+      "cue": "Request the working limits first, then post a lookout who can see every machine's blind side.",
+      "id": "protection-plan",
+      "itemNames": {
+        "post-lookout": "post the machine lookout",
+        "radio-handset": "request working limits from the dispatcher"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — the limits have to exist first. A lookout posted before the dispatcher grants anything is watching over track the signal system still treats as open.",
+      "prompt": "Request the working limits first, then post a lookout who can see every machine's blind side.",
+      "targets": [
+        "radio-handset",
+        "post-lookout"
+      ],
+      "title": "Set the machine protection",
+      "why": "A roadway maintenance machine works under the same limits as the gang around it, and posting a lookout before the limits exist is protecting a worksite the signal system still treats as open track — the paperwork and the ground truth have to agree before anyone relies on either of them."
+    },
+    {
+      "cue": "Turn the boom control until the hook sits directly over the tie marked for removal.",
+      "id": "crane-swing",
+      "kind": "turn",
+      "prompt": "Turn the boom control until the hook sits directly over the tie marked for removal.",
+      "target": "crane-boom",
+      "title": "Swing the tie crane over the old tie",
+      "turn": {
+        "axis": "y",
+        "label": "CRANE BOOM",
+        "turns": 0.3
+      },
+      "why": "A hook that is not square over the tie lifts it at an angle, and a tie swinging off-centre the moment it clears the ballast is exactly the load this machine's whole hazard zone exists to keep people clear of — a straight lift is a predictable one, and predictable is the entire point of a swing radius anybody can actually stand outside of."
+    },
+    {
+      "cue": "Keep the crew clearance reading in the green band while the crane lifts the old tie clear of the bay.",
+      "holdBreakNote": "Clearance dropped out of band. Someone drifted inside the swing radius while the tie was still moving, and the crane's boom has no way to know that.",
+      "id": "swing-clearance",
+      "kind": "track",
+      "prompt": "Keep the crew clearance reading in the green band while the crane lifts the old tie clear of the bay.",
+      "seconds": 6,
+      "target": "swing-dial",
+      "title": "Hold the crew clear while the tie comes out",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.4,
+        "green": [
+          0.4,
+          0.68
+        ],
+        "label": "CLEARANCE",
+        "rise": 0.48
+      },
+      "why": "The lift itself is the moment the swing radius is actually occupied by a moving load, and holding the clearance reading in band is how the gang proves — not assumes — that everyone stayed outside it for the whole lift rather than just at the start of it."
+    },
+    {
+      "cue": "Carry the new tie from the rack to the empty bay the crane just cleared.",
+      "drag": {
+        "missNote": "Not seated in the bay — carry it the rest of the way and set it square under both rails.",
+        "radius": 0.32,
+        "to": "tie-bay"
+      },
+      "id": "carry-tie",
+      "kind": "drag",
+      "prompt": "Carry the new tie from the rack to the empty bay the crane just cleared.",
+      "target": "new-tie",
+      "title": "Carry the new tie to the bay",
+      "why": "The bay stays empty for as short a time as possible — an open bay under a loaded track is a soft spot the next passing movement finds immediately, so the new tie goes in as soon as the old one is actually clear, carried across rather than dropped in from wherever it happens to land."
+    },
+    {
+      "cue": "Set the gauge across the rails over the new tie and commit inside tolerance.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "TRACK GAUGE",
+        "missNote": "Outside tolerance for this class of track. Adjust before spiking down.",
+        "speed": 0.68
+      },
+      "id": "gauge-check",
+      "kind": "gauge",
+      "prompt": "Set the gauge across the rails over the new tie and commit inside tolerance.",
+      "target": "track-gauge",
+      "title": "Check gauge over the new tie",
+      "why": "A new tie that seats the rails outside gauge tolerance has fixed nothing — it has moved the defect from a rotten tie to a wheel that starts climbing the rail head instead of following it, which is how a maintenance job turns into a derailment nobody saw building."
+    },
+    {
+      "cue": "Hold the saw trigger until the abrasive wheel has parted the rail cleanly.",
+      "holdBreakNote": "You let go mid-cut. A rail parted by force instead of finishing the cut leaves an edge nobody can bolt a clean joint to.",
+      "id": "rail-cut",
+      "kind": "hold",
+      "prompt": "Hold the saw trigger until the abrasive wheel has parted the rail cleanly.",
+      "seconds": 5,
+      "target": "saw-trigger",
+      "title": "Cut the old rail clear",
+      "why": "A rail cut half-through and then forced the rest of the way leaves a ragged, work-hardened edge that has to be ground back before a new joint can bolt up square — holding the cut through to the end, at the saw's own pace, is what leaves a face the joint bars can actually seat against."
+    },
+    {
+      "cue": "Carry the new rail length from the rack and set it against the cut end.",
+      "drag": {
+        "missNote": "Not set against the joint — carry it the rest of the way to the cut end.",
+        "radius": 0.35,
+        "to": "rail-joint"
+      },
+      "id": "carry-rail",
+      "kind": "drag",
+      "prompt": "Carry the new rail length from the rack and set it against the cut end.",
+      "target": "new-rail",
+      "title": "Carry the new rail section in",
+      "why": "The new section is carried in and set against the existing rail only once the old piece is actually cut clear and swung aside — setting it too soon means dressing a joint against rail that is about to move, and a joint dressed against a moving reference is a joint that has to be redone."
+    },
+    {
+      "cue": "Take up the joint bolts and commit once the torque reading is in band.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.72
+        ],
+        "label": "JOINT TORQUE",
+        "missNote": "Outside the joint's torque band. Back it off or take it up further before moving on.",
+        "speed": 0.7
+      },
+      "id": "joint-torque",
+      "kind": "gauge",
+      "prompt": "Take up the joint bolts and commit once the torque reading is in band.",
+      "target": "joint-bolts",
+      "title": "Torque the joint bolts",
+      "why": "A joint bolted too loose works itself looser under every axle that crosses it until the bars stop doing their job of carrying the rail ends together; bolted too tight, the bars themselves can crack. The band exists because both failures start from the same wrench."
+    },
+    {
+      "cue": "Hold the tamper's vibration in the green band while the tines close on the ballast.",
+      "holdBreakNote": "The tamping vibration dropped out of band. Ballast that only gets disturbed and never actually compacted is a soft spot the next train will find on its own.",
+      "id": "tamp",
+      "kind": "track",
+      "prompt": "Hold the tamper's vibration in the green band while the tines close on the ballast.",
+      "seconds": 6,
+      "target": "tamper-throttle",
+      "title": "Tamp the ballast around the new tie",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.4,
+        "green": [
+          0.42,
+          0.66
+        ],
+        "label": "TAMP",
+        "rise": 0.5
+      },
+      "why": "Ballast that is not compacted evenly around a new tie leaves it riding on stone that has not actually taken a set, and the first heavy train through will find every soft spot the tamper skipped — steady vibration in band is what actually seats the stone rather than just disturbing it."
+    },
+    {
+      "cue": "Scan the worksite and clear anything that didn't make it back onto the machine before the limits go back.",
+      "id": "walk",
+      "itemNames": {
+        "left-bolt": "spare bolt left on the ballast",
+        "loose-bar": "joint bar left unbolted"
+      },
+      "itemNotes": {
+        "left-bolt": "Caught before the tally closed — a bolt in the four foot is exactly the foreign object the walk exists to catch.",
+        "loose-bar": "A joint bar with only some of its bolts run up is a joint that has not actually finished being made."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Scan the worksite and clear anything that didn't make it back onto the machine before the limits go back.",
+      "targets": [
+        "left-bolt",
+        "loose-bar"
+      ],
+      "title": "Walk the worksite before you release it",
+      "why": "Three machines and a full tie change leave a lot behind that isn't ballast — a loose bolt, an unbolted bar, a dropped spike maul. The walk is the only check that catches what the work itself left behind."
+    },
+    {
+      "cue": "Count the gang and every machine operator against the roster.",
+      "id": "muster",
+      "kind": "select",
+      "prompt": "Count the gang and every machine operator against the roster.",
+      "target": "muster-tally",
+      "title": "Take the headcount",
+      "why": "Machines get shut down and locked out before the limits go back, and a headcount is the only check that confirms every operator is actually off their machine and standing clear, not still finishing something in a hazard zone nobody is watching anymore."
+    },
+    {
+      "cue": "Call the dispatcher and hold the radio for the read-back giving the limits up.",
+      "holdBreakNote": "You let go before the read-back came back. Limits are not released until the dispatcher has said so in your own hearing.",
+      "id": "release-limits",
+      "kind": "hold",
+      "prompt": "Call the dispatcher and hold the radio for the read-back giving the limits up.",
+      "seconds": 4,
+      "target": "radio-handset",
+      "title": "Release the working limits",
+      "why": "The track stays under the gang's protection until the dispatcher has heard the limits given up and read them back — walking away without that call is how a set of limits never actually closes, and the next crew that needs this track has no way to know it is clear until that read-back has actually happened."
+    },
+    {
+      "cue": "Log the tie and rail changed, the torque readings and the time the limits closed.",
+      "id": "close-log",
+      "kind": "select",
+      "prompt": "Log the tie and rail changed, the torque readings and the time the limits closed.",
+      "target": "closing-log",
+      "title": "Close the job briefing",
+      "why": "The next inspection only knows what this closing entry tells it — which tie, which rail, what it was torqued to, and the exact minute the track went back to normal authority. An unclosed log is a job that, on paper, never actually finished, however clean the ballast looks when the gang drives away."
+    }
+  ],
+  "supportLine": "your roadmaster or your BMWED local if a near-miss on the machines is still sitting with you after shift",
+  "tagline": "A crane swings a tie out and a new one in, a saw parts the old rail, a new length is dressed to the joint, and a tamper closes the ballast back around all of it — with a swing radius, a hot cut and a pinching bank in play the whole time",
+  "title": "SmartCiti.X~ Tie & Rail Replacement VR",
+  "trade": "Track maintenance machine operator / gang laborer",
+  "underwater": null,
+  "weather": "clear"
+}

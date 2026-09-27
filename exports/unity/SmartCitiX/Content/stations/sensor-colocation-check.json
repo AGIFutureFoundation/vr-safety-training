@@ -1,0 +1,351 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "correction-earned",
+    "name": "Correction Earned",
+    "note": "A correction factor derived from a full week against a proven reference, with the drifting sensor caught before it shipped back to the network"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "AFSCME air-district technicians who run the reference monitor this co-location is checked against; EPA 40 CFR Part 58 Appendix A quality assurance and its co-location siting criteria; the Bay Area Air Quality Management District's community sensor verification practice; NIOSH guidance on humidity artifacts in optical particle counters",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "reference-proven-first",
+        "name": "Reference Proven First",
+        "note": "Checked the reference monitor's own calibration before trusting a single comparison against it"
+      },
+      {
+        "id": "never-published-drift",
+        "name": "Never Published Drift",
+        "note": "Never let a drifted sensor's data out without a flag"
+      },
+      {
+        "id": "hourly-true",
+        "name": "Hourly True",
+        "note": "Held every hourly comparison inside its band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-week",
+        "name": "Clean Week",
+        "note": "No corrections anywhere across the run"
+      },
+      {
+        "id": "watch-unbroken",
+        "name": "Watch Unbroken",
+        "note": "Never broke off the drift watch once it started"
+      },
+      {
+        "id": "bench-fast",
+        "name": "Bench Fast",
+        "note": "Sited, logged and corrected inside 80% of par"
+      }
+    ],
+    "currency": "MICROGRAM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Bench Trainee",
+      "Co-Location Technician",
+      "QA Lead",
+      "Reference Steward",
+      "Reference Bench Certified"
+    ],
+    "system": "Reference Bench"
+  },
+  "hazards": {
+    "publish-drifted": "You let the drifted sensor's readings back into the network without a flag on them. A sensor that has quietly separated from the reference by more than the tolerance band is not sending numbers that mean what a resident thinks they mean, and putting it back to work unflagged turns the one instrument this whole co-location caught into the one instrument nobody downstream knows to distrust.",
+    "sensors-too-close": "You sited the two network sensors pressed against each other and against the reference shelter's own warm exhaust. Air drawn in that close to another instrument's housing, or to a box that runs its own internal heater, is not the ambient air the co-location is supposed to be testing against — it is one sensor reading the other, and neither number that comes out of it describes anything a resident actually breathes.",
+    "skip-rh-correction": "You derived the correction factor from the raw counts without accounting for the week's known humidity bias. Optical counters read high in damp air for a reason that has nothing to do with particulate, and folding that bias into a 'correction' factor does not cancel it out — it bakes a humidity error into every reading this sensor reports for as long as the factor stays in use.",
+    "trust-reference-blind": "You compared the network sensors against the reference monitor without ever checking that the reference's own calibration was current. A comparison is only as good as the instrument it is judged against, and a reference monitor running on a lapsed calibration is not ground truth — it is a second unproven number standing in for one, which means the correction factor this whole week is meant to produce would be corrected against nothing."
+  },
+  "id": "sensor-colocation-check",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hourly-compare",
+      "alert": "A fog bank has rolled in off the bay and both network sensors' optical counts are climbing while the reference monitor's own reading holds flat.",
+      "cue": "The two sensors are reading higher and higher while the reference stays where it was.",
+      "delay": 4,
+      "id": "fog-bank",
+      "kind": "Humidity spike",
+      "missNote": "The climbing readings went into the log with no flag while the fog sat over the site. Whoever reviews this week later has no way to tell a humidity artifact from an actual event, and the correction factor that comes out the other end of an unflagged fog bank is corrected against noise instead of against the reference.",
+      "seconds": 14,
+      "target": "flag-humidity",
+      "why": "An optical particle counter cannot fully tell fog droplets from particulate, and a rise that shows up on both network units while a reference method built to reject that bias stays flat is the signature of humidity, not a pollution event. Flagging the hours the fog sat over the site is what keeps this stretch of data from being read later as a real spike the reference somehow missed, or worse, folded into the very correction factor this week is supposed to produce.",
+      "wrongNote": "That does not address the fog. The reference monitor did not move — flag the affected hours on the network sensors' own record, not the comparison you were already holding."
+    },
+    {
+      "after": "drift-watch",
+      "alert": "One of the network sensors has dropped off the logger entirely — no data at all, not even a bad reading.",
+      "cue": "One line on the drift chart has just gone flat and stopped updating.",
+      "delay": 5,
+      "id": "sensor-offline",
+      "kind": "Instrument dropout",
+      "missNote": "The dropout was left alone and the sensor never came back online for the rest of the watch. A week-long co-location with a day of dead air in the middle of it is a week that cannot honestly claim to have watched this sensor drift, because for part of it, nobody was watching anything.",
+      "seconds": 15,
+      "target": "restart-sensor",
+      "why": "A gap in the record is a different failure than a bad reading, and it needs a different response: the sensor is power-cycled at its own switch and brought back onto the logger before the gap grows any wider, not waited out on the assumption it will reconnect itself. Every hour this unit stays dark is an hour of the week's comparison this sensor cannot contribute to at all.",
+      "wrongNote": "That is not where the sensor comes back online. Power-cycle it at its own switch, not at the chart you were already reading."
+    }
+  ],
+  "lateNotes": {
+    "colo-log": "There is nothing to log until both sensors are actually sited and mounted beside the reference inlet.",
+    "correction-factor": "A correction factor derived before the drifted sensor is flagged and set aside would be built on bad data — settle which sensor is good first.",
+    "hourly-compare": "The log has to be open before a hipster comparison against the reference means anything on the record."
+  },
+  "name": "Sensor Co-Location Check",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-can-we-live"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "cal-record",
+      "colo-log",
+      "colo-protocol",
+      "correction-factor",
+      "drift-watch",
+      "flag-humidity",
+      "flag-sensor",
+      "hourly-compare",
+      "humidity-probe",
+      "mount-collar",
+      "publish-drifted",
+      "reference-cal-panel",
+      "restart-sensor",
+      "sensor-a-site",
+      "sensor-b-panel",
+      "sensor-b-site",
+      "sensors-too-close",
+      "sign-pad",
+      "skip-rh-correction",
+      "trust-reference-blind"
+    ],
+    "meshes": 196
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the siting distance, the log format and the week's schedule before touching a sensor.",
+      "id": "colo-protocol",
+      "kind": "select",
+      "prompt": "Check the siting distance, the log format and the week's schedule before touching a sensor.",
+      "target": "colo-protocol",
+      "title": "Read the co-location protocol",
+      "why": "EPA's co-location criteria set how far the network sensors sit from the reference inlet, how often the comparison is read, and how long the run has to last before a correction factor means anything. A technician who skips the protocol and just parks two sensors near the shelter is deciding, alone, whether this week's data will hold up to anyone else's review."
+    },
+    {
+      "cue": "Read the reference instrument's last calibration date before you trust a single number off it.",
+      "id": "reference-cal-check",
+      "kind": "select",
+      "prompt": "Read the reference instrument's last calibration date before you trust a single number off it.",
+      "target": "reference-cal-panel",
+      "title": "Check the reference monitor's own calibration",
+      "why": "Every comparison this week produces is judged against this one instrument, which makes its own calibration record the foundation the whole co-location stands on. A reference monitor running past its own calibration interval is not a fixed point to correct against — it is a second guess wearing the reference's authority, and building a network's trust on it would be building on sand."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Mount sensor A and sensor B at the protocol's distance from the reference monitor's own inlet — any order.",
+      "id": "site-sensors",
+      "itemNames": {
+        "sensor-a-site": "site sensor A",
+        "sensor-b-site": "site sensor B"
+      },
+      "itemNotes": {
+        "sensor-a-site": "Set at the protocol's distance from the reference inlet, in open air, not against the shelter wall.",
+        "sensor-b-site": "Set the same distance and height as sensor A, far enough from it that neither draws the other's exhaust."
+      },
+      "kind": "sequence",
+      "prompt": "Mount sensor A and sensor B at the protocol's distance from the reference monitor's own inlet — any order.",
+      "targets": [
+        "sensor-a-site",
+        "sensor-b-site"
+      ],
+      "title": "Site both network sensors beside the reference inlet",
+      "why": "Both sensors have to sample the same parcel of air the reference monitor does, at the same distance and height, or the comparison this week produces is measuring a siting difference instead of an instrument difference. Getting this placement right, once, at the start of the week, is what makes every hourly reading that follows worth logging at all."
+    },
+    {
+      "cue": "Turn the collar down until both sensor stands are locked to the shared mast.",
+      "id": "mount-collar",
+      "kind": "turn",
+      "prompt": "Turn the collar down until both sensor stands are locked to the shared mast.",
+      "target": "mount-collar",
+      "title": "Lock the shared mounting collar",
+      "turn": {
+        "axis": "y",
+        "label": "MOUNT COLLAR",
+        "turns": 0.55
+      },
+      "why": "A sensor stand that can drift in the wind over a week-long run will not sit at the exact height and distance it was sited at on day one, which quietly invalidates the very comparison the collar's own job is to hold steady. Locking it down now is what keeps Monday's siting still true on Friday."
+    },
+    {
+      "cue": "Check the humidity probe and note today's relative humidity before logging begins.",
+      "id": "humidity-check",
+      "kind": "select",
+      "prompt": "Check the humidity probe and note today's relative humidity before logging begins.",
+      "target": "humidity-probe",
+      "title": "Read today's ambient humidity",
+      "why": "Optical particle counters are known to read high as relative humidity climbs, well before any fog is visible, so a humidity reading logged at the start of the week is what lets anyone reviewing the data later separate a real particulate event from the instrument's own known weather bias."
+    },
+    {
+      "cue": "Record both sensors' serial numbers, the site and the start time before the first hour begins.",
+      "id": "colo-log-start",
+      "kind": "select",
+      "prompt": "Record both sensors' serial numbers, the site and the start time before the first hour begins.",
+      "target": "colo-log",
+      "title": "Open the co-location log",
+      "why": "A week of hourly readings with no record of which two physical sensors produced them, sited where, starting when, is a week of numbers nobody can later trace back to the units they came from — and a correction factor is only useful for the sensors it was actually derived on."
+    },
+    {
+      "cue": "Bring the network sensors' reading into the reference's tolerance band and commit the hour.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "AGREEMENT",
+        "missNote": "That is outside the tolerance band. Bring the reading closer to the reference before the hour is logged as agreeing.",
+        "speed": 0.7
+      },
+      "id": "hourly-compare",
+      "kind": "gauge",
+      "prompt": "Bring the network sensors' reading into the reference's tolerance band and commit the hour.",
+      "target": "hourly-compare",
+      "title": "Read the hourly comparison against the reference",
+      "why": "An hourly comparison inside the tolerance band is what the whole week is built from — the correction factor at the end is nothing more than the pattern across every one of these hours, so a comparison logged loosely, or committed outside the band without comment, is a bad brick in a wall that is only as sound as its worst hour."
+    },
+    {
+      "cue": "Track both sensors' running comparison against the reference and keep the watch centred on the tolerance band.",
+      "holdBreakNote": "You looked away from the drift watch before the week's pattern showed itself. A sensor that drifts slowly needs the whole watch, not a glance at the middle of it, to be caught before it ships back to the network.",
+      "id": "drift-watch",
+      "kind": "track",
+      "prompt": "Track both sensors' running comparison against the reference and keep the watch centred on the tolerance band.",
+      "seconds": 9,
+      "target": "drift-watch",
+      "title": "Watch the week for drift",
+      "track": {
+        "drift": 0.16,
+        "fall": 0.36,
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "DRIFT",
+        "rise": 0.4
+      },
+      "why": "A single hour inside the band proves almost nothing about a sensor's health over a week; a drift watch is what shows one unit sliding slowly outside the band while the other holds steady, which is the pattern a co-location exists to catch and a single spot-check never would."
+    },
+    {
+      "cue": "Compare both sensors' charts against the reference and click the one that has drifted outside the band.",
+      "id": "spot-drift",
+      "itemNames": {
+        "sensor-b-panel": "sensor B's comparison chart"
+      },
+      "itemNotes": {
+        "sensor-b-panel": "Sensor B's line has walked steadily outside the tolerance band across the week while sensor A tracked the reference the whole time — that is drift, not a single bad hour."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Compare both sensors' charts against the reference and click the one that has drifted outside the band.",
+      "targets": [
+        "sensor-b-panel"
+      ],
+      "title": "Find the sensor that drifted",
+      "why": "The drift watch shows a pattern over the whole week; picking out which physical sensor produced it means reading both charts against each other, not just against the reference, because the fix that follows — flagging one unit and trusting the other — only works if the right sensor gets flagged."
+    },
+    {
+      "cue": "Tag sensor B for service and pull it from the network's trusted list.",
+      "id": "flag-sensor",
+      "kind": "select",
+      "prompt": "Tag sensor B for service and pull it from the network's trusted list.",
+      "target": "flag-sensor",
+      "title": "Flag the drifted sensor",
+      "why": "A flagged sensor stops contributing readings the public map presents as trustworthy the moment it is tagged, which is the whole point of running a co-location in the first place — catching the one unit in ten that has quietly gone wrong before its numbers do any harm on the map."
+    },
+    {
+      "cue": "Calculate the correction factor from sensor A's week against the reference, accounting for the humidity bias, and commit it.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "FACTOR",
+        "missNote": "That factor does not sit inside the range the week's data actually supports. Recalculate from sensor A's record against the reference before committing it.",
+        "speed": 0.65
+      },
+      "id": "correction-factor",
+      "kind": "gauge",
+      "prompt": "Calculate the correction factor from sensor A's week against the reference, accounting for the humidity bias, and commit it.",
+      "target": "correction-factor",
+      "title": "Derive the correction factor",
+      "why": "The correction factor this week produces is what every future reading from this sensor model gets adjusted by before it reaches the public map, so it has to come from the sensor that actually tracked the reference, over the whole week, with the known humidity bias already accounted for — not from the drifted unit, and not from raw counts that still carry the fog bank inside them."
+    },
+    {
+      "cue": "Record the correction factor, the flagged sensor and the week's dates on the calibration record.",
+      "id": "cal-record",
+      "kind": "select",
+      "prompt": "Record the correction factor, the flagged sensor and the week's dates on the calibration record.",
+      "target": "cal-record",
+      "title": "Log the calibration record",
+      "why": "The calibration record is what lets the network apply this week's correction factor to every reading this sensor model reports afterward, and what tells the next technician which physical unit came back flagged rather than corrected — without it, this week's work lives only in one person's memory."
+    },
+    {
+      "cue": "Sign and date the completed co-location report before the sensors leave the site.",
+      "id": "sign-off",
+      "kind": "select",
+      "prompt": "Sign and date the completed co-location report before the sensors leave the site.",
+      "target": "sign-pad",
+      "title": "Sign the co-location report",
+      "why": "A signed report is what lets the Air District, the network and the next reviewer all agree this co-location actually happened the way the log says it did — a week of good data with nobody's name on the record at the end of it is a week nobody downstream can vouch for."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A week beside the Air District's reference monitor: hourly comparisons, a correction factor earned honestly, a drifting sensor caught and flagged, and humidity's own bias on an optical counter told apart from a real event",
+  "title": "SmartCiti.X~ Sensor Co-Location Check VR",
+  "trade": "Community environmental monitor",
+  "underwater": null,
+  "weather": "fog"
+}

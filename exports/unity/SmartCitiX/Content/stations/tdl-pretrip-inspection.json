@@ -1,0 +1,438 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "written-up",
+    "name": "Written Up",
+    "note": "A full pre-trip with every defect found, the engine shut down on the overheat and the report written honestly — first time"
+  },
+  "category": "Mobility & Transit",
+  "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A theory and range curriculum includes vehicle inspection, delivered by a provider on the Training Provider Registry; 49 CFR 396 inspection, repair and maintenance, including reviewing the last driver vehicle inspection report and writing your own; 49 CFR 393 parts and accessories, including tread depth and the emergency equipment a truck carries; 49 CFR 395 hours of service, which logs inspection time as on duty; the CVSA North American Standard Out-of-Service Criteria a roadside inspector applies; Teamsters (IBT) freight locals' driver training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CVSA",
+        "citedAs": "CVSA",
+        "id": "cvsa-out-of-service-criteria",
+        "title": "CVSA North American Standard Inspection Program and North American Standard Out-of-Service Criteria for roadside inspection of drivers and commercial motor vehicles"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 380 Subpart F",
+        "id": "fmcsa-49-cfr-380-subpart-f",
+        "title": "49 CFR Part 380 Subpart F — Entry-level driver training requirements for Class A and Class B commercial driver licence applicants, delivered by a provider listed on the Training Provider Registry"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 393",
+        "id": "fmcsa-49-cfr-393",
+        "title": "49 CFR Part 393 — Parts and accessories necessary for safe operation, including brakes, tires, emergency equipment and Subpart I protection against shifting and falling cargo"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 395",
+        "id": "fmcsa-49-cfr-395",
+        "title": "49 CFR Part 395 — Hours of service of drivers, including electronic logging devices"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 396",
+        "id": "fmcsa-49-cfr-396",
+        "title": "49 CFR Part 396 — Inspection, repair and maintenance, including the driver vehicle inspection report"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBT",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": "Mobility & Transit",
+  "domain": "Commercial Driving",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "cold-engine-bay",
+        "name": "Cold Engine Bay",
+        "note": "Every engine-compartment defect found without a hint"
+      },
+      {
+        "id": "three-points",
+        "name": "Three Points",
+        "note": "Never went under a running truck, jumped from the cab, opened a hot cap or signed a clean report on a defect"
+      },
+      {
+        "id": "tire-reader",
+        "name": "Tire Reader",
+        "note": "Tread gauge and tire walk both done clean"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-pretrip",
+        "name": "Clean Pre-Trip",
+        "note": "No corrections anywhere around the truck"
+      },
+      {
+        "id": "steady-idle",
+        "name": "Steady Idle",
+        "note": "The warm-up idle held in band"
+      },
+      {
+        "id": "on-the-clock",
+        "name": "On the Clock",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "CHECK",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Permit Holder",
+      "Driver Trainee",
+      "Class A Driver",
+      "Lead Driver",
+      "Inspection Certified"
+    ],
+    "system": "Vehicle Inspection"
+  },
+  "hazards": {
+    "pti-hot-radiator": "You went to open the radiator cap on a hot engine. A pressurised cooling system is well above boiling; open it hot and the coolant flashes to steam and sprays out over your face and arms. Coolant is checked at the sight glass, or with the engine cold.",
+    "pti-jump-cab": "You went to jump down from the cab. Jumping from a cab step is one of the commonest ways drivers are injured — ankles, knees and backs on uneven yard ground. Climb down facing the truck with three points of contact on the handholds and steps.",
+    "pti-sign-clean": "You went to sign the report 'no defects' with the defects you just found. A driver vehicle inspection report is the carrier's legal record of the truck's condition; a clean report on a known defect sends the next driver out on it and makes the defect yours when it fails at the roadside or on the highway.",
+    "pti-under-running": "You went to crawl under the tractor with the engine idling and nobody else knowing you were there. A running truck can be put in gear by someone climbing in, and the fan, belts and exhaust are live. Under-vehicle checks are done with the engine off, the brakes set, the wheels chocked and the key in your pocket."
+  },
+  "id": "tdl-pretrip-inspection",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "brake-lights",
+      "alert": "A yard tractor has started backing into the next slot with its reverse alarm going, straight toward the gap you are about to walk through.",
+      "cue": "Warn the yard driver before you step into the gap.",
+      "delay": 3,
+      "id": "yard-tractor-backing",
+      "kind": "Vehicle backing toward you",
+      "missNote": "You stayed on course into the gap with a truck backing into it. Drivers are crushed between trucks in yards every year, almost always while walking a truck that was parked and safe a moment before.",
+      "seconds": 10,
+      "target": "pti-horn",
+      "why": "A yard is full of trucks backing on mirrors, and the gap between two parked trucks is the worst blind spot in it. A tap of the horn tells the yard driver someone is there, and staying out of the gap until they stop is what keeps the walk-around from ending between two bumpers.",
+      "wrongNote": "It is the horn. A truck is backing into the gap you are about to walk into."
+    },
+    {
+      "after": "warm-up",
+      "alert": "Steam is curling out from under the hood edge and the coolant temperature needle is climbing fast.",
+      "cue": "Shut the engine down.",
+      "delay": 3,
+      "id": "coolant-steam",
+      "kind": "Engine overheating",
+      "missNote": "You let the engine run on while it lost its coolant. An engine run hot for a few minutes warps heads and blows gaskets, and a driver who opens the hood on a steaming engine is standing over a pressurised spray.",
+      "seconds": 12,
+      "target": "pti-shutdown",
+      "why": "Steam from under the hood at idle is coolant escaping — here, the weeping hose you found has let go. Shutting the engine down stops the pump pushing coolant out and stops the engine cooking itself; the cap stays shut until everything is cold.",
+      "wrongNote": "It is the engine stop. Coolant is escaping and every second of running makes it worse."
+    }
+  ],
+  "lateNotes": {
+    "pti-dvir-submit": "The report is written last, after the tire walk and the check-in, so every defect you found is on it.",
+    "pti-throttle": "The engine is started once the lamps and lights have been walked with the key on — starting first hides the bulb check behind the warm-up.",
+    "pti-triangles": "The triangles are stowed once the mirrors are set and before the engine is started, so the cab is ready before the truck is running."
+  },
+  "name": "Pre-Trip Inspection",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "job-readiness-edition",
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "semiTractor",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "tractorTrailer",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "trailer:pup",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "yardHustler",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "pti-belt-crack",
+      "pti-brake-pedal",
+      "pti-chafed-line",
+      "pti-chock",
+      "pti-clearance-light",
+      "pti-crew-checkin",
+      "pti-dvir-submit",
+      "pti-four-way",
+      "pti-headlight",
+      "pti-hood-latch",
+      "pti-horn",
+      "pti-hose-leak",
+      "pti-hot-radiator",
+      "pti-ignition",
+      "pti-jump-cab",
+      "pti-kit-bracket",
+      "pti-last-dvir",
+      "pti-lug-rust",
+      "pti-mirrors",
+      "pti-oil-low",
+      "pti-park-brake",
+      "pti-shutdown",
+      "pti-sidewall-bulge",
+      "pti-sign-clean",
+      "pti-throttle",
+      "pti-tread-gauge",
+      "pti-triangles",
+      "pti-turn-signal",
+      "pti-under-running"
+    ],
+    "meshes": 282
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the last driver's report: what defects were written up, and whether the mechanic has signed them off as repaired.",
+      "id": "last-dvir",
+      "kind": "select",
+      "prompt": "Read the last driver's report: what defects were written up, and whether the mechanic has signed them off as repaired.",
+      "target": "pti-last-dvir",
+      "title": "Read the last inspection report",
+      "why": "Under 49 CFR 396 the last driver's report is the first thing a driver reads, because it says what somebody else found wrong with this truck. A defect written up and signed as repaired is one you still check; a defect written up and not signed off is one the truck may not have been fixed for, and you sign the report yourself to say you have seen it."
+    },
+    {
+      "cue": "Parking brakes set, the drive wheels chocked, then open the hood with the engine off.",
+      "id": "secure",
+      "itemNames": {
+        "pti-chock": "wheels chocked",
+        "pti-hood-latch": "hood unlatched, engine off",
+        "pti-park-brake": "parking brakes set"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Brakes, chocks, then the hood — the truck is made immovable before anyone puts a hand into it.",
+      "prompt": "Parking brakes set, the drive wheels chocked, then open the hood with the engine off.",
+      "targets": [
+        "pti-park-brake",
+        "pti-chock",
+        "pti-hood-latch"
+      ],
+      "title": "Secure the rig before the hood opens",
+      "why": "The engine compartment is where the belts, the fan and the hot surfaces are, and a pre-trip starts with all of them stopped. Brakes and chocks first means the truck cannot roll while you have your head under the hood or your hands on a tire; the engine off means the fan and belts are not moving while you look at them."
+    },
+    {
+      "cue": "Engine off, hood open: look at the belts, the hoses and the oil. Find the three defects.",
+      "id": "engine-bay",
+      "itemNames": {
+        "pti-belt-crack": "the cracked alternator belt",
+        "pti-hose-leak": "the weeping coolant hose",
+        "pti-oil-low": "the dipstick below the add mark"
+      },
+      "itemNotes": {
+        "pti-belt-crack": "Cracks across the ribs of this belt. A belt that lets go takes the alternator and often the water pump with it, miles from the yard.",
+        "pti-hose-leak": "Dried coolant crust at the clamp and a fresh wet line under it. A weeping hose is a hose that bursts under pressure on the first long grade.",
+        "pti-oil-low": "The dipstick reads below the add mark. Low oil starves the bearings, and the pressure gauge will not warn you until the damage is already done."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Engine off, hood open: look at the belts, the hoses and the oil. Find the three defects.",
+      "targets": [
+        "pti-belt-crack",
+        "pti-hose-leak",
+        "pti-oil-low"
+      ],
+      "title": "Walk the engine compartment",
+      "why": "Every item in the engine compartment fails with a warning first: a belt cracks before it snaps, a hose weeps before it bursts, oil runs low before the bearings go. The pre-trip is when those warnings are still cheap. Each of these three becomes a roadside breakdown, a tow and a missed delivery if it is found on the highway instead of in the yard."
+    },
+    {
+      "cue": "Seat the tread gauge in a major groove of the steer tire and commit when it reads at or above the legal minimum.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.6
+        ],
+        "label": "STEER TREAD",
+        "missNote": "That reading is not seated in a major groove or is below the steer minimum — measure again.",
+        "speed": 0.7
+      },
+      "id": "tread",
+      "kind": "gauge",
+      "prompt": "Seat the tread gauge in a major groove of the steer tire and commit when it reads at or above the legal minimum.",
+      "target": "pti-tread-gauge",
+      "title": "Measure the steer tire tread",
+      "why": "49 CFR 393 sets a minimum tread depth for steer tires higher than for the other positions, because a steer tire that loses grip or blows out takes the steering with it. Measuring in a major groove, not guessing from the shoulder, is the difference between knowing the tire is legal and hoping it is. A steer tire below the line does not leave the yard."
+    },
+    {
+      "cue": "Turn the key to ON without starting: watch the warning lamps and gauges come up and the low-air buzzer sound.",
+      "id": "key-on",
+      "kind": "turn",
+      "prompt": "Turn the key to ON without starting: watch the warning lamps and gauges come up and the low-air buzzer sound.",
+      "target": "pti-ignition",
+      "title": "Key on, engine off",
+      "turn": {
+        "axis": "z",
+        "label": "KEY",
+        "turns": 0.25
+      },
+      "why": "Key on with the engine off is the bulb check for the dash: every warning lamp should light and go through its test, the gauges should sweep, and the low-air warning should sound if the tanks are down. A lamp that never lights is a warning you will never get, and this is the only moment in the day you can tell a dead bulb from a healthy system."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Headlights low and high, both turn signals, clearance and marker lights, and the four-ways.",
+      "id": "lights",
+      "itemNames": {
+        "pti-clearance-light": "clearance and marker lights",
+        "pti-four-way": "four-way flashers",
+        "pti-headlight": "headlights, low and high",
+        "pti-turn-signal": "turn signals"
+      },
+      "kind": "sequence",
+      "prompt": "Headlights low and high, both turn signals, clearance and marker lights, and the four-ways.",
+      "targets": [
+        "pti-headlight",
+        "pti-turn-signal",
+        "pti-clearance-light",
+        "pti-four-way"
+      ],
+      "title": "Walk the lights",
+      "why": "A tractor-trailer is seen at night by its lights, and it signals every lane change and every stop through them. 49 CFR 393 sets out what lamps a combination must carry; a dead clearance light hides the corner of a trailer from a car at night, and dead four-ways mean a stopped truck on a shoulder that nobody sees until too late."
+    },
+    {
+      "cue": "Hold the service brake applied while the brake lights are checked from the rear.",
+      "holdBreakNote": "The pedal came up before the check was done. Hold it applied until both lamps are seen.",
+      "id": "brake-lights",
+      "kind": "hold",
+      "prompt": "Hold the service brake applied while the brake lights are checked from the rear.",
+      "seconds": 8,
+      "target": "pti-brake-pedal",
+      "title": "Hold the brake lights on",
+      "why": "Brake lights are the one light you cannot see from the driver's seat, and a following driver has only them to tell a slowing truck from a moving one. Holding the pedal steady for the whole check — with a helper, a mirror or a pedal stick — is how both the tractor and trailer lamps are confirmed rather than assumed."
+    },
+    {
+      "cue": "From the driver's seat, set both mirrors so the side of the trailer is just in view and the lane beside it fills the rest.",
+      "id": "mirrors",
+      "kind": "select",
+      "prompt": "From the driver's seat, set both mirrors so the side of the trailer is just in view and the lane beside it fills the rest.",
+      "target": "pti-mirrors",
+      "title": "Set the mirrors from the seat",
+      "why": "A tractor-trailer has no rear window; the mirrors are how the driver sees the trailer, the lanes beside it and anyone walking along it. Set from the driving position, not from the ground, each mirror shows a sliver of trailer for reference and as much of the adjacent lane as possible, which shrinks the blind spots that cars and pedestrians disappear into."
+    },
+    {
+      "cue": "Count the three warning triangles and carry the kit to its bracket behind the seat, beside the charged extinguisher.",
+      "drag": {
+        "missNote": "Not on its bracket — the kit rides where you can reach it without unloading the cab.",
+        "radius": 0.45,
+        "to": "pti-kit-bracket"
+      },
+      "id": "triangles",
+      "kind": "drag",
+      "prompt": "Count the three warning triangles and carry the kit to its bracket behind the seat, beside the charged extinguisher.",
+      "target": "pti-triangles",
+      "title": "Check and stow the emergency equipment",
+      "why": "49 CFR 393 requires a truck to carry warning devices and a charged, secured fire extinguisher, and both are for the worst ten minutes of a driver's day: stopped on a shoulder with traffic going past, or with a fire under the hood. Equipment that is missing, discharged or buried under a bag is equipment you do not have when you need it."
+    },
+    {
+      "cue": "Start the engine and hold a steady idle while oil pressure comes up and the air builds.",
+      "holdBreakNote": "Idle out of band — hold it steady so you can read the gauges.",
+      "id": "warm-up",
+      "kind": "track",
+      "prompt": "Start the engine and hold a steady idle while oil pressure comes up and the air builds.",
+      "seconds": 8,
+      "target": "pti-throttle",
+      "title": "Start and watch the gauges",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.34,
+          0.56
+        ],
+        "label": "IDLE",
+        "rise": 0.54,
+        "start": 0.1
+      },
+      "why": "The first minute after a start tells you whether the engine is healthy: oil pressure should rise within seconds, the charging gauge should show the alternator working, and the air should begin to build. A steady idle is what lets you read those needles; revving a cold engine hides a slow oil rise and wears the engine for nothing."
+    },
+    {
+      "cue": "Walk both sides: tires, wheels and lug nuts, and the air lines between the tractor and trailer.",
+      "id": "tire-walk",
+      "itemNames": {
+        "pti-chafed-line": "the chafed trailer air line",
+        "pti-lug-rust": "the rust streak from a lug nut",
+        "pti-sidewall-bulge": "the bulge in the drive tire sidewall"
+      },
+      "itemNotes": {
+        "pti-chafed-line": "The trailer air line is chafed through its cover where it rubs the catwalk. A line that wears through dumps the trailer's air and sets its brakes wherever you are.",
+        "pti-lug-rust": "A rust streak running from a lug nut means the nut has been moving. Loose lug nuts are how wheels come off trucks on the highway.",
+        "pti-sidewall-bulge": "A bulge in the sidewall is a broken cord underneath; this tire can fail at any speed. It is the kind of defect the CVSA out-of-service criteria take a truck off the road for."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk both sides: tires, wheels and lug nuts, and the air lines between the tractor and trailer.",
+      "targets": [
+        "pti-sidewall-bulge",
+        "pti-lug-rust",
+        "pti-chafed-line"
+      ],
+      "title": "Walk the tires, wheels and air lines",
+      "why": "Tires, wheels and air lines are the defects that end up in the news: a blowout at speed, a wheel off on the highway, trailer brakes locking on a ramp. Each gives a visible warning in the yard, and each is on the list a roadside inspector works through. The walk-around is the driver's chance to find them first."
+    },
+    {
+      "cue": "Tell dispatch the truck is down for the defects, confirm your hours left, and say whether you are fit to drive today.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Tell dispatch the truck is down for the defects, confirm your hours left, and say whether you are fit to drive today.",
+      "target": "pti-crew-checkin",
+      "title": "Check in with dispatch",
+      "why": "Dispatch plans loads on the trucks and drivers it thinks it has; a truck held for a tire and a hose changes that plan, and dispatch needs to hear it before promising the load. The same call is where a driver says honestly if they slept badly or are unwell — fatigue and illness are reasons not to drive, and saying so now is far better than finding out at the wheel."
+    },
+    {
+      "cue": "Write up every defect you found, mark the truck not fit to dispatch until repaired, and sign it.",
+      "id": "dvir-submit",
+      "kind": "select",
+      "prompt": "Write up every defect you found, mark the truck not fit to dispatch until repaired, and sign it.",
+      "target": "pti-dvir-submit",
+      "title": "Write the driver vehicle inspection report",
+      "why": "The report is how a defect gets from the driver who found it to the mechanic who fixes it and the next driver who reads it; 49 CFR 396 asks for exactly that trail. A defect written down with its location is a work order; a defect mentioned to someone in the yard is a defect the next driver finds on the highway."
+    }
+  ],
+  "supportLine": "your carrier's employee assistance programme, or your Teamsters steward if you are not sure how to reach it",
+  "tagline": "A tractor-trailer before the first dispatch: the last report read, the rig secured, the engine bay walked cold, tread measured, lamps and lights walked, brake lights held, mirrors set, triangles stowed, the engine started and watched, tires and air lines walked, and the defects written down",
+  "title": "SmartCiti.X~ Pre-Trip Inspection VR",
+  "trade": "Class A driver trainee, TDL pre-apprenticeship — Teamsters freight driving: pre-trip inspection under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+  "underwater": null,
+  "weather": "overcast"
+}

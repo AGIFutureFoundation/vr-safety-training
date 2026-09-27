@@ -1,0 +1,433 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "pile-command",
+    "name": "Pile Command",
+    "note": "Leads plumbed in two planes, the drop zone held clear, and the pile started on low energy before full driving began"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926.603 Pile driving equipment and 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on struck-by incidents around pile driving rigs",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.21",
+        "id": "osha-1926-21",
+        "title": "29 CFR 1926.21 — Safety training and education in construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.603",
+        "id": "osha-1926-603",
+        "title": "OSHA 29 CFR 1926.603 Pile driving equipment"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations",
+        "id": "osha-1926-subpart-o",
+        "title": "OSHA 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "plumb-first",
+        "name": "Plumb First",
+        "note": "Never drove a pile before the leads were confirmed plumb"
+      },
+      {
+        "id": "drop-zone-held",
+        "name": "Drop Zone Held",
+        "note": "Never let anyone stand under the suspended load"
+      },
+      {
+        "id": "steady-drive",
+        "name": "Steady Drive",
+        "note": "Held the gauge readings near band centre all shift"
+      },
+      {
+        "id": "clean-set",
+        "name": "Clean Set Certified",
+        "note": "Set the pile clean, first try"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-setup",
+        "name": "Quick Setup",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "pile-streak",
+        "name": "Pile Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "PILE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Hand",
+      "Rig Hand",
+      "Lead Certified",
+      "Drive Authority",
+      "Pile Command Certified"
+    ],
+    "system": "Pile Command"
+  },
+  "hazards": {
+    "cushion-skip-hazard": "That skips the hammer cushion and pile cap check before driving. A missing or worn cushion transmits the full force of every blow straight into the pile head and the hammer's own striking parts, and that is exactly what shatters a pile head or damages a hammer this rig cannot easily replace mid-shift.",
+    "drop-zone-stand": "You are standing under the leads while a pile or the hammer is suspended above. OSHA's pile driving equipment rule at 29 CFR 1926.603 exists because anything suspended over a person's head is a load that only has to fail once, and the drop zone is barricaded so that failure has nobody underneath it.",
+    "overhead-line-hazard": "The leads are inside the clearance distance to the overhead line at this position. Raised steel leads reaching toward an energised conductor do not need to touch it to close the gap — the clearance is what keeps that gap a fact of the setup, not a judgement call made under a live line.",
+    "unplumbed-drive-hazard": "That drives the pile before the leads were confirmed plumb in both planes. A pile started out of plumb does not correct itself as it goes deeper — it walks further off line with every blow, and by the time it is obviously wrong it is already too deep to pull back and reset."
+  },
+  "id": "op-pile-driving-rig-and-lead-setup",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "pitch-and-drive",
+      "alert": "The pile has started leaning out of plumb on the first low-energy blows, visible against the leads' own reference marks.",
+      "cue": "Call it out and stop the hammer before the pile drives any further out of line.",
+      "delay": 4,
+      "id": "pile-walks-off-plumb",
+      "kind": "Plumbness lost",
+      "missNote": "The hammer kept striking while the pile walked further out of plumb. Once a misaligned pile is driven to depth, resetting it means pulling and starting over, not nudging it back into line.",
+      "seconds": 12,
+      "target": "tender",
+      "why": "Low-energy starting blows exist specifically to catch a pile that is walking off plumb while it is still shallow enough to pull back and reset — a lean that goes uncalled at this stage is a lean that gets driven permanently into the ground a few blows later.",
+      "wrongNote": "Not that — the pile walking out of plumb is what has to stop this drive before anything else about it matters."
+    },
+    {
+      "after": "direct-drive",
+      "alert": "A coworker has walked under the leads to check something on the far side, straight into the drop zone.",
+      "cue": "Stop the hammer now and get them clear before the next blow.",
+      "delay": 4,
+      "id": "worker-enters-drop-zone",
+      "kind": "Drop zone incursion",
+      "missNote": "The hammer kept striking while a coworker was under the leads. Nothing about a driving pile gives a person underneath it any warning before the next blow lands.",
+      "seconds": 11,
+      "target": "drop-zone-stop-flag",
+      "why": "The barricade only controls who chooses to respect it — the plan still needs a live response for the one person who does not, and the hammer has to be stopped the instant someone is seen under the leads, not signalled to hurry up and clear it.",
+      "wrongNote": "Not that — the person in the drop zone is what has to stop this drive before anything else continues."
+    }
+  ],
+  "lateNotes": {
+    "blow-log": "The blow count gets logged against the refusal criterion as driving happens, not reconstructed afterward from memory once the pile is already at its final depth.",
+    "plumb-target": "The leads get plumbed in both planes before the pile is even set in the gate, not corrected afterward once the pile has already started driving out of line."
+  },
+  "name": "Pile Driving Rig & Lead Setup",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "heavy-equipment-operators"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "pileDrivingRig",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "2.44x2.65x6.06",
+        "count": 1,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "blow-log",
+      "closing-log",
+      "cone-a",
+      "cone-b",
+      "cushion-skip-hazard",
+      "damaged-gate",
+      "drop-zone-barrier",
+      "drop-zone-stand",
+      "drop-zone-stop-flag",
+      "hammer-cushion",
+      "hard-hat",
+      "hi-vis-vest",
+      "hydraulic-leak",
+      "mat-left",
+      "mat-right",
+      "overhead-clearance-marker",
+      "overhead-line-hazard",
+      "pile-plan-board",
+      "pile-roll",
+      "pile-socket",
+      "plumb-target",
+      "rake-lever",
+      "rig-controls",
+      "sound-hammer-mount",
+      "tender",
+      "unplumbed-drive-hazard",
+      "worn-sheave"
+    ],
+    "meshes": 190
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Hi-vis vest and hard hat before anyone is near the leads.",
+      "id": "ppe",
+      "itemNames": {
+        "hard-hat": "hard hat",
+        "hi-vis-vest": "hi-vis vest"
+      },
+      "kind": "sequence",
+      "prompt": "Hi-vis vest and hard hat before anyone is near the leads.",
+      "targets": [
+        "hi-vis-vest",
+        "hard-hat"
+      ],
+      "title": "Suit up before the rig",
+      "why": "A rig this tall is going to have a crew working in close under it, and the tender's whole job of watching for anyone near the drop zone depends on being able to pick a person out from the ground and steel around them at a glance."
+    },
+    {
+      "cue": "Confirm the pile type, the target tip elevation and the refusal criterion before rigging up.",
+      "id": "pile-plan",
+      "kind": "select",
+      "prompt": "Confirm the pile type, the target tip elevation and the refusal criterion before rigging up.",
+      "target": "pile-plan-board",
+      "title": "Read the pile driving plan",
+      "why": "The plan is what sets today's refusal criterion — the blow count per foot that means this pile has reached capacity — and driving without having read it first means the operator has no way to know when to stop short of guessing."
+    },
+    {
+      "cue": "Walk the rig. Three problems are hiding on it — find them by looking.",
+      "decoyNotes": {
+        "sound-hammer-mount": "The hammer mount is tight, dry and shows no wear. Nothing to flag there."
+      },
+      "id": "inspect-rig",
+      "itemNames": {
+        "damaged-gate": "damaged pile gate",
+        "hydraulic-leak": "hydraulic leak at the raising boom",
+        "worn-sheave": "worn hoist line sheave"
+      },
+      "itemNotes": {
+        "damaged-gate": "A pile gate that does not close fully lets the pile shift sideways in the leads exactly when the hammer's first blows need it held dead straight.",
+        "hydraulic-leak": "A leak at the raising boom is pressure this rig is losing in the one system holding the leads at the angle they were just plumbed to.",
+        "worn-sheave": "A sheave grooved deep enough to pinch the hoist line wears through that line faster than the inspection interval expects it to."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the rig. Three problems are hiding on it — find them by looking.",
+      "targets": [
+        "worn-sheave",
+        "damaged-gate",
+        "hydraulic-leak"
+      ],
+      "title": "Inspect the rig before raising the leads",
+      "why": "A rig that looks ready from the ground is not the same thing as one a competent person has actually walked before the leads go up — a worn sheave, a damaged gate or a hydraulic leak found now costs a repair, and found once the leads are raised and loaded costs a rig that fails with a pile already in the gate."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Set a mat under each track before raising the leads.",
+      "id": "set-mats",
+      "itemNames": {
+        "mat-left": "ground mat, left track",
+        "mat-right": "ground mat, right track"
+      },
+      "kind": "sequence",
+      "prompt": "Set a mat under each track before raising the leads.",
+      "targets": [
+        "mat-left",
+        "mat-right"
+      ],
+      "title": "Set the ground mats",
+      "why": "This rig's stability with the leads raised assumes the ground under both tracks can actually carry that weight without settling unevenly — the mats are what make that assumption true instead of something the crew discovers the first time the leads start to lean."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Cone both approaches and set the barrier around the full area under the leads.",
+      "id": "barricade-drop-zone",
+      "itemNames": {
+        "cone-a": "cone at the approach",
+        "cone-b": "cone at the far side",
+        "drop-zone-barrier": "drop zone barrier"
+      },
+      "kind": "sequence",
+      "prompt": "Cone both approaches and set the barrier around the full area under the leads.",
+      "targets": [
+        "cone-a",
+        "cone-b",
+        "drop-zone-barrier"
+      ],
+      "title": "Barricade the drop zone",
+      "why": "Everything under the leads is inside the drop zone the moment anything is suspended in them, and the barrier is what keeps that zone empty of anyone who is not the crew actually running the drive."
+    },
+    {
+      "cue": "Agree hand signals and the stop signal with the dedicated tender before raising the pile.",
+      "id": "tender-brief",
+      "kind": "select",
+      "prompt": "Agree hand signals and the stop signal with the dedicated tender before raising the pile.",
+      "target": "tender",
+      "title": "Confirm the tender's protocol",
+      "why": "The tender is watching the leads' plumbness and the drop zone from an angle the operator's own seat cannot match, and that only works if both of them already agree what a stop signal looks like before the hammer is running and it is needed for real."
+    },
+    {
+      "cue": "Turn the rake lever to bring the leads to the plan's angle before the pile goes in.",
+      "id": "rake-adjust",
+      "kind": "turn",
+      "prompt": "Turn the rake lever to bring the leads to the plan's angle before the pile goes in.",
+      "target": "rake-lever",
+      "title": "Plumb the leads' rake",
+      "turn": {
+        "axis": "z",
+        "label": "LEAD RAKE",
+        "turns": 0.5
+      },
+      "why": "The rake sets the leads' angle in the plane along the direction of drive, and getting it right before the pile is set means the first blow is already driving on line instead of correcting a lean nobody caught until the pile was already moving."
+    },
+    {
+      "cue": "Carry the pile to the gate and seat it in the leads before closing the gate.",
+      "drag": {
+        "missNote": "Not seated in the gate — carry the pile fully into the leads before closing anything on it.",
+        "radius": 0.4,
+        "to": "pile-socket"
+      },
+      "id": "pile-rig-in",
+      "kind": "drag",
+      "prompt": "Carry the pile to the gate and seat it in the leads before closing the gate.",
+      "target": "pile-roll",
+      "title": "Set the pile in the leads",
+      "why": "The pile only sits where the crew actually sets it — carrying it in deliberately and seating it square in the gate is what gives the plumb check that follows something honest to measure, rather than a pile already leaning from how it was dropped in."
+    },
+    {
+      "cue": "Read the plumb bubble in both planes and commit only when it is centred.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.58
+        ],
+        "label": "LEAD PLUMB",
+        "missNote": "Not plumb. Adjust the rake and the mats before the pile goes anywhere near the gate.",
+        "speed": 0.6
+      },
+      "id": "plumb-check",
+      "kind": "gauge",
+      "prompt": "Read the plumb bubble in both planes and commit only when it is centred.",
+      "target": "plumb-target",
+      "title": "Check the leads are plumb",
+      "why": "A pile driven from leads that are out of plumb in either plane drifts off line with every blow, and by the time that drift is visible at the surface the pile is already too deep to correct — this is where plumbness gets proven, not assumed from how the rig looks standing there."
+    },
+    {
+      "cue": "Confirm the cushion and pile cap are seated and in good condition before the first blow.",
+      "id": "cushion-check",
+      "kind": "select",
+      "prompt": "Confirm the cushion and pile cap are seated and in good condition before the first blow.",
+      "target": "hammer-cushion",
+      "title": "Confirm the hammer cushion and pile cap",
+      "why": "The cushion is what spreads the hammer's force evenly across the pile head instead of concentrating it on one point — a worn or missing cushion shatters a pile head or damages the hammer's own striking parts on blows this rig cannot recover from mid-shift."
+    },
+    {
+      "cue": "Hold the hammer on low energy for the first blows, watching the plumb reference the whole time.",
+      "holdBreakNote": "Released the hammer mid-set. Hold it through the low-energy start — that is what catches a pile walking off plumb before it is driven too deep to fix.",
+      "id": "pitch-and-drive",
+      "kind": "hold",
+      "prompt": "Hold the hammer on low energy for the first blows, watching the plumb reference the whole time.",
+      "seconds": 6,
+      "target": "rig-controls",
+      "title": "Start the pile on low energy",
+      "why": "Starting on low energy is what gives the crew a chance to actually see a pile beginning to walk off plumb while it is still shallow enough to stop, pull back and reset — full energy from the first blow removes that chance entirely."
+    },
+    {
+      "cue": "Keep the tender's signal steady, holding the drive inside the barricaded drop zone.",
+      "holdBreakNote": "The drive drifted off the tender's signal. Bring it back on line before the hammer strikes again.",
+      "id": "direct-drive",
+      "kind": "track",
+      "prompt": "Keep the tender's signal steady, holding the drive inside the barricaded drop zone.",
+      "seconds": 8,
+      "target": "tender",
+      "title": "Drive under the tender's signal",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "DRIVE LINE",
+        "rise": 0.5,
+        "start": 0.12
+      },
+      "why": "The tender is watching the one thing the operator's own seat cannot judge from directly behind the leads — how plumb the pile is actually staying as it goes in — and continuous signals are what keep the operator trusting that reading instead of guessing it from the cab."
+    },
+    {
+      "cue": "Read the blow count and commit only once it reads inside the plan's target band.",
+      "gauge": {
+        "green": [
+          0.45,
+          0.72
+        ],
+        "label": "BLOWS PER FOOT",
+        "missNote": "Outside the plan's target band. Confirm the reading against the refusal criterion before driving further.",
+        "speed": 0.55
+      },
+      "id": "blow-count-check",
+      "kind": "gauge",
+      "prompt": "Read the blow count and commit only once it reads inside the plan's target band.",
+      "target": "blow-log",
+      "title": "Check the blow count against refusal",
+      "why": "The blow count per foot is the one number that tells the crew this pile has actually reached the capacity the plan calls for — stopping short of it means an underdriven pile, and driving well past it risks damage the log was supposed to catch before it happened."
+    },
+    {
+      "cue": "Log the plumb reading, the blow count and the final depth before shutting the rig down.",
+      "id": "shutdown-log",
+      "kind": "select",
+      "prompt": "Log the plumb reading, the blow count and the final depth before shutting the rig down.",
+      "target": "closing-log",
+      "title": "Close out the pile driving log",
+      "why": "The pile driving log is what the foundation inspection and the next shift both read — a pile that was set and driven cleanly but never logged against the refusal criterion leaves nothing behind to prove it actually met the plan."
+    }
+  ],
+  "supportLine": "your IUOE local's member assistance programme, or the site's employee assistance line if a close call under the leads is what stayed with you",
+  "tagline": "Pile driving rig set up and proved before the first pile: the rig inspected, the drop zone barricaded, the leads plumbed in two planes, overhead clearance confirmed, and the pile started on low energy under a tender's signal",
+  "title": "SmartCiti.X~ Pile Driving Rig & Lead Setup VR",
+  "trade": "Pile driving rig operator — IUOE Local 3 operating engineer",
+  "underwater": null,
+  "weather": "overcast"
+}

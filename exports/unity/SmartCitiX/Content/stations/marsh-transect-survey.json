@@ -1,0 +1,424 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "transect-closed",
+    "name": "Transect Closed",
+    "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "Environmental monitoring technicians (AFSCME in public agencies); LIUNA laborers on the Invasive Spartina Project control crew; U.S. Fish and Wildlife Service Endangered Species Act consultation — Ridgway's rail and salt marsh harvest mouse; Invasive Spartina Project treatment protocols; San Francisco Bay Conservation and Development Commission (BCDC) permit; San Francisco Bay Regional Water Quality Control Board monitoring conditions",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "BCDC",
+        "citedAs": "BCDC",
+        "id": "bcdc-bay-plan",
+        "title": "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act"
+      },
+      {
+        "body": "union",
+        "citedAs": "CWA",
+        "id": "cwa-training",
+        "title": "CWA member training for outside-plant, tower and broadcast work"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "Regional Water Quality Control Board",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      },
+      {
+        "body": "USFWS",
+        "citedAs": "Endangered Species Act",
+        "id": "usfws-esa",
+        "title": "Endangered Species Act §7 consultation and species protection measures set by the U.S. Fish and Wildlife Service"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-bearing",
+        "name": "Clean Bearing",
+        "note": "The compass set to the recorded bearing clean, first time"
+      },
+      {
+        "id": "no-flush",
+        "name": "No Flush",
+        "note": "Never a hazard, never a bird approached, never a habitat shortcut"
+      },
+      {
+        "id": "true-shot",
+        "name": "True Shot",
+        "note": "The elevation shot and the erosion-pin reading both read inside the working band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-line",
+        "name": "Clean Line",
+        "note": "No corrections across the whole transect"
+      },
+      {
+        "id": "steady-flag",
+        "name": "Steady Flag",
+        "note": "Held the flag and the channel-edge footing steady the whole way"
+      },
+      {
+        "id": "off-before-tide",
+        "name": "Off Before The Tide",
+        "note": "Transect closed inside 80% of par"
+      }
+    ],
+    "currency": "COVER",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Field Tech",
+      "Transect Tech",
+      "Lead Tech",
+      "Survey Steward",
+      "Transect Certified"
+    ],
+    "system": "Survey Crew"
+  },
+  "hazards": {
+    "compass-on-rebar": "You set the compass down on the steel benchmark rod to steady it while reading. Steel deflects a compass needle by degrees nobody sees happen at a glance, and a bearing read off a rebar-adjacent compass walks every quadrat down this transect further from the fixed line the trend data depends on.",
+    "flush-approach": "You walked straight at the pickleweed to confirm the sighting instead of staying put and logging it from the buffer. Flushing a nesting Ridgway's rail is a take under the federal Endangered Species Act, and an adult kept off her nest by a crew that keeps closing the distance is a nest left open to a harrier for every extra minute it takes.",
+    "pin-pulled": "You pulled the erosion pin out of the mud to read it up close instead of reading the exposed length in place. The pin's driven depth is the entire multi-year erosion record at that point on the channel edge — pull it to make the reading easier and the next survey has nothing left to compare its own reading to.",
+    "shortcut-through-pickleweed": "You cut straight across the dense pickleweed off the transect line to save the walk around. Pickleweed mats are exactly where the salt marsh harvest mouse nests, and the Endangered Species Act's take prohibition covers habitat disturbance as much as it covers touching the animal itself."
+  },
+  "id": "marsh-transect-survey",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "spartina-flag",
+      "alert": "A Ridgway's rail has flushed out of the pickleweed a few metres off the line, calling as it goes — exactly the sign of a nest close enough that walking on is a taking of it.",
+      "cue": "Stop at the buffer and log the sighting — do not walk toward the bird or the cover it came out of.",
+      "delay": 4,
+      "id": "rail-flush",
+      "kind": "Ridgway's rail flushing near the transect",
+      "missNote": "The crew kept moving toward the flushed bird's cover to finish the interval, and the rail stayed off its nest the entire time anyone was still closing the distance — exactly the outcome the buffer is meant to prevent.",
+      "seconds": 14,
+      "target": "rail-sighting-log",
+      "why": "Ridgway's rail nests low in dense pickleweed within reach of tidal flooding, and a flushed adult leaves eggs or chicks exposed to gulls and harriers for every minute it stays away — the U.S. Fish and Wildlife Service's buffer exists because the survey crew's own presence is the disturbance the Endangered Species Act is written to prevent, and logging the sighting from the buffer, not approaching to confirm it, is what keeps the crew on the right side of that line.",
+      "wrongNote": "That's not it. Logging the sighting from the buffer is the one response here that doesn't put the crew closer to a bird that has already flushed."
+    },
+    {
+      "after": "erosion-pins",
+      "alert": "The tide gauge at the channel shows the water is already at the low transect's first interval, well ahead of today's table.",
+      "cue": "Read the tide gauge — if the water's really there, the low end of this transect is done for today.",
+      "delay": 4,
+      "id": "tide-arriving",
+      "kind": "Tide reaching the low transect early",
+      "missNote": "The crew kept working the table's schedule while the channel came up around the low transect's stakes, and the last interval's cover reading was taken standing in water nobody could say hadn't already covered part of the quadrat.",
+      "seconds": 13,
+      "target": "tide-gauge-stake",
+      "why": "A tide table is built on an average, and wind or a barometric low can push the real water tens of minutes ahead of it — on the low transect that difference is the gap between finishing the survey and finishing it wading, which is worse footing and worse data both. The gauge at the channel is the only reading of where the water actually is, and it is what tells the crew whether the last few quadrats happen today or wait for the next low.",
+      "wrongNote": "Not that. The tide gauge at the channel is the only true reading of where the water is right now on this transect."
+    }
+  ],
+  "lateNotes": {
+    "flag-kit": "Nothing to flag yet. The flag kit waits for the invasive clump to actually be found further down the line.",
+    "level-rod": "Shoot the rod after the quadrat's cover is read — the elevation belongs to that quadrat's spot, not to wherever the rod happens to be standing.",
+    "tape-reel": "Nothing to run out yet — the bearing is set before the tape leaves the reel, or the line it draws isn't the line the compass just confirmed."
+  },
+  "name": "Marsh Transect Survey",
+  "parSeconds": 295,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-bay-restoration"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "benchmark-marker",
+      "compass",
+      "compass-on-rebar",
+      "cover-cordgrass",
+      "cover-invasive",
+      "cover-pickleweed",
+      "end-stake-socket",
+      "erosion-pin-line",
+      "flag-kit",
+      "flush-approach",
+      "gps-unit",
+      "interval-1",
+      "interval-2",
+      "interval-3",
+      "level-rod",
+      "loose-flagging-tape",
+      "pin-pulled",
+      "quadrat-frame",
+      "rail-sighting-log",
+      "shortcut-through-pickleweed",
+      "species-board",
+      "stage-clipboard",
+      "stage-gps",
+      "stage-waders",
+      "start-stake",
+      "survey-plan-board",
+      "tape-reel",
+      "tide-gauge-stake",
+      "unlogged-quadrat"
+    ],
+    "meshes": 256
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check today's transect ID, the percent-cover classes the crew reads to, and the benchmark elevation.",
+      "id": "plan",
+      "kind": "select",
+      "prompt": "Check today's transect ID, the percent-cover classes the crew reads to, and the benchmark elevation.",
+      "target": "survey-plan-board",
+      "title": "Read the survey plan and the cover-class protocol",
+      "why": "This marsh exists as compensatory mitigation under the federal Clean Water Act (CWA), with EPA and the Regional Water Board watching the same vegetation trend this plan is built to produce, and a trend only means something if every survey reads cover to the same classes and shoots elevation against the same benchmark as the surveys before it — reading the plan here is what keeps this visit comparable to the one three months ago instead of a fresh guess at the marsh."
+    },
+    {
+      "cue": "Read the Ridgway's rail and salt marsh harvest mouse buffer distances, and the Invasive Spartina Project's control area map for this reach.",
+      "id": "species-brief",
+      "kind": "select",
+      "prompt": "Read the Ridgway's rail and salt marsh harvest mouse buffer distances, and the Invasive Spartina Project's control area map for this reach.",
+      "target": "species-board",
+      "title": "Check the species buffers and the control area map",
+      "why": "Both species denning and nesting in this marsh are federally listed under the Endangered Species Act, and the U.S. Fish and Wildlife Service's buffer distances exist so a survey crew walking a transect does not become the disturbance that empties a nest — reading them before anyone steps off the levee is what keeps today's data collection from becoming tomorrow's take violation."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Waders, the waterproof clipboard, and the GPS unit before anyone steps onto the marsh plain.",
+      "id": "stage",
+      "itemNames": {
+        "stage-clipboard": "waterproof clipboard",
+        "stage-gps": "GPS unit",
+        "stage-waders": "chest waders"
+      },
+      "kind": "sequence",
+      "prompt": "Waders, the waterproof clipboard, and the GPS unit before anyone steps onto the marsh plain.",
+      "targets": [
+        "stage-waders",
+        "stage-clipboard",
+        "stage-gps"
+      ],
+      "title": "Stage for working the marsh plain",
+      "why": "The marsh plain is soft mud cut by tidal channels that don't announce themselves until a boot is already in one, and waders are the same OSHA general industry PPE duty (29 CFR 1910.132) as any other job site — the clipboard and GPS are what turn today's readings into data the next survey can actually find and repeat rather than notes that only make sense to the person who wrote them."
+    },
+    {
+      "cue": "Walk the levee and find the transect's start stake and the fixed benchmark marker.",
+      "id": "find-start",
+      "itemNames": {
+        "benchmark-marker": "elevation benchmark",
+        "start-stake": "transect start stake"
+      },
+      "itemNotes": {
+        "benchmark-marker": "The fixed benchmark the level rod is shot against — without it, an elevation reading is a number with no reference to compare it to.",
+        "start-stake": "The transect's permanent start stake — every bearing, interval and quadrat on this line is measured from it, not from wherever the tape happens to be unrolled."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the levee and find the transect's start stake and the fixed benchmark marker.",
+      "targets": [
+        "start-stake",
+        "benchmark-marker"
+      ],
+      "title": "Find the start stake and the fixed benchmark",
+      "why": "A transect is a line between points that do not move, and the whole survey — bearing, tape, quadrats, elevation — is only repeatable if it starts from the same stake and reads against the same benchmark the last three surveys used, not a spot that merely looks close enough."
+    },
+    {
+      "cue": "Log the GPS waypoint confirming the start stake before the bearing is set.",
+      "id": "gps-log",
+      "kind": "select",
+      "prompt": "Log the GPS waypoint confirming the start stake before the bearing is set.",
+      "target": "gps-unit",
+      "title": "Log the GPS waypoint at the start stake",
+      "why": "A GPS waypoint logged at the start stake is what lets a different crew, in a different season, find this exact transect again without relying on a physical stake that erosion or a maintenance crew could eventually move — the coordinate backs up the marker, it doesn't replace the need to find it."
+    },
+    {
+      "cue": "Turn the compass housing to the transect's recorded bearing before the tape goes out.",
+      "id": "set-bearing",
+      "kind": "turn",
+      "prompt": "Turn the compass housing to the transect's recorded bearing before the tape goes out.",
+      "target": "compass",
+      "title": "Set the compass to the recorded bearing",
+      "turn": {
+        "axis": "y",
+        "label": "COMPASS BEARING",
+        "turns": 0.6
+      },
+      "why": "Every quadrat interval down this transect is defined as a distance along a bearing from the start stake, and a bearing set even a few degrees off walks every quadrat further from the fixed line the longer the tape runs — set it here, against the recorded heading, not by eye toward where the end stake looks like it should be."
+    },
+    {
+      "cue": "Run the tape out from the start stake to the end stake along the bearing you just set.",
+      "drag": {
+        "missNote": "Not at the end stake — the tape has to reach it or the intervals along the way aren't measured against anything real.",
+        "radius": 0.4,
+        "to": "end-stake-socket"
+      },
+      "id": "run-tape",
+      "kind": "drag",
+      "prompt": "Run the tape out from the start stake to the end stake along the bearing you just set.",
+      "target": "tape-reel",
+      "title": "Run the tape to the end stake",
+      "why": "The tape turns a bearing and a distance into an actual line on the ground the crew can place quadrats against, and it only does that job stretched taut end to end — a tape that sags or falls short leaves every interval marked from a line that isn't really where the transect is defined to be."
+    },
+    {
+      "cue": "Place the quadrat frame at each marked interval, working from the near end of the tape to the far end.",
+      "id": "place-quadrats",
+      "itemNames": {
+        "interval-1": "quadrat at interval 1",
+        "interval-2": "quadrat at interval 2",
+        "interval-3": "quadrat at interval 3"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Work the tape in order — interval 1, then 2, then 3. Skipping ahead means walking back across ground the buffer or the Spartina flag has already changed since you passed it.",
+      "prompt": "Place the quadrat frame at each marked interval, working from the near end of the tape to the far end.",
+      "targets": [
+        "interval-1",
+        "interval-2",
+        "interval-3"
+      ],
+      "title": "Place the quadrat frame at each interval, near to far",
+      "why": "Working the transect in order, near interval to far, keeps the crew from doubling back across ground already flagged for the Spartina crew or already flushed a bird from — a quadrat placed out of sequence is also a reading that no longer matches the order the field sheet expects the data to arrive in."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Estimate and log the percent-cover class for pickleweed, native cordgrass, and invasive Spartina in the quadrat.",
+      "id": "cover-estimate",
+      "itemNames": {
+        "cover-cordgrass": "native cordgrass cover class",
+        "cover-invasive": "invasive Spartina cover class",
+        "cover-pickleweed": "pickleweed cover class"
+      },
+      "kind": "sequence",
+      "prompt": "Estimate and log the percent-cover class for pickleweed, native cordgrass, and invasive Spartina in the quadrat.",
+      "targets": [
+        "cover-pickleweed",
+        "cover-cordgrass",
+        "cover-invasive"
+      ],
+      "title": "Read the percent cover to protocol class",
+      "why": "The protocol's cover classes exist so two different technicians looking at the same quadrat call it the same band of cover rather than two different guesses at a percentage — logging each species to its class, not to a number that merely feels right, is what makes this quadrat's reading comparable to the one another tech read last quarter."
+    },
+    {
+      "cue": "Shoot the level rod against the benchmark and commit the elevation at this quadrat.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "ELEVATION",
+        "missNote": "Off the benchmark reading. Shoot the rod again at the marked point before committing.",
+        "speed": 0.7
+      },
+      "id": "elevation-shot",
+      "kind": "gauge",
+      "prompt": "Shoot the level rod against the benchmark and commit the elevation at this quadrat.",
+      "target": "level-rod",
+      "title": "Shoot the elevation against the benchmark",
+      "why": "Marsh vegetation zones by elevation within centimetres, and a trend that tracks cordgrass creeping upslope or pickleweed losing ground only means something if every quadrat's elevation is shot against the same fixed benchmark the whole survey series has always used, not eyeballed against the ground beside it."
+    },
+    {
+      "cue": "Hold the flag stake down into the mud beside the invasive Spartina clump until it's seated.",
+      "holdBreakNote": "Let go before the stake was seated — that flag is gone by the next tide. Reset it and hold until it's firm.",
+      "id": "spartina-flag",
+      "kind": "hold",
+      "prompt": "Hold the flag stake down into the mud beside the invasive Spartina clump until it's seated.",
+      "seconds": 5,
+      "target": "flag-kit",
+      "title": "Flag the invasive hybrid Spartina for the control crew",
+      "why": "A flag pushed in and let go immediately works loose on the next tide, and an unflagged hybrid Spartina clump is a clump the Invasive Spartina Project's control crew has no way of finding on their own pass — holding it seated is what turns today's find into next month's treatment instead of another season of the hybrid spreading unmarked."
+    },
+    {
+      "cue": "Hold position at the channel edge and read all three erosion pins without the tide pushing you off it.",
+      "holdBreakNote": "Footing broke before all three pins were read — get back to a steady position at the edge and finish the line.",
+      "id": "erosion-pins",
+      "kind": "track",
+      "prompt": "Hold position at the channel edge and read all three erosion pins without the tide pushing you off it.",
+      "seconds": 7,
+      "target": "erosion-pin-line",
+      "title": "Read the channel edge's erosion pins",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "CHANNEL EDGE",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "The pins measure how far the channel edge has cut back since they were driven, and that only works if each one is read from the same footing every visit — crowding the cut bank to read faster risks the same undercutting the pins exist to measure, and backing too far off misses the pin closest to the water entirely."
+    },
+    {
+      "cue": "Walk the transect back and check for anything left undone or left behind before you close it out.",
+      "id": "walk",
+      "itemNames": {
+        "loose-flagging-tape": "the loose flagging tape",
+        "unlogged-quadrat": "the unlogged quadrat"
+      },
+      "itemNotes": {
+        "loose-flagging-tape": "A strip of flagging tape has come untied and is loose on the transect — left here, it's litter on a marsh the crew is supposed to be protecting, not decorating.",
+        "unlogged-quadrat": "This quadrat's cover reading never made it onto the sheet — a gap here is a hole in this quarter's dataset nobody notices until the numbers don't add up."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the transect back and check for anything left undone or left behind before you close it out.",
+      "targets": [
+        "unlogged-quadrat",
+        "loose-flagging-tape"
+      ],
+      "title": "Walk the transect before closing it out",
+      "why": "The last walk is the only chance to catch a quadrat whose reading never made it to the sheet or a piece of gear the marsh itself will otherwise keep — closing the transect here, on the ground, is cheaper than discovering the gap back at the office with no way to reread today's marsh."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Vegetation survey on a fixed transect: bearing set from the start stake, tape run taut to the end stake, percent cover read to protocol class at every quadrat, elevation shot against the benchmark, the invasive hybrid Spartina flagged for the control crew, and the channel edge's erosion pins read before the tide takes the low transect",
+  "title": "SmartCiti.X~ Marsh Transect Survey VR",
+  "trade": "Environmental monitoring technician / vegetation survey crew",
+  "underwater": null,
+  "weather": "overcast"
+}

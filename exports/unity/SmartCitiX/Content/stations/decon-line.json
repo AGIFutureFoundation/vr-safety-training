@@ -1,0 +1,370 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "corridor-clean",
+    "name": "Corridor Clean",
+    "note": "A corridor set by the wind, a responder walked through clean, mask on until the suit is off, and not a litre to the drain"
+  },
+  "category": "Emergency Services",
+  "certification": "IAFF — NFPA 470 hazardous materials operations (decontamination mission-specific competency); OSHA 29 CFR 1910.120(q) emergency response",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IAFF",
+        "id": "iaff-training",
+        "title": "IAFF training programmes, including Fire Ground Survival and the peer support model"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 470",
+        "id": "nfpa-470",
+        "title": "NFPA 470 — Hazardous Materials/WMD Response Personnel Professional Qualifications"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.120",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Emergency Services",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "zones-first",
+        "name": "Zones First",
+        "note": "Hot, warm and cold set in order, first time"
+      },
+      {
+        "id": "mask-on",
+        "name": "Mask On",
+        "note": "Never unmasked in the warm zone, never shortcut the corridor"
+      },
+      {
+        "id": "vitals-true",
+        "name": "Vitals True",
+        "note": "Medical monitoring read inside the criteria"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-corridor",
+        "name": "Clean Corridor",
+        "note": "No corrections anywhere on the line"
+      },
+      {
+        "id": "wash-held",
+        "name": "Wash Held",
+        "note": "Held the gross wash steady the whole pass"
+      },
+      {
+        "id": "line-up-fast",
+        "name": "Line Up Fast",
+        "note": "Corridor established inside 80% of par"
+      }
+    ],
+    "currency": "PASS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Decon Tech",
+      "Corridor Lead",
+      "Decon Officer",
+      "Hazmat Ops",
+      "Decon Command Certified"
+    ],
+    "system": "Decon Command"
+  },
+  "hazards": {
+    "bare-hands-rinse": "You rinsed a responder with bare hands. The decon crew is in PPE too — the corridor's own people are exposed to everything they wash off.",
+    "mask-off-warm": "You pulled the mask off in the warm zone. The SCBA comes off last, in the cold zone, after the suit — the air around the corridor is still the release's air.",
+    "runoff-drain": "You let the wash water run to the storm drain. Decon runoff is the contaminant in solution; it is bermed and pumped to the collection tank, never sent downstream.",
+    "shortcut-hot": "You stepped from the hot zone straight into the cold zone. Every step of the corridor exists to leave contamination behind; a shortcut carries it into the rehab area, the ambulance and the crew that never suited up."
+  },
+  "id": "decon-line",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "wash",
+      "alert": "The wind flag behind the corridor has swung hard around while you're mid-wash, and it isn't reading out of the east anymore.",
+      "cue": "The wind that sited this corridor just changed.",
+      "delay": 3,
+      "id": "wind-shifts-mid-wash",
+      "kind": "Wind shift",
+      "missNote": "The wash kept going while the wind carried the plume across the corridor itself. The decon crew in their splash suits and SCBA were built to survive that; the responder mid-wash, already partly stripped of protection, was not.",
+      "seconds": 12,
+      "target": "wind-flag",
+      "why": "Upwind is not a condition this corridor earns once and keeps — it is true for exactly as long as the wind agrees with the reading taken before the tape went down, and a release plume follows the wind, not the layout drawn on the ground an hour ago. NFPA 470's mission-specific decon competency assumes conditions get reassessed as they change, and a corridor still washing a responder while the plume drifts across the warm zone is decon working against the exact hazard it was sited to avoid.",
+      "wrongNote": "It's the flag, not the wand. The wash line is doing exactly what it should — the ground it's standing on just stopped being upwind."
+    },
+    {
+      "after": "doff",
+      "alert": "The wash is done and the responder's doffed, but the hydrant valve behind you is still wide open with the wand capped and nowhere for the pressure to go.",
+      "cue": "Nobody shut the water off.",
+      "delay": 3,
+      "id": "line-left-charged",
+      "kind": "Line left charged",
+      "missNote": "The hydrant stayed open against a dead-ended line long after the last responder was through. A coupling under that kind of standing pressure does not wait for a convenient moment to fail, and when one lets go it sprays whoever is nearest — which by then is the decon crew already stripping out of the PPE the wash line still needs.",
+      "seconds": 13,
+      "target": "hydrant-valve",
+      "why": "A charged line is a live control for as long as it stays open, not just while somebody is holding the wand — a low-pressure wash line dead-ended against a shut-off wand keeps building pressure against every fitting and gasket in the run until something on it gives. It gets secured the moment the last wash is finished, because the berm and the liners were sized for one job's runoff, not for a line nobody remembered to close.",
+      "wrongNote": "It's the hydrant valve. The SCBA and mask coming off in front of you aren't what's building pressure against this corridor's fittings."
+    }
+  ],
+  "lateNotes": {
+    "hydrant-valve": "Water comes after the corridor is set and the crew is in PPE — a charged line with nowhere contained for it to go is the runoff hazard you are here to prevent.",
+    "wash-wand": "The gross wash starts once the responder is in the first pool and the water supply is up."
+  },
+  "name": "Decon Line",
+  "parSeconds": 250,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hazmat-environmental",
+    "hunters-point-bay-restoration",
+    "outbreak-response-who"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "bare-hands-rinse",
+      "berm-dam",
+      "decon-gloves",
+      "decon-scba",
+      "decon-suit",
+      "doff-boots",
+      "doff-scba",
+      "doff-suit",
+      "drain-socket",
+      "hydrant-valve",
+      "iap-board",
+      "liner-tear",
+      "mask-off-warm",
+      "pool-gross",
+      "pool-rinse",
+      "pool-technical",
+      "runoff-drain",
+      "shortcut-hot",
+      "vitals-monitor",
+      "wash-wand",
+      "wind-flag",
+      "zone-cold",
+      "zone-hot",
+      "zone-warm"
+    ],
+    "meshes": 142
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the product, the decon method, the zone layout and who is medical.",
+      "id": "iap",
+      "kind": "select",
+      "prompt": "Check the product, the decon method, the zone layout and who is medical.",
+      "target": "iap-board",
+      "title": "Read the incident action plan",
+      "why": "The IAP is what turns a decon line from a guess into a plan: it names the product so the crew knows whether a water-soluble wash even works on it or whether this is a dry decon instead, and it says where the zones and the medical group sit before a single cone goes down. A corridor built from habit instead of the plan is a corridor built for whatever the last release was, not this one."
+    },
+    {
+      "cue": "Read the flag — the corridor runs upwind of the release, hot to cold.",
+      "id": "wind",
+      "kind": "select",
+      "prompt": "Read the flag — the corridor runs upwind of the release, hot to cold.",
+      "target": "wind-flag",
+      "title": "Check the wind",
+      "why": "Every zone downstream of this reading depends on it: the whole point of siting decon upwind and uphill of the release is that the crew working the line is never standing in the plume they are washing off someone else. The flag is what decides which way hot, warm and cold actually point, and it is read before any tape goes down, not fitted to tape that is already on the ground."
+    },
+    {
+      "cue": "Set the hot zone boundary, then the warm zone, then the cold zone — in that order, upwind.",
+      "id": "zones",
+      "itemNames": {
+        "zone-cold": "cold zone line",
+        "zone-hot": "hot zone line",
+        "zone-warm": "warm zone line"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Hot, then warm, then cold — the boundaries are set from the hazard outward.",
+      "prompt": "Set the hot zone boundary, then the warm zone, then the cold zone — in that order, upwind.",
+      "targets": [
+        "zone-hot",
+        "zone-warm",
+        "zone-cold"
+      ],
+      "title": "Establish the zones",
+      "why": "The hot line goes down first because it is the boundary that actually bounds the hazard; the warm zone is the corridor built inside that boundary, and cold is the clean ground beyond both of them. Marking cold first would put a 'safe' area on the map before anyone has said where the danger stops, which is a promise the tape cannot back up yet."
+    },
+    {
+      "cue": "Gross decon pool at the hot line, technical wash next, rinse last, walking toward cold.",
+      "id": "corridor",
+      "itemNames": {
+        "pool-gross": "gross decon pool",
+        "pool-rinse": "rinse pool",
+        "pool-technical": "technical wash pool"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Pools go in the order the responder walks them — gross, technical, rinse.",
+      "prompt": "Gross decon pool at the hot line, technical wash next, rinse last, walking toward cold.",
+      "targets": [
+        "pool-gross",
+        "pool-technical",
+        "pool-rinse"
+      ],
+      "title": "Lay out the corridor",
+      "why": "Each pool exists to take off whatever the one before it left behind: gross knocks the bulk of the product off the suit, technical scrubs what the first pass missed out of the fabric's texture, and rinse carries the soap itself away before anyone reaches clean ground. Lay them out of order and a responder can walk out of the corridor rinsed clean of soap while still wearing the product underneath it."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Splash suit, outer gloves and SCBA on the crew working the line.",
+      "id": "ppe",
+      "itemNames": {
+        "decon-gloves": "outer gloves",
+        "decon-scba": "SCBA",
+        "decon-suit": "splash suit"
+      },
+      "kind": "sequence",
+      "prompt": "Splash suit, outer gloves and SCBA on the crew working the line.",
+      "targets": [
+        "decon-suit",
+        "decon-gloves",
+        "decon-scba"
+      ],
+      "title": "Suit the decon crew",
+      "why": "The decon crew works the whole shift standing in the warm zone, which means everything they wash off a responder passes through the air and across the ground they are standing on. OSHA 1910.120(q) puts them one level below the entry team's protection, not two — a level that still means a full splash suit and air, because the line crew is exposed to the release just as surely as the person who walked out of it."
+    },
+    {
+      "cue": "Carry the drain dam from the truck and seat it over the storm drain below the corridor.",
+      "drag": {
+        "missNote": "Not over the grate — seat the dam square on the drain.",
+        "radius": 0.4,
+        "to": "drain-socket"
+      },
+      "id": "berm",
+      "kind": "drag",
+      "prompt": "Carry the drain dam from the truck and seat it over the storm drain below the corridor.",
+      "target": "berm-dam",
+      "title": "Berm the drain",
+      "why": "Runoff from a decon line is not water with a little product in it; it is the product, carried in water, headed for whatever the drain connects to. The dam goes over that drain before the first litre is sprayed, because a corridor that washes a responder clean while sending the wash straight into a storm system has only moved the contamination from one place to a much larger one."
+    },
+    {
+      "cue": "Open the hydrant valve to charge the low-pressure wash line.",
+      "id": "water",
+      "kind": "turn",
+      "prompt": "Open the hydrant valve to charge the low-pressure wash line.",
+      "target": "hydrant-valve",
+      "title": "Charge the decon line",
+      "turn": {
+        "axis": "y",
+        "label": "HYDRANT",
+        "turns": 1
+      },
+      "why": "Low pressure and high volume is the combination that rinses a suit clean without driving the product through the fabric and the seams the way a fire attack line's pressure would. The valve stays shut until the berm is down and the pools are laid, because charging a line before there is anywhere contained for the water to go turns the corridor into the exact discharge it was built to prevent."
+    },
+    {
+      "cue": "Hold a steady, low-pressure wash from the top down — head, shoulders, torso, legs, boots.",
+      "holdBreakNote": "Wash dropped out of the band — product is being left or driven in. Bring it back and hold.",
+      "id": "wash",
+      "kind": "track",
+      "prompt": "Hold a steady, low-pressure wash from the top down — head, shoulders, torso, legs, boots.",
+      "seconds": 7,
+      "target": "wash-wand",
+      "title": "Gross-decon the responder",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "WASH",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "Top down means whatever runs off a shoulder lands on suit fabric that has not been washed yet rather than on skin that already has, so contamination travels toward clean the whole time instead of crossing back over it. Steady pressure matters just as much as direction — enough to lift product off the surface, not so much that it drives the same product into a seam or a zipper where a soft rinse will never reach it again."
+    },
+    {
+      "cue": "Outer boots and gloves off first, then the suit peeled away from the body, and the SCBA and mask last — at the cold line.",
+      "id": "doff",
+      "itemNames": {
+        "doff-boots": "outer boots and gloves",
+        "doff-scba": "SCBA and mask",
+        "doff-suit": "suit"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Boots and gloves, then suit, then the mask last — the face is protected until everything contaminated is off.",
+      "prompt": "Outer boots and gloves off first, then the suit peeled away from the body, and the SCBA and mask last — at the cold line.",
+      "targets": [
+        "doff-boots",
+        "doff-suit",
+        "doff-scba"
+      ],
+      "title": "Doff in order",
+      "why": "The outside of that suit has been standing in the release since before the wash started, and rinsing does not certify it clean the way a lab test would — it only certifies it clean enough to touch. The mask stays sealed until the suit is fully off because the air right around a responder mid-doff is still the corridor's air, not the cold zone's, and the face is the one part of this that does not get a second chance at a bad breath."
+    },
+    {
+      "cue": "Take the responder's post-entry vitals and commit inside the rehab criteria.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "HEART RATE",
+        "missNote": "Outside rehab criteria — the responder stays in rehab and is re-checked.",
+        "speed": 0.75
+      },
+      "id": "medical",
+      "kind": "gauge",
+      "prompt": "Take the responder's post-entry vitals and commit inside the rehab criteria.",
+      "target": "vitals-monitor",
+      "title": "Medical monitoring",
+      "why": "Heat stress, the exertion of working in a suit, and whatever exposure did make it through the PPE all show up in the same set of numbers before they show up as a collapse. A responder does not get released off this line on how they look or how they say they feel — they get released when the numbers medical is reading say the body has actually recovered enough to leave rehab."
+    },
+    {
+      "cue": "Check every pool and the berm, and click where containment failed.",
+      "id": "walk",
+      "itemNames": {
+        "liner-tear": "torn pool liner"
+      },
+      "itemNotes": {
+        "liner-tear": "The technical pool liner is torn at the corner and wash water is running under it toward the drain."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check every pool and the berm, and click where containment failed.",
+      "targets": [
+        "liner-tear"
+      ],
+      "title": "Walk the corridor for leaks",
+      "why": "A corridor can be built in the right order, with every pool in its place, and still be leaking at a torn liner seam or a gap under the dam that nobody would find without looking for it. The walk-down after the last responder is through is the only step that actually proves containment held for the whole job rather than assuming it did because the layout looked right going in."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Hazmat decontamination corridor: zones by the wind, pools in order, gross wash, doffing order, runoff contained",
+  "title": "SmartCiti.X~ Decon Line VR",
+  "trade": "Hazmat firefighter / decon technician",
+  "underwater": null,
+  "weather": "wind"
+}

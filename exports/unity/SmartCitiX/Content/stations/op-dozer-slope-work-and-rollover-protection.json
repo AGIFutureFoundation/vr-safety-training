@@ -1,0 +1,429 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "slope-control",
+    "name": "Slope Control",
+    "note": "ROPS inspected, seatbelt buckled, the edge walked and flagged, and the cut held clean the whole crossing"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926 Subpart W Rollover protective structures; overhead protection and 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on rollover incidents",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.21",
+        "id": "osha-1926-21",
+        "title": "29 CFR 1926.21 — Safety training and education in construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations",
+        "id": "osha-1926-subpart-o",
+        "title": "OSHA 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926 Subpart W Rollover protective structures; overhead protection",
+        "id": "osha-1926-subpart-w",
+        "title": "OSHA 29 CFR 1926 Subpart W Rollover protective structures; overhead protection"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "belted-every-time",
+        "name": "Belted Every Time",
+        "note": "Never ran the blade without the seatbelt buckled"
+      },
+      {
+        "id": "edge-respected",
+        "name": "Edge Respected",
+        "note": "Never stood or cut inside the undercut zone"
+      },
+      {
+        "id": "steady-bench",
+        "name": "Steady Bench",
+        "note": "Held the gauge readings near band centre all shift"
+      },
+      {
+        "id": "clean-cut",
+        "name": "Clean Cut Certified",
+        "note": "Cut the bench clean, first try"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-bench",
+        "name": "Quick Bench",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "slope-streak",
+        "name": "Slope Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "SLOPE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Hand",
+      "Dozer Hand",
+      "Slope Certified",
+      "Bench Authority",
+      "Slope Control Certified"
+    ],
+    "system": "Slope Control"
+  },
+  "hazards": {
+    "ripper-drag-hazard": "That engages the ripper while the machine is still crossing the slope. A dragging ripper digs into ground the tracks are already relying on for grip, and on a sidehill that is exactly the moment an already marginal footing lets go from underneath the uphill track.",
+    "slope-edge-stand": "You are working the blade right at the edge of the undercut. The ground under a tracked machine's own weight can give way at an undercut with no warning, and a dozer that starts to roll on a slope gives its operator only the time it takes to have already reacted, not the time it takes to decide to.",
+    "soft-shoulder-hazard": "That shoulder reads soft under the machine's own track pressure. Ground that cannot carry a loaded track's full weight gives way exactly where a slope's grade is already doing half the work of tipping the machine over.",
+    "unbelted-start": "That starts the blade without the seatbelt buckled. A ROPS cage only protects an operator who stays inside its zone of protection during a rollover, and the seatbelt is the only thing that keeps a body there — a cage over an empty seat protects nobody."
+  },
+  "id": "op-dozer-slope-work-and-rollover-protection",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "cut-the-bench",
+      "alert": "The blade has caught a buried rock and the machine has started to lean toward the downhill track.",
+      "cue": "Call it out and hold the machine level before the lean gets any worse.",
+      "delay": 4,
+      "id": "blade-catches-rock",
+      "kind": "Blade catch",
+      "missNote": "The lean kept building while the cut continued. A dozer that starts to roll on a slope does not give its operator a second attempt at the decision that would have stopped it.",
+      "seconds": 12,
+      "target": "spotter",
+      "why": "A lean that starts on a sidehill does not correct itself, and the operator feels it a half-second before anyone watching from the safe side does — which is exactly why calling it out immediately, rather than trying to work through it alone, is what keeps a recoverable lean from becoming a rollover nobody called in time.",
+      "wrongNote": "Not that — the lean toward the downhill track is what has to be dealt with before this cut continues."
+    },
+    {
+      "after": "direct-slope-work",
+      "alert": "The grade checker has walked toward the undercut edge chasing a reading, out of the operator's clear sightline.",
+      "cue": "Recall them off the edge before the blade moves any further.",
+      "delay": 4,
+      "id": "checker-toward-edge",
+      "kind": "Sightline lost",
+      "missNote": "The grade checker stayed at the edge while the blade kept moving. An undercut edge can give way under a person's own weight with no more warning than it gives a dozer's track.",
+      "seconds": 11,
+      "target": "sightline-recall",
+      "why": "A slope's undercut edge is unstable ground by definition, which is exactly the ground a grade checker should never be standing on to take a reading — and the operator, working the blade with attention split between the cut and the signal, is the one person least able to also be watching where that reading is being taken from.",
+      "wrongNote": "Not that — get the grade checker off the edge before anything else on this cut matters."
+    }
+  ],
+  "lateNotes": {
+    "escape-flag-roll": "The escape route gets flagged before the machine is committed to the slope, not found by looking around after something has already gone wrong on it.",
+    "grade-rod": "The grade checker reads the slope percentage against the plan while the bench is still open to correct, not after the next lift is already cut on top of it."
+  },
+  "name": "Dozer Slope Work & Rollover Protection",
+  "parSeconds": 275,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "heavy-equipment-operators"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "dozer",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "0.9x1.5x1.5",
+        "count": 1,
+        "kit": "unknown"
+      },
+      {
+        "builder": "3.05x1.9x0.07",
+        "count": 1,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "blade-tilt-lever",
+      "closing-log",
+      "compaction-gauge",
+      "cone-a",
+      "cone-b",
+      "dig-controls",
+      "edge-barrier",
+      "escape-flag-roll",
+      "escape-flag-socket",
+      "grade-rod",
+      "hard-hat",
+      "hi-vis-vest",
+      "ripper-drag-hazard",
+      "ripper-stow-indicator",
+      "rops-tag",
+      "seatbelt",
+      "sightline-recall",
+      "slope-debris",
+      "slope-edge-stand",
+      "slope-plan-board",
+      "soft-shoulder-crack",
+      "soft-shoulder-hazard",
+      "spotter",
+      "stable-bench",
+      "unbelted-start",
+      "undercut-edge"
+    ],
+    "meshes": 210
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Hi-vis vest and hard hat before anyone is near the machine.",
+      "id": "ppe",
+      "itemNames": {
+        "hard-hat": "hard hat",
+        "hi-vis-vest": "hi-vis vest"
+      },
+      "kind": "sequence",
+      "prompt": "Hi-vis vest and hard hat before anyone is near the machine.",
+      "targets": [
+        "hi-vis-vest",
+        "hard-hat"
+      ],
+      "title": "Suit up before the slope",
+      "why": "A spotter working a slope has enough to track already without also having to pick a person out of the same dirt-coloured background the machine is sitting in — the vest and hard hat are what make the ground crew visible from the cab at a glance, not a formality before the real work starts."
+    },
+    {
+      "cue": "Check the ROPS certification tag and the structure itself for cracks or a prior impact before trusting it.",
+      "id": "rops-inspect",
+      "kind": "select",
+      "prompt": "Check the ROPS certification tag and the structure itself for cracks or a prior impact before trusting it.",
+      "target": "rops-tag",
+      "title": "Inspect the ROPS structure",
+      "why": "A rollover protective structure that has already absorbed one impact, or one carrying a weld crack nobody caught, is not the certified structure whose rated capacity the operator is trusting their life to — the tag and a visual check are how you confirm the cage over the seat is still the cage it was built to be."
+    },
+    {
+      "cue": "Walk the planned cut line. Three signs the ground is not what it looks like are hiding along it — find them by looking.",
+      "decoyNotes": {
+        "stable-bench": "That section of bench is compacted, dry and holding its line. Nothing to flag there."
+      },
+      "id": "walk-the-slope",
+      "itemNames": {
+        "slope-debris": "loose debris on the cut line",
+        "soft-shoulder-crack": "crack along the soft shoulder",
+        "undercut-edge": "undercut at the slope edge"
+      },
+      "itemNotes": {
+        "slope-debris": "Loose rock sitting on the cut line is exactly what a blade catches and kicks sideways into an already marginal footing.",
+        "soft-shoulder-crack": "A tension crack along this shoulder is the ground telling you it is already failing under its own weight, before a 20-tonne machine adds any more to it.",
+        "undercut-edge": "The ground here overhangs empty space below it — a track that gets anywhere near this edge is trusting dirt that is not actually supporting anything."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the planned cut line. Three signs the ground is not what it looks like are hiding along it — find them by looking.",
+      "targets": [
+        "undercut-edge",
+        "soft-shoulder-crack",
+        "slope-debris"
+      ],
+      "title": "Walk the slope before committing the machine",
+      "why": "A slope that reads as solid from the cab is not the same thing as a slope a competent person has actually walked and checked, and NIOSH's own rollover fatality investigations keep finding the same pattern: an operator who trusted how the ground looked instead of how it was tested is the operator who found out the difference from inside a machine that was already going over."
+    },
+    {
+      "cue": "Buckle in before the blade moves, every time, not just on the steep sections.",
+      "id": "seatbelt-buckle",
+      "kind": "select",
+      "prompt": "Buckle in before the blade moves, every time, not just on the steep sections.",
+      "target": "seatbelt",
+      "title": "Buckle the seatbelt",
+      "why": "The ROPS structure only protects an operator who stays inside its zone of protection through a rollover, and the seatbelt is the only thing keeping a body there instead of against the inside of a structure built to survive an impact, not a passenger thrown into its path."
+    },
+    {
+      "cue": "Confirm the grade, the cut direction and the marked hazards before committing the machine.",
+      "id": "slope-plan",
+      "kind": "select",
+      "prompt": "Confirm the grade, the cut direction and the marked hazards before committing the machine.",
+      "target": "slope-plan-board",
+      "title": "Read the slope plan",
+      "why": "The slope plan is what sets today's grade percentage and which direction the bench gets cut in — a dozer working a slope from a direction the plan did not intend can turn a stable cut into one that is now undercutting itself from the wrong side."
+    },
+    {
+      "cue": "Carry the escape flag to the marked route off the slope before the machine is committed.",
+      "drag": {
+        "missNote": "Not on the marked route — carry the flag to where the escape path actually is.",
+        "radius": 0.4,
+        "to": "escape-flag-socket"
+      },
+      "id": "escape-flag",
+      "kind": "drag",
+      "prompt": "Carry the escape flag to the marked route off the slope before the machine is committed.",
+      "target": "escape-flag-roll",
+      "title": "Flag the escape route",
+      "why": "An escape route decided on after something has already gone wrong is a route chosen under panic, not the one that was actually clearest — flagging it now, while everyone is still calm, is what makes it the route people actually take instead of the first gap they see."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Cone both approaches and set the barrier the full length of the undercut.",
+      "id": "barricade-edge",
+      "itemNames": {
+        "cone-a": "cone at the approach",
+        "cone-b": "cone at the toe of the slope",
+        "edge-barrier": "barrier along the undercut edge"
+      },
+      "kind": "sequence",
+      "prompt": "Cone both approaches and set the barrier the full length of the undercut.",
+      "targets": [
+        "cone-a",
+        "cone-b",
+        "edge-barrier"
+      ],
+      "title": "Barricade the undercut edge",
+      "why": "A barrier along the undercut is what keeps anyone on foot — a delivery, a visitor, a coworker cutting a corner — from ever finding out the hard way that the ground past that line is not actually holding itself up."
+    },
+    {
+      "cue": "Agree hand signals and the stop signal with the dedicated spotter before the first cut.",
+      "id": "spotter-brief",
+      "kind": "select",
+      "prompt": "Agree hand signals and the stop signal with the dedicated spotter before the first cut.",
+      "target": "spotter",
+      "title": "Confirm the spotter's protocol",
+      "why": "The spotter is watching the downhill side and the edge the operator's own seat cannot judge from above, and that only works if both of them already agree what a stop signal looks like before the blade is moving and it is needed for real."
+    },
+    {
+      "cue": "Turn the tilt lever to angle the blade for the slope, not for flat ground.",
+      "id": "blade-angle-set",
+      "kind": "turn",
+      "prompt": "Turn the tilt lever to angle the blade for the slope, not for flat ground.",
+      "target": "blade-tilt-lever",
+      "title": "Set the blade tilt for the sidehill cut",
+      "turn": {
+        "axis": "z",
+        "label": "BLADE TILT",
+        "turns": 0.5
+      },
+      "why": "A blade set flat on a sidehill cuts unevenly and throws material downhill in a way that steepens the very slope the machine is standing on — tilting it to match the grade is what keeps the cut even and keeps the spoil going where the plan wants it, not where gravity happens to take it."
+    },
+    {
+      "cue": "Confirm the ripper is fully raised before crossing the slope face.",
+      "id": "ripper-stow-check",
+      "kind": "select",
+      "prompt": "Confirm the ripper is fully raised before crossing the slope face.",
+      "target": "ripper-stow-indicator",
+      "title": "Confirm the ripper is stowed",
+      "why": "A ripper that is down while the machine crosses a slope digs into ground the tracks are relying on for grip, on the one section of the job where every bit of that grip is already spoken for — it travels up, every time, until the machine is squared back up on flat ground."
+    },
+    {
+      "cue": "Hold the controls steady for a slow, controlled pass along the marked cut line.",
+      "holdBreakNote": "Released the controls mid-cut on the slope. Hold it through the whole pass — that is what keeps this a controlled cut instead of a guess on a grade that does not forgive one.",
+      "id": "cut-the-bench",
+      "kind": "hold",
+      "prompt": "Hold the controls steady for a slow, controlled pass along the marked cut line.",
+      "seconds": 6,
+      "target": "dig-controls",
+      "title": "Cut the bench",
+      "why": "A bench cut into a slope is cut slow on purpose — a fast, confident pass is exactly the pass that catches a buried rock or a soft pocket nobody saw from the walk-down, and finds out about it from the machine's own lean instead of from the inspection that was supposed to catch it first."
+    },
+    {
+      "cue": "Keep the spotter's signal steady, holding the cut inside the safe line clear of the undercut edge.",
+      "holdBreakNote": "The cut drifted off the marked line. Bring it back on the spotter's signal before the blade moves again.",
+      "id": "direct-slope-work",
+      "kind": "track",
+      "prompt": "Keep the spotter's signal steady, holding the cut inside the safe line clear of the undercut edge.",
+      "seconds": 8,
+      "target": "spotter",
+      "title": "Work the cut under the spotter's signal",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "CUT LINE",
+        "rise": 0.5,
+        "start": 0.12
+      },
+      "why": "The spotter is watching the one thing the operator's own seat cannot judge from above — how close the track actually is to the undercut edge — and continuous signals are what let the operator trust that distance instead of guessing it from a cab that is already tilted by the grade itself."
+    },
+    {
+      "cue": "Have the grade checker read the rod against the plan grade while the bench is still open.",
+      "id": "grade-check",
+      "kind": "select",
+      "prompt": "Have the grade checker read the rod against the plan grade while the bench is still open.",
+      "target": "grade-rod",
+      "title": "Confirm the bench against the slope plan",
+      "why": "A second person reading the rod against the plan, independent of the operator, is what actually catches a bench that is running steeper or flatter than the plan allows before the next lift goes on top of it compounding the error."
+    },
+    {
+      "cue": "Read the density gauge on the finished bench and commit only inside the target band.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.8
+        ],
+        "label": "BENCH COMPACTION DENSITY",
+        "missNote": "Under target. Run the machine over the bench again before calling it finished.",
+        "speed": 0.55
+      },
+      "id": "compaction-check",
+      "kind": "gauge",
+      "prompt": "Read the density gauge on the finished bench and commit only inside the target band.",
+      "target": "compaction-gauge",
+      "title": "Check the bench compaction",
+      "why": "A bench that looks finished but was never actually compacted to the target density is a slope that keeps moving under whatever gets built or driven on it next — the gauge is what confirms the bench is actually done, not just cut to shape."
+    },
+    {
+      "cue": "Log the cut, the grade reading and the compaction result before shutting the machine down.",
+      "id": "shutdown-log",
+      "kind": "select",
+      "prompt": "Log the cut, the grade reading and the compaction result before shutting the machine down.",
+      "target": "closing-log",
+      "title": "Close out the slope work log",
+      "why": "The slope work log is what the next shift and the next inspection read — a bench that was cut and checked cleanly but never logged against the plan leaves nothing behind to prove the grade was actually verified."
+    }
+  ],
+  "supportLine": "your IUOE local's member assistance programme, or the site's employee assistance line if a close call on that slope is what stayed with you",
+  "tagline": "Crawler dozer cutting a bench into a slope: ROPS inspected, seatbelt buckled, the slope walked for an undercut edge, an escape route flagged, and the ripper kept up for the whole crossing",
+  "title": "SmartCiti.X~ Dozer Slope Work & Rollover Protection VR",
+  "trade": "Dozer operator — IUOE Local 3 operating engineer",
+  "underwater": null,
+  "weather": "overcast"
+}

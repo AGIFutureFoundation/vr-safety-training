@@ -1,0 +1,438 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "unbroken-custody",
+    "name": "Unbroken Custody",
+    "note": "Every core signed in, every jar sealed and every cooler signed out, with nothing unlabelled let into the batch"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "LIUNA Local 261 hazardous waste and environmental remediation training (LIUNA Training and Education Fund) for the field sample custodian; IUOE Local 3 operating engineer on the coring barge's crane; OSHA HAZWOPER, 29 CFR 1910.120, for handling contaminated sediment at the bench; EPA QA/G-5 quality assurance project plan practice and the chain of custody built on it; 40 CFR 136 preservation and holding times for the site-water fractions; the Regional Water Quality Control Board's Section 401 certification and Army Corps Section 404 conditions that call for the sediment data; DMMO testing requirements the results are reported against",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "DMMO",
+        "citedAs": "DMMO",
+        "id": "dmmo-dredged-material-testing",
+        "title": "San Francisco Bay Dredged Material Management Office — sediment testing, suitability determinations and placement-site review for dredged material"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "40 CFR 136",
+        "id": "epa-40-cfr-136",
+        "title": "40 CFR Part 136 — Test procedures for the analysis of pollutants"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "EPA QA/G-5",
+        "id": "epa-qa-g5",
+        "title": "EPA QA/G-5 — Guidance for quality assurance project plans, and the chain-of-custody practice built on it"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA Training",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "Section 401",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      },
+      {
+        "body": "USACE",
+        "citedAs": "Section 404",
+        "id": "usace-section-404",
+        "title": "Clean Water Act §404 permit conditions for the discharge of dredged or fill material"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "signed-in-clean",
+        "name": "Signed In Clean",
+        "note": "The plan read and the incoming cores checked and signed for without a correction"
+      },
+      {
+        "id": "nothing-topped-off",
+        "name": "Nothing Topped Off",
+        "note": "Never a jar topped from another core, never a knife pulled toward a hand, never a cooler handed over unsigned"
+      },
+      {
+        "id": "recovery-true",
+        "name": "Recovery True",
+        "note": "Recovery committed and the mix held inside their bands"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-bench",
+        "name": "Clean Bench",
+        "note": "No corrections from the plan to the check-in"
+      },
+      {
+        "id": "even-mix",
+        "name": "Even Mix",
+        "note": "Held the homogenising in band the whole time"
+      },
+      {
+        "id": "courier-on-time",
+        "name": "Courier On Time",
+        "note": "Cooler relinquished inside 80% of par"
+      }
+    ],
+    "currency": "JAR",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Bench Hand",
+      "Sample Tech",
+      "Field Custodian",
+      "Sample Coordinator",
+      "Custody Bench Certified"
+    ],
+    "system": "Custody Bench"
+  },
+  "hazards": {
+    "coffee-at-bench": "You set your coffee down on the sample bench. Anything open at a bench where contaminated sediment is being mixed collects it, and hand-to-mouth is exactly the route HAZWOPER's hygiene rules close. Food and drink stay outside the bench area, past the wash station, and hands are washed before either.",
+    "cooler-unsigned": "You went to hand the cooler to the courier to sign later. The relinquish is the moment custody moves from you to them; a cooler that leaves with only one signature has a gap in its record, and a lab result from a sample with a gap in its custody can be — and on contested sites is — thrown out. Both sign, with the time, before the cooler leaves your hands.",
+    "knife-toward-hand": "You started to split the core liner with a knife drawn toward the hand holding the tube. Liner plastic is tough and a blade that breaks through it keeps going into whatever is in its path, which here is your own hand and a sediment that may carry anything the profile finds. Liners are opened with the tube cutter on the rack, blade away from the body.",
+    "top-off-jar": "You went to top up a short jar with sediment from the next core. A jar is a sample of one core interval, and the moment another core goes into it the result describes neither — worse, it describes a place that does not exist, and a disposal or cleanup decision will be made on it. A short jar is logged short, or the interval is resampled; it is never filled from somewhere else."
+  },
+  "id": "br-sediment-chain-of-custody-and-lab-prep",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "homogenise",
+      "alert": "The sample fridge is beeping and its lamp has gone red — the door has swung open on its latch and the cores waiting in it are warming.",
+      "cue": "Shut and latch the fridge door, then check the reading before you go back to the bowl.",
+      "delay": 3,
+      "id": "sample-fridge-alarm",
+      "kind": "Sample fridge temperature alarm",
+      "missNote": "The fridge door stayed open while the mixing went on; by the time anyone looked, every core in it had warmed past the plan's limit and had to be logged as compromised.",
+      "seconds": 13,
+      "target": "fridge-door",
+      "why": "Cores waiting to be processed are held cold for the same reason the cooler is — so what the lab measures is what came off the bottom. An open fridge warms every core in it at once, and the time it was open is something the field log has to record, so the door is shut now and the minutes noted, not after the interval in the bowl is finished.",
+      "wrongNote": "The fridge door — shut and latch it, then note how long it was open."
+    },
+    {
+      "after": "fill-jars",
+      "alert": "Someone from the barge has dropped a zip bag of sediment on the end of your bench — no label, no custody form — and walked off.",
+      "cue": "Move the bag to the quarantine tray, out of the batch, until someone can say what it is.",
+      "delay": 2,
+      "id": "unlabelled-bag",
+      "kind": "An unlabelled sample on the bench",
+      "missNote": "The bag sat on the bench among the jars; someone later assumed it belonged to the last core and jarred it, and a sample of unknown origin went to the lab under that core's number.",
+      "seconds": 13,
+      "target": "quarantine-tray",
+      "why": "A sample with no label and no custody form is not a sample, and on a bench full of jars it is a contamination and a mix-up waiting to happen. It goes to the quarantine tray, apart from the batch, and stays there until the person who took it can document it; nothing from it is jarred on a guess.",
+      "wrongNote": "The quarantine tray — get the unlabelled bag away from the batch before anything else."
+    }
+  ],
+  "lateNotes": {
+    "extruder-crank": "Extrude the core only after its recovery has been measured in the liner — once it is out, the length it came up with can no longer be checked against the drive.",
+    "field-log": "The field log is written once the bench is closed out — it records what went to the lab and what was left on the dock.",
+    "homogenise-paddle": "Homogenise only after the volatile subsample is off the fresh face — mixing first lets the volatiles go before anything has captured them.",
+    "temp-blank": "The temperature blank goes in with the filled jars — it is there to say what temperature they travelled at, so it rides with them, not in an empty cooler."
+  },
+  "name": "Sediment Chain of Custody & Lab Prep",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "cargoVan",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "workboat",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "bowl-unwashed",
+      "cap-cracked",
+      "coffee-at-bench",
+      "cooler-ice",
+      "cooler-seal",
+      "cooler-unsigned",
+      "cooler-well",
+      "crew-radio",
+      "custody-in",
+      "custody-out",
+      "extruder-crank",
+      "field-log",
+      "fridge-door",
+      "homogenise-paddle",
+      "jar-set",
+      "knife-toward-hand",
+      "label-smeared",
+      "ppe-apron",
+      "ppe-glasses",
+      "ppe-nitrile",
+      "quarantine-tray",
+      "recovery-tape",
+      "rinse-uncovered",
+      "sap-binder",
+      "temp-blank",
+      "top-off-jar",
+      "voc-sampler"
+    ],
+    "meshes": 211
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "At the binder: which cores and intervals, the analytes, the containers and their order, preservation and holding times, and the laboratory receiving them.",
+      "id": "read-sap",
+      "kind": "select",
+      "prompt": "At the binder: which cores and intervals, the analytes, the containers and their order, preservation and holding times, and the laboratory receiving them.",
+      "target": "sap-binder",
+      "title": "Read today's page of the sampling and analysis plan",
+      "why": "The sampling and analysis plan is written under the project's quality assurance plan so that every sample taken on this job is taken the same way and can be compared, and EPA QA/G-5 practice is what makes it the rule rather than a suggestion. The bench works from today's page, because an analyte missed or a container swapped cannot be put right once the core has been mixed."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Nitrile gloves — a fresh pair for each core — safety glasses and an apron before any core is opened.",
+      "id": "bench-ppe",
+      "itemNames": {
+        "ppe-apron": "chemical-resistant apron",
+        "ppe-glasses": "safety glasses",
+        "ppe-nitrile": "nitrile gloves, changed between cores"
+      },
+      "kind": "sequence",
+      "prompt": "Nitrile gloves — a fresh pair for each core — safety glasses and an apron before any core is opened.",
+      "targets": [
+        "ppe-nitrile",
+        "ppe-glasses",
+        "ppe-apron"
+      ],
+      "title": "Dress for the sample bench",
+      "why": "The gloves do two jobs: they keep contaminated sediment off the custodian's hands, and changed between cores they keep one core's sediment out of the next core's jars. Glasses matter because sediment flicks off a spoon or a liner edge, and the apron keeps the bench's mess off clothes that go home."
+    },
+    {
+      "cue": "Before signing anything: every cap on and whole, every label readable and matching the coring crew's log.",
+      "id": "check-cores",
+      "itemNames": {
+        "cap-cracked": "a core end cap cracked through",
+        "label-smeared": "a core label smeared unreadable"
+      },
+      "itemNotes": {
+        "cap-cracked": "One core's bottom cap has cracked through and the liner has wept water into the tray — the sample has lost pore water and maybe fines, and that goes on the custody form as received, not discovered later.",
+        "label-smeared": "The label on the third core has run in the fog and the station number is unreadable. It stays unopened until the coring crew confirms it against their core log."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before signing anything: every cap on and whole, every label readable and matching the coring crew's log.",
+      "targets": [
+        "cap-cracked",
+        "label-smeared"
+      ],
+      "title": "Check the incoming cores against the core log",
+      "why": "Signing a custody form says the samples arrived as the form describes them, so the cores are checked first: a cracked cap or a label nobody can read is noted on the form at the hand-off, where it belongs to the coring crew's record. Found after the signature, the same fault belongs to the bench, and the sample's history has a question in it nobody can answer."
+    },
+    {
+      "cue": "Sign the received line on the coring crew's custody form with the time, noting the cracked cap and the label held for confirmation.",
+      "id": "custody-in",
+      "kind": "select",
+      "prompt": "Sign the received line on the coring crew's custody form with the time, noting the cracked cap and the label held for confirmation.",
+      "target": "custody-in",
+      "title": "Sign the cores in from the coring crew",
+      "why": "This is the first hand-off after the core left the bottom of the Bay, and the received signature is the custodian taking responsibility for exactly what is in the tray. The time and the notes go on with it, because a custody record is only as strong as its weakest transfer, and on a sediment job the data may be argued over long after anyone remembers the day."
+    },
+    {
+      "cue": "Run the tape along the sediment in the liner and commit the recovery against the drive length and the plan's acceptance.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "RECOVERY",
+        "missNote": "Outside the band — lay the tape from the sediment's top to the base of the liner and read recovery against the drive again.",
+        "speed": 0.68
+      },
+      "id": "recovery",
+      "kind": "gauge",
+      "prompt": "Run the tape along the sediment in the liner and commit the recovery against the drive length and the plan's acceptance.",
+      "target": "recovery-tape",
+      "title": "Measure core recovery against the drive",
+      "why": "A core pushed into soft sediment compresses and sometimes loses its bottom, so the length of sediment recovered is measured against how far the tube was driven. The plan says what recovery is acceptable; a core below it may not represent the intervals it was meant to, and that is decided now, before it is cut and mixed and cannot be re-measured."
+    },
+    {
+      "cue": "Crank the extruder steadily and push the core out of its liner onto the lined tray, top end first as logged.",
+      "id": "extrude",
+      "kind": "turn",
+      "prompt": "Crank the extruder steadily and push the core out of its liner onto the lined tray, top end first as logged.",
+      "target": "extruder-crank",
+      "title": "Extrude the core onto the tray",
+      "turn": {
+        "label": "EXTRUDER",
+        "turns": 1.5
+      },
+      "why": "Extruding steadily keeps the core's layers in the order they lay on the bottom of the Bay, which is what the sampling intervals are measured along. A core rammed out in jerks smears one layer into the next, and a core extruded upside down puts every interval in the wrong place without anyone noticing."
+    },
+    {
+      "cue": "Before anything is mixed, push the coring syringe into the fresh core face at the plan's interval and cap it straight into its vial.",
+      "id": "voc-subsample",
+      "kind": "select",
+      "prompt": "Before anything is mixed, push the coring syringe into the fresh core face at the plan's interval and cap it straight into its vial.",
+      "target": "voc-sampler",
+      "title": "Take the volatile subsample off the fresh face",
+      "why": "Volatile compounds leave sediment the moment it is disturbed, so the volatile subsample is taken first, from an undisturbed face, with a syringe that goes straight into a sealed vial. Taken after homogenising, it measures what was left after the mixing let the rest escape, which reads low and is worthless as a result."
+    },
+    {
+      "cue": "Mix the interval in the stainless bowl steadily until the colour and texture are even — no splashing, no streaks left.",
+      "holdBreakNote": "The mix broke rhythm — either splashing over the rim or leaving streaks. Bring it back to a steady, even mix.",
+      "id": "homogenise",
+      "kind": "track",
+      "prompt": "Mix the interval in the stainless bowl steadily until the colour and texture are even — no splashing, no streaks left.",
+      "seconds": 7,
+      "target": "homogenise-paddle",
+      "title": "Homogenise the interval in the bowl",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "MIX",
+        "rise": 0.56,
+        "start": 0.12
+      },
+      "why": "Every jar filled from this interval has to be the same material, or the metals jar and the organics jar describe different sediment. Homogenising steadily to an even colour and texture is how the plan gets that, and it is done in stainless with decontaminated tools because the bowl and the spoon are the only other things the sediment touches."
+    },
+    {
+      "cue": "Spoon the homogenate into the jars in the plan's order, packed with no headspace, and hold each while the threads are wiped and the lid seated.",
+      "holdBreakNote": "The lid went on over sediment on the threads. Wipe the threads clean and seat the lid again before the jar goes down.",
+      "id": "fill-jars",
+      "kind": "hold",
+      "prompt": "Spoon the homogenate into the jars in the plan's order, packed with no headspace, and hold each while the threads are wiped and the lid seated.",
+      "seconds": 5,
+      "target": "jar-set",
+      "title": "Fill the jars from the homogenate",
+      "why": "A jar is filled so that what the lab opens is what left the bowl: packed without air, threads wiped so the lid seals, and the lid seated straight. Sediment on the threads breaks the seal and lets water and volatiles out in transit, which is a lab note that says the sample arrived compromised and a result that carries a qualifier into every report built on it."
+    },
+    {
+      "cue": "Carry the temperature blank from the fridge and seat it in the cooler's well among the filled jars.",
+      "drag": {
+        "missNote": "Not in the well — the temperature blank sits among the jars, where it will read what they read.",
+        "radius": 0.4,
+        "to": "cooler-well"
+      },
+      "id": "temp-blank",
+      "kind": "drag",
+      "prompt": "Carry the temperature blank from the fridge and seat it in the cooler's well among the filled jars.",
+      "target": "temp-blank",
+      "title": "Pack the temperature blank with the jars",
+      "why": "Samples must travel cold, and the laboratory checks that by measuring the temperature blank when the cooler is opened, not by trusting the ice. The blank rides among the jars, where it takes their temperature, so its reading at the lab is the jars' reading; packed in a corner on top of the ice it proves nothing about the samples."
+    },
+    {
+      "cue": "Bagged ice round the jars, custody seals across the lid, then both you and the courier sign the form with the time.",
+      "id": "custody-out",
+      "itemNames": {
+        "cooler-ice": "bagged ice round the jars",
+        "cooler-seal": "custody seals across the lid",
+        "custody-out": "custody form signed by both, with the time"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — ice first, then the seals across the lid, and the form is signed by both only once the cooler is sealed.",
+      "prompt": "Bagged ice round the jars, custody seals across the lid, then both you and the courier sign the form with the time.",
+      "targets": [
+        "cooler-ice",
+        "cooler-seal",
+        "custody-out"
+      ],
+      "title": "Ice, seal and relinquish the cooler",
+      "why": "The cooler is iced before it is sealed, because a seal broken to add ice is a seal that has to be explained. The seals across the lid are what the lab checks on arrival, and the relinquish with both signatures and the time is the second hand-off — the one that moves custody off the dock. In that order, every step of the record says the same thing as the cooler."
+    },
+    {
+      "cue": "Before the canopy comes down: every tool decontaminated, the rinse water lidded and labelled, nothing left open on the dock.",
+      "id": "bench-close",
+      "itemNames": {
+        "bowl-unwashed": "the mixing bowl put away unwashed",
+        "rinse-uncovered": "the decon rinse bucket left uncovered"
+      },
+      "itemNotes": {
+        "bowl-unwashed": "The stainless bowl has gone back in the crate with a film of today's sediment in it; tomorrow's first core would be mixed in it. Every tool is decontaminated before it is packed.",
+        "rinse-uncovered": "The decon rinse water is investigation-derived waste — it holds whatever came off the tools — and an open bucket on a dock is one knock away from the Bay. It is lidded and labelled for handling under the work plan."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before the canopy comes down: every tool decontaminated, the rinse water lidded and labelled, nothing left open on the dock.",
+      "targets": [
+        "rinse-uncovered",
+        "bowl-unwashed"
+      ],
+      "title": "Close out the bench",
+      "why": "The bench's leftovers are part of the job: decon water carries what came off the tools and is handled as the work plan says, and a tool packed dirty contaminates the next day's first sample. Closing out with a walk finds both before they become a spill report or an unexplained hit in tomorrow's data."
+    },
+    {
+      "cue": "Log the cores received and the cracked cap, the held label, recovery, the volatile vials, the fridge alarm, the unlabelled bag set aside, the cooler, its seals and the relinquish time.",
+      "id": "field-log",
+      "kind": "select",
+      "prompt": "Log the cores received and the cracked cap, the held label, recovery, the volatile vials, the fridge alarm, the unlabelled bag set aside, the cooler, its seals and the relinquish time.",
+      "target": "field-log",
+      "title": "Write the field log",
+      "why": "The field log is the narrative that the custody forms are the skeleton of: it says why a core was held, what the fridge did and when, and where the unlabelled bag went. A reviewer who finds a qualifier on a result goes to the field log first, and a log written the same day is the only thing that can answer them."
+    },
+    {
+      "cue": "On the radio: the cooler is gone, the held label needs confirming, tomorrow's cores and times, and how the coring crew are after a day on the barge in the fog.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the radio: the cooler is gone, the held label needs confirming, tomorrow's cores and times, and how the coring crew are after a day on the barge in the fog.",
+      "target": "crew-radio",
+      "title": "Check in with the coring crew",
+      "why": "The coring crew need to confirm the smeared label against their log before the core can be processed, and they need to know what the bench can take tomorrow. The check-in closes both out loud, and it is also the crew's own — the member assistance line is there for anything that is still with someone after the radio goes quiet."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — LIUNA Local 261 — with the employer's employee assistance line behind it",
+  "tagline": "Cores to coolers without a gap in custody: the sampling plan read, the incoming cores checked and signed for, recovery measured, the core extruded and the volatiles taken off the fresh face, the rest homogenised while the sample fridge alarms, jars filled while an unlabelled bag lands on the bench, the temperature blank packed, the cooler iced, sealed and relinquished with both signatures, the bench closed out, logged and the crew checked in",
+  "title": "SmartCiti.X~ Sediment Chain of Custody & Lab Prep VR",
+  "trade": "Field sample custodian on a LIUNA Local 261 remediation crew, receiving cores from a coring barge whose crane an IUOE Local 3 operating engineer runs, and relinquishing coolers to the laboratory's courier",
+  "underwater": null,
+  "weather": "fog"
+}

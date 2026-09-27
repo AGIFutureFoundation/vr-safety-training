@@ -1,0 +1,421 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "span-marked-not-touched",
+    "name": "Span Marked, Not Touched",
+    "note": "Every defect floated and logged, the free span supported, and never the strap, the riser or the span itself taken as a way through"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.421 pre-dive procedures (planning and assessment, hazardous activities nearby) and 29 CFR 1910.422 procedures during the dive (communications, termination of the dive); ADCI International Consensus Standards for Commercial Diving and Underwater Operations; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds; pipeline defects handled per the work plan",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADCI",
+        "citedAs": "ADCI",
+        "id": "adci-consensus-standards",
+        "title": "Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations"
+      },
+      {
+        "body": "union",
+        "citedAs": "Pile Drivers",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.421",
+        "id": "osha-1910-421",
+        "title": "29 CFR 1910.421 — Pre-dive procedures (emergency aid list, planning and assessment of the dive, hazardous activities nearby, the team briefing, equipment inspection and the warning signal)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.422",
+        "id": "osha-1910-422",
+        "title": "29 CFR 1910.422 — Procedures during the dive (water entry and exit, communications, decompression tables, power tools, termination of the dive)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910 Subpart T",
+        "id": "osha-1910-subpart-t",
+        "title": "29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 197 Subpart B",
+        "id": "uscg-46-cfr-197-subpart-b",
+        "title": "46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction"
+      }
+    ]
+  },
+  "district": "bay-underwater",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "on-route",
+        "name": "On Route",
+        "note": "The locator gain set first time before the route was swum"
+      },
+      {
+        "id": "true-potential",
+        "name": "True Potential",
+        "note": "The reference cell read inside the band first time"
+      },
+      {
+        "id": "clear-of-the-line",
+        "name": "Clear Of The Line",
+        "note": "Never through the strap, never a hand in the riser, never under the span, never fanning the scour pocket"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-crossing",
+        "name": "Clean Crossing",
+        "note": "No corrections from the on-bottom report to the check-in"
+      },
+      {
+        "id": "steady-route",
+        "name": "Steady Route",
+        "note": "The crossing swum in band the whole way"
+      },
+      {
+        "id": "surveyed-in-time",
+        "name": "Surveyed In Time",
+        "note": "Survey bag sent up inside 80% of par"
+      }
+    ],
+    "currency": "STATIONING",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Diver Trainee",
+      "Diver",
+      "Survey Diver",
+      "Lead Survey Diver",
+      "Pipeline Survey Certified"
+    ],
+    "system": "Crossing Survey"
+  },
+  "hazards": {
+    "duck-under-span": "You swam under the sagging free span instead of going round the cradle. The scour has taken the support out from under this stretch of pipe, and what is holding it up is whatever strength is left in the pipe wall itself between two cradles that no longer both carry it; a diver under that is under an overhead that could settle at any time, with the umbilical trailing out behind into the same gap. The span is surveyed from outside its overhead, never passed beneath.",
+    "fan-the-pocket": "You fanned the scour pocket under the span with your fin to see how deep it undercut. Fanning it stirs the loose sediment straight up into the water column right where you are working, and the cloud that comes off a pocket like this does not settle for a long time — it hides the span, the strap and your own tether from you for the rest of the check. The pocket is measured with the probe, not stirred up to be looked at.",
+    "reach-vent-riser": "You put your hand into the open end of the air-release riser to feel whether it was still venting. A riser open to a pressurised line moves air or water hard enough to hold a hand, a glove or loose gear against whatever is downstream of it, and you cannot see from outside whether it is live. The riser is looked at and logged, never reached into, and whether it is live is a question for the line's operator, not a hand at the opening.",
+    "swim-thru-strap": "You swam straight through the loose anode strap instead of going round it. The strap is a foot of stainless band that has worked loose from its clamp and billows with the current, and a diver who swims through it instead of round it gives it a whole body — an ankle, a fin, the umbilical — to catch on. It gets logged for the work plan to re-band; it does not get swum through to save a few kicks."
+  },
+  "id": "uw-pipeline-crossing-inspection-dive",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "swim-crossing",
+      "alert": "The current has picked up across the crossing and is pushing you off the pipe's crown toward open water.",
+      "cue": "Grab the pipe-crown handhold and ride the current out rather than fighting to swim back onto the line.",
+      "delay": 2,
+      "id": "current-shift-crossing",
+      "kind": "Current shift pushes off the pipe",
+      "missNote": "You kept swimming against the current instead of grabbing on; it carried you off the crown and past the cradle before you found anything to hold.",
+      "seconds": 14,
+      "target": "pipe-crown-handhold",
+      "why": "A diver who fights a current head-on over a pipe crown burns gas and loses the fine control the survey needs, while a diver who grabs a fixed handhold on the pipe itself rides the surge out without losing the line entirely. The handhold is there for exactly this, and finding it under pressure is easier when the current has not already carried you past it.",
+      "wrongNote": "The pipe-crown handhold — grab it and ride the current out rather than fighting to swim back."
+    },
+    {
+      "after": "hold-for-readback",
+      "alert": "Your umbilical has draped over the undermined cradle's edge behind you and the tender is calling that it will not pay out.",
+      "cue": "Reach back and lift the umbilical clear at the cradle's edge before it draws down tight into the scour pocket.",
+      "delay": 2,
+      "id": "umbilical-catches-cradle",
+      "kind": "Umbilical catches on the cradle",
+      "missNote": "You stayed still and let the tender work it from the surface; the umbilical drew down tight around the cradle's edge and the standby had to be sent down to clear it.",
+      "seconds": 14,
+      "target": "umbilical-clear-point",
+      "why": "A cradle with a scour pocket under it is exactly the shape that collects a slack loop of umbilical, and once it draws down into the pocket every movement you make afterward pulls it tighter around the cradle's edge. Freeing it now, by hand, from where you already are takes a few seconds; left until the tender cannot pay out any further, it is the standby's dive instead of yours.",
+      "wrongNote": "The umbilical, draped over the cradle's edge — lift it clear yourself before it draws down tight."
+    }
+  ],
+  "lateNotes": {
+    "ref-cell-probe": "The reference cell is read once the locator's gain is set and the route is being swum — not on a signal still full of noise.",
+    "support-mat": "The mat goes under the span once both defects have been found and logged — the cradle's undermining is what is being supported.",
+    "survey-bag": "The survey bag goes up once the hazards along the route have been reported — not before the work plan has heard about them."
+  },
+  "name": "Pipeline Crossing Inspection Dive",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "coating-holiday",
+      "cp-anode-strap",
+      "crossing-sign",
+      "downline-clip",
+      "duck-under-span",
+      "fan-the-pocket",
+      "hold-for-readback",
+      "locator-gain-knob",
+      "marker-chain",
+      "marker-float",
+      "pci-comms",
+      "photo-scale",
+      "pipe-crown-handhold",
+      "pipe-route",
+      "reach-vent-riser",
+      "ref-cell-probe",
+      "slate-entry",
+      "span-support-point",
+      "stage-checkin",
+      "support-mat",
+      "survey-bag",
+      "swim-thru-strap",
+      "umbilical-clear-point",
+      "undermined-cradle",
+      "vent-riser"
+    ],
+    "meshes": 172
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Call the supervisor: on the bottom at the crossing's marker chain, off the stage, feeling good, and starting the survey at the crossing sign.",
+      "id": "report-on-bottom",
+      "kind": "select",
+      "prompt": "Call the supervisor: on the bottom at the crossing's marker chain, off the stage, feeling good, and starting the survey at the crossing sign.",
+      "target": "pci-comms",
+      "title": "Report on the bottom at the marker chain",
+      "why": "The supervisor at the panel can see your gas and your depth but not the crossing, and the on-bottom report is how the surface learns the dive has really started where the plan says it should. It is also the comms check that proves the voice circuit works before you leave the marker chain, so a lost signal on the far cradle is a real fault and not an unproven line."
+    },
+    {
+      "cue": "At the downline, look for the sign plate and the chain that ties the surface buoy to the pipe — the survey's zero point.",
+      "id": "find-crossing",
+      "itemNames": {
+        "crossing-sign": "crossing sign plate on its post",
+        "marker-chain": "marker buoy's chain down to the pipe"
+      },
+      "itemNotes": {
+        "crossing-sign": "A weighted sign plate reading the crossing's name and a no-anchor warning, planted where the pipe first comes under the marker.",
+        "marker-chain": "The chain running down from the surface buoy to a shackle on the pipe itself, the crossing's one fixed reference point."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "At the downline, look for the sign plate and the chain that ties the surface buoy to the pipe — the survey's zero point.",
+      "targets": [
+        "crossing-sign",
+        "marker-chain"
+      ],
+      "title": "Find the crossing sign and the marker chain",
+      "why": "Every defect on this survey is going to be reported by its distance and direction from this one fixed point, so finding the sign and the chain before anything else is what lets the whole survey be found again by the next diver. A crossing with no confirmed zero point is a crossing where two divers' reports cannot be lined up against each other."
+    },
+    {
+      "cue": "Turn the locator's gain knob until the signal off the pipe reads clean and steady, not buried in noise and not pinned at full scale.",
+      "id": "set-locator-gain",
+      "kind": "turn",
+      "prompt": "Turn the locator's gain knob until the signal off the pipe reads clean and steady, not buried in noise and not pinned at full scale.",
+      "target": "locator-gain-knob",
+      "title": "Set the pipe locator's gain",
+      "turn": {
+        "label": "LOCATOR GAIN",
+        "turns": 0.7
+      },
+      "why": "The locator is what lets you follow the pipe through the murk when the crown is buried or the visibility closes in, and it is only useful set correctly: too little gain and the signal disappears the moment you swing off the crown, too much and every stray bit of steel on the bottom reads the same as the line. Set once at the marker chain, it is what keeps the whole route swum on the pipe instead of on a guess."
+    },
+    {
+      "cue": "Follow the pipe's crown out from the marker chain at a steady pace, close enough to read the coating, far enough not to kick silt onto it.",
+      "holdBreakNote": "The pace broke out of band — racing past the pipe or stalled on it. Settle back onto the crown and take it up steadily again.",
+      "id": "swim-crossing",
+      "kind": "track",
+      "prompt": "Follow the pipe's crown out from the marker chain at a steady pace, close enough to read the coating, far enough not to kick silt onto it.",
+      "seconds": 6,
+      "target": "pipe-route",
+      "title": "Swim the crossing along the pipe",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "PACE ON THE CROWN",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "The whole crossing has to be swum at one steady pace for the survey to mean anything, because a diver who speeds up past the boring stretches and slows down only at defects has decided in advance what counts as worth seeing. A pace that stays close to the crown without fanning it keeps the coating readable the whole way, which a diver who swims too high or too low loses on one side or the other."
+    },
+    {
+      "cue": "Hold the reference cell's tip against clean pipe steel or the test lead and commit the reading once it settles in the protection band.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "PIPE-TO-SOIL POTENTIAL",
+        "speed": 0.7
+      },
+      "id": "ref-cell-reading",
+      "kind": "gauge",
+      "prompt": "Hold the reference cell's tip against clean pipe steel or the test lead and commit the reading once it settles in the protection band.",
+      "target": "ref-cell-probe",
+      "title": "Read the reference cell against the pipe",
+      "why": "Cathodic protection is what keeps this steel from corroding out from under its coating for the decades the crossing has left in service, and the reference cell is the one instrument that tells you, right now, whether it is actually working here rather than just at the test station on the bank. A reading outside the band is worth more to the pipeline's operator than a coating holiday, because it says the whole stretch is at risk, not just one patch."
+    },
+    {
+      "cue": "Working out from the marker chain: look for bare steel where the coating has failed, and for any cradle the pipe is no longer resting on.",
+      "id": "span-defects",
+      "itemNames": {
+        "coating-holiday": "bare steel patch where the coating has failed",
+        "undermined-cradle": "cradle undermined into a free span"
+      },
+      "itemNotes": {
+        "coating-holiday": "A hand-sized patch where the coating has lifted clean off, leaving bright bare steel with no protection of its own.",
+        "undermined-cradle": "A concrete cradle with the sediment scoured out from underneath it, leaving the pipe spanning free between it and the next support."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Working out from the marker chain: look for bare steel where the coating has failed, and for any cradle the pipe is no longer resting on.",
+      "targets": [
+        "coating-holiday",
+        "undermined-cradle"
+      ],
+      "title": "Find the coating holiday and the undermined cradle",
+      "why": "A coating holiday is where corrosion starts even with cathodic protection running, because the protection current has to fight harder at bare steel than anywhere else on the line, and a cradle scoured out from under the pipe is what turns a supported line into a free span carrying its own weight. Both change what the pipeline's operator has to plan for, and both are found by eye before anything is measured or marked."
+    },
+    {
+      "cue": "Bring the support mat from the cradle rack and set it into the scour pocket under the sagging span, snug against the pipe.",
+      "drag": {
+        "missNote": "Not under the span — the mat has to sit snug in the scour pocket, against the pipe, to take any of the load.",
+        "radius": 0.5,
+        "to": "span-support-point"
+      },
+      "id": "support-span",
+      "kind": "drag",
+      "prompt": "Bring the support mat from the cradle rack and set it into the scour pocket under the sagging span, snug against the pipe.",
+      "target": "support-mat",
+      "title": "Rig a mat under the free span",
+      "why": "A free span left unsupported keeps sagging as the current works the scour pocket wider, and a temporary mat set under it now takes some of that load off the pipe wall until a proper repair can be engineered. It goes in snug against the pipe, not jammed under with a shove, because a mat that rocks under the span does less good than no mat at all."
+    },
+    {
+      "cue": "Lay the scale bar against the coating holiday and hold it still while the camera records the frame the report will use.",
+      "holdBreakNote": "The scale bar moved before the frame was recorded — hold it flat against the holiday until the camera confirms.",
+      "id": "defect-photo",
+      "kind": "hold",
+      "prompt": "Lay the scale bar against the coating holiday and hold it still while the camera records the frame the report will use.",
+      "seconds": 4,
+      "target": "photo-scale",
+      "title": "Hold the scale bar steady for the defect photo",
+      "why": "A defect photo with nothing in it to measure against is a photo of a patch of pipe that could be any size, and the scale bar is what turns it into a measurement the pipeline's engineers can actually use to plan the repair. It has to hold still for the frame, because a scale bar that drifts mid-exposure blurs the one number the photo was for."
+    },
+    {
+      "cue": "Tie a numbered marker float to the cradle beside the defects — not to the pipe itself — then write the number, the distance from the marker chain and what was found on your slate.",
+      "id": "tag-then-log",
+      "itemNames": {
+        "marker-float": "numbered marker float tied to the cradle",
+        "slate-entry": "defect written on the slate with its distance from the chain"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — float the defect first so the slate records the number that is really tied there.",
+      "prompt": "Tie a numbered marker float to the cradle beside the defects — not to the pipe itself — then write the number, the distance from the marker chain and what was found on your slate.",
+      "targets": [
+        "marker-float",
+        "slate-entry"
+      ],
+      "title": "Float the defect, then write it up",
+      "why": "The float gives the defect a number the next diver or the ROV can find without swimming the whole crossing again, tied to the cradle rather than the pipe so nothing about mounting it touches the coating. The slate entry comes after, in the same order, so the number on the float and the line on the report are never a step out of sync with each other."
+    },
+    {
+      "cue": "Ahead on the route: anything that could catch a diver or a tether, and anything with an opening you cannot confirm is safe to be near.",
+      "id": "route-hazards",
+      "itemNames": {
+        "cp-anode-strap": "loose strap billowing off the anode",
+        "vent-riser": "air-release riser standing off the line"
+      },
+      "itemNotes": {
+        "cp-anode-strap": "A stainless strap that has worked loose from the anode's clamp, standing out from the pipe and moving with every surge of current.",
+        "vent-riser": "A short vertical pipe standing up off the crossing with a loose-fitting cap, plumbed back to the line's air-release valve."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Ahead on the route: anything that could catch a diver or a tether, and anything with an opening you cannot confirm is safe to be near.",
+      "targets": [
+        "cp-anode-strap",
+        "vent-riser"
+      ],
+      "title": "Find the hazards along the route before passing them",
+      "why": "The strap and the riser are exactly the kind of hazard a survey exists to report before the next diver, or an ROV with its own tether, comes down this same route — spotted here, with room to go round, they are a note on the slate; missed until the tether is already alongside them, they are the reason the next dive gets fouled."
+    },
+    {
+      "cue": "Stay still at the undermined cradle with a hand on the pipe while the supervisor reads your position and the defect list back — do not drift off the mark.",
+      "holdBreakNote": "You drifted off the cradle before the read-back was done — the position would be plotted wrong. Come back to the pipe and hold still again.",
+      "id": "hold-for-readback",
+      "kind": "hold",
+      "prompt": "Stay still at the undermined cradle with a hand on the pipe while the supervisor reads your position and the defect list back — do not drift off the mark.",
+      "seconds": 5,
+      "target": "hold-for-readback",
+      "title": "Hold position at the cradle for the read-back",
+      "why": "The supervisor is plotting the survey at the surface from what you read up, and a read-back only means something if you are still at the point it describes when it comes back to you. Holding still here also gives the tender a steady umbilical to feel, which matters more than usual this close to a cradle whose scour pocket is exactly the kind of place a slack loop of umbilical likes to settle into."
+    },
+    {
+      "cue": "Tell the supervisor: the loose strap and the vent riser, their positions off the marker chain, left untouched, and that fixing them is for the work plan.",
+      "id": "report-hazards",
+      "kind": "select",
+      "prompt": "Tell the supervisor: the loose strap and the vent riser, their positions off the marker chain, left untouched, and that fixing them is for the work plan.",
+      "target": "pci-comms",
+      "title": "Report the route hazards for the work plan",
+      "why": "The strap and the riser both need a decision only the pipeline's operator and the work plan can make — reband, re-cap, isolate — and that decision only gets made if the report from the bottom is specific enough to plan against. Reporting it now, at the cradle, while you can still describe exactly how the strap moves and how the riser is fitted, is worth more than a line added to the slate after the dive."
+    },
+    {
+      "cue": "Clip the survey bag with the scale bar and the spare floats onto the downline's travelling clip so it goes up with the stage.",
+      "drag": {
+        "missNote": "Not on the downline clip — the bag goes up on the downline, not in your hand.",
+        "radius": 0.5,
+        "to": "downline-clip"
+      },
+      "id": "bag-up",
+      "kind": "drag",
+      "prompt": "Clip the survey bag with the scale bar and the spare floats onto the downline's travelling clip so it goes up with the stage.",
+      "target": "survey-bag",
+      "title": "Send the survey bag up on the downline clip",
+      "why": "Everything that came down for the survey goes back up the same way it came, clipped to the downline, so nothing is left loose at the crossing to fool the next dive into thinking it is a new piece of debris. The floats that stay are the ones marking real defects; everything else goes home clipped, not carried."
+    },
+    {
+      "cue": "Back at the stage, clipped on: tell the supervisor how you feel after the survey, the current on the route and the umbilical catching the cradle, and wait for the call to leave the bottom.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Back at the stage, clipped on: tell the supervisor how you feel after the survey, the current on the route and the umbilical catching the cradle, and wait for the call to leave the bottom.",
+      "target": "stage-checkin",
+      "title": "Check in at the stage and leave on the supervisor's call",
+      "why": "The ascent is the supervisor's call, run to the tables they hold, and the check-in is how they know you are on the stage, clipped on and well before that call is made. A current that pushed you off the pipe and an umbilical that hung up on a cradle are both worth a real answer here, with the Pile Drivers Local 34 member assistance line behind whatever the debrief does not settle."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — Pile Drivers Local 34 — with the employer's employee assistance line behind it",
+  "tagline": "The crossing surveyed cradle to cradle: on the bottom at the marker chain, the crossing sign and buoy chain found, the locator's gain set, the route swum steady while the current pushes off the pipe, the reference cell read for cathodic protection, the coating holiday and the undermined cradle found, a mat rigged under the free span, the defect held for a photo, the marker floated and logged in order, the loose anode strap and the vent riser found and left alone, position held while the umbilical catches the cradle, the hazards reported for the work plan, the survey bag sent up and the crew checked in",
+  "title": "SmartCiti.X~ Pipeline Crossing Inspection Dive VR",
+  "trade": "Pile Drivers Local 34 commercial diver on a submerged pipeline crossing integrity survey, with the dive supervisor on the comms, the tender on the umbilical and the standby diver dressed at the ladder",
+  "underwater": {
+    "bottomTimeSeconds": 660,
+    "depthLabel": "Per dive plan"
+  },
+  "weather": "clear"
+}

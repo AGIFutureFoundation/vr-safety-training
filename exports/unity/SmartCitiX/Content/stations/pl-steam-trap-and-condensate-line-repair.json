@@ -1,0 +1,413 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "trap-proven",
+    "name": "Trap Proven",
+    "note": "A failed steam trap replaced on a vented, zeroed line and brought back into service without a hammer"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "UA plumbers and pipefitters apprenticeship; ASME B31.9 building services piping; 29 CFR 1910.147 the control of hazardous energy; 29 CFR 1910.132 personal protective equipment; 8 CCR 3203 injury and illness prevention",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME B31.9",
+        "id": "asme-b31-9",
+        "title": "ASME B31.9 — Building services piping"
+      },
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3203",
+        "id": "cal-osha-3203",
+        "title": "8 CCR 3203 — Injury and Illness Prevention Program"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UA",
+        "id": "ua-apprenticeship",
+        "title": "UA — United Association plumber, pipefitter and HVAC service apprenticeship standards and UA Star certification"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Building Systems & Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "zeroed-before-open",
+        "name": "Zeroed Before Open",
+        "note": "The line was proven at zero pressure before the trap body was opened"
+      },
+      {
+        "id": "never-blind",
+        "name": "Never Blind",
+        "note": "Never opened a fitting on a line that had not been vented and tagged"
+      },
+      {
+        "id": "steady-warmup",
+        "name": "Steady Warmup",
+        "note": "Held the warm-up rate inside the band the whole watch"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-repair",
+        "name": "Clean Repair",
+        "note": "No corrections anywhere in the repair"
+      },
+      {
+        "id": "unbroken-vent",
+        "name": "Unbroken Vent",
+        "note": "The vent held open until the gauge actually read zero"
+      },
+      {
+        "id": "station-back-fast",
+        "name": "Station Back Fast",
+        "note": "Signed off inside 80% of par"
+      }
+    ],
+    "currency": "PSIG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Pipefitter",
+      "Journeyman",
+      "Lead Fitter",
+      "Steam Systems Certified"
+    ],
+    "system": "Steam and Condensate"
+  },
+  "hazards": {
+    "fast-warmup": "You opened the steam valve wide instead of cracking it slowly. Condensate already sitting in a cold line does not compress the way steam does, and a slug of it picked up at steam velocity hits the first elbow or fitting in its path like a hammer — on a system that was just repaired specifically to stop losing energy, not to crack a joint somewhere else along the run.",
+    "open-before-vented": "You opened the trap body before the line was vented and proven at zero. A valve reading closed only means the handle stopped turning — the pipe behind it can still be full of steam at full line pressure, and a fitting cracked open on that is a faceful of live steam with no warning before it happens.",
+    "skip-tag-station": "You isolated the valves without tagging the station. A valve someone reopens because it looked idle, while this trap is sitting open on the bench, puts full steam pressure behind a fitter who has no way of knowing the line came back live.",
+    "wrong-trap-type": "You fitted a trap type this application was never designed around. A trap chosen for the wrong condensate load or the wrong back-pressure either fails again within weeks or sits there quietly passing live steam the whole time, which is exactly the failure this repair was supposed to fix, not repeat with a new part."
+  },
+  "id": "pl-steam-trap-and-condensate-line-repair",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "vent",
+      "alert": "The trap station two bays down just started roaring — it sounds like it's blowing straight through to atmosphere.",
+      "cue": "That is a second failure, on a different station, happening right now — go isolate it before it wastes any more steam.",
+      "delay": 3,
+      "id": "neighbour-trap-blows",
+      "kind": "The next trap station starts blowing through",
+      "missNote": "The neighbouring trap kept blowing through while the repair on this bench continued. Whatever steam that station wasted, it wasted for the whole rest of this job.",
+      "seconds": 12,
+      "target": "neighbour-valve",
+      "why": "A trap blowing through live is losing steam and money for every second it runs, and a system pressure change from this station being worked on can be exactly what pushed a second, already-marginal trap over the edge — leaving it roaring while attention stays on this bench is how one repair visit turns into two, with the second one costing far more energy in the meantime.",
+      "wrongNote": "It is the neighbouring station's own valve. This bench's vent was never what was roaring."
+    },
+    {
+      "after": "isolate",
+      "alert": "Facilities just called — a floor fed by this condensate main is reporting the return backing up since this station went down.",
+      "cue": "Open the temporary bypass so that floor's condensate has somewhere to go while this trap is out of service.",
+      "delay": 3,
+      "id": "condensate-backup-call",
+      "kind": "A floor reports the condensate return backing up",
+      "missNote": "The backup kept building on that floor while the repair carried on unaware of it. Whatever depended on that condensate return spent the whole repair with nowhere for it to drain.",
+      "seconds": 12,
+      "target": "bypass-valve",
+      "why": "Isolating this station for the repair also isolates every condensate load that was routing through it, and a floor with nowhere for its condensate to go backs up fast enough to matter well before this repair is finished — the bypass exists specifically to give that flow somewhere to go without waiting on the trap itself.",
+      "wrongNote": "It is the bypass valve. The trap on this bench was never going to fix a floor with no path for its condensate right now."
+    }
+  ],
+  "lateNotes": {
+    "new-trap": "The new trap goes on only after the line reads zero on the gauge, not while there is still any doubt about what is behind the flange.",
+    "steam-valve": "The steam valve stays closed and tagged until the new trap is bolted up and proven ready, not reopened the moment the old trap comes off.",
+    "warmup-gauge": "The warm-up happens slowly, after the trap is bolted up and torqued, never as the first move once the valve is cracked."
+  },
+  "name": "Steam Trap & Condensate Line Repair",
+  "parSeconds": 265,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "plumbers-and-pipefitters"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "bolt-snug",
+      "bolt-torque",
+      "bypass-valve",
+      "condensate-valve",
+      "confirm-normal",
+      "corroded-body",
+      "differential-gauge",
+      "fast-warmup",
+      "isolation-gauge",
+      "neighbour-valve",
+      "new-trap",
+      "open-before-vented",
+      "repair-log",
+      "repair-ticket",
+      "scale-strainer",
+      "skip-tag-station",
+      "steam-valve",
+      "tag-station",
+      "trap-socket",
+      "trap-type-board",
+      "vent-valve",
+      "warmup-gauge",
+      "wrong-trap-type"
+    ],
+    "meshes": 153
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the ultrasonic survey ticket: which trap failed, and whether it is blowing through or plugged.",
+      "id": "ticket",
+      "kind": "select",
+      "prompt": "Check the ultrasonic survey ticket: which trap failed, and whether it is blowing through or plugged.",
+      "target": "repair-ticket",
+      "title": "Read the trap survey and repair ticket",
+      "why": "Blowing through and plugged are opposite failures with opposite symptoms, and the survey ticket is what tells a fitter which one they are walking up to before they isolate anything — a trap suspected of blowing through gets checked differently than one suspected of backing condensate up behind it."
+    },
+    {
+      "cue": "Close the steam valve, close the condensate valve, then tag the station with your name.",
+      "id": "isolate",
+      "itemNames": {
+        "condensate-valve": "condensate valve closed",
+        "steam-valve": "steam valve closed",
+        "tag-station": "station tagged"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Steam, then condensate, then the tag — the tag is what makes both closed valves mean something to the next person through this room.",
+      "prompt": "Close the steam valve, close the condensate valve, then tag the station with your name.",
+      "targets": [
+        "steam-valve",
+        "condensate-valve",
+        "tag-station"
+      ],
+      "title": "Isolate and tag the trap station",
+      "why": "Both valves have to close before this trap is isolated, because closing only the steam side still leaves the trap connected to whatever pressure is on the condensate return, and the tag is what stops either valve from being reopened by someone who has no way of knowing a fitter still has the trap apart."
+    },
+    {
+      "cue": "Hold the vent valve open until the line pressure bleeds down to nothing.",
+      "holdBreakNote": "The vent closed before the pressure was fully bled — hold it open again until there is genuinely nothing left in this section.",
+      "id": "vent",
+      "kind": "hold",
+      "prompt": "Hold the vent valve open until the line pressure bleeds down to nothing.",
+      "seconds": 5,
+      "target": "vent-valve",
+      "title": "Vent the trapped pressure",
+      "why": "A closed valve traps whatever pressure and temperature were in the line at the moment it closed, and that pressure has to be bled off deliberately through a vent before anyone treats the line as safe — assuming it is already at atmosphere because the valve is shut is exactly the assumption that gets a fitter burned."
+    },
+    {
+      "cue": "Read the isolation gauge and commit once it actually shows zero.",
+      "gauge": {
+        "green": [
+          0,
+          0.08
+        ],
+        "label": "LINE PRESSURE",
+        "missNote": "That is not zero — go back to the vent, this line is not proven safe to open yet.",
+        "speed": 0.6
+      },
+      "id": "confirm-zero",
+      "kind": "gauge",
+      "prompt": "Read the isolation gauge and commit once it actually shows zero.",
+      "target": "isolation-gauge",
+      "title": "Confirm the line reads zero",
+      "why": "This is the one reading that turns 'the valve is closed' into 'this line is safe to open,' and it is read on a gauge rather than assumed, because a valve that looks fully closed can still be passing a trickle that keeps a trapped section at some pressure well above zero."
+    },
+    {
+      "cue": "Look over the strainer and the trap body before anything comes off the line.",
+      "id": "inspect-trap",
+      "itemNames": {
+        "corroded-body": "corroded trap body",
+        "scale-strainer": "scale-clogged strainer"
+      },
+      "itemNotes": {
+        "corroded-body": "The trap body itself has corroded through on one side, which is consistent with years of live steam passing through a mechanism that stopped closing properly long before anyone noticed.",
+        "scale-strainer": "The strainer ahead of the trap is packed with scale — a trap starved by a clogged strainer can look like it failed on its own when the strainer was the actual problem."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the strainer and the trap body before anything comes off the line.",
+      "targets": [
+        "scale-strainer",
+        "corroded-body"
+      ],
+      "title": "Inspect the failed trap before removal",
+      "why": "A trap that failed because its strainer choked and one that failed because its own body wore through get fixed differently — one needs the strainer cleaned as part of the repair, the other just needs the new trap, and telling them apart happens now, with both pieces still in hand, not after the new trap goes in on top of an ignored problem."
+    },
+    {
+      "cue": "Drag the new trap onto the flange now the old one is off and the line is proven at zero.",
+      "drag": {
+        "missNote": "Not seated on the flange — a trap set down off the bolt pattern will not line up once the bolts go in.",
+        "radius": 0.4,
+        "to": "trap-socket"
+      },
+      "id": "swap-trap",
+      "kind": "drag",
+      "prompt": "Drag the new trap onto the flange now the old one is off and the line is proven at zero.",
+      "target": "new-trap",
+      "title": "Bring the new trap into position",
+      "why": "The new trap only goes on once the line has already been proven safe — putting a replacement part into position is the easy half of this repair, and it only happens after the harder half, proving the line is actually dead, is already done."
+    },
+    {
+      "cue": "Snug the flange bolts all round, then torque them in a cross pattern.",
+      "id": "bolt-up",
+      "itemNames": {
+        "bolt-snug": "bolts snugged",
+        "bolt-torque": "bolts torqued in pattern"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Snug all round first, then torque in the cross pattern — pulling one bolt fully home first is how the gasket rolls.",
+      "prompt": "Snug the flange bolts all round, then torque them in a cross pattern.",
+      "targets": [
+        "bolt-snug",
+        "bolt-torque"
+      ],
+      "title": "Bolt the new trap up in pattern",
+      "why": "A flange gasket pulled down unevenly on one side first is squeezed out of true on the other, and the cross pattern is what keeps the load even across the whole gasket face — the same reason any flanged joint on a pressure system goes together this way rather than bolt by bolt around the circle."
+    },
+    {
+      "cue": "Check the trap type board against this application before calling the swap complete.",
+      "id": "trap-type",
+      "kind": "select",
+      "prompt": "Check the trap type board against this application before calling the swap complete.",
+      "target": "trap-type-board",
+      "title": "Confirm the trap type against the application",
+      "why": "A thermodynamic trap, a float-and-thermostatic trap and an inverted bucket trap all handle condensate load and back pressure differently, and the board is what confirms the part actually in hand matches what this specific application needs — not just that a trap of roughly the right size and connection got installed."
+    },
+    {
+      "cue": "Open the steam valve slowly — a crack, not a swing to full open.",
+      "id": "warm-up-open",
+      "kind": "turn",
+      "prompt": "Open the steam valve slowly — a crack, not a swing to full open.",
+      "target": "steam-valve",
+      "title": "Crack the steam valve to start the warm-up",
+      "turn": {
+        "axis": "y",
+        "label": "STEAM VALVE",
+        "turns": 0.2
+      },
+      "why": "The line is still cold and still has condensate sitting in the low points from being out of service, and cracking the valve is what lets steam begin warming the pipe and boiling that condensate off gently instead of shoving it ahead of a full-pressure slug the moment the valve swings wide."
+    },
+    {
+      "cue": "Keep the warm-up rate in the band while the line comes up to temperature.",
+      "holdBreakNote": "That warm-up ran outside the band — ease the valve back and bring the rate under control before it goes any further.",
+      "id": "warm-up-watch",
+      "kind": "track",
+      "prompt": "Keep the warm-up rate in the band while the line comes up to temperature.",
+      "seconds": 8,
+      "target": "warmup-gauge",
+      "title": "Hold a steady warm-up rate",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.15,
+        "green": [
+          0.35,
+          0.55
+        ],
+        "label": "WARM-UP RATE",
+        "rise": 0.1,
+        "start": 0.2
+      },
+      "why": "A rate too fast still risks picking up condensate as a hammer even with the valve only part open, and a rate left too slow leaves the line half-warmed and half-cold for far longer than it needs to be — the band exists because both failure directions cost something, just not the same something."
+    },
+    {
+      "cue": "Read the differential between the upstream and downstream sides and commit once it is in range.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.65
+        ],
+        "label": "ΔT ACROSS TRAP",
+        "missNote": "That differential is too small — this trap may be passing steam through, check it again before calling the repair finished.",
+        "speed": 0.65
+      },
+      "id": "check-diff",
+      "kind": "gauge",
+      "prompt": "Read the differential between the upstream and downstream sides and commit once it is in range.",
+      "target": "differential-gauge",
+      "title": "Check the temperature differential across the new trap",
+      "why": "A trap holding back steam properly shows a real temperature drop across it — condensate leaving cooler than the steam feeding it — and a differential that reads too small says the new trap is passing live steam straight through exactly like the one it just replaced."
+    },
+    {
+      "cue": "Open the condensate valve now the trap is proven and the line is up to temperature.",
+      "id": "open-condensate",
+      "kind": "turn",
+      "prompt": "Open the condensate valve now the trap is proven and the line is up to temperature.",
+      "target": "condensate-valve",
+      "title": "Open the condensate return valve",
+      "turn": {
+        "axis": "y",
+        "label": "CONDENSATE VALVE",
+        "turns": 0.75
+      },
+      "why": "The condensate return only goes live again once there is a working trap actually holding steam back from it — opening it earlier, while the trap is still unproven, risks pushing live steam into a return main that was never rated to see it."
+    },
+    {
+      "cue": "Remove the isolation tag, then confirm the station reads normal.",
+      "id": "close-out",
+      "itemNames": {
+        "confirm-normal": "station confirmed normal",
+        "tag-station": "tag removed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Tag off, then confirm normal — the confirmation is what the removed tag is vouching for.",
+      "prompt": "Remove the isolation tag, then confirm the station reads normal.",
+      "targets": [
+        "tag-station",
+        "confirm-normal"
+      ],
+      "title": "Close the station out",
+      "why": "Removing the tag before confirming the station is actually reading normal tells the next person this station is clear to touch before that is actually true — the confirmation comes first in spirit even though the tag physically comes off in this order, because the tag is what protects anyone reading it in between."
+    },
+    {
+      "cue": "Fill in the repair log with the failure mode, the trap type installed, and the differential reading.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Fill in the repair log with the failure mode, the trap type installed, and the differential reading.",
+      "target": "repair-log",
+      "title": "Complete the repair log",
+      "why": "The next survey of this system checks this trap against what got written down today — a repair with no record of the failure mode or the differential reading leaves nothing for that next survey to compare against, which is exactly the blind spot that let the original trap fail unnoticed for as long as it did."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A failed trap isolated, vented and proven at zero before the body ever opens, the correct trap type fitted for this application, and the line warmed back up slowly enough that condensate boils off instead of hammering through the pipe",
+  "title": "SmartCiti.X~ Steam Trap & Condensate Line Repair VR",
+  "trade": "UA pipefitter / steam and condensate systems",
+  "underwater": null,
+  "weather": null
+}

@@ -1,0 +1,377 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "crossing-proven",
+    "name": "Crossing Proven",
+    "note": "Every gate, light and circuit tested against a real shunt, and the road never once left unprotected while the automatic warning was down"
+  },
+  "category": "Mobility & Transit",
+  "certification": "BMWED-qualified signal maintenance, working a crossing whose automatic protection is out of service under FRA 49 CFR Part 214 roadway worker protection, with the dispatcher's own record of the outage the only thing standing between this crossing and a movement a BLET engineer or a SMART-TD conductor would otherwise expect it to warn for",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "BLET",
+        "id": "blet-training",
+        "title": "BLET certification and training for locomotive engineers and trainmen"
+      },
+      {
+        "body": "union",
+        "citedAs": "BMWED",
+        "id": "bmwed-training",
+        "title": "BMWED roadway worker training for track and structures maintenance"
+      },
+      {
+        "body": "union",
+        "citedAs": "SMART-TD",
+        "id": "smarttd-training",
+        "title": "SMART Transportation Division training for conductors, trainmen and yardmasters"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Track",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "never-live",
+        "name": "Never Live",
+        "note": "Never once touched a circuit before proving it dead"
+      },
+      {
+        "id": "timing-true",
+        "name": "Timing True",
+        "note": "Every gauge reading near band centre"
+      },
+      {
+        "id": "restore-clean",
+        "name": "Clean Restore",
+        "note": "Shunt test and restoration steps worked with no correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "crossing-time",
+        "name": "Crossing Time",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "first-crossing",
+        "name": "First Crossing",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "ten-clear",
+        "name": "Ten Clear",
+        "note": "Ten correct actions in a row"
+      }
+    ],
+    "currency": "SIGNAL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Signal Helper",
+      "Qualified Signal Maintainer",
+      "Lead Maintainer",
+      "Signal Supervisor",
+      "Crossing Authority Certified"
+    ],
+    "system": "Crossing Authority"
+  },
+  "hazards": {
+    "fouled-track-crossing": "You stepped onto the rails at the crossing surface without checking both directions first. A crossing surface is still a crossing while the automatic warning is down — it is down for maintenance, not because the possibility of a train has gone anywhere.",
+    "gate-arm-strike": "You are standing under the gate arm's swing while it is being tested. A gate arm under motor power comes down at the same speed and the same force whether or not somebody is underneath it, and a test run is exactly when it moves without warning to anyone who has stopped expecting it to.",
+    "island-circuit-shock": "You put the probe on the island circuit terminal before proving it dead. A track circuit reads low compared to what killed the roadway worker on the third rail somewhere else in this network, but low is not the same as none, and per the manufacturer's manual it is tested, never assumed, before a bare hand or a bare probe goes anywhere near the terminals.",
+    "unprotected-roadway": "You are standing in the roadway before the temporary signs are actually posted. A driver approaching a crossing with no gates down and no flags visible has no reason to expect a person standing in the lane, because as far as that driver can tell, nothing about this crossing is unusual yet."
+  },
+  "id": "ra-crossing-signal-maintenance-and-flagging",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "flag-traffic",
+      "alert": "A pickup has slowed but not stopped, and it is rolling toward the crossing while the test shunt is still active.",
+      "cue": "That vehicle is not going to stop on its own.",
+      "delay": 4,
+      "id": "vehicle-runs-signal",
+      "kind": "A driver does not stop for the flag",
+      "missNote": "You kept the paddle up and said nothing else. The truck kept rolling, because a raised hand means nothing to a driver who was never going to stop for it in the first place, and by the time that became obvious there was nothing left to reach for but noise, and you didn't reach for it.",
+      "seconds": 11,
+      "target": "warning-whistle",
+      "why": "A hand signal only works on a driver who is actually watching for it, and a driver who has already decided to roll through needs something louder and more immediate than a raised paddle to actually register — the whistle is built for exactly the moment a hand signal alone has stopped being enough.",
+      "wrongNote": "That will not get a driver's attention who has already decided to keep rolling. The whistle is built to be heard over an engine and a closed window."
+    },
+    {
+      "after": "restore-auto",
+      "alert": "The approach signal has lit up on its own, ahead of your test shunt. Something real is coming, not the shunt you placed.",
+      "cue": "That reading is not coming from your own test equipment.",
+      "delay": 4,
+      "id": "train-approaching-during-test",
+      "kind": "An actual movement approaches during the shunt test",
+      "missNote": "You kept working the restoration with an approach circuit lit that your own test did not explain. Whatever that circuit was telling you, it was not asking to be double-checked from where you were standing — it was asking you to already be somewhere else.",
+      "seconds": 12,
+      "target": "safety-zone",
+      "why": "A test shunt and an actual approaching train can both light the same approach circuit, and the only safe assumption the instant that happens is that the reading is real — everything else, including whatever equipment is still in your hands, gets left where it is while you get clear of the crossing surface and the gate's own swing.",
+      "wrongNote": "That does not answer an approach signal you cannot explain. Get clear of the crossing first."
+    }
+  ],
+  "lateNotes": {
+    "left-flag": "Nothing gets logged clear until the walk is actually done.",
+    "left-sign": "A sign left standing after the crossing is restored tells the next driver something that is no longer true."
+  },
+  "name": "Crossing Signal Maintenance & Flagging",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "railroad-crafts"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "activation-check",
+      "circuit-tester",
+      "closing-log",
+      "cone-position",
+      "cwt-cabinet",
+      "fouled-track-crossing",
+      "gate-arm",
+      "gate-arm-strike",
+      "gate-lights",
+      "island-circuit-shock",
+      "job-order-board",
+      "left-flag",
+      "left-sign",
+      "radio-handset",
+      "safety-zone",
+      "shunt-point",
+      "stop-paddle",
+      "temp-sign",
+      "test-shunt",
+      "unprotected-roadway",
+      "warning-whistle"
+    ],
+    "meshes": 154
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check which crossing, what the automatic protection covers, and what today's test requires.",
+      "id": "briefing",
+      "kind": "select",
+      "prompt": "Check which crossing, what the automatic protection covers, and what today's test requires.",
+      "target": "job-order-board",
+      "title": "Read the job order",
+      "why": "Taking a crossing's automatic protection out of service changes what every driver approaching it can safely assume, and the gang, the dispatcher and anyone flagging traffic all need to start from the same understanding of exactly what is about to stop working."
+    },
+    {
+      "cue": "Call the dispatcher and hold the radio for the acknowledgement before touching anything.",
+      "holdBreakNote": "You let go before the acknowledgement came back. The dispatcher's record does not change until they have said so in your own hearing.",
+      "id": "notify-dispatcher",
+      "kind": "hold",
+      "prompt": "Call the dispatcher and hold the radio for the acknowledgement before touching anything.",
+      "seconds": 5,
+      "target": "radio-handset",
+      "title": "Notify the dispatcher the crossing is out of service",
+      "why": "The dispatcher's own record of this crossing's automatic protection is what every approaching train crew relies on, and that record does not change until you have said so and had it read back — starting work before the acknowledgement comes back is starting work the dispatcher does not yet know is happening."
+    },
+    {
+      "cue": "Post the warning sign first, then set the cones behind it.",
+      "id": "temp-protection",
+      "itemNames": {
+        "cone-position": "set the traffic cones",
+        "temp-sign": "post the temporary warning sign"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — the sign goes up first. Cones with no sign ahead of them are a surprise, not a warning.",
+      "prompt": "Post the warning sign first, then set the cones behind it.",
+      "targets": [
+        "temp-sign",
+        "cone-position"
+      ],
+      "title": "Set up temporary road protection",
+      "why": "The sign is what tells an approaching driver something has changed before they are close enough for it to matter, and cones set before the sign is up are protection nobody has actually been warned to look for yet."
+    },
+    {
+      "cue": "Turn the manual release and raise the gate arm clear of the roadway.",
+      "id": "gate-access",
+      "kind": "turn",
+      "prompt": "Turn the manual release and raise the gate arm clear of the roadway.",
+      "target": "gate-arm",
+      "title": "Raise the gate arm for access",
+      "turn": {
+        "axis": "x",
+        "label": "GATE RELEASE",
+        "turns": 0.5
+      },
+      "why": "The gate has to be clear of the roadway and locked there before anyone works on the mechanism above it — a gate that can still drop on its own timer while someone is reaching into the housing is a hazard the maintenance itself just created."
+    },
+    {
+      "cue": "Test the island circuit terminals and commit once the reading is at zero.",
+      "gauge": {
+        "green": [
+          0,
+          0.12
+        ],
+        "label": "ISLAND CIRCUIT",
+        "missNote": "Still live. Confirm the isolation point before touching the terminals.",
+        "speed": 0.66
+      },
+      "id": "circuit-gauge",
+      "kind": "gauge",
+      "prompt": "Test the island circuit terminals and commit once the reading is at zero.",
+      "target": "circuit-tester",
+      "title": "Prove the island circuit dead",
+      "why": "The same rule as any other isolation: proven with an approved tester, never assumed from a switch position or a relay that looks de-energised. A track circuit carries enough current to injure, and a reading near zero is the only thing that makes the terminals safe to handle."
+    },
+    {
+      "cue": "Check both lamps and the skirt for cracking or water intrusion.",
+      "id": "gate-lights",
+      "kind": "select",
+      "prompt": "Check both lamps and the skirt for cracking or water intrusion.",
+      "target": "gate-lights",
+      "title": "Inspect the gate lights and skirt",
+      "why": "A gate lamp that has failed or a skirt that has let water into the housing does not show up on any circuit test run from the bungalow — it only shows up to somebody who has actually looked at the gate itself, up close, with the arm raised."
+    },
+    {
+      "cue": "Read the device's timing against a passing test movement and commit the value.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "WARNING TIME",
+        "missNote": "Outside the device's timing window. Log the defect before restoring service.",
+        "speed": 0.68
+      },
+      "id": "cwt-gauge",
+      "kind": "gauge",
+      "prompt": "Read the device's timing against a passing test movement and commit the value.",
+      "target": "cwt-cabinet",
+      "title": "Test the constant warning time device",
+      "why": "The whole promise of a constant warning time device is that a fast train and a slow train both get the same warning time before they reach the crossing — a device that has drifted out of its window gives drivers either too little warning on a fast movement or an unnecessarily long wait on a slow one."
+    },
+    {
+      "cue": "Carry the shunt wire to the rails and clip it across both running rails.",
+      "drag": {
+        "missNote": "Not clipped across both rails — carry it the rest of the way and clip both leads.",
+        "radius": 0.3,
+        "to": "shunt-point"
+      },
+      "id": "place-shunt",
+      "kind": "drag",
+      "prompt": "Carry the shunt wire to the rails and clip it across both running rails.",
+      "target": "test-shunt",
+      "title": "Place the test shunt",
+      "why": "A test shunt is how this crossing gets proven against something that behaves like a train without an actual train having to be scheduled for the test — clipped across both rails, it puts exactly the same signal into the circuit that a real axle would."
+    },
+    {
+      "cue": "Watch the gates lower and the lights flash in response to the shunt.",
+      "id": "activation-check",
+      "kind": "select",
+      "prompt": "Watch the gates lower and the lights flash in response to the shunt.",
+      "target": "activation-check",
+      "title": "Confirm the crossing activates",
+      "why": "The shunt only proves anything if the whole chain actually answers it — lights flashing, gates lowering, timed the way the constant warning device was just tested to — and the only way to know that chain works end to end is to watch it happen, not to trust that each piece passed on its own."
+    },
+    {
+      "cue": "Hold the stop paddle steady and visible in the green band while the gates are down for the test.",
+      "holdBreakNote": "The paddle dropped out of view during the test. A stop signal nobody can see is not protecting the road, whatever the gates themselves are doing.",
+      "id": "flag-traffic",
+      "kind": "track",
+      "prompt": "Hold the stop paddle steady and visible in the green band while the gates are down for the test.",
+      "seconds": 6,
+      "target": "stop-paddle",
+      "title": "Flag traffic while the shunt is active",
+      "why": "A test that lowers real gates over a real road needs a real person making sure no driver treats a lowered gate as a suggestion, and holding the paddle steady and visible is what actually gets seen from a windshield well before anyone is close enough to need the whistle instead."
+    },
+    {
+      "cue": "Remove the test shunt and hold to confirm the gates raise and the circuit returns to normal.",
+      "holdBreakNote": "You let go before the gate finished raising and the circuit read normal. An unconfirmed restoration is not a restoration.",
+      "id": "restore-auto",
+      "kind": "hold",
+      "prompt": "Remove the test shunt and hold to confirm the gates raise and the circuit returns to normal.",
+      "seconds": 5,
+      "target": "test-shunt",
+      "title": "Remove the shunt and restore automatic operation",
+      "why": "The shunt comes off only once the test result is actually logged, and the restoration is watched through to the gate raising and the circuit reading normal again — walking away the instant the shunt is off is how a crossing gets left in an unconfirmed state nobody actually checked."
+    },
+    {
+      "cue": "Scan the crossing and clear anything that didn't make it back into the truck.",
+      "id": "walk",
+      "itemNames": {
+        "left-flag": "flag left on the shoulder",
+        "left-sign": "spare warning sign left leaning against the bungalow"
+      },
+      "itemNotes": {
+        "left-flag": "Caught before the tally closed — a flag left behind is a flag the next crew has to go looking for.",
+        "left-sign": "A spare sign left standing near the crossing looks like it is still telling drivers something, even after the work is done."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Scan the crossing and clear anything that didn't make it back into the truck.",
+      "targets": [
+        "left-flag",
+        "left-sign"
+      ],
+      "title": "Walk the crossing before you leave it",
+      "why": "A crossing job leaves signs, cones, flags and test gear scattered across both sides of the road, and the only check that catches what did not make it back is somebody actually walking the ground before signing off."
+    },
+    {
+      "cue": "Take down the warning sign and cones now that automatic protection is confirmed restored.",
+      "id": "pack-signs",
+      "kind": "select",
+      "prompt": "Take down the warning sign and cones now that automatic protection is confirmed restored.",
+      "target": "temp-sign",
+      "title": "Remove the temporary signs",
+      "why": "A temporary sign left up after the crossing is back in automatic service tells drivers something that is no longer true, which is its own kind of hazard once the actual gates and lights are doing their job again."
+    },
+    {
+      "cue": "Call the dispatcher and hold the radio for the read-back confirming automatic protection is restored.",
+      "holdBreakNote": "You let go before the read-back came back. The record does not change until the dispatcher has said so in your own hearing.",
+      "id": "confirm-restore",
+      "kind": "hold",
+      "prompt": "Call the dispatcher and hold the radio for the read-back confirming automatic protection is restored.",
+      "seconds": 4,
+      "target": "radio-handset",
+      "title": "Confirm the crossing is back in service",
+      "why": "The crossing is not back in the dispatcher's own record until you have said so and had it read back — a crew relying on that record before the call is relying on a fact that, as far as the dispatcher knows, is still false."
+    },
+    {
+      "cue": "Log the warning time reading, the shunt test result and the time service was restored.",
+      "id": "close-log",
+      "kind": "select",
+      "prompt": "Log the warning time reading, the shunt test result and the time service was restored.",
+      "target": "closing-log",
+      "title": "Close the maintenance log",
+      "why": "The next scheduled inspection only knows what this entry tells it — the readings taken today are the baseline the next test compares against, and a warning time drifting slowly out of tolerance is only visible across two logged readings, never one."
+    }
+  ],
+  "supportLine": "your signal supervisor or your BMWED local if a close call with traffic at the crossing is still sitting with you after shift",
+  "tagline": "The dispatcher told before the automatic warning goes quiet, the road protected by hand while it's out, the island circuit proven dead, the gates and lights proven against a test shunt, and every bit of it restored and confirmed before the crossing goes back to drivers who never knew it was down",
+  "title": "SmartCiti.X~ Crossing Signal Maintenance & Flagging VR",
+  "trade": "Signal maintainer",
+  "underwater": null,
+  "weather": "overcast"
+}

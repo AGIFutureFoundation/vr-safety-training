@@ -1,0 +1,406 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "seam-to-class",
+    "name": "Seam To Class",
+    "note": "A section built to the drawing's pressure and seal class, with nothing fed past the infeed guard"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "SMART and its International Training Institute duct fabrication curriculum; SMACNA HVAC Duct Construction Standards — Metal and Flexible for pressure class, seam type, transverse joint and seal class; OSHA 29 CFR 1910.212 point-of-operation guarding on the lock former, notcher and coil line, 29 CFR 1910.147 lockout/tagout on the coil line, 29 CFR 1910.138 hand protection for raw edges; ANSI B11 machine safety series",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI B11",
+        "id": "ansi-b11",
+        "title": "ANSI B11 — Safety of machinery (the B11 series of machine-tool standards)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.138",
+        "id": "osha-1910-138",
+        "title": "29 CFR 1910.138 — Hand protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "SMACNA",
+        "citedAs": "SMACNA",
+        "id": "smacna-hvac-duct-construction",
+        "title": "SMACNA HVAC Duct Construction Standards — Metal and Flexible (pressure classes, seam and joint construction, reinforcement and hangers)"
+      },
+      {
+        "body": "union",
+        "citedAs": "SMART",
+        "id": "smart-iti",
+        "title": "SMART and the International Training Institute — sheet metal, rail and transportation apprenticeship"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Manufacturing & Automation",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "class-read",
+        "name": "Class Read",
+        "note": "The pressure and seal class taken from the drawing before the first notch"
+      },
+      {
+        "id": "fingers-front",
+        "name": "Fingers Front",
+        "note": "Nothing past the infeed guard, nothing bare on a raw edge"
+      },
+      {
+        "id": "square-section",
+        "name": "Square Section",
+        "note": "Brake angle inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-section",
+        "name": "Clean Section",
+        "note": "One section, no corrections"
+      },
+      {
+        "id": "steady-bead",
+        "name": "Steady Bead",
+        "note": "Sealant run without a break"
+      },
+      {
+        "id": "section-in-time",
+        "name": "Section In Time",
+        "note": "Stencilled inside 80% of par"
+      }
+    ],
+    "currency": "SEAM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Pre-apprentice",
+      "Fab Apprentice",
+      "Lock Former",
+      "Fab Lead",
+      "Fab Shop Certified"
+    ],
+    "system": "Fab Shop"
+  },
+  "hazards": {
+    "bare-edge-stack": "You picked a blank off the stack by its raw edge without gloves. Every edge on that stack came off a shear an hour ago and has not been hemmed yet; SMART shops treat a stack of unhemmed blanks as a stack of knives, which is what it is. Gloves on, and lift by the faces, not the edges.",
+    "coil-guard-off": "You reached across the coil line while its guard interlock was bypassed. The coil line shears and beads under power at the touch of a button, and the interlock is what 29 CFR 1910.212 relies on to keep it from doing so with a hand inside; a bypassed interlock is a guard that exists only on the drawing. The line is locked out and the interlock restored before anybody reaches into it.",
+    "roller-nip": "Your fingers followed the blank into the lock former's rollers. The infeed guard is set so a sheet passes and a hand does not, and the rollers pull at the speed of the sheet — faster than a reflex. A blank that hangs up is backed out with the machine stopped, never pushed through with a fingertip.",
+    "wrong-sealant": "You reached for the general-purpose tube instead of the listed duct sealant. The drawing's seal class assumes a sealant tested for the duct's pressure, temperature and the movement of a metal seam; a hardware-store caulk cracks off the lock in a season and the duct leaks exactly where the test could not see it. The listed tube is the only one that goes on a duct."
+  },
+  "id": "sm-duct-fabrication-and-seams",
+  "indoor": "shop",
+  "interrupts": [
+    {
+      "after": "roll-lock",
+      "alert": "The inspector has walked up to the lock former and is asking which seam type and seal class this run is being built to.",
+      "cue": "The rollers are turning and somebody wants an answer you should have on paper.",
+      "delay": 3,
+      "id": "inspector-seam-class",
+      "kind": "Inspector at the machine",
+      "missNote": "You kept feeding and answered over your shoulder. The inspector wrote down what you said, which was not what the drawing said, and the run now has a note against it that a piece of paper would have closed in a minute — and your hands were on a live infeed while your eyes were on the inspector.",
+      "seconds": 12,
+      "target": "duct-drawing",
+      "why": "The answer to an inspector is never from memory; it is the drawing, with the SMACNA pressure class and the seal class on it, held up beside the section. Stopping the feed to point at the drawing costs a minute. Answering from memory while the sheet keeps feeding is how the sheet gets a hand's attention instead of the rollers getting it.",
+      "wrongNote": "It is the drawing on the board. The seam and seal class are on it, and the inspector wants to see them, not hear them."
+    },
+    {
+      "after": "seal",
+      "alert": "Somebody has hit start on the coil line behind you. Its guard interlock is still bypassed from the morning's repair and the line is running with the shear guard open.",
+      "cue": "A machine is running with no guard, a metre from your back.",
+      "delay": 3,
+      "id": "coil-line-start",
+      "kind": "Machine started beside you",
+      "missNote": "You finished your bead with an unguarded coil line running behind you. Nobody reached into it this time. The interlock stayed bypassed for the rest of the shift, and the next person to clear a jam in it did so with the guard open and the drive live.",
+      "seconds": 12,
+      "target": "coil-estop",
+      "why": "A coil line running with its interlock bypassed is an unguarded shear and beader in a room full of people who assume it is guarded. The bead on your seam can be restarted; the stop on the coil line is the only thing that ends the hazard, and it is pressed by whoever sees it first, not by whoever owns the machine.",
+      "wrongNote": "It is the coil line's emergency stop. Kill the line first — the interlock can be fixed with the machine dead."
+    }
+  ],
+  "lateNotes": {
+    "lock-closer": "The lock is closed after the sides are braked and the section is square — closing it flat on the bench closes a seam that then has to be bent, and the bend opens it again.",
+    "seal-gun": "Sealant goes on a finished, closed seam. A bead over an open lock is sealant on the floor by tomorrow."
+  },
+  "name": "Duct Fabrication and Seams",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "bare-edge-stack",
+      "brake-angle",
+      "class-stencil",
+      "coil-estop",
+      "coil-guard-off",
+      "duct-blank",
+      "duct-drawing",
+      "edge-gloves",
+      "fab-board",
+      "fab-log",
+      "flange-corners",
+      "flange-roll",
+      "lock-closer",
+      "lock-infeed",
+      "missing-corner-piece",
+      "notcher",
+      "open-lock",
+      "pittsburgh-feed",
+      "raw-edge",
+      "roller-nip",
+      "seal-gun",
+      "sharp-corner",
+      "shop-glasses",
+      "wrong-sealant"
+    ],
+    "meshes": 236
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Mark yourself onto the lock former and note who is on the coil line and the brake beside you.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Mark yourself onto the lock former and note who is on the coil line and the brake beside you.",
+      "target": "fab-board",
+      "title": "Sign on at the fab shop board",
+      "why": "A fab shop is three machines within an arm's reach of each other, and the board is how the people at them know who is where. Signing on means the coil line operator knows there is somebody at the lock former behind them before the line starts, and the lead knows an apprentice is on rollers that pull at sheet speed; SMART shops treat that board as the first guard on every machine in the room, because a machine started without knowing who is beside it is a machine started blind."
+    },
+    {
+      "cue": "Find the pressure class, the gauge it demands, the seam type and the SMACNA seal class before a corner is notched.",
+      "id": "spec-read",
+      "kind": "select",
+      "prompt": "Find the pressure class, the gauge it demands, the seam type and the SMACNA seal class before a corner is notched.",
+      "target": "duct-drawing",
+      "title": "Take the pressure, seam and seal class off the drawing",
+      "why": "The drawing's pressure class sets the gauge, the seam type and the reinforcement under the SMACNA HVAC Duct Construction Standards, and the seal class says which seams get sealant at all. A section built from habit instead of the drawing is a section for a different duct: too light a gauge oil-cans under pressure, an unsealed transverse joint on a class A run leaks the air the whole system was sized to deliver, and neither fault is visible on the bench."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Cut-resistant gloves and glasses from the station — the blanks are unhemmed.",
+      "id": "ppe",
+      "itemNames": {
+        "edge-gloves": "cut-resistant gloves",
+        "shop-glasses": "safety glasses"
+      },
+      "kind": "sequence",
+      "prompt": "Cut-resistant gloves and glasses from the station — the blanks are unhemmed.",
+      "targets": [
+        "edge-gloves",
+        "shop-glasses"
+      ],
+      "title": "Gloves and glasses before the stack",
+      "why": "The stack beside the lock former is sheared blanks with nothing done to the edges yet, and the hand protection 29 CFR 1910.138 asks for is rated against exactly that edge. Glasses are for the corner that springs when a notch is cut and for the sealant that flicks off a bead; both are the kind of thing that happens once in a career and takes an eye the one time it does."
+    },
+    {
+      "cue": "Set the blank against the notcher stops and take the four corner notches, hands on the sheet's face and clear of the blade opening.",
+      "id": "notch",
+      "kind": "select",
+      "prompt": "Set the blank against the notcher stops and take the four corner notches, hands on the sheet's face and clear of the blade opening.",
+      "target": "notcher",
+      "title": "Notch the corners on the notcher",
+      "why": "The notches let the lock and the flange form without the corners fighting each other, and they are cut against the stops so all four are the same, because a corner notched deep on one side and shallow on the other is a section that will not square. The notcher blade is a small guillotine with a stop-controlled throat; the sheet goes to the stop and the fingers stay on the face."
+    },
+    {
+      "cue": "Carry the notched blank to the lock former's infeed and set its edge into the infeed guide.",
+      "drag": {
+        "missNote": "Not in the infeed guide — a blank started off the guide rolls a lock that tapers along its length.",
+        "radius": 0.4,
+        "to": "lock-infeed"
+      },
+      "id": "lock-feed",
+      "kind": "drag",
+      "prompt": "Carry the notched blank to the lock former's infeed and set its edge into the infeed guide.",
+      "target": "duct-blank",
+      "title": "Bring the blank to the lock former",
+      "why": "The blank enters the rollers along the guide so the lock forms straight and full-depth from the first inch; a blank started crooked forms a lock that tapers, and a tapered lock will not take the flange it has to mate with. The infeed guide is also the guard — the sheet is fed by its trailing edge and the guide is what keeps a hand out of the nip."
+    },
+    {
+      "cue": "Feed the blank through the rollers at a steady rate — guide it from behind, never ahead of the infeed guard.",
+      "holdBreakNote": "The feed hunted — the sheet rode up and the lock pocket has a flat in it. Hold the pace steady.",
+      "id": "roll-lock",
+      "kind": "track",
+      "prompt": "Feed the blank through the rollers at a steady rate — guide it from behind, never ahead of the infeed guard.",
+      "seconds": 6,
+      "target": "pittsburgh-feed",
+      "title": "Roll the Pittsburgh lock",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "FEED",
+        "rise": 0.56
+      },
+      "why": "The rollers form the lock in stages along the machine, and they do it evenly only if the sheet arrives at the speed the rollers pull it; a sheet held back stretches the pocket, a sheet pushed rides up and jams. Steady feed keeps both hands at the trailing edge where the guard protects them, which is the other reason the pace matters — the hand that hurries a sheet is the hand that follows it into the nip."
+    },
+    {
+      "cue": "Bend the sides on the box-and-pan brake and commit inside the angle band.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.6
+        ],
+        "label": "ANGLE",
+        "missNote": "Off the angle — a side out of square is a lock that never seats. Reset the stop and bend again.",
+        "speed": 0.72
+      },
+      "id": "brake-bend",
+      "kind": "gauge",
+      "prompt": "Bend the sides on the box-and-pan brake and commit inside the angle band.",
+      "target": "brake-angle",
+      "title": "Brake the sides to angle",
+      "why": "A rectangular duct is only rectangular if its bends are; a side braked short leaves a lock that will not reach its pocket, a side braked over leaves a joint that gaps at the flange. Springback varies with gauge and with how the sheet was sheared, so the angle is read off the protractor on the first bend rather than off the brake's stop, and the stop is adjusted to the metal rather than the other way round."
+    },
+    {
+      "cue": "Set the flange of the mating side into the pocket and turn the lock down with the seaming tool along its length.",
+      "id": "close-lock",
+      "kind": "turn",
+      "prompt": "Set the flange of the mating side into the pocket and turn the lock down with the seaming tool along its length.",
+      "target": "lock-closer",
+      "title": "Close the lock",
+      "turn": {
+        "axis": "z",
+        "label": "SEAM",
+        "turns": 1
+      },
+      "why": "The Pittsburgh lock holds because the flange sits full-depth in the pocket and the pocket's lip is hammered over onto it; a lock closed with the flange short in the pocket looks the same from outside and opens the first time the duct is pressurised. Closing it in one continuous pass from one end, rather than in spots, keeps the section straight instead of banana-shaped."
+    },
+    {
+      "cue": "Roll the flange on both ends of the section, then drive the corner pieces into the flange at all four corners.",
+      "id": "flange",
+      "itemNames": {
+        "flange-corners": "fit the corner pieces",
+        "flange-roll": "roll the transverse flange"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Flange first, then the corners — a corner piece has nothing to lock into on an unrolled edge.",
+      "prompt": "Roll the flange on both ends of the section, then drive the corner pieces into the flange at all four corners.",
+      "targets": [
+        "flange-roll",
+        "flange-corners"
+      ],
+      "title": "Roll and corner the transverse flange",
+      "why": "The transverse joint is where this section meets the next, and the SMACNA HVAC Duct Construction Standards give it a flange type and reinforcement by pressure class; the flange is rolled before the corners go in because the corners lock into a formed flange, not a flat edge. Corners driven into a flange that was not fully rolled sit proud, and a proud corner is a joint that leaks at the one point a gasket cannot reach."
+    },
+    {
+      "cue": "Run a continuous bead of the listed duct sealant along the lock and into the flange corners, without lifting the gun.",
+      "holdBreakNote": "You lifted the gun mid-bead — a pinhole under a skin of sealant. Go back to where you stopped and run it through.",
+      "id": "seal",
+      "kind": "hold",
+      "prompt": "Run a continuous bead of the listed duct sealant along the lock and into the flange corners, without lifting the gun.",
+      "seconds": 4,
+      "target": "seal-gun",
+      "title": "Seal the seams to class",
+      "why": "The seal class on the drawing decides whether the longitudinal seam, the transverse joint or both are sealed, and a seal is only a seal if it is continuous; a bead lifted and restarted leaves a pinhole under a skin of sealant that passes a glance and fails a leakage test. The gun stays down for the whole run, and the listed sealant is the one that survives the duct's pressure and the temperature swing."
+    },
+    {
+      "cue": "Run a gloved hand along every edge and seam and click the two things wrong with it.",
+      "id": "edge-walk",
+      "itemNames": {
+        "open-lock": "a lock not fully closed",
+        "raw-edge": "an unhemmed raw edge"
+      },
+      "itemNotes": {
+        "open-lock": "The lock is closed at the ends and open in the middle where the seaming tool skipped; the section will hold on the bench and leak along its length under pressure.",
+        "raw-edge": "That edge was meant to be hemmed and was not — on a duct that goes out to a crew who install it bare-handed in a ceiling, that is a cut waiting for whoever lifts it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Run a gloved hand along every edge and seam and click the two things wrong with it.",
+      "targets": [
+        "raw-edge",
+        "open-lock"
+      ],
+      "title": "Walk the section before it leaves the bench",
+      "why": "A finished section is inspected by the person who made it, on the bench, because the next person to touch it is an installer on a lift with the section over their head. A raw edge is a wound in that person's hand; an open lock is a leak the balancing crew will chase for a day. Both are found in a minute with a gloved hand run along the metal and cost hours to find anywhere else."
+    },
+    {
+      "cue": "Mark the section with the job, the pressure class, the seal class and the run it belongs to.",
+      "id": "stencil",
+      "kind": "select",
+      "prompt": "Mark the section with the job, the pressure class, the seal class and the run it belongs to.",
+      "target": "class-stencil",
+      "title": "Stencil the section",
+      "why": "A duct section with no marking is a section the installer guesses at, and a class 2 section hung on a class 4 riser is a duct that oil-cans and leaks at every joint the day the fans start. The stencil ties the metal to the drawing, and it is the first thing the inspector asks to see when a seam class is questioned on site, because it says the fabricator knew what they were building."
+    },
+    {
+      "cue": "The sections on the cart are somebody else's problem tomorrow — click the two that should not leave the shop.",
+      "id": "handoff",
+      "itemNames": {
+        "missing-corner-piece": "a flange corner with no corner piece",
+        "sharp-corner": "a sharp unbroken corner"
+      },
+      "itemNotes": {
+        "missing-corner-piece": "Three corner pieces, not four. The joint will draw up crooked and the gasket will never seat at the empty corner.",
+        "sharp-corner": "The notch left a point on that corner and nobody broke it — it goes through a glove and through the flex duct that will be pushed over it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "The sections on the cart are somebody else's problem tomorrow — click the two that should not leave the shop.",
+      "targets": [
+        "sharp-corner",
+        "missing-corner-piece"
+      ],
+      "title": "Check the stack going out to the job",
+      "why": "The cart is the last place the shop can catch its own faults, and the two that matter most are the ones an installer cannot fix on a lift: a sharp corner that should have been broken on the bench, and a missing corner piece that means the joint will not draw up. Checking the cart takes a minute; a section sent back from the site costs a day and a truck."
+    },
+    {
+      "cue": "Enter the job, the section count, the pressure and seal class and the coil line interlock fault, and sign it.",
+      "id": "fab-log",
+      "kind": "select",
+      "prompt": "Enter the job, the section count, the pressure and seal class and the coil line interlock fault, and sign it.",
+      "target": "fab-log",
+      "title": "Log the run",
+      "why": "The log records that this run was built to the class on the drawing and by whom, which is what the shop shows an inspector when a seam is questioned on site months later. It also carries the coil line's bypassed interlock, so the fault is fixed on the record rather than rediscovered by the next operator reaching into a line that starts without warning."
+    }
+  ],
+  "supportLine": "your SMART local's training coordinator or the shop steward, or your employer's employee assistance program if the rollers are what you keep seeing",
+  "tagline": "Pressure class off the drawing, corners notched, a Pittsburgh lock rolled and closed, sides braked to angle, the flange rolled and cornered, seams sealed to class, the section stencilled and logged",
+  "title": "SmartCiti.X~ Duct Fabrication and Seams VR",
+  "trade": "Sheet metal fabricator — SMART, International Training Institute duct construction curriculum",
+  "underwater": null,
+  "weather": null
+}

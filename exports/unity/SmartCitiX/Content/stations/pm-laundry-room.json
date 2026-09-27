@@ -1,0 +1,413 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "dry-floor",
+    "name": "Dry Floor",
+    "note": "Machine locked out, drained into a bucket, exhaust read, and nothing left on the floor for a resident to slip on"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "OSHA 29 CFR 1910.147 lockout on a coin-op washer before any hand reaches the drum or the drain pump; 29 CFR 1910.212 guarding on the belt side; 29 CFR 1910.1200 hazard communication for the chemicals residents leave behind; 29 CFR 1910.36 exit routes kept clear of carts and baskets; NFPA 54 for gas dryer venting and makeup air and NFPA 72 for the room's smoke detection; SEIU building-staff training, IUOE stationary engineer practice and the apartment association's CAMT credential; the local housing code for the laundry the lease promises",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 54",
+        "id": "nfpa-54",
+        "title": "NFPA 54 — National Fuel Gas Code"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 72",
+        "id": "nfpa-72",
+        "title": "NFPA 72 National Fire Alarm and Signaling Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.36",
+        "id": "osha-1910-36",
+        "title": "29 CFR 1910.36 — Design and construction requirements for exit routes"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Building Systems & Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "locked-first",
+        "name": "Locked First",
+        "note": "Washer locked out before the drum was touched"
+      },
+      {
+        "id": "no-slips",
+        "name": "No Slips",
+        "note": "No unsafe act anywhere in the room"
+      },
+      {
+        "id": "breathing-dryer",
+        "name": "Breathing Dryer",
+        "note": "Exhaust back pressure read inside the band first time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-order",
+        "name": "Clean Work Order",
+        "note": "No corrections across the whole job"
+      },
+      {
+        "id": "steady-fill",
+        "name": "Steady Fill",
+        "note": "Held the test fill without breaking the band"
+      },
+      {
+        "id": "back-in-service",
+        "name": "Back In Service",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "QUARTERS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Porter",
+      "Maintenance Tech",
+      "Lead Tech",
+      "Building Super",
+      "Laundry Room Certified"
+    ],
+    "system": "Laundry Room"
+  },
+  "hazards": {
+    "chem-bottle-combine": "You started pouring the abandoned bottles into one jug to clear the shelf. One is chlorine bleach and one is an ammonia glass cleaner — combined they release chloramine gas in a small room with one door, and whoever is folding at the table breathes it before you smell it.",
+    "cord-in-puddle": "You grabbed the resident's extension cord lying in the puddle with a wet hand while standing in the water. The outlet it runs to is not on a ground-fault breaker — the water around your boots is the path — and the cord gets de-energised at the panel before anyone touches it.",
+    "reach-in-drum": "You reached into washer three's drum before it was locked out. The control board still has power, the door lock can release mid-cycle on a fault, and a drum that starts to spin with an arm in it breaks the arm — the lock goes on first, every time.",
+    "taped-door-switch": "You pressed the dryer's door switch that somebody has taped down. Taped in, the dryer runs with the door open — a hot, turning drum at hand height in a room residents' children walk through — and the tape comes off and the dryer comes out of service until the switch is replaced."
+  },
+  "id": "pm-laundry-room",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "drain-drum",
+      "alert": "While you hold the drain hose, a resident comes in, sees her clothes in washer three and reaches to pull the door open.",
+      "cue": "Hang the out-of-order placard on the washer door and tell her you'll hand her clothes out once it's drained. Keep the hose low.",
+      "delay": 3,
+      "id": "resident-reaches",
+      "kind": "Resident reaching for the locked-out washer",
+      "missNote": "She kept pulling at the door while you held the hose. Nobody told her the machine was locked out, and the next resident through the door will try the same thing.",
+      "seconds": 12,
+      "target": "out-of-order-sign",
+      "why": "The drum is half full and the door lock is the only thing holding a wash of soapy water inside; pulled open now, it lands across her feet and the floor. A placard on the door answers the question every resident who walks in next will ask, and handing her clothes out yourself is what keeps her away from the machine you have locked.",
+      "wrongNote": "That doesn't answer her. The out-of-order placard on the washer door is what tells her — and everyone after her — that this machine is off-limits."
+    },
+    {
+      "after": "test-fill",
+      "alert": "A scorched smell and a thread of smoke from dryer four's lint door — its high-limit has not tripped and the drum is still turning.",
+      "cue": "Close dryer four's gas shutoff and stop the machine. Don't open the drum door on a smouldering load.",
+      "delay": 3,
+      "id": "dryer-smoulder",
+      "kind": "Dryer four scorching",
+      "missNote": "The dryer kept heating a smouldering load the whole window. That is how a laundry-room fire starts — not with a flame but with a burner that nobody shut off.",
+      "seconds": 12,
+      "target": "dryer-gas-shutoff",
+      "why": "Lint smoulders slowly until it gets air, and opening the drum door feeds a smouldering load exactly the oxygen it needs to flame. Closing the gas shutoff takes the burner out of the equation, and a stopped, closed dryer starves the smoulder while the fire department is called if it keeps going.",
+      "wrongNote": "That doesn't take the heat away. The gas shutoff behind dryer four is what stops the burner feeding the smoulder."
+    }
+  ],
+  "lateNotes": {
+    "dryer-manometer": "Read the exhaust once the dryer is actually running a heat cycle — a cold dryer has no back pressure to read.",
+    "pump-trap": "Not yet — the trap is opened only after the drum is drained into the bucket, or the drum empties across the floor through it."
+  },
+  "name": "Laundry Room",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "property-management"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "building-log",
+      "chem-bottle-combine",
+      "cord-in-puddle",
+      "coworker-checkin",
+      "crushed-transition-duct",
+      "drain-bucket",
+      "drain-hose",
+      "dryer-gas-shutoff",
+      "dryer-manometer",
+      "fill-level",
+      "lint-screen-full",
+      "makeup-louver-blocked",
+      "mop-sink-slot",
+      "out-of-order-sign",
+      "pump-trap",
+      "reach-in-drum",
+      "supply-valve",
+      "taped-door-switch",
+      "unlabeled-bottle",
+      "washer-breaker",
+      "washer-clear-walk",
+      "washer-lock-hasp",
+      "washer-start-tryout",
+      "washer-unlock",
+      "work-order-card"
+    ],
+    "meshes": 191
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read what the resident reported about washer three before you touch it.",
+      "id": "read-work-order",
+      "kind": "select",
+      "prompt": "Read what the resident reported about washer three before you touch it.",
+      "target": "work-order-card",
+      "title": "Read the resident's work order",
+      "why": "The resident's own words carry the clues a technician needs: that washer three stopped mid-cycle with water still in the drum, that it made a grinding noise first, that there was a sock missing. A work order read properly turns a guess about the pump into a diagnosis, and it tells you the drum is full before you open the door on it."
+    },
+    {
+      "cue": "Find what residents or the last shift left that makes this room dangerous.",
+      "id": "walk-room",
+      "itemNames": {
+        "crushed-transition-duct": "crushed foil duct behind dryer 2",
+        "unlabeled-bottle": "unlabeled spray bottle on the folding table"
+      },
+      "itemNotes": {
+        "crushed-transition-duct": "The flexible foil transition behind dryer two has been pushed flat against the wall. A crushed duct chokes the exhaust, lint piles up in the kink, and the dryer runs hotter every cycle until the lint is the fuel.",
+        "unlabeled-bottle": "A spray bottle with no label and a faint chlorine smell. Nobody can tell what it is, what it reacts with or what to do if it gets in an eye — it goes to the chemical shelf's disposal bin, labelled as unknown."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find what residents or the last shift left that makes this room dangerous.",
+      "targets": [
+        "crushed-transition-duct",
+        "unlabeled-bottle"
+      ],
+      "title": "Walk the room before you start",
+      "why": "A laundry room is a shared space with gas appliances, electrical machines and water on the floor, and it is used by everyone in the building from toddlers to people in their nineties. The walk before the repair is where the technician finds the thing that will hurt somebody this afternoon, which is rarely the machine on the work order."
+    },
+    {
+      "cue": "Breaker off, your lock and tag on it, then press start to prove the machine is dead.",
+      "id": "lockout-washer",
+      "itemNames": {
+        "washer-breaker": "washer three's breaker off",
+        "washer-lock-hasp": "your lock and tag on the breaker",
+        "washer-start-tryout": "start pressed to prove it dead"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Breaker, lock, then try it — pressing start before the lock is on proves nothing, and a lock on the wrong breaker is only found by the tryout.",
+      "prompt": "Breaker off, your lock and tag on it, then press start to prove the machine is dead.",
+      "targets": [
+        "washer-breaker",
+        "washer-lock-hasp",
+        "washer-start-tryout"
+      ],
+      "title": "Lock out washer three",
+      "why": "The lockout standard exists because a machine that is merely switched off can be switched back on — by a resident feeding coins into it, by a coworker who sees it off, by a control board that resets. Your lock on the breaker is what makes the machine yours alone, and pressing start afterwards is the test that proves you locked the right breaker."
+    },
+    {
+      "cue": "Turn the supply valve behind washer three closed.",
+      "id": "close-supply",
+      "kind": "turn",
+      "prompt": "Turn the supply valve behind washer three closed.",
+      "target": "supply-valve",
+      "title": "Close the washer's hot and cold supply",
+      "turn": {
+        "axis": "z",
+        "label": "SUPPLY VALVE",
+        "turns": 0.75
+      },
+      "why": "A washer's inlet valves are solenoids, and a solenoid that sticks open with the pump out keeps filling the drum until it overflows across the floor. Closing the supply at the wall takes the building's water pressure out of the machine completely, so the only water left to deal with is what is already in the drum."
+    },
+    {
+      "cue": "Hold the emergency drain hose low in the bucket until the drum stops running.",
+      "holdBreakNote": "You lifted the hose before the drum was empty. Water stops running into the bucket and starts running back across the floor — hold it low until it stops.",
+      "id": "drain-drum",
+      "kind": "hold",
+      "prompt": "Hold the emergency drain hose low in the bucket until the drum stops running.",
+      "seconds": 5,
+      "target": "drain-hose",
+      "title": "Drain the drum through the emergency hose",
+      "why": "The drum still holds most of a wash of soapy water, and opening the door or the pump trap first puts all of it on the floor at once — a slip for the next resident and water under the dryers' gas connections. Draining it slowly into a bucket, hose held low, is what keeps the floor dry and lets you see whether anything came out with the water."
+    },
+    {
+      "cue": "Carry the full drain bucket to the mop sink and empty it there.",
+      "drag": {
+        "missNote": "Not at the mop sink — a bucket of wash water left on the floor is the next spill waiting for a resident's foot.",
+        "radius": 0.5,
+        "to": "mop-sink-slot"
+      },
+      "id": "empty-bucket",
+      "kind": "drag",
+      "prompt": "Carry the full drain bucket to the mop sink and empty it there.",
+      "target": "drain-bucket",
+      "title": "Carry the bucket to the mop sink",
+      "why": "Wash water holds detergent, bleach and whatever residents have laundered, and it belongs down the sanitary drain in the mop sink, not the floor drain that may run to a storm line or the courtyard. A full bucket carried at your side with a clear path to the sink is also the bucket that does not get kicked over by the next person through the door."
+    },
+    {
+      "cue": "Open the pump trap and pull out what stopped the drain.",
+      "id": "clear-trap",
+      "kind": "select",
+      "prompt": "Open the pump trap and pull out what stopped the drain.",
+      "target": "pump-trap",
+      "title": "Clear the drain pump trap",
+      "why": "A washer that will not drain almost always has something in the pump trap — a sock, a hair tie, coins — and the pump grinding against it was the noise in the work order. Clearing the trap fixes the drain; leaving it and replacing the pump puts a new pump against the same sock next week."
+    },
+    {
+      "cue": "With a dryer running on heat, read the manometer on the exhaust and commit inside the band.",
+      "gauge": {
+        "green": [
+          0.12,
+          0.34
+        ],
+        "label": "EXHAUST BACK PRESSURE",
+        "missNote": "Outside the dryer's rated band — too high is a choked duct, zero means the manometer is not on the exhaust. Read it again.",
+        "speed": 0.6
+      },
+      "id": "read-exhaust",
+      "kind": "gauge",
+      "prompt": "With a dryer running on heat, read the manometer on the exhaust and commit inside the band.",
+      "target": "dryer-manometer",
+      "title": "Read the dryer bank's exhaust back pressure",
+      "why": "Every gas dryer is rated for a maximum back pressure in its exhaust, and above it the dryer cannot move enough air: lint settles in the duct, the burner runs hotter and the high-limit trips until one day it doesn't. NFPA 54 is why the duct runs where it does and how long it may be; the manometer is how you know it still works."
+    },
+    {
+      "cue": "Restore water and run a test fill, keeping the level below the overflow as it drains.",
+      "holdBreakNote": "The level left the band. Near overflow is the inlet valve sticking; not filling is the supply still closed — bring it back into the band.",
+      "id": "test-fill",
+      "kind": "track",
+      "prompt": "Restore water and run a test fill, keeping the level below the overflow as it drains.",
+      "seconds": 7,
+      "target": "fill-level",
+      "title": "Run a test fill and watch the level",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.36,
+        "green": [
+          0.38,
+          0.62
+        ],
+        "label": "FILL LEVEL",
+        "rise": 0.42,
+        "start": 0.2
+      },
+      "why": "A repaired washer is not repaired until it has filled and drained on its own while somebody watched. The level has to climb to the fill line and then fall away through the cleared trap — if it hangs, the blockage is further down the drain line; if it overshoots, the inlet valve is sticking, and both show up in the first cycle, not after the resident has loaded it."
+    },
+    {
+      "cue": "Find what is starving the dryers of air.",
+      "id": "walk-dryers",
+      "itemNames": {
+        "lint-screen-full": "lint screen packed on dryer 4",
+        "makeup-louver-blocked": "makeup-air louver blocked by boxes"
+      },
+      "itemNotes": {
+        "lint-screen-full": "Dryer four's lint screen is a solid felt mat. Residents rarely clear it, and a full screen is the first choke point in the whole exhaust path.",
+        "makeup-louver-blocked": "Somebody stacked flattened boxes against the louvre in the door. Gas dryers pull their combustion and exhaust air from the room, and with the louvre blocked they pull it back down the flues instead."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find what is starving the dryers of air.",
+      "targets": [
+        "lint-screen-full",
+        "makeup-louver-blocked"
+      ],
+      "title": "Walk the dryer bank",
+      "why": "Six dryers running together pull a surprising volume of air out of a small room, and it has to come back in somewhere. A blocked makeup-air louvre and a packed lint screen are the two everyday findings that turn a dryer bank into a fire or a carbon monoxide problem, and neither shows on the machine's own display."
+    },
+    {
+      "cue": "Walk the machine for panels and tools, then take your own lock off and restore the breaker.",
+      "id": "return-washer",
+      "itemNames": {
+        "washer-clear-walk": "walk the machine: panels on, tools out",
+        "washer-unlock": "your lock off, breaker on"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Walk the machine first, then your lock — restoring power to a washer with a guard off is exactly what the walk-round exists to catch.",
+      "prompt": "Walk the machine for panels and tools, then take your own lock off and restore the breaker.",
+      "targets": [
+        "washer-clear-walk",
+        "washer-unlock"
+      ],
+      "title": "Return washer three to service",
+      "why": "The last minute of a lockout is where a panel left off the belt side or a screwdriver in the drum becomes a resident's injury, because the next person to use the machine assumes it is exactly as the manufacturer built it. Your lock comes off only after you have walked it, and only you take it off."
+    },
+    {
+      "cue": "Hand over the crushed duct and the blocked louvre, and ask how the week has gone.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Hand over the crushed duct and the blocked louvre, and ask how the week has gone.",
+      "target": "coworker-checkin",
+      "title": "Check in with the porter on the next shift",
+      "why": "The porter who cleans this room every morning is the one who will notice the louvre blocked again or the duct pushed back, and a finding handed over in person gets acted on in a way a note on a clipboard does not. The same minute is the moment to ask a coworker how they are actually doing — building staff spend long stretches working alone."
+    },
+    {
+      "cue": "Log the cause, the trap cleared, the exhaust reading and the findings passed to the porter.",
+      "id": "building-log",
+      "kind": "select",
+      "prompt": "Log the cause, the trap cleared, the exhaust reading and the findings passed to the porter.",
+      "target": "building-log",
+      "title": "Close the work order in the building log",
+      "why": "The building log is where a pattern becomes visible: the third sock in washer three this month, the exhaust reading creeping up since spring, the louvre blocked every Monday. It is also the record the resident's work order is closed against, so the resident who reported it can see it was fixed and why."
+    }
+  ],
+  "supportLine": "your SEIU steward or member-assistance contact, or your employer's employee assistance program",
+  "tagline": "The residents' laundry: washer three locked out and drained into a bucket, the trap cleared, the dryer exhaust read for back pressure, and the room walked for what residents leave behind",
+  "title": "SmartCiti.X~ Laundry Room VR",
+  "trade": "Building porter and maintenance technician — SEIU building staff with a CAMT-credentialed technician, and IUOE Local 39 engineers for the gas dryers' venting",
+  "underwater": null,
+  "weather": null
+}

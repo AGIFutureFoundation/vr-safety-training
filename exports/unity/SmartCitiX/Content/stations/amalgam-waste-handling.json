@@ -1,0 +1,395 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "closed-loop",
+    "name": "Closed Loop",
+    "note": "Every gram of scrap into the amalgam stream — nothing to the trash, the sharps or the drain"
+  },
+  "category": "Dental & Oral Health",
+  "certification": "The EPA's amalgam separator rule (40 CFR 441) and its 95 percent removal standard for dental offices that place or remove amalgam; the state's mercury and hazardous dental waste rules; OSHA 29 CFR 1910.1000 air contaminants for mercury vapour and 1910.1200 hazard communication; the ADA's best management practices for amalgam waste",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADA",
+        "citedAs": "ADA's",
+        "id": "ada-radiographic-guidance",
+        "title": "American Dental Association and FDA guidance on prescribing dental radiographs"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "40 CFR 441",
+        "id": "epa-40-cfr-441",
+        "title": "40 CFR Part 441 — Dental office point source category (the amalgam separator rule)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1000",
+        "id": "osha-1910-1000",
+        "title": "29 CFR 1910.1000 — Air contaminants and the permissible exposure limits"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Dental & Oral Health",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "never-mixed",
+        "name": "Never Mixed",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "logged-clean",
+        "name": "Logged Clean",
+        "note": "The separator log touched without a single correction"
+      },
+      {
+        "id": "steady-flush",
+        "name": "Steady Flush",
+        "note": "Line flush held in band the whole way"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "shift-time",
+        "name": "Shift Time",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-handling",
+        "name": "Clean Handling",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "seven-straight",
+        "name": "Seven Straight",
+        "note": "Seven correct actions in a row"
+      }
+    ],
+    "currency": "HG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Waste Handler",
+      "Separator Trained",
+      "Compliance Lead",
+      "Environmental Officer",
+      "Mercury Certified"
+    ],
+    "system": "Mercury Handling"
+  },
+  "hazards": {
+    "autoclave-heat": "Amalgam scrap does not go anywhere near the autoclave or any other heat source. Mercury vaporises well below sterilizer temperatures, and heating amalgam waste is one of the few actions in this office that turns a solid, containable hazard into an airborne one.",
+    "bleach-cleaner": "That line cleaner is chlorine-based. An oxidizer run through lines feeding a mercury separator can react with the collected amalgam and drive mercury into vapour — only a cleaner rated compatible with the separator ever goes through those lines.",
+    "sharps-bin": "That is the sharps container, and amalgam scrap does not belong in it either. Sharps waste and amalgam waste are two separate regulated streams with two separate destinations — mixing them contaminates a load a recycler cannot then certify as either one.",
+    "trash-bin": "That is the general trash. Amalgam scrap in the regular waste stream is exactly what the separator rule and the state's mercury waste rules exist to prevent — it goes to the labelled amalgam container, every time, with nothing traded off for convenience."
+  },
+  "id": "amalgam-waste-handling",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "flush-lines",
+      "alert": "A capsule someone else was using across the room has been dropped and broken open — there is mercury-containing amalgam on the counter.",
+      "cue": "Reach for the spill kit. Not the vacuum.",
+      "delay": 3,
+      "id": "mercury-spill",
+      "kind": "Spill",
+      "missNote": "The spill sat on the counter while the canister work continued. Left alone, a mercury spill keeps releasing vapour into the room air the whole time nobody responds to it.",
+      "seconds": 11,
+      "target": "spill-kit",
+      "why": "A dropped amalgam capsule is a mercury spill, and the spill kit — absorbent powder and a sealable container — is the only correct response. A household or shop vacuum aerosolises mercury directly into the air instead of containing it, which is the one thing a spill response is not allowed to do.",
+      "wrongNote": "It is the spill kit. Whatever is running at the manifold waits — a mercury spill in the open room does not."
+    },
+    {
+      "after": "spill-kit-check",
+      "alert": "A new assistant is about to tip a chairside trap's contents into the sharps container to save a trip across the room.",
+      "cue": "Stop them — that trap goes in the amalgam waste container.",
+      "delay": 3,
+      "id": "assistant-sharps-trap",
+      "kind": "Unsafe shortcut",
+      "missNote": "The trap went into the sharps container. That load can no longer be certified as sharps waste alone, and the amalgam in it is now on its way to an incinerator built for sharps, not for mercury.",
+      "seconds": 11,
+      "target": "amalgam-waste-container",
+      "why": "A trap emptied into sharps contaminates a regulated sharps load with mercury-containing waste it was never certified to carry, and it is exactly the kind of shortcut somebody new to the office takes once, without knowing the two streams are never supposed to touch.",
+      "wrongNote": "It is the amalgam waste container. Redirect the trap contents there before anything gets tipped into the sharps bin."
+    }
+  ],
+  "lateNotes": {
+    "amalgam-scrap": "The traps and filters have not been emptied yet — there is nothing to carry to the container until that scrap exists.",
+    "recycler-manifest": "The container is not sealed yet. A manifest is written against a sealed load, not one that could still change.",
+    "waste-lid": "The container is not full of anything to seal yet. The lid closes once the scrap from this session is actually inside it."
+  },
+  "name": "Amalgam Waste Handling",
+  "parSeconds": 255,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "dental-hygiene-unspoken-smiles"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "amalgam-scrap",
+      "amalgam-waste-container",
+      "autoclave-heat",
+      "bagged-trap-screen",
+      "bleach-cleaner",
+      "canister-dock",
+      "canister-sight-glass",
+      "chairside-trap",
+      "compatible-cleaner",
+      "extracted-tooth-amalgam",
+      "eye-protection",
+      "flush-valve",
+      "full-canister",
+      "nitrile-gloves",
+      "recycler-manifest",
+      "separator-log",
+      "separator-monitor",
+      "sharps-bin",
+      "spent-capsule",
+      "spill-kit",
+      "trash-bin",
+      "vacuum-filter",
+      "vacuum-isolation-valve",
+      "waste-lid"
+    ],
+    "meshes": 163
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Close the isolation valve before opening anything downstream of it.",
+      "id": "isolate",
+      "kind": "turn",
+      "prompt": "Close the isolation valve before opening anything downstream of it.",
+      "target": "vacuum-isolation-valve",
+      "title": "Isolate the central vacuum line",
+      "turn": {
+        "axis": "y",
+        "label": "VACUUM ISOLATION",
+        "turns": 1
+      },
+      "why": "Isolating the line stops suction reaching the separator while it is open for service, which is what keeps a canister change from turning into an operator pulling room air — and whatever is sitting in the line — through an open trap."
+    },
+    {
+      "cue": "Hold a steady flush rate — too little leaves debris in the line, too much just floods the trap.",
+      "holdBreakNote": "Flush rate dropped out of band. An uneven flush leaves debris exactly where the trap is about to be opened.",
+      "id": "flush-lines",
+      "kind": "track",
+      "prompt": "Hold a steady flush rate — too little leaves debris in the line, too much just floods the trap.",
+      "seconds": 7,
+      "target": "flush-valve",
+      "title": "Flush the vacuum lines before opening the trap",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.4,
+        "green": [
+          0.35,
+          0.58
+        ],
+        "label": "FLUSH RATE",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "A steady water flush ahead of opening any trap clears loose debris out of the line under control, rather than having it arrive in a rush the moment the fitting comes apart. Too weak a flush leaves the line still loaded when you open it; too strong floods the trap you are about to lift out."
+    },
+    {
+      "cue": "Check the separator's EPA-compliant certification and the maintenance log before servicing it.",
+      "id": "cert-log",
+      "kind": "select",
+      "prompt": "Check the separator's EPA-compliant certification and the maintenance log before servicing it.",
+      "target": "separator-log",
+      "title": "Confirm the separator's certification and log",
+      "why": "The separator's own certification is what proves this model meets the 95 percent removal standard the EPA's amalgam rule sets, and the log is the paper trail that shows this specific unit has actually been serviced on schedule rather than only certified once at installation."
+    },
+    {
+      "cue": "Read the separator's monitor and commit once it holds at or above the certified removal rate.",
+      "gauge": {
+        "green": [
+          0.67,
+          1
+        ],
+        "label": "REMOVAL EFFICIENCY",
+        "missNote": "Reading under the certified removal rate — do not proceed on a separator that is not holding its rated efficiency.",
+        "speed": 0.6
+      },
+      "id": "efficiency-check",
+      "kind": "gauge",
+      "prompt": "Read the separator's monitor and commit once it holds at or above the certified removal rate.",
+      "target": "separator-monitor",
+      "title": "Confirm removal efficiency is holding",
+      "why": "A separator can be the right certified model and still be failing on the day — a cracked seal or a spent canister both drop its actual removal rate well under the 95 percent standard it was certified against. The monitor is what tells you which situation you are in before you open anything."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Nitrile gloves and eye protection before the canister comes off.",
+      "id": "ppe",
+      "itemNames": {
+        "eye-protection": "eye protection",
+        "nitrile-gloves": "nitrile gloves"
+      },
+      "kind": "sequence",
+      "prompt": "Nitrile gloves and eye protection before the canister comes off.",
+      "targets": [
+        "nitrile-gloves",
+        "eye-protection"
+      ],
+      "title": "Glove and protect eyes before opening the canister",
+      "why": "Amalgam scrap and whatever is left in an open canister are handled the same way any other clinical waste is under OSHA's hazard communication rule — barrier PPE on before contact, not reached for after something has already splashed."
+    },
+    {
+      "cue": "Look at the sight glass and compare the level to the fill line.",
+      "id": "canister-check",
+      "kind": "select",
+      "prompt": "Look at the sight glass and compare the level to the fill line.",
+      "target": "canister-sight-glass",
+      "title": "Check the canister against the full line",
+      "why": "The fill line is what turns 'looks pretty full' into a decision — a canister changed early wastes capacity that was still good, and one run past the line starts losing removal efficiency exactly when the separator needs it most."
+    },
+    {
+      "cue": "Lift the full canister out and seat a new one in the dock.",
+      "drag": {
+        "missNote": "Not seated in the dock. A canister not fully seated leaks around the fitting instead of collecting anything.",
+        "radius": 0.4,
+        "to": "canister-dock"
+      },
+      "id": "swap-canister",
+      "kind": "drag",
+      "prompt": "Lift the full canister out and seat a new one in the dock.",
+      "target": "full-canister",
+      "title": "Change the canister",
+      "why": "The canister is changed on the manufacturer's schedule, not run until it visibly fails — a separator quietly losing efficiency past its rated capacity still looks like it is working right up until a compliance sample says otherwise."
+    },
+    {
+      "cue": "Record the date, weight and canister serial number in the log.",
+      "id": "log-change",
+      "kind": "select",
+      "prompt": "Record the date, weight and canister serial number in the log.",
+      "target": "separator-log",
+      "title": "Log the canister change",
+      "why": "This entry is what makes the certification real for this specific canister rather than a claim about the model in general — an inspector, a recycler and the next hygienist on shift all read this log rather than taking anyone's word for when it was last changed."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Empty both into the amalgam waste container — never the trash, never the sharps.",
+      "id": "empty-traps",
+      "itemNames": {
+        "chairside-trap": "chairside trap",
+        "vacuum-filter": "vacuum filter"
+      },
+      "kind": "sequence",
+      "prompt": "Empty both into the amalgam waste container — never the trash, never the sharps.",
+      "targets": [
+        "chairside-trap",
+        "vacuum-filter"
+      ],
+      "title": "Empty the chairside traps and vacuum filters",
+      "why": "Chairside traps and vacuum filters catch amalgam particulate before it can reach the separator at all, and both are dental amalgam waste under the state's rules the moment they come out — not general clinical waste that happens to look similar."
+    },
+    {
+      "cue": "Carry the collected capsules and scrap to the amalgam waste container.",
+      "drag": {
+        "missNote": "Not in the container. Scrap set down anywhere else in the room is scrap somebody else has to identify and move later.",
+        "radius": 0.45,
+        "to": "amalgam-waste-container"
+      },
+      "id": "scrap-to-container",
+      "kind": "drag",
+      "prompt": "Carry the collected capsules and scrap to the amalgam waste container.",
+      "target": "amalgam-scrap",
+      "title": "Deposit capsules and scrap in the labelled container",
+      "why": "Capsules, carving scrap and the trap contents all go into the same labelled, mercury-tight container, because a mixed load a recycler cannot verify as amalgam-only is a load they cannot legally accept as amalgam waste at all."
+    },
+    {
+      "cue": "Close and seal the amalgam waste container.",
+      "id": "seal-lid",
+      "kind": "select",
+      "prompt": "Close and seal the amalgam waste container.",
+      "target": "waste-lid",
+      "title": "Seal the container lid",
+      "why": "A sealed lid is what keeps mercury vapour out of the room air between now and pickup — an open or loosely set lid on a container that has been accumulating scrap for weeks is a slow, continuous source nobody is measuring."
+    },
+    {
+      "cue": "Three things in this bay still carry amalgam and are not in the container. Find them before you sign anything.",
+      "id": "sweep-the-bay",
+      "itemNames": {
+        "bagged-trap-screen": "the bagged trap screen from operatory two",
+        "extracted-tooth-amalgam": "the extracted tooth with an amalgam restoration",
+        "spent-capsule": "the spent amalgam capsule"
+      },
+      "itemNotes": {
+        "bagged-trap-screen": "Somebody pulled this trap screen in the next room and left it bagged on the counter instead of walking it here. A bagged screen on a counter is amalgam waste in the wrong room, and it is what the next person mistakes for rubbish.",
+        "extracted-tooth-amalgam": "An extracted tooth still carrying an amalgam restoration is amalgam waste, not a specimen and not biohazard — it is one of the streams the recycler expects and the one most often thrown out with the tooth.",
+        "spent-capsule": "A triturated capsule still holds a measurable residue of amalgam in both halves. Spent capsules are a named amalgam waste stream precisely because they look empty."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things in this bay still carry amalgam and are not in the container. Find them before you sign anything.",
+      "targets": [
+        "extracted-tooth-amalgam",
+        "spent-capsule",
+        "bagged-trap-screen"
+      ],
+      "title": "Sweep the bay for amalgam that never got routed",
+      "why": "The separator only catches what reaches the vacuum line, so 40 CFR 441 and the state's mercury waste rules are only satisfied if the solid streams are collected by hand as well — spent capsules, extracted teeth with restorations in them, and trap screens pulled in other operatories. Every one of those looks like ordinary rubbish, and each one that ends up in the trash or the sharps bin is mercury the office has sent somewhere it cannot account for."
+    },
+    {
+      "cue": "Take the cleaner rated compatible with the separator — not the chlorine-based one on the shelf.",
+      "id": "cleaner-check",
+      "kind": "select",
+      "prompt": "Take the cleaner rated compatible with the separator — not the chlorine-based one on the shelf.",
+      "target": "compatible-cleaner",
+      "title": "Use an amalgam-compatible line cleaner",
+      "why": "The separator's manufacturer rates specific line cleaners as compatible for exactly this reason — an oxidizing cleaner run through the same lines can attack the collected amalgam chemically, which a visual inspection of the canister would never catch until the next compliance sample came back wrong."
+    },
+    {
+      "cue": "Fill out the manifest before the sealed container leaves for the licensed recycler.",
+      "id": "manifest",
+      "kind": "select",
+      "prompt": "Fill out the manifest before the sealed container leaves for the licensed recycler.",
+      "target": "recycler-manifest",
+      "title": "Complete the recycler's manifest",
+      "why": "A licensed recycler's manifest is the paper trail the state's mercury waste rules require from this office's door to the recycler's — without it, a sealed container leaving the building is indistinguishable from waste that was simply thrown away somewhere else."
+    },
+    {
+      "cue": "Hold on the kit and confirm the absorbent, the sealable bag and the instructions are all present.",
+      "holdBreakNote": "You stopped checking before confirming every item. A kit missing its absorbent or its sealable bag is a kit that fails at the one moment it is actually needed.",
+      "id": "spill-kit-check",
+      "kind": "hold",
+      "prompt": "Hold on the kit and confirm the absorbent, the sealable bag and the instructions are all present.",
+      "seconds": 5,
+      "target": "spill-kit",
+      "title": "Verify the mercury spill kit",
+      "why": "A mercury spill kit checked cold, after a capsule has already broken open, costs the exact minutes that let mercury vapour build up in the room — checked now, staged and complete, it turns a spill into a five-minute cleanup instead of an evacuation."
+    }
+  ],
+  "supportLine": "your employer's employee assistance program, or the ADHA's member resources if a mercury question about your own exposure is what stayed with you",
+  "tagline": "Separator certification and canister change, scrap routed to the amalgam waste stream, the recycler's manifest and a mercury spill kit",
+  "title": "SmartCiti.X~ Amalgam Waste Handling VR",
+  "trade": "Dental hygienist",
+  "underwater": null,
+  "weather": null
+}

@@ -1,0 +1,421 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "embedded-and-bled",
+    "name": "Embedded and Bled",
+    "note": "The tremie tip never lifted clear of the rising concrete, the air bled at every stage, and nothing unclipped before it was landed"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Pile Drivers Local 34 commercial diver training under the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — 29 CFR 1910.421 pre-dive procedures (equipment inspection, hazardous activities nearby) and 29 CFR 1910.422 procedures during the dive (communications, power tools, termination of the dive); ADCI International Consensus Standards for Commercial Diving and Underwater Operations; ACI concrete field testing technician certification and ACI 301 specifications for structural concrete governing the tremie placement; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; depth, gas, bottom time and decompression per the dive plan and the tables the supervisor holds",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ACI",
+        "citedAs": "ACI",
+        "id": "aci-concrete-practice",
+        "title": "ACI concrete field testing technician certification and ACI 301 specifications for structural concrete"
+      },
+      {
+        "body": "ADCI",
+        "citedAs": "ADCI",
+        "id": "adci-consensus-standards",
+        "title": "Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations"
+      },
+      {
+        "body": "union",
+        "citedAs": "Pile Drivers",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.421",
+        "id": "osha-1910-421",
+        "title": "29 CFR 1910.421 — Pre-dive procedures (emergency aid list, planning and assessment of the dive, hazardous activities nearby, the team briefing, equipment inspection and the warning signal)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.422",
+        "id": "osha-1910-422",
+        "title": "29 CFR 1910.422 — Procedures during the dive (water entry and exit, communications, decompression tables, power tools, termination of the dive)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910 Subpart T",
+        "id": "osha-1910-subpart-t",
+        "title": "29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 197 Subpart B",
+        "id": "uscg-46-cfr-197-subpart-b",
+        "title": "46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction"
+      }
+    ]
+  },
+  "district": "bay-underwater",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "form-first",
+        "name": "Form First",
+        "note": "The form closed and strapped in order before the tremie went in"
+      },
+      {
+        "id": "true-rate",
+        "name": "True Rate",
+        "note": "The pour rate gauge read inside the band first time"
+      },
+      {
+        "id": "nothing-dropped",
+        "name": "Nothing Dropped",
+        "note": "Never unclipped early, never stood in the discharge, never the umbilical under the strap, never tangled in the sling"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-pour",
+        "name": "Clean Pour",
+        "note": "No corrections from the on-bottom report to the check-in"
+      },
+      {
+        "id": "steady-embedment",
+        "name": "Steady Embedment",
+        "note": "The tremie tip held embedded the whole pour"
+      },
+      {
+        "id": "poured-in-time",
+        "name": "Poured In Time",
+        "note": "The pour reported inside 80% of par"
+      }
+    ],
+    "currency": "YARDAGE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Diver Trainee",
+      "Diver",
+      "Placement Diver",
+      "Lead Placement Diver",
+      "Underwater Concrete Certified"
+    ],
+    "system": "Tremie Pour"
+  },
+  "hazards": {
+    "entangle-in-sling": "You swam through the rigging sling instead of round it while the form was still being lowered. A sling under load from the surface can come tight without warning the moment the crane operator takes up slack, and a diver inside its bight when that happens is caught between a moving wire and the pile. The sling is worked from outside its bight, always, whether it is slack or not.",
+    "stand-in-discharge": "You stood in front of the tremie's discharge while the pump was running. Concrete under pump pressure comes out of that pipe hard enough to knock a diver down and bury a hand or a foot in it before you can pull free, and you cannot tell from the outside when the pump is about to surge. You work beside the discharge, never in front of it, and never while the pump is confirmed running.",
+    "umbilical-under-strap": "You let your umbilical trail across the open seam while you worked inside the form. The moment the form's strap is buckled down, anything caught in that seam gets pinched and held there, and an umbilical pinned under a buckled strap on a form that is about to be filled with concrete is not coming free without cutting the strap. The umbilical is kept clear of the seam for the whole time the form stands open.",
+    "unclip-early": "You unclipped the rigging from the form before it was fully resting on the mudline. A form that is still hanging on the crane can swing the moment the last bit of slack comes off the wire, and unclipping it early turns a controlled lower into a form falling the rest of the way onto the pile — and onto whatever is under it, including your own hands. The rigging comes off only once the form is confirmed landed and stable."
+  },
+  "id": "uw-underwater-concrete-and-bag-placement",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-tremie-embedment",
+      "alert": "The pump has surged and the tremie is being pushed up out of the concrete — the tip is about to break clear.",
+      "cue": "Grab the quick-lower line and feed the pipe straight back down before the tip breaks the surface.",
+      "delay": 2,
+      "id": "tremie-surge",
+      "kind": "Line surge nearly lifts the tremie clear",
+      "missNote": "You tried to muscle the pipe down by hand against the surge; the tip broke the surface before you got it back under, and the next batch down the pipe went straight into open water.",
+      "seconds": 14,
+      "target": "tremie-quick-lower",
+      "why": "A tremie tip that breaks clear even for a second lets the pipe fill with water instead of concrete, and the next batch pumped down it carries that water straight into the pour, washing out the mix right where the repair needs it most. The quick-lower line is rigged for exactly this — a fast way to feed slack back down the pipe without waiting for the winch topside to answer first.",
+      "wrongNote": "The quick-lower line — feed the pipe back down fast, before the tip breaks clear."
+    },
+    {
+      "after": "hold-level-rod",
+      "alert": "The upper strap has worked loose under the load of the rising concrete and the form is starting to open at the seam.",
+      "cue": "Reach the emergency clamp on the stage rail and get it onto the seam before the form opens further.",
+      "delay": 2,
+      "id": "strap-loosens",
+      "kind": "Form strap works loose mid-pour",
+      "missNote": "You kept reading the sounding rod while the seam opened further; concrete began weeping out at the gap before the clamp ever came off the stage.",
+      "seconds": 14,
+      "target": "form-emergency-clamp",
+      "why": "A form opening under load does not stop at a small gap — the pressure of the concrete already inside it pushes the seam wider the moment the strap stops holding, and a seam that opens far enough loses the pour it took this long to build. The emergency clamp is rigged on the stage for exactly this failure, because a strap redone from scratch takes longer than the seam has.",
+      "wrongNote": "The emergency clamp on the stage rail — get it onto the seam before it opens any further."
+    }
+  ],
+  "lateNotes": {
+    "bag-one": "The scour bags go down once the pour has been reported and the form is confirmed full — not before the repair itself is done.",
+    "pour-rate-gauge": "The pour rate is read once the pump has been called for and the tremie tip is confirmed embedded — not on a line that is not yet flowing.",
+    "tremie-pipe": "The tremie goes into its port once the form is closed and the mudline seal is set — not into an open form."
+  },
+  "name": "Underwater Concrete & Bag Placement",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "air-bleed-valve",
+      "bag-one",
+      "bag-two",
+      "corrosion-band",
+      "entangle-in-sling",
+      "form-emergency-clamp",
+      "form-lower",
+      "form-strap",
+      "form-tremie-port",
+      "level-rod",
+      "live-discharge",
+      "loose-sling",
+      "mudline-seal-point",
+      "pour-rate-gauge",
+      "pump-call",
+      "seal-collar",
+      "seam-gap",
+      "stage-checkin",
+      "stand-in-discharge",
+      "tremie-pipe",
+      "tremie-quick-lower",
+      "tremie-tip",
+      "ucbp-comms",
+      "umbilical-under-strap",
+      "unclip-early"
+    ],
+    "meshes": 167
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Call the supervisor: on the bottom at the repair pile, off the stage, feeling good, and starting the form check.",
+      "id": "report-on-bottom",
+      "kind": "select",
+      "prompt": "Call the supervisor: on the bottom at the repair pile, off the stage, feeling good, and starting the form check.",
+      "target": "ucbp-comms",
+      "title": "Report on the bottom at the pile",
+      "why": "The supervisor at the panel is about to call the pump and the crane on your word alone, and the on-bottom report is what tells them the dive has actually reached the pile and is ready to start. It is also the comms check that proves the voice circuit works before a live pump or a loaded sling is put in motion on your say-so."
+    },
+    {
+      "cue": "Check the form is centred over the corroded band, and run a hand round the seam looking for any gap wide enough to leak.",
+      "id": "form-check",
+      "itemNames": {
+        "corrosion-band": "corroded band centred inside the form",
+        "seam-gap": "gap at the form's seam"
+      },
+      "itemNotes": {
+        "corrosion-band": "The section of pile the whole repair exists for: a band of section loss the form has to sit centred over before anything is poured.",
+        "seam-gap": "A finger-width gap where the form's two halves have not quite met, wide enough for fresh concrete to find its way out through."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the form is centred over the corroded band, and run a hand round the seam looking for any gap wide enough to leak.",
+      "targets": [
+        "corrosion-band",
+        "seam-gap"
+      ],
+      "title": "Find the corrosion band and any gap in the form",
+      "why": "A form poured off-centre leaves exactly the section of pile it was meant to protect still exposed on one side, and a seam gap found now costs a strap adjustment; found after the pump is running, it costs a concrete leak nobody can stop from the bottom. Both are checked before the form is closed for good, while there is still time to fix either one."
+    },
+    {
+      "cue": "Seat the form's lower half fully against the pile first, then bring the upper strap round and buckle it down snug.",
+      "id": "close-form",
+      "itemNames": {
+        "form-lower": "form's lower half seated on the pile",
+        "form-strap": "upper strap buckled down"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — seat the lower half fully against the pile before the strap goes on, or the strap just locks a gap in place.",
+      "prompt": "Seat the form's lower half fully against the pile first, then bring the upper strap round and buckle it down snug.",
+      "targets": [
+        "form-lower",
+        "form-strap"
+      ],
+      "title": "Seat the lower half, then buckle the strap",
+      "why": "The lower half has to be seated flush before the strap does any good, because a strap buckled over a form that is not yet seated just locks the gap in rather than closing it. Seated first, then strapped, is the only order that leaves the form actually sealed round the pile rather than sealed round a wedge of open water."
+    },
+    {
+      "cue": "Bring the seal collar down the pile to the mudline and settle it into the silt round the form's base.",
+      "drag": {
+        "missNote": "Not at the mudline — the seal collar has to settle into the silt at the base of the form.",
+        "radius": 0.5,
+        "to": "mudline-seal-point"
+      },
+      "id": "seal-skirt",
+      "kind": "drag",
+      "prompt": "Bring the seal collar down the pile to the mudline and settle it into the silt round the form's base.",
+      "target": "seal-collar",
+      "title": "Set the mud-seal skirt at the base",
+      "why": "The form seals the sides of the repair, but the bottom of it sits in loose silt that the fresh concrete would otherwise find and flow straight into, wasting the pour and leaving a void under the repair. The skirt settled into the silt at the mudline is what keeps that bottom edge closed for the whole pour."
+    },
+    {
+      "cue": "Guide the tremie pipe's end into the form's pour port until it seats and locks.",
+      "drag": {
+        "missNote": "Not seated in the port — the tremie has to lock into the form's own opening before the pump is called.",
+        "radius": 0.5,
+        "to": "form-tremie-port"
+      },
+      "id": "insert-tremie",
+      "kind": "drag",
+      "prompt": "Guide the tremie pipe's end into the form's pour port until it seats and locks.",
+      "target": "tremie-pipe",
+      "title": "Seat the tremie pipe in the form's port",
+      "why": "The tremie is what lets concrete reach the bottom of the form without falling freely through the water and washing out its cement — every inch of the pour depends on that pipe actually being seated where the form expects it, not just held near the opening. A pipe that is not seated and locked can be pushed out of the port by the pump's own pressure the moment the pour starts."
+    },
+    {
+      "cue": "With the form closed, sealed and the tremie seated, call 'pump on' and wait to hear it back from the tender.",
+      "id": "call-for-pump",
+      "kind": "select",
+      "prompt": "With the form closed, sealed and the tremie seated, call 'pump on' and wait to hear it back from the tender.",
+      "target": "pump-call",
+      "title": "Call topside for the pump",
+      "why": "The pump only starts once topside answers this call, made deliberately after every check that comes before it — the form, the seal, the tremie's seat — not as a reflex the moment the pipe looks connected. Waiting for the answer back matters because a pump state nobody has confirmed is a pump that could start while your hand is still inside the form."
+    },
+    {
+      "cue": "Raise the tremie slowly as the concrete level climbs, keeping its tip buried in fresh concrete the whole time — never pulled clear, never buried so deep it chokes the flow.",
+      "holdBreakNote": "The embedment broke out of band — the tip nearly broke clear or buried too deep. Bring it back into the fresh concrete and hold it there.",
+      "id": "hold-tremie-embedment",
+      "kind": "track",
+      "prompt": "Raise the tremie slowly as the concrete level climbs, keeping its tip buried in fresh concrete the whole time — never pulled clear, never buried so deep it chokes the flow.",
+      "seconds": 6,
+      "target": "tremie-tip",
+      "title": "Keep the tremie tip embedded as the pour rises",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "TREMIE EMBEDMENT",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "A tremie pipe pulled clear of the rising concrete, even for a moment, lets water back into the pipe and washes out the next batch that comes down it, ruining the pour from that point up; buried too deep, it can choke the flow and stall the pump against a plug. Reading the level and raising the pipe to match it, continuously, is the one skill the whole method depends on."
+    },
+    {
+      "cue": "Open the form's air-bleed valve as the concrete rises past it, and close it once a steady flow of concrete, not air, comes out.",
+      "id": "bleed-vent",
+      "kind": "turn",
+      "prompt": "Open the form's air-bleed valve as the concrete rises past it, and close it once a steady flow of concrete, not air, comes out.",
+      "target": "air-bleed-valve",
+      "title": "Work the air-bleed valve as the level climbs",
+      "turn": {
+        "label": "AIR BLEED",
+        "turns": 0.6
+      },
+      "why": "Air trapped in the top of a closing form has nowhere to go once the concrete seals it in, and a bubble left under the cap is a void in the finished repair exactly where nobody can see it afterward. Opening the valve as the level reaches it and closing it only once concrete itself is coming through is what proves the void is actually filled, not just covered."
+    },
+    {
+      "cue": "Watch the pour rate gauge as the pump settles in and commit the reading once it holds in the steady band.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "POUR RATE",
+        "speed": 0.7
+      },
+      "id": "pour-rate",
+      "kind": "gauge",
+      "prompt": "Watch the pour rate gauge as the pump settles in and commit the reading once it holds in the steady band.",
+      "target": "pour-rate-gauge",
+      "title": "Read the pour rate on the pump gauge",
+      "why": "A pour rate that is too fast overruns what the tremie and the form can take, forcing concrete out through any gap under pressure; too slow, and the first concrete down the pipe starts to set before the next batch arrives, leaving a cold joint inside the repair nobody can see until it fails. The steady band is where the pump, the pipe and the form are all actually working together."
+    },
+    {
+      "cue": "Rest the sounding rod on the rising concrete and hold it still while the supervisor reads the fill height off it.",
+      "holdBreakNote": "The rod moved before the reading was taken — hold it still on the true surface until the supervisor confirms the height.",
+      "id": "hold-level-rod",
+      "kind": "hold",
+      "prompt": "Rest the sounding rod on the rising concrete and hold it still while the supervisor reads the fill height off it.",
+      "seconds": 4,
+      "target": "level-rod",
+      "title": "Hold the sounding rod steady on the fill",
+      "why": "The fill height is how the supervisor knows the pour is actually reaching the top of the form rather than bridging somewhere below it, and that reading is only good the instant the rod is held still against the true surface. A rod that bobs or drags gives a height that is not the concrete's, and a repair signed off on a wrong reading is a repair nobody has actually confirmed is full."
+    },
+    {
+      "cue": "Before moving round the pile: where the sling still hangs, and where the pump is still discharging.",
+      "id": "site-hazards",
+      "itemNames": {
+        "live-discharge": "tremie discharge with the pump running",
+        "loose-sling": "rigging sling still slack off the crane"
+      },
+      "itemNotes": {
+        "live-discharge": "The open end of the tremie where wet concrete is coming out under the pump's pressure the whole time it runs.",
+        "loose-sling": "The sling that lowered the form, still shackled on, drifting loose in the current between you and the surface."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before moving round the pile: where the sling still hangs, and where the pump is still discharging.",
+      "targets": [
+        "loose-sling",
+        "live-discharge"
+      ],
+      "title": "Find the hazards still live on the site",
+      "why": "Both of these are exactly the kind of hazard the job puts right next to a diver who has to keep working near them anyway, and knowing precisely where the sling hangs and which side the discharge fires from is what lets you keep working the pile without ever putting a hand or a body in either one's way."
+    },
+    {
+      "cue": "Tell the supervisor: form full, air bled, fill height confirmed, and ready for the pump to shut down.",
+      "id": "report-pour",
+      "kind": "select",
+      "prompt": "Tell the supervisor: form full, air bled, fill height confirmed, and ready for the pump to shut down.",
+      "target": "ucbp-comms",
+      "title": "Report the pour complete",
+      "why": "The pump only stops on the supervisor's word, and that word only comes once the diver at the form confirms it is actually full — not once the level looks close on a gauge topside has to guess at. This report is the one moment in the whole pour where the surface crew's plan and the diver's own eyes have to agree before anything is signed off."
+    },
+    {
+      "cue": "Lay the first grout-filled bag flat against the base, then set the second bag interlocked against its edge, not overlapping loose on top.",
+      "id": "place-bags",
+      "itemNames": {
+        "bag-one": "first scour bag laid at the base",
+        "bag-two": "second bag interlocked against the first"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — lay the first bag flat against the base before interlocking the second one against it.",
+      "prompt": "Lay the first grout-filled bag flat against the base, then set the second bag interlocked against its edge, not overlapping loose on top.",
+      "targets": [
+        "bag-one",
+        "bag-two"
+      ],
+      "title": "Lay the scour bags interlocking round the base",
+      "why": "A scour blanket only works as a connected mat, and bags laid loose or stacked instead of interlocked leave gaps the current opens wider every tide until the base is exposed again. The first bag sets the line the rest of the mat follows, which is why it has to go down before the second one is fitted against it rather than the two being dropped in any order that looks close enough."
+    },
+    {
+      "cue": "Back at the stage, clipped on: tell the supervisor how the pour went, the line surge on the tremie and the loosened strap, and wait for the call to leave the bottom.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Back at the stage, clipped on: tell the supervisor how the pour went, the line surge on the tremie and the loosened strap, and wait for the call to leave the bottom.",
+      "target": "stage-checkin",
+      "title": "Check in at the stage and leave on the supervisor's call",
+      "why": "The ascent is the supervisor's call, run to the tables they hold, and the check-in tells them you are on the stage, clipped on and well before that call is made. A tremie that surged and nearly broke clear, and a strap that worked loose mid-pour, are both worth a real answer here, with the Pile Drivers Local 34 member assistance line behind whatever the debrief does not settle."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — Pile Drivers Local 34 — with the employer's employee assistance line behind it",
+  "tagline": "The repair from form to bag: on the bottom reported, the corrosion band and a seam gap found inside the form, the form's lower half closed and the strap buckled in order, the mudline seal set, the tremie seated in its port, the pump called for, the pipe kept embedded as the pour rises through a line surge, the air-bleed valve worked, the pour rate read on the gauge, the fill height held on the sounding rod through a loosened strap, the hazards found, the pour reported, and the scour bags laid interlocking in order before the crew checks in",
+  "title": "SmartCiti.X~ Underwater Concrete & Bag Placement VR",
+  "trade": "Pile Drivers Local 34 commercial diver placing a tremie-filled repair jacket and grout-filled fabric bags on a corroded pile base, with the dive supervisor on the comms, the tender on the umbilical and the standby diver dressed at the ladder",
+  "underwater": {
+    "bottomTimeSeconds": 720,
+    "depthLabel": "Per dive plan"
+  },
+  "weather": "clear"
+}

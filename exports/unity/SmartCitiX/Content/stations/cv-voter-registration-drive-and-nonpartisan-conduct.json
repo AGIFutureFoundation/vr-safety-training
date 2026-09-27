@@ -1,0 +1,452 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "every-voter-table",
+    "name": "Every Voter's Table",
+    "note": "A whole drive run nonpartisan: nobody steered, nothing kept, every card returned"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "The National Voter Registration Act (NVRA), named as a body, for the mail-in registration system and the agency-based registration a drive sits beside; the California Secretary of State's voter registration guidance, as a body, for the official card, the rules for people who collect completed cards — return them promptly to the elections office and keep them confidential — and the official voter information guide; the IRS rules for 501(c)(3) organisations, which bar any partisan campaign activity and allow voter registration only when it is nonpartisan in who is served and what is said; Title VI of the Civil Rights Act of 1964 for language access where a programme takes federal money; SEIU and AFSCME for the public-assistance and motor-vehicle office staff who offer registration under the NVRA every day. Where a deadline or section number is not certain, the station names the body and not the number. The leadership principles practised here are those commonly taught in civic-leadership programmes; the foundation whose principles the programme draws on is not sourced in this repository",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "Secretary of State",
+        "citedAs": "official voter information guide",
+        "id": "ca-sos-voter-registration-guidance",
+        "title": "The California Secretary of State's voter registration guidance, as a body — the official registration card, guidance for people who run registration drives on returning completed cards promptly and keeping them confidential, and the official voter information guide"
+      },
+      {
+        "body": "IRS",
+        "citedAs": "501(c)(3)",
+        "id": "irs-501c3-rules",
+        "title": "IRS rules for organisations exempt under section 501(c)(3), as a body — the absolute bar on political campaign intervention and the nonpartisan conduct of voter education and registration, limits on lobbying, private benefit and inurement, and annual Form 990 reporting including its governance questions on a written conflict-of-interest policy"
+      },
+      {
+        "body": "IRS",
+        "citedAs": "IRS",
+        "id": "irs-consumer-guidance",
+        "title": "Internal Revenue Service guidance for workers — Form W-4 and the Tax Withholding Estimator, Form W-2, estimated tax on self-employment income, splitting a refund, free tax help, and how the IRS does and does not contact taxpayers"
+      },
+      {
+        "body": "DOJ",
+        "citedAs": "NVRA",
+        "id": "nvra",
+        "title": "The National Voter Registration Act of 1993 — mail-in registration forms, registration at motor-vehicle and public-assistance offices, and limits on removing voters from the rolls; enforced by the U.S. Department of Justice"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "DOJ",
+        "citedAs": "Civil Rights Act of 1964",
+        "id": "title-vi-civil-rights-act",
+        "title": "Title VI of the Civil Rights Act of 1964 — no discrimination on the basis of race, colour or national origin in federally funded programmes, including meaningful access for people with limited English proficiency"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Civic",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "table-ready",
+        "name": "Table Ready",
+        "note": "Every part of the table set up right first time"
+      },
+      {
+        "id": "no-side-taken",
+        "name": "No Side Taken",
+        "note": "No unsafe action anywhere in the drive"
+      },
+      {
+        "id": "complete-cards",
+        "name": "Complete Cards",
+        "note": "Every missing field found first time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-drive",
+        "name": "Clean Drive",
+        "note": "No corrections anywhere in the drive"
+      },
+      {
+        "id": "easy-pace",
+        "name": "Easy Pace",
+        "note": "Your explanation paced inside the band"
+      },
+      {
+        "id": "calm-table",
+        "name": "Calm Table",
+        "note": "The listening and the calm both carried their full count"
+      }
+    ],
+    "currency": "VOICE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Volunteer",
+      "Table Lead",
+      "Drive Lead",
+      "Field Coordinator",
+      "Volunteer Mentor"
+    ],
+    "system": "Open Table"
+  },
+  "hazards": {
+    "argue-with-heckler": "You argued back at the man shouting that the election is rigged. The line behind him watched the table turn into a fight, two people left without registering, and he left with exactly the story he wanted. A nonpartisan table's answer to a heckler is calm, brief and the same for everyone.",
+    "cover-alone-all-day": "You told the coordinator you would cover the table alone from open to close. Eight hours in the sun answering strangers without a break is how a volunteer starts snapping at the last voter of the day, stops checking cards, and does not come back next month. A drive needs two people and a relief rota, not a hero.",
+    "photo-of-the-cards": "You photographed the stack of completed cards to post the day's total. Those cards carry birth dates, addresses, identification numbers and signatures; the Secretary of State's guidance treats the voter's information as confidential, and one blurry picture on a public feed is an identity-theft kit for everyone who trusted the table.",
+    "toss-the-card": "You dropped the card of a voter who said she was registering with the other party into the recycling. Every completed card collected at the table goes to the elections office whatever party it names; discarding one quietly takes a person's vote away, it is treated as a serious offence in election law, and it ends the organisation's standing to run a drive at all."
+  },
+  "id": "cv-voter-registration-drive-and-nonpartisan-conduct",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hear-why-she-never-voted",
+      "alert": "While she is talking, a campaign staffer in a candidate's T-shirt has set a fresh stack of flyers on your table and is asking for a copy of today's sign-up list.",
+      "cue": "Politely decline both, in the table's nonpartisan words — then turn back to her.",
+      "delay": 3,
+      "id": "campaign-staffer-at-table",
+      "kind": "Partisan pressure",
+      "missNote": "The flyers stayed on the table and the staffer walked off with a photo of the sign-up sheet. The table spent the rest of the day looking like her campaign's, and forty people's phone numbers are now on a campaign list they never agreed to join.",
+      "seconds": 12,
+      "target": "nonpartisan-policy-card",
+      "why": "A 501(c)(3) table cannot carry a candidate's material or share its contact list with a campaign, however friendly the request. Declining both in the same calm words the table would use for any candidate — \"we're nonpartisan; we can't take material or share lists\" — protects the organisation and every voter who signed up. Doing it briefly and turning straight back to the applicant keeps her from feeling she was interrupted for someone more important.",
+      "wrongNote": "Listening harder to the applicant does not move the flyers. Decline the staffer in the table's nonpartisan words, then come back to her."
+    },
+    {
+      "after": "keep-the-table-calm",
+      "alert": "A woman who registered an hour ago has come back, shaking. She has left an abusive partner and is afraid her new address will now be public on the voter rolls.",
+      "cue": "Take her aside, reassure her calmly, and give her the address-confidentiality referral for the elections office.",
+      "delay": 3,
+      "id": "survivor-address-fear",
+      "kind": "Voter privacy fear",
+      "missNote": "Nobody answered her in the noise. She asked for her card back, which the table could no longer give her, and left more frightened than she came — without knowing there was a way to register and keep her address confidential.",
+      "seconds": 12,
+      "target": "confidential-address-card",
+      "why": "Voter files can be more public than people expect, and for a survivor an address is a safety matter. The state has an address-confidentiality programme for survivors that the elections office can explain, and a calm referral — in a quieter spot, without asking her to tell her story — is exactly what she needs. The volunteer does not promise what the rolls will show; she points to the people who can protect the address.",
+      "wrongNote": "The tone meter is for the man shouting. She needs a quiet word and the address-confidentiality referral — not a calmer table."
+    }
+  ],
+  "lateNotes": {
+    "batch-envelope": "The batch goes to the elections office once it has been counted, sealed, logged and initialled — the transmittal is not done yet.",
+    "drive-log-board": "The drive log closes once the batch is on its way to the elections office. There is nothing to record yet."
+  },
+  "name": "Voter Registration Drive",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "civic-leadership-and-ei"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "argue-with-heckler",
+      "batch-envelope",
+      "box-key",
+      "campaign-flyers",
+      "card-citizenship-blank",
+      "card-no-birthdate",
+      "card-no-signature",
+      "card-party-blank",
+      "confidential-address-card",
+      "cover-alone-all-day",
+      "crew-checkin-board",
+      "drive-log-board",
+      "elections-return",
+      "eligibility-card",
+      "flyer-crate",
+      "help-check-complete",
+      "help-give-receipt",
+      "help-hand-the-card",
+      "help-she-fills-it",
+      "listen-bead",
+      "nonpartisan-policy-card",
+      "pace-meter",
+      "photo-of-the-cards",
+      "setup-language-cards",
+      "setup-lock-box",
+      "setup-nonpartisan-sign",
+      "setup-official-cards",
+      "setup-snack-bowl",
+      "tone-meter",
+      "toss-the-card",
+      "tx-count-cards",
+      "tx-log-batch",
+      "tx-seal-envelope",
+      "tx-two-initials",
+      "voter-guide-card"
+    ],
+    "meshes": 198
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Before the first neighbour walks up, find every item the table needs to register people properly and fairly.",
+      "decoyNotes": {
+        "setup-snack-bowl": "The sweets bowl is friendly, not required. Whether the table is lawful and fair does not depend on it."
+      },
+      "id": "set-the-table",
+      "itemNames": {
+        "setup-language-cards": "cards and instructions in the neighbourhood's languages",
+        "setup-lock-box": "a locked box for completed cards",
+        "setup-nonpartisan-sign": "a sign that says who the table is for: everyone",
+        "setup-official-cards": "the state's official registration cards, current edition"
+      },
+      "itemNotes": {
+        "setup-language-cards": "A neighbour who reads another language better than English deserves instructions she can read. The official cards come in several languages; bring the ones this plaza speaks.",
+        "setup-lock-box": "Completed cards are confidential from the moment they are signed. A locked box keeps them off the table and out of the wind.",
+        "setup-nonpartisan-sign": "\"Register to vote — every party and no party welcome\" tells the line before anyone speaks that this table does not care how they vote.",
+        "setup-official-cards": "Only the official card, in its current edition, gets a voter registered. A homemade sign-up sheet is a mailing list, not a registration."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before the first neighbour walks up, find every item the table needs to register people properly and fairly.",
+      "targets": [
+        "setup-official-cards",
+        "setup-language-cards",
+        "setup-lock-box",
+        "setup-nonpartisan-sign"
+      ],
+      "title": "Set up a table that is ready for every voter",
+      "why": "A registration table is judged by the voter who walks up least sure she is welcome. Official cards in the current edition are the only thing that actually registers anyone; cards in the languages the plaza speaks let people fill in their own; a locked box protects what they write; and a sign saying the table is for every party and none tells the line, before a word is spoken, that nobody here is sorting them."
+    },
+    {
+      "cue": "A stack of one candidate's flyers was left on the table overnight. Move it into the crate under the table.",
+      "drag": {
+        "missNote": "Not in the crate. As long as one candidate's flyers sit on the registration table, the table is campaigning for her — whoever left them there.",
+        "radius": 0.55,
+        "to": "flyer-crate"
+      },
+      "id": "clear-the-flyers",
+      "kind": "drag",
+      "prompt": "A stack of one candidate's flyers was left on the table overnight. Move it into the crate under the table.",
+      "target": "campaign-flyers",
+      "title": "Take the candidate's flyers off the table",
+      "why": "A 501(c)(3) organisation may register voters only on a strictly nonpartisan basis; it may not take any part in a campaign for or against a candidate. One candidate's flyers on the table turn a registration drive into campaign activity in the eyes of every voter in line and of the IRS, and they tell a supporter of her opponent that this is not his table. Clearing them is not about the candidate; it is about keeping the table everyone's."
+    },
+    {
+      "cue": "Point the applicant to the eligibility questions on the card. She answers and signs; you do not decide for her.",
+      "id": "read-the-eligibility",
+      "kind": "select",
+      "prompt": "Point the applicant to the eligibility questions on the card. She answers and signs; you do not decide for her.",
+      "target": "eligibility-card",
+      "title": "Read the eligibility statement from the card — do not judge it yourself",
+      "why": "The card asks the applicant to confirm, under penalty of perjury, that she meets the state's requirements — citizenship, age by election day, and the conditions the card lists. The volunteer's job is to make sure she reads those questions, not to guess at her status from her accent or her story. A volunteer who screens people out by judgement has turned a nonpartisan table into a gatekeeper, and gets it wrong most often for exactly the neighbours the drive was meant to reach."
+    },
+    {
+      "cue": "The card and a pen; she fills it in herself; check it with her; then the receipt and how to confirm she is registered.",
+      "id": "help-without-filling",
+      "itemNames": {
+        "help-check-complete": "check it is complete, with her, before it goes in",
+        "help-give-receipt": "give her the receipt stub and how to check her status",
+        "help-hand-the-card": "hand her the card and a pen",
+        "help-she-fills-it": "she fills in her own card — party choice included"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Card and pen, she fills it in, check it with her, then the receipt. Checking a card before she has finished it feels like reading over her shoulder.",
+      "prompt": "The card and a pen; she fills it in herself; check it with her; then the receipt and how to confirm she is registered.",
+      "targets": [
+        "help-hand-the-card",
+        "help-she-fills-it",
+        "help-check-complete",
+        "help-give-receipt"
+      ],
+      "title": "Help the applicant in order — without filling it in for her",
+      "why": "The card is the voter's statement, and every choice on it — above all her party preference, or none — is hers. Handing it over and letting her fill it in, then checking completeness with her rather than for her, keeps the volunteer's hand off anything that could look like steering. The receipt matters as much as the card: it lets her confirm later that her registration arrived, which is the only proof she has that the table kept its word."
+    },
+    {
+      "cue": "She tells you she is sixty-one and has never voted. Hold your attention on her — no pitch, no correction.",
+      "holdBreakNote": "You glanced at the line behind her while she was talking. She saw it and stopped. Bring your attention back and let her finish.",
+      "id": "hear-why-she-never-voted",
+      "kind": "hold",
+      "prompt": "She tells you she is sixty-one and has never voted. Hold your attention on her — no pitch, no correction.",
+      "seconds": 8,
+      "target": "listen-bead",
+      "title": "Hear why she has never registered before",
+      "why": "People who have never registered usually have a reason, and it is rarely apathy: a move every year, a bad experience at an office, a belief that people like her are not wanted. Listening to the whole of it, without pitching and without correcting, is often what turns a card taken out of politeness into a card actually filled in — and it tells the volunteer what the next person in her position will need to hear."
+    },
+    {
+      "cue": "She asks what you think of the mayor's race. Say the table does not take sides, and hand her the official voter information guide.",
+      "id": "who-should-i-vote-for",
+      "kind": "select",
+      "prompt": "She asks what you think of the mayor's race. Say the table does not take sides, and hand her the official voter information guide.",
+      "target": "voter-guide-card",
+      "title": "Answer \"who should I vote for?\" with the official guide",
+      "why": "The question is friendly and the answer is always the same: this table does not recommend candidates or parties, and here is the official voter information guide where every candidate and measure is described. Anything else — a hint, a raised eyebrow, a \"between you and me\" — is partisan activity by a 501(c)(3) and tells the next voter in line which side the table is on. Pointing to the official source respects her and keeps the organisation's promise."
+    },
+    {
+      "cue": "Commit your pace inside the band: slow enough to follow, brisk enough that the line keeps moving.",
+      "gauge": {
+        "green": [
+          0.35,
+          0.58
+        ],
+        "label": "PACE",
+        "missNote": "Outside the band. Rushed, she signs without understanding what she signed; dragged out, the line thins and people leave unregistered. Explain at a pace she can follow and the line can bear.",
+        "speed": 0.6
+      },
+      "id": "pace-the-explanation",
+      "kind": "gauge",
+      "prompt": "Commit your pace inside the band: slow enough to follow, brisk enough that the line keeps moving.",
+      "target": "pace-meter",
+      "title": "Pace the explanation so she can follow it",
+      "why": "A card explained too fast gets signed without being understood, and the next thing the voter hears about is a letter saying it was incomplete. Explained too slowly, the line behind her drifts away. Speaking at a conversational pace, and slower for someone reading in a second language, is how a volunteer registers the person in front of her properly without losing the three behind her."
+    },
+    {
+      "cue": "Look at the card she has handed back. Mark every field she needs to complete before it goes in the box.",
+      "decoyNotes": {
+        "card-party-blank": "No party preference is a lawful choice and entirely hers. It is not a missing field, and it is never yours to fill in."
+      },
+      "id": "check-the-returned-card",
+      "itemNames": {
+        "card-citizenship-blank": "the citizenship question is unanswered",
+        "card-no-birthdate": "the date of birth is missing",
+        "card-no-signature": "the signature line is empty"
+      },
+      "itemNotes": {
+        "card-citizenship-blank": "The eligibility questions must be answered by the applicant herself. Point to them and let her decide how to answer.",
+        "card-no-birthdate": "Without a date of birth the elections office cannot match or process the card. She fills it in; you do not guess.",
+        "card-no-signature": "An unsigned card cannot register anyone. Hand it back and ask her to sign — you never sign for anyone."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the card she has handed back. Mark every field she needs to complete before it goes in the box.",
+      "targets": [
+        "card-no-signature",
+        "card-no-birthdate",
+        "card-citizenship-blank"
+      ],
+      "title": "Check the returned card with the applicant for missing fields",
+      "why": "An incomplete card is the most common way a registration drive fails a voter: the card is accepted at the table, rejected at the elections office, and the voter believes she is registered until election day. Checking the required fields with her — signature, date of birth, the eligibility questions — and letting her complete them herself gets her registered. Leaving her party choice alone, even blank, is the other half of the same respect."
+    },
+    {
+      "cue": "Her card is complete. Put it in the return box and turn the key.",
+      "id": "lock-the-box",
+      "kind": "turn",
+      "prompt": "Her card is complete. Put it in the return box and turn the key.",
+      "target": "box-key",
+      "title": "Lock the completed cards in the box",
+      "turn": {
+        "axis": "z",
+        "label": "LOCK",
+        "turns": 0.4
+      },
+      "why": "From the moment she signs, the card carries information she trusted the table with: her birth date, address and an identification number. A locked box keeps it away from the wind, from curious hands and from the volunteer who thinks a copy for the mailing list would be useful. The Secretary of State's guidance treats the voter's information as confidential; a key turned every time is how a busy table actually keeps that promise."
+    },
+    {
+      "cue": "Hold your tone inside the band: steady and brief with him, warm with the line — not rising to him, not ignoring the line's discomfort.",
+      "holdBreakNote": "Your tone slipped — rising to his argument or shrinking away from the line. Bring it back: brief and steady with him, warm with them.",
+      "id": "keep-the-table-calm",
+      "kind": "track",
+      "prompt": "Hold your tone inside the band: steady and brief with him, warm with the line — not rising to him, not ignoring the line's discomfort.",
+      "seconds": 8,
+      "target": "tone-meter",
+      "title": "Keep the table calm while a man shouts that it is all rigged",
+      "track": {
+        "drift": 0.16,
+        "fall": 0.4,
+        "green": [
+          0.3,
+          0.7
+        ],
+        "label": "TONE",
+        "rise": 0.48,
+        "start": 0.5
+      },
+      "why": "A nonpartisan table will meet people who are angry at the whole system, and the line is watching how the volunteer handles them. Rising to the argument makes the table a side; shrinking from it leaves the people in line feeling unsafe. A steady, brief, respectful answer — \"we register everyone; the elections office can answer questions about the count\" — held for as long as he stays, keeps the table what it is."
+    },
+    {
+      "anyOrder": true,
+      "cue": "At the end of the shift: count the cards, seal them, log the batch number and count, and both of you initial it.",
+      "id": "transmit-the-batch",
+      "itemNames": {
+        "tx-count-cards": "count the completed cards",
+        "tx-log-batch": "log the count and batch number — no personal data",
+        "tx-seal-envelope": "seal them in the batch envelope",
+        "tx-two-initials": "both volunteers initial the log"
+      },
+      "kind": "sequence",
+      "prompt": "At the end of the shift: count the cards, seal them, log the batch number and count, and both of you initial it.",
+      "targets": [
+        "tx-count-cards",
+        "tx-seal-envelope",
+        "tx-log-batch",
+        "tx-two-initials"
+      ],
+      "title": "Count, seal and log the batch with two volunteers",
+      "why": "The batch log is the table's proof that every card collected reached the elections office, and two initials make it a check rather than a note. Recording only the count and a batch number — never names, birth dates or party choices — keeps the log useful without turning it into a copy of the voters' information. If a voter later finds she was not registered, this is the page that shows where her card went."
+    },
+    {
+      "cue": "Carry the sealed envelope to the elections office return. It does not go back to the office first.",
+      "drag": {
+        "missNote": "Not at the elections office return. The cards belong to the voters and go to the elections office promptly — not to a desk drawer, a mailing list or a partner's office on the way.",
+        "radius": 0.55,
+        "to": "elections-return"
+      },
+      "id": "return-to-elections-office",
+      "kind": "drag",
+      "prompt": "Carry the sealed envelope to the elections office return. It does not go back to the office first.",
+      "target": "batch-envelope",
+      "title": "Take the sealed batch to the elections office, not the organisation's office",
+      "why": "The Secretary of State's guidance for people who collect completed cards is simple: return them promptly to the elections office, within the deadline it sets, and do not hold, copy or sort them first. Cards that sit in the organisation's office over a long weekend can miss a registration deadline and cost people their vote. Taking the sealed batch straight to the elections office is the last step of the promise made at the table."
+    },
+    {
+      "cue": "Record the batches, the counts, the delivery time and anything unusual — the heckler, the survivor's question — with no voter's details.",
+      "id": "close-the-drive-log",
+      "kind": "select",
+      "prompt": "Record the batches, the counts, the delivery time and anything unusual — the heckler, the survivor's question — with no voter's details.",
+      "target": "drive-log-board",
+      "title": "Close the drive log",
+      "why": "The drive log is what the organisation reports on and learns from: how many batches, how many cards, when they were delivered, and what happened that the next table should know about. Writing down the heckler and the survivor's question without any voter's name keeps the lesson and protects the people. It is also the record that shows, if anyone asks, that the table ran nonpartisan and returned every card."
+    },
+    {
+      "cue": "Two minutes: how did the shouting land on each of you, and who takes the first shift next week?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "Two minutes: how did the shouting land on each of you, and who takes the first shift next week?",
+      "target": "crew-checkin-board",
+      "title": "Check in with your co-volunteer before you pack up",
+      "why": "A table that took some shouting and heard a frightened survivor's question is an emotional day, even if nobody says so. Asking how it landed, sharing out next week's shifts so nobody covers a whole day alone, and naming the coordinator to call if it stays with either of you is what keeps volunteers coming back — and a drive that runs on the same two burnt-out people every weekend eventually does not run at all."
+    }
+  ],
+  "supportLine": "your organisation's volunteer coordinator, or the volunteer who ran last month's table and will pick up the phone",
+  "tagline": "Run a registration table that belongs to every voter: the campaign flyer off the table, the card filled in by the person it belongs to, \"who should I vote for\" answered with the official guide, completed cards locked, logged and returned — and a heckler met without an argument",
+  "title": "SmartCiti.X~ Voter Registration Drive VR",
+  "trade": "Voter registration drive lead — nonpartisan community organisation",
+  "underwater": null,
+  "weather": "clear"
+}

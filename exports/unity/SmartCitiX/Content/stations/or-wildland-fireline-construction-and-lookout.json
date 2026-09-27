@@ -1,0 +1,407 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "line-holds",
+    "name": "Line Holds",
+    "note": "A fireline cut to mineral soil, tied into its anchor, with LCES named first and the wind shift answered the instant it was called"
+  },
+  "category": "Emergency Services",
+  "certification": "IAFF wildland fire crews; NWCG wildland fire behaviour and the lookouts-communications-escape-routes-safety-zones (LCES) doctrine; NFPA 1140 standard for wildland fire protection; NFPA 1977 protective clothing and equipment for wildland fire fighting; OSHA 29 CFR 1910.134 respiratory protection",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IAFF",
+        "id": "iaff-training",
+        "title": "IAFF training programmes, including Fire Ground Survival and the peer support model"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 1140",
+        "id": "nfpa-1140",
+        "title": "NFPA 1140 — Standard for Wildland Fire Protection"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 1977",
+        "id": "nfpa-1977",
+        "title": "NFPA 1977 — Protective Clothing and Equipment for Wildland Fire Fighting"
+      },
+      {
+        "body": "NWCG",
+        "citedAs": "NWCG",
+        "id": "nwcg-wildland-training",
+        "title": "NWCG wildland firefighter training (S-130/S-190) and the Incident Response Pocket Guide"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      }
+    ]
+  },
+  "district": "open-range",
+  "domain": "Emergency Services",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "lces-first",
+        "name": "LCES First",
+        "note": "Lookout, communications, escape routes and safety zone all named before the first tool moved"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcut",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "wind-answered",
+        "name": "Wind Answered",
+        "note": "The wind shift called the instant it was reported, not after the line was finished"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-line",
+        "name": "Clean Line",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "line-held",
+        "name": "Line Held",
+        "note": "Every timed task carried its full duration, no early release"
+      },
+      {
+        "id": "line-fast",
+        "name": "Line Fast",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "LINE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Crew Member",
+      "Squad Boss",
+      "Crew Boss",
+      "Division Supervisor",
+      "Fireline Certified"
+    ],
+    "system": "Fireline Crew"
+  },
+  "hazards": {
+    "beyond-safety-zone": "You crossed past the distance the safety zone marker actually sets. The escape route and the safety zone are measured off the briefing before the first tool moves specifically so nobody has to judge that distance under smoke with the fire moving — stepping past the marker throws away the one number on this line everybody already agreed was safe.",
+    "check-hotspot-bare-hand": "You checked that stump hole with a bare hand. Ash can sit at a temperature that reads as cool to a glove and still takes skin off a bare hand a second later — mop-up is checked with the back of a gloved hand or a temperature probe, never skin against the ash directly.",
+    "fire-shelter-left-behind": "That fire shelter is still on the buggy, not on you. A shelter that is not carried on the line does not exist for the ten seconds an entrapment actually gives somebody to deploy it — it goes on the person before the person goes on the line, every shift, no exceptions.",
+    "tool-swing-into-crew": "You swung the tool with another crew member inside its arc. Line construction spacing exists because a Pulaski or brush hook has a strike radius, and a crew bunched up on a hot, smoky line is a crew where the tool everybody is relying on to build the line is also the thing most likely to injure the person beside you."
+  },
+  "id": "or-wildland-fireline-construction-and-lookout",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "scrape-mineral-soil",
+      "alert": "The lookout is calling it: the wind just swung and picked up, and fire behaviour on this flank is climbing with it.",
+      "cue": "Stop cutting. Call the lookout back and reassess before another cut goes in.",
+      "delay": 3,
+      "id": "wind-shift",
+      "kind": "Wind shift changes fire behaviour",
+      "missNote": "The crew kept cutting after the wind shift was called. Whatever the fire did with the extra line built on an assumption the wind had already broken, that line was never actually the safe bet it looked like when the cutting started.",
+      "seconds": 13,
+      "target": "reassess-radio",
+      "why": "The entire reason fire behaviour is read before construction starts is so a shift like this one is not a debate — the wind changed the bet the whole plan was built on, and the correct response is the radio call that reassesses the line against the new conditions, not five more minutes of cutting on a plan the wind has already overtaken.",
+      "wrongNote": "It is the radio, not the tool in your hands — call the lookout back and reassess before the next cut goes in."
+    },
+    {
+      "after": "tie-in-anchor",
+      "alert": "The lookout has spotted it: an ember has crossed the finished line and a spot fire is starting on the far side.",
+      "cue": "Do not cross the line to fight it alone. Report the spot fire's location to the lookout now.",
+      "delay": 3,
+      "id": "spot-fire-across-line",
+      "kind": "Spot fire across the line",
+      "missNote": "The spot fire burned unreported while the crew kept working the original line. A spot fire that grows before anyone calls it in is a second fire the next assignment has to be built around from scratch.",
+      "seconds": 12,
+      "target": "spot-fire-radio",
+      "why": "A spot fire on the far side of a line the crew just built means the line has already been outflanked once, and crossing over to fight it alone puts a single person on the wrong side of the barrier the whole crew is standing behind — the report is what gets a second resource assigned to it with an accurate location, rather than one person improvising a second fireline nobody else knows exists yet.",
+      "wrongNote": "It is the radio, not the line beyond it — report the spot fire's location before anyone goes near it."
+    }
+  ],
+  "lateNotes": {},
+  "name": "Wildland Fireline Construction",
+  "parSeconds": 310,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "first-responders"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "anchor-point",
+      "behavior-meter",
+      "beyond-safety-zone",
+      "briefing-board",
+      "brush-clump",
+      "brush-pile",
+      "check-hotspot-bare-hand",
+      "checkin-board",
+      "cold-ash-patch",
+      "comms-check",
+      "conditions-board",
+      "escape-routes-marked",
+      "fire-shelter-left-behind",
+      "hidden-ember-bed",
+      "log-anchor",
+      "log-hotspots",
+      "log-line-length",
+      "lookout-post-board",
+      "lookout-posted",
+      "lookout-radio",
+      "missing-goggles",
+      "pulaski-handle",
+      "pump-valve",
+      "reassess-radio",
+      "safety-zone-marked",
+      "smoldering-stump-hole",
+      "spare-bandana",
+      "spot-fire-radio",
+      "tool-swing-into-crew",
+      "torn-brush-jacket"
+    ],
+    "meshes": 164
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Confirm the lookout is posted with a clear line of sight before the crew moves onto the line.",
+      "id": "lookout-brief",
+      "kind": "select",
+      "prompt": "Confirm the lookout is posted with a clear line of sight before the crew moves onto the line.",
+      "target": "lookout-post-board",
+      "title": "Check in with the lookout",
+      "why": "A lookout posted with sightlines the crew and the smoke will not block is the first piece of the whole safety system, and checking that in person, rather than assuming the post from this morning still has a view, is what makes every warning that comes later actually reach the crew in time to matter."
+    },
+    {
+      "cue": "Lookouts, communications, escape routes, safety zone — name all four before the first tool touches the ground.",
+      "id": "declare-lces",
+      "itemNames": {
+        "comms-check": "communications checked",
+        "escape-routes-marked": "escape routes marked",
+        "lookout-posted": "lookout posted",
+        "safety-zone-marked": "safety zone marked"
+      },
+      "itemNotes": {
+        "comms-check": "Radio checked with the lookout and with division, on the channel the whole crew is actually running.",
+        "escape-routes-marked": "Two ways off this line, not one — a single route stops being an option the moment smoke or fire behaviour blocks it.",
+        "lookout-posted": "The same lookout post just confirmed, named now as part of the record."
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Lookout, then comms, then escape routes, then the safety zone — naming the safety zone before the escape routes are marked leaves the crew a place to run to with no agreed way of getting there.",
+      "prompt": "Lookouts, communications, escape routes, safety zone — name all four before the first tool touches the ground.",
+      "targets": [
+        "lookout-posted",
+        "comms-check",
+        "escape-routes-marked",
+        "safety-zone-marked"
+      ],
+      "title": "Name LCES before a tool moves",
+      "why": "LCES named in order, before construction starts, is what turns the escape route and safety zone from something the crew half-remembers into a decision everyone already made together with time to think — a crew building line before it has named where it runs to is a crew that will be improvising an escape route at the exact moment fire behaviour stops giving anybody time to plan one."
+    },
+    {
+      "cue": "Check the wind and fire-weather outlook before construction starts, per the forecast.",
+      "id": "conditions-board",
+      "kind": "select",
+      "prompt": "Check the wind and fire-weather outlook before construction starts, per the forecast.",
+      "target": "conditions-board",
+      "title": "Read the fire-weather conditions",
+      "why": "Everything the crew is about to cut is a bet against what the wind and the fire do in the next hour, and the current forecast is the best information anyone has about that bet before conditions actually change — a crew that skips it is building line against the wind from an hour ago, not the one that is coming."
+    },
+    {
+      "cue": "Look over the staged gear and click what's missing or damaged — two of them are here.",
+      "decoyNotes": {
+        "spare-bandana": "The bandana is not the find — it's a spare, not a piece of required PPE that is missing."
+      },
+      "id": "gear-find",
+      "itemNames": {
+        "missing-goggles": "missing eye protection",
+        "torn-brush-jacket": "torn brush jacket"
+      },
+      "itemNotes": {
+        "missing-goggles": "No eye protection staged with this kit — ash and embers travel well ahead of the flame front and reach the eyes long before the heat does.",
+        "torn-brush-jacket": "A tear in the brush jacket is a gap in the one layer between a crew member's skin and radiant heat on a hot line."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the staged gear and click what's missing or damaged — two of them are here.",
+      "targets": [
+        "torn-brush-jacket",
+        "missing-goggles"
+      ],
+      "title": "Check the crew's PPE before the line",
+      "why": "PPE checked at the buggy is PPE that gets fixed there, with time and spares on hand — the same tear or gap found an hour into cutting line is one that gets worked through instead, because there is no walking off a hot line just to swap a jacket."
+    },
+    {
+      "cue": "Confirm the escape route and the safety zone distance against what this morning's briefing actually set.",
+      "id": "escape-safety-confirm",
+      "kind": "select",
+      "prompt": "Confirm the escape route and the safety zone distance against what this morning's briefing actually set.",
+      "target": "briefing-board",
+      "title": "Confirm the escape and safety-zone distance",
+      "why": "The distance on the marker is the distance the briefing set for today's fuel and fire behaviour, not a rule of thumb carried over from the last assignment — confirming it against the briefing, out loud, is what keeps the whole crew working to the same number instead of five different guesses at how far is far enough."
+    },
+    {
+      "cue": "Check the fire-behaviour indicator and commit the current trend before the first cut.",
+      "gauge": {
+        "green": [
+          0.15,
+          0.45
+        ],
+        "label": "FIRE BEHAVIOUR",
+        "missNote": "That reading is trending toward the line, not away from it — this is the moment to be re-checking with the lookout, not starting to cut.",
+        "speed": 0.7
+      },
+      "id": "fire-behavior-gauge",
+      "kind": "gauge",
+      "prompt": "Check the fire-behaviour indicator and commit the current trend before the first cut.",
+      "target": "behavior-meter",
+      "title": "Read the fire-behaviour trend",
+      "why": "Fire behaviour is read again right before construction starts because it is the one input that can invalidate everything the briefing assumed an hour ago — a trend climbing toward the line changes what kind of line is worth building here at all, and that is a decision made with a current reading, not a memory."
+    },
+    {
+      "cue": "Cut and drag the brush clear to the black side of the line, away from the crew's own footing.",
+      "drag": {
+        "missNote": "Not clear of the line — brush dropped back across it undoes the cut before the scrape ever reaches it.",
+        "radius": 0.55,
+        "to": "brush-pile"
+      },
+      "id": "cut-brush",
+      "kind": "drag",
+      "prompt": "Cut and drag the brush clear to the black side of the line, away from the crew's own footing.",
+      "target": "brush-clump",
+      "title": "Clear the brush off the line",
+      "why": "Cut brush left on the line itself is fuel sitting exactly where the crew needs bare ground, and dragging it clear to the black side keeps it away from the crew's own footing and off the line the next tool in the sequence still has to scrape to mineral soil."
+    },
+    {
+      "cue": "Hold the scraping stroke steady until the line is down to bare mineral soil, full width.",
+      "holdBreakNote": "Released before the line reached mineral soil — a half-scraped line reads as finished and is not; hold the stroke until the soil underneath is bare.",
+      "id": "scrape-mineral-soil",
+      "kind": "hold",
+      "prompt": "Hold the scraping stroke steady until the line is down to bare mineral soil, full width.",
+      "seconds": 5,
+      "target": "pulaski-handle",
+      "title": "Scrape the line to mineral soil",
+      "why": "A fireline only stops fire where it is actually down to mineral soil — a line that is scraped halfway, with duff or root mat still holding an ember, is a line that looks finished and burns through anyway the first time the wind pushes something across it."
+    },
+    {
+      "cue": "Tie the new fireline into the rock outcrop anchor point, closing the gap completely.",
+      "id": "tie-in-anchor",
+      "kind": "select",
+      "prompt": "Tie the new fireline into the rock outcrop anchor point, closing the gap completely.",
+      "target": "anchor-point",
+      "title": "Tie the line into its anchor",
+      "why": "A fireline that stops short of a solid anchor is a line with a gap fire can run around the end of — tying in completely, to a feature that will not burn through itself, is what makes the line a closed barrier rather than a long cut with an opening left in it."
+    },
+    {
+      "cue": "Walk the finished edge and click what is still holding heat below the surface — two of them are here.",
+      "decoyNotes": {
+        "cold-ash-patch": "That patch is genuinely cold — the find is for what is still holding heat, not for every dark patch of ash."
+      },
+      "id": "hotspot-find",
+      "itemNames": {
+        "hidden-ember-bed": "hidden ember bed",
+        "smoldering-stump-hole": "smoldering stump hole"
+      },
+      "itemNotes": {
+        "hidden-ember-bed": "Embers banked under a shallow duff layer read as cold ground until they are actually turned over and checked.",
+        "smoldering-stump-hole": "A stump hole can hold fire well below the surface long after the ground around it looks cold."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the finished edge and click what is still holding heat below the surface — two of them are here.",
+      "targets": [
+        "smoldering-stump-hole",
+        "hidden-ember-bed"
+      ],
+      "title": "Check the line for what is still holding heat",
+      "why": "Mop-up is what actually stops a line from being crossed later by fire nobody can see any more — a stump hole or an ember bed that reads cold from a glance and is not is exactly what turns a held line into a reburn the next time the wind comes up."
+    },
+    {
+      "cue": "Open the pump valve and charge the hose along the line.",
+      "id": "charge-pump",
+      "kind": "turn",
+      "prompt": "Open the pump valve and charge the hose along the line.",
+      "target": "pump-valve",
+      "title": "Charge the pump and hose",
+      "turn": {
+        "axis": "z",
+        "label": "PUMP VALVE",
+        "turns": 1
+      },
+      "why": "A charged hose staged along the line is water that is already there the moment mop-up finds something that needs more than a shovel of dirt — charging it now, before it is needed, is what keeps that response from starting with someone running back to the pump first."
+    },
+    {
+      "cue": "Call the lookout with the line's progress and confirm conditions are unchanged.",
+      "id": "reassess-radio-log",
+      "kind": "select",
+      "prompt": "Call the lookout with the line's progress and confirm conditions are unchanged.",
+      "target": "lookout-radio",
+      "title": "Check in with the lookout on progress",
+      "why": "A progress call to the lookout is what keeps the person watching the fire and the wind in the loop on exactly how far along the crew is, which is the information that turns a warning a minute later into a warning the crew can actually act on before the line is compromised."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Write the line length, the hotspots found and the anchor tie-in into the fireline log.",
+      "id": "closing-log",
+      "itemNames": {
+        "log-anchor": "anchor tie-in logged",
+        "log-hotspots": "hotspots logged",
+        "log-line-length": "line length logged"
+      },
+      "kind": "sequence",
+      "prompt": "Write the line length, the hotspots found and the anchor tie-in into the fireline log.",
+      "targets": [
+        "log-line-length",
+        "log-hotspots",
+        "log-anchor"
+      ],
+      "title": "Log the fireline",
+      "why": "The log is what tells the division supervisor, and the crew that patrols this line after this one rotates out, exactly what was cut, what was found holding heat and where the line ties in — without it, the next crew is re-walking the whole line to learn what this one already knows."
+    },
+    {
+      "cue": "Ask how the crew is doing after a shift that included a wind shift and a spot fire, not just whether the line is done.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Ask how the crew is doing after a shift that included a wind shift and a spot fire, not just whether the line is done.",
+      "target": "checkin-board",
+      "title": "Check in with the crew",
+      "why": "A shift that includes a wind shift and a spot fire across the line asks something of a crew that a quiet mop-up day does not, and the department's peer-support line exists for exactly that kind of weight — asking the question and logging the answer is what keeps it from going unspoken until it shows up somewhere else."
+    }
+  ],
+  "supportLine": "the IAFF member assistance programme through your local, and the crew's peer-support contact",
+  "tagline": "A hand crew cutting fireline on open range: LCES named first, the line scraped to mineral soil and tied to a solid anchor, the mop-up checked by more than a hand, and a wind shift or a spot fire across the line answered by the radio",
+  "title": "SmartCiti.X~ Wildland Fireline Construction VR",
+  "trade": "Wildland firefighter — IAFF",
+  "underwater": null,
+  "weather": "smoke"
+}

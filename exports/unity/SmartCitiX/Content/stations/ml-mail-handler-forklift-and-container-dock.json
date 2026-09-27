@@ -1,0 +1,380 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "dock-certified",
+    "name": "Dock Certified",
+    "note": "A clean forklift inspection, the seatbelt fastened before the first move, a pedestrian and an unchocked trailer both read and answered, and a load set down under control"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "OSHA 29 CFR 1910.178 powered industrial trucks; the Revised NIOSH Lifting Equation for the manual portion of container handling; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written forklift and dock safety programme; NPMHU training for mail handler equipment and dock operations",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3203",
+        "id": "cal-osha-3203",
+        "title": "8 CCR 3203 — Injury and Illness Prevention Program"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "Revised NIOSH Lifting Equation",
+        "id": "niosh-lifting-equation",
+        "title": "Revised NIOSH Lifting Equation and its Applications Manual — recommended weight limit and lifting index for two-handed manual lifting"
+      },
+      {
+        "body": "union",
+        "citedAs": "NPMHU",
+        "id": "npmhu-training",
+        "title": "NPMHU apprenticeship and training, as a training body"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.178",
+        "id": "osha-1910-178",
+        "title": "29 CFR 1910.178 — Powered industrial trucks"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Postal & Mail Processing",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "cold-forklift-read",
+        "name": "Cold Forklift Read",
+        "note": "Every forklift defect found without a hint"
+      },
+      {
+        "id": "belted-before-moving",
+        "name": "Belted Before Moving",
+        "note": "The seatbelt was fastened before the forklift ever moved"
+      },
+      {
+        "id": "controlled-set-down",
+        "name": "Controlled Set-Down",
+        "note": "The load was lowered on a fully controlled descent"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "on-time",
+        "name": "On Time",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "safe-dock",
+        "name": "Safe Dock",
+        "note": "No unsafe action anywhere in the run"
+      }
+    ],
+    "currency": "DOCK",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Dock Helper",
+      "Mail Handler",
+      "Forklift Operator",
+      "Lead Handler",
+      "Dock Certified"
+    ],
+    "system": "Dock Operations"
+  },
+  "hazards": {
+    "damaged-fork-hazard": "The left fork tine has a visible crack near its heel, right where the load stress actually concentrates. A cracked fork can fail under a load it looks perfectly capable of carrying, and there is no way to tell how much life it has left in it just by looking twice.",
+    "missing-seatbelt-hazard": "This forklift's seatbelt is missing from its mount entirely, not just unfastened. A counterbalance forklift can tip, and the belt is what keeps an operator inside the overhead guard's own protection rather than being thrown clear of it and landing under the truck as it comes down.",
+    "pedestrian-in-path-hazard": "A mail handler on foot is walking directly through the forklift's own travel path, carrying totes and looking at them rather than at the truck. A pedestrian in a forklift's path is invisible to the operator the moment they are behind the mast, and the operator is the one who has to notice first.",
+    "unchocked-trailer-hazard": "The trailer at this dock door has no wheel chocks set and its restraint arm is not engaged. A trailer that is not physically restrained can creep away from the dock as a forklift drives on and off it, opening a gap under the wheels that was not there a minute ago."
+  },
+  "id": "ml-mail-handler-forklift-and-container-dock",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "load-lift",
+      "alert": "A mail handler on foot has stepped into the forklift's own travel path just ahead, carrying a tote and not looking up.",
+      "cue": "Sound the horn and hold the truck rather than continuing to travel with a pedestrian in the path.",
+      "delay": 3,
+      "id": "pedestrian-crossing",
+      "kind": "Pedestrian crosses the travel path",
+      "missNote": "The forklift kept moving with a pedestrian already in the path. A mast-high load blocks the operator's own forward view at exactly the moment it matters most, and the horn is the only warning a distracted pedestrian gets.",
+      "seconds": 11,
+      "target": "forklift-horn",
+      "why": "A loaded forklift's mast blocks exactly the view an operator needs to see someone walking into the path ahead, and the horn is what closes that gap — a mail handler with a tote in both hands and their eyes down has no other reason to look up in time.",
+      "wrongNote": "Not that — the horn and a hold come before the truck travels any further."
+    },
+    {
+      "after": "chock-and-restrain",
+      "alert": "A second forklift is approaching the same dock from the blind side of the container stack, on a converging path.",
+      "cue": "Call out over the radio before either truck commits to the corner.",
+      "delay": 3,
+      "id": "second-forklift-approach",
+      "kind": "A second forklift approaches the blind corner",
+      "missNote": "Neither truck called out before the corner. Two forklifts on a blind converging path find out about each other at the corner itself, which is the worst possible place to find out.",
+      "seconds": 11,
+      "target": "radio-call-out",
+      "why": "Two forklifts converging on a blind corner is exactly the kind of collision a plant floor's own layout cannot prevent by itself — a radio call is what lets both operators know the other is there before either one commits to a corner neither can actually see around.",
+      "wrongNote": "Not that — the call-out comes before either truck commits to the blind corner."
+    }
+  ],
+  "lateNotes": {
+    "container-load": "The container is lifted and travelled once the dock has been read for what's already wrong with it, not before.",
+    "trailer-restraint-arm": "The trailer is restrained before any forklift travel across the dock plate, not after."
+  },
+  "name": "Mail Handler Forklift & Container Dock",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "postal-and-mail-processing"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "dockLevelerBay",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "forkliftCounterbalance",
+        "count": 2,
+        "kit": "fleet"
+      },
+      {
+        "builder": "2.44x2.65x6.06",
+        "count": 1,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "capacity-plate-gauge",
+      "chocked-trailer-decoy",
+      "container-dock-socket",
+      "container-load",
+      "damaged-fork-hazard",
+      "dock-log-panel",
+      "forklift-checklist-board",
+      "forklift-horn",
+      "forklift-seat",
+      "forklift-seatbelt",
+      "hard-hat",
+      "hi-vis-vest",
+      "missing-seatbelt-hazard",
+      "pedestrian-in-path-hazard",
+      "radio-call-out",
+      "spotter-radio",
+      "trailer-restraint-arm",
+      "unchocked-trailer-hazard"
+    ],
+    "meshes": 222
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Hi-vis vest and hard hat before stepping onto the dock floor.",
+      "id": "ppe",
+      "itemNames": {
+        "hard-hat": "hard hat",
+        "hi-vis-vest": "hi-vis vest"
+      },
+      "kind": "sequence",
+      "prompt": "Hi-vis vest and hard hat before stepping onto the dock floor.",
+      "targets": [
+        "hi-vis-vest",
+        "hard-hat"
+      ],
+      "title": "Suit up before the forklift inspection",
+      "why": "A dock floor mixes forklifts, foot traffic and overhead container handling, and the vest and hard hat are what make a handler visible to an operator and protected from whatever might come off a raised load."
+    },
+    {
+      "cue": "Read the forklift's own daily inspection checklist before walking around it.",
+      "id": "checklist-read",
+      "kind": "select",
+      "prompt": "Read the forklift's own daily inspection checklist before walking around it.",
+      "target": "forklift-checklist-board",
+      "title": "Read the daily inspection checklist",
+      "why": "The checklist is what turns a walk-around from a glance into an actual inspection — it names the exact points a forklift fails at most often, and reading it first means nothing on that list gets skipped because it did not come to mind unprompted."
+    },
+    {
+      "cue": "Walk the truck cold before climbing on. Two things are already wrong with it — find them.",
+      "decoyNotes": {
+        "intact-fork-decoy": "That fork shows no cracks or bends at the heel. Nothing to flag there."
+      },
+      "id": "forklift-walkaround",
+      "itemNames": {
+        "damaged-fork-hazard": "the cracked fork tine",
+        "missing-seatbelt-hazard": "the missing seatbelt"
+      },
+      "itemNotes": {
+        "damaged-fork-hazard": "A crack at the heel of the left fork. It gets reported and the fork swapped, not loaded and hoped for.",
+        "missing-seatbelt-hazard": "Missing from its mount entirely. This forklift does not move until a belt is fitted."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the truck cold before climbing on. Two things are already wrong with it — find them.",
+      "targets": [
+        "missing-seatbelt-hazard",
+        "damaged-fork-hazard"
+      ],
+      "title": "Walk around the forklift before mounting it",
+      "why": "A forklift that looks fine parked in its row is not the same as one an operator has actually inspected — a missing belt or a cracked fork both look like nothing from a few feet away, and finding them now costs a work order instead of costing a tip-over or a snapped fork under load."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Mount the seat, then fasten the seatbelt — in that order, before touching a single control.",
+      "id": "seat-and-belt",
+      "itemNames": {
+        "forklift-seat": "mount the seat",
+        "forklift-seatbelt": "fasten the seatbelt"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Seat, then belt — a belt fastened after the truck is already moving has already missed the turn it was there for.",
+      "prompt": "Mount the seat, then fasten the seatbelt — in that order, before touching a single control.",
+      "targets": [
+        "forklift-seat",
+        "forklift-seatbelt"
+      ],
+      "title": "Mount up and belt in",
+      "why": "The belt only does its job if it is fastened before the truck ever moves, not reached for after the first turn already feels a little off — a counterbalance forklift's own stability depends on the operator staying inside the overhead guard exactly where the belt keeps them."
+    },
+    {
+      "cue": "Sound the horn once before the forklift's first move of the shift.",
+      "id": "horn-check",
+      "kind": "select",
+      "prompt": "Sound the horn once before the forklift's first move of the shift.",
+      "target": "forklift-horn",
+      "title": "Test the horn before moving",
+      "why": "A dock floor is loud and full of blind corners, and the horn is the one warning a pedestrian or another operator gets before a loaded truck arrives — testing it now is how a dead horn gets found in the yard, not at the one blind corner where it was actually needed."
+    },
+    {
+      "cue": "Read the forklift's own rated capacity plate and commit once the container's load is confirmed within it.",
+      "gauge": {
+        "green": [
+          0.2,
+          0.6
+        ],
+        "label": "RATED CAPACITY",
+        "missNote": "Not confirmed within the plate — check the rating again before lifting.",
+        "speed": 0.6
+      },
+      "id": "capacity-check",
+      "kind": "gauge",
+      "prompt": "Read the forklift's own rated capacity plate and commit once the container's load is confirmed within it.",
+      "target": "capacity-plate-gauge",
+      "title": "Check the load against the capacity plate",
+      "why": "A forklift's capacity plate is rated for a specific load at a specific fork height, not a general sense of 'this looks liftable' — reading it against what is actually on the forks is what keeps a stable-looking lift from turning into a front-end tip the moment the mast comes up."
+    },
+    {
+      "cue": "Look over the dock before the forklift crosses it. Two things are already wrong with it — find them.",
+      "decoyNotes": {
+        "chocked-trailer-decoy": "That trailer is chocked and the restraint arm is engaged, green light showing. Nothing to flag there."
+      },
+      "id": "dock-hazard-read",
+      "itemNames": {
+        "pedestrian-in-path-hazard": "the pedestrian in the travel path",
+        "unchocked-trailer-hazard": "the unchocked trailer"
+      },
+      "itemNotes": {
+        "pedestrian-in-path-hazard": "Walking through the travel path with a tote, not looking up. The path is cleared before the forklift enters it.",
+        "unchocked-trailer-hazard": "No chocks set, restraint arm disengaged. The trailer is restrained before anything crosses the dock plate onto it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the dock before the forklift crosses it. Two things are already wrong with it — find them.",
+      "targets": [
+        "pedestrian-in-path-hazard",
+        "unchocked-trailer-hazard"
+      ],
+      "title": "Read the dock before crossing it",
+      "why": "A dock that looks like a normal shift in progress can still be hiding a pedestrian about to walk into the travel path or a trailer nobody has actually restrained yet — both are invisible from a glance and both are exactly what a forklift's own approach can turn into a real injury if they go unnoticed."
+    },
+    {
+      "cue": "Turn the restraint control to engage the arm and confirm the green light before crossing the dock plate.",
+      "id": "chock-and-restrain",
+      "kind": "turn",
+      "prompt": "Turn the restraint control to engage the arm and confirm the green light before crossing the dock plate.",
+      "target": "trailer-restraint-arm",
+      "title": "Engage the trailer restraint",
+      "turn": {
+        "axis": "x",
+        "label": "RESTRAINT ARM",
+        "turns": 0.4
+      },
+      "why": "A trailer that can creep away from the dock opens a gap under the wheels of anything that crosses onto it — the restraint arm is what keeps that trailer physically pinned in place for as long as a forklift needs to be on or off it."
+    },
+    {
+      "cue": "Lift the container clear of the stack and carry it across the dock to the trailer.",
+      "drag": {
+        "missNote": "Not onto the trailer — carry the container all the way across before setting it down.",
+        "radius": 0.5,
+        "to": "container-dock-socket"
+      },
+      "id": "load-lift",
+      "kind": "drag",
+      "prompt": "Lift the container clear of the stack and carry it across the dock to the trailer.",
+      "target": "container-load",
+      "title": "Lift and travel the container",
+      "why": "A load lifted low and travelled steadily is a load the operator can see around and stop quickly if the path ahead changes; a load raised high just to clear the stack turns the same short travel into a rolling blind spot for anyone crossing in front of it."
+    },
+    {
+      "cue": "Hold the lower control until the container is fully seated, watching the descent the whole way down.",
+      "holdBreakNote": "The lower control was released before the container was fully seated. A load let go partway down finishes its descent on its own terms, not the operator's.",
+      "id": "stack-lower",
+      "kind": "hold",
+      "prompt": "Hold the lower control until the container is fully seated, watching the descent the whole way down.",
+      "seconds": 8,
+      "target": "container-load",
+      "title": "Set the load down under control",
+      "why": "A load dropped the last few inches rather than set down slowly can shift, tip or crush whatever is under it, and holding the lower control through the full descent — rather than letting go once it looks close enough — is what keeps the set-down controlled instead of merely quick."
+    },
+    {
+      "cue": "Confirm with the spotter that the load is seated and the trailer is clear before backing off the dock plate.",
+      "id": "spotter-checkin",
+      "kind": "select",
+      "prompt": "Confirm with the spotter that the load is seated and the trailer is clear before backing off the dock plate.",
+      "target": "spotter-radio",
+      "title": "Check in with the spotter",
+      "why": "A spotter sees the trailer's own blind corners from a position the operator cannot, and checking in before backing off the dock plate is what turns 'it looked clear from the seat' into an actual confirmation from someone who could see the whole picture."
+    },
+    {
+      "cue": "Log the forklift defects found, the load moved, and the dock hazards cleared before the shift closes.",
+      "id": "closing-log",
+      "kind": "select",
+      "prompt": "Log the forklift defects found, the load moved, and the dock hazards cleared before the shift closes.",
+      "target": "dock-log-panel",
+      "title": "Log the inspection and the load",
+      "why": "The log is what turns one cracked fork and one unchocked trailer into a pattern the plant's own safety committee can actually see — found and fixed but never logged is a recurring problem nobody upstream ever gets the chance to solve for good."
+    }
+  ],
+  "supportLine": "your NPMHU local's member assistance representative, or the plant's own employee assistance line",
+  "tagline": "A counterbalance forklift's own daily inspection before the seat is sat in, the seatbelt fastened, the horn tested, the dock read for a pedestrian in the travel path and an unchocked trailer, a container lifted and travelled to a blind corner sounded rather than assumed clear, and the load set down on a controlled, watched descent",
+  "title": "SmartCiti.X~ Mail Handler Forklift & Container Dock VR",
+  "trade": "Mail handler — forklift and container dock operations, NPMHU",
+  "underwater": null,
+  "weather": null
+}

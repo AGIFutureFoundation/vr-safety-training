@@ -1,0 +1,391 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "boom-holding",
+    "name": "Boom Holding",
+    "note": "Source secured first, the J held against the current, both ends anchored, and the shore crew worked clean behind PPE and decon — first time"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Inlandboatmen's Union of the Pacific (IBU) and ILWU marine division — boat and boom crew; LIUNA hazmat laborers — shore crew; OSHA 29 CFR 1910.120 HAZWOPER; U.S. Coast Guard federal on-scene coordinator; National Contingency Plan, 40 CFR 300; California Office of Spill Prevention and Response (OSPR)",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "EPA",
+        "citedAs": "40 CFR 300",
+        "id": "epa-40-cfr-300",
+        "title": "40 CFR Part 300 — National Oil and Hazardous Substances Pollution Contingency Plan"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "source-first",
+        "name": "Source Secured First",
+        "note": "The valve was shut before the boom ever went over the side"
+      },
+      {
+        "id": "never-uncovered",
+        "name": "Never Uncovered",
+        "note": "Never a bare hand on the tow line or the sorbent, never a step on the shore without PPE"
+      },
+      {
+        "id": "apex-true",
+        "name": "Apex True",
+        "note": "Tow tension and skim rate both held inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-deployment",
+        "name": "Clean Deployment",
+        "note": "No corrections anywhere in the drill"
+      },
+      {
+        "id": "j-held",
+        "name": "J Held",
+        "note": "Held the tow tension in band the whole way"
+      },
+      {
+        "id": "boom-set-fast",
+        "name": "Boom Set Fast",
+        "note": "Deployment complete inside 80% of par"
+      }
+    ],
+    "currency": "BOOM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Deckhand",
+      "Boom Handler",
+      "Response Boat Lead",
+      "Spill Response Technician",
+      "OSPR Certified"
+    ],
+    "system": "Spill Response Crew"
+  },
+  "hazards": {
+    "boat-no-pfd": "You reached over the response boat's gunwale to handle the boom line without a PFD on. A boat working a boom deployment rolls with every wake and every length of line going over the side, and an IBU deckhand wears a PFD underway for exactly the moment a rolling deck and a hand full of line coincide.",
+    "ignition-near-fuel": "You keyed a handheld radio next to the open fuel spill before the source was secured. Vapour off a fresh spill needs no more than a spark to ignite, and a transmitting radio is exactly the ignition source that stays clear of an active spill's edge until the source itself is confirmed shut.",
+    "line-under-tension": "You put a hand on the tow line while the current had it under load. A loaded tow line that surges — the current shifting, the skiff throttling up — closes on a hand with the same force it is holding a hundred feet of boom against, faster than anyone can let go.",
+    "sorbent-bare-hands": "You picked up oil-soaked sorbent pads with bare hands. Recovered petroleum product is exactly the hazard OSHA HAZWOPER 1910.120 built its PPE tiers around — sorbent that has done its job is now carrying what it soaked up, straight onto skin."
+  },
+  "id": "spill-boom-deploy",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-shape",
+      "alert": "The tide has turned and the current is now pushing from a different quarter — the boom's apex has swung off the mark and started to drift.",
+      "cue": "Reposition the apex before the J collapses on itself.",
+      "delay": 3,
+      "id": "apex-drift",
+      "kind": "Current turning with the tide",
+      "missNote": "The apex kept drifting with the turned current until the J had folded back on itself, and the boom stopped concentrating anything — it was just floating rope by the time anyone looked again.",
+      "seconds": 12,
+      "target": "j-apex-mark",
+      "why": "A J-boom is built around one current direction, and a tide change is exactly the moment that direction stops holding — the apex the crew set at slack water is not the apex a turning current wants, and left alone it drifts until the boom is herding oil nowhere in particular.",
+      "wrongNote": "It's the apex mark. A tide change moves the one point the whole J-configuration is built around — reposition it before anything else."
+    },
+    {
+      "after": "decon",
+      "alert": "A crew member has stepped onto the oiled shoreline to help with the boom's shore end — bare-handed, no coveralls.",
+      "cue": "Get PPE on them before they touch anything else.",
+      "delay": 2,
+      "id": "shore-crew-no-ppe",
+      "kind": "Crew member stepping onto slick shore without PPE",
+      "missNote": "The crew member kept working the shore end bare-handed, staying in contact with recovered product long after the moment PPE would have stopped it reaching their skin.",
+      "seconds": 12,
+      "target": "shore-ppe-gloves",
+      "why": "LIUNA hazmat laborers work this shoreline inside the same HAZWOPER 1910.120 tiers as everyone else on scene, and oiled rock and sand do not wait for someone to remember their gloves — the moment a bare hand goes down on a slick shore is the moment the response's own PPE rule has already been broken.",
+      "wrongNote": "It's the shore crew's own gloves. Somebody on the oiled shore right now has none on — that is what needs fixing first."
+    }
+  ],
+  "lateNotes": {
+    "decon-sprayer": "The decon corridor runs for whoever is leaving the water's edge — there's no one to wash down yet.",
+    "skimmer-gauge": "Nothing to read until the skimmer is actually staged at the collection point."
+  },
+  "name": "Spill Boom Deploy",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "ports-maritime-ecology"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "anchor-end-set",
+      "boat-no-pfd",
+      "boat-pfd",
+      "boom-bundle",
+      "boom-connect",
+      "boom-uncoil",
+      "decon-sprayer",
+      "ignition-near-fuel",
+      "j-apex-mark",
+      "line-under-tension",
+      "notify-nrc",
+      "notify-state",
+      "response-plan-board",
+      "shore-end-set",
+      "shore-ppe-gloves",
+      "shore-ppe-suit",
+      "skiff-throttle",
+      "skimmer-gauge",
+      "skimmer-unit",
+      "sorbent-bare-hands",
+      "sorbent-staged",
+      "source-valve",
+      "torn-boom-section",
+      "tow-line-attach"
+    ],
+    "meshes": 191
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Turn the dock fuel valve fully closed to stop the discharge before anything else.",
+      "id": "secure-source",
+      "kind": "turn",
+      "prompt": "Turn the dock fuel valve fully closed to stop the discharge before anything else.",
+      "target": "source-valve",
+      "title": "Secure the spill's source",
+      "turn": {
+        "axis": "y",
+        "label": "SOURCE VALVE",
+        "turns": 1
+      },
+      "why": "Every gallon still coming from the source is a gallon the boom downstream has to contain, and the U.S. Coast Guard's on-scene coordination for a coastal spill assumes the release itself is stopped first — deploying boom around a source that is still running is chasing a spill instead of stopping one."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Call the National Response Center, then California's Office of Spill Prevention and Response.",
+      "id": "notify",
+      "itemNames": {
+        "notify-nrc": "National Response Center",
+        "notify-state": "California OSPR"
+      },
+      "kind": "sequence",
+      "prompt": "Call the National Response Center, then California's Office of Spill Prevention and Response.",
+      "targets": [
+        "notify-nrc",
+        "notify-state"
+      ],
+      "title": "Make the required notifications",
+      "why": "The National Contingency Plan under 40 CFR 300 requires the release reported to the National Response Center, and California law separately requires OSPR — the state agency that oversees marine spill response — notified in its own right; the Coast Guard's on-scene coordinator cannot start coordinating a response nobody told them about."
+    },
+    {
+      "cue": "Check the facility's response plan for the boom pattern, the skimmer position and the crew assignments this spill calls for.",
+      "id": "plan",
+      "kind": "select",
+      "prompt": "Check the facility's response plan for the boom pattern, the skimmer position and the crew assignments this spill calls for.",
+      "target": "response-plan-board",
+      "title": "Read the response plan",
+      "why": "The plan already accounts for this dock's own currents, tide state and the equipment actually staged here — running a boom deployment from memory instead of the plan is how a crew ends up improvising the one thing OSHA HAZWOPER's training tiers assume was decided in advance."
+    },
+    {
+      "cue": "Life vest on before stepping onto the response boat's deck.",
+      "id": "boat-ppe",
+      "kind": "select",
+      "prompt": "Life vest on before stepping onto the response boat's deck.",
+      "target": "boat-pfd",
+      "title": "Put on a PFD before boarding the response boat",
+      "why": "An Inlandboatmen's Union of the Pacific deckhand works this boat the same as any other vessel underway — a boom deployment happens over open water, and the PFD is what the union's own safety practice and Coast Guard regulation both assume before anyone's boots leave the dock."
+    },
+    {
+      "cue": "Uncoil the boom, connect its sections end to end, then attach the tow line — in that order.",
+      "id": "rig-boom",
+      "itemNames": {
+        "boom-connect": "boom sections connected",
+        "boom-uncoil": "boom uncoiled on deck",
+        "tow-line-attach": "tow line attached"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Uncoiled, then connected, then the tow line — rigging it out of order is how a boom goes over the side already fouled.",
+      "prompt": "Uncoil the boom, connect its sections end to end, then attach the tow line — in that order.",
+      "targets": [
+        "boom-uncoil",
+        "boom-connect",
+        "tow-line-attach"
+      ],
+      "title": "Rig the containment boom on deck",
+      "why": "A boom that goes over the side still tangled fouls in the water where nobody can reach it; rigged flat on deck first, connected section to section, and only then handed a tow line, it pays out the way it is designed to instead of the way it happens to land."
+    },
+    {
+      "cue": "Pay the boom out over the stern and guide the skiff to lay it into a J against the current.",
+      "drag": {
+        "missNote": "Not on the mark — the apex has to sit downstream of the current for the J to actually herd anything toward it.",
+        "radius": 0.5,
+        "to": "j-apex-mark"
+      },
+      "id": "deploy-j",
+      "kind": "drag",
+      "prompt": "Pay the boom out over the stern and guide the skiff to lay it into a J against the current.",
+      "target": "boom-bundle",
+      "title": "Deploy the boom in a J-configuration with the skiff",
+      "why": "A boom laid straight across a current just gets pushed under or over itself; angled into a J with the apex pointing downstream, the current sweeps the oil along the boom's face toward the apex, which is what makes staging the skimmer downstream of it worth doing in the first place."
+    },
+    {
+      "cue": "Keep the skiff's tow tension steady — too little and the J collapses, too much and the boom rides under.",
+      "holdBreakNote": "The tow tension broke out of band and the J started to fold — ease back to a steady pull.",
+      "id": "hold-shape",
+      "kind": "track",
+      "prompt": "Keep the skiff's tow tension steady — too little and the J collapses, too much and the boom rides under.",
+      "seconds": 6,
+      "target": "skiff-throttle",
+      "title": "Hold the skiff's tow steady against the current",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "TOW TENSION",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "The current that makes a J-boom work is the same current that collapses it the moment the skiff eases off or overpowers the tow — holding a steady tension is what keeps the apex where the crew set it instead of where the tide decides to put it."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Drop the anchor at the free end of the boom and make the shore end fast at the dock.",
+      "id": "anchor-shore",
+      "itemNames": {
+        "anchor-end-set": "anchor end set",
+        "shore-end-set": "shore end secured"
+      },
+      "kind": "sequence",
+      "prompt": "Drop the anchor at the free end of the boom and make the shore end fast at the dock.",
+      "targets": [
+        "anchor-end-set",
+        "shore-end-set"
+      ],
+      "title": "Set the anchor end and secure the shore end",
+      "why": "A J-boom with nothing holding either end is a boom the current will straighten out and carry away within the hour; the anchor holds the offshore end against the bottom and the shore end is made fast to something that is not going anywhere, so the shape stays put once the skiff lets go of it."
+    },
+    {
+      "cue": "Position the skimmer where the boom's apex is herding the oil.",
+      "id": "skimmer-stage",
+      "kind": "select",
+      "prompt": "Position the skimmer where the boom's apex is herding the oil.",
+      "target": "skimmer-unit",
+      "title": "Stage the skimmer at the collection point",
+      "why": "The apex of the J is where the boom is actually doing its job — concentrating the oil the current pushed along its face — and the skimmer is only useful sitting exactly there, not somewhere convenient to reach from the boat."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Sorbent pads, coveralls and gloves out before anyone works the water's edge.",
+      "id": "shore-crew",
+      "itemNames": {
+        "shore-ppe-gloves": "shore crew gloves",
+        "shore-ppe-suit": "shore crew coveralls",
+        "sorbent-staged": "sorbent pads staged"
+      },
+      "kind": "sequence",
+      "prompt": "Sorbent pads, coveralls and gloves out before anyone works the water's edge.",
+      "targets": [
+        "sorbent-staged",
+        "shore-ppe-suit",
+        "shore-ppe-gloves"
+      ],
+      "title": "Stage sorbent and PPE for the shore crew",
+      "why": "LIUNA hazmat laborers work the shore end of a spill under the same OSHA HAZWOPER 1910.120 training tiers as the crew on the water, and the sorbent and the PPE staged here are what let them recover oil off the rocks and the sand without carrying it home on their skin."
+    },
+    {
+      "cue": "Watch the oil-to-water ratio coming off the skimmer and commit the reading in the working band.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "OIL:WATER",
+        "missNote": "Mostly water — reposition the skimmer closer to the apex before the next reading.",
+        "speed": 0.72
+      },
+      "id": "skim-rate",
+      "kind": "gauge",
+      "prompt": "Watch the oil-to-water ratio coming off the skimmer and commit the reading in the working band.",
+      "target": "skimmer-gauge",
+      "title": "Read the skimmer's recovery rate",
+      "why": "A skimmer pulling mostly water fills a recovery tank with something that has to be treated as oily waste anyway while barely touching the slick; the ratio is what tells the crew whether the skimmer is actually sitting where the boom is concentrating the oil."
+    },
+    {
+      "cue": "Hold the wash-down on anyone leaving the water's edge until they are clear of product.",
+      "holdBreakNote": "Released the wash-down before the runoff ran clear — hold it the full duration or the crew member walks out still carrying product.",
+      "id": "decon",
+      "kind": "hold",
+      "prompt": "Hold the wash-down on anyone leaving the water's edge until they are clear of product.",
+      "seconds": 5,
+      "target": "decon-sprayer",
+      "title": "Run the decon corridor",
+      "why": "The decontamination corridor keeps recovered oil from leaving the exclusion zone on someone's boots — HAZWOPER 1910.120 treats decon as its own required station, not an afterthought at the end of the shift, because the alternative is oil tracked across a dock that was never part of the spill."
+    },
+    {
+      "cue": "Check every section of boom, both ends and the skimmer before logging the deployment complete.",
+      "id": "walk",
+      "itemNames": {
+        "torn-boom-section": "torn boom section"
+      },
+      "itemNotes": {
+        "torn-boom-section": "A section of boom nearest the anchor end has torn along its seam — oil is already working through the gap the current opened."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check every section of boom, both ends and the skimmer before logging the deployment complete.",
+      "targets": [
+        "torn-boom-section"
+      ],
+      "title": "Walk the boom line before standing the response down",
+      "why": "A torn section does not fail the response today — it fails the moment nobody is looking at it, which on a falling tide is exactly when the gap it opens starts moving oil past the one control keeping it out of the rest of the bay."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Fuel-dock spill drill: source secured, NRC and OSPR notified, the plan read, boom rigged on deck and worked into a J against the current with the skiff, ends anchored, skimmer staged, sorbent and PPE out for the shore crew, and a decon corridor for anyone leaving the water's edge",
+  "title": "SmartCiti.X~ Spill Boom Deploy VR",
+  "trade": "Marine environmental responder — boom deployment",
+  "underwater": null,
+  "weather": "wind"
+}

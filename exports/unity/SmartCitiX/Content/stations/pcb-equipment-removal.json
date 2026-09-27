@@ -1,0 +1,451 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "pcb-shipment",
+    "name": "PCB Shipment",
+    "note": "A PCB transformer isolated, rigged and manifested with no shortcut on the lockout, the oil or the paperwork"
+  },
+  "category": "Energy & Power",
+  "certification": "IBEW Local 6 electricians and LIUNA hazmat laborers; OSHA 29 CFR 1910.147 lockout/tagout and 1910.269 electrical safety-related work practices; EPA TSCA 40 CFR 761 PCB marking, storage and disposal; OSHA HAZWOPER 40-hour for anyone working the exclusion zone; DOT 49 CFR 172 hazardous-materials shipping papers",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "EPA",
+        "citedAs": "40 CFR 761",
+        "id": "epa-40-cfr-761",
+        "title": "40 CFR Part 761 — Polychlorinated biphenyls (PCB) use, storage and disposal"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBEW Local 6",
+        "id": "ibew-local6-training",
+        "title": "IBEW Local 6 apprenticeship and training, as a training body"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "PHMSA",
+        "citedAs": "49 CFR 172",
+        "id": "phmsa-49-cfr-172",
+        "title": "49 CFR Part 172 — Hazardous materials table, communications, emergency response information and training"
+      },
+      {
+        "body": "RCRA",
+        "citedAs": "RCRA",
+        "id": "rcra-40-cfr-262",
+        "title": "40 CFR Part 262 — Standards applicable to generators of hazardous waste, including the manifest"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Energy",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "proven-dead",
+        "name": "Proven Dead",
+        "note": "The circuit isolated, locked, tagged and tested before any tool touched the unit"
+      },
+      {
+        "id": "no-release",
+        "name": "No Release",
+        "note": "Never let oil, a live conductor or an unlabelled load leave the room"
+      },
+      {
+        "id": "clean-swing",
+        "name": "Clean Swing",
+        "note": "Held the tag line inside the safe path for the whole lift"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-shipment",
+        "name": "Clean Shipment",
+        "note": "No corrections anywhere in the removal"
+      },
+      {
+        "id": "steady-hand",
+        "name": "Steady Hand",
+        "note": "Never broke the tag-line signal"
+      },
+      {
+        "id": "room-cleared",
+        "name": "Room Cleared",
+        "note": "Swabbed and closed out inside 80% of par"
+      }
+    ],
+    "currency": "MICROGRAM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Helper",
+      "Rigger's Hand",
+      "Lead Rigger",
+      "Isolation Authority",
+      "PCB Custody Certified"
+    ],
+    "system": "PCB Custody"
+  },
+  "hazards": {
+    "bare-capacitor": "You went bare-handed for the capacitor terminals. A capacitor stores its own charge in the dielectric and can hold a shock hazard for hours after the transformer it sits beside is dead and grounded — it is discharged and shorted with an insulated tool before anyone's hand goes near the terminals, every time, regardless of how long the unit has sat idle.",
+    "floor-drain-dump": "You opened the drain valve over the floor drain instead of into a labelled catch container. That drain runs to the storm system, and PCB oil down it is not a spill you clean up later — it is a reportable release under the Clean Water Act on top of the TSCA violation, and it is the neighborhood downstream of this parcel that receives it.",
+    "live-touch": "You reached for the primary lead before the tester proved it dead. Locked out is what the breaker did; dead is a fact about the conductor, and the only way to know it is a tester that was itself proven on a live source first. A hand on that lead before the test is a hand on whatever the switching order missed.",
+    "unlabeled-lift": "You waved the loaded pallet toward the dock before the PCB label and the out-of-service date were on it. An unlabelled PCB load leaving this room is indistinguishable from ordinary scrap to everyone downstream of that door — the hauler, the scale house, the disposal facility — and TSCA's marking rule exists precisely so nobody downstream has to guess."
+  },
+  "id": "pcb-equipment-removal",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "lift",
+      "alert": "The transformer's B-phase bushing is weeping oil down the tank wall as the sling takes the load clear of the floor.",
+      "cue": "Get the spill kit under the drip now — the load stays up on the hoist, but that oil is not hitting the floor.",
+      "delay": 3,
+      "id": "bushing-weep",
+      "kind": "Bushing weeping",
+      "missNote": "The weep ran down the tank and pooled under the load for the rest of the lift, and that patch of floor is now something the closeout swab has to answer for, not the drain valve.",
+      "seconds": 13,
+      "target": "spill-kit",
+      "why": "PCB oil on a concrete floor is not a job for a mop at end of shift — it soaks in, and the room's own floor becomes a surface that has to be sampled and possibly removed. The spill kit exists to catch exactly this, and it does that job only if it gets there before the drip does.",
+      "wrongNote": "Not that — the spill kit, under the drip, while the load is still up. Nothing else in reach stops oil from reaching the floor."
+    },
+    {
+      "after": "swab",
+      "alert": "The loading-dock crew is hauling the switch-room door open, walking straight past the exclusion tape while you're still swabbing under chain of custody.",
+      "cue": "Stop them at the door before anyone not on this crew is standing inside your sample area.",
+      "delay": 3,
+      "id": "door-breach",
+      "kind": "Exclusion breach",
+      "missNote": "Two more sets of boots crossed the swabbed floor before the sample was bagged, and there is no way to prove afterward that they carried nothing across it.",
+      "seconds": 12,
+      "target": "exclusion-door",
+      "why": "Chain of custody means the sample's history is unbroken from swab to lab, and that includes who else was in the room while it was being taken. A second crew tracking through the exclusion zone mid-swab is a defence attorney's first question about whether this floor was actually clear before the tap went back in.",
+      "wrongNote": "That's not it — the door. Whoever is coming through it has to be stopped before they're standing in the sample area."
+    }
+  ],
+  "lateNotes": {
+    "danger-tag": "The tag goes on once the breaker is actually open and the padlock is already on it — a tag on a closed breaker is a label, not an isolation.",
+    "manifest-clipboard": "The manifest doesn't get filled out until the pallet is sealed and labelled — signing for a shipment that doesn't exist yet is signing a guess.",
+    "pallet-liner": "The liner goes into the pallet once the rigging plan says where this unit is actually headed — lining a pallet before you know the load is guessing.",
+    "pcb-waste-label": "Nothing to label until the pallet is sealed — a label on an open load doesn't describe what's actually inside it.",
+    "sight-glass": "Nothing to read on the sight glass until the unit is isolated and the room is clear of live conductors — read the level once it's actually safe to be standing at the tank."
+  },
+  "name": "PCB Equipment Removal",
+  "parSeconds": 310,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-bay-restoration"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "bare-capacitor",
+      "bushing-a",
+      "bushing-b",
+      "bushing-c",
+      "cracked-bushing-wrap",
+      "danger-tag",
+      "drain-valve",
+      "exclusion-door",
+      "floor-drain-dump",
+      "live-touch",
+      "main-breaker",
+      "manifest-clipboard",
+      "nameplate",
+      "padlock",
+      "pallet-liner",
+      "pallet-socket",
+      "pallet-wrap",
+      "pcb-label",
+      "pcb-waste-label",
+      "rigging-plan",
+      "sight-glass",
+      "spill-kit",
+      "swab-kit",
+      "tag-line",
+      "unlabeled-lift",
+      "voltage-tester",
+      "weeping-bushing"
+    ],
+    "meshes": 218
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Read the nameplate rating and the yellow PCB label, and match both against the room's equipment inventory before anything else.",
+      "id": "nameplate",
+      "itemNames": {
+        "nameplate": "the nameplate",
+        "pcb-label": "the PCB label"
+      },
+      "kind": "sequence",
+      "prompt": "Read the nameplate rating and the yellow PCB label, and match both against the room's equipment inventory before anything else.",
+      "targets": [
+        "nameplate",
+        "pcb-label"
+      ],
+      "title": "Check the nameplate and PCB label against the inventory",
+      "why": "The inventory is what tells you this specific unit predates the 1979 manufacturing ban and is presumed PCB-containing until a lab says otherwise — the nameplate gives the rating that sets the rigging weight, and the label is the one already telling you the waste stream this is going to leave as. Skip this and every step after it is guessing at both."
+    },
+    {
+      "cue": "Open the breaker feeding this room, apply your own padlock to it, then the danger tag.",
+      "id": "lockout",
+      "itemNames": {
+        "danger-tag": "apply the danger tag",
+        "main-breaker": "open the breaker",
+        "padlock": "apply your padlock"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Open the breaker first, then your own lock, then the tag naming the work — a tag on a closed breaker isn't an isolation of anything.",
+      "prompt": "Open the breaker feeding this room, apply your own padlock to it, then the danger tag.",
+      "targets": [
+        "main-breaker",
+        "padlock",
+        "danger-tag"
+      ],
+      "title": "Isolate and lock out the feeder",
+      "why": "The breaker being open is a fact about the switch; your padlock on it is what makes that fact yours, so nobody else's crew can close it while you have a hand inside this room. The tag goes on last because it names who and why — it is a label on an isolation that already exists, not a substitute for one."
+    },
+    {
+      "cue": "Prove the tester on a known live source, then test dead across the primary leads.",
+      "gauge": {
+        "green": [
+          0.02,
+          0.16
+        ],
+        "label": "PRIMARY kV",
+        "missNote": "Not dead. Recheck the lockout before any tool goes near that lead.",
+        "speed": 0.75
+      },
+      "id": "test-dead",
+      "kind": "gauge",
+      "prompt": "Prove the tester on a known live source, then test dead across the primary leads.",
+      "target": "voltage-tester",
+      "title": "Test the feeder dead",
+      "why": "Locked out tells you what the breaker did; dead is a fact about the conductor in front of you, and a tester that failed silently reads dead on everything, including a conductor that is not. Proving it live first and then reading it here is the only way this number means anything."
+    },
+    {
+      "cue": "Read the sight glass and commit once the level sits inside the fill band the nameplate calls for.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "OIL LEVEL",
+        "missNote": "Not in the fill band. Log it as a possible leak before you go any further.",
+        "speed": 0.62
+      },
+      "id": "oil-level",
+      "kind": "gauge",
+      "prompt": "Read the sight glass and commit once the level sits inside the fill band the nameplate calls for.",
+      "target": "sight-glass",
+      "title": "Read the oil level",
+      "why": "A tank reading low against its nameplate fill has lost oil somewhere between here and the last time anyone looked, and that oil went somewhere before you ever opened this room — the level is what tells you whether you are also looking for a leak, not just removing a unit."
+    },
+    {
+      "cue": "Find the thing that's already weeping and stage the kit that answers it.",
+      "id": "weep-and-kit",
+      "itemNames": {
+        "spill-kit": "the spill kit",
+        "weeping-bushing": "the weeping A-phase bushing"
+      },
+      "itemNotes": {
+        "spill-kit": "The spill kit is on its shelf, sealed and dated. Confirm it and stage it at the tank now, while both your hands are free — not later, with oil already on the move.",
+        "weeping-bushing": "The A-phase bushing gasket is weeping — a slow bead, not a drip yet. That is exactly the kind of thing the walk-round exists to catch before it becomes the thing the lift interrupts."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the thing that's already weeping and stage the kit that answers it.",
+      "targets": [
+        "weeping-bushing",
+        "spill-kit"
+      ],
+      "title": "Walk the tank before you touch it",
+      "why": "A slow weep found now, standing still with the room quiet, is a note on a work order. The same weep found later, with the unit swinging on a sling, is the interruption you have thirteen seconds to answer — the walk-round is what buys you the first version of that problem instead of the second."
+    },
+    {
+      "cue": "Turn the drain valve fully shut, then set the cap over it.",
+      "id": "cap-drain",
+      "kind": "turn",
+      "prompt": "Turn the drain valve fully shut, then set the cap over it.",
+      "target": "drain-valve",
+      "title": "Close and cap the drain valve",
+      "turn": {
+        "axis": "y",
+        "label": "DRAIN",
+        "turns": 0.6
+      },
+      "why": "A drain valve that is merely closed still has a stem and a seat that can weep under the vibration of a lift; the cap is the second, mechanical barrier that makes the tank actually sealed for transport, not just off for now."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Wrap each of the three primary bushings in poly before the unit is rigged.",
+      "id": "wrap-bushings",
+      "itemNames": {
+        "bushing-a": "phase A bushing",
+        "bushing-b": "phase B bushing",
+        "bushing-c": "phase C bushing"
+      },
+      "kind": "sequence",
+      "prompt": "Wrap each of the three primary bushings in poly before the unit is rigged.",
+      "targets": [
+        "bushing-a",
+        "bushing-b",
+        "bushing-c"
+      ],
+      "title": "Wrap the bushings",
+      "why": "Porcelain bushings crack against a sling strap or a pallet edge more easily than the tank body ever will, and a cracked bushing on a PCB unit is a new leak path opened during the one part of this job that is supposed to be sealing them up. The wrap is cheap insurance on the part of the unit that has the least material to spare."
+    },
+    {
+      "cue": "Read the plan: the unit's weight from the nameplate, the sling angles, and the hoist's rated capacity.",
+      "id": "rigging-plan",
+      "kind": "select",
+      "prompt": "Read the plan: the unit's weight from the nameplate, the sling angles, and the hoist's rated capacity.",
+      "target": "rigging-plan",
+      "title": "Review the rigging plan",
+      "why": "The plan is where the nameplate weight actually gets checked against what the hoist and the slings are rated for — a rigger's helper who skips straight to hooking up slings is trusting that somebody else already did that arithmetic, and on a derelict site there is no guarantee anybody has."
+    },
+    {
+      "cue": "Carry the liner to the pallet and lay it in before the unit comes down onto it.",
+      "drag": {
+        "missNote": "Not laid into the pallet — a liner bunched at one corner leaves bare wood the tank sits directly on.",
+        "radius": 0.4,
+        "to": "pallet-socket"
+      },
+      "id": "liner",
+      "kind": "drag",
+      "prompt": "Carry the liner to the pallet and lay it in before the unit comes down onto it.",
+      "target": "pallet-liner",
+      "title": "Line the pallet",
+      "why": "The liner is what keeps this unit's own residue off the pallet deck and off whatever the pallet touches between here and the disposal facility — a unit set down on a bare pallet can't be relined after the fact without moving it again."
+    },
+    {
+      "cue": "Hold the tag line steady, keeping the swing inside the safe path as the hoist lowers the unit onto the pallet.",
+      "holdBreakNote": "The load drifted off the safe path — bring the tag line back on line before the unit comes down any further.",
+      "id": "lift",
+      "kind": "track",
+      "prompt": "Hold the tag line steady, keeping the swing inside the safe path as the hoist lowers the unit onto the pallet.",
+      "seconds": 9,
+      "target": "tag-line",
+      "title": "Guide the lift onto the pallet",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "SWING PATH",
+        "rise": 0.5,
+        "start": 0.12
+      },
+      "why": "The hoist operator is watching the load, not the pallet edge below it — the tag line is what a rigger's helper uses to keep a swinging load from walking sideways as it comes down, and it is held continuously because a load that drifts off-centre for even a second can catch the pallet's corner instead of its face."
+    },
+    {
+      "cue": "Pull the poly wrap fully around the unit and the pallet and secure every edge.",
+      "drag": {
+        "missNote": "Not pulled over the load — a wrap bunched at one edge leaves the rest of the unit exposed the moment the pallet moves.",
+        "radius": 0.42,
+        "to": "pallet-socket"
+      },
+      "id": "seal-pallet",
+      "kind": "drag",
+      "prompt": "Pull the poly wrap fully around the unit and the pallet and secure every edge.",
+      "target": "pallet-wrap",
+      "title": "Seal the pallet",
+      "why": "A wrapped load is what keeps this unit's own surface residue off every hand and every surface it touches between this room and the disposal facility — a wrap left open at one corner is a load that is sealed everywhere except the one place someone is about to lean on it."
+    },
+    {
+      "cue": "Apply the PCB waste label and write the out-of-service date on it before the pallet leaves the room.",
+      "id": "label-pallet",
+      "kind": "select",
+      "prompt": "Apply the PCB waste label and write the out-of-service date on it before the pallet leaves the room.",
+      "target": "pcb-waste-label",
+      "title": "Label the pallet as PCB waste",
+      "why": "TSCA's marking rule exists so that everyone downstream of this room — the hauler, the scale house, the disposal facility, an inspector years later — can tell what they are handling without opening it, and the out-of-service date is what starts the clock on how long this unit can legally sit before it has to be gone."
+    },
+    {
+      "cue": "Fill out and sign the hazardous-waste manifest for this load before it leaves the room.",
+      "id": "manifest",
+      "kind": "select",
+      "prompt": "Fill out and sign the hazardous-waste manifest for this load before it leaves the room.",
+      "target": "manifest-clipboard",
+      "title": "Complete the manifest",
+      "why": "Under RCRA and TSCA together, this pallet is not a legal shipment until the manifest states what it is, where it came from and where it is going — a load that leaves this room without one is just a wrapped box as far as anyone downstream can prove."
+    },
+    {
+      "cue": "Hold the swab on the marked grid square until the full wipe is taken, bag it and log the custody seal.",
+      "holdBreakNote": "Released the swab before the full wipe was taken — a partial pass across the grid square is not the same sample, and the lab will read it as a different result than the floor actually gives.",
+      "id": "swab",
+      "kind": "hold",
+      "prompt": "Hold the swab on the marked grid square until the full wipe is taken, bag it and log the custody seal.",
+      "seconds": 5,
+      "target": "swab-kit",
+      "title": "Swab the floor under chain of custody",
+      "why": "The swab is the number this room's clearance actually rests on — not somebody's opinion that the floor looks clean. It is taken on a marked grid so the result can be tied to a specific square of floor, and it travels under a chain-of-custody seal because a sample nobody can vouch for proves nothing in front of an inspector."
+    },
+    {
+      "cue": "Walk the sealed pallet and click the one thing that's still wrong before it goes out the door.",
+      "id": "walk",
+      "itemNames": {
+        "cracked-bushing-wrap": "the loosened bushing wrap"
+      },
+      "itemNotes": {
+        "cracked-bushing-wrap": "One corner of the bushing wrap worked loose during the lift. A wrap that isn't actually sealed is a bushing riding to the disposal facility with nothing on it — this is the last look before the pallet is out the door."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the sealed pallet and click the one thing that's still wrong before it goes out the door.",
+      "targets": [
+        "cracked-bushing-wrap"
+      ],
+      "title": "Walk the load before it leaves",
+      "why": "The wrap step and this walk are different skills — pulling poly over a load is not the same as noticing, from the ground, that one corner came loose in the lift. This is the last chance to catch it before the manifest's promises are out on a public road."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A derelict switch room's PCB transformer, taken down as a regulated shipment: nameplate against the inventory, the circuit proven dead and locked out, the unit lifted onto a lined pallet, sealed, labelled and manifested",
+  "title": "SmartCiti.X~ PCB Equipment Removal VR",
+  "trade": "Electrician and rigger's helper — IBEW Local 6 electrician, LIUNA hazmat laborer, IUOE Local 3 hoist operator",
+  "underwater": null,
+  "weather": null
+}

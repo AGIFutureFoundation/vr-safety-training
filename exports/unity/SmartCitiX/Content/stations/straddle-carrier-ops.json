@@ -1,0 +1,371 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "row-run-clean",
+    "name": "Row Run Clean",
+    "note": "Every lock proven, the load carried low the whole row, and the wind read before it mattered — first time"
+  },
+  "category": "Maritime & Ports",
+  "certification": "ILWU — OSHA 29 CFR 1918 marine terminal safety for mobile cargo-handling equipment; the corner-casting and twist-lock dimensions set by ISO; the carrier manufacturer's rated capacity and wind-limit plate",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "ILWU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1918",
+        "id": "osha-1918",
+        "title": "29 CFR 1918 — Safety and health regulations for longshoring"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Maritime",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "locks-proven-sc",
+        "name": "Locks Proven",
+        "note": "Every twist-lock checked before weight came on"
+      },
+      {
+        "id": "low-and-clear",
+        "name": "Low and Clear",
+        "note": "Never ran the row with the load raised, never over a person"
+      },
+      {
+        "id": "true-hand-sc",
+        "name": "True Hand",
+        "note": "Wind reading and row speed both held inside the working band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-shift-sc",
+        "name": "Clean Shift",
+        "note": "No corrections anywhere in the shift"
+      },
+      {
+        "id": "row-steady",
+        "name": "Row Steady",
+        "note": "Held the row speed the whole run without a break"
+      },
+      {
+        "id": "shift-in-time",
+        "name": "Shift In Time",
+        "note": "Whole cycle complete inside 80% of par"
+      }
+    ],
+    "currency": "SPAN",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Hand",
+      "Straddle Trainee",
+      "Straddle Operator",
+      "Lead Operator",
+      "Straddle Gang Certified"
+    ],
+    "system": "Straddle Gang"
+  },
+  "hazards": {
+    "no-exclusion-call": "You moved the machine without calling the exclusion zone. A straddle carrier's own legs put its blind spot directly under the chassis it is about to drive over — the call is what keeps a person from being under those legs in the first place, because the operator cannot see them there once the machine is moving.",
+    "skip-walkaround": "You climbed straight into the cab without walking the machine first. A cracked tire or a hydraulic line weeping under a leg does not announce itself from the seat — it announces itself partway down a row with a box already thirty feet in the air.",
+    "stand-under-box": "You walked under the container while the carrier straddled it. The legs that hold this machine up are also what a person standing underneath cannot see past, and a spreader that lets go from up there gives nobody below it any warning at all.",
+    "travel-raised": "You ran the row with the box raised instead of carried low. A straddle carrier's centre of gravity climbs with every foot the load goes up, and one this tall does not tip forward and stop the way a forklift does — it goes over sideways, and there is no recovering it once it starts."
+  },
+  "id": "straddle-carrier-ops",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "run-row",
+      "alert": "A lashing hand has stepped out from between two stacks directly ahead, walking across the row without looking up.",
+      "cue": "Somebody's in your path with the box still carried low but very much still there. Stop before you reach them.",
+      "delay": 3,
+      "id": "lashing-hand-crossing",
+      "kind": "Lashing hand crossing the row",
+      "missNote": "The carrier rolled two more bays before anyone reached the emergency stop. The lashing hand never once looked up from the gap between the stacks.",
+      "seconds": 11,
+      "target": "estop-sc",
+      "why": "A person crossing between stacks is looking at the ground and the boxes on either side of them, not up at a straddle carrier's cab — the operator is the only one in this picture who can see the whole row, and stopping the machine the instant somebody steps into it is the only version of this that ends with everybody still on their feet.",
+      "wrongNote": "It's the emergency stop. Somebody crossing the row in front of a moving carrier is answered by stopping the machine, not by anything on the load itself."
+    },
+    {
+      "after": "lift-clear",
+      "alert": "As the box comes clear of the stack, the aft-left corner's lock light flickers from green to amber on the cab panel.",
+      "cue": "That corner is telling you something changed since you checked it on the ground. Stop the lift and look.",
+      "delay": 3,
+      "id": "midlift-unlock-flag",
+      "kind": "Twist-lock indicator drops out mid-lift",
+      "missNote": "The lift continued to full height with the aft-left light still flickering amber. Nobody found out whether that corner was ever really carrying its share until the box was already well above the stack.",
+      "seconds": 10,
+      "target": "midlift-corner-flag",
+      "why": "A lock that read good on the ground and starts flickering the moment real weight comes onto it is not a sensor glitch to wait out — it is the corner telling you, while the box is still low enough to set back down, that it may not actually be carrying what the other three are. Stopping the lift here is the difference between a box that goes back down clean and one that finishes coming up on three corners.",
+      "wrongNote": "It's the flickering corner-lock light. A lock reporting differently than it did on the ground gets the lift stopped, not finished."
+    }
+  ],
+  "lateNotes": {
+    "hoist-control-sc": "Nothing to lift until every corner reads locked — a box coming up on three good locks and one that only looks good is how a stack loses a container mid-air.",
+    "release-lever-sc": "The locks release once the box has fully landed and taken its own weight, not while the hoist is still carrying any of it."
+  },
+  "name": "Straddle Carrier Ops",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "ports-maritime-ecology"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.7,
+    "hits": [
+      "anemometer-sc",
+      "chock-socket",
+      "corner-unlatched-sc",
+      "drive-lever-sc",
+      "drop-zone-marker",
+      "estop-sc",
+      "hoist-control-sc",
+      "horn-test",
+      "hydraulic-check",
+      "indicator-false-sc",
+      "inspection-sheet",
+      "lights-check",
+      "midlift-corner-flag",
+      "mirror-set",
+      "no-exclusion-call",
+      "park-log-board",
+      "release-lever-sc",
+      "seatbelt-buckle",
+      "skip-walkaround",
+      "stand-under-box",
+      "target-container",
+      "tires-check",
+      "travel-raised",
+      "wheel-chock",
+      "yard-radio-sc"
+    ],
+    "meshes": 167
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Check the tires, the lights, and the hydraulic lines before climbing up into the cab.",
+      "id": "walkaround",
+      "itemNames": {
+        "hydraulic-check": "hydraulic lines checked",
+        "lights-check": "lights checked",
+        "tires-check": "tires checked"
+      },
+      "kind": "sequence",
+      "prompt": "Check the tires, the lights, and the hydraulic lines before climbing up into the cab.",
+      "targets": [
+        "tires-check",
+        "lights-check",
+        "hydraulic-check"
+      ],
+      "title": "Walk the pre-operation inspection",
+      "why": "A straddle carrier is a machine that lifts its load from directly overhead on four tall legs, and a fault in any one of those systems — a tire, a light nobody can see you by, a hydraulic line already weeping — turns from a walk-around finding into a mid-row failure the moment weight goes onto it. The walk-around is what catches it while the box is still on the ground."
+    },
+    {
+      "cue": "Record what the walk-around found and sign the sheet before starting the engine.",
+      "id": "sign-inspection",
+      "kind": "select",
+      "prompt": "Record what the walk-around found and sign the sheet before starting the engine.",
+      "target": "inspection-sheet",
+      "title": "Sign the inspection sheet",
+      "why": "The sheet is the only record that this specific machine, on this specific shift, was actually walked rather than assumed fine because it ran fine yesterday — a fault that develops between shifts is a fault the next operator inherits blind if nobody signed for having looked."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Buckle the seat belt, set the mirrors, and test the horn before moving the machine.",
+      "id": "cab-check",
+      "itemNames": {
+        "horn-test": "horn tested",
+        "mirror-set": "mirrors set",
+        "seatbelt-buckle": "seat belt buckled"
+      },
+      "kind": "sequence",
+      "prompt": "Buckle the seat belt, set the mirrors, and test the horn before moving the machine.",
+      "targets": [
+        "seatbelt-buckle",
+        "mirror-set",
+        "horn-test"
+      ],
+      "title": "Buckle in and check the cab",
+      "why": "A cab this high off the ground with a load coming up on tall legs is exactly the seat a belt is rated for, mirrors are how the operator sees anything the cab's own structure blocks around the legs, and a horn that doesn't sound is a warning nobody two rows over ever gets — all three are proven before the machine moves, not discovered missing mid-shift."
+    },
+    {
+      "cue": "Radio yard control: straddle carrier moving into row 14, exclusion zone in effect.",
+      "id": "exclusion-call",
+      "kind": "select",
+      "prompt": "Radio yard control: straddle carrier moving into row 14, exclusion zone in effect.",
+      "target": "yard-radio-sc",
+      "title": "Call the pedestrian-exclusion zone",
+      "why": "This machine's own legs create a blind spot directly beneath the chassis the moment it straddles a container, and the operator's cab sits well forward of where a person on foot might be standing between those legs. The radio call is what tells every ground hand on this frequency to stay clear of row 14 before the machine ever starts rolling into it, not after."
+    },
+    {
+      "cue": "Position the machine so the container sits centred between all four legs before lowering the spreader.",
+      "id": "approach-box",
+      "kind": "select",
+      "prompt": "Position the machine so the container sits centred between all four legs before lowering the spreader.",
+      "target": "target-container",
+      "title": "Straddle the container",
+      "why": "A container that is not centred between the legs loads two of the machine's four legs harder than the other two the moment the spreader takes weight, and a straddle carrier off-centre with a box in the air is carrying an asymmetric load on a machine whose whole stability depends on that load being square underneath it."
+    },
+    {
+      "cue": "Check each corner against the cab panel — two of the four don't match what it shows.",
+      "decoyNotes": {
+        "corner-good-1-sc": "That corner is fully seated and reading correctly — leave it.",
+        "corner-good-2-sc": "That corner is fully seated and reading correctly — leave it."
+      },
+      "id": "twistlock-check",
+      "itemNames": {
+        "corner-unlatched-sc": "unlatched corner lock",
+        "indicator-false-sc": "corner light showing false-locked"
+      },
+      "itemNotes": {
+        "corner-unlatched-sc": "That twist-lock handle is still open — the corner casting is not actually captured no matter what the cab panel shows.",
+        "indicator-false-sc": "That indicator reads locked but the lock has not rotated fully closed — the light is reporting something that never happened."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check each corner against the cab panel — two of the four don't match what it shows.",
+      "targets": [
+        "corner-unlatched-sc",
+        "indicator-false-sc"
+      ],
+      "title": "Prove all four twist-locks before lifting",
+      "why": "The cab panel only reports what its own sensor believes happened, and a sensor reading locked because a pin swung most of the way shut is reporting something that never actually occurred at that corner. Checking all four against what the panel claims, before any weight comes onto the spreader, is the only way to know which corners are really carrying the box and which only look like they are."
+    },
+    {
+      "cue": "Hold the hoist control until the box is fully clear of the stack below it.",
+      "holdBreakNote": "Released before the box cleared the stack — hold the hoist steady until it is fully clear, not partway.",
+      "id": "lift-clear",
+      "kind": "hold",
+      "prompt": "Hold the hoist control until the box is fully clear of the stack below it.",
+      "seconds": 4,
+      "target": "hoist-control-sc",
+      "title": "Lift clear of the stack",
+      "why": "A box lifted in a snatch rather than a steady pull is how a lock that is not truly seated finally lets go, right as the container leaves the stack it was resting on — holding a smooth, continuous lift is what lets a marginal corner show itself while the box is still an inch above something it can safely drop back onto."
+    },
+    {
+      "cue": "Drive down the row at a working speed with the box carried low, not raised to travel height.",
+      "holdBreakNote": "Row speed drifted out of the working band — bring it back and hold it there with the load kept low.",
+      "id": "run-row",
+      "kind": "track",
+      "prompt": "Drive down the row at a working speed with the box carried low, not raised to travel height.",
+      "seconds": 6,
+      "target": "drive-lever-sc",
+      "title": "Run the row with the load carried low",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.3,
+          0.5
+        ],
+        "label": "ROW SPEED",
+        "rise": 0.55,
+        "start": 0.08
+      },
+      "why": "Every foot this load is carried above the minimum travel height raises the whole machine's centre of gravity, and a straddle carrier that starts to tip does not right itself the way a lower, wider machine can — running the row with the box held low and at a working pace, not travel-raised and rushed, is what keeps that centre of gravity down where the machine's own width can still hold it."
+    },
+    {
+      "cue": "Check the anemometer and commit while it holds inside the carrier's rated limit.",
+      "gauge": {
+        "green": [
+          0,
+          0.4
+        ],
+        "label": "ANEMOMETER — WIND SPEED",
+        "missNote": "Over the carrier's rated wind limit — hold the lift and let it drop before moving another box.",
+        "speed": 0.55
+      },
+      "id": "wind-check",
+      "kind": "gauge",
+      "prompt": "Check the anemometer and commit while it holds inside the carrier's rated limit.",
+      "target": "anemometer-sc",
+      "title": "Read the wind against the rated limit",
+      "why": "A container held aloft on tall straddle legs is still forty feet of flat steel with nothing to break the wind's grip on it, and a gust that would barely be noticed on the ground becomes real side-load on a machine whose own height is already most of its stability problem — the rated limit is a number checked before the lift, not a judgement made from the cab once the box is already swinging."
+    },
+    {
+      "cue": "Lower the container onto the marked slot in the target stack.",
+      "id": "place-box",
+      "kind": "select",
+      "prompt": "Lower the container onto the marked slot in the target stack.",
+      "target": "drop-zone-marker",
+      "title": "Land the box in its marked slot",
+      "why": "A container set down off its marked slot does not just look untidy — it changes the footprint the next machine, human or automated, expects to find in that stack, and a box sitting a foot off its mark is exactly the kind of small drift that turns into a jammed pick two shifts from now."
+    },
+    {
+      "cue": "Turn the release lever to free the spreader from the landed container.",
+      "id": "release-locks",
+      "kind": "turn",
+      "prompt": "Turn the release lever to free the spreader from the landed container.",
+      "target": "release-lever-sc",
+      "title": "Release the twist-locks",
+      "turn": {
+        "axis": "y",
+        "label": "RELEASE",
+        "turns": 0.6
+      },
+      "why": "The locks release only once the container's full weight is settled back onto the stack and the spreader has stopped carrying any of it — releasing while the spreader is still taking even part of that weight hands the box's own stability to whatever locks happen to still be engaged, which on a corner that was already marginal can be nothing at all."
+    },
+    {
+      "cue": "Carry the wheel chock to the marked spot at the front wheel before leaving the cab.",
+      "drag": {
+        "missNote": "Not lined up with the wheel — carry it to the marked spot at the front tire and set it there.",
+        "radius": 0.5,
+        "to": "chock-socket"
+      },
+      "id": "chock-park",
+      "kind": "drag",
+      "prompt": "Carry the wheel chock to the marked spot at the front wheel before leaving the cab.",
+      "target": "wheel-chock",
+      "title": "Chock the wheels at park-up",
+      "why": "A straddle carrier parked on even a slight grade with nothing at the wheels is a machine that can creep on its own the moment somebody bumps a control climbing down, or simply settles under its own weight over a shift change — the chock is what a park-up actually means, not the parking brake alone."
+    },
+    {
+      "cue": "Record hours, fuel, and any faults noted before signing off.",
+      "id": "park-log",
+      "kind": "select",
+      "prompt": "Record hours, fuel, and any faults noted before signing off.",
+      "target": "park-log-board",
+      "title": "Log the park-up",
+      "why": "The next operator who climbs into this machine reads this log before they read anything the machine itself is telling them — a fault noted here is one they walk in already watching for, and a fault left unlogged is one they find out about the same way you did, partway down a row with a box in the air."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A straddle carrier shift: pre-op walk-around, seat belt and cab check, the pedestrian-exclusion call, twist-locks proven before the lift, the row run with the load carried low, the wind limit read, and the park-up",
+  "title": "SmartCiti.X~ Straddle Carrier Ops VR",
+  "trade": "Straddle carrier operator — ILWU",
+  "underwater": null,
+  "weather": "overcast"
+}

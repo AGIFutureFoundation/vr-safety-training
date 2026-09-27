@@ -1,0 +1,105 @@
+{
+  "accent": "#a079ff",
+  "anchors": [
+    {
+      "id": "port-container-terminal",
+      "name": "Port Container Terminal",
+      "position": [
+        -340,
+        350
+      ],
+      "stations": [
+        "mooring-line",
+        "bunkering-watch",
+        "crane-yard",
+        "dock-crane"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "port"
+    }
+  ],
+  "certification": "ASME B30 rigging and crane practice, NCCCO operator knowledge, and ETCP entertainment rigging for the theatre station",
+  "competency": {
+    "id": "rigging-lifting",
+    "kind": "programme",
+    "require": 3,
+    "standards": [
+      "asme-b30-16",
+      "osha-1926-subpart-cc",
+      "nccco-certification",
+      "etcp-certification"
+    ],
+    "stations": [
+      "crane-yard",
+      "dock-crane",
+      "chain-hoist",
+      "rigging-loft",
+      "fly-system",
+      "rl-critical-lift-plan-and-signalperson"
+    ],
+    "title": "Rig and land a load to an engineered lift plan"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "ironworkers-impact",
+    "iuoe-training",
+    "ilwu-pma-training",
+    "iatse-training-trust",
+    "asme-b30-5",
+    "asme-b30-9",
+    "asme-b30-16",
+    "asme-b30-26",
+    "osha-1926-1425",
+    "nccco-certification",
+    "etcp-certification",
+    "ansi-e1-4"
+  ],
+  "id": "rigging-lifting",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1580,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 120
+  },
+  "name": "Rigging and Lifting",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "crane-yard",
+      "why": "The load chart and the pick plan, plus programming the anti-collision zone the yard actually needs."
+    },
+    {
+      "app": "smartcity",
+      "id": "dock-crane",
+      "why": "Container work at height and speed, where the wind limit is a hard stop."
+    },
+    {
+      "app": "smartcity",
+      "id": "chain-hoist",
+      "why": "Manual lifting hardware: inspection, capacity and the load path through a structure that was not designed for it."
+    },
+    {
+      "app": "smartcity",
+      "id": "rigging-loft",
+      "why": "Overhead rigging above people, with automation cues that have to be proven before the house opens."
+    },
+    {
+      "app": "smartcity",
+      "id": "fly-system",
+      "why": "Counterweight: the one rigging system where the operator is holding the other half of the load in their hands."
+    },
+    {
+      "app": "smartcity",
+      "id": "rl-critical-lift-plan-and-signalperson",
+      "why": "The lift where the plan and the signalperson are the load path: a chart read against its own limit, one voice running the pick, and the exclusion zone that keeps everyone else out from under it."
+    }
+  ],
+  "summary": "Load, radius, chart, and what is under the load. Five lifts in five industries that all fail the same way.",
+  "union": "Ironworkers, IUOE crane operators, ILWU and IATSE riggers"
+}

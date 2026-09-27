@@ -1,0 +1,383 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "pathway-set",
+    "name": "Pathway Set",
+    "note": "Signed in under your own name, both tracks read and compared, the assessment honest, the track confirmed, and a plan signed with an appointment booked"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Registered apprenticeship standards as a category — the written apprenticeship standard a sponsor registers with the U.S. Department of Labor or a State Apprenticeship Agency, which the coach explains as one of the tracks intake can lead toward; the OSHA Outreach Training Program's OSHA 10 course, named on the comparison board as part of what each track eventually asks for; the Consumer Financial Protection Bureau's (CFPB) consumer guidance, cited on the intake packet's benefits page; 29 CFR 1910.22 for the walking-working surfaces every office and every warehouse floor shares; 29 CFR 1910.151 for the medical-services context the dizzy applicant in the waiting area is handled inside; SAMHSA's guidance on help-seeking, for the coach's own check-in",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CFPB",
+        "citedAs": "CFPB",
+        "id": "cfpb-consumer-guidance",
+        "title": "Consumer Financial Protection Bureau consumer guidance — credit reports and scores, debt collection, budgeting, emergency savings and payday loans"
+      },
+      {
+        "body": "DOL",
+        "citedAs": "apprenticeship standard",
+        "id": "dol-apprenticeship-standards",
+        "title": "Registered apprenticeship standards, as a category — the written standards a sponsor registers with the U.S. Department of Labor or a State Apprenticeship Agency: the term, on-the-job learning, related instruction, the progressive wage schedule, the ratio, the probationary period and the selection procedure"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.151",
+        "id": "osha-1910-151",
+        "title": "29 CFR 1910.151 — Medical services and first aid"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.22",
+        "id": "osha-1910-22",
+        "title": "29 CFR 1910.22 — Walking-working surfaces, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "OSHA 10",
+        "id": "osha-outreach-10",
+        "title": "OSHA Outreach Training Program — the 10-hour construction course (OSHA 10): voluntary awareness training taught by an authorized trainer, not a certification and not a substitute for the employer's own training"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Workforce readiness",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "read-both",
+        "name": "Read Both Tracks",
+        "note": "The comparison board held through and the documents found clean"
+      },
+      {
+        "id": "no-shortcuts",
+        "name": "No Shortcuts",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "own-words",
+        "name": "Own Words",
+        "note": "The readiness gauge committed near the middle of the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-intake",
+        "name": "Clean Intake",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "steady-quiz",
+        "name": "Steady Quiz",
+        "note": "Every timed passage carried without a break"
+      },
+      {
+        "id": "one-visit",
+        "name": "One Visit",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "STEP",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Walk-In",
+      "Assessed",
+      "Track Confirmed",
+      "Plan Signed",
+      "Intake Certified"
+    ],
+    "system": "Intake Desk"
+  },
+  "hazards": {
+    "wp-ip-dizzy-applicant": "The applicant in the waiting chairs has gone pale and unsteady, and says she has not eaten since yesterday. A dizzy, shaking visitor with nothing in her since the day before is treated as a possible low-blood-sugar event, not embarrassment to wait out — sit her down, get her something with sugar in it, and stay with her rather than sending her back to the line.",
+    "wp-ip-heated-visitor": "A man turned away because this cycle's warehouse cohort is full has stepped inside your circle, raising his voice at the front desk. Space and a level voice come before the explanation: step back to arm's length, let him finish, and bring the coach over rather than arguing the waitlist yourself with him this close.",
+    "wp-ip-screen-height": "You were about to start a morning of intake typing with the laptop flat on the desk and your neck bent down at it. A screen set low is a neck and shoulder strain that builds across a shift of back-to-back intakes, not a single bad moment — raise it on the stand before the first appointment, not after the ache starts.",
+    "wp-ip-trip-cable": "You were about to step over the laptop charger where it runs across the walkway instead of along the wall. A cable across a floor people cross all day is a trip waiting on the busiest morning of the week, and this office sees more foot traffic than most under 29 CFR 1910.22 — the charger gets taped down along the baseboard, not left where feet land."
+  },
+  "id": "wp-intake-and-pathway-planning",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "compare-tracks",
+      "alert": "A staff member leans in: the next intake slot starts in ten minutes, and it would be quicker to just pick warehouse now and move on.",
+      "cue": "Do not let the clock decide it. Press the take-your-time badge on the coach's desk.",
+      "delay": 3,
+      "id": "wp-ip-quick-pick",
+      "kind": "Pressure to skip the comparison",
+      "missNote": "You let the clock make the call, and in the version where you did, the track got picked before the schedule line was even read — the same line that turns out to matter most in week three.",
+      "seconds": 12,
+      "target": "wp-ip-take-time",
+      "why": "A pathway chosen to clear a waiting room is a pathway chosen for the wrong reason, and the ten minutes on that clock is not longer than the years the choice affects. The take-your-time badge is there because a coach's office runs behind schedule on purpose sometimes, and pressing it tells the front desk this appointment is one of them.",
+      "wrongNote": "Not the board itself. The badge on the coach's desk is what tells the front desk to hold the next slot — press that, not the thing you have not finished reading."
+    },
+    {
+      "after": "aptitude-quiz",
+      "alert": "The applicant at the next chair leans over toward your tablet, trying to read your answers off the screen.",
+      "cue": "Cover the screen. Do not let your answers travel to somebody else's quiz.",
+      "delay": 3,
+      "id": "wp-ip-copy-answers",
+      "kind": "Another applicant leans in to copy",
+      "missNote": "You kept typing with the screen open, and in the version where the answers were copied, one placement got built on a false quiz and the honest one lost the chance to be checked against it.",
+      "seconds": 12,
+      "target": "wp-ip-privacy-shield",
+      "why": "A copied answer tells the coach nothing true about either applicant, and the person copying is the one it actually harms — they get placed against answers that were never theirs. The privacy shield folds up from the desk for exactly this reason, and using it protects both quizzes rather than starting an argument over one.",
+      "wrongNote": "Not the tablet. The shield on the desk is what stops the screen being read — put that up, then finish your own answers."
+    }
+  ],
+  "lateNotes": {
+    "wp-ip-intake-log": "The log is closed out last, with the track, the barriers named and the appointment date that actually got booked.",
+    "wp-ip-name-card": "Not yet. The card moves to a track's folder once the track is actually confirmed on the board — not before the assessment is read."
+  },
+  "name": "Intake and Pathway Planning",
+  "parSeconds": 310,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "wp-ip-address-proof",
+      "wp-ip-calendar-dial",
+      "wp-ip-coach",
+      "wp-ip-comparison-board",
+      "wp-ip-dizzy-applicant",
+      "wp-ip-emergency-card",
+      "wp-ip-goals-worksheet",
+      "wp-ip-heated-visitor",
+      "wp-ip-id-copy",
+      "wp-ip-income-proof",
+      "wp-ip-intake-log",
+      "wp-ip-name-card",
+      "wp-ip-pathway-plan",
+      "wp-ip-photo-id",
+      "wp-ip-privacy-shield",
+      "wp-ip-quiz-tablet",
+      "wp-ip-readiness-dial",
+      "wp-ip-release-form",
+      "wp-ip-screen-height",
+      "wp-ip-signin-sheet",
+      "wp-ip-take-time",
+      "wp-ip-trip-cable",
+      "wp-ip-warehouse-door",
+      "wp-ip-warehouse-slot"
+    ],
+    "meshes": 156
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Sign the intake sheet at the front desk with your name, the date and the time — yourself.",
+      "id": "sign-in",
+      "kind": "select",
+      "prompt": "Sign the intake sheet at the front desk with your name, the date and the time — yourself.",
+      "target": "wp-ip-signin-sheet",
+      "title": "Sign in under your own name",
+      "why": "Everything the coach builds this session on — the plan, the appointment, the documents on file — is filed under the name on this sheet, so it starts with your own signature rather than somebody signing you in on their way past. It is also the record the front desk uses to call names in the order people actually arrived."
+    },
+    {
+      "cue": "From the folder on the table, find your photo ID, proof of address and proof of income.",
+      "id": "bring-documents",
+      "itemNames": {
+        "wp-ip-address-proof": "proof of address",
+        "wp-ip-income-proof": "proof of income",
+        "wp-ip-photo-id": "photo ID"
+      },
+      "itemNotes": {
+        "wp-ip-address-proof": "Proof of address is how the coach confirms you live in the area the programme serves. A recent bill or a lease page both work; an old one does not.",
+        "wp-ip-income-proof": "Proof of income decides which programme services you qualify for. A pay stub, a benefits letter or a signed statement of no income all count — bringing none just means another appointment before intake can finish.",
+        "wp-ip-photo-id": "A photo ID is the first thing intake checks against the sign-in sheet, and it is also what the warehouse or the testing site will ask for later — carrying it every visit saves a second trip."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "From the folder on the table, find your photo ID, proof of address and proof of income.",
+      "targets": [
+        "wp-ip-photo-id",
+        "wp-ip-address-proof",
+        "wp-ip-income-proof"
+      ],
+      "title": "Find the three documents on the table",
+      "why": "An intake that stalls on a missing document is the single most common reason a first appointment turns into three, and each of these three answers a question the coach has to file an answer to before the assessment can start. Bringing all three the first time is what turns intake into one visit instead of a return trip nobody had budgeted for."
+    },
+    {
+      "cue": "Hold at the comparison board and read warehouse and Commercial Class A all the way down, not just the headline.",
+      "holdBreakNote": "You left the board before the schedule line. That is the part people skip and then discover the hard way — read it through.",
+      "id": "compare-tracks",
+      "kind": "hold",
+      "prompt": "Hold at the comparison board and read warehouse and Commercial Class A all the way down, not just the headline.",
+      "seconds": 6,
+      "target": "wp-ip-comparison-board",
+      "title": "Read both tracks through, side by side",
+      "why": "Warehouse work starts sooner and stays local; Commercial Class A takes longer to reach — a permit, a knowledge test, behind-the-wheel hours — and can mean nights away. Reading both all the way down, including the parts that are less exciting than the pay line, is what keeps the choice from being made on the first sentence and regretted by the third week."
+    },
+    {
+      "cue": "The dial runs one to ten. Commit it where you actually are today, not where you want to be.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.7
+        ],
+        "label": "READINESS",
+        "missNote": "That number does not sound like the person who just read the transportation line on the board twice. Rate it honestly — the coach plans around the real number, not the flattering one.",
+        "speed": 0.6
+      },
+      "id": "readiness-gauge",
+      "kind": "gauge",
+      "prompt": "The dial runs one to ten. Commit it where you actually are today, not where you want to be.",
+      "target": "wp-ip-readiness-dial",
+      "title": "Rate your own readiness honestly",
+      "why": "The coach uses this number to decide how much support to schedule alongside the training, not to gatekeep the programme. A ten from someone who has not driven since a permit lapsed years ago gets no extra help booked; an honest six gets a coach who checks in more often in the first weeks, which is the whole point of asking before the pathway starts rather than after it stalls."
+    },
+    {
+      "cue": "Hold the quiz track in the band: reading each question, not rushing and not guessing.",
+      "holdBreakNote": "The pace got away from you — into guessing or into rushing. Come back to reading each question before you answer it.",
+      "id": "aptitude-quiz",
+      "kind": "track",
+      "prompt": "Hold the quiz track in the band: reading each question, not rushing and not guessing.",
+      "seconds": 7,
+      "target": "wp-ip-quiz-tablet",
+      "title": "Sit the aptitude quiz at your own pace",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.44,
+        "green": [
+          0.36,
+          0.66
+        ],
+        "label": "PACE",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "The aptitude quiz is not a pass-fail gate; it is one more piece of information the coach uses to place you well. Rushed answers and guessed answers both feed the coach bad information about what to build support around, which is a worse outcome for you than taking the extra two minutes the quiz actually allows."
+    },
+    {
+      "cue": "Between the two folder doors, the readiness number and the quiz both point to warehouse this cycle — select that door to confirm it.",
+      "id": "choose-track",
+      "kind": "select",
+      "prompt": "Between the two folder doors, the readiness number and the quiz both point to warehouse this cycle — select that door to confirm it.",
+      "target": "wp-ip-warehouse-door",
+      "title": "Confirm the track the assessment points to",
+      "why": "The comparison board, the readiness number and the quiz together are what the coach reads before naming a track, and warehouse is what today's answers point to: a schedule you can hold from week one and training that does not wait on a permit and a knowledge test first. Confirming it here is what tells the front desk which folder your paperwork goes into."
+    },
+    {
+      "cue": "Carry your name card from the intake tray to the warehouse folder slot on the board.",
+      "drag": {
+        "missNote": "Not in the warehouse folder. A card outside the slot tells the front desk the intake is still open.",
+        "radius": 0.4,
+        "to": "wp-ip-warehouse-slot"
+      },
+      "id": "move-name-card",
+      "kind": "drag",
+      "prompt": "Carry your name card from the intake tray to the warehouse folder slot on the board.",
+      "target": "wp-ip-name-card",
+      "title": "Move your name card to the warehouse folder",
+      "why": "The folder board is how the front desk and the coach both know which track's paperwork to pull for you without asking twice. A card left in the intake tray reads as somebody still being assessed, and a card in the wrong folder sends a caseworker looking for a Class A file that does not exist yet."
+    },
+    {
+      "cue": "Copy your ID, sign the release form, then fill in the goals worksheet — in that order.",
+      "id": "intake-paperwork",
+      "itemNames": {
+        "wp-ip-goals-worksheet": "the goals worksheet filled in",
+        "wp-ip-id-copy": "a copy of your ID made",
+        "wp-ip-release-form": "the information-release form signed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. The ID is copied first so the file has it on record, the release form comes next so the coach can actually talk to the employer or the training provider it names, and the goals worksheet is what that conversation is then built around.",
+      "prompt": "Copy your ID, sign the release form, then fill in the goals worksheet — in that order.",
+      "targets": [
+        "wp-ip-id-copy",
+        "wp-ip-release-form",
+        "wp-ip-goals-worksheet"
+      ],
+      "title": "Work through the intake paperwork in order",
+      "why": "The release form only means something once your ID copy is already on file to match it against, and the goals worksheet is written knowing the coach can actually follow up with the employer or provider the release names. Doing it in this order is what makes each document mean something to the one after it instead of three papers filed independently of each other."
+    },
+    {
+      "cue": "Write a name and a phone number the coach can call if something happens on a training day.",
+      "id": "emergency-contact",
+      "kind": "select",
+      "prompt": "Write a name and a phone number the coach can call if something happens on a training day.",
+      "target": "wp-ip-emergency-card",
+      "title": "Fill in an emergency contact",
+      "why": "A ride-along day, a testing site or a jobsite orientation are all places something can go wrong fast enough that the coach needs a real number, not a blank field discovered after the fact. Filling it in now, at a desk, is easier than being asked for it from a hallway phone on a day that is already going badly."
+    },
+    {
+      "cue": "Tell the coach what could actually get in the way — transportation, childcare, a schedule conflict — before it does.",
+      "id": "barriers-checkin",
+      "kind": "select",
+      "prompt": "Tell the coach what could actually get in the way — transportation, childcare, a schedule conflict — before it does.",
+      "target": "wp-ip-coach",
+      "title": "Name the barriers that could keep you from showing up",
+      "why": "A programme cannot fix a barrier it does not know exists, and the coach's whole job in this room is to plan around the ones you name now rather than discover them the week attendance drops. Saying the real barrier — a bus that does not run early enough, nobody to watch a child before school — is what gets an actual answer instead of a form that assumes none of that is true."
+    },
+    {
+      "cue": "Turn the calendar dial to the date of your next scheduled step on the warehouse track.",
+      "id": "book-appointment",
+      "kind": "turn",
+      "prompt": "Turn the calendar dial to the date of your next scheduled step on the warehouse track.",
+      "target": "wp-ip-calendar-dial",
+      "title": "Book the next appointment",
+      "turn": {
+        "axis": "y",
+        "label": "NEXT APPOINTMENT",
+        "turns": 0.75
+      },
+      "why": "An intake that ends with 'we'll call you' is an intake that quietly stalls; one that ends with a date on the calendar is one both sides can hold each other to. Booking it here, before you leave the desk, is what turns today's assessment into a pathway instead of a folder that sits until somebody remembers to open it."
+    },
+    {
+      "cue": "Read the plan back — track, appointment, barriers noted — then sign it.",
+      "id": "sign-plan",
+      "kind": "select",
+      "prompt": "Read the plan back — track, appointment, barriers noted — then sign it.",
+      "target": "wp-ip-pathway-plan",
+      "title": "Sign the pathway plan",
+      "why": "The plan is the one page that says, in your own hand, what was actually decided today: which track, when you are back, and what the coach agreed to help with. Reading it back before signing is what catches a wrong date or a barrier the form missed while it is still easy to fix, rather than finding the error at the next visit."
+    },
+    {
+      "cue": "Log the track, the barriers named and the appointment date, then sign it.",
+      "id": "close-log",
+      "kind": "select",
+      "prompt": "Log the track, the barriers named and the appointment date, then sign it.",
+      "target": "wp-ip-intake-log",
+      "title": "Close out the intake log",
+      "why": "The intake log is what the next person who opens your file reads before they see you — the coach on your next visit, the caseworker covering an absence. A track and a date written down travel with the file; a conversation nobody logged has to be had all over again from nothing."
+    }
+  ],
+  "supportLine": "the programme's own coaching staff, and 988 or SAMHSA's National Helpline (1-800-662-4357, free and confidential) if today's news is heavier than paperwork can hold",
+  "tagline": "Sign in, bring the documents, read both tracks through, rate your own readiness honestly, sit the quiz without copying, confirm the track, and leave with a plan, an appointment and a signature",
+  "title": "SmartCiti.X~ Intake and Pathway Planning VR",
+  "trade": "Pathway Edition intake — choosing between the warehouse and Commercial Class A tracks with a coach",
+  "underwater": null,
+  "weather": "clear"
+}
