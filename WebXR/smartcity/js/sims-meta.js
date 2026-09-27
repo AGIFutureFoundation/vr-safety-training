@@ -26614,5 +26614,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "ws-substation-switching-under-a-permit",
+    "index": "ws-04",
+    "domain": "Energy",
+    "trade": "IBEW substation electrician",
+    "category": "Energy & Power",
+    "certification": "IBEW/NECA JATC substation training as a body; 29 CFR 1910.269 for switching, clearances, grounding and the permit; NFPA 70E for the arc-rated PPE and the absence-of-voltage test; the NESC (IEEE C2) for the substation's own clearances; NETA acceptance and maintenance testing practice for the ground set and the detector; every voltage, rating and approach distance per the switching order and the site's tables",
+    "name": "Collector Substation Switching Under a Permit",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "wind-farm",
+    "title": "SmartCiti.X~ Collector Substation Switching Under a Permit VR",
+    "tagline": "A written order switched step by step with every step repeated back, the breaker proven open before the disconnect moves, the gap locked, tested and grounded, and a permit issued only then",
+    "accent": 14723135,
+    "accentCss": "#e0a83f",
+    "parSeconds": 320,
+    "badge": {
+      "id": "switched-to-order",
+      "name": "Switched to the Order",
+      "note": "Every step repeated back, the breaker proven open before the disconnect, and the gap grounded before the permit went out"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Switching Authority",
+      "currency": "STEPS",
+      "ranks": [
+        "Trainee",
+        "Switchman",
+        "Substation Electrician",
+        "Lead Switchman",
+        "Switching Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

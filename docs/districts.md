@@ -67,6 +67,7 @@ Every station in these districts takes the platform's options — `?weather=` (w
 | ws-turbine-climb-and-rescue-kit-check | `fall-arrest-rail-damage` | A bent rail section shows a red tag; the runner step becomes tagging the ladder out of service |
 | ws-nacelle-lockout-and-yaw-brake-fault | `yaw-brake-fault` | The yaw-brake fault lamp lights and the yaw ring has crept; the yaw step becomes engaging the mechanical yaw lock |
 | ws-blade-inspection-from-a-platform | `anemometer-fault` | The met-mast readout shows FAULT; the go/no-go becomes a reading on the handheld anemometer |
+| ws-substation-switching-under-a-permit | `breaker-fails-to-open` | The breaker flag lamp goes amber and its cubicle darkens; the prove-open step becomes holding the order and reporting |
 
 ## Budget and the gate
 

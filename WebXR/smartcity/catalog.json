@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 627
+      "stations": 628
     },
     "trades": {
       "entry": "trades/index.html",
@@ -44,6 +44,7 @@
         "line-truck",
         "substation-switching",
         "battery-yard",
+        "ws-substation-switching-under-a-permit",
         "ws-blade-inspection-from-a-platform",
         "ws-nacelle-lockout-and-yaw-brake-fault",
         "ws-turbine-climb-and-rescue-kit-check",
@@ -9519,6 +9520,88 @@
     },
     {
       "app": "smartcity",
+      "id": "ws-substation-switching-under-a-permit",
+      "name": "Collector Substation Switching Under a Permit",
+      "title": "SmartCiti.X~ Collector Substation Switching Under a Permit VR",
+      "tagline": "A written order switched step by step with every step repeated back, the breaker proven open before the disconnect moves, the gap locked, tested and grounded, and a permit issued only then",
+      "category": "Energy & Power",
+      "domain": "Energy",
+      "trade": "IBEW substation electrician",
+      "union": null,
+      "certification": "IBEW/NECA JATC substation training as a body; 29 CFR 1910.269 for switching, clearances, grounding and the permit; NFPA 70E for the arc-rated PPE and the absence-of-voltage test; the NESC (IEEE C2) for the substation's own clearances; NETA acceptance and maintenance testing practice for the ground set and the detector; every voltage, rating and approach distance per the switching order and the site's tables",
+      "accent": "#e0a83f",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "wind-farm",
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "turn",
+        "gauge",
+        "find",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "switched-to-order",
+        "name": "Switched to the Order",
+        "note": "Every step repeated back, the breaker proven open before the disconnect, and the gap grounded before the permit went out"
+      },
+      "meshes": 158,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ws-04",
+      "flat": false,
+      "system": "Switching Authority",
+      "currency": "STEPS",
+      "ranks": [
+        "Trainee",
+        "Switchman",
+        "Substation Electrician",
+        "Lead Switchman",
+        "Switching Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "proven-open",
+          "name": "Proven Open",
+          "note": "The breaker was proven open before the disconnect moved"
+        },
+        {
+          "id": "to-the-letter",
+          "name": "To the Letter",
+          "note": "No unsafe action was recorded"
+        },
+        {
+          "id": "steady-watch",
+          "name": "Steady Watch",
+          "note": "Held the work-zone watch steady"
+        },
+        {
+          "id": "clean-order",
+          "name": "Clean Order",
+          "note": "No corrections from the order to the permit"
+        },
+        {
+          "id": "unbroken-grounds",
+          "name": "Unbroken Grounds",
+          "note": "The grounds went on without a break"
+        },
+        {
+          "id": "brisk-switching",
+          "name": "Brisk Switching",
+          "note": "Switched and permitted inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ws-substation-switching-under-a-permit"
+    },
+    {
+      "app": "smartcity",
       "id": "ws-blade-inspection-from-a-platform",
       "name": "Blade Inspection from a Platform",
       "title": "SmartCiti.X~ Blade Inspection from a Platform VR",
@@ -9551,7 +9634,7 @@
         "name": "The Wind Decides",
         "note": "The go or no-go made against the written limit, the platform proven and every defect on the record"
       },
-      "meshes": 137,
+      "meshes": 168,
       "lights": 0,
       "overBudget": false,
       "index": "ws-03",
@@ -31698,7 +31781,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 250,
+      "meshes": 266,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -32358,7 +32441,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 252,
       "lights": 0,
       "overBudget": false,
       "index": "100",
