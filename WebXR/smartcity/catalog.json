@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 624
+      "stations": 632
     },
     "trades": {
       "entry": "trades/index.html",
@@ -69,6 +69,8 @@
         "track-access",
         "bus-depot-lift",
         "airport-ramp",
+        "ad-hazardous-fluid-servicing-with-a-buddy",
+        "ad-depot-tool-control-and-fod-walk",
         "ml-retail-counter-deescalation",
         "wp-permit-study-and-knowledge-test",
         "wp-warehouse-ride-along",
@@ -226,6 +228,12 @@
         "conveyor-guard",
         "forklift-dock",
         "cnc-cell",
+        "ad-cobot-risk-assessment-and-speed-separation",
+        "ad-payload-crane-lift-with-a-lift-plan",
+        "ad-test-stand-exclusion-zone-and-holds",
+        "ad-amr-fleet-traffic-and-estop-drill",
+        "ad-robot-cell-lockout-and-safe-reentry",
+        "ad-cleanroom-gowning-and-esd-discipline",
         "ml-suspicious-package-protocol",
         "sm-kitchen-exhaust-and-fire-wrap",
         "sm-air-balancing-and-testing",
@@ -9513,6 +9521,622 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-cobot-risk-assessment-and-speed-separation",
+      "name": "Cobot Risk Assessment & Speed-and-Separation",
+      "title": "SmartCiti.X~ Cobot Risk Assessment & Speed-and-Separation VR",
+      "tagline": "A collaborative robot bench brought into service the way a risk assessment demands: the application walked task by task, the area scanner's warning and protective zones proven with a body, speed-and-separation shown to slow and stop the arm, and the bench released only when every hazard on the sheet has a control that was actually tested",
+      "category": "Manufacturing & Automation",
+      "domain": "Robotics",
+      "trade": "Automation technician, collaborative robot application — UAW/IAM",
+      "union": null,
+      "certification": "UAW and IAM skilled-trades training as bodies; ANSI R15.06 and ISO 10218 industrial robot safety, including collaborative operation; OSHA 29 CFR 1910.212 general requirements for machines and 29 CFR 1910.147 the control of hazardous energy; the application's written risk assessment and the manufacturer's manual",
+      "accent": "#5ee0b0",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "robotics-training-centre",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "gauge",
+        "drag",
+        "track",
+        "find",
+        "hold"
+      ],
+      "badge": {
+        "id": "tested-not-trusted",
+        "name": "Tested, Not Trusted",
+        "note": "Walked the risk assessment, proved the scanner zones with a body and saw the arm slow and stop before releasing the bench"
+      },
+      "meshes": 196,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ad-8",
+      "flat": false,
+      "system": "Tested, Not Trusted",
+      "currency": "COBOT",
+      "ranks": [
+        "Operator",
+        "Application Aware",
+        "Cobot Technician",
+        "Integration Lead",
+        "Tested, Not Trusted Certified"
+      ],
+      "awards": [
+        {
+          "id": "zones-proven",
+          "name": "Zones Proven",
+          "note": "Proved both scanner zones with a body before release"
+        },
+        {
+          "id": "no-bypass",
+          "name": "No Bypass",
+          "note": "Never muted the scanner to finish faster"
+        },
+        {
+          "id": "steady-approach",
+          "name": "Steady Approach",
+          "note": "Held the approach walk near band centre"
+        },
+        {
+          "id": "quick-assess",
+          "name": "Inside Par",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-release",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ad-cobot-risk-assessment-and-speed-separation"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-payload-crane-lift-with-a-lift-plan",
+      "name": "Payload Crane Lift with a Lift Plan",
+      "title": "SmartCiti.X~ Payload Crane Lift with a Lift Plan VR",
+      "tagline": "A sensitive payload moved by overhead crane the way a lift plan intends: the plan read and briefed, the crane and rigging inspected, one designated signal person, a trial lift a hand's width off the stand, tag lines and a clear path, and a stop called by anyone the moment something looks wrong",
+      "category": "Manufacturing & Automation",
+      "domain": "Aerospace",
+      "trade": "Rigger and crane operator, payload lift in a cleanroom — IAM/UAW",
+      "union": null,
+      "certification": "IAM and UAW rigging and assembly training as bodies; ASME B30.2 overhead and gantry cranes and ASME B30.16 overhead underhung and monorail hoists; OSHA 29 CFR 1910.132 personal protective equipment and 29 CFR 1910.147 the control of hazardous energy; the site's written lift plan and the manufacturer's manual",
+      "accent": "#b48cff",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "aerospace-depot",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "gauge",
+        "drag",
+        "track",
+        "find",
+        "hold"
+      ],
+      "badge": {
+        "id": "one-voice",
+        "name": "One Voice",
+        "note": "Briefed the lift plan, inspected the rigging, made the trial lift and moved only on the designated signal"
+      },
+      "meshes": 197,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ad-7",
+      "flat": false,
+      "system": "One Voice",
+      "currency": "LIFT",
+      "ranks": [
+        "Tag-line Hand",
+        "Rigger",
+        "Signal Person",
+        "Lift Director",
+        "One Voice Certified"
+      ],
+      "awards": [
+        {
+          "id": "trial-first",
+          "name": "Trial First",
+          "note": "Made the trial lift before the travel"
+        },
+        {
+          "id": "path-kept",
+          "name": "Path Kept",
+          "note": "Never travelled the load over a person"
+        },
+        {
+          "id": "smooth-travel",
+          "name": "Smooth Travel",
+          "note": "Held the travel speed near band centre"
+        },
+        {
+          "id": "quick-lift",
+          "name": "Inside Par",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-lift",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ad-payload-crane-lift-with-a-lift-plan"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-test-stand-exclusion-zone-and-holds",
+      "name": "Test Stand Exclusion Zone & Holds",
+      "title": "SmartCiti.X~ Test Stand Exclusion Zone & Holds VR",
+      "tagline": "A generic propulsion test run the way a test procedure keeps people alive: the exclusion zone swept and chained, a head count against the roster, the countdown run from the bunker with every station polled, and a hold called by anyone who sees a reason — then the stand made safe before anyone walks back out",
+      "category": "Manufacturing & Automation",
+      "domain": "Aerospace",
+      "trade": "Test stand technician, exclusion zone and countdown holds — IAM/UAW",
+      "union": null,
+      "certification": "IAM and UAW test and assembly training as bodies; OSHA 29 CFR 1910.147 the control of hazardous energy, 29 CFR 1910.95 occupational noise exposure, 29 CFR 1910.38 emergency action plans and 29 CFR 1910.132 personal protective equipment; ANSI Z535.4 safety signs; the site's written test procedure and the manufacturer's manual",
+      "accent": "#ff6b5e",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "aerospace-depot",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "gauge",
+        "drag",
+        "track",
+        "find",
+        "hold"
+      ],
+      "badge": {
+        "id": "anyone-can-hold",
+        "name": "Anyone Can Hold",
+        "note": "Swept and chained the zone, matched the head count and called the hold the moment a reason appeared"
+      },
+      "meshes": 187,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ad-6",
+      "flat": false,
+      "system": "Anyone Can Hold",
+      "currency": "HOLD",
+      "ranks": [
+        "Observer",
+        "Zone Sweeper",
+        "Test Technician",
+        "Test Conductor",
+        "Anyone Can Hold Certified"
+      ],
+      "awards": [
+        {
+          "id": "count-matched",
+          "name": "Count Matched",
+          "note": "Matched the head count to the roster before the countdown"
+        },
+        {
+          "id": "zone-kept",
+          "name": "Zone Kept",
+          "note": "Never let the countdown run with the zone open"
+        },
+        {
+          "id": "steady-poll",
+          "name": "Steady Poll",
+          "note": "Held the countdown poll near band centre"
+        },
+        {
+          "id": "quick-safe",
+          "name": "Inside Par",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-test",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ad-test-stand-exclusion-zone-and-holds"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-hazardous-fluid-servicing-with-a-buddy",
+      "name": "Hazardous Fluid Servicing with a Buddy",
+      "title": "SmartCiti.X~ Hazardous Fluid Servicing with a Buddy VR",
+      "tagline": "A servicing task on a fluid the work order names, run the way hazard communication intends: the safety data sheet read first, the PPE it calls for donned and checked by a buddy, the eyewash proven, the transfer made over a drip pan with the buddy watching, and a leak answered by stopping, not by finishing faster",
+      "category": "Mobility & Transit",
+      "domain": "Aerospace",
+      "trade": "Depot servicing technician, hazardous fluid servicing — IAM",
+      "union": null,
+      "certification": "IAM depot maintenance training as a body; FAA 14 CFR 43 maintenance as the civil frame; OSHA 29 CFR 1910.1200 hazard communication, 29 CFR 1910.132 personal protective equipment, 29 CFR 1910.134 respiratory protection and 29 CFR 1910.151 medical services and first aid; ANSI Z358.1 emergency eyewash and shower equipment; the safety data sheet for the fluid named on the work order",
+      "accent": "#9be15d",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "aerospace-depot",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "drag",
+        "track",
+        "find",
+        "hold"
+      ],
+      "badge": {
+        "id": "two-person-rule",
+        "name": "Two-Person Rule",
+        "note": "Read the SDS, had the PPE checked by a buddy, proved the eyewash and stopped on the first sign of a leak"
+      },
+      "meshes": 208,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ad-5",
+      "flat": false,
+      "system": "Two-Person Rule",
+      "currency": "SDS",
+      "ranks": [
+        "Helper",
+        "HazCom Trained",
+        "Servicing Technician",
+        "Servicing Lead",
+        "Two-Person Rule Certified"
+      ],
+      "awards": [
+        {
+          "id": "sds-first",
+          "name": "SDS First",
+          "note": "Read the safety data sheet before the cart was opened"
+        },
+        {
+          "id": "buddy-watched",
+          "name": "Buddy Watched",
+          "note": "Never made the transfer without the buddy in place"
+        },
+        {
+          "id": "steady-flow",
+          "name": "Steady Flow",
+          "note": "Held the transfer flow near band centre"
+        },
+        {
+          "id": "quick-service",
+          "name": "Inside Par",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-service",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ad-hazardous-fluid-servicing-with-a-buddy"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-depot-tool-control-and-fod-walk",
+      "name": "Depot Tool Control & FOD Walk",
+      "title": "SmartCiti.X~ Depot Tool Control & FOD Walk VR",
+      "tagline": "A depot maintenance task closed out the way tool control and FOD prevention actually work: the crib kit signed out and counted, every loose item tethered or pocketed at the aircraft, a shoulder-to-shoulder FOD walk of the bay, and the aircraft released only when the kit counts back complete",
+      "category": "Mobility & Transit",
+      "domain": "Aerospace",
+      "trade": "Depot aircraft maintainer, tool control and FOD prevention — IAM",
+      "union": null,
+      "certification": "IAM depot and aircraft maintenance training as a body; FAA 14 CFR 43 maintenance, preventive maintenance, rebuilding and alteration and 14 CFR 145 repair stations as the civil frame; OSHA 29 CFR 1910.132 personal protective equipment and 29 CFR 1910.22 walking-working surfaces; the depot's written tool-control and foreign-object-damage prevention programme",
+      "accent": "#ffc857",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "aerospace-depot",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "gauge",
+        "drag",
+        "track",
+        "find",
+        "hold"
+      ],
+      "badge": {
+        "id": "nothing-on-the-floor",
+        "name": "Nothing on the Floor",
+        "note": "Counted the kit out and back, walked the bay shoulder to shoulder and released the aircraft with nothing missing"
+      },
+      "meshes": 217,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ad-4",
+      "flat": false,
+      "system": "Nothing on the Floor",
+      "currency": "FOD",
+      "ranks": [
+        "Helper",
+        "Tool Control Qualified",
+        "Maintainer",
+        "Crew Chief",
+        "Nothing on the Floor Certified"
+      ],
+      "awards": [
+        {
+          "id": "kit-counted",
+          "name": "Kit Counted",
+          "note": "Counted the kit out against its shadows before the task"
+        },
+        {
+          "id": "no-loose-items",
+          "name": "No Loose Items",
+          "note": "Never carried an untethered item to the aircraft"
+        },
+        {
+          "id": "even-line",
+          "name": "Even Line",
+          "note": "Held the FOD walk line near band centre"
+        },
+        {
+          "id": "quick-walk",
+          "name": "Inside Par",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-release",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ad-depot-tool-control-and-fod-walk"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-amr-fleet-traffic-and-estop-drill",
+      "name": "AMR Fleet Traffic & E-stop Drill",
+      "title": "SmartCiti.X~ AMR Fleet Traffic & E-stop Drill VR",
+      "tagline": "A floor shared with autonomous mobile robots worked the way the traffic plan intends: people on the walkways and robots on the marked lanes, crossings made only at the marked points, an e-stop drill that proves every robot actually stops, and a fault robot recovered only after it is taken out of the fleet",
+      "category": "Manufacturing & Automation",
+      "domain": "Robotics",
+      "trade": "Automation technician, AMR fleet traffic and e-stop — UAW/IAM",
+      "union": null,
+      "certification": "UAW and IAM skilled-trades training as bodies; OSHA 29 CFR 1910.212 general requirements for machines, 29 CFR 1910.147 the control of hazardous energy and 29 CFR 1910.178 powered industrial trucks where lift trucks share the aisle; ANSI R15.06 and ISO 10218 as the robot-safety frame; the fleet manufacturer's manual and the site's traffic plan",
+      "accent": "#4fd1ff",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "robotics-factory",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "gauge",
+        "drag",
+        "track",
+        "find",
+        "hold"
+      ],
+      "badge": {
+        "id": "lane-discipline",
+        "name": "Lane Discipline",
+        "note": "Crossed only at marked points, proved the e-stops and recovered the faulted robot out of the fleet"
+      },
+      "meshes": 211,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ad-3",
+      "flat": false,
+      "system": "Lane Discipline",
+      "currency": "LANE",
+      "ranks": [
+        "Floor Walker",
+        "Lane Aware",
+        "Fleet Technician",
+        "Fleet Lead",
+        "Lane Discipline Certified"
+      ],
+      "awards": [
+        {
+          "id": "drill-proven",
+          "name": "Drill Proven",
+          "note": "Proved every robot stopped on the e-stop drill"
+        },
+        {
+          "id": "walkway-only",
+          "name": "Walkway Only",
+          "note": "Never stepped into a live lane"
+        },
+        {
+          "id": "steady-escort",
+          "name": "Steady Escort",
+          "note": "Held the manual push near band centre"
+        },
+        {
+          "id": "quick-drill",
+          "name": "Inside Par",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-floor",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ad-amr-fleet-traffic-and-estop-drill"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-robot-cell-lockout-and-safe-reentry",
+      "name": "Robot Cell Lockout & Safe Re-entry",
+      "title": "SmartCiti.X~ Robot Cell Lockout & Safe Re-entry VR",
+      "tagline": "A fenced robot cell entered the only way that keeps a person out of the arm's reach: stopped, isolated at the disconnect with your own lock, stored energy proven gone, the pendant in reduced speed if anything must move, and the cell restored only after a head count and a clear floor",
+      "category": "Manufacturing & Automation",
+      "domain": "Robotics",
+      "trade": "Robot technician, cell lockout and re-entry — UAW/IAM",
+      "union": null,
+      "certification": "UAW and IAM skilled-trades training as bodies; OSHA 29 CFR 1910.147 the control of hazardous energy and 29 CFR 1910.212 machine guarding; ANSI R15.06 and ISO 10218 industrial robot safety; the manufacturer's manual and the site's written lockout procedure",
+      "accent": "#ff8a3d",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "robotics-factory",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "gauge",
+        "drag",
+        "track",
+        "find",
+        "hold"
+      ],
+      "badge": {
+        "id": "own-lock-own-life",
+        "name": "Own Lock, Own Life",
+        "note": "Locked the cell out with a personal lock, proved zero energy and never crossed the curtain with the arm live"
+      },
+      "meshes": 193,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ad-2",
+      "flat": false,
+      "system": "Own Lock, Own Life",
+      "currency": "LOCK",
+      "ranks": [
+        "Operator",
+        "Authorised Employee",
+        "Cell Technician",
+        "Robot Lead",
+        "Own Lock Certified"
+      ],
+      "awards": [
+        {
+          "id": "proved-zero",
+          "name": "Proved Zero",
+          "note": "Tried the start after isolating, before anyone went in"
+        },
+        {
+          "id": "curtain-respected",
+          "name": "Curtain Respected",
+          "note": "Never crossed the light curtain with the arm live"
+        },
+        {
+          "id": "slow-and-steady",
+          "name": "Slow and Steady",
+          "note": "Held the jog in reduced speed near band centre"
+        },
+        {
+          "id": "quick-lock",
+          "name": "Inside Par",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-entry",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ad-robot-cell-lockout-and-safe-reentry"
+    },
+    {
+      "app": "smartcity",
+      "id": "ad-cleanroom-gowning-and-esd-discipline",
+      "name": "Cleanroom Gowning & ESD Discipline",
+      "title": "SmartCiti.X~ Cleanroom Gowning & ESD Discipline VR",
+      "tagline": "A cleanroom entry run the way contamination and static control actually work: gown in the posted order, prove the wrist strap and heel straps at the tester before touching anything, keep the part on the grounded mat, and stop the job the moment the tester says the path to ground is gone",
+      "category": "Manufacturing & Automation",
+      "domain": "Aerospace",
+      "trade": "Aerospace assembly technician, cleanroom and ESD control — IAM/UAW",
+      "union": null,
+      "certification": "IAM and UAW aerospace assembly training as bodies; OSHA 29 CFR 1910.132 personal protective equipment and 29 CFR 1910.133 eye and face protection; NFPA 77 static electricity; the site's written ESD control programme and gowning procedure",
+      "accent": "#6fd3e8",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "aerospace-depot",
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "gauge",
+        "drag",
+        "track",
+        "find",
+        "hold"
+      ],
+      "badge": {
+        "id": "clean-and-grounded",
+        "name": "Clean and Grounded",
+        "note": "Gowned in order, proved the path to ground at the tester and never handled the part off the grounded mat"
+      },
+      "meshes": 194,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ad-1",
+      "flat": false,
+      "system": "Clean and Grounded",
+      "currency": "GOWN",
+      "ranks": [
+        "Visitor",
+        "Gowning Qualified",
+        "ESD Qualified",
+        "Cleanroom Lead",
+        "Clean and Grounded Certified"
+      ],
+      "awards": [
+        {
+          "id": "tested-first",
+          "name": "Tested First",
+          "note": "Proved the wrist strap and heel straps before touching the part"
+        },
+        {
+          "id": "no-bare-touch",
+          "name": "No Bare Touch",
+          "note": "Never handled the part off the grounded mat"
+        },
+        {
+          "id": "steady-hands",
+          "name": "Steady Hands",
+          "note": "Held the part level on the mat through the whole transfer"
+        },
+        {
+          "id": "quick-gown",
+          "name": "Inside Par",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "clean-entry",
+          "name": "Clean Shift",
+          "note": "Clean run, no corrections"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ad-cleanroom-gowning-and-esd-discipline"
     },
     {
       "app": "smartcity",
@@ -31447,7 +32071,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 261,
+      "meshes": 269,
       "lights": 0,
       "overBudget": false,
       "index": "92",

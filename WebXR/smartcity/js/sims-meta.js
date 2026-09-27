@@ -26488,5 +26488,341 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "ad-cleanroom-gowning-and-esd-discipline",
+    "index": "ad-1",
+    "domain": "Aerospace",
+    "trade": "Aerospace assembly technician, cleanroom and ESD control — IAM/UAW",
+    "category": "Manufacturing & Automation",
+    "certification": "IAM and UAW aerospace assembly training as bodies; OSHA 29 CFR 1910.132 personal protective equipment and 29 CFR 1910.133 eye and face protection; NFPA 77 static electricity; the site's written ESD control programme and gowning procedure",
+    "name": "Cleanroom Gowning & ESD Discipline",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "aerospace-depot",
+    "title": "SmartCiti.X~ Cleanroom Gowning & ESD Discipline VR",
+    "tagline": "A cleanroom entry run the way contamination and static control actually work: gown in the posted order, prove the wrist strap and heel straps at the tester before touching anything, keep the part on the grounded mat, and stop the job the moment the tester says the path to ground is gone",
+    "accent": 7328744,
+    "accentCss": "#6fd3e8",
+    "parSeconds": 320,
+    "badge": {
+      "id": "clean-and-grounded",
+      "name": "Clean and Grounded",
+      "note": "Gowned in order, proved the path to ground at the tester and never handled the part off the grounded mat"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Clean and Grounded",
+      "currency": "GOWN",
+      "ranks": [
+        "Visitor",
+        "Gowning Qualified",
+        "ESD Qualified",
+        "Cleanroom Lead",
+        "Clean and Grounded Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ad-robot-cell-lockout-and-safe-reentry",
+    "index": "ad-2",
+    "domain": "Robotics",
+    "trade": "Robot technician, cell lockout and re-entry — UAW/IAM",
+    "category": "Manufacturing & Automation",
+    "certification": "UAW and IAM skilled-trades training as bodies; OSHA 29 CFR 1910.147 the control of hazardous energy and 29 CFR 1910.212 machine guarding; ANSI R15.06 and ISO 10218 industrial robot safety; the manufacturer's manual and the site's written lockout procedure",
+    "name": "Robot Cell Lockout & Safe Re-entry",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "robotics-factory",
+    "title": "SmartCiti.X~ Robot Cell Lockout & Safe Re-entry VR",
+    "tagline": "A fenced robot cell entered the only way that keeps a person out of the arm's reach: stopped, isolated at the disconnect with your own lock, stored energy proven gone, the pendant in reduced speed if anything must move, and the cell restored only after a head count and a clear floor",
+    "accent": 16747069,
+    "accentCss": "#ff8a3d",
+    "parSeconds": 320,
+    "badge": {
+      "id": "own-lock-own-life",
+      "name": "Own Lock, Own Life",
+      "note": "Locked the cell out with a personal lock, proved zero energy and never crossed the curtain with the arm live"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Own Lock, Own Life",
+      "currency": "LOCK",
+      "ranks": [
+        "Operator",
+        "Authorised Employee",
+        "Cell Technician",
+        "Robot Lead",
+        "Own Lock Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ad-amr-fleet-traffic-and-estop-drill",
+    "index": "ad-3",
+    "domain": "Robotics",
+    "trade": "Automation technician, AMR fleet traffic and e-stop — UAW/IAM",
+    "category": "Manufacturing & Automation",
+    "certification": "UAW and IAM skilled-trades training as bodies; OSHA 29 CFR 1910.212 general requirements for machines, 29 CFR 1910.147 the control of hazardous energy and 29 CFR 1910.178 powered industrial trucks where lift trucks share the aisle; ANSI R15.06 and ISO 10218 as the robot-safety frame; the fleet manufacturer's manual and the site's traffic plan",
+    "name": "AMR Fleet Traffic & E-stop Drill",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "robotics-factory",
+    "title": "SmartCiti.X~ AMR Fleet Traffic & E-stop Drill VR",
+    "tagline": "A floor shared with autonomous mobile robots worked the way the traffic plan intends: people on the walkways and robots on the marked lanes, crossings made only at the marked points, an e-stop drill that proves every robot actually stops, and a fault robot recovered only after it is taken out of the fleet",
+    "accent": 5231103,
+    "accentCss": "#4fd1ff",
+    "parSeconds": 320,
+    "badge": {
+      "id": "lane-discipline",
+      "name": "Lane Discipline",
+      "note": "Crossed only at marked points, proved the e-stops and recovered the faulted robot out of the fleet"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Lane Discipline",
+      "currency": "LANE",
+      "ranks": [
+        "Floor Walker",
+        "Lane Aware",
+        "Fleet Technician",
+        "Fleet Lead",
+        "Lane Discipline Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ad-depot-tool-control-and-fod-walk",
+    "index": "ad-4",
+    "domain": "Aerospace",
+    "trade": "Depot aircraft maintainer, tool control and FOD prevention — IAM",
+    "category": "Mobility & Transit",
+    "certification": "IAM depot and aircraft maintenance training as a body; FAA 14 CFR 43 maintenance, preventive maintenance, rebuilding and alteration and 14 CFR 145 repair stations as the civil frame; OSHA 29 CFR 1910.132 personal protective equipment and 29 CFR 1910.22 walking-working surfaces; the depot's written tool-control and foreign-object-damage prevention programme",
+    "name": "Depot Tool Control & FOD Walk",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "aerospace-depot",
+    "title": "SmartCiti.X~ Depot Tool Control & FOD Walk VR",
+    "tagline": "A depot maintenance task closed out the way tool control and FOD prevention actually work: the crib kit signed out and counted, every loose item tethered or pocketed at the aircraft, a shoulder-to-shoulder FOD walk of the bay, and the aircraft released only when the kit counts back complete",
+    "accent": 16762967,
+    "accentCss": "#ffc857",
+    "parSeconds": 320,
+    "badge": {
+      "id": "nothing-on-the-floor",
+      "name": "Nothing on the Floor",
+      "note": "Counted the kit out and back, walked the bay shoulder to shoulder and released the aircraft with nothing missing"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Nothing on the Floor",
+      "currency": "FOD",
+      "ranks": [
+        "Helper",
+        "Tool Control Qualified",
+        "Maintainer",
+        "Crew Chief",
+        "Nothing on the Floor Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ad-hazardous-fluid-servicing-with-a-buddy",
+    "index": "ad-5",
+    "domain": "Aerospace",
+    "trade": "Depot servicing technician, hazardous fluid servicing — IAM",
+    "category": "Mobility & Transit",
+    "certification": "IAM depot maintenance training as a body; FAA 14 CFR 43 maintenance as the civil frame; OSHA 29 CFR 1910.1200 hazard communication, 29 CFR 1910.132 personal protective equipment, 29 CFR 1910.134 respiratory protection and 29 CFR 1910.151 medical services and first aid; ANSI Z358.1 emergency eyewash and shower equipment; the safety data sheet for the fluid named on the work order",
+    "name": "Hazardous Fluid Servicing with a Buddy",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "aerospace-depot",
+    "title": "SmartCiti.X~ Hazardous Fluid Servicing with a Buddy VR",
+    "tagline": "A servicing task on a fluid the work order names, run the way hazard communication intends: the safety data sheet read first, the PPE it calls for donned and checked by a buddy, the eyewash proven, the transfer made over a drip pan with the buddy watching, and a leak answered by stopping, not by finishing faster",
+    "accent": 10215773,
+    "accentCss": "#9be15d",
+    "parSeconds": 320,
+    "badge": {
+      "id": "two-person-rule",
+      "name": "Two-Person Rule",
+      "note": "Read the SDS, had the PPE checked by a buddy, proved the eyewash and stopped on the first sign of a leak"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Two-Person Rule",
+      "currency": "SDS",
+      "ranks": [
+        "Helper",
+        "HazCom Trained",
+        "Servicing Technician",
+        "Servicing Lead",
+        "Two-Person Rule Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ad-test-stand-exclusion-zone-and-holds",
+    "index": "ad-6",
+    "domain": "Aerospace",
+    "trade": "Test stand technician, exclusion zone and countdown holds — IAM/UAW",
+    "category": "Manufacturing & Automation",
+    "certification": "IAM and UAW test and assembly training as bodies; OSHA 29 CFR 1910.147 the control of hazardous energy, 29 CFR 1910.95 occupational noise exposure, 29 CFR 1910.38 emergency action plans and 29 CFR 1910.132 personal protective equipment; ANSI Z535.4 safety signs; the site's written test procedure and the manufacturer's manual",
+    "name": "Test Stand Exclusion Zone & Holds",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "aerospace-depot",
+    "title": "SmartCiti.X~ Test Stand Exclusion Zone & Holds VR",
+    "tagline": "A generic propulsion test run the way a test procedure keeps people alive: the exclusion zone swept and chained, a head count against the roster, the countdown run from the bunker with every station polled, and a hold called by anyone who sees a reason — then the stand made safe before anyone walks back out",
+    "accent": 16739166,
+    "accentCss": "#ff6b5e",
+    "parSeconds": 320,
+    "badge": {
+      "id": "anyone-can-hold",
+      "name": "Anyone Can Hold",
+      "note": "Swept and chained the zone, matched the head count and called the hold the moment a reason appeared"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Anyone Can Hold",
+      "currency": "HOLD",
+      "ranks": [
+        "Observer",
+        "Zone Sweeper",
+        "Test Technician",
+        "Test Conductor",
+        "Anyone Can Hold Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ad-payload-crane-lift-with-a-lift-plan",
+    "index": "ad-7",
+    "domain": "Aerospace",
+    "trade": "Rigger and crane operator, payload lift in a cleanroom — IAM/UAW",
+    "category": "Manufacturing & Automation",
+    "certification": "IAM and UAW rigging and assembly training as bodies; ASME B30.2 overhead and gantry cranes and ASME B30.16 overhead underhung and monorail hoists; OSHA 29 CFR 1910.132 personal protective equipment and 29 CFR 1910.147 the control of hazardous energy; the site's written lift plan and the manufacturer's manual",
+    "name": "Payload Crane Lift with a Lift Plan",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "aerospace-depot",
+    "title": "SmartCiti.X~ Payload Crane Lift with a Lift Plan VR",
+    "tagline": "A sensitive payload moved by overhead crane the way a lift plan intends: the plan read and briefed, the crane and rigging inspected, one designated signal person, a trial lift a hand's width off the stand, tag lines and a clear path, and a stop called by anyone the moment something looks wrong",
+    "accent": 11832575,
+    "accentCss": "#b48cff",
+    "parSeconds": 320,
+    "badge": {
+      "id": "one-voice",
+      "name": "One Voice",
+      "note": "Briefed the lift plan, inspected the rigging, made the trial lift and moved only on the designated signal"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "One Voice",
+      "currency": "LIFT",
+      "ranks": [
+        "Tag-line Hand",
+        "Rigger",
+        "Signal Person",
+        "Lift Director",
+        "One Voice Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ad-cobot-risk-assessment-and-speed-separation",
+    "index": "ad-8",
+    "domain": "Robotics",
+    "trade": "Automation technician, collaborative robot application — UAW/IAM",
+    "category": "Manufacturing & Automation",
+    "certification": "UAW and IAM skilled-trades training as bodies; ANSI R15.06 and ISO 10218 industrial robot safety, including collaborative operation; OSHA 29 CFR 1910.212 general requirements for machines and 29 CFR 1910.147 the control of hazardous energy; the application's written risk assessment and the manufacturer's manual",
+    "name": "Cobot Risk Assessment & Speed-and-Separation",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "robotics-training-centre",
+    "title": "SmartCiti.X~ Cobot Risk Assessment & Speed-and-Separation VR",
+    "tagline": "A collaborative robot bench brought into service the way a risk assessment demands: the application walked task by task, the area scanner's warning and protective zones proven with a body, speed-and-separation shown to slow and stop the arm, and the bench released only when every hazard on the sheet has a control that was actually tested",
+    "accent": 6217904,
+    "accentCss": "#5ee0b0",
+    "parSeconds": 320,
+    "badge": {
+      "id": "tested-not-trusted",
+      "name": "Tested, Not Trusted",
+      "note": "Walked the risk assessment, proved the scanner zones with a body and saw the arm slow and stop before releasing the bench"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Tested, Not Trusted",
+      "currency": "COBOT",
+      "ranks": [
+        "Operator",
+        "Application Aware",
+        "Cobot Technician",
+        "Integration Lead",
+        "Tested, Not Trusted Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
