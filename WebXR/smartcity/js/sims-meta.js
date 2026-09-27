@@ -25438,5 +25438,89 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "me-eelgrass-seed-collection-and-nursery",
+    "index": "603",
+    "domain": "Environmental",
+    "trade": "Nursery technician on a seagrass restoration crew, collecting flowering shoots from a skiff and running the shore nursery's flow-through tanks",
+    "category": "Water & Environmental",
+    "certification": "AFSCME and LIUNA restoration and nursery crews as training bodies; OSHA 29 CFR 1910.132 personal protective equipment for work over the side and in the nursery; CDFW oversight of the collecting permit's share and handling; NOAA Fisheries and the U.S. Fish and Wildlife Service consultation measures for in-water work at the bed; BCDC permit conditions; Regional Water Quality Control Board Section 401 conditions on the nursery's discharge and the Section 404 record the planting will answer to",
+    "name": "Eelgrass Seed Collection & Nursery",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Eelgrass Seed Collection & Nursery VR",
+    "tagline": "The collecting permit read, the share meter set, the kit checked, the first bag cut into the cooler, the skiff drifted along the bed's edge while a bag heats on the thwart, the seeded and the torn bag found, the tank valve opened, bags labelled and hung in order, the sieve held while the flow alarm trips, the tank band read, the seed jar racked in the dark, the tender called and the collection logged",
+    "accent": 4173455,
+    "accentCss": "#3fae8f",
+    "parSeconds": 300,
+    "badge": {
+      "id": "seed-kept-cold",
+      "name": "Seed Kept Cold",
+      "note": "Every bag cut to the share, kept wet and cool, hung by its label and its seed racked in the dark — first time"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Seed Crew",
+      "currency": "SPATHE",
+      "ranks": [
+        "Nursery Hand",
+        "Collector",
+        "Nursery Tech",
+        "Seed Lead",
+        "Nursery Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "me-water-column-sampling-from-a-small-boat",
+    "index": "604",
+    "domain": "Environmental",
+    "trade": "Sampling technician on a monitoring crew, working the afterdeck of a small workboat held on station by its skipper",
+    "category": "Water & Environmental",
+    "certification": "AFSCME and LIUNA monitoring crews as training bodies; OSHA 29 CFR 1910.132 personal protective equipment for work over the side; 40 CFR 136 analytical methods and the sample handling they require, under a quality assurance project plan written to EPA QA/G-5; Regional Water Quality Control Board Section 401 monitoring conditions and the Section 404 record the samples answer; BCDC permit conditions; NOAA Fisheries consultation measures for the in-water work the samples watch",
+    "name": "Water Column Sampling From A Small Boat",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Water Column Sampling From A Small Boat VR",
+    "tagline": "The sampling plan read, the vest and gloves on, the disk lowered to its vanishing, the bottle clipped to the line, wound down to the plan's mark, held while the messenger trips and a wake comes through, brought up steady while the line fouls aft, the split seal and the blank label found, rinsed, filled and labelled in order, the blank read, the cooler racked under custody, the skipper called and the station logged",
+    "accent": 5219272,
+    "accentCss": "#4fa3c8",
+    "parSeconds": 300,
+    "badge": {
+      "id": "bottle-is-evidence",
+      "name": "Bottle Is Evidence",
+      "note": "Every bottle rinsed, filled, labelled and cold under custody, and nobody over the rail to get it"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Sampling Crew",
+      "currency": "BOTTLE",
+      "ranks": [
+        "Deck Hand",
+        "Sampler",
+        "Field Sampler",
+        "Sampling Lead",
+        "Custody Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
