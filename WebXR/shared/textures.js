@@ -1349,6 +1349,23 @@ export function txTexture(id, o = {}) {
   _txTiled.set(tiledKey, tex);
   return tex;
 }
+const _txSharedMats = new Map();
+/** One shared material per pattern + options, NOT flagged ownMaterial, so
+ *  every mesh that wears it (a kelp forest's blades, a reef's boulders)
+ *  still merges into one draw under kit.js's mergeStatic(). */
+export function txSharedMat(id, o = {}, m = {}) {
+  const key = `${id}|${JSON.stringify(o)}|${JSON.stringify(m)}`;
+  let mat = _txSharedMats.get(key);
+  if (!mat) {
+    mat = new THREE.MeshStandardMaterial({
+      map: txTexture(id, o), color: m.color ?? 0xffffff, roughness: m.rough ?? 0.9, metalness: m.metal ?? 0,
+      transparent: (m.opacity ?? 1) < 1, opacity: m.opacity ?? 1,
+    });
+    mat.userData.txShared = key;
+    _txSharedMats.set(key, mat);
+  }
+  return mat;
+}
 /** A painted material from the pattern set: txTexture() + paintedMat(). */
 export function txMaterial(id, o = {}, m = {}) { return paintedMat(txTexture(id, o), m); }
 /** What the page has painted: `{ canvases, pixels, megapixels, patterns,
@@ -1361,4 +1378,4 @@ export function textureStats() {
   return { canvases: _txPixels.size, pixels, megapixels: +(pixels / 1e6).toFixed(3), patterns: _txCanvases.size, hits: _txHits, misses: _txMisses, tier: txTier() };
 }
 /** Empties the pattern cache and the stats — test harnesses only. */
-export function txResetTextures() { _txCanvases.clear(); _txTiled.clear(); _txPixels.clear(); _txHits = 0; _txMisses = 0; }
+export function txResetTextures() { _txCanvases.clear(); _txTiled.clear(); _txPixels.clear(); _txSharedMats.clear(); _txHits = 0; _txMisses = 0; }

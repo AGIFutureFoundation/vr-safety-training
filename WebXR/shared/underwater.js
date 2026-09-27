@@ -1,6 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { box, cyl, ball, group, mat, decal, mergeStatic, particles } from "./kit.js";
-import { facePaint, paintedMat } from "./textures.js";
+import { facePaint, paintedMat, txTexture, txSharedMat } from "./textures.js";
 // holoTag is the one SmartCiti.X-specific set piece this module borrows (the
 // floating AR-style name caption over a landmark), the same way
 // shared/bayworld.js borrows it; everything else comes from kit.js and
@@ -145,8 +145,14 @@ function deepSeabedSlab(cx, cz, w, d, o = {}) {
     pos.needsUpdate = true;
     if (typeof geo.computeVertexNormals === "function") geo.computeVertexNormals();
   }
-  const tex = facePaint("deep-silt", (g, w2, h2) => deepSiltFace(g, w2, h2, { base: "#4a574d" }),
-    { repeat: Math.max(6, Math.round(Math.max(w, d) / 40)), px: 512 });
+  // By depth band (team PALETTE): caustic light over sand in the shallows,
+  // the same sand dimmer and cooler in the mid band, plain silt in the deep
+  // where no sunlight reaches.
+  const rep = Math.max(6, Math.round(Math.max(w, d) / 40));
+  const band = o.band ?? "mid";
+  const tex = band === "deep"
+    ? facePaint("deep-silt", (g, w2, h2) => deepSiltFace(g, w2, h2, { base: "#4a574d" }), { repeat: rep, px: 512 })
+    : txTexture("causticSeabed", { palette: `deep-${band}`, seed: 41, intensity: band === "shallow" ? 0.34 : 0.16, repeat: rep });
   const mesh = new THREE.Mesh(geo, paintedMat(tex, { rough: 0.98, metal: 0.0 }));
   mesh.rotation.x = -Math.PI / 2;
   mesh.position.set(cx, o.y ?? 0, cz);
@@ -201,6 +207,7 @@ function deepKelpStand(parent, x, y, z, rng, scale = 1) {
   for (let i = 0; i < blades; i++) {
     const by = h * (0.35 + (i / blades) * 0.6);
     const b = box(g, 0.22 * scale, 1.6 * scale, 0.03, 0.15 * scale, by, 0, 0x6f9a3a, { rough: 0.85, opacity: 0.9, cast: false, receive: false });
+    b.material = txSharedMat("kelpBlade", { seed: 16 }, { rough: 0.85, opacity: 0.9 });
     b.rotation.y = i * 1.9; b.rotation.z = -0.25;
     n++;
   }
@@ -262,9 +269,16 @@ function deepBoulders(parent, x, z, rng, count, spread) {
     const px = x + (rng() - 0.5) * spread, pz = z + (rng() - 0.5) * spread;
     const r = 0.5 + rng() * 1.4;
     const b = ball(parent, r, px, deepFloorY(px, pz) + r * 0.5, pz, rng() < 0.5 ? 0x6a6a5a : 0x55584a, { rough: 0.98, seg: 8, seg2: 6, cast: false, receive: false });
+    b.material = deepReefMat(px, pz, rng() < 0.5 ? 0xd4d4c4 : 0xb8bcae);
     b.scale.y = 0.7;
   }
   return count;
+}
+
+/** Reef rock from the pattern set in the depth band's own palette, tinted
+ *  per boulder from a two-tone set — shared, so a reef still merges. */
+function deepReefMat(x, z, tint = 0xffffff) {
+  return txSharedMat("reefRock", { palette: `deep-${deepBandAt(x, z)}`, seed: 17, repeat: 2 }, { color: tint, rough: 0.98 });
 }
 
 /** A stock anchor half buried in the sand. */
@@ -318,7 +332,7 @@ function deepRockLedge(parent, x, z, len, ry, rng) {
   let n = 0;
   for (let i = 0; i < 6; i++) {
     const px = -len / 2 + (i + 0.5) * (len / 6);
-    box(g, len / 6 + 0.4, 0.8 + rng() * 0.8, 1.6 + rng(), px, 0.5 + rng() * 0.3, (rng() - 0.5) * 0.6, 0x4a4a42, { rough: 0.98, cast: false, receive: false }); n++;
+    box(g, len / 6 + 0.4, 0.8 + rng() * 0.8, 1.6 + rng(), px, 0.5 + rng() * 0.3, (rng() - 0.5) * 0.6, 0x4a4a42, { rough: 0.98, cast: false, receive: false }).material = deepReefMat(x, z); n++;
   }
   return n;
 }
@@ -418,7 +432,7 @@ function deepCairn(parent, x, z) {
 /** The seamount's pinnacle: a rock cone with boulders at its foot. */
 function deepPinnacle(parent, x, z, rng) {
   const y = deepFloorY(x, z);
-  cyl(parent, 1.2, 6, 9, x, y + 4.5, z, 0x5a4a3a, { rough: 0.98, seg: 12, cast: false, receive: false });
+  cyl(parent, 1.2, 6, 9, x, y + 4.5, z, 0x5a4a3a, { rough: 0.98, seg: 12, cast: false, receive: false }).material = deepReefMat(x, z, 0xc8b8a8);
   return 1 + deepBoulders(parent, x, z, rng, 12, 30);
 }
 
@@ -558,7 +572,8 @@ function deepBuildWorld(parent, opts) {
   const zones = opts.zone ? DEEP_ZONES.filter((z) => z.id === opts.zone) : DEEP_ZONES;
   const { minX, maxX, minZ, maxZ } = DEEP_BOUNDS;
   const w = maxX - minX, d = maxZ - minZ, cx = (minX + maxX) / 2, cz = (minZ + maxZ) / 2;
-  parent.add(deepSeabedSlab(cx, cz, w, d));
+  const band = opts.band ?? (zones.length === 1 ? deepBandAt(zones[0].centre[0], zones[0].centre[1]) : "mid");
+  parent.add(deepSeabedSlab(cx, cz, w, d, { band }));
   deepSurfaceSheet(parent, cx, cz, w, d);
   const lines = opts.zone ? DEEP_LINES.filter((l) => l.points.some(([x, z]) => deepZoneAt(x, z).id === opts.zone)) : DEEP_LINES;
   deepLineRibbons(parent, lines);
@@ -573,7 +588,7 @@ function deepBuildWorld(parent, opts) {
  *  same clearances tools/check_districts.mjs measures. */
 function deepBuildVignette(parent, opts) {
   const rng = deepSeededRng(77);
-  const tex = facePaint("deep-silt", (g, w2, h2) => deepSiltFace(g, w2, h2, { base: "#4a574d" }), { repeat: 12, px: 512 });
+  const tex = txTexture("causticSeabed", { palette: "deep-shallow", seed: 41, intensity: 0.34, repeat: 12 });
   const floor = cyl(parent, 42, 42, 0.3, 0, -0.15, 0, 0x4a574d, { seg: 48, cast: false });
   floor.material = paintedMat(tex, { rough: 0.98 });
   deepCausticSheet(parent, 0, 0.02, 0, 60, 60, deepLighting("shallow").caustic.intensity);
