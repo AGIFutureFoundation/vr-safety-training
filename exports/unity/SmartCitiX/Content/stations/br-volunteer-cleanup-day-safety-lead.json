@@ -1,0 +1,419 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-crew-clean-flat",
+    "name": "Clean Crew, Clean Flat",
+    "note": "The briefing covered sharps and the buddy system, the missing volunteer got an immediate headcount, the tide surge got an immediate recall, and the whole crew signed back in accounted for"
+  },
+  "category": "Water & Environmental",
+  "certification": "Cal/OSHA 8 CCR 3395 heat illness prevention in outdoor places of employment; OSHA 29 CFR 1910.1030 bloodborne pathogens for sharps handling; Cal/OSHA 8 CCR 3203 Injury and Illness Prevention Program behind today's briefing; OSHA 29 CFR 1910.132 personal protective equipment, general requirements; NOAA tide predictions the work window is timed against",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3203",
+        "id": "cal-osha-3203",
+        "title": "8 CCR 3203 — Injury and Illness Prevention Program"
+      },
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3395",
+        "id": "cal-osha-3395",
+        "title": "8 CCR 3395 — Heat illness prevention in outdoor places of employment"
+      },
+      {
+        "body": "NOAA",
+        "citedAs": "NOAA",
+        "id": "noaa-tides-and-esa",
+        "title": "NOAA tide predictions and NOAA Fisheries Endangered Species Act consultation for in-water work"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      }
+    ]
+  },
+  "district": "Water & Environmental",
+  "domain": "Water & Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "true-briefing",
+        "name": "True Briefing",
+        "note": "The sharps rule and the buddy system briefed before anyone touched a bag"
+      },
+      {
+        "id": "clean-watch",
+        "name": "Clean Watch",
+        "note": "Never let a bare hand near a sharp, never lost a volunteer, never pushed a heat symptom through"
+      },
+      {
+        "id": "held-the-break",
+        "name": "Held The Break",
+        "note": "The scheduled water break called inside the correct interval, first time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-day",
+        "name": "Clean Day",
+        "note": "No corrections across the whole shift"
+      },
+      {
+        "id": "steady-watch",
+        "name": "Steady Watch",
+        "note": "Held the flat scan in band through the whole work period"
+      },
+      {
+        "id": "logged-fast",
+        "name": "Logged Fast",
+        "note": "Day closed out inside 80% of par"
+      }
+    ],
+    "currency": "CHECK-INS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Safety Lead",
+      "Safety Lead",
+      "Senior Safety Lead",
+      "Lead Coordinator",
+      "Cleanup Day Certified"
+    ],
+    "system": "Cleanup Day Watch"
+  },
+  "hazards": {
+    "ignore-incoming-tide": "You kept the crew working the low flat as the tide table's window ran out instead of calling everyone back to shore. The tide doesn't wait for a bag to get finished, and ground that was dry footing twenty minutes ago can be ankle-deep water now — the window on the table is the actual limit, not a suggestion the crew can stretch because the cleanup isn't done yet.",
+    "pick-up-sharps-bare-hand": "You reached for a sharp with a bare hand instead of the tongs. A needle in a tideline debris pile has no way to announce itself before it's already broken skin, and the whole reason the sharps rule exists is that a volunteer who has never done this work has no instinct yet for which piece of trash is ordinary and which one can send them to urgent care — the tongs go on every sharp, every time, no exceptions made for how safe one particular piece looks.",
+    "push-through-heat-symptoms": "You told a volunteer showing heat illness symptoms to keep working the last few bags before taking a break. Heat illness moves from uncomfortable to dangerous faster in someone who isn't used to physical outdoor work than in a crew that does this every day, and 'a few more bags' is exactly the reasoning the heat plan exists to override — a volunteer showing symptoms goes to shade and water immediately, not after the task in front of them.",
+    "skip-buddy-system": "You let a volunteer wander off alone toward the far end of the flat instead of keeping the buddy system in force. Nobody on this crew has worked this shoreline before, and a solo volunteer who steps in a soft patch or gets caught by the tide has nobody beside them to call it in — the buddy system isn't a courtesy, it's the only thing standing between a bad step and nobody knowing about it for twenty minutes."
+  },
+  "id": "br-volunteer-cleanup-day-safety-lead",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "crew-assignment",
+      "alert": "One volunteer hasn't checked back in at the scheduled call, and their buddy can't find them anywhere on their assigned stretch.",
+      "cue": "Call it in on the safety channel immediately and start the missing-volunteer headcount — do not wait for the next scheduled check-in to see if they turn up.",
+      "delay": 3,
+      "id": "volunteer-lost",
+      "kind": "A volunteer misses the scheduled radio check-in",
+      "missNote": "Nobody called it in, and the missing volunteer stayed unaccounted for while the shift kept going around them.",
+      "seconds": 16,
+      "target": "safety-radio",
+      "why": "A volunteer who is late to one check-in on a shoreline they don't know could be anything from stopped to talk to another team to genuinely in trouble, and the only way to tell the difference fast is to call it in the moment the miss is noticed — waiting for the next check-in trades away exactly the minutes that matter if something has actually gone wrong.",
+      "wrongNote": "The safety channel — that radio starts the headcount, and nothing else on this flat does."
+    },
+    {
+      "after": "flat-watch",
+      "alert": "Wind is pushing the tide in well ahead of the table's prediction, and the flat is going to be underwater sooner than the window said.",
+      "cue": "Sound the recall horn immediately and get every volunteer off the flat now — do not wait for the scheduled end of the work period.",
+      "delay": 2,
+      "id": "incoming-tide-surge",
+      "kind": "Wind pushes the tide in faster than the table predicted",
+      "missNote": "The horn never sounded, and the crew kept working the flat while the water came in faster than the table predicted.",
+      "seconds": 14,
+      "target": "recall-horn",
+      "why": "The tide table gives a prediction, not a guarantee, and wind is exactly the thing that pushes a real tide ahead of it without any warning beyond how fast the water actually starts moving — the recall horn is the one signal on this flat that reaches every volunteer at once, and it has to go out the moment the water is ahead of schedule, not once someone is already standing in it.",
+      "wrongNote": "The recall horn — that's the one signal every volunteer out there can actually hear over the wind."
+    }
+  ],
+  "lateNotes": {
+    "break-clock": "Nothing to read yet — the crew has to actually be out working before there is a break interval to watch.",
+    "safety-log": "Nothing to log yet — the day hasn't started and nothing has happened worth an entry."
+  },
+  "name": "Volunteer Cleanup Day Safety Lead",
+  "parSeconds": 310,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "skiff",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "radio",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "all-signed-in",
+      "boots-on",
+      "break-clock",
+      "equipment-returned",
+      "gloves-on",
+      "hat-sunscreen",
+      "heat-plan-board",
+      "ignore-incoming-tide",
+      "lead-post",
+      "loose-needle",
+      "pick-up-sharps-bare-hand",
+      "ppe-table",
+      "push-through-heat-symptoms",
+      "radios-issued",
+      "recall-horn",
+      "safety-briefing-board",
+      "safety-log",
+      "safety-radio",
+      "sharps-container-socket",
+      "sharps-sealed",
+      "sharps-tongs",
+      "skip-buddy-system",
+      "team-a-assigned",
+      "team-b-assigned",
+      "tide-board",
+      "unmarked-drum"
+    ],
+    "meshes": 211
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Before the volunteers arrive: work gloves on, closed-toe boots on, sun hat and sunscreen on.",
+      "id": "ppe-brief",
+      "itemNames": {
+        "boots-on": "closed-toe boots on",
+        "gloves-on": "work gloves on",
+        "hat-sunscreen": "sun hat and sunscreen on"
+      },
+      "kind": "sequence",
+      "prompt": "Before the volunteers arrive: work gloves on, closed-toe boots on, sun hat and sunscreen on.",
+      "targets": [
+        "gloves-on",
+        "boots-on",
+        "hat-sunscreen"
+      ],
+      "title": "Gear up before the crew arrives",
+      "why": "The safety lead is on the flat for the whole shift while volunteers rotate through breaks, which means more sun exposure than anyone else on the crew gets, and gearing up the same way the briefing is about to ask the volunteers to is what makes the rest of the briefing credible rather than a rule for everyone but the person giving it."
+    },
+    {
+      "cue": "Read the briefing board: the sharps rule, the buddy system, and what a heat illness symptom looks like before anyone starts working.",
+      "id": "safety-briefing-board",
+      "kind": "select",
+      "prompt": "Read the briefing board: the sharps rule, the buddy system, and what a heat illness symptom looks like before anyone starts working.",
+      "target": "safety-briefing-board",
+      "title": "Read today's safety briefing before the crew arrives",
+      "why": "A crew of volunteers who have never worked this shoreline before has no shared idea yet of what today's hazards actually are, and reading the briefing board before a single volunteer arrives is what turns today's talk from a list read off a clipboard into three rules the safety lead actually knows cold."
+    },
+    {
+      "cue": "Check the PPE table: puncture-resistant gloves and tongs for sharps and glass, ordinary gloves for the rest of the debris.",
+      "id": "ppe-table",
+      "kind": "select",
+      "prompt": "Check the PPE table: puncture-resistant gloves and tongs for sharps and glass, ordinary gloves for the rest of the debris.",
+      "target": "ppe-table",
+      "title": "Check the PPE table against today's tasks",
+      "why": "A volunteer handed the wrong glove for the wrong task is a volunteer who thinks they're protected when they aren't, and matching the equipment on the table to the hazard it's actually rated for — before any of it gets handed out — is what keeps 'I had gloves on' from being the sentence that follows an injury instead of preventing one."
+    },
+    {
+      "cue": "Walk the staging area and find anything in the debris pile the crew shouldn't be the ones to handle.",
+      "id": "check-gear",
+      "itemNames": {
+        "loose-needle": "a loose hypodermic needle in the debris pile",
+        "unmarked-drum": "a rusted drum with no label"
+      },
+      "itemNotes": {
+        "loose-needle": "Half-buried in the tideline debris, easy for a volunteer to grab without looking closely — found now, before the crew fans out, it's tonged straight into the sharps container; found by a volunteer's hand it's an incident report.",
+        "unmarked-drum": "No label, no way to know what was in it — this isn't cleanup crew material, it gets flagged and called in, not opened by anyone here."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the staging area and find anything in the debris pile the crew shouldn't be the ones to handle.",
+      "targets": [
+        "loose-needle",
+        "unmarked-drum"
+      ],
+      "title": "Walk the debris pile before the crew starts",
+      "why": "A tideline debris pile collects whatever the Bay has been carrying, and the loose needle and the unmarked drum are exactly the two things a volunteer crew has no way to recognise as different from ordinary trash — finding both before anyone starts picking through the pile is the entire reason the safety lead walks it alone first."
+    },
+    {
+      "cue": "Pick up the tongs and place the needle you found straight into the sharps container — never with a bare hand.",
+      "drag": {
+        "missNote": "Not in the container — the sharp has to actually land inside it, not just near it.",
+        "radius": 0.4,
+        "to": "sharps-container-socket"
+      },
+      "id": "sharps-tongs",
+      "kind": "drag",
+      "prompt": "Pick up the tongs and place the needle you found straight into the sharps container — never with a bare hand.",
+      "target": "sharps-tongs",
+      "title": "Place the found sharp with the tongs",
+      "why": "Demonstrating the tongs on the very sharp the crew is about to be briefed on is what makes the rule concrete rather than abstract, and a safety lead who handles the day's first sharp correctly, in front of the crew as they arrive, sets the standard the rest of the shift is held to."
+    },
+    {
+      "cue": "Read the tide table: the low-tide window the flat is workable in today, and when the water starts coming back in.",
+      "id": "tide-board",
+      "kind": "select",
+      "prompt": "Read the tide table: the low-tide window the flat is workable in today, and when the water starts coming back in.",
+      "target": "tide-board",
+      "title": "Read today's tide table",
+      "why": "The tide table is a prediction the safety lead plans the whole shift around, not a number the crew can push past because the cleanup isn't finished — reading it before the first team goes out is what sets the actual end of the workday, whatever the schedule on paper says."
+    },
+    {
+      "cue": "Read the heat plan: water and shade available at all times, scheduled breaks, and the symptoms that mean a volunteer stops immediately.",
+      "id": "heat-plan-board",
+      "kind": "select",
+      "prompt": "Read the heat plan: water and shade available at all times, scheduled breaks, and the symptoms that mean a volunteer stops immediately.",
+      "target": "heat-plan-board",
+      "title": "Read the heat illness prevention plan",
+      "why": "A volunteer crew doing unfamiliar physical work in the sun is exactly who Cal/OSHA's heat illness standard is written for, and reading the plan before the first team goes out is what lets the safety lead actually recognise a symptom the moment it shows up instead of only after someone is already in trouble."
+    },
+    {
+      "cue": "Assign team A to the north stretch and team B to the south stretch, then issue a radio to each team lead.",
+      "id": "crew-assignment",
+      "itemNames": {
+        "radios-issued": "a radio issued to each team lead",
+        "team-a-assigned": "team A assigned to the north stretch",
+        "team-b-assigned": "team B assigned to the south stretch"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Assign both teams before issuing the radios — there's no point handing out a radio to a team that doesn't know where it's working yet.",
+      "prompt": "Assign team A to the north stretch and team B to the south stretch, then issue a radio to each team lead.",
+      "targets": [
+        "team-a-assigned",
+        "team-b-assigned",
+        "radios-issued"
+      ],
+      "title": "Assign the teams and issue the radios",
+      "why": "A volunteer crew split into buddy pairs still needs someone in charge of each stretch who can be reached the moment something is wrong, and the radio only means anything once both teams actually know which stretch is theirs — assigning the ground before handing out the means to call about it is what makes today's headcount possible at all."
+    },
+    {
+      "cue": "Hold a steady scan across the flat — both teams need to stay in sight of the safety lead's post the whole time they're working.",
+      "holdBreakNote": "The scan lost one of the teams before the sweep finished — steady the watch and pick the pass back up.",
+      "id": "flat-watch",
+      "kind": "track",
+      "prompt": "Hold a steady scan across the flat — both teams need to stay in sight of the safety lead's post the whole time they're working.",
+      "seconds": 6,
+      "target": "lead-post",
+      "title": "Scan the flat while both teams work",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "FLAT WATCH",
+        "rise": 0.5,
+        "start": 0.13
+      },
+      "why": "The safety lead's post exists so both teams are always visible to somebody who isn't also bent over picking up trash, and a scan that rushes past the near stretch or drags past the far one is a watch that would miss exactly the kind of trouble — a fall, a symptom, a wandering buddy pair — this whole post is meant to catch early."
+    },
+    {
+      "cue": "Hold the post steady while both teams take their scheduled water break — this is when a heat symptom is most likely to actually show.",
+      "holdBreakNote": "The watch broke during the break — get back on post and hold it until both teams are back at work.",
+      "id": "hydration-hold",
+      "kind": "hold",
+      "prompt": "Hold the post steady while both teams take their scheduled water break — this is when a heat symptom is most likely to actually show.",
+      "seconds": 5,
+      "target": "lead-post",
+      "title": "Hold the watch through the scheduled break",
+      "why": "A break is when volunteers finally stop moving and a headache or a wave of nausea they'd been pushing through while working suddenly has room to be noticed, and a safety lead who wanders off during the one part of the shift built for exactly that noticing is a safety lead who finds out about it after the fact instead of during it."
+    },
+    {
+      "cue": "Watch the break clock and call the next water break once it reads inside the scheduled interval — not early, and not late either.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.64
+        ],
+        "label": "BREAK INTERVAL",
+        "missNote": "Off the band. The scheduled interval the heat plan sets has to actually run its course before the next break is called.",
+        "speed": 0.55
+      },
+      "id": "break-clock",
+      "kind": "gauge",
+      "prompt": "Watch the break clock and call the next water break once it reads inside the scheduled interval — not early, and not late either.",
+      "target": "break-clock",
+      "title": "Call the next scheduled break inside the interval",
+      "why": "A break called too early trains the crew to expect one whenever someone asks, and a break called too late is exactly how a volunteer crosses from thirsty into genuinely heat-stressed before anyone's called a stop — the interval on the plan is the number the whole day's pacing runs against, not a feel for when everyone seems tired."
+    },
+    {
+      "cue": "Log the incident: the time the check-in was missed, the headcount called, and the time the volunteer was found.",
+      "id": "incident-log",
+      "kind": "select",
+      "prompt": "Log the incident: the time the check-in was missed, the headcount called, and the time the volunteer was found.",
+      "target": "safety-log",
+      "title": "Log the missing-volunteer incident",
+      "why": "The sponsoring agency's own incident record is built entirely from entries like this one, and logging it right after resolution — while the exact times are still what actually happened, not what gets remembered back at the check-in table — is the version of today that can actually answer for itself if the agency's volunteer programme is ever asked how it handles exactly this."
+    },
+    {
+      "cue": "Confirm every volunteer is signed back in, seal the sharps container, then return and count the tongs and radios.",
+      "id": "headcount-closing",
+      "itemNames": {
+        "all-signed-in": "every volunteer signed back in",
+        "equipment-returned": "tongs and radios returned and counted",
+        "sharps-sealed": "sharps container sealed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Confirm every volunteer is signed back in before sealing the sharps container — the day isn't done until the headcount actually matches who arrived.",
+      "prompt": "Confirm every volunteer is signed back in, seal the sharps container, then return and count the tongs and radios.",
+      "targets": [
+        "all-signed-in",
+        "sharps-sealed",
+        "equipment-returned"
+      ],
+      "title": "Run the closing headcount in order",
+      "why": "A headcount that matches on paper but was never actually taken is worth nothing, and a sharps container sealed before the last volunteer is even accounted for is a container sealed on an assumption — the order here is what turns 'everyone's probably fine' into a headcount the sponsoring agency can actually stand behind."
+    },
+    {
+      "cue": "On the working channel: the day is closed out, the missing volunteer and the tide surge are both handled, and how both team leads are doing after a shift with two interruptions in it.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the working channel: the day is closed out, the missing volunteer and the tide surge are both handled, and how both team leads are doing after a shift with two interruptions in it.",
+      "target": "safety-radio",
+      "title": "Check in with the team leads",
+      "why": "A shift with a missing volunteer and a tide surge in it is a shift both team leads spent more alert than a normal cleanup day, and the check-in is where that gets acknowledged directly — it's also where the safety lead's own read on a tense day gets a place to go besides staying with them on the drive home."
+    },
+    {
+      "cue": "Close the log: headcount matched, the missing volunteer resolved, the tide recall called, and all equipment returned.",
+      "id": "closing-log",
+      "kind": "select",
+      "prompt": "Close the log: headcount matched, the missing volunteer resolved, the tide recall called, and all equipment returned.",
+      "target": "safety-log",
+      "title": "Close out the day's safety log",
+      "why": "The closing entry is what turns today's individual calls into the record the sponsoring agency actually reviews after every cleanup day — a log closed out completely, in order, is the difference between a volunteer programme that can show exactly how it handled a bad afternoon and one that raises a question nobody at the check-in table can answer weeks later."
+    }
+  ],
+  "supportLine": "your agency's employee assistance programme, with the sponsoring organisation's own volunteer-safety line behind it",
+  "tagline": "The watch a volunteer crew doesn't know it needs: the briefing that actually covers sharps and the buddy system, the right glove and tool handed out for the right hazard, a loose needle found before the crew ever fans out, the tide window read off the table rather than guessed at, a missing volunteer answered with an immediate headcount, a surging tide answered with an immediate recall, and every hour of the day logged the way the sponsoring agency needs it logged",
+  "title": "SmartCiti.X~ Volunteer Cleanup Day Safety Lead VR",
+  "trade": "Volunteer cleanup day safety lead, briefing and watching a shoreline cleanup crew of community volunteers for a sponsoring restoration agency",
+  "underwater": null,
+  "weather": "clear"
+}

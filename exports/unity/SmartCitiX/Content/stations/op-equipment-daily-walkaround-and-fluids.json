@@ -1,0 +1,424 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "fleet-readiness",
+    "name": "Fleet Readiness",
+    "note": "Walked, fluids checked, chocked before working underneath, and the brakes and hydraulics proved before the first bucket"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations and 29 CFR 1926.602 Material handling equipment; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on struck-by and caught-in incidents during equipment servicing",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.21",
+        "id": "osha-1926-21",
+        "title": "29 CFR 1926.21 — Safety training and education in construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.602",
+        "id": "osha-1926-602",
+        "title": "OSHA 29 CFR 1926.602 Material handling equipment"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations",
+        "id": "osha-1926-subpart-o",
+        "title": "OSHA 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "never-skip-a-fluid",
+        "name": "Never Skip a Fluid",
+        "note": "Check every fluid level clean, first try"
+      },
+      {
+        "id": "chocked-before-under",
+        "name": "Chocked Before Under",
+        "note": "Never worked near the undercarriage before chocking"
+      },
+      {
+        "id": "steady-checks",
+        "name": "Steady Checks",
+        "note": "Held the gauge readings near band centre all shift"
+      },
+      {
+        "id": "clean-walkaround",
+        "name": "Clean Walkaround",
+        "note": "Never missed a defect on the walk-around"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-walkaround",
+        "name": "Quick Walkaround",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "ready-streak",
+        "name": "Ready Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "READY",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Hand",
+      "Equipment Hand",
+      "Walkaround Certified",
+      "Readiness Authority",
+      "Fleet Readiness Certified"
+    ],
+    "system": "Fleet Readiness"
+  },
+  "hazards": {
+    "defect-bypass-hazard": "That starts the machine before the defect just found was actually logged. A defect written down after the fact is a defect that never stopped anyone from operating around it — logging it before start-up is what gives a lead the chance to red-tag the machine while it still can.",
+    "guard-open-hazard": "That starts the engine with an access panel still open. A panel left open exposes belts, fans and linkages that do not stop moving just because a hand is nearby, and closing it before start-up is the one step between an inspection and an injury.",
+    "hydraulic-leak-ignore": "That presses on past a hydraulic leak instead of logging it. Hydraulic fluid escaping under system pressure can penetrate skin at a range most people never expect, and a leak that keeps a machine running one more day without repair is a leak that gets worse under exactly the loads the machine is about to be asked to carry.",
+    "no-chock-hazard": "You are working near the undercarriage without a chock set. A machine on even a slight grade, or one whose parking brake is not what it should be, can roll enough to catch a hand or a foot the instant nobody is watching for it — the chock is what removes that possibility before anyone goes near the tracks or wheels."
+  },
+  "id": "op-equipment-daily-walkaround-and-fluids",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "brake-test",
+      "alert": "The brake pedal has gone noticeably softer partway through the test, with more travel before it bites.",
+      "cue": "Call it in to the shift lead before trusting this brake system for the day.",
+      "delay": 4,
+      "id": "brake-pedal-soft",
+      "kind": "Brake feel changes",
+      "missNote": "The test was called clean despite the pedal going soft. A brake system that already changed feel once during a test at idle is not a system to trust with a loaded bucket on a grade.",
+      "seconds": 12,
+      "target": "shift-lead",
+      "why": "A pedal that changes feel mid-test is the brake system telling you something before it fails outright — reporting it now, while the machine is still in the yard and not loaded on a grade somewhere, is what turns a caught defect into a scheduled repair instead of an emergency.",
+      "wrongNote": "Not that — the soft pedal is what has to be reported before this machine goes anywhere on today's brakes."
+    },
+    {
+      "after": "hydraulic-cycle-test",
+      "alert": "The hydraulic pressure gauge has spiked into the red as the boom cycles through its range.",
+      "cue": "Stop the cycle test now, before the spike repeats on a real load.",
+      "delay": 4,
+      "id": "hydraulic-pressure-spike",
+      "kind": "Pressure spike",
+      "missNote": "The cycle test continued through the pressure spike. A hydraulic failure under load does not give the operator time to react the way a spike on an empty test just did.",
+      "seconds": 11,
+      "target": "hydraulic-stop-flag",
+      "why": "A pressure spike during an empty cycle test is the system showing a problem under the easiest conditions it will ever see — the same spike under an actual load is exactly the kind of event that ruptures a hose or fails a cylinder seal without warning.",
+      "wrongNote": "Not that — the pressure spike is what has to stop this cycle test before anything else about it matters."
+    }
+  ],
+  "lateNotes": {
+    "chock-roll": "The chock goes under the wheel before anyone works near the undercarriage, not after someone is already down there and the machine is discovered to be unchocked.",
+    "defect-tag": "The defect gets logged the moment it is found on the walkaround, not reconstructed from memory once the shift is already underway."
+  },
+  "name": "Equipment Daily Walkaround & Fluids",
+  "parSeconds": 255,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "heavy-equipment-operators"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "backhoe",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "chock",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "1.37x1.26x1.83",
+        "count": 1,
+        "kit": "unknown"
+      },
+      {
+        "builder": "2.2x1.38x1.16",
+        "count": 1,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "brake-pedal",
+      "checklist-board",
+      "chock-roll",
+      "chock-socket",
+      "closing-log",
+      "coolant-reservoir",
+      "cracked-mirror",
+      "defect-bypass-hazard",
+      "defect-tag",
+      "fire-extinguisher",
+      "guard-open-hazard",
+      "hard-hat",
+      "hi-vis-vest",
+      "hydraulic-hose-leak",
+      "hydraulic-leak-ignore",
+      "hydraulic-pressure-gauge",
+      "hydraulic-sight-glass",
+      "hydraulic-stop-flag",
+      "no-chock-hazard",
+      "oil-dipstick",
+      "seatbelt",
+      "seatbelt-mount",
+      "shift-lead",
+      "sound-panel",
+      "stabilizer-lock-lever",
+      "worn-tyre"
+    ],
+    "meshes": 176
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Hi-vis vest and hard hat before stepping into the yard.",
+      "id": "ppe",
+      "itemNames": {
+        "hard-hat": "hard hat",
+        "hi-vis-vest": "hi-vis vest"
+      },
+      "kind": "sequence",
+      "prompt": "Hi-vis vest and hard hat before stepping into the yard.",
+      "targets": [
+        "hi-vis-vest",
+        "hard-hat"
+      ],
+      "title": "Suit up before the walkaround",
+      "why": "A walkaround happens in a yard with other equipment moving around it, and the vest and hard hat are what make the person doing the inspection visible to every other operator in that yard, not just to the machine being checked."
+    },
+    {
+      "cue": "Confirm today's inspection form before starting the walkaround.",
+      "id": "checklist-board",
+      "kind": "select",
+      "prompt": "Confirm today's inspection form before starting the walkaround.",
+      "target": "checklist-board",
+      "title": "Read the pre-op checklist",
+      "why": "The checklist is what turns a walkaround into a repeatable inspection instead of whatever the operator happens to remember to look at — reading it first is what makes sure nothing on today's form gets skipped because the walkaround felt routine."
+    },
+    {
+      "cue": "Walk the full machine. Three defects are hiding on it — find them by looking.",
+      "decoyNotes": {
+        "sound-panel": "That access panel is intact, seated and shows no damage. Nothing to flag there."
+      },
+      "id": "walk-around-defects",
+      "itemNames": {
+        "cracked-mirror": "cracked mirror",
+        "hydraulic-hose-leak": "hydraulic hose weeping fluid",
+        "worn-tyre": "worn tyre tread"
+      },
+      "itemNotes": {
+        "cracked-mirror": "A cracked mirror is a blind spot the operator does not know they have until the one time it actually matters.",
+        "hydraulic-hose-leak": "A hose weeping fluid under pressure is a hose that fails suddenly, not gradually — better to find the weep now than the failure later.",
+        "worn-tyre": "Tread worn below where it should be changes how this machine actually handles on the grades and the wet ground it works on every day."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the full machine. Three defects are hiding on it — find them by looking.",
+      "targets": [
+        "hydraulic-hose-leak",
+        "worn-tyre",
+        "cracked-mirror"
+      ],
+      "title": "Walk around the machine before starting it",
+      "why": "A machine that looks fine parked in the yard is not the same thing as one a competent person has actually walked around — a leak, a worn tyre or a cracked mirror found now costs a repair ticket, and found once the machine is already working costs a breakdown or a blind spot nobody knew to compensate for."
+    },
+    {
+      "cue": "Read the dipstick and commit only inside the safe fill range.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.62
+        ],
+        "label": "ENGINE OIL LEVEL",
+        "missNote": "Outside the safe fill range. Correct the level before starting this engine.",
+        "speed": 0.6
+      },
+      "id": "engine-oil-check",
+      "kind": "gauge",
+      "prompt": "Read the dipstick and commit only inside the safe fill range.",
+      "target": "oil-dipstick",
+      "title": "Check the engine oil level",
+      "why": "Running the engine low on oil accelerates wear on every bearing surface it is supposed to be protecting, and the dipstick is the only honest reading of that level — not a guess based on how the machine sounded yesterday."
+    },
+    {
+      "cue": "Read the sight glass and commit only inside the safe fill range.",
+      "gauge": {
+        "green": [
+          0.48,
+          0.65
+        ],
+        "label": "HYDRAULIC FLUID LEVEL",
+        "missNote": "Outside the safe fill range. Correct the level before cycling any hydraulic function.",
+        "speed": 0.55
+      },
+      "id": "hydraulic-fluid-check",
+      "kind": "gauge",
+      "prompt": "Read the sight glass and commit only inside the safe fill range.",
+      "target": "hydraulic-sight-glass",
+      "title": "Check the hydraulic fluid level",
+      "why": "Low hydraulic fluid lets the pump draw air, and air in a hydraulic system shows up later as spongy, unpredictable movement in the boom and bucket — exactly the moment an operator does not want to discover it."
+    },
+    {
+      "cue": "Confirm the coolant reservoir is between the marked lines before starting the engine.",
+      "id": "coolant-check",
+      "kind": "select",
+      "prompt": "Confirm the coolant reservoir is between the marked lines before starting the engine.",
+      "target": "coolant-reservoir",
+      "title": "Check the coolant level",
+      "why": "An engine that runs hot because the coolant was never checked is an engine that can warp or crack under the exact loads a normal day's work puts on it — the reservoir marks exist so this is a visual confirmation, not a guess."
+    },
+    {
+      "cue": "Confirm the extinguisher is mounted, charged and within its inspection date.",
+      "id": "extinguisher-check",
+      "kind": "select",
+      "prompt": "Confirm the extinguisher is mounted, charged and within its inspection date.",
+      "target": "fire-extinguisher",
+      "title": "Confirm the fire extinguisher",
+      "why": "A fire extinguisher that is not actually charged is a fire extinguisher in name only — confirming the gauge and the inspection tag now is what makes it a real control instead of a mounting bracket that looks reassuring from a distance."
+    },
+    {
+      "cue": "Carry the chock to the wheel before anyone works near the undercarriage.",
+      "drag": {
+        "missNote": "Not against the wheel — set the chock so it actually blocks it, not beside it.",
+        "radius": 0.4,
+        "to": "chock-socket"
+      },
+      "id": "chock-place",
+      "kind": "drag",
+      "prompt": "Carry the chock to the wheel before anyone works near the undercarriage.",
+      "target": "chock-roll",
+      "title": "Chock the machine",
+      "why": "A machine parked on even a slight grade, with a parking brake that is not everything it should be, can roll enough to catch a hand or a foot near the wheels — the chock is what removes that possibility before the inspection goes anywhere near the undercarriage."
+    },
+    {
+      "cue": "Turn the lock lever to confirm both stabilizers are secured for travel.",
+      "id": "stabilizer-lock",
+      "kind": "turn",
+      "prompt": "Turn the lock lever to confirm both stabilizers are secured for travel.",
+      "target": "stabilizer-lock-lever",
+      "title": "Confirm the stabilizer transport lock",
+      "turn": {
+        "axis": "y",
+        "label": "STABILIZER LOCK",
+        "turns": 0.5
+      },
+      "why": "A stabilizer that is not locked for transport can drop or swing on rough ground, and confirming the lock now is what keeps that from becoming a surprise the first time the machine hits a pothole on the way to the job."
+    },
+    {
+      "cue": "Buckle in before starting the engine, every day, not just the days that feel like they need it.",
+      "id": "seatbelt-buckle",
+      "kind": "select",
+      "prompt": "Buckle in before starting the engine, every day, not just the days that feel like they need it.",
+      "target": "seatbelt",
+      "title": "Buckle the seatbelt",
+      "why": "The ROPS structure over this seat only protects an operator who stays inside its zone of protection, and the seatbelt is the only thing that keeps a body there through whatever the day's work turns out to include."
+    },
+    {
+      "cue": "Hold steady pressure on the brake pedal and feel for consistent resistance the whole time.",
+      "holdBreakNote": "Released the pedal before the test finished. Hold it through the whole check — that is the only way to catch a brake problem developing under steady pressure.",
+      "id": "brake-test",
+      "kind": "hold",
+      "prompt": "Hold steady pressure on the brake pedal and feel for consistent resistance the whole time.",
+      "seconds": 6,
+      "target": "brake-pedal",
+      "title": "Test the brakes",
+      "why": "A brake test at idle, before the machine is loaded or on a grade, is the cheapest possible place to catch a problem — a pedal that feels wrong here is a warning the yard can act on, not a discovery made halfway down a haul road."
+    },
+    {
+      "cue": "Cycle the boom through its full range, keeping the pressure needle inside the safe band the whole time.",
+      "holdBreakNote": "The pressure drifted out of the safe band. Bring the cycle back under control before continuing.",
+      "id": "hydraulic-cycle-test",
+      "kind": "track",
+      "prompt": "Cycle the boom through its full range, keeping the pressure needle inside the safe band the whole time.",
+      "seconds": 8,
+      "target": "hydraulic-pressure-gauge",
+      "title": "Cycle the hydraulics through their range",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "HYDRAULIC PRESSURE",
+        "rise": 0.5,
+        "start": 0.12
+      },
+      "why": "Cycling every hydraulic function through its complete range before the first real use is what catches a slow leak, a soft spot or a pressure spike while the machine is still empty and stationary — exactly the conditions in which a problem is easiest to see and safest to have."
+    },
+    {
+      "cue": "Log every defect from the walkaround before the machine is released for work.",
+      "id": "defect-log",
+      "kind": "select",
+      "prompt": "Log every defect from the walkaround before the machine is released for work.",
+      "target": "defect-tag",
+      "title": "Log any defects found",
+      "why": "A defect log is what gives the shift lead the chance to red-tag a machine that should not be working today — a defect that was noticed but never written down is a defect the next person to touch this machine has no way of knowing about."
+    },
+    {
+      "cue": "Sign off the inspection form before releasing the machine for the day's work.",
+      "id": "shutdown-log",
+      "kind": "select",
+      "prompt": "Sign off the inspection form before releasing the machine for the day's work.",
+      "target": "closing-log",
+      "title": "Close out the pre-op inspection",
+      "why": "The signed inspection form is the record that this specific machine, on this specific day, was actually checked — not assumed fine because it looked the same as it did yesterday."
+    }
+  ],
+  "supportLine": "your IUOE local's member assistance programme, or the site's employee assistance line if a close call during a pre-op inspection is what stayed with you",
+  "tagline": "Daily pre-op walkaround on a loader backhoe: the checklist read, the machine walked for a leak or a defect, every fluid checked against its own gauge, a chock set before working underneath it, and the brakes and hydraulics proved before the first bucket of the day",
+  "title": "SmartCiti.X~ Equipment Daily Walkaround & Fluids VR",
+  "trade": "Heavy equipment operator — IUOE Local 3 operating engineer",
+  "underwater": null,
+  "weather": "clear"
+}

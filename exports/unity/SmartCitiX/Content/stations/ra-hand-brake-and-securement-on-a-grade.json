@@ -1,0 +1,350 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "held-on-the-grade",
+    "name": "Held On The Grade",
+    "note": "Securement proved by test, not assumed from a count of turns on a wheel"
+  },
+  "category": "Mobility & Transit",
+  "certification": "Securement worked to FRA 49 CFR Part 232, including the effectiveness test that has to prove hand brakes hold before the air is trusted for anything else, on a cut protected by three-step under FRA 49 CFR Part 214 before anyone goes near the coupler, called and confirmed with the dispatcher the way a BLET-qualified engineer and a SMART-TD conductor both expect a securement report to read",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "BLET",
+        "id": "blet-training",
+        "title": "BLET certification and training for locomotive engineers and trainmen"
+      },
+      {
+        "body": "union",
+        "citedAs": "SMART-TD",
+        "id": "smarttd-training",
+        "title": "SMART Transportation Division training for conductors, trainmen and yardmasters"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Track",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "never-below",
+        "name": "Never Below",
+        "note": "Never once standing in the rollaway path during the test"
+      },
+      {
+        "id": "calc-true",
+        "name": "Calc True",
+        "note": "Every securement calculation and test reading near band centre"
+      },
+      {
+        "id": "test-clean",
+        "name": "Clean Test",
+        "note": "Release and push-pull test steps worked with no correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "grade-time",
+        "name": "Grade Time",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "first-secure",
+        "name": "First Secure",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "ten-clear",
+        "name": "Ten Clear",
+        "note": "Ten correct actions in a row"
+      }
+    ],
+    "currency": "GRADE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Trainman",
+      "Qualified Conductor",
+      "Lead Conductor",
+      "Trainmaster",
+      "Securement Certified"
+    ],
+    "system": "Securement Authority"
+  },
+  "hazards": {
+    "between-cars-uncoupling": "You reached for the coupler before three-step was confirmed. A locomotive is only proven unable to move once the crew has heard the acknowledgement — reaching in ahead of that is trusting a machine that has not yet said it can't.",
+    "brake-wheel-pinch": "You put a hand on the hand brake wheel while someone else was already winding it. A wheel under load from a chain that is taking up hard can catch a hand in the spokes exactly the way it is built to move rope or chain, and it does not know the difference.",
+    "chock-reach-unsecured": "You reached toward the wheel to place a chock before any hand brake was actually applied. A cut with no brakes set at all can move on a grade with nothing but its own weight, and a hand at the wheel is the last place you want to be when it does.",
+    "downhill-side-stand": "You are standing directly downgrade of the cut during the test. If the securement has not actually held, this is exactly the path the equipment takes, and it takes it with no warning beyond the sound you would already be standing in."
+  },
+  "id": "ra-hand-brake-and-securement-on-a-grade",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "air-release",
+      "alert": "The cut has crept half a car length downgrade. The hand brakes you applied are not enough on their own.",
+      "cue": "That is the one thing this test exists to catch, and it just happened.",
+      "delay": 4,
+      "id": "creep-detected",
+      "kind": "The cut moves during the release test",
+      "missNote": "You let the creep continue without adding brake. A cut that moves half a car length on its own with the air off does not stop moving because the test is over — it stops when something wound tight enough actually holds it, and nothing you did just added that.",
+      "seconds": 12,
+      "target": "lead-handbrake",
+      "why": "A push-pull test with the air released is the only way to find out whether hand brakes alone actually hold this tonnage on this grade, and creep during the test means the answer is no — the fix is more brake, applied and wound up hard, before anything else about this cut is trusted, including the air that just came back off.",
+      "wrongNote": "That does not add holding force to a cut that is already moving. Get another hand brake wound up hard."
+    },
+    {
+      "after": "watch-dial",
+      "alert": "The hand brake wheel on the lead car has started spinning back on its own — the pawl has slipped and the chain is paying back out.",
+      "cue": "That brake is losing its hold while you're watching for exactly this.",
+      "delay": 4,
+      "id": "wheel-slip-warning",
+      "kind": "A hand brake wheel spins loose under load",
+      "missNote": "You watched the wheel spin back without re-taking it up. A hand brake that has slipped its pawl holds nothing at all, and the only way it holds anything again is somebody winding it back up.",
+      "seconds": 11,
+      "target": "lead-handbrake",
+      "why": "A pawl that has slipped is a hand brake that is no longer actually applying force, whatever the wheel's earlier position suggested, and a brake losing tension while the cut is still on the grade is the one failure this whole test is built to catch before it becomes a rollaway rather than after.",
+      "wrongNote": "That does not re-tension a slipped brake. Take the wheel back up."
+    }
+  ],
+  "lateNotes": {
+    "left-chock": "Nothing gets logged clear until the walk is actually done."
+  },
+  "name": "Hand Brake & Securement on a Grade",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "railroad-crafts"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "air-release-valve",
+      "between-cars-uncoupling",
+      "brake-wheel-pinch",
+      "car-1-handbrake",
+      "car-2-handbrake",
+      "chock-check",
+      "chock-position",
+      "chock-reach-unsecured",
+      "chocks",
+      "closing-log",
+      "downhill-side-stand",
+      "grade-profile-board",
+      "lead-handbrake",
+      "left-chock",
+      "open-tool-box",
+      "radio-handset",
+      "securement-calc",
+      "test-point",
+      "three-step-button",
+      "uncouple-lever",
+      "watch-dial"
+    ],
+    "meshes": 162
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the grade, the tonnage and the number of cars in the cut.",
+      "id": "briefing",
+      "kind": "select",
+      "prompt": "Check the grade, the tonnage and the number of cars in the cut.",
+      "target": "grade-profile-board",
+      "title": "Read the grade profile",
+      "why": "How many hand brakes this cut needs is worked from the grade and the tonnage on the profile board, not guessed by feel — a cut on a steeper grade or carrying more tonnage needs more braking force than the same count of cars would on level track."
+    },
+    {
+      "cue": "Set the calculator against the grade and tonnage and commit the required count.",
+      "gauge": {
+        "green": [
+          0.54,
+          0.74
+        ],
+        "label": "BRAKES REQUIRED",
+        "missNote": "That count does not match this grade and tonnage. Recalculate before applying brakes.",
+        "speed": 0.66
+      },
+      "id": "securement-calc",
+      "kind": "gauge",
+      "prompt": "Set the calculator against the grade and tonnage and commit the required count.",
+      "target": "securement-calc",
+      "title": "Calculate the number of hand brakes required",
+      "why": "Securement is a number worked from a chart against the actual grade and tonnage, per the rulebook — applying whatever number of brakes feels sufficient is exactly the habit that works right up until the one cut where it doesn't."
+    },
+    {
+      "cue": "Apply the downgrade car's hand brake first, then the next one up the grade.",
+      "id": "apply-brakes",
+      "itemNames": {
+        "car-1-handbrake": "apply hand brake — downgrade car",
+        "car-2-handbrake": "apply hand brake — second car"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — the downgrade car goes first. A cut braked from the wrong end can still start moving before the brake that would have stopped it is even applied.",
+      "prompt": "Apply the downgrade car's hand brake first, then the next one up the grade.",
+      "targets": [
+        "car-1-handbrake",
+        "car-2-handbrake"
+      ],
+      "title": "Apply hand brakes from the downgrade end",
+      "why": "The downgrade car is the one that starts a rollaway the moment the cut begins to move, so it is the first brake applied and the one this whole securement depends on most — working up the grade after that is what actually resists the cut as a whole, not just its leading edge."
+    },
+    {
+      "cue": "Turn the hand brake wheel until it is fully taken up, not just engaged.",
+      "id": "wind-tight",
+      "kind": "turn",
+      "prompt": "Turn the hand brake wheel until it is fully taken up, not just engaged.",
+      "target": "lead-handbrake",
+      "title": "Wind the lead hand brake up hard",
+      "turn": {
+        "axis": "x",
+        "label": "HAND BRAKE",
+        "turns": 2
+      },
+      "why": "A hand brake that is engaged but not wound up hard is a brake that is holding almost nothing — the chain has to be taken up tight enough that the shoe is actually loaded against the wheel, and how hard is a thing this test checks rather than assumes."
+    },
+    {
+      "cue": "Carry the chocks from the kit to the downgrade wheel and set them.",
+      "drag": {
+        "missNote": "Not seated against the wheel — carry the chock the rest of the way and set it flush.",
+        "radius": 0.3,
+        "to": "chock-position"
+      },
+      "id": "chock",
+      "kind": "drag",
+      "prompt": "Carry the chocks from the kit to the downgrade wheel and set them.",
+      "target": "chocks",
+      "title": "Chock the wheels",
+      "why": "Chocks are the backup to the hand brakes, not a replacement for them — if a brake's pawl slips or a chain stretches under load, the chock is the one piece of this securement that has no moving parts left to fail."
+    },
+    {
+      "cue": "Check the chock sits flush against the wheel with no gap.",
+      "id": "chock-check",
+      "kind": "select",
+      "prompt": "Check the chock sits flush against the wheel with no gap.",
+      "target": "chock-check",
+      "title": "Verify the chock is seated",
+      "why": "A chock resting near the wheel instead of against it does nothing until the wheel has already rolled far enough to reach it, which defeats the entire point of a backup that is supposed to act before the hand brakes are tested to their limit."
+    },
+    {
+      "cue": "Hold the release valve open and watch the cut while the air bleeds off.",
+      "holdBreakNote": "You let go of the valve before the air was fully off. A partial release leaves some of the air brake still doing the holding, which is exactly what this test is supposed to rule out.",
+      "id": "air-release",
+      "kind": "hold",
+      "prompt": "Hold the release valve open and watch the cut while the air bleeds off.",
+      "seconds": 5,
+      "target": "air-release-valve",
+      "title": "Release the air brakes",
+      "why": "The air brakes have to come off before the hand brakes can be tested on their own, because a cut that is only standing still because the air is still applied has not actually been proven secure by anything this crew did — releasing it is what turns an assumption into a test."
+    },
+    {
+      "cue": "Hold your attention on the cut in the green band for the full watch, not just the first few seconds.",
+      "holdBreakNote": "Attention dropped out of band during the watch. A creep that starts in the exact second nobody is looking is a creep that gets found by somebody else, somewhere downgrade.",
+      "id": "watch-dial",
+      "kind": "track",
+      "prompt": "Hold your attention on the cut in the green band for the full watch, not just the first few seconds.",
+      "seconds": 6,
+      "target": "watch-dial",
+      "title": "Watch for movement",
+      "why": "A securement failure does not always show itself the instant the air comes off — a brake that is barely holding can creep for several seconds before it either catches or lets go entirely, so the watch runs the full count rather than ending the moment nothing has happened yet."
+    },
+    {
+      "cue": "Apply force at the test point and confirm the cut does not move.",
+      "id": "push-pull-test",
+      "kind": "select",
+      "prompt": "Apply force at the test point and confirm the cut does not move.",
+      "target": "test-point",
+      "title": "Perform the push-pull test",
+      "why": "The push-pull test is the actual proof this securement holds — not the number of brakes applied, not how many turns went onto a wheel, but whether the cut resists an applied force the way a securely braked cut is supposed to."
+    },
+    {
+      "cue": "Call for three-step and wait for the acknowledgement before approaching the coupler.",
+      "id": "three-step",
+      "kind": "select",
+      "prompt": "Call for three-step and wait for the acknowledgement before approaching the coupler.",
+      "target": "three-step-button",
+      "title": "Confirm three-step on the locomotive",
+      "why": "Three-step is the locomotive's own undertaking that it cannot move — brakes applied, reverser centred, power off — and it is confirmed before anyone goes near the coupler because a locomotive that has not yet answered is a locomotive this crew has no proof cannot move."
+    },
+    {
+      "cue": "Scan the worksite and clear anything that didn't make it back into the kit.",
+      "id": "walk",
+      "itemNames": {
+        "left-chock": "spare chock left on the ballast",
+        "open-tool-box": "tool box left open on the shoulder"
+      },
+      "itemNotes": {
+        "left-chock": "A chock left where nobody set it is a chock that will not be there the next time this cut needs one.",
+        "open-tool-box": "An open lid catches wind and rain both; closed and latched before it is left for the next crew."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Scan the worksite and clear anything that didn't make it back into the kit.",
+      "targets": [
+        "left-chock",
+        "open-tool-box"
+      ],
+      "title": "Walk the cut before you leave it",
+      "why": "A securement job leaves chocks, tools and paperwork scattered the length of the cut, and the only check that catches what did not make it back is somebody actually walking the ground before signing off."
+    },
+    {
+      "cue": "Pull the uncoupling lever now that three-step is confirmed and the cut is proven secure.",
+      "id": "uncouple",
+      "kind": "select",
+      "prompt": "Pull the uncoupling lever now that three-step is confirmed and the cut is proven secure.",
+      "target": "uncouple-lever",
+      "title": "Uncouple the locomotive",
+      "why": "The locomotive is parted from a cut that has already been tested and proven, in that order — uncoupling first and testing the securement afterward would mean finding out it failed with nothing left attached to help hold it."
+    },
+    {
+      "cue": "Call the dispatcher and hold the radio for the read-back confirming the securement.",
+      "holdBreakNote": "You let go before the read-back came back. The record does not change until the dispatcher has said so in your own hearing.",
+      "id": "radio-report",
+      "kind": "hold",
+      "prompt": "Call the dispatcher and hold the radio for the read-back confirming the securement.",
+      "seconds": 4,
+      "target": "radio-handset",
+      "title": "Report the cut secured",
+      "why": "The dispatcher's own record of this cut being secured is what every other crew in the yard relies on when they cannot see it themselves, and that record does not change until you have said so and had it read back to you."
+    },
+    {
+      "cue": "Log the brake count, the grade and the result of the push-pull test.",
+      "id": "close-log",
+      "kind": "select",
+      "prompt": "Log the brake count, the grade and the result of the push-pull test.",
+      "target": "closing-log",
+      "title": "Close the securement log",
+      "why": "The next crew to touch this cut only knows what this entry tells them — how many brakes, how hard, and whether the test actually passed. A securement job with no log behind it is, to the next crew, a cut nobody has proven anything about."
+    }
+  ],
+  "supportLine": "your trainmaster or your SMART-TD local if a rollaway close call is still sitting with you after shift",
+  "tagline": "Enough hand brakes applied from the downgrade end first, wound up hard, backed by chocks, tested by releasing the air and watching for the one thing that says it didn't hold, and the locomotive parted only once three-step is confirmed",
+  "title": "SmartCiti.X~ Hand Brake & Securement on a Grade VR",
+  "trade": "Conductor / trainman",
+  "underwater": null,
+  "weather": "clear"
+}

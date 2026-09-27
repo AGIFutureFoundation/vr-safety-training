@@ -1,0 +1,358 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "finish-line",
+    "name": "Finish Line",
+    "note": "A hem, a buttonhole, buttons and bar tacks all sewn true, guard down every time, and the piece passed against spec"
+  },
+  "category": "Sewing & Garment Trades",
+  "certification": "Workers United (SEIU) garment and apparel production; the state apprenticeship standards for industrial sewing machine operators; OSHA 29 CFR 1910.212 machine guarding for the buttonhole cutter and bar tack machine; OSHA 29 CFR 1910.147 lockout before clearing a jam; OSHA 1910.132 PPE; NIOSH ergonomics guidance for the seated, repetitive reach these machines ask for all shift",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Manufacturing",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "guard-down-first",
+        "name": "Guard Down First",
+        "note": "Never cycled the buttonhole cutter with the guard up"
+      },
+      {
+        "id": "hands-clear-finish",
+        "name": "Hands Clear",
+        "note": "Never reached toward a running head or a live jam"
+      },
+      {
+        "id": "on-spec-finish",
+        "name": "On Spec",
+        "note": "Hem depth held close to the spec's target"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-finish",
+        "name": "Clean Finish",
+        "note": "No corrections across the whole piece"
+      },
+      {
+        "id": "steady-feed",
+        "name": "Steady Feed",
+        "note": "Held the blind hem's feed rate without a break"
+      },
+      {
+        "id": "finish-fast",
+        "name": "Finish Fast",
+        "note": "Piece finished inside 80% of par"
+      }
+    ],
+    "currency": "STITCH",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Trimmer",
+      "Finisher",
+      "Lead Finisher",
+      "Bench Lead",
+      "Finishing Standard Certified"
+    ],
+    "system": "Finishing Standard"
+  },
+  "hazards": {
+    "belt-guard-off": "The bar tack machine's belt guard has been left off, and the drive belt and pulley are spinning exposed at knee height beside the operator's chair. A belt and pulley catch a loose cuff or a hanging thread the same way every time — pulled in, not let go — which is the entire reason 1910.212 requires the guard over a moving belt rather than trusting everyone nearby to stay clear of it.",
+    "frayed-cord": "The blindstitch machine's foot pedal cord is frayed down to bare copper a few inches from the plug. A cord that has been rolled under a chair leg all week does not fail cleanly — it fails live, and a foot resting near bare copper on a shop floor is closer to a shock path than anyone treats it as being until it actually happens.",
+    "guard-propped": "That spare buttonhole head has its cutter guard propped open with a scrap of fabric wedged under the hinge. A guard held open is a guard that is not there — OSHA 29 CFR 1910.212 exists because a chisel guard gets propped for exactly this reason, to save the half-second it takes to lift on the next piece, and it is the half-second that was protecting a hand.",
+    "seam-ripper-exposed": "That seam ripper is lying open with its point and hook blade both exposed on the table where finished pieces get stacked. A seam ripper is built to slip under one thread at a time; left open on a bench it slips under whatever brushes past it next, point first."
+  },
+  "id": "hem-and-buttonhole",
+  "indoor": "shop",
+  "interrupts": [
+    {
+      "after": "buttonhole-cycle",
+      "alert": "A coworker reaches in to straighten the placket edge just as the chisel comes down — their fingertip clears the clamp by millimetres.",
+      "cue": "Hands are near a clamp that is not done cycling.",
+      "delay": 3,
+      "id": "cutter-near-miss",
+      "kind": "Cutter near miss",
+      "missNote": "The cycle ran on with a hand that close to the clamp. It cleared this time by luck, not by anything the procedure did — the next reach at the same moment does not get to find out it was lucky too, and a buttonhole chisel does not leave a fingertip in a shape a hand recovers from.",
+      "seconds": 10,
+      "target": "estop",
+      "why": "A chisel stroke takes a fraction of a second and gives no warning beyond the machine's own motion, and a reach toward the clamp mid-cycle is answered with the emergency stop, not a shouted warning — a warning arrives after the hand is already there and the stop arrives before the next stroke can. This machine gets stopped cold the instant a hand is where the clamp is, not walked back from carefully.",
+      "wrongNote": "It's the emergency stop — a hand is at the clamp mid-cycle. Stop the machine before anything else happens near it."
+    },
+    {
+      "after": "bartack",
+      "alert": "The bar tack machine jams mid-cycle, needle down and the presser foot still clamped on the fabric.",
+      "cue": "That machine is not running, and it is not safe to reach into either.",
+      "delay": 3,
+      "id": "bartack-jam",
+      "kind": "Machine jam",
+      "missNote": "The jam got cleared with the machine still live. It happened to stay stalled through the reach. A machine that jams once can un-jam and complete its stroke on its own the next time somebody's hand is already inside it, which is the entire reason the switch comes first and not the fabric.",
+      "seconds": 12,
+      "target": "bartack-power",
+      "why": "A jammed machine still has stored energy in whatever was mid-stroke when it stalled, and reaching into the head to clear fabric while it is only jammed rather than actually off is exactly the moment OSHA's control-of-hazardous-energy rule at 1910.147 is written for. Power goes off at the switch first — the jam gets cleared by hand only once the machine cannot suddenly finish the stroke it stalled on.",
+      "wrongNote": "It's the power switch — that machine is jammed, not off. Cut power before a hand goes anywhere near the head."
+    }
+  ],
+  "lateNotes": {
+    "button-top": "Not yet — the buttonhole gets checked against spec before anything is sewn on top of it.",
+    "buttonhole-cycle": "Not yet — the cutter guard comes down first, every cycle, no matter how many buttonholes came before this one.",
+    "spec-sheet": "The final check against the spec happens once the hem, the buttonhole, the buttons and the bar tacks are all actually sewn — not partway through the piece."
+  },
+  "name": "Hem & Buttonhole",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "sewing-garment-trades"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "bare-corner",
+      "bartack-machine",
+      "bartack-power",
+      "belt-guard-off",
+      "blindstitch-guard",
+      "blindstitch-power",
+      "button-bottom",
+      "button-mid",
+      "button-top",
+      "buttonhole-check",
+      "buttonhole-cycle",
+      "cutter-guard",
+      "estop",
+      "frayed-cord",
+      "guard-propped",
+      "hem-depth-gauge",
+      "hem-fold",
+      "seam-ripper-exposed",
+      "spec-sheet",
+      "thread-trim"
+    ],
+    "meshes": 179
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the hem depth, the buttonhole count and size, the button spacing and the bar tack points.",
+      "id": "spec-sheet",
+      "kind": "select",
+      "prompt": "Check the hem depth, the buttonhole count and size, the button spacing and the bar tack points.",
+      "target": "spec-sheet",
+      "title": "Read the finishing spec",
+      "why": "The spec sheet is the only place this piece's exact numbers live — a hem depth in millimetres, a buttonhole length keyed to the actual button on the ticket, a button spacing measured from the top edge, and the points on the garment that get a bar tack because they take load every time it's worn. A finisher working from what the last style called for is finishing this piece to a spec that isn't this piece's own."
+    },
+    {
+      "cue": "Confirm the finger guard is down over the looper before the machine goes on.",
+      "id": "blindstitch-guard",
+      "kind": "select",
+      "prompt": "Confirm the finger guard is down over the looper before the machine goes on.",
+      "target": "blindstitch-guard",
+      "title": "Check the blindstitch machine's finger guard",
+      "why": "The blindstitch machine catches a single thread of the hem's fold with a curved needle running close beside a looper that never fully stops moving between stitches, and the finger guard is what keeps a hand feeding the fold from riding in far enough to meet it. It gets checked before power goes on, not assumed to still be where it was left at the end of the last shift."
+    },
+    {
+      "cue": "Turn the power switch on now that the guard is confirmed down.",
+      "id": "power-on",
+      "kind": "turn",
+      "prompt": "Turn the power switch on now that the guard is confirmed down.",
+      "target": "blindstitch-power",
+      "title": "Switch on the blindstitch machine",
+      "turn": {
+        "axis": "y",
+        "label": "POWER",
+        "turns": 0.6
+      },
+      "why": "Power goes on after the guard is checked, in that order, every time — a machine already running when a hand goes looking for the guard is a machine that finds out whether the guard was down the hard way. Reversing the two steps turns a checklist item into a gamble on what somebody remembers from the last piece."
+    },
+    {
+      "cue": "Guide the folded hem edge through the machine's folder at an even, unhurried pace.",
+      "holdBreakNote": "Feed rate broke out of the band. A hem that shows on the face or drifts off depth has to be picked and run again — bring the fold back to a steady pace.",
+      "id": "blind-hem",
+      "kind": "track",
+      "prompt": "Guide the folded hem edge through the machine's folder at an even, unhurried pace.",
+      "seconds": 6,
+      "target": "hem-fold",
+      "title": "Feed the hem fold at a steady rate",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.4,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "FEED RATE",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "Fed too fast, the folder loses the fold and the blind stitch catches through to the face of the garment where it shows; fed too slow, the fold wanders off the folder's guide and the hem depth drifts wider or narrower than the spec calls for a few inches into the same piece. A steady hand on the fold is what a blind hem is actually named for — the stitch is supposed to be the one thing on this garment nobody sees."
+    },
+    {
+      "cue": "Check the hem depth against the spec and commit once it's inside the target band.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "HEM DEPTH",
+        "missNote": "Off the spec's hem depth — pick the stitch and feed it through again, watching the fold against the folder's guide.",
+        "speed": 0.7
+      },
+      "id": "hem-depth",
+      "kind": "gauge",
+      "prompt": "Check the hem depth against the spec and commit once it's inside the target band.",
+      "target": "hem-depth-gauge",
+      "title": "Measure the finished hem depth",
+      "why": "The spec's hem depth is not a suggestion — a garment hemmed a few millimetres short or long from the same style's other pieces comes back from quality as a mismatched lot, and the only way to know this particular hem hit the number is to measure it here, on the piece, rather than trust that a steady feed was steady enough."
+    },
+    {
+      "cue": "Confirm the chisel guard is down over the cutting station before cycling the machine.",
+      "id": "cutter-guard",
+      "kind": "select",
+      "prompt": "Confirm the chisel guard is down over the cutting station before cycling the machine.",
+      "target": "cutter-guard",
+      "title": "Check the buttonhole cutter's guard",
+      "why": "The buttonhole machine's chisel comes down with enough force to punch through several layers of fabric in one stroke, and the guard is the only thing between that stroke and a hand still holding the placket in position. It gets checked down before every single cycle — not once at the start of the bundle — because the one cycle it's skipped on is indistinguishable from any other until the chisel is already moving."
+    },
+    {
+      "cue": "Hold the cycle control through the full stitch-and-cut pass — releasing early stops the chisel mid-stroke.",
+      "holdBreakNote": "Cycle released before it finished. A buttonhole cut without its reinforcing stitch already sewn will fray and run the first time the button pulls against it — the piece needs a new buttonhole, not a patch on this one.",
+      "id": "buttonhole-cycle",
+      "kind": "hold",
+      "prompt": "Hold the cycle control through the full stitch-and-cut pass — releasing early stops the chisel mid-stroke.",
+      "seconds": 4,
+      "target": "buttonhole-cycle",
+      "title": "Run the buttonhole cycle",
+      "why": "The stitch-and-cut cycle is one continuous pass for a reason: the machine sews the eyelet and bar ends first and only cuts once that reinforcing stitch is actually in place, so a cycle broken off partway can leave a cut slit with no stitching around it to keep it from running. Holding the control through the whole cycle, hands otherwise clear of the clamp, is what a buttonhole machine is built to be run with."
+    },
+    {
+      "cue": "Confirm the cut length and placement match the spec sheet's numbers.",
+      "id": "buttonhole-check",
+      "kind": "select",
+      "prompt": "Confirm the cut length and placement match the spec sheet's numbers.",
+      "target": "buttonhole-check",
+      "title": "Check the buttonhole against spec",
+      "why": "A buttonhole cut a millimetre short binds the button every time it's fastened; cut long, the button slides and the placket gapes — and a placement off the spec's mark throws off every button spaced from it down the front of the garment. Checking it here, against the actual spec, is the last point where a wrong buttonhole costs one piece instead of a whole bundle sewn from the same bad reference."
+    },
+    {
+      "cue": "Sew the top button, then the middle, then the bottom, each at the spec's marked spacing.",
+      "id": "button-sew",
+      "itemNames": {
+        "button-bottom": "bottom button",
+        "button-mid": "middle button",
+        "button-top": "top button"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Top to bottom — the spacing is measured from the top edge down, and sewing out of that order compounds a small shift into a visibly uneven front.",
+      "prompt": "Sew the top button, then the middle, then the bottom, each at the spec's marked spacing.",
+      "targets": [
+        "button-top",
+        "button-mid",
+        "button-bottom"
+      ],
+      "title": "Sew the buttons to spacing",
+      "why": "The spec's spacing is measured from the top edge down, so sewing top to bottom keeps every button anchored to a mark that hasn't shifted yet under the weight of the placket being handled — sewing out of order means each later button is measured off a piece that has already moved a little from wherever the first stitch pulled it."
+    },
+    {
+      "cue": "Hold the pedal through the full back-and-forth cycle at the pocket corner and the fly stress point.",
+      "holdBreakNote": "Pedal released mid-cycle. A partial bar tack holds until the first real pull on that pocket, then lets go exactly where it was supposed to be strongest — run the full cycle again.",
+      "id": "bartack",
+      "kind": "hold",
+      "prompt": "Hold the pedal through the full back-and-forth cycle at the pocket corner and the fly stress point.",
+      "seconds": 5,
+      "target": "bartack-machine",
+      "title": "Strike the bar tacks",
+      "why": "A bar tack is a dense zig-zag built to take the load a plain straight stitch would tear out under — the pocket corner and the fly base are exactly where a garment actually fails first, because that's where a hand pulls hardest getting in and out of a pocket. Letting the pedal off partway through leaves a half-built tack that looks reinforced and tears exactly like the plain seam it was supposed to protect."
+    },
+    {
+      "cue": "One stress point on this piece never got its bar tack. Find it.",
+      "id": "missing-bartack",
+      "itemNames": {
+        "bare-corner": "the pocket corner with no bar tack"
+      },
+      "itemNotes": {
+        "bare-corner": "This pocket corner has a plain straight stitch and no bar tack over it, while the corner beside it does. It looks finished from a glance — it just isn't reinforced where the spec calls for it to be."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "One stress point on this piece never got its bar tack. Find it.",
+      "targets": [
+        "bare-corner"
+      ],
+      "title": "Walk the piece before it moves on",
+      "why": "A missing bar tack does not show up until the garment is worn and that exact corner takes its first real pull, by which point it is a customer return, not a bench correction. Checking every stress point the spec named — not just the ones just worked on — is what catches the one a bundle got shorted on."
+    },
+    {
+      "cue": "Snip the loose thread chains at the hem, the buttonhole and both bar tacks.",
+      "id": "thread-trim",
+      "kind": "select",
+      "prompt": "Snip the loose thread chains at the hem, the buttonhole and both bar tacks.",
+      "target": "thread-trim",
+      "title": "Trim the thread tails",
+      "why": "A thread tail left long enough catches in the next machine this piece goes through, or in the next garment stacked on top of it, and pulls a stitch it took real time to sew correctly. Trimming every tail on this piece before it leaves the bench is what keeps that damage from happening three stations down the line where nobody can trace it back to here."
+    },
+    {
+      "cue": "Run the hem, the buttonhole, the buttons and the bar tacks back against the spec sheet once more.",
+      "id": "spec-check",
+      "kind": "select",
+      "prompt": "Run the hem, the buttonhole, the buttons and the bar tacks back against the spec sheet once more.",
+      "target": "spec-sheet",
+      "title": "Check the finished piece against spec",
+      "why": "Every number on this piece came from the same sheet it started with, and the only way to know all four of them actually landed together — not just the last one worked on — is to check the whole piece against it before it leaves this bench for the next operation, where a mistake here reads as somebody else's error."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Blind hem, a guarded buttonhole cut and sew, buttons to spacing, bar tacks at the stress points, and a piece checked against spec",
+  "title": "SmartCiti.X~ Hem & Buttonhole VR",
+  "trade": "Industrial sewing machine operator — Workers United (SEIU)",
+  "underwater": null,
+  "weather": null
+}

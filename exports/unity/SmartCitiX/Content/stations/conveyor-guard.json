@@ -1,0 +1,312 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "nip-point-never",
+    "name": "Nip Point Never",
+    "note": "A jam cleared with the belt locked and proven dead, the guard back on, and the pull-cord live before the restart"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "UAW / IAM — OSHA 29 CFR 1910.147 lockout/tagout; ASME B20.1 conveyor safety (guarding of nip points, emergency stops); 1910.212 machine guarding",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME B20.1",
+        "id": "asme-b20-1",
+        "title": "ASME B20.1 — Safety standard for conveyors and related equipment"
+      },
+      {
+        "body": "union",
+        "citedAs": "IAM",
+        "id": "iam-winpisinger-center",
+        "title": "IAM — the William W. Winpisinger Education and Technology Center's machinist and transportation training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UAW",
+        "id": "uaw-training",
+        "title": "UAW joint apprenticeship and skilled-trades training for manufacturing and automation work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Manufacturing",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "try-start",
+        "name": "Try-Start",
+        "note": "Proved the lockout with a try-start before reaching in, first time"
+      },
+      {
+        "id": "guards-on",
+        "name": "Guards On",
+        "note": "Never reached into a nip point, never tied back a pull-cord"
+      },
+      {
+        "id": "tension-set",
+        "name": "Tension Set",
+        "note": "Belt tension inside spec on the restart"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-clear",
+        "name": "Clean Clear",
+        "note": "No corrections through the whole clearance"
+      },
+      {
+        "id": "bleed-held",
+        "name": "Bleed Held",
+        "note": "Held the stored-energy release the full count"
+      },
+      {
+        "id": "line-back-fast",
+        "name": "Line Back Fast",
+        "note": "Line restarted inside 80% of par"
+      }
+    ],
+    "currency": "BELT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Line Tech",
+      "Maintenance Tech",
+      "Line Lead",
+      "Maintenance Lead",
+      "Line Guard Certified"
+    ],
+    "system": "Line Guard"
+  },
+  "hazards": {
+    "cord-tied": "You tied back the pull-cord so it stops tripping. The pull-cord is the only stop a worker on the line can reach; tied back, the next jam takes a hand with it.",
+    "guard-off-run": "You restarted with the head guard still off. A conveyor runs with every guard on, or it does not run — the guard is what makes the nip a place a hand cannot reach.",
+    "reach-nip": "You reached into the head pulley nip point with the belt live. A belt draws a hand into the pulley faster than you can pull back; the belt is locked and proven dead before anything goes near a nip.",
+    "ride-belt": "You stepped onto the belt to reach the jam. A belt is not a walkway; a restart, a slip, or the jam letting go puts you into the transfer chute."
+  },
+  "id": "conveyor-guard",
+  "indoor": "shop",
+  "interrupts": [
+    {
+      "after": "bleed",
+      "alert": "The infeed spur behind you is still running — it's on its own drive, its own lockout, and nobody touched it. Cartons are stacking up against the locked head end and starting to bow the ones you're leaning past.",
+      "cue": "That belt was never part of your lockout. Shut it down before the stack reaches you.",
+      "delay": 3,
+      "id": "infeed-still-running",
+      "kind": "Second energy source",
+      "missNote": "The infeed spur ran the whole time you had your hands in the take-up. A queue of cartons kept pressing forward against a jam that was never built to hold that kind of load, and the point where that gives is usually the moment somebody has a hand in the pinch.",
+      "seconds": 12,
+      "target": "infeed-estop",
+      "why": "This line has two machines feeding one jam: the head-end drive you locked and an infeed spur with its own motor, its own energy and its own separate point of isolation. Locking the drive stops the belt under your hands; it does nothing to the spur still pushing cartons into the space you are about to reach into to bleed off tension, and a queue that keeps growing behind a stopped point eventually has nowhere to go but into you.",
+      "wrongNote": "It's the infeed spur, not anything on this drive. That belt has its own motor and it is still turning."
+    },
+    {
+      "after": "clear",
+      "alert": "Over at the disconnect your lock is hanging loose and the handle's been bumped part of the way back toward ON. Someone on the next line thought this drive was free.",
+      "cue": "Your hands are full of a jammed carton and somebody else has your isolation.",
+      "delay": 3,
+      "id": "isolation-nudged",
+      "kind": "Isolation disturbed",
+      "missNote": "The disconnect went the rest of the way back to ON with the guard off and your hand still inside the transfer clearing the jam. The belt was one photoeye signal away from restarting on its own.",
+      "seconds": 12,
+      "target": "disconnect",
+      "why": "A lock only protects the person actually behind it, and it only works if everyone who might touch that disconnect can see it is yours and leave it alone. On a shared panel with more than one drive on it, a lock that looks like a finished job is a lock somebody else will remove for you. Put the handle back to open and reset your lock before anything else, because the disconnect is what decides whether the belt under your hand can move.",
+      "wrongNote": "It's the disconnect. Everything about this jam being safe to clear by hand depends on that lock staying exactly where you left it."
+    }
+  ],
+  "lateNotes": {
+    "disconnect": "E-stop first — the e-stop stops the belt now; the disconnect is the lockout that keeps it stopped.",
+    "restart-button": "The guard goes back on and the pull-cord is proven before the line restarts."
+  },
+  "name": "Conveyor Guard",
+  "parSeconds": 225,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "cord-tie",
+      "cord-tied",
+      "disconnect",
+      "e-stop",
+      "guard-off-run",
+      "head-guard",
+      "infeed-estop",
+      "jam-carton",
+      "reach-nip",
+      "reject-socket",
+      "restart-button",
+      "ride-belt",
+      "start-button",
+      "takeup-gauge",
+      "takeup-release",
+      "work-ticket"
+    ],
+    "meshes": 155
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the jam location, the drive, and the lockout points for this conveyor.",
+      "id": "ticket",
+      "kind": "select",
+      "prompt": "Check the jam location, the drive, and the lockout points for this conveyor.",
+      "target": "work-ticket",
+      "title": "Read the ticket",
+      "why": "One conveyor line can have a head drive, a gravity take-up and an upstream infeed spur, and each one stores or delivers its own energy independently of the others. The ticket's lockout points are the complete list for this line; you do not discover a second drive still running by finding it at the pulley with your hands already inside the guard."
+    },
+    {
+      "cue": "Stop the belt at the nearest e-stop before approaching the jam.",
+      "id": "estop",
+      "kind": "select",
+      "prompt": "Stop the belt at the nearest e-stop before approaching the jam.",
+      "target": "e-stop",
+      "title": "Hit the e-stop",
+      "why": "The e-stop is the immediate stop, not the isolation — it drops the belt now, on a control circuit that a photoeye or a reset button can re-energise the instant the fault clears. It buys the seconds it takes to walk to the disconnect and put a lock on the source; nobody works near the nip with only the e-stop between them and a moving belt."
+    },
+    {
+      "cue": "Open the drive disconnect and hang your lock and tag.",
+      "id": "lockout",
+      "kind": "turn",
+      "prompt": "Open the drive disconnect and hang your lock and tag.",
+      "target": "disconnect",
+      "title": "Lock out the drive",
+      "turn": {
+        "axis": "y",
+        "label": "DISCONNECT",
+        "turns": 0.5
+      },
+      "why": "A belt stopped on its e-stop restarts itself the instant the jam sensor sees clear and the controller resets — a stopped belt is not a safe belt, only a belt waiting for permission. Opening the drive disconnect and hanging your own lock and tag on it is the only thing that takes that permission away from the controller and puts it in your hand alone."
+    },
+    {
+      "cue": "Back off the gravity take-up until the belt tension is released and hold until it settles.",
+      "holdBreakNote": "Let go before it settled — there is still tension in the belt. Hold the release until it is slack.",
+      "id": "bleed",
+      "kind": "hold",
+      "prompt": "Back off the gravity take-up until the belt tension is released and hold until it settles.",
+      "seconds": 4,
+      "target": "takeup-release",
+      "title": "Release the stored energy",
+      "why": "A locked-out belt is dead electrically but not mechanically — the gravity take-up still holds the belt in tension exactly the way it did while running, stored in the sag of the belt itself. Free a jam while that tension is still loaded and the belt snaps taut the instant the obstruction lets go, and whatever hand is on it travels with it toward the nip."
+    },
+    {
+      "cue": "With the lockout on, press start — nothing should happen.",
+      "id": "trystart",
+      "kind": "select",
+      "prompt": "With the lockout on, press start — nothing should happen.",
+      "target": "start-button",
+      "title": "Try-start",
+      "why": "The try-start is the only proof that the lock is actually on the disconnect that feeds this belt and not a breaker that looks identical two panels over. A lock on the wrong device holds just as firmly and looks exactly as locked as the right one — the only thing that tells them apart is whether the belt moves when somebody presses start with your lock already on it."
+    },
+    {
+      "cue": "Take the head pulley guard off to reach the jam.",
+      "id": "guard-off",
+      "kind": "select",
+      "prompt": "Take the head pulley guard off to reach the jam.",
+      "target": "head-guard",
+      "title": "Remove the head guard",
+      "why": "The guard comes off only after the belt is locked, the tension is bled and the try-start has proven the lockout is real — three checks that all have to pass before the one thing standing between a hand and the nip point is removed. It comes off already knowing it goes back on before the lock does, in that order and no other."
+    },
+    {
+      "cue": "Pull the jammed carton out of the transfer and set it on the reject stand.",
+      "drag": {
+        "missNote": "Not on the reject stand — set the carton down there, not back on the belt.",
+        "radius": 0.4,
+        "to": "reject-socket"
+      },
+      "id": "clear",
+      "kind": "drag",
+      "prompt": "Pull the jammed carton out of the transfer and set it on the reject stand.",
+      "target": "jam-carton",
+      "title": "Clear the jam",
+      "why": "A hand goes anywhere near the nip only because the belt has already been proven unable to move — lockout, bleed and try-start done, in that order, before this step starts. The carton comes out to the reject stand, not back onto the belt, because a jammed carton put back where it jammed the first time jams the same way the moment the line restarts."
+    },
+    {
+      "cue": "Guard back on and fastened before anything else.",
+      "id": "guard-on",
+      "kind": "select",
+      "prompt": "Guard back on and fastened before anything else.",
+      "target": "head-guard",
+      "title": "Refit the head guard",
+      "why": "The guard goes back on before the lock comes off, every time, with no exception for a quick restart. Reverse that order even once and there is a window, however short, where the nip point is open and the belt has permission to move — and a nip point does not need long to take a hand, only a fraction of a second of that window existing at all."
+    },
+    {
+      "cue": "Check the pull-cords, guards and e-stops along the run and click what has been defeated.",
+      "id": "pullcord",
+      "itemNames": {
+        "cord-tie": "pull-cord tied back"
+      },
+      "itemNotes": {
+        "cord-tie": "The pull-cord along the return side is tied back to the frame with a cable tie — someone got tired of it tripping. It is cut free and the cord tested before this line runs."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the pull-cords, guards and e-stops along the run and click what has been defeated.",
+      "targets": [
+        "cord-tie"
+      ],
+      "title": "Walk the line for defeated safeguards",
+      "why": "A jam on a line with a working pull-cord ends with somebody yanking a rope and the belt stopping. The same jam on a line where that cord has been tied back to stop it tripping on false alarms ends with the same reach and no stop at all — the walk down the return side, checking every cord and guard by hand, is how a defeated safeguard gets found and fixed before it is needed for real."
+    },
+    {
+      "cue": "Bring the take-up back until the tension indicator is in the run band.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "TENSION",
+        "missNote": "Off the run band — slack tracks off, over-tight overloads the drive. Reset the take-up.",
+        "speed": 0.75
+      },
+      "id": "tension",
+      "kind": "gauge",
+      "prompt": "Bring the take-up back until the tension indicator is in the run band.",
+      "target": "takeup-gauge",
+      "title": "Reset the belt tension",
+      "why": "The take-up was deliberately backed off to bleed the stored tension before the guard came off, and the belt cannot run correctly slack — it slips on the drive pulley under load and tracks sideways off the frame until it rides against a guard or a support leg. Bringing the take-up back into the run band before restart is what makes the belt track straight and grip the drive the way it was designed to."
+    },
+    {
+      "cue": "Your lock off, e-stop reset, clear the line, start.",
+      "id": "restart",
+      "kind": "select",
+      "prompt": "Your lock off, e-stop reset, clear the line, start.",
+      "target": "restart-button",
+      "title": "Remove the lock, reset, restart",
+      "why": "Your lock comes off last, by you, and only after everything upstream and downstream is checked clear by eye — the guard back on, the pull-cord live, the tension reset. The moment the start button is pressed is the moment every one of those checks gets tested at once, on a belt about to move at full speed with people standing around it."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Belt jam clearance: e-stop, lockout, stored-energy release, try-start, guard off and back on, pull-cord restored, restart",
+  "title": "SmartCiti.X~ Conveyor Guard VR",
+  "trade": "Conveyor maintenance technician",
+  "underwater": null,
+  "weather": null
+}

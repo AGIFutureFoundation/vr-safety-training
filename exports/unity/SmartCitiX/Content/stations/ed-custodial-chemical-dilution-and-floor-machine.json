@@ -1,0 +1,419 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "metered-not-guessed",
+    "name": "Metered, Not Guessed",
+    "note": "Every dilution off the dispenser's own dial, the machine grounded and chocked with its cord clear of the walkway, and the eyewash proven before the shift ends"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "AFT and CSEA custodial training; OSHA's Hazard Communication standard (29 CFR 1910.1200) for the GHS-labelled concentrate, the safety data sheet on file and the label on every secondary container; OSHA's PPE standards (29 CFR 1910.132, 29 CFR 1910.133, 29 CFR 1910.138) for gloves, goggles and hand protection at the dispenser and the machine; ANSI/ISEA Z358.1 for the eyewash station; OSHA's control of hazardous energy (29 CFR 1910.147) for unplugging the floor machine before a pad or brush change; the chemical manufacturer's own dilution-control system and label directions; the district's custodial procedure for chemical storage and floor care",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "union",
+        "citedAs": "CSEA",
+        "id": "csea-training",
+        "title": "CSEA — California School Employees Association training for classified school employees"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.133",
+        "id": "osha-1910-133",
+        "title": "29 CFR 1910.133 — Eye and face protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.138",
+        "id": "osha-1910-138",
+        "title": "29 CFR 1910.138 — Hand protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Building Systems & Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "never-eyeballed",
+        "name": "Never Eyeballed",
+        "note": "Every chemical metered through the dispenser, never poured by eye"
+      },
+      {
+        "id": "clean-pass",
+        "name": "Clean Pass",
+        "note": "No corrections across the whole hallway"
+      },
+      {
+        "id": "steady-pad",
+        "name": "Steady Pad",
+        "note": "The floor machine held in its pressure band without a break"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "closet-open-on-time",
+        "name": "Closet Open on Time",
+        "note": "Set up and machine plugged in inside 80% of par"
+      },
+      {
+        "id": "one-pass-walkaround",
+        "name": "One-Pass Walkaround",
+        "note": "Machine inspection clean on the first pass"
+      },
+      {
+        "id": "eight-in-a-row",
+        "name": "Eight in a Row",
+        "note": "Eight correct actions in a row"
+      }
+    ],
+    "currency": "OZ",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Custodial Aide",
+      "Floor Tech",
+      "Lead Custodian",
+      "Building Engineer",
+      "Facilities Certified"
+    ],
+    "system": "Hallway Shift"
+  },
+  "hazards": {
+    "bleach-ammonia-mix": "That bucket has bleach and an ammonia-based cleaner poured into it together. Mixing the two releases chloramine gas, and a closet-sized room fills with it fast enough that the person who mixed it is usually the one who breathes the most of it — the label on each jug exists precisely so this pairing never happens by accident.",
+    "bypass-metering-tip": "That spray bottle is being filled straight from the concentrate jug, past the dispenser's own metering tip. The dispenser exists because a chemical strong enough to disinfect a doorknob is also strong enough to burn skin and eyes at full strength — skipping it turns a diluted-and-safe cleaner into an undiluted one in an unlabelled bottle.",
+    "cord-across-doorway": "The floor machine's cord is run straight across the doorway instead of along the baseboard. A cord underfoot in a doorway is a trip for anyone passing through and a crush point for the cord itself every time the door swings — it gets routed clear of the walkway before the machine ever starts.",
+    "unlocked-chemical-closet": "The closet door is standing open with the chemical rack in plain reach and nobody watching it. A school hallway has students in it before and after the custodian's own shift, and a closet full of concentrate is exactly the kind of thing Hazard Communication assumes stays behind a closed, latched door."
+  },
+  "id": "ed-custodial-chemical-dilution-and-floor-machine",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "buffer-pass",
+      "alert": "A student who stayed late for practice has come around the corner, heading straight for the wet, stripped section of hallway.",
+      "cue": "Move the cone to block their path before they reach the wet floor.",
+      "delay": 3,
+      "id": "student-in-hallway",
+      "kind": "Student walks toward the wet section",
+      "missNote": "The student walked straight onto the wet section before the cone moved — exactly the slip a floor machine's own hallway is built to cause the moment nobody blocks the new path in.",
+      "seconds": 11,
+      "target": "wet-floor-cone",
+      "why": "A cone set up at the top of the hallway does nothing for someone who enters from the far end — the machine keeps running, but the cone moves to wherever the actual foot traffic is now heading, because the hazard is the wet floor under whoever's walking toward it, not a fixed spot on the ground.",
+      "wrongNote": "The cone — it needs to move to where the student is actually walking, not stay where it was first set."
+    },
+    {
+      "after": "eyewash-check",
+      "alert": "The custodial closet door has swung open behind you, and a young student has stopped right at the threshold, looking at the chemical rack.",
+      "cue": "Shut and latch the closet door before they step inside.",
+      "delay": 2,
+      "id": "closet-door-ajar",
+      "kind": "Closet door left open",
+      "missNote": "The door stayed open long enough that the student had already stepped over the threshold — a closet is only as secure as the door that was supposed to be shut.",
+      "seconds": 11,
+      "target": "closet-door",
+      "why": "A closet full of concentrate is safe exactly as long as its door stays closed — the moment it swings open with nobody watching, the whole point of storing the chemicals behind a latched door is undone, and the fastest fix is closing it, not walking over to have a conversation first.",
+      "wrongNote": "The closet door — that's what's standing open with a student right at it."
+    }
+  ],
+  "lateNotes": {
+    "eyewash-station": "The eyewash gets proven once the machine is running and the hallway is underway, not before the shift starts.",
+    "secondary-label": "Not yet — the bottle gets labelled once it's actually been filled at the dispenser, not before."
+  },
+  "name": "Custodial Chemical Dilution & Floor Machine",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "education-support-staff"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.7,
+    "hits": [
+      "bleach-ammonia-mix",
+      "bypass-metering-tip",
+      "closet-door",
+      "cone-spot",
+      "cord-across-doorway",
+      "cord-hook-spot",
+      "correct-jug",
+      "dilution-station",
+      "eyewash-station",
+      "fill-nozzle",
+      "floor-machine",
+      "frayed-cord",
+      "machine-cord",
+      "missing-ground-pin",
+      "new-pad-on",
+      "pad-retainer-off",
+      "ppe-apron",
+      "ppe-gloves",
+      "ppe-goggles",
+      "sds-binder",
+      "secondary-label",
+      "twist-lock-plug",
+      "unlocked-chemical-closet",
+      "unplug-machine",
+      "usage-log",
+      "wet-floor-cone",
+      "worn-pad"
+    ],
+    "meshes": 142
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Open the SDS binder and read the label for tonight's chemical before touching any jug.",
+      "id": "read-sds",
+      "kind": "select",
+      "prompt": "Open the SDS binder and read the label for tonight's chemical before touching any jug.",
+      "target": "sds-binder",
+      "title": "Read tonight's label and SDS",
+      "why": "The label and the safety data sheet are where the dilution ratio, the PPE the manufacturer calls for and the first-aid measures all actually live — reading them before the jug comes off the shelf is the difference between diluting a chemical correctly and finding out what it does at full strength from the label after something has already gone wrong."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Pull on the chemical-resistant gloves, then the splash goggles, then the apron, in that order.",
+      "id": "ppe-don",
+      "itemNames": {
+        "ppe-apron": "chemical apron",
+        "ppe-gloves": "chemical-resistant gloves",
+        "ppe-goggles": "splash goggles"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Gloves, then goggles, then the apron — the label's PPE goes on before the jug does, in the order that keeps a splash off bare skin and out of an eye.",
+      "prompt": "Pull on the chemical-resistant gloves, then the splash goggles, then the apron, in that order.",
+      "targets": [
+        "ppe-gloves",
+        "ppe-goggles",
+        "ppe-apron"
+      ],
+      "title": "Glove, then goggle, then apron",
+      "why": "Gloves go on first because everything else on the shelf is about to be handled by hands that are already protected; goggles go on before the apron so a splash off the jug's own cap never reaches an open eye while the apron is still being tied. OSHA's PPE standards call for the manufacturer's listed protection at the dispenser — this is where it goes on, not after the first jug is already open."
+    },
+    {
+      "cue": "Read the colour coding on the rack and take the quaternary disinfectant jug the SDS called for.",
+      "id": "chemical-select",
+      "kind": "select",
+      "prompt": "Read the colour coding on the rack and take the quaternary disinfectant jug the SDS called for.",
+      "target": "correct-jug",
+      "title": "Pick tonight's chemical off the rack",
+      "why": "The rack is colour-coded precisely so a custodian working from memory at the end of a long shift still reaches for the right jug — the SDS just read named the disinfectant, not the degreaser or the glass cleaner beside it, and the colour on the cap is the fast check that the hand about to lift it is lifting the right one."
+    },
+    {
+      "cue": "Turn the dispenser's selector to the ratio the label calls for and commit it.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "DILUTION RATIO",
+        "missNote": "Off the label's ratio. Turn the selector back toward the marked band and commit the reading the dispenser actually gives.",
+        "speed": 0.6
+      },
+      "id": "dilution-set",
+      "kind": "gauge",
+      "prompt": "Turn the dispenser's selector to the ratio the label calls for and commit it.",
+      "target": "dilution-station",
+      "title": "Set the dispenser to the label's dilution",
+      "why": "The dispenser's whole job is to turn a concentrate strong enough to burn skin into a working solution at a known strength, metered the same way every time — a dial set even one notch off either wastes concentrate on a solution too weak to disinfect, or hands the custodian a bottle stronger than the label, the SDS or anyone's skin is expecting."
+    },
+    {
+      "cue": "Hold the bottle under the dispenser's metering tip until it fills to the line.",
+      "holdBreakNote": "You pulled the bottle away before the fill line. A bottle topped off some other way is a bottle at a dilution nobody actually set.",
+      "id": "fill-bottle",
+      "kind": "hold",
+      "prompt": "Hold the bottle under the dispenser's metering tip until it fills to the line.",
+      "seconds": 5,
+      "target": "fill-nozzle",
+      "title": "Fill the spray bottle at the dispenser",
+      "why": "The metering tip is what makes the dispenser's dial mean anything — holding the bottle steady under it for the whole fill is how the ratio just set on the dial actually ends up in the bottle, rather than a rushed half-fill that gets topped up from the tap later at no ratio anyone chose."
+    },
+    {
+      "cue": "Apply the secondary-container label naming the chemical and today's dilution.",
+      "id": "label-bottle",
+      "kind": "select",
+      "prompt": "Apply the secondary-container label naming the chemical and today's dilution.",
+      "target": "secondary-label",
+      "title": "Label the filled bottle",
+      "why": "Hazard Communication requires a labelled secondary container for a reason that shows up the first time somebody other than the person who filled it picks up an unmarked spray bottle — a bottle without its own label is a mystery liquid to the next custodian, the sub covering the shift, or a curious student who finds it on a cart."
+    },
+    {
+      "cue": "Three things about this machine are not right. Find them before the cord goes into the wall.",
+      "id": "machine-walkaround",
+      "itemNames": {
+        "frayed-cord": "the frayed spot in the power cord",
+        "missing-ground-pin": "the broken ground pin on the plug",
+        "worn-pad": "the floor pad worn through to the backing"
+      },
+      "itemNotes": {
+        "frayed-cord": "The cord's outer jacket is split near the handle, with a wire visible underneath. A cord that flexes at that spot every time the machine turns is one strand away from a shock or a short.",
+        "missing-ground-pin": "The plug's ground pin has snapped off. Without it, a fault inside the motor has no path to ground except through whoever is holding the handle.",
+        "worn-pad": "The pad is worn through to its backing on one side. A pad that thin no longer buffs evenly — it burns a track into the finish exactly where the backing rides the floor."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things about this machine are not right. Find them before the cord goes into the wall.",
+      "targets": [
+        "frayed-cord",
+        "missing-ground-pin",
+        "worn-pad"
+      ],
+      "title": "Walk round the floor machine before it's plugged in",
+      "why": "A walk-around before power ever reaches the machine is the only point in the whole shift the cord, the plug and the pad can be checked without anything spinning — the same habit a mechanic uses on a vehicle, applied to the one piece of equipment in the building that a custodian is alone with every night."
+    },
+    {
+      "cue": "Carry the cord's slack to the wall hooks so it never crosses the walking line.",
+      "drag": {
+        "missNote": "Not on the hooks — the slack still crosses the walkway. Route it to the wall before the machine starts.",
+        "radius": 0.5,
+        "to": "cord-hook-spot"
+      },
+      "id": "cord-route",
+      "kind": "drag",
+      "prompt": "Carry the cord's slack to the wall hooks so it never crosses the walking line.",
+      "target": "machine-cord",
+      "title": "Run the cord along the wall, clear of the walkway",
+      "why": "A cord routed along the baseboard and up onto its hooks cannot be stepped on, rolled over by a cart, or caught in a door — the same trip and crush hazard the hallway hazard tag calls out is designed out of the setup here rather than worked around later."
+    },
+    {
+      "cue": "Push the twist-lock plug in and turn it to seat against the GFCI outlet.",
+      "id": "plug-in",
+      "kind": "turn",
+      "prompt": "Push the twist-lock plug in and turn it to seat against the GFCI outlet.",
+      "target": "twist-lock-plug",
+      "title": "Seat and lock the plug into the GFCI outlet",
+      "turn": {
+        "label": "TWIST-LOCK PLUG",
+        "turns": 0.4
+      },
+      "why": "The outlet by the closet is GFCI-protected precisely because a floor machine runs on a wet floor by design — the twist-lock keeps the plug from working loose mid-pass, and the GFCI behind it is the backstop if the machine's insulation ever fails while the floor underneath it is soaked."
+    },
+    {
+      "cue": "Carry the cone to the top of the hallway before starting the machine.",
+      "drag": {
+        "missNote": "Not at the top of the hallway. Anyone rounding that corner needs to see the cone before they reach the wet section.",
+        "radius": 0.5,
+        "to": "cone-spot"
+      },
+      "id": "wet-floor-sign",
+      "kind": "drag",
+      "prompt": "Carry the cone to the top of the hallway before starting the machine.",
+      "target": "wet-floor-cone",
+      "title": "Set the wet-floor cone before the pad turns",
+      "why": "A hallway with a machine already running and no cone up is a hallway where the first person to slip is whoever comes around the corner without warning — the cone goes up before the pad turns, not after someone has already found the wet patch the hard way."
+    },
+    {
+      "cue": "Keep the machine's pad pressure in the working band as it strips the section.",
+      "holdBreakNote": "Pressure out of band — too light skates the pad, too hard burns a ring into the finish. Bring it back to steady.",
+      "id": "buffer-pass",
+      "kind": "track",
+      "prompt": "Keep the machine's pad pressure in the working band as it strips the section.",
+      "seconds": 6,
+      "target": "floor-machine",
+      "title": "Hold a steady pass with the floor machine",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.4,
+        "green": [
+          0.4,
+          0.64
+        ],
+        "label": "PAD PRESSURE",
+        "rise": 0.42,
+        "start": 0.2
+      },
+      "why": "A floor machine that rides too light chatters and skates instead of stripping evenly, and one pushed down too hard burns a dark ring into the finish where the pad digs in — a steady, even pressure the whole pass is what leaves the floor level enough for the next coat of finish to lie flat."
+    },
+    {
+      "cue": "Hold the eyewash valve open until both heads flow together in a steady stream.",
+      "holdBreakNote": "You let go before both heads settled into a steady stream. A short flush proves nothing about whether the line behind it is actually clear.",
+      "id": "eyewash-check",
+      "kind": "hold",
+      "prompt": "Hold the eyewash valve open until both heads flow together in a steady stream.",
+      "seconds": 8,
+      "target": "eyewash-station",
+      "title": "Prove the eyewash station",
+      "why": "An eyewash station nobody has activated between shifts is a station that might deliver a first blast of rust-coloured water, or nothing at all, to someone who has just gotten concentrate in their eyes — proving both heads flow together, now, while the schedule allows for it, is what keeps that station ready for the one day it's actually needed."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Pull the plug from the outlet, release the pad retainer, then seat the new pad, in that order.",
+      "id": "pad-lockout-change",
+      "itemNames": {
+        "new-pad-on": "new pad seated",
+        "pad-retainer-off": "pad retainer released",
+        "unplug-machine": "machine unplugged"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Unplug first — the retainer and the pad come off only once the machine has no way to receive power.",
+      "prompt": "Pull the plug from the outlet, release the pad retainer, then seat the new pad, in that order.",
+      "targets": [
+        "unplug-machine",
+        "pad-retainer-off",
+        "new-pad-on"
+      ],
+      "title": "Unplug before changing the pad",
+      "why": "A floor machine's drive plate is still live the instant it's plugged in even with the motor off, and 29 CFR 1910.147 exists for exactly this reason — the cord comes out of the wall before a hand ever goes near the retainer, so the one energy source that could turn the plate is already controlled before the old pad comes off."
+    },
+    {
+      "cue": "Record the chemical, the dilution and the hallway section on the custodial log.",
+      "id": "log-usage",
+      "kind": "select",
+      "prompt": "Record the chemical, the dilution and the hallway section on the custodial log.",
+      "target": "usage-log",
+      "title": "Log tonight's chemical and area",
+      "why": "The log is what lets the next shift, the school nurse or the district know exactly what was used where and at what strength if anyone ever asks — a clean floor with no record behind it leaves the next question about it unanswerable."
+    }
+  ],
+  "supportLine": "your AFT or CSEA chapter's member assistance line, or the district's employee assistance programme",
+  "tagline": "The hallway after the bell: the SDS read before the jug is touched, the dispenser metering the dilution instead of a guess, the machine walked round before it's plugged in, a wet-floor cone up before the pad turns, the eyewash proven, and the pad changed only once the cord is out of the wall",
+  "title": "SmartCiti.X~ Custodial Chemical Dilution & Floor Machine VR",
+  "trade": "AFT- or CSEA-represented school custodian running chemical dilution and floor-care equipment",
+  "underwater": null,
+  "weather": "overcast"
+}

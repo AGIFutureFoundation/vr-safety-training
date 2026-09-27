@@ -1,0 +1,464 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "held-for-the-decision",
+    "name": "Held For The Decision",
+    "note": "Stopped the dig on material the characterisation did not describe, sampled it under custody and kept the scow from leaving until the work plan's people decided"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "LIUNA Local 261 hazardous waste and environmental remediation training (LIUNA Training and Education Fund) for the material screener; IUOE Local 3 operating engineer apprenticeship for the dredge's excavator; the DMMO suitability determination for each dredge unit and the Army Corps Section 404 permit conditions it sits under; the Regional Water Quality Control Board's Section 401 water quality certification; BCDC permit conditions for the placement sites; OSHA HAZWOPER, 29 CFR 1910.120, for screening and sampling material that may be contaminated; EPA QA/G-5 chain-of-custody practice for the unexpected-material sample; RCRA 40 CFR 262 and DTSC rules if the work plan's profile makes any of it hazardous waste",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "BCDC",
+        "citedAs": "BCDC",
+        "id": "bcdc-bay-plan",
+        "title": "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act"
+      },
+      {
+        "body": "DMMO",
+        "citedAs": "Dredged Material Management Office",
+        "id": "dmmo-dredged-material-testing",
+        "title": "San Francisco Bay Dredged Material Management Office — sediment testing, suitability determinations and placement-site review for dredged material"
+      },
+      {
+        "body": "DTSC",
+        "citedAs": "DTSC",
+        "id": "dtsc-hazardous-waste-control",
+        "title": "California Department of Toxic Substances Control — state hazardous waste control rules and oversight of contaminated-site cleanups"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "EPA QA/G-5",
+        "id": "epa-qa-g5",
+        "title": "EPA QA/G-5 — Guidance for quality assurance project plans, and the chain-of-custody practice built on it"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA Training",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      },
+      {
+        "body": "RCRA",
+        "citedAs": "40 CFR 262",
+        "id": "rcra-40-cfr-262",
+        "title": "40 CFR Part 262 — Standards applicable to generators of hazardous waste, including the manifest"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "Section 401",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      },
+      {
+        "body": "USACE",
+        "citedAs": "Section 404",
+        "id": "usace-section-404",
+        "title": "Clean Water Act §404 permit conditions for the discharge of dredged or fill material"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "in-the-unit",
+        "name": "In The Unit",
+        "note": "The determination read and the dredge's position confirmed inside the unit clean"
+      },
+      {
+        "id": "never-sniffed",
+        "name": "Never Sniffed",
+        "note": "Never under the bucket, never a nose in the sample, never on the coaming, never a sheen washed overboard"
+      },
+      {
+        "id": "fix-and-draft",
+        "name": "Fix And Draft",
+        "note": "Position and draft both committed inside their bands"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-screen",
+        "name": "Clean Screen",
+        "note": "No corrections from the determination to the check-in"
+      },
+      {
+        "id": "closed-bucket",
+        "name": "Closed Bucket",
+        "note": "Held the bite call in band the whole time"
+      },
+      {
+        "id": "ticket-written",
+        "name": "Ticket Written",
+        "note": "Scow ticketed inside 80% of par"
+      }
+    ],
+    "currency": "BITE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Deck Hand",
+      "Screener",
+      "Senior Screener",
+      "Dredge Inspector",
+      "Scow Screen Certified"
+    ],
+    "system": "Scow Screen"
+  },
+  "hazards": {
+    "hose-sheen-over": "You reached for the deck hose to wash the sheen off the scow's deck and over the side. The sheen is part of what makes this material unexpected, and washing it overboard puts it in the water the certification protects while destroying the evidence the decision will be made on. The scow's drain stays shut; the sheen stays where it is until the work plan's people have seen it.",
+    "ride-the-coaming": "You stepped up onto the scow's coaming to see across the load. The coaming is a narrow wet curb above a deck of loose sediment on one side and the water on the other, and the scow moves under every bucket. The load is judged from the dredge's rail or the scow's own walkway, with the PFD fastened.",
+    "sniff-the-sample": "You leaned in to smell the black sediment to judge the odour. A chemical odour is a reason to stand back, not lean in: whatever is giving it off is being breathed, at the strongest it will ever be, and HAZWOPER's air monitoring exists so that no one has to use their nose as the instrument. The meter reads it; the screener stays upwind.",
+    "under-the-bucket": "You walked under the excavator's swing to look down into the scow. A clamshell or bucket carrying wet sediment drips and sheds on its way across, and the operator is watching the scow, not the deck under the boom — anyone beneath it is where a slipped load lands. The scow is screened from the rail beside the swing, never from under it."
+  },
+  "id": "br-dredge-material-screening-and-disposal-decision",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "bite-call",
+      "alert": "The last bite has come up black and oily with a rainbow sheen and a sharp chemical smell — nothing like the grey bay mud the unit's testing described.",
+      "cue": "Raise the red stop flag to the operator: stop the dig and ground the bucket in the scow.",
+      "delay": 3,
+      "id": "unexpected-material",
+      "kind": "Unexpected material in the bucket",
+      "missNote": "The operator kept digging while the screener watched the sheen; four more bites of the black material went into the scow on top of approved sediment, and the whole load became a question instead of one bucket.",
+      "seconds": 14,
+      "target": "stop-flag",
+      "why": "The placement decision for this unit was made about the material its testing found, and material that looks and smells like this was not part of that decision. The work plan's procedure starts with stopping, because every further bite mixes more of the unknown into a scow full of approved sediment, and the red flag is the stop the operator is watching for.",
+      "wrongNote": "The red stop flag — the operator has to stop digging before anything else is done."
+    },
+    {
+      "after": "grab-sample",
+      "alert": "The tug skipper has come alongside and is calling that he is taking the scow to the placement site now to catch the tide.",
+      "cue": "Get on the tug's channel: the scow is on hold, it does not move until the work plan's people decide.",
+      "delay": 2,
+      "id": "tug-wants-scow",
+      "kind": "Tug about to take the scow",
+      "missNote": "Nobody called the tug; the skipper made the scow up and was halfway to the placement site before the supervisor's call reached him, and the scow had to be brought back with its load still in question.",
+      "seconds": 13,
+      "target": "tug-radio",
+      "why": "The tug skipper has a tide to catch and a scow he was told to move this morning; he has not seen the black material or heard the report. The only thing that stops a routine tow is someone telling him directly, now, that the scow is held — once it is under way to the placement site, the decision has been made by default.",
+      "wrongNote": "The tug's radio channel — tell the skipper directly that the scow is held."
+    }
+  ],
+  "lateNotes": {
+    "bite-paddle": "Call the bites once the position is confirmed and the scow's drain is shut — digging before either is digging somewhere unconfirmed into a scow that leaks.",
+    "dredge-log": "The dredge log is written after the deck walk — it records what the walk found as well as what the dig did.",
+    "hold-placard": "Hang the hold placard once the unexpected material has been sampled and reported — the placard carries the report's reference.",
+    "sump-valve": "Shut the scow's deck drain once the scow is alongside and walked — before the first bite, not after the deck is already draining overboard."
+  },
+  "name": "Dredge Material Screening & Disposal Decision",
+  "parSeconds": 310,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "excavator",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "spudBarge",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "workboat",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "bite-paddle",
+      "coaming-gap",
+      "crew-radio",
+      "curtain-slack",
+      "deck-spill",
+      "determination-board",
+      "draft-marks",
+      "draft-marks-fouled",
+      "dredge-log",
+      "gear-coverall",
+      "gear-helmet",
+      "gear-pfd",
+      "grab-sampler",
+      "hold-placard",
+      "hose-sheen-over",
+      "load-ticket",
+      "mark-position",
+      "notify-contact",
+      "photo-bite",
+      "position-display",
+      "ride-the-coaming",
+      "scow-rail",
+      "sniff-the-sample",
+      "stop-flag",
+      "sump-valve",
+      "tug-radio",
+      "under-the-bucket"
+    ],
+    "meshes": 232
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "At the board: today's dredge unit and its boundaries, what the testing found in it, the placement the determination approved for it, and the work plan's procedure for material that does not match.",
+      "id": "read-determination",
+      "kind": "select",
+      "prompt": "At the board: today's dredge unit and its boundaries, what the testing found in it, the placement the determination approved for it, and the work plan's procedure for material that does not match.",
+      "target": "determination-board",
+      "title": "Read the dredge-unit map and the suitability determination",
+      "why": "Every dredge unit's placement — in the Bay, into a restoration site, or up to a landfill — was decided from testing by the agencies of the Dredged Material Management Office and written into the work plan before the dredge moved. The screener's job is to know what that decision assumed the material would be, so that anything the bucket brings up that does not match is recognised the moment it appears."
+    },
+    {
+      "anyOrder": true,
+      "cue": "PFD fastened, hard hat under the boom, coated coverall and boots for the spray off the bucket.",
+      "id": "deck-gear",
+      "itemNames": {
+        "gear-coverall": "coated coverall and boots",
+        "gear-helmet": "hard hat",
+        "gear-pfd": "work vest PFD, fastened"
+      },
+      "kind": "sequence",
+      "prompt": "PFD fastened, hard hat under the boom, coated coverall and boots for the spray off the bucket.",
+      "targets": [
+        "gear-pfd",
+        "gear-helmet",
+        "gear-coverall"
+      ],
+      "title": "Gear up for the dredge deck",
+      "why": "The dredge deck is a working barge beside open water with a bucket swinging overhead, so the PFD is fastened and the hard hat worn for the whole shift. The coverall and boots keep what drips off the bucket off the screener, because the material being screened is by definition material whose contents are being checked."
+    },
+    {
+      "cue": "Read the positioning display and commit the bucket's position against the dredge-unit boundary before the first bite.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "POSITION vs UNIT",
+        "missNote": "Outside the band — let the fix settle and read the bucket's position against the unit's boundary again.",
+        "speed": 0.66
+      },
+      "id": "position-fix",
+      "kind": "gauge",
+      "prompt": "Read the positioning display and commit the bucket's position against the dredge-unit boundary before the first bite.",
+      "target": "position-display",
+      "title": "Confirm the dredge is inside today's unit",
+      "why": "The suitability determination applies to a dredge unit, a drawn area with a depth — not to wherever the dredge happens to be. A bucket a few metres over the boundary is digging material that was tested and approved for somewhere else, or not approved at all, so the position is confirmed on the display before the first bite and every time the dredge moves."
+    },
+    {
+      "cue": "From the rail: the coaming seals all round, and the draft marks on the side readable.",
+      "id": "scow-walk",
+      "itemNames": {
+        "coaming-gap": "a gap in the scow's coaming seal",
+        "draft-marks-fouled": "the scow's draft marks caked over with mud"
+      },
+      "itemNotes": {
+        "coaming-gap": "The seal at a coaming joint has pulled away; wet sediment will weep through it and down the scow's side into the water all the way to the placement site.",
+        "draft-marks-fouled": "The draft marks on the scow's side are caked with old mud. Nobody can read how deep the scow sits, which means nobody can tell when it is at its load line."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "From the rail: the coaming seals all round, and the draft marks on the side readable.",
+      "targets": [
+        "coaming-gap",
+        "draft-marks-fouled"
+      ],
+      "title": "Walk the scow before it is loaded",
+      "why": "The scow carries the material to wherever the decision sends it, and it has to arrive with the load it left with. A coaming gap leaks sediment into the water all the way there, and draft marks nobody can read mean the scow is loaded by guesswork. Both are fixed alongside, empty, where a seal and a scrubbing brush are all it takes."
+    },
+    {
+      "cue": "Turn the scow's deck drain valve fully shut and check its indicator reads closed.",
+      "id": "shut-drain",
+      "kind": "turn",
+      "prompt": "Turn the scow's deck drain valve fully shut and check its indicator reads closed.",
+      "target": "sump-valve",
+      "title": "Shut the scow's deck drain",
+      "turn": {
+        "label": "DECK DRAIN",
+        "turns": 1.25
+      },
+      "why": "Water squeezes out of dredged sediment as it settles in the scow, and an open deck drain lets it — and the fines in it — run straight overboard. Shutting the drain keeps that water with the load so it is managed wherever the load goes, which is part of what the placement decision assumed when it approved the unit."
+    },
+    {
+      "cue": "Hold the call steady: closed bucket, slow hoist through the water, a look at every bite as it breaks the surface.",
+      "holdBreakNote": "The call broke and the bucket came up fast and open. Bring it back to a closed bucket and a slow hoist.",
+      "id": "bite-call",
+      "kind": "track",
+      "prompt": "Hold the call steady: closed bucket, slow hoist through the water, a look at every bite as it breaks the surface.",
+      "seconds": 7,
+      "target": "bite-paddle",
+      "title": "Screen and call each bite",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "BITE CALL",
+        "rise": 0.56,
+        "start": 0.12
+      },
+      "why": "A bucket hoisted fast through the water column washes sediment out of its jaws and raises the turbidity the certification limits; a bucket swung before it is closed drips across the deck. Called at a steady pace, each bite breaks the surface slowly enough for the screener to see what it is — which is the whole point of a screener on the deck."
+    },
+    {
+      "cue": "From upwind, with the bucket grounded in the scow, hold the long-handled sampler in the black material until the jar is filled, then cap it.",
+      "holdBreakNote": "The sampler came out before the jar filled. Put it back into the black material and hold it until the jar is full.",
+      "id": "grab-sample",
+      "kind": "hold",
+      "prompt": "From upwind, with the bucket grounded in the scow, hold the long-handled sampler in the black material until the jar is filled, then cap it.",
+      "seconds": 5,
+      "target": "grab-sampler",
+      "title": "Sample the unexpected material",
+      "why": "The people who will decide what happens to this material need to know what it is, and that comes from a sample taken from it, not from the screener's description. The sample is taken from upwind with the long-handled sampler and the bucket grounded, so the screener is not breathing it or standing under the swing, and it goes straight into custody."
+    },
+    {
+      "cue": "Mark the position on the display first, photograph the material where it sits, then call the contact the work plan names.",
+      "id": "report",
+      "itemNames": {
+        "mark-position": "the position marked on the display",
+        "notify-contact": "the work plan's contact notified",
+        "photo-bite": "the material photographed in the scow"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — mark the position while the dredge is still on it, then photograph the material, then call it in with both.",
+      "prompt": "Mark the position on the display first, photograph the material where it sits, then call the contact the work plan names.",
+      "targets": [
+        "mark-position",
+        "photo-bite",
+        "notify-contact"
+      ],
+      "title": "Report the unexpected material in order",
+      "why": "The position is marked first because the dredge is still on the spot and will drift or move; the photograph is taken before anything disturbs the material; and the call to the work plan's contact comes with both in hand, so the decision is made on where it came from and what it looked like rather than on a description over the radio."
+    },
+    {
+      "cue": "Carry the HOLD placard to the scow's rail and hang it where the tug skipper and every deckhand will see it.",
+      "drag": {
+        "missNote": "Not on the scow's rail — the hold placard goes where the tug skipper and the deckhands will see it first.",
+        "radius": 0.5,
+        "to": "scow-rail"
+      },
+      "id": "hold-scow",
+      "kind": "drag",
+      "prompt": "Carry the HOLD placard to the scow's rail and hang it where the tug skipper and every deckhand will see it.",
+      "target": "hold-placard",
+      "title": "Placard the scow on hold",
+      "why": "A scow with unexpected material in it cannot go to the placement site the unit was approved for until the work plan's people decide, and a placard on its rail is what stops it being towed away by someone who did not hear the radio call. It carries the report's reference so anyone who asks knows why the scow is waiting and who is deciding."
+    },
+    {
+      "cue": "Read the cleaned draft marks and commit the reading against the scow's load line.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "DRAFT vs LOAD LINE",
+        "missNote": "Outside the band — wait for the chop to settle on the marks and read the draft against the load line again.",
+        "speed": 0.7
+      },
+      "id": "draft",
+      "kind": "gauge",
+      "prompt": "Read the cleaned draft marks and commit the reading against the scow's load line.",
+      "target": "draft-marks",
+      "title": "Read the scow's draft against its load line",
+      "why": "A scow loaded past its load line has less freeboard than its design allows, and in a Bay chop it takes water over the coaming and sheds sediment on the way. Reading the draft against the load line decides whether the dig stops on this scow, and the reading goes on the load ticket so the placement site knows what is coming."
+    },
+    {
+      "cue": "Ticket the scow: dredge unit, bites and estimated volume, draft, destination held pending the decision, and the report's reference.",
+      "id": "load-ticket",
+      "kind": "select",
+      "prompt": "Ticket the scow: dredge unit, bites and estimated volume, draft, destination held pending the decision, and the report's reference.",
+      "target": "load-ticket",
+      "title": "Write the scow's load ticket",
+      "why": "The load ticket goes with the scow and is what the placement site, the Corps and the Water Board reconcile against the dredging record. With unexpected material aboard, its destination is written as held pending the decision the work plan calls for, not the unit's usual placement, so no one downstream can mistake it for an ordinary load."
+    },
+    {
+      "cue": "Walk the deck and look along the curtain: anything spilled on the deck, any slack in the curtain beside the dredge.",
+      "id": "deck-walk",
+      "itemNames": {
+        "curtain-slack": "the turbidity curtain slack near the dredge",
+        "deck-spill": "black material spilled on the dredge deck by the rail"
+      },
+      "itemNotes": {
+        "curtain-slack": "The turbidity curtain beside the dredge has gone slack where the barge swung; its skirt is lifting and the plume the bucket raised is drifting under it.",
+        "deck-spill": "A slop of the black material has fallen on the dredge deck by the rail. It is shovelled back into the scow, not hosed overboard, and the spot goes in the log."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the deck and look along the curtain: anything spilled on the deck, any slack in the curtain beside the dredge.",
+      "targets": [
+        "deck-spill",
+        "curtain-slack"
+      ],
+      "title": "Walk the dredge deck while the dig is stopped",
+      "why": "The stop is a chance to put right what the dig was doing while nobody was looking: material that slopped onto the deck and a curtain that went slack when the barge swung. Both are the kind of thing that turns a controlled stop for unexpected material into an uncontrolled release of it."
+    },
+    {
+      "cue": "Log the position fixes, the scow walk and its fixes, the time and place of the unexpected material, the sample and its custody, the report, the tug held, the draft, the ticket and the deck walk.",
+      "id": "dredge-log",
+      "kind": "select",
+      "prompt": "Log the position fixes, the scow walk and its fixes, the time and place of the unexpected material, the sample and its custody, the report, the tug held, the draft, the ticket and the deck walk.",
+      "target": "dredge-log",
+      "title": "Write the dredge log",
+      "why": "The dredge log is the record the suitability determination is checked against after the fact — that every bucket came from the approved unit and went where it was approved to go. The unexpected material, the hold and the tug go in with their times and positions, because the log is what shows the crew stopped when the material stopped matching, which is the point of screening at all."
+    },
+    {
+      "cue": "On the radio: the scow is on hold and logged, who is deciding and when the crew will hear, and how everyone is after a stop on unknown material.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the radio: the scow is on hold and logged, who is deciding and when the crew will hear, and how everyone is after a stop on unknown material.",
+      "target": "crew-radio",
+      "title": "Check in with the operator, the deckhand and the tug",
+      "why": "Unknown material in the bucket is unsettling for everyone on the dredge — the operator who dug it, the deckhand on the scow beside it, the skipper told to wait. The check-in says out loud who is deciding and when, so nobody guesses, and it is also the crew's own — the member assistance line is there for anything that is still with someone after the radio goes quiet."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — LIUNA Local 261, IUOE Local 3 or the Inlandboatmen's Union — with the employer's employee assistance line behind it",
+  "tagline": "Matching every bite to the decision already made about it: the work plan's dredge-unit map and the suitability determination read, the dredge's position confirmed inside the unit, the scow walked and its drain shut, bites called while unexpected oily material comes up, the material sampled while the tug wants to leave, it reported in order, the scow placarded on hold, its draft read, the load ticket written, the deck walked, logged and the crew checked in",
+  "title": "SmartCiti.X~ Dredge Material Screening & Disposal Decision VR",
+  "trade": "LIUNA Local 261 material screener on the dredge deck, with an IUOE Local 3 operating engineer on the barge-mounted excavator, an Inlandboatmen's Union deckhand on the scow and a tug skipper standing by",
+  "underwater": null,
+  "weather": "overcast"
+}

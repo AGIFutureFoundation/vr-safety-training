@@ -1,0 +1,393 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "nothing-to-the-water",
+    "name": "Nothing To The Water",
+    "note": "An enclosure sealed, held negative and smoke-proven before removal, never breached toward the strait, and nothing swept dry"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "IUPAT and the Finishing Trades Institute bridge painter and lead abatement training; OSHA 29 CFR 1926.62 lead in construction, including the written compliance programme, exposure monitoring, hygiene and decontamination; 29 CFR 1910.134 respiratory protection and fit testing; SSPC Guide 6 for containing surface preparation debris; an SSPC-QP 2 qualified contractor for hazardous coating removal; ANSI/ASSP A10.34 protection of the public beside the work; BCDC and the permit's conditions for work over the bay",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "BCDC",
+        "citedAs": "BCDC",
+        "id": "bcdc-bay-plan",
+        "title": "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUPAT",
+        "id": "iupat-fti",
+        "title": "IUPAT Finishing Trades Institute — industrial painter, glazier and drywall finisher apprenticeship, including lead and containment training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.62",
+        "id": "osha-1926-62",
+        "title": "29 CFR 1926.62 — Lead in construction"
+      },
+      {
+        "body": "SSPC",
+        "citedAs": "SSPC Guide 6",
+        "id": "sspc-guide-6",
+        "title": "SSPC Guide 6 — Guide for containing surface preparation debris generated during paint removal operations"
+      },
+      {
+        "body": "SSPC",
+        "citedAs": "SSPC-QP 2",
+        "id": "sspc-qp-2",
+        "title": "SSPC-QP 2 — Qualification procedure for painting contractors removing hazardous coatings in the field from complex structures, now administered by AMPP"
+      }
+    ]
+  },
+  "district": "golden-gate-deck",
+  "domain": "Construction",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "sealed-to-the-strait",
+        "name": "Sealed To The Strait",
+        "note": "The strait-side tarp hung and sealed without a correction"
+      },
+      {
+        "id": "shroud-on-steel",
+        "name": "Shroud On Steel",
+        "note": "The shroud held to the steel the whole pass"
+      },
+      {
+        "id": "clean-habits",
+        "name": "Clean Habits",
+        "note": "Never swept dry, never drank in the zone, never breached the enclosure"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-enclosure",
+        "name": "Clean Enclosure",
+        "note": "No corrections from the plan to the log"
+      },
+      {
+        "id": "no-lift-off",
+        "name": "No Lift-Off",
+        "note": "The shroud never left the steel"
+      },
+      {
+        "id": "containment-inside-par",
+        "name": "Containment Inside Par",
+        "note": "Logged inside 80% of par"
+      }
+    ],
+    "currency": "SEAL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Tarp Hand",
+      "Containment Painter",
+      "Smoke Tester",
+      "Containment Lead",
+      "Containment Crew Certified"
+    ],
+    "system": "Containment Crew"
+  },
+  "hazards": {
+    "drink-in-zone": "You went for the water bottle standing inside the regulated area. Lead gets into a body through the mouth as surely as through the lungs, and a bottle standing in the enclosure has lead dust settling on its cap. Eating, drinking and smoking happen outside the regulated area after washing, which is why 29 CFR 1926.62 keeps them out of it and why the wash station is on the way out.",
+    "dry-sweep": "You picked up the broom to sweep the debris on the enclosure floor. Dry sweeping lifts the finest lead-bearing dust — the part that stays airborne, gets past a poor respirator seal and settles on skin and clothing — and 29 CFR 1926.62 rules it out wherever vacuuming with a HEPA filter or wet methods will do. The debris is vacuumed with the HEPA vac, never swept.",
+    "tarp-breach-water": "You pulled the strait-side tarp back off its frame to pass a hose through. That wall is the one between the removal and the water, and with it open the enclosure is no longer an enclosure: the collector pulls air in through the gap instead of holding the whole space negative, and anything the wind finds inside goes out through it and down to the bay. Hoses go through the sealed port the plan provides, never through the wall that faces the water.",
+    "untethered-scraper": "The scraper is lying loose on the stringer flange at the enclosure's open side, over the edge and the strait beyond it. A tool that falls from a bridge containment falls through the one place the enclosure is not sealed — the gap where the tool went — and takes lead-painted chips down to the water with it. Hand tools ride on tethers inside the enclosure too."
+  },
+  "id": "gg-paint-containment-on-the-deck",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "smoke-test",
+      "alert": "A small boat has come in under the span directly below the enclosure — inside the exclusion the permit sets on the water under the removal.",
+      "cue": "Stop the test and call the safety boat on the work radio: clear the boat out from under the enclosure before any removal starts.",
+      "delay": 2,
+      "id": "boat-under-containment",
+      "kind": "Boat under the work zone",
+      "missNote": "The work went on with a boat sitting under the enclosure. Anything that escaped the containment in that window would have landed on people who never knew they were under lead removal.",
+      "seconds": 13,
+      "target": "work-radio",
+      "why": "The water under a removal is kept clear because if anything does get out of the enclosure — a chip past a seam, a tool through a gap — it lands on whatever is below. The crew above is the only one that can see the enclosure and the boat together, so the call goes out the moment a boat is under it: the safety boat moves it on and removal waits until the water is clear.",
+      "wrongNote": "The work radio — the boat is out of reach, and the radio is the only thing on this deck that reaches it."
+    },
+    {
+      "after": "removal",
+      "alert": "A gust hits the enclosure — the tarps bow in and snap out on the frame and the windsock at the collector stands straight out red.",
+      "cue": "Let go of the deadman to stop removal, and hold until the tarps settle and the pressure is back.",
+      "delay": 3,
+      "id": "gust-on-the-tarps",
+      "kind": "Gust past the work-stop limit",
+      "missNote": "Removal carried on through the gust while the tarps were pumping in and out. Every time a tarp bowed in, the enclosure pushed dusty air out through its seams toward the water.",
+      "seconds": 12,
+      "target": "blast-deadman",
+      "why": "A gust past the limit pushes an enclosure's tarps in and out faster than the collector can hold it negative, and in the moment a tarp bows in the enclosure is briefly pressurised — the direction of air flow at the seams reverses. Removal stops on the deadman so no new debris is made while the enclosure is not holding, and restarts only when the manometer is back in its band.",
+      "wrongNote": "The deadman — stop making debris first. Nothing else is safe while the enclosure is not holding negative."
+    }
+  ],
+  "lateNotes": {
+    "containment-log": "The enclosure is logged once the drums are closed and labelled and the crew has washed out.",
+    "hepa-vac": "The floor is vacuumed once the removal pass is finished and the shroud is off the steel.",
+    "vac-shroud": "Removal starts once the enclosure is held negative and every seam facing the water has passed the smoke test."
+  },
+  "name": "Paint Containment on the Deck",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "airlock-flap-open",
+      "blast-deadman",
+      "boot-covers",
+      "collector-damper",
+      "containment-log",
+      "drink-in-zone",
+      "drum-label",
+      "dry-sweep",
+      "floor-seam-gap",
+      "hepa-vac",
+      "lead-compliance-plan",
+      "manometer",
+      "respirator-fit",
+      "smoke-pencil",
+      "tarp-breach-water",
+      "tarp-panel",
+      "tarp-seam",
+      "tarp-tear",
+      "tyvek-suit",
+      "untethered-scraper",
+      "vac-shroud",
+      "wash-station",
+      "waste-drum-lid",
+      "work-radio"
+    ],
+    "meshes": 193
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the written compliance programme and the containment design: the coating's lead result, the enclosure class, the negative pressure required, the monitoring and the decontamination route.",
+      "id": "compliance-plan",
+      "kind": "select",
+      "prompt": "Read the written compliance programme and the containment design: the coating's lead result, the enclosure class, the negative pressure required, the monitoring and the decontamination route.",
+      "target": "lead-compliance-plan",
+      "title": "Read the lead compliance plan and the containment design",
+      "why": "Removing a coating that carries lead is regulated work under 29 CFR 1926.62: the employer writes a compliance programme before it starts, and the containment is designed to SSPC Guide 6 for the kind of removal planned. The plan says how negative the enclosure has to be, where the air monitoring sits and the order of the decontamination route, and a crew that has not read it is guessing at all three over open water."
+    },
+    {
+      "cue": "Coveralls on with the hood up, boot covers over the cuffs, then the respirator on and a user seal check — last, so nothing pulled over your head breaks the seal.",
+      "id": "suit-up",
+      "itemNames": {
+        "boot-covers": "boot covers over the cuffs",
+        "respirator-fit": "respirator on, seal checked",
+        "tyvek-suit": "disposable coveralls, hood up"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Respirator last — pulling the hood up over a sealed facepiece is how the seal gets broken without anyone noticing.",
+      "prompt": "Coveralls on with the hood up, boot covers over the cuffs, then the respirator on and a user seal check — last, so nothing pulled over your head breaks the seal.",
+      "targets": [
+        "tyvek-suit",
+        "boot-covers",
+        "respirator-fit"
+      ],
+      "title": "Suit up, then check the respirator seal last",
+      "why": "The respirator goes on last because everything else is pulled over the head or tugged at the neck, and each of those can move a facepiece that has already been sealed. 29 CFR 1910.134 asks for a user seal check every time the respirator goes on, and it only means something if nothing else touches the facepiece after it; the fit test on file proves the model fits, and the seal check proves it fits right now."
+    },
+    {
+      "cue": "Carry the tarp panel to the enclosure's strait side and hang it on the frame, overlapped onto the next panel and taped along the seam.",
+      "drag": {
+        "missNote": "Not on the frame's seam line — the panel has to overlap the next one on the strait side, not hang loose inside it.",
+        "radius": 0.5,
+        "to": "tarp-seam"
+      },
+      "id": "hang-tarp",
+      "kind": "drag",
+      "prompt": "Carry the tarp panel to the enclosure's strait side and hang it on the frame, overlapped onto the next panel and taped along the seam.",
+      "target": "tarp-panel",
+      "title": "Hang and seal the strait-side tarp",
+      "why": "The strait side of the enclosure is the one wall that stands between the removal and the water, and it is hung first and sealed best. Panels overlap onto each other and every seam is taped, because a seam that is merely touching opens the moment the collector draws on the enclosure; SSPC Guide 6 treats the seams, not the tarp, as where a containment fails."
+    },
+    {
+      "cue": "Walk the enclosure inside and out and find where it would leak: the tarps, the floor seams, the airlock.",
+      "id": "walk-enclosure",
+      "itemNames": {
+        "airlock-flap-open": "the airlock's outer flap tied open",
+        "floor-seam-gap": "a gap where the floor sheet meets the wall",
+        "tarp-tear": "a tear in the roof tarp"
+      },
+      "itemNotes": {
+        "airlock-flap-open": "The airlock's outer flap has been tied open for convenience. An airlock is two flaps so one is always closed; tied open it is just a doorway.",
+        "floor-seam-gap": "The floor sheet has pulled back from the wall panel at one corner. Debris that reaches the floor rolls to the lowest point, and a gap at floor level is where it leaves.",
+        "tarp-tear": "The roof tarp has torn along a frame bar where it rubbed in last night's wind. It is patched and taped before the collector runs, or the collector draws air through it instead of through the airlock."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the enclosure inside and out and find where it would leak: the tarps, the floor seams, the airlock.",
+      "targets": [
+        "tarp-tear",
+        "floor-seam-gap",
+        "airlock-flap-open"
+      ],
+      "title": "Walk the enclosure for leaks before the collector runs",
+      "why": "An enclosure leaks where it was handled last: the roof that rubbed in the wind overnight, the floor corner someone stepped on, the airlock flap someone tied back to carry gear in. Walking it before the collector runs finds those while they can still be taped, and it is the competent person's check under the compliance programme that the enclosure built yesterday is the enclosure standing today."
+    },
+    {
+      "cue": "Start the dust collector and open its damper steadily to the setting on the containment design.",
+      "id": "collector",
+      "kind": "turn",
+      "prompt": "Start the dust collector and open its damper steadily to the setting on the containment design.",
+      "target": "collector-damper",
+      "title": "Set the dust collector's damper",
+      "turn": {
+        "label": "COLLECTOR DAMPER",
+        "turns": 1
+      },
+      "why": "The collector is what makes the enclosure negative: it pulls air out through its filters faster than air leaks in, so every leak draws clean air inward rather than letting dust out. Its damper is opened steadily to the design setting rather than thrown open, because a tarp enclosure snapped inward by a sudden draw can tear at the seams the walk just taped."
+    },
+    {
+      "cue": "Read the manometer on the enclosure wall and commit the reading when it sits inside the band the design requires.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.7
+        ],
+        "label": "ENCLOSURE PRESSURE · % OF DESIGN",
+        "missNote": "Outside the band — too little and the enclosure is not holding negative, too much and the tarps are being sucked in at the seams. Adjust the damper and read again.",
+        "speed": 0.62
+      },
+      "id": "negative-pressure",
+      "kind": "gauge",
+      "prompt": "Read the manometer on the enclosure wall and commit the reading when it sits inside the band the design requires.",
+      "target": "manometer",
+      "title": "Read the enclosure's negative pressure",
+      "why": "Negative pressure is the whole difference between an enclosure and a tent: with the manometer showing the design's figure, air flows in at every gap and the dust stays inside. Too little and a gust outside can push the tarps in and the dust out; the reading is taken and committed before removal starts, and it stays on the log for the shift."
+    },
+    {
+      "cue": "Hold the smoke pencil along the strait-side seams and watch the smoke draw inward all the way along.",
+      "holdBreakNote": "The smoke pencil left the seam before the whole run was tested. Start again at the end you left.",
+      "id": "smoke-test",
+      "kind": "hold",
+      "prompt": "Hold the smoke pencil along the strait-side seams and watch the smoke draw inward all the way along.",
+      "seconds": 5,
+      "target": "smoke-pencil",
+      "title": "Smoke-test the seams that face the water",
+      "why": "The manometer proves the enclosure is negative on average; the smoke test proves it at the seams, which is where it matters. Smoke drawn inward along a seam is a seam holding; smoke that drifts outward or hangs is a seam leaking, and the strait-side seams are tested first and slowest because they are the ones between the removal and the bay."
+    },
+    {
+      "cue": "Run the vacuum-shrouded tool along the stringer with the shroud held flat to the steel — no lifting off, no tilting.",
+      "holdBreakNote": "The shroud came off the steel and threw debris into the enclosure. Set it flat and run that length again.",
+      "id": "removal",
+      "kind": "track",
+      "prompt": "Run the vacuum-shrouded tool along the stringer with the shroud held flat to the steel — no lifting off, no tilting.",
+      "seconds": 7,
+      "target": "vac-shroud",
+      "title": "Clean the steel with the shroud held to it",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "SHROUD ON STEEL",
+        "rise": 0.56,
+        "start": 0.1
+      },
+      "why": "A vacuum-shrouded tool captures the old coating at the point it comes off, so the enclosure is the second line of defence rather than the first. It only works with the shroud flat on the steel: lifted or tilted, the tool throws chips and dust out of the shroud and the capture drops to whatever the enclosure can manage. The pass is steady so the shroud keeps its seal the whole length."
+    },
+    {
+      "cue": "Vacuum the enclosure floor and the flanges with the HEPA vacuum — every chip, every corner, no sweeping.",
+      "id": "hepa",
+      "kind": "select",
+      "prompt": "Vacuum the enclosure floor and the flanges with the HEPA vacuum — every chip, every corner, no sweeping.",
+      "target": "hepa-vac",
+      "title": "Vacuum the floor with the HEPA vacuum",
+      "why": "The debris on the floor is the lead in its most portable form: chips and dust that stick to boots and blow at the first gap. 29 CFR 1926.62 wants it collected by HEPA vacuum or wet methods, and the HEPA filter is the point: an ordinary vacuum passes the finest dust straight out of its exhaust into the air the crew is breathing."
+    },
+    {
+      "cue": "Bolt the lid ring on the full waste drum, then fill in its label: contents, date, the job.",
+      "id": "waste",
+      "itemNames": {
+        "drum-label": "drum labelled with contents and date",
+        "waste-drum-lid": "drum lid on and the ring bolted"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Lid first — a drum is labelled once it is closed, not while its contents are open to the wind.",
+      "prompt": "Bolt the lid ring on the full waste drum, then fill in its label: contents, date, the job.",
+      "targets": [
+        "waste-drum-lid",
+        "drum-label"
+      ],
+      "title": "Close the waste drum, then label it",
+      "why": "A waste drum of paint debris is closed before it is labelled because an open drum being labelled is an open drum, and the wind across a bridge deck lifts dust off an open drum faster than a label can be written. The label follows so nobody ever has to open a drum to find out what is in it; the waste is characterised and shipped under the compliance programme, never guessed at."
+    },
+    {
+      "cue": "Out through the airlock, coveralls off into the drum, then wash hands and face at the station before anything else.",
+      "holdBreakNote": "You stepped away from the wash station before the wash was done. Wash hands and face fully before leaving.",
+      "id": "wash-out",
+      "kind": "hold",
+      "prompt": "Out through the airlock, coveralls off into the drum, then wash hands and face at the station before anything else.",
+      "seconds": 4,
+      "target": "wash-station",
+      "title": "Wash out at the decontamination station",
+      "why": "Lead leaves a job on hands, faces and clothes and goes home with people: to the truck, the kitchen table and the children in the house. The decontamination route is in the compliance programme for that reason, and washing hands and face before eating, drinking or leaving is the part of it that protects the people who were never on the bridge."
+    },
+    {
+      "cue": "Record the leaks found and taped, the pressure reading, the smoke test, the removal pass, the drums closed and the crew washed out.",
+      "id": "containment-log",
+      "kind": "select",
+      "prompt": "Record the leaks found and taped, the pressure reading, the smoke test, the removal pass, the drums closed and the crew washed out.",
+      "target": "containment-log",
+      "title": "Log the enclosure, the pressure and the waste",
+      "why": "The containment log is the record that the work never reached the water: the pressure the enclosure held, the seams proven by smoke, where it leaked and when it was taped, and the drums that left the deck. It is what the owner, the regulator and the permit's conditions ask for, and a gap in it is a shift nobody can show was contained."
+    },
+    {
+      "cue": "Call the competent person and the crew: enclosure logged and left negative, drums closed, everyone washed out — and how everyone is.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the competent person and the crew: enclosure logged and left negative, drums closed, everyone washed out — and how everyone is.",
+      "target": "work-radio",
+      "title": "Check in with the competent person and the crew",
+      "why": "The competent person decides whether the enclosure is left running overnight, and needs to hear it is logged and negative. A shift in a suit and a respirator, with a boat under the work and a gust pushing the tarps, is a hard one, and the crew checks in with each other before they leave the deck; the IUPAT member assistance line is there for anything that lasts."
+    }
+  ],
+  "supportLine": "the IUPAT member assistance programme through your district council, and the crew's peer-support contact",
+  "tagline": "Old coatings taken off inside a sealed enclosure the water never sees: the lead compliance plan read, suited and fit-checked, the strait-side tarp hung and sealed, the enclosure walked for leaks, the collector set and the negative pressure read, the seams smoke-tested while a boat passes under, the steel cleaned under the shroud through a gust, the floor HEPA-vacuumed, the drums closed and labelled, washed out and logged",
+  "title": "SmartCiti.X~ Paint Containment on the Deck VR",
+  "trade": "IUPAT bridge painters — containment and lead removal crew, trained through the Finishing Trades Institute (FTI), with the containment competent person",
+  "underwater": null,
+  "weather": null
+}

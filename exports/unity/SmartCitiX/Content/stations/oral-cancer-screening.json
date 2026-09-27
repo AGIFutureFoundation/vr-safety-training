@@ -1,0 +1,429 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "early-look",
+    "name": "Early Look",
+    "note": "A full screening run in order with a finding fully described and referred inside the two-week rule"
+  },
+  "category": "Dental & Oral Health",
+  "certification": "The ADA's and the National Cancer Institute's oral cancer screening guidance, including the two-week persistent-lesion referral rule; the CDC's Guidelines for Infection Control in Dental Health-Care Settings; OSHA 29 CFR 1910.1030 bloodborne pathogens; HIPAA for the referral and the photographic record; the state dental hygiene board's scope of practice for referral; the ADHA",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADA",
+        "citedAs": "ADA's",
+        "id": "ada-radiographic-guidance",
+        "title": "American Dental Association and FDA guidance on prescribing dental radiographs"
+      },
+      {
+        "body": "ADHA",
+        "citedAs": "ADHA",
+        "id": "adha-standards",
+        "title": "ADHA Standards for Clinical Dental Hygiene Practice"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "HHS",
+        "citedAs": "HIPAA",
+        "id": "hipaa-privacy-rule",
+        "title": "HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Preventive dentistry",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-hands",
+        "name": "Clean Hands",
+        "note": "Never touched a bare-hand or cross-contamination trap"
+      },
+      {
+        "id": "steady-palpation",
+        "name": "Steady Palpation",
+        "note": "Held the bimanual palpation reading near band centre"
+      },
+      {
+        "id": "order-kept",
+        "name": "Order Kept",
+        "note": "Ran the intraoral sequence with no correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "recall-pace",
+        "name": "Recall Pace",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "no-second-look",
+        "name": "No Second Look",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "screening-streak",
+        "name": "Screening Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "SCAN",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Recall Assistant",
+      "Screening Hygienist",
+      "Lead Screener",
+      "Clinic Reviewer",
+      "ADA Screening Certified"
+    ],
+    "system": "Early Look"
+  },
+  "hazards": {
+    "bare-hand-reach": "You reached toward this patient's mouth before gloving up. Standard precautions apply before the first contact of the appointment, not after — OSHA's bloodborne pathogens standard and the CDC's infection-control guidelines both treat gloving as the starting condition for touching a patient, never an afterthought once your hand is already there.",
+    "coffee-mug": "That is a drink sitting at the operatory counter, inside the clinical area. Eating and drinking where patient care happens is a standard-precautions violation for the same reason it always is — the gloves and the counter surfaces around a mouth exam are not somewhere food belongs.",
+    "personal-phone": "That is a personal phone, not the practice's secure intraoral camera. A photo of a patient's mouth taken on personal hardware is protected health information sitting on a device with no chain of custody back to this chart — exactly what HIPAA's safeguards for records exist to prevent.",
+    "used-gauze": "That gauze is still on the tray from the last patient. Reusing anything that touched a previous patient's mouth is a cross-contamination event the CDC's infection-control guidelines exist specifically to rule out — fresh gauze, every patient, no exceptions for convenience."
+  },
+  "id": "oral-cancer-screening",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "tongue-exam",
+      "alert": "The patient has put a hand up and is trying to pull their tongue back — the gauze retraction is clearly more than they want to tolerate right now.",
+      "cue": "Your hands are on the gauze. The patient is telling you to stop, not to keep going.",
+      "delay": 3,
+      "id": "decline-tongue-pull",
+      "kind": "Patient discomfort",
+      "missNote": "The retraction continued for several more seconds after the patient tried to signal stop. Whatever this screening found after that point, it found it past the moment this patient withdrew consent to continue — and that is the part of the visit they will remember.",
+      "seconds": 12,
+      "target": "stop-signal-card",
+      "why": "A patient can withdraw consent to any part of an exam at any point, and a raised hand mid-retraction is exactly that — acknowledging the stop signal and pausing is what keeps this a consented exam rather than something done to a patient who has already said they have had enough.",
+      "wrongNote": "Acknowledge the stop signal and ease off the gauze. Nothing about this exam continues over a patient who is actively telling you to stop."
+    },
+    {
+      "after": "floor-of-mouth",
+      "alert": "The patient mentions, almost in passing, that the area you're palpating \"has always been there\" — but nothing on the chart's history has ever documented it before.",
+      "cue": "Your hands are mid-palpation. The patient just said something worth checking against the record, not just believing.",
+      "delay": 3,
+      "id": "always-been-there",
+      "kind": "Patient history",
+      "missNote": "The finding went forward as long-standing on the patient's word alone, with nobody actually checking the chart. If it was new, this screening just lost the two-week clock on a finding that needed exactly that timeline to be right.",
+      "seconds": 13,
+      "target": "chart-terminal",
+      "why": "\"It's always been there\" is a patient's honest impression, not a documented fact, and a hygienist's own memory of previous visits is not a reliable substitute for what the chart actually says — pulling up the record is what tells you whether this is truly longstanding or whether it is new and simply feels familiar to a patient who was not looking for it before.",
+      "wrongNote": "Pull up the chart and check. A patient's impression that something has always been there is not the same as a record that says so."
+    }
+  ],
+  "lateNotes": {
+    "chart-terminal": "The finding isn't documented yet — the record comes after the exam and the referral decision, not before.",
+    "intraoral-camera": "There's no confirmed finding to photograph yet.",
+    "referral-pad": "Describe and photograph the finding, and check how long it has been present, before deciding on a referral."
+  },
+  "name": "Oral Cancer Screening",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "dental-hygiene-unspoken-smiles"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2,
+    "hits": [
+      "bare-hand-reach",
+      "buccal-mucosa",
+      "chart-terminal",
+      "chart-timeline",
+      "coffee-mug",
+      "colour",
+      "duration",
+      "exam-light",
+      "face-inspect",
+      "floor-of-mouth",
+      "fordyce-granules",
+      "gingiva",
+      "health-history-form",
+      "induration",
+      "intraoral-camera",
+      "linea-alba",
+      "lips-extraoral",
+      "lips-intraoral",
+      "neck-nodes",
+      "oropharynx",
+      "palate",
+      "personal-phone",
+      "ppe-stand",
+      "referral-pad",
+      "site",
+      "size",
+      "stop-signal-card",
+      "texture",
+      "tongue-gauze",
+      "torus-palatinus",
+      "true-lesion",
+      "used-gauze"
+    ],
+    "meshes": 165
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Ask about tobacco, alcohol, HPV exposure, and sun exposure to the lips since the last visit.",
+      "id": "risk-history",
+      "kind": "select",
+      "prompt": "Ask about tobacco, alcohol, HPV exposure, and sun exposure to the lips since the last visit.",
+      "target": "health-history-form",
+      "title": "Update the risk history",
+      "why": "Tobacco and alcohol use, HPV exposure, and sun exposure on the lips are the risk factors the ADA's and the NCI's screening guidance both point to first, and every one of them can change between recalls — a history taken once at intake and never updated is a risk profile that stops being true the year it was written."
+    },
+    {
+      "cue": "Put on gloves, mask and eyewear before touching the patient.",
+      "id": "ppe-donning",
+      "kind": "select",
+      "prompt": "Put on gloves, mask and eyewear before touching the patient.",
+      "target": "ppe-stand",
+      "title": "Glove up before the first contact",
+      "why": "Standard precautions start before the appointment does, not at some point during it — the CDC's infection-control guidelines and OSHA's bloodborne pathogens standard both treat PPE as the condition contact begins under, and an oral cancer screening puts your hands in a patient's mouth more than almost any other hygiene procedure."
+    },
+    {
+      "cue": "Bring the overhead light down onto the back of the mouth.",
+      "forceClass": "light",
+      "id": "light-aim",
+      "kind": "turn",
+      "prompt": "Bring the overhead light down onto the back of the mouth.",
+      "robotNote": "The light is aimed across the patient's face to open up the oropharynx.",
+      "target": "exam-light",
+      "title": "Aim the light for a clear view of the oropharynx",
+      "turn": {
+        "axis": "x",
+        "label": "EXAM LIGHT",
+        "turns": 0.25
+      },
+      "why": "Half of this screening happens at the very back of the mouth — the oropharynx, the tonsillar pillars, the base of the tongue — and none of it is visible without a light actually aimed there rather than left at whatever angle the last patient's cleaning needed."
+    },
+    {
+      "cue": "Face, then the lips from outside, then the neck nodes with both hands — in that order.",
+      "forceClass": "light",
+      "id": "extraoral-exam",
+      "itemNames": {
+        "face-inspect": "the face",
+        "lips-extraoral": "the lips, from outside",
+        "neck-nodes": "the neck nodes, bimanually"
+      },
+      "kind": "sequence",
+      "noRobot": true,
+      "outOfOrderNote": "Face, then the outer lips, then the neck nodes bimanually — that order is what the extraoral exam actually is, not a checklist you can run in whatever sequence is convenient.",
+      "prompt": "Face, then the lips from outside, then the neck nodes with both hands — in that order.",
+      "robotNote": "The face, the lips and the cervical nodes, palpated.",
+      "targets": [
+        "face-inspect",
+        "lips-extraoral",
+        "neck-nodes"
+      ],
+      "title": "Run the extraoral exam in order",
+      "why": "The extraoral exam runs face to lips to neck because that is the order a real asymmetry, a lip lesion, or a node actually presents in front of you — skipping straight to palpating the neck misses whatever the face and the outer lip would have shown first, in daylight, before your hands are anywhere near the patient."
+    },
+    {
+      "cue": "Lips inside, buccal mucosa, gingiva, palate, then the oropharynx — the same order every time.",
+      "forceClass": "light",
+      "id": "intraoral-visual",
+      "itemNames": {
+        "buccal-mucosa": "the buccal mucosa",
+        "gingiva": "the gingiva",
+        "lips-intraoral": "the lips, inside",
+        "oropharynx": "the oropharynx",
+        "palate": "the palate"
+      },
+      "kind": "sequence",
+      "noRobot": true,
+      "outOfOrderNote": "Lips inside, buccal mucosa, gingiva, palate, then the oropharynx — the fixed order is what makes this exam comparable from one recall to the next.",
+      "prompt": "Lips inside, buccal mucosa, gingiva, palate, then the oropharynx — the same order every time.",
+      "robotNote": "Five intraoral sites, inspected in order.",
+      "targets": [
+        "lips-intraoral",
+        "buccal-mucosa",
+        "gingiva",
+        "palate",
+        "oropharynx"
+      ],
+      "title": "Run the intraoral visual exam in order",
+      "why": "A fixed order is what turns a screening into something repeatable across every hygienist in the practice and every recall this patient ever has — a finding described as \"on the palate\" only means something because the palate was checked in the same place in the sequence last time, not wherever the exam happened to wander that day."
+    },
+    {
+      "cue": "Wrap the tongue in gauze, extend it gently, and hold while you check dorsal, lateral and ventral.",
+      "forceClass": "light",
+      "holdBreakNote": "Released before all three surfaces were checked. The dorsal surface is the easy one to see without gauze at all — the lateral and ventral surfaces are the reason you picked it up.",
+      "id": "tongue-exam",
+      "kind": "hold",
+      "noRobot": true,
+      "prompt": "Wrap the tongue in gauze, extend it gently, and hold while you check dorsal, lateral and ventral.",
+      "robotNote": "The tongue is retracted with gauze and turned to see all three surfaces.",
+      "seconds": 6,
+      "target": "tongue-gauze",
+      "title": "Retract the tongue with gauze and inspect all three surfaces",
+      "why": "The lateral border and the ventral surface of the tongue are where a disproportionate share of oral cancers are actually found, and neither one is visible with the tongue resting still in the mouth — the gauze is what lets you extend it far enough, and holding it steady is what lets you actually look at all three surfaces instead of one."
+    },
+    {
+      "cue": "One finger inside, one hand under the chin, and keep the pressure gentle and steady.",
+      "forceClass": "light",
+      "holdBreakNote": "Pressure out of the gentle band. Ease back to a steady, even pressure and hold it there.",
+      "id": "floor-of-mouth",
+      "kind": "track",
+      "noRobot": true,
+      "prompt": "One finger inside, one hand under the chin, and keep the pressure gentle and steady.",
+      "robotNote": "Bimanual palpation: one hand inside the mouth, one under the jaw.",
+      "seconds": 5,
+      "target": "floor-of-mouth",
+      "title": "Palpate the floor of the mouth bimanually",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.4,
+        "green": [
+          0.34,
+          0.54
+        ],
+        "label": "PALPATION PRESSURE",
+        "rise": 0.48,
+        "start": 0.14
+      },
+      "why": "The floor of the mouth cannot be fully assessed by looking alone — a firm area under otherwise normal-looking mucosa is exactly what bimanual palpation is built to catch, and the pressure has to stay in a narrow gentle band: too light and you feel nothing through the tissue, too firm and you cannot tell the patient's own guarding from an actual finding."
+    },
+    {
+      "cue": "One of these four is not a normal anatomic variant. Find it before you chart anything as a finding.",
+      "decoyNotes": {
+        "fordyce-granules": "Small pale-yellow raised spots on the buccal mucosa, symmetric and unchanging — Fordyce granules, a normal sebaceous variant, not a finding.",
+        "linea-alba": "A white line along the buccal mucosa at the bite line — linea alba, from chronic cheek-biting or clenching against the teeth, not a finding.",
+        "torus-palatinus": "A firm, smooth midline bony ridge on the hard palate — a torus, a normal bony growth, not a finding."
+      },
+      "forceClass": "none",
+      "id": "differential-check",
+      "itemNames": {
+        "true-lesion": "the finding that is not a normal variant"
+      },
+      "itemNotes": {
+        "true-lesion": "This one does not match a known normal variant — persistent, indurated, and unlike anything on the reference board. This is the finding to document, photograph and time."
+      },
+      "kind": "find",
+      "noHint": true,
+      "noRobot": true,
+      "prompt": "One of these four is not a normal anatomic variant. Find it before you chart anything as a finding.",
+      "robotNote": "Telling a lesion from a normal variant is a judgement made looking into somebody's mouth.",
+      "targets": [
+        "true-lesion"
+      ],
+      "title": "Tell the finding from a normal variant",
+      "why": "Fordyce granules, linea alba and a palatal or mandibular torus are the normal variants every hygienist eventually learns to recognise on sight, and charting one of them as a finding sends a patient for an unnecessary referral — the actual skill this screening tests is telling the one that is not a variant from the three that are."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Record site, size, colour, texture, induration and duration — all six, before you move on.",
+      "id": "describe-finding",
+      "itemNames": {
+        "colour": "colour",
+        "duration": "duration",
+        "induration": "induration",
+        "site": "site",
+        "size": "size",
+        "texture": "texture"
+      },
+      "kind": "sequence",
+      "prompt": "Record site, size, colour, texture, induration and duration — all six, before you move on.",
+      "targets": [
+        "site",
+        "size",
+        "colour",
+        "texture",
+        "induration",
+        "duration"
+      ],
+      "title": "Describe the finding in full",
+      "why": "A referral that says \"a spot on the tongue\" tells the oral surgeon almost nothing they can act on before the patient walks in the door. Site, size, colour, texture, induration and duration together are what let a clinician who has never seen this mouth understand exactly what was found and how urgently it needs to be seen."
+    },
+    {
+      "cue": "Capture the finding on the practice's own intraoral camera.",
+      "forceClass": "light",
+      "id": "photograph-finding",
+      "kind": "select",
+      "noRobot": true,
+      "prompt": "Capture the finding on the practice's own intraoral camera.",
+      "robotNote": "The camera head goes in the mouth to frame the finding.",
+      "target": "intraoral-camera",
+      "title": "Photograph the finding",
+      "why": "A description is one hygienist's words; a photograph is something the referring surgeon, and this same chart a year from now, can compare directly against what is actually there — taken on the practice's own camera, so the image is a HIPAA-covered record from the moment the shutter closes, not a file sitting on somebody's phone."
+    },
+    {
+      "cue": "Check the chart's timeline against what the patient reports and commit once it's confirmed.",
+      "gauge": {
+        "green": [
+          0.58,
+          0.85
+        ],
+        "label": "DAYS PRESENT — CONFIRM",
+        "missNote": "That reading does not actually confirm past-two-weeks. Re-check the chart's timeline against what the patient told you before committing.",
+        "speed": 0.55
+      },
+      "id": "duration-check",
+      "kind": "gauge",
+      "prompt": "Check the chart's timeline against what the patient reports and commit once it's confirmed.",
+      "target": "chart-timeline",
+      "title": "Confirm how long the finding has been present",
+      "why": "The two-week rule is the whole reason this question gets asked precisely rather than accepted on impression: a lesion persisting past two weeks is referred, and a lesion the patient noticed three days ago is watched and rechecked — the same finding gets a different answer depending on nothing but this one number."
+    },
+    {
+      "cue": "Complete the referral to oral surgery or oral pathology for this finding.",
+      "id": "referral",
+      "kind": "select",
+      "prompt": "Complete the referral to oral surgery or oral pathology for this finding.",
+      "target": "referral-pad",
+      "title": "Write the referral",
+      "why": "A hygienist's scope of practice is to screen, describe and refer — not to diagnose what a lesion is. The referral is what turns a well-documented finding into a biopsy or a specialist's own examination, which is the only way this ever gets an actual answer."
+    },
+    {
+      "cue": "Enter the finding, the photograph and the referral into the patient's record.",
+      "id": "record",
+      "kind": "select",
+      "prompt": "Enter the finding, the photograph and the referral into the patient's record.",
+      "target": "chart-terminal",
+      "title": "Finalise the chart entry",
+      "why": "The chart entry is what makes this screening exist for the next recall as well as this one — a finding that was seen, described and referred but never actually written into the record is, as far as the next hygienist who opens this chart is concerned, a finding that never happened."
+    }
+  ],
+  "supportLine": "your employer's employee assistance program, or the ADHA's member resources, because being the one who found it is its own weight",
+  "tagline": "The screening every adult recall should include: extraoral and intraoral in a fixed order, a finding described in terms a surgeon can act on, and the two-week rule",
+  "title": "SmartCiti.X~ Oral Cancer Screening VR",
+  "trade": "Registered dental hygienist",
+  "underwater": null,
+  "weather": null
+}

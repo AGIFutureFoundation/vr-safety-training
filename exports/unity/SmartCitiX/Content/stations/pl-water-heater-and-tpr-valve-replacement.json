@@ -1,0 +1,435 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "tank-proven",
+    "name": "Tank Proven",
+    "note": "A water heater installed, strapped, relief-valved to its own rating and gas-tested before the pilot ever lit"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "UA plumbers and pipefitters apprenticeship; the Uniform Plumbing Code (UPC) for water heater installation, seismic strapping and relief valve discharge piping; the ASME Boiler and Pressure Vessel Code for the relief valve's rating; 29 CFR 1910.147 the control of hazardous energy; 8 CCR 3203 injury and illness prevention",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "Boiler and Pressure Vessel Code",
+        "id": "asme-bpvc",
+        "title": "ASME Boiler and Pressure Vessel Code"
+      },
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3203",
+        "id": "cal-osha-3203",
+        "title": "8 CCR 3203 — Injury and Illness Prevention Program"
+      },
+      {
+        "body": "IAPMO",
+        "citedAs": "UPC",
+        "id": "iapmo-upc",
+        "title": "IAPMO Uniform Plumbing Code (UPC) — the model plumbing code most state and local jurisdictions adopt for drain, waste, vent, water distribution and fuel gas piping"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UA",
+        "id": "ua-apprenticeship",
+        "title": "UA — United Association plumber, pipefitter and HVAC service apprenticeship standards and UA Star certification"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Building Systems & Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "drained-before-cut",
+        "name": "Drained Before Cut",
+        "note": "The old tank was isolated and fully drained before disconnection"
+      },
+      {
+        "id": "never-unrelieved",
+        "name": "Never Unrelieved",
+        "note": "The tank was never filled or fired with an unproven relief valve"
+      },
+      {
+        "id": "steady-fill",
+        "name": "Steady Fill",
+        "note": "Held the fill and warm-up inside the band the whole watch"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-install",
+        "name": "Clean Install",
+        "note": "No corrections anywhere in the install"
+      },
+      {
+        "id": "unbroken-drain",
+        "name": "Unbroken Drain",
+        "note": "The drain ran to empty without a break"
+      },
+      {
+        "id": "tank-live-fast",
+        "name": "Tank Live Fast",
+        "note": "Signed off inside 80% of par"
+      }
+    ],
+    "currency": "BTU",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Journeyman",
+      "Plumber",
+      "Lead Plumber",
+      "Water Heater Certified"
+    ],
+    "system": "Pressure Vessel Authority"
+  },
+  "hazards": {
+    "discharge-piped-wrong": "You piped the relief valve's discharge into a dead end instead of somewhere open. A relief valve that is actually relieving pressure into a capped or undersized pipe is not relieving anything — the discharge has nowhere to go, and the valve might as well not be there.",
+    "light-before-purge": "You lit the burner before purging air out of the new gas line. Air in the line means the flame can go out and reignite unpredictably as gas finally reaches the burner behind a pocket of air, which is exactly the kind of delayed ignition that flashes back at whoever is standing in front of the access panel.",
+    "skip-strap": "You called the install finished without securing the seismic straps. An unstrapped tank in an earthquake does not just fall over — it can pull its own gas or water connections apart on the way down, turning a toppled appliance into a fuel leak or a flood in the same motion.",
+    "wrong-tpr-rating": "You fitted a relief valve rated for a different tank than the one it is sitting on. A relief valve's whole job is opening before this specific tank's pressure and temperature limits are exceeded, and one rated for a different appliance can sit closed well past the point where this tank actually needed it to act."
+  },
+  "id": "pl-water-heater-and-tpr-valve-replacement",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "pilot",
+      "alert": "The hallway carbon monoxide detector just chirped a low-battery or fault tone right as this burner lit for the first time.",
+      "cue": "That detector needs checking before this startup goes any further — a faulted CO detector is the wrong moment for a new gas appliance to be running unmonitored.",
+      "delay": 2,
+      "id": "co-detector-chirps",
+      "kind": "The hallway CO detector chirps during startup",
+      "missNote": "The detector kept chirping while the startup carried on unchecked. Whatever that fault actually was, nobody looked at it before walking away.",
+      "seconds": 11,
+      "target": "co-detector",
+      "why": "A CO detector faulting the exact moment a gas appliance is first fired is the kind of coincidence that is easy to wave off and expensive to be wrong about — checking it now, while the burner is still being watched directly, is what keeps a genuinely faulted detector from being the only warning system covering this space for the rest of the day.",
+      "wrongNote": "It is the hallway detector. The burner itself was never what just made that sound."
+    },
+    {
+      "after": "gas-test",
+      "alert": "Someone just came through the door saying they smell gas near the kitchen, on the other side of the building from this closet.",
+      "cue": "That report outranks finishing this leak test — go check the building's own gas shutoff before you commit another reading here.",
+      "delay": 3,
+      "id": "gas-smell-report",
+      "kind": "Someone reports smelling gas elsewhere in the building",
+      "missNote": "The report went unanswered while the leak test on this new joint carried on. Whatever that person smelled by the kitchen, nobody went to check it.",
+      "seconds": 12,
+      "target": "building-gas-shutoff",
+      "why": "A gas smell reported from a completely different part of the building is not something this specific joint's leak test can explain or rule out, and the person reporting it has no way to know that the smell they noticed and the work happening in this closet are unrelated — checking the building's main shutoff is what actually answers their report instead of leaving it hanging while a different, unrelated test finishes.",
+      "wrongNote": "It is the building's main gas shutoff. This joint's own leak test cannot speak to a smell reported somewhere else entirely."
+    }
+  ],
+  "lateNotes": {
+    "new-heater": "The new tank goes onto its pad once the old one is fully isolated and drained, not staged into position as the first move.",
+    "pilot-igniter": "The pilot only lights after the gas connection has been tested and purged of air, never as the very next thing after the valve opens.",
+    "tpr-valve": "The relief valve goes on after the tank is strapped down, not before — a tank that can topple is not ready for its final fittings yet."
+  },
+  "name": "Water Heater & TPR Valve Replacement",
+  "parSeconds": 275,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "plumbers-and-pipefitters"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "blocked-combustion-air",
+      "building-gas-shutoff",
+      "close-cold-inlet",
+      "close-fuel-elec",
+      "co-detector",
+      "corroded-nipple",
+      "discharge-piped-wrong",
+      "drain-valve",
+      "fill-gauge",
+      "full-size-pipe",
+      "gas-cock",
+      "gas-test-gauge",
+      "heater-pad",
+      "light-before-purge",
+      "new-heater",
+      "no-expansion-tank",
+      "no-shutoff-valve",
+      "open-relief-tap",
+      "pilot-igniter",
+      "skip-strap",
+      "startup-checklist",
+      "strap-lower",
+      "strap-upper",
+      "terminate-near-floor",
+      "tpr-port",
+      "tpr-valve",
+      "tpr-valve-board",
+      "vent-slope-wrong",
+      "work-order",
+      "wrong-tpr-rating"
+    ],
+    "meshes": 155
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the work order: tank capacity, fuel type, and the relief valve rating this heater requires.",
+      "id": "work-order",
+      "kind": "select",
+      "prompt": "Check the work order: tank capacity, fuel type, and the relief valve rating this heater requires.",
+      "target": "work-order",
+      "title": "Read the work order and heater spec",
+      "why": "The relief valve's own rating has to match this specific tank's maximum working pressure and temperature, and that number comes from the heater's spec plate and the work order, not from whatever valve happens to already be on the shelf."
+    },
+    {
+      "cue": "Shut off the gas or the breaker, close the cold water inlet, then open a hot tap to relieve any pressure.",
+      "id": "isolate",
+      "itemNames": {
+        "close-cold-inlet": "cold inlet closed",
+        "close-fuel-elec": "gas or power isolated",
+        "open-relief-tap": "a hot tap opened to relieve pressure"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Fuel or power first, then the cold inlet, then the relief tap — venting pressure before the inlet is closed just refills what was just vented.",
+      "prompt": "Shut off the gas or the breaker, close the cold water inlet, then open a hot tap to relieve any pressure.",
+      "targets": [
+        "close-fuel-elec",
+        "close-cold-inlet",
+        "open-relief-tap"
+      ],
+      "title": "Isolate the old heater",
+      "why": "The old tank is still capable of holding pressure and heat even with the fuel off, and opening a hot tap before disconnecting anything is what lets that residual pressure vent through a fixture instead of through the first fitting a wrench loosens."
+    },
+    {
+      "cue": "Hold the drain valve open until the tank reads empty.",
+      "holdBreakNote": "The drain closed before the tank was actually empty — hold it open again, a partly full tank is not ready to move yet.",
+      "id": "drain-hold",
+      "kind": "hold",
+      "prompt": "Hold the drain valve open until the tank reads empty.",
+      "seconds": 6,
+      "target": "drain-valve",
+      "title": "Drain the old tank fully",
+      "why": "A tank that is only partly drained is still heavy enough to be unsafe to disconnect and manoeuvre, and a plumber who calls it drained on a guess rather than a reading finds out the difference the moment the old tank is tipped to come off its pad."
+    },
+    {
+      "cue": "Look over what the old heater was actually connected to before anything comes apart.",
+      "id": "inspect-old",
+      "itemNames": {
+        "corroded-nipple": "corroded dielectric nipple",
+        "no-expansion-tank": "missing thermal expansion tank"
+      },
+      "itemNotes": {
+        "corroded-nipple": "The old dielectric nipple has corroded through — reusing it on the new heater just carries the same slow failure over to a brand-new tank.",
+        "no-expansion-tank": "There is no thermal expansion tank on this closed system, which means the new heater is going to be the only thing absorbing the pressure rise every time it heats a full tank of cold water."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over what the old heater was actually connected to before anything comes apart.",
+      "targets": [
+        "corroded-nipple",
+        "no-expansion-tank"
+      ],
+      "title": "Inspect the old connections before disconnecting",
+      "why": "A corroded fitting and a missing expansion tank are both things the new installation needs to fix, not just work around, and finding them now — while the old heater is still in place to show exactly what it was dealing with — is easier than discovering either one after the new tank is already plumbed in."
+    },
+    {
+      "cue": "Drag the new heater onto the pad now the old one is disconnected and clear.",
+      "drag": {
+        "missNote": "Not seated on the pad — a heater set down off its pad is not sitting on the strapping this closet is built around.",
+        "radius": 0.45,
+        "to": "heater-pad"
+      },
+      "id": "position-heater",
+      "kind": "drag",
+      "prompt": "Drag the new heater onto the pad now the old one is disconnected and clear.",
+      "target": "new-heater",
+      "title": "Bring the new heater onto its pad",
+      "why": "The new tank goes onto a pad that is already clear and level, because setting a full-sized water heater down and then discovering the pad needs adjusting means moving several hundred pounds of appliance twice instead of once."
+    },
+    {
+      "cue": "Secure the upper strap, then the lower strap, both anchored to the framing.",
+      "id": "strap",
+      "itemNames": {
+        "strap-lower": "lower seismic strap secured",
+        "strap-upper": "upper seismic strap secured"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Upper strap first, then lower — the upper strap is what stops the tank from toppling while the lower one is still being fitted.",
+      "prompt": "Secure the upper strap, then the lower strap, both anchored to the framing.",
+      "targets": [
+        "strap-upper",
+        "strap-lower"
+      ],
+      "title": "Secure the seismic straps",
+      "why": "Two straps at different heights are what keep a tall, top-heavy tank from rocking and tearing at its own connections in an earthquake — a single strap, or one anchored to something other than the framing, gives the tank a pivot point instead of taking away its ability to move at all."
+    },
+    {
+      "cue": "Check the relief valve board against this heater's spec plate before selecting a valve.",
+      "id": "select-tpr",
+      "kind": "select",
+      "prompt": "Check the relief valve board against this heater's spec plate before selecting a valve.",
+      "target": "tpr-valve-board",
+      "title": "Match the relief valve to this tank",
+      "why": "The relief valve has to be rated at or below this tank's actual maximum working pressure and temperature, and the board is what confirms the valve in hand is rated for this appliance specifically, not just sized to fit the same thread."
+    },
+    {
+      "cue": "Drag the matched relief valve into the tank's relief port now the tank is strapped.",
+      "drag": {
+        "missNote": "Not seated in the relief port — a valve that is not fully threaded home will not seal, and a leaking relief valve is not a working one.",
+        "radius": 0.4,
+        "to": "tpr-port"
+      },
+      "id": "fit-tpr",
+      "kind": "drag",
+      "prompt": "Drag the matched relief valve into the tank's relief port now the tank is strapped.",
+      "target": "tpr-valve",
+      "title": "Install the relief valve",
+      "why": "The relief valve is the last thing this tank needs before it can safely hold pressure at all, and fitting it only after the tank is already strapped down means it never has to go on — or come off again — while the tank could still shift."
+    },
+    {
+      "cue": "Run the discharge full size with no valve in it, and terminate it near the floor where it can be seen.",
+      "id": "discharge-pipe",
+      "itemNames": {
+        "full-size-pipe": "discharge run full size, no reduction",
+        "no-shutoff-valve": "no valve anywhere in the discharge run",
+        "terminate-near-floor": "terminated near the floor, open to view"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Size, then no valve, then the termination point — each rule is checked as the run is built, in the order it is built.",
+      "prompt": "Run the discharge full size with no valve in it, and terminate it near the floor where it can be seen.",
+      "targets": [
+        "full-size-pipe",
+        "no-shutoff-valve",
+        "terminate-near-floor"
+      ],
+      "title": "Run the relief valve's discharge piping",
+      "why": "Every one of these three rules exists to keep the discharge path from ever becoming the reason the valve fails to protect the tank: a reduced pipe restricts flow exactly when full flow matters most, any valve in the run can be closed by someone who does not know what it is, and a termination anyone can see is a termination someone will actually notice if it ever discharges."
+    },
+    {
+      "cue": "Bring the test pressure up per the code and the drawing, then commit once it holds.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.75
+        ],
+        "label": "GAS TEST",
+        "missNote": "Did not hold — there is a joint on this gas connection that needs to be found and remade before anything gets lit.",
+        "speed": 0.65
+      },
+      "id": "gas-test",
+      "kind": "gauge",
+      "prompt": "Bring the test pressure up per the code and the drawing, then commit once it holds.",
+      "target": "gas-test-gauge",
+      "title": "Leak-test the new gas connection",
+      "why": "A gas joint that will not hold a test pressure has a connection that is not sealed, and finding that now, before the burner is ever lit, is the difference between a wrench and a torch test versus a service call chasing the smell of gas after the appliance is already in use."
+    },
+    {
+      "cue": "Open the gas cock slowly and purge the line of air before attempting ignition.",
+      "id": "purge-gas",
+      "kind": "turn",
+      "prompt": "Open the gas cock slowly and purge the line of air before attempting ignition.",
+      "target": "gas-cock",
+      "title": "Open the gas cock and purge the line",
+      "turn": {
+        "axis": "y",
+        "label": "GAS COCK",
+        "turns": 0.75
+      },
+      "why": "Air sitting in a newly connected gas line delays real gas from reaching the burner, and lighting into that delay is how a flame goes out and reignites unpredictably a moment later — purging the air out first is what makes the first ignition attempt behave the way every one after it will."
+    },
+    {
+      "cue": "Hold the igniter per the manufacturer's manual until the pilot proves and stays lit.",
+      "holdBreakNote": "The igniter released before the pilot proved — hold it again for the full sequence, a flame that drops out this early has not proven anything.",
+      "id": "pilot",
+      "kind": "hold",
+      "prompt": "Hold the igniter per the manufacturer's manual until the pilot proves and stays lit.",
+      "seconds": 5,
+      "target": "pilot-igniter",
+      "title": "Light the pilot per the manufacturer's manual",
+      "why": "A pilot that lights and then drops out the instant the igniter is released has not actually proven itself — holding it for the full sequence the manufacturer's manual specifies is what lets the thermocouple or flame sensor actually prove a stable flame before the gas valve is trusted to stay open on its own."
+    },
+    {
+      "cue": "Keep the fill rate steady while the tank fills and comes up to temperature, watching for any weep at the relief valve.",
+      "holdBreakNote": "That fill ran outside the band — ease back and watch the relief valve closely before continuing.",
+      "id": "fill-watch",
+      "kind": "track",
+      "prompt": "Keep the fill rate steady while the tank fills and comes up to temperature, watching for any weep at the relief valve.",
+      "seconds": 8,
+      "target": "fill-gauge",
+      "title": "Fill the tank and watch the relief valve",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.2,
+        "green": [
+          0.35,
+          0.6
+        ],
+        "label": "FILL / WARM-UP",
+        "rise": 0.08,
+        "start": 0.3
+      },
+      "why": "A relief valve that weeps as soon as the tank starts building normal pressure was either fitted wrong or is defective, and catching that during the very first fill — while every connection is still open and easy to reach — is the last easy chance to fix it before the closet is closed up and called finished."
+    },
+    {
+      "cue": "Walk the space around the new heater and check what is easy to miss once the tank itself looks done.",
+      "id": "walk-closet",
+      "itemNames": {
+        "blocked-combustion-air": "blocked combustion air opening",
+        "vent-slope-wrong": "vent pipe sloped the wrong way"
+      },
+      "itemNotes": {
+        "blocked-combustion-air": "Someone has stacked boxes in front of the combustion air opening — a gas appliance starved of combustion air burns dirty and can pull its own exhaust back into the room.",
+        "vent-slope-wrong": "This section of vent pipe slopes back toward the heater instead of up and away — condensate is going to run the wrong direction and pool exactly where it should not."
+      },
+      "kind": "find",
+      "prompt": "Walk the space around the new heater and check what is easy to miss once the tank itself looks done.",
+      "targets": [
+        "blocked-combustion-air",
+        "vent-slope-wrong"
+      ],
+      "title": "Walk the closet before calling the job finished",
+      "why": "A blocked combustion air opening and a vent sloped the wrong way both let a correctly installed heater fail anyway, from causes that have nothing to do with the tank itself — walking the closet is what catches a problem in the room instead of assuming the appliance is the whole story."
+    },
+    {
+      "cue": "Fill in the startup checklist with the relief valve rating, the gas test result, and the strap check.",
+      "id": "startup",
+      "kind": "select",
+      "prompt": "Fill in the startup checklist with the relief valve rating, the gas test result, and the strap check.",
+      "target": "startup-checklist",
+      "title": "Complete the startup checklist",
+      "why": "The startup checklist is what turns this installation into a record the next plumber, the next inspector, or an insurance adjuster after an incident can actually check against — a completed install with nothing written down is a claim with nothing behind it."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "The old tank isolated and drained, a new heater strapped against a seismic event before it is ever filled, the TPR valve matched to the tank's own rating with its discharge piped where it can actually do its job, and the gas connection tested before the pilot ever lights",
+  "title": "SmartCiti.X~ Water Heater & TPR Valve Replacement VR",
+  "trade": "UA plumber / water heater installer",
+  "underwater": null,
+  "weather": null
+}

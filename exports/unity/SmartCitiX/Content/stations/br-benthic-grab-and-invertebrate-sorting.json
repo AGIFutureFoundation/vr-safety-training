@@ -1,0 +1,426 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-grab-clean-sort",
+    "name": "Clean Grab, Clean Sort",
+    "note": "The grab was checked and cocked correctly, hands stayed clear of the jaws, the snag was eased off, the deckhand was cleared before the swing, and every jar was logged inside the sort window"
+  },
+  "category": "Maritime & Ports",
+  "certification": "EPA QA/G-5 guidance for quality assurance project plans and the chain-of-custody practice built on it; USCG 46 CFR Part 160 lifesaving equipment, including personal flotation devices; USCG 33 CFR Part 83 Inland Navigation Rules for station-keeping while sampling; Regional Water Quality Control Board (RWQCB) monitoring conditions for the benthic community data; OSHA 29 CFR 1910.132 personal protective equipment, general requirements",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "EPA",
+        "citedAs": "EPA QA/G-5",
+        "id": "epa-qa-g5",
+        "title": "EPA QA/G-5 — Guidance for quality assurance project plans, and the chain-of-custody practice built on it"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "RWQCB",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "Inland Navigation Rules",
+        "id": "uscg-33-cfr-83",
+        "title": "33 CFR Part 83 — Inland Navigation Rules"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "true-grab",
+        "name": "True Grab",
+        "note": "The jaw checked and the tension cocked correctly before the first cast"
+      },
+      {
+        "id": "clean-deck",
+        "name": "Clean Deck",
+        "note": "Never put a hand near the live jaws, never dumped a sieve unsorted, never let the sort window lapse"
+      },
+      {
+        "id": "held-the-window",
+        "name": "Held The Window",
+        "note": "The sort window landed inside the correct band, first time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-cast",
+        "name": "Clean Cast",
+        "note": "No corrections across the whole cast"
+      },
+      {
+        "id": "steady-watch",
+        "name": "Steady Watch",
+        "note": "Held the winch scan in band through the whole retrieval"
+      },
+      {
+        "id": "logged-fast",
+        "name": "Logged Fast",
+        "note": "Sample closed out inside 80% of par"
+      }
+    ],
+    "currency": "GRABS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Deckhand Aide",
+      "Benthic Technician",
+      "Lead Technician",
+      "Senior Technician",
+      "Benthic Grab Certified"
+    ],
+    "system": "Benthic Sampling Watch"
+  },
+  "hazards": {
+    "hands-near-jaws": "You reached toward the grab's jaws while it was still cocked and live. A cocked benthic grab closes the instant its trigger plate touches bottom, with enough force to take a hand off at the fingers, and there is no such thing as a quick, careful reach near a live jaw — hands stay clear of it from the moment it's cocked until it's confirmed closed and back on deck.",
+    "skip-preservative-window": "You let the sorted organisms sit out past the sort window before getting them into preservative. Soft-bodied invertebrates start breaking down the moment they're out of cold seawater, and a specimen that degrades before it's preserved is a specimen the lab can no longer identify with confidence — the window on the clock is what the organisms can actually tolerate, not a suggestion to get to it when there's time.",
+    "skip-tension-check": "You sent the grab over the rail without checking the tension latch first. A grab that isn't cocked to the right tension either fires early, on the way down, and comes up empty, or doesn't fire hard enough to actually seal on the bottom — either way the cast is wasted, and the only way to know which one you'll get is to check the latch before it ever leaves the deck.",
+    "toss-fines-overboard": "You dumped the sieve washings straight back overboard without checking them for organisms first. The fine material left in the sieve after the coarse sort is exactly where the smaller invertebrates end up, and tipping it over the rail because it looks like plain mud throws away the part of the sample the survey actually needs counted."
+  },
+  "id": "br-benthic-grab-and-invertebrate-sorting",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "winch-watch",
+      "alert": "The winch cable has snagged on something on the bottom, and the tension gauge just jumped hard.",
+      "cue": "Signal the winch operator to stop hauling immediately — do not let it keep pulling against the snag.",
+      "delay": 2,
+      "id": "grab-snags-bottom-debris",
+      "kind": "The winch cable snags on submerged debris during retrieval",
+      "missNote": "The winch kept hauling against the snag instead of stopping — exactly the load a parted cable or a dragged grab comes from.",
+      "seconds": 14,
+      "target": "winch-stop-signal",
+      "why": "A winch that keeps hauling against a genuine snag either parts the cable under load or drags the grab sideways into whatever it's caught on, and from the winch controls alone there's no way to tell what's actually happened on the bottom — the stop signal is what gets the tension eased off before the cable itself becomes the next thing that fails.",
+      "wrongNote": "The winch stop signal — that's the one call that gets the tension eased off before the cable takes the strain."
+    },
+    {
+      "after": "winch-watch",
+      "alert": "A deckhand has walked into the swing radius just as the grab is coming inboard over the rail.",
+      "cue": "Call the swing stop immediately and hold the grab outboard until the deckhand is clear — do not let it swing over anyone.",
+      "delay": 3,
+      "id": "deckhand-in-swing-radius",
+      "kind": "A deckhand walks into the grab's swing radius as it comes inboard",
+      "missNote": "The grab kept swinging inboard while the deckhand was still in its path — exactly the moment an overhead load rule exists to prevent.",
+      "seconds": 14,
+      "target": "deck-hailer",
+      "why": "A benthic grab full of wet sediment swinging inboard on a winch cable is a load like any other overhead load, and a deckhand who doesn't see it coming has no way to know they need to move — the swing stop is what holds the load outboard until the deck is actually clear, the same rule that keeps anyone from walking under any other suspended load on this vessel.",
+      "wrongNote": "The deck hailer — that's the one call that holds the load until the deckhand is actually clear."
+    }
+  ],
+  "lateNotes": {
+    "custody-log": "Nothing to log yet — nothing has been sampled or handed off worth an entry.",
+    "sort-clock": "Nothing to read yet — the sample has to actually be sorted before there's a preservation window to watch."
+  },
+  "name": "Benthic Grab & Invertebrate Sorting",
+  "parSeconds": 310,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "workboat",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "radio",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "bent-jaw",
+      "cock-grab-dial",
+      "custody-log",
+      "custody-rack-socket",
+      "deck-hailer",
+      "deck-radio",
+      "deck-secured",
+      "eye-protection-on",
+      "gear-rinsed",
+      "gloves-on",
+      "grab-sampler",
+      "grab-stowed",
+      "hands-near-jaws",
+      "jaws-closed-confirmed",
+      "pfd-on",
+      "sample-jar",
+      "sieve-station",
+      "skip-preservative-window",
+      "skip-tension-check",
+      "sort-clock",
+      "sort-table",
+      "station-position-board",
+      "torn-sieve-mesh",
+      "toss-fines-overboard",
+      "winch-cable",
+      "winch-hauled",
+      "winch-hook-socket",
+      "winch-lowered",
+      "winch-stop-signal"
+    ],
+    "meshes": 191
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Before working the afterdeck: PFD on and buckled, wet-work gloves on, eye protection on.",
+      "id": "ppe-brief",
+      "itemNames": {
+        "eye-protection-on": "eye protection on",
+        "gloves-on": "wet-work gloves on",
+        "pfd-on": "PFD on and buckled"
+      },
+      "kind": "sequence",
+      "prompt": "Before working the afterdeck: PFD on and buckled, wet-work gloves on, eye protection on.",
+      "targets": [
+        "pfd-on",
+        "gloves-on",
+        "eye-protection-on"
+      ],
+      "title": "Gear up before the deck work starts",
+      "why": "The afterdeck is wet the whole shift between the wash-down hose and the sieve, and a PFD worn on deck the entire time is the same rule every vessel in this programme runs on — the gloves and eye protection are what keep the sediment and the wash-down spray out of a cut or an eye while the sample is actually being processed."
+    },
+    {
+      "cue": "Read the station board: today's grab point, the replicate count, and the sort reference for this stretch of the Bay.",
+      "id": "station-position-board",
+      "kind": "select",
+      "prompt": "Read the station board: today's grab point, the replicate count, and the sort reference for this stretch of the Bay.",
+      "target": "station-position-board",
+      "title": "Read today's station plan",
+      "why": "A benthic survey only means something if the grab actually lands where the monitoring plan says it should, and reading the station board before the vessel is even holding position is what keeps today's cast comparable to every other cast ever taken at this same point."
+    },
+    {
+      "cue": "Check the grab and the sieve on deck before either one goes anywhere near the water.",
+      "id": "gear-check",
+      "itemNames": {
+        "bent-jaw": "the grab's jaw, bent at one tooth",
+        "torn-sieve-mesh": "the sieve, torn along one seam"
+      },
+      "itemNotes": {
+        "bent-jaw": "A bent tooth keeps the jaws from sealing flush on the bottom, and a grab that doesn't seal comes up with half its sample already washed out through the gap — found now, on deck, it's a swap; found after the cast it's a lost sample.",
+        "torn-sieve-mesh": "A torn seam lets exactly the smallest organisms the sort is looking for wash straight through — found now it's a patch, found mid-sort it's data that never made it into the tray."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the grab and the sieve on deck before either one goes anywhere near the water.",
+      "targets": [
+        "bent-jaw",
+        "torn-sieve-mesh"
+      ],
+      "title": "Check the gear before the first cast",
+      "why": "The grab and the sieve are the two pieces of equipment this whole sample depends on, and finding a bent jaw or a torn seam now, before the first cast, costs nothing — finding either one after the sample is already in the water costs the cast entirely."
+    },
+    {
+      "cue": "Turn the tension latch to today's setting before the grab goes over the rail — hands clear the moment it's cocked.",
+      "id": "cock-grab-dial",
+      "kind": "turn",
+      "prompt": "Turn the tension latch to today's setting before the grab goes over the rail — hands clear the moment it's cocked.",
+      "target": "cock-grab-dial",
+      "title": "Cock the grab to today's tension setting",
+      "turn": {
+        "label": "TENSION LATCH",
+        "turns": 0.6
+      },
+      "why": "The tension setting is what makes the jaws close hard enough to seal on the bottom without firing early on the way down, and it has to be set correctly before the grab is live — the moment this dial is turned, the jaws are cocked and hands come off the mechanism for good until it's back on deck and confirmed closed."
+    },
+    {
+      "cue": "Drag the grab sampler from the rail rack out to the winch hook and confirm it's latched on before it goes over the side.",
+      "drag": {
+        "missNote": "Not latched to the hook — the grab has to actually connect, not just sit near it.",
+        "radius": 0.4,
+        "to": "winch-hook-socket"
+      },
+      "id": "deploy-grab",
+      "kind": "drag",
+      "prompt": "Drag the grab sampler from the rail rack out to the winch hook and confirm it's latched on before it goes over the side.",
+      "target": "grab-sampler",
+      "title": "Deploy the grab to the winch",
+      "why": "A grab that isn't actually latched to the winch hook is a grab that either doesn't go anywhere or drops free the moment it's lifted, and confirming the latch before it clears the rail is what turns 'attached' from an assumption into something checked."
+    },
+    {
+      "cue": "Lower the winch to the bottom, confirm the jaws closed on the readout, then haul the grab back up.",
+      "id": "lower-retrieve-checklist",
+      "itemNames": {
+        "jaws-closed-confirmed": "jaws confirmed closed on the readout",
+        "winch-hauled": "winch hauling the grab back up",
+        "winch-lowered": "winch lowered to the bottom"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Confirm the jaws are closed before hauling — a haul started on a grab that never actually closed comes up with nothing in it.",
+      "prompt": "Lower the winch to the bottom, confirm the jaws closed on the readout, then haul the grab back up.",
+      "targets": [
+        "winch-lowered",
+        "jaws-closed-confirmed",
+        "winch-hauled"
+      ],
+      "title": "Lower, confirm and haul in order",
+      "why": "The readout is the only way to know from the deck whether the jaws actually closed on the bottom or just skated across it, and hauling before that confirmation is how a crew spends the whole retrieval only to find an empty grab on deck — checking the readout first is what makes the haul worth doing at all."
+    },
+    {
+      "cue": "Hold a steady scan on the winch cable and tension gauge as the grab is hauled in — a snag or a swing-radius problem has to be caught the moment it shows.",
+      "holdBreakNote": "The scan lost the winch before the retrieval finished — steady it and pick the pass back up.",
+      "id": "winch-watch",
+      "kind": "track",
+      "prompt": "Hold a steady scan on the winch cable and tension gauge as the grab is hauled in — a snag or a swing-radius problem has to be caught the moment it shows.",
+      "seconds": 6,
+      "target": "winch-cable",
+      "title": "Scan the winch as it comes up",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "WINCH SCAN",
+        "rise": 0.5,
+        "start": 0.13
+      },
+      "why": "A winch hauled without anyone actually watching the cable is a winch that only gets noticed once something's already wrong, and a scan that rushes past the early tension spike or drags past the point the grab swings inboard is exactly how a snag or a deckhand in the swing radius goes uncaught until it's too late to matter."
+    },
+    {
+      "cue": "Hold the sieve steady under the hose while the sample is rinsed clean of loose mud — a sieve that's moving loses material over its own edge.",
+      "holdBreakNote": "The sieve slipped before the rinse finished — steady it and hold it through to the end of the wash.",
+      "id": "sieve-rinse-hold",
+      "kind": "hold",
+      "prompt": "Hold the sieve steady under the hose while the sample is rinsed clean of loose mud — a sieve that's moving loses material over its own edge.",
+      "seconds": 5,
+      "target": "sieve-station",
+      "title": "Hold the sieve steady under the wash-down hose",
+      "why": "Rinsing separates the organisms and shell material from the loose sediment, and a sieve that tips or shifts mid-rinse loses exactly the material the sort depends on over its own edge — holding it steady is what keeps the rinse from undoing what the grab and the haul just spent the whole cast collecting."
+    },
+    {
+      "cue": "Watch the sort clock and get the sorted organisms into preservative once it reads inside the window — not before sorting is finished, and not past the window either.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.64
+        ],
+        "label": "SORT WINDOW",
+        "missNote": "Off the band. The sort window has to actually be read and preserved on, not guessed at.",
+        "speed": 0.55
+      },
+      "id": "sort-clock",
+      "kind": "gauge",
+      "prompt": "Watch the sort clock and get the sorted organisms into preservative once it reads inside the window — not before sorting is finished, and not past the window either.",
+      "target": "sort-clock",
+      "title": "Preserve the sort inside the window",
+      "why": "Preserving too early loses organisms that haven't been sorted yet, and preserving too late is exactly how a soft-bodied specimen degrades past the point the lab can identify it — the window on the clock is what these organisms can actually tolerate, not a pace that just feels reasonable."
+    },
+    {
+      "cue": "Sort what came up: a polychaete worm, an amphipod, a bivalve — at the generic level the reference calls for.",
+      "id": "sort-table",
+      "kind": "select",
+      "prompt": "Sort what came up: a polychaete worm, an amphipod, a bivalve — at the generic level the reference calls for.",
+      "target": "sort-table",
+      "title": "Sort the sample at the sort table",
+      "why": "The benthic community record this survey builds is a count of broad groups, not a species list, and sorting at the level the reference actually specifies is what keeps this cast comparable to every other cast in the programme rather than a one-off identification exercise nobody downstream can use."
+    },
+    {
+      "cue": "Drag the labeled sample jar into the custody rack once it's sealed.",
+      "drag": {
+        "missNote": "Not in the rack — the jar has to actually sit in custody, not just near it.",
+        "radius": 0.4,
+        "to": "custody-rack-socket"
+      },
+      "id": "label-jar",
+      "kind": "drag",
+      "prompt": "Drag the labeled sample jar into the custody rack once it's sealed.",
+      "target": "sample-jar",
+      "title": "Label the jar and place it in custody",
+      "why": "A jar that isn't in the custody rack the moment it's sealed is a jar that can wander off the deck without anyone noticing, and moving it straight from the sort table into the rack is what keeps this sample's chain of custody unbroken from the moment it leaves the sieve."
+    },
+    {
+      "cue": "Log the entry: station, replicate number, jar ID, and the time it went into the rack.",
+      "id": "custody-log",
+      "kind": "select",
+      "prompt": "Log the entry: station, replicate number, jar ID, and the time it went into the rack.",
+      "target": "custody-log",
+      "title": "Log the chain-of-custody entry",
+      "why": "EPA QA/G-5's chain-of-custody practice only works if the log entry happens the moment the jar is racked, and a sample that sits in the rack for an hour before the log catches up is an hour this record can't actually account for if anyone downstream asks where the sample was."
+    },
+    {
+      "cue": "Rinse the grab and sieve, stow the grab in its rack, then secure the deck for transit to the next station.",
+      "id": "closing-stow",
+      "itemNames": {
+        "deck-secured": "deck secured for transit",
+        "gear-rinsed": "grab and sieve rinsed clean",
+        "grab-stowed": "grab stowed in its rack"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Rinse the gear before stowing it — stowing a grab still caked in sediment just moves the mess into the rack with it.",
+      "prompt": "Rinse the grab and sieve, stow the grab in its rack, then secure the deck for transit to the next station.",
+      "targets": [
+        "gear-rinsed",
+        "grab-stowed",
+        "deck-secured"
+      ],
+      "title": "Stow the gear in order",
+      "why": "A deck that isn't secured before the vessel gets underway is a deck where loose gear becomes a hazard the moment the boat takes its first wake, and rinsing before stowing is what keeps tomorrow's first cast starting from clean equipment instead of yesterday's dried sediment."
+    },
+    {
+      "cue": "On the working channel: the cast is complete, the snag and the swing-radius call are both handled, and how the crew is doing after a cast with two interruptions in it.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the working channel: the cast is complete, the snag and the swing-radius call are both handled, and how the crew is doing after a cast with two interruptions in it.",
+      "target": "deck-radio",
+      "title": "Check in with the wheelhouse",
+      "why": "A cast with a snag and a swing-radius call both in it is a cast the whole deck crew spent more alert than a routine grab, and the check-in is where that gets acknowledged directly — it's also where the technician's own read on a tense cast gets a place to go besides staying with them at the sort table."
+    },
+    {
+      "cue": "Close the log: the station worked, the sort complete, custody unbroken, and the deck secured for the next station.",
+      "id": "closing-log",
+      "kind": "select",
+      "prompt": "Close the log: the station worked, the sort complete, custody unbroken, and the deck secured for the next station.",
+      "target": "custody-log",
+      "title": "Close out the sampling log",
+      "why": "The closing entry is what turns today's individual casts and holds into the record the monitoring programme's own review is actually built from — a log closed out completely, in order, is the difference between a benthic survey that can show exactly how a sample was handled and one that raises a question nobody on this deck can answer months later."
+    }
+  ],
+  "supportLine": "your agency's employee assistance programme, with the vessel operator's own deck-safety line behind it",
+  "tagline": "The deck routine a benthic monitoring record depends on: the grab checked for a bent jaw before it goes over the rail, hands clear while it's cocked, the sample sieved and sorted at the generic level the reference calls for, a snag eased off rather than forced, a deckhand cleared before the grab swings inboard, every organism preserved inside the sort window, and every jar logged into custody before it leaves the deck",
+  "title": "SmartCiti.X~ Benthic Grab & Invertebrate Sorting VR",
+  "trade": "Benthic monitoring technician, taking grab samples from a workboat and sorting invertebrates for a restoration monitoring programme",
+  "underwater": null,
+  "weather": "fog"
+}

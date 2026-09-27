@@ -1,0 +1,373 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "edge-clean",
+    "name": "Edge Clean",
+    "note": "Four threads set by colour, an edge finished at the right width, and the knife cleaned only after lockout"
+  },
+  "category": "Sewing & Garment Trades",
+  "certification": "Workers United (SEIU) and state apprenticeship standards for industrial sewing machine operators; OSHA 29 CFR 1910.212 machine guarding for the overlock's own moving knife, 1910.147 control of hazardous energy before the knife or the throat plate is ever cleared of lint, and NIOSH ergonomics guidance for seated repetitive feeding",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Garment manufacturing",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "knife-locked",
+        "name": "Knife Locked for Cleaning",
+        "note": "Never cleared lint from the knife without the machine locked out first"
+      },
+      {
+        "id": "hands-clear",
+        "name": "Hands Clear of the Knife",
+        "note": "Never reached past the guard while the knife could move"
+      },
+      {
+        "id": "width-true",
+        "name": "Width True",
+        "note": "Cutting width held close to the ticket's spec"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-setup",
+        "name": "Clean Set-Up",
+        "note": "No corrections through the whole thread-up"
+      },
+      {
+        "id": "steady-feed",
+        "name": "Steady Feed",
+        "note": "Held the edge-finishing feed without dropping out"
+      },
+      {
+        "id": "quick-thread",
+        "name": "Quick Thread",
+        "note": "Threaded and running inside 80% of par"
+      }
+    ],
+    "currency": "LOOP",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Floor Trainee",
+      "Machine Operator",
+      "Set-Up Operator",
+      "Lead Operator",
+      "Overlock Authority Certified"
+    ],
+    "system": "Overlock Authority"
+  },
+  "hazards": {
+    "knife-reach-live": "You reached past the knife guard with the machine still powered. An overlock's knife is spring-loaded against the machine's own motion the entire time it runs, not only while fabric is actually being trimmed, so a hand past the guard is a hand at the blade whether or not anything is currently being cut.",
+    "loose-cuff-near-knife": "A loose cuff is hanging within reach of the knife's own swing. The blade does not know the difference between a scrap of fabric and a sleeve, and a cuff worked that close to a running overlock is exactly how a moment's inattention becomes a trip to the clinic instead of a finished edge.",
+    "thread-cone-tangle": "A thread cone has come off its holder and is tangled across the machine's own moving parts. Thread wound around a turning looper or knife shaft does not stay thread for long — it either snaps and whips or it drags whatever is tangled in it, and neither one is something to sort out with the machine running.",
+    "throat-plate-open": "The throat plate is off and the feed dogs and looper are exposed while the machine can still run. That opening is built to be worked through with the machine dead and the plate back on before the first stitch, not left open because the last adjustment was easier to see that way."
+  },
+  "id": "serger-overlock",
+  "indoor": "shop",
+  "interrupts": [
+    {
+      "after": "finish-edge",
+      "alert": "Lint packs solid around the knife mid-seam and the edge starts coming out ragged instead of clean.",
+      "cue": "That ragged edge is lint jamming the knife, not a feed problem.",
+      "delay": 4,
+      "id": "lint-jam",
+      "kind": "Lint packs the knife",
+      "missNote": "A hand went in toward the packed knife without the power coming off first. The knife did not know the difference between compacted lint and a fingertip — it was still able to move either way.",
+      "seconds": 12,
+      "target": "power-switch",
+      "why": "The fix for a packed knife is the same lockout sequence as any other time this machine is cleared — power off, knife disengaged, then the lint brushed clear — reaching in to pick lint out from around a knife that is still able to move is trading a five-second delay for the exact injury this station is built to prevent.",
+      "wrongNote": "The chain can wait — power off before anything goes near that packed knife."
+    },
+    {
+      "after": "thread-four",
+      "alert": "A coworker leans in close over your shoulder to watch the threading, their loose sleeve swinging in near the knife guard.",
+      "cue": "That sleeve is drifting closer to the knife than they realise.",
+      "delay": 3,
+      "id": "sleeve-lean-in",
+      "kind": "Coworker leans in with a loose sleeve",
+      "missNote": "The sleeve kept drifting near the running knife while the threading continued around it. Nobody's hand was ever actually on the blade, and that is exactly why nobody noticed how close the cuff had gotten until it was pointed out.",
+      "seconds": 11,
+      "target": "knife-guard",
+      "why": "The knife guard is the boundary that matters here, not how close a person means to get — a loose sleeve does not stop on its own the way a hand can, so the guard is what gets checked and pointed to the moment anyone's clothing drifts near it, before the threading continues.",
+      "wrongNote": "The threads can wait a second — that sleeve is the thing that's actually near the blade."
+    }
+  ],
+  "lateNotes": {
+    "foot-pedal": "Not yet — the threads, the width and the guard all come first.",
+    "knife-lever": "The knife only gets disengaged once the machine is already stopped at the switch.",
+    "power-switch": "Cleaning the knife starts with power off, not the other way around — that comes at the lockout step."
+  },
+  "name": "Serger and Overlock",
+  "parSeconds": 235,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "sewing-garment-trades"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "chain-clear-socket",
+      "diff-feed-dial",
+      "foot-pedal",
+      "guard-not-latched",
+      "hand-snips",
+      "job-card",
+      "knife-guard",
+      "knife-lever",
+      "knife-reach-live",
+      "lint-brush",
+      "lint-under-table",
+      "looper-lower",
+      "looper-upper",
+      "loose-cuff-near-knife",
+      "needle-left",
+      "needle-right",
+      "power-switch",
+      "thread-chain",
+      "thread-cone-tangle",
+      "throat-plate",
+      "throat-plate-open",
+      "width-dial"
+    ],
+    "meshes": 138
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the edge finish, the thread colours and the cutting width this ticket calls for.",
+      "id": "job-card",
+      "kind": "select",
+      "prompt": "Check the edge finish, the thread colours and the cutting width this ticket calls for.",
+      "target": "job-card",
+      "title": "Read the job card",
+      "why": "An overlock's whole set-up — which four threads, how wide the knife trims, whether the edge is a plain finish or a rolled hem — comes off this ticket, not off whatever the machine happened to be set for on the last job that came through the station."
+    },
+    {
+      "cue": "Check the spring guard sits closed over the knife before the machine is threaded.",
+      "id": "knife-guard-check",
+      "kind": "select",
+      "prompt": "Check the spring guard sits closed over the knife before the machine is threaded.",
+      "target": "knife-guard",
+      "title": "Confirm the knife guard is in place",
+      "why": "The guard is what keeps the one continuously moving blade on this machine away from a threading hand — it gets checked before the threads go in, because threading an overlock puts fingers closer to the knife than almost anything else this machine is used for."
+    },
+    {
+      "cue": "Follow the machine's own colour-coded path: upper looper, lower looper, left needle, right needle.",
+      "id": "thread-four",
+      "itemNames": {
+        "looper-lower": "lower looper (blue)",
+        "looper-upper": "upper looper (yellow)",
+        "needle-left": "left needle (red)",
+        "needle-right": "right needle (green)"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Upper looper, then lower looper, then the two needles — the colours on the machine are the order, not a suggestion.",
+      "prompt": "Follow the machine's own colour-coded path: upper looper, lower looper, left needle, right needle.",
+      "targets": [
+        "looper-upper",
+        "looper-lower",
+        "needle-left",
+        "needle-right"
+      ],
+      "title": "Thread all four by colour, in order",
+      "why": "An overlock's stitch only forms because the two loopers and the two needles interlock their threads in a fixed sequence, and threading one out of order leaves a loop with nothing to catch it — the colour coding on the machine exists precisely because getting this order right by memory alone, under a deadline, is not something even an experienced operator gets right every time."
+    },
+    {
+      "cue": "Dial the knife's cutting width to the seam allowance on the job card.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "CUT WIDTH",
+        "missNote": "Off the ticket's seam allowance — reset the width before the first piece runs.",
+        "speed": 0.75
+      },
+      "id": "width-set",
+      "kind": "gauge",
+      "prompt": "Dial the knife's cutting width to the seam allowance on the job card.",
+      "target": "width-dial",
+      "title": "Set the cutting width",
+      "why": "The knife trims the same width off every single piece that runs through it, so a width set even slightly off the ticket removes exactly that much seam allowance from every piece in the whole lot — a mistake that is invisible until an operation downstream cannot get enough fabric to actually sew the seam it needs."
+    },
+    {
+      "cue": "Turn the differential feed dial to match this fabric's stretch.",
+      "id": "diff-feed",
+      "kind": "turn",
+      "prompt": "Turn the differential feed dial to match this fabric's stretch.",
+      "target": "diff-feed-dial",
+      "title": "Set the differential feed",
+      "turn": {
+        "axis": "z",
+        "label": "DIFF FEED",
+        "turns": 0.3
+      },
+      "why": "The front and back feed dogs on an overlock can be told to move at different rates on purpose, which is what keeps a stretch knit from waving at the edge and a woven from puckering under the stitch — the same needle and thread settings look completely different on the finished edge depending only on this one dial."
+    },
+    {
+      "cue": "Feed the raw edge through at a steady rate, neither starving the knife nor overfeeding it.",
+      "holdBreakNote": "Feed dropped out of the steady band. Bring it back before the edge shows it.",
+      "id": "finish-edge",
+      "kind": "track",
+      "prompt": "Feed the raw edge through at a steady rate, neither starving the knife nor overfeeding it.",
+      "seconds": 6,
+      "target": "foot-pedal",
+      "title": "Finish the edge at a steady feed",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "FEED RATE",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "Feeding too slowly lets the knife bite the same spot twice and nick the finished edge; feeding too fast pushes more fabric at the blade than it is set to trim and leaves a ragged cut the loopers cannot properly wrap — a steady feed is what makes the edge come out both cut clean and finished clean at the same time."
+    },
+    {
+      "cue": "Let the stitch run a couple of inches past the fabric's edge and carry the thread chain clear of the knife.",
+      "drag": {
+        "missNote": "Not clear of the knife yet — carry the chain fully to the holding clip.",
+        "radius": 0.3,
+        "to": "chain-clear-socket"
+      },
+      "id": "chain-off",
+      "kind": "drag",
+      "prompt": "Let the stitch run a couple of inches past the fabric's edge and carry the thread chain clear of the knife.",
+      "target": "thread-chain",
+      "title": "Chain off the end",
+      "why": "Running the machine's own knife off the end of an empty chain instead of stopping dead at the fabric's edge is what keeps the loopers from jamming on an abrupt stop — the chain is what protects the machine, and it is pulled clear before anyone reaches anywhere near where it just came from."
+    },
+    {
+      "cue": "Trim the thread chain with the hand snips, never the machine's own knife.",
+      "id": "cut-chain",
+      "kind": "select",
+      "prompt": "Trim the thread chain with the hand snips, never the machine's own knife.",
+      "target": "hand-snips",
+      "title": "Cut the chain with hand snips",
+      "why": "The overlock's knife is set to the ticket's seam allowance, not to trimming thread tails, and running a thread chain back across it to save reaching for the snips is exactly the kind of shortcut that puts a hand back at the blade for no reason connected to the actual job."
+    },
+    {
+      "cue": "Power off, disengage the knife lever, then brush the lint clear — in that order.",
+      "id": "lockout-clean",
+      "itemNames": {
+        "knife-lever": "knife disengaged",
+        "lint-brush": "lint brushed clear",
+        "power-switch": "power off"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Power off, then the knife lever, then the brush — never brush first.",
+      "prompt": "Power off, disengage the knife lever, then brush the lint clear — in that order.",
+      "targets": [
+        "power-switch",
+        "knife-lever",
+        "lint-brush"
+      ],
+      "title": "Lock out before clearing lint from the knife",
+      "why": "Lint packs into the space right around a moving knife faster on an overlock than on almost any other machine in the room, and clearing it with fingers while the machine is only 'probably' stopped is how a routine five-second job becomes the injury this station exists to prevent — the knife is confirmed disengaged, not just the motor confirmed off, before anything goes near it."
+    },
+    {
+      "cue": "Set the throat plate back down flush before the machine runs again.",
+      "id": "reseat-plate",
+      "kind": "select",
+      "prompt": "Set the throat plate back down flush before the machine runs again.",
+      "target": "throat-plate",
+      "title": "Reseat the throat plate",
+      "why": "A throat plate left off or sitting loose changes how the feed dogs grip the fabric and leaves the looper mechanism exposed at the exact spot a guiding hand sits closest to the machine — it goes back on before the machine is trusted to run, not after the next piece already shows a skipped stitch."
+    },
+    {
+      "cue": "With the plate reseated and hands clear, turn the machine back on.",
+      "id": "power-restore",
+      "kind": "select",
+      "prompt": "With the plate reseated and hands clear, turn the machine back on.",
+      "target": "power-switch",
+      "title": "Restore power",
+      "why": "Power comes back only once the plate is confirmed down and every tool is out of the knife and looper area — turning it on to test whether the plate is seated right is testing it with the machine, not before it."
+    },
+    {
+      "cue": "Feed a scrap edge through and hold the pedal for a clean, even four-thread stitch.",
+      "holdBreakNote": "Released mid check-stitch. An uneven restart is exactly what this step exists to catch — hold it through cleanly.",
+      "id": "test-stitch",
+      "kind": "hold",
+      "prompt": "Feed a scrap edge through and hold the pedal for a clean, even four-thread stitch.",
+      "seconds": 3,
+      "target": "foot-pedal",
+      "title": "Run a check stitch on scrap",
+      "why": "A check stitch on scrap is what proves the threading, the width and the differential feed all came back together correctly after the clean-out — nothing goes back into production off an assumption that reassembly went the way it was supposed to."
+    },
+    {
+      "cue": "Two things at this bench are out of place. Find them by looking.",
+      "id": "walk",
+      "itemNames": {
+        "guard-not-latched": "knife guard not latched",
+        "lint-under-table": "lint pile under the table"
+      },
+      "itemNotes": {
+        "guard-not-latched": "The guard is resting closed but not actually latched — one bump and it swings open on a running knife.",
+        "lint-under-table": "A drift of lint under the table is a housekeeping problem today and a fire load the day something runs hot."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things at this bench are out of place. Find them by looking.",
+      "targets": [
+        "guard-not-latched",
+        "lint-under-table"
+      ],
+      "title": "Walk the station before the next job",
+      "why": "A finished edge that measures perfectly can still leave a guard that only looks closed or a lint pile nobody has swept in a week — both are invisible from the operator's own chair, which is exactly why they get looked for on purpose rather than noticed by accident."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "The knife guard, four threads by colour, the cutting width set, edges finished, the chain-off, and the knife locked out for cleaning",
+  "title": "SmartCiti.X~ Serger and Overlock VR",
+  "trade": "Industrial sewing machine operator — Workers United (SEIU)",
+  "underwater": null,
+  "weather": null
+}

@@ -1,0 +1,625 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "in-the-mirror",
+    "name": "Always in the Mirror",
+    "note": "Serpentine and alley dock backed clean, the forklift warned and the truck stopped the moment the spotter vanished — first time"
+  },
+  "category": "Mobility & Transit",
+  "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A range curriculum includes backing exercises and the alley dock; 49 CFR 383 for the basic control skills test the range prepares for; 49 CFR 392 for driving a commercial motor vehicle, including the hand-held phone rule; 49 CFR 393 for the mirrors, lamps and horn backing depends on; 49 CFR 395 for the duty status at the dock; the state CDL handbook's backing guidance — get out and look, back toward the driver's side, use a helper; OSHA 29 CFR 1910.178 for the forklift that shares the yard; CVSA roadside inspection practice; Teamsters (IBT) freight locals' driver training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CVSA",
+        "citedAs": "CVSA",
+        "id": "cvsa-out-of-service-criteria",
+        "title": "CVSA North American Standard Inspection Program and North American Standard Out-of-Service Criteria for roadside inspection of drivers and commercial motor vehicles"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 380 Subpart F",
+        "id": "fmcsa-49-cfr-380-subpart-f",
+        "title": "49 CFR Part 380 Subpart F — Entry-level driver training requirements for Class A and Class B commercial driver licence applicants, delivered by a provider listed on the Training Provider Registry"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 383",
+        "id": "fmcsa-49-cfr-383",
+        "title": "49 CFR Part 383 — Commercial driver's license standards; requirements and penalties, including the Class A, B and C vehicle groups and the knowledge and skills tests"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 392",
+        "id": "fmcsa-49-cfr-392",
+        "title": "49 CFR Part 392 — Driving of commercial motor vehicles, including conduct at railroad grade crossings, hazardous conditions, and the hand-held mobile phone and texting prohibitions"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 393",
+        "id": "fmcsa-49-cfr-393",
+        "title": "49 CFR Part 393 — Parts and accessories necessary for safe operation, including brakes, tires, emergency equipment and Subpart I protection against shifting and falling cargo"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 395",
+        "id": "fmcsa-49-cfr-395",
+        "title": "49 CFR Part 395 — Hours of service of drivers, including electronic logging devices"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.178",
+        "id": "osha-1910-178",
+        "title": "29 CFR 1910.178 — Powered industrial trucks"
+      },
+      {
+        "body": "state CDL handbook",
+        "citedAs": "state CDL handbook",
+        "id": "state-cdl-handbook",
+        "title": "The commercial driver's license manual each state issues for its CDL knowledge and skills tests — driving safely, space management, speed and following distance, mountain, night and fog driving, railroad crossings and backing"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBT",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": "Mobility & Transit",
+  "domain": "Commercial Driving",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "weaver",
+        "name": "Weaver",
+        "note": "The serpentine and the alley dock backed with every check on time"
+      },
+      {
+        "id": "helper-safe",
+        "name": "Helper Safe",
+        "note": "Never pushed a jackknife, backed fast, followed a stranger's waves or reached for the phone"
+      },
+      {
+        "id": "creep",
+        "name": "Creep",
+        "note": "Every drive held in lane and band with no excursion"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-range",
+        "name": "Clean Range",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "on-the-line",
+        "name": "On the Line",
+        "note": "Pull-up point and drives near the centre of their bands"
+      },
+      {
+        "id": "on-time",
+        "name": "On Time",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "CONE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Permit Holder",
+      "Range Trainee",
+      "Backing Driver",
+      "Yard Lead",
+      "Range Certified"
+    ],
+    "system": "Range"
+  },
+  "hazards": {
+    "drb-back-fast": "You went to back quickly to save time. Backing is done at idle in the lowest reverse gear because it is the speed at which you can stop within inches when the spotter signals or someone walks behind — and a trailer's rear cannot be seen from the seat at all.",
+    "drb-phone": "You went to pick up the hand-held phone while backing. 49 CFR 392 prohibits hand-held mobile phone use by commercial drivers, and backing is where you need both hands, both mirrors and your spotter's signals at once.",
+    "drb-push-jackknife": "You went to keep backing into a tightening jackknife to save a pull-up. Once the angle between tractor and trailer closes past a point, more reverse only closes it further, until the trailer hits the cab. The fix is always the same and never shameful: stop, pull forward to straighten, and start the back again.",
+    "drb-stranger-wave": "You went to follow the waving arms of a yard hand who is not your spotter. Two people giving signals is worse than none: their meanings differ, neither knows what the other is telling you, and the one who is not watching the gap may be waving you onto someone. Only the agreed spotter's signals move this rig; anyone else gets a stop until it is sorted out."
+  },
+  "id": "drive-backing-serpentine-and-alley-dock",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "drb-serpentine",
+      "alert": "A lift truck has swung out from the end of the lane and is trundling straight across your box's tail, its operator staring at the pallet on the tines.",
+      "cue": "Warn it.",
+      "delay": 3,
+      "id": "drb-forklift",
+      "kind": "Forklift behind the trailer",
+      "missNote": "You kept reversing while a lift truck crossed behind with nobody warned. Neither operator could see the other, and a box's rear sill meeting an overhead guard is exactly how a lift-truck operator gets hurt.",
+      "seconds": 10,
+      "target": "drb-horn",
+      "why": "An operator absorbed in balancing a load has no idea a combination is reversing toward them. A blast on the horn, on top of the beeping reverse alarm, grabs their attention while there is still room, and the rig creeps no further until that lift truck has passed.",
+      "wrongNote": "It is the horn. A forklift is crossing behind you and its driver has not seen the trailer."
+    },
+    {
+      "after": "drb-alley-dock",
+      "alert": "Your helper has ducked round the tail of the box to eyeball the gap, and neither pane of glass shows them or their hands any more.",
+      "cue": "Halt the rig.",
+      "delay": 3,
+      "id": "drb-spotter-lost",
+      "kind": "Spotter out of view",
+      "missNote": "You kept reversing blind to your helper. Guides get crushed by the very rigs they direct at precisely this instant, having stepped out of view to get a better angle on the clearance.",
+      "seconds": 10,
+      "target": "drb-brake-pedal",
+      "why": "No helper in view means no movement — full stop. They might be measuring clearance, they might be signalling where you cannot see, or they might have tripped; whichever it is, the next inch rolls in their direction.",
+      "wrongNote": "It is the brake. You have lost sight of the person guiding you — the rig stops until you see them again."
+    }
+  ],
+  "lateNotes": {
+    "drb-eld-status": "The log changes at the door, once the trailer is in and handed over.",
+    "drb-pullup-gauge": "The pull-up point is judged as you set up for the alley dock, not before the serpentine.",
+    "drb-wheel-hand": "The hand goes to the bottom of the wheel once the serpentine is behind you and the pull-up is next."
+  },
+  "name": "Backing Serpentine and Alley Dock",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "job-readiness-edition",
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "forkliftCounterbalance",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "semiTractor",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "tractorTrailer",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "trailer:dryVan",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "drb-back-fast",
+      "drb-brake-pedal",
+      "drb-cb-radio",
+      "drb-crew-checkin",
+      "drb-eld-status",
+      "drb-horn",
+      "drb-knocked-cone",
+      "drb-light-arm",
+      "drb-oil-patch",
+      "drb-pallet-bay",
+      "drb-pallet-stack",
+      "drb-phone",
+      "drb-pullup-gauge",
+      "drb-push-jackknife",
+      "drb-range-card",
+      "drb-rig",
+      "drb-signal-back",
+      "drb-signal-slow",
+      "drb-signal-stop",
+      "drb-signal-turn",
+      "drb-stranger-wave",
+      "drb-wheel-hand"
+    ],
+    "meshes": 281
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "drive",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the course: the pull-through, the serpentine cones, the alley-dock door and where the spotter stands.",
+      "id": "drb-card",
+      "kind": "select",
+      "prompt": "Read the course: the pull-through, the serpentine cones, the alley-dock door and where the spotter stands.",
+      "target": "drb-range-card",
+      "title": "Read the range card",
+      "why": "Reverse is planned forwards. Once the rig is backing, a driver sees two narrow strips of glass and whatever the helper's hands say, so the shape of the cone lane, the pull-up that sets the dock, the side the swing comes from and the helper's standing spot all need settling while you can still look at them straight on, not rediscovered with the tandems already swinging."
+    },
+    {
+      "cue": "Agree the signals with the spotter before you back: stop first, then slow, come back and turn.",
+      "id": "drb-signals",
+      "itemNames": {
+        "drb-signal-back": "come back — hands waving you in",
+        "drb-signal-slow": "slow — palms pressing down",
+        "drb-signal-stop": "stop — both hands up, palms out",
+        "drb-signal-turn": "turn — a pointed hand toward the side to swing"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Stop first — it is the signal everything else depends on — then slow, come back and turn.",
+      "prompt": "Agree the signals with the spotter before you back: stop first, then slow, come back and turn.",
+      "targets": [
+        "drb-signal-stop",
+        "drb-signal-slow",
+        "drb-signal-back",
+        "drb-signal-turn"
+      ],
+      "title": "Agree the hand signals",
+      "why": "Hand signals are a language two people invent together on the spot, and a language one of them misreads is dangerous, so the vocabulary is rehearsed face to face at the cab door before reverse — halt first, since it outranks everything. Paired with it is a promise that never bends: an unreadable gesture, or a guide who drops out of view, means the wheels stop turning."
+    },
+    {
+      "cue": "Pull forward along the range to the serpentine start, checking both mirrors for the cones and the spotter.",
+      "drive": {
+        "bandLabel": "range speed",
+        "checkWindow": 1.6,
+        "checks": [
+          {
+            "at": 0,
+            "kind": "mirror-left",
+            "note": "Left mirror: the spotter is on the driver's side, where they will be for the back."
+          },
+          {
+            "at": 2,
+            "kind": "mirror-right",
+            "note": "Right mirror: the cone lane is clear along the trailer's right side."
+          }
+        ],
+        "controls": {
+          "brake": "drb-brake-pedal"
+        },
+        "graceSeconds": 1.8,
+        "laneWidth": 1.6,
+        "path": [
+          [
+            -4.4,
+            -4.6
+          ],
+          [
+            -1.5,
+            -4.6
+          ],
+          [
+            1.5,
+            -4.6
+          ],
+          [
+            3.6,
+            -4.6
+          ]
+        ],
+        "sceneRate": 0.2,
+        "speedBand": [
+          3,
+          10
+        ]
+      },
+      "holdBreakNote": "Out of the lane or band on the pull-through — slow and straight.",
+      "id": "drb-pull-through",
+      "kind": "drive",
+      "prompt": "Pull forward along the range to the serpentine start, checking both mirrors for the cones and the spotter.",
+      "target": "drb-rig",
+      "title": "Pull through to the start",
+      "why": "The pull-through sets the rig straight at the start of the cone lane, and a straight start is half of a clean serpentine. Checking both mirrors as you go shows where the cones sit against the trailer and where your spotter has positioned themselves, before the rig is in reverse and those mirrors are all you have."
+    },
+    {
+      "cue": "Get out and walk the backing path. Find what the trailer will hit or what will go wrong on the way.",
+      "id": "drb-goal",
+      "itemNames": {
+        "drb-knocked-cone": "the knocked-over cone in the lane",
+        "drb-light-arm": "the dock light arm swung out low",
+        "drb-oil-patch": "the oil patch at the lane's bend"
+      },
+      "itemNotes": {
+        "drb-knocked-cone": "A cone lying in the lane — the last trainee clipped it. Set it back up, or the lane you back into is not the lane you walked.",
+        "drb-light-arm": "The yard lamp's arm at the lane edge has been swung out and down, below roof height — the box's top rail would fold it back into its pole.",
+        "drb-oil-patch": "An oil patch on the bend of the lane. The drive tyres can spin on it with the trailer pushing, and a spotter can slip on it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Get out and walk the backing path. Find what the trailer will hit or what will go wrong on the way.",
+      "targets": [
+        "drb-knocked-cone",
+        "drb-oil-patch",
+        "drb-light-arm"
+      ],
+      "title": "Get out and look",
+      "why": "Walking the lane on foot beats every camera and mirror fitted to a tractor, because it shows ground level, head height at the building and the space directly astern — what a driver in the seat can never see. A toppled marker, a greasy stain under the drive axles and a lamp arm hanging low over the bay are plain as day from the tarmac and completely hidden once you climb back up."
+    },
+    {
+      "cue": "Drag the pallet stack out of the trailer's swing path to the marked clear spot.",
+      "drag": {
+        "missNote": "Still in the swing — slide the stack fully onto the green clear spot.",
+        "radius": 0.5,
+        "to": "drb-pallet-bay"
+      },
+      "id": "drb-clear-swing",
+      "kind": "drag",
+      "prompt": "Drag the pallet stack out of the trailer's swing path to the marked clear spot.",
+      "target": "drb-pallet-stack",
+      "title": "Clear the pallets from the swing",
+      "why": "Timber stacked where the box will pivot is the cheapest obstacle on the whole range to remove and one of the most expensive to strike: splintered pallets under the tandems, a punctured sidewall, a shove into the building. Shifting it takes half a minute before reverse is engaged, and nobody should be moving anything in that zone once the rig is under way."
+    },
+    {
+      "cue": "Tap the horn, then back through the cones at idle — left mirror, right mirror, left again — following the spotter.",
+      "drive": {
+        "bandLabel": "idle, dead slow",
+        "checkWindow": 1.5,
+        "checks": [
+          {
+            "at": 0,
+            "kind": "horn",
+            "note": "A tap of the horn before the first foot of reverse — anyone near the rig now knows it is about to move backwards."
+          },
+          {
+            "at": 1,
+            "kind": "mirror-left",
+            "note": "Left mirror: the first cone and your spotter's signal."
+          },
+          {
+            "at": 2,
+            "kind": "mirror-right",
+            "note": "Right mirror: the trailer's right corner past the middle cone."
+          },
+          {
+            "at": 3,
+            "kind": "mirror-left",
+            "note": "Left mirror: the last cone, and the spotter still in view."
+          }
+        ],
+        "controls": {
+          "brake": "drb-brake-pedal",
+          "horn": "drb-horn"
+        },
+        "graceSeconds": 2,
+        "laneNote": "The trailer left the cone lane and stayed out — on a dock that is the trailer beside you or the building.",
+        "laneWidth": 1.4,
+        "path": [
+          [
+            3.6,
+            -4.6
+          ],
+          [
+            2,
+            -4.1
+          ],
+          [
+            0.4,
+            -5
+          ],
+          [
+            -1.2,
+            -4.1
+          ],
+          [
+            -3,
+            -4.6
+          ]
+        ],
+        "reverse": true,
+        "sceneRate": 0.3,
+        "speedBand": [
+          1,
+          4
+        ]
+      },
+      "holdBreakNote": "Out of the lane or out of the band in the serpentine — idle speed, small corrections, and pull up if it is going wrong.",
+      "id": "drb-serpentine",
+      "kind": "drive",
+      "prompt": "Tap the horn, then back through the cones at idle — left mirror, right mirror, left again — following the spotter.",
+      "target": "drb-rig",
+      "title": "Back the serpentine",
+      "why": "Weaving the markers drills the counter-intuitive core of reversing an articulated combination: the box heads opposite to the wheel, gentle early inputs succeed and big tardy ones overshoot. A short honk warns pedestrians that the combination is about to travel backwards; alternating glances — driver's side, passenger side, driver's side — keep both rear corners and the guide continuously visible."
+    },
+    {
+      "cue": "Put your hand at the bottom of the wheel and move it the way you want the trailer's rear to go.",
+      "id": "drb-wheel",
+      "kind": "turn",
+      "prompt": "Put your hand at the bottom of the wheel and move it the way you want the trailer's rear to go.",
+      "target": "drb-wheel-hand",
+      "title": "Hand at the bottom of the wheel",
+      "turn": {
+        "axis": "z",
+        "label": "WHEEL",
+        "turns": 0.5
+      },
+      "why": "Gripping the rim near six o'clock turns a mental puzzle into a plain gesture: shift that hand toward whichever side the box's tail should travel, and it obliges. Novices steering from the top fight their own instinct on every correction; the handbook's bottom-grip habit makes the next manoeuvre, the angled approach to the bay, something the hands understand before the head does."
+    },
+    {
+      "cue": "Pull forward past the door, angling right so the trailer points toward it on your driver's side, with a mirror check each way.",
+      "drive": {
+        "bandLabel": "range speed",
+        "checkWindow": 1.5,
+        "checks": [
+          {
+            "at": 0,
+            "kind": "mirror-right",
+            "note": "Right mirror: nothing on the blind side as the tractor angles away."
+          },
+          {
+            "at": 2,
+            "kind": "mirror-left",
+            "note": "Left mirror: the door, the parked trailer beside it and your spotter taking position."
+          }
+        ],
+        "controls": {
+          "brake": "drb-brake-pedal"
+        },
+        "graceSeconds": 1.8,
+        "laneWidth": 1.6,
+        "path": [
+          [
+            -3,
+            -4.6
+          ],
+          [
+            0,
+            -4.6
+          ],
+          [
+            2.4,
+            -4.4
+          ],
+          [
+            3.6,
+            -3.8
+          ]
+        ],
+        "sceneRate": 0.22,
+        "speedBand": [
+          2,
+          8
+        ]
+      },
+      "holdBreakNote": "Out of lane or band on the pull-up — slow, and angle it early.",
+      "id": "drb-pull-up",
+      "kind": "drive",
+      "prompt": "Pull forward past the door, angling right so the trailer points toward it on your driver's side, with a mirror check each way.",
+      "target": "drb-rig",
+      "title": "Pull up for the alley dock",
+      "why": "A good alley dock is decided in the pull-up: far enough past the door, and angled so the trailer already points toward it on the driver's side, where you can see it through your own window. Backing toward the driver's side — the sight side — is what the handbook asks for whenever the yard allows, because the blind side leaves the trailer's corner in a mirror you can barely use."
+    },
+    {
+      "cue": "Judge how far past the door the tractor stops before the back. Commit when it is right.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.64
+        ],
+        "label": "PULL-UP POINT",
+        "missNote": "That pull-up leaves the trailer in the wrong place for the door — pull forward and set up again.",
+        "speed": 0.7
+      },
+      "id": "drb-pullup-point",
+      "kind": "gauge",
+      "prompt": "Judge how far past the door the tractor stops before the back. Commit when it is right.",
+      "target": "drb-pullup-gauge",
+      "title": "Judge the pull-up point",
+      "why": "Pull up too short and the trailer cannot swing into the door without striking the parked trailer beside it; pull up too far and the back becomes a long, tight arc that needs several corrections. The right point leaves the trailer's rear already angled at the door, so the back is one smooth swing followed by a straight push."
+    },
+    {
+      "cue": "Tap the horn and back toward the driver's side into the door — left mirror, right mirror, left again — with the spotter always in view.",
+      "drive": {
+        "bandLabel": "idle, dead slow",
+        "checkWindow": 1.3,
+        "checks": [
+          {
+            "at": 0,
+            "kind": "horn",
+            "note": "Horn before reverse, every time — the dock crew is on the other side of that door."
+          },
+          {
+            "at": 1,
+            "kind": "mirror-left",
+            "note": "Left mirror: the swing toward the door, and your spotter's hands."
+          },
+          {
+            "at": 3,
+            "kind": "mirror-right",
+            "note": "Right mirror: the blind-side corner passing the parked trailer."
+          },
+          {
+            "at": 4,
+            "kind": "mirror-left",
+            "note": "Left mirror for the straight push in: the spotter signals the last feet."
+          }
+        ],
+        "controls": {
+          "brake": "drb-brake-pedal",
+          "horn": "drb-horn",
+          "radio": "drb-cb-radio"
+        },
+        "graceSeconds": 2,
+        "laneWidth": 1.4,
+        "path": [
+          [
+            3.6,
+            -3.8
+          ],
+          [
+            2.2,
+            -3.3
+          ],
+          [
+            0.9,
+            -2.8
+          ],
+          [
+            0.2,
+            -3.1
+          ],
+          [
+            0,
+            -3.8
+          ]
+        ],
+        "reverse": true,
+        "sceneRate": 0.24,
+        "speedBand": [
+          1,
+          4
+        ]
+      },
+      "holdBreakNote": "Out of lane or band in the alley dock — idle speed, and pull up rather than force it.",
+      "id": "drb-alley-dock",
+      "kind": "drive",
+      "prompt": "Tap the horn and back toward the driver's side into the door — left mirror, right mirror, left again — with the spotter always in view.",
+      "target": "drb-rig",
+      "title": "Back into the alley dock",
+      "why": "Think of it as a pivot followed by a straight shove: the box's tail rotates toward the opening while the cab arcs round, then the final stretch runs square between its neighbours. The helper's hands and the driver's-side glass manage the pivot; the passenger-side glass watches the far corner creep past the parked van. The instant the helper is gone, everything halts."
+    },
+    {
+      "cue": "Hold the rig stopped a few feet short of the bumpers while the spotter checks the gap, then finish the back.",
+      "holdBreakNote": "You rolled on before the gap was checked — hold the stop until the spotter signals.",
+      "id": "drb-second-look",
+      "kind": "hold",
+      "prompt": "Hold the rig stopped a few feet short of the bumpers while the spotter checks the gap, then finish the back.",
+      "seconds": 3,
+      "target": "drb-brake-pedal",
+      "title": "Stop short and look again",
+      "why": "Pausing a few feet out while the guide inspects the remaining clearance costs seconds and catches whatever changed during the manoeuvre: a leveller lip still extended, somebody leaning out of the opening, the box sitting crooked against the rubber. Only once those eyes have confirmed it does the last creep happen — the final yard is where warehouse staff get pinned."
+    },
+    {
+      "cue": "Talk it through with the spotter: the forklift, the moment they stepped out of the mirror, and how the backing felt.",
+      "id": "drb-debrief",
+      "kind": "select",
+      "prompt": "Talk it through with the spotter: the forklift, the moment they stepped out of the mirror, and how the backing felt.",
+      "target": "drb-crew-checkin",
+      "title": "Debrief with the spotter",
+      "why": "Backing with a spotter is a two-person job, and a two-minute talk afterwards is how the pair gets better: which signal was unclear, when exactly they vanished from the mirror and why, how close the forklift came. Saying how the pressure of a first alley dock felt is part of it too — a driver who can name their stress backs more calmly next time."
+    },
+    {
+      "cue": "Change the electronic log from driving to on duty, not driving, now the trailer is at the door.",
+      "id": "drb-log",
+      "kind": "select",
+      "prompt": "Change the electronic log from driving to on duty, not driving, now the trailer is at the door.",
+      "target": "drb-eld-status",
+      "title": "Change the log at the door",
+      "why": "Manoeuvring on a range still counts as driving time under 49 CFR 395, while what follows at the bay — paperwork, waiting for the crew to empty the box — is on-duty time spent standing still. Flipping the status the moment the wheels stop keeps the electronic record faithful to the shift, instead of quietly logging a parked tractor as though it were still rolling."
+    }
+  ],
+  "supportLine": "your carrier's employee assistance programme, or your Teamsters steward if you are not sure how to reach it",
+  "tagline": "You back it: signals agreed with the spotter, a serpentine through the cones, a pull-up and a sight-side alley dock between two trailers — with a forklift behind you and a spotter who steps out of the mirror",
+  "title": "SmartCiti.X~ Backing Serpentine and Alley Dock VR",
+  "trade": "Class A driver trainee, Job Readiness Edition deep driving — Teamsters yard and range work: backing with a spotter under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+  "underwater": null,
+  "weather": "clear"
+}

@@ -1,0 +1,444 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "legal-and-spaced",
+    "name": "Legal and Spaced",
+    "note": "Every screen legal and still, every player on a spot, and every player rotated and watered"
+  },
+  "category": "Youth Sports & Coaching",
+  "certification": "USA Basketball youth development guidelines on age-appropriate team concepts, equal playing time and rest; NFHS basketball rules on legal screens — stationary, within the screener's own space, and room given to a player screened from behind; CDC Heads Up for the head knocks an illegal screen can cause; the U.S. Center for SafeSport for a programme's photo and filming policy and adults kept in view; the American Red Cross first aid course for a player hurt on a screen",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CDC",
+        "citedAs": "CDC Heads Up",
+        "id": "cdc-heads-up",
+        "title": "CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance"
+      },
+      {
+        "body": "NFHS",
+        "citedAs": "NFHS",
+        "id": "nfhs-basketball-rules",
+        "title": "National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport"
+      },
+      {
+        "body": "Red Cross",
+        "citedAs": "American Red Cross first aid",
+        "id": "red-cross-first-aid-course",
+        "title": "American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services"
+      },
+      {
+        "body": "U.S. Center for SafeSport",
+        "citedAs": "U.S. Center for SafeSport",
+        "id": "safesport-code",
+        "title": "U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting"
+      },
+      {
+        "body": "USA Basketball",
+        "citedAs": "USA Basketball",
+        "id": "usa-basketball-youth-guidelines",
+        "title": "USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them"
+      }
+    ]
+  },
+  "district": "gym-court",
+  "domain": "Youth Sports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "five-spots",
+        "name": "Five Spots",
+        "note": "Every spacing spot found first time"
+      },
+      {
+        "id": "legal-screens",
+        "name": "Legal Screens",
+        "note": "No unsafe action in the whole offence block"
+      },
+      {
+        "id": "spaced-and-moving",
+        "name": "Spaced and Moving",
+        "note": "Spacing, screen contact and ball movement all inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-set",
+        "name": "Clean Set",
+        "note": "No corrections anywhere in the block"
+      },
+      {
+        "id": "ball-never-sticks",
+        "name": "Ball Never Sticks",
+        "note": "Held ball movement in band the whole time"
+      },
+      {
+        "id": "quick-set",
+        "name": "Quick Set",
+        "note": "Practice log reached inside 80% of par"
+      }
+    ],
+    "currency": "ACTIONS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Clipboard Helper",
+      "Offence Coach",
+      "Assistant Coach",
+      "Head Coach",
+      "Programme Director"
+    ],
+    "system": "Playbook"
+  },
+  "hazards": {
+    "blind-screens-no-space": "You told the screeners to set blind screens right on a defender's back. A player screened from behind never sees it coming and hits it at full speed, head and neck unprepared — which is why the rules require room to be given on a blind screen, and why it is a common way young players get concussed.",
+    "full-court-no-subs": "You ran the offence full court for the whole session with no substitutions. Continuous play without rotation piles unplanned minutes on the players who are on the floor, wears down technique on every screen and cut, and ignores the playing-time and rest balance youth guidelines recommend.",
+    "keep-in-with-headache": "You kept a player on the floor after they ran into a screen and said their head hurt. A headache after contact is one of the most common concussion signs; a player left in is a player whose next knock lands on a brain that may already be hurt.",
+    "no-water-till-it-runs": "You held water back until the play was run right. Tying a drink to performance teaches players to hide thirst, and in a warm gym the players working hardest to get it right are the ones falling furthest behind on fluid."
+  },
+  "id": "bb-team-offense-spacing-and-screens",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "stationary-screen",
+      "alert": "A parent at the doors has started filming the players on a phone and says they are going to post it for the other families.",
+      "cue": "Send the assistant to the door to explain the programme's photo and filming policy — calmly, the head coach stays with the players.",
+      "delay": 3,
+      "id": "parent-filming-at-the-door",
+      "kind": "Parent at the door",
+      "missNote": "Nobody went to the door and the clip went up that evening with every player's face in it — including a child whose family had asked in writing for no images. The programme broke a promise it made to that family, in public.",
+      "seconds": 12,
+      "target": "door-greeting-spot",
+      "why": "Most programmes have a photo and filming policy because some families cannot have their child's image posted, and a clip online cannot be taken back. The assistant explaining the policy at the door, calmly and politely, protects those players without turning practice into a confrontation, and keeps the adults' conversations in the open, as SafeSport policies expect.",
+      "wrongNote": "That leaves the parent filming. The assistant goes to the door and explains the photo policy."
+    },
+    {
+      "after": "ball-movement",
+      "alert": "A defender who got caught on a screen has come up swinging an arm at the screener, and the two are chest to chest with words flying.",
+      "cue": "Call everyone into the reset huddle at centre, with the two players on opposite sides of it — no shouting, no audience.",
+      "delay": 3,
+      "id": "flare-up-after-a-screen",
+      "kind": "Heated moment",
+      "missNote": "The play carried on around the two players until the arm swing became a punch. Now there is a player with a split lip, two families to call, and a team that watched an adult let it happen.",
+      "seconds": 12,
+      "target": "reset-huddle-spot",
+      "why": "A flare-up after contact is best cooled by breaking the moment for everyone: a whistle into a reset huddle, the two players placed on opposite sides, and a calm reminder of what legal screens and good sportsmanship look like. It separates them without singling anyone out, and any follow-up happens privately, in view of other adults.",
+      "wrongNote": "That does not break it up. Call everyone into the reset huddle with the two players on opposite sides."
+    }
+  ],
+  "lateNotes": {
+    "crew-checkin-board": "The staff check-in comes after the log, at the end of the block.",
+    "practice-log-board": "The log closes the offence block once it has run and the contact is set — nothing to record yet."
+  },
+  "name": "Team Offense: Spacing and Screens",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "basketball-fundamentals"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "ball-movement-meter",
+      "blind-screens-no-space",
+      "crew-checkin-board",
+      "door-greeting-spot",
+      "drifting-wing-marker",
+      "fault-blind-too-close",
+      "fault-calling-screen",
+      "fault-hips-out",
+      "fault-moving-screen",
+      "full-court-no-subs",
+      "keep-in-with-headache",
+      "no-water-till-it-runs",
+      "play-whiteboard",
+      "practice-log-board",
+      "read-pop",
+      "read-roll",
+      "read-slip",
+      "reset-huddle-spot",
+      "screen-angle-dial",
+      "screen-call-it",
+      "screen-contact-meter",
+      "screen-hold-marker",
+      "screen-roll",
+      "screen-set-feet",
+      "screen-use-it",
+      "spacing-meter",
+      "spot-left-corner",
+      "spot-left-wing",
+      "spot-paint",
+      "spot-right-corner",
+      "spot-right-wing",
+      "spot-top",
+      "sub-rotation-board",
+      "wing-socket"
+    ],
+    "meshes": 241
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Find the five taped spots: top, both wings, both corners.",
+      "decoyNotes": {
+        "spot-paint": "The middle of the paint is not a spacing spot. A player parked there clogs every drive and every roll."
+      },
+      "id": "mark-the-spots",
+      "itemNames": {
+        "spot-left-corner": "the left corner",
+        "spot-left-wing": "the left wing",
+        "spot-right-corner": "the right corner",
+        "spot-right-wing": "the right wing",
+        "spot-top": "the top of the key"
+      },
+      "itemNotes": {
+        "spot-left-corner": "Corners stretch the floor and keep the lane open for drives and rolls.",
+        "spot-left-wing": "Wide enough that the wing is a pass away, not a hand-off away.",
+        "spot-right-corner": "Both corners filled means the paint stays clear and collisions stay rare.",
+        "spot-right-wing": "Mirrors the left wing so help defence has to cover real distance.",
+        "spot-top": "The ball handler's spot. Everything else is spaced off this one."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the five taped spots: top, both wings, both corners.",
+      "targets": [
+        "spot-top",
+        "spot-left-wing",
+        "spot-right-wing",
+        "spot-left-corner",
+        "spot-right-corner"
+      ],
+      "title": "Mark the five spacing spots",
+      "why": "Spacing is the offence's first safety feature as well as its first tactic. Five players standing on real spots, a pass apart, keep the paint clear for drives and rolls and keep bodies from bunching up where collisions happen. Taping the spots on the floor gives young players something concrete to stand on instead of drifting toward the ball."
+    },
+    {
+      "cue": "Sketch the on-ball screen on the whiteboard — who screens, who uses it, where everyone else stands.",
+      "id": "draw-the-action",
+      "kind": "select",
+      "prompt": "Sketch the on-ball screen on the whiteboard — who screens, who uses it, where everyone else stands.",
+      "target": "play-whiteboard",
+      "title": "Draw the action before running it",
+      "why": "Young players run into each other when they do not know where the others are going. Drawing the action first — screener, ball handler, the three spotted up — lets everyone see the whole picture before anybody moves, so the first run-through is a rehearsal rather than a collision course."
+    },
+    {
+      "cue": "Drag the wing's marker from beside the ball back out to the wing spot.",
+      "drag": {
+        "missNote": "Not on the spot. A wing standing next to the ball brings their defender into the screen too — move them all the way out.",
+        "radius": 0.45,
+        "to": "wing-socket"
+      },
+      "id": "fix-the-spacing",
+      "kind": "drag",
+      "prompt": "Drag the wing's marker from beside the ball back out to the wing spot.",
+      "target": "drifting-wing-marker",
+      "title": "Move the drifting wing back to their spot",
+      "why": "Young players drift toward the ball, and a wing standing a step from the ball handler drags a second defender into the screen. Moving them back to the spot restores the space the action needs and takes two extra bodies out of the collision zone."
+    },
+    {
+      "cue": "Screener sets still, calls it, ball handler waits and uses it shoulder to shoulder, then the screener rolls.",
+      "id": "build-the-screen",
+      "itemNames": {
+        "screen-call-it": "screener calls the ball handler's name",
+        "screen-roll": "screener rolls to the basket",
+        "screen-set-feet": "screener sets the feet wide and still",
+        "screen-use-it": "ball handler waits, then goes shoulder to shoulder"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. The screener sets still and calls it first — a ball handler who goes before the screen is set turns it into a moving screen and a collision.",
+      "prompt": "Screener sets still, calls it, ball handler waits and uses it shoulder to shoulder, then the screener rolls.",
+      "targets": [
+        "screen-set-feet",
+        "screen-call-it",
+        "screen-use-it",
+        "screen-roll"
+      ],
+      "title": "Build the on-ball screen in order",
+      "why": "A legal screen is a stationary one: the screener arrives, sets the feet wide and still, and holds their arms in. Calling the name tells the ball handler it is set; waiting for it is what stops the handler dragging the screener into a moving screen; the roll comes last. Built in that order, the screen is legal and nobody runs into anybody at full speed."
+    },
+    {
+      "cue": "The screener stays planted, arms in, until the ball handler has gone past — hold it while you watch the rest of the floor.",
+      "holdBreakNote": "The screener moved before it was used. Plant again — feet wide, arms in — and hold it still.",
+      "id": "stationary-screen",
+      "kind": "hold",
+      "prompt": "The screener stays planted, arms in, until the ball handler has gone past — hold it while you watch the rest of the floor.",
+      "seconds": 7,
+      "target": "screen-hold-marker",
+      "title": "Hold the screen still until it is used",
+      "why": "Holding a screen still is harder than it sounds for a young player who wants to help. A screener who moves into the defender is committing a foul and delivering a hit; one who holds still, arms in, lets the defender see and avoid it. Holding it for the count is also when the coach can check the three players spotted up are still on their spots."
+    },
+    {
+      "cue": "Commit when the spacing reads a pass apart — not bunched, not so far they cannot pass.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "SPACING",
+        "missNote": "Outside the band. Bunched players collide and clog the lane; stretched too far and young arms cannot make the pass. Find a pass apart and commit.",
+        "speed": 0.62
+      },
+      "id": "read-the-spacing",
+      "kind": "gauge",
+      "prompt": "Commit when the spacing reads a pass apart — not bunched, not so far they cannot pass.",
+      "target": "spacing-meter",
+      "title": "Read the spacing between the players",
+      "why": "Good spacing is a pass apart: close enough that a young player can reach a teammate with a crisp two-hand pass, far enough that one defender cannot guard two players and nobody is in anybody's way. Reading it in real time, rather than trusting the taped spots, catches the drift before it turns into a crowd."
+    },
+    {
+      "cue": "Turn the screener's angle a quarter so their back faces the direction the ball handler wants to go.",
+      "id": "angle-the-screen",
+      "kind": "turn",
+      "prompt": "Turn the screener's angle a quarter so their back faces the direction the ball handler wants to go.",
+      "target": "screen-angle-dial",
+      "title": "Angle the screen toward where the ball handler is going",
+      "turn": {
+        "axis": "y",
+        "label": "ANGLE",
+        "turns": 0.25
+      },
+      "why": "The angle of a screen decides where the defender meets it and where the ball handler goes. Angled so the screener's back faces the way the handler is heading, the defender meets a broad, stationary body from the front and can see it — the legal, safer contact — instead of clipping a shoulder at speed."
+    },
+    {
+      "cue": "Hold the ball movement in band — it never sticks in one pair of hands, and never gets thrown before a teammate is ready.",
+      "holdBreakNote": "The ball movement left the band — sticking in one player's hands, or flying before anyone was ready. Bring it back to catch, look, pass.",
+      "id": "ball-movement",
+      "kind": "track",
+      "prompt": "Hold the ball movement in band — it never sticks in one pair of hands, and never gets thrown before a teammate is ready.",
+      "seconds": 8,
+      "target": "ball-movement-meter",
+      "title": "Keep the ball moving around the spots",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "BALL",
+        "rise": 0.55,
+        "start": 0.25
+      },
+      "why": "When the ball sticks, four players stand and watch and the ball handler ends up dribbling into traffic; when it is rushed, passes fly at players who are not looking. Holding the movement in the band — catch, look, pass — keeps everyone involved, keeps defenders moving, and keeps the ball arriving at hands that are ready for it."
+    },
+    {
+      "cue": "Watch the screeners. Mark every screen that is illegal or dangerous.",
+      "decoyNotes": {
+        "fault-calling-screen": "Calling the screen out loud is exactly right. Look for the screens that move, blindside or stick out."
+      },
+      "id": "spot-bad-screens",
+      "itemNames": {
+        "fault-blind-too-close": "a blind screen set right on a defender's back",
+        "fault-hips-out": "a screener sticking a hip out into the defender",
+        "fault-moving-screen": "a screener moving into the defender"
+      },
+      "itemNotes": {
+        "fault-blind-too-close": "A defender screened from behind needs room to see and stop. Give a step of space on every blind screen.",
+        "fault-hips-out": "Hips and elbows stay inside the screener's own space. Cue 'arms in, hips square'.",
+        "fault-moving-screen": "A moving screen is a foul and a hit. Cue 'arrive, set, hold' — the feet stop before the defender gets there."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Watch the screeners. Mark every screen that is illegal or dangerous.",
+      "targets": [
+        "fault-moving-screen",
+        "fault-blind-too-close",
+        "fault-hips-out"
+      ],
+      "title": "Spot the illegal and dangerous screens",
+      "why": "The screens that break the rules are the same ones that hurt people: a screener moving into the defender, a blind screen set with no room to see it, a hip or elbow stuck out into someone's path. NFHS basketball rules require a stationary screen and room on a blind one for exactly this reason, and catching all three in practice keeps them out of games."
+    },
+    {
+      "cue": "Everyone rotates in on a fixed plan — equal turns, a water break built into every rotation.",
+      "id": "rotation-plan",
+      "kind": "select",
+      "prompt": "Everyone rotates in on a fixed plan — equal turns, a water break built into every rotation.",
+      "target": "sub-rotation-board",
+      "title": "Post the rotation plan with water in it",
+      "why": "A fixed rotation gives every player equal turns in the action and a real rest between them, which is the playing-time and rest balance youth development guidance recommends. Building a water break into every rotation means nobody has to earn a drink, and nobody runs the whole session while others watch."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Roll, pop and slip — walk each read slowly before running it at speed.",
+      "id": "screener-reads",
+      "itemNames": {
+        "read-pop": "pop out for a shot",
+        "read-roll": "roll to the basket",
+        "read-slip": "slip early when the defender jumps out"
+      },
+      "kind": "sequence",
+      "prompt": "Roll, pop and slip — walk each read slowly before running it at speed.",
+      "targets": [
+        "read-roll",
+        "read-pop",
+        "read-slip"
+      ],
+      "title": "Walk the screener's reads",
+      "why": "What the screener does after the screen depends on what the defence does, and walking each read slowly lets young players see why before they have to decide fast. It also keeps the screener moving into open space rather than drifting back into the crowd they just helped create."
+    },
+    {
+      "cue": "Commit when the contact reads firm and still — a wall to go around, never a hit.",
+      "gauge": {
+        "green": [
+          0.38,
+          0.56
+        ],
+        "label": "CONTACT",
+        "missNote": "Outside the band. Too soft and it is not a screen; too hard and it is a collision. Find firm and still and commit.",
+        "speed": 0.6
+      },
+      "id": "screen-contact",
+      "kind": "gauge",
+      "prompt": "Commit when the contact reads firm and still — a wall to go around, never a hit.",
+      "target": "screen-contact-meter",
+      "title": "Set how firm the screens are for this age",
+      "why": "For young players, a screen is a wall to go around, not a hit to deliver. Setting the contact level at firm and still — screener planted, defender meeting a broad body they can see — teaches the real skill while keeping contact inside what growing bodies and brains can safely take."
+    },
+    {
+      "cue": "Record the rotation, the screens corrected, the filming conversation at the door and the flare-up and how it was handled.",
+      "id": "log-the-offence",
+      "kind": "select",
+      "prompt": "Record the rotation, the screens corrected, the filming conversation at the door and the flare-up and how it was handled.",
+      "target": "practice-log-board",
+      "title": "Log the offence block",
+      "why": "The filming conversation belongs in writing, because the programme's photo policy is a promise to every family; so does the flare-up and how it was settled. Beside the rotation and screen corrections, a log written at the time is the fairest record for players, parents and staff alike."
+    },
+    {
+      "cue": "At the bench: how the door conversation went, how the two players are, and is everybody good to go on?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "At the bench: how the door conversation went, how the two players are, and is everybody good to go on?",
+      "target": "crew-checkin-board",
+      "title": "Check in with the assistant coach and the athletic trainer",
+      "why": "The assistant dealt with the camera at the door, the head coach settled the flare-up, and the athletic trainer watched for knocks on the screens. A quick check-in makes sure the follow-up with the parent and the two players is agreed and done openly, by the right adult, rather than left to chance."
+    }
+  ],
+  "supportLine": "your league's coach coordinator, or the assistant who handled the camera at the door — a conversation with a parent about filming, or a flare-up between players, is worth a word among the staff afterwards",
+  "tagline": "Five spots on the floor, the action drawn first, spacing fixed, an on-ball screen built and held still, the ball kept moving, illegal and blind screens caught, the reads walked, and a rotation with water in it",
+  "title": "SmartCiti.X~ Team Offense: Spacing and Screens VR",
+  "trade": "Youth basketball coach",
+  "underwater": null,
+  "weather": "clear"
+}

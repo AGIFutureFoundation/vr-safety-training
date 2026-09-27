@@ -1,0 +1,363 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "cabin-secure",
+    "name": "Cabin Secure",
+    "note": "Every emergency item counted, the door armed and cross-checked, the exits proven clear, and the flight deck told the cabin is ready — nothing assumed"
+  },
+  "category": "Mobility & Transit",
+  "certification": "AFA-CWA cabin-safety training; the airline's own cabin-safety checklist and door-arming procedure under 14 CFR 121; OSHA 29 CFR 1910.151 medical services and first aid for the equipment this check counts",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFA-CWA",
+        "id": "afa-cwa-training",
+        "title": "AFA-CWA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "FAA",
+        "citedAs": "14 CFR 121",
+        "id": "faa-14-cfr-121",
+        "title": "14 CFR Part 121 — Operating requirements for domestic, flag and supplemental air carriers"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.151",
+        "id": "osha-1910-151",
+        "title": "29 CFR 1910.151 — Medical services and first aid"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Aviation",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "kit-counted",
+        "name": "Kit Counted",
+        "note": "Every emergency item verified against its own placard"
+      },
+      {
+        "id": "door-crosschecked",
+        "name": "Door Cross-Checked",
+        "note": "The door armed and the cross-check actually confirmed"
+      },
+      {
+        "id": "aisle-clear",
+        "name": "Aisle Clear Certified",
+        "note": "The exits and the aisle proven clear before the door was ever armed"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-shift",
+        "name": "Clean Turn",
+        "note": "No corrections anywhere in the check"
+      },
+      {
+        "id": "steady-watch",
+        "name": "Steady Watch",
+        "note": "Held the cabin-temperature check the full count, first try"
+      },
+      {
+        "id": "fast-check",
+        "name": "Fast Turn",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "CHECK",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Flight Attendant",
+      "Line Qualified",
+      "Lead Flight Attendant",
+      "Purser",
+      "Cabin Secure Certified"
+    ],
+    "system": "Cabin Secure"
+  },
+  "hazards": {
+    "bag-in-exit-row-hazard": "That carry-on is sitting in the exit-row floor space. An exit row with anything in its own floor space is an exit that does not actually open the way it is supposed to the one time it is ever needed, and this check exists specifically to catch that before the door is ever armed.",
+    "expired-extinguisher-tag-hazard": "That fire extinguisher's inspection tag is past its date. An extinguisher nobody has confirmed still holds pressure is an extinguisher this crew is trusting on faith, and faith is not what the daily equipment check exists to replace.",
+    "missing-flashlight-hazard": "That flashlight bracket is empty. A flashlight missing from its own bracket is the one item every evacuation checklist calls for by name in a cabin that has just lost its lights, and it gets replaced now, not discovered empty during an actual emergency.",
+    "unlatched-bin-hazard": "That overhead bin over the exit row is not latched. A bin that lets go in turbulence or a hard landing drops its contents straight into the same aisle an evacuation would need, and a bin over an exit gets checked here for exactly that reason."
+  },
+  "id": "ca-cabin-preflight-safety-check",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "crosscheck-confirm",
+      "alert": "A gate agent hands a last-minute bag through the door right after the cross-check is confirmed.",
+      "cue": "That gets stowed before anything else continues.",
+      "delay": 3,
+      "id": "late-bag-through-door",
+      "kind": "Last-minute bag at the door",
+      "missNote": "The bag sat unstowed while the check moved on around it. An unstowed item at departure is exactly the loose object this whole scan exists to catch.",
+      "seconds": 12,
+      "target": "stage-demo-kit-stow",
+      "why": "Anything that comes aboard after the cross-check is confirmed has not passed the scan that already cleared this cabin — it gets stowed properly and accounted for before the sequence is allowed to keep moving, not tossed into whatever space is closest.",
+      "wrongNote": "Stow the bag first — a late item doesn't get to skip the same standard everything else on this cabin already met."
+    },
+    {
+      "after": "arm-door",
+      "alert": "A passenger asks to swap into the exit row right as the door sequence is underway.",
+      "cue": "That swap has to be re-briefed before it's approved.",
+      "delay": 3,
+      "id": "exit-row-swap-request",
+      "kind": "Exit-row seat swap at the door",
+      "missNote": "The swap went ahead unbriefed. Whoever is sitting in that exit row now has never once been asked if they can actually do what it needs.",
+      "seconds": 12,
+      "target": "exit-row-briefing-card",
+      "why": "An exit-row swap approved without a fresh briefing hands that seat to someone whose willingness and ability were never actually confirmed — the door sequence being underway is not a reason to skip the one question that seat depends on.",
+      "wrongNote": "Re-brief the exit row — a swap doesn't inherit the first passenger's own confirmation."
+    }
+  ],
+  "lateNotes": {
+    "door-arm-lever": "Not yet — the cabin scan and the equipment count come first. A door armed before the aisle is actually confirmed clear is a step taken out of order.",
+    "interphone": "Hold that call. The cross-check has to actually be confirmed before the flight deck hears the cabin is secure."
+  },
+  "name": "Cabin Pre-Flight Safety Check",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "airline-cabin-and-flight-crew"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "cabinInterior",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "arm-door",
+      "bag-in-exit-row",
+      "bag-in-exit-row-hazard",
+      "briefing-seat-spot",
+      "cabin-checklist-board",
+      "cabin-temp-gauge",
+      "crosscheck-panel",
+      "demo-kit",
+      "door-arm-lever",
+      "exit-row-briefing-card",
+      "expired-extinguisher-tag-hazard",
+      "fire-extinguisher-check",
+      "first-aid-kit-check",
+      "flashlight-check",
+      "flashlight-test-button",
+      "interphone",
+      "log-cabin-secure",
+      "megaphone-check",
+      "missing-flashlight-hazard",
+      "o2-bottle-valve",
+      "stage-demo-kit-stow",
+      "unlatched-bin",
+      "unlatched-bin-hazard"
+    ],
+    "meshes": 184
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Open today's cabin safety checklist before touching anything else.",
+      "id": "pull-checklist",
+      "kind": "select",
+      "prompt": "Open today's cabin safety checklist before touching anything else.",
+      "target": "cabin-checklist-board",
+      "title": "Pull the cabin safety checklist",
+      "why": "The checklist is what turns a walk down the aisle into a check somebody can actually be held to afterward — starting from memory instead of the card is exactly how a step quietly gets skipped without anyone noticing until it matters."
+    },
+    {
+      "cue": "Two things about this cabin aren't right yet. Find them before the first passenger boards.",
+      "id": "scan-cabin",
+      "itemNames": {
+        "bag-in-exit-row": "a bag left in the exit-row floor space",
+        "unlatched-bin": "an unlatched overhead bin over an exit"
+      },
+      "itemNotes": {
+        "bag-in-exit-row": "Nothing sits in an exit row's own floor space, whatever it is or whoever it belongs to — it gets moved before this check goes any further, not noted for later.",
+        "unlatched-bin": "A bin that isn't fully latched over an exit gets closed and confirmed now, while it costs nothing, instead of being found open the moment turbulence or a hard landing tests it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things about this cabin aren't right yet. Find them before the first passenger boards.",
+      "targets": [
+        "bag-in-exit-row",
+        "unlatched-bin"
+      ],
+      "title": "Scan the cabin before boarding",
+      "why": "This scan happens before boarding for a reason: everything it catches is free to fix right now and expensive to discover once the cabin is full of people and the door is already being armed."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Verify each item on the placard against what's actually mounted in the cabin.",
+      "id": "equipment-check",
+      "itemNames": {
+        "fire-extinguisher-check": "fire extinguisher, tag current",
+        "first-aid-kit-check": "first aid kit, seal intact",
+        "flashlight-check": "flashlight, in its bracket and working",
+        "megaphone-check": "megaphone, present"
+      },
+      "kind": "sequence",
+      "prompt": "Verify each item on the placard against what's actually mounted in the cabin.",
+      "targets": [
+        "fire-extinguisher-check",
+        "flashlight-check",
+        "megaphone-check",
+        "first-aid-kit-check"
+      ],
+      "title": "Count the emergency equipment",
+      "why": "The placard names exactly what has to be in this cabin and where, and counting each item against it is the only way to know all of it is actually there rather than assumed present because it usually is."
+    },
+    {
+      "cue": "Hold the test button and confirm the flashlight actually lights.",
+      "holdBreakNote": "Let go before the test actually confirmed the light. A flashlight test that stops early proves nothing either way.",
+      "id": "flashlight-test",
+      "kind": "hold",
+      "prompt": "Hold the test button and confirm the flashlight actually lights.",
+      "seconds": 5,
+      "target": "flashlight-test-button",
+      "title": "Test the flashlight",
+      "why": "A flashlight that looks fine in its bracket and a flashlight that actually lights are two different facts, and the only way to know the second one is true is to press the button and watch it happen, not take the first one on faith."
+    },
+    {
+      "cue": "Turn the valve indicator to read the bottle's pressure against the placard's full mark.",
+      "id": "o2-bottle-check",
+      "kind": "turn",
+      "prompt": "Turn the valve indicator to read the bottle's pressure against the placard's full mark.",
+      "target": "o2-bottle-valve",
+      "title": "Confirm the portable oxygen bottle",
+      "turn": {
+        "axis": "y",
+        "label": "O2 PRESSURE",
+        "turns": 0.3
+      },
+      "why": "A portable oxygen bottle reads full or it doesn't, and there is no partial credit for a bottle that looks stowed correctly but was never actually checked against its own gauge before the cabin was declared ready."
+    },
+    {
+      "cue": "Keep an eye on the cabin temperature readout until it settles in the comfort band before boarding.",
+      "holdBreakNote": "Out of the comfort band when boarding started. That becomes forty individual complaints instead of one adjustment made early.",
+      "id": "cabin-temp-watch",
+      "kind": "track",
+      "prompt": "Keep an eye on the cabin temperature readout until it settles in the comfort band before boarding.",
+      "seconds": 6,
+      "target": "cabin-temp-gauge",
+      "title": "Watch the cabin temperature settle",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.28,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "CABIN TEMP",
+        "rise": 0.3,
+        "start": 0.3
+      },
+      "why": "A cabin that boards too hot or too cold turns into a stream of individual requests the moment people are seated with nowhere else to go — catching it on the ground, before a single passenger is aboard, is the only point it is still a two-minute fix."
+    },
+    {
+      "cue": "Bring the demonstration life vest and seatbelt to the briefing seat.",
+      "drag": {
+        "missNote": "Not at the briefing seat — the demo kit has to actually be in position before the briefing can start on time.",
+        "radius": 0.45,
+        "to": "briefing-seat-spot"
+      },
+      "id": "stage-demo-kit",
+      "kind": "drag",
+      "prompt": "Bring the demonstration life vest and seatbelt to the briefing seat.",
+      "target": "demo-kit",
+      "title": "Stage the safety demonstration kit",
+      "why": "The demonstration kit staged at the briefing seat now is the kit that is actually ready when the safety briefing starts, rather than something still being dug out of a bin while passengers are already watching."
+    },
+    {
+      "cue": "Confirm the exit-row passengers meet the criteria on the briefing card and are willing and able to assist.",
+      "id": "exit-row-briefing",
+      "kind": "select",
+      "prompt": "Confirm the exit-row passengers meet the criteria on the briefing card and are willing and able to assist.",
+      "target": "exit-row-briefing-card",
+      "title": "Brief the exit row",
+      "why": "An exit row is only worth what the people sitting in it are actually able and willing to do, and that gets confirmed by asking, out loud, before departure — never assumed from how capable someone happens to look."
+    },
+    {
+      "cue": "Move the door's arming lever to the armed position per the checklist.",
+      "id": "arm-door",
+      "kind": "select",
+      "prompt": "Move the door's arming lever to the armed position per the checklist.",
+      "target": "door-arm-lever",
+      "title": "Arm the door",
+      "why": "An armed door is what turns the slide into an evacuation slide the instant that door opens — a door left in the disarmed position at the gate is exactly correct for boarding and exactly wrong for the sequence this checklist is about to move into."
+    },
+    {
+      "cue": "Hold the cross-check confirmation while the crew member at the opposite door verifies both doors together.",
+      "holdBreakNote": "Released the confirmation before the crew member across the aisle actually finished verifying. A cross-check cut short is a cross-check that never really happened.",
+      "id": "crosscheck-confirm",
+      "kind": "hold",
+      "prompt": "Hold the cross-check confirmation while the crew member at the opposite door verifies both doors together.",
+      "seconds": 4,
+      "target": "crosscheck-panel",
+      "title": "Cross-check with the door across the aisle",
+      "why": "One person confirming their own work is one person who can miss their own mistake — holding the confirmation open long enough for the crew member across the aisle to actually check the same door from outside your own blind spot is what a cross-check catches that a solo, instant tap never would."
+    },
+    {
+      "cue": "Re-brief whoever is now sitting in the exit row before the door sequence continues.",
+      "id": "reseat-exit-row",
+      "kind": "select",
+      "prompt": "Re-brief whoever is now sitting in the exit row before the door sequence continues.",
+      "target": "exit-row-briefing-card",
+      "title": "Confirm the reseated passenger",
+      "why": "An exit-row seat that changes hands resets the briefing to zero — the new passenger's own willingness and ability get confirmed the same way the first one's did, not carried over from a conversation they were never part of."
+    },
+    {
+      "cue": "Hold to confirm and save the log entry — the checklist, the door status and the equipment count together.",
+      "holdBreakNote": "Let go before the entry actually saved. A log that never finished writing is no different from one that was never opened.",
+      "id": "log-cabin-secure",
+      "kind": "hold",
+      "prompt": "Hold to confirm and save the log entry — the checklist, the door status and the equipment count together.",
+      "seconds": 4,
+      "target": "log-cabin-secure",
+      "title": "Log the cabin secure",
+      "why": "The log is the only record that this specific check happened on this specific flight — a cabin that was actually checked perfectly but never logged leaves nothing behind for anyone downstream to point to."
+    },
+    {
+      "cue": "Call the flight deck on the interphone and report the cabin secure for departure.",
+      "id": "notify-flight-deck",
+      "kind": "select",
+      "prompt": "Call the flight deck on the interphone and report the cabin secure for departure.",
+      "target": "interphone",
+      "title": "Notify the flight deck",
+      "why": "The flight deck's own decision to push back rests in part on hearing this call — a cabin that is actually ready but never reported ready is, from the flight deck's own seat, indistinguishable from a cabin that isn't."
+    }
+  ],
+  "supportLine": "your AFA-CWA local's member assistance resources, or the airline's own employee assistance line — a rushed turn that still has to come out right on every check is its own kind of pressure",
+  "tagline": "Emergency equipment counted against its own placard, the door armed and cross-checked with the crew member across the aisle, the exits and aisle proven clear, and the cabin declared secure only once every one of those is actually true",
+  "title": "SmartCiti.X~ Cabin Pre-Flight Safety Check VR",
+  "trade": "Flight attendant — AFA-CWA cabin crew",
+  "underwater": null,
+  "weather": null
+}

@@ -1,0 +1,125 @@
+{
+  "accent": "#78c8a0",
+  "anchors": [
+    {
+      "id": "port-hazmat-response-yard",
+      "name": "Port Hazmat Response Yard",
+      "position": [
+        -356,
+        381
+      ],
+      "stations": [
+        "hunters-point",
+        "abatement-chamber",
+        "decon-line"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "port"
+    }
+  ],
+  "certification": "OSHA 29 CFR 1910.120 HAZWOPER, NFPA 470 hazardous materials response, and Clean Water Act / Clean Air Act monitoring practice",
+  "competency": {
+    "id": "hazmat-environmental",
+    "kind": "programme",
+    "require": 5,
+    "standards": [
+      "osha-1910-120",
+      "nfpa-470",
+      "osha-1910-134"
+    ],
+    "stations": [
+      "hunters-point",
+      "abatement-chamber",
+      "decon-line",
+      "air-monitor",
+      "stormwater-outfall",
+      "pressure-washer",
+      "drum-sampling-and-overpack",
+      "hz-level-b-entry-and-scba-change-out",
+      "hz-drum-staging-and-compatibility-segregation",
+      "hz-decon-corridor-for-a-mass-casualty-drill"
+    ],
+    "title": "Contain, decontaminate and monitor a hazardous-materials release"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "liuna-training-fund",
+    "iaff-training",
+    "osha-1910-120",
+    "osha-1910-134",
+    "osha-1926-1101",
+    "nfpa-470",
+    "rcra-40-cfr-262",
+    "epa-40-cfr-122-26",
+    "epa-40-cfr-58",
+    "epa-qa-g5"
+  ],
+  "id": "hazmat-environmental",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1626,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 130
+  },
+  "name": "Hazmat and Environmental Response",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "hunters-point",
+      "why": "A sourced briefing on a real Superfund shipyard cleanup and the community monitoring around it, before any simulated work."
+    },
+    {
+      "app": "smartcity",
+      "id": "abatement-chamber",
+      "why": "Containment done properly: negative pressure, a clean room, and a decon order that keeps the fibre inside."
+    },
+    {
+      "app": "smartcity",
+      "id": "decon-line",
+      "why": "The corridor: zones set by the wind, pools in order, and runoff that stays in the berm."
+    },
+    {
+      "app": "smartcity",
+      "id": "air-monitor",
+      "why": "Fence-line monitoring: placement, calibration and an exceedance response that happens now."
+    },
+    {
+      "app": "smartcity",
+      "id": "stormwater-outfall",
+      "why": "The wet-weather grab, on the permit clock, with a chain of custody that makes it evidence."
+    },
+    {
+      "app": "trades",
+      "id": "pressure-washer",
+      "why": "Surface prep, where the runoff is the pollutant and the stormwater plan is the reason for the containment."
+    },
+    {
+      "app": "smartcity",
+      "id": "drum-sampling-and-overpack",
+      "why": "Abandoned drums in Level B: the bulging one left shut, a full-depth sample under chain of custody, and the leaker lifted into a salvage drum and marked for the manifest."
+    },
+    {
+      "app": "smartcity",
+      "id": "hz-level-b-entry-and-scba-change-out",
+      "why": "The entry itself, stripped down to the habit that makes every other hazmat station survivable: a hot line crossed only on backup's word, and a cylinder swapped at the line before the reserve that gets you back out is gone."
+    },
+    {
+      "app": "smartcity",
+      "id": "hz-drum-staging-and-compatibility-segregation",
+      "why": "The apron before any entry happens at all: every drum read, forked into its own class's cell and dated, so the chart that keeps incompatible loads apart is a habit before it is ever tested by a leak."
+    },
+    {
+      "app": "smartcity",
+      "id": "hz-decon-corridor-for-a-mass-casualty-drill",
+      "why": "The corridor run for people instead of equipment: gross and rinse pools built in order, a non-ambulatory patient found in the queue, and a second wave met without ever losing the line."
+    }
+  ],
+  "summary": "Containment, decontamination and the numbers a neighbourhood relies on. This block runs from the release to the sample bottle, and opens with the real history of one site.",
+  "union": "LIUNA hazmat and environmental crews, IAFF, and environmental technicians"
+}

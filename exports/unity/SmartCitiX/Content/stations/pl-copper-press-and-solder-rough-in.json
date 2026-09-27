@@ -1,0 +1,409 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "rough-in-proven",
+    "name": "Rough-In Proven",
+    "note": "A press joint gauge-checked, a solder joint made in the right alloy, and every line protected before the wall closes over it"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "UA plumbers and pipefitters apprenticeship; ASME B31.9 building services piping; the Uniform Plumbing Code (UPC) for potable water materials and joints; 8 CCR 3203 injury and illness prevention; 29 CFR 1910.132 personal protective equipment",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME B31.9",
+        "id": "asme-b31-9",
+        "title": "ASME B31.9 — Building services piping"
+      },
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3203",
+        "id": "cal-osha-3203",
+        "title": "8 CCR 3203 — Injury and Illness Prevention Program"
+      },
+      {
+        "body": "IAPMO",
+        "citedAs": "Uniform Plumbing Code",
+        "id": "iapmo-upc",
+        "title": "IAPMO Uniform Plumbing Code (UPC) — the model plumbing code most state and local jurisdictions adopt for drain, waste, vent, water distribution and fuel gas piping"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "UA",
+        "id": "ua-apprenticeship",
+        "title": "UA — United Association plumber, pipefitter and HVAC service apprenticeship standards and UA Star certification"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Building Systems & Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "drained-before-cut",
+        "name": "Drained Before Cut",
+        "note": "The section was isolated and drained before any pipe was opened"
+      },
+      {
+        "id": "never-unproven",
+        "name": "Never Unproven",
+        "note": "No press joint went uncovered without the go/no-go check"
+      },
+      {
+        "id": "steady-heat",
+        "name": "Steady Heat",
+        "note": "Held the torch heat inside the band the whole joint"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-rough-in",
+        "name": "Clean Rough-In",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "unbroken-press",
+        "name": "Unbroken Press",
+        "note": "The press cycle never interrupted mid-squeeze"
+      },
+      {
+        "id": "wall-closed-fast",
+        "name": "Wall Closed Fast",
+        "note": "Signed off inside 80% of par"
+      }
+    ],
+    "currency": "JOINT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Journeyman",
+      "Plumber",
+      "Lead Plumber",
+      "Rough-In Certified"
+    ],
+    "system": "Rough-In Authority"
+  },
+  "hazards": {
+    "leaded-solder-potable": "You reached for the leaded solder on this potable water joint. Lead solder was never allowed on drinking water lines for exactly the reason it sounds like: whatever the joint touches, the water running past it touches too, for as long as that joint exists.",
+    "skip-nail-plate": "You closed up this stud bay without a nail plate over the line. A line run within the protected distance of the framing's face is invisible the moment drywall goes up, and the first screw or nail that goes in looking for a stud finds the pipe instead — on a day long after anyone remembers this rough-in happened.",
+    "torch-near-flammable": "You lit the torch with the joint sitting an arm's length from exposed insulation paper in the cavity. A wall cavity full of dry framing and paper-faced insulation does not need much heat to start smouldering somewhere the torch was never actually pointed, and by the time anyone smells it the fire is already inside a wall nobody can see into.",
+    "unpressed-fitting": "You called that press fitting done without checking it on the go/no-go gauge. An unpressed fitting sits on the tube looking exactly like a pressed one — same collar, same colour, same fit by eye — and the only difference shows up the day it is finally under pressure and the tube pulls straight out of it."
+  },
+  "id": "pl-copper-press-and-solder-rough-in",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "solder-joint",
+      "alert": "The battery smoke detector in the next stud bay just started chirping an alarm from the torch heat.",
+      "cue": "That detector needs silencing and checking before you keep soldering — it is doing exactly what it is supposed to.",
+      "delay": 3,
+      "id": "smoke-alarm-trips",
+      "kind": "The smoke detector in the next bay trips",
+      "missNote": "The detector kept sounding while the joint got finished anyway. Whatever set it off never actually got looked at.",
+      "seconds": 11,
+      "target": "smoke-detector",
+      "why": "A smoke detector alarming from torch heat is usually nothing, and treating it that way without a glance is exactly how the one time it is not nothing gets missed — checking it costs ten seconds, and ignoring a working detector on principle undoes the entire reason it is mounted there.",
+      "wrongNote": "It is the detector in the next bay, not the torch. The torch is doing what it is meant to; the alarm is asking to be checked."
+    },
+    {
+      "after": "restore",
+      "alert": "Someone downstream just called in that their fixture still has no water pressure after the main was reopened.",
+      "cue": "Read the house pressure gauge and confirm the main is actually delivering pressure before you move on to closing out the paperwork.",
+      "delay": 3,
+      "id": "no-water-report",
+      "kind": "A call comes in that a fixture still has no water",
+      "missNote": "The report sat unanswered while the paperwork got finished anyway. Whoever called in still has no water, and nobody went back to check the gauge.",
+      "seconds": 12,
+      "target": "pressure-check-gauge",
+      "why": "A valve that feels open and a main that is actually delivering full pressure downstream are not always the same thing, especially one that was worked earlier in the same visit, and a downstream report of no pressure is the clearest evidence available that this needs a second look — on the gauge, not just on the valve handle — before the job gets called finished.",
+      "wrongNote": "It is the house pressure gauge. The report is about pressure actually reaching a fixture, which the valve handle alone cannot confirm."
+    }
+  ],
+  "lateNotes": {
+    "main-valve": "The main gets reopened once the rough-in is fully proven, not the moment the last joint looks finished.",
+    "press-tool": "The press cycle runs to its own full stroke and stop — a squeeze that gets interrupted partway through is not a pressed joint, whatever the collar looks like afterward.",
+    "torch-heat": "The joint is soldered in the alloy chosen at the bench, after the tube is reamed and dry-fitted, not before either of those is done."
+  },
+  "name": "Copper Press & Solder Rough-In",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "plumbers-and-pipefitters"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "check-witness-mark",
+      "dented-tube",
+      "gonogo-gauge",
+      "inspection-checklist",
+      "iso-drawing",
+      "leaded-solder-potable",
+      "main-valve",
+      "method-board",
+      "nail-plate-missing",
+      "no-support-strap",
+      "open-drain-cock",
+      "press-fitting",
+      "press-tool",
+      "pressure-check-gauge",
+      "reamer",
+      "record-log",
+      "skip-nail-plate",
+      "smoke-detector",
+      "solder-alloy",
+      "torch-heat",
+      "torch-near-flammable",
+      "tube-socket",
+      "unpressed-fitting",
+      "verify-drained",
+      "wipe-joint",
+      "wrong-oring"
+    ],
+    "meshes": 161
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the isometric: pipe sizes, fitting types, and which sections use press versus solder.",
+      "id": "drawing",
+      "kind": "select",
+      "prompt": "Check the isometric: pipe sizes, fitting types, and which sections use press versus solder.",
+      "target": "iso-drawing",
+      "title": "Read the rough-in isometric",
+      "why": "ASME B31.9 and the plans together decide which joints on this run are allowed to be press fittings and which need to be soldered, and a plumber working from memory instead of the isometric can join two sections the plan never intended to be interchangeable."
+    },
+    {
+      "cue": "Close the main, open the drain cock, and confirm the section is actually drained before cutting in.",
+      "id": "isolate",
+      "itemNames": {
+        "main-valve": "main closed",
+        "open-drain-cock": "drain cock opened",
+        "verify-drained": "line confirmed drained"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Close the main, then drain it, then confirm — confirming before the drain is even opened confirms nothing.",
+      "prompt": "Close the main, open the drain cock, and confirm the section is actually drained before cutting in.",
+      "targets": [
+        "main-valve",
+        "open-drain-cock",
+        "verify-drained"
+      ],
+      "title": "Isolate and drain the section",
+      "why": "A line that is closed but not drained still has standing water and residual pressure behind the first cut, and a plumber who skips the drain check finds that out the moment the saw goes through the pipe wall instead of before it."
+    },
+    {
+      "cue": "Check the staged tube and fittings before anything gets joined.",
+      "id": "inspect",
+      "itemNames": {
+        "dented-tube": "dented section of tube",
+        "wrong-oring": "wrong O-ring colour on a fitting"
+      },
+      "itemNotes": {
+        "dented-tube": "This length has a dent right where a press fitting would need to seat — a press fitting closed over a dent never forms a full, even seal around the tube.",
+        "wrong-oring": "This fitting's O-ring is the wrong colour for the system it is staged for — the wrong elastomer can look identical while being rated for entirely the wrong service."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the staged tube and fittings before anything gets joined.",
+      "targets": [
+        "dented-tube",
+        "wrong-oring"
+      ],
+      "title": "Inspect the tube and fittings before assembly",
+      "why": "A dent under a press collar and the wrong O-ring behind a fitting's jaws are both invisible once the joint is made — finding them on the bench, where the bad piece just gets set aside, is the only point in this job where either one costs nothing."
+    },
+    {
+      "cue": "Check the method board for which technique this concealed section actually calls for.",
+      "id": "method",
+      "kind": "select",
+      "prompt": "Check the method board for which technique this concealed section actually calls for.",
+      "target": "method-board",
+      "title": "Confirm the joining method for this section",
+      "why": "Press and solder are not interchangeable by preference — a section that will be inaccessible once the wall is closed, or one going in without a permit for open flame that day, is exactly the case the plan calls out for press, and working from habit instead of the board puts the wrong method on the wrong run."
+    },
+    {
+      "cue": "Hold the reamer on the freshly cut tube end until the burr is fully cleared.",
+      "holdBreakNote": "The reamer came off before the burr was fully cleared — finish it, a partial ream still leaves an edge inside the joint.",
+      "id": "ream",
+      "kind": "hold",
+      "prompt": "Hold the reamer on the freshly cut tube end until the burr is fully cleared.",
+      "seconds": 4,
+      "target": "reamer",
+      "title": "Ream and deburr the cut end",
+      "why": "A burr left inside a cut tube end narrows the bore right at the joint and gives turbulence a place to start eroding the copper from the inside, years before the rest of the run would ever show wear — reaming it now costs seconds; finding pinhole erosion at a joint later costs a wall."
+    },
+    {
+      "cue": "Drag the fitting onto the tube end until it seats fully against the stop.",
+      "drag": {
+        "missNote": "Not seated to the stop — a fitting pressed short of full depth does not seal where the tool actually closes on it.",
+        "radius": 0.4,
+        "to": "tube-socket"
+      },
+      "id": "fit-press",
+      "kind": "drag",
+      "prompt": "Drag the fitting onto the tube end until it seats fully against the stop.",
+      "target": "press-fitting",
+      "title": "Fit the press fitting onto the cleaned tube",
+      "why": "A press fitting has to be pushed on to its full depth before the tool ever closes on it — a fitting left short of the stop gets squeezed in the wrong place on its own barrel, which can crush the seal instead of forming it."
+    },
+    {
+      "cue": "Hold the press tool's trigger until the jaws complete their full stroke and release on their own.",
+      "holdBreakNote": "The press cycle stopped short of its full stroke — run it again from a fresh position, a half-formed collar is not a pressed joint.",
+      "id": "press-cycle",
+      "kind": "hold",
+      "prompt": "Hold the press tool's trigger until the jaws complete their full stroke and release on their own.",
+      "seconds": 5,
+      "target": "press-tool",
+      "title": "Run the press tool through its full cycle",
+      "why": "The tool's jaws are built to run one continuous stroke that fully collapses the fitting around the tube and the O-ring in a single motion, and a squeeze that gets interrupted partway and restarted can leave the collar formed unevenly in a way the finished joint hides completely from view."
+    },
+    {
+      "cue": "Slide the go/no-go gauge over the pressed collar and commit once it reads a proper press.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.7
+        ],
+        "label": "COLLAR CHECK",
+        "missNote": "That reading says this collar was not fully pressed — redo the cycle before this joint goes anywhere near the wall.",
+        "speed": 0.65
+      },
+      "id": "gonogo",
+      "kind": "gauge",
+      "prompt": "Slide the go/no-go gauge over the pressed collar and commit once it reads a proper press.",
+      "target": "gonogo-gauge",
+      "title": "Check the joint on the go/no-go gauge",
+      "why": "This gauge exists because a pressed collar and an unpressed one are visually the same fitting from three feet away, and it is the only tool on this bench that actually measures the collar's profile against what a completed press cycle is supposed to produce, rather than trusting how the joint looks."
+    },
+    {
+      "cue": "Choose the lead-free alloy staged for potable water, not the general-purpose solder on the same bench.",
+      "id": "alloy",
+      "kind": "select",
+      "prompt": "Choose the lead-free alloy staged for potable water, not the general-purpose solder on the same bench.",
+      "target": "solder-alloy",
+      "title": "Select the alloy for the soldered joint",
+      "why": "The Uniform Plumbing Code allows only lead-free solder on a potable water joint, and a general-purpose spool sitting on the same bench by habit is exactly how the wrong alloy ends up on a line somebody is going to drink from."
+    },
+    {
+      "cue": "Keep the torch heat in the band while the solder draws into the joint by capillary action.",
+      "holdBreakNote": "Heat ran outside the band on that joint — recheck it before it disappears behind drywall.",
+      "id": "solder-joint",
+      "kind": "track",
+      "prompt": "Keep the torch heat in the band while the solder draws into the joint by capillary action.",
+      "seconds": 7,
+      "target": "torch-heat",
+      "title": "Solder the joint at a steady heat",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.3,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "TORCH HEAT",
+        "rise": 0.1,
+        "start": 0.5
+      },
+      "why": "Too little heat and the solder balls up on the surface instead of being drawn in; too much and it can scorch the flux before the joint ever wicks solder along its full depth — a steady heat in the middle of that band is what makes a fully filled joint rather than one that only looks filled from the outside edge."
+    },
+    {
+      "cue": "Open the main back up now both joints are checked and the run is ready to test.",
+      "id": "restore",
+      "kind": "turn",
+      "prompt": "Open the main back up now both joints are checked and the run is ready to test.",
+      "target": "main-valve",
+      "title": "Reopen the main once the rough-in is proven",
+      "turn": {
+        "axis": "y",
+        "label": "MAIN VALVE",
+        "turns": 0.75
+      },
+      "why": "The main only comes back on once every joint made during this isolation has actually been proven — a press collar gauge-checked, a solder joint visually sound — because pressurising a run with an unproven joint still in it just moves the discovery of a bad joint from the bench to the inside of a closed wall."
+    },
+    {
+      "cue": "Wipe the solder joint, check the press fitting's witness mark, and record the log.",
+      "id": "postwork",
+      "itemNames": {
+        "check-witness-mark": "press witness mark checked",
+        "record-log": "rough-in log recorded",
+        "wipe-joint": "solder joint wiped clean"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wipe, then check the mark, then record — recording a joint before checking it writes down a result nobody has confirmed yet.",
+      "prompt": "Wipe the solder joint, check the press fitting's witness mark, and record the log.",
+      "targets": [
+        "wipe-joint",
+        "check-witness-mark",
+        "record-log"
+      ],
+      "title": "Close out both joints",
+      "why": "Wiping the flux residue off the soldered joint now, while it is still visible, is the last chance to see a joint that never actually wicked solder all the way round — flux residue hides a cold joint just as well as it hides a good one once it dries in place."
+    },
+    {
+      "cue": "Walk the stud bay one more time and find what will matter once drywall goes up.",
+      "id": "walk-cavity",
+      "itemNames": {
+        "nail-plate-missing": "line unprotected at the stud face",
+        "no-support-strap": "unsupported run sagging off its strap"
+      },
+      "itemNotes": {
+        "nail-plate-missing": "This line runs within the protected distance of the stud's exposed face with no nail plate over it — the exact spot a drywall fastener goes looking for a stud.",
+        "no-support-strap": "This section has come off its strap and is resting directly on the bottom plate instead of hanging clear of it."
+      },
+      "kind": "find",
+      "prompt": "Walk the stud bay one more time and find what will matter once drywall goes up.",
+      "targets": [
+        "nail-plate-missing",
+        "no-support-strap"
+      ],
+      "title": "Walk the cavity before it is covered",
+      "why": "Both of these become permanently invisible the moment the wall closes, and both are the kind of thing a rough-in inspector is specifically looking for — finding them now is a five-minute fix; finding them after cover means opening a wall that was just closed."
+    },
+    {
+      "cue": "Fill in the rough-in checklist and call it in before any drywall goes up.",
+      "id": "call-inspection",
+      "kind": "select",
+      "prompt": "Fill in the rough-in checklist and call it in before any drywall goes up.",
+      "target": "inspection-checklist",
+      "title": "Complete the rough-in checklist and call for inspection",
+      "why": "A rough-in inspection exists specifically because everything checked on this checklist becomes unverifiable once the wall is closed — the checklist and the inspector's own eyes are the last chance either one gets to catch what this crew might have missed."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A rough-in run two ways on the same wall: a press fitting proven with a go/no-go gauge rather than trusted by eye, a soldered joint made with the alloy potable water actually allows, and a nail plate on before the line disappears behind drywall for good",
+  "title": "SmartCiti.X~ Copper Press & Solder Rough-In VR",
+  "trade": "UA plumber / rough-in installer",
+  "underwater": null,
+  "weather": null
+}

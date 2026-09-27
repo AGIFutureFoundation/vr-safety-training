@@ -1,0 +1,439 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "beach-clear",
+    "name": "Beach Cleared Clean",
+    "note": "Every sharp bagged by tongs, the drum never touched, nothing left on the sand — first time"
+  },
+  "category": "Water & Environmental",
+  "certification": "LIUNA Local 261 laborers — hazardous waste and shoreline debris awareness crew; OSHA 29 CFR 1926 general construction safety; OSHA 29 CFR 1910.1030 bloodborne pathogens exposure control plan; OSHA 29 CFR 1910.120 HAZWOPER site worker awareness level; RCRA 40 CFR Part 261 hazardous waste identification; RCRA 40 CFR Part 262 generator and manifest requirements; San Francisco Bay Conservation and Development Commission (BCDC) shoreline access permit; California Department of Fish and Wildlife shoreline habitat protections; nesting buffer per the Endangered Species Act",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "BCDC",
+        "citedAs": "BCDC",
+        "id": "bcdc-bay-plan",
+        "title": "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act"
+      },
+      {
+        "body": "CDFW",
+        "citedAs": "CDFW",
+        "id": "cdfw-lake-streambed-alteration",
+        "title": "California Department of Fish and Wildlife oversight under the California Fish and Game Code, including Lake and Streambed Alteration Agreements (§1602) for work affecting a river, stream or lake"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "RCRA",
+        "citedAs": "RCRA",
+        "id": "rcra-40-cfr-262",
+        "title": "40 CFR Part 262 — Standards applicable to generators of hazardous waste, including the manifest"
+      },
+      {
+        "body": "USFWS",
+        "citedAs": "Endangered Species Act",
+        "id": "usfws-esa",
+        "title": "Endangered Species Act §7 consultation and species protection measures set by the U.S. Fish and Wildlife Service"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "no-exposure",
+        "name": "No Exposure",
+        "note": "Never a hazard, every sharp handled by tongs"
+      },
+      {
+        "id": "air-clean",
+        "name": "Air Read Clean",
+        "note": "The air monitor reading held inside the safe band"
+      },
+      {
+        "id": "site-first",
+        "name": "Site Read Clean",
+        "note": "Safety plan and sharps containers both read clean before collection started"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-beach",
+        "name": "Clean Beach",
+        "note": "No corrections across the whole cleanup"
+      },
+      {
+        "id": "steady-haul",
+        "name": "Steady Haul",
+        "note": "Held the net haul inside the working band the whole pass"
+      },
+      {
+        "id": "beach-fast",
+        "name": "Beach Cleared Fast",
+        "note": "Cleanup closed out inside 80% of par"
+      }
+    ],
+    "currency": "DEBRIS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Laborer",
+      "Crew Hand",
+      "Lead Hand",
+      "Site Steward",
+      "Hazmat Awareness Certified"
+    ],
+    "system": "Cleanup Crew"
+  },
+  "hazards": {
+    "bare-hand-sharps": "You reached for a needle on the sand with a bare gloved hand instead of the tongs staged for exactly this find. A nitrile glove stops dirt and grime; it does not stop a needle, and a sharps injury on a public beach comes with no way to know what was on that needle before it washed up here.",
+    "drum-open-unauthorized": "You went to open the unidentified drum instead of flagging it and calling it in. This crew is trained to hazardous waste awareness level, not to hazardous materials response — the whole point of that line is that nobody on this beach opens a container they cannot identify, because the crew trained to do that safely is a phone call away and this crew is not it.",
+    "manual-lift-net": "You went to muscle the tangled derelict net up the beach solo instead of working it with the crew or the come-along staged for it. A net this size is heavier than it looks once it is full of sand and whatever it snagged on the way in, and a back strained hauling it alone is exactly the injury the second set of hands was there to prevent.",
+    "truck-unspotted-back": "You backed the truck toward the debris pile without the spotter's call. The truck's own box blocks the driver's view of the exact ground the crew is working on foot, and backing on a guess instead of a confirmed all-clear is how a truck finds a person the mirror never showed."
+  },
+  "id": "br-shoreline-cleanup-sharps-and-hazardous-debris",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "sharps-collect",
+      "alert": "The sharps container the crew has been using just filled past its fill line — the next needle in has nowhere safe left to go.",
+      "cue": "Swap in a fresh container now. Nothing else gets dropped into a container already past its line.",
+      "delay": 3,
+      "id": "sharps-container-full",
+      "kind": "Sharps container reaches its fill line",
+      "missNote": "A needle went into the overfull container anyway, and it rode on top instead of inside — exactly the sharp a hand finds by accident later instead of a tool finding on purpose now.",
+      "seconds": 12,
+      "target": "sharps-container-swap",
+      "why": "A sharps container used past its fill line stops being a closed container and starts being a needle held in by nothing but luck — swapping it the moment it reads full is what keeps every sharp on this beach going into a container built to hold it instead of one already failing to.",
+      "wrongNote": "That is not it. The full container needs its own swap for a fresh one — nothing else on this beach makes room for the next sharp."
+    },
+    {
+      "after": "drum-flag",
+      "alert": "The onshore fog has shifted and is now drifting straight off the flagged drum toward the crew's position instead of out to sea.",
+      "cue": "Muster upwind now, away from the drum, until the shift is confirmed to have passed.",
+      "delay": 4,
+      "id": "wind-shifts-toward-drum",
+      "kind": "Wind shifts fog and possible vapor toward the crew",
+      "missNote": "The crew kept working downwind of the drum through the shift, breathing whatever the fog was carrying off it for several minutes before anyone thought to move — exposure nobody can undo just by moving upwind afterward.",
+      "seconds": 13,
+      "target": "upwind-muster",
+      "why": "Nobody on this beach knows what is in that drum, and a wind shift that carries whatever it is venting toward the crew is exactly the reason the drum was flagged instead of opened — moving upwind the moment the shift is seen is the only response available to a crew trained to awareness level, not to entry.",
+      "wrongNote": "It's the upwind muster point. Nothing else on this beach gets the crew clear of whatever that drum is carrying on the wind."
+    }
+  ],
+  "lateNotes": {
+    "decon-spigot": "Wash down at the decon station only after the last item is bagged — stepping through it early just means walking back into the exclusion zone still needing a wash on the way out.",
+    "overpack-seal": "Overpack the leaking can only after the drum itself has been flagged, not opened — the overpack is for what this crew is trained to contain, not for what it is trained to leave alone.",
+    "sharp-needle-1": "Collect sharps only after the containers are confirmed staged and the air reading is clean — working the pile before either one is checked is working it blind."
+  },
+  "name": "Shoreline Cleanup — Sharps And Hazardous Debris",
+  "parSeconds": 310,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "boxTruck",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "fourGasMeter",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.7,
+    "hits": [
+      "air-monitor",
+      "bare-hand-sharps",
+      "blown-bag",
+      "closing-log",
+      "debris-bag",
+      "decon-spigot",
+      "derelict-net",
+      "drum-open-unauthorized",
+      "loose-sharp-flag",
+      "manual-lift-net",
+      "overpack-seal",
+      "sharp-glass",
+      "sharp-needle-1",
+      "sharp-needle-2",
+      "sharps-container",
+      "sharps-container-swap",
+      "site-safety-plan-board",
+      "stage-glasses",
+      "stage-gloves",
+      "stage-hi-vis",
+      "staging-pile",
+      "suspect-drum",
+      "truck-spotter-radio",
+      "truck-unspotted-back",
+      "upwind-muster",
+      "windsock",
+      "zone-flag-1",
+      "zone-flag-2",
+      "zone-flag-3"
+    ],
+    "meshes": 193
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the site safety plan, the BCDC access permit, the exposure control plan, and the work window before anyone steps onto the sand.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Read the site safety plan, the BCDC access permit, the exposure control plan, and the work window before anyone steps onto the sand.",
+      "target": "site-safety-plan-board",
+      "title": "Check the site safety plan before staging",
+      "why": "This beach is worked under a site safety plan the same way any hazardous-waste-aware cleanup is — the bloodborne pathogens exposure control plan for whatever sharps turn up, the BCDC permit for shoreline access, and CDFW's own habitat protections and nesting buffer where the debris line runs past cover — and a crew that skips the plan because 'it's just beach trash' finds out the difference the first time it is not."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Cut-resistant gloves, high-visibility vest and safety glasses before anyone works the debris line.",
+      "id": "stage-ppe",
+      "itemNames": {
+        "stage-glasses": "safety glasses",
+        "stage-gloves": "cut-resistant gloves",
+        "stage-hi-vis": "high-visibility vest"
+      },
+      "kind": "sequence",
+      "prompt": "Cut-resistant gloves, high-visibility vest and safety glasses before anyone works the debris line.",
+      "targets": [
+        "stage-gloves",
+        "stage-hi-vis",
+        "stage-glasses"
+      ],
+      "title": "Stage the cleanup crew's PPE",
+      "why": "Cut-resistant gloves are for the glass and metal edges hiding in a pile that looks like soft trash from a few feet away; the vest is what lets the truck driver see a body against the sand; safety glasses are for whatever a rake or a tong turns up and flings without warning."
+    },
+    {
+      "cue": "Walk the beach and click the three flags the cleanup grid is built from.",
+      "id": "find-zones",
+      "itemNames": {
+        "zone-flag-1": "zone flag 1 — north",
+        "zone-flag-2": "zone flag 2 — center",
+        "zone-flag-3": "zone flag 3 — south"
+      },
+      "itemNotes": {
+        "zone-flag-1": "Flag 1 marks the north end of today's cleanup grid. The crew works from here, not from wherever the debris looks thickest.",
+        "zone-flag-2": "Flag 2 is the center control — it is what tells the crew the grid is being worked systematically instead of skipped over in patches.",
+        "zone-flag-3": "Flag 3 marks the south end. Past it belongs to tomorrow's grid, not today's."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the beach and click the three flags the cleanup grid is built from.",
+      "targets": [
+        "zone-flag-1",
+        "zone-flag-2",
+        "zone-flag-3"
+      ],
+      "title": "Find the flags that set today's cleanup grid",
+      "why": "A beach worked without a marked grid gets the easy trash close to the truck and misses whatever is past the last convenient stopping point — finding all three flags first is what turns a cleanup into a grid the whole crew covers instead of three honest guesses at where the trash is worst."
+    },
+    {
+      "cue": "Check that a sharps container and a pair of tongs are staged at the work area before collection starts.",
+      "id": "sharps-check",
+      "kind": "select",
+      "prompt": "Check that a sharps container and a pair of tongs are staged at the work area before collection starts.",
+      "target": "sharps-container",
+      "title": "Confirm the sharps containers are staged",
+      "why": "A sharp found with no container staged for it becomes a sharp carried across the beach looking for somewhere to put it, and that walk is exactly when a puncture happens — staging the container first means the very first needle found has somewhere safe to go before it is ever picked up."
+    },
+    {
+      "cue": "Take the reading at the debris line and commit it inside the safe band before working near the flagged drum.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "LEL/O2",
+        "missNote": "Outside the safe band. Let the reading settle and commit again before working this end of the grid.",
+        "speed": 0.7
+      },
+      "id": "air-monitor-check",
+      "kind": "gauge",
+      "prompt": "Take the reading at the debris line and commit it inside the safe band before working near the flagged drum.",
+      "target": "air-monitor",
+      "title": "Read the four-gas meter before working near the drum",
+      "why": "An unidentified drum on a beach is exactly the kind of unknown the meter exists to check for before anyone works near it — a reading now is what tells the crew the air at this end of the grid is still safe to breathe instead of assuming it because nothing smells wrong yet."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Use the tongs on all three sharps and drop each one into the sharps container — never a bare hand.",
+      "id": "sharps-collect",
+      "itemNames": {
+        "sharp-glass": "broken glass shard",
+        "sharp-needle-1": "needle — near the tideline",
+        "sharp-needle-2": "needle — half-buried in sand"
+      },
+      "kind": "sequence",
+      "prompt": "Use the tongs on all three sharps and drop each one into the sharps container — never a bare hand.",
+      "targets": [
+        "sharp-needle-1",
+        "sharp-needle-2",
+        "sharp-glass"
+      ],
+      "title": "Collect the sharps with tongs into the container",
+      "why": "Every one of these items breaks skin before it registers as dangerous, and the tongs exist so the only thing that ever touches a sharp on this beach is a tool built to be thrown away with it, not a hand that has to be checked afterward for a puncture nobody saw happen."
+    },
+    {
+      "cue": "Carry the filled debris bag out to the staging pile before it is left where it can blow back down the beach.",
+      "drag": {
+        "missNote": "Not at the pile — a bag left short of it is a bag the wind still gets to move.",
+        "radius": 0.5,
+        "to": "staging-pile"
+      },
+      "id": "debris-haul",
+      "kind": "drag",
+      "prompt": "Carry the filled debris bag out to the staging pile before it is left where it can blow back down the beach.",
+      "target": "debris-bag",
+      "title": "Haul the bagged debris to the staging pile",
+      "why": "A bag left sitting on the sand is a bag the next tide or the next gust puts right back into the grid the crew just cleared — the staging pile is what makes today's collection stay collected instead of drifting back into tomorrow's cleanup."
+    },
+    {
+      "cue": "Walk the net up the beach at a steady pace with the crew, staying inside the working band.",
+      "holdBreakNote": "The pull broke and the net snagged in the sand. Bring it back to a steady pace before it catches on anything buried in it.",
+      "id": "net-haul",
+      "kind": "track",
+      "prompt": "Walk the net up the beach at a steady pace with the crew, staying inside the working band.",
+      "seconds": 7,
+      "target": "derelict-net",
+      "title": "Haul the tangled derelict net up the beach",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.36,
+          0.58
+        ],
+        "label": "HAUL",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "A steady pull keeps the net moving as one load instead of catching on whatever it snagged on the way in; too fast and it jerks and drops sand-buried hooks or line back onto bare feet, too slow and it digs into the sand and doubles the effort needed to keep it moving at all."
+    },
+    {
+      "cue": "Mark the drum with a hazard flag and note it for the hazmat call-in — do not open or move it.",
+      "id": "drum-flag",
+      "kind": "select",
+      "prompt": "Mark the drum with a hazard flag and note it for the hazmat call-in — do not open or move it.",
+      "target": "suspect-drum",
+      "title": "Flag the unidentified drum and call it in",
+      "why": "This crew's training stops at recognizing a hazard and calling in the crew trained to handle it — flagging the drum and logging its location is the entire job here, and it is exactly the job that keeps an unknown container from becoming this crew's emergency instead of a specialist's routine call."
+    },
+    {
+      "cue": "Hold the overpack lid steady while the ring clamp is tightened down over the leaking can.",
+      "holdBreakNote": "The lid shifted before the clamp seated — reset it square on the overpack and hold until the seal is tight.",
+      "id": "overpack-seal",
+      "kind": "hold",
+      "prompt": "Hold the overpack lid steady while the ring clamp is tightened down over the leaking can.",
+      "seconds": 5,
+      "target": "overpack-seal",
+      "title": "Seal the overpack on the leaking paint can",
+      "why": "A leaking can this size is within what an awareness-level crew is trained to contain, not respond to — held steady until the clamp seats, the overpack stops the leak from spreading any further across the sand while the can waits for proper disposal under manifest."
+    },
+    {
+      "cue": "Turn the decon spigot and rinse gloves and boots before stepping past the line.",
+      "id": "decon-wash",
+      "kind": "turn",
+      "prompt": "Turn the decon spigot and rinse gloves and boots before stepping past the line.",
+      "target": "decon-spigot",
+      "title": "Wash down at the decon station before leaving the exclusion zone",
+      "turn": {
+        "axis": "y",
+        "label": "DECON SPIGOT",
+        "turns": 0.8
+      },
+      "why": "Whatever this crew's gloves and boots picked up inside the exclusion zone does not get to leave the zone on them — the decon station is the one step between a clean cleanup and one that just relocates whatever it found from the sand to the truck cab, the tailgate, and everything else the crew touches next."
+    },
+    {
+      "cue": "Call the spotter on the radio and get a clear signal before backing the truck toward the debris pile.",
+      "id": "spotter-checkin",
+      "kind": "select",
+      "prompt": "Call the spotter on the radio and get a clear signal before backing the truck toward the debris pile.",
+      "target": "truck-spotter-radio",
+      "title": "Check in with the spotter before backing the truck",
+      "why": "The truck's box blocks the driver's view of the exact ground the crew works on foot, and backing without the spotter's call is backing on a guess about people the mirror was never going to show in the first place."
+    },
+    {
+      "cue": "Check the missed sharp and the untied bag before the crew calls this grid done.",
+      "id": "walk-hazards",
+      "itemNotes": {
+        "blown-bag": "A debris bag has come untied and is already unloading itself back onto the sand this crew just cleared.",
+        "loose-sharp-flag": "A sharp sits here that the first pass missed — click it to confirm the crew catches it with tongs before anyone else does with a bare foot."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the missed sharp and the untied bag before the crew calls this grid done.",
+      "targets": [
+        "loose-sharp-flag",
+        "blown-bag"
+      ],
+      "title": "Walk the beach and confirm nothing is left behind",
+      "why": "A sharp missed on the first pass or a bag that comes loose on the walk back is easy to overlook once the crew's attention has moved to loading the truck — walking the grid now, before anyone leaves, is the last chance to catch what the next beachgoer would otherwise find instead."
+    },
+    {
+      "cue": "Record the grid covered, the sharps collected, the drum's location, and the air readings for the crew's record.",
+      "id": "log-cleanup",
+      "kind": "select",
+      "prompt": "Record the grid covered, the sharps collected, the drum's location, and the air readings for the crew's record.",
+      "target": "closing-log",
+      "title": "Log the day's cleanup",
+      "why": "The hazmat call-in reads today's log to find the drum, not today's memory of where it was — a cleanup that went clean but was never logged looks, from tomorrow's map, exactly like a beach nobody has checked yet, and a drum location that was never written down is a fact the specialist crew has no way to confirm on its own."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Cleaning a storm-tide shoreline where ordinary trash hides sharps and a leaking drum: sharps containers staged and air read before anyone works the debris line, tongs for anything that punctures, the drum flagged and called in instead of opened, decon before the exclusion zone is left, and the beach walked clean before the truck pulls out",
+  "title": "SmartCiti.X~ Shoreline Cleanup — Sharps And Hazardous Debris VR",
+  "trade": "Restoration laborer — shoreline debris and hazardous materials awareness crew",
+  "underwater": null,
+  "weather": "fog"
+}

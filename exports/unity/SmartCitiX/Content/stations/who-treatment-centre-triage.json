@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "gate-held",
+    "name": "Gate Held",
+    "note": "Every arrival screened at distance, every suspected case sent by its own path, and nobody walked through the waiting area who should not have been"
+  },
+  "category": "Emergency Services",
+  "certification": "WHO infection prevention and control guidance for screening and triage at the entrance of a treatment centre — a posted case definition, distance at the screening point, hand hygiene for every arrival and a separate path for suspected cases; CDC isolation precautions for the screener's precautions and the separation of suspected patients; OSHA 29 CFR 1910.1030 and 29 CFR 1910.134 for the screener's gloves, gown and respirator; WHO outbreak communication guidance for what is said to a frightened family at the gate; the Sphere Handbook's health standards and IASC cluster coordination for the Health Cluster partners who run a centre's gate together; worked by NNU/CNA nurses with SEIU and AFSCME public-health staff",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "IASC",
+        "citedAs": "IASC",
+        "id": "iasc-cluster-coordination",
+        "title": "Inter-Agency Standing Committee (IASC) cluster approach and cluster coordination guidance"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "Sphere",
+        "citedAs": "Sphere Handbook",
+        "id": "sphere-handbook",
+        "title": "The Sphere Handbook: Humanitarian Charter and Minimum Standards in Humanitarian Response"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO infection prevention and control guidance",
+        "id": "who-ipc-guidance",
+        "title": "WHO guidance on infection prevention and control in health care"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO outbreak communication guidance",
+        "id": "who-outbreak-communication",
+        "title": "WHO outbreak communication guidance"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Emergency Services",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "right-path",
+        "name": "Right Path",
+        "note": "Every suspected case picked out and routed first time"
+      },
+      {
+        "id": "hands-off",
+        "name": "Hands Off",
+        "note": "No bare-hand forehead, no shared pen, no shortcut through the waiting area, no neat concentrate"
+      },
+      {
+        "id": "queue-set",
+        "name": "Queue Set",
+        "note": "Queue spacing committed inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-gate",
+        "name": "Clean Gate",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-scan",
+        "name": "Steady Scan",
+        "note": "Held the temperature scan without a dropout"
+      },
+      {
+        "id": "gate-fast",
+        "name": "Gate Fast",
+        "note": "Finished inside 85% of par"
+      }
+    ],
+    "currency": "SCREEN",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Gate Volunteer",
+      "Screener",
+      "Triage Nurse",
+      "Gate Lead",
+      "Gate Screening Certified"
+    ],
+    "system": "Gate Screening"
+  },
+  "hazards": {
+    "wtt-concentrate-topup": "You topped up the hand-wash bucket straight from the chlorine concentrate. The concentrate is diluted to the strength on the mixing chart before it goes anywhere near hands — neat or guessed, it burns the skin of everyone who washes, and people with burnt hands stop washing.",
+    "wtt-general-waiting": "You started walking the suspected case through the general waiting area because it was quicker. A suspected case goes by the separate path to the suspected-case area, so that people who came in with something else entirely do not spend the next hour sitting beside them.",
+    "wtt-hand-forehead": "You reached across the table to feel the arrival's forehead with your hand. The screening point exists so that the first contact with every arrival is touch-free: a hand on a forehead is contact with a possible case before anyone knows which ones are, repeated for everyone in the queue.",
+    "wtt-shared-pen": "You passed the same pen from arrival to arrival to sign the register. A shared pen at a screening point is a surface every arrival touches in turn, including the ones about to be identified as suspected cases; the screener writes, or each arrival gets a pen that is not handed back."
+  },
+  "id": "who-treatment-centre-triage",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "temp-scan",
+      "alert": "An ambulance pulls up at the gate with a collapsed patient on the stretcher, and the crew is heading for the general entrance.",
+      "cue": "Direct the crew to the suspected-case ambulance bay — not the general entrance.",
+      "delay": 2,
+      "id": "ambulance-at-gate",
+      "kind": "Ambulance arrival",
+      "missNote": "The crew wheeled the patient through the general entrance and down the corridor past the waiting area. The patient met the definition, and everyone in that corridor became a contact to be traced.",
+      "seconds": 13,
+      "target": "wtt-ambulance-bay",
+      "why": "A patient arriving by ambulance is screened by the same logic, and a collapsed patient cannot answer the questions. Until someone has shown otherwise they go to the suspected-case bay, where staff in PPE receive them, rather than being wheeled through the general entrance by a crew nobody has briefed.",
+      "wrongNote": "Not that. Wave the crew to the suspected-case ambulance bay."
+    },
+    {
+      "after": "call-red-zone",
+      "alert": "The suspected case's wife has followed him to the start of the suspected-case path and is refusing to let go of his arm.",
+      "cue": "Take her gently to the family waiting area, where she can see the path and be told what happens next.",
+      "delay": 2,
+      "id": "family-follows",
+      "kind": "Family at the path",
+      "missNote": "Nobody took her aside. She followed him down the path and into the suspected-case area without PPE, and the centre spent the evening finding her a place in follow-up instead of supporting her.",
+      "seconds": 13,
+      "target": "wtt-family-area",
+      "why": "Families are the people who will be traced, informed and supported later, and they are also the people who will stop bringing their relatives if the gate treats them roughly. Walking her to the family area — with a seat, a view of the path and someone to explain what happens — keeps her safe and keeps the family's trust.",
+      "wrongNote": "Not that. The family waiting area is by the fence — take her there."
+    }
+  ],
+  "lateNotes": {
+    "wtt-handwash-tap": "Check the hand-wash station once the table is set; arrivals wash before they reach the screener.",
+    "wtt-radio": "Call the red zone once a suspected case has been identified and routed — there is nothing to hand over before that."
+  },
+  "name": "Treatment Centre Triage",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "outbreak-response-who"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "wtt-ambulance-bay",
+      "wtt-arrival-a",
+      "wtt-arrival-b",
+      "wtt-barrier-socket",
+      "wtt-barrier-table",
+      "wtt-concentrate-topup",
+      "wtt-crew-board",
+      "wtt-family-area",
+      "wtt-gate-log",
+      "wtt-general-waiting",
+      "wtt-hand-forehead",
+      "wtt-handwash-tap",
+      "wtt-ir-thermometer",
+      "wtt-q-contact",
+      "wtt-q-onset",
+      "wtt-q-symptoms",
+      "wtt-queue-marker",
+      "wtt-radio",
+      "wtt-reg-result",
+      "wtt-reg-route",
+      "wtt-reg-time",
+      "wtt-screening-board",
+      "wtt-shared-pen",
+      "wtt-suspected-entrance",
+      "wtt-wipe-bottle"
+    ],
+    "meshes": 208
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read today's screening questions and the case definition posted at the gate before the first arrival.",
+      "id": "screening-board",
+      "kind": "select",
+      "prompt": "Read today's screening questions and the case definition posted at the gate before the first arrival.",
+      "target": "wtt-screening-board",
+      "title": "Read the screening questions and case definition",
+      "why": "Every decision at the gate is a comparison between what an arrival says and a written definition. Reading today's version first means the screener asks the questions the definition turns on and sorts people by it, rather than by how sick someone looks from across a table — which is the wrong test for the people who most need picking out early."
+    },
+    {
+      "cue": "Move the screening table onto its marks so the table itself holds the distance between you and each arrival.",
+      "drag": {
+        "missNote": "Not on the marks. The table has to hold the distance on its own, all shift.",
+        "radius": 0.5,
+        "to": "wtt-barrier-socket"
+      },
+      "id": "set-barrier",
+      "kind": "drag",
+      "prompt": "Move the screening table onto its marks so the table itself holds the distance between you and each arrival.",
+      "target": "wtt-barrier-table",
+      "title": "Set the screening table at distance",
+      "why": "Distance at a screening point is held by furniture, not by willpower: after a hundred arrivals, people lean in to hear. A table placed on the marks keeps the screener at the distance the infection prevention and control plan sets for the whole shift, whoever is standing on the other side and however quietly they speak."
+    },
+    {
+      "cue": "Turn the tap on the gate's hand-wash station and check it runs clean into the basin.",
+      "id": "handwash-tap",
+      "kind": "turn",
+      "prompt": "Turn the tap on the gate's hand-wash station and check it runs clean into the basin.",
+      "target": "wtt-handwash-tap",
+      "title": "Check the hand-wash station runs",
+      "turn": {
+        "axis": "z",
+        "label": "TAP",
+        "turns": 0.5
+      },
+      "why": "Every arrival washes before reaching the screener, which only happens if the station at the gate actually runs. A tap that sticks or a bucket that is empty turns the first control point into a queue that skips it, and nobody at the table notices until the end of the day."
+    },
+    {
+      "cue": "Sweep the marker spacing and commit when it matches the spacing on the gate plan.",
+      "gauge": {
+        "green": [
+          0.48,
+          0.6
+        ],
+        "label": "QUEUE GAP",
+        "missNote": "Not the plan's spacing. Sweep again and commit where the markers sit on plan.",
+        "speed": 0.6
+      },
+      "id": "queue-spacing",
+      "kind": "gauge",
+      "prompt": "Sweep the marker spacing and commit when it matches the spacing on the gate plan.",
+      "target": "wtt-queue-marker",
+      "title": "Set the queue markers",
+      "why": "People queueing at a treatment centre gate are frightened and often unwell, and they close up on each other. Markers on the ground at the plan's spacing give everyone a place to stand that keeps them apart without a volunteer having to police the line — and keeps a suspected case from spending twenty minutes shoulder to shoulder with the rest."
+    },
+    {
+      "cue": "Hold the non-contact thermometer steady on the arrival's forehead from across the table.",
+      "holdBreakNote": "The scan drifted off. Bring it back to the forehead and hold steady from your side of the table.",
+      "id": "temp-scan",
+      "kind": "track",
+      "prompt": "Hold the non-contact thermometer steady on the arrival's forehead from across the table.",
+      "seconds": 6,
+      "target": "wtt-ir-thermometer",
+      "title": "Scan temperature without touching",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.5,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "SCAN",
+        "rise": 0.6,
+        "start": 0.2
+      },
+      "why": "A temperature is one of the things a case definition may ask about, and the scan is the only part of screening done to the arrival rather than asked of them. It reads true only held steady at the right range; a scan swept past someone on the move is a number with no meaning written in the register."
+    },
+    {
+      "cue": "Symptoms now, then any contact with a sick person or a funeral, then when it started.",
+      "id": "screening-questions",
+      "itemNames": {
+        "wtt-q-contact": "contact with a sick person or a funeral",
+        "wtt-q-onset": "when it started",
+        "wtt-q-symptoms": "symptoms now"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Symptoms, then contact, then onset — how they are first, then the link, then the timing.",
+      "prompt": "Symptoms now, then any contact with a sick person or a funeral, then when it started.",
+      "targets": [
+        "wtt-q-symptoms",
+        "wtt-q-contact",
+        "wtt-q-onset"
+      ],
+      "title": "Ask the screening questions in order",
+      "why": "The order mirrors the case definition's logic: what the person has now, whether there is a link to a known case, and whether the timing fits. Asked in that order, each answer tells the screener whether the next question matters, and the arrival is not interrogated about funerals before anyone has asked how they are."
+    },
+    {
+      "cue": "From the screened arrivals, pick out every one whose answers meet the suspected-case definition.",
+      "id": "identify-suspected",
+      "itemNames": {
+        "wtt-arrival-a": "the man with the cloth",
+        "wtt-arrival-b": "the woman leaning on the post"
+      },
+      "itemNotes": {
+        "wtt-arrival-a": "His answers meet the definition: symptoms now, and he nursed a relative who died last week.",
+        "wtt-arrival-b": "Her answers meet it too: symptoms since yesterday and a neighbour's funeral she helped at."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "From the screened arrivals, pick out every one whose answers meet the suspected-case definition.",
+      "targets": [
+        "wtt-arrival-a",
+        "wtt-arrival-b"
+      ],
+      "title": "Pick out the suspected cases",
+      "why": "The whole gate exists for this sort: people whose answers meet the definition go one way, and everyone else goes another. Missing one sends a possible case into the general waiting area; picking out someone who does not meet it sends a frightened person into the suspected area for nothing. The definition decides, not the queue's impatience."
+    },
+    {
+      "cue": "Direct each suspected case to the separate path marked for the suspected-case area.",
+      "id": "route-suspected",
+      "kind": "select",
+      "prompt": "Direct each suspected case to the separate path marked for the suspected-case area.",
+      "target": "wtt-suspected-entrance",
+      "title": "Send them by the suspected-case path",
+      "why": "A separate path from the gate to the suspected-case area is the design that keeps people who came in for a broken arm or a pregnancy check out of contact with possible cases. Using it every time, even when the general route is shorter, is what the path is for."
+    },
+    {
+      "cue": "Hold the radio and hand over each suspected case to the team inside until they read it back.",
+      "holdBreakNote": "You let go before the handover was read back. The team inside may not be ready at the door — key up and finish it.",
+      "id": "call-red-zone",
+      "kind": "hold",
+      "prompt": "Hold the radio and hand over each suspected case to the team inside until they read it back.",
+      "seconds": 5,
+      "target": "wtt-radio",
+      "title": "Call the suspected-case area ahead",
+      "why": "The team inside needs to be gowned and ready at the door when a suspected case arrives, not searching for PPE while the patient waits in the open. A handover read back over the radio puts a gowned nurse at the right door and a bed ready for them, and it tells the centre how many are on the way."
+    },
+    {
+      "cue": "Wipe the table edge and the register tray with the disinfectant before the next arrival steps up.",
+      "id": "wipe-table",
+      "kind": "select",
+      "prompt": "Wipe the table edge and the register tray with the disinfectant before the next arrival steps up.",
+      "target": "wtt-wipe-bottle",
+      "title": "Wipe the table between arrivals",
+      "why": "Every arrival leans on the same table edge and pushes papers across the same tray. Wiping them between arrivals is a few seconds against a surface shared by everybody the gate sees in a day, including the suspected cases just routed away."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Write the arrival time, the screening result and where each person was sent — the screener writes, any order.",
+      "id": "register",
+      "itemNames": {
+        "wtt-reg-result": "screening result",
+        "wtt-reg-route": "where they were sent",
+        "wtt-reg-time": "arrival time"
+      },
+      "kind": "sequence",
+      "prompt": "Write the arrival time, the screening result and where each person was sent — the screener writes, any order.",
+      "targets": [
+        "wtt-reg-time",
+        "wtt-reg-result",
+        "wtt-reg-route"
+      ],
+      "title": "Complete the screening register",
+      "why": "The register is what lets surveillance count how many people were screened and how many met the definition, and what lets tracing find everyone who was at the gate at the same time as a case later confirmed. The screener fills it in so nobody else has to touch the pen or the page."
+    },
+    {
+      "cue": "At the rotation, check in with the gate team on how the shift is going and point anyone who needs it to staff care.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "At the rotation, check in with the gate team on how the shift is going and point anyone who needs it to staff care.",
+      "target": "wtt-crew-board",
+      "title": "Check in with the gate team",
+      "why": "The gate is where staff meet every frightened family and turn some of them away from the entrance they wanted. It wears people down. Checking in at the rotation, and reminding each other that staff care exists and is meant to be used, is part of keeping a steady screener at the table tomorrow."
+    },
+    {
+      "cue": "Hold the gate log open and read back the numbers screened, suspected, routed and any incident before you sign.",
+      "holdBreakNote": "You signed without reading the numbers back. Open it again and read them out before signing.",
+      "id": "closing-log",
+      "kind": "hold",
+      "prompt": "Hold the gate log open and read back the numbers screened, suspected, routed and any incident before you sign.",
+      "seconds": 4,
+      "target": "wtt-gate-log",
+      "title": "Close the gate log",
+      "why": "The gate log hands the next screener the state of the gate: what was seen, what was routed, what went wrong. Read back before signing, a number that does not add up is caught while the people who can explain it are still here; signed unread, it becomes a question nobody can answer next week."
+    }
+  ],
+  "supportLine": "your agency's staff welfare or staff counsellor service, or the peer-support contact named at your deployment briefing",
+  "tagline": "The screening point at a treatment centre's gate: the case definition posted, a table at distance, hand washing for every arrival, a touch-free scan, questions in order, suspected cases sent by their own path, the red zone called ahead",
+  "title": "SmartCiti.X~ Treatment Centre Triage VR",
+  "trade": "Screening and triage nurse — NNU/CNA nurses, SEIU and AFSCME public-health staff, and the humanitarian workforce deployed under IASC clusters",
+  "underwater": null,
+  "weather": "overcast"
+}

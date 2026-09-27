@@ -1,0 +1,380 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "fly-qualified",
+    "name": "Fly Qualified",
+    "note": "Full fly cue with the arbor locked and the deck clear throughout"
+  },
+  "category": "Entertainment & Live Events",
+  "certification": "IATSE — ETCP Certified Rigger, Arena",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ETCP",
+        "citedAs": "ETCP",
+        "id": "etcp-certification",
+        "title": "ETCP Certified Rigger (Arena and Theatre) and Certified Entertainment Electrician credentials"
+      },
+      {
+        "body": "union",
+        "citedAs": "IATSE",
+        "id": "iatse-training-trust",
+        "title": "IATSE Training Trust Fund — stagecraft, rigging and entertainment electrical skills training"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Entertainment",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clear-deck",
+        "name": "Clear Deck",
+        "note": "Never stand under a loaded line"
+      },
+      {
+        "id": "true-balance",
+        "name": "True Balance",
+        "note": "Hold every arbor reading near band centre"
+      },
+      {
+        "id": "cued-clean",
+        "name": "Cued Clean",
+        "note": "Call the fly cue with no correction"
+      },
+      {
+        "id": "cue-taught",
+        "name": "Cue Taught Clean",
+        "note": "Teach the automation cue in the correct order, first try"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "half-hour",
+        "name": "Half-Hour Call",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "no-drop",
+        "name": "No Drop",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "rail-streak",
+        "name": "Rail Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "FLY",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Deck Hand",
+      "Rail Operator",
+      "Fly Rigger",
+      "Head Flyman",
+      "Fly Certified"
+    ],
+    "system": "Fly Certified"
+  },
+  "hazards": {
+    "excess-bricks": "That stack puts the arbor past the batten's rated capacity. Overloading a line set overhauls the operator at the rail, takes the rope out of its rated range, and loads the grid steel and the head block past what the ANSI-accredited entertainment rigging standards assumed when the house was built.",
+    "shortcut-call": "That is an override call button that skips the clearance check. 'Clear' is a question and 'moving' is a commitment, and calling the second before the first has come back is how a batten comes down on someone who never heard the cue. Skipping the call-and-answer is the one thing no house rigging protocol allows.",
+    "standing-under-load": "You are standing directly beneath a loaded batten and arbor. A counterweight brick dropped from a loading gallery forty feet up arrives at around thirty miles an hour and gives no warning worth the name — which is why every ETCP rigging practice and OSHA's overhead-load rules come down to the same sentence: nobody works or walks under a flown line while it can still move.",
+    "unlocked-rail": "That arbor's locking rail pin is out and the line set is not secured. A rope lock is designed to hold a balanced set, not to arrest an unbalanced one — an arbor that starts to run with weight on it will burn straight through the lock's jaws and take whatever is in its path with it."
+  },
+  "id": "rigging-loft",
+  "indoor": "theatre",
+  "interrupts": [
+    {
+      "after": "lower-batten",
+      "alert": "Two hands have walked on under line 4 to strike the last scene. The batten is still coming in over their heads.",
+      "cue": "Stop the move. Nothing comes in over people.",
+      "delay": 3,
+      "id": "deck-under-batten",
+      "kind": "Deck breached",
+      "missNote": "You brought the batten the rest of the way in over two people who never looked up. Nothing touched them this time, which changes nothing about the exposure — a house rigger's own clearance call is the only control between a moving batten and a deck that has stopped watching it.",
+      "seconds": 11,
+      "target": "call-stopped",
+      "why": "Stopped is the one call anybody can give and everybody has to obey, and the operator gives it the instant the deck stops being clear — not after finishing the move that was already underway. Getting the batten dead is the whole answer; sorting out who walked on can happen afterwards.",
+      "wrongNote": "Call stopped. Every other decision on this rail can wait the two seconds it takes to get a moving batten dead with people underneath it."
+    },
+    {
+      "after": "auto-teach",
+      "alert": "Behind you on the rail, line 3's arbor has started to creep — the pin you flagged on the walk-through is still out and somebody has hung a practical on that batten.",
+      "cue": "That set is coming out of balance with no lock in it.",
+      "delay": 4,
+      "id": "arbor-creeping",
+      "kind": "Line set running",
+      "missNote": "Line 3 ran. An arbor with weight on it and no pin overhauls, and the batten it is attached to goes to the grid as fast as the arbor comes to the deck — over a stage you had just spent ten minutes proving was clear for a different line set entirely.",
+      "seconds": 13,
+      "target": "unlocked-rail",
+      "why": "An unbalanced set with its pin out does not creep for long — it accelerates, and a rope lock will not stop it once it is running. Getting the pin in while it is still only creeping is the difference between securing a line set and watching an arbor come down the rail with nothing to catch it.",
+      "wrongNote": "It is the unlocked rail on line 3. Nothing at the automation console matters while a loaded arbor is moving on its own two metres behind you."
+    }
+  ],
+  "lateNotes": {
+    "locking-rail": "The arbor only gets locked once the counterweight is actually balanced against the batten's load — not before.",
+    "trim-lock-pin": "The trim pin only goes in once the fly cue has actually brought the batten to its final position."
+  },
+  "name": "Rigging Loft",
+  "parSeconds": 265,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "live-events",
+    "rigging-lifting"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": null,
+    "hits": [
+      "arbor",
+      "auto-mid",
+      "auto-out",
+      "auto-park",
+      "auto-run-btn",
+      "auto-save-btn",
+      "batten-line",
+      "call-clear",
+      "call-moving",
+      "call-stopped",
+      "capacity-plate",
+      "excess-bricks",
+      "fault-arbor-lock",
+      "fault-brick",
+      "fault-rope",
+      "floor-watch",
+      "headset",
+      "locking-rail",
+      "rigging-plot",
+      "shortcut-call",
+      "standing-under-load",
+      "trim-lock-pin",
+      "unlocked-rail"
+    ],
+    "meshes": 127
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Confirm the batten's rated capacity, planned load and trim height on the plot.",
+      "id": "plot",
+      "kind": "select",
+      "prompt": "Confirm the batten's rated capacity, planned load and trim height on the plot.",
+      "target": "rigging-plot",
+      "title": "Read the rigging plot",
+      "why": "The plot is the plan for this line set specifically. Capacity, load and trim are not the same from one batten to the next — the house was built with different rope sets, different head blocks and different grid steel over each one, and an ETCP rigger's first move is always to read which of those is above them today."
+    },
+    {
+      "cue": "Check the arbors, ropes and locking rails. Three things are wrong — find them by looking.",
+      "decoyNotes": {
+        "locked-arbor-good": "That arbor rail is engaged and locked — leave it alone.",
+        "stacked-bricks-good": "That arbor is stacked correctly and fully caged — nothing to action."
+      },
+      "id": "inspect",
+      "itemNames": {
+        "fault-arbor-lock": "unlocked arbor on line 3",
+        "fault-brick": "unsecured counterweight brick",
+        "fault-rope": "frayed lift line on line 5"
+      },
+      "itemNotes": {
+        "fault-arbor-lock": "An arbor left unlocked between shows can shift the moment its rope takes a load — lock it before it becomes someone else's surprise.",
+        "fault-brick": "A brick sitting loose in the arbor cage can shift or fall the first time that arbor moves — reseat and secure it before flying anything on that line.",
+        "fault-rope": "A lift line with broken strands is rated for nothing until it is replaced — flag it and take that line set out of service."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the arbors, ropes and locking rails. Three things are wrong — find them by looking.",
+      "targets": [
+        "fault-arbor-lock",
+        "fault-rope",
+        "fault-brick"
+      ],
+      "title": "Walk the counterweight system",
+      "why": "A pre-show rigging check is a search across every line set on the rail, not a glance at the one you are about to fly. The set that hurts somebody tonight is almost never the one in the cue sheet — it is the one nobody was working, left unlocked or half-loaded by the crew before you, with its faults sitting in plain sight all afternoon."
+    },
+    {
+      "cue": "Put on the headset and confirm a clear channel with the deck.",
+      "id": "comms-check",
+      "kind": "select",
+      "prompt": "Put on the headset and confirm a clear channel with the deck.",
+      "target": "headset",
+      "title": "Check comms with the fly floor",
+      "why": "Every cue on this rail runs over that channel, and a headset that has gone one-way sounds exactly like a deck that is not answering. Check it before the first move, because the failure you are guarding against is calling 'clear', hearing nothing, and reading the silence as agreement."
+    },
+    {
+      "cue": "Post someone to keep the deck clear under the batten before it moves.",
+      "id": "clear-floor",
+      "kind": "select",
+      "prompt": "Post someone to keep the deck clear under the batten before it moves.",
+      "target": "floor-watch",
+      "title": "Post a floor watch",
+      "why": "A rigger at the pin rail is looking at a rope and an arbor, not at the stage. The floor watch covers the one place the operator physically cannot see — directly beneath the load — and they hold that job for the whole move, not until they get bored of it."
+    },
+    {
+      "cue": "Haul the operating line hand over hand and keep the empty batten coming in at a steady, controlled speed.",
+      "holdBreakNote": "Lost the line and the arbor started to overhaul. Take it back hand over hand and bring the batten in at a speed the deck can react to.",
+      "id": "lower-batten",
+      "kind": "track",
+      "prompt": "Haul the operating line hand over hand and keep the empty batten coming in at a steady, controlled speed.",
+      "seconds": 5,
+      "target": "batten-line",
+      "title": "Bring the batten in to load position",
+      "track": {
+        "drift": 0.11,
+        "fall": 0.48,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "BATTEN IN — LINE SPEED",
+        "rise": 0.58,
+        "start": 0.12
+      },
+      "why": "Counterweight goes on at the deck, not at height, so the batten comes to a working position first. An empty batten is arbor-heavy — it wants to run up, not down — so the whole way in is the operator holding a set that is trying to get away from them, at a speed the deck can watch."
+    },
+    {
+      "cue": "Read the capacity plate and confirm the planned load is inside it.",
+      "id": "capacity-check",
+      "kind": "select",
+      "prompt": "Read the capacity plate and confirm the planned load is inside it.",
+      "target": "capacity-plate",
+      "title": "Check the batten's rated capacity",
+      "why": "The plate is the hard limit for this batten, its rope set, its head block and the grid steel above it — 220 lb here against 190 lb planned. A line set is rated as a whole system, so the weakest component in that chain is the number on the plate, and nothing about the plot overrides it."
+    },
+    {
+      "cue": "Add counterweight and commit once the arbor balances the batten's load.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.58
+        ],
+        "label": "ARBOR — COUNTERWEIGHT BALANCE",
+        "missNote": "Off balance. Add or pull bricks and recheck before the rail is locked.",
+        "speed": 0.6
+      },
+      "id": "load-weights",
+      "kind": "gauge",
+      "prompt": "Add counterweight and commit once the arbor balances the batten's load.",
+      "target": "arbor",
+      "title": "Load the arbor to balance",
+      "why": "A balanced arbor is what lets one person hold two hundred pounds of scenery on a rope. Out of balance, the difference is what the operator's hands are carrying: twenty pounds out is a set that drifts, sixty pounds out is a set that runs, and at that point the rope is deciding where the batten goes instead of the rigger."
+    },
+    {
+      "cue": "Engage the locking rail pin now that the arbor is balanced.",
+      "id": "lock-arbor",
+      "kind": "select",
+      "prompt": "Engage the locking rail pin now that the arbor is balanced.",
+      "target": "locking-rail",
+      "title": "Lock the arbor rail",
+      "why": "The rope lock is what keeps a balanced arbor where you left it when you step away from the rail. It is worth knowing what it is not: it holds a set that is already in balance, and it is not rated to stop one that is running — which is why it goes on after the arbor balances, never instead of balancing it."
+    },
+    {
+      "cue": "Call clear, wait for confirmation, call moving, then call stopped at trim.",
+      "id": "fly-cue",
+      "itemNames": {
+        "call-clear": "call clear",
+        "call-moving": "call moving",
+        "call-stopped": "call stopped"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — clear is called and confirmed first, then moving, then stopped once the batten is in position.",
+      "prompt": "Call clear, wait for confirmation, call moving, then call stopped at trim.",
+      "targets": [
+        "call-clear",
+        "call-moving",
+        "call-stopped"
+      ],
+      "title": "Call the fly cue",
+      "why": "The three calls are a protocol, not a courtesy. 'Clear' is a question the deck answers; 'moving' is a commitment that the answer came back; 'stopped' releases everyone from watching. IATSE houses run this call-and-answer on every move because the alternative is an operator deciding on their own that silence meant yes."
+    },
+    {
+      "cue": "Pin the arbor at trim now that the batten is in its final position.",
+      "id": "trim-lock",
+      "kind": "select",
+      "prompt": "Pin the arbor at trim now that the batten is in its final position.",
+      "target": "trim-lock-pin",
+      "title": "Lock off at trim height",
+      "why": "The trim pin is a second, physical lock that holds the set exactly where the cue left it, independent of the rope lock at the rail. Two independent means of securing a load overhead is the same redundancy principle OSHA applies to anything suspended over people: one of them is allowed to fail."
+    },
+    {
+      "cue": "Record line 6's park, mid-show and full-out positions in the order the cue actually runs.",
+      "id": "auto-teach",
+      "itemNames": {
+        "auto-mid": "mid-show position",
+        "auto-out": "full-out position",
+        "auto-park": "park position"
+      },
+      "itemNotes": {
+        "auto-mid": "Where the piece sits for the scene it's used in.",
+        "auto-out": "Fully deployed for the final reveal.",
+        "auto-park": "Clear of the grid, out of the way between cues."
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "That position comes later in the cue. Park, then mid-show, then full-out — the console runs them back in the order you taught them, not the order that looks obvious from the deck.",
+      "prompt": "Record line 6's park, mid-show and full-out positions in the order the cue actually runs.",
+      "targets": [
+        "auto-park",
+        "auto-mid",
+        "auto-out"
+      ],
+      "title": "Teach the automation winch's cue positions",
+      "why": "A motorised line plays back a taught cue exactly as recorded and has no opinion about what is underneath it. Teach full-out before mid-show and the batten runs straight past the position an actor has been blocked to stand at — on stage, live, at cue speed, with the console operator's hand nowhere near it. The order you teach is the order it runs."
+    },
+    {
+      "cue": "Commit the three taught positions to the automation controller as one cue.",
+      "id": "auto-save",
+      "kind": "select",
+      "prompt": "Commit the three taught positions to the automation controller as one cue.",
+      "target": "auto-save-btn",
+      "title": "Save the automation cue",
+      "why": "An unsaved position list is just where the winch happened to stop, and it is gone when the console is powered down between the tech and the house opening. Saving it as a numbered cue is what lets the board operator fire it on one button in a blackout, which is the only way it will ever actually be run."
+    },
+    {
+      "cue": "Hold RUN CUE and confirm the automated line clears the deck through every position.",
+      "holdBreakNote": "Released before the cue finished running — hold it through the whole sequence, that's the only way to catch a position that fouls the deck.",
+      "id": "auto-run",
+      "kind": "hold",
+      "prompt": "Hold RUN CUE and confirm the automated line clears the deck through every position.",
+      "seconds": 2.5,
+      "target": "auto-run-btn",
+      "title": "Run the cue at rehearsal speed and verify the deck",
+      "why": "A powered hoist over a stage is proved at rehearsal speed with a hand on the console and a clear deck, the way the ANSI-accredited entertainment rigging standards ask any powered system to be proved before it carries a show. The first full-speed run of a new cue should never be the first time anyone finds out where it goes."
+    },
+    {
+      "cue": "Record the load, trim height and lock status, and sign the plot closed.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Record the load, trim height and lock status, and sign the plot closed.",
+      "target": "rigging-plot",
+      "title": "Sign the rigging log",
+      "why": "The next operator on this rail is a different person on a different call, and what they inherit is whatever the log says: load on the batten, trim height, which locks are on. A set left loaded and unrecorded is the one somebody unlocks in the dark expecting it to be empty."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Counterweight fly-system operation: arbor inspection, balance, cued flying and automation cue programming",
+  "title": "SmartCiti.X~ Rigging Loft VR",
+  "trade": "Theatrical rigger (IATSE)",
+  "underwater": null,
+  "weather": null
+}

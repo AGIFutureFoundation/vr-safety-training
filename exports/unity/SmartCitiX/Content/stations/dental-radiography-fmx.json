@@ -1,0 +1,418 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "series-complete",
+    "name": "Series Complete",
+    "note": "A full-mouth series taken with the patient shielded, the factors set for them, and every retake justified in the exposure record"
+  },
+  "category": "Dental & Oral Health",
+  "certification": "DANB's Radiation Health and Safety (RHS) component and the separate state dental radiography permit the practice act requires above it; the ADA and FDA's patient-selection recommendations for dental radiographic examinations; the ALARA principle and the state radiation control programme's own operator rules; the CDC's Guidelines for Infection Control in Dental Health-Care Settings for receptor barriers and holder reprocessing; OSHA 29 CFR 1910.1030; the American Dental Assistants Association (ADAA) as the profession's body; SEIU and UFCW clinic staff agreements",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "union",
+        "citedAs": "UFCW",
+        "id": "ufcw-training",
+        "title": "UFCW member training for retail food, clinic and dental support work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Dental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "sheathed-first",
+        "name": "Sheathed First",
+        "note": "The sensor barrier went on before the sensor went anywhere"
+      },
+      {
+        "id": "never-a-hand-inside",
+        "name": "Never A Hand Inside",
+        "note": "No unsafe action anywhere in the series"
+      },
+      {
+        "id": "factors-for-this-patient",
+        "name": "Factors For This Patient",
+        "note": "Exposure factors committed inside the band for the patient in the chair"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-series-fmx",
+        "name": "Clean Series",
+        "note": "No corrections anywhere in the series"
+      },
+      {
+        "id": "held-the-bite",
+        "name": "Held The Bite",
+        "note": "Both timed passages carried without a break"
+      },
+      {
+        "id": "series-inside-par",
+        "name": "Series Inside Par",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "VIEW",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Radiography Student",
+      "Permitted Operator",
+      "Series Radiographer",
+      "Imaging Lead",
+      "Receptor Discipline Certified"
+    ],
+    "system": "Receptor Discipline"
+  },
+  "hazards": {
+    "fmx-adult-setting-on-child": "The unit is still on the previous patient's adult factors with a child in the chair. Exposure factors are set to the patient's size and the region being imaged; a child exposed on adult settings receives dose that bought nothing, and ALARA is not a slogan about the machine, it is a decision made at this dial for every single patient.",
+    "fmx-bare-sensor": "That sensor is going in with no barrier on it at all. A digital sensor cannot be heat sterilised — it is an electronic device on a cable — so the single-use sheath plus surface disinfection between patients is the entire barrier, and a bare sensor carries one patient's saliva into the next patient's mouth.",
+    "fmx-blanket-retake": "That command retakes the whole series because one view was unusable. A retake is another exposure, justified one image at a time: the view that is non-diagnostic is repeated and nothing else, because reshooting eighteen images to fix one is seventeen exposures nobody could defend in the record.",
+    "fmx-held-by-hand": "A hand is holding the receptor inside the patient's mouth. Nobody's fingers belong in the primary beam, ever — that is what the holder and its bite block are for, and an operator who steadies a sensor by hand takes a direct-beam dose to the fingers on every exposure of every series they ever take."
+  },
+  "id": "dental-radiography-fmx",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "bite-hold",
+      "alert": "Someone has pushed the door open and walked into the room while you are set up to expose.",
+      "cue": "Nobody stands in this room during an exposure but the patient.",
+      "delay": 3,
+      "id": "fmx-door-opened",
+      "kind": "Radiation control",
+      "missNote": "The exposure went ahead with another person standing inside the room. Their dose is unrecorded, unjustified and entirely avoidable, and because nothing visible happens to anyone at these levels the habit survives — which is exactly how an occupational dose accumulates across a career.",
+      "seconds": 12,
+      "target": "fmx-warning-lamp",
+      "why": "The controlled area exists so that the only person receiving a dose from this exposure is the patient it was justified for. The warning lamp and the door are what keep everyone else out; an exposure made with a colleague standing beside the chair gives them a dose that was never justified for anyone and that nobody will ever record.",
+      "wrongNote": "It is the warning lamp and the door it controls. Clear the room and show it is controlled before the exposure, not after."
+    },
+    {
+      "after": "palatal-seat",
+      "alert": "The patient says she is pregnant and has been told the whole series has to be cancelled.",
+      "cue": "Answer this from the patient-selection guidance, not from the corridor.",
+      "delay": 3,
+      "id": "fmx-pregnancy-question",
+      "kind": "Patient question",
+      "missNote": "The series was abandoned on corridor advice. An untreated infection does more harm to a pregnancy than a shielded dental exposure, and the patient leaves believing something about radiation that is not what the selection guidance says — which the next practice will have to undo.",
+      "seconds": 12,
+      "target": "fmx-selection-criteria-card",
+      "why": "The ADA and FDA's patient-selection recommendations do not treat pregnancy as a reason to withhold a radiograph that is diagnostically necessary — they treat it as another reason to be certain it is necessary, and to shield. Cancelling a needed series leaves a diagnosis unmade; the answer is the selection criteria and the apron, and the dentist confirms the need.",
+      "wrongNote": "It is the selection criteria card. What decides this is whether the radiograph is needed, and that judgement belongs to the dentist against published patient-selection guidance."
+    }
+  ],
+  "lateNotes": {
+    "fmx-control-panel": "Not yet. Nothing is aligned, the patient is not holding anything and the room is not clear — the exposure control is the last thing touched, never the first.",
+    "fmx-exposure-log": "The series is not finished. The record carries what was actually exposed, including any retake and why, so it is written at the end.",
+    "fmx-retake-card": "There is nothing to judge yet. The retake rule is applied to images that exist, after the series has been reviewed, not decided in advance."
+  },
+  "name": "Full-Mouth Radiographic Series",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "dental-careers-unspoken-smiles"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "fmx-adult-setting-on-child",
+      "fmx-aiming-ring",
+      "fmx-bare-sensor",
+      "fmx-bite-hold",
+      "fmx-blanket-retake",
+      "fmx-cone-cut",
+      "fmx-control-panel",
+      "fmx-dentist-review",
+      "fmx-discard-sheath",
+      "fmx-exposure-dial",
+      "fmx-exposure-log",
+      "fmx-held-by-hand",
+      "fmx-holder-arm",
+      "fmx-holder-bite",
+      "fmx-holder-reprocess",
+      "fmx-holder-ring",
+      "fmx-holder-slot",
+      "fmx-lead-apron",
+      "fmx-overlap",
+      "fmx-palate-placement",
+      "fmx-region-order-card",
+      "fmx-retake-card",
+      "fmx-selection-criteria-card",
+      "fmx-sensor",
+      "fmx-sensor-sheath",
+      "fmx-thyroid-collar",
+      "fmx-warning-lamp",
+      "fmx-wipe-sensor"
+    ],
+    "meshes": 223
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Apron flat over the chest and lap, thyroid collar closed at the neck.",
+      "id": "shield-patient",
+      "itemNames": {
+        "fmx-lead-apron": "lead apron",
+        "fmx-thyroid-collar": "thyroid collar"
+      },
+      "itemNotes": {
+        "fmx-lead-apron": "Laid flat over the chest and lap, not bunched — a folded apron leaves a gap exactly where scatter arrives.",
+        "fmx-thyroid-collar": "Closed at the front of the neck. The thyroid is the most radiosensitive tissue in the field for a dental exposure, and the collar is the one piece of shielding that covers it."
+      },
+      "kind": "sequence",
+      "prompt": "Apron flat over the chest and lap, thyroid collar closed at the neck.",
+      "targets": [
+        "fmx-lead-apron",
+        "fmx-thyroid-collar"
+      ],
+      "title": "Shield the patient before anything else is touched",
+      "why": "Shielding goes on first because it is the only step that stops being possible once you are busy. A lead apron and a thyroid collar absorb the scatter that a dental beam throws inside the patient's own tissue, and the thyroid in particular is the most radiosensitive structure anywhere near a dental field — which is why a collar is standard on a series of this length rather than optional comfort."
+    },
+    {
+      "cue": "Slide the sensor into a fresh single-use barrier and seal it before it leaves the tray.",
+      "id": "sheath-sensor",
+      "kind": "select",
+      "prompt": "Slide the sensor into a fresh single-use barrier and seal it before it leaves the tray.",
+      "target": "fmx-sensor-sheath",
+      "title": "Sheathe the digital sensor",
+      "why": "A digital sensor is an electronic device on a cable: it cannot go in an autoclave, and no amount of wiping makes a textured plastic housing that has been in a mouth safe for the next one. The single-use sheath, followed by surface disinfection of the sensor itself, is the whole barrier the CDC's dental guidelines rely on — and it only works if the sheath goes on before the sensor is carried anywhere."
+    },
+    {
+      "cue": "Bite block, then indicator arm, then the aiming ring onto the arm.",
+      "id": "assemble-holder",
+      "itemNames": {
+        "fmx-holder-arm": "indicator arm",
+        "fmx-holder-bite": "bite block",
+        "fmx-holder-ring": "aiming ring"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. The bite block takes the receptor, the indicator arm clips into the block, and the aiming ring slides onto the arm last — reset and build it in that order or the ring will not sit at the distance the arm sets.",
+      "prompt": "Bite block, then indicator arm, then the aiming ring onto the arm.",
+      "targets": [
+        "fmx-holder-bite",
+        "fmx-holder-arm",
+        "fmx-holder-ring"
+      ],
+      "title": "Assemble the paralleling instrument",
+      "why": "A paralleling instrument is a jig, and it only works assembled in its own order: the block holds the receptor parallel to the long axis of the teeth, the arm fixes the beam's relationship to it, and the ring tells the tubehead exactly where to sit. Built out of order the ring ends up at the wrong distance along the arm, and every image from it is either cone-cut or foreshortened."
+    },
+    {
+      "cue": "Carry the sheathed sensor to the block and seat it in the slot, long axis in the slot's direction.",
+      "drag": {
+        "missNote": "Not seated. Push the sensor fully into the block's slot on its long axis — a receptor balanced on the lip of the slot will move the moment the patient bites.",
+        "radius": 0.4,
+        "to": "fmx-holder-slot"
+      },
+      "id": "seat-receptor",
+      "kind": "drag",
+      "prompt": "Carry the sheathed sensor to the block and seat it in the slot, long axis in the slot's direction.",
+      "target": "fmx-sensor",
+      "title": "Seat the sensor in the bite block",
+      "why": "The slot in the bite block is cut to hold the receptor flat and parallel to the teeth being imaged, and it only does that if the sensor is seated all the way in on the correct axis. A sensor pushed in crooked or half-seated tips the receptor plane away from the teeth, and the result is an image with the roots cut off the bottom — a retake and another exposure for a mistake made on the bench."
+    },
+    {
+      "cue": "Dial the factors to this patient's size and this region, and commit inside the band.",
+      "gauge": {
+        "green": [
+          0.36,
+          0.56
+        ],
+        "label": "PATIENT SIZE / REGION",
+        "missNote": "Off the setting for this patient and this region. Under-exposed gives a flat image that forces a retake, and over-exposed gives the patient dose that bought nothing at all — both are ALARA failures made at the same dial.",
+        "speed": 0.6
+      },
+      "id": "exposure-factors",
+      "kind": "gauge",
+      "prompt": "Dial the factors to this patient's size and this region, and commit inside the band.",
+      "target": "fmx-exposure-dial",
+      "title": "Set the exposure factors for the patient in the chair",
+      "why": "Every unit has factors selected by patient size and by region, because a child's molar and a large adult's molar are different thicknesses of tissue. Leaving the last patient's setting on is the single most common way a dental patient receives dose nobody intended: it is invisible on the image if it is only slightly high, and the record will show an exposure that was never chosen for the person who received it."
+    },
+    {
+      "cue": "Swing the tubehead round until the cone is flush and centred on the ring.",
+      "id": "align-tubehead",
+      "kind": "turn",
+      "prompt": "Swing the tubehead round until the cone is flush and centred on the ring.",
+      "target": "fmx-aiming-ring",
+      "title": "Bring the tubehead square to the aiming ring",
+      "turn": {
+        "axis": "y",
+        "label": "TUBEHEAD TO RING",
+        "turns": 0.6
+      },
+      "why": "The aiming ring exists so alignment is a mechanical fact rather than an estimate: cone flush against the ring means the beam is perpendicular to the receptor and centred on it. A few degrees off and the circular beam clips the corner of a rectangular receptor — the cone-cut you then have to retake — or the teeth come out elongated and the bone levels cannot be read at all."
+    },
+    {
+      "cue": "Ask them to bite gently and hold still while you step out — hold the position until the exposure is made.",
+      "holdBreakNote": "The bite opened before the exposure. The receptor has moved, so the alignment you just set no longer describes where it is — reseat, realign and start the view again.",
+      "id": "bite-hold",
+      "kind": "hold",
+      "prompt": "Ask them to bite gently and hold still while you step out — hold the position until the exposure is made.",
+      "seconds": 5,
+      "target": "fmx-bite-hold",
+      "title": "Have the patient close and hold on the block",
+      "why": "The whole geometry depends on the patient's teeth staying closed on the block for the few seconds it takes to leave the room and expose. Movement during the exposure blurs the image the same way it blurs a photograph, and a patient who lets go halfway resets the receptor position so the next image is taken from somewhere nobody chose."
+    },
+    {
+      "cue": "Step behind the barrier, check the room is clear, and make the exposure from the panel.",
+      "id": "expose-from-panel",
+      "kind": "select",
+      "prompt": "Step behind the barrier, check the room is clear, and make the exposure from the panel.",
+      "target": "fmx-control-panel",
+      "title": "Expose from the control position",
+      "why": "The operator's own dose is the one that accumulates across every patient of every day, which is why state radiation control programmes set an operator position at distance and out of the beam's path rather than beside the chair. Behind the barrier with the doorway in view, you also see anyone about to walk in — and that is the other half of why the exposure is made from there."
+    },
+    {
+      "cue": "Keep the placement pressure steady against the palate — firm enough to stay, gentle enough not to gag.",
+      "holdBreakNote": "Placement lost. Reseat against the palate and settle the pressure before asking the patient to close again.",
+      "id": "palatal-seat",
+      "kind": "track",
+      "prompt": "Keep the placement pressure steady against the palate — firm enough to stay, gentle enough not to gag.",
+      "seconds": 6,
+      "target": "fmx-palate-placement",
+      "title": "Hold the receptor's seat for the posterior views",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.42,
+        "green": [
+          0.34,
+          0.56
+        ],
+        "label": "PLACEMENT PRESSURE",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "The posterior views are the ones patients cannot tolerate, and the reason is almost always pressure rather than size: pressed hard into the palate or the floor of the mouth the receptor triggers a gag, and held too lightly it drops out of position between your hand leaving and the exposure being made. The band between those is narrow, and it is the difference between a full series and an abandoned one."
+    },
+    {
+      "cue": "Follow the posted order through the arches rather than moving around the mouth.",
+      "id": "region-order",
+      "kind": "select",
+      "prompt": "Follow the posted order through the arches rather than moving around the mouth.",
+      "target": "fmx-region-order-card",
+      "title": "Work the series in a fixed region order",
+      "why": "A series worked in the same order every time is a series where nothing is missed and nothing is taken twice. Moving around the mouth by feel, the views blur together, an operator loses count, and the fix for a lost count is always another exposure — the fixed order is the reason a full-mouth series can be reconstructed afterwards from the mount alone."
+    },
+    {
+      "cue": "Two images on the display cannot be read. Find them before the series is mounted.",
+      "id": "judge-images",
+      "itemNames": {
+        "fmx-cone-cut": "a cone-cut view",
+        "fmx-overlap": "a view with overlapped contacts"
+      },
+      "itemNotes": {
+        "fmx-cone-cut": "A clear unexposed arc across one corner: the beam was not centred on the receptor. The alignment fault is at the ring, and the diagnosis that view was taken for is missing from the cut region.",
+        "fmx-overlap": "The contacts between the teeth are superimposed, so the interproximal surfaces cannot be read. The horizontal angulation was off — the beam has to pass through the contacts, not across them."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two images on the display cannot be read. Find them before the series is mounted.",
+      "targets": [
+        "fmx-cone-cut",
+        "fmx-overlap"
+      ],
+      "title": "Find the two views in this series that are not diagnostic",
+      "why": "Judging your own images is the part of the job that decides how much radiation a patient ends up receiving. A view with a cone-cut or with overlapped contacts cannot answer the question it was taken for, so it is worthless dose already delivered; spotting exactly which two, and why each failed, is what stops the same fault producing the same failure on the next patient."
+    },
+    {
+      "cue": "Repeat only the views that cannot be read, and record why each was retaken.",
+      "id": "retake-decision",
+      "kind": "select",
+      "prompt": "Repeat only the views that cannot be read, and record why each was retaken.",
+      "target": "fmx-retake-card",
+      "title": "Apply the retake rule",
+      "why": "A retake is a new exposure with its own justification, so the rule is narrow: repeat the non-diagnostic view, correct the fault that caused it, and write down that you did. Retaking anything else adds dose for reassurance, and a retake that goes unrecorded hides both the extra exposure and the pattern — the same angulation error, on the same view, across every patient an operator images."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Barrier off and binned, sensor disinfected, holder into reprocessing.",
+      "id": "sensor-turnover",
+      "itemNames": {
+        "fmx-discard-sheath": "discard the barrier",
+        "fmx-holder-reprocess": "holder to reprocessing",
+        "fmx-wipe-sensor": "disinfect the sensor"
+      },
+      "itemNotes": {
+        "fmx-discard-sheath": "Peeled off and binned with the sensor still inside it until the last moment, so the sheath comes away from the contaminated side rather than over it.",
+        "fmx-holder-reprocess": "The paralleling instrument is heat-tolerant and is sterilised between patients, unlike the sensor — it goes to the reprocessing centre, not back in the drawer.",
+        "fmx-wipe-sensor": "Then the sensor itself, with the disinfectant its manufacturer names — the sheath is a barrier, not a substitute for this."
+      },
+      "kind": "sequence",
+      "prompt": "Barrier off and binned, sensor disinfected, holder into reprocessing.",
+      "targets": [
+        "fmx-discard-sheath",
+        "fmx-wipe-sensor",
+        "fmx-holder-reprocess"
+      ],
+      "title": "Turn the receptor and the holder over",
+      "why": "The sensor and the holder leave this room by two different routes, and mixing them up is how a radiography room becomes a cross-contamination problem. The holder is heat-tolerant and gets sterilised like any other instrument; the sensor cannot be, so it gets a fresh barrier every time and a disinfectant its own manufacturer approves — solvents that are fine on a counter will craze a sensor housing."
+    },
+    {
+      "cue": "Bring the mounted series up and check in with the dentist while the patient is still here.",
+      "id": "dentist-review",
+      "kind": "select",
+      "prompt": "Bring the mounted series up and check in with the dentist while the patient is still here.",
+      "target": "fmx-dentist-review",
+      "title": "Have the dentist review the series before the patient is released",
+      "why": "Interpretation is the dentist's, not the radiographer's, and it has to happen while the patient is still in the building: if a view is missing or a region needs an additional film, taking it now costs one more exposure at the same visit instead of recalling the patient for another appointment and another shielding-and-setup cycle. The check-in is also where you hand over what you saw during placement."
+    },
+    {
+      "cue": "Record the views, the factors, any retake and its reason, then hand the room on.",
+      "id": "exposure-log",
+      "kind": "select",
+      "prompt": "Record the views, the factors, any retake and its reason, then hand the room on.",
+      "target": "fmx-exposure-log",
+      "title": "Close the exposure record and hand the room over",
+      "why": "The exposure record is how a dose that should not have happened ever gets found. Views taken, factors used, retakes and their reasons, operator and date: with that written down, a faulty timer, a drifting output or one operator's repeated angulation error shows up as a pattern. Without it, every one of those disappears into a set of images nobody can trace back to a setting."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A complete series on a paralleling instrument: holder assembled, sensor sheathed and seated, factors set for this patient, tubehead square to the ring, region order worked, retakes decided by rule",
+  "title": "SmartCiti.X~ Full-Mouth Radiographic Series VR",
+  "trade": "Dental assistant — radiographer (DANB RHS)",
+  "underwater": null,
+  "weather": "clear"
+}

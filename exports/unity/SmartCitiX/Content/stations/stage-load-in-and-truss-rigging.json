@@ -1,0 +1,409 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "flown-level-and-dead-hung",
+    "name": "Flown Level and Dead-Hung",
+    "note": "Nobody under the load, the out-of-step motor stopped on the E-stop, every point inside its plot load, and every point on its steel"
+  },
+  "category": "Entertainment & Live Events",
+  "certification": "IATSE training trust with ETCP Certified Rigger — Arena practice; ANSI E1.6 powered entertainment hoists for the chain motors; ASME B30.16 for the hoists themselves, ASME B30.26 for the shackles and ASME B30.9 for the slings and steel secondaries",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI E1.6",
+        "id": "ansi-e1-6",
+        "title": "ANSI E1.6 — Entertainment technology: powered hoist systems for the entertainment industry"
+      },
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.16",
+        "id": "asme-b30-16",
+        "title": "ASME B30.16 — Overhead underhung and stationary hoists"
+      },
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.26",
+        "id": "asme-b30-26",
+        "title": "ASME B30.26 — Rigging hardware"
+      },
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.9",
+        "id": "asme-b30-9",
+        "title": "ASME B30.9 — Slings"
+      },
+      {
+        "body": "ETCP",
+        "citedAs": "ETCP",
+        "id": "etcp-certification",
+        "title": "ETCP Certified Rigger (Arena and Theatre) and Certified Entertainment Electrician credentials"
+      },
+      {
+        "body": "union",
+        "citedAs": "IATSE",
+        "id": "iatse-training-trust",
+        "title": "IATSE Training Trust Fund — stagecraft, rigging and entertainment electrical skills training"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Entertainment & Live Events",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "tag-line-held",
+        "name": "Tag Line Held",
+        "note": "The truss steadied on its tag line the whole flight"
+      },
+      {
+        "id": "flown-level",
+        "name": "Flown Level",
+        "note": "The motors run up together without the truss going out of level"
+      },
+      {
+        "id": "clear-under-load",
+        "name": "Clear Under Load",
+        "note": "Never under the flying truss, never a hand in a running chain, never on the truss"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-load-in",
+        "name": "Clean Load-In",
+        "note": "No corrections anywhere in the rig"
+      },
+      {
+        "id": "bridle-on-the-plot",
+        "name": "Bridle On The Plot",
+        "note": "Bridle angle committed inside the band first time"
+      },
+      {
+        "id": "trim-before-doors",
+        "name": "Trim Before Doors",
+        "note": "Points logged inside 80% of par"
+      }
+    ],
+    "currency": "POINT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Deck Hand",
+      "Truss Builder",
+      "Ground Rigger",
+      "Lead Ground Rigger",
+      "Arena Rigging Certified"
+    ],
+    "system": "Ground Rigging"
+  },
+  "hazards": {
+    "hand-on-chain": "You reached to guide the motor's chain with the motor running. A chain motor pulls its load chain through the lift wheel with the whole load on it, and a gloved hand guiding a twist out of the chain goes into the wheel with it. A twisted chain is found and cleared with the motor stopped and locked off — never fed through by hand while it runs.",
+    "stand-on-truss": "You stepped up onto the truss to ride it toward the steel. A truss is a lifting beam carrying lights and cable, not a work platform, and the hoists are not rated to lift people: riding a truss puts a person on a load with no fall protection that the rig was never designed to carry. Work at height is reached from a lift or from the steel, clipped on.",
+    "under-flying-truss": "You walked under the truss while the motors were running it up. A flying truss is a suspended load, and ANSI E1.6 and every arena's rigging rules put the same line on it — nobody under a load while it moves. A motor that goes out of step, a coupler that was not bolted or a chain that jams all drop or tip the truss in the half-second nobody can react in, and the person underneath is the one who pays for it.",
+    "unrated-shackle": "You picked up the unmarked shackle from the bottom of the case. Rigging hardware that carries a load overhead has to show its maker and rated load, because ASME B30.26 hardware is chosen by that rating — an unmarked shackle is a piece of metal of unknown strength, and the one in a hardware-store bin looks exactly like the rated one until it opens under the truss."
+  },
+  "id": "stage-load-in-and-truss-rigging",
+  "indoor": "theatre",
+  "interrupts": [
+    {
+      "after": "tag-line",
+      "alert": "A stagehand pushing a cable cart has cut across the floor and is heading straight under the truss as it leaves the dollies.",
+      "cue": "Blow the rigging whistle and call the load — everyone under the truss stops and gets clear.",
+      "delay": 2,
+      "id": "cart-under-load",
+      "kind": "Stagehand pushing a cart under the load",
+      "missNote": "The cart went under the truss as it swung off the dollies; the upstage end dropped a few centimetres onto its slack chain and the stagehand was under it when it did.",
+      "seconds": 12,
+      "target": "rigging-whistle",
+      "why": "A stagehand pushing a loaded cart is looking at the cart and the floor in front of it, not at the roof, and a truss lifting off its dollies makes almost no noise. The rigging whistle is the one sound on an arena floor that means a load is moving overhead, and it goes the instant someone heads under the truss — the tag line is held with the other hand, because the truss is still in the air.",
+      "wrongNote": "The rigging whistle — the stagehand is looking at their cart, and the only thing that reaches them in time is the sound everyone on the floor knows means a load is moving."
+    },
+    {
+      "after": "motor-run",
+      "alert": "The downstage motor has stopped climbing while the upstage one keeps going — the truss is tilting and its cable is sliding toward the low end.",
+      "cue": "Hit the controller's emergency stop — both motors stop before the truss goes any further out of level.",
+      "delay": 2,
+      "id": "motor-out-of-step",
+      "kind": "Motor out of step",
+      "missNote": "The upstage motor kept climbing with the downstage one stalled; the truss tilted steeply, a cable bundle slid off the low end onto the deck, and the upstage point went well past its plot load before the head rigger shouted from the steel.",
+      "seconds": 12,
+      "target": "controller-estop",
+      "why": "A motor that stops climbing while its partner runs puts the whole truss on one point in a few seconds, and the leading motor is then lifting more than its plot load up a truss that is sliding its cable off the low end. Letting go of GO stops the run, but the emergency stop kills the power to every motor on the controller at once, and on an out-of-step truss that is the only stop worth having.",
+      "wrongNote": "The controller's emergency stop — the truss is going out of level now, and GO is the control that is lifting it."
+    }
+  ],
+  "lateNotes": {
+    "coupler-bolt": "The couplers are bolted once the sections are butted together at the splice — there is nothing to bolt yet.",
+    "motor-go": "The motors run once the tag line is manned and the deck under the truss is clear, not before.",
+    "rigging-log": "The points are logged once the steel secondaries are on and every shackle is moused — the log is last."
+  },
+  "name": "Stage Load-In & Truss Rigging",
+  "parSeconds": 285,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "live-events"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bridle-gauge",
+      "controller-estop",
+      "coupler-bolt",
+      "dented-chord",
+      "hand-on-chain",
+      "hard-hat",
+      "head-rigger-radio",
+      "load-cell-display",
+      "motor-go",
+      "rigging-gloves",
+      "rigging-log",
+      "rigging-plot",
+      "rigging-whistle",
+      "shackle-mouse",
+      "splice-point",
+      "stand-on-truss",
+      "steel-secondary",
+      "tag-line",
+      "trim-mark",
+      "truss-section",
+      "twisted-chain",
+      "under-flying-truss",
+      "unrated-shackle"
+    ],
+    "meshes": 231
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the head rigger's plot: which points, each point's plotted load against the arena's limit, the bridle leg lengths, motor capacities, and the trim height.",
+      "id": "rigging-plot",
+      "kind": "select",
+      "prompt": "Read the head rigger's plot: which points, each point's plotted load against the arena's limit, the bridle leg lengths, motor capacities, and the trim height.",
+      "target": "rigging-plot",
+      "title": "Read the rigging plot: points, loads and bridles",
+      "why": "The rigging plot is the only place the whole rig exists before it is in the air: each point's load has been worked out against what the arena's roof steel is allowed to carry, each bridle's legs have lengths that set their angle, and each motor has a capacity that has to exceed its point. A ground rigger who builds from memory or from the last show's rig builds a different load path from the one the numbers were checked for, and the arena's structure does not know which one it is carrying."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Hard hat on for the whole time riggers are working overhead, and rigging gloves on before you handle chain and wire rope.",
+      "id": "deck-ppe",
+      "itemNames": {
+        "hard-hat": "hard hat",
+        "rigging-gloves": "rigging gloves"
+      },
+      "kind": "sequence",
+      "prompt": "Hard hat on for the whole time riggers are working overhead, and rigging gloves on before you handle chain and wire rope.",
+      "targets": [
+        "hard-hat",
+        "rigging-gloves"
+      ],
+      "title": "Hard hat and rigging gloves on before the steel is worked",
+      "why": "Riggers in the steel drop things — a shackle pin, a wrench, a coil of rope — and the deck under an arena roof is a long way down for a steel pin to fall; the hard hat is on for as long as anyone is working overhead, not only while the truss is moving. Gloves protect against the wire rope's broken strands and the chain's pinch points, which is where a ground rigger's hands spend the morning."
+    },
+    {
+      "cue": "Walk each section on its dolly: the main chords for dents and bends, the welds at the diagonals for cracks, the couplers and their holes for wear.",
+      "id": "truss-inspect",
+      "itemNames": {
+        "dented-chord": "dented main chord on section three"
+      },
+      "itemNotes": {
+        "dented-chord": "Section three's lower main chord has a crease where a forklift tyne caught it on the truck — a dented chord has lost its section, and a truss that was designed with that chord carrying compression will fold at the dent. The section is tagged out and a spare goes in."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk each section on its dolly: the main chords for dents and bends, the welds at the diagonals for cracks, the couplers and their holes for wear.",
+      "targets": [
+        "dented-chord"
+      ],
+      "title": "Inspect the truss sections before they are joined",
+      "why": "Aluminium truss gets its strength from straight tubes and sound welds, and it gets damaged in trucks and on docks: a dented main chord has lost the section the load tables were written for, and a cracked weld at a diagonal lets the chords work against each other until one lets go. The maker's inspection criteria are simple and absolute — a dent, a bend or a crack puts the section out of service — and the only time to apply them is on the deck, before the section is in the air with lights on it."
+    },
+    {
+      "cue": "Roll the spare section in on its dolly and butt its couplers square against the end of the run at the splice.",
+      "drag": {
+        "missNote": "Not butted at the splice — the section's couplers have to meet the run's end square before any bolt goes in.",
+        "radius": 0.5,
+        "to": "splice-point"
+      },
+      "id": "truss-splice",
+      "kind": "drag",
+      "prompt": "Roll the spare section in on its dolly and butt its couplers square against the end of the run at the splice.",
+      "target": "truss-section",
+      "title": "Roll the spare section in and butt it to the run",
+      "why": "A truss run is only as straight as its splices, and a section butted in crooked puts a kink in the run that loads one side of every coupler and bends the chords at the joint. The sections meet square on their dollies, at deck height, where both hands and both eyes can line them up — lining them up once they are lifting is guesswork with the load already on them."
+    },
+    {
+      "cue": "Run the maker's grade of bolt through each coupler and take the nut home — every coupler, every chord, no bolt left out.",
+      "id": "coupler-bolts",
+      "kind": "turn",
+      "prompt": "Run the maker's grade of bolt through each coupler and take the nut home — every coupler, every chord, no bolt left out.",
+      "target": "coupler-bolt",
+      "title": "Bolt the couplers with the right grade and the nuts home",
+      "turn": {
+        "label": "COUPLERS",
+        "turns": 1
+      },
+      "why": "The couplers carry the whole truss across the splice, and they carry it through the bolts: the maker specifies the bolt grade because a softer bolt shears under a load the truss itself would carry. Every coupler on every chord gets its bolt and its nut run home, because a missing bolt on one chord is invisible from the deck once the truss is dressed with cable and lights, and the truss is designed around all four chords working together."
+    },
+    {
+      "cue": "Sight the bridle legs from the deck with the angle finder and commit the included angle against the plot's figure.",
+      "gauge": {
+        "green": [
+          0.34,
+          0.54
+        ],
+        "label": "BRIDLE ANGLE",
+        "missNote": "Off the plot — sight both legs from directly under the point, not from the side, and compare against the plotted angle.",
+        "speed": 0.65
+      },
+      "id": "bridle-angle",
+      "kind": "gauge",
+      "prompt": "Sight the bridle legs from the deck with the angle finder and commit the included angle against the plot's figure.",
+      "target": "bridle-gauge",
+      "title": "Read the bridle's angle against the plot",
+      "why": "A bridle splits one point's load between two beams, and the tension in each leg rises steeply as the angle between them opens: at the plot's angle each leg carries its share, and at a much wider one each leg can carry as much as the whole load. The plot's leg lengths set the angle, and reading it from the deck is how a ground rigger catches a leg rigged a length short before the motor lifts against it."
+    },
+    {
+      "cue": "Look along each motor's chain from the chain bag to the hook: twists, kinks, a flipped hook block, the chain seated in the bag.",
+      "id": "chain-check",
+      "itemNames": {
+        "twisted-chain": "twisted load chain entering the downstage motor"
+      },
+      "itemNotes": {
+        "twisted-chain": "The downstage motor's load chain has a half twist a metre above the hook — the hook block has been flipped through the chain. Run in, the twist jams at the lift wheel. The motor is locked off and the block flipped back."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along each motor's chain from the chain bag to the hook: twists, kinks, a flipped hook block, the chain seated in the bag.",
+      "targets": [
+        "twisted-chain"
+      ],
+      "title": "Check the motors' load chains before the hooks go on",
+      "why": "A chain motor's load chain has to feed into its lift wheel flat and straight, and a chain twisted by a hook block flipped through it jams at the wheel under load — stalling the motor, or worse, jumping the wheel with the truss on it. ANSI E1.6 has the chain inspected before use, and the twist is found by looking from bag to hook before the motor is hooked to anything, not by listening for it once it is lifting."
+    },
+    {
+      "cue": "Take the tag line on the upstage end and hold it so the truss does not spin as it leaves the dollies — stand clear of the load, not under it.",
+      "holdBreakNote": "Let the tag line go before the truss was clear and still — it started to turn on its points. Take it again and steady it.",
+      "id": "tag-line",
+      "kind": "hold",
+      "prompt": "Take the tag line on the upstage end and hold it so the truss does not spin as it leaves the dollies — stand clear of the load, not under it.",
+      "seconds": 4,
+      "target": "tag-line",
+      "title": "Hold the tag line to steady the truss as it leaves the deck",
+      "why": "A truss leaving its dollies wants to swing and spin, and a spinning truss swings its ends into motors, other truss and people. The tag line lets a person on the deck control it from a distance, standing clear of the load's footprint rather than steadying it by hand from underneath. It is held until the truss is well above head height and still, because that is where the swing stops being a hazard to the deck."
+    },
+    {
+      "cue": "Hold the controller's GO and run both motors up, watching the truss stay level — release the moment one end starts to lead.",
+      "holdBreakNote": "The truss went out of level — release, let the operator correct the leading motor on its own, and run them together again.",
+      "id": "motor-run",
+      "kind": "track",
+      "prompt": "Hold the controller's GO and run both motors up, watching the truss stay level — release the moment one end starts to lead.",
+      "seconds": 6,
+      "target": "motor-go",
+      "title": "Run the motors up together, keeping the truss level",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "LEVEL",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "Two motors on one truss share its weight only while they run together: when one leads, it takes more of the load, the truss tilts and the lagging motor's point unloads — and a truss that goes far out of level overloads the leading motor and slides its cable and lights toward the low end. The operator holds GO with eyes on the truss rather than on the controller, and releases the instant it tilts, because the controller is a deadman for exactly that reason."
+    },
+    {
+      "cue": "Check the truss is at the plot's trim height at both ends, level, and clear of the other truss and the scenery around it.",
+      "id": "trim-check",
+      "kind": "select",
+      "prompt": "Check the truss is at the plot's trim height at both ends, level, and clear of the other truss and the scenery around it.",
+      "target": "trim-mark",
+      "title": "Check the truss at its trim height",
+      "why": "Trim is where the show's lighting design was drawn, and it is also where the rig's loads were calculated: a truss flown higher or lower than its plot trim changes the bridle's geometry and the cable's weight hanging off it. Both ends are checked at trim, because a truss that is level at one end and a foot off at the other is still out of level."
+    },
+    {
+      "cue": "Read the load cell display for each point once the truss has settled and commit it against the plot's figure.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "POINT LOAD",
+        "missNote": "Not a settled reading — let the truss stop swinging before reading the cell, or it reads the swing and not the load.",
+        "speed": 0.7
+      },
+      "id": "load-cells",
+      "kind": "gauge",
+      "prompt": "Read the load cell display for each point once the truss has settled and commit it against the plot's figure.",
+      "target": "load-cell-display",
+      "title": "Read each point's load cell against its plotted load",
+      "why": "The plot's point loads are calculations, and the load cells are what the points actually carry once the truss is dressed and at trim — the difference is how the head rigger learns that the lighting crew added a fixture, or a cable run is heavier than drawn. A point over its plotted load is a conversation before the show, not a surprise in the steel during it, and the reading is taken with the truss settled because a swinging truss reads high."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Rig a steel secondary sling from the truss to the beam at each point with minimal slack, and mouse every shackle pin with wire.",
+      "id": "secondaries",
+      "itemNames": {
+        "shackle-mouse": "every shackle pin moused",
+        "steel-secondary": "steel secondary from the truss to the beam"
+      },
+      "kind": "sequence",
+      "prompt": "Rig a steel secondary sling from the truss to the beam at each point with minimal slack, and mouse every shackle pin with wire.",
+      "targets": [
+        "steel-secondary",
+        "shackle-mouse"
+      ],
+      "title": "Rig the steel secondaries and mouse every shackle",
+      "why": "The motor is the primary load path and it has a brake, but a brake can fail and a hook can open: the steel secondary is a wire rope sling from the truss to the beam, rigged with just enough slack that it carries nothing until the motor lets go and then carries everything. ASME B30.9 governs the sling and B30.26 the shackles, and every shackle pin gets a wire mousing so that the vibration of a show cannot back it out over a run of nights."
+    },
+    {
+      "cue": "Record each point's load cell reading, the dented section tagged out, the twisted chain cleared, the out-of-step motor, and the secondaries on.",
+      "id": "rigging-log",
+      "kind": "select",
+      "prompt": "Record each point's load cell reading, the dented section tagged out, the twisted chain cleared, the out-of-step motor, and the secondaries on.",
+      "target": "rigging-log",
+      "title": "Log the points, the loads and the findings",
+      "why": "The rigging log is what the head rigger hands the arena's rigging department and what the next load-out works from: the dented section is out of service and must not go back on the truck with the good ones, the out-of-step motor is a service ticket before it flies again, and the load cell numbers are the proof the points stayed inside the plot. Written at the controller, it is the rig as it is; written after the show, it is the rig as someone remembers it."
+    },
+    {
+      "cue": "Call the head rigger that the points are trimmed and dead-hung, and check in with the deck crew after the stagehand under the load.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the head rigger that the points are trimmed and dead-hung, and check in with the deck crew after the stagehand under the load.",
+      "target": "head-rigger-radio",
+      "title": "Check in with the head rigger and the deck crew",
+      "why": "The head rigger in the steel releases the motors' power and clears the deck for lighting on this call, so it has to be accurate. It is also the crew's own check-in: a stagehand pushing a cart under a moving truss is a near miss that shakes the person who saw it and the person who nearly paid for it, and the IATSE's practice is to say so before the call moves on — with the member assistance line named for anyone who wants more than a word on the deck."
+    }
+  ],
+  "supportLine": "your IATSE local's member assistance contact, or the employee assistance programme your employer or the local carries",
+  "tagline": "An arena load-in from the deck: the rigging plot read, hard hat and gloves on, a dented truss chord found, the sections spliced and the couplers bolted, the bridle angle read, a twisted motor chain caught, the tag line held while a stagehand pushes a cart under the load, the motors bumped up level until one falls out of step, trim checked, the load cells read, the steel secondaries rigged and the shackles moused, and the points logged",
+  "title": "SmartCiti.X~ Stage Load-In & Truss Rigging VR",
+  "trade": "IATSE stagehand — ground rigger at an arena load-in, working to the head rigger in the steel",
+  "underwater": null,
+  "weather": null
+}

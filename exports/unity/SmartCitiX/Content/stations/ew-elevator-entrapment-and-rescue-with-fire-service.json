@@ -1,0 +1,394 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "rescue-certified",
+    "name": "Rescue Certified",
+    "note": "A passenger rescue completed with the car's position confirmed before every door opened and the brake never released uncontrolled"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "IUEC elevator constructors coordinating with a responding fire company; NEIEP apprenticeship curriculum for entrapment and rescue procedure; ASME A17.1 the safety code for elevators and escalators, whose emergency operation and manual lowering provisions this station follows; OSHA 29 CFR 1910.147 control of hazardous energy for the drive isolation during manual lowering",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME A17.1",
+        "id": "asme-a17-1",
+        "title": "ASME A17.1 — Safety Code for Elevators and Escalators"
+      },
+      {
+        "body": "union",
+        "citedAs": "NEIEP",
+        "id": "neiep-training",
+        "title": "IUEC and the National Elevator Industry Educational Program (NEIEP) — elevator constructor apprenticeship and continuing education, taught to the National Elevator Industry Educational Program curriculum"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "position-first",
+        "name": "Position First",
+        "note": "Never opened a landing door before the car's position was confirmed"
+      },
+      {
+        "id": "steady-lower",
+        "name": "Steady Lower",
+        "note": "Held the hand-crank descent and the level reading near band centre"
+      },
+      {
+        "id": "clean-restore",
+        "name": "Clean Restore",
+        "note": "Restored in the correct order, no correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "no-callback",
+        "name": "No Callback",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "crank-held",
+        "name": "Crank Held",
+        "note": "Never let the hand crank slip out of the controlled speed band"
+      },
+      {
+        "id": "rescue-fast",
+        "name": "Rescue Fast",
+        "note": "Passengers clear inside 80% of par"
+      }
+    ],
+    "currency": "LEVEL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Helper",
+      "Rescue Mechanic",
+      "Adjuster",
+      "Lead Mechanic",
+      "Rescue Authority Certified"
+    ],
+    "system": "Rescue Authority"
+  },
+  "hazards": {
+    "premature-door-open": "You unlocked the landing door before the car's position was confirmed. A hoistway door opens onto whatever is actually behind it, and if that is bare shaft instead of a car sill, the person standing in the doorway has no floor at all — passengers included.",
+    "residual-drift-zone": "You stood under the crosshead while the car still had residual movement from the hand-crank lowering. A car brought down by hand does not stop the instant the crank stops turning, and standing under it on that assumption is trusting a machine that nobody has yet proven fully at rest.",
+    "self-evacuation-gap": "A passenger climbed toward a partly open door before the bridge was in place. The gap between an unlevel car and the landing sill is exactly wide enough to swallow a foot or a leg, and it is there for as long as the car sits anywhere other than dead level with the floor.",
+    "uncontrolled-brake-release": "You released the machine brake without the hand crank already under control. The brake is the one thing holding this car and its counterweight still with no power available, and letting it go with nothing else managing the descent turns a controlled rescue into a free-falling one."
+  },
+  "id": "ew-elevator-entrapment-and-rescue-with-fire-service",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "attempt-recall",
+      "alert": "A passenger inside the car has started prying at the door, trying to force it open from inside before the position is confirmed.",
+      "cue": "Get back on the intercom and get them to stop.",
+      "delay": 4,
+      "id": "passenger-forces-door",
+      "kind": "Passenger forcing the door",
+      "missNote": "The prying continued with no word from the intercom. A passenger who forces a car door open onto an unconfirmed position finds out what is actually on the other side of it the same way anyone else would — by stepping into it.",
+      "seconds": 12,
+      "target": "passenger-intercom",
+      "why": "A door forced open from inside a car whose position nobody has confirmed yet is exactly the premature-opening hazard this whole procedure is built to prevent, except from the one side nobody outside the car can physically stop by hand. The intercom is the only tool that reaches them in time.",
+      "wrongNote": "It is the intercom. Whatever else this rescue needs, the passenger trying to force the door needs to hear a voice telling them to stop right now."
+    },
+    {
+      "after": "hand-crank",
+      "alert": "The fire service partner at the crank has started to ease the brake further open on their own, ahead of your signal.",
+      "cue": "Stop them — the descent is only controlled if it is controlled together.",
+      "delay": 4,
+      "id": "partner-rushes-brake",
+      "kind": "Brake guard interfered with",
+      "missNote": "The brake kept easing open without a shared signal. A lowering that only one of two rescuers is actually controlling is not a controlled lowering — it is a controlled crank attached to an uncontrolled brake.",
+      "seconds": 11,
+      "target": "brake-release-lever-guard",
+      "why": "Manual lowering only stays predictable when the brake and the crank move on one shared signal, and a partner who eases the brake open without that signal has just taken the one variable that was supposed to be jointly controlled and made it theirs alone.",
+      "wrongNote": "It is the brake release guard. Whatever the partner intends, this only works if the brake and the crank move together."
+    }
+  ],
+  "lateNotes": {
+    "emergency-door-release": "The landing door is only unlocked once the car is confirmed level and the sill gap is bridged.",
+    "hand-crank-wheel": "The crank is only turned once the drive is proven dead and the brake guard is confirmed with both rescuers ready."
+  },
+  "name": "Elevator Entrapment and Rescue with Fire Service",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "elevator-constructors"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "brake-release-lever-guard",
+      "car-position-indicator",
+      "drive-meter",
+      "emergency-door-release",
+      "hand-crank-wheel",
+      "heat-at-door",
+      "job-ticket",
+      "landing-level-gauge",
+      "landing-sill",
+      "lockout-hasp",
+      "main-disconnect",
+      "passenger-intercom",
+      "premature-door-open",
+      "recall-panel",
+      "rescue-log",
+      "residual-drift-zone",
+      "self-evacuation-gap",
+      "smoke-odor",
+      "step-bridge",
+      "uncontrolled-brake-release",
+      "water-in-shaft"
+    ],
+    "meshes": 168
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the dispatch ticket and confirm the car and floor range with the fire company on scene.",
+      "id": "checkin",
+      "kind": "select",
+      "prompt": "Read the dispatch ticket and confirm the car and floor range with the fire company on scene.",
+      "target": "job-ticket",
+      "title": "Check in with the responding company",
+      "why": "An entrapment call often reaches the mechanic and the fire company from two different dispatchers, and the two accounts do not always agree on which car or which floor — the ticket is read together, out loud, before either side commits to a plan for a car neither of them has actually seen yet."
+    },
+    {
+      "cue": "Open the car's intercom and confirm how many people are inside and whether anyone needs medical attention.",
+      "id": "intercom",
+      "kind": "select",
+      "prompt": "Open the car's intercom and confirm how many people are inside and whether anyone needs medical attention.",
+      "target": "passenger-intercom",
+      "title": "Talk to the passengers",
+      "why": "Everything about how urgent this rescue actually is comes from what the passengers say on this intercom, not from how long the call has been open. A calm, uninjured group waiting for a scheduled rescue is a different job than one person reporting chest pain, and the plan only starts once that difference is known."
+    },
+    {
+      "cue": "Check the landing and the shaft base for smoke, standing water and heat. Three signs change this whole plan if any of them are present.",
+      "id": "hazard-scan",
+      "itemNames": {
+        "heat-at-door": "a landing door warm to the back of the hand",
+        "smoke-odor": "a trace of smoke odor at the landing",
+        "water-in-shaft": "water pooling at the base of the hoistway"
+      },
+      "itemNotes": {
+        "heat-at-door": "A landing door that is warm to the back of a bare hand is a door with something burning on the other side of it, and it does not get opened on a rescue plan built for an ordinary mechanical stall.",
+        "smoke-odor": "Smoke at the landing changes this from a mechanical entrapment into a fire response, and everything after this point — whether anyone approaches the shaft at all — is decided by the fire company first, not by the rescue plan already in mind.",
+        "water-in-shaft": "Standing water at the base of a hoistway with a stalled car in it is a shock hazard next to every piece of electrical equipment down there, and it gets called out before anyone's hands go near a disconnect that might be sitting in it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the landing and the shaft base for smoke, standing water and heat. Three signs change this whole plan if any of them are present.",
+      "targets": [
+        "smoke-odor",
+        "water-in-shaft",
+        "heat-at-door"
+      ],
+      "title": "Scan for fire and water hazards before anything else",
+      "why": "A mechanical entrapment and a fire behind the same door look identical from the lobby side, and the plan this station teaches only applies to the first one — so the first real decision on every call is confirming which one this actually is, before a single tool comes out."
+    },
+    {
+      "cue": "Try to bring the car to a floor on normal power before anything else is attempted.",
+      "id": "attempt-recall",
+      "kind": "select",
+      "prompt": "Try to bring the car to a floor on normal power before anything else is attempted.",
+      "target": "recall-panel",
+      "title": "Attempt normal recall first",
+      "why": "If this car can still be moved to a floor under its own power, that is the fastest and least hazardous rescue available, and it is always tried first — manual lowering is the answer to a car that recall has already failed to move, not a shortcut around trying recall at all."
+    },
+    {
+      "cue": "Read the position indicator and commit once the car's location relative to the nearest floor is confirmed.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.56
+        ],
+        "label": "CAR POSITION",
+        "missNote": "Position not confirmed. Read the indicator again before anyone touches a door or a disconnect.",
+        "speed": 0.55
+      },
+      "id": "position-check",
+      "kind": "gauge",
+      "prompt": "Read the position indicator and commit once the car's location relative to the nearest floor is confirmed.",
+      "target": "car-position-indicator",
+      "title": "Confirm the car's actual position",
+      "why": "Every step after this one assumes a specific answer to where the car actually is, and that answer comes off the position indicator, not off which floor the passengers say they think they are near. A car resting a metre below a landing looks, from inside, very much like a car resting at one."
+    },
+    {
+      "cue": "Pull the machine room's main disconnect firmly to its open stop.",
+      "id": "disconnect",
+      "kind": "turn",
+      "prompt": "Pull the machine room's main disconnect firmly to its open stop.",
+      "target": "main-disconnect",
+      "title": "Isolate the drive for manual lowering",
+      "turn": {
+        "axis": "z",
+        "label": "MAIN LINE DISCONNECT",
+        "reverse": true,
+        "turns": 0.2
+      },
+      "why": "Manual lowering only works, and only stays predictable, on a machine with no power available to it at all — a drive that could receive power partway through a hand-crank lowering is a car that could suddenly answer to something other than the crank in a rescuer's hands."
+    },
+    {
+      "cue": "Apply your padlock and tag before the brake guard comes off.",
+      "id": "lock",
+      "kind": "select",
+      "prompt": "Apply your padlock and tag before the brake guard comes off.",
+      "target": "lockout-hasp",
+      "title": "Lock and tag the disconnect",
+      "why": "The lock is what keeps this car's isolation from being anyone else's decision to end while the crank and the brake are both actively being managed by hand a few feet away from a hoistway with passengers still inside it."
+    },
+    {
+      "cue": "Meter the drive input and commit when it reads dead.",
+      "gauge": {
+        "green": [
+          0,
+          0.08
+        ],
+        "label": "DRIVE INPUT — VOLTAGE",
+        "missNote": "Still reading live. Recheck the disconnect before the brake guard comes off.",
+        "speed": 0.6
+      },
+      "id": "verify-zero",
+      "kind": "gauge",
+      "prompt": "Meter the drive input and commit when it reads dead.",
+      "target": "drive-meter",
+      "title": "Verify zero energy at the drive",
+      "why": "A locked disconnect is a claim about the switch; the meter is the only proof about the motor itself, read against a known-live source first so a failed meter cannot hand back a comfortable false dead right before the brake is touched."
+    },
+    {
+      "cue": "Confirm the fire service partner is at the hand crank before the brake release guard comes off.",
+      "id": "brake-guard",
+      "kind": "select",
+      "prompt": "Confirm the fire service partner is at the hand crank before the brake release guard comes off.",
+      "target": "brake-release-lever-guard",
+      "title": "Confirm both rescuers are in position",
+      "why": "Manual lowering is a two-person operation by design — one hand on the brake release, one hand on the crank — and the guard does not come off until both of those hands are actually where the procedure needs them, not on the assumption that the other person is ready."
+    },
+    {
+      "cue": "Turn the crank and hold the descent speed inside the controlled band as the brake eases open.",
+      "holdBreakNote": "The crank slipped out of the controlled band. Take it again and bring the descent back inside the band before continuing.",
+      "id": "hand-crank",
+      "kind": "track",
+      "prompt": "Turn the crank and hold the descent speed inside the controlled band as the brake eases open.",
+      "seconds": 8,
+      "target": "hand-crank-wheel",
+      "title": "Lower the car on the hand crank",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "LOWERING SPEED",
+        "rise": 0.5,
+        "start": 0.2
+      },
+      "why": "The crank and the brake move together on purpose — the brake easing open is what lets the car move at all, and the crank is what keeps that movement slow enough for a rescuer to stop it the instant something looks wrong. Losing that band even briefly is losing the one thing distinguishing a lowering from a drop."
+    },
+    {
+      "cue": "Read the level indicator and commit once the car sits inside the level band.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.56
+        ],
+        "label": "LANDING LEVEL",
+        "missNote": "Not level. Take the crank again and bring the car back into the level band before anyone approaches the door.",
+        "speed": 0.55
+      },
+      "id": "level-check",
+      "kind": "gauge",
+      "prompt": "Read the level indicator and commit once the car sits inside the level band.",
+      "target": "landing-level-gauge",
+      "title": "Confirm the car is level with the landing",
+      "why": "A car brought down by hand is stopped by feel, and feel is not accurate enough on its own to trust a door to. The level indicator is what actually confirms the car sill and the landing sill line up close enough for someone to step across safely."
+    },
+    {
+      "cue": "Carry the bridge plate across from the car sill to the landing sill before the door is unlocked.",
+      "drag": {
+        "missNote": "Not seated across the sill. A bridge plate resting anywhere else still leaves the actual gap open underneath it.",
+        "radius": 0.4,
+        "to": "landing-sill"
+      },
+      "id": "bridge-gap",
+      "kind": "drag",
+      "prompt": "Carry the bridge plate across from the car sill to the landing sill before the door is unlocked.",
+      "target": "step-bridge",
+      "title": "Bridge the sill gap",
+      "why": "Even a car confirmed level can leave a small gap at the sill, and the bridge plate closes that gap before it becomes something a frightened passenger steps into on their way out rather than across."
+    },
+    {
+      "cue": "Use the emergency release to unlock the landing door now that the car is level and bridged.",
+      "id": "door-unlock",
+      "kind": "select",
+      "prompt": "Use the emergency release to unlock the landing door now that the car is level and bridged.",
+      "target": "emergency-door-release",
+      "title": "Unlock the landing door",
+      "why": "This is the door a passenger is about to walk through with their eyes on the lobby, not on the sill, and it is only unlocked once every check ahead of it — position, level, bridge — has actually been satisfied rather than assumed to be close enough."
+    },
+    {
+      "cue": "Take your lock off the hasp once everyone is clear of the car, then close the main disconnect.",
+      "id": "restore",
+      "itemNames": {
+        "lockout-hasp": "your lock off the hasp",
+        "main-disconnect": "main line disconnect"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — your lock off first, once everyone is clear, and the disconnect closed last.",
+      "prompt": "Take your lock off the hasp once everyone is clear of the car, then close the main disconnect.",
+      "targets": [
+        "lockout-hasp",
+        "main-disconnect"
+      ],
+      "title": "Close out the isolation in the correct order",
+      "why": "The lock comes off only once every passenger and every rescuer is clear of the hoistway, and the disconnect is closed last because it is the one thing that turns this car back into a machine capable of moving on its own again."
+    },
+    {
+      "cue": "Write the car's position, the lowering method and the time passengers cleared on the rescue log.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Write the car's position, the lowering method and the time passengers cleared on the rescue log.",
+      "target": "rescue-log",
+      "title": "Log the rescue",
+      "why": "This log is what the building's next inspection and the fire company's own incident report both draw from, and a rescue that goes unwritten in detail is one nobody can learn anything from the next time a car stalls with people inside it."
+    }
+  ],
+  "supportLine": "your IUEC local's member assistance programme, or the NEIEP training coordinator for anything about the certification record — and 988, or the department's own peer support line, for anyone who found this call harder to shake than expected",
+  "tagline": "Confirming the car's true position before anything else, then a controlled hand-crank lowering, a level check, a bridge across the sill gap and a coordinated release of the passengers",
+  "title": "SmartCiti.X~ Elevator Entrapment and Rescue with Fire Service VR",
+  "trade": "Elevator constructor / mechanic — IUEC",
+  "underwater": null,
+  "weather": null
+}

@@ -1,0 +1,433 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "leak-graded",
+    "name": "Leak Graded",
+    "note": "An odour call worked out to its edges and graded on where the gas was, with nothing on the street left able to light it"
+  },
+  "category": "Energy & Power",
+  "certification": "UWUA and USW gas-utility locals — operator-qualified for leakage survey and leak investigation; 49 CFR Part 192 (PHMSA minimum safety standards for gas distribution pipelines, including its leakage-survey, investigation and repair requirements) and the operator's own written leak-grading and re-check procedure made under it; NFPA 54 for the customer fuel-gas piping downstream of the meter; OSHA 29 CFR 1910.146 where migrated gas puts a manhole or a vault into the survey",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 54",
+        "id": "nfpa-54",
+        "title": "NFPA 54 — National Fuel Gas Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.146",
+        "id": "osha-1910-146",
+        "title": "29 CFR 1910.146 — Permit-required confined spaces"
+      },
+      {
+        "body": "union",
+        "citedAs": "USW",
+        "id": "usw-mazzocchi-center",
+        "title": "USW Tony Mazzocchi Center health, safety and environmental training"
+      },
+      {
+        "body": "union",
+        "citedAs": "UWUA",
+        "id": "uwua-training",
+        "title": "UWUA — Utility Workers Union of America training and safety education for water, gas and electric utility crews"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Energy",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-zero",
+        "name": "Zeroed Clean",
+        "note": "Instrument zeroed in air that was actually clean, upwind of the call"
+      },
+      {
+        "id": "nothing-to-light-it",
+        "name": "Nothing To Light It",
+        "note": "No vehicle, no bell push and no curiosity put an ignition source over the gas"
+      },
+      {
+        "id": "read-the-hole",
+        "name": "Read The Hole",
+        "note": "Every bar hole read on a settled sample rather than on the first swing"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-survey",
+        "name": "Clean Survey",
+        "note": "Whole call worked with no corrections"
+      },
+      {
+        "id": "held-the-draw",
+        "name": "Held The Draw",
+        "note": "Every timed draw carried through without letting go"
+      },
+      {
+        "id": "graded-early",
+        "name": "Graded Early",
+        "note": "Grade called and passed on inside 80% of par"
+      }
+    ],
+    "currency": "SCALE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Serviceperson",
+      "Leak Investigator",
+      "Survey Technician",
+      "Survey Crew Leader",
+      "Leak Survey Authority Certified"
+    ],
+    "system": "Leak Survey Authority"
+  },
+  "hazards": {
+    "basement-entry": "You went down the cellar steps to find where it is coming in. An inside reading is the one finding on this call that ends the investigation instead of directing it: below grade, in an unventilated space with a standing pilot in the corner of it, there is nothing a serviceperson can usefully learn that is worth being in the room to learn it. Get the occupants out, get yourself out, call it in, and let the reading be taken from the doorway with a probe.",
+    "doorbell": "You pressed the bell push to warn the householder. A bell push is a switch, and a switch makes a small arc every time it closes — on the outside wall of a building whose foundation hole has just read. The trade knocks. It knocks on the door frame, it leaves the bell, the light switches and the garage opener alone, and it tells the occupants to leave everything electrical exactly as they found it on the way out.",
+    "truck-start": "You reached for the ignition to bring the truck up closer to the work. Your own vehicle is the largest and most reliable ignition source on this street: a starter motor, an alternator, a hot exhaust and a catalytic converter, all of them arriving directly over a trench that is venting. The truck gets parked upwind and clear at the start of the call and it stays there — the last few metres are walked, carrying what is rated to be carried.",
+    "zero-at-leak": "You zeroed the combustible gas indicator standing over the bar holes. A catalytic instrument zeroes to whatever air it is breathing at the moment you press it, so zeroing it in gas teaches it that gas is zero — and it will then read clean all the way down the street while you walk away from a leak it has been calibrated not to see. The zero is taken upwind, in air you have first proved is clean, and it is taken again after the instrument has been switched off or has sat in a rich sample."
+  },
+  "id": "gas-leak-survey",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "barholes",
+      "alert": "A contractor's van has pulled onto the verge beside your bar holes and left the engine running while the driver gets out to see what you are doing.",
+      "cue": "There is a hot exhaust standing over the trench line.",
+      "delay": 3,
+      "id": "van-on-the-trench",
+      "kind": "Vehicle on the leak",
+      "missNote": "The van stayed where it was with the engine running for the rest of the survey, parked over a trench your own bar holes had just shown to be venting. Nothing happened, which is the only outcome you can report and the one that tells you least: the exhaust was hot, the ground was gassy, and the margin was somebody else's luck rather than anything you did.",
+      "seconds": 12,
+      "target": "idling-van",
+      "why": "An idling vehicle parked over a venting trench puts a starter, an alternator and an exhaust system at ground level in the gas, and the driver is about to walk across your pattern and stand in it. Getting that van moved and shut down is worth more in this minute than any reading you could have taken while it was there.",
+      "wrongNote": "That is not what has arrived. The van is running, it is on the verge over the trench, and it is the thing that has to move."
+    },
+    {
+      "after": "curb-valve",
+      "alert": "The householder has come back up onto the porch and has her hand on the bell push, about to call her neighbour out to see what the crew is doing.",
+      "cue": "Somebody is reaching for a switch on a wall you have just found gas against.",
+      "delay": 3,
+      "id": "bell-push",
+      "kind": "Occupant at the door",
+      "missNote": "She pressed the bell. Nothing came of it, and nothing coming of it is not evidence that it was safe — it is evidence that the concentration at that wall at that second happened to fall on the wrong side of the range that burns. Evacuated occupants come back for pets, phones and coats, and the crew that evacuated them is the only thing standing between them and the switches on their own house.",
+      "seconds": 12,
+      "target": "occupant",
+      "why": "A bell push is a switch and every switch arcs. It is on the outside wall of the building whose foundation hole has just read, feet from a water service sleeve the gas has a path to — and the person about to press it is the one you evacuated ten minutes ago. Intercepting her is the entire job right now; the valve can wait the thirty seconds it takes.",
+      "wrongNote": "That is not the problem in front of you. There is a person on the porch with a finger on a switch."
+    }
+  ],
+  "lateNotes": {
+    "barhole-wall": "The hole at the foundation comes last. The pattern is driven outward from the source so you can see where the gas stops, not inward from the building so you can confirm what you already feared.",
+    "curb-valve": "The service valve is shut once the extent is known and the building is clear — not on the way past, and not before anybody has been told what is about to go off.",
+    "evacuate-call": "The call goes in when there is a reading to call about. Ringing it in on an odour with no instrument behind it starts a crew rolling to a number nobody can repeat."
+  },
+  "name": "Gas Leak Survey",
+  "parSeconds": 310,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "barhole-main",
+      "barhole-trench",
+      "barhole-wall",
+      "barricade",
+      "basement-entry",
+      "cgi-meter",
+      "cgi-zero",
+      "clean-barhole",
+      "curb-valve",
+      "doorbell",
+      "engine-off",
+      "evacuate-call",
+      "frost-cap",
+      "grade-board",
+      "idling-van",
+      "is-kit",
+      "leak-record",
+      "main-trench",
+      "manhole-lid",
+      "monitor-probe",
+      "occupant",
+      "odour-plume",
+      "odour-ticket",
+      "park-upwind",
+      "repair-radio",
+      "sewer-lateral",
+      "site-watch",
+      "street-socket",
+      "truck-start",
+      "wall-probe",
+      "water-service",
+      "zero-at-leak"
+    ],
+    "meshes": 263
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read what was reported, by whom, from where, and how long ago.",
+      "id": "ticket",
+      "kind": "select",
+      "prompt": "Read what was reported, by whom, from where, and how long ago.",
+      "target": "odour-ticket",
+      "title": "Take the odour report",
+      "why": "An odour call is somebody else's observation, and it is the only evidence there is until the instrument comes out of the truck. Whether it was smelled outdoors at the kerb or indoors in a cellar changes the approach before you leave the vehicle, and the time it was reported tells you whether you are arriving at a leak that has been filling a void under the pavement since last night or one that started while the caller was still on the phone."
+    },
+    {
+      "cue": "Stop short of the address, kill the engine, and carry in only what is rated to be there.",
+      "id": "approach",
+      "itemNames": {
+        "engine-off": "engine and heater shut down",
+        "is-kit": "intrinsically safe kit only, carried in",
+        "park-upwind": "truck parked upwind and short of the call"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — park it clear first, then shut it down, then pick up what you are carrying. Sorting kit on the tailgate of an idling truck parked over the leak is the wrong half of this done first.",
+      "prompt": "Stop short of the address, kill the engine, and carry in only what is rated to be there.",
+      "targets": [
+        "park-upwind",
+        "engine-off",
+        "is-kit"
+      ],
+      "title": "Park upwind, shut down, and walk the last part",
+      "why": "The first vehicle to arrive at a gas call parks where the gas is not, because a running engine sitting over a venting trench is the ignition source most likely to be present and the only one entirely within your control. Shutting it down also stops the cab heater and the beacon inverter. What goes in from there is the instrument, the bar and a torch rated for a flammable atmosphere; the phone and the ordinary lamp stay in the cab with the truck."
+    },
+    {
+      "cue": "Upwind of the call, hold the zero until the instrument settles on its own.",
+      "holdBreakNote": "You let go before it settled. A zero taken on a moving needle is a zero at whatever the needle happened to be doing — hold it through to the stop.",
+      "id": "zero",
+      "kind": "hold",
+      "prompt": "Upwind of the call, hold the zero until the instrument settles on its own.",
+      "seconds": 5,
+      "target": "cgi-zero",
+      "title": "Zero the combustible gas indicator in clean air",
+      "why": "A catalytic combustible gas indicator does not know what clean air is; it knows what it was breathing when somebody last zeroed it. Zero it upwind, away from the trench and away from the truck's own exhaust, and hold it long enough for the sensor to come to temperature and the reading to stop walking. An instrument zeroed in a hurry, or zeroed in the sample, produces a survey that proves the street is clear when it is not."
+    },
+    {
+      "cue": "Find the three underground paths that can carry this away from the source.",
+      "decoyNotes": {
+        "odour-plume": "That is where it smells worst, which tells you where the wind has taken it and nothing whatever about where it came out of the ground. Odour collects in still corners, behind hedges and against walls. The survey follows the utilities."
+      },
+      "id": "paths",
+      "itemNames": {
+        "main-trench": "the backfilled trench over the main",
+        "sewer-lateral": "the sewer lateral crossing it",
+        "water-service": "the water service into the building"
+      },
+      "itemNotes": {
+        "main-trench": "The patch line down the carriageway is the trench the main was laid in. Whatever came out was backfilled with sand and stone, and that is now a drain running the length of the street with a better permeability than anything either side of it.",
+        "sewer-lateral": "The lateral runs from the manhole under the trench line and into the building. Where two trenches cross, gas changes lanes — and this one ends inside somebody's cellar at a floor drain.",
+        "water-service": "The water service enters through the foundation in a sleeve. The sleeve is the hole in the wall: the gas does not have to get through concrete, it only has to reach a pipe that already went through it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the three underground paths that can carry this away from the source.",
+      "targets": [
+        "main-trench",
+        "sewer-lateral",
+        "water-service"
+      ],
+      "title": "Work out where it can travel before you drive a hole",
+      "why": "Gas leaving a main rarely comes up through the ground directly above the leak. It takes the path of least resistance, which is the trench somebody backfilled with sand, and it stays under whatever is capping the surface until the cap runs out. Reading the street for its utilities first is what tells you where to put the bar holes, and just as importantly which buildings are downstream of a leak that has not reached them yet."
+    },
+    {
+      "cue": "Drive the pattern from the main, out along the trench, and only then at the wall.",
+      "id": "barholes",
+      "itemNames": {
+        "barhole-main": "over the main, at the service tee",
+        "barhole-trench": "out along the trench",
+        "barhole-wall": "at the foundation wall"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — the source hole first, then out along the trench, then the wall. Starting at the wall leaves you a number with nothing either side of it to compare it against.",
+      "prompt": "Drive the pattern from the main, out along the trench, and only then at the wall.",
+      "targets": [
+        "barhole-main",
+        "barhole-trench",
+        "barhole-wall"
+      ],
+      "title": "Bar-hole outward, source first",
+      "why": "The pattern is the finding. Driven outward from the suspected source you watch the readings fall away and can say where the gas stops; driven inward from the building you only ever confirm the one hole you were already worried about and never learn the extent. Each hole goes down to the bedding and is angled off the pipe rather than onto it, because a bar driven onto a plastic service is how a survey becomes a second leak."
+    },
+    {
+      "cue": "Purge the hole, let the instrument come up, and commit when the reading is on scale and steady.",
+      "gauge": {
+        "green": [
+          0.34,
+          0.58
+        ],
+        "label": "BAR HOLE 1 · SAMPLE",
+        "missNote": "That is not the sample. Committed on the rise you have written down the hose; committed on the fall you have written down the fresh air coming in around the probe. Purge it, let it plateau, take the middle.",
+        "speed": 0.7
+      },
+      "id": "soil-read",
+      "kind": "gauge",
+      "prompt": "Purge the hole, let the instrument come up, and commit when the reading is on scale and steady.",
+      "target": "cgi-meter",
+      "title": "Read the bar hole in open soil",
+      "why": "The reading you write down is the settled one. The first swing after the probe goes in is the air that was already in the hose and the top of the hole; the last is the hole drawing fresh air in around the probe as the pump empties it. Between those two is the plateau, and the plateau is the sample. A reading taken on the way up is a guess, and it is a guess somebody will read months later while deciding whether to dig this street up."
+    },
+    {
+      "cue": "Same instrument, same scale, same patience — commit on the settled reading at the wall.",
+      "gauge": {
+        "green": [
+          0.36,
+          0.6
+        ],
+        "label": "BAR HOLE 3 · FOUNDATION",
+        "missNote": "Not a settled sample. At the wall of all places the number has to be defensible — this is the reading that decides whether anybody sleeps in the building tonight.",
+        "speed": 0.72
+      },
+      "id": "wall-read",
+      "kind": "gauge",
+      "prompt": "Same instrument, same scale, same patience — commit on the settled reading at the wall.",
+      "target": "wall-probe",
+      "title": "Read the hole at the foundation",
+      "why": "This is the reading the grade turns on. The identical deflection that is a scheduled repair out in the carriageway is a different grade entirely once it is against a structure, because a building is a void with people in it and a trench is not. Nothing about the instrument changes here; what changes is that the number now has an address attached to it, and the operator's procedure reads those two facts together rather than either one alone."
+    },
+    {
+      "cue": "The probe at the cellar doorway has come up. Get them out and get it called in.",
+      "id": "inside",
+      "kind": "select",
+      "prompt": "The probe at the cellar doorway has come up. Get them out and get it called in.",
+      "target": "evacuate-call",
+      "title": "An inside reading — evacuate and call it",
+      "why": "At or above the limit that makes it an inside reading, the job changes character: this is no longer a survey to be completed, it is an occupied building with a flammable atmosphere in it. Everybody comes out, nothing electrical is touched on the way — no lights, no switches, no phones used indoors — and the call goes to the emergency number and to gas control together, because what is needed now is a crew and a shutdown rather than a serviceperson with a bar."
+    },
+    {
+      "cue": "Carry the barrier across the street approach and set the cones behind it.",
+      "drag": {
+        "missNote": "Not across the approach. A barrier set off to one side is a barrier people drive around, and the thing you were keeping off the leak arrives anyway.",
+        "radius": 0.5,
+        "to": "street-socket"
+      },
+      "id": "control",
+      "kind": "drag",
+      "prompt": "Carry the barrier across the street approach and set the cones behind it.",
+      "target": "barricade",
+      "title": "Close the approach off",
+      "why": "Once the grade is going to be a serious one, everything that can drive, park or wander onto the leak has to be stopped at a distance rather than waved at as it arrives. A traffic control point put in early is also what keeps the next vehicle — a delivery van, a neighbour, the crew who came to help — from parking on the bar holes with its engine running, which is the commonest way a controlled gas call acquires an ignition source."
+    },
+    {
+      "cue": "Key into the box and take the service valve over to shut.",
+      "id": "curb-valve",
+      "kind": "turn",
+      "prompt": "Key into the box and take the service valve over to shut.",
+      "target": "curb-valve",
+      "title": "Shut the service at the curb box",
+      "turn": {
+        "axis": "y",
+        "label": "SERVICE VALVE — CURB BOX",
+        "turns": 0.25
+      },
+      "why": "Shutting the service takes the building out of the equation without touching the main, which is what lets one person make the street safe while the crew is still on the way. It is done at the curb box from the surface with a key, so nothing has to be opened and nobody has to stand at the meter set. It is also the point of no return for the occupants' heating, which is why it happens after they are out and after it has been called in, rather than before either."
+    },
+    {
+      "cue": "Keep the aspirator pulling steadily — not so hard it draws the hole down, not so slow it never clears.",
+      "holdBreakNote": "Sample rate out of band — too slow and you are reading the last hole, too hard and you are reading the street. Bring it back and hold it there.",
+      "id": "watch",
+      "kind": "track",
+      "prompt": "Keep the aspirator pulling steadily — not so hard it draws the hole down, not so slow it never clears.",
+      "seconds": 6,
+      "target": "monitor-probe",
+      "title": "Hold a sample on the hole while it is logged",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.48,
+        "green": [
+          0.38,
+          0.58
+        ],
+        "label": "ASPIRATOR RATE",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "A logged reading has to be a repeatable one, which means the sample rate on this hole has to match the rate on the last. Squeeze too hard and the aspirator pulls fresh air in around the probe and reports a leak smaller than it is; too slow and the hose never clears, so every hole reads like the one before it. Steady is what makes three holes comparable, and comparable is the entire basis on which an extent gets drawn."
+    },
+    {
+      "cue": "Find the three things that tell the next crew where this leak ends.",
+      "id": "extent",
+      "itemNames": {
+        "clean-barhole": "the outermost hole that reads clean",
+        "frost-cap": "the frozen and overlaid cap",
+        "manhole-lid": "the manhole on the lateral"
+      },
+      "itemNotes": {
+        "clean-barhole": "The edge of a leak is a hole that reads nothing with a hole that reads something inboard of it. Without one of these the survey has no outside, and the repair crew has nowhere to stop digging.",
+        "frost-cap": "Frozen ground under a fresh overlay is a lid. The gas cannot come up through it, so it runs sideways underneath and surfaces at the first break — which is why a reading two properties away is usually not a second leak, it is this one, arriving.",
+        "manhole-lid": "A manhole on a lateral that crosses the trench is a collection point and a confined space with an ignition risk in it. It gets read from the surface through the pick hole — it does not get lifted, and it certainly does not get entered on this call."
+      },
+      "kind": "find",
+      "prompt": "Find the three things that tell the next crew where this leak ends.",
+      "targets": [
+        "clean-barhole",
+        "manhole-lid",
+        "frost-cap"
+      ],
+      "title": "Prove the extent before you hand it over",
+      "why": "An extent is what turns a reading into a work order. It is the outermost clean hole, the structures and voids the gas could have reached on the way, and the surface condition that explains why it went where it went. Handed over without those, the repair crew arrives knowing only that somewhere near this address there is gas, which is exactly what the caller told the control room hours ago."
+    },
+    {
+      "cue": "Take the readings and their locations to the grading procedure and read the grade off it.",
+      "id": "grade",
+      "kind": "select",
+      "prompt": "Take the readings and their locations to the grading procedure and read the grade off it.",
+      "target": "grade-board",
+      "title": "Assign the grade the procedure gives",
+      "why": "The grade is not a judgement about how bad it smells or how experienced you are; it is the output of a table the operator wrote and files against, keyed on where the gas was found and what it is near. The same reading in open soil at the kerb and against an occupied foundation produce different grades, different response times and different re-check intervals, and the whole value of writing it this way is that the next person can reproduce your answer from your readings."
+    },
+    {
+      "cue": "Write it up, call it through with the grade and the extent, and leave the site watched.",
+      "id": "handover",
+      "itemNames": {
+        "leak-record": "readings, sketch and grade recorded",
+        "repair-radio": "passed to gas control and the repair crew",
+        "site-watch": "site left guarded and lit"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — record it, then pass it, then set the watch. Calling in a grade you have not written down yet is how two different numbers end up in two different systems for the same leak.",
+      "prompt": "Write it up, call it through with the grade and the extent, and leave the site watched.",
+      "targets": [
+        "leak-record",
+        "repair-radio",
+        "site-watch"
+      ],
+      "title": "Record it, pass it, and stay with it",
+      "why": "The record is the leak's only memory: the readings, the locations, the grade, the sketch of the bar hole pattern and the time each hole was taken. It is what the re-check is measured against and what an investigator reads if this street ever makes the news. Passing it by voice as well as in writing means the crew arrives already knowing the grade, and the site stays guarded because a barricade on its own never stopped the one person who decides the tape does not apply to them."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Reported odour over a distribution main: instrument zeroed in clean air, ignition sources controlled, bar-holed outward along the trench and the utilities, graded on where the gas is, inside readings evacuated rather than investigated",
+  "title": "SmartCiti.X~ Gas Leak Survey VR",
+  "trade": "Gas distribution serviceperson / leak survey technician",
+  "underwater": null,
+  "weather": "overcast"
+}

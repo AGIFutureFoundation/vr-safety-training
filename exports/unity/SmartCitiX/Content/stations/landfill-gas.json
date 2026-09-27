@@ -1,0 +1,399 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "field-balanced",
+    "name": "Field Balanced",
+    "note": "A well tuned on what comes out of it rather than on how far the valve was opened"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "LIUNA and IUOE landfill and wellfield crews; SWANA Manager of Landfill Operations; 40 CFR 258.23 methane monitoring at the property boundary and in site structures; the NSPS gas collection and control requirements for landfills at 40 CFR 60, including the 55 °C wellhead operating temperature those standards have used; OSHA 29 CFR 1910.146 where a knockout or manhole is entered",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "EPA",
+        "citedAs": "40 CFR 258.23",
+        "id": "epa-40-cfr-258-23",
+        "title": "40 CFR 258.23 — Explosive gases control at municipal solid waste landfills"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "40 CFR 60",
+        "id": "epa-40-cfr-60",
+        "title": "40 CFR Part 60 — Standards of performance for new stationary sources, with the Appendix A reference test methods"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.146",
+        "id": "osha-1910-146",
+        "title": "29 CFR 1910.146 — Permit-required confined spaces"
+      },
+      {
+        "body": "SWANA",
+        "citedAs": "SWANA",
+        "id": "swana-landfill-operations",
+        "title": "SWANA Manager of Landfill Operations certification"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "no-air-in",
+        "name": "No Air Drawn In",
+        "note": "Oxygen held down: the well was never opened past what the gas quality would carry"
+      },
+      {
+        "id": "proven-meter",
+        "name": "Proven Meter",
+        "note": "Never took a reading on an analyser that had not been proven that morning"
+      },
+      {
+        "id": "read-twice",
+        "name": "Read Twice",
+        "note": "Re-read the well after tuning instead of writing down the number they wanted"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-round",
+        "name": "Clean Round",
+        "note": "No corrections through the whole well round"
+      },
+      {
+        "id": "held-the-vacuum",
+        "name": "Held The Vacuum",
+        "note": "Held the applied vacuum steady while the well settled"
+      },
+      {
+        "id": "round-on-time",
+        "name": "Round On Time",
+        "note": "Well tuned and logged inside 80% of par"
+      }
+    ],
+    "currency": "SCFM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Field Hand",
+      "Wellfield Technician",
+      "Lead Technician",
+      "Gas System Supervisor",
+      "Wellfield Authority Certified"
+    ],
+    "system": "Wellfield Authority"
+  },
+  "hazards": {
+    "crank-open": "You opened the wellhead valve wide to pull more gas. That is the one move this job is about not making. Past the point the waste mass can supply, the extra vacuum stops pulling landfill gas and starts pulling air down through the cover — and oxygen in warm anaerobic waste starts a subsurface fire, which burns underground for months, cannot be extinguished from the surface, and ends with the cover excavated and the field shut down.",
+    "skip-cal": "You took the readings on an analyser that had not been proven that morning. Every number in this job is a decision — open the valve, close the valve, call the engineer — and an uncalibrated meter makes all three of them for you, wrongly, and writes them in a log the regulator reads.",
+    "sniff-port": "You leaned over the open sample port. Landfill gas is roughly half methane and half carbon dioxide and it displaces the air it meets: there is no oxygen in the plume coming out of that port, and a lungful of it puts you on the ground beside a well nobody is watching.",
+    "spark-tool": "You brought a non-rated tool to an open wellhead. What comes out of that port is about half methane and it is coming out under vacuum at the sample line and under pressure the moment the vacuum drops. A wellfield is a classified area at the wellhead for the same reason a gas main is."
+  },
+  "id": "landfill-gas",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "tune",
+      "alert": "The flare has gone out and the blower has tripped. Every well on the field is losing vacuum at once.",
+      "cue": "The thing that was pulling on this well has stopped pulling.",
+      "delay": 4,
+      "id": "flare-out",
+      "kind": "Flare lost",
+      "missNote": "You went on adjusting a well with no vacuum on it. Every number taken in that window described a field that was venting to atmosphere, and they all went in the log as if they meant something.",
+      "seconds": 13,
+      "target": "flare-station",
+      "why": "The field has one set of lungs. With the blower down, every wellhead goes from vacuum toward positive pressure, and gas that was being collected starts coming out of the cover and moving sideways through the soil instead. Tuning a single well against a dead field is measuring nothing — the flare comes first.",
+      "wrongNote": "Not that. The blower and the flare are the field's vacuum, and nothing at this wellhead means anything until they are back."
+    },
+    {
+      "after": "recheck",
+      "alert": "The perimeter probe on the west boundary has gone into alarm. There is methane at the fence line.",
+      "cue": "Something is at the property boundary, and the boundary is where the limit is.",
+      "delay": 4,
+      "id": "probe-alarm",
+      "kind": "Perimeter methane",
+      "missNote": "The alarm stood unanswered while you finished the well. Methane at a boundary probe moves toward whatever is on the other side of that fence, which on this site is a row of houses with basements.",
+      "seconds": 12,
+      "target": "boundary-probe",
+      "why": "258.23 is written about the property boundary, not about the waste. Methane at the fence means it has travelled through soil to somewhere the rule says it must not be, and the reading at the probe is what decides whether this is a tuning problem or an evacuation and a notification. It gets read before anything else is touched.",
+      "wrongNote": "That is not the probe. A boundary alarm is read at the boundary, and it is read now."
+    }
+  ],
+  "lateNotes": {
+    "field-log": "The log is written after the re-read, with the number the well actually settled at.",
+    "gem-analyser": "The analyser is proven against the calibration gas before it is believed.",
+    "wellhead-valve": "The valve is adjusted after the gas is read, not before — the reading is what says which way to turn it."
+  },
+  "name": "Landfill Gas",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "air-quality-monitoring"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "boundary-probe",
+      "cal-gas",
+      "cracked-boot",
+      "crank-open",
+      "field-log",
+      "flare-station",
+      "gem-analyser",
+      "knockout-drain",
+      "o2-readout",
+      "sample-port",
+      "settled-cover",
+      "skip-cal",
+      "sniff-port",
+      "spark-tool",
+      "surface-crack",
+      "temp-probe",
+      "vacuum-gauge",
+      "wellfield-map",
+      "wellhead-valve"
+    ],
+    "meshes": 170
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "select",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Take the map and last month's readings for this well: methane, oxygen, temperature, and where the valve was left.",
+      "id": "plan",
+      "kind": "select",
+      "prompt": "Take the map and last month's readings for this well: methane, oxygen, temperature, and where the valve was left.",
+      "target": "wellfield-map",
+      "title": "Read the well's history",
+      "why": "A wellfield is tuned against its own history. One reading says almost nothing; the same well trending down in methane and up in oxygen over three rounds says the cover is leaking near it, and that is a different job from turning a valve."
+    },
+    {
+      "cue": "Open the drain on the knockout and let the leg clear.",
+      "id": "knockout",
+      "kind": "turn",
+      "prompt": "Open the drain on the knockout and let the leg clear.",
+      "target": "knockout-drain",
+      "title": "Drain the condensate knockout",
+      "turn": {
+        "axis": "y",
+        "label": "KNOCKOUT DRAIN",
+        "turns": 0.4
+      },
+      "why": "Condensate collects at the low points of every lateral and a flooded leg puts a water seal across the pipe. Downstream of it the vacuum reads fine at the blower and is worth nothing at the wellhead, and the well you are about to tune is the one at the far end of it."
+    },
+    {
+      "cue": "Run the calibration gas through the analyser and confirm it reads what is on the bottle.",
+      "id": "calibrate",
+      "kind": "select",
+      "prompt": "Run the calibration gas through the analyser and confirm it reads what is on the bottle.",
+      "target": "cal-gas",
+      "title": "Prove the analyser",
+      "why": "The analyser is the instrument every decision on this round is made with, and it drifts. Proven against a known bottle at the start of the round, it is evidence; unproven, it is a number that will be in a log a regulator reads."
+    },
+    {
+      "cue": "Connect at the port, purge the sample line, and stand out of the plume.",
+      "id": "open-port",
+      "kind": "select",
+      "prompt": "Connect at the port, purge the sample line, and stand out of the plume.",
+      "target": "sample-port",
+      "title": "Open the sample port and purge the line",
+      "why": "The first thing through a sample line is whatever was in the line, not whatever is in the well. Purged first, and read from beside the wellhead rather than over it — what comes out of that port has no oxygen in it at all."
+    },
+    {
+      "cue": "Commit on the methane percentage the analyser settles at.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "CH4",
+        "missNote": "That is not a well producing. Low methane with the oxygen up means air is coming in, and the valve closes rather than opens.",
+        "speed": 0.7
+      },
+      "id": "methane",
+      "kind": "gauge",
+      "prompt": "Commit on the methane percentage the analyser settles at.",
+      "target": "gem-analyser",
+      "title": "Read the methane",
+      "why": "Around half methane is a well drawing what the waste is making. A number well below that, with the oxygen up, is a well drawing air rather than gas — and the fix for that is closing the valve, not opening it."
+    },
+    {
+      "cue": "Commit on the oxygen. Lower is the whole point.",
+      "gauge": {
+        "green": [
+          0,
+          0.12
+        ],
+        "label": "O2",
+        "missNote": "That is air coming into the well. Close it in, find where it is getting in, and do not leave it pulling overnight at that reading.",
+        "speed": 0.72
+      },
+      "id": "oxygen",
+      "kind": "gauge",
+      "prompt": "Commit on the oxygen. Lower is the whole point.",
+      "target": "o2-readout",
+      "title": "Read the oxygen",
+      "why": "Oxygen is the number that decides whether this well is safe to keep pulling on. There is no oxygen in landfill gas, so any of it in the sample came in through the cover or a bad seal, and it is going into a warm waste mass that will use it."
+    },
+    {
+      "cue": "Commit on the wellhead temperature against the limit in the operating plan.",
+      "gauge": {
+        "green": [
+          0.2,
+          0.55
+        ],
+        "label": "WELLHEAD",
+        "missNote": "Above what the operating plan allows at a wellhead. That is not a tuning problem — it is reported, and the well gets closed in while somebody works out what is happening under it.",
+        "speed": 0.7
+      },
+      "id": "temperature",
+      "kind": "gauge",
+      "prompt": "Commit on the wellhead temperature against the limit in the operating plan.",
+      "target": "temp-probe",
+      "title": "Read the wellhead temperature",
+      "why": "Waste decomposing anaerobically runs warm and steady. A wellhead climbing past the limit the plan works to — the federal standards have used 55 °C — is the signature of a reaction that is no longer just decomposition, and it is reported rather than tuned around."
+    },
+    {
+      "cue": "Turn the wellhead valve to the setting the readings call for.",
+      "id": "tune",
+      "kind": "turn",
+      "prompt": "Turn the wellhead valve to the setting the readings call for.",
+      "target": "wellhead-valve",
+      "title": "Set the valve on what you read",
+      "turn": {
+        "axis": "y",
+        "label": "WELLHEAD VALVE",
+        "turns": 0.35
+      },
+      "why": "The valve is the last thing touched and it is turned to a number, not to a feeling. Methane holding and oxygen near nothing means the well can take a little more; methane down with oxygen up means it comes back, however much the field wants the flow."
+    },
+    {
+      "cue": "Hold the applied vacuum steady in the band and let the well come to it.",
+      "holdBreakNote": "Vacuum out of band — too little and the well is not collecting, too much and it is drawing through the cover. Bring it back and hold it.",
+      "id": "settle",
+      "kind": "track",
+      "prompt": "Hold the applied vacuum steady in the band and let the well come to it.",
+      "seconds": 6,
+      "target": "vacuum-gauge",
+      "title": "Hold the applied vacuum while it settles",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.34,
+          0.56
+        ],
+        "label": "APPLIED VACUUM",
+        "rise": 0.5,
+        "start": 0.12
+      },
+      "why": "A well does not answer immediately. Held steady, the reading walks to where the waste can actually supply; chased up and down, it never settles and the operator ends up tuning against their own hand."
+    },
+    {
+      "cue": "Take the gas again at the new setting and commit on what the well actually settled at.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.64
+        ],
+        "label": "CH4 AFTER",
+        "missNote": "The well did not come back to where the tune intended. Back the valve off and let it recover before it is left like that.",
+        "speed": 0.7
+      },
+      "id": "recheck",
+      "kind": "gauge",
+      "prompt": "Take the gas again at the new setting and commit on what the well actually settled at.",
+      "target": "gem-analyser",
+      "title": "Read it again after the change",
+      "why": "A tune is not finished when the valve moves, it is finished when the well is re-read. The number that goes in the log is the one the well settled at, not the one the adjustment was aiming for."
+    },
+    {
+      "cue": "Methane, oxygen, temperature, vacuum, valve position and the time.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Methane, oxygen, temperature, vacuum, valve position and the time.",
+      "target": "field-log",
+      "title": "Log the well",
+      "why": "The log is the site's evidence that the field is operated the way the permit says. It is also the history the next technician tunes this well against, which is the reason the valve position goes in it and not just the gas."
+    },
+    {
+      "cue": "Take the west boundary probe and commit on the methane at the fence.",
+      "gauge": {
+        "green": [
+          0,
+          0.14
+        ],
+        "label": "BOUNDARY CH4",
+        "missNote": "Methane at the fence above what the rule allows. That is a notification and an investigation, not a line in a log.",
+        "speed": 0.75
+      },
+      "id": "perimeter",
+      "kind": "gauge",
+      "prompt": "Take the west boundary probe and commit on the methane at the fence.",
+      "target": "boundary-probe",
+      "title": "Read the perimeter probe",
+      "why": "Everything upstream of this is about collecting gas; this is the number that says whether the collection is working. 258.23 sets the limit at the lower explosive limit at the property boundary, because what matters is not how much gas the field made but whether any of it reached somewhere it must not be."
+    },
+    {
+      "cue": "Click the three things on this cap that decide the next reading.",
+      "id": "walk",
+      "itemNames": {
+        "cracked-boot": "split wellhead boot",
+        "settled-cover": "settled cover",
+        "surface-crack": "crack in the cap"
+      },
+      "itemNotes": {
+        "cracked-boot": "The rubber boot where the pipe leaves the cover has split. That is a direct path for air into the well, and it explains an oxygen reading better than anything the valve is doing.",
+        "settled-cover": "The cover has settled into a dish around the wellhead, so it ponds. Standing water on a cap finds every crack in it and a settled cap is a cap that has been stretched.",
+        "surface-crack": "There is a crack running off the side of the cap. Gas leaves through it and, under vacuum, air comes in through it — the same crack does both depending on which way the well is pulling."
+      },
+      "kind": "find",
+      "prompt": "Click the three things on this cap that decide the next reading.",
+      "targets": [
+        "cracked-boot",
+        "settled-cover",
+        "surface-crack"
+      ],
+      "title": "Walk the cover around the well",
+      "why": "The cover is half the well. Almost every oxygen problem on a wellfield is a cover problem, so the walk-round is not a courtesy at the end of the job — it is the explanation for the numbers that were just written down."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Tuning an extraction well: knockout drained, analyser proven, methane and oxygen and temperature read before the valve is touched, and a perimeter probe that decides whether any of it was enough",
+  "title": "SmartCiti.X~ Landfill Gas VR",
+  "trade": "Landfill gas technician / wellfield operator",
+  "underwater": null,
+  "weather": "wind"
+}

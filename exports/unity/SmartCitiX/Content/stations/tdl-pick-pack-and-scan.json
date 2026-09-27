@@ -1,0 +1,410 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "zero-touch-jam",
+    "name": "Zero-Touch Jam",
+    "note": "A wave picked and packed with the conveyor locked out before the jam was touched, the forklift yielded to and the mis-pick caught on the scale — first time"
+  },
+  "category": "Mobility & Transit",
+  "certification": "OSHA 29 CFR 1910.147 control of hazardous energy for conveyor jam clearing; 29 CFR 1910.178 for the forklift traffic the pick aisles share; 29 CFR 1910.22 walking-working surfaces; the Revised NIOSH Lifting Equation for repetitive picking; PHMSA 49 CFR 172 hazard communication marks, including the limited-quantity mark, on packages that pass through a pick face; Teamsters warehouse locals' safety committees and training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "NIOSH",
+        "citedAs": "Revised NIOSH Lifting Equation",
+        "id": "niosh-lifting-equation",
+        "title": "Revised NIOSH Lifting Equation and its Applications Manual — recommended weight limit and lifting index for two-handed manual lifting"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.178",
+        "id": "osha-1910-178",
+        "title": "29 CFR 1910.178 — Powered industrial trucks"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.22",
+        "id": "osha-1910-22",
+        "title": "29 CFR 1910.22 — Walking-working surfaces, general requirements"
+      },
+      {
+        "body": "PHMSA",
+        "citedAs": "49 CFR 172",
+        "id": "phmsa-49-cfr-172",
+        "title": "49 CFR Part 172 — Hazardous materials table, communications, emergency response information and training"
+      },
+      {
+        "body": "union",
+        "citedAs": "Teamsters",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Warehouse & Distribution",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "locked-first",
+        "name": "Locked First",
+        "note": "Stopped, isolated and locked before the jam was cleared, first time"
+      },
+      {
+        "id": "no-climbing",
+        "name": "No Climbing",
+        "note": "Never climbed a shelf, reached into a running belt or left a blade open"
+      },
+      {
+        "id": "on-weight",
+        "name": "On Weight",
+        "note": "The carton weight read near the centre of the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-wave",
+        "name": "Clean Wave",
+        "note": "No corrections anywhere in the wave"
+      },
+      {
+        "id": "cutoff",
+        "name": "Made the Cutoff",
+        "note": "Finished inside 80% of par"
+      },
+      {
+        "id": "scan-streak",
+        "name": "Scan Streak",
+        "note": "Ten correct actions in a row"
+      }
+    ],
+    "currency": "SCAN",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Picker",
+      "Picker",
+      "Packer",
+      "Wave Lead",
+      "Fulfilment Certified"
+    ],
+    "system": "Order Fulfilment"
+  },
+  "hazards": {
+    "pps-climb-shelf": "You started to climb the shelving to reach the top slot. Shelving is built to carry product, not a person's weight on its front edge; it racks forward, the shelf clips pop, and a fall from the third shelf lands you on the cart you left in the aisle. The rolling ladder with the locking step is two metres away.",
+    "pps-open-blade": "You picked up the box cutter with the blade still out and your other hand on the carton in its path. An open blade left on a bench is how most packing-line cuts happen: the knife slips off a taped seam toward the free hand or gets picked up by the wrong end. Retract it every time it leaves your hand.",
+    "pps-overload-shelf": "You went to put the returns bin on the top shelf, which is already at its posted load. A shelf over its rating bows, the clips let go and the load comes down on whoever is picking the shelf below. The posted load is a limit, not a suggestion, and a full bin goes on the floor pallet instead.",
+    "pps-reach-running-belt": "You reached into the conveyor while the belt was still running to pull the jammed carton. A jam is stored energy: the moment it clears, the belt takes whatever is holding it, and the nip point where a belt meets a roller pulls a glove and the hand in it in faster than you can let go."
+  },
+  "id": "tdl-pick-pack-and-scan",
+  "indoor": "garage",
+  "interrupts": [
+    {
+      "after": "cart-push",
+      "alert": "A forklift is coming across the end of your aisle in the cross lane, reversing, its load blocking the operator's view of you.",
+      "cue": "Stop the cart before the painted line.",
+      "delay": 3,
+      "id": "forklift-crossing",
+      "kind": "Forklift in the cross lane",
+      "missNote": "You pushed on into the cross lane with a reversing forklift in it. Forklift-pedestrian collisions at aisle ends are among the most common serious warehouse injuries, and the pedestrian is almost always the one who assumed the truck would stop.",
+      "seconds": 10,
+      "target": "pps-cart-brake",
+      "why": "A reversing forklift's operator is looking over a shoulder past a mast and a load; a picker and a cart at an aisle end are exactly what they cannot see. Stopping short of the line and letting the truck pass is the only move that does not depend on being seen.",
+      "wrongNote": "It is the cart brake. A reversing forklift is crossing your path and nothing else matters until it has gone by."
+    },
+    {
+      "after": "belt-stop",
+      "alert": "A coworker is reaching past you into the merge to pull the jammed carton out while the belt is still coasting.",
+      "cue": "Stop them and call the lead.",
+      "delay": 3,
+      "id": "coworker-reaches-in",
+      "kind": "Hand toward the belt",
+      "missNote": "Your coworker reached into a belt that was still coasting and had not been locked. Conveyor nip points take fingers and hands in the half second after a jam frees itself — the exact moment someone reaching in is pulling hardest.",
+      "seconds": 12,
+      "target": "pps-andon",
+      "why": "The person reaching in has not locked anything and believes the stop is enough. Pulling the andon cord stops the line upstream and brings the lead, and saying out loud why nobody touches the belt until it is locked is the whole of the lesson.",
+      "wrongNote": "It is the andon cord. Somebody's hand is heading into a belt that is not locked out; stop the line and get the lead."
+    }
+  ],
+  "lateNotes": {
+    "pps-clear-jam": "The jam is cleared once the belt is stopped and the disconnect is locked off — never before.",
+    "pps-disconnect": "The disconnect is turned off after the belt has been stopped at the jam station, not while the belt is still carrying product.",
+    "pps-scale": "The carton is weighed once it is packed and sealed, so the reading is the carton that ships."
+  },
+  "name": "Pick, Pack and Scan",
+  "parSeconds": 250,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "job-readiness-edition",
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "pps-address-mismatch",
+      "pps-andon",
+      "pps-belt-stop",
+      "pps-cart-brake",
+      "pps-cart-handle",
+      "pps-cart-tag",
+      "pps-clear-jam",
+      "pps-climb-shelf",
+      "pps-crew-checkin",
+      "pps-crushed-unit",
+      "pps-disconnect",
+      "pps-item",
+      "pps-lq-unmarked",
+      "pps-open-blade",
+      "pps-overload-shelf",
+      "pps-reach-running-belt",
+      "pps-scale",
+      "pps-scanner",
+      "pps-ship-label",
+      "pps-slot-label",
+      "pps-smudged-barcode",
+      "pps-tape",
+      "pps-tote-socket",
+      "pps-void-fill",
+      "pps-warehouse-log",
+      "pps-wave-board",
+      "pps-wrong-sku"
+    ],
+    "meshes": 234
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the wave: how many orders, the pick path, the carrier cutoff and anything flagged hazmat.",
+      "id": "wave",
+      "kind": "select",
+      "prompt": "Read the wave: how many orders, the pick path, the carrier cutoff and anything flagged hazmat.",
+      "target": "pps-wave-board",
+      "title": "Read the pick wave",
+      "why": "A wave board is the plan for the next hour: the orders grouped so one walk down the aisles picks them all, the cutoff the trailer leaves at, and the lines flagged for special handling. Reading it first is what stops a picker chasing single orders back and forth, which is where the rushing, the shortcuts and the collisions come from."
+    },
+    {
+      "cue": "Sign in on the scanner, scan the tote to the first order, then scan the slot label before you touch the product.",
+      "id": "scanner",
+      "itemNames": {
+        "pps-cart-tag": "tote scanned to the order",
+        "pps-scanner": "scanner signed in",
+        "pps-slot-label": "slot label scanned"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Sign in, then the tote, then the slot — the tote has to be tied to an order before anything goes into it.",
+      "prompt": "Sign in on the scanner, scan the tote to the first order, then scan the slot label before you touch the product.",
+      "targets": [
+        "pps-scanner",
+        "pps-cart-tag",
+        "pps-slot-label"
+      ],
+      "title": "Sign in, scan the tote, scan the slot",
+      "why": "Every scan ties a physical thing to a record: your sign-in to the work, the tote to the order, the slot to the item the system thinks is in it. Scanning the slot before you pick is what catches a picker at the wrong location, and it is far cheaper to catch at the shelf than as a wrong item in a customer's box two days later."
+    },
+    {
+      "cue": "Three things in this pick face should not go into a tote as they are. Find them.",
+      "id": "slot-check",
+      "itemNames": {
+        "pps-crushed-unit": "the crushed unit",
+        "pps-lq-unmarked": "the aerosol carton with no limited-quantity mark",
+        "pps-wrong-sku": "the unit that does not match the slot label"
+      },
+      "itemNotes": {
+        "pps-crushed-unit": "This unit is crushed at one corner. Damage found at the pick face is logged and replaced here; damage found by the customer is a return, a claim and a second shipment.",
+        "pps-lq-unmarked": "This carton of aerosol cans has no limited-quantity mark on it. Packages of regulated goods travel with the marks 49 CFR 172 requires; one without goes to the hazmat desk, not into a parcel tote.",
+        "pps-wrong-sku": "The label says a blue case; this unit is a different part number. Mixed product in a slot is how a whole wave ships wrong — it goes to the problem-solve desk, not into the tote."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things in this pick face should not go into a tote as they are. Find them.",
+      "targets": [
+        "pps-wrong-sku",
+        "pps-crushed-unit",
+        "pps-lq-unmarked"
+      ],
+      "title": "Check the slot before you pick",
+      "why": "A scanner confirms the slot, not what is physically sitting in it. Mis-slotted product, damage and missing hazard marks are all things only a person looking at the shelf can see, and the pick face is the last point in the building where catching them costs a minute rather than a claim. A package of aerosols or batteries without its marks is also a package a driver and a sorter have no warning about."
+    },
+    {
+      "cue": "Push, do not pull, at a steady walking pace, and stop at the painted line where the aisle meets the forklift lane.",
+      "holdBreakNote": "Pace out of band — rushing a loaded cart means it will not stop when you do. Settle it.",
+      "id": "cart-push",
+      "kind": "track",
+      "prompt": "Push, do not pull, at a steady walking pace, and stop at the painted line where the aisle meets the forklift lane.",
+      "seconds": 8,
+      "target": "pps-cart-handle",
+      "title": "Push the cart down the aisle",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.36,
+          0.6
+        ],
+        "label": "PACE",
+        "rise": 0.56,
+        "start": 0.1
+      },
+      "why": "Pushing a loaded cart keeps you behind it with your legs doing the work and your eyes on the path; pulling twists the back and puts the cart where you cannot see it. A steady pace means the cart stops when you do. The painted line at the aisle end exists because a forklift in the cross lane has a blind side and right of way, and you do not."
+    },
+    {
+      "cue": "Carry the unit from the slot into the tote compartment the scanner lit, close to your body.",
+      "drag": {
+        "missNote": "Not in the lit compartment — the unit goes where the scanner says, or the order ships short.",
+        "radius": 0.4,
+        "to": "pps-tote-socket"
+      },
+      "id": "pick",
+      "kind": "drag",
+      "prompt": "Carry the unit from the slot into the tote compartment the scanner lit, close to your body.",
+      "target": "pps-item",
+      "title": "Pick the unit into its compartment",
+      "why": "A multi-order tote has a compartment per order, and the scanner lights the one this unit belongs in; a unit in the next compartment over is a wrong shipment with a correct pick record. Carrying it close to your body keeps the load inside the reach the lifting guidance assumes, which matters on the six-hundredth pick of the shift far more than on the first."
+    },
+    {
+      "cue": "A carton has jammed at the merge. Press and hold the jam station stop until the belt has come to rest.",
+      "holdBreakNote": "You let go before the belt came to rest. Hold the stop and watch it stop.",
+      "id": "belt-stop",
+      "kind": "hold",
+      "prompt": "A carton has jammed at the merge. Press and hold the jam station stop until the belt has come to rest.",
+      "seconds": 8,
+      "target": "pps-belt-stop",
+      "title": "Stop the takeaway belt at the jam",
+      "why": "A conveyor keeps moving for a moment after a stop is pressed, and the cartons behind a jam keep pushing. Holding the stop until the belt is actually at rest, and watching it happen, is how you know the energy you can see has gone — before you move on to the energy you cannot see, which is the motor that restarts when someone else presses go."
+    },
+    {
+      "cue": "Turn the conveyor's disconnect handle to OFF and hang your own lock and tag on it.",
+      "id": "lockout",
+      "kind": "turn",
+      "prompt": "Turn the conveyor's disconnect handle to OFF and hang your own lock and tag on it.",
+      "target": "pps-disconnect",
+      "title": "Turn the disconnect off and lock it",
+      "turn": {
+        "axis": "z",
+        "label": "DISCONNECT",
+        "turns": 0.25
+      },
+      "why": "A stop button can be pressed again by somebody down the line who cannot see you; a disconnect with your lock on it cannot be switched back on by anyone but you. Clearing a jam puts a hand where the belt's energy is, and 29 CFR 1910.147 treats that as servicing: the energy is isolated and locked, not merely stopped, and the lock is personal to the person whose hands are in the machine."
+    },
+    {
+      "cue": "Lift the jammed carton off the merge, check the rollers are clear, then take your lock off and restart.",
+      "id": "clear-jam",
+      "kind": "select",
+      "prompt": "Lift the jammed carton off the merge, check the rollers are clear, then take your lock off and restart.",
+      "target": "pps-clear-jam",
+      "title": "Clear the jam with the belt locked out",
+      "why": "With the lock on, the jam is just a stuck box: lifted out by hand, the rollers looked at for the torn flap or strap that caused it, the guard back on. The lock comes off only when every hand is clear and the belt has been looked along, because the restart is the moment the belt is most likely to catch someone who thought it was still off."
+    },
+    {
+      "cue": "Fill the void so nothing moves, seal the carton, then apply the shipping label flat on the top.",
+      "id": "pack-out",
+      "itemNames": {
+        "pps-ship-label": "shipping label",
+        "pps-tape": "seal with tape",
+        "pps-void-fill": "void fill"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Void fill, then tape, then the label — the label goes on a sealed carton, flat, where it will be read.",
+      "prompt": "Fill the void so nothing moves, seal the carton, then apply the shipping label flat on the top.",
+      "targets": [
+        "pps-void-fill",
+        "pps-tape",
+        "pps-ship-label"
+      ],
+      "title": "Pack out the carton",
+      "why": "A carton with space inside is a carton that crushes when another one is stacked on it, and a product that moves in transit breaks. Void fill first, then the seal, then the label on a flat top face where the sorter's scanner and the driver can read it. A label put on before the seal is a label that ends up across a seam, torn when the box is opened or unreadable when it is not."
+    },
+    {
+      "cue": "Set the carton on the scale and commit when the reading matches the order's expected weight.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "WEIGHT vs ORDER",
+        "missNote": "The carton is off its expected weight — open it and check the pick before it ships.",
+        "speed": 0.8
+      },
+      "id": "weigh",
+      "kind": "gauge",
+      "prompt": "Set the carton on the scale and commit when the reading matches the order's expected weight.",
+      "target": "pps-scale",
+      "title": "Weigh the carton against the order",
+      "why": "The order knows what its items weigh; the scale knows what is actually in the box. A carton that weighs more or less than it should has a missing item, an extra item or the wrong item in it, and the scale catches it before the tape is cut by a customer. The same weight goes on the label and the manifest, and a driver's axle weights start from numbers like this."
+    },
+    {
+      "cue": "Compare the label with the packing slip and look at the barcode. Find what would stop this carton arriving.",
+      "id": "label-audit",
+      "itemNames": {
+        "pps-address-mismatch": "the address that does not match the packing slip",
+        "pps-smudged-barcode": "the smudged barcode"
+      },
+      "itemNotes": {
+        "pps-address-mismatch": "The label's address is not the packing slip's. Two orders' labels have been swapped at the printer — and the other carton is wrong too.",
+        "pps-smudged-barcode": "The printer head has streaked the barcode. A barcode the sorter cannot read goes to a manual lane and misses the trailer; reprint it now."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Compare the label with the packing slip and look at the barcode. Find what would stop this carton arriving.",
+      "targets": [
+        "pps-smudged-barcode",
+        "pps-address-mismatch"
+      ],
+      "title": "Read the label before it leaves the bench",
+      "why": "Everything downstream of this bench trusts the label: the sorter reads the barcode, the loader reads the route, the driver reads the address. A streaked barcode or a swapped label is invisible once the carton is on a belt with a thousand others, and a swapped label always means a second wrong carton somewhere behind it."
+    },
+    {
+      "cue": "Tell the lead about the jam, the slot problems and the label printer, and say how your hands and back are doing.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Tell the lead about the jam, the slot problems and the label printer, and say how your hands and back are doing.",
+      "target": "pps-crew-checkin",
+      "title": "Check in with the wave lead",
+      "why": "The lead can only fix what they hear about: a printer that streaks, a merge that jams every hour, a slot that keeps getting mis-stocked. Picking and packing is repetitive work, and soreness in the wrists or lower back that is mentioned early gets a job rotation or a change to the bench; soreness that is kept quiet becomes an injury that keeps a person off work."
+    },
+    {
+      "cue": "Log the jam and your lockout, the problem slots and the damaged unit, then sign it.",
+      "id": "warehouse-log",
+      "kind": "select",
+      "prompt": "Log the jam and your lockout, the problem slots and the damaged unit, then sign it.",
+      "target": "pps-warehouse-log",
+      "title": "Write the warehouse log",
+      "why": "A jam cleared and never written down is a merge that nobody fixes; a lockout recorded with a name and a time is the evidence the procedure is being followed rather than skipped. The log is also where the problem slots reach inventory control, so the next picker does not find the same mis-stocked shelf tomorrow."
+    }
+  ],
+  "supportLine": "your employer's employee assistance programme, or your Teamsters steward if you are not sure how to reach it",
+  "tagline": "One pick wave: scanner and tote, a slot that does not match its label, a cart in a forklift aisle, the right compartment, a jammed conveyor stopped, isolated and locked, a carton weighed against the order and a label read before it ships",
+  "title": "SmartCiti.X~ Pick, Pack and Scan VR",
+  "trade": "Order picker and packer, TDL pre-apprenticeship — Teamsters warehouse work: pick, pack and scan, ahead of the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F) for those going on to Class A",
+  "underwater": null,
+  "weather": null
+}

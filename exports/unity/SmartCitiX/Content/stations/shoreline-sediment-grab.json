@@ -1,0 +1,355 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "window-held",
+    "name": "Window Held",
+    "note": "A clean grab from the top two centimetres, taken and iced inside the tide window, without a boot in the eelgrass or the cordgrass"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "NOAA tide table and predicted low-water window; EPA QA/QC and chain-of-custody guidance (EPA QA/G-5) for sediment samples relied on in public; U.S. Fish and Wildlife Service — Endangered Species Act protection for Ridgway's rail; San Francisco Bay Conservation and Development Commission (BCDC) shoreline access rules; the Community Pollution Patrol Network's shoreline sampling protocol",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "BCDC",
+        "citedAs": "BCDC",
+        "id": "bcdc-bay-plan",
+        "title": "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "EPA QA/G-5",
+        "id": "epa-qa-g5",
+        "title": "EPA QA/G-5 — Guidance for quality assurance project plans, and the chain-of-custody practice built on it"
+      },
+      {
+        "body": "NOAA",
+        "citedAs": "NOAA",
+        "id": "noaa-tides-and-esa",
+        "title": "NOAA tide predictions and NOAA Fisheries Endangered Species Act consultation for in-water work"
+      },
+      {
+        "body": "USFWS",
+        "citedAs": "Endangered Species Act",
+        "id": "usfws-esa",
+        "title": "Endangered Species Act §7 consultation and species protection measures set by the U.S. Fish and Wildlife Service"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "tide-read",
+        "name": "Tide Read",
+        "note": "Checked the tide window clean before a boot touched the mud"
+      },
+      {
+        "id": "habitat-clear",
+        "name": "Habitat Clear",
+        "note": "Never a hazard — the eelgrass and cordgrass stayed untouched"
+      },
+      {
+        "id": "layer-true",
+        "name": "Layer True",
+        "note": "Grab depth and field pH both read inside spec"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-grab",
+        "name": "Clean Grab",
+        "note": "No corrections across the whole grab"
+      },
+      {
+        "id": "steady-scoop",
+        "name": "Steady Scoop",
+        "note": "Held the grab sampler through the full scoop"
+      },
+      {
+        "id": "beat-the-tide",
+        "name": "Beat the Tide",
+        "note": "Jar iced and logged inside 80% of par"
+      }
+    ],
+    "currency": "GRAB",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Shoreline Watcher",
+      "Field Monitor",
+      "Transect Lead",
+      "Patrol Coordinator",
+      "Shoreline Grab Certified"
+    ],
+    "system": "Shoreline Grab"
+  },
+  "hazards": {
+    "jar-in-sun": "You set the filled jar down on the dry sand in direct sun instead of straight into the cooler. A sediment sample left warm even for the walk back to the truck starts changing chemically before it ever reaches a lab — the point of icing it immediately is that immediately is the only time it is still what came out of the ground.",
+    "scoop-too-deep": "You drove the grab sampler down into the coarse sand well below the surface layer. The top two centimetres is the sample because that is the layer an eelgrass root, a worm and a shorebird's bill all actually reach — sediment from ten centimetres down answers a different question than the one this grab is for.",
+    "walk-cordgrass": "You pushed through the cordgrass stand instead of using the boardwalk around it. Native cordgrass this dense is exactly where a Ridgway's rail nests low to the ground — a monitor walking through it can be standing on a nest before anything visible tells them so.",
+    "walk-eelgrass": "You cut across the eelgrass bed to reach the grab point faster. Eelgrass is the nursery habitat this whole reach is being protected for — a boot print through it takes years to fill back in, and there is always a longer way around that does not cross it."
+  },
+  "id": "shoreline-sediment-grab",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "grab",
+      "alert": "The water at the tide line has stopped receding and started climbing back over the flat faster than the table predicted — the mud around your boots is already softening.",
+      "cue": "Check the tide gauge now — the window may be closing faster than planned.",
+      "delay": 3,
+      "id": "tide-turns-early",
+      "kind": "Tide turns early",
+      "missNote": "The grab finished with nobody having looked at the gauge again, and the walk back across the flat was through ankle-deep water nobody planned for — the tide table said one thing, the bay did another, and only the gauge would have caught the difference in time.",
+      "seconds": 13,
+      "target": "tide-gauge",
+      "why": "A predicted low-water window is a forecast, not a guarantee — wind and barometric pressure can turn the tide early, and a monitor who keeps working past that turn on the strength of a printed table can find the retreat route across the flat gone before the sample is even sealed.",
+      "wrongNote": "That's not it — the tide gauge is what tells you whether this window is still open, not anything in your hands right now."
+    },
+    {
+      "after": "grab",
+      "alert": "A Ridgway's rail is calling from inside the cordgrass stand right beside the transect line you just walked to get here.",
+      "cue": "Move the transect flag back from the cordgrass before anyone walks this line again.",
+      "delay": 7,
+      "id": "rail-calls-move-transect",
+      "kind": "Ridgway's rail calls from the cordgrass",
+      "missNote": "The transect line stayed exactly where it was, running along the edge of a stand a rail had just called from — the next crew to work this line has no reason to think it was ever supposed to move.",
+      "seconds": 13,
+      "target": "transect-flag",
+      "why": "A federally listed rail calling this close to the line means the transect itself is running along the edge of occupied habitat — moving the flag now is what keeps the next pass, and the next monitor who follows this same line without knowing why it bends here, off a nest nobody has actually seen yet.",
+      "wrongNote": "Not that — the transect flag is what has to move back from the cordgrass, nothing else on this beach."
+    }
+  ],
+  "lateNotes": {
+    "coc-board": "The form describes a sample that is already jarred and labelled. Fill and label first, then sign.",
+    "grab-jar": "Nothing to log until the sampler has actually come up with sediment in it — an empty jar has no pH and no odour to note."
+  },
+  "name": "Shoreline Sediment Grab",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-can-we-live"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "boot-print-eelgrass",
+      "buddy-present",
+      "coc-board",
+      "cooler",
+      "field-sheet",
+      "gps-unit",
+      "grab-jar",
+      "grab-point-socket",
+      "grab-sampler",
+      "jar-in-sun",
+      "nitrile-gloves",
+      "obs-color",
+      "obs-odor",
+      "obs-sheen",
+      "ph-meter",
+      "scoop-too-deep",
+      "tide-board",
+      "tide-gauge",
+      "transect-flag",
+      "waders",
+      "walk-cordgrass",
+      "walk-eelgrass"
+    ],
+    "meshes": 246
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence"
+  ],
+  "steps": [
+    {
+      "cue": "Check the predicted low-water time and how much working time it gives before the flat floods again.",
+      "id": "tide-check",
+      "kind": "select",
+      "prompt": "Check the predicted low-water time and how much working time it gives before the flat floods again.",
+      "target": "tide-board",
+      "title": "Read the tide window",
+      "why": "The whole grab happens in the window between the tide dropping far enough to expose the sample point and turning back to cover it — a monitor who has not checked it is trusting the sky rather than the table for the one number that decides how much time there actually is out here."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Waders on, gloves on, and confirm the second monitor is on the bank before anyone walks out.",
+      "id": "stage",
+      "itemNames": {
+        "buddy-present": "second monitor on the bank",
+        "nitrile-gloves": "nitrile gloves",
+        "waders": "chest waders"
+      },
+      "kind": "sequence",
+      "prompt": "Waders on, gloves on, and confirm the second monitor is on the bank before anyone walks out.",
+      "targets": [
+        "waders",
+        "nitrile-gloves",
+        "buddy-present"
+      ],
+      "title": "Stage before stepping onto the flat",
+      "why": "Bay mud grabs at a boot the way quicksand does at a smaller scale, and a monitor who goes in alone has nobody to call for help or watch the tide behind them — the second person on the bank is the whole safety plan for working a falling tide on foot."
+    },
+    {
+      "cue": "Carry the transect flag out along the boardwalk to today's grab point — not through the vegetation.",
+      "drag": {
+        "missNote": "Not on the marked line yet — the flag has to reach today's grab point, following the boardwalk around the vegetation.",
+        "radius": 0.5,
+        "to": "grab-point-socket"
+      },
+      "id": "walk-transect",
+      "kind": "drag",
+      "prompt": "Carry the transect flag out along the boardwalk to today's grab point — not through the vegetation.",
+      "target": "transect-flag",
+      "title": "Set the transect flag on the marked line",
+      "why": "The transect line is drawn on the plan to keep every visit crossing the flat in the same place, on the boardwalk, specifically so the eelgrass and cordgrass on either side of it never see a boot — the flag marks that this grab point is being worked honestly, on the line, not wherever was fastest today."
+    },
+    {
+      "cue": "Read the handheld GPS against the plan's coordinates for today's point.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "GRID FIX",
+        "missNote": "That is not close enough to the plotted point — let the fix settle and read it again.",
+        "speed": 0.7
+      },
+      "id": "position-check",
+      "kind": "gauge",
+      "prompt": "Read the handheld GPS against the plan's coordinates for today's point.",
+      "target": "gps-unit",
+      "title": "Confirm the grab point's coordinates",
+      "why": "The transect flag marks the point by eye, but the coordinates are what let this exact spot be found again next season and compared honestly against today's result — a grab taken a few metres off the plotted point is a grab of a different reach, however careful everything after it is."
+    },
+    {
+      "cue": "Colour, odour, then any surface sheen — recorded before the sampler disturbs any of it.",
+      "id": "field-obs",
+      "itemNames": {
+        "obs-color": "sediment colour",
+        "obs-odor": "odour",
+        "obs-sheen": "surface sheen"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Colour, then odour, then sheen — the order the undisturbed surface actually gives them up in, before the grab itself churns all three together.",
+      "prompt": "Colour, odour, then any surface sheen — recorded before the sampler disturbs any of it.",
+      "targets": [
+        "obs-color",
+        "obs-odor",
+        "obs-sheen"
+      ],
+      "title": "Note the field observations before digging in",
+      "why": "Colour, odour and sheen are gone the moment the sampler stirs the surface — a black, sulfurous mud with a rainbow sheen on top tells a different story than a grey, odourless one, and that story only exists to record in the ten seconds before the grab itself changes it."
+    },
+    {
+      "cue": "Press the sampler flat and hold it at the surface layer until it closes.",
+      "holdBreakNote": "You lifted the sampler before it closed on the surface layer — a partial grab is neither the top two centimetres nor anything else defensible.",
+      "id": "grab",
+      "kind": "hold",
+      "prompt": "Press the sampler flat and hold it at the surface layer until it closes.",
+      "seconds": 9,
+      "target": "grab-sampler",
+      "title": "Take the grab from the top two centimetres",
+      "why": "The top two centimetres is the layer eelgrass roots, benthic worms and a shorebird's bill all actually touch — that is the question this station's sample is meant to answer, and holding the sampler flat at the surface rather than driving it down is what keeps the answer about that layer and not about whatever is underneath it."
+    },
+    {
+      "cue": "Turn the sediment into the jar and cap it before it sits exposed any longer than it has to.",
+      "id": "cap-jar",
+      "kind": "select",
+      "prompt": "Turn the sediment into the jar and cap it before it sits exposed any longer than it has to.",
+      "target": "grab-jar",
+      "title": "Cap the sample in the jar",
+      "why": "Sediment chemistry starts changing the moment it is out of the ground and open to the air — capping it promptly is what keeps the sample closer to what actually came off the bottom than to whatever it turns into after a few minutes exposed on the flat."
+    },
+    {
+      "cue": "Let the field pH meter settle on the jarred sediment and commit the reading.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "FIELD pH",
+        "missNote": "Let the reading settle and commit once it stops drifting.",
+        "speed": 0.72
+      },
+      "id": "field-ph",
+      "kind": "gauge",
+      "prompt": "Let the field pH meter settle on the jarred sediment and commit the reading.",
+      "target": "ph-meter",
+      "title": "Read field pH on the jarred sample",
+      "why": "Field pH is a snapshot that keeps drifting the moment the sediment is exposed to air — reading it here, on the jar that just closed, is the only chance to record a number that actually describes the sediment as it came out of the ground rather than as it sat in a cooler for an hour."
+    },
+    {
+      "cue": "Set the sealed jar into the cooler and hold the lid until it seats.",
+      "holdBreakNote": "The lid came up before it seated — the cooler never sealed and the sample rides warm on the walk back.",
+      "id": "ice-jar",
+      "kind": "hold",
+      "prompt": "Set the sealed jar into the cooler and hold the lid until it seats.",
+      "seconds": 6,
+      "target": "cooler",
+      "title": "Get the jar on ice",
+      "why": "Sediment chemistry keeps changing after the grab the same way water chemistry does — sulfides oxidise, biology keeps working — and 4 °C on ice from the moment it is jarred is what the holding times this sample is judged against actually assume happened."
+    },
+    {
+      "cue": "Label the jar with the grab point, tide state and time, then sign the custody form.",
+      "id": "custody",
+      "kind": "select",
+      "prompt": "Label the jar with the grab point, tide state and time, then sign the custody form.",
+      "target": "coc-board",
+      "title": "Sign the chain of custody",
+      "why": "A jar of mud means nothing to a lab without the grid point, the tide state and the time it was taken written on it and signed for — the custody form is what turns \"sediment from the shoreline\" into a sample a regulator can act on."
+    },
+    {
+      "cue": "Record the tide state, the transect line and anything seen along it — wildlife included.",
+      "id": "field-sheet",
+      "kind": "select",
+      "prompt": "Record the tide state, the transect line and anything seen along it — wildlife included.",
+      "target": "field-sheet",
+      "title": "Complete the field sheet",
+      "why": "The field sheet is where the rail call, the tide turning early or anything else that happened along this transect gets written down for whoever plans the next visit — none of that survives in the jar itself."
+    },
+    {
+      "cue": "Walk the boardwalk line back and look for anything that needs noting before the tide closes it.",
+      "id": "walk-out",
+      "itemNames": {
+        "boot-print-eelgrass": "a boot print at the edge of the eelgrass bed"
+      },
+      "itemNotes": {
+        "boot-print-eelgrass": "One boot print sits right at the eelgrass bed's edge, off the boardwalk line — worth noting on the field sheet even if it was there before today's crew ever arrived, since the next visit will read this reach as more disturbed than it actually was without that note."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the boardwalk line back and look for anything that needs noting before the tide closes it.",
+      "targets": [
+        "boot-print-eelgrass"
+      ],
+      "title": "Check the transect line before heading back",
+      "why": "This is the last look this reach gets until the next scheduled visit — a disturbance noted now, even one this crew did not cause, is context the next monitor needs; noticed after the tide has covered it, it is a question nobody can answer."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A shoreline sediment grab on a falling tide: the tide window read, the grab sampler used on the top two centimetres, pH and odour logged, the jar iced, custody signed, and the eelgrass and cordgrass kept off the whole time",
+  "title": "SmartCiti.X~ Shoreline Sediment Grab VR",
+  "trade": "Community environmental monitor",
+  "underwater": null,
+  "weather": "overcast"
+}

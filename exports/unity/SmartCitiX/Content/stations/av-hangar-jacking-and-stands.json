@@ -1,0 +1,437 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "level-and-locked",
+    "name": "Level and Locked",
+    "note": "Jacks raised together and locked, downlock pins seated the moment the gear unloaded, and every stand checked for its own guardrail before anyone climbed"
+  },
+  "category": "Mobility & Transit",
+  "certification": "IAM and TWU maintenance training; FAA 14 CFR Part 43 maintenance, preventive maintenance, rebuilding and alteration and 14 CFR Part 145 repair stations; OSHA 29 CFR 1910.23 ladders and fixed stairs and 29 CFR 1910.132 personal protective equipment",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IAM",
+        "id": "iam-winpisinger-center",
+        "title": "IAM — the William W. Winpisinger Education and Technology Center's machinist and transportation training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.23",
+        "id": "osha-1910-23",
+        "title": "29 CFR 1910.23 — Ladders"
+      },
+      {
+        "body": "union",
+        "citedAs": "TWU",
+        "id": "twu-training",
+        "title": "TWU member training for transit and airline ground operations"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Aviation",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "together-up",
+        "name": "Together Up",
+        "note": "Never raised one jack far ahead of the others"
+      },
+      {
+        "id": "pins-seated",
+        "name": "Pins Seated",
+        "note": "Never worked under the aircraft without the downlock pins in"
+      },
+      {
+        "id": "level-hold",
+        "name": "Level Hold Certified",
+        "note": "Held the level reading near band centre through the whole raise"
+      },
+      {
+        "id": "clean-inspection",
+        "name": "Clean Inspection Certified",
+        "note": "Found every defect on the jacks and stands, first pass"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-jack",
+        "name": "Quick Jack",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "jack-streak",
+        "name": "Jack Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "JACK",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ramp Hand",
+      "Jack Qualified",
+      "Stand Certified",
+      "Lead Technician",
+      "Level and Locked Certified"
+    ],
+    "system": "Level and Locked"
+  },
+  "hazards": {
+    "jack-crush-zone-hazard": "You are standing at the jack's own crush point while it is moving. A jack under load closes that gap with the full weight of the aircraft behind it, and there is no reaction time built into standing where the ram itself travels.",
+    "skip-downlock-pin-hazard": "That has this crew working under the aircraft with no downlock pins seated. The jacks' own hydraulics are the only thing holding the aircraft up without them, and a hydraulic system with nothing mechanical backing it up is not what this crew is supposed to be trusting its own body underneath.",
+    "stand-no-guardrail-hazard": "That climbs the work stand before its guardrail is confirmed latched. A platform at height with no rail is a fall this crew is one misstep away from, and the rail is checked every time specifically because a stand that looked fine yesterday is not a stand this crew is allowed to assume is fine today.",
+    "uncoordinated-raise-hazard": "That raises one jack well ahead of the other two. An aircraft supported unevenly on three points is an aircraft leaning its own weight toward whichever jack is furthest behind, and that lean gets worse with every extra turn the leading jack takes before the others catch up."
+  },
+  "id": "av-hangar-jacking-and-stands",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "raise-jacks-coordinated",
+      "alert": "The tail jack has visibly raced ahead of both wing jacks, and the aircraft has started to lean toward the wing side.",
+      "cue": "Hit the jack stop now, before the lean gets any worse.",
+      "delay": 5,
+      "id": "jack-races-ahead",
+      "kind": "Uneven raise",
+      "missNote": "The raise kept going while the aircraft leaned further off level. An uneven raise that is allowed to continue is exactly how a jack point ends up loaded past what it was ever rated to carry from that angle.",
+      "seconds": 12,
+      "target": "jack-estop",
+      "why": "A lean that starts this early in the raise only grows with every further turn the lead jack takes, and the raise has to stop the instant the jacks are seen coming up unevenly rather than continue on the hope the other two catch up on their own.",
+      "wrongNote": "That's not the fix — the uneven raise is what stops this jacking operation, not this."
+    },
+    {
+      "after": "lower-jacks-coordinated",
+      "alert": "A coworker has walked in under the fuselage while the aircraft is still coming down on the jacks.",
+      "cue": "Stop the descent now and get them clear before it lowers any further.",
+      "delay": 4,
+      "id": "coworker-walks-under-descending-aircraft",
+      "kind": "Under-aircraft incursion",
+      "missNote": "The jacks kept lowering while a coworker was still under the fuselage. Nothing about a descending aircraft gives a person underneath it a warning before the gap closes.",
+      "seconds": 12,
+      "target": "jack-estop",
+      "why": "An aircraft coming down on three jacks does not stop for a person underneath it the way a person would step aside for a falling object they could see coming — the descent stops the instant anyone at all is seen under it, full stop, no matter how close the job already was to finished.",
+      "wrongNote": "Wrong response — a person under a descending aircraft is what stops it, full stop."
+    }
+  ],
+  "lateNotes": {
+    "downlock-pins": "The downlock pins go in the moment the gear is unloaded, not sometime after this crew is already working under the aircraft.",
+    "stability-gauge": "The aircraft is proven level and stable before anyone works under it, not assumed stable because the jacks reached height."
+  },
+  "name": "Hangar Jacking & Stands",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "aviation-maintenance-and-ground"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "regionalJet",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "0.78x1.2x0.8",
+        "count": 3,
+        "kit": "unknown"
+      },
+      {
+        "builder": "1.4x4x1.4",
+        "count": 1,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "closing-log",
+      "collar-tail",
+      "collar-wing-l",
+      "collar-wing-r",
+      "cracked-jack-base",
+      "damaged-locking-collar",
+      "downlock-pins",
+      "fuel-state-panel",
+      "guardrail-check",
+      "hard-hat",
+      "jack-controls",
+      "jack-crush-zone-hazard",
+      "jack-estop",
+      "jack-plan-board",
+      "leaking-jack-ram",
+      "level-valve",
+      "safety-glasses",
+      "skip-downlock-pin-hazard",
+      "sound-jack-base",
+      "stability-gauge",
+      "stand-no-guardrail-hazard",
+      "stand-position",
+      "tail-jack",
+      "uncoordinated-raise-hazard",
+      "wing-jack-l",
+      "wing-jack-r",
+      "work-gloves-jack",
+      "work-stand"
+    ],
+    "meshes": 183
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Hard hat, safety glasses and gloves before anyone touches a jack.",
+      "id": "ppe",
+      "itemNames": {
+        "hard-hat": "hard hat",
+        "safety-glasses": "safety glasses",
+        "work-gloves-jack": "work gloves"
+      },
+      "kind": "sequence",
+      "prompt": "Hard hat, safety glasses and gloves before anyone touches a jack.",
+      "targets": [
+        "hard-hat",
+        "safety-glasses",
+        "work-gloves-jack"
+      ],
+      "title": "Suit up before jacking",
+      "why": "This crew is about to spend the whole job working under and around an aircraft supported entirely on three mechanical points, and the hard hat and glasses are what this hangar requires of anyone in that footprint regardless of which specific task they are there for."
+    },
+    {
+      "cue": "Confirm the jack points, the weight limit and the fuel-state requirement from the AMM before rigging up.",
+      "id": "brief",
+      "kind": "select",
+      "prompt": "Confirm the jack points, the weight limit and the fuel-state requirement from the AMM before rigging up.",
+      "target": "jack-plan-board",
+      "title": "Read the jacking plan",
+      "why": "The AMM is what sets the exact jack points this specific aircraft is rated to be lifted from, and a crew that has not read it is guessing at points that might be right for a different type entirely — a guess this crew has no business making with a full aircraft on the other end of it."
+    },
+    {
+      "cue": "Walk all three jacks and the stands. Three problems are hiding — find them by looking.",
+      "decoyNotes": {
+        "sound-jack-base": "This jack's base is solid, dry and shows no cracking. Nothing to flag there."
+      },
+      "id": "inspect-jacks",
+      "itemNames": {
+        "cracked-jack-base": "cracked jack base",
+        "damaged-locking-collar": "damaged locking collar",
+        "leaking-jack-ram": "leaking jack ram"
+      },
+      "itemNotes": {
+        "cracked-jack-base": "A cracked base is a foundation this jack cannot actually trust the aircraft's own weight to, however solid the ram above it looks.",
+        "damaged-locking-collar": "A collar that will not seat is the one thing standing between this jack's hydraulics and the aircraft's own weight the moment anything about that hydraulic pressure changes.",
+        "leaking-jack-ram": "A ram losing pressure is a jack that can settle on its own once loaded, however solid it looked before the aircraft's weight came onto it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk all three jacks and the stands. Three problems are hiding — find them by looking.",
+      "targets": [
+        "cracked-jack-base",
+        "leaking-jack-ram",
+        "damaged-locking-collar"
+      ],
+      "title": "Inspect the jacks and stands",
+      "why": "A jack that looks ready from across the hangar is not the same thing as one a competent person has actually walked before an aircraft's full weight comes onto it — a cracked base, a leaking ram or a bad collar found now costs a swap, and found once the aircraft is airborne on it costs a fall this crew cannot take back."
+    },
+    {
+      "cue": "Confirm the aircraft's fuel and weight state matches the AMM's jacking limits before raising anything.",
+      "id": "confirm-fuel-state",
+      "kind": "select",
+      "prompt": "Confirm the aircraft's fuel and weight state matches the AMM's jacking limits before raising anything.",
+      "target": "fuel-state-panel",
+      "title": "Confirm the fuel and weight state",
+      "why": "The AMM's jack points and load ratings assume a specific weight and balance condition, and jacking an aircraft outside that assumed state is jacking it in a way the AMM never actually rated those points for — a condition this crew confirms rather than estimates from how full the tanks look."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Position all three jacks under their own jack points before any of them takes a load.",
+      "id": "position-jacks",
+      "itemNames": {
+        "tail-jack": "tail jack",
+        "wing-jack-l": "wing jack, left",
+        "wing-jack-r": "wing jack, right"
+      },
+      "kind": "sequence",
+      "prompt": "Position all three jacks under their own jack points before any of them takes a load.",
+      "targets": [
+        "wing-jack-l",
+        "wing-jack-r",
+        "tail-jack"
+      ],
+      "title": "Position the jacks",
+      "why": "Every jack point on this aircraft is exactly where it is for a structural reason the AMM does not explain and this crew does not need it to — the jack goes there and nowhere close to it, because close is not the same as correct once real weight is involved."
+    },
+    {
+      "cue": "Bring all three jacks up together, keeping the level reading inside the band the whole way.",
+      "holdBreakNote": "Level reading out of band. Slow the lead jack and bring the others up to match before continuing.",
+      "id": "raise-jacks-coordinated",
+      "kind": "track",
+      "prompt": "Bring all three jacks up together, keeping the level reading inside the band the whole way.",
+      "seconds": 8,
+      "target": "jack-controls",
+      "title": "Raise the jacks together",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.4,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "LEVEL",
+        "rise": 0.35,
+        "start": 0.5
+      },
+      "why": "Three jacks raised together keep the aircraft's own weight distributed the way the AMM assumed it would be — the instant one gets ahead of the others, that assumption stops being true and the load on every jack point starts reading differently than the plan accounted for."
+    },
+    {
+      "cue": "Turn the level valve to bring the aircraft to true level before locking anything.",
+      "id": "level-adjustment",
+      "kind": "turn",
+      "prompt": "Turn the level valve to bring the aircraft to true level before locking anything.",
+      "target": "level-valve",
+      "title": "Fine-level the aircraft",
+      "turn": {
+        "axis": "z",
+        "label": "FINE LEVEL",
+        "turns": 0.3
+      },
+      "why": "The collars lock the jacks at whatever height they happen to be at, so the fine leveling has to happen before that lock, not after — a lock set on an aircraft that is still slightly off level locks that lean in for the whole job."
+    },
+    {
+      "cue": "Lock each jack's collar once the aircraft is level, left wing first, then right, then tail.",
+      "id": "lock-collars",
+      "itemNames": {
+        "collar-tail": "tail jack collar locked",
+        "collar-wing-l": "left wing jack collar locked",
+        "collar-wing-r": "right wing jack collar locked"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Left wing, then right wing, then tail — every collar locked before anyone treats this aircraft as settled.",
+      "prompt": "Lock each jack's collar once the aircraft is level, left wing first, then right, then tail.",
+      "targets": [
+        "collar-wing-l",
+        "collar-wing-r",
+        "collar-tail"
+      ],
+      "title": "Lock the collars",
+      "why": "The locking collar is the mechanical backup that holds this jack's height even if the hydraulic pressure behind it changes for any reason, and it goes on now, while the aircraft is already proven level, rather than trusted to hydraulics alone for the rest of the job."
+    },
+    {
+      "cue": "Read the stability gauge and commit only once it is inside the band.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.6
+        ],
+        "label": "STABILITY",
+        "missNote": "Not settled — recheck the collars and the level before anyone works underneath.",
+        "speed": 0.6
+      },
+      "id": "stability-check",
+      "kind": "gauge",
+      "prompt": "Read the stability gauge and commit only once it is inside the band.",
+      "target": "stability-gauge",
+      "title": "Prove the aircraft stable",
+      "why": "This is the one reading that tells this crew the aircraft is not just at height but actually settled and stable on all three jacks — nobody works under it until this gauge says so, however solid the raise looked going up or how many times this same crew has done it before."
+    },
+    {
+      "cue": "Seat the gear downlock pins the moment the gear is confirmed unloaded.",
+      "id": "install-downlock-pins",
+      "kind": "select",
+      "prompt": "Seat the gear downlock pins the moment the gear is confirmed unloaded.",
+      "target": "downlock-pins",
+      "title": "Seat the downlock pins",
+      "why": "The downlock pins are the mechanical backup for the landing gear itself once the wheels are off the ground, and they go in the moment that is true, not sometime after this crew has already started working around gear that has nothing but hydraulics holding it where it is."
+    },
+    {
+      "cue": "Roll the work stand into position at the aircraft.",
+      "drag": {
+        "missNote": "Not in position — roll the stand fully to the work area before anyone climbs it.",
+        "radius": 0.5,
+        "to": "stand-position"
+      },
+      "id": "position-stands",
+      "kind": "drag",
+      "prompt": "Roll the work stand into position at the aircraft.",
+      "target": "work-stand",
+      "title": "Position the work stand",
+      "why": "The stand only does its job at the exact spot the task needs reached — rolled in close but not actually square to the work is a platform this crew ends up leaning off of instead of standing squarely on, which is exactly the habit that turns an ordinary task into a fall."
+    },
+    {
+      "cue": "Confirm the guardrail is latched and secure before anyone climbs the stand.",
+      "id": "fall-protection-check",
+      "kind": "select",
+      "prompt": "Confirm the guardrail is latched and secure before anyone climbs the stand.",
+      "target": "guardrail-check",
+      "title": "Check the stand's guardrail",
+      "why": "A guardrail that looked fine last time it was folded away is not the same thing as one confirmed latched today, and this crew checks it every single time specifically because that is the one habit that catches the one time it was not put back right."
+    },
+    {
+      "cue": "Remove the downlock pins before the jacks start coming down.",
+      "id": "remove-downlock-pins",
+      "kind": "select",
+      "prompt": "Remove the downlock pins before the jacks start coming down.",
+      "target": "downlock-pins",
+      "title": "Remove the downlock pins",
+      "why": "The pins have to come out before the gear can take weight again, and removing them now, in full view of the whole crew and before any jack moves, is what keeps this from becoming a scramble once the aircraft is already partway down and somebody remembers they are still in."
+    },
+    {
+      "cue": "Hold the lower control through a steady, coordinated descent on all three jacks.",
+      "holdBreakNote": "Released the lower control mid-descent. Hold it through the whole way down — an uneven release now undoes the coordinated raise this crew already did once.",
+      "id": "lower-jacks-coordinated",
+      "kind": "hold",
+      "prompt": "Hold the lower control through a steady, coordinated descent on all three jacks.",
+      "seconds": 6,
+      "target": "jack-controls",
+      "title": "Lower the jacks together",
+      "why": "Coming down together is the same discipline as going up together — one jack releasing faster than the others hands the aircraft's weight back to its own gear unevenly, at exactly the moment this crew has the least room left to correct it."
+    },
+    {
+      "cue": "Set the chocks once the wheels are down, then log the jack points, the fuel state and the pin times.",
+      "id": "chocks-and-log",
+      "kind": "select",
+      "prompt": "Set the chocks once the wheels are down, then log the jack points, the fuel state and the pin times.",
+      "target": "closing-log",
+      "title": "Chock and log the job",
+      "why": "The chocks only mean something once the wheels are actually bearing weight again, and the log is what the next shift reads instead of asking this crew to remember which jack points and pin times applied to this particular job."
+    }
+  ],
+  "supportLine": "your IAM or TWU local's member assistance programme, or the site's employee assistance line if a close call under a jacked aircraft is what stayed with you",
+  "tagline": "A jet raised on three jacks: the jacks and stands inspected, the fuel state confirmed against the AMM, the jacks brought up together and locked, downlock pins seated the moment the gear unloads, the stands checked for their own guardrails, and everything run in reverse before the jacks come out",
+  "title": "SmartCiti.X~ Hangar Jacking & Stands VR",
+  "trade": "Aircraft maintenance technician, jacking and stands — IAM/TWU",
+  "underwater": null,
+  "weather": "overcast"
+}

@@ -1,0 +1,384 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "zero-then-open",
+    "name": "Zero, Then Open",
+    "note": "Every line opened at zero pressure, every leak found with dye, and the lane and the bridge crane both answered"
+  },
+  "category": "Maritime & Ports",
+  "certification": "ILWU maintenance and repair with the PMA training programme; IUOE heavy equipment and crane maintenance; OSHA 29 CFR 1917 marine terminals; 29 CFR 1910.147 control of hazardous energy, including stored hydraulic energy; ASME B30.2 for the shop's bridge crane; 29 CFR 1910.132 for the face shield and gloves at an open line",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.2",
+        "id": "asme-b30-2",
+        "title": "ASME B30.2 — Overhead and gantry cranes (top running bridge, single or multiple girder, top running trolley hoist)"
+      },
+      {
+        "body": "union",
+        "citedAs": "ILWU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1917",
+        "id": "osha-1917",
+        "title": "29 CFR 1917 — Marine terminals"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "bled-to-zero",
+        "name": "Bled To Zero",
+        "note": "The accumulators held at zero before any fitting was cracked"
+      },
+      {
+        "id": "dye-not-hand",
+        "name": "Dye, Not Hand",
+        "note": "The leak found with the dye and the lamp, never a bare hand"
+      },
+      {
+        "id": "shop-discipline",
+        "name": "Shop Discipline",
+        "note": "Chocked, locked, never under the carriage, never a hand on a live line"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-repair",
+        "name": "Clean Repair",
+        "note": "No corrections anywhere in the repair"
+      },
+      {
+        "id": "held-the-test",
+        "name": "Held The Test",
+        "note": "System pressure held in band for the whole test"
+      },
+      {
+        "id": "back-to-the-yard",
+        "name": "Back To The Yard",
+        "note": "Machine logged back inside 80% of par"
+      }
+    ],
+    "currency": "BAR",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Shop Hand",
+      "Hydraulics Mechanic",
+      "Straddle Tech",
+      "Lead Mechanic",
+      "Straddle Certified"
+    ],
+    "system": "Heavy Equipment Shop"
+  },
+  "hazards": {
+    "crack-fitting-live": "You cracked a fitting with the accumulators still charged. A straddle carrier's accumulators hold the hoist circuit at working pressure for hours after the engine stops, and a fitting opened against that pressure puts a jet of hot oil through a glove and into a hand — 29 CFR 1910.147 counts stored hydraulic energy as energy to be isolated, and the bleed-down to zero is that isolation.",
+    "hand-leak-check": "You ran a bare hand along the line to feel for the leak. A pinhole leak in a hydraulic line under pressure is an injection injury — oil under the skin from a jet too fine to see — and it is why the leak is found with dye and a lamp on a bled-down system, never with a hand on a live one.",
+    "no-chocks-work": "You started on the machine without the wheel chocks set. A straddle carrier on a shop floor is tonnes of machine on tyres with a hydrostatic drive that holds it still only while the circuit holds pressure — and you are about to open that circuit. Chocks first, because the machine you are under has to be a machine that cannot move.",
+    "under-carriage-unlocked": "You went under the spreader carriage with it hanging on the hoist cylinders and no maintenance locks in. The defect report says this hoist creeps; a carriage that creeps with nobody under it is the same carriage that comes down on whoever is, and the locks are the only thing in the machine that does not depend on the circuit you are about to open."
+  },
+  "id": "pt-straddle-carrier-hydraulics",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "bleed-down",
+      "alert": "A hustler has turned into the shop lane beside the bay with a bare chassis behind it, and the bay's drip trays and hose run are out across the lane line.",
+      "cue": "Drop the lane stop light to red now — the driver cannot see what is on the floor from the cab.",
+      "delay": 2,
+      "id": "hustler-shop-lane",
+      "kind": "Hustler entering the shop lane",
+      "missNote": "The hustler came down the lane and over the hose run with the light still green; the chassis dragged the drip tray twenty feet, and the bleed-down went on as if the lane were empty.",
+      "seconds": 12,
+      "target": "lane-stop-light",
+      "why": "The shop lane is a live yard lane that happens to run past an open bay, and a hustler driver reads the lane light and the paddle, not the floor: a hose run or a drip tray across the line is under the chassis before he knows it is there. 29 CFR 1917 puts the traffic control on the terminal, and in a shop that control is the lane light, set to red the moment a vehicle turns in rather than once it is plainly not going to stop.",
+      "wrongNote": "The lane stop light — the driver answers to the light, and nothing else in the bay is in his eyeline from the cab."
+    },
+    {
+      "after": "pressure-test",
+      "alert": "The shop's bridge crane is bringing a slung engine block down the bay toward this machine — the load is passing over the bay line.",
+      "cue": "Hit the bridge crane's hold button on the bay pendant — nothing travels over a manned bay.",
+      "delay": 2,
+      "id": "bridge-crane-overhead",
+      "kind": "Shop bridge crane travelling a load over the bay",
+      "missNote": "The engine block passed over the bay and the mechanic at the test gauge with nothing stopping it, and the pressure test carried on underneath as if the hook were empty.",
+      "seconds": 12,
+      "target": "crane-hold-button",
+      "why": "ASME B30.2 puts the load's path in the crane operator's hands and keeps people out from under it, and a bay with a mechanic at a live pressure test is a bay the load does not cross: the bay pendant's hold is the one control in reach that stops the travel, and it is used by the person under the load because the operator at the far pendant cannot see the bay is manned. The test can be held again; a load cannot be un-dropped.",
+      "wrongNote": "The bridge crane's hold button on the bay pendant — the load is the crane's to stop, and the pendant is the only thing here that reaches it."
+    }
+  ],
+  "lateNotes": {
+    "restore-master": "The master switch goes back on for the test only once the hose is fitted, torqued and the carriage is on its locks.",
+    "shop-log-board": "The machine is logged back once the relief is set and the test is complete, not before.",
+    "system-test-lever": "There is no system to test until the master is restored and the carriage is pinned — the machine is still locked out."
+  },
+  "name": "Straddle Carrier Hydraulics",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bleed-valve",
+      "carriage-lock-pins",
+      "crack-fitting-live",
+      "crane-hold-button",
+      "defect-tag-board",
+      "filter-indicator",
+      "fitting-nut",
+      "hand-leak-check",
+      "key-lock",
+      "lane-stop-light",
+      "manifold-port",
+      "master-switch",
+      "new-hose-assembly",
+      "no-chocks-work",
+      "relief-gauge",
+      "reservoir-sight",
+      "restore-master",
+      "shop-log-board",
+      "shop-radio",
+      "system-test-lever",
+      "under-carriage-unlocked",
+      "weeping-fitting",
+      "wheel-chocks"
+    ],
+    "meshes": 254
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read what the operator wrote up: the hoist creeps down when parked, and steering has been heavy since the morning.",
+      "id": "defect-report",
+      "kind": "select",
+      "prompt": "Read what the operator wrote up: the hoist creeps down when parked, and steering has been heavy since the morning.",
+      "target": "defect-tag-board",
+      "title": "Read the operator's defect report",
+      "why": "A defect report is the operator telling the shop what the machine did with a box on it, and it points at the circuit before a panel is opened: a hoist that creeps is a cylinder seal, a holding valve or a leak on the pressure side, and heavy steering is a different circuit with a shared pump. Reading it first is what decides which lines are going to be opened, which is what decides what has to be bled to zero, and ILWU maintenance and repair practice starts every job on the report rather than on the machine."
+    },
+    {
+      "cue": "Chocks under the wheels first, then the master switch off, then your lock through the switch guard.",
+      "id": "chock-and-lock",
+      "itemNames": {
+        "key-lock": "your lock on the master",
+        "master-switch": "master switch off",
+        "wheel-chocks": "wheel chocks set"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Chocks first, then the master, then your lock — the machine has to be one that cannot move before it is one that cannot start.",
+      "prompt": "Chocks under the wheels first, then the master switch off, then your lock through the switch guard.",
+      "targets": [
+        "wheel-chocks",
+        "master-switch",
+        "key-lock"
+      ],
+      "title": "Chock the machine, isolate the master switch, and lock it",
+      "why": "The order is the order the energy is taken out: the chocks take away the machine's ability to move on a floor it is about to lose hydraulic hold on, the master switch takes away the electrical supply that starts the engine and powers the valves, and the lock keeps the switch off against anyone else in the shop with a key. 29 CFR 1910.147 has each one done and then the next — a lock hung on a machine that can still roll is a lock on the wrong thing first."
+    },
+    {
+      "cue": "Open the accumulator bleed and hold it: watch the pressure gauge come down and stay at zero before any line is touched.",
+      "holdBreakNote": "Released before the gauge had held at zero — a reading that drops and is not watched is not a bled-down circuit. Open the bleed and hold it again.",
+      "id": "bleed-down",
+      "kind": "hold",
+      "prompt": "Open the accumulator bleed and hold it: watch the pressure gauge come down and stay at zero before any line is touched.",
+      "seconds": 5,
+      "target": "bleed-valve",
+      "title": "Bleed the accumulators to zero and hold the reading",
+      "why": "The accumulators are the stored energy in this machine, and they hold the hoist circuit at working pressure with the engine off and the master locked — the two isolations already made take away nothing they hold. The bleed is held rather than opened and walked away from because a gauge that reads zero for a second and then climbs is a pilot-operated valve reseating, and the only proof the circuit is dead is a gauge that stays at zero for as long as you watch it."
+    },
+    {
+      "cue": "Sweep the lamp along the hoist circuit: pump, manifold, lines and cylinders, and find where the dye has been weeping.",
+      "id": "find-leak",
+      "itemNames": {
+        "weeping-fitting": "weeping fitting on the hoist pressure line at the manifold"
+      },
+      "itemNotes": {
+        "weeping-fitting": "The dye fluoresces at the hoist pressure line's fitting on the manifold — a wet ring under the nut and a trail down the block. That is the creep: the holding valve is fine, the line ahead of it is not."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Sweep the lamp along the hoist circuit: pump, manifold, lines and cylinders, and find where the dye has been weeping.",
+      "targets": [
+        "weeping-fitting"
+      ],
+      "title": "Find the leak with the dye and the lamp",
+      "why": "A hydraulic leak that causes a creep is often too fine to see as a drip and always too dangerous to feel for, and the dye in the system shows up under the lamp on a fitting that looks dry to the eye. The sweep covers the whole circuit rather than stopping at the first wet spot because the creep may have two causes, and it is done on a bled-down system because the alternative is finding the leak with a hand — which is how hydraulic injection injuries happen in shops that know better."
+    },
+    {
+      "cue": "Cap the open port, carry the new hose assembly from the bench and seat its fitting on the manifold port.",
+      "drag": {
+        "missNote": "Not on the port — the fitting has to seat square on the manifold before any torque goes on it.",
+        "radius": 0.5,
+        "to": "manifold-port"
+      },
+      "id": "fit-hose",
+      "kind": "drag",
+      "prompt": "Cap the open port, carry the new hose assembly from the bench and seat its fitting on the manifold port.",
+      "target": "new-hose-assembly",
+      "title": "Fit the replacement hose assembly to the manifold port",
+      "why": "The hose comes off the bench as a made-up assembly with the right fittings and the right rating, and it goes onto a manifold port that has been capped since the old one came off, because an open port on a shop floor collects the grit that scores a pump. The fitting is seated by hand first, square on the port, so the torque that follows is torque on a properly started thread rather than a cross-threaded one pulled up until it stopped leaking."
+    },
+    {
+      "cue": "Pull the fitting nut up to the figure on the sheet with the wrench, and mark it.",
+      "id": "torque-fitting",
+      "kind": "turn",
+      "prompt": "Pull the fitting nut up to the figure on the sheet with the wrench, and mark it.",
+      "target": "fitting-nut",
+      "title": "Torque the fitting to the manufacturer's figure",
+      "turn": {
+        "label": "FITTING",
+        "turns": 0.75
+      },
+      "why": "A hydraulic fitting has a torque figure because both directions are failures: under-torqued, the seal face does not seat and the same weep comes back under the same dye a week later; over-torqued, the flare or the o-ring face is crushed and the fitting leaks the first time the line goes cold. The mark across the nut and the port is what tells the next mechanic the fitting was torqued and has not moved, which is more than a fitting ever says on its own."
+    },
+    {
+      "cue": "Set the maintenance lock pins under the spreader carriage before the hoist circuit is put back under pressure.",
+      "id": "carriage-locks",
+      "kind": "select",
+      "prompt": "Set the maintenance lock pins under the spreader carriage before the hoist circuit is put back under pressure.",
+      "target": "carriage-lock-pins",
+      "title": "Pin the spreader carriage on its maintenance locks",
+      "why": "The test that follows puts the hoist circuit back to working pressure, and a creeping carriage is exactly what the test may reproduce — with a mechanic standing beside the machine watching a gauge. The maintenance locks carry the carriage on steel rather than on the circuit being tested, so a repair that has not fixed the creep shows up as a gauge reading and not as a carriage on its way down."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Read the reservoir sight glass and the return filter's bypass indicator before the pump is asked to work.",
+      "id": "fluid-and-filter",
+      "itemNames": {
+        "filter-indicator": "return filter bypass indicator",
+        "reservoir-sight": "reservoir level at the sight glass"
+      },
+      "kind": "sequence",
+      "prompt": "Read the reservoir sight glass and the return filter's bypass indicator before the pump is asked to work.",
+      "targets": [
+        "reservoir-sight",
+        "filter-indicator"
+      ],
+      "title": "Check the reservoir level and the return filter",
+      "why": "The line change has taken fluid out of the system and let air in, and a pump started on a low reservoir cavitates and eats itself inside a shift; the return filter's bypass indicator says whether the old leak has been sending debris around the circuit that the filter has stopped holding. Both are read now, before the master goes back on, because they are the two faults a pressure test would otherwise find by destroying something."
+    },
+    {
+      "cue": "Everyone clear of the carriage and the lines, your lock off, the master switch on — the machine is live for the test only.",
+      "id": "restore-master",
+      "kind": "select",
+      "prompt": "Everyone clear of the carriage and the lines, your lock off, the master switch on — the machine is live for the test only.",
+      "target": "restore-master",
+      "title": "Clear the machine and restore the master for the test",
+      "why": "From this moment the machine can start and the valves can shift, and a straddle carrier's hoist circuit going to pressure is the loudest thing in the shop and the least forgiving. 29 CFR 1910.147 puts a head count before the lock comes off, because the person most likely to be at an open line when the pump starts is the mechanic who just fitted it — and the chocks stay in through the test, because a machine that is live is a machine that can roll."
+    },
+    {
+      "cue": "Bring the hoist circuit up to the test figure on the lever and hold it there — a steady needle, no drop, no surge.",
+      "holdBreakNote": "The pressure fell out of band — that is the drop or the surge the test exists to find. Bring it back to the test figure and hold.",
+      "id": "pressure-test",
+      "kind": "track",
+      "prompt": "Bring the hoist circuit up to the test figure on the lever and hold it there — a steady needle, no drop, no surge.",
+      "seconds": 6,
+      "target": "system-test-lever",
+      "title": "Hold the hoist circuit at test pressure and watch for drop",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.48,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "SYSTEM PRESSURE",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "The pressure test is what proves the new hose, the fitting and the holding valve under the load they actually carry: a slow drop is the leak still there or a new one at the fitting, a surge is the relief or the compensator hunting. It is held for the full interval rather than peaked because a fitting that seals at pressure for a second and weeps over ten is the same defect the operator reported, and the whole repair is measured by whether the needle stays where it was put."
+    },
+    {
+      "cue": "Adjust the relief and commit the reading inside the manufacturer's band on the test gauge.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "RELIEF",
+        "missNote": "Outside the band — back the relief off and come up to the figure again slowly, reading the test gauge and not the machine's.",
+        "speed": 0.7
+      },
+      "id": "relief-setting",
+      "kind": "gauge",
+      "prompt": "Adjust the relief and commit the reading inside the manufacturer's band on the test gauge.",
+      "target": "relief-gauge",
+      "title": "Set the main relief valve at the specified pressure",
+      "why": "The main relief is the ceiling on the whole hoist circuit: set low it stalls the hoist under a heavy box and the operator drives the machine to the shop again; set high it puts the hoses, the cylinders and the new fitting above their working rating on every lift and one of them finds out first. The manufacturer's figure is a number, the test gauge is how the mechanic reads it, and the setting is committed only inside the band because a relief set by ear is set wrong in one of two directions."
+    },
+    {
+      "cue": "Record the leak found, the hose replaced, the test pressure held and the relief setting, and clear the defect with the yard.",
+      "id": "shop-log",
+      "kind": "select",
+      "prompt": "Record the leak found, the hose replaced, the test pressure held and the relief setting, and clear the defect with the yard.",
+      "target": "shop-log-board",
+      "title": "Log the repair and release the machine to the yard",
+      "why": "The log is where this repair becomes something the next mechanic can use: the hose that was changed is the one that will need changing again first, the relief setting is the number the next test is measured against, and the defect cleared with the yard is what stops a dispatcher sending the machine out on the strength of it looking parked in a bay. The PMA training programme teaches the write-up as part of the repair, not the paperwork after it, for exactly that reason."
+    },
+    {
+      "cue": "Call the operator whose report started this and the shop lead: what was found, what was changed, and how the crew is after a shift beside the lane.",
+      "id": "operator-checkin",
+      "kind": "select",
+      "prompt": "Call the operator whose report started this and the shop lead: what was found, what was changed, and how the crew is after a shift beside the lane.",
+      "target": "shop-radio",
+      "title": "Check in with the operator and the shop crew",
+      "why": "The operator wrote up a creeping hoist and deserves to hear what it was rather than to find out from whether the machine still does it, and telling them closes the loop that makes the next defect report worth writing. The call is also the crew's own check-in — a shift with a hustler in the lane and a load over the bay is a shift with a moment or two in it, and the ILWU practice is to name them out loud, and the support that exists, before the next machine comes in."
+    }
+  ],
+  "supportLine": "your ILWU local's member assistance programme, with the PMA-ILWU benefit plan's counselling line behind it",
+  "tagline": "A straddle carrier with a creeping hoist: chocked, isolated and locked, the accumulators bled to zero and proven, the weeping fitting found with dye and not a hand, a new hose fitted and torqued, the carriage pinned on its locks, the system pressure held under test beside a live lane and under a live bridge crane, the relief set by the number, and the machine logged back to its operator",
+  "title": "SmartCiti.X~ Straddle Carrier Hydraulics VR",
+  "trade": "ILWU maintenance and repair mechanic — heavy equipment shop, PMA training programme, with IUOE heavy equipment maintenance",
+  "underwater": null,
+  "weather": "clear"
+}

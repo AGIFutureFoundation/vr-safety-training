@@ -1,0 +1,449 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "eyes-on-him",
+    "name": "Eyes On Him",
+    "note": "Nobody jumped in, nobody hauled him over the rail, the spotter never looked away, he came up horizontal and was never walked, and both the lost buoy and the limp lift answered"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Inlandboatmen's Union (IBU) deck practice and drills; MEBA engineering; IMO STCW basic safety training in personal survival; USCG 46 CFR 160 approved personal flotation devices and 46 CFR 25 lifesaving equipment; OSHA 29 CFR 1926.106 and 29 CFR 1915.158 lifesaving equipment where work is over water; FCC 47 CFR 80 marine VHF for the distress call; the vessel's own man-overboard drill on her station bill",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "FCC",
+        "citedAs": "47 CFR 80",
+        "id": "fcc-47-cfr-80",
+        "title": "47 CFR Part 80 — Stations in the maritime services (marine VHF and digital selective calling)"
+      },
+      {
+        "body": "FCC",
+        "citedAs": "FCC",
+        "id": "fcc-rf-exposure",
+        "title": "FCC radiofrequency exposure limits for transmitter sites (47 CFR 1.1310)"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "IMO",
+        "citedAs": "IMO STCW",
+        "id": "imo-stcw",
+        "title": "STCW — Convention on Standards of Training, Certification and Watchkeeping for Seafarers"
+      },
+      {
+        "body": "union",
+        "citedAs": "MEBA",
+        "id": "meba-calhoon-school",
+        "title": "MEBA — the Calhoon MEBA Engineering School's licensed marine engineer training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1915.158",
+        "id": "osha-1915-158",
+        "title": "29 CFR 1915.158 — Lifesaving equipment in shipyard employment"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.106",
+        "id": "osha-1926-106",
+        "title": "29 CFR 1926.106 — Working over or near water"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 160",
+        "id": "uscg-46-cfr-160",
+        "title": "46 CFR Part 160 — Lifesaving equipment specifications and approval, including personal flotation devices"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 25",
+        "id": "uscg-46-cfr-25",
+        "title": "46 CFR Part 25 — Requirements for uninspected vessels, including lifesaving and fire-fighting equipment"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "gear-checked",
+        "name": "Gear Checked",
+        "note": "The rescue gear checked before anyone needed it"
+      },
+      {
+        "id": "alongside-true",
+        "name": "Alongside True",
+        "note": "The alongside call made inside the band first time"
+      },
+      {
+        "id": "nobody-else-in",
+        "name": "Nobody Else In",
+        "note": "Never in after him, never over the rail by hand, never looked away, never stood him up"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-drill",
+        "name": "Clean Drill",
+        "note": "No corrections from the station bill to the log"
+      },
+      {
+        "id": "level-lift",
+        "name": "Level Lift",
+        "note": "The hoist held in band all the way up"
+      },
+      {
+        "id": "by-the-bill",
+        "name": "By The Bill",
+        "note": "Drill logged inside 80% of par"
+      }
+    ],
+    "currency": "BUOY",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ordinary",
+      "Deckhand",
+      "Rescue Hand",
+      "Lead Deckhand",
+      "MOB Recovery Certified"
+    ],
+    "system": "Rescue Deck"
+  },
+  "hazards": {
+    "jump-in-after": "You went to the rail to jump in after him. Cold water takes a rescuer exactly as it took the casualty — the gasp, the loss of breath control, the arms that stop working — and a second person in the water is a second recovery for a crew that is now one short. The drill keeps everyone aboard and brings the casualty to the boat, not the crew to the casualty.",
+    "lean-over-rail": "You leaned over the rail to haul him aboard by his collar. A person in cold water, clothes soaked, is far heavier than two arms over a rail, the rescuer is the one who goes over, and a casualty pulled up vertically out of cold water can collapse as the water's pressure comes off his body — he comes aboard on the sling and the davit, lying as flat as the gear allows.",
+    "lose-sight": "You turned away from him to go and fetch the first aid kit. A head in the Bay's chop disappears from sight within a few boat lengths and is very hard to find again, and the spotter's one job in the drill is to point at the casualty and never look away until someone else has him — the kit comes from someone else.",
+    "stand-him-up": "You went to stand him up and walk him into the wheelhouse to warm up. A casualty just out of cold water can collapse when he is stood upright, and rough handling of a chilled body is dangerous in itself — he stays lying down, is handled gently, and is insulated where he is until medical advice says otherwise."
+  },
+  "id": "br-cold-water-immersion-and-mob-recovery",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "spot",
+      "alert": "The boat's own wake has washed the ring buoy out of his hands and away — he is struggling to keep his head up in the chop.",
+      "cue": "Throw the throw bag so its line lands across him, keeping your other arm pointing at him.",
+      "delay": 2,
+      "id": "buoy-washed-away",
+      "kind": "Buoy lost in the wake",
+      "missNote": "Nobody got anything else to him; he tried to swim for the buoy, went under twice in the chop, and was barely holding his head up when the boat came alongside.",
+      "seconds": 14,
+      "target": "throw-bag",
+      "why": "A casualty whose hands are going in the cold cannot swim after a buoy that has drifted off, and every stroke he tries costs him. The throw bag puts a line across him that the deck can pull him in on, and it can be thrown by the spotter without ever taking their eyes off him.",
+      "wrongNote": "The throw bag — get a line across him while you keep him in sight."
+    },
+    {
+      "after": "hoist",
+      "alert": "He has gone limp as he clears the water — his head is dropping and the sling is taking him up bolt upright.",
+      "cue": "Hold the winch and get the second strop under his knees from the davit post, so he comes the rest of the way up horizontal.",
+      "delay": 2,
+      "id": "limp-on-davit",
+      "kind": "Casualty goes limp on the lift",
+      "missNote": "The hoist carried on with him upright; he came over the gate with no response, and the crew were starting CPR on the deck before the call went out.",
+      "seconds": 14,
+      "target": "second-strop",
+      "why": "A cold-water casualty lifted vertically can collapse as the water's support comes off, and going limp on the way up is exactly that warning. The answer is to stop hoisting him upright and get the second strop under his knees so the rest of the lift is horizontal, even though it takes longer — speed is not what saves him now.",
+      "wrongNote": "The second strop on the davit post — stop the upright lift and bring him up horizontal."
+    }
+  ],
+  "lateNotes": {
+    "davit-winch": "The davit is taken up once the sling is on him and he is alongside at the recovery gate — not while he is still out in the water.",
+    "drill-log": "The drill is logged once he is aboard, assessed and the call is made — last, not first.",
+    "recovery-gate": "The alongside call comes once the master is bringing her round to him and the spotter has him — not before the turn."
+  },
+  "name": "Cold Water Immersion & MOB Recovery",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "skiff",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "workboat",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "radio",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "casualty",
+      "confused-speech",
+      "crew-radio",
+      "crotch-strap",
+      "davit-winch",
+      "drill-log",
+      "inflatable-pfd",
+      "jump-in-after",
+      "lean-over-rail",
+      "lifesling-tied",
+      "lose-sight",
+      "mob-alarm",
+      "mob-button",
+      "no-shivering",
+      "recovery-gate",
+      "rescue-sling",
+      "ring-buoy",
+      "ringbuoy-light-dead",
+      "second-strop",
+      "stand-him-up",
+      "station-bill",
+      "throw-bag",
+      "vhf-channel"
+    ],
+    "meshes": 198
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "At the wheelhouse door, before stepping onto the deck: inflatable PFD on and buckled, and the crotch strap clipped so it cannot ride up over your face when it fires.",
+      "id": "pfd-on",
+      "itemNames": {
+        "crotch-strap": "crotch strap clipped and snug",
+        "inflatable-pfd": "inflatable PFD on, zipped and buckled"
+      },
+      "kind": "sequence",
+      "prompt": "At the wheelhouse door, before stepping onto the deck: inflatable PFD on and buckled, and the crotch strap clipped so it cannot ride up over your face when it fires.",
+      "targets": [
+        "inflatable-pfd",
+        "crotch-strap"
+      ],
+      "title": "Inflatable PFD on and strapped at the wheelhouse door",
+      "why": "The first moments in cold water bring a gasp and a loss of breath control that a person cannot choose to stop, and a PFD is what keeps the mouth clear of the water through it. An inflatable that rides up over the face when it fires is worse than none, which is why the crotch strap is part of wearing it — and it is on before the deck, because nobody who goes over gets to put one on first."
+    },
+    {
+      "cue": "Walk the rescue gear before work starts: the ring buoy and its light, the throw bag, the rescue sling's bag, and the davit and its fall.",
+      "id": "rescue-gear",
+      "itemNames": {
+        "lifesling-tied": "rescue sling bag lashed shut to the rail",
+        "ringbuoy-light-dead": "ring buoy's water light not working"
+      },
+      "itemNotes": {
+        "lifesling-tied": "The rescue sling's bag has been lashed shut to the rail with small stuff — in a recovery it has to come out in one pull, not be cut free.",
+        "ringbuoy-light-dead": "The water-activated light on the ring buoy does not come on when tested — in fading light or spray, the buoy and the person holding it become very hard to see."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the rescue gear before work starts: the ring buoy and its light, the throw bag, the rescue sling's bag, and the davit and its fall.",
+      "targets": [
+        "ringbuoy-light-dead",
+        "lifesling-tied"
+      ],
+      "title": "Check the rescue gear at its stations",
+      "why": "Rescue gear sits in the weather for months and is only ever needed at once, so it fails from neglect rather than use: a dead light, a bag tied shut, a fall seized on its drum. The lifesaving equipment rules and the vessel's drill both assume the gear works; checking it at the start of the day is the only time anyone can fix it without somebody already in the water."
+    },
+    {
+      "cue": "Read the vessel's man-overboard drill on the station bill: who raises the alarm, who throws, who spots, who takes the helm, who rigs the davit, and who makes the call.",
+      "id": "station-bill",
+      "kind": "select",
+      "prompt": "Read the vessel's man-overboard drill on the station bill: who raises the alarm, who throws, who spots, who takes the helm, who rigs the davit, and who makes the call.",
+      "target": "station-bill",
+      "title": "Read your man-overboard duties on the station bill",
+      "why": "A recovery goes right when each person does one job without being told, and the station bill is where those jobs are written down for this vessel and this crew. The drill is the vessel's own — how the master brings her round, which side the recovery gate is on, how the davit is rigged — and the learner's first job is to know their line in it before the day's work starts."
+    },
+    {
+      "cue": "Your crewmate has gone over the port rail: shout 'man overboard, port side' and hit the alarm, then press the MOB button on the plotter to mark where he went in.",
+      "id": "raise-alarm",
+      "itemNames": {
+        "mob-alarm": "man-overboard alarm sounded and the side shouted",
+        "mob-button": "position marked with the MOB button on the plotter"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "The alarm and the shout come first — everyone on board has to know someone is in the water before anything else happens.",
+      "prompt": "Your crewmate has gone over the port rail: shout 'man overboard, port side' and hit the alarm, then press the MOB button on the plotter to mark where he went in.",
+      "targets": [
+        "mob-alarm",
+        "mob-button"
+      ],
+      "title": "Raise the alarm and mark the position",
+      "why": "The shout and the alarm put every person on board into their drill at once — the master to the helm, the engineer to the davit — and the side tells the master which way to turn. The MOB button fixes the position where he went in, because the boat and the casualty both drift, and a mark on the plotter is the one thing that does not."
+    },
+    {
+      "cue": "Take the ring buoy off its bracket and throw it so it lands just beyond him and upwind, where he can reach it without swimming.",
+      "drag": {
+        "missNote": "Not within reach — the buoy has to land just beyond him and upwind, not short of him where he has to swim for it.",
+        "radius": 0.8,
+        "to": "casualty"
+      },
+      "id": "throw-buoy",
+      "kind": "drag",
+      "prompt": "Take the ring buoy off its bracket and throw it so it lands just beyond him and upwind, where he can reach it without swimming.",
+      "target": "ring-buoy",
+      "title": "Throw the ring buoy to him",
+      "why": "The ring buoy gives a person in cold water something to hold that is not their own strength, and it marks where they are for everyone on deck. It is thrown past and upwind so the wind carries it to them, because swimming for it spends the arm strength the cold is already taking."
+    },
+    {
+      "cue": "Point at your crewmate with your whole arm and keep pointing, calling his position to the wheelhouse, while the master brings her round.",
+      "holdBreakNote": "You looked away and lost him in the chop. Find him again and keep pointing until he is alongside.",
+      "id": "spot",
+      "kind": "hold",
+      "prompt": "Point at your crewmate with your whole arm and keep pointing, calling his position to the wheelhouse, while the master brings her round.",
+      "seconds": 5,
+      "target": "casualty",
+      "title": "Point at him and keep your eyes on him",
+      "why": "A head in chop disappears within a few boat lengths, and the master turning the boat cannot watch the casualty and the water at the same time. The spotter points without stopping so the master can steer by the arm, and does not look away for anything — not the kit, not the davit — until the casualty is alongside."
+    },
+    {
+      "cue": "Watch the gap close as the master brings the port side down to him, and call 'alongside' when he is at the recovery gate — not before and not past it.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.58
+        ],
+        "label": "GAP TO THE GATE",
+        "missNote": "Outside the band — call it when he is at the recovery gate itself, not while he is still out of reach or once he is past it.",
+        "speed": 0.72
+      },
+      "id": "call-alongside",
+      "kind": "gauge",
+      "prompt": "Watch the gap close as the master brings the port side down to him, and call 'alongside' when he is at the recovery gate — not before and not past it.",
+      "target": "recovery-gate",
+      "title": "Call 'alongside' as he reaches the recovery gate",
+      "why": "The master brings the boat to the casualty, with the engines stopped or clear of him as the drill says, and the deckhand at the gate is the one who can see exactly where he is against the hull. The call puts him at the gate where the sling and the davit can reach him; too early and he is still out of reach, too late and he is sliding aft toward the stern."
+    },
+    {
+      "cue": "Pass the rescue sling down to him from inside the gate and see it over his head and under his arms, the fall clipped to the davit's hook.",
+      "drag": {
+        "missNote": "Not on him — the sling has to go over his head and under his arms, not float beside him.",
+        "radius": 0.8,
+        "to": "casualty"
+      },
+      "id": "pass-sling",
+      "kind": "drag",
+      "prompt": "Pass the rescue sling down to him from inside the gate and see it over his head and under his arms, the fall clipped to the davit's hook.",
+      "target": "rescue-sling",
+      "title": "Get the rescue sling over his head and under his arms",
+      "why": "A casualty whose hands have gone useless in the cold cannot climb a ladder or hold a rope, and the sling does the holding for him. It goes on from inside the gate so nobody leans out, and it is clipped to the davit before any weight comes on, because the lift is the davit's job — not the crew's arms."
+    },
+    {
+      "cue": "Wind the davit winch until the fall is just taut on the sling, checking the sling is seated under his arms before any weight comes on.",
+      "id": "take-up",
+      "kind": "turn",
+      "prompt": "Wind the davit winch until the fall is just taut on the sling, checking the sling is seated under his arms before any weight comes on.",
+      "target": "davit-winch",
+      "title": "Take the slack out of the davit fall",
+      "turn": {
+        "label": "DAVIT WINCH",
+        "turns": 1.25
+      },
+      "why": "Taking the slack up slowly lets the sling settle under the casualty's arms and lets the deck see that it is seated right before any of his weight comes on it. A fall snatched taut jerks a cold, stiff body against the hull; a fall taken up slowly is where the lift starts under control."
+    },
+    {
+      "cue": "Wind him up steadily clear of the water and in over the gate, keeping the lift slow and as close to horizontal as the sling allows.",
+      "holdBreakNote": "The lift broke out of band — it stalled or snatched. Bring the winch back to a slow, steady lift and hold it.",
+      "id": "hoist",
+      "kind": "track",
+      "prompt": "Wind him up steadily clear of the water and in over the gate, keeping the lift slow and as close to horizontal as the sling allows.",
+      "seconds": 6,
+      "target": "davit-winch",
+      "title": "Hoist him slowly and as level as the gear allows",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "LIFT",
+        "rise": 0.58,
+        "start": 0.14
+      },
+      "why": "Lifting a person straight up out of cold water takes away the water's squeeze on the body all at once, and a casualty who seemed fine in the water can collapse on the way up. The hoist is slow and kept as level as the gear allows, and he comes in over the gate lying down, not standing — the last part of the rescue is the most dangerous part of it."
+    },
+    {
+      "cue": "With him lying flat on the deck in the lee, wet outer layers off and into the hypothermia wrap, check what his body is telling you: shivering, how he answers, how he is breathing.",
+      "id": "assess",
+      "itemNames": {
+        "confused-speech": "slurred, confused answers",
+        "no-shivering": "he has stopped shivering"
+      },
+      "itemNotes": {
+        "confused-speech": "His answers are slow and confused and he does not know where he is — another sign of hypothermia deepening, and a reason to handle him very gently.",
+        "no-shivering": "He was shivering hard in the water and now he is not — that is not him warming up; it is the body's cooling going deeper, and it makes this a medical emergency."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "With him lying flat on the deck in the lee, wet outer layers off and into the hypothermia wrap, check what his body is telling you: shivering, how he answers, how he is breathing.",
+      "targets": [
+        "no-shivering",
+        "confused-speech"
+      ],
+      "title": "Check him on deck for signs of hypothermia",
+      "why": "What decides how a cold-water casualty is handled after the rescue is what his body is doing, not how long he was in: a man who has stopped shivering and is confused is more seriously chilled than one shivering hard, however short the swim. Those signs go to the medical advice on the call, and they are why he is kept flat, insulated and handled gently."
+    },
+    {
+      "cue": "Turn the VHF to Channel 16 and make the call the drill gives you: vessel, position, a crew member recovered from cold water with hypothermia signs, and a request for medical advice and help at the dock.",
+      "id": "distress-call",
+      "kind": "turn",
+      "prompt": "Turn the VHF to Channel 16 and make the call the drill gives you: vessel, position, a crew member recovered from cold water with hypothermia signs, and a request for medical advice and help at the dock.",
+      "target": "vhf-channel",
+      "title": "Make the call on the distress channel",
+      "turn": {
+        "label": "VHF CHANNEL",
+        "turns": 1
+      },
+      "why": "A cold-water casualty needs medical care the boat cannot give, and the Coast Guard on the distress channel can bring medical advice to the deck and help to meet the boat. The call carries the position the MOB button marked and the signs the deck has just seen, because those are what the people on the other end decide by."
+    },
+    {
+      "cue": "Log it: how he went over, the position marked, the buoy lost in the wake and the throw bag used, the lift and his collapse on the davit, the signs on deck, the call, and the dead buoy light and the tied sling bag.",
+      "id": "drill-log",
+      "kind": "select",
+      "prompt": "Log it: how he went over, the position marked, the buoy lost in the wake and the throw bag used, the lift and his collapse on the davit, the signs on deck, the call, and the dead buoy light and the tied sling bag.",
+      "target": "drill-log",
+      "title": "Log the overboard and the recovery",
+      "why": "The log is the vessel's record for the marine casualty report and the company's investigation, and it is where a dead buoy light and a tied-shut sling bag become things that are fixed on every boat in the fleet. What went well and what nearly did not are both written down, because the next drill is built from this one."
+    },
+    {
+      "cue": "On the radio: he is aboard, wrapped and the call is made, what the gear needs, and how everyone is after pulling a crewmate out of cold water.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the radio: he is aboard, wrapped and the call is made, what the gear needs, and how everyone is after pulling a crewmate out of cold water.",
+      "target": "crew-radio",
+      "title": "Check in with the master, the engineer and the skiff",
+      "why": "The master turned the boat blind to what was happening at the gate, the engineer worked the davit, and the skiff stood by — each needs to hear how he is. It is also the crew's own check-in: watching a crewmate go limp on a davit stays with people, and the union's member assistance line is there for what does not get said on the radio, tonight or next week."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — the Inlandboatmen's Union or MEBA — with the employer's employee assistance line behind it",
+  "tagline": "A crewmate over the side into cold Bay water, recovered by the vessel's drill: inflatable PFD on and strapped at the door, the rescue gear checked, the station bill read, the alarm raised and the position marked, the ring buoy thrown, eyes kept on him as the wake takes the buoy, the master called alongside, the sling passed, the davit taken up and a horizontal lift as he goes limp, hypothermia signs checked on deck, the distress call made and the drill logged",
+  "title": "SmartCiti.X~ Cold Water Immersion & MOB Recovery VR",
+  "trade": "Inlandboatmen's Union (IBU) deckhand recovering a crewmate from cold Bay water by the vessel's man-overboard drill, with the master at the helm and a MEBA engineer on deck",
+  "underwater": null,
+  "weather": "wind"
+}

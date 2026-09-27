@@ -1,0 +1,457 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "soft-landings",
+    "name": "Soft Landings",
+    "note": "Every landing balanced and every knee over its toes, with the jump count kept and nobody walking off a sore ankle"
+  },
+  "category": "Youth Sports & Coaching",
+  "certification": "USA Basketball youth development guidelines on landing mechanics, jump volume and rest for growing players; NFHS basketball rules on the pivot foot and travelling; CDC Heads Up for the head knocks a fall on a landing can bring; the U.S. Center for SafeSport for verified pick-up and two adults present; the American Red Cross first aid course for rest, ice, support and elevation of a sprained ankle",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CDC",
+        "citedAs": "CDC Heads Up",
+        "id": "cdc-heads-up",
+        "title": "CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance"
+      },
+      {
+        "body": "NFHS",
+        "citedAs": "NFHS",
+        "id": "nfhs-basketball-rules",
+        "title": "National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport"
+      },
+      {
+        "body": "Red Cross",
+        "citedAs": "American Red Cross first aid",
+        "id": "red-cross-first-aid-course",
+        "title": "American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services"
+      },
+      {
+        "body": "U.S. Center for SafeSport",
+        "citedAs": "U.S. Center for SafeSport",
+        "id": "safesport-code",
+        "title": "U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting"
+      },
+      {
+        "body": "USA Basketball",
+        "citedAs": "USA Basketball",
+        "id": "usa-basketball-youth-guidelines",
+        "title": "USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them"
+      }
+    ]
+  },
+  "district": "gym-court",
+  "domain": "Youth Sports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "true-floor",
+        "name": "True Floor",
+        "note": "Every sticky or slick patch found on the first pass"
+      },
+      {
+        "id": "no-bad-landings",
+        "name": "No Bad Landings",
+        "note": "No unsafe action in the whole footwork block"
+      },
+      {
+        "id": "soft-knees",
+        "name": "Soft Knees",
+        "note": "Landing bend and ladder cadence both inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-feet",
+        "name": "Clean Feet",
+        "note": "No corrections anywhere in the block"
+      },
+      {
+        "id": "steady-feet",
+        "name": "Steady Feet",
+        "note": "Held the ladder cadence in band the whole time"
+      },
+      {
+        "id": "brisk-block",
+        "name": "Brisk Block",
+        "note": "Practice log reached inside 80% of par"
+      }
+    ],
+    "currency": "STEPS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Floor Helper",
+      "Footwork Coach",
+      "Assistant Coach",
+      "Head Coach",
+      "Movement Mentor"
+    ],
+    "system": "Footwork Ladder"
+  },
+  "hazards": {
+    "jump-stop-by-ball-bag": "You set the jump-stop spot right beside the open ball bag. A landing is the moment a player's whole weight comes down on one foot at a time; a ball that has rolled out of the bag and under that foot turns a teaching rep into an inverted ankle sprain.",
+    "jumps-until-legs-go": "You kept the jump stops going until the legs gave out. Landing mechanics fall apart first when players are tired — knees cave in, heels slam — and repeated landings past fatigue are exactly the unplanned volume youth guidelines warn builds knee and heel pain in growing bodies.",
+    "land-on-sticky-patch": "You ran the landing line straight across the sticky patch. A shoe that grips too well on a spilled sports drink stops dead while the knee keeps turning — a twisting load on the knee and ankle that no amount of good technique protects against.",
+    "stations-too-close": "You put the pivot station right up against the ladder. A player spinning through a reverse pivot swings elbows and a ball through a half-circle; a teammate coming off the end of the ladder at speed is in that circle, heads first."
+  },
+  "id": "bb-footwork-pivots-and-jump-stops",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "balanced-landing",
+      "alert": "A player landed a jump stop half on a teammate's foot. The ankle rolled and they are sitting on the floor, holding it and trying not to cry.",
+      "cue": "Stop the line and call the athletic trainer over with the kit — the player stays down and off the foot.",
+      "delay": 3,
+      "id": "rolled-ankle-on-landing",
+      "kind": "Player down",
+      "missNote": "The drill carried on and the player got up and hopped back to the line to rejoin. Weight on a freshly rolled ankle can turn a mild sprain into a bad one, and nobody trained to judge it ever looked at the joint.",
+      "seconds": 12,
+      "target": "trainer-kit-call",
+      "why": "An ankle that rolls under body weight needs to be assessed before anyone tests it, and the first instinct of an embarrassed young player is to stand up and walk it off. Stopping the line and calling the athletic trainer with the kit keeps the weight off, gets ice and a proper check started, and follows the American Red Cross first aid habit of care before questions.",
+      "wrongNote": "That does not help the ankle. Call the athletic trainer with the kit — the player stays sitting, off the foot."
+    },
+    {
+      "after": "ladder-cadence",
+      "alert": "An adult at the gym doors is asking to take one of the players home early. The player's usual pick-up is a parent; this adult is not one the staff recognise.",
+      "cue": "Check the authorised pick-up list before anybody leaves — the assistant coach handles it at the door.",
+      "delay": 3,
+      "id": "early-pickup-at-the-door",
+      "kind": "Parent at the door",
+      "missNote": "The player went out of the doors with an adult nobody checked. The staff cannot now say who that was or whether the family agreed to it, and the first duty of the adults running practice — knowing where every child is and who has them — has been lost.",
+      "seconds": 12,
+      "target": "pickup-list-clipboard",
+      "why": "A child leaves practice with an adult on the authorised pick-up list, confirmed by a staff member, or they do not leave. Checking the list at the door, with the assistant coach handling it and a call to the parent if the name is not there, is the routine that keeps every child accounted for and every decision observable, the way SafeSport policies are written.",
+      "wrongNote": "Not that. Check the authorised pick-up list at the door before the player goes anywhere."
+    }
+  ],
+  "lateNotes": {
+    "crew-checkin-board": "The staff check-in comes after the log, when the block is finished.",
+    "practice-log-board": "The log closes the block once the footwork has been run and the ankle care said — nothing to record yet."
+  },
+  "name": "Footwork: Pivots and Jump Stops",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "basketball-fundamentals"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "agility-ladder",
+      "ankle-check",
+      "ankle-elevate",
+      "ankle-ice-wrapped",
+      "ankle-stop-and-sit",
+      "ankle-trainer-clears",
+      "cadence-meter",
+      "crew-checkin-board",
+      "fault-arms-out",
+      "fault-heel-landing",
+      "fault-knee-caving",
+      "fault-pivot-lifts",
+      "floor-court-line",
+      "floor-dust-film",
+      "floor-lifted-tape",
+      "floor-sticky-drink",
+      "jump-chin-ball",
+      "jump-count-dial",
+      "jump-knees-bent",
+      "jump-last-dribble",
+      "jump-low-hop",
+      "jump-stop-by-ball-bag",
+      "jump-two-feet",
+      "jumps-until-legs-go",
+      "ladder-socket",
+      "land-on-sticky-patch",
+      "landing-hold-marker",
+      "landing-meter",
+      "menu-drop-step",
+      "menu-front-pivot",
+      "menu-reverse-pivot",
+      "pickup-list-clipboard",
+      "pivot-disc",
+      "pivot-rule-card",
+      "practice-log-board",
+      "stations-too-close",
+      "trainer-kit-call"
+    ],
+    "meshes": 234
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Slide a shoe across the landing strip and the pivot area. Mark every patch that is sticky, slick or catching.",
+      "decoyNotes": {
+        "floor-court-line": "The painted court line is sealed under the finish and grips like the rest of the floor. Look for what has been added to the floor since it was cleaned."
+      },
+      "id": "feel-the-floor",
+      "itemNames": {
+        "floor-dust-film": "a dust film by the door",
+        "floor-lifted-tape": "an old tape mark lifting at the edge",
+        "floor-sticky-drink": "a sticky patch of spilled sports drink"
+      },
+      "itemNotes": {
+        "floor-dust-film": "Dust tracked in from outside turns the maple slick. Dust-mop the strip where the jump stops land.",
+        "floor-lifted-tape": "A lifted tape edge catches a toe on a pivot. Pull it up; mark the spot with a cone if the new tape is not ready.",
+        "floor-sticky-drink": "Sticky is as dangerous as slick: the shoe stops and the knee keeps going. Damp-mop it and dry it before the landing line crosses it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Slide a shoe across the landing strip and the pivot area. Mark every patch that is sticky, slick or catching.",
+      "targets": [
+        "floor-sticky-drink",
+        "floor-dust-film",
+        "floor-lifted-tape"
+      ],
+      "title": "Feel the floor where the landings will be",
+      "why": "Footwork is where the floor matters most, because every jump stop and pivot puts a player's full weight through a shoe on one small patch of maple. Sticky spots stop the shoe while the knee keeps turning, dust films let it slide, and a lifted tape edge catches a toe mid-spin — a coach who checks the actual strip the drill will use finds all three before a landing does."
+    },
+    {
+      "cue": "Once a player stops with the ball, one foot is the pivot: it can turn on the spot, but it cannot lift and come back down before the ball is gone.",
+      "id": "explain-the-pivot-rule",
+      "kind": "select",
+      "prompt": "Once a player stops with the ball, one foot is the pivot: it can turn on the spot, but it cannot lift and come back down before the ball is gone.",
+      "target": "pivot-rule-card",
+      "title": "Explain the pivot-foot rule before the drill",
+      "why": "Young players travel because nobody ever showed them which foot is allowed to move. Explaining the pivot-foot idea the way NFHS basketball rules frame it — one foot anchored, the other free to step — before the drill starts turns footwork from a list of whistles into a skill they can feel, and it saves the correction for technique instead of the rule itself."
+    },
+    {
+      "cue": "Pick up the last dribble, a low hop, land on both feet at once, sit into the landing, chin the ball.",
+      "id": "build-the-jump-stop",
+      "itemNames": {
+        "jump-chin-ball": "chin the ball, elbows out",
+        "jump-knees-bent": "knees bent, hips back, balanced",
+        "jump-last-dribble": "last dribble picked up",
+        "jump-low-hop": "a low hop forward",
+        "jump-two-feet": "land on both feet at once"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Hop low, land both feet together, sit into it — then protect the ball. Chin the ball before landing and the landing turns stiff.",
+      "prompt": "Pick up the last dribble, a low hop, land on both feet at once, sit into the landing, chin the ball.",
+      "targets": [
+        "jump-last-dribble",
+        "jump-low-hop",
+        "jump-two-feet",
+        "jump-knees-bent",
+        "jump-chin-ball"
+      ],
+      "title": "Build the jump stop in order",
+      "why": "A jump stop lets a player stop on balance and keep either foot as the pivot, and it is built as a sequence because each piece sets up the next. A low hop keeps the landing small; both feet together splits the load; bending knees and hips absorbs it; chinning the ball protects it. Taught out of order, players land stiff-legged on one foot with the ball swinging."
+    },
+    {
+      "cue": "Stick the landing and hold it — knees over the toes, weight even, no wobble — while you watch the whole line.",
+      "holdBreakNote": "The landing wobbled out. Reset, land soft again and hold it still before the next rep.",
+      "id": "balanced-landing",
+      "kind": "hold",
+      "prompt": "Stick the landing and hold it — knees over the toes, weight even, no wobble — while you watch the whole line.",
+      "seconds": 7,
+      "target": "landing-hold-marker",
+      "title": "Hold the landing balanced and still",
+      "why": "Holding a landing still for a count shows whether a player actually absorbed it or just survived it: a wobble, a knee drifting inward or weight on the heels all appear in the first seconds of a hold. Sticking landings in practice is how the body learns to put knees over toes automatically, which is the single habit most linked with fewer knee injuries on a court."
+    },
+    {
+      "cue": "Commit when the landing reads soft — bent enough to absorb, not collapsing.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "KNEE BEND",
+        "missNote": "Out of the band. A stiff landing jars the knees and heels; a collapsing one lets the knee cave. Find soft and commit.",
+        "speed": 0.62
+      },
+      "id": "read-the-knee-bend",
+      "kind": "gauge",
+      "prompt": "Commit when the landing reads soft — bent enough to absorb, not collapsing.",
+      "target": "landing-meter",
+      "title": "Read the knee bend on landing",
+      "why": "A good landing bends enough at the knees and hips to soak up the force over time instead of all at once, but not so deep that the player folds and the knee drops inward. Reading that band on real landings — rather than shouting 'bend your knees' — tells a coach which players need strength work and which just need the cue."
+    },
+    {
+      "cue": "Turn half a circle on the ball of the pivot foot — heel light, pivot foot never leaving the floor.",
+      "id": "front-pivot",
+      "kind": "turn",
+      "prompt": "Turn half a circle on the ball of the pivot foot — heel light, pivot foot never leaving the floor.",
+      "target": "pivot-disc",
+      "title": "Teach the front pivot on the ball of the foot",
+      "turn": {
+        "axis": "y",
+        "label": "PIVOT",
+        "turns": 0.5
+      },
+      "why": "A pivot turns on the ball of the foot, not the heel, so the ankle and knee rotate together instead of twisting against a planted shoe. Walking players through a half-turn slowly, with the heel just off the floor, builds the feel for a pivot that is both legal and kind to the joints before speed is ever added."
+    },
+    {
+      "cue": "Carry the rolled ladder to its taped strip, well away from the pivot circle.",
+      "drag": {
+        "missNote": "Not on its strip. A ladder half on the pivot circle puts two drills in one space — carry it all the way to the tape.",
+        "radius": 0.5,
+        "to": "ladder-socket"
+      },
+      "id": "lay-the-ladder",
+      "kind": "drag",
+      "prompt": "Carry the rolled ladder to its taped strip, well away from the pivot circle.",
+      "target": "agility-ladder",
+      "title": "Lay the agility ladder on its own clear strip",
+      "why": "An agility ladder sends players off its far end at speed with their eyes on their feet. Laying it on its own strip, with clear floor past the end and nothing beside it, means the only thing a player coming off the last rung meets is empty maple — not a teammate spinning through a pivot with the ball."
+    },
+    {
+      "cue": "Watch the landing line. Mark every player whose knees, heels or pivot foot need a correction.",
+      "decoyNotes": {
+        "fault-arms-out": "Arms out for balance on a landing is fine at this stage. Look for what the knees, heels and pivot foot are doing."
+      },
+      "id": "watch-the-knees",
+      "itemNames": {
+        "fault-heel-landing": "a player slamming down on the heels",
+        "fault-knee-caving": "a knee caving inward on the landing",
+        "fault-pivot-lifts": "a pivot foot lifting and landing again"
+      },
+      "itemNotes": {
+        "fault-heel-landing": "Heel-first landings jar straight up the leg. Cue 'land quiet' — the quieter the landing, the softer it was.",
+        "fault-knee-caving": "Knee drifting in over the big toe on landing is the pattern to fix first. Cue 'knees over toes' and slow the rep down.",
+        "fault-pivot-lifts": "The pivot foot came up and down: a travel, and a sign the turn is on the heel. Back to a slow half-turn on the ball of the foot."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Watch the landing line. Mark every player whose knees, heels or pivot foot need a correction.",
+      "targets": [
+        "fault-knee-caving",
+        "fault-heel-landing",
+        "fault-pivot-lifts"
+      ],
+      "title": "Watch the knees and feet, not the ball",
+      "why": "Footwork coaching means watching the lower body while everybody else watches the ball. The three faults that matter — knees caving in, heel-slam landings, a pivot foot that lifts — each carry an injury or a whistle with them, and catching them early in a slow drill is far easier than unteaching them once they are fast."
+    },
+    {
+      "cue": "Hold the group's cadence in band — quick feet, every rung hit, no stumbling to go faster.",
+      "holdBreakNote": "The cadence left the band — rushing and clipping rungs, or dropping to a plod. Bring it back to quick and clean.",
+      "id": "ladder-cadence",
+      "kind": "track",
+      "prompt": "Hold the group's cadence in band — quick feet, every rung hit, no stumbling to go faster.",
+      "seconds": 8,
+      "target": "cadence-meter",
+      "title": "Keep the ladder cadence quick and clean",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "CADENCE",
+        "rise": 0.54,
+        "start": 0.22
+      },
+      "why": "The ladder trains quick, light feet, and it only does that while every rung is hit cleanly. Push the cadence past control and players clip the rungs, catch a toe and stumble forward; let it drop and it becomes a walk. Holding the group in the quick-and-clean band is what turns the ladder into footwork rather than a trip hazard."
+    },
+    {
+      "anyOrder": true,
+      "cue": "From a jump stop, walk through a front pivot, a reverse pivot and a drop step.",
+      "id": "pivot-menu",
+      "itemNames": {
+        "menu-drop-step": "drop step",
+        "menu-front-pivot": "front pivot",
+        "menu-reverse-pivot": "reverse pivot"
+      },
+      "kind": "sequence",
+      "prompt": "From a jump stop, walk through a front pivot, a reverse pivot and a drop step.",
+      "targets": [
+        "menu-front-pivot",
+        "menu-reverse-pivot",
+        "menu-drop-step"
+      ],
+      "title": "Run the pivot menu from the jump stop",
+      "why": "The jump stop is the platform; the pivot menu is what a player does from it — face the basket, turn away from pressure, seal a defender. Walking through all three from the same stop teaches that either foot can be the pivot and that the ball stays protected through every turn, which is the whole point of stopping on balance."
+    },
+    {
+      "cue": "Commit when the running count of jumps and landings sits inside today's planned range.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.55
+        ],
+        "label": "LANDINGS",
+        "missNote": "Outside the plan. Past the range, landings get sloppy and growing knees and heels take the load — keep the count inside it.",
+        "speed": 0.58
+      },
+      "id": "count-the-jumps",
+      "kind": "gauge",
+      "prompt": "Commit when the running count of jumps and landings sits inside today's planned range.",
+      "target": "jump-count-dial",
+      "title": "Keep today's landing count inside the plan",
+      "why": "Landing load adds up across a week of practices, school sport and play, and growing knees and heels are where it shows first. Keeping a running count against a planned range, the way youth development guidance recommends managing volume, lets a coach stop the jumping while the quality is still good rather than when the pain arrives."
+    },
+    {
+      "cue": "Sit them down off the foot, check it, ice wrapped in a cloth, support and elevate, and no return until the athletic trainer clears it.",
+      "id": "rolled-ankle-care",
+      "itemNames": {
+        "ankle-check": "check the ankle and ask what happened",
+        "ankle-elevate": "support and elevate the foot",
+        "ankle-ice-wrapped": "ice wrapped in a cloth",
+        "ankle-stop-and-sit": "stop and sit the player down, off the foot",
+        "ankle-trainer-clears": "no return until the athletic trainer clears it"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Weight off and a check first, then cold and elevation — and the return is always last, and never the player's call.",
+      "prompt": "Sit them down off the foot, check it, ice wrapped in a cloth, support and elevate, and no return until the athletic trainer clears it.",
+      "targets": [
+        "ankle-stop-and-sit",
+        "ankle-check",
+        "ankle-ice-wrapped",
+        "ankle-elevate",
+        "ankle-trainer-clears"
+      ],
+      "title": "Say the care for a rolled ankle",
+      "why": "Most rolled ankles in practice are sprains that heal well when cared for at once and badly when walked off. The American Red Cross first aid course teaches getting the weight off, checking, cold wrapped so it never touches bare skin, support and elevation; the return decision belongs to the athletic trainer, not to the player's own 'it's fine' in front of teammates."
+    },
+    {
+      "cue": "Record the floor fixes, the landing count, the corrections made and any ankle that was looked at.",
+      "id": "log-the-footwork",
+      "kind": "select",
+      "prompt": "Record the floor fixes, the landing count, the corrections made and any ankle that was looked at.",
+      "target": "practice-log-board",
+      "title": "Log the footwork block",
+      "why": "A landing count, the knee corrections given and any ankle that was iced are exactly the details the next practice and the athletic trainer need. Written down at the time, they let the week's jump volume be managed across sessions and make sure a player who sat out today is not simply forgotten on Thursday."
+    },
+    {
+      "cue": "At the bench: what each of you saw in the landings, and are all three of you good to carry on?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "At the bench: what each of you saw in the landings, and are all three of you good to carry on?",
+      "target": "crew-checkin-board",
+      "title": "Check in with the assistant coach and the athletic trainer",
+      "why": "Landings and ankles are the athletic trainer's territory, the far end of the ladder was the assistant's, and the head coach was on the pivot circle. Pooling what each saw before the next block means a player who landed badly twice is noticed by all three adults, and the staff stay a team rather than three people running separate drills."
+    }
+  ],
+  "supportLine": "your league's coach coordinator, or the athletic trainer who took the ankle from you — an injury at your practice is worth a conversation afterwards, not only a line in the log",
+  "tagline": "The floor felt for sticky and slick patches, the pivot-foot rule explained, a jump stop landed soft and balanced, a half-turn pivot on the ball of the foot, a steady agility ladder, a jump count kept, and a rolled ankle cared for properly",
+  "title": "SmartCiti.X~ Footwork: Pivots and Jump Stops VR",
+  "trade": "Youth basketball coach",
+  "underwater": null,
+  "weather": "clear"
+}

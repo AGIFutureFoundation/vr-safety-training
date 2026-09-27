@@ -1,0 +1,428 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "panel-formed-clean",
+    "name": "Panel Formed Clean",
+    "note": "A panel sheared, bent on two-hand control, deburred and squared with nobody's hand ever near the brake's nip point"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "IUPAT District Council 16 glaziers apprenticeship and training (architectural glass and metal); IUPAT Finishing Trades Institute glazier curriculum; OSHA 29 CFR 1926.501 duty to have fall protection and 29 CFR 1926.502 fall protection systems criteria for the mezzanine edge; the SMACNA Architectural Sheet Metal Manual for panel returns, notching and expansion allowance; the press brake manufacturer's guarding and two-hand control instructions",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IUPAT District Council 16",
+        "id": "iupat-dc16-glaziers",
+        "title": "IUPAT District Council 16 — glaziers apprenticeship and training, architectural glass and metal"
+      },
+      {
+        "body": "union",
+        "citedAs": "Finishing Trades Institute",
+        "id": "iupat-fti",
+        "title": "IUPAT Finishing Trades Institute — industrial painter, glazier and drywall finisher apprenticeship, including lead and containment training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.501",
+        "id": "osha-1926-501",
+        "title": "29 CFR 1926.501 — Duty to have fall protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.502",
+        "id": "osha-1926-502",
+        "title": "29 CFR 1926.502 — Fall protection systems criteria and practices"
+      },
+      {
+        "body": "SMACNA",
+        "citedAs": "SMACNA Architectural Sheet Metal Manual",
+        "id": "smacna-architectural-sheet-metal",
+        "title": "SMACNA Architectural Sheet Metal Manual — flashings, copings, gutters, panels and expansion"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "guard-proven",
+        "name": "Guard Proven",
+        "note": "The brake's guard and two-hand control checked before the first bend"
+      },
+      {
+        "id": "hands-clear",
+        "name": "Hands Clear",
+        "note": "No unsafe action near the brake or the mezzanine edge the whole run"
+      },
+      {
+        "id": "square-panel",
+        "name": "Square Panel",
+        "note": "The finished panel squared inside tolerance, first read"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-form",
+        "name": "Clean Form",
+        "note": "The panel formed without a correction"
+      },
+      {
+        "id": "control-held",
+        "name": "Control Held",
+        "note": "Both palm buttons held through the full bend cycle"
+      },
+      {
+        "id": "panel-in-time",
+        "name": "Panel In Time",
+        "note": "Sheared, formed and racked inside 80% of par"
+      }
+    ],
+    "currency": "BEND",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Pre-apprentice",
+      "Shop Hand",
+      "Fabricator",
+      "Lead Fabricator",
+      "Shop Certified"
+    ],
+    "system": "Shop Crew"
+  },
+  "hazards": {
+    "brake-pinch": "You reached toward the press brake's nip point while it was cycling. The upper beam closes on the sheet at a speed that reads as slow and is not slow enough for a hand to clear once it is committed, and the two-hand control exists because a single foot pedal has let hands stray toward that point too many times industry-wide. Both palms stay on the buttons until the beam is fully open again — not one hand free to hold the sheet.",
+    "mezzanine-edge": "You leaned out over the mezzanine's stock racking with no rail between you and the shop floor. The mezzanine holds the sheet stock a storey above the shop floor, and its own edge is exactly the kind of fall hazard the shop's own machinery makes people forget about — nobody thinks of a storage rack the way they think of a roof, and the fall is the same distance either way. The rail stays between you and the edge, or the reach is made from a step with one.",
+    "propped-lite-wind": "You left the insulated glass unit propped by the roll-up door without a strap while the door stood open for the delivery. A shop with its bay door open is exactly as much a wind funnel as any building under construction, and a lite propped rather than strapped is a lite the first through-draft can walk off its feet. The IGU gets strapped to the rack the moment it comes off the truck, door open or not.",
+    "sheared-edge": "You ran a bare hand along the freshly sheared edge of the aluminium sheet. A shear leaves a clean edge, not a safe one, and a clean edge on 4 mm composite is thin enough to find a bare palm the way a blade does; the deburring station exists precisely for the gap between the shear and the point where that edge is safe to handle. Gloves stay on until the edge has actually been run."
+  },
+  "id": "gl-aluminium-panel-fabrication-and-brake",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "brake-hold",
+      "alert": "A shop hand has reached toward the brake's throat to nudge the sheet, right as the beam is coming back up.",
+      "cue": "Someone's hand is near the brake's nip point mid-cycle.",
+      "delay": 3,
+      "id": "reach-toward-brake",
+      "kind": "A hand reaches toward the brake",
+      "missNote": "The hand cleared on its own before the beam came all the way down. It was close enough that the light curtain should have caught it, and this time it was reflexes rather than the estop that kept it a near miss instead of something worse.",
+      "seconds": 10,
+      "target": "brake-estop",
+      "why": "A hand near the nip point mid-cycle does not wait for the beam to decide whether it is clear, and the emergency stop is the one control on this machine that takes the decision away from the cycle and gives it to whoever presses it. The sheet can be nudged once the beam is fully stopped, never while it is still moving.",
+      "wrongNote": "It is the brake's emergency stop. Take the beam out of motion before that hand goes anywhere near the throat."
+    },
+    {
+      "after": "qa-seq",
+      "alert": "A gust through the open roll-up door has caught the propped insulated glass unit and it is sliding off the rack.",
+      "cue": "The unstrapped IGU is sliding off the rack by the door.",
+      "delay": 3,
+      "id": "gust-lite",
+      "kind": "Gust through the roll-up door",
+      "missNote": "The IGU slid to the end of the rack and stopped against the upright. It did not go all the way down, this time. The brace exists for exactly the gust that just went through that door, and it sat unused the whole time the lite was sliding.",
+      "seconds": 11,
+      "target": "lite-brace",
+      "why": "A lite propped rather than strapped has nothing holding it once a gust actually finds it, and the brace across the rack is what stops it reaching the floor without anyone lunging across the shop to catch four square feet of glass by hand. It gets braced now, then strapped properly once it is stable.",
+      "wrongNote": "It is the lite brace across the rack. Stop the slide before anyone reaches for the glass itself."
+    }
+  ],
+  "lateNotes": {
+    "deburr-tool": "Deburring starts only once the panel is off the brake and squared. Running the tool on a panel still in the brake's throat puts a hand closer to the nip point than the job needs.",
+    "panel-sheet": "The sheet goes onto the brake bed only after the guard and the two-hand control are proven. A sheet fed before the guard is checked is a sheet fed on a machine nobody has confirmed will stop."
+  },
+  "name": "Aluminium Panel Fabrication And Brake",
+  "parSeconds": 275,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "glaziers-and-architectural-metal"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "level",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "tapeMeasure",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.1,
+    "hits": [
+      "back-gauge",
+      "bend-angle-check",
+      "brake-estop",
+      "brake-guard",
+      "brake-pinch",
+      "corner-notcher",
+      "cut-gloves",
+      "deburr-tool",
+      "door-open-unwatched",
+      "finish-check",
+      "flatness-check",
+      "gauge-stop",
+      "hearing-protection",
+      "job-traveler",
+      "lite-brace",
+      "loose-offcut",
+      "mezz-overhang",
+      "mezzanine-edge",
+      "palm-buttons",
+      "panel-sheet",
+      "propped-lite-wind",
+      "safety-glasses",
+      "sheared-edge",
+      "shop-log",
+      "square-instrument",
+      "truck-rack",
+      "unsecured-lite"
+    ],
+    "meshes": 146
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the shop traveler — the panel count, the bend schedule, who is running the brake today — and sign it.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Read the shop traveler — the panel count, the bend schedule, who is running the brake today — and sign it.",
+      "target": "job-traveler",
+      "title": "Sign the job traveler at the brake",
+      "why": "The traveler is the shop's own tailboard: it names the bend schedule for this run so the back gauge is set to the drawing rather than to memory, and it names who is actually running the brake today, because a machine with more than one operator in a shift is a machine where the guard check from this morning is not necessarily still someone's fresh memory."
+    },
+    {
+      "cue": "Cut-resistant gloves, then safety glasses, then hearing protection — in that order, before a hand goes near the sheet stock.",
+      "id": "ppe-seq",
+      "itemNames": {
+        "cut-gloves": "cut-resistant gloves",
+        "hearing-protection": "hearing protection",
+        "safety-glasses": "safety glasses"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Gloves, then glasses, then hearing protection — the hand goes into a glove before it touches the sheet stock.",
+      "prompt": "Cut-resistant gloves, then safety glasses, then hearing protection — in that order, before a hand goes near the sheet stock.",
+      "targets": [
+        "cut-gloves",
+        "safety-glasses",
+        "hearing-protection"
+      ],
+      "title": "Glove and guard up before the shear or the brake run",
+      "why": "The order goes hand to head because the hand is what reaches the sheared edge first, the eyes are what a flying burr or an offcut find next, and hearing protection is checked last because the shear and the brake are both loud enough over a shift to matter even though neither is the day's sharpest hazard."
+    },
+    {
+      "cue": "Trip the light curtain by hand at a safe distance and confirm both palm buttons are required before the beam will cycle.",
+      "id": "guard-check",
+      "kind": "select",
+      "prompt": "Trip the light curtain by hand at a safe distance and confirm both palm buttons are required before the beam will cycle.",
+      "target": "brake-guard",
+      "title": "Function-check the brake's guard and two-hand control",
+      "why": "The guard and the two-hand control are checked empty, before the first sheet goes anywhere near the bed, because a light curtain that does not actually stop the beam or a palm button that lets the machine cycle on its own is a fault you want to find with nothing in the brake's throat. This is the one check on this machine that is never skipped for time."
+    },
+    {
+      "cue": "Look at the mezzanine and the roll-up door — click the two things wrong before the first sheet is fed.",
+      "id": "shop-walk",
+      "itemNames": {
+        "mezz-overhang": "sheet stock overhanging the mezzanine edge",
+        "unsecured-lite": "the IGU propped unstrapped by the roll-up door"
+      },
+      "itemNotes": {
+        "mezz-overhang": "A bundle of sheet stock on the mezzanine rack is sitting past the rail line, overhanging the shop floor below it.",
+        "unsecured-lite": "The insulated glass unit delivered this morning is propped against the rack by the open roll-up door with no strap on it at all."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the mezzanine and the roll-up door — click the two things wrong before the first sheet is fed.",
+      "targets": [
+        "mezz-overhang",
+        "unsecured-lite"
+      ],
+      "title": "Walk the shop before the brake runs",
+      "why": "The mezzanine's overhang and the propped lite by the open door are both things that read as normal shop clutter until the exact moment they are not — a bundle that shifts off the rack, a draught through the bay door that finds an unstrapped pane. Both get answered before the brake's own noise takes over everyone's attention for the rest of the run."
+    },
+    {
+      "cue": "Turn the back gauge dial to the dimension the traveler calls for and lock it before the sheet goes in.",
+      "id": "gauge-set",
+      "kind": "turn",
+      "prompt": "Turn the back gauge dial to the dimension the traveler calls for and lock it before the sheet goes in.",
+      "target": "back-gauge",
+      "title": "Set the brake's back gauge to the bend schedule",
+      "turn": {
+        "axis": "z",
+        "label": "SET",
+        "turns": 1
+      },
+      "why": "The back gauge is what puts the bend line in the same place on every sheet in this run without a mark being struck each time, and it is set from the traveler's dimension rather than yesterday's setting because the same brake runs a dozen different bend schedules in a week. Locked before the sheet goes in, it cannot walk under the first bend's own reaction force."
+    },
+    {
+      "cue": "Both hands on the sheet's outer edges, guide it flat onto the bed against the back gauge — not released until it is square against the stop.",
+      "drag": {
+        "missNote": "Not square against the back gauge — a sheet fed skewed bends skewed, and there is no fixing that after the beam closes.",
+        "radius": 0.45,
+        "to": "gauge-stop"
+      },
+      "id": "sheet-drag",
+      "kind": "drag",
+      "prompt": "Both hands on the sheet's outer edges, guide it flat onto the bed against the back gauge — not released until it is square against the stop.",
+      "target": "panel-sheet",
+      "title": "Feed the sheet onto the brake bed",
+      "why": "The sheet is fed flat and square against the gauge because a sheet that goes in skewed bends skewed, and there is no straightening a bend after the beam has already closed on it. Both hands stay on the outer edges, well clear of where the beam actually comes down, the whole way to the stop."
+    },
+    {
+      "cue": "Both palms on the buttons, hold them through the full bend cycle until the beam returns fully open.",
+      "holdBreakNote": "A palm came off the button before the beam was fully open — that bend was not run on two-hand control the way it should have been. Reset and hold both buttons the full cycle.",
+      "id": "brake-hold",
+      "kind": "hold",
+      "prompt": "Both palms on the buttons, hold them through the full bend cycle until the beam returns fully open.",
+      "seconds": 4,
+      "target": "palm-buttons",
+      "title": "Cycle the brake on two-hand control",
+      "why": "Two-hand control means what it says: both hands occupied on the buttons for the whole cycle is what guarantees neither hand is anywhere near the nip point while the beam is moving, and letting go of either button before the beam is fully open defeats the entire point of having two of them rather than one pedal."
+    },
+    {
+      "cue": "Run the deburring tool along the panel's sheared edge at a steady pace so the full length is broken evenly.",
+      "holdBreakNote": "The pass ran out of the band — a patch left sharp or over-rounded past the fit-up tolerance. Run that stretch again at a steady pace.",
+      "id": "deburr-track",
+      "kind": "track",
+      "prompt": "Run the deburring tool along the panel's sheared edge at a steady pace so the full length is broken evenly.",
+      "seconds": 5,
+      "target": "deburr-tool",
+      "title": "Deburr the sheared edge at a steady pace",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.43,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "DEBURR",
+        "rise": 0.55
+      },
+      "why": "A deburring pass run too fast skips sections that stay sharp enough to cut through a glove on the next handling, and one run too slow rounds the edge more than the fit-up drawing allows at the return. The steady pace is what turns a sheared edge into a handled edge along its whole length rather than in patches."
+    },
+    {
+      "cue": "Turn the notching tool through the corner return so the miter closes without an overlap or a gap.",
+      "id": "notch-turn",
+      "kind": "turn",
+      "prompt": "Turn the notching tool through the corner return so the miter closes without an overlap or a gap.",
+      "target": "corner-notcher",
+      "title": "Notch the panel's corner return",
+      "turn": {
+        "axis": "z",
+        "label": "NOTCH",
+        "turns": 1
+      },
+      "why": "The corner notch is what lets two returns meet at a miter instead of overlapping into a lump or gapping into a hole a fastener has to bridge, and the SMACNA Architectural Sheet Metal Manual's expansion allowance depends on that miter closing cleanly — a notch cut short leaves the corner unable to move the way the rest of the panel will in the sun."
+    },
+    {
+      "cue": "Bend angle against the schedule first, then flatness across the face, then the finish for scuffing — in that order.",
+      "id": "qa-seq",
+      "itemNames": {
+        "bend-angle-check": "bend angle checked against the schedule",
+        "finish-check": "finish checked for scuffing",
+        "flatness-check": "panel face checked for flatness"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Angle, then flatness, then finish — there is no point polishing a panel whose angle is already wrong.",
+      "prompt": "Bend angle against the schedule first, then flatness across the face, then the finish for scuffing — in that order.",
+      "targets": [
+        "bend-angle-check",
+        "flatness-check",
+        "finish-check"
+      ],
+      "title": "Quality-check the formed panel",
+      "why": "The bend angle is checked first because it is the one defect that cannot be fixed downstream — a flat panel with the wrong angle is scrap, while a flat check and a finish check both catch things a light touch-up can still solve. Checking in this order is what stops the shop spending time polishing a panel that was already going in the scrap bin."
+    },
+    {
+      "cue": "Read the diagonal gauge against the panel's own corners and commit inside tolerance.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "SQUARE mm",
+        "missNote": "Outside square tolerance — back to the brake before this panel gets racked for the truck.",
+        "speed": 0.72
+      },
+      "id": "square-gauge",
+      "kind": "gauge",
+      "prompt": "Read the diagonal gauge against the panel's own corners and commit inside tolerance.",
+      "target": "square-instrument",
+      "title": "Check the panel square",
+      "why": "A panel that is out of square by even a few millimetres shows up on site as a reveal that grows across a facade one panel at a time, and it is cheaper to find that here, on the bench, than after the panel has travelled to a job three states away and gone up on a boom lift."
+    },
+    {
+      "cue": "Two-handed on the panel's edges, guide it from the bench to the truck rack — not released until it is seated flat on the rack's felt.",
+      "drag": {
+        "missNote": "Not flat on the rack's felt — a panel resting on the bare rail picks up a scuff on the ride to site.",
+        "radius": 0.48,
+        "to": "truck-rack"
+      },
+      "id": "panel-rack-drag",
+      "kind": "drag",
+      "prompt": "Two-handed on the panel's edges, guide it from the bench to the truck rack — not released until it is seated flat on the rack's felt.",
+      "target": "panel-sheet",
+      "title": "Rack the finished panel for the truck",
+      "why": "The finished panel is carried the same careful way every sheet on this bench has been all day, because a panel dropped an inch onto a steel rack dents a face that took an hour to form correctly. Seated flat on the felt is what keeps it from picking up a scuff on the ride to site that the finish check just cleared it of."
+    },
+    {
+      "cue": "Look at the roll-up door and the floor near the brake — click the two things wrong before the shift ends.",
+      "id": "dock-walk",
+      "itemNames": {
+        "door-open-unwatched": "the roll-up door left open with nobody watching it",
+        "loose-offcut": "an offcut left on the shop floor near the brake"
+      },
+      "itemNotes": {
+        "door-open-unwatched": "The roll-up door is still standing open from the delivery with no one keeping an eye on the draught it is putting through the shop.",
+        "loose-offcut": "A sheared offcut is sitting on the floor right where the next pass toward the brake steps."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the roll-up door and the floor near the brake — click the two things wrong before the shift ends.",
+      "targets": [
+        "door-open-unwatched",
+        "loose-offcut"
+      ],
+      "title": "Walk the dock before the shop closes the door",
+      "why": "A shop that is finished from the brake's point of view is not finished until the door that has been feeding a draught through it all shift is actually closed and the floor a foot finds on the way to the machine is actually clear — both are the kind of thing a crew stops noticing once the panels themselves are done."
+    },
+    {
+      "cue": "Panel count, bend angle, square reading and the faults found and fixed, and sign it.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Panel count, bend angle, square reading and the faults found and fixed, and sign it.",
+      "target": "shop-log",
+      "title": "Log the run",
+      "why": "The log ties this run's bend angle and square reading to a date and a name, which is what the shop shows if a panel comes back from site with a fit-up problem. It also carries the mezzanine overhang and the unstrapped lite as fixed rather than assumed, for whoever runs the next shift on this brake."
+    }
+  ],
+  "supportLine": "your IUPAT District Council 16 apprenticeship coordinator or job steward, or your employer's employee assistance program if the brake closing is what you keep seeing",
+  "tagline": "Glove up and guard-check the brake, the shop walked, the sheet fed and bent on two-hand control, the edge deburred at a steady pace, notched, squared and racked for the truck",
+  "title": "SmartCiti.X~ Aluminium Panel Fabrication And Brake VR",
+  "trade": "Glazier / architectural metal fabricator — IUPAT District Council 16 shop fabrication",
+  "underwater": null,
+  "weather": "wind"
+}

@@ -1,0 +1,404 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "purged-and-proven",
+    "name": "Purged and Proven",
+    "note": "A medical gas zone brazed under a continuous purge and cross-tested outlet by outlet before sign-off"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "UA plumbers and pipefitters apprenticeship; NFPA 99 Health Care Facilities Code; ASSE 6010 medical gas systems installer and ASSE 6015 medical gas systems verifier professional qualifications; 29 CFR 1910.252 welding, cutting and brazing",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASSE",
+        "citedAs": "ASSE 6010",
+        "id": "asse-6010",
+        "title": "ASSE 6010 — Professional Qualifications Standard for Medical Gas Systems Installers"
+      },
+      {
+        "body": "ASSE",
+        "citedAs": "ASSE 6015",
+        "id": "asse-6015",
+        "title": "ASSE 6015 — Professional Qualifications Standard for Medical Gas Systems Verifiers"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 99",
+        "id": "nfpa-99",
+        "title": "NFPA 99 — Health Care Facilities Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.252",
+        "id": "osha-1910-252",
+        "title": "29 CFR 1910.252 — Welding, cutting and brazing, general requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "UA",
+        "id": "ua-apprenticeship",
+        "title": "UA — United Association plumber, pipefitter and HVAC service apprenticeship standards and UA Star certification"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Building Systems & Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "locked-before-cut",
+        "name": "Locked Before Cut",
+        "note": "The zone valve was locked and tagged before any pipe was opened"
+      },
+      {
+        "id": "never-unpurged",
+        "name": "Never Unpurged",
+        "note": "No joint was ever brazed without nitrogen flowing"
+      },
+      {
+        "id": "steady-flow",
+        "name": "Steady Flow",
+        "note": "Held the purge flow inside the band on every reading"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-braze",
+        "name": "Clean Braze",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "unbroken-purge",
+        "name": "Unbroken Purge",
+        "note": "The purge never dropped out mid-joint"
+      },
+      {
+        "id": "zone-back-fast",
+        "name": "Zone Back Fast",
+        "note": "Signed off inside 80% of par"
+      }
+    ],
+    "currency": "SCFH",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Journeyman",
+      "Gas Installer",
+      "Verified Installer",
+      "Medical Gas Certified"
+    ],
+    "system": "Life Safety Gas"
+  },
+  "hazards": {
+    "braze-unpurged": "You lit the torch with no nitrogen flowing in the line. Copper oxidises black inside a joint heated in open air, and that scale does not stay stuck to the pipe wall — the first time this line flows at working pressure it breaks loose and travels until it jams a flowmeter, a regulator or a patient's own fitting.",
+    "cross-wired-outlet": "You signed off the oxygen outlet without checking what gas is actually coming out of it. A crossed connection behind the wall puts the wrong gas at a bedside fitting that looks correct in every way except the one that matters, and nobody finds out until a patient is on it.",
+    "skip-lockout": "You opened the pipe before the zone valve was locked and tagged. This line is live to occupied patient rooms on the floor below, and cutting into a gas line somebody can still open from the valve room is how a fitter gets a face full of oxygen-enriched air or medical vacuum drops out from under a ventilator mid-procedure.",
+    "torch-near-o2": "You set the torch down still lit next to the open oxygen cylinder valve. Oxygen does not burn on its own, but it turns anything nearby — grease, rag, cuff of a coverall — into something that burns violently, and a live flame that close to an open valve is one dropped regulator away from a flash fire."
+  },
+  "id": "pl-medical-gas-brazing-and-purge",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "purge",
+      "alert": "The nitrogen regulator on the header just dropped off — the purge flow is falling as you watch it.",
+      "cue": "The bottle feeding the purge needs attention before you commit another joint.",
+      "delay": 2,
+      "id": "purge-drops",
+      "kind": "Purge flow falling off",
+      "missNote": "The purge kept falling while the next joint went in anyway. That joint is oxidising on the inside right now, and it will not show until it is already behind a wall.",
+      "seconds": 11,
+      "target": "n2-regulator",
+      "why": "A falling purge flow mid-braze means the joint you are about to close is filling with air again, which is exactly the condition the purge exists to prevent. Catching it on the regulator, before the next joint is heated, is the difference between a clean bore and a joint that has to be cut out and redone.",
+      "wrongNote": "It is the regulator on the header. The torch valve was never the problem — the gas feeding it is."
+    },
+    {
+      "after": "cross-test",
+      "alert": "Facilities is calling — a nurse on the floor below just reported the medical air outlet in room 214 smells like it is not flowing right.",
+      "cue": "That is a live report on a zone this run feeds. Take the call before you sign anything off.",
+      "delay": 3,
+      "id": "wrong-gas-page",
+      "kind": "Facilities calls about the wrong outlet",
+      "missNote": "The call went to voicemail while the sign-off went ahead anyway. Room 214 is now a separate problem instead of a line item on this test.",
+      "seconds": 12,
+      "target": "phone",
+      "why": "A report from the floor while the cross-connection test is still open is exactly the kind of information the test is designed to catch, arriving from the other direction. Taking the call before signing the zone off means it gets checked against this test rather than becoming a second incident traced back to it later.",
+      "wrongNote": "It is the phone. Whatever is happening on the floor outranks finishing the paperwork on this bench."
+    }
+  ],
+  "lateNotes": {
+    "n2-flow-1": "Every joint is brazed under the purge that is already running, never before it or after it has been shut off.",
+    "n2-purge-valve": "The purge starts before the torch lights and does not stop until the joint has cooled enough to touch — it is the flow that keeps oxide off the inside of the joint, not a step that happens once and is done.",
+    "test-o2-outlet": "The cross-connection test happens after the line is proven leak-tight, outlet by outlet, before any zone valve is handed back."
+  },
+  "name": "Medical Gas Brazing & Purge",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "plumbers-and-pipefitters"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "branch-socket",
+      "braze-unpurged",
+      "close-zone-valve",
+      "cooling-joint",
+      "cross-wired-outlet",
+      "filler-rod",
+      "lock-zone-valve",
+      "n2-cylinder-valve",
+      "n2-flow-1",
+      "n2-flow-2",
+      "n2-purge-valve",
+      "n2-regulator",
+      "new-fitting",
+      "phone",
+      "riser-drawing",
+      "scale-buildup",
+      "skip-lockout",
+      "tag-zone-valve",
+      "test-air-outlet",
+      "test-gauge",
+      "test-o2-outlet",
+      "test-vac-outlet",
+      "torch-near-o2",
+      "unions-loose",
+      "verification-report"
+    ],
+    "meshes": 164
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the riser diagram: which gas feeds this zone valve and which outlets are downstream of it.",
+      "id": "drawing",
+      "kind": "select",
+      "prompt": "Check the riser diagram: which gas feeds this zone valve and which outlets are downstream of it.",
+      "target": "riser-drawing",
+      "title": "Read the riser diagram for this zone",
+      "why": "NFPA 99 requires each zone valve to control a defined group of outlets with its own gas identified, and the diagram is the only place that grouping is written down before the wall is open. A fitter who braces the wrong branch off the wrong zone valve isolates the wrong patient rooms when this valve is closed for the next service."
+    },
+    {
+      "cue": "Close the zone valve, lock it, and hang a tag naming the work and the fitter.",
+      "id": "isolate",
+      "itemNames": {
+        "close-zone-valve": "zone valve closed",
+        "lock-zone-valve": "valve locked",
+        "tag-zone-valve": "tag written and hung"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Close it, lock it, then tag it — the lock is what makes the closed valve mean something.",
+      "prompt": "Close the zone valve, lock it, and hang a tag naming the work and the fitter.",
+      "targets": [
+        "close-zone-valve",
+        "lock-zone-valve",
+        "tag-zone-valve"
+      ],
+      "title": "Isolate and lock out the zone valve",
+      "why": "This valve is the only thing standing between the pipe you are about to cut and a live medical gas main feeding occupied rooms. Locking it, not just closing it, is what stops somebody in the valve room from reopening it while a fitter has an open joint downstream — a closed valve can be operated by anyone; a locked one cannot."
+    },
+    {
+      "cue": "Cut in and look at what the old pipe actually shows you before you braze anything new to it.",
+      "id": "open-pipe",
+      "itemNames": {
+        "scale-buildup": "old scale inside the cut pipe",
+        "unions-loose": "loose union on the branch"
+      },
+      "itemNotes": {
+        "scale-buildup": "There is black scale flaking from inside the section you just cut open — evidence this branch was brazed without a purge at some point in the past.",
+        "unions-loose": "The union feeding this branch is only finger-tight. It has to be made up properly before anything is pressurised through it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Cut in and look at what the old pipe actually shows you before you braze anything new to it.",
+      "targets": [
+        "scale-buildup",
+        "unions-loose"
+      ],
+      "title": "Open the line and inspect what is inside",
+      "why": "Scale inside an existing joint is a fitter's own history lesson: it means somebody brazed this section without nitrogen flowing, and it tells you to expect debris in this branch when the system is finally purged and tested, not to assume the rest of the run is clean because this one joint looked fine from outside."
+    },
+    {
+      "cue": "Drag the new tee onto the cleaned branch socket before anything is heated.",
+      "drag": {
+        "missNote": "Not seated square on the socket — a fitting that goes in crooked leaves an uneven gap the filler cannot bridge on every side at once.",
+        "radius": 0.4,
+        "to": "branch-socket"
+      },
+      "id": "fitup",
+      "kind": "drag",
+      "prompt": "Drag the new tee onto the cleaned branch socket before anything is heated.",
+      "target": "new-fitting",
+      "title": "Bring the new fitting into position",
+      "why": "A capillary joint depends on a specific, even gap between the fitting and the pipe — too loose and the filler cannot bridge it, too tight and there is nowhere for the molten alloy to draw in. Dry-fitting the tee square on the cleaned socket now, before the torch ever comes out, is what makes that gap the same all the way round instead of tight on one side and open on the other."
+    },
+    {
+      "cue": "Turn the cylinder valve open before the regulator is asked to deliver anything.",
+      "id": "open-n2",
+      "kind": "turn",
+      "prompt": "Turn the cylinder valve open before the regulator is asked to deliver anything.",
+      "target": "n2-cylinder-valve",
+      "title": "Open the nitrogen cylinder valve",
+      "turn": {
+        "axis": "y",
+        "label": "N2 CYLINDER",
+        "turns": 0.75
+      },
+      "why": "The regulator only meters what the cylinder valve actually lets past it, and cracking the cylinder open slowly rather than snapping it wide keeps the sudden rush of high-pressure gas from slamming the regulator's own internals — a fast opening on a full cylinder can wreck a regulator seat before the first joint is ever brazed."
+    },
+    {
+      "cue": "Pick the silver brazing alloy specified for medical gas copper, not the general-purpose rod on the same bench.",
+      "id": "filler",
+      "kind": "select",
+      "prompt": "Pick the silver brazing alloy specified for medical gas copper, not the general-purpose rod on the same bench.",
+      "target": "filler-rod",
+      "title": "Select the correct filler alloy",
+      "why": "Medical gas piping is brazed with a specific silver-phosphorus filler chosen for the joint strength and internal cleanliness NFPA 99 assumes the system was built to, and a general-purpose plumbing rod grabbed off the same bench by habit does not carry the same silver content or flow characteristics under heat. The wrong rod can still make a joint that looks sound and holds nothing like the margin the system was designed around."
+    },
+    {
+      "cue": "Hold the purge valve open until the flow reads steady before the torch is lit.",
+      "holdBreakNote": "The purge valve closed before the flow settled — hold it open again until the reading is steady, then light the torch.",
+      "id": "purge",
+      "kind": "hold",
+      "prompt": "Hold the purge valve open until the flow reads steady before the torch is lit.",
+      "seconds": 5,
+      "target": "n2-purge-valve",
+      "title": "Start the nitrogen purge",
+      "why": "The purge has to be running and steady before the first joint is heated, not started once the torch is already lit. A joint brazed into still air oxidises on the inside from the first second of heat, and that oxide is exactly what the purge is there to keep from ever forming."
+    },
+    {
+      "cue": "Watch the purge flow while you braze this joint and commit when it sits in the band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "PURGE FLOW",
+        "missNote": "Flow out of band on that joint — recheck it before it is buried behind the ceiling grid.",
+        "speed": 0.7
+      },
+      "id": "braze-1",
+      "kind": "gauge",
+      "prompt": "Watch the purge flow while you braze this joint and commit when it sits in the band.",
+      "target": "n2-flow-1",
+      "title": "Braze the first joint under purge",
+      "why": "The flow has to stay inside a working band the whole time this joint is heated — too little and air works back up the pipe past the joint, too much and it can blow the molten filler out of the cup before it wets the copper. Reading the gauge rather than guessing at the hiss is what NFPA 99's brazing requirement actually asks a fitter to do."
+    },
+    {
+      "cue": "Same purge, the next joint down the branch — watch the flow and commit in the band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "PURGE FLOW",
+        "missNote": "That joint ran outside the band too — the branch now has two joints that need to be reopened and checked.",
+        "speed": 0.72
+      },
+      "id": "braze-2",
+      "kind": "gauge",
+      "prompt": "Same purge, the next joint down the branch — watch the flow and commit in the band.",
+      "target": "n2-flow-2",
+      "title": "Braze the second joint under purge",
+      "why": "Every joint on this branch gets the same reading, not just the first one — a purge that drifted low three joints in is just as capable of leaving oxide behind as one that was never started, and there is no way to tell from outside which joint it happened on once the wall is closed."
+    },
+    {
+      "cue": "Keep the purge flowing while the last joint cools — do not shut it off the moment the torch goes out.",
+      "holdBreakNote": "The purge came off before the joint cooled — hold it a little longer next time, this one may already have oxide in it.",
+      "id": "cool",
+      "kind": "track",
+      "prompt": "Keep the purge flowing while the last joint cools — do not shut it off the moment the torch goes out.",
+      "seconds": 6,
+      "target": "cooling-joint",
+      "title": "Hold the purge through cool-down",
+      "track": {
+        "drift": 0.15,
+        "fall": 0.35,
+        "green": [
+          0.3,
+          0.5
+        ],
+        "label": "JOINT TEMP",
+        "rise": 0.1,
+        "start": 0.5
+      },
+      "why": "The copper is still hot enough to oxidise for a good while after the flame is gone, and shutting the purge off the instant the torch does is the single most common way a fitter who did everything else right still ends up with scale in a joint that looked perfect going in."
+    },
+    {
+      "cue": "Bring the test pressure up per the code and the drawing, then commit once it holds steady.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.76
+        ],
+        "label": "TEST PRESSURE",
+        "missNote": "Did not hold — there is a joint in this branch that is not sealed, and it has to be found before anything is closed up.",
+        "speed": 0.68
+      },
+      "id": "leak-test",
+      "kind": "gauge",
+      "prompt": "Bring the test pressure up per the code and the drawing, then commit once it holds steady.",
+      "target": "test-gauge",
+      "title": "Pressure-test the new branch",
+      "why": "A branch that will not hold a test pressure has a joint that did not seal, and finding that now — before the ceiling goes back — costs a callback instead of a demolished finished ceiling on a return visit after the zone is already back in service."
+    },
+    {
+      "cue": "At each outlet, connect the gas-specific test fitting and confirm it reads the gas the label claims.",
+      "id": "cross-test",
+      "itemNames": {
+        "test-air-outlet": "medical air outlet verified",
+        "test-o2-outlet": "oxygen outlet verified",
+        "test-vac-outlet": "vacuum outlet verified"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Oxygen, then medical air, then vacuum — the order the riser diagram lists them, so nothing gets skipped.",
+      "prompt": "At each outlet, connect the gas-specific test fitting and confirm it reads the gas the label claims.",
+      "targets": [
+        "test-o2-outlet",
+        "test-air-outlet",
+        "test-vac-outlet"
+      ],
+      "title": "Cross-test every outlet against its gas",
+      "why": "ASSE 6015 verification exists because the pipe is invisible once it is behind the wall, and the only proof a given outlet carries the gas its label claims is a test fitting that physically will not connect to the wrong gas, read at the outlet itself rather than assumed from the riser diagram."
+    },
+    {
+      "cue": "Fill in the verification report with the readings and sign it before the zone valve is unlocked.",
+      "id": "signoff",
+      "kind": "select",
+      "prompt": "Fill in the verification report with the readings and sign it before the zone valve is unlocked.",
+      "target": "verification-report",
+      "title": "Complete the verifier's report",
+      "why": "ASSE 6010 and 6015 both end at a signed report naming a specific installer and verifier, because a medical gas zone with no record of who tested what is a zone the next fitter has to distrust and retest from nothing before touching it again."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Zone valve locked and tagged, the run purged with nitrogen before the torch lights, every joint brazed under a continuous flow, and every outlet cross-tested against its own gas before the zone goes back to the floor",
+  "title": "SmartCiti.X~ Medical Gas Brazing & Purge VR",
+  "trade": "UA medical gas systems installer",
+  "underwater": null,
+  "weather": null
+}

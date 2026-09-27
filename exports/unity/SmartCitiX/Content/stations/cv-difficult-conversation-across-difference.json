@@ -1,0 +1,448 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "owned-it",
+    "name": "Owned It",
+    "note": "A whole repair conversation held: nothing defended, nobody talked over, and a change promised that can be checked"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Title VI of the Civil Rights Act of 1964 for meaningful language access in a federally funded city programme — a qualified interpreter, not a family member and never a child; Title II of the ADA for the same access for a resident with a disability; SAMHSA's trauma-informed principles of safety, trustworthiness and transparency, and cultural, historical and gender responsiveness for a resident who has felt dismissed by institutions before; Psychological First Aid (NCTSN and the National Center for PTSD) for calm, practical presence with someone upset; 8 CCR 3203, the employer's Injury and Illness Prevention Program, for how a threat to staff is reported and followed up; SEIU and AFSCME for the city staff who hold these conversations. The emotional-intelligence steps follow the programme's own guide. The leadership principles practised here are those commonly taught in civic-leadership programmes; the foundation whose principles the programme draws on is not sourced in this repository",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "DOJ",
+        "citedAs": "Title II of the ADA",
+        "id": "ada-title-ii",
+        "title": "Americans with Disabilities Act Title II — programme accessibility for public entities and their services"
+      },
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3203",
+        "id": "cal-osha-3203",
+        "title": "8 CCR 3203 — Injury and Illness Prevention Program"
+      },
+      {
+        "body": "NCTSN",
+        "citedAs": "Psychological First Aid",
+        "id": "pfa-field-guide",
+        "title": "Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "DOJ",
+        "citedAs": "Civil Rights Act of 1964",
+        "id": "title-vi-civil-rights-act",
+        "title": "Title VI of the Civil Rights Act of 1964 — no discrimination on the basis of race, colour or national origin in federally funded programmes, including meaningful access for people with limited English proficiency"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Civic",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "arrived-honest",
+        "name": "Arrived Honest",
+        "note": "Your own state named before the conversation began"
+      },
+      {
+        "id": "no-defence",
+        "name": "No Defence",
+        "note": "No unsafe action anywhere in the conversation"
+      },
+      {
+        "id": "room-ready",
+        "name": "Room Ready",
+        "note": "Every part of the room set up for her first time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-repair",
+        "name": "Clean Repair",
+        "note": "No corrections anywhere in the conversation"
+      },
+      {
+        "id": "slow-breath",
+        "name": "Slow Breath",
+        "note": "Your breathing brought inside the band"
+      },
+      {
+        "id": "stayed-present",
+        "name": "Stayed Present",
+        "note": "Both holds and the de-escalation carried their full count"
+      }
+    ],
+    "currency": "TRUST",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Liaison",
+      "Senior Liaison",
+      "Community Lead",
+      "Neighbourhood Manager",
+      "Mentor"
+    ],
+    "system": "Repair"
+  },
+  "hazards": {
+    "defend-yourself": "You told her you were only following the agenda. It may be true, and it is the one sentence that tells her you are here to be right rather than to repair anything. The conversation is now about the agenda rules, and what you did to her — in front of her neighbours — has gone back under the table.",
+    "give-personal-cell": "You gave her your personal mobile number and told her to call any time. It feels generous; it makes you the city's only door for her, it will ring at night, and when you are on leave or burnt out it will go unanswered — the next broken promise, this time made by you.",
+    "grandson-interprets": "You let her twelve-year-old grandson interpret. A child cannot be expected to carry his grandmother's anger at the city accurately, it puts adult conflict on a child, and for a programme that takes federal money, language-access guidance under Title VI is clear that a qualified interpreter is provided — not a family member, and never a minor.",
+    "open-her-case-file": "You opened her code-enforcement case file and started reading dates aloud with her son in the room. She did not come to discuss that file, it is her private record, and reading it out turns an apology into an ambush — whatever you meant, she now believes you came armed."
+  },
+  "id": "cv-difficult-conversation-across-difference",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "hear-her-account",
+      "alert": "Mid-sentence, the interpreter's line drops. The speakerphone goes silent, and her grandson, sitting by the door, offers to translate instead.",
+      "cue": "Pause, thank the grandson kindly, and reconnect the qualified interpreter before she goes on.",
+      "delay": 3,
+      "id": "interpreter-line-drops",
+      "kind": "Interpreter line lost",
+      "missNote": "You carried on through the grandson. He softened what she said about the city, left out the part about her neighbours, and she watched him struggle — the meeting about being unheard ended with her half-heard again.",
+      "seconds": 12,
+      "target": "reconnect-interpreter",
+      "why": "Language access is not a nicety when the conversation is about someone feeling excluded: if she cannot say exactly what she means, the whole meeting repeats the harm. Pausing and reconnecting a qualified interpreter — and thanking the grandson warmly while declining — keeps her words accurate and keeps a child out of an adult conflict with the city, which language-access guidance under Title VI is clear about.",
+      "wrongNote": "Listening harder does not bring the interpreter back. Pause, thank the grandson, and reconnect the qualified interpreter."
+    },
+    {
+      "after": "meet-the-anger",
+      "alert": "Her adult son has arrived late, and is standing over the table, raising his voice: \"You people always do this to her.\"",
+      "cue": "Stay seated, acknowledge him, invite him to sit, and offer a short pause — do not stand up to meet him.",
+      "delay": 3,
+      "id": "son-arrives-angry",
+      "kind": "Escalation at the table",
+      "missNote": "Nobody addressed him. He stayed standing over the table, his voice rose, his mother stopped speaking to calm him, and the conversation she asked for became a confrontation she had to manage.",
+      "seconds": 12,
+      "target": "invite-to-sit-card",
+      "why": "A family member arriving angry is protecting someone he loves, and standing up to meet him turns protection into confrontation. Staying seated, acknowledging him by name, inviting him to sit and offering a short pause lowers the temperature for everyone; if it had become a threat, the office's Injury and Illness Prevention Program is how it would be reported and followed up. Here, it is a son who needed to be heard too.",
+      "wrongNote": "Your own tone is not the only thing in the room. He is standing over the table — acknowledge him and invite him to sit."
+    }
+  ],
+  "lateNotes": {
+    "commitment-card": "The commitment goes on the follow-up board once you have apologised and agreed a date — not before you have heard her.",
+    "conversation-log-board": "The log closes once the commitment is on the board. There is nothing to record yet."
+  },
+  "name": "Difficult Conversation Across Difference",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "civic-leadership-and-ei"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "breath-meter",
+      "commitment-card",
+      "conversation-log-board",
+      "crew-checkin-board",
+      "defend-yourself",
+      "follow-up-board",
+      "fu-a-date",
+      "fu-her-channel",
+      "fu-named-second",
+      "fu-well-see",
+      "give-personal-cell",
+      "grandson-interprets",
+      "guide-checkin-before",
+      "invite-to-sit-card",
+      "listen-point",
+      "open-her-case-file",
+      "open-how-addressed",
+      "open-how-to-pause",
+      "open-purpose",
+      "open-thank-her",
+      "phone-face",
+      "reconnect-interpreter",
+      "reflect-impact-card",
+      "repair-its-impact",
+      "repair-sorry-no-if",
+      "repair-what-changes",
+      "repair-what-i-did",
+      "room-angled-chairs",
+      "room-clear-exit",
+      "room-commendation",
+      "room-interpreter-line",
+      "room-water",
+      "silence-point",
+      "tone-meter"
+    ],
+    "meshes": 207
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "The guide asks how you are arriving. Be honest: name it on the check-in board — defensive, a bit shaken.",
+      "id": "guide-check-in-before",
+      "kind": "select",
+      "prompt": "The guide asks how you are arriving. Be honest: name it on the check-in board — defensive, a bit shaken.",
+      "target": "guide-checkin-before",
+      "title": "Check in with yourself before she arrives",
+      "why": "Most repair conversations go wrong in the first minute, because the person who needs to apologise walks in defended. Naming your own state first — defensive, embarrassed, a little shaken that someone was hurt by you — does not make it go away, but it moves it from driving you to being something you can see. The guide's check-in is not scored; it is there because a liaison who does not notice her own defensiveness will hear every sentence as an attack."
+    },
+    {
+      "cue": "Commit your breathing inside the band: slow and low, not held and not racing.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.5
+        ],
+        "label": "BREATHING",
+        "missNote": "Outside the band. Racing breath keeps you in fight mode; holding it keeps you tight. Slow, low breaths are what let you listen instead of prepare your defence.",
+        "speed": 0.6
+      },
+      "id": "slow-your-breath",
+      "kind": "gauge",
+      "prompt": "Commit your breathing inside the band: slow and low, not held and not racing.",
+      "target": "breath-meter",
+      "title": "Bring your breathing down before you open the door",
+      "why": "A body braced for conflict breathes fast and shallow, and a person breathing that way hears criticism as threat. Slowing the breath for a minute before a hard conversation is one of the few things that reliably brings the body down from fight-or-flight into a state where listening is possible. It is not a ritual; it is the physical half of the emotional check-in, and it shows in the voice she hears when the door opens."
+    },
+    {
+      "cue": "Before she comes in, find everything that makes this room work for her.",
+      "decoyNotes": {
+        "room-commendation": "Your framed commendation is not preparation. If anything it is a reminder of rank; it will not help her feel heard."
+      },
+      "id": "set-the-room-for-her",
+      "itemNames": {
+        "room-angled-chairs": "two chairs at an angle, no desk between you",
+        "room-clear-exit": "a clear path to the door for both of you",
+        "room-interpreter-line": "a qualified interpreter confirmed on the line",
+        "room-water": "water and tissues within her reach"
+      },
+      "itemNotes": {
+        "room-angled-chairs": "Across a desk is a hearing. Two chairs at an angle say you are here to talk with her, not to process her.",
+        "room-clear-exit": "Neither of you should feel trapped. A clear path to the door for both is part of her feeling safe — and of yours.",
+        "room-interpreter-line": "She asked to speak in her first language. A qualified interpreter, booked and tested, means she can say exactly what she means — and hear exactly what you say.",
+        "room-water": "It may be hard for her to say, and hard for you to hear. Water and tissues in reach mean nobody has to ask."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before she comes in, find everything that makes this room work for her.",
+      "targets": [
+        "room-interpreter-line",
+        "room-angled-chairs",
+        "room-water",
+        "room-clear-exit"
+      ],
+      "title": "Set the room up for her, not for you",
+      "why": "A resident who felt dismissed by the city will read the room for signs it is happening again: whether she will be understood, whether she will sit across a desk like an applicant, whether she can leave. A qualified interpreter tested before she arrives, chairs at an angle with no desk between, water in reach and a clear path to the door answer those questions before either of you speaks — and they cost nothing but five minutes of attention."
+    },
+    {
+      "cue": "Thank her, ask how she would like to be addressed, say why you are here, and agree how to pause.",
+      "id": "open-the-conversation",
+      "itemNames": {
+        "open-how-addressed": "ask how she would like to be addressed",
+        "open-how-to-pause": "agree that either of you can ask to pause",
+        "open-purpose": "say why you are here: to hear her, and put right what you did",
+        "open-thank-her": "thank her for asking to meet"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Thank her, ask how to address her, say why you are here, then agree how to pause. Launching into the purpose before you have asked her name tells her the meeting is about your agenda again.",
+      "prompt": "Thank her, ask how she would like to be addressed, say why you are here, and agree how to pause.",
+      "targets": [
+        "open-thank-her",
+        "open-how-addressed",
+        "open-purpose",
+        "open-how-to-pause"
+      ],
+      "title": "Open the conversation in order",
+      "why": "The first minute sets whether this is a repair or a defence. Thanking her for asking to meet recognises that she took the first step; asking how she would like to be addressed, rather than assuming, is a small act of respect across age and culture; naming the purpose plainly — to hear her and put right what you did — tells her you are not here to relitigate; and agreeing how to pause gives both of you a safe way out of a hard moment."
+    },
+    {
+      "cue": "She tells you what it was like to be cut off in front of her neighbours. Hold your attention on her — no explaining, no correcting.",
+      "holdBreakNote": "You started to explain before she had finished. She stopped. Come back to listening until she is done.",
+      "id": "hear-her-account",
+      "kind": "hold",
+      "prompt": "She tells you what it was like to be cut off in front of her neighbours. Hold your attention on her — no explaining, no correcting.",
+      "seconds": 8,
+      "target": "listen-point",
+      "title": "Hear her account of last week, whole",
+      "why": "She has been carrying this for a week and probably for much longer: being cut off at the meeting landed on top of every other time an institution treated her as a problem to be managed. Listening to all of it through the interpreter — without explaining the agenda, correcting her memory of what you said, or glancing at the clock — is the only way the thing she most needs you to understand will reach you. The explanation, if it matters at all, can come later."
+    },
+    {
+      "cue": "\"What I'm hearing is that when I cut you off, it felt like the city telling you your community doesn't belong in that room.\"",
+      "id": "reflect-the-impact",
+      "kind": "select",
+      "prompt": "\"What I'm hearing is that when I cut you off, it felt like the city telling you your community doesn't belong in that room.\"",
+      "target": "reflect-impact-card",
+      "title": "Reflect back the impact, in her terms",
+      "why": "A reflection is proof that her words landed, and it has to name the impact she described rather than the intention you had. \"It felt like the city telling your community it does not belong\" is what she said; \"I didn't mean it that way\" is about you. Getting her terms right, and checking with her that you have, is what lets her believe the apology that follows is about what actually happened to her."
+    },
+    {
+      "cue": "Your phone has lit up twice. Turn it face down on the table.",
+      "id": "silence-your-phone",
+      "kind": "turn",
+      "prompt": "Your phone has lit up twice. Turn it face down on the table.",
+      "target": "phone-face",
+      "title": "Turn your phone face down and silence it",
+      "turn": {
+        "axis": "x",
+        "label": "FACE DOWN",
+        "turns": 0.5
+      },
+      "why": "Every glance at a phone in a hard conversation says there is something more important than the person in front of you. For a resident who has come to talk about being dismissed, a lit screen on the table is the same message again. Turning it face down, visibly, is a small physical promise that for the next half hour she has all of your attention — and it removes the temptation before it turns into a glance she notices."
+    },
+    {
+      "cue": "Hold your tone inside the band as she gets angrier: low and slow, not rising to match her, not going cold.",
+      "holdBreakNote": "Your tone slipped — rising to meet her, or going cold and formal. Bring it back: low, slow, short sentences.",
+      "id": "meet-the-anger",
+      "kind": "track",
+      "prompt": "Hold your tone inside the band as she gets angrier: low and slow, not rising to match her, not going cold.",
+      "seconds": 8,
+      "target": "tone-meter",
+      "title": "Keep your voice level as the anger rises",
+      "track": {
+        "drift": 0.16,
+        "fall": 0.4,
+        "green": [
+          0.3,
+          0.7
+        ],
+        "label": "YOUR TONE",
+        "rise": 0.48,
+        "start": 0.5
+      },
+      "why": "Anger in a repair conversation is information: it tells you how much this mattered. De-escalation is mostly what you do not do — raise your voice to match, talk faster, or retreat into a cold, formal register that sounds like a letter from the city. A low, slow, steady voice, open posture and short sentences keep the conversation going through the anger rather than ending it, and they are much easier to hold if you breathed first."
+    },
+    {
+      "cue": "What I did, its impact, sorry with no \"if\" or \"but\", and what I will change.",
+      "id": "make-the-repair",
+      "itemNames": {
+        "repair-its-impact": "name its impact: in front of your neighbours, it told you that you did not belong",
+        "repair-sorry-no-if": "I am sorry — no \"if\", no \"but\"",
+        "repair-what-changes": "what I will change, starting at the next meeting",
+        "repair-what-i-did": "name what I did: I cut you off and called it off topic"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "What I did, its impact, sorry with no \"if\", then what changes. Saying sorry before naming what you did leaves her wondering what you are sorry for.",
+      "prompt": "What I did, its impact, sorry with no \"if\" or \"but\", and what I will change.",
+      "targets": [
+        "repair-what-i-did",
+        "repair-its-impact",
+        "repair-sorry-no-if",
+        "repair-what-changes"
+      ],
+      "title": "Make the apology in order",
+      "why": "An apology that works has a shape. It names what you did without softening it, names the impact in her words, says sorry without \"if you were offended\" or \"but the agenda\", and ends with a change she can watch for — every speaker heard to the bell, community concerns given their own agenda slot. Out of order, it collapses: sorry before naming what you did sounds vague, and the change before the sorry sounds like a policy announcement."
+    },
+    {
+      "cue": "She does not answer straight away. The guide's mid-conversation check-in: notice the urge to fill it, and hold the silence.",
+      "holdBreakNote": "You filled the silence. Whatever she was about to say, she did not. Stop, and give her the quiet back.",
+      "id": "hold-the-silence",
+      "kind": "hold",
+      "prompt": "She does not answer straight away. The guide's mid-conversation check-in: notice the urge to fill it, and hold the silence.",
+      "seconds": 6,
+      "target": "silence-point",
+      "title": "Let the silence sit after the apology",
+      "why": "After an apology there is usually a silence, and it is the other person deciding what to do with it. Filling it — with more explanation, a second apology, a change of subject — takes that decision away from her. The guide's check-in here is simply to notice the urge to speak and let it pass. Holding six seconds of silence is uncomfortable, and it is often the most respectful thing that happens in the whole conversation."
+    },
+    {
+      "cue": "Mark every part of a follow-up that she could check, and leave out the one that promises nothing.",
+      "decoyNotes": {
+        "fu-well-see": "\"We'll see how the next meeting goes\" promises nothing she can check. It is how a repair quietly becomes a nice conversation."
+      },
+      "id": "agree-the-follow-up",
+      "itemNames": {
+        "fu-a-date": "a date: \"I'll call you on the fourteenth\"",
+        "fu-her-channel": "the way that works for her: through the interpreter line",
+        "fu-named-second": "a named second person if you do not call"
+      },
+      "itemNotes": {
+        "fu-a-date": "A date she can write on her calendar. \"Soon\" is not a follow-up; the fourteenth is.",
+        "fu-her-channel": "A call through the interpreter line, at the time she chose — not an English-only letter from the office.",
+        "fu-named-second": "Your supervisor's name, in case you fail. It makes the commitment the office's, not only yours."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark every part of a follow-up that she could check, and leave out the one that promises nothing.",
+      "targets": [
+        "fu-a-date",
+        "fu-her-channel",
+        "fu-named-second"
+      ],
+      "title": "Agree a follow-up she can hold you to",
+      "why": "A repair without a follow-up is a nice conversation. A date, a way of reaching her that works for her, and a named second person if you fail to call turn the apology into something she can check. Naming your supervisor is not weakness: it tells her the commitment belongs to the office and not only to you, which matters to someone who has watched individual promises from the city come and go."
+    },
+    {
+      "cue": "Carry the commitment card to the team's follow-up board, where your supervisor and colleagues can see it.",
+      "drag": {
+        "missNote": "Not on the follow-up board. A commitment only you know about disappears the week you are ill or on leave. Put it where the team can see it.",
+        "radius": 0.55,
+        "to": "follow-up-board"
+      },
+      "id": "post-the-commitment",
+      "kind": "drag",
+      "prompt": "Carry the commitment card to the team's follow-up board, where your supervisor and colleagues can see it.",
+      "target": "commitment-card",
+      "title": "Put your commitment on the office's follow-up board",
+      "why": "A promise that lives in one person's notebook fails the first week that person is ill, on leave or overwhelmed. Putting the commitment on the team's follow-up board — what was promised, to whom, by when — makes it the office's promise, visible to the supervisor and colleagues who can keep it if you cannot. It is also the most honest answer to the burnout trap of carrying every resident's trust alone."
+    },
+    {
+      "cue": "Record that the meeting happened, the interpreter used, the commitment and the follow-up date. Not what she told you about her life.",
+      "id": "close-the-conversation-log",
+      "kind": "select",
+      "prompt": "Record that the meeting happened, the interpreter used, the commitment and the follow-up date. Not what she told you about her life.",
+      "target": "conversation-log-board",
+      "title": "Log the conversation — the commitment, not her story",
+      "why": "The office needs a record that the meeting took place, that a qualified interpreter was used, and what was promised by when — so that the follow-up happens and the change at the next meeting can be checked. It does not need, and should not hold, what she told you about her history with the city. A short, factual log keeps the office accountable without turning her trust into a file."
+    },
+    {
+      "cue": "The guide's check-in after: how are you doing after that one? Then ten minutes with your supervisor.",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "The guide's check-in after: how are you doing after that one? Then ten minutes with your supervisor.",
+      "target": "crew-checkin-board",
+      "title": "Check in with your supervisor, and with yourself",
+      "why": "Apologising for real, in person, to someone you hurt is one of the hardest things a public servant does, and it leaves a mark even when it goes well. The guide's check-in afterwards is unscored and honest: steady, a bit shaken, or needing a minute. Ten minutes with a supervisor — what landed, what to change at the next meeting, whether anything is sticking — and knowing the employee assistance line is there, is how you stay able to have the next one."
+    }
+  ],
+  "supportLine": "your supervisor, your employee assistance line, or the colleague who has had to apologise in public before and will pick up the phone",
+  "tagline": "You cut her off last week, and she has asked to meet: your own state named first, a qualified interpreter on the line, her account heard whole, her son's anger met without a counter-attack, an apology with no \"if\" in it — and a change she can hold you to",
+  "title": "SmartCiti.X~ Difficult Conversation Across Difference VR",
+  "trade": "Neighbourhood services liaison — repair conversation",
+  "underwater": null,
+  "weather": "overcast"
+}

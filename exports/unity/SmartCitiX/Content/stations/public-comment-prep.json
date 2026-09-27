@@ -1,0 +1,401 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "record-backed",
+    "name": "Record Backed",
+    "note": "Every claim tied to a dated log or monitor record, the chart correct, the statement timed clean, and nothing said that the record does not back up"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "The foundation's own patrol protocol for logging and reviewing observations; the Bay Area Air Quality Management District's (BAAQMD) complaint process and Community Advisory Council public-comment procedure; EPA quality-assurance project plan (QAPP) and chain-of-custody guidance for using monitor data as evidence; the U.S. EPA's Superfund Community Involvement Handbook on public participation in cleanup oversight",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "DOJ",
+        "citedAs": "ADA accommodation",
+        "id": "ada-title-ii",
+        "title": "Americans with Disabilities Act Title II — programme accessibility for public entities and their services"
+      },
+      {
+        "body": "BAAQMD",
+        "citedAs": "BAAQMD",
+        "id": "baaqmd-regulations",
+        "title": "Bay Area Air Quality Management District regulations, complaint line and Community Advisory Council process"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.120",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "sourced-claims",
+        "name": "Sourced Claims",
+        "note": "Every claim matched to its dated record, no anecdote let through"
+      },
+      {
+        "id": "no-overreach",
+        "name": "No Overreach",
+        "note": "Never chose a shortcut over an honest number or an honest source"
+      },
+      {
+        "id": "clock-true",
+        "name": "Clock True",
+        "note": "The chart threshold and the statement's pace both read inside the working band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-testimony",
+        "name": "Clean Testimony",
+        "note": "No corrections anywhere in the prep"
+      },
+      {
+        "id": "steady-read",
+        "name": "Steady Read",
+        "note": "Held the statement's pace in band without a dropout"
+      },
+      {
+        "id": "ready-early",
+        "name": "Ready Early",
+        "note": "Comment filed and card submitted inside 80% of par"
+      }
+    ],
+    "currency": "COMMENT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Voice",
+      "Prepared Speaker",
+      "Testimony Lead",
+      "Data Steward",
+      "Certified Public Witness"
+    ],
+    "system": "Testimony Desk"
+  },
+  "hazards": {
+    "backdate-entry": "You changed the date on a patrol log entry to line up with the claim you wanted to make. A log's date is what lets anyone — a regulator, a reporter, the patrol's own record-keeper — check your testimony against the record independently; a log edited to fit the conclusion first is exactly the kind of falsified record this edition's own briefing on the site's contractor-data case exists to warn against.",
+    "guess-numbers": "You rounded a chart value up from memory instead of pulling the network's actual reading. A regulator's staff can and will ask which monitor, which hour, which reading — a number you cannot walk back to the network's own export is a number that turns the whole chart from evidence into a guess, and one guess is enough to make them stop trusting the rest of it.",
+    "no-source-statement": "You drafted the line 'as the foundation's official position.' A patrol lead speaks from the patrol's own logged observations and the network's own data — testifying as if you speak for the foundation's programmes, rather than for what your own patrol actually recorded, puts words in an organization's mouth that only it gets to choose for itself.",
+    "oversell-claim": "You reached for the line that calls this a cancer cluster. The patrol's logs and the network's monitors can say what was smelled, seen and measured on which dates — they cannot diagnose anyone, and a claim the record does not support is the first thing a regulator's staff will use to set aside everything else you said that the record does back up."
+  },
+  "id": "public-comment-prep",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "pace-practice",
+      "alert": "Reviewing the draft while you read, the network's data steward flags one number on your chart: it came from the monitor that is currently under a QA hold.",
+      "cue": "That reading is not clean. Correct the chart before you keep rehearsing.",
+      "delay": 4,
+      "id": "flagged-sensor-number",
+      "kind": "Data-quality flag",
+      "missNote": "The chart went into the hearing with the flagged reading still on it. If anyone on the technical staff checks which monitor that number came from — and on a site with this record, someone will — the whole chart loses credibility over one number that was never clean in the first place.",
+      "seconds": 13,
+      "target": "chart-correction",
+      "why": "A monitor under a QA hold has a known problem with its readings — that is exactly what the hold means — and a chart built on one of its numbers is a chart a regulator's own technical staff can throw out the moment they check which station it came from. The correction happens now, at the chart, not after the hearing when the record is already public.",
+      "wrongNote": "That does not touch the flagged reading. The correction is at the chart panel itself, not at whatever you were rehearsing."
+    },
+    {
+      "after": "statement-timing",
+      "alert": "A message comes in mid-rehearsal: the regulator has moved the written comment period's deadline up by a week.",
+      "cue": "The clock you are working against just changed. Go back to the notice and re-check it.",
+      "delay": 4,
+      "id": "comment-period-moved",
+      "kind": "Schedule change",
+      "missNote": "The old deadline stood uncorrected. A written comment aimed at a date that already passed is a comment that missed the docket — the three minutes at the microphone are not a substitute for the written record a regulator's staff actually cites later.",
+      "seconds": 13,
+      "target": "hearing-notice",
+      "why": "Every plan this station builds — when the written comment gets filed, when the speaker card gets submitted — is built against the deadline on the posted notice. A deadline that moves and goes unnoticed does not just cost you time; it can close the comment period before your written testimony, with its exhibits, ever reaches the docket.",
+      "wrongNote": "That does not update the deadline. Go back to the posted hearing notice and read the change for yourself."
+    }
+  ],
+  "lateNotes": {
+    "comment-drop-box": "The written comment goes in the box once its exhibits are actually attached in order — a folder filed empty is a comment nobody downstream can act on.",
+    "final-statement-board": "The final wording gets locked in after the statement has been timed, not before — a line that reads fine in a rush might still be the one line the record cannot back up.",
+    "podium-timer": "The pace practice comes after the chart is actually built — there is nothing worth timing a read-through of yet.",
+    "statement-clock": "The timed run comes after the pace practice, once the statement is being read at a pace that could actually fit three minutes."
+  },
+  "name": "Public Comment Prep",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "civic-leadership-and-ei",
+    "hunters-point-can-we-live"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "backdate-entry",
+      "chart-correction",
+      "chart-exhibit",
+      "chart-panel-socket",
+      "chart-threshold-dial",
+      "citation-missing",
+      "citations-exhibit",
+      "claim-dust-events",
+      "claim-exceedance-day",
+      "claim-neighbor-story",
+      "claim-odor-days",
+      "claim-truck-idling",
+      "comment-drop-box",
+      "cover-letter",
+      "data-plot-set",
+      "exhibit-page-missing",
+      "final-statement-board",
+      "guess-numbers",
+      "hearing-notice",
+      "log-excerpt-exhibit",
+      "monitor-data-terminal",
+      "no-source-statement",
+      "oversell-claim",
+      "patrol-log-binder",
+      "podium-timer",
+      "speaker-card-table",
+      "statement-clock"
+    ],
+    "meshes": 268
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Check the docket number, the comment period's deadline, and how long each speaker gets at the microphone.",
+      "id": "notice",
+      "kind": "select",
+      "prompt": "Check the docket number, the comment period's deadline, and how long each speaker gets at the microphone.",
+      "target": "hearing-notice",
+      "title": "Read the regulator's hearing notice",
+      "why": "Everything else in this session is built against what this notice says: how many minutes you get to speak, when the written comment period closes, and which docket your testimony has to reference. Public participation on a matter like this follows the shape EPA's own regulations at 40 CFR Part 25 set for public hearings — drafting anything before reading the notice is drafting against a guess instead of that published procedure."
+    },
+    {
+      "cue": "Take the current binder off the shelf before drafting a single claim.",
+      "id": "pull-logs",
+      "kind": "select",
+      "prompt": "Take the current binder off the shelf before drafting a single claim.",
+      "target": "patrol-log-binder",
+      "title": "Pull this month's patrol log binder",
+      "why": "The patrol's own dated log entries are the only thing that turns 'residents have smelled solvent for weeks' into a claim with a when and a where behind it. Testimony written from memory, without the binder open on the desk, drifts from what was actually logged toward what you remember feeling that month — and memory is not what a regulator's record is built to weigh."
+    },
+    {
+      "cue": "Export the readings from the air monitor network for the period the testimony covers.",
+      "id": "pull-data",
+      "kind": "select",
+      "prompt": "Export the readings from the air monitor network for the period the testimony covers.",
+      "target": "monitor-data-terminal",
+      "title": "Pull the network's monitor data for the same month",
+      "why": "The patrol's log says what a person noticed; the network's monitors say what was actually measured at a fixed point, on a schedule, independent of anyone's nose. A statement that only cites the log and never the network's own numbers is missing the half of the record a technical reviewer will ask for first."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Pin each claim you intend to make to the logged entry or monitor reading that backs it — pick every one that is actually sourced.",
+      "decoyNotes": {
+        "claim-neighbor-story": "That claim came from a conversation at the fence line, not from a dated entry in the binder or the network's export. It may be true — but until it is logged, it is not something this testimony can point a regulator to and say 'here is the record.'"
+      },
+      "id": "claims",
+      "itemNames": {
+        "claim-dust-events": "the logged dust events",
+        "claim-exceedance-day": "the day the network read over the regulatory threshold",
+        "claim-odor-days": "the logged odor-complaint days",
+        "claim-truck-idling": "the logged haul-truck idling counts"
+      },
+      "kind": "sequence",
+      "options": [
+        {
+          "id": "claim-odor-days",
+          "label": "Logged odor-complaint days"
+        },
+        {
+          "id": "claim-dust-events",
+          "label": "Logged dust events"
+        },
+        {
+          "id": "claim-exceedance-day",
+          "label": "Day the network read over threshold"
+        },
+        {
+          "id": "claim-truck-idling",
+          "label": "Logged haul-truck idling counts"
+        },
+        {
+          "id": "claim-neighbor-story",
+          "label": "A neighbour's story from the fence line"
+        }
+      ],
+      "prompt": "Pin each claim you intend to make to the logged entry or monitor reading that backs it — pick every one that is actually sourced.",
+      "targets": [
+        "claim-odor-days",
+        "claim-dust-events",
+        "claim-exceedance-day",
+        "claim-truck-idling"
+      ],
+      "title": "Tie every claim in the draft to a dated record",
+      "why": "A regulator's hearing record is built to be checked, and a claim with a date, a log entry and a monitor reading behind it survives that check; a claim that is really just a strong impression does not, and the moment one claim falls apart under questioning, every other claim in the same statement gets read with more suspicion than it earned. It is also the line that separates what this patrol does from what a HAZWOPER-trained crew working inside the fence under OSHA's 29 CFR 1910.120 does — the patrol documents from the public side; it never claims to have verified anything only an entry past the fence could confirm."
+    },
+    {
+      "cue": "Look over the printed exhibits and click what is incomplete before anything gets filed.",
+      "id": "exhibit-check",
+      "itemNames": {
+        "citation-missing": "a citation missing its source line",
+        "exhibit-page-missing": "an exhibit page left out of the packet"
+      },
+      "itemNotes": {
+        "citation-missing": "This citation names a claim but not where it came from — no binder date, no monitor ID. A citation without a source line is a claim asking to be trusted on its own word.",
+        "exhibit-page-missing": "This exhibit is short a page — the chart is here but the raw data table behind it never got copied into the packet. An exhibit a reviewer cannot trace back to its own data is an exhibit they can set aside."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the printed exhibits and click what is incomplete before anything gets filed.",
+      "targets": [
+        "exhibit-page-missing",
+        "citation-missing"
+      ],
+      "title": "Walk the exhibit stack before it goes in the folder",
+      "why": "A written comment stands or falls on whether its exhibits can be checked independently of the person who wrote them. Finding a gap here, at the desk, costs a few minutes; finding it after the comment period has closed costs the exhibit its whole purpose."
+    },
+    {
+      "cue": "Dial the threshold line to the actual regulatory limit and commit once it lands in the correct band.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.6
+        ],
+        "label": "THRESHOLD",
+        "missNote": "Off the regulator's own published limit. Read the number again before committing the line.",
+        "speed": 0.7
+      },
+      "id": "chart-threshold",
+      "kind": "gauge",
+      "prompt": "Dial the threshold line to the actual regulatory limit and commit once it lands in the correct band.",
+      "target": "chart-threshold-dial",
+      "title": "Set the chart's reference line to the regulator's own number",
+      "why": "A chart that shows the network's readings without the regulator's own limit drawn on it is a chart that makes the reader do the comparison in their head — and a chart that draws that line in the wrong place is worse, because it looks precise while saying something false. The line has to be the regulator's own published number, not a rounded guess at it."
+    },
+    {
+      "cue": "Lift the printed plot set from the review cart and set it into the chart panel's frame.",
+      "drag": {
+        "missNote": "Not seated in the chart frame — line the plot set up with the panel before letting go.",
+        "radius": 0.4,
+        "to": "chart-panel-socket"
+      },
+      "id": "chart-build",
+      "kind": "drag",
+      "prompt": "Lift the printed plot set from the review cart and set it into the chart panel's frame.",
+      "target": "data-plot-set",
+      "title": "Carry the finished data set into the chart panel",
+      "why": "The chart that goes in front of the regulator has to be built from the actual export sitting on the review cart, plotted point for point — not redrawn from a summary or eyeballed off the screen. Setting the real data set into the frame is what makes the chart on the wall the same chart anyone could reproduce from the network's own file."
+    },
+    {
+      "cue": "Read at the podium and hold the pace meter inside the band — not so fast it blurs, not so slow it runs over.",
+      "holdBreakNote": "The pace dropped out of band mid-read. Bring it back and hold it steady for the full rehearsal, the way the actual three minutes will demand.",
+      "id": "pace-practice",
+      "kind": "track",
+      "prompt": "Read at the podium and hold the pace meter inside the band — not so fast it blurs, not so slow it runs over.",
+      "seconds": 7,
+      "target": "podium-timer",
+      "title": "Practice the statement at a three-minute pace",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "READ PACE",
+        "rise": 0.55,
+        "start": 0.12
+      },
+      "why": "Three minutes at a hearing is not three minutes to say everything the log and the chart could support — it is three minutes to say the strongest, best-sourced part of it clearly enough that the transcript reads back the way you meant it. A pace that is too fast loses the room; a pace that is too slow gets cut off by the timer before the point lands."
+    },
+    {
+      "cue": "Read the whole statement while the clock runs, and hold through to the end without stopping early.",
+      "holdBreakNote": "You stopped the clock before the read finished. A partial timing tells you nothing about whether the whole statement fits three minutes — start the clock again and read it straight through.",
+      "id": "statement-timing",
+      "kind": "hold",
+      "prompt": "Read the whole statement while the clock runs, and hold through to the end without stopping early.",
+      "seconds": 5,
+      "target": "statement-clock",
+      "title": "Time the full statement against the clock",
+      "why": "A statement that sounds right at a comfortable pace can still run long once every pause and every breath is counted against a real three-minute clock. Timing the full read, start to finish, without stopping to fix anything mid-run, is the only way to know honestly whether the version in your hand actually fits the time the notice gave you."
+    },
+    {
+      "cue": "Post the version of the statement that says only what the log and the network's data can back up.",
+      "id": "final-statement",
+      "kind": "select",
+      "prompt": "Post the version of the statement that says only what the log and the network's data can back up.",
+      "target": "final-statement-board",
+      "title": "Lock in the statement's final wording",
+      "why": "This is the last chance to catch a line that reads well but oversells the record — a diagnosis the data cannot make, a number nobody can trace, a claim spoken as if it were the foundation's own official word rather than the patrol's logged observation. What goes up on this board is what gets read at the microphone, so it is also the last honest edit."
+    },
+    {
+      "cue": "Place the cover letter, then the log excerpt, then the chart, then the citations page into the folder, in that order.",
+      "id": "written-comment",
+      "itemNames": {
+        "chart-exhibit": "the finished chart",
+        "citations-exhibit": "sourced citations page",
+        "cover-letter": "cover letter",
+        "log-excerpt-exhibit": "patrol log excerpt"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Cover letter, then the log excerpt, then the chart, then the citations — filed out of order, a reviewer hits the evidence before they know what it is supposed to prove.",
+      "prompt": "Place the cover letter, then the log excerpt, then the chart, then the citations page into the folder, in that order.",
+      "targets": [
+        "cover-letter",
+        "log-excerpt-exhibit",
+        "chart-exhibit",
+        "citations-exhibit"
+      ],
+      "title": "Assemble the written comment in filing order",
+      "why": "A written comment a regulator's staff can actually use opens with what it is and who filed it, backs that up with the logged record, shows the chart the record produces, and closes with exactly where every number came from — in that order, so a reader moves from claim to evidence without having to hunt for it out of sequence."
+    },
+    {
+      "cue": "Fill in the docket number and your name at the registration table before the item is called.",
+      "id": "speaker-card",
+      "kind": "select",
+      "prompt": "Fill in the docket number and your name at the registration table before the item is called.",
+      "target": "speaker-card-table",
+      "title": "Submit the speaker card at registration",
+      "why": "A regulator's hearing calls speakers off the cards submitted at registration, not off who is standing closest to the microphone — a statement rehearsed to the minute is worth nothing if the card that would have called you up was never filed. The same table has to post how to request an ADA accommodation, because a public hearing that only works for a speaker who can stand at a fixed microphone for three minutes has not actually opened its comment period to everyone the notice was sent to."
+    },
+    {
+      "cue": "Place the completed folder, exhibits attached, into the comment drop box.",
+      "id": "submit-comment",
+      "kind": "select",
+      "prompt": "Place the completed folder, exhibits attached, into the comment drop box.",
+      "target": "comment-drop-box",
+      "title": "File the written comment before the deadline",
+      "why": "The spoken statement lives for three minutes in the room; the written comment, with its exhibits attached, is what stays in the regulator's docket for as long as the proceeding runs. Filed before the deadline the notice named, it is part of the record the regulator's staff and decision-makers are required to consider — filed after, it is a folder that never made it into anyone's file."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A month of patrol logs and monitor data turned into testimony: every claim tied to a dated record, the chart built from the network's own numbers, a three-minute statement timed and paced, a written comment filed with its exhibits, a speaker card submitted, and nothing said that cannot be sourced",
+  "title": "SmartCiti.X~ Public Comment Prep VR",
+  "trade": "Community pollution patrol lead",
+  "underwater": null,
+  "weather": "overcast"
+}

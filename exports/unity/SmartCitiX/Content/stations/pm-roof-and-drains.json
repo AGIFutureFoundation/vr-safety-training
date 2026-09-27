@@ -1,0 +1,411 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "drains-clear",
+    "name": "Drains Clear",
+    "note": "A roof walked, drained and checked with nobody past the warning line and nothing opened live"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "OSHA 29 CFR 1910.28 for fall protection on a low-slope roof — guardrail, travel restraint or personal fall arrest near the edge, a designated area behind a warning line further back, and covers or screens over skylights and hatches; 29 CFR 1910.23 for a fixed ladder climbed with hands free; ANSI Z359 for the anchor, harness and lanyard used in restraint; 29 CFR 1910.147 for locking out a rooftop fan before its housing is opened; NFPA 51B and 29 CFR 1910.252 for torch work on a roof under a hot work permit with a fire watch; the local building code's roof drainage and overflow requirements; IUOE Local 39 building engineers and SEIU porters.",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z359",
+        "id": "ansi-z359",
+        "title": "ANSI/ASSP Z359 — Fall Protection Code"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 51B",
+        "id": "nfpa-51b",
+        "title": "NFPA 51B — Fire Prevention During Welding, Cutting and Other Hot Work"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.23",
+        "id": "osha-1910-23",
+        "title": "29 CFR 1910.23 — Ladders"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.252",
+        "id": "osha-1910-252",
+        "title": "29 CFR 1910.252 — Welding, cutting and brazing, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.28",
+        "id": "osha-1910-28",
+        "title": "29 CFR 1910.28 — Duty to have fall protection and falling object protection"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": "Building Systems & Facilities",
+  "domain": "Property Management",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "inside-the-line",
+        "name": "Inside the Line",
+        "note": "No unsafe action anywhere on the roof"
+      },
+      {
+        "id": "hatch-guarded",
+        "name": "Hatch Guarded",
+        "note": "Climbed and guarded the hatch in order on the first try"
+      },
+      {
+        "id": "steady-restraint",
+        "name": "Steady Restraint",
+        "note": "Every timed task carried through without a break"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-roof",
+        "name": "Clean Roof",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "before-the-rain",
+        "name": "Before the Rain",
+        "note": "Inside 80% of par"
+      },
+      {
+        "id": "nine-clear",
+        "name": "Nine Clear",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "DRAINS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Engineer Trainee",
+      "Building Engineer",
+      "Senior Engineer",
+      "Chief Engineer",
+      "Roof Round Certified"
+    ],
+    "system": "Roof Round"
+  },
+  "hazards": {
+    "fan-housing-live": "You are unscrewing the exhaust fan's housing with the disconnect still on. The fan can start on its thermostat or its schedule at any moment and the belt and pulley will take fingers. 29 CFR 1910.147 wants it off at the disconnect with your own lock on it before the housing comes open.",
+    "skylight-step": "You are stepping onto the skylight to get round the fan. A skylight dome is plastic on a curb, rated for rain and not for a person, and 29 CFR 1910.28 wants skylights screened or guarded because from above a dirty dome looks like part of the roof. People go through them every year onto the floor below.",
+    "tool-bag-carry": "You are about to climb the hatch ladder with the auger and the tool bag in your hands. 29 CFR 1910.23 does not allow carrying anything on a ladder that could make you lose your balance — both hands belong on the rails. Tools go up on a line or in a bag hauled up after you are through the hatch.",
+    "unprotected-edge": "You are stepping past the warning line towards the open edge to look down at the gutter. There is no parapet on this stretch and nothing between you and the street. 29 CFR 1910.28 wants a guardrail, travel restraint or fall arrest within six feet of that edge for exactly this glance — most roof falls happen to someone who only meant to take a quick look."
+  },
+  "id": "pm-roof-and-drains",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "restraint-walk",
+      "alert": "A roofing contractor has lit a torch to patch a seam near drain 2. There is no hot work permit posted, no fire watch and no extinguisher beside him.",
+      "cue": "Stop the torch and check the hot work permit board.",
+      "delay": 3,
+      "id": "hotwork-contractor",
+      "kind": "Contractor without a permit",
+      "missNote": "The contractor kept torching without a permit, a fire watch or an extinguisher. Whatever smoulders under that seam tonight will do so after everyone has left the roof.",
+      "seconds": 12,
+      "target": "hot-work-permit",
+      "why": "Torch-applied roofing is one of the classic causes of building fires: the flame finds insulation or a wood nailer under the membrane and smoulders for hours after the crew has gone. NFPA 51B and 29 CFR 1910.252 require a permit, a fire watch during and after, and an extinguisher at hand. No permit means the torch goes out until there is one.",
+      "wrongNote": "That does not stop him. Check the hot work permit board — no permit, no flame."
+    },
+    {
+      "after": "auger-drain",
+      "alert": "The desk radios: the resident in 12C reports water dripping from her ceiling by the window since the last rain, and wants to know when someone is coming.",
+      "cue": "Mark 12C's position on the roof plan so you can look for the source directly above it.",
+      "delay": 2,
+      "id": "tenant-leak",
+      "kind": "Resident with a complaint",
+      "missNote": "The call went unanswered and nobody marked where 12C sits under the roof. The leak source above her window stays unlooked-for with a storm on the way.",
+      "seconds": 12,
+      "target": "leak-map",
+      "why": "Roof leaks travel along the deck before they drip, but they start close to where they show. Marking the unit on the roof plan while you are standing on the roof lets you look at the flashing, penetrations and seams right above her ceiling today, instead of sending someone back up after the storm has made it worse.",
+      "wrongNote": "Not that. Mark 12C on the roof plan so you can check the roof directly above her."
+    }
+  ],
+  "lateNotes": {
+    "belt-gauge": "The belt is checked only with the fan locked out and the housing open.",
+    "building-log": "The roof goes into the log when you are back down the hatch with it closed behind you.",
+    "fan-lock": "Your lock goes on once the disconnect is off — not before, and not on a live handle."
+  },
+  "name": "Roof and Drains",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "property-management"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "anemometer",
+      "belt-gauge",
+      "blocked-scupper",
+      "building-log",
+      "crew-checkin-board",
+      "debris-bag-socket",
+      "drain-auger",
+      "fan-disconnect",
+      "fan-housing-live",
+      "fan-lock",
+      "hatch-hold-open",
+      "hatch-ladder",
+      "hatch-rail-gate",
+      "hot-work-permit",
+      "leaf-debris",
+      "leak-map",
+      "missing-strainer",
+      "ponding",
+      "restraint-lanyard",
+      "roof-access-log",
+      "skylight-step",
+      "tool-bag-carry",
+      "unprotected-edge"
+    ],
+    "meshes": 219
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Sign out the hatch key in the roof access log: who, when, why, and when you expect to be back down.",
+      "id": "roof-access-log",
+      "kind": "select",
+      "prompt": "Sign out the hatch key in the roof access log: who, when, why, and when you expect to be back down.",
+      "target": "roof-access-log",
+      "title": "Sign the roof access log",
+      "why": "The roof is where a worker can be alone, out of sight and out of radio range, with an edge a few paces away. The access log is how the building knows someone is up there and when to start asking why they are not back; it is also how the engineer knows who else has been up since the last walk — the contractor who left a hatch unlatched, for one."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Climb the fixed ladder with both hands free, latch the lid open, and close the hatch guardrail gate behind you.",
+      "id": "hatch-climb",
+      "itemNames": {
+        "hatch-hold-open": "hatch lid latched open",
+        "hatch-ladder": "ladder climbed, hands on the rails",
+        "hatch-rail-gate": "hatch guardrail gate closed behind you"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Ladder, lid, then the gate. A lid that is not latched open can drop onto the next person climbing, and an open hatch with its gate unlatched is a hole in the roof.",
+      "prompt": "Climb the fixed ladder with both hands free, latch the lid open, and close the hatch guardrail gate behind you.",
+      "targets": [
+        "hatch-ladder",
+        "hatch-hold-open",
+        "hatch-rail-gate"
+      ],
+      "title": "Climb the hatch and guard it behind you",
+      "why": "A roof hatch is two hazards at once: the ladder you climb and the hole you leave. 29 CFR 1910.23 wants hands on the rails while climbing, and 29 CFR 1910.28 treats the open hatch as a hole to be guarded. Latching the lid stops it dropping on your head; closing the rail gate stops you — or the next person — stepping back into it."
+    },
+    {
+      "cue": "Read the anemometer at the hatch and commit only if the gusts are under the building's roof-work limit.",
+      "gauge": {
+        "green": [
+          0.08,
+          0.4
+        ],
+        "label": "WIND AT THE HATCH — GUSTS",
+        "missNote": "Gusting over the roof-work limit. Wait at the hatch and read it again — the drains can wait for the wind to drop, and so can you.",
+        "speed": 0.55
+      },
+      "id": "wind-check",
+      "kind": "gauge",
+      "prompt": "Read the anemometer at the hatch and commit only if the gusts are under the building's roof-work limit.",
+      "target": "anemometer",
+      "title": "Read the wind before going further",
+      "why": "Wind is what turns a routine roof walk into a fall: a gust catches a panel, a tarp or a person bending over a drain. The building's roof-work limit is set well below the speed that knocks a standing person over, because on a roof the gust arrives while you are off balance, not while you are braced."
+    },
+    {
+      "cue": "Clip your harness to the roof anchor and walk the drain route with the lanyard kept taut enough that you cannot reach the open edge.",
+      "holdBreakNote": "The lanyard went out of the restrained band. Take up the slack or shorten it until the edge is out of reach again.",
+      "id": "restraint-walk",
+      "kind": "track",
+      "prompt": "Clip your harness to the roof anchor and walk the drain route with the lanyard kept taut enough that you cannot reach the open edge.",
+      "seconds": 6,
+      "target": "restraint-lanyard",
+      "title": "Walk the drain route in travel restraint",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.4,
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "RESTRAINT LANYARD — PAY-OUT",
+        "rise": 0.45,
+        "start": 0.2
+      },
+      "why": "Travel restraint stops you before the edge rather than catching you after it — the gentlest fall protection there is, if the lanyard is the right length and kept that way. ANSI Z359 sets how the anchor, harness and lanyard work together; slack piling underfoot is a trip, and a lanyard let out to its end walks you right up to the edge it was chosen to keep you from."
+    },
+    {
+      "cue": "Three drainage problems on this roof will matter in tonight's storm. Find them.",
+      "id": "roof-walk",
+      "itemNames": {
+        "blocked-scupper": "overflow scupper choked with leaves",
+        "missing-strainer": "drain 1 strainer dome missing",
+        "ponding": "ponding water around drain 2"
+      },
+      "itemNotes": {
+        "blocked-scupper": "The overflow scupper through the parapet is packed with leaves. It is the roof's second way to shed water when a drain blocks; choked, the roof has none.",
+        "missing-strainer": "Drain 1 has lost its strainer dome. Without it, leaves go straight down the leader and block it inside the building, where nobody can reach it in a storm.",
+        "ponding": "Water is standing in a wide pond around drain 2 hours after the last rain. The drain is slow, and ponded water is weight on a roof designed to shed it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three drainage problems on this roof will matter in tonight's storm. Find them.",
+      "targets": [
+        "missing-strainer",
+        "ponding",
+        "blocked-scupper"
+      ],
+      "title": "Walk the drains and scuppers",
+      "why": "A low-slope roof is designed around its drains and its overflows, and the local building code requires both because water that cannot leave a roof loads the structure and finds its way into the units below. A storm is when every one of them is needed at once, and the walk beforehand is the only time they can be fixed dry."
+    },
+    {
+      "cue": "Carry the pile of leaves and grit from the scupper into the debris bag.",
+      "drag": {
+        "missNote": "Not in the bag. Carry the debris all the way into the debris bag by the hatch.",
+        "radius": 0.55,
+        "to": "debris-bag-socket"
+      },
+      "id": "bag-debris",
+      "kind": "drag",
+      "prompt": "Carry the pile of leaves and grit from the scupper into the debris bag.",
+      "target": "leaf-debris",
+      "title": "Bag the debris off the scupper and drain",
+      "why": "Debris left on a roof ends up in the next drain downstream. Bagging it and taking it down the hatch — hauled, not carried on the ladder — actually removes it, instead of relocating tonight's blockage six metres along the parapet."
+    },
+    {
+      "cue": "Feed the drain auger into drain 2 and hold it turning until the pond starts to drain.",
+      "holdBreakNote": "You stopped the auger before the pond started to move. Feed it again and keep it turning until the water drains.",
+      "id": "auger-drain",
+      "kind": "hold",
+      "prompt": "Feed the drain auger into drain 2 and hold it turning until the pond starts to drain.",
+      "seconds": 5,
+      "target": "drain-auger",
+      "title": "Auger the slow drain",
+      "why": "A drain that ponds is blocked somewhere in the leader below the roof, usually by leaves that came through a missing strainer weeks ago. Holding the auger turning until the pond visibly moves is the only proof the blockage has broken through, and doing it before the storm keeps the water off the ceilings of the top floor."
+    },
+    {
+      "cue": "The corridor exhaust fan is squealing. Turn its rooftop disconnect to OFF before touching the housing.",
+      "id": "fan-disconnect-off",
+      "kind": "turn",
+      "prompt": "The corridor exhaust fan is squealing. Turn its rooftop disconnect to OFF before touching the housing.",
+      "target": "fan-disconnect",
+      "title": "Switch off the exhaust fan at its disconnect",
+      "turn": {
+        "axis": "z",
+        "label": "FAN DISCONNECT",
+        "turns": 0.25
+      },
+      "why": "A rooftop fan runs on a thermostat or a schedule, which means it can start without anyone touching it. The disconnect beside it is the energy-isolating device 29 CFR 1910.147 means, and it is on the roof precisely so the person working on the fan can isolate it where they stand."
+    },
+    {
+      "cue": "Hang your own lock and tag on the fan disconnect.",
+      "id": "fan-lock",
+      "kind": "select",
+      "prompt": "Hang your own lock and tag on the fan disconnect.",
+      "target": "fan-lock",
+      "title": "Lock and tag the disconnect",
+      "why": "A disconnect switched off on a roof is a disconnect somebody in the building's control room can switch back on remotely, or a contractor can flip on the way past. Your lock is what makes it yours until you take it off, which is the whole point of 29 CFR 1910.147."
+    },
+    {
+      "cue": "With the housing open, press the belt gauge on the span and commit when the deflection sits in the manufacturer's band.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "BELT DEFLECTION AT MID-SPAN",
+        "missNote": "Outside the manufacturer's band. Adjust and read it again — a slipping belt or a strained bearing both come back as a squeal and a work order.",
+        "speed": 0.5
+      },
+      "id": "belt-tension",
+      "kind": "gauge",
+      "prompt": "With the housing open, press the belt gauge on the span and commit when the deflection sits in the manufacturer's band.",
+      "target": "belt-gauge",
+      "title": "Check the fan belt's tension",
+      "why": "A squealing fan is usually a belt slipping: too loose and it glazes and fails, too tight and it wrecks the motor and fan bearings. The deflection band is what the manufacturer rates the drive for, and reading it rather than guessing is what makes the adjustment last longer than until the next hot afternoon."
+    },
+    {
+      "cue": "Refit the housing, take your lock off and turn the disconnect back ON.",
+      "id": "fan-restore",
+      "kind": "turn",
+      "prompt": "Refit the housing, take your lock off and turn the disconnect back ON.",
+      "target": "fan-disconnect",
+      "title": "Close up, remove your lock and restore the fan",
+      "turn": {
+        "axis": "z",
+        "label": "FAN DISCONNECT",
+        "reverse": true,
+        "turns": 0.25
+      },
+      "why": "A fan left locked out is a corridor with no exhaust, which is a smoke-control and air-quality problem inside the building; a fan restored with the housing off is a belt and pulley in the open. Housing on, your lock off, then power — in that order, by the person whose lock it was."
+    },
+    {
+      "cue": "Log the wind, the strainer and scupper, the drain augered, the fan belt, the leak above 12C and the contractor stopped.",
+      "id": "building-log",
+      "kind": "select",
+      "prompt": "Log the wind, the strainer and scupper, the drain augered, the fan belt, the leak above 12C and the contractor stopped.",
+      "target": "building-log",
+      "title": "Write the roof into the building log",
+      "why": "Roof problems show up as ceiling problems weeks later, and the building log is where the link is made: the missing strainer, the drain augered, the leak reported in 12C and where it was traced on the roof plan. It is also the record that a torch was stopped on a roof with no permit, which matters to the insurer as much as to the engineer."
+    },
+    {
+      "cue": "Radio the porter who held the ground end, ask how the day went, and name the member services line.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Radio the porter who held the ground end, ask how the day went, and name the member services line.",
+      "target": "crew-checkin-board",
+      "title": "Check in with the porter on the ground",
+      "why": "Roof work is solitary, exposed and often rushed ahead of weather, and the person on the ground is the one who knows you went up. A short check-in when you come down — with the support line named — closes the loop the access log opened and gives both of you a moment before the storm arrives."
+    }
+  ],
+  "supportLine": "IUOE Local 39's member services or your employer's EAP",
+  "tagline": "The roof walked before a storm: access logged, the hatch climbed and guarded, wind read, the route walked in restraint, drains and scuppers cleared, a slow drain augered, a fan locked out for a belt check and restored",
+  "title": "SmartCiti.X~ Roof and Drains VR",
+  "trade": "Building engineer — IUOE Local 39 stationary engineers, with SEIU porters on the ground and the roofing contractor under permit",
+  "underwater": null,
+  "weather": "wind"
+}

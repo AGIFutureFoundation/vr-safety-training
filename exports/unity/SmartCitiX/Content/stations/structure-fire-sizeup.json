@@ -1,0 +1,435 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "first-in-clean",
+    "name": "First-In Clean",
+    "note": "A residential structure fire sized up, reported, attacked and accounted for without an unsafe action anywhere in the job"
+  },
+  "category": "Emergency Services",
+  "certification": "IAFF — NFPA 1500 fire department occupational safety and health, NFPA 1710 organization and deployment of career fire suppression, NFPA 1001 firefighter professional qualifications for the 360 and the initial line; OSHA 29 CFR 1910.134 respiratory protection, the source of the two-in two-out rule; NIMS/ICS through FEMA IS-100 and IS-700 for the incident command structure the on-scene report is given into",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "FEMA",
+        "citedAs": "FEMA IS-100",
+        "id": "fema-is-courses",
+        "title": "FEMA Emergency Management Institute IS-100 and IS-700 independent-study courses in ICS and NIMS"
+      },
+      {
+        "body": "union",
+        "citedAs": "IAFF",
+        "id": "iaff-training",
+        "title": "IAFF training programmes, including Fire Ground Survival and the peer support model"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 1001",
+        "id": "nfpa-1001",
+        "title": "NFPA 1001 — Fire Fighter Professional Qualifications"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 1500",
+        "id": "nfpa-1500",
+        "title": "NFPA 1500 — Fire Department Occupational Safety, Health and Wellness Program"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 1710",
+        "id": "nfpa-1710",
+        "title": "NFPA 1710 — Organization and Deployment of Fire Suppression, EMS and Special Operations by Career Fire Departments"
+      },
+      {
+        "body": "NIMS/ICS",
+        "citedAs": "ICS",
+        "id": "nims-ics",
+        "title": "NIMS incident command system — the structure a multi-agency response runs inside"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Emergency Services",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-report",
+        "name": "Clean Report",
+        "note": "On-scene report given in the order command needs it, first time"
+      },
+      {
+        "id": "no-hazard",
+        "name": "No Hazard",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "par-clean",
+        "name": "PAR Clean",
+        "note": "The ten-minute personnel accountability report held and answered without a break"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-advance",
+        "name": "Steady Advance",
+        "note": "Held the interior advance rate in band the whole way down the hall"
+      },
+      {
+        "id": "first-in-fast",
+        "name": "First-In Fast",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "COMMAND",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Firefighter I",
+      "Firefighter II",
+      "Company Officer",
+      "Incident Commander",
+      "First-In Certified"
+    ],
+    "system": "First-In Company"
+  },
+  "hazards": {
+    "freelance-solo": "One of the crew broke for the side door alone, outside the assignment given at the on-scene report. Freelancing means command has a person inside this building whose location nobody can account for at the ten-minute mark, and the accountability system this whole procedure runs on only works if every assignment is a crew, never a name.",
+    "no-scba-entry": "You started toward the door with your face piece off the seat of your mask. A residential structure fire is an IDLH atmosphere before you can see a flame from the street, and going in without your air on is not caught by a working line or a good crew — it is caught by putting the mask on before your hand touches the door.",
+    "porch-overhang": "You staged the crew under the porch roof that is already sagging over the A-side window. Fire that has been showing long enough to sag a structural member has already told you what it is about to do next, and standing a crew under it is asking the building to make the decision about who gets hurt.",
+    "uncharged-advance": "You moved the attack line toward the door before it was charged. A flat hose at the threshold is nothing when the room lights up in front of you — no reach, no pattern, no cooling water between the crew and the fire — and the two seconds it takes to confirm water at the nozzle before advancing is the two seconds that keeps a flashover from becoming a burn."
+  },
+  "id": "structure-fire-sizeup",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "attack-line-stretch",
+      "alert": "A woman has ducked past the tape and is pushing toward the front door, shouting that her father is still inside.",
+      "cue": "She goes to the accountability officer, calmly — not through the door.",
+      "delay": 3,
+      "id": "bystander-rush",
+      "kind": "Bystander breaking the line",
+      "missNote": "She reached the door frame before anybody moved to stop her. Whatever she knows about where her father is has not reached command, and the crew now has a civilian at the point of entry on top of everything else they are managing.",
+      "seconds": 13,
+      "target": "accountability-officer",
+      "why": "A bystander who reaches the door before the crew does becomes a second person to account for inside a building that is already on fire, and the fastest way to lose the exact information she has — where he is, what he can and cannot do — is to physically block her and say nothing. Walking her to the accountability officer gets that information into the report calmly, on the record, without anyone laying a hand on her or losing sight of the door.",
+      "wrongNote": "It is the bystander, not the door and not the line in your hands — she needs a person to talk to, calmly, and that person is the accountability officer."
+    },
+    {
+      "after": "par-check",
+      "alert": "Truck 2's radio just transmitted: \"Mayday, Mayday, Mayday — firefighter down, second floor, B side.\"",
+      "cue": "Every other transmission stops. Clear the channel for Mayday traffic.",
+      "delay": 3,
+      "id": "mayday-called",
+      "kind": "Mayday — another crew",
+      "missNote": "Routine traffic kept going over the Mayday. Somewhere on the B side, second floor, a firefighter is transmitting into a channel that is not actually clear for them, and every second that call gets stepped on is a second the rapid intervention team is not moving on real information.",
+      "seconds": 14,
+      "target": "mayday-radio",
+      "why": "A Mayday call takes priority over every other transmission on the fireground the instant it goes out, because the crew member who called it may only get to say it once — routine traffic stepped on top of it, even for a few seconds, can cost the rapid intervention team the location and the detail that gets them there in time.",
+      "wrongNote": "It is the radio, not the PAR count or anything else in front of you — a Mayday call outranks every other transmission the instant it goes out."
+    }
+  ],
+  "lateNotes": {},
+  "name": "Structure Fire Size-Up",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "first-responders"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "accountability-officer",
+      "attack-line-coil",
+      "backup-team-staged",
+      "commit-primary-search",
+      "conditions-gauge",
+      "crew-checkin-board",
+      "engine-discharge-valve",
+      "entry-pair-formed",
+      "freelance-solo",
+      "front-door-position",
+      "front-lawn-flag",
+      "hallway-advance-point",
+      "hydrant",
+      "hydrant-valve",
+      "incident-log-board",
+      "mayday-radio",
+      "mode-defensive",
+      "mode-offensive",
+      "no-scba-entry",
+      "par-radio",
+      "porch-overhang",
+      "report-actions",
+      "report-building",
+      "report-conditions",
+      "report-resources",
+      "side-a-fire-showing",
+      "side-b-egress-blocked",
+      "side-c-utility-sagging",
+      "side-d-clear",
+      "supply-hose",
+      "uncharged-advance"
+    ],
+    "meshes": 273
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Walk all four sides of the house — A, B, C, D — before the first line comes off the rig.",
+      "decoyNotes": {
+        "front-lawn-flag": "A lawn ornament is not part of the 360 — the walk-around is for the building, not the yard."
+      },
+      "id": "walk-360",
+      "itemNames": {
+        "side-a-fire-showing": "fire showing, A side",
+        "side-b-egress-blocked": "blocked egress, B side",
+        "side-c-utility-sagging": "sagging service line, C side",
+        "side-d-clear": "D side, clear"
+      },
+      "itemNotes": {
+        "side-a-fire-showing": "The A side is what the street sees, and it is showing fire from a first-floor window — the loudest side is never the whole story.",
+        "side-b-egress-blocked": "The B-side window a resident would use to get out is blocked by a window-mount air conditioner bolted through the sill — the second way out, on this side, does not exist.",
+        "side-c-utility-sagging": "The service drop on the C side is sagging low enough to reach across the yard you would ladder from — a hazard that has nothing to do with the fire and everything to do with where the aerial and the ladders can go.",
+        "side-d-clear": "The D side is clear: no fire, no blocked egress, no overhead hazard. Clear is still a finding — command needs to hear the side with nothing on it as much as the one with everything on it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk all four sides of the house — A, B, C, D — before the first line comes off the rig.",
+      "targets": [
+        "side-a-fire-showing",
+        "side-b-egress-blocked",
+        "side-c-utility-sagging",
+        "side-d-clear"
+      ],
+      "title": "Walk the 360 before anything moves",
+      "why": "Everything the crew commits to next is aimed at what the street sees on the A side, and a two-storey residential fire regularly has more going on around the back than out front. The 360 is what tells you fire is also venting a side window nobody staged for, that the only other way out is blocked, and that there is a hazard overhead the ladder crew has to route around — all of it invisible from the seat of the rig, and all of it wrong to guess at."
+    },
+    {
+      "cue": "Building, then conditions, then resources, then the mode and actions you are taking — in that order, over the radio.",
+      "id": "radio-report",
+      "itemNames": {
+        "report-actions": "actions taken / mode",
+        "report-building": "building description",
+        "report-conditions": "conditions",
+        "report-resources": "resources needed"
+      },
+      "itemNotes": {
+        "report-building": "Two-storey, wood-frame, single-family, occupied — the picture every unit still en route builds their own plan around.",
+        "report-conditions": "Fire showing from a first-floor window, A side, moderate smoke from the eaves — what has already happened to the structure.",
+        "report-resources": "Requesting a full first-alarm assignment — what this crew cannot do alone."
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Building, conditions, resources, then actions — reversing that order hands the units behind you a mode and a resource count with no building or conditions underneath either one.",
+      "prompt": "Building, then conditions, then resources, then the mode and actions you are taking — in that order, over the radio.",
+      "targets": [
+        "report-building",
+        "report-conditions",
+        "report-resources",
+        "report-actions"
+      ],
+      "title": "Give the on-scene report",
+      "why": "Command and every unit still rolling build their whole approach off the first transmission from the first rig on scene, and they build it in the order it comes in — building first so they know what they are driving toward, conditions second so they know what it is doing, resources third so mutual aid starts moving before it is needed, and the mode last because it only means something once the first three are already understood. Said out of order, the units behind you are staging a plan around information they have not heard yet."
+    },
+    {
+      "cue": "Carry the supply hose off the bed and drop it at the hydrant on the corner.",
+      "drag": {
+        "missNote": "Not at the hydrant — a supply line lying short of the steamer connection is not a supply line yet.",
+        "radius": 0.55,
+        "to": "hydrant"
+      },
+      "id": "water-supply",
+      "kind": "drag",
+      "prompt": "Carry the supply hose off the bed and drop it at the hydrant on the corner.",
+      "target": "supply-hose",
+      "title": "Lay the supply line to the hydrant",
+      "why": "A pumper's own tank runs out in a few minutes at a working fire's flow rate, and everything after this step — the attack line, the second line if the fire has spread by the time it is stretched — depends on a supply that does not run out. Laying it to the hydrant before anything else leaves the rig means the tank water already on the truck is a bridge to that supply, not the whole of it."
+    },
+    {
+      "cue": "Open the hydrant fully and confirm water moving through the line.",
+      "id": "charge-supply",
+      "kind": "turn",
+      "prompt": "Open the hydrant fully and confirm water moving through the line.",
+      "target": "hydrant-valve",
+      "title": "Charge the supply line",
+      "turn": {
+        "axis": "y",
+        "label": "HYDRANT",
+        "turns": 1.25
+      },
+      "why": "A hydrant opened only part way throttles the exact flow this fire is about to ask for, and it does that quietly — the gauge at the pump panel is the only thing that tells you, and by then the attack line is already stretched and waiting on water that is not coming fast enough. Wound fully open, the supply is doing everything it can do before anyone downstream needs more than it is giving."
+    },
+    {
+      "cue": "One room showing fire, structure intact, a report of someone still inside — call it offensive, over the radio, with the reason.",
+      "id": "mode-call",
+      "kind": "select",
+      "prompt": "One room showing fire, structure intact, a report of someone still inside — call it offensive, over the radio, with the reason.",
+      "target": "mode-offensive",
+      "title": "Call the mode, and the reason",
+      "why": "Offensive and defensive are not a feeling, they are a conclusion drawn from what the 360 and the on-scene report just established: one room burning in a structurally sound building with an unconfirmed occupant is a fire an interior attack can still beat, and every crew on the fireground needs to hear both the call and the reason in the same transmission so a later change in conditions is judged against what was actually known when the mode was set."
+    },
+    {
+      "cue": "Confirm the backup pair is staged at the door before the entry pair goes in.",
+      "id": "two-in-two-out",
+      "itemNames": {
+        "backup-team-staged": "backup team staged at the door",
+        "entry-pair-formed": "entry pair formed and ready"
+      },
+      "itemNotes": {
+        "backup-team-staged": "Two firefighters, geared and staged at the point of entry, ready to go in for the entry team if something goes wrong."
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Backup staged first, then the entry pair goes in — sending the entry pair before the backup team is standing by is the exact gap the rule was written to close.",
+      "prompt": "Confirm the backup pair is staged at the door before the entry pair goes in.",
+      "targets": [
+        "backup-team-staged",
+        "entry-pair-formed"
+      ],
+      "title": "Two in, two out",
+      "why": "OSHA's two-in two-out rule under 29 CFR 1910.134 exists because an interior attack in an IDLH atmosphere is the one task on this job nobody is allowed to do short-handed: two firefighters go in together, and two more stand ready outside the door for no other reason than to go get them if the two inside stop transmitting. Staging the backup pair before the entry pair moves is what makes the rule an actual rescue capability rather than a headcount taken after the fact."
+    },
+    {
+      "cue": "Pull the 1¾-inch crosslay off the bed and stretch it to the front door.",
+      "drag": {
+        "missNote": "Short of the door — a line that stops at the porch has to be re-stretched before anybody can flow water on the fire.",
+        "radius": 0.55,
+        "to": "front-door-position"
+      },
+      "id": "attack-line-stretch",
+      "kind": "drag",
+      "prompt": "Pull the 1¾-inch crosslay off the bed and stretch it to the front door.",
+      "target": "attack-line-coil",
+      "title": "Stretch the initial attack line",
+      "why": "The stretch is measured to the door with enough hose to work the whole first floor once it is charged, not to the porch step with the coupling still short — a line that runs out three feet inside the room means backing the whole crew out to pull more hose while the fire keeps doing what fire does with the time it is given."
+    },
+    {
+      "cue": "Open the discharge at the pump panel and confirm water at the nozzle before the door.",
+      "id": "charge-attack-line",
+      "kind": "turn",
+      "prompt": "Open the discharge at the pump panel and confirm water at the nozzle before the door.",
+      "target": "engine-discharge-valve",
+      "title": "Charge the attack line",
+      "turn": {
+        "axis": "z",
+        "label": "1¾ DISCHARGE",
+        "turns": 1
+      },
+      "why": "A charged line at the threshold is a tool; an uncharged one is a length of rubber the crew is about to walk into a room on fire while holding. Confirming water at the nozzle before the door is what separates the two, and it is done here, at the pump panel, rather than discovered by a firefighter cracking the bail on the other end and getting nothing."
+    },
+    {
+      "cue": "Run the thermal imager across the doorway and commit on what it reads for heat.",
+      "gauge": {
+        "green": [
+          0.15,
+          0.42
+        ],
+        "label": "DOORWAY HEAT",
+        "missNote": "That reading is outside the band a primary search can be run against — call it up to command before anybody commits to going further in.",
+        "speed": 0.72
+      },
+      "id": "conditions-read",
+      "kind": "gauge",
+      "prompt": "Run the thermal imager across the doorway and commit on what it reads for heat.",
+      "target": "conditions-gauge",
+      "title": "Read the interior conditions before committing search",
+      "why": "The thermal imager is not a formality at the threshold — it is the difference between a hot but survivable interior and a room close enough to flashover that a primary search inside it becomes a second rescue. What the camera reads here is what the next step's decision is actually built on, not a number for its own sake."
+    },
+    {
+      "cue": "A bystander says her father is still inside, upstairs. The conditions are inside the band. Commit the primary search.",
+      "id": "commit-search",
+      "kind": "select",
+      "prompt": "A bystander says her father is still inside, upstairs. The conditions are inside the band. Commit the primary search.",
+      "target": "commit-primary-search",
+      "title": "Weigh the bystander's report against what you just read",
+      "why": "An unconfirmed report of someone inside is never nothing, and it is never enough on its own either — it is weighed against what the 360 and the thermal reading already told you about this specific room and this specific fire, right now. Conditions inside the band with a specific, plausible report of a specific person's location is what a primary search assignment is actually built on; the same report against conditions that are not survivable is a search that gets planned differently, not skipped."
+    },
+    {
+      "cue": "Move the entry pair down the hallway at a steady, low crouch — not a crawl, not a run.",
+      "holdBreakNote": "The advance stalled or ran ahead of the line. A hallway advance holds one pace because everyone behind you is following that same pace to find you.",
+      "id": "interior-advance",
+      "kind": "track",
+      "prompt": "Move the entry pair down the hallway at a steady, low crouch — not a crawl, not a run.",
+      "seconds": 7,
+      "target": "hallway-advance-point",
+      "title": "Advance the line down the hall",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.45,
+        "green": [
+          0.35,
+          0.62
+        ],
+        "label": "ADVANCE",
+        "rise": 0.55
+      },
+      "why": "Too slow and the fire gets more time with the building than the line is buying back; too fast and the crew outruns their own hose, their own visibility and the backup pair's ability to follow the line to them if something goes wrong. A steady, low advance is the pace that keeps the whole crew — inside and at the door — able to account for where everybody actually is."
+    },
+    {
+      "cue": "Key the radio and hold it while every crew on scene calls in accounted-for.",
+      "holdBreakNote": "The PAR was cut short before every crew answered. A partial roll call is not a roll call — key up again and hold until the last assignment reports in.",
+      "id": "par-check",
+      "kind": "hold",
+      "prompt": "Key the radio and hold it while every crew on scene calls in accounted-for.",
+      "seconds": 8,
+      "target": "par-radio",
+      "title": "Call the ten-minute PAR",
+      "why": "NFPA 1500 sets a personnel accountability report at defined intervals — ten minutes into an interior operation is the department's own trigger — because a working fire with multiple crews inside is exactly the situation where losing track of one person happens quietly. Holding the channel until every assignment has answered is what turns 'probably fine' into a number command can actually stand behind."
+    },
+    {
+      "cue": "Write the time of the on-scene report, the mode called, the PAR result and the outcome into the incident log.",
+      "id": "op-log",
+      "kind": "select",
+      "prompt": "Write the time of the on-scene report, the mode called, the PAR result and the outcome into the incident log.",
+      "target": "incident-log-board",
+      "title": "Log the operation",
+      "why": "The verbal report on the radio is heard once and then it is gone; the written log is what the after-action review, the next shift and, if it ever comes to it, an investigation actually reads. Logging the mode, the timing and the PAR result while the run is still fresh is what makes tonight's decisions defensible on paper, not just correct in the moment."
+    },
+    {
+      "cue": "Ask the crew how they're doing — not just whether the job is done — and note it.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Ask the crew how they're doing — not just whether the job is done — and note it.",
+      "target": "crew-checkin-board",
+      "title": "Check in with the crew",
+      "why": "A crew that just pulled a report of a trapped occupant, worked a mayday call and held a line through an interior advance has been through more than the incident log captures, and the department's own peer-support and critical-incident stress management line exists precisely for the run that looked routine on paper and was not routine to be inside of. Asking the question, and writing down the answer, is what makes checking on the crew part of the job instead of an afterthought left to whoever remembers."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "First-in engine at a two-storey residential fire: the 360, the on-scene report, water before entry, the mode called with the reason, two-in two-out, the initial line, and the ten-minute PAR",
+  "title": "SmartCiti.X~ Structure Fire Size-Up VR",
+  "trade": "Firefighter — IAFF",
+  "underwater": null,
+  "weather": "smoke"
+}

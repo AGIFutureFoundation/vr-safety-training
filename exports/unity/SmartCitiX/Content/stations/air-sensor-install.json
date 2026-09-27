@@ -1,0 +1,386 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "network-node-proven",
+    "name": "Network Node Proven",
+    "note": "A sensor sited by the rules, consented to by the resident who hosts it, and proven against a handheld before it ever reports a number"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Community science under the network's own siting and QA practice, drawn from EPA's low-cost air sensor siting guidance; OSHA 29 CFR 1910.23 ladder safety and NIOSH's ladder-safety guidance for the physical install; the Bay Area Air Quality Management District's Community Advisory Council process; consent for anything logged to a resident's home modelled on the standard in 45 CFR 46",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "HHS",
+        "citedAs": "45 CFR 46",
+        "id": "hhs-45-cfr-46",
+        "title": "45 CFR Part 46 — Federal Policy for the Protection of Human Subjects (the Common Rule)"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.23",
+        "id": "osha-1910-23",
+        "title": "29 CFR 1910.23 — Ladders"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "consented-first",
+        "name": "Consented First",
+        "note": "Got the resident's consent before anything went on the wall"
+      },
+      {
+        "id": "never-unverified",
+        "name": "Never Unverified",
+        "note": "Never published a reading that had not been checked against the handheld"
+      },
+      {
+        "id": "signal-true",
+        "name": "Signal True",
+        "note": "Held the Wi-Fi pairing inside its band on the first try"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-install",
+        "name": "Clean Install",
+        "note": "No corrections through the whole install"
+      },
+      {
+        "id": "ladder-held",
+        "name": "Ladder Held",
+        "note": "Never let the ladder go unfooted"
+      },
+      {
+        "id": "one-visit",
+        "name": "One Visit",
+        "note": "Sited, mounted, proven and logged inside 80% of par"
+      }
+    ],
+    "currency": "READING",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Trainee Installer",
+      "Network Installer",
+      "Site Steward",
+      "QA Lead",
+      "Neighbourhood Network Certified"
+    ],
+    "system": "Neighbourhood Network"
+  },
+  "hazards": {
+    "grill-mount": "You marked the bracket directly over the barbecue. Charcoal and lighter fluid smoke will swamp this unit's readings on the one occasion a year the block actually cooks outside, and a sensor whose worst readings are always explainable by a neighbour's dinner is a sensor the network learns to discount.",
+    "skip-drip-loop": "You ran the power cable straight into the enclosure with no drip loop. Water follows the cable down to the lowest point before it lets go, and without a loop that point is the enclosure's own seal — the first hard rain after this install finds the electronics, not the ground.",
+    "unverified-reading": "You published the sensor's first reading without checking it against the handheld. A brand-new unit that reads high or low by a wide margin looks like real air on the public map until somebody notices the whole block trusts it, and the fifteen minutes a handheld comparison takes is what stands between an honest number and a bad one nobody catches for months.",
+    "vent-mount": "You marked the bracket position right beside the kitchen exhaust vent. Every time this household cooks, the sensor will read the frying pan instead of the block, and a network node that spikes on schedule with dinner gets learned as noise by everyone who looks at the public map — including the times it is right."
+  },
+  "id": "air-sensor-install",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "handheld-reading",
+      "alert": "The resident's neighbour has started a leaf blower right under the sensor while the comparison test is running.",
+      "cue": "A cloud of dust and debris is being blown straight past the inlet mid-test.",
+      "delay": 3,
+      "id": "leaf-blower",
+      "kind": "Unrelated dust source",
+      "missNote": "The comparison ran straight through the leaf blower with nothing noted. Whoever reviews this install later sees a reading that does not match the handheld and has no way to know it was a lawnmower-grade dust cloud and not the sensor lying — the first honest explanation for a bad number is the one that never got written down.",
+      "seconds": 13,
+      "target": "flag-reading",
+      "why": "A leaf blower a few metres from an optical particle counter throws a spike into the reading that has nothing to do with the neighbourhood's air, and it will land squarely inside the window this comparison is supposed to prove the sensor true against. Flagging the affected minutes on the record is what keeps that spike from being read later as either a passed or a failed calibration check — it is neither, and the log has to say so.",
+      "wrongNote": "That does not flag the reading. The dust is coming from the leaf blower, not from the comparison chart itself — mark the affected minutes at the flag."
+    },
+    {
+      "after": "ladder-footing",
+      "alert": "The ladder's downhill foot has skated on the wet step while you are up mounting the bracket.",
+      "cue": "The ladder just shifted under you on the wet step below it.",
+      "delay": 3,
+      "id": "ladder-slip",
+      "kind": "Ladder foot slipped",
+      "missNote": "Nobody came to brace the feet, and the ladder kept walking on the wet step through the rest of the mount. A slipped ladder with a technician still on it is exactly the fall OSHA's ladder-safety standard exists to prevent, and it was one bystander away from being answered the whole time.",
+      "seconds": 12,
+      "target": "spotter-brace",
+      "why": "A ladder set on a rain-slick step has almost no friction to fall back on the instant its own base shifts, and by the time the wobble reaches the rungs the person on it has no free hand to catch the fall — the foot has to be held by someone standing at the base, not fixed by the person already sixteen rungs up. Calling the spotter over to brace the feet is the only response that reaches the actual point of failure before the ladder does.",
+      "wrongNote": "That does not steady the ladder. The feet are slipping at the base — get the spotter's hands on the rails down there, not up at the bracket."
+    }
+  ],
+  "lateNotes": {
+    "compare-chart": "There is no reading to compare yet. Take the handheld measurement before you judge the sensor against it.",
+    "log-camera": "Log the site once the reading is proven, not before — a photo and GPS point for an unverified number is a record of nothing.",
+    "wifi-pairing": "Nothing to pair with the network until the unit has power — connect the weatherproof supply first."
+  },
+  "name": "Neighbourhood Air Sensor",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-can-we-live"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "bracket-bolts",
+      "clear-of-grill",
+      "clear-of-vent",
+      "clear-of-wall-heat",
+      "compare-chart",
+      "consent-panel",
+      "drip-loop",
+      "flag-reading",
+      "grill-mount",
+      "handheld-meter",
+      "height-mark",
+      "inlet-web",
+      "ladder-feet",
+      "log-camera",
+      "power-cable",
+      "power-switch",
+      "resident-panel",
+      "sign-pad",
+      "siting-card",
+      "skip-drip-loop",
+      "spotter-brace",
+      "unverified-reading",
+      "vent-mount",
+      "weather-cover",
+      "wifi-pairing"
+    ],
+    "meshes": 213
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the consent card with the resident before the ladder comes off the truck.",
+      "id": "consent",
+      "kind": "select",
+      "prompt": "Read the consent card with the resident before the ladder comes off the truck.",
+      "target": "consent-panel",
+      "title": "Get the resident's consent to host and log the site",
+      "why": "Everything that follows — a bracket screwed to their wall, a cable run across their siding, a photo and GPS point of their own home going onto a public map — happens on this resident's property and in their name. Explaining that plainly, in a language they are comfortable in, and getting their yes before the first tool comes out is what keeps a neighbourhood network from being one more thing installed on a block instead of agreed to by it."
+    },
+    {
+      "cue": "Check the height, clearance and placement rules before you pick a spot on the wall.",
+      "id": "siting-rules",
+      "kind": "select",
+      "prompt": "Check the height, clearance and placement rules before you pick a spot on the wall.",
+      "target": "siting-card",
+      "title": "Read the network's siting rules",
+      "why": "The network's siting card sets a consistent height across every host site, a clearance from any exhaust or heat source, and a minimum distance off the wall's own surface — rules written so that a reading from this house means the same thing as a reading from the next one over. A technician who skips the card and eyeballs a spot is deciding, alone, to make this node incomparable to the other nine before a single bolt goes in."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Check clearance from the vent, the grill and the wall's own heat, and mark the mounting height — any order.",
+      "id": "site-check",
+      "itemNames": {
+        "clear-of-grill": "clear of the barbecue",
+        "clear-of-vent": "clear of the kitchen exhaust vent",
+        "clear-of-wall-heat": "clear of the wall's own radiant heat",
+        "height-mark": "the network's standard mounting height"
+      },
+      "itemNotes": {
+        "clear-of-grill": "Charcoal smoke a few feet away reads exactly like a pollution event to a sensor that cannot tell the difference.",
+        "clear-of-vent": "A kitchen vent puts cooking exhaust straight into the intake of anything mounted too close to it, and that is not the neighbourhood's air.",
+        "clear-of-wall-heat": "A dark wall in full sun runs hotter than the air around it, and a sensor pinned against it reads its own housing more than the block.",
+        "height-mark": "Every node in this network is set at the same height so a reading here means the same thing as a reading from any other host's roofline."
+      },
+      "kind": "sequence",
+      "prompt": "Check clearance from the vent, the grill and the wall's own heat, and mark the mounting height — any order.",
+      "targets": [
+        "clear-of-vent",
+        "clear-of-grill",
+        "clear-of-wall-heat",
+        "height-mark"
+      ],
+      "title": "Walk the wall and confirm the siting rules",
+      "why": "Each of these four checks defeats a different way the mount could end up reading something other than the neighbourhood's air: cooking exhaust, grill smoke, a wall's own stored heat, or simply sitting at a height nobody else in the network shares. Skipping any one of them does not make the sensor lie outright — it makes it quietly describe this one wall instead of the block, which is a harder mistake to catch later than an outright failure would be."
+    },
+    {
+      "cue": "Check both feet are square and solid before you put a hand on the rails.",
+      "id": "ladder-footing",
+      "kind": "select",
+      "prompt": "Check both feet are square and solid before you put a hand on the rails.",
+      "target": "ladder-feet",
+      "title": "Set the ladder on stable, level footing",
+      "why": "The steps below the mounting point are wet, and a ladder foot resting on a wet, uneven edge has nothing to grip the instant weight shifts onto it from above. Setting the feet square on the most stable ground available, before the first rung is climbed, is the only point in this job where the ladder's footing can still be fixed by looking at it rather than by reacting to it moving."
+    },
+    {
+      "cue": "Turn the bracket bolts down until the mount sits flush and solid against the siding.",
+      "id": "mount-bracket",
+      "kind": "turn",
+      "prompt": "Turn the bracket bolts down until the mount sits flush and solid against the siding.",
+      "target": "bracket-bolts",
+      "title": "Drive the mounting bracket to the wall",
+      "turn": {
+        "axis": "y",
+        "label": "BRACKET BOLTS",
+        "turns": 0.6
+      },
+      "why": "A bracket that is not driven fully home will work loose the first time wind gets under the sensor housing, and a sensor that has shifted even a few degrees off the wall no longer sits at the height or the clearance the siting rules just confirmed. The bolts are what turn today's correct siting decision into something that is still true a year from now."
+    },
+    {
+      "cue": "Look over the new unit's inlet screen and clear anything blocking it.",
+      "id": "inlet-check",
+      "itemNames": {
+        "inlet-web": "spider web across the inlet"
+      },
+      "itemNotes": {
+        "inlet-web": "A web spun across a new unit's inlet screen while it sat in the truck bed will read as a permanent, artificially low bias the moment the sensor is powered on — it has to come off before the first reading means anything."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the new unit's inlet screen and clear anything blocking it.",
+      "targets": [
+        "inlet-web"
+      ],
+      "title": "Check the inlet before power-up",
+      "why": "A brand-new sensor has never run yet, so nothing in its own record can tell you the inlet is clear — that has to be checked by eye, once, before the first reading is ever taken. A blocked inlet does not throw an error; it just reads low forever, in the one direction a community network can least afford to be wrong in."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Connect the cable, form the drip loop, then close the weatherproof cover — any order, but all three before the unit is left alone.",
+      "id": "weatherproof-power",
+      "itemNames": {
+        "drip-loop": "form the drip loop",
+        "power-cable": "connect the power cable",
+        "weather-cover": "close the weatherproof cover"
+      },
+      "itemNotes": {
+        "drip-loop": "A dip in the cable below the enclosure gives rainwater a low point to drop off at, ahead of the seal rather than at it.",
+        "power-cable": "The low-voltage supply that keeps this unit reporting through the winter, not just the dry season.",
+        "weather-cover": "The gasketed cover is what keeps the connection dry once the drip loop has done its job."
+      },
+      "kind": "sequence",
+      "prompt": "Connect the cable, form the drip loop, then close the weatherproof cover — any order, but all three before the unit is left alone.",
+      "targets": [
+        "power-cable",
+        "weather-cover",
+        "drip-loop"
+      ],
+      "title": "Run weatherproof power to the unit",
+      "why": "A residential install has to survive being ignored for years at a time between visits, through every rainstorm the neighbourhood gets, and the only thing standing between the electronics and that weather is a properly sealed, properly looped supply run. A network node that fails wet is a gap in the map exactly when a storm is the thing residents most want a reading on."
+    },
+    {
+      "cue": "Hold the power switch until the internal fan spins up clean and steady.",
+      "holdBreakNote": "You let go before the fan settled. A count taken during spin-up is not a low reading or a high one, it is one taken before the instrument was actually ready to measure anything.",
+      "id": "power-warmup",
+      "kind": "hold",
+      "prompt": "Hold the power switch until the internal fan spins up clean and steady.",
+      "seconds": 5,
+      "target": "power-switch",
+      "title": "Power on and let the sensor's fan settle",
+      "why": "The optical counter inside a low-cost sensor needs its fan drawing a steady flow before any particle count it reports is meaningful, and that draw takes a few seconds to settle after power first hits the board. A reading taken while the fan is still ramping is not wrong in a way that shows up on the screen — it is a number from an instrument that has not finished waking up."
+    },
+    {
+      "cue": "Bring the signal strength into the green band and commit the pairing.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.75
+        ],
+        "label": "SIGNAL",
+        "missNote": "That signal is too weak to commit. A pairing made on a marginal signal is a node that goes quiet the first busy evening in this house.",
+        "speed": 0.7
+      },
+      "id": "wifi-pairing",
+      "kind": "gauge",
+      "prompt": "Bring the signal strength into the green band and commit the pairing.",
+      "target": "wifi-pairing",
+      "title": "Pair the unit to the resident's Wi-Fi",
+      "why": "A sensor that pairs on a weak signal will report for a week and then start dropping out the first time the resident's router gets busy, and a gap in the record reads to the network exactly like an outage nobody can diagnose remotely. Committing the pairing only once the signal is solidly in range is what keeps this node reporting through an ordinary evening of somebody else in the house streaming video."
+    },
+    {
+      "cue": "Read the handheld unit at the same spot before you trust the new sensor's number.",
+      "id": "handheld-reading",
+      "kind": "select",
+      "prompt": "Read the handheld unit at the same spot before you trust the new sensor's number.",
+      "target": "handheld-meter",
+      "title": "Take a reading with the handheld reference meter",
+      "why": "The handheld reference is the only instrument on this job whose accuracy is not the thing being tested, which makes it the one number the new sensor's first reading actually has to answer to. Taking it now, at the same place and the same moment, is what turns the comparison that follows into an actual check instead of two numbers nobody can relate to each other."
+    },
+    {
+      "cue": "Watch the new unit's reading and keep it tracking close to the handheld's number.",
+      "holdBreakNote": "You looked away before the comparison ran its course. A sensor that matched the handheld for a few seconds and then drifted needs exactly the attention a broken-off comparison never gave it.",
+      "id": "first-reading-check",
+      "kind": "track",
+      "prompt": "Watch the new unit's reading and keep it tracking close to the handheld's number.",
+      "seconds": 8,
+      "target": "compare-chart",
+      "title": "Track the sensor against the handheld",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "PM2.5",
+        "rise": 0.42
+      },
+      "why": "A single instant of agreement between the two instruments proves very little; watching them track together for a stretch is what shows the new sensor is actually responding to the same air the handheld is, not just coincidentally near the same number once. This is the last thing standing between an installed sensor and a sensor the neighbourhood can trust its own map to."
+    },
+    {
+      "cue": "Photograph the finished mount and record its GPS coordinates in the site log.",
+      "id": "site-log",
+      "kind": "select",
+      "prompt": "Photograph the finished mount and record its GPS coordinates in the site log.",
+      "target": "log-camera",
+      "title": "Log the site with a photo and GPS point",
+      "why": "The photo is what lets the next technician who visits this house, months or years from now, confirm the sensor is still mounted the way it was sited, and the GPS point is what puts this reading on the public map at the right address rather than an approximate one. A network is only as trustworthy as the record of where each of its readings actually comes from."
+    },
+    {
+      "cue": "Walk the resident through the dashboard so they can check their own reading any time.",
+      "id": "resident-readout",
+      "kind": "select",
+      "prompt": "Walk the resident through the dashboard so they can check their own reading any time.",
+      "target": "resident-panel",
+      "title": "Show the resident how to read their own sensor",
+      "why": "The point of hosting a sensor is that the resident gets their own record of what they breathe, not that a technician visits once and leaves a box on the wall. A resident who can read the dashboard themselves is the difference between a network node and a decoration, and it is the last thing that makes this install actually theirs."
+    },
+    {
+      "cue": "Sign and date the completed install log with the resident.",
+      "id": "sign-off",
+      "kind": "select",
+      "prompt": "Sign and date the completed install log with the resident.",
+      "target": "sign-pad",
+      "title": "Sign the install record",
+      "why": "The signed record is what lets the network, the next technician and the resident themselves all agree on what was actually done at this address and when — the siting, the calibration check, the consent given. An install nobody signed for is a sensor on a wall with no account of whether it was ever done right."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A resident's own PM2.5 sensor: sited by the network's rules, mounted, wired, paired, proven against a handheld before it counts, logged with photo and GPS, and handed back to the resident who owns it",
+  "title": "SmartCiti.X~ Neighbourhood Air Sensor VR",
+  "trade": "Community environmental monitor",
+  "underwater": null,
+  "weather": "wind"
+}

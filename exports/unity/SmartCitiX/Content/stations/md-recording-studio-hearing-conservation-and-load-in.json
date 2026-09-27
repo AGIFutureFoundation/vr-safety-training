@@ -1,0 +1,372 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "level-proven-piano-down",
+    "name": "Level Proven, Piano Down",
+    "note": "The monitor level proven safe before any headphones went on, the piano guided down the ramp at a controlled pace, and the early-removed hearing protection caught and answered before the next loud passage"
+  },
+  "category": "Entertainment & Live Events",
+  "certification": "AFM member safety guidance for orchestra and recording musicians; IATSE stagehand practice for the load-in crew; OSHA 29 CFR 1910.95 occupational noise exposure and hearing conservation; NIOSH criteria for hearing conservation and audiometric monitoring; OSHA 29 CFR 1910.22 walking-working surfaces, applied here to the load-in ramp",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFM",
+        "id": "afm-training",
+        "title": "AFM apprenticeship and training, as a training body"
+      },
+      {
+        "body": "union",
+        "citedAs": "IATSE",
+        "id": "iatse-training-trust",
+        "title": "IATSE Training Trust Fund — stagecraft, rigging and entertainment electrical skills training"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.22",
+        "id": "osha-1910-22",
+        "title": "29 CFR 1910.22 — Walking-working surfaces, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.95",
+        "id": "osha-1910-95",
+        "title": "29 CFR 1910.95 — Occupational noise exposure"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Screen & Media Crafts",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "level-proven-first",
+        "name": "Level Proven First",
+        "note": "Never put headphones on before the monitor level read inside the safe band"
+      },
+      {
+        "id": "protection-caught",
+        "name": "Protection Caught",
+        "note": "The early-removed hearing protection was answered on the talkback, not ignored"
+      },
+      {
+        "id": "never-under-the-skid",
+        "name": "Never Under the Skid",
+        "note": "Never reached under the descending piano, never skipped hearing protection in the pit, never released a loaded caster lock, never blocked the fire exit"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-session",
+        "name": "Clean Session",
+        "note": "No corrections from the plan to the closing log"
+      },
+      {
+        "id": "controlled-descent",
+        "name": "Controlled Descent",
+        "note": "The piano's descent held its band the whole ramp, first time"
+      },
+      {
+        "id": "downbeat-on-time",
+        "name": "Downbeat On Time",
+        "note": "Loaded in and logged inside 80% of par"
+      }
+    ],
+    "currency": "DECIBEL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Cartage Hand",
+      "Session Sub",
+      "Studio Musician",
+      "Principal Chair",
+      "AFM Steward Certified"
+    ],
+    "system": "Session Floor"
+  },
+  "hazards": {
+    "block-fire-exit-with-case": "You set an instrument case down in front of the studio's marked fire exit. A session with a full section and a live room's worth of gear is exactly the kind of room where an exit actually matters, and a case sitting in front of it is a case somebody has to clear before that door does what it's there for.",
+    "reach-under-descending-piano": "You reached under the piano while it was still being guided down the ramp on its skid. A loaded skid on an incline moves on very little force once it starts, and a hand or a foot under it has nothing between it and several hundred pounds the moment the crew's grip so much as shifts.",
+    "release-caster-lock-while-loaded": "You released the dolly's caster lock while the piano was still strapped up on the skid, off the ground. That lock is what keeps a loaded skid from rolling the moment it's not perfectly level, and releasing it before the piano is actually settled on stable ground turns a secured load into one drifting on its own casters.",
+    "skip-hearing-protection-in-pit": "You stepped into the pit near the monitors without hearing protection while the section was running a loud passage. Hearing damage from a single loud passage does not feel like an injury at the time — it feels like nothing at all, which is exactly why the protection goes on before the section plays, not after someone notices it was loud."
+  },
+  "id": "md-recording-studio-hearing-conservation-and-load-in",
+  "indoor": "theatre",
+  "interrupts": [
+    {
+      "after": "ratchet-strap-hold",
+      "alert": "A stagehand has started wheeling the bench dolly up the same ramp, right as the piano skid is about to start down it.",
+      "cue": "Call the moving crew to hold at the ramp before both dollies meet on it.",
+      "delay": 2,
+      "id": "second-dolly-meets-piano",
+      "kind": "Second dolly meets the piano on the ramp",
+      "missNote": "Both dollies met on the ramp. The bench dolly had to be muscled backward with the piano skid already committed to the descent.",
+      "seconds": 12,
+      "target": "moving-crew-radio",
+      "why": "A ramp only has room for one loaded dolly moving on it at a time, and a shout across a live room competes with everything else already happening on the floor. The radio reaches the whole moving crew at once — which is the only way to stop a stagehand already halfway up the ramp before the two dollies actually meet.",
+      "wrongNote": "Not the strap you're holding — that only answers for this buckle. The moving crew radio is what reaches a stagehand already on the ramp."
+    },
+    {
+      "after": "piano-skid-descent",
+      "alert": "A pit musician has pulled their hearing protection to hear the conductor better, right as the brass section starts a loud passage.",
+      "cue": "Call it in on the talkback and have them put the protection back on before the next passage.",
+      "delay": 2,
+      "id": "protection-removed-early",
+      "kind": "Musician removes hearing protection early",
+      "missNote": "The passage ran with the protection still off. Nothing about how it sounded in the room told anyone anything had happened.",
+      "seconds": 12,
+      "target": "talkback-radio",
+      "why": "A musician who pulls their protection to hear an instruction is trading a few seconds of clarity for exposure that doesn't announce itself until much later — the talkback reaches them without anyone having to shout across the room, and it's what gets the protection back on before the next passage rather than after this one.",
+      "wrongNote": "Not the dosimeter — it only reads exposure after the fact. The talkback is what actually reaches the musician right now."
+    }
+  ],
+  "lateNotes": {
+    "monitor-level-meter": "The level only gets proven once the hearing conservation plan is actually read — checking a meter against a band nobody looked up yet proves nothing.",
+    "piano-skid-descent": "The skid only comes down the ramp once the straps are checked, the casters are locked and the moving crew is confirmed — moving it before any of those is moving a piano on hope.",
+    "session-log": "The log is written last, after the bench is placed and the dosimeter is fitted."
+  },
+  "name": "Recording Studio Hearing Conservation & Load-In",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "screen-and-media-crafts"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "bench-mark",
+      "block-fire-exit-with-case",
+      "dolly-caster-lock",
+      "dosimeter-badge",
+      "frayed-spare-strap",
+      "iso-headphones",
+      "load-chart",
+      "missing-ramp-wedge",
+      "monitor-level-meter",
+      "moving-crew-radio",
+      "musician-earplugs",
+      "obstruction-case-on-ramp",
+      "piano-bench",
+      "piano-skid-descent",
+      "ratchet-strap-hold",
+      "reach-under-descending-piano",
+      "release-caster-lock-while-loaded",
+      "session-log",
+      "session-plan-panel",
+      "skip-hearing-protection-in-pit",
+      "talkback-radio"
+    ],
+    "meshes": 154
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the plan: the monitor level band, who wears a dosimeter today, and the load-in schedule for the piano.",
+      "id": "read-hearing-plan",
+      "kind": "select",
+      "prompt": "Read the plan: the monitor level band, who wears a dosimeter today, and the load-in schedule for the piano.",
+      "target": "session-plan-panel",
+      "title": "Read the session's hearing conservation plan",
+      "why": "The plan is where today's session is actually specified before anyone puts headphones on — the level band the control room is holding to, which chairs are dosimetered for this session, and when the piano comes down the ramp relative to everything else scheduled in the room."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Put on the isolating headphones at the console and the musician's earplugs in the pit before the section runs anything loud.",
+      "id": "hearing-ppe-donning",
+      "itemNames": {
+        "iso-headphones": "isolating headphones",
+        "musician-earplugs": "musician's earplugs"
+      },
+      "kind": "sequence",
+      "prompt": "Put on the isolating headphones at the console and the musician's earplugs in the pit before the section runs anything loud.",
+      "targets": [
+        "iso-headphones",
+        "musician-earplugs"
+      ],
+      "title": "Isolating headphones and musician's earplugs on",
+      "why": "A musician's earplugs are flat-response, not foam ones meant for a jobsite — they cut level without cutting the pitch a player needs to hear to stay in tune, and both go on before the first loud passage rather than after someone notices their ears ringing."
+    },
+    {
+      "cue": "Walk the load-in ramp and click the three things wrong with how it was set.",
+      "id": "ramp-sweep",
+      "itemNames": {
+        "frayed-spare-strap": "frayed spare strap on the gear rack",
+        "missing-ramp-wedge": "missing ramp wedge",
+        "obstruction-case-on-ramp": "instrument case left on the ramp"
+      },
+      "itemNotes": {
+        "frayed-spare-strap": "A spare ratchet strap on the gear rack has a frayed webbing section near the buckle — easy to grab by mistake if the good strap isn't obviously the one in reach. A frayed strap holds fine right up until it's actually carrying a piano's full weight.",
+        "missing-ramp-wedge": "A wedge is missing where the load-in ramp meets the floor, leaving a small lip a loaded skid can catch on. A lip that's nothing on foot is exactly what stops a skid's front edge dead while everything behind it keeps moving.",
+        "obstruction-case-on-ramp": "An instrument case is sitting square on the load-in ramp. A loaded piano skid needs the whole ramp clear to control its speed, and a case in the path is either a scramble to move it mid-descent or a piano rolling over something nobody wanted under it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the load-in ramp and click the three things wrong with how it was set.",
+      "targets": [
+        "missing-ramp-wedge",
+        "frayed-spare-strap",
+        "obstruction-case-on-ramp"
+      ],
+      "title": "Sweep the ramp before the piano comes down it",
+      "why": "A ramp reads the same whether it's actually clear or almost clear, and these three — a lip nobody wedged, a strap nobody would trust up close and a case left in the path — are exactly what turns a routine load-in into the one that goes wrong."
+    },
+    {
+      "cue": "Check today's piano weight and the skid's strap rating against the load chart before strapping anything down.",
+      "id": "load-chart-check",
+      "kind": "select",
+      "prompt": "Check today's piano weight and the skid's strap rating against the load chart before strapping anything down.",
+      "target": "load-chart",
+      "title": "Check the piano skid's straps against the load chart",
+      "why": "The chart is what turns 'looks tight enough' into an actual number — a concert grand's weight is well documented, and the chart is built from the skid and strap manufacturers' own rated capacity rather than how the strap happens to feel when it's cinched."
+    },
+    {
+      "cue": "Read the control room's monitor level meter and commit inside the session's safe band before any headphones are worn.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.58
+        ],
+        "label": "MONITOR LEVEL",
+        "missNote": "Outside the session's safe band — trim the monitor level before anyone puts headphones on.",
+        "speed": 0.6
+      },
+      "id": "monitor-level-check",
+      "kind": "gauge",
+      "prompt": "Read the control room's monitor level meter and commit inside the session's safe band before any headphones are worn.",
+      "target": "monitor-level-meter",
+      "title": "Prove the monitor level before headphones go on",
+      "why": "A level that was safe for yesterday's session is not automatically safe for today's mix, and proving the meter here — before a single musician puts headphones on — is what keeps 'the mix engineer will watch it' from being the only thing standing between a session and someone's hearing."
+    },
+    {
+      "cue": "Turn the dolly's caster lock to SET before the piano is strapped onto the skid.",
+      "id": "caster-lock",
+      "kind": "turn",
+      "prompt": "Turn the dolly's caster lock to SET before the piano is strapped onto the skid.",
+      "target": "dolly-caster-lock",
+      "title": "Lock the piano dolly's casters before strapping",
+      "turn": {
+        "label": "CASTER LOCK",
+        "turns": 1
+      },
+      "why": "A skid that can roll while it's being strapped is a skid that can shift the exact moment the crew's hands are busy with a buckle instead of a brake — locking the casters first is what keeps the strapping itself from being the risky part."
+    },
+    {
+      "cue": "Hold steady tension on the strap while a second hand ratchets the buckle closed.",
+      "holdBreakNote": "You let go before the buckle finished. A strap ratcheted against slack is a strap that reads tight and isn't.",
+      "id": "ratchet-strap-hold",
+      "kind": "hold",
+      "prompt": "Hold steady tension on the strap while a second hand ratchets the buckle closed.",
+      "seconds": 4,
+      "target": "ratchet-strap-hold",
+      "title": "Hold the ratchet strap to tension while it's cinched",
+      "why": "A strap cinched against a hand that isn't holding steady tension ends up looser than the ratchet reads, because slack taken up unevenly settles back out the moment the piano actually moves. Holding it steady is what makes the ratchet's own tension the real tension."
+    },
+    {
+      "cue": "Call the moving crew on the radio to confirm the ramp is clear and everyone's in position before the skid tips onto the ramp.",
+      "id": "moving-crew-check",
+      "kind": "select",
+      "prompt": "Call the moving crew on the radio to confirm the ramp is clear and everyone's in position before the skid tips onto the ramp.",
+      "target": "moving-crew-radio",
+      "title": "Confirm the moving crew before tipping the skid",
+      "why": "Tipping a loaded skid onto a ramp is the one moment in the whole load-in with no going back partway through, and the radio call is what confirms every hand that's supposed to be on the piano actually is, rather than assumed to be, before that moment starts."
+    },
+    {
+      "cue": "Guide the skid down the ramp at a controlled, held pace — too fast outruns the crew's grip, too slow fights the ramp's own incline.",
+      "holdBreakNote": "The descent sped up past the crew's grip or stalled against the incline — ease back toward the controlled pace rather than fighting it.",
+      "id": "piano-skid-descent",
+      "kind": "track",
+      "prompt": "Guide the skid down the ramp at a controlled, held pace — too fast outruns the crew's grip, too slow fights the ramp's own incline.",
+      "seconds": 6,
+      "target": "piano-skid-descent",
+      "title": "Guide the piano down the ramp at a controlled pace",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "DESCENT",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "A piano skid on an incline wants to accelerate on its own, and the crew's job is holding it to a pace their own grip and footing can actually control the whole way down — not stopping it dead, which just trades one loss of control for another, but a steady, held descent."
+    },
+    {
+      "cue": "Carry the piano bench from the gear line onto its taped mark once the piano itself is settled.",
+      "drag": {
+        "missNote": "Not on the taped mark — the bench has to sit square to the keyboard, not near it.",
+        "radius": 0.5,
+        "to": "bench-mark"
+      },
+      "id": "bench-placement",
+      "kind": "drag",
+      "prompt": "Carry the piano bench from the gear line onto its taped mark once the piano itself is settled.",
+      "target": "piano-bench",
+      "title": "Carry the bench to its mark",
+      "why": "The bench's mark is set from the piano's own final position, not guessed — a bench placed before the piano is settled is a bench that gets moved again the moment the piano's actual spot is a few inches off from where anyone expected."
+    },
+    {
+      "cue": "Fit the noise dosimeter badge on the pit musician the session plan names for today's monitoring.",
+      "id": "dosimeter-fit",
+      "kind": "select",
+      "prompt": "Fit the noise dosimeter badge on the pit musician the session plan names for today's monitoring.",
+      "target": "dosimeter-badge",
+      "title": "Fit the dosimeter on today's monitored chair",
+      "why": "A dosimeter only tells anyone anything if it's actually worn by the chair the plan calls for — fitting it here, before the section runs anything, is what turns today's monitoring from a box checked on a form into a real reading of what that chair is actually exposed to."
+    },
+    {
+      "cue": "Confirm the talkback channel between the control room and the live room before the session starts.",
+      "id": "talkback-check",
+      "kind": "select",
+      "prompt": "Confirm the talkback channel between the control room and the live room before the session starts.",
+      "target": "talkback-radio",
+      "title": "Confirm the control room's talkback",
+      "why": "The talkback is the one channel that reaches a musician wearing isolating headphones without anyone having to raise their voice over a live room — confirming it works before the downbeat is what keeps a stopped take from turning into someone walking all the way out to the floor to say so."
+    },
+    {
+      "cue": "Log the monitor level proven, the ramp finds and fixes, the piano settled, and the dosimeter fitted.",
+      "id": "session-log",
+      "kind": "select",
+      "prompt": "Log the monitor level proven, the ramp finds and fixes, the piano settled, and the dosimeter fitted.",
+      "target": "session-log",
+      "title": "Log the level, the load-in and the dosimeter",
+      "why": "The log is what the next session on this room reads before the next downbeat — a monitor level that was safe today and a ramp that needed a wedge are both facts the next crew needs, not things they should have to rediscover from scratch."
+    }
+  ],
+  "supportLine": "your AFM local's member assistance contact, or the venue's own employee assistance programme",
+  "tagline": "A live room and control room before a session: the hearing conservation plan read, isolating headphones and earplugs on, the ramp swept for a missing wedge and a frayed spare strap, the piano skid's straps checked against the load chart, the monitor level proven safe before headphones go on, the dolly's casters locked, the ratchet strap held to tension, the moving crew confirmed, the piano guided down the ramp at a controlled pace, the bench carried to its mark, a dosimeter fitted on a pit musician, the talkback confirmed, and the session logged — a second dolly meeting the piano on the ramp and a musician pulling their protection early both answered off a control that isn't the one already in the learner's hand",
+  "title": "SmartCiti.X~ Recording Studio Hearing Conservation & Load-In VR",
+  "trade": "AFM studio musician and load-in crew, running hearing conservation for a session and a grand piano's load-in down the studio ramp",
+  "underwater": null,
+  "weather": null
+}

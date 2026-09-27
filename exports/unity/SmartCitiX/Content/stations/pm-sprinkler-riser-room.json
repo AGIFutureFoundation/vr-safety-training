@@ -1,0 +1,383 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "valves-open",
+    "name": "Valves Open",
+    "note": "Every control valve found, reopened, proven and signed off with the impairment handled by the book"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "NFPA 25 (inspection, testing and maintenance of water-based fire protection systems) for control valve inspections, gauges, spare sprinklers, main drain tests, inspector's test flows and the impairment procedure — tag, notify, fire watch, restore; NFPA 72 for the waterflow and valve tamper signals the riser sends to the fire alarm; OSHA 29 CFR 1910.157 for the extinguisher a fire watch carries and 29 CFR 1910.22 for a floor kept dry around a drain test; the state fire code's impairment notice to the fire department; IUOE Local 39 building engineers and SEIU porters.",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 25",
+        "id": "nfpa-25",
+        "title": "NFPA 25 — Inspection, Testing and Maintenance of Water-Based Fire Protection Systems"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 72",
+        "id": "nfpa-72",
+        "title": "NFPA 72 National Fire Alarm and Signaling Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.157",
+        "id": "osha-1910-157",
+        "title": "29 CFR 1910.157 — Portable fire extinguishers"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.22",
+        "id": "osha-1910-22",
+        "title": "29 CFR 1910.22 — Walking-working surfaces, general requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Property Management",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "never-shut",
+        "name": "Never Shut",
+        "note": "No unsafe action anywhere in the inspection"
+      },
+      {
+        "id": "impairment-by-the-book",
+        "name": "By the Book",
+        "note": "The impairment handled in order on the first try"
+      },
+      {
+        "id": "static-true",
+        "name": "Static True",
+        "note": "Pressure committed near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-inspection",
+        "name": "Clean Inspection",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "short-impairment",
+        "name": "Short Impairment",
+        "note": "Inside 80% of par"
+      },
+      {
+        "id": "eight-valves",
+        "name": "Eight Clean",
+        "note": "Eight correct actions in a row"
+      }
+    ],
+    "currency": "PSI",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Engineer Trainee",
+      "Building Engineer",
+      "Fire Systems Engineer",
+      "Chief Engineer",
+      "Riser Watch Certified"
+    ],
+    "system": "Riser Watch"
+  },
+  "hazards": {
+    "closed-valve-signoff": "You are initialling the weekly valve card on a valve that is shut. A signature is the building's statement that the valve was checked and found open; signing it closed turns a finding into a false record, and it is exactly the paperwork that is read aloud after a fire where the sprinklers did not operate.",
+    "hose-hook-on-pipe": "You are hanging the drain hose on the sprinkler pipe to get it off the floor. NFPA 25 does not allow sprinkler piping to carry loads it was never braced for; hangers let go, fittings crack, and a pipe used as a hook is one of the most common deficiencies an inspector writes up.",
+    "main-valve-close": "You are reaching to close the main control valve to stop one dripping head. That shuts the sprinklers off for the entire building, and the fire that starts while it is closed will find no water. NFPA 25 treats any closed control valve as an impairment to be tagged, notified and watched — and a drip is fixed at the floor valve, not the main.",
+    "test-hose-loose": "You are about to open the main drain with its discharge hose lying loose on the floor. A main drain flows at full system pressure; a loose hose whips, sprays the electrical panel next to it and floods the room. The discharge goes through the fixed drain line to the outside, secured, before the valve moves."
+  },
+  "id": "pm-sprinkler-riser-room",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "main-drain",
+      "alert": "A fire department inspector walks in mid-test for the annual inspection and asks for the last five years of main drain results.",
+      "cue": "Close the drain slowly, then hand over the records from the cabinet.",
+      "delay": 3,
+      "id": "inspector-arrives",
+      "kind": "Inspector arrives",
+      "missNote": "The inspector waited and left with no drain history. Today's result has nothing to be compared against, and the building's records are written up before its valves are.",
+      "seconds": 12,
+      "target": "records-cabinet",
+      "why": "Main drain results only mean something as a series, and the inspector is asking for the series. Producing years of results from the records cabinet shows the building has been comparing them all along; being unable to is itself a deficiency, whatever today's number is.",
+      "wrongNote": "Not that. The inspector wants the main drain history — it is in the records cabinet on the wall."
+    },
+    {
+      "after": "itv-flow",
+      "alert": "The annunciator's amber trouble lamp comes on: TAMPER — FLOOR 3 CONTROL VALVE. The switch never reseated when the valve was reopened.",
+      "cue": "Keep the flow steady, then reseat the floor 3 tamper switch.",
+      "delay": 3,
+      "id": "tamper-trouble",
+      "kind": "Alarm trouble signal",
+      "missNote": "The tamper trouble stayed on the panel. Everybody who sees it now learns that a floor 3 tamper signal means nothing — until the day the valve really is closed again.",
+      "seconds": 12,
+      "target": "f3-tamper-switch",
+      "why": "The tamper switch is what tells the fire alarm, and the monitoring company, that a valve has moved. A switch left showing trouble on an open valve trains everybody to ignore that signal — which is the signal that would have caught the closed valve in the first place. Reseating it restores the only electronic guard floor 3 has.",
+      "wrongNote": "That does not clear it. The floor 3 tamper switch is on the valve's yoke — reseat it."
+    }
+  ],
+  "lateNotes": {
+    "building-log": "The inspection is logged once the impairment is ended and the system is back in service.",
+    "panel-annunciator": "Confirm the waterflow signal once the inspector's test has actually flowed long enough to send it.",
+    "valve-chain": "The chain goes on once the valve is fully open — chaining it now would lock it shut."
+  },
+  "name": "Sprinkler Riser Room",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "property-management"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "building-log",
+      "closed-valve-signoff",
+      "crew-checkin-board",
+      "f3-chain-socket",
+      "f3-tamper-switch",
+      "f3-valve-wheel",
+      "firewatch-radio",
+      "gauge-date",
+      "hose-hook-on-pipe",
+      "impairment-tag",
+      "itm-log",
+      "itv-valve",
+      "main-drain",
+      "main-valve-close",
+      "monitoring-call",
+      "panel-annunciator",
+      "records-cabinet",
+      "riser-gauge",
+      "spare-head-cabinet",
+      "test-hose-loose",
+      "valve-chain",
+      "valve-closed-f3"
+    ],
+    "meshes": 204
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the riser's NFPA 25 inspection log: last week's valve checks, the last main drain result and anything still open.",
+      "id": "itm-log",
+      "kind": "select",
+      "prompt": "Read the riser's NFPA 25 inspection log: last week's valve checks, the last main drain result and anything still open.",
+      "target": "itm-log",
+      "title": "Read the inspection log",
+      "why": "NFPA 25 is a schedule — weekly, monthly, quarterly, annual — and the log is what tells you where in it this riser is. It also holds the last main drain result, which is the number today's test is compared against: a drop between the two is how a partly closed valve or a blocked supply is found before a fire finds it."
+    },
+    {
+      "cue": "Three conditions on this riser would fail the weekly inspection. Find them.",
+      "id": "valve-walk",
+      "itemNames": {
+        "gauge-date": "system gauge past its replacement date",
+        "spare-head-cabinet": "spare head cabinet missing its wrench",
+        "valve-closed-f3": "floor 3 control valve found closed"
+      },
+      "itemNotes": {
+        "gauge-date": "The system gauge's date is well past the replacement interval NFPA 25 sets. A gauge nobody can trust makes today's readings meaningless.",
+        "spare-head-cabinet": "The spare sprinkler cabinet has heads but no wrench. A fused head cannot be replaced without the special wrench, which means the system stays off longer after any activation.",
+        "valve-closed-f3": "The floor 3 control valve is shut — the stem is in and the handwheel is at the stop. Somebody closed it and never reopened it; floor 3 has had no sprinkler protection since."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three conditions on this riser would fail the weekly inspection. Find them.",
+      "targets": [
+        "valve-closed-f3",
+        "gauge-date",
+        "spare-head-cabinet"
+      ],
+      "title": "Walk the riser's valves and equipment",
+      "why": "Most sprinkler failures in fires come down to a closed valve, and a closed valve looks almost exactly like an open one unless you read the stem or the indicator. The walk is the weekly habit NFPA 25 builds its schedule on: every valve, every gauge and the spare-head cabinet, looked at on purpose rather than passed on the way to something else."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Hang the impairment tag, tell the monitoring company and the fire department, then put a porter on fire watch on floor 3.",
+      "id": "impairment",
+      "itemNames": {
+        "firewatch-radio": "porter sent to floor 3 on fire watch",
+        "impairment-tag": "impairment tag hung on the valve",
+        "monitoring-call": "monitoring company and fire department told"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Tag, notify, then fire watch. The tag goes on first so nobody else touches the valve while you are on the phone.",
+      "prompt": "Hang the impairment tag, tell the monitoring company and the fire department, then put a porter on fire watch on floor 3.",
+      "targets": [
+        "impairment-tag",
+        "monitoring-call",
+        "firewatch-radio"
+      ],
+      "title": "Treat the closed valve as an impairment",
+      "why": "The moment the closed valve was found, floor 3 became an impaired system, and NFPA 25's impairment procedure applies whether it was closed an hour ago or a month ago: the tag says so at the valve, the notice tells the people who would respond to a fire, and the fire watch is a person walking the unprotected floor with an extinguisher until the water is back."
+    },
+    {
+      "cue": "Turn the floor 3 handwheel open until the stem is fully out, then back it off a quarter turn.",
+      "id": "open-valve",
+      "kind": "turn",
+      "prompt": "Turn the floor 3 handwheel open until the stem is fully out, then back it off a quarter turn.",
+      "target": "f3-valve-wheel",
+      "title": "Reopen the floor 3 control valve fully",
+      "turn": {
+        "axis": "z",
+        "label": "FLOOR 3 CONTROL VALVE",
+        "turns": 2
+      },
+      "why": "A control valve is only open when it is fully open; a valve cracked a few turns reads as open to anyone glancing at it and chokes the flow a fire needs. Turning it to the stop and backing off a quarter turn is the fitters' habit that keeps it from binding — and the extended stem is what the next inspector reads."
+    },
+    {
+      "cue": "Read the system gauge now the valve is open and commit when it settles inside the normal static band.",
+      "gauge": {
+        "green": [
+          0.48,
+          0.62
+        ],
+        "label": "RISER STATIC PRESSURE",
+        "missNote": "That is outside the riser's normal static band. Let the gauge settle and read it again — and if it truly sits there, that is a supply problem to report.",
+        "speed": 0.5
+      },
+      "id": "static-pressure",
+      "kind": "gauge",
+      "prompt": "Read the system gauge now the valve is open and commit when it settles inside the normal static band.",
+      "target": "riser-gauge",
+      "title": "Read the riser's static pressure",
+      "why": "Static pressure is the riser at rest: city supply plus whatever the fire pump or the tank adds. A reading well below the log's normal points to a supply problem — a partly shut underground valve, a failing check — and a reading above it can mean a pressure-regulating fault. Either way, the drain test that follows is only meaningful against a trustworthy static."
+    },
+    {
+      "cue": "With the discharge secured to the outside, hold the main drain wide open until the residual pressure settles, then close it slowly.",
+      "holdBreakNote": "You closed it before the residual settled. Open it again and hold it until the gauge stops moving — a half-flowed test cannot be compared with anything.",
+      "id": "main-drain",
+      "kind": "hold",
+      "prompt": "With the discharge secured to the outside, hold the main drain wide open until the residual pressure settles, then close it slowly.",
+      "seconds": 6,
+      "target": "main-drain",
+      "title": "Flow the main drain test",
+      "why": "A main drain test drops the riser's pressure while flowing and shows how quickly and how far it recovers. NFPA 25 compares that residual against earlier results: a residual much lower than last time is a partly closed valve or an obstruction somewhere upstream. Holding it open until the reading settles is what makes the number comparable at all."
+    },
+    {
+      "cue": "Carry the chain and padlock to the floor 3 handwheel and lock it in the open position.",
+      "drag": {
+        "missNote": "Not on the handwheel. Loop the chain through the floor 3 wheel before you let go.",
+        "radius": 0.5,
+        "to": "f3-chain-socket"
+      },
+      "id": "chain-valve",
+      "kind": "drag",
+      "prompt": "Carry the chain and padlock to the floor 3 handwheel and lock it in the open position.",
+      "target": "valve-chain",
+      "title": "Chain and lock the reopened valve",
+      "why": "A chain and lock through the handwheel is what keeps an open valve open between inspections — against a contractor looking for a quick shut-off, or a well-meaning resident who hears water. NFPA 25 accepts a locked or electronically supervised valve on a longer inspection interval precisely because the lock makes an accidental closure so much harder."
+    },
+    {
+      "cue": "Open the inspector's test valve and keep a steady flow through the sight glass until the waterflow alarm reports.",
+      "holdBreakNote": "The flow wandered out of the steady band. Bring it back to one head's worth and hold it until the alarm reports.",
+      "id": "itv-flow",
+      "kind": "track",
+      "prompt": "Open the inspector's test valve and keep a steady flow through the sight glass until the waterflow alarm reports.",
+      "seconds": 6,
+      "target": "itv-valve",
+      "title": "Flow the inspector's test valve",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.4,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "INSPECTOR'S TEST — FLOW",
+        "rise": 0.45,
+        "start": 0.2
+      },
+      "why": "The inspector's test valve flows the same water as one open sprinkler, so it proves the whole chain a real fire depends on: the flow switch sees it, the fire alarm reports it, and the bell rings. A trickle may never trip the switch and a surge floods the drain; a steady flow, held, is the test NFPA 25 and NFPA 72 both expect."
+    },
+    {
+      "cue": "Close the test valve and confirm the waterflow alarm showed at the annunciator and reached the monitoring company.",
+      "id": "flow-signal",
+      "kind": "select",
+      "prompt": "Close the test valve and confirm the waterflow alarm showed at the annunciator and reached the monitoring company.",
+      "target": "panel-annunciator",
+      "title": "Confirm the waterflow signal",
+      "why": "A bell that rings in the riser room proves only the local alarm. The signal has to reach the fire alarm panel and the monitoring company, or a real sprinkler activation at 3 a.m. rings in an empty room. Confirming both ends of the chain is the whole reason the test is run."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Remove the impairment tag, then tell the monitoring company and the fire department the system is back in service.",
+      "id": "end-impairment",
+      "itemNames": {
+        "impairment-tag": "impairment tag removed",
+        "monitoring-call": "monitoring company and fire department told the system is restored"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Tag off first, then the call. Telling them the system is restored while the tag still says otherwise leaves two records that disagree.",
+      "prompt": "Remove the impairment tag, then tell the monitoring company and the fire department the system is back in service.",
+      "targets": [
+        "impairment-tag",
+        "monitoring-call"
+      ],
+      "title": "End the impairment",
+      "why": "An impairment that is never formally ended leaves the fire department believing floor 3 is unprotected and the monitoring company treating its signals as expected. Ending it the same way it was started — at the valve, then by phone — closes the record and brings the porter off fire watch."
+    },
+    {
+      "cue": "Log the closed valve and how long it was found shut, the main drain result against last time, the flow test and the gauge and wrench to replace.",
+      "id": "building-log",
+      "kind": "select",
+      "prompt": "Log the closed valve and how long it was found shut, the main drain result against last time, the flow test and the gauge and wrench to replace.",
+      "target": "building-log",
+      "title": "Write the inspection into the building log",
+      "why": "NFPA 25 expects inspection, testing and impairment records to be kept, and they are the building's evidence that its sprinklers were maintained. The closed valve in particular has to be written down plainly — when it was found, who reopened it — so that the question of how it got closed can actually be answered."
+    },
+    {
+      "cue": "Ask the contractor's fitter and the porter who stood fire watch how that sat with them, and name the member lines.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Ask the contractor's fitter and the porter who stood fire watch how that sat with them, and name the member lines.",
+      "target": "crew-checkin-board",
+      "title": "Check in with the fitter and the porter",
+      "why": "Finding a floor that has had no sprinklers for an unknown length of time is unsettling for the person who finds it and for the porter who walks that floor with an extinguisher. A short check-in with both, with the IUOE Local 39 and SEIU member lines named, is how a crew makes room for that before the next task."
+    }
+  ],
+  "supportLine": "IUOE Local 39's member services, the SEIU member assistance line or your employer's EAP",
+  "tagline": "The riser inspected under NFPA 25: a closed floor valve found, the impairment tagged, notified and watched, the valve reopened and chained, pressure read, a main drain flowed, the waterflow alarm proven and the impairment ended",
+  "title": "SmartCiti.X~ Sprinkler Riser Room VR",
+  "trade": "Building engineer — IUOE Local 39 stationary engineers, with the sprinkler contractor's inspector and an SEIU porter on fire watch",
+  "underwater": null,
+  "weather": null
+}

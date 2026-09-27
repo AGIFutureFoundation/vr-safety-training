@@ -1,0 +1,438 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "supported-visit",
+    "name": "Supported Visit",
+    "note": "A whole appointment completed at the patient's pace, with the transfer and the airway both handled properly"
+  },
+  "category": "Dental & Oral Health",
+  "certification": "DANB's Certified Dental Assistant credential and the state dental practice act on what may be delegated during a supported appointment; Title II of the Americans with Disabilities Act on making a service reachable and on reasonable accommodation; SAMHSA's principles of trauma-informed care; SEIU and UFCW clinic and dental staff; the CDC's Guidelines for Infection Control in Dental Health-Care Settings; OSHA 29 CFR 1910.1030 bloodborne pathogens; 8 CCR 5110 on repetitive motion and the lifting injuries that end clinic careers; NIOSH guidance on moving a person with equipment rather than by hand",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "DOJ",
+        "citedAs": "Americans with Disabilities Act",
+        "id": "ada-title-ii",
+        "title": "Americans with Disabilities Act Title II — programme accessibility for public entities and their services"
+      },
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 5110",
+        "id": "cal-osha-5110",
+        "title": "8 CCR 5110 — Repetitive motion injuries"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "trauma-informed care",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "state dental board",
+        "citedAs": "dental practice act",
+        "id": "state-dental-board",
+        "title": "The state dental board and its dental practice act: licensure, scope of practice, and the allowable-duties rules for dental assistants and hygienists"
+      },
+      {
+        "body": "union",
+        "citedAs": "UFCW",
+        "id": "ufcw-training",
+        "title": "UFCW member training for retail food, clinic and dental support work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Special care and geriatric dentistry",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "equipment-not-backs",
+        "name": "Equipment, Not Backs",
+        "note": "The transfer done with the board and the belt, brakes first"
+      },
+      {
+        "id": "their-pace",
+        "name": "Their Pace",
+        "note": "The stop signal answered every time it was raised"
+      },
+      {
+        "id": "airway-held",
+        "name": "Airway Held",
+        "note": "Position and suction both held near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "unhurried",
+        "name": "Unhurried",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "no-missteps",
+        "name": "No Missteps",
+        "note": "A visit with no corrections"
+      },
+      {
+        "id": "patient-streak",
+        "name": "Patient Streak",
+        "note": "Ten correct actions in a row"
+      }
+    ],
+    "currency": "CARE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Clinic Aide",
+      "Special Care Assistant",
+      "Access Lead",
+      "Geriatric Care Coordinator",
+      "Special Care Certified"
+    ],
+    "system": "Supported Care"
+  },
+  "hazards": {
+    "alcohol-mouthrinse": "That is an alcohol-based mouthrinse. Handing it to somebody whose mouth is already dry from their medication makes the dryness worse and stings mucosa that has lost the saliva protecting it — patients with xerostomia often stop using any rinse at all after one experience like that. Alcohol-free is the only sensible bottle on this counter.",
+    "full-recline-preset": "That preset lays the chair flat. A patient whose swallow no longer protects itself — after a stroke, with advanced Parkinson's, with reflux — is at real risk of aspirating water, saliva or debris the moment their airway sits below their stomach, and they may not be able to cough it back. Flat is a position you choose for a reason, not a default you press on the way past.",
+    "sugary-supplement": "That is a sweetened nutritional supplement drink, left within reach as though it were water. Sipped slowly through a dry-mouthed afternoon, it bathes every root surface in sugar for hours at a time, and root caries in an older patient runs fast and shows late. The drink may well be medically necessary — which is exactly why it is taken at a meal with water afterwards, not nursed all day.",
+    "wheelchair-push-handles": "Those are the chair's push handles, not a lifting point. Hauling somebody upright by the back of their own wheelchair tips the chair, loads your lumbar spine at full stretch and takes all control of the movement away from the person being moved — it is the mechanism behind the patient-handling injuries 8 CCR 5110 and NIOSH both ask employers to design out with equipment and a second pair of hands."
+  },
+  "id": "special-needs-and-geriatric-dentistry",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "prop-hold",
+      "alert": "The patient has started coughing hard and wetly — fluid has reached the back of the throat and they cannot clear it lying like this.",
+      "cue": "They are coughing on pooled fluid — get them up.",
+      "delay": 3,
+      "id": "cough-and-pool",
+      "kind": "Airway event",
+      "missNote": "You stayed at the tooth through the coughing. Aspirated fluid in a patient who cannot clear it is how a routine check-up turns into an aspiration pneumonia admission a week later, and the link is rarely made.",
+      "seconds": 13,
+      "target": "chair-upright-lever",
+      "why": "A wet cough in a part-reclined patient with dysphagia means fluid is already where it should not be, and the first thing that helps is gravity: the chair comes up and the head turns so that what is in the throat can come forward rather than down. Suction follows; position comes first, because suction into a flat throat chases the problem instead of solving it.",
+      "wrongNote": "It is the chair. Bringing them upright and turning the head is what lets the fluid come forward — nothing on the bracket does that."
+    },
+    {
+      "after": "suction-track",
+      "alert": "The patient's hand has come up and they are pressing back into the headrest, breathing fast — this is distress, not discomfort.",
+      "cue": "Their hand is up — they are asking you to stop.",
+      "delay": 3,
+      "id": "distress-signal",
+      "kind": "Patient distress",
+      "missNote": "You carried on through the signal. The lesson the patient takes away is that their stop signal means nothing here, and the next appointment starts from a much worse place than this one did.",
+      "seconds": 12,
+      "target": "pause-card",
+      "why": "A raised hand is the stop signal this appointment agreed on, and answering it every single time is what makes it worth anything: the instruments come away, the pace drops, and the patient is asked what they need. In trauma-informed care the point is not gentleness in general but control — a patient who knows the signal works can tolerate far more than one who has learned it will be ignored.",
+      "wrongNote": "The answer is the stop signal itself — acknowledge it and pause. Adjusting anything else while their hand is still up tells them you did not see it."
+    }
+  ],
+  "lateNotes": {
+    "mouth-prop": "The prop goes in once the patient has agreed to it and the chair is positioned — not before either.",
+    "suction-tip": "Suction comes up when there is something to clear, and after the position is set — not while the transfer is still happening.",
+    "xero-kit": "The dry-mouth kit is handed over at the end, with the instructions, so it leaves with whoever will actually use it."
+  },
+  "name": "Special Needs & Geriatric Dentistry",
+  "parSeconds": 315,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "dental-careers-unspoken-smiles"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "alcohol-mouthrinse",
+      "care-plan-board",
+      "caregiver-bag",
+      "cart-in-turning-space",
+      "chair-upright-lever",
+      "dry-tongue",
+      "flickering-light",
+      "full-recline-preset",
+      "high-only-counter",
+      "light-dimmer",
+      "med-list",
+      "mirror-stick",
+      "mouth-prop",
+      "patient-face",
+      "pause-card",
+      "recline-control",
+      "root-caries",
+      "slide-board",
+      "suction-tip",
+      "sugary-supplement",
+      "team-checkin",
+      "transfer-belt",
+      "transfer-count",
+      "visit-log",
+      "wheel-brakes",
+      "wheelchair-push-handles",
+      "xero-kit"
+    ],
+    "meshes": 248
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the pre-visit notes: how this patient communicates, what was asked for, and who is coming with them.",
+      "id": "care-plan",
+      "kind": "select",
+      "prompt": "Read the pre-visit notes: how this patient communicates, what was asked for, and who is coming with them.",
+      "target": "care-plan-board",
+      "title": "Read the care plan and the accommodation asked for",
+      "why": "Almost everything that makes this appointment work was decided before the patient arrived: whether they use words, a board or a phone to communicate, whether they need the first slot of the day when the waiting room is quiet, whether a hoist and two people are needed for the transfer, and who holds the authority to consent. Reading it first is also what Title II of the Americans with Disabilities Act asks of a service in practice — a reasonable accommodation only happens if somebody has arranged it in advance rather than improvised it at the door."
+    },
+    {
+      "cue": "Three things in this bay will make the visit harder. Find them while there is still time to move them.",
+      "id": "access-check",
+      "itemNames": {
+        "cart-in-turning-space": "the supply cart parked in the turning space",
+        "flickering-light": "the flickering overhead tube",
+        "high-only-counter": "the counter that is only reachable standing"
+      },
+      "itemNotes": {
+        "cart-in-turning-space": "A cart parked where the wheelchair has to turn. A bay that a chair cannot turn around in forces a reversing manoeuvre nobody planned, usually with somebody's foot in the way.",
+        "flickering-light": "A flickering tube overhead. For a patient with a sensory processing difference, a seizure history or a migraine pattern, that flicker is not a minor annoyance — it can end the appointment before it starts.",
+        "high-only-counter": "The only surface to sign a form on is at standing height. Nothing about that is unavoidable — a clipboard or a lower surface makes the same task possible, and having to ask for one is its own small indignity."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things in this bay will make the visit harder. Find them while there is still time to move them.",
+      "targets": [
+        "cart-in-turning-space",
+        "high-only-counter",
+        "flickering-light"
+      ],
+      "title": "Walk the bay before the patient comes in",
+      "why": "Access is physical and specific. A wheelchair needs roughly a metre and a half of clear floor to turn, a form needs a surface somebody seated can write on, and a flickering fluorescent tube is a genuine barrier for a patient with a sensory difference or a seizure history. All three are free to fix ten minutes before the appointment and impossible to fix gracefully once the patient is in the doorway watching you move furniture."
+    },
+    {
+      "cue": "Agree the transfer with the patient and pick up the slide board rather than planning to lift.",
+      "id": "transfer-plan",
+      "kind": "select",
+      "prompt": "Agree the transfer with the patient and pick up the slide board rather than planning to lift.",
+      "target": "slide-board",
+      "title": "Choose the transfer method with the patient",
+      "why": "The patient is the person who knows how their own transfers go — which side is stronger, what hurts, whether they can take weight for a moment, what went wrong last time. Asking takes fifteen seconds and prevents most of what goes wrong. The board is chosen because a sliding transfer keeps them supported the whole way across instead of relying on somebody's grip, and because a lift by hand is the one method that injures both people at once when it fails."
+    },
+    {
+      "cue": "Set both brakes, fit the transfer belt, then move only on an out-loud count.",
+      "id": "transfer-order",
+      "itemNames": {
+        "transfer-belt": "the transfer belt",
+        "transfer-count": "the count before you move",
+        "wheel-brakes": "both wheelchair brakes"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — brakes first, then the belt, then the count. Fitting a belt to a patient in an unbraked chair means the chair is free to roll the moment anybody leans.",
+      "prompt": "Set both brakes, fit the transfer belt, then move only on an out-loud count.",
+      "targets": [
+        "wheel-brakes",
+        "transfer-belt",
+        "transfer-count"
+      ],
+      "title": "Brakes, belt, then the count",
+      "why": "Each part of that order stops a specific accident. Brakes on both wheels stop the chair rolling out from under somebody mid-transfer, which is the classic fall in a dental bay. A transfer belt gives you and your colleague a handhold designed for it instead of an armpit or a waistband, which is where shoulder injuries to patients come from. And the count means two staff and the patient all move on the same beat — a transfer where one person starts early is a transfer that becomes a catch."
+    },
+    {
+      "cue": "Explain the plan to the patient directly, at eye level, and check they agree before you start.",
+      "id": "consent-with-patient",
+      "kind": "select",
+      "prompt": "Explain the plan to the patient directly, at eye level, and check they agree before you start.",
+      "target": "patient-face",
+      "title": "Talk to the patient, with the caregiver alongside",
+      "why": "The commonest failure in a supported appointment is talking over somebody's head to the person pushing their chair. A patient who needs help with movement or speech has not delegated their decisions: the explanation goes to them, at their eye level, in the time they need to answer, and the caregiver is there to support that conversation rather than to replace it. Where somebody genuinely cannot decide for themselves, who may decide instead is a legal question with a documented answer — and it is still their appointment."
+    },
+    {
+      "cue": "Read the list out loud with the caregiver and flag the ones that change today's plan.",
+      "id": "medication-review",
+      "kind": "select",
+      "prompt": "Read the list out loud with the caregiver and flag the ones that change today's plan.",
+      "target": "med-list",
+      "title": "Go through the medication list with whoever brought it",
+      "why": "Polypharmacy is the normal state of an older patient's medicine cabinet, and three groups on this list change the appointment: anticoagulants change how bleeding is managed, antiresorptives change how any extraction is considered, and the long list of drugs that dry the mouth — antidepressants, antihistamines, diuretics, inhalers — explain the caries you are about to find. What the list says and what is actually being taken often differ, which is why it is read out loud with the person who fills the box rather than copied off a screen."
+    },
+    {
+      "cue": "Set the chair back to a swallow-safe angle rather than flat, then commit the reading.",
+      "gauge": {
+        "green": [
+          0.36,
+          0.6
+        ],
+        "label": "CHAIR ANGLE",
+        "missNote": "Not a swallow-safe angle. Come back to a part-reclined position with the head supported, and ask the patient how it feels rather than trusting the scale.",
+        "speed": 0.75
+      },
+      "id": "position-set",
+      "kind": "gauge",
+      "prompt": "Set the chair back to a swallow-safe angle rather than flat, then commit the reading.",
+      "target": "recline-control",
+      "title": "Set a position the patient can still swallow in",
+      "why": "For a patient with dysphagia, position is airway protection. Sat too upright and you cannot see or reach the upper arch at all; laid flat and water, saliva and debris collect at the back of a throat that may no longer reliably cough them out, and a silent aspiration today is a chest infection in a week. A part-reclined position with the head supported and slightly turned lets fluid pool where suction can reach it, and it is the single most useful thing done at this chair before any instrument appears."
+    },
+    {
+      "cue": "Turn the room dimmer down, keep the task light on the mouth, and check with the patient.",
+      "id": "dim-light",
+      "kind": "turn",
+      "prompt": "Turn the room dimmer down, keep the task light on the mouth, and check with the patient.",
+      "target": "light-dimmer",
+      "title": "Turn the overhead down to what the patient can tolerate",
+      "turn": {
+        "axis": "z",
+        "label": "ROOM DIMMER",
+        "turns": 0.5
+      },
+      "why": "Sensory load is part of the clinical picture: a bright overhead, a radio and a suction running at once is enough to end an appointment for a patient with autism, dementia or a migraine pattern, and none of it is necessary. The task light on the mouth is the light that matters; everything above it can come down. Turning it down and asking is also the first small thing in this appointment the patient gets to decide, which changes the tone of everything after it."
+    },
+    {
+      "cue": "Pick the prop that fits this mouth, with its tether attached.",
+      "id": "prop-choice",
+      "kind": "select",
+      "prompt": "Pick the prop that fits this mouth, with its tether attached.",
+      "target": "mouth-prop",
+      "title": "Choose the right tethered mouth prop",
+      "why": "A mouth prop supports a jaw that cannot hold itself open, which protects both the patient's jaw muscles and your fingers — and for a patient who may bite involuntarily, it is the difference between a safe appointment and a bitten hand. Size matters: too large and the joint is strained, too small and it does nothing. The tether matters more: anything placed at the back of a mouth is tied to something outside it, so that if the jaw closes or the patient coughs, the prop comes out with the string rather than going the other way."
+    },
+    {
+      "cue": "Hold the prop steady and keep the mouth's floor clear while the examination starts.",
+      "holdBreakNote": "The prop shifted out of place. Reseat it and hold — a prop that has slipped is either doing nothing or pressing somewhere it should not.",
+      "id": "prop-hold",
+      "kind": "hold",
+      "prompt": "Hold the prop steady and keep the mouth's floor clear while the examination starts.",
+      "seconds": 9,
+      "target": "mouth-prop",
+      "title": "Hold the prop and keep the airway clear",
+      "why": "Holding the prop is an active job, not a parking place: it stays seated where it was placed, the lips and cheek stay clear of it, and your eyes stay on the throat rather than on the tooth. For a patient who cannot reliably clear their own mouth, everything that goes in — water, debris, a piece of calculus — has to come back out through your suction, and the moment to notice pooling is before it reaches the back of the tongue rather than after the first cough."
+    },
+    {
+      "cue": "Keep the tip low in the floor of the mouth, clearing continuously, without touching the soft palate.",
+      "holdBreakNote": "The tip drifted out of position. Bring it back to the floor of the mouth — pooling here is the beginning of an aspiration, and there may be no cough to warn you.",
+      "id": "suction-track",
+      "kind": "track",
+      "prompt": "Keep the tip low in the floor of the mouth, clearing continuously, without touching the soft palate.",
+      "seconds": 10,
+      "target": "suction-tip",
+      "title": "Keep the suction where a dysphagic patient needs it",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.34,
+          0.58
+        ],
+        "label": "SUCTION POSITION",
+        "rise": 0.5,
+        "start": 0.12
+      },
+      "why": "Dysphagia-aware suction means the tip lives at the lowest point of the mouth, working continuously rather than in bursts, so that nothing ever accumulates deep enough to be inhaled. Two mistakes matter: suction used only occasionally, which lets a pool build while your attention is elsewhere, and a tip pressed against the soft palate, which triggers gagging and can drive exactly the aspiration you were trying to prevent. Low, steady and away from the palate is the whole technique."
+    },
+    {
+      "cue": "Three findings in this mouth all point the same way. Find them.",
+      "id": "xero-signs",
+      "itemNames": {
+        "dry-tongue": "the dry, fissured tongue",
+        "mirror-stick": "the mirror sticking to the mucosa",
+        "root-caries": "the soft cavity at the gum line"
+      },
+      "itemNotes": {
+        "dry-tongue": "A tongue with deep fissures and no film of saliva on it. This is what a dry mouth looks like before the patient thinks to mention it, because they have adapted to it over years.",
+        "mirror-stick": "The mirror drags on the cheek instead of gliding. That is the simplest chairside test for xerostomia there is, and it takes a second.",
+        "root-caries": "A soft, brown cavity right at the gum line where the root is exposed. Root caries is the signature lesion of a dry mouth in an older patient, and it progresses much faster than the enamel decay most people picture."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three findings in this mouth all point the same way. Find them.",
+      "targets": [
+        "dry-tongue",
+        "mirror-stick",
+        "root-caries"
+      ],
+      "title": "Find the signs of a dry mouth",
+      "why": "Xerostomia is usually a side effect of medication rather than of age, and it is the reason an older patient who brushed the same way for fifty years suddenly has cavities at every gum line: without saliva there is no buffering, no washing and no remineralising. A fissured tongue, a mirror that sticks and root caries are three findings that together make the diagnosis at the chair, and naming it is what turns an endless run of fillings into a problem somebody can actually manage."
+    },
+    {
+      "cue": "Carry the dry-mouth kit over to the caregiver's bag and go through what is in it.",
+      "drag": {
+        "missNote": "Not in the bag. A kit left on the counter is a kit that goes home with nobody — it leaves with the person who does the brushing.",
+        "radius": 0.5,
+        "to": "caregiver-bag"
+      },
+      "id": "xero-handover",
+      "kind": "drag",
+      "prompt": "Carry the dry-mouth kit over to the caregiver's bag and go through what is in it.",
+      "target": "xero-kit",
+      "title": "Hand the dry-mouth kit to whoever manages it at home",
+      "why": "The kit is the treatment: high-fluoride toothpaste to slow the root caries, a saliva substitute or gel for comfort and for sleeping, an alcohol-free rinse, sugar-free gum where the patient can chew it, and water rather than sweetened drinks for sipping. It is handed to the person who will actually open it — often the caregiver rather than the patient — with each item explained once, because a bag of unfamiliar products with no explanation stays in a cupboard until the next appointment."
+    },
+    {
+      "cue": "Debrief the transfer and the appointment with the colleague who worked it with you.",
+      "id": "team-checkin",
+      "kind": "select",
+      "prompt": "Debrief the transfer and the appointment with the colleague who worked it with you.",
+      "target": "team-checkin",
+      "title": "Check in with your colleague before the room turns over",
+      "why": "Two-person work needs two-person feedback, and the honest version of this conversation is short: did the transfer feel controlled, did either of us take a load we should not have, did the patient stop us at any point and did we notice quickly enough. Near misses in patient handling do not leave a mark — nobody falls, nobody reports it, and the same technique gets used again next week on a heavier patient. Saying it out loud, and writing down what needs equipment next time, is the whole of what prevention amounts to here."
+    },
+    {
+      "cue": "Record the accommodations used, the transfer method, the position, the findings and what goes back to the caregiver.",
+      "id": "visit-log",
+      "kind": "select",
+      "prompt": "Record the accommodations used, the transfer method, the position, the findings and what goes back to the caregiver.",
+      "target": "visit-log",
+      "title": "Write the visit record and the handover for home",
+      "why": "This record does two jobs. Clinically it carries the findings, the dry-mouth diagnosis and the plan; practically it carries what made the visit work — the quiet first slot, the two-person slide transfer, the part-reclined position, the stop signal — so the next appointment starts where this one finished instead of relearning it. The handover to the caregiver or the residential facility is the other half: what to watch for, what the kit is for, and when to come back."
+    }
+  ],
+  "supportLine": "Patient-handling strains are reportable injuries, not part of the job: your union's health and safety representative will arrange an assessment and a lift plan, and SEIU and UFCW both fund that training for clinic members.",
+  "tagline": "A supported appointment: the bay reachable, the transfer done with equipment, consent taken from the patient, a swallow-safe position, a pace that stops when they say stop, and a dry mouth treated seriously",
+  "title": "SmartCiti.X~ Special Needs & Geriatric Dentistry VR",
+  "trade": "Dental assistant and hygienist — special care and geriatric dentistry (DANB Certified Dental Assistant), SEIU and UFCW clinic and dental staff",
+  "underwater": null,
+  "weather": "clear"
+}

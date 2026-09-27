@@ -1,0 +1,369 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "airside-clear",
+    "name": "Airside Clear",
+    "note": "Full ramp procedure with rotors safed throughout"
+  },
+  "category": "Mobility & Transit",
+  "certification": "Teamsters — FAA Part 107 remote pilot certificate holder",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IAM",
+        "id": "iam-winpisinger-center",
+        "title": "IAM — the William W. Winpisinger Education and Technology Center's machinist and transportation training"
+      },
+      {
+        "body": "union",
+        "citedAs": "Teamsters",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Aviation",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "rotor-safe",
+        "name": "Rotor Safe",
+        "note": "Never approach an unlocked rotor"
+      },
+      {
+        "id": "battery-handler",
+        "name": "Battery Handler",
+        "note": "Every cell check inside spec"
+      },
+      {
+        "id": "clean-release",
+        "name": "Clean Release",
+        "note": "Pre-flight signed off with no corrections"
+      },
+      {
+        "id": "route-clean",
+        "name": "Route Planned Clean",
+        "note": "Plan the delivery route in the correct order, first try"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "turnaround",
+        "name": "Fast Turnaround",
+        "note": "Release the aircraft inside 80% of par"
+      },
+      {
+        "id": "first-flight",
+        "name": "First Flight",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "ramp-streak",
+        "name": "Ramp Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "AIRSIDE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ramp Trainee",
+      "Ground Crew",
+      "Ramp Lead",
+      "Release Certifier",
+      "Airside Command"
+    ],
+    "system": "Airside Command"
+  },
+  "hazards": {
+    "damaged-prop": "That propeller has a chip out of the leading edge. A damaged prop at altitude changes its balance and can shear — it is swapped before the aircraft goes anywhere.",
+    "ramp-incursion": "You crossed into the active approach path while an aircraft is inbound. The ramp boundary exists because a returning drone is looking for a clear landing pad, not for a person standing on it.",
+    "spinning-rotor": "You reached toward a rotor with the flight controller still armed. A carbon propeller at flight RPM will not stop for a hand — the aircraft is disarmed and the props are pinned before anyone approaches.",
+    "swollen-battery": "That battery pack is swollen. A puffed LiPo cell is already venting internally; charging or flying it is how a ramp fire starts. It goes straight into the fireproof containment bag."
+  },
+  "id": "flight-deck",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "inspect",
+      "alert": "The controller link has gone back to ARMED on its own. The fleet scheduler has handed UAS-14 the 14:20 run and the airframe is counting itself down to launch under your hands.",
+      "cue": "Nobody touched a stick. Something upstream did.",
+      "delay": 4,
+      "id": "link-rearmed",
+      "kind": "Airframe re-armed",
+      "missNote": "The mission stayed queued and the airframe stayed armed. It ran its launch sequence into four pinned rotors — four stalled motors, four cooked speed controllers, and a medical delivery that is now an aircraft-on-ground report instead of a flight.",
+      "seconds": 13,
+      "target": "flight-controller",
+      "why": "Disarmed is a state held in software, and software on a fleet aircraft is written to by a dispatcher in an office who cannot see the ramp. A scheduled mission, a fleet firmware push or an operator picking the wrong tail number all put the motors back under command, and none of them ask whether somebody is leaning over the airframe. The pins are the reason your hands are still attached; taking the aircraft off the schedule at the controller is how it stops happening again in ninety seconds.",
+      "wrongNote": "It is the controller link. The aircraft was re-armed from the ground station, and the ground station is the only place it can be taken back."
+    },
+    {
+      "after": "plan-route",
+      "alert": "Telemetry from the airframe: one cell in the fitted pack is running away from the other five and the bay temperature is climbing with it.",
+      "cue": "That pack passed its spread check. It is not on the bench any more.",
+      "delay": 3,
+      "id": "cell-hot",
+      "kind": "Pack thermal event",
+      "missNote": "The pack stayed in the bay and went into runaway inside the airframe. A lithium polymer fire on a composite aircraft takes the aircraft, and on a vertiport pad it takes the pad out of service until the deck is surveyed — all of it downstream of a cell that told you twelve seconds early.",
+      "seconds": 12,
+      "target": "battery-bay",
+      "why": "A balance check is a snapshot of a pack at rest, and an internal short does not show up as a spread until the damaged cell starts making its own heat. From the first divergence to a vent is minutes, and once one cell in a six-series pack goes the rest follow it through the plastic. The pack comes out of the aircraft now, while it is still something a person can pick up and carry to the bag, because there is no stage after that where anything you own makes a difference.",
+      "wrongNote": "The heat is in the pack that is already fitted. Open the battery bay and get it out of the aircraft."
+    }
+  ],
+  "lateNotes": {
+    "battery-bay": "The bay stays closed until the airframe is disarmed and the props are pinned.",
+    "preflight-tablet": "Nothing gets signed off before the physical inspection is actually done."
+  },
+  "name": "Flight Deck",
+  "parSeconds": 240,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": null,
+    "hits": [
+      "battery-bay",
+      "battery-meter",
+      "cone-a",
+      "cone-b",
+      "containment-bag",
+      "damaged-prop",
+      "fault-arm",
+      "fault-prop",
+      "fault-sensor",
+      "flight-controller",
+      "notam-board",
+      "preflight-tablet",
+      "prop-pins",
+      "ramp-barrier",
+      "ramp-incursion",
+      "spare-prop",
+      "spinning-rotor",
+      "swollen-battery",
+      "upload-mission-btn",
+      "verify-mission-btn",
+      "wp-delivery",
+      "wp-launch",
+      "wp-relay"
+    ],
+    "meshes": 146
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence"
+  ],
+  "steps": [
+    {
+      "cue": "Read the NOTAM and confirm the ramp is cleared for ground operations.",
+      "id": "notam",
+      "kind": "select",
+      "prompt": "Read the NOTAM and confirm the ramp is cleared for ground operations.",
+      "target": "notam-board",
+      "title": "Check the flight authorization",
+      "why": "Airspace and ramp status change by the hour under 14 CFR Part 107 small-UAS operating rules. Working under an aircraft that the fleet scheduler expects to be flying at 14:20 is how a ground crew ends up standing under a live approach with no warning it is coming."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Cone the ramp edge and the taxi line, then close the barrier.",
+      "id": "zone",
+      "itemNames": {
+        "cone-a": "cone at the ramp edge",
+        "cone-b": "cone at the taxi line",
+        "ramp-barrier": "ramp barrier"
+      },
+      "kind": "sequence",
+      "prompt": "Cone the ramp edge and the taxi line, then close the barrier.",
+      "targets": [
+        "cone-a",
+        "cone-b",
+        "ramp-barrier"
+      ],
+      "title": "Set the ground safety zone",
+      "why": "The zone keeps bystanders off an active ramp and keeps you inside a boundary the flight controller's automated landing logic actually respects — the same OSHA ramp-safety logic that applies to ground crews under any aircraft, crewed or not."
+    },
+    {
+      "cue": "Confirm the aircraft shows disarmed on the controller link.",
+      "id": "disarm",
+      "kind": "select",
+      "prompt": "Confirm the aircraft shows disarmed on the controller link.",
+      "target": "flight-controller",
+      "title": "Disarm the flight controller",
+      "why": "Disarmed means the motors cannot spin regardless of what a stray signal, a bumped stick or a fleet scheduler's queued mission commands them to do. Nothing touches the airframe before this is confirmed on the link, not assumed from how quiet the rotors look."
+    },
+    {
+      "cue": "Pin all four rotors before you approach the airframe.",
+      "id": "pin",
+      "kind": "select",
+      "prompt": "Pin all four rotors before you approach the airframe.",
+      "target": "prop-pins",
+      "title": "Fit the rotor locking pins",
+      "why": "Disarmed is a software state that a dispatcher in an office can silently overwrite; the pin is physical and nobody can push a firmware update through it. Both together, not either alone, are what makes an accidental spin-up impossible instead of merely unlikely."
+    },
+    {
+      "cue": "Walk the airframe. Three things are wrong — find them by looking.",
+      "decoyNotes": {
+        "healthy-arm": "That arm shows no damage. Swapping serviceable parts wastes the inspection window and adds no safety.",
+        "healthy-prop": "That propeller is clean and balanced — nothing to action."
+      },
+      "id": "inspect",
+      "itemNames": {
+        "fault-arm": "cracked motor arm",
+        "fault-prop": "chipped propeller",
+        "fault-sensor": "obstructed obstacle sensor"
+      },
+      "itemNotes": {
+        "fault-arm": "A hairline crack in a carbon arm fails suddenly, not gradually. Ground the airframe until it is replaced.",
+        "fault-prop": "A leading-edge chip like that changes the propeller's balance at speed — replace, never fly on it.",
+        "fault-sensor": "Mud over the obstacle sensor blinds the aircraft's collision avoidance exactly when it needs it most."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the airframe. Three things are wrong — find them by looking.",
+      "targets": [
+        "fault-prop",
+        "fault-arm",
+        "fault-sensor"
+      ],
+      "title": "Complete the pre-flight inspection",
+      "why": "A pre-flight inspection is a search, not a checklist tick, and it is the finding the incident report reads first if the release goes ahead without it. Damage that looks cosmetic sitting on the ramp is structural the moment it is loaded at altitude."
+    },
+    {
+      "cue": "Carry the spare propeller over to the damaged rotor and fit it.",
+      "drag": {
+        "missNote": "Not lined up with the rotor mount — carry the spare over the damaged prop and fit it there.",
+        "radius": 0.12,
+        "to": "damaged-prop"
+      },
+      "id": "swap-prop",
+      "kind": "drag",
+      "prompt": "Carry the spare propeller over to the damaged rotor and fit it.",
+      "target": "spare-prop",
+      "title": "Replace the damaged propeller",
+      "why": "Matched, balanced propellers keep the airframe's vibration profile inside what the flight controller expects from its accelerometers. A chipped blade throws that profile off just enough that the controller starts compensating for damage instead of flying the mission."
+    },
+    {
+      "cue": "Check the pack for swelling and damage before it goes in the bay.",
+      "id": "battery",
+      "kind": "select",
+      "prompt": "Check the pack for swelling and damage before it goes in the bay.",
+      "target": "battery-bay",
+      "title": "Inspect and fit the flight battery",
+      "why": "The battery bay is the last thing on the airframe that opens, and only after the aircraft cannot spin a motor even if you drop a tool into it. A swollen LiPo cell is already venting internally, and NFPA's guidance on lithium battery hazards treats that as a fire risk the instant it is found, not a defect to fly around."
+    },
+    {
+      "cue": "Check the pack and commit when cell balance is inside tolerance.",
+      "gauge": {
+        "green": [
+          0,
+          0.14
+        ],
+        "label": "CELL VOLTAGE SPREAD",
+        "missNote": "Spread outside tolerance. That pack goes to balance charging, not onto the airframe.",
+        "speed": 0.65
+      },
+      "id": "cellcheck",
+      "kind": "gauge",
+      "prompt": "Check the pack and commit when cell balance is inside tolerance.",
+      "target": "battery-meter",
+      "title": "Verify cell voltage balance",
+      "why": "A pack with one cell drifting low will sag under load exactly when the aircraft needs full power to land, not while it is cruising at altitude with margin to spare. Balance is checked before every single flight, not just at charge time when the pack was last on the bench."
+    },
+    {
+      "cue": "Bag the swollen pack in the fireproof containment sleeve.",
+      "id": "swollen",
+      "kind": "select",
+      "prompt": "Bag the swollen pack in the fireproof containment sleeve.",
+      "target": "containment-bag",
+      "title": "Contain the damaged battery",
+      "why": "A venting lithium cell in a normal storage bin can ignite everything stacked around it within seconds. The fireproof bag, the same NFPA-recommended containment used across the trade for damaged lithium packs, buys the minutes it takes to get it somewhere it can vent safely."
+    },
+    {
+      "cue": "Pull all four pins once the inspection is complete.",
+      "id": "unpin",
+      "kind": "select",
+      "prompt": "Pull all four pins once the inspection is complete.",
+      "target": "prop-pins",
+      "title": "Remove the rotor pins",
+      "why": "The pins are the last thing an IAM-trained ground technician does at the aircraft itself. Everything after this — the route, the upload, the verification — happens at the console, so nothing puts a hand near the airframe again between the pins coming out and the release being signed."
+    },
+    {
+      "cue": "Set the route waypoints on the mission map in the order the aircraft will actually fly them.",
+      "id": "plan-route",
+      "itemNames": {
+        "wp-delivery": "delivery waypoint",
+        "wp-launch": "launch waypoint",
+        "wp-relay": "relay waypoint"
+      },
+      "itemNotes": {
+        "wp-delivery": "The drop point at the delivery address.",
+        "wp-launch": "The climb-out point clear of the ramp boundary.",
+        "wp-relay": "Routes the aircraft around the restricted corridor, not through it."
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "That waypoint comes later in the actual route. Launch, then relay, then delivery — the controller flies them in the order you entered them, not the order that looks obvious on the map.",
+      "prompt": "Set the route waypoints on the mission map in the order the aircraft will actually fly them.",
+      "targets": [
+        "wp-launch",
+        "wp-relay",
+        "wp-delivery"
+      ],
+      "title": "Plan the autonomous delivery route",
+      "why": "The flight controller flies the waypoints in the exact order they were entered, not the order that looks correct on the map. Swap the relay and the delivery point and the aircraft plans a straight line through restricted airspace instead of the corridor around it."
+    },
+    {
+      "cue": "Push the planned route to the flight controller.",
+      "id": "upload-mission",
+      "kind": "select",
+      "prompt": "Push the planned route to the flight controller.",
+      "target": "upload-mission-btn",
+      "title": "Upload the mission",
+      "why": "A planned route sitting on the tablet is not a flight plan yet — it is a drawing. Uploading it is the step that actually replaces whatever the aircraft was flying before with the route you just built and checked."
+    },
+    {
+      "cue": "Hold VERIFY while the controller checks every leg of the uploaded route.",
+      "holdBreakNote": "Released before the airspace check finished — hold it through the full check, that's the only way to catch a corridor that shifted since the route was drawn.",
+      "id": "verify-mission",
+      "kind": "hold",
+      "prompt": "Hold VERIFY while the controller checks every leg of the uploaded route.",
+      "seconds": 2.5,
+      "target": "verify-mission-btn",
+      "title": "Verify the route against restricted airspace",
+      "why": "Airspace restrictions shift by the hour under Part 107 operating rules, so a corridor that was clear when the route was drawn an hour ago may not be clear now. You verify the specific route you are about to fly, every single time, not the general area it happens to pass through."
+    },
+    {
+      "cue": "Complete the digital release with the inspection findings.",
+      "id": "release",
+      "kind": "select",
+      "prompt": "Complete the digital release with the inspection findings.",
+      "target": "preflight-tablet",
+      "title": "Sign the pre-flight release",
+      "why": "The release is a signed record that one named, IAM-certified technician personally checked specific things on this specific airframe today. It is the document an incident investigation reads first if something goes wrong in the air twenty minutes from now."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Vertiport ramp safety: rotor lockout, battery handling, autonomous route planning and pre-flight release",
+  "title": "SmartCiti.X~ Flight Deck VR",
+  "trade": "Drone / UAS ground technician",
+  "underwater": null,
+  "weather": null
+}

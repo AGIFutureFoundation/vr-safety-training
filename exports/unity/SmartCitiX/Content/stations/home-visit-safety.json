@@ -1,0 +1,419 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "loop-closed",
+    "name": "Loop Closed",
+    "note": "A visit somebody else always knew the shape of: planned, checked in, ended on the plan's terms, and closed out from the car"
+  },
+  "category": "Emergency Services",
+  "certification": "The NASW Code of Ethics on self-determination, informed consent and the worker's duty to their own safety; NASW's own guidance on safety in the field for social workers making unaccompanied visits; SAMHSA's trauma-informed principles applied to a family's own home, where the worker is the visitor; Psychological First Aid as published by the National Child Traumatic Stress Network and the World Health Organization; California's mandated-reporter duties under the Child Abuse and Neglect Reporting Act; the HIPAA Privacy Rule, which is what governs how much of a family's information may be said out loud in front of a neighbour, a landlord or a second adult who walks in, and the federal confidentiality rule for substance use disorder records at 42 CFR Part 2 where that is part of the file; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR §3203, under which a county's lone-worker and check-in procedure sits, together with the workplace violence prevention duties added by SB 553; CIT International's crisis intervention model for the point where a visit becomes a call for help; SEIU 1021 social services practice standards, including the local's field-safety and check-in language",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "California Penal Code",
+        "citedAs": "Child Abuse and Neglect Reporting Act",
+        "id": "ca-canra",
+        "title": "The California Child Abuse and Neglect Reporting Act (CANRA), as a body — the duty of mandated reporters to report known or reasonably suspected child abuse or neglect, which limits any promise of confidentiality made to a minor"
+      },
+      {
+        "body": "CIT",
+        "citedAs": "CIT International",
+        "id": "cit-international-model",
+        "title": "CIT International's Crisis Intervention Team core elements for response to people in crisis"
+      },
+      {
+        "body": "HHS",
+        "citedAs": "HIPAA",
+        "id": "hipaa-privacy-rule",
+        "title": "HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)"
+      },
+      {
+        "body": "union",
+        "citedAs": "NASW",
+        "id": "nasw-code-of-ethics",
+        "title": "NASW Code of Ethics and the association's practice standards for social work and crisis counselling"
+      },
+      {
+        "body": "NCTSN",
+        "citedAs": "Psychological First Aid",
+        "id": "pfa-field-guide",
+        "title": "Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU 1021",
+        "id": "seiu-1021-training",
+        "title": "SEIU 1021 apprenticeship and training, as a training body"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Emergency response",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "somebody-knew",
+        "name": "Somebody Knew",
+        "note": "Address, times and the code word all agreed with the office before the car moved"
+      },
+      {
+        "id": "guest-not-inspector",
+        "name": "Guest, Not Inspector",
+        "note": "Asked in, spoken to at the child's height, and nothing opened that was not offered"
+      },
+      {
+        "id": "left-on-the-plan",
+        "name": "Left On The Plan",
+        "note": "The exit was taken when the plan said, read off the clock rather than off the atmosphere"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-visit",
+        "name": "Clean Visit",
+        "note": "No corrections anywhere in the visit"
+      },
+      {
+        "id": "steady-voice",
+        "name": "Steady Voice",
+        "note": "The time with the child and the calm through the anger both held without a break"
+      },
+      {
+        "id": "on-the-hour",
+        "name": "On The Hour",
+        "note": "Complete inside 80% of par with every check-in still made"
+      }
+    ],
+    "currency": "FIELD",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Field Trainee",
+      "Case Aide",
+      "Social Worker",
+      "Field Supervisor",
+      "Home Visit Certified"
+    ],
+    "system": "Field Visit"
+  },
+  "hazards": {
+    "back-seat-blocked": "You took the seat at the back of the room with the couch and the table between you and the door. Every piece of field-safety guidance for lone visitors says the same thing about seating, for the same reason: the only way out of a house you do not know is the one you came in by, and a worker who has to climb over furniture to reach it has given up the ability to leave at the one moment leaving matters.",
+    "enter-without-asking": "You walked in through the open door. It is their home, and crossing that threshold uninvited is the moment a visit stops being something the family is part of — it also puts a stranger inside a room where nobody has agreed to anything, which is exactly the situation that turns into a shouting match about who let you in. You knock, you say who you are, and you wait to be asked.",
+    "open-the-fridge": "You opened the fridge. Whatever the concern is, a worker who starts opening cupboards and appliances has become an inspector in somebody's kitchen, and the family will remember that and nothing else about this visit — if the concern genuinely requires that kind of look, it is asked for out loud, explained, and declined or agreed to, not taken.",
+    "raise-voice-back": "You raised your voice to match theirs. Two people shouting in a small room is not a conversation and cannot become one; the calm voice is not politeness, it is the only thing in the room that gives the volume somewhere to come down to. Matching it guarantees escalation, in front of a child, in a house you cannot control.",
+    "reach-for-dog": "You put a hand over the fence to the dog. It may well be friendly and this is still the most common injury on a home visit: a dog in its own yard, with its family agitated inside, and a stranger reaching into its space. The dog gets asked about at the door and put behind a closed door by its owner — never negotiated with directly."
+  },
+  "id": "home-visit-safety",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "calm-one-speaker",
+      "alert": "A car door slams at the kerb and a second adult comes in fast through the front door behind you, already talking over the parent about who called whom.",
+      "cue": "Move to the door side, hands visible, and ask for one person at a time — do not stay boxed in.",
+      "delay": 3,
+      "id": "second-adult-arrives",
+      "kind": "Second adult arriving angry",
+      "missNote": "The visit carried on with two adults arguing across you and one of them between you and the door. The room got louder with a child in it, nothing that was said could be relied on afterwards, and the one move that was still available — step to the door side and ask for one speaker — stopped being available about twenty seconds in.",
+      "seconds": 14,
+      "target": "exit-side-step",
+      "why": "A second agitated adult changes the arithmetic of the room completely: there are now two people to de-escalate, a conversation happening across you, and somebody standing between you and the way out. Repositioning to the door side is what keeps the exit available and, said out loud — I'm going to stand over here, and I'd like one person at a time — it is also a de-escalation in itself, because it announces that you are not squaring up to anybody.",
+      "wrongNote": "Not from where you are standing. Move to the door side first, hands visible, and then ask for one person at a time — position is what makes the sentence work."
+    },
+    {
+      "after": "observe-not-inspect",
+      "alert": "The agreed check-in time goes by while you are sitting in the front room, and the phone is in the outside pocket of a bag on the floor beside your chair.",
+      "cue": "Take the phone out and make the check-in now — a short, ordinary call, out loud if it has to be.",
+      "delay": 3,
+      "id": "checkin-time-passed",
+      "kind": "Missed check-in",
+      "missNote": "The check-in time passed and then passed again, with the phone an arm's length away the whole time. The office now has a worker whose silence means nothing in particular, which is precisely the state the check-in procedure exists to prevent — and the family never knew anybody was expecting to hear from you.",
+      "seconds": 14,
+      "target": "phone-out",
+      "why": "A missed check-in is not a paperwork lapse: it is the office's only signal, and if it is allowed to slide once then the next silence — the one that matters — will be read as the worker running late again. Making the call out loud in front of the family is not a problem either; it is honest about how this job works, and it quietly tells the room that somebody knows where you are.",
+      "wrongNote": "That is not the check-in. Get the phone out of the outside pocket and make the call — nothing else in this room tells the office you are still fine."
+    }
+  ],
+  "lateNotes": {
+    "checkin-call": "Not yet. The closing check-in is made from the car once you are out, and it is the end of the visit rather than part of it.",
+    "debrief-card": "That one is for afterwards. The worker's own check-in comes last, once the office knows you are out and the note is filed.",
+    "visit-clock": "Nothing to read against yet. The clock matters at the end of the visit, measured against the window that was agreed with the office before it started.",
+    "visit-note": "The note gets written after the visit and after the check-in — written in the car, from what happened, not drafted on the way in from what you expect."
+  },
+  "name": "Home Visit Safety",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "first-responders"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "agree-code-word",
+      "back-seat-blocked",
+      "calm-stance",
+      "checkin-call",
+      "child-eye-level",
+      "choice-card",
+      "debrief-card",
+      "dog-in-yard",
+      "door-intro",
+      "enter-without-asking",
+      "exit-side-step",
+      "gate-latch",
+      "go-bag",
+      "invite-card",
+      "kerb-spot",
+      "log-address",
+      "observe-pace",
+      "open-the-fridge",
+      "phone-out",
+      "porch-clutter",
+      "raise-voice-back",
+      "reach-for-dog",
+      "set-checkin-times",
+      "shoulder-strap",
+      "side-gate",
+      "visit-clock",
+      "visit-note",
+      "way-back-out"
+    ],
+    "meshes": 219
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Log the address and who should be home, agree the check-in times, and settle the word that means send help.",
+      "id": "plan-with-office",
+      "itemNames": {
+        "agree-code-word": "one ordinary word that means send help",
+        "log-address": "the address and who is expected to be there, on the board",
+        "set-checkin-times": "the check-in times, agreed both ways"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Address first, then the check-in times, then the code word. A word that means send help is useless to an office that does not yet know where you are or when you were due to call.",
+      "prompt": "Log the address and who should be home, agree the check-in times, and settle the word that means send help.",
+      "targets": [
+        "log-address",
+        "set-checkin-times",
+        "agree-code-word"
+      ],
+      "title": "Plan the visit with the office",
+      "why": "Everything that makes an unaccompanied visit survivable is agreed before the car moves. The address on the board is how anybody knows where to come; the check-in times turn silence into an alarm rather than into an assumption; and one ordinary word — a colleague's name, a file number that does not exist — is how a worker asks for help on the phone while somebody is standing next to them. Agreed in that order because a code word means nothing if nobody knows which house it is coming from."
+    },
+    {
+      "cue": "Bag over your shoulder, phone in the outside pocket where one hand can reach it.",
+      "drag": {
+        "missNote": "Not on the shoulder yet — the bag has to be on you, with the phone in the outside pocket rather than buried, before you walk up.",
+        "radius": 0.45,
+        "to": "shoulder-strap"
+      },
+      "id": "bag-on-shoulder",
+      "kind": "drag",
+      "prompt": "Bag over your shoulder, phone in the outside pocket where one hand can reach it.",
+      "target": "go-bag",
+      "title": "Take the bag with the phone in the outside pocket",
+      "why": "A phone in the bottom of a zipped bag is a phone that does not exist during the ninety seconds it would have mattered, and getting it out is a visible, two-handed act in front of somebody who is already agitated. In the outside pocket it is one hand, in a pocket, while you keep talking — which is the whole difference between making a check-in call and explaining to a room why you are rummaging."
+    },
+    {
+      "cue": "Pull up at the kerb facing out — not nosed into the driveway behind somebody else's car.",
+      "id": "park-for-exit",
+      "kind": "select",
+      "prompt": "Pull up at the kerb facing out — not nosed into the driveway behind somebody else's car.",
+      "target": "kerb-spot",
+      "title": "Park where you can leave",
+      "why": "A car in the driveway can be parked in by anybody who comes home, and a car nosed into a kerb has to be reversed out. Facing out at the kerb costs nothing on arrival and is the difference between leaving and negotiating your way out. It is also the least noticeable of all the safety habits, which is why it is the first one people drop."
+    },
+    {
+      "cue": "Three things on this approach change how you walk in. Find all three before you reach the porch.",
+      "decoyNotes": {
+        "porch-clutter": "The porch is full of stuff and it tells you nothing about whether this visit is safe. Reading a cluttered porch as a finding is how a visit starts with a judgement already made about the family inside it."
+      },
+      "id": "approach-scan",
+      "itemNames": {
+        "dog-in-yard": "a dog loose in the side yard",
+        "side-gate": "the side gate standing open onto the walk",
+        "way-back-out": "the one clear route back to the car"
+      },
+      "itemNotes": {
+        "dog-in-yard": "The dog is not a hazard because it is aggressive; it is a hazard because nobody has told it who you are, and because whatever is happening inside the house is already making it bark. It gets asked about at the door.",
+        "side-gate": "An open side gate is how the dog gets onto the walk behind you, and it is also a second way into the yard for somebody arriving while you are at the door — noticing it now is what makes closing it a decision rather than an afterthought.",
+        "way-back-out": "You came in one way and that is the way you leave. Fixing it now, from outside, is a great deal easier than working it out from the far end of an unfamiliar front room."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things on this approach change how you walk in. Find all three before you reach the porch.",
+      "targets": [
+        "dog-in-yard",
+        "side-gate",
+        "way-back-out"
+      ],
+      "title": "Read the approach before you knock",
+      "why": "The walk from the kerb to the door is the last moment with no one watching, and it is where every decision about this visit is cheapest to make. What is loose in the yard, what is open behind you, and which way you leave — those three, deliberately, every time, rather than a general impression of the street formed while thinking about the case notes."
+    },
+    {
+      "cue": "Turn the latch closed so the gate is shut and the dog stays where it is.",
+      "id": "gate-latch",
+      "kind": "turn",
+      "prompt": "Turn the latch closed so the gate is shut and the dog stays where it is.",
+      "target": "gate-latch",
+      "title": "Close the side gate behind you",
+      "turn": {
+        "axis": "y",
+        "label": "SIDE GATE LATCH",
+        "turns": 0.5
+      },
+      "why": "Closing the gate keeps the dog contained without anybody having to handle it, keeps the walk behind you clear, and keeps one of the two ways into this yard accounted for. It also takes four seconds and is the cheapest correction available on the whole visit — a hazard found on the approach and then left exactly as it was is a hazard you have merely written down."
+    },
+    {
+      "cue": "Knock, stand back a step, and give your name, your agency and why you are here — before the door is all the way open.",
+      "id": "knock-and-introduce",
+      "kind": "select",
+      "prompt": "Knock, stand back a step, and give your name, your agency and why you are here — before the door is all the way open.",
+      "target": "door-intro",
+      "title": "Knock, and say who you are at the door",
+      "why": "Standing back a step from a door you have just knocked on is both courteous and practical: the person opening it is not confronted by somebody in the frame, and you can see the whole doorway rather than a slice of it. Saying who you are and why, plainly, up front, is what stops the first minute being spent on the question everyone in the house is already asking."
+    },
+    {
+      "cue": "Ask whether you may come in, and wait for the answer — even with the door standing open.",
+      "id": "ask-to-come-in",
+      "kind": "select",
+      "prompt": "Ask whether you may come in, and wait for the answer — even with the door standing open.",
+      "target": "invite-card",
+      "title": "Ask to come in",
+      "why": "The single most useful sentence on a home visit is a question about entering somebody's home, because the answer is the family's first piece of real control over the next hour and they will remember whether it was asked. It is also what keeps the worker on defensible ground: invited in is a completely different position from found inside, both in how the visit goes and in how it reads afterwards — and it is the point at which to ask who else is in the house, since the HIPAA Privacy Rule governs how much of this family's file can be said out loud in front of whoever is sitting in the next room."
+    },
+    {
+      "cue": "Get down to the child's height, say your name and what you are doing here, and talk to them rather than about them.",
+      "holdBreakNote": "You stood back up before that was finished. A crouch and half a sentence is a gesture rather than a conversation — go back down, give the child your name and what you are doing here, and let them answer.",
+      "id": "child-eye-level",
+      "kind": "hold",
+      "prompt": "Get down to the child's height, say your name and what you are doing here, and talk to them rather than about them.",
+      "seconds": 5,
+      "target": "child-eye-level",
+      "title": "Speak to the child at their eye level",
+      "why": "A stranger looming over a child in their own front room is frightening, and a stranger discussing that child in the third person over their head while they sit on the floor is worse — it teaches them that adults decide things about them in rooms they are sitting in. Down at their height, with a name and a plain reason, the child is a person in the conversation, which is both the trauma-informed answer and the one that gets anything useful said."
+    },
+    {
+      "cue": "Look at the room the way a guest does — steady, no rummaging, no staring at one thing.",
+      "holdBreakNote": "That slipped out of looking like a guest — either into inspecting the room or into not seeing it at all. Come back to a steady, ordinary look from where you are sitting.",
+      "id": "observe-not-inspect",
+      "kind": "track",
+      "prompt": "Look at the room the way a guest does — steady, no rummaging, no staring at one thing.",
+      "seconds": 6,
+      "target": "observe-pace",
+      "title": "Observe the home without inspecting it",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.44,
+        "green": [
+          0.34,
+          0.66
+        ],
+        "label": "HOW YOU LOOK",
+        "rise": 0.52,
+        "start": 0.2
+      },
+      "why": "Almost everything a visit needs to see is visible from where a guest sits: whether there is food, whether the child is at ease, who else is in the house, what the room smells of. Both failure modes cost the visit — a worker who never looks up files a report with nothing in it, and a worker who sweeps the room and fixes on things turns the family into subjects and closes the door on the next visit."
+    },
+    {
+      "cue": "Drop your volume below theirs, keep your distance and your hands visible, and let one person speak at a time.",
+      "holdBreakNote": "The calm broke — the voice came up, or the distance closed. Reset it: quieter than them, a step further back, hands where they can be seen, and one person talking.",
+      "id": "calm-one-speaker",
+      "kind": "hold",
+      "prompt": "Drop your volume below theirs, keep your distance and your hands visible, and let one person speak at a time.",
+      "seconds": 6,
+      "target": "calm-stance",
+      "title": "Meet the anger with a calm voice and one speaker",
+      "why": "Volume, distance and turn-taking are the three things a worker can still control once somebody in the room is shouting, and each of them works mechanically rather than psychologically: a quieter voice gives the room somewhere to come down to, distance removes the physical trigger, and one speaker at a time stops the argument recruiting everybody in the house. Held rather than tapped because de-escalation is a couple of minutes of consistency, and thirty seconds of calm followed by a sharp sentence is worse than none."
+    },
+    {
+      "cue": "Name two things that are actually available — sit at the table now, or I come back tomorrow — and mean both of them.",
+      "id": "two-choices",
+      "kind": "select",
+      "prompt": "Name two things that are actually available — sit at the table now, or I come back tomorrow — and mean both of them.",
+      "target": "choice-card",
+      "title": "Offer two real choices",
+      "why": "A choice is only de-escalating if both options are real, because an adult who is angry will test it immediately and a false option proves that nothing here is negotiable. Two genuine choices hand back the one thing the anger is usually about — having no say in a stranger's visit — and they are also the point at which a worker finds out whether this visit can continue today at all."
+    },
+    {
+      "cue": "Check the time against the window agreed with the office and commit to leaving inside it.",
+      "gauge": {
+        "green": [
+          0.34,
+          0.56
+        ],
+        "label": "VISIT WINDOW",
+        "missNote": "Committed outside the agreed window. The exit is taken against the clock and the plan, not against how the room feels — read it again and leave inside the window.",
+        "speed": 0.6
+      },
+      "id": "time-to-go",
+      "kind": "gauge",
+      "prompt": "Check the time against the window agreed with the office and commit to leaving inside it.",
+      "target": "visit-clock",
+      "title": "Read the clock against the plan's window",
+      "why": "The decision to leave is made in the car park beforehand and read off a clock afterwards, precisely because in the moment it will feel rude, or unfinished, or as if five more minutes would settle it. A visit that runs past its window turns the office's check-in into a false alarm or, worse, teaches them to wait longer next time — and the five minutes almost never settle it."
+    },
+    {
+      "cue": "From the car, doors shut, call the office: you are out, you are clear, and the visit ended on the plan.",
+      "id": "checkin-call",
+      "kind": "select",
+      "prompt": "From the car, doors shut, call the office: you are out, you are clear, and the visit ended on the plan.",
+      "target": "checkin-call",
+      "title": "Close the check-in loop from the car",
+      "why": "A check-in loop that is opened and never closed is worse than one that never existed, because the office learns that the worker's silence does not mean anything. Making the call from the car with the doors shut also means it is made before the drive, and before anything else claims the twenty minutes in which somebody would otherwise still have been waiting to hear."
+    },
+    {
+      "cue": "Note what you saw, what was said, the choices offered and how the visit ended — before the next one starts.",
+      "id": "visit-note",
+      "kind": "select",
+      "prompt": "Note what you saw, what was said, the choices offered and how the visit ended — before the next one starts.",
+      "target": "visit-note",
+      "title": "Write the visit up the same day",
+      "why": "A contact note written the same day is the only version that still contains what was actually said, and on a visit with a safety concern in it the record is what the next worker, a supervisor or a court reads instead of asking you to remember — which is also why it is written to the same confidentiality rules as the rest of the file, the HIPAA Privacy Rule and, where substance use is in it, 42 CFR Part 2. Written before the next visit rather than at the end of the week, because by then two family's afternoons have started to blend into one account of neither."
+    },
+    {
+      "cue": "Say out loud, to a supervisor or a colleague, what that one was like — and use peer support or the employee assistance line if it needs more.",
+      "id": "own-debrief",
+      "kind": "select",
+      "prompt": "Say out loud, to a supervisor or a colleague, what that one was like — and use peer support or the employee assistance line if it needs more.",
+      "target": "debrief-card",
+      "title": "Check in on yourself before the next visit",
+      "why": "Being shouted at in somebody's home is an occupational exposure, not a bad day you were supposed to handle better, and the county's own critical-incident procedure and SEIU 1021's field-safety language both treat the debrief as part of the visit. A worker who drives straight to the next address is carrying this front room into it, and that family will get a shorter, warier version of the same service."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "One unaccompanied home visit: the address, the check-in times and the word for send help agreed first, the dog and the way out read on the approach, asked in rather than walked in, the child at eye level, the home observed not inspected, anger met with calm and choices, out when the plan says, and the loop closed from the car",
+  "title": "SmartCiti.X~ Home Visit Safety VR",
+  "trade": "Social worker — NASW / SEIU 1021",
+  "underwater": null,
+  "weather": "overcast"
+}

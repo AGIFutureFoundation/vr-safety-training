@@ -1,0 +1,414 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "aboard-and-open-clean",
+    "name": "Aboard and Open Clean",
+    "note": "Both hands on the gangway, nobody in the fold, the ranging ship and the lasher both answered, and the hold's air read before a foot went down the ladder"
+  },
+  "category": "Maritime & Ports",
+  "certification": "ILWU longshore with the PMA training programme; OSHA 29 CFR 1918 longshoring for the means of access, the hatch covers and the hold, and 29 CFR 1917 marine terminals for the quay; IMO SOLAS for the ship's gangway and IMO STCW for the watch that tends it; NIOSH guidance on oxygen-depleted cargo holds; ANSI/ISEA 107 high-visibility garments on deck",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI/ISEA 107",
+        "id": "ansi-isea-107",
+        "title": "ANSI/ISEA 107 — High-visibility safety apparel and accessories"
+      },
+      {
+        "body": "union",
+        "citedAs": "ILWU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "IMO",
+        "citedAs": "SOLAS",
+        "id": "imo-solas",
+        "title": "SOLAS — International Convention for the Safety of Life at Sea"
+      },
+      {
+        "body": "IMO",
+        "citedAs": "STCW",
+        "id": "imo-stcw",
+        "title": "STCW — Convention on Standards of Training, Certification and Watchkeeping for Seafarers"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1917",
+        "id": "osha-1917",
+        "title": "29 CFR 1917 — Marine terminals"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1918",
+        "id": "osha-1918",
+        "title": "29 CFR 1918 — Safety and health regulations for longshoring"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "both-hands-aboard",
+        "name": "Both Hands Aboard",
+        "note": "The gangway climbed on both rails, start to finish"
+      },
+      {
+        "id": "fold-kept-clear",
+        "name": "Fold Kept Clear",
+        "note": "The cover opened steadily with its path chained and empty"
+      },
+      {
+        "id": "never-on-the-cover",
+        "name": "Never On The Cover",
+        "note": "Nobody on a moving cover, in its fold, or at an open coaming edge"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-opening",
+        "name": "Clean Opening",
+        "note": "No corrections anywhere in the opening"
+      },
+      {
+        "id": "angle-on-the-mark",
+        "name": "Angle On The Mark",
+        "note": "Gangway angle committed inside the band first time"
+      },
+      {
+        "id": "hatch-open-fast",
+        "name": "Hatch Open Fast",
+        "note": "Hatch logged open inside 80% of par"
+      }
+    ],
+    "currency": "LIFT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Casual",
+      "Hatch Hand",
+      "Gangway Checker",
+      "Hatch Boss",
+      "Hatch Gang Certified"
+    ],
+    "system": "Hatch Gang"
+  },
+  "hazards": {
+    "bag-on-gangway": "You started up the gangway with the gear bag in both arms. A gangway moves with the ship — she ranges, rolls a little and rises with the tide — and the rails are the only thing between a slip on a wet tread and a fall between the hull and the quay wall. The bag goes up on a line or with a second person, and both hands stay on the rails for the whole climb.",
+    "coaming-edge": "You walked along the top of the coaming beside the open hatch. The drop into a hold is the height of the ship's side, onto steel or cargo, and the coaming is a narrow, often greasy ledge with nothing on the hold side of it. The hold is entered by its ladder, and the open coaming is kept to with the hatch guards or not at all.",
+    "fold-path": "You stood in the fold path at the hinged end of the cover. A folding cover's panels rise and jack-knife toward that end, and the space between the rising panels and the coaming is exactly the shape of a person; the hydraulics do not feel a body and do not stop for one. Nobody stands in the fold, in the swing or under a raised panel for any reason.",
+    "stand-on-cover": "You stepped up onto the hatch cover while its cleats were being knocked back. A folding cover is a hinged steel panel driven by hydraulic cylinders; once the cleats are off, it is held only by its own weight and whatever the mate is doing at the controls, and the first thing it does when the lever moves is lift and fold — taking anyone standing on it up with it, and then down into the hold."
+  },
+  "id": "vessel-gangway-and-hatch-cover-safety",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "board",
+      "alert": "The ship is ranging along the berth on her lines — the gangway's foot is rolling along the quay and the head is twisting at the landing.",
+      "cue": "Get off the gangway and call the ship's gangway watch on the deck radio to tend the gangway and the lines.",
+      "delay": 2,
+      "id": "vessel-ranging",
+      "kind": "Ship ranging on her lines",
+      "missNote": "The gangway's foot rolled to the end of the quay's roller track and dropped off it with a longshore worker halfway up; the gangway twisted on its head and the net took them, a metre from the gap.",
+      "seconds": 14,
+      "target": "deck-radio",
+      "why": "A ship ranging on slack lines drags her gangway with her, and its foot can roll off the quay edge or jam, twisting the whole thing under whoever is on it. The ship's watch, keeping it to STCW, tends the gangway and the moorings, and the gang's job is to get off the gangway and tell them — on the radio, now — because the watch on the far side of the deck may not see the foot moving.",
+      "wrongNote": "The deck radio — the gangway and the lines are the ship's watch's to tend, and the radio is the only thing that reaches them from here."
+    },
+    {
+      "after": "cover-open",
+      "alert": "A lasher coming round the coaming has ducked under the deck chain and is walking into the fold path as the panels rise.",
+      "cue": "Hit the cover's emergency stop now — the panels stop before anything else is said.",
+      "delay": 2,
+      "id": "lasher-in-fold",
+      "kind": "Lasher walking into the fold path",
+      "missNote": "The panels kept rising with the lasher in the fold; the fold closed to a gap no wider than a boot before they saw it and threw themselves clear over the coaming.",
+      "seconds": 12,
+      "target": "cover-estop",
+      "why": "A person in the fold path of a rising cover has seconds, and the hydraulics will not stop for them — so the cover stops first, on the emergency stop, and the conversation about the chain comes after. The stop is a separate control from the lever on purpose: a lever let go of can drift or be pushed the wrong way by a startled hand, and the mushroom kills the pump.",
+      "wrongNote": "The emergency stop — letting go of the lever is not a stop, and the lasher is in the fold now."
+    }
+  ],
+  "lateNotes": {
+    "hatch-log": "The hatch is logged once the hold's air has been read and the access proven — the log is last, not first.",
+    "hydraulic-lever": "The cover opens once its path is chained off and every cleat is knocked back — a cover opened against a cleat tears the cleat off.",
+    "stow-pin": "The stowage pins go in once the panels are fully up and folded — there is nothing to pin yet."
+  },
+  "name": "Vessel Gangway & Hatch Cover Safety",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "port-operations"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "angle-indicator",
+      "bag-on-gangway",
+      "chain-post",
+      "cleat-wrench",
+      "coaming-edge",
+      "cover-estop",
+      "deck-chain",
+      "deck-officer",
+      "deck-radio",
+      "fold-path",
+      "gangway-rail",
+      "hatch-log",
+      "hold-ladder",
+      "hold-lights",
+      "hold-monitor",
+      "hydraulic-lever",
+      "ring-buoy",
+      "safety-net",
+      "slack-rail-rope",
+      "stand-on-cover",
+      "stow-pin",
+      "weeping-hose"
+    ],
+    "meshes": 232
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "From the quay, check the gangway: the treads, the stanchions, the rail ropes taut on both sides, the foot's roller on the quay, and the head's landing on the ship.",
+      "id": "gangway-check",
+      "itemNames": {
+        "slack-rail-rope": "slack rail rope on the gangway's outboard side"
+      },
+      "itemNotes": {
+        "slack-rail-rope": "The outboard rail rope has pulled out of its top stanchion eye and hangs slack across three stanchions — a hand reaching for it on a slip would find nothing. The watch re-reeves it before anyone climbs."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "From the quay, check the gangway: the treads, the stanchions, the rail ropes taut on both sides, the foot's roller on the quay, and the head's landing on the ship.",
+      "targets": [
+        "slack-rail-rope"
+      ],
+      "title": "Look the gangway over from the quay before anyone climbs",
+      "why": "The gangway is the ship's, rigged by her crew, and it is the only way aboard for everyone who works her — a rail rope that has pulled out of an eye, a stanchion that is not pinned, or a foot that has lifted off its roller all show from the quay before anyone trusts their weight to it. 29 CFR 1918 puts the means of access on the list of things checked before a longshore gang goes aboard, and the check is made from the quay because the gangway is where the fall happens."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Check the safety net is rigged under the gangway across the gap to the quay wall, and the ring buoy with its line is at the gangway head, free to throw.",
+      "id": "net-and-buoy",
+      "itemNames": {
+        "ring-buoy": "ring buoy with its line at the gangway head",
+        "safety-net": "safety net rigged under the gangway"
+      },
+      "kind": "sequence",
+      "prompt": "Check the safety net is rigged under the gangway across the gap to the quay wall, and the ring buoy with its line is at the gangway head, free to throw.",
+      "targets": [
+        "safety-net",
+        "ring-buoy"
+      ],
+      "title": "Confirm the net under the gangway and the ring buoy at its head",
+      "why": "The gap between a ship's hull and a quay wall is the worst water in the port: cold, dark, pinched between steel and concrete, and closing every time the ship moves in on her fenders. The net under the gangway is what catches a slip before it reaches that gap, and the ring buoy with its line at the head is what reaches a person who went past the net. SOLAS puts the gangway's arrangements on the ship, and a gang confirms both are there before it depends on them."
+    },
+    {
+      "cue": "Read the angle indicator at the gangway head and commit it against the working range on the gangway's data plate — the tide and the ship's draught have both moved since it was rigged.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.52
+        ],
+        "label": "GANGWAY ANGLE",
+        "missNote": "Outside the working range — read the indicator when the ship has settled, not mid-roll, and compare it against the plate.",
+        "speed": 0.65
+      },
+      "id": "gangway-angle",
+      "kind": "gauge",
+      "prompt": "Read the angle indicator at the gangway head and commit it against the working range on the gangway's data plate — the tide and the ship's draught have both moved since it was rigged.",
+      "target": "angle-indicator",
+      "title": "Read the gangway's angle against its limit",
+      "why": "A gangway is designed to be walked within a range of angles, and the ship's freeboard changes with every hour of tide and every tonne loaded or discharged — a gangway that was flat at breakfast can be too steep for its treads by the afternoon, or have its foot lifted off the quay. The indicator at the head reads the angle now, and a gangway outside its range is re-rigged by the ship's crew before anyone uses it, not walked carefully."
+    },
+    {
+      "cue": "Hold both rails and climb at a steady pace, one person on the gangway at a time, eyes on the treads.",
+      "holdBreakNote": "Let go of the rails partway up — the rails are what stop a slip on a wet tread. Start the climb again and keep both hands on them.",
+      "id": "board",
+      "kind": "hold",
+      "prompt": "Hold both rails and climb at a steady pace, one person on the gangway at a time, eyes on the treads.",
+      "seconds": 4,
+      "target": "gangway-rail",
+      "title": "Climb the gangway with both hands on the rails",
+      "why": "The climb is a few seconds on a moving, often wet, sloping walkway with a gap underneath it that kills, and the only thing that makes it safe is two hands on two rails the whole way up. One at a time keeps the load inside what the gangway was rigged for and keeps two people from colliding at the head, where the landing onto the ship's deck is the awkward step. The gear follows on a heaving line."
+    },
+    {
+      "cue": "Meet the mate at the hatch: which cover, which way it folds, who is on the controls, the signals, and that the hold has been ventilated.",
+      "id": "hatch-plan",
+      "kind": "select",
+      "prompt": "Meet the mate at the hatch: which cover, which way it folds, who is on the controls, the signals, and that the hold has been ventilated.",
+      "target": "deck-officer",
+      "title": "Agree the hatch opening with the ship's deck officer",
+      "why": "The hatch cover is the ship's machinery run by the ship's officer, and the gang works around it — so the opening is agreed face to face before anyone touches a cleat: which way the panels fold, where the fold ends, who is on the lever, what the stop signal is, and what the ship knows about the hold's cargo and its ventilation. 29 CFR 1918 expects hatch coverings to be handled by people who know how, and the mate's briefing is where the gang learns what this ship's covers do."
+    },
+    {
+      "cue": "Run the deck chain across to the post at the fold end so nobody can walk into the path the panels will take.",
+      "drag": {
+        "missNote": "Not across the fold path — the chain has to close off the hinged end where the panels will rise, hooked to the post.",
+        "radius": 0.5,
+        "to": "chain-post"
+      },
+      "id": "cover-zone",
+      "kind": "drag",
+      "prompt": "Run the deck chain across to the post at the fold end so nobody can walk into the path the panels will take.",
+      "target": "deck-chain",
+      "title": "Chain off the cover's fold path",
+      "why": "The space a folding cover sweeps is invisible while the cover is shut — it is just deck — which is why people walk into it. The chain across the fold end turns the path into a place with an edge a lasher coming round the coaming will see, before the panels start to rise. It goes up before the cleats come off, because once they are off the cover can move whenever the lever does."
+    },
+    {
+      "cue": "Work round the coaming with the cleat wrench, backing each securing cleat off its wedge and swinging it clear, never standing on the cover.",
+      "id": "cleats",
+      "kind": "turn",
+      "prompt": "Work round the coaming with the cleat wrench, backing each securing cleat off its wedge and swinging it clear, never standing on the cover.",
+      "target": "cleat-wrench",
+      "title": "Knock back the securing cleats",
+      "turn": {
+        "label": "CLEATS",
+        "turns": 1
+      },
+      "why": "The cleats are what hold a cover down on its seal at sea, and a cover opened against even one of them either tears the cleat off or lifts the panel crooked on its hinges — both of which put a loose steel panel above an open hold. Each cleat is backed off and swung clear from the deck side of the coaming, counted round, and nobody stands on the cover to reach one."
+    },
+    {
+      "cue": "Check the fold cylinders, the hoses and their fittings at the hinged end for leaks, chafe and oil on the deck.",
+      "id": "hose-check",
+      "itemNames": {
+        "weeping-hose": "weeping hydraulic hose at the fold cylinder"
+      },
+      "itemNotes": {
+        "weeping-hose": "The hydraulic hose at the fold end's cylinder is weeping oil from its crimped fitting, and there is a slick on the deck under it — a hose that weeps can let go under the load of lifting a panel, and a panel whose cylinder loses pressure comes down."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the fold cylinders, the hoses and their fittings at the hinged end for leaks, chafe and oil on the deck.",
+      "targets": [
+        "weeping-hose"
+      ],
+      "title": "Look at the cylinders and hoses before the lever moves",
+      "why": "A folding cover's panels are held up by the pressure in their cylinders, and a hose that weeps at its fitting is the one that bursts when the panel's full weight comes on it — dropping the panel it was lifting, and putting a slick on the deck where the gang walks. The hoses and cylinders are looked at before the cover moves, and a weeping hose is the ship's to fix before the cover is opened."
+    },
+    {
+      "cue": "On the mate's signal, run the cover open on the lever at a steady rate — panels rising together, no jerks, eyes on the fold path.",
+      "holdBreakNote": "The panels jerked or stalled — ease the lever back to a steady rate before they go any further.",
+      "id": "cover-open",
+      "kind": "track",
+      "prompt": "On the mate's signal, run the cover open on the lever at a steady rate — panels rising together, no jerks, eyes on the fold path.",
+      "seconds": 6,
+      "target": "hydraulic-lever",
+      "title": "Open the cover steadily on the hydraulic lever",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "LEVER",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "A folding cover is heavy steel on hydraulic cylinders, and it opens safely when it opens steadily: jerked, the panels bounce on their hinges and load the hoses in pulses; rushed, they reach the end of their fold at speed. The lever is held so the panels rise together at the rate the mate called, and the operator's eyes stay on the fold path the whole time, because that is where a person will walk in if one does."
+    },
+    {
+      "cue": "With the panels fully up, drop the stowage pins and hooks in so they cannot fall back if the hydraulics lose pressure.",
+      "id": "stow-pins",
+      "kind": "select",
+      "prompt": "With the panels fully up, drop the stowage pins and hooks in so they cannot fall back if the hydraulics lose pressure.",
+      "target": "stow-pin",
+      "title": "Pin the folded panels in their stowed position",
+      "why": "A cover standing folded at the end of the hatch is held there by hydraulic pressure until it is pinned, and the gang is about to work underneath and beside it for hours. The stowage pins and hooks are what make it a fixed structure rather than a load held up by a hose — the same hose that was found weeping — and they go in before anyone works in the hold below."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Check the hold ladder's rungs, cage and handholds at the coaming, and that the hold lighting is on down to the tank top.",
+      "id": "hold-access",
+      "itemNames": {
+        "hold-ladder": "hold ladder — rungs and cage",
+        "hold-lights": "hold lighting on"
+      },
+      "kind": "sequence",
+      "prompt": "Check the hold ladder's rungs, cage and handholds at the coaming, and that the hold lighting is on down to the tank top.",
+      "targets": [
+        "hold-ladder",
+        "hold-lights"
+      ],
+      "title": "Prove the hold ladder and the hold lighting",
+      "why": "The hold ladder is the only way into and out of the hold, and it is a long vertical climb that cargo and grabs have been knocking against since the ship was built — a bent rung or a missing handhold at the coaming is found before the climb, not on it. The lighting goes on before anyone goes down, because a hold is dark past the first few metres and a gang cannot see the cargo, the tank top or each other without it."
+    },
+    {
+      "cue": "Lower the monitor's sampling line into the hold and commit the oxygen reading once it settles.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.62
+        ],
+        "label": "HOLD O₂",
+        "missNote": "Not a settled reading — give the sampling line time to draw from the bottom of the hold before committing.",
+        "speed": 0.6
+      },
+      "id": "hold-air",
+      "kind": "gauge",
+      "prompt": "Lower the monitor's sampling line into the hold and commit the oxygen reading once it settles.",
+      "target": "hold-monitor",
+      "title": "Read the hold's oxygen before anyone climbs down",
+      "why": "A closed hold can lose its oxygen to the cargo itself — timber, scrap steel, coal and grain all consume it, and a fumigated cargo adds its own poison — and NIOSH records longshore and seafarer deaths at the foot of hold ladders where the air was simply not there. The hold is read before the climb, from the coaming, because the person who goes down to check is the person who is found at the bottom."
+    },
+    {
+      "cue": "Record the gangway rope re-reeved, the weeping hose reported, the cover opened and pinned, the hold's oxygen reading and the access proven.",
+      "id": "hatch-log",
+      "kind": "select",
+      "prompt": "Record the gangway rope re-reeved, the weeping hose reported, the cover opened and pinned, the hold's oxygen reading and the access proven.",
+      "target": "hatch-log",
+      "title": "Log the hatch open and what was found",
+      "why": "The hatch log is how the next gang and the next shift know what this hatch was like: the hose on the fold cylinder is a defect report to the ship that has to be closed out before the cover is run again, the gangway rope is a note to the watch, and the hold reading is the number the gang went down on. Written at the coaming it is fact; written in the gear locker at the end of the shift it is memory."
+    },
+    {
+      "cue": "Call the walking boss that the hatch is open and the hold is safe to work, and check in with the gang after the ship's move and the lasher in the fold.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the walking boss that the hatch is open and the hold is safe to work, and check in with the gang after the ship's move and the lasher in the fold.",
+      "target": "deck-radio",
+      "title": "Check in with the walking boss and the gang",
+      "why": "The walking boss starts the cargo on this call, so it has to be true: open, pinned, lit, and the air read. It is also the gang's own check-in — a lasher walking into a moving cover's fold is the kind of near miss that stays with the person on the lever and the person who was nearly in it — and the ILWU's practice is to talk about it before the first lift, with the member assistance line named for anyone who needs more than that."
+    }
+  ],
+  "supportLine": "your ILWU local's member assistance programme, with the PMA-ILWU benefit plan's counselling line behind it",
+  "tagline": "Aboard before the cargo moves: the gangway looked over, the net under it and the ring buoy at its head, its angle read against the tide, the climb with both hands while the ship ranges on her lines, the hatch plan agreed with the mate, the cover's path chained off and its cleats knocked back, a weeping hydraulic hose found, the cover opened on the lever while a lasher wanders into its fold, the panels pinned, the hold ladder and lights proven, the hold's air read, and the hatch logged",
+  "title": "SmartCiti.X~ Vessel Gangway & Hatch Cover Safety VR",
+  "trade": "ILWU longshore — hatch gang going aboard to open the hold, PMA training programme, with the ship's deck officer on the hydraulics",
+  "underwater": null,
+  "weather": "wind"
+}

@@ -1,0 +1,441 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-claim",
+    "name": "Clean Claim",
+    "note": "A claim and a pre-authorisation built only on what the signed record supports, sent securely and paid to the contract"
+  },
+  "category": "Dental & Oral Health",
+  "certification": "The ADA's Code on Dental Procedures and Nomenclature (CDT), cited as the code set and never by a number, and the ADA's dental claim form; the state dental board's rules that the dentist's signed clinical record is what every claim must be supported by; HIPAA's privacy and security rules, including access controls, the minimum-necessary standard and the standard electronic transactions a claim travels in; OSHA 29 CFR 1910.1030 for the front-office staff named in the exposure control plan who help when a patient collapses; SEIU and UFCW clinic and front-office staff; Unspoken Smiles, the programme this platform is built for",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADA",
+        "citedAs": "CDT",
+        "id": "ada-cdt-code",
+        "title": "The ADA's Code on Dental Procedures and Nomenclature (CDT), the procedure-code set dental claims and pre-authorisations are written in; cited as the body and the code set, never by a code number"
+      },
+      {
+        "body": "ADA",
+        "citedAs": "ADA's",
+        "id": "ada-radiographic-guidance",
+        "title": "American Dental Association and FDA guidance on prescribing dental radiographs"
+      },
+      {
+        "body": "HHS",
+        "citedAs": "HIPAA",
+        "id": "hipaa-privacy-rule",
+        "title": "HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "state dental board",
+        "citedAs": "state dental board",
+        "id": "state-dental-board",
+        "title": "The state dental board and its dental practice act: licensure, scope of practice, and the allowable-duties rules for dental assistants and hygienists"
+      },
+      {
+        "body": "union",
+        "citedAs": "UFCW",
+        "id": "ufcw-training",
+        "title": "UFCW member training for retail food, clinic and dental support work"
+      },
+      {
+        "body": "Unspoken Smiles",
+        "citedAs": "Unspoken Smiles",
+        "id": "unspoken-smiles-programme",
+        "title": "Unspoken Smiles, the programme this platform is built for; named only, not described — its own materials are not sourced in this repository"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Dental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "note-first",
+        "name": "Note First",
+        "note": "Both documentation gaps found before a code was looked up"
+      },
+      {
+        "id": "honest-books",
+        "name": "Honest Books",
+        "note": "No unsafe action anywhere in the claim"
+      },
+      {
+        "id": "steady-call",
+        "name": "Steady Call",
+        "note": "The shredder and the appeal call carried without a break"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "zero-rework",
+        "name": "Zero Rework",
+        "note": "No corrections anywhere in the claim"
+      },
+      {
+        "id": "right-length",
+        "name": "Right Length",
+        "note": "The narrative set near the middle of its band"
+      },
+      {
+        "id": "same-day",
+        "name": "Same Day",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "CLAIM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Front-Office Trainee",
+      "Insurance Clerk",
+      "Billing Coordinator",
+      "Revenue Lead",
+      "Clean Claim Certified"
+    ],
+    "system": "Clean Claim"
+  },
+  "hazards": {
+    "cbp-fax-sticky": "That is the fax machine, with a number scribbled on a sticky note beside it 'for that insurer'. A pre-authorisation packet carries radiographs, a chart and a narrative about a named person, and a misdialled or outdated fax number sends all of it to a stranger. Claims and attachments go through the payer's secure portal, to a destination the practice has verified.",
+    "cbp-shared-login": "That is the office's shared billing login, written on a sticky note on the monitor. Access to patient records is meant to be individual, so that every look and every change can be traced to a person; HIPAA's security rule expects exactly that. A shared password means nothing in the billing system can be attributed, audited or trusted — including the claims you are about to send.",
+    "cbp-upcode-sheet": "That is a cheat sheet mapping procedures to the codes 'that pay better'. Billing a code for a more extensive procedure than the record shows is upcoding, and it is fraud against the plan however the sheet describes it. The CDT code on a claim is a statement that this procedure was done; it has to match the signed note exactly, whatever it pays.",
+    "cbp-waive-stamp": "That is a 'copay waived' stamp used on every statement. Routinely waiving a patient's share while billing the plan as though it was charged misrepresents the fee to the payer, which is why plans treat routine waivers as a form of insurance fraud. Hardship adjustments exist, case by case and documented; a stamp that makes it the default does not."
+  },
+  "id": "dn-dental-coding-billing-and-preauthorisation",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "cbp-shred-hold",
+      "alert": "The patient paying at the front counter has slumped to the floor and is not answering — you are the nearest person.",
+      "cue": "Hit the emergency call to bring the clinical team with the kit and the AED, and stay with her.",
+      "delay": 3,
+      "id": "cbp-counter-collapse",
+      "kind": "Medical emergency",
+      "missNote": "She stayed on the floor while the shredder ran. An unresponsive person's chances fall with every minute before the team and the AED arrive — the emergency call was on the wall beside you.",
+      "seconds": 12,
+      "target": "cbp-emergency-call",
+      "why": "A person who collapses and does not respond needs the clinical team and the emergency equipment immediately, and the billing office is often closest to the waiting room. The emergency call brings the dentist, the kit and the AED at once; staying with her and reporting what you saw is the front office's part of the office emergency plan.",
+      "wrongNote": "It is the emergency call button. The clinical team and the AED have to be summoned before anything else."
+    },
+    {
+      "after": "cbp-appeal-call",
+      "alert": "A colleague has left a stack of explanations of benefits, names face up, on the front counter where the next patient is standing.",
+      "cue": "Move the stack into the locked tray — the call can hold for a moment.",
+      "delay": 3,
+      "id": "cbp-eob-counter",
+      "kind": "Privacy breach",
+      "missNote": "The stack stayed on the counter. The next patient could read other people's names, procedures and balances — a disclosure the office had every chance to prevent.",
+      "seconds": 11,
+      "target": "cbp-locked-tray",
+      "why": "Explanations of benefits show names, plan numbers, procedures and amounts owed. Face up on a counter, they are readable by whoever is waiting. Moving them to the locked tray ends the exposure; asking the representative to hold for a moment costs nothing.",
+      "wrongNote": "It is the locked tray. The papers are the problem, so they are what gets moved out of sight."
+    }
+  ],
+  "lateNotes": {
+    "cbp-billing-log": "The work is not finished. The billing log records what was sent, paid and appealed, at the end.",
+    "cbp-cdt-book": "Not yet. The code is looked up once the note is complete and signed — code from the record, not from what the plan was expected to be.",
+    "cbp-ledger": "Nothing to post yet. The ledger is updated from the explanation of benefits once it has been read and any error appealed."
+  },
+  "name": "Dental Coding, Billing & Pre-authorisation",
+  "parSeconds": 310,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "dental-careers-unspoken-smiles"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "cbp-billing-log",
+      "cbp-cabinet-key",
+      "cbp-cdt-book",
+      "cbp-elig-active",
+      "cbp-elig-identity",
+      "cbp-elig-limits",
+      "cbp-emergency-call",
+      "cbp-eob-alternate",
+      "cbp-eob-fee",
+      "cbp-fax-sticky",
+      "cbp-headset",
+      "cbp-ledger",
+      "cbp-locked-tray",
+      "cbp-narrative-dial",
+      "cbp-note-no-surfaces",
+      "cbp-note-unsigned",
+      "cbp-payer-her-share",
+      "cbp-payer-own",
+      "cbp-payer-spouse",
+      "cbp-portal-scanner",
+      "cbp-preauth-packet",
+      "cbp-query-tray",
+      "cbp-shared-login",
+      "cbp-shredder",
+      "cbp-team-checkin",
+      "cbp-upcode-sheet",
+      "cbp-waive-stamp"
+    ],
+    "meshes": 184
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Confirm the subscriber and patient, that coverage is active on the date of service, then the frequency limits and waiting periods.",
+      "id": "cbp-eligibility",
+      "itemNames": {
+        "cbp-elig-active": "coverage active on the date of service",
+        "cbp-elig-identity": "subscriber and patient identity",
+        "cbp-elig-limits": "frequency limits and waiting periods"
+      },
+      "kind": "sequence",
+      "noRobot": false,
+      "outOfOrderNote": "Out of order. Confirm whose coverage it is first, then that it is active on the date, and only then read its limits — a plan's limits mean nothing if the plan is someone else's or has lapsed.",
+      "prompt": "Confirm the subscriber and patient, that coverage is active on the date of service, then the frequency limits and waiting periods.",
+      "targets": [
+        "cbp-elig-identity",
+        "cbp-elig-active",
+        "cbp-elig-limits"
+      ],
+      "title": "Verify eligibility before anything is coded",
+      "why": "Most claim denials are decided before any code is chosen: the wrong subscriber, a plan that lapsed last month, a crown inside a replacement-frequency limit. Verifying identity, then active coverage, then the plan's limits, in that order, catches all three while the patient can still be told. It is the unglamorous first habit of every good insurance coordinator, and it is the one practices look for when they hire into billing and revenue-cycle roles."
+    },
+    {
+      "cue": "Read the dentist's note for this visit. Two things are missing that the claim cannot go without.",
+      "id": "cbp-note-gaps",
+      "itemNames": {
+        "cbp-note-no-surfaces": "the tooth and surfaces are missing",
+        "cbp-note-unsigned": "the note is not signed by the dentist"
+      },
+      "itemNotes": {
+        "cbp-note-no-surfaces": "The note says 'crown prep' but never records which tooth or why. A reviewer asks exactly those two questions, and the record has to answer them.",
+        "cbp-note-unsigned": "The clinical note has no signature. A claim is supported by the dentist's signed record, and an unsigned note supports nothing — including this claim."
+      },
+      "kind": "find",
+      "noHint": true,
+      "noRobot": false,
+      "prompt": "Read the dentist's note for this visit. Two things are missing that the claim cannot go without.",
+      "targets": [
+        "cbp-note-unsigned",
+        "cbp-note-no-surfaces"
+      ],
+      "title": "Find the two gaps in the clinical note before anything is coded",
+      "why": "A claim is only ever as good as the record under it. An unsigned note and a note that never says which tooth or why are the two gaps that turn a legitimate claim into a denial — or, worse, into a claim nobody could defend in an audit. Reading the note before the code book is what separates a coder from somebody who types numbers, and it is the skill that carries into auditing and compliance careers."
+    },
+    {
+      "cue": "Put a query in the dentist's tray asking for the tooth, the reason and a signature — never fill the gap in yourself.",
+      "id": "cbp-query-dentist",
+      "kind": "select",
+      "noRobot": false,
+      "prompt": "Put a query in the dentist's tray asking for the tooth, the reason and a signature — never fill the gap in yourself.",
+      "target": "cbp-query-tray",
+      "title": "Send the documentation query back to the dentist",
+      "why": "When the record is incomplete, the only person who can complete it is the one who did the work. A query asks the dentist to add the tooth, the reason and a signature to their own note, as an amendment that shows when it was made; it never suggests an answer and never gets filled in by the billing office from memory. The state dental board treats the clinical record as the dentist's. Knowing where your job stops is what makes a billing professional trustworthy."
+    },
+    {
+      "cue": "Find the procedure in the current year's CDT whose nomenclature and descriptor match the amended note — no more, no less.",
+      "id": "cbp-cdt-lookup",
+      "kind": "select",
+      "noRobot": false,
+      "prompt": "Find the procedure in the current year's CDT whose nomenclature and descriptor match the amended note — no more, no less.",
+      "target": "cbp-cdt-book",
+      "title": "Look the procedure up in this year's CDT, matching the note exactly",
+      "why": "The ADA publishes CDT and updates it every year, adding, revising and retiring codes, so the right code is the one in this year's book whose descriptor matches what the signed note records — not the one remembered from last year and not the one the plan pays best. A code is a factual statement about a person's treatment. Coding precisely from the current set is the core technical skill of dental billing, and it is what certification and advancement in the field are built on."
+    },
+    {
+      "cue": "Primary first — her own employer plan — then her spouse's plan, then her remaining share.",
+      "id": "cbp-payer-order",
+      "itemNames": {
+        "cbp-payer-her-share": "the patient's remaining share",
+        "cbp-payer-own": "the patient's own employer plan",
+        "cbp-payer-spouse": "the spouse's plan, where she is a dependent"
+      },
+      "kind": "sequence",
+      "noRobot": false,
+      "outOfOrderNote": "Out of order. The plan that covers her as the employee pays first, the plan that covers her as a dependent pays second, and she is billed only for what is left.",
+      "prompt": "Primary first — her own employer plan — then her spouse's plan, then her remaining share.",
+      "targets": [
+        "cbp-payer-own",
+        "cbp-payer-spouse",
+        "cbp-payer-her-share"
+      ],
+      "title": "Put the two plans and the patient in the right order",
+      "why": "When a patient has two dental plans, coordination of benefits decides who pays first, and billing them in the wrong order produces denials, overpayments that have to be refunded and statements that make no sense to the patient. The plan covering her as the employee is primary; the plan covering her as a dependent is secondary and needs the primary's explanation of benefits; the patient pays what is left. Getting coordination right is a skill employers specifically hire billing staff for."
+    },
+    {
+      "cue": "Say which tooth, what is wrong with it and why a crown — specifically — and commit the narrative inside the band.",
+      "gauge": {
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "NARRATIVE DETAIL",
+        "missNote": "Outside the band. Too thin and the reviewer has nothing to approve; too long and the one sentence that matters is lost in a page nobody reads.",
+        "speed": 0.6
+      },
+      "id": "cbp-narrative",
+      "kind": "gauge",
+      "noRobot": false,
+      "prompt": "Say which tooth, what is wrong with it and why a crown — specifically — and commit the narrative inside the band.",
+      "target": "cbp-narrative-dial",
+      "title": "Write the pre-authorisation narrative to the length a reviewer needs",
+      "why": "A reviewer who has never seen the patient decides from the narrative and its attachments. 'Crown needed' gives them nothing to approve; a page of dental history buries the reason. What works is short and specific, taken from the dentist's note: the tooth, the fracture or failing restoration, and why a crown rather than a filling. Writing clearly for a reader who is looking for a reason to say no is a skill that transfers to every administrative career in healthcare."
+    },
+    {
+      "cue": "Carry the packet — narrative, radiograph and chart — to the portal scanner and upload it to the payer's secure site.",
+      "drag": {
+        "missNote": "That is not the portal upload. The packet goes through the payer's secure portal scanner — not the fax, not an email.",
+        "radius": 0.4,
+        "to": "cbp-portal-scanner"
+      },
+      "id": "cbp-send-portal",
+      "kind": "drag",
+      "noRobot": false,
+      "prompt": "Carry the packet — narrative, radiograph and chart — to the portal scanner and upload it to the payer's secure site.",
+      "target": "cbp-preauth-packet",
+      "title": "Send the pre-authorisation through the payer's secure portal",
+      "why": "The packet contains radiographs, a chart and a narrative about a named person, which makes where it goes as important as what it says. The payer's secure portal sends it encrypted to a verified destination and returns a tracking reference; a fax to a number on a sticky note or an email attachment does neither. HIPAA's security rule expects the practice to choose the safe route. Handling protected information properly is a baseline expectation of every healthcare office job."
+    },
+    {
+      "cue": "Feed the misprinted claim into the cross-cut shredder and hold it until the whole sheet has gone.",
+      "holdBreakNote": "You let go with half the sheet still in the throat. The name and the plan number are sitting in the slot — feed it back and hold it until it is gone.",
+      "id": "cbp-shred-hold",
+      "kind": "hold",
+      "noRobot": false,
+      "prompt": "Feed the misprinted claim into the cross-cut shredder and hold it until the whole sheet has gone.",
+      "seconds": 6,
+      "target": "cbp-shredder",
+      "title": "Hold the misprinted claim in the cross-cut shredder until it is through",
+      "why": "A misprinted claim still carries a name, a date of birth, a plan number and a procedure. It goes into a cross-cut shredder and is held there until the whole sheet is through, not dropped in a recycling box or left half-fed in the slot. It is a small, physical piece of privacy practice that offices get wrong constantly. Being the person who does it properly every time is part of being trusted with a practice's records."
+    },
+    {
+      "cue": "Read the explanation of benefits line by line against the claim and the contract. Two lines are wrong.",
+      "id": "cbp-eob-find",
+      "itemNames": {
+        "cbp-eob-alternate": "an alternate benefit applied without the narrative being read",
+        "cbp-eob-fee": "paid at last year's fee schedule"
+      },
+      "itemNotes": {
+        "cbp-eob-alternate": "The plan applied an alternate benefit, paying for a cheaper filling instead of the crown, with no sign the narrative about the fracture was considered. That is appealable on the record.",
+        "cbp-eob-fee": "The payment was calculated on last year's contracted fee. It is an underpayment the practice is entitled to have corrected."
+      },
+      "kind": "find",
+      "noHint": true,
+      "noRobot": false,
+      "prompt": "Read the explanation of benefits line by line against the claim and the contract. Two lines are wrong.",
+      "targets": [
+        "cbp-eob-fee",
+        "cbp-eob-alternate"
+      ],
+      "title": "Find the two things the explanation of benefits got wrong",
+      "why": "An explanation of benefits is the payer's account of what it decided, and payers make mistakes: an out-of-date fee schedule, an alternate benefit applied without reading the narrative. Posting whatever arrives means accepting both. Reading each line against the claim and the contract is how a billing coordinator protects both the practice and the patient, who would otherwise be billed for the payer's error. It is the analytical core of revenue-cycle work."
+    },
+    {
+      "cue": "Stay steady with the payer's representative: the claim, the contract fee, the narrative, and a reference number for the appeal.",
+      "holdBreakNote": "The call slipped. Take a breath, go back to the facts — the claim, the fee, the narrative — and ask again for the reference.",
+      "id": "cbp-appeal-call",
+      "kind": "track",
+      "noRobot": false,
+      "prompt": "Stay steady with the payer's representative: the claim, the contract fee, the narrative, and a reference number for the appeal.",
+      "seconds": 8,
+      "target": "cbp-headset",
+      "title": "Keep the appeal call calm, factual and on the record",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.42,
+        "green": [
+          0.38,
+          0.62
+        ],
+        "label": "CALL TONE",
+        "rise": 0.5,
+        "start": 0.2
+      },
+      "why": "An appeal is won on facts, delivered calmly: the claim number, the contracted fee, the narrative the reviewer did not consider, and a request for a reference number and a written reconsideration. Getting heated loses the representative; giving up loses the money and leaves the patient with a bill they should not have. Steady, professional persistence on the phone is the skill that separates good billing staff from great ones, and it leads into office-management roles."
+    },
+    {
+      "cue": "Post what was paid, write off only what the participation contract requires, and show the appeal as pending.",
+      "id": "cbp-post-ledger",
+      "kind": "select",
+      "noRobot": false,
+      "prompt": "Post what was paid, write off only what the participation contract requires, and show the appeal as pending.",
+      "target": "cbp-ledger",
+      "title": "Post the payment and the adjustment to the contract",
+      "why": "The ledger is where the patient's bill is decided, so it has to follow the contract exactly: the payment posted as received, the contractual adjustment written off, the appealed difference held as pending rather than billed to the patient, and nothing waived that the contract does not allow. A ledger posted this carefully means the statement the patient receives is one the office can explain line by line. Accurate posting is the backbone of every accounts role in healthcare."
+    },
+    {
+      "cue": "Put the paper claims and the query copies back and turn the key.",
+      "id": "cbp-cabinet-lock",
+      "kind": "turn",
+      "noRobot": false,
+      "prompt": "Put the paper claims and the query copies back and turn the key.",
+      "target": "cbp-cabinet-key",
+      "title": "Lock the records cabinet before leaving the desk",
+      "turn": {
+        "axis": "z",
+        "label": "CABINET KEY",
+        "turns": 0.75
+      },
+      "why": "Paper still exists in every dental office: printed explanations of benefits, attachment copies, signed financial agreements. A records cabinet left unlocked while the billing coordinator steps away is an open file for anybody who walks behind the desk. Locking it every time you leave is the physical half of HIPAA's safeguards, and it is exactly the kind of routine that shows a practice you can be trusted with more responsibility."
+    },
+    {
+      "cue": "Report the query, the pre-authorisation reference and the pending appeal, and ask how the front office is holding up after the collapse.",
+      "id": "cbp-team-checkin",
+      "kind": "select",
+      "noRobot": false,
+      "prompt": "Report the query, the pre-authorisation reference and the pending appeal, and ask how the front office is holding up after the collapse.",
+      "target": "cbp-team-checkin",
+      "title": "Check in with the office manager and the dentist",
+      "why": "Billing decisions touch everyone: the dentist needs to answer the documentation query, the office manager needs to know an appeal is pending, and the front desk needs to know what to tell the patient. The check-in is also where the team talks about the patient who collapsed at the counter — a frightening event for staff who do not usually see emergencies. Offices that talk it through recover faster, and coordinators who start that conversation become leads."
+    },
+    {
+      "cue": "Record the eligibility check, the query, the pre-authorisation reference, the appeal reference and what was posted.",
+      "id": "cbp-billing-log",
+      "kind": "select",
+      "noRobot": false,
+      "prompt": "Record the eligibility check, the query, the pre-authorisation reference, the appeal reference and what was posted.",
+      "target": "cbp-billing-log",
+      "title": "Write the billing log",
+      "why": "The billing log is the trail an auditor, a payer or a new colleague follows: when eligibility was checked, why the note was queried, which reference the pre-authorisation and the appeal carry, and what was posted. Without it, an appeal that comes back in six weeks cannot be matched to anything. Documented, traceable billing work is what makes a practice audit-ready, and it is the foundation of a career in dental practice management."
+    }
+  ],
+  "supportLine": "your clinic's employee assistance line, or the office manager you debrief with — a day of denials and difficult calls wears people down",
+  "tagline": "A crown and two dental plans turned into an honest claim: eligibility first, the note read for what it supports, a gap sent back to the dentist, the current CDT, payers in order, a portal rather than a fax, and an appeal made on the facts",
+  "title": "SmartCiti.X~ Dental Coding, Billing & Pre-authorisation VR",
+  "trade": "Dental billing and insurance coordinator — coding, claims and pre-authorisation, SEIU and UFCW clinic and front-office staff",
+  "underwater": null,
+  "weather": "clear"
+}

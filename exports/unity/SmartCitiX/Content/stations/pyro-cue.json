@@ -1,0 +1,396 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "cue-held",
+    "name": "Cue Held",
+    "note": "An effect set, tested, armed on the all-clear and fired — and a misfire handled from the panel rather than from the stage"
+  },
+  "category": "Entertainment & Live Events",
+  "certification": "IATSE stage locals; NFPA 1126 use of pyrotechnics before a proximate audience; OSHA 29 CFR 1910.109 storage and handling of explosives and blasting agents; ATF licensing and magazine rules under 27 CFR Part 555 for the acquisition and storage of explosive materials; state or provincial pyrotechnic operator licensing, which varies by jurisdiction; the local AHJ's permit and sign-off for this venue and this show",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IATSE",
+        "id": "iatse-training-trust",
+        "title": "IATSE Training Trust Fund — stagecraft, rigging and entertainment electrical skills training"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 1126",
+        "id": "nfpa-1126",
+        "title": "NFPA 1126 — Use of Pyrotechnics before a Proximate Audience"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.109",
+        "id": "osha-1910-109",
+        "title": "29 CFR 1910.109 — Explosives and blasting agents"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Live events",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "key-in-pocket",
+        "name": "Key In Pocket",
+        "note": "The firing key never sat in an unattended panel"
+      },
+      {
+        "id": "nobody-walked-up",
+        "name": "Nobody Walked Up",
+        "note": "Never approached a device on a live circuit, never fired on an unwalked zone"
+      },
+      {
+        "id": "measured-not-guessed",
+        "name": "Measured, Not Guessed",
+        "note": "Fallout distance measured to the device's rating rather than eyeballed"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-cue",
+        "name": "Clean Cue",
+        "note": "No corrections from load-in to load-out"
+      },
+      {
+        "id": "held-the-watch",
+        "name": "Held The Watch",
+        "note": "Stood the full fire watch after the effect"
+      },
+      {
+        "id": "before-doors",
+        "name": "Before Doors",
+        "note": "Set and proven inside 80% of par"
+      }
+    ],
+    "currency": "CUE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Deck Hand",
+      "Pyro Assistant",
+      "Pyrotechnic Operator",
+      "Effects Lead",
+      "Firing Authority Certified"
+    ],
+    "system": "Firing Authority"
+  },
+  "hazards": {
+    "arm-early": "You armed the panel before the deck was swept. Arming happens last, once the stage manager has confirmed the deck clear and you have checked it with your own eyes, because an armed panel sits one button press away from sending an effect into whatever happens to occupy its path.",
+    "key-left-in": "You left the firing key sitting in the panel. Out of the panel and in your pocket, the key is a piece of metal that only you carry; left in an unattended panel on a dark stage, it turns that panel into something anyone leaning on the desk can fire.",
+    "ohmmeter": "You clipped a shop multimeter onto the e-match leads. A general-purpose ohmmeter proves continuity by driving current through whatever it is testing, and that current is more than enough to set off a match resting in your palm. Continuity on a firing circuit gets proven only with the panel's own current-limited test loop or a dedicated blasting galvanometer — not a meter pulled from a tool pouch.",
+    "walk-to-misfire": "You went down to a device that failed to fire. Failed is the wrong word for it — it simply has not fired yet. Until the panel reads disarmed, the circuit is shunted, and the key is out of the panel and in your pocket, that mortar is still live and you would be standing directly over its muzzle. Even once every one of those is true, no one moves in until the manufacturer's specified wait time has run out."
+  },
+  "id": "pyro-cue",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "continuity",
+      "alert": "A dancer has come back out to mark a spot and is standing downstage of the mortar, inside the exclusion line, staring down at their own footwork.",
+      "cue": "The area you just confirmed clear is not clear any more.",
+      "delay": 4,
+      "id": "dancer-in-zone",
+      "kind": "Zone breach",
+      "missNote": "The exclusion line stayed breached while you sat on an all-clear that was already stale. On an actual show that cue fires on schedule, straight into the spot that person was standing in.",
+      "seconds": 12,
+      "target": "stage-comms",
+      "why": "An all-clear only describes the stage at the instant it was given, and a stage in active use never holds still. That dancer has no reason to spot a black mortar taped to a black deck under a single work light, so word goes straight back to the stage manager and the area is swept again — the effect can wait, and it will.",
+      "wrongNote": "That is not how a stage gets stopped. Word goes to the stage manager over the intercom, immediately."
+    },
+    {
+      "after": "fire",
+      "alert": "The cue fired one report instead of two. The stage-right mortar stayed dark, and the panel is still reading continuity on that circuit.",
+      "cue": "One did not fire — and a device that did not fire is not the same thing as a device that cannot.",
+      "delay": 3,
+      "id": "misfire",
+      "kind": "Device did not go",
+      "missNote": "The panel stayed armed over a live device sitting on the deck. The next thing to happen on that stage was a crew member passing right by it, and the only reason nothing happened to them is not one you will find written into any method statement.",
+      "seconds": 14,
+      "target": "arm-switch",
+      "why": "A continuity reading means the match is still intact, so that device is exactly as capable of firing as it was a moment ago. Every part of the response happens at the panel: disarm, shunt the circuit, pull the key — and only after all three do you start the clock on the manufacturer's wait. The one thing that is never acceptable is heading downstage to look at it.",
+      "wrongNote": "Not that. A misfire is handled at the panel — disarm first, and nothing at the stage end until it is."
+    }
+  ],
+  "lateNotes": {
+    "arm-switch": "The panel arms after the zone walk and the all-clear, never before.",
+    "fire-button": "The effect fires on the cue, from an armed panel, over a zone somebody has just looked at.",
+    "pyro-device": "The device goes into the mortar after the position is set, the zone is measured and the line is proven — it is the last thing loaded, not the first."
+  },
+  "name": "Pyro Cue",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "arm-early",
+      "arm-switch",
+      "cue-sheet",
+      "device-log",
+      "fire-button",
+      "fire-watch-post",
+      "firing-key",
+      "key-left-in",
+      "line-shunt",
+      "mortar-mount",
+      "mortar-socket",
+      "ohmmeter",
+      "panel-test",
+      "permit-board",
+      "pyro-device",
+      "spent-casing",
+      "stage-comms",
+      "tape-measure",
+      "unfired-stock",
+      "walk-the-zone",
+      "walk-to-misfire",
+      "zone-marker-sl",
+      "zone-marker-sr",
+      "zone-tape"
+    ],
+    "meshes": 173
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Which effect, which device, which position on the deck, which cue number, and what that device is built to throw.",
+      "id": "plot",
+      "kind": "select",
+      "prompt": "Which effect, which device, which position on the deck, which cue number, and what that device is built to throw.",
+      "target": "cue-sheet",
+      "title": "Read the cue sheet for tonight's effect",
+      "why": "The cue sheet is the one document the designer, the operator and the permitting AHJ all signed off on. Every distance on this deck still traces back to the device's own rating, read off the box in hand, not remembered from a previous show."
+    },
+    {
+      "cue": "Make sure the permit names this building, this show and these specific effects, and that the AHJ has already been through.",
+      "id": "permit",
+      "kind": "select",
+      "prompt": "Make sure the permit names this building, this show and these specific effects, and that the AHJ has already been through.",
+      "target": "permit-board",
+      "title": "Confirm the permit and the sign-off",
+      "why": "A proximate effect only goes up under a permit written for this exact show in this exact room, once the AHJ has been through and signed off. An empty slot on that board is not a filing delay — it means the effect stays dark tonight."
+    },
+    {
+      "cue": "Run the tape out from the device toward the house and commit once you hit the separation its rating calls for.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.66
+        ],
+        "label": "SEPARATION",
+        "missNote": "That is not the separation this device is rated for. Move the position or change the device — those are the only two options.",
+        "speed": 0.7
+      },
+      "id": "zone",
+      "kind": "gauge",
+      "prompt": "Run the tape out from the device toward the house and commit once you hit the separation its rating calls for.",
+      "target": "tape-measure",
+      "title": "Measure the separation distance",
+      "why": "Separation gets measured with a tape, never paced off by eye. That number comes straight from the device's own rating and the angle it is aimed at, and it is the single distance on this deck with a crowd of people standing at the far end of it."
+    },
+    {
+      "cue": "Marker stage left, marker stage right, then tape the line between them.",
+      "id": "barriers",
+      "itemNames": {
+        "zone-marker-sl": "stage-left marker",
+        "zone-marker-sr": "stage-right marker",
+        "zone-tape": "tape the line on the deck"
+      },
+      "kind": "sequence",
+      "prompt": "Marker stage left, marker stage right, then tape the line between them.",
+      "targets": [
+        "zone-marker-sl",
+        "zone-marker-sr",
+        "zone-tape"
+      ],
+      "title": "Lay the exclusion line on the deck",
+      "why": "An exclusion line that only lives in the operator's head gets walked through by every dancer, stagehand and camera operator on the deck. Taped down, it becomes something everybody working the show can see, and something the stage manager can hold people to."
+    },
+    {
+      "cue": "Confirm the mortar is bolted to the deck and aimed exactly where the cue sheet calls for.",
+      "id": "mortar",
+      "kind": "select",
+      "prompt": "Confirm the mortar is bolted to the deck and aimed exactly where the cue sheet calls for.",
+      "target": "mortar-mount",
+      "title": "Check the mount and the angle",
+      "why": "A mortar that shifts between this check and the cue turns every distance you just measured into a distance to somewhere else entirely. It has to stay bolted down and aimed up and away from any spot a person could ever occupy."
+    },
+    {
+      "cue": "Check the line is shorted out at the stage end before anything goes near the mortar.",
+      "id": "shunt",
+      "kind": "select",
+      "prompt": "Check the line is shorted out at the stage end before anything goes near the mortar.",
+      "target": "line-shunt",
+      "title": "Confirm the firing line is shunted",
+      "why": "A shunt is simply the two firing conductors tied together, so any stray voltage — a nearby radio, a static discharge, a dimmer leaking current down a shared conduit — has somewhere to go that is not through the match. It stays in place through the entire load-in, and it is the only reason a device can be handled by hand at all."
+    },
+    {
+      "cue": "Carry the device from the case and seat it in the mortar.",
+      "drag": {
+        "missNote": "Not seated in the mortar — a device resting in the tube is a device that leaves at an angle nobody measured.",
+        "radius": 0.4,
+        "to": "mortar-socket"
+      },
+      "id": "device-load",
+      "kind": "drag",
+      "prompt": "Carry the device from the case and seat it in the mortar.",
+      "target": "pyro-device",
+      "title": "Load the device",
+      "why": "It goes in last, only once the position, the separation and the shunt are all confirmed. Everything up to here is work around an empty tube; everything from here on is work around a live device."
+    },
+    {
+      "cue": "Use the panel's own test circuit and commit on the reading.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.52
+        ],
+        "label": "LOOP",
+        "missNote": "That loop reading is not a good circuit — open or shorted, either way the cue does not go and you do not know why until you have found it.",
+        "speed": 0.72
+      },
+      "id": "continuity",
+      "kind": "gauge",
+      "prompt": "Use the panel's own test circuit and commit on the reading.",
+      "target": "panel-test",
+      "title": "Test continuity from the panel",
+      "why": "The panel's test circuit is current-limited specifically so it can prove a match is intact without being enough to fire it. Anything else in the toolbox that measures resistance does so by pushing current, and on an e-match that is not a measurement, it is a cue."
+    },
+    {
+      "cue": "Turn the key out of the panel and put it in your pocket.",
+      "id": "key-out",
+      "kind": "turn",
+      "prompt": "Turn the key out of the panel and put it in your pocket.",
+      "target": "firing-key",
+      "title": "Take the key",
+      "turn": {
+        "axis": "z",
+        "label": "FIRING KEY",
+        "reverse": true,
+        "turns": 0.25
+      },
+      "why": "The key is the difference between a firing panel and a desk. Out of the panel and on the operator, the effect belongs to one person; left in it, the effect belongs to whoever is nearest when the room goes dark."
+    },
+    {
+      "cue": "Sweep the fallout area with your own eyes, then take the all-clear over the intercom.",
+      "id": "allclear",
+      "itemNames": {
+        "stage-comms": "all-clear from the stage manager",
+        "walk-the-zone": "walk the zone yourself"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Walk it first, then take the call — an all-clear you accepted before looking is somebody else's opinion of your zone.",
+      "prompt": "Sweep the fallout area with your own eyes, then take the all-clear over the intercom.",
+      "targets": [
+        "walk-the-zone",
+        "stage-comms"
+      ],
+      "title": "Sweep it yourself, then take the all-clear",
+      "why": "Your own eyes come first, the confirmation after. The stage manager can only clear the part of the stage they can actually see; the operator has to clear the whole volume the effect will fill, including the space behind the riser that a front-of-house view never reaches."
+    },
+    {
+      "cue": "Key in, arm the circuit, and stay at the panel.",
+      "id": "arm",
+      "kind": "select",
+      "prompt": "Key in, arm the circuit, and stay at the panel.",
+      "target": "arm-switch",
+      "title": "Arm the panel",
+      "why": "Arming is the last thing and it happens with the operator standing at the desk. From here to the cue is measured in seconds, and for all of them the panel is one press from an effect."
+    },
+    {
+      "cue": "Hold the fire button through the cue.",
+      "holdBreakNote": "Came off the button mid-cue. On a sequence that drops the rest of the effects and leaves half of them loaded.",
+      "id": "fire",
+      "kind": "hold",
+      "prompt": "Hold the fire button through the cue.",
+      "seconds": 3,
+      "target": "fire-button",
+      "title": "Fire on the cue",
+      "why": "Held rather than tapped, because the operator's hand on the button through the whole effect is the operator still watching the stage through the whole effect — and the fastest way to stop the rest of a sequence is a hand that comes off."
+    },
+    {
+      "cue": "Disarm, shunt, key out — in that order, before anybody moves downstage.",
+      "id": "disarm",
+      "itemNames": {
+        "arm-switch": "disarm the panel",
+        "firing-key": "key out and in your pocket",
+        "line-shunt": "shunt the line"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Disarm, then shunt, then key. The panel stops being able to fire before the line is touched.",
+      "prompt": "Disarm, shunt, key out — in that order, before anybody moves downstage.",
+      "targets": [
+        "arm-switch",
+        "line-shunt",
+        "firing-key"
+      ],
+      "title": "Make it safe in order",
+      "why": "Three things, and each one only means something with the ones before it. Disarmed stops the panel firing, shunted stops anything else firing it, key out stops the panel being re-armed by somebody who does not know what is on the deck."
+    },
+    {
+      "cue": "Hold the post and watch the deck and the drapes for the full watch.",
+      "holdBreakNote": "The watch was cut short. The whole point of a fire watch is the part after it looks like nothing happened.",
+      "id": "firewatch",
+      "kind": "hold",
+      "prompt": "Hold the post and watch the deck and the drapes for the full watch.",
+      "seconds": 5,
+      "target": "fire-watch-post",
+      "title": "Stand the fire watch",
+      "why": "Debris from an effect stays hot after it lands, and a soft good that has caught can take several minutes before it shows. The watch is held at the spot the effect went off, for as long as the house's own policy requires, which is exactly why a smouldering drape gets caught by the person who fired the cue instead of by whoever happens to notice it later."
+    },
+    {
+      "cue": "Click the three things that have to be reconciled before the deck is released.",
+      "id": "loadout",
+      "itemNames": {
+        "device-log": "the device log",
+        "spent-casing": "spent casing",
+        "unfired-stock": "unfired stock"
+      },
+      "itemNotes": {
+        "device-log": "Every device that came out of the case is written against what happened to it. The count in equals the count out, or nobody goes home.",
+        "spent-casing": "The spent casing comes out of the mortar and is accounted for. A tube that looks empty in a work light is not a tube anybody loads on top of.",
+        "unfired-stock": "Unfired stock goes back in the magazine case, locked, and off the deck. It does not live in a road box overnight because the case it came in is the case the licence covers."
+      },
+      "kind": "find",
+      "prompt": "Click the three things that have to be reconciled before the deck is released.",
+      "targets": [
+        "spent-casing",
+        "unfired-stock",
+        "device-log"
+      ],
+      "title": "Load out and account for everything",
+      "why": "The reconciliation is the entire point of this step. A device that is not accounted for at the end of the night is a device left somewhere in a building that is about to be handed off to a completely different crew."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A proximate effect set and fired: permit and fallout zone first, device loaded last, line shunted until the panel tests it, armed only on the all-clear, and a misfire nobody walks up to",
+  "title": "SmartCiti.X~ Pyro Cue VR",
+  "trade": "Pyrotechnic operator / stage technician",
+  "underwater": null,
+  "weather": "clear"
+}

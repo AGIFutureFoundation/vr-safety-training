@@ -1,0 +1,446 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "block-held",
+    "name": "Block Held",
+    "note": "A whole block worked inside the volunteer's role: nobody hurt helping, nobody exposed, nobody left alone"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "FEMA's Community Emergency Response Team (CERT) programme, named as a body, for the volunteer's role and its limits: rescuer safety first, size-up, utility control, light search and marking, simple triage, bleeding control, cribbing, disaster psychology and team organisation; NIMS and ICS for checking in, reporting up one chain and keeping an activity log, as taught in the FEMA IS-100 and IS-700 courses; Red Cross shelter and first-aid practice for the neighbours sent onward; Psychological First Aid (NCTSN and the National Center for PTSD) for the frightened and the grieving; SAMHSA's trauma-informed principles for a neighbourhood after a disaster. The gas utility's rule that only the utility or a qualified professional restores gas is stated generically. No local neighbourhood programme is named because none is sourced in this repository. The leadership principles practised here are those commonly taught in civic-leadership programmes; the foundation whose principles the programme draws on is not sourced in this repository",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "FEMA",
+        "citedAs": "Community Emergency Response Team",
+        "id": "fema-cert",
+        "title": "FEMA's Community Emergency Response Team (CERT) programme, as a body — basic training in disaster preparedness, size-up, fire safety and utility control, light search and rescue, disaster medical operations, disaster psychology and team organisation, with rescuer safety first"
+      },
+      {
+        "body": "FEMA",
+        "citedAs": "FEMA IS-100",
+        "id": "fema-is-courses",
+        "title": "FEMA Emergency Management Institute IS-100 and IS-700 independent-study courses in ICS and NIMS"
+      },
+      {
+        "body": "NIMS/ICS",
+        "citedAs": "ICS",
+        "id": "nims-ics",
+        "title": "NIMS incident command system — the structure a multi-agency response runs inside"
+      },
+      {
+        "body": "NCTSN",
+        "citedAs": "Psychological First Aid",
+        "id": "pfa-field-guide",
+        "title": "Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide"
+      },
+      {
+        "body": "Red Cross",
+        "citedAs": "Red Cross",
+        "id": "red-cross-disaster-services",
+        "title": "American Red Cross shelter operations, Disaster Mental Health and first aid/CPR course standards"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Civic",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "kitted-up",
+        "name": "Kitted Up",
+        "note": "Every piece of personal safety kit found first time"
+      },
+      {
+        "id": "nobody-hurt-helping",
+        "name": "Nobody Hurt Helping",
+        "note": "No unsafe action anywhere on the block"
+      },
+      {
+        "id": "hazards-named",
+        "name": "Hazards Named",
+        "note": "Every hazard on the block found first time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "No corrections anywhere on the block"
+      },
+      {
+        "id": "inch-at-a-time",
+        "name": "An Inch at a Time",
+        "note": "The lift set inside the band"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "The pressure and the calm both carried their full count"
+      }
+    ],
+    "currency": "READY",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Team Member",
+      "Buddy Lead",
+      "Block Captain",
+      "Area Coordinator",
+      "Team Mentor"
+    ],
+    "system": "Block by Block"
+  },
+  "hazards": {
+    "confront-the-stranger": "You joined the neighbours shouting at the man they say is looting. A block captain is not law enforcement, you do not know who he is or whose house he was at, and a crowd egged on by the one person in a vest can hurt someone in minutes. Observe, keep people back and report it up the chain.",
+    "post-needs-list": "You posted the roster of who lives alone, who uses oxygen and who cannot climb stairs to the public neighbourhood feed. That list is a map of the block's most vulnerable people and when their doors are unlocked; it goes to your team leader and nobody else, and posting it publicly exposes the very people it was made to protect.",
+    "relight-the-gas": "You turned the neighbour's gas back on so she could make coffee. Once a meter is shut after an earthquake, only the gas utility or a qualified professional turns it back on, after checking the lines and relighting the pilots; a volunteer who restores it risks filling a cracked house with gas, and takes on a job the programme explicitly says is not theirs.",
+    "skip-rotation": "You waved off your relief and kept working into a fourteenth hour. Exhaustion makes volunteers miss hazards and make bad lifts, and a captain who collapses becomes a casualty the team has to rescue. The programme's own rule is rescuer safety first — that includes rest, water and handing off."
+  },
+  "id": "cv-neighborhood-emergency-block-captain",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "control-the-bleeding",
+      "alert": "An aftershock rolls through the street. Bricks are coming off the leaning chimney — and two neighbours are standing on the porch right underneath it.",
+      "cue": "Keep one hand on the pressure and shout them off the porch, away from the chimney.",
+      "delay": 3,
+      "id": "aftershock-chimney",
+      "kind": "Aftershock",
+      "missNote": "Nobody told them to move. A section of chimney came down on the porch steps, and one of the neighbours is now the block's second Immediate casualty — under a hazard you had already named.",
+      "seconds": 12,
+      "target": "clear-the-porch",
+      "why": "Aftershocks are expected, and the damage the first shock loosened is what they bring down. The captain named that chimney as a hazard minutes ago; now two people are under it. A loud, simple instruction — off the porch, into the street, away from the chimney — takes a second and does not require letting go of the casualty. Letting the moment pass is how a light-damage morning becomes a fatality.",
+      "wrongNote": "Pressing harder on the wound does not move the people under the chimney. Keep one hand where it is and shout them off the porch."
+    },
+    {
+      "after": "calm-the-neighbour",
+      "alert": "Her husband has broken away and is heading back into the badly cracked corner house to find their dog.",
+      "cue": "Stop him at the door, calmly and firmly — the house is not safe to enter — and promise to report the dog.",
+      "delay": 3,
+      "id": "pet-reentry",
+      "kind": "Re-entry into a damaged house",
+      "missNote": "He went in. Part of the ceiling came down in the hallway, and the team now has a rescue inside a house they had marked as too dangerous for anyone — including themselves — to enter.",
+      "seconds": 12,
+      "target": "stop-reentry-card",
+      "why": "People go back into damaged buildings for pets, photographs and medicine, and it is one of the common ways they are hurt after the shaking stops. The corner house has a diagonal crack through a load-bearing wall; nobody enters it, including volunteers. Stopping him with calm authority, telling him why, and promising to report the dog to the team — and to animal services when they are running — gives him something to do other than walk in.",
+      "wrongNote": "Calming her does not stop him. He is at the door of a house nobody should enter — step in, firmly, and tell him why."
+    }
+  ],
+  "lateNotes": {
+    "block-log-board": "The activity log closes once the roster is handed off. There is nothing to record yet.",
+    "needs-roster": "The roster goes to the team leader once your radio report is done — not before, and never to anyone else."
+  },
+  "name": "Neighborhood Emergency Block Captain",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "civic-leadership-and-ei"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "block-log-board",
+      "calm-meter",
+      "clear-the-porch",
+      "confront-the-stranger",
+      "crew-checkin-board",
+      "door-mark-spot",
+      "gas-valve",
+      "hz-cracked-wall",
+      "hz-downed-line",
+      "hz-leaning-chimney",
+      "hz-toppled-bin",
+      "kit-camp-stove",
+      "kit-gloves",
+      "kit-goggles",
+      "kit-helmet",
+      "kit-whistle-radio",
+      "leader-clipboard",
+      "lift-meter",
+      "needs-roster",
+      "post-needs-list",
+      "pressure-point",
+      "relight-the-gas",
+      "rpt-casualties",
+      "rpt-hazards",
+      "rpt-location",
+      "rpt-needs",
+      "size-assess-damage",
+      "size-consider-hazards",
+      "size-decide-plan",
+      "size-gather-facts",
+      "skip-rotation",
+      "slash-marker",
+      "staging-checkin-card",
+      "stop-reentry-card",
+      "tag-immediate"
+    ],
+    "meshes": 238
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Find every piece of personal safety kit before you leave the house.",
+      "decoyNotes": {
+        "kit-camp-stove": "The camp stove is for later, at home. It is not personal safety kit, and it has no place near a block that may have gas leaks."
+      },
+      "id": "kit-up-first",
+      "itemNames": {
+        "kit-gloves": "work gloves over nitrile",
+        "kit-goggles": "goggles and a dust mask",
+        "kit-helmet": "your helmet",
+        "kit-whistle-radio": "whistle and the team radio"
+      },
+      "itemNotes": {
+        "kit-gloves": "Nitrile against blood, work gloves over them against glass and splintered wood — the two hazards you will touch first.",
+        "kit-goggles": "Plaster and brick dust are everywhere after a quake. Eyes and lungs go first if they are not covered.",
+        "kit-helmet": "Aftershocks bring down whatever the first shock loosened. A helmet is the difference between a bruise and a head injury on a street of cracked chimneys.",
+        "kit-whistle-radio": "The radio is how you check in and report; the whistle is how you are found if something comes down on you."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find every piece of personal safety kit before you leave the house.",
+      "targets": [
+        "kit-helmet",
+        "kit-gloves",
+        "kit-goggles",
+        "kit-whistle-radio"
+      ],
+      "title": "Put on your own safety kit before you step outside",
+      "why": "The first rule the programme teaches is rescuer safety: a volunteer who is hurt helping becomes one more person for an overstretched response to reach. Helmet, gloves over nitrile, eye and breathing protection, a whistle and the team radio are what let a block captain walk a damaged street and stay a helper rather than a casualty. It takes two minutes, and it is the two minutes most people skip."
+    },
+    {
+      "cue": "Report to the staging table: your name, your buddy, your block, your skills. Take your assignment.",
+      "id": "check-in-at-staging",
+      "kind": "select",
+      "prompt": "Report to the staging table: your name, your buddy, your block, your skills. Take your assignment.",
+      "target": "staging-checkin-card",
+      "title": "Check in at the team's staging point",
+      "why": "A volunteer who self-deploys is invisible to the people coordinating the response: nobody knows where they are, what they are doing or when to worry about them. Checking in at staging, as the incident command system asks, puts the captain on the board with a buddy and an assignment, so their work is counted, their block is not searched twice, and someone comes looking if they do not check back."
+    },
+    {
+      "cue": "Facts, damage, what could still go wrong, then decide and plan — in that order.",
+      "id": "size-up-the-block",
+      "itemNames": {
+        "size-assess-damage": "assess and report the damage you can see",
+        "size-consider-hazards": "consider what could still go wrong",
+        "size-decide-plan": "decide what you can safely do, and plan it",
+        "size-gather-facts": "gather the facts: time, weather, who lives here"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Facts, damage, hazards, then the plan. Deciding what to do before you have looked at what could still go wrong is how volunteers walk under a loose chimney.",
+      "prompt": "Facts, damage, what could still go wrong, then decide and plan — in that order.",
+      "targets": [
+        "size-gather-facts",
+        "size-assess-damage",
+        "size-consider-hazards",
+        "size-decide-plan"
+      ],
+      "title": "Size up the block before you act",
+      "why": "The programme's size-up is a discipline against the instinct to run to the first person calling out. Gathering facts, assessing the damage and considering what could still happen — an aftershock, a gas leak, a wall that has not fallen yet — before deciding what a two-person team can safely do is how volunteers avoid walking into the second collapse. A plan made in a minute saves hours of undoing a bad start."
+    },
+    {
+      "cue": "You smell gas and hear a hiss at the corner house. Turn the meter valve a quarter turn, crosswise to the pipe.",
+      "id": "shut-the-gas",
+      "kind": "turn",
+      "prompt": "You smell gas and hear a hiss at the corner house. Turn the meter valve a quarter turn, crosswise to the pipe.",
+      "target": "gas-valve",
+      "title": "Shut the gas at the meter where you smell it",
+      "turn": {
+        "axis": "z",
+        "label": "GAS OFF",
+        "turns": 0.25
+      },
+      "why": "A hissing meter on a shaken house is a fire waiting for a spark. The programme teaches volunteers to shut the gas at the meter when they smell gas or hear a leak — a quarter turn so the valve sits across the pipe — and to leave it off. Shutting it only where there is a sign of a leak matters too: every meter turned off without cause is a house without heat until the utility can reach it."
+    },
+    {
+      "cue": "Mark every hazard on the street that keeps people back or keeps your team out.",
+      "decoyNotes": {
+        "hz-toppled-bin": "A toppled recycling bin is mess, not a hazard. Walk past it."
+      },
+      "id": "walk-the-block",
+      "itemNames": {
+        "hz-cracked-wall": "a diagonal crack through the corner house's wall",
+        "hz-downed-line": "a power line down across the sidewalk",
+        "hz-leaning-chimney": "a chimney leaning over the porch"
+      },
+      "itemNotes": {
+        "hz-cracked-wall": "A diagonal crack through a load-bearing wall is a sign of serious structural damage. Volunteers do not enter a house like that.",
+        "hz-downed-line": "Treat every downed line as live. Keep everyone well back, and report it for the utility — you do not move it.",
+        "hz-leaning-chimney": "What the first shock loosened, the next one drops. Nobody stands on that porch."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Mark every hazard on the street that keeps people back or keeps your team out.",
+      "targets": [
+        "hz-downed-line",
+        "hz-leaning-chimney",
+        "hz-cracked-wall"
+      ],
+      "title": "Walk the block and name every hazard",
+      "why": "The block captain's most useful product is often a list of what nobody should go near: a line that must be treated as live, a chimney that will come down in the next aftershock, a house too damaged for volunteers to enter. Naming them early keeps neighbours from wandering into them and tells the professionals where they are needed. A volunteer who cannot tell mess from danger wastes both."
+    },
+    {
+      "cue": "Before entering the lightly damaged house next door, carry the single-slash marker to the door.",
+      "drag": {
+        "missNote": "Not on the door. The single slash goes up beside the entrance before you go in, so anyone who comes after knows a team is inside.",
+        "radius": 0.55,
+        "to": "door-mark-spot"
+      },
+      "id": "mark-the-search",
+      "kind": "drag",
+      "prompt": "Before entering the lightly damaged house next door, carry the single-slash marker to the door.",
+      "target": "slash-marker",
+      "title": "Mark the door before you search",
+      "why": "Search marking is how many teams on one street avoid searching the same house twice and missing the next one. A single slash beside the door says a team is inside; completed into a cross with the time, team, hazards and people found, it tells every searcher after you what was done. It also tells your own team where you are if you do not come back out."
+    },
+    {
+      "cue": "The neighbour inside has a deep cut on his forearm. Hold firm, direct pressure and do not let go.",
+      "holdBreakNote": "You lifted the pressure to look. The bleeding started again. Press back down and hold it.",
+      "id": "control-the-bleeding",
+      "kind": "hold",
+      "prompt": "The neighbour inside has a deep cut on his forearm. Hold firm, direct pressure and do not let go.",
+      "seconds": 8,
+      "target": "pressure-point",
+      "title": "Hold direct pressure on the bleeding",
+      "why": "Severe bleeding is one of the things the programme's triage says to treat immediately, because it kills faster than almost anything else a volunteer will see. Firm, direct pressure with a dressing, held without peeking, is what stops it; lifting to check restarts it. Holding it is also a moment of contact for a frightened man on his own floor — a steady hand and a calm voice are treatment too."
+    },
+    {
+      "cue": "Breathing fast, slow capillary refill, but he can follow your instructions. Tag him Immediate and report it.",
+      "id": "tag-the-casualty",
+      "kind": "select",
+      "prompt": "Breathing fast, slow capillary refill, but he can follow your instructions. Tag him Immediate and report it.",
+      "target": "tag-immediate",
+      "title": "Triage him and tag him Immediate",
+      "why": "The programme's triage is fast and simple on purpose: breathing, circulation and mental status, then a tag. A man breathing over thirty times a minute or with a slow refill needs care first, however calm he sounds. Tagging him Immediate and reporting it puts him at the top of the list for the first ambulance or treatment area, rather than leaving him to be found by whoever passes next."
+    },
+    {
+      "cue": "A bookcase has pinned a neighbour's leg. Commit a lift inside the band — just enough to free her, cribbed as you go.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.52
+        ],
+        "label": "LIFT",
+        "missNote": "Outside the band. Too little and she stays trapped; too much, uncribbed, and the load can shift and fall back on her. Lift an inch, crib an inch, only as far as you need.",
+        "speed": 0.6
+      },
+      "id": "lift-and-crib",
+      "kind": "gauge",
+      "prompt": "A bookcase has pinned a neighbour's leg. Commit a lift inside the band — just enough to free her, cribbed as you go.",
+      "target": "lift-meter",
+      "title": "Lift the fallen shelf an inch at a time and crib it",
+      "why": "Leverage and cribbing are how a two-person team frees someone from under a heavy object without the object falling back. The rule is to lift an inch and crib an inch, and only as far as needed to slide the person free. A heroic heave with nothing underneath can drop the load on the person and the rescuer alike. It is the most physical thing a volunteer does, and it is done slowly."
+    },
+    {
+      "cue": "Hold her inside the band: calm and present, not rushed away and not smothered with questions.",
+      "holdBreakNote": "She slipped away from you — left alone, or swamped with questions. Come back to her level, calmly, with one thing at a time.",
+      "id": "calm-the-neighbour",
+      "kind": "track",
+      "prompt": "Hold her inside the band: calm and present, not rushed away and not smothered with questions.",
+      "seconds": 8,
+      "target": "calm-meter",
+      "title": "Steady a frightened neighbour on the kerb",
+      "track": {
+        "drift": 0.16,
+        "fall": 0.4,
+        "green": [
+          0.3,
+          0.7
+        ],
+        "label": "CALM",
+        "rise": 0.48,
+        "start": 0.5
+      },
+      "why": "Disaster psychology is part of the programme because shock is universal after a quake. Psychological First Aid asks for calm, simple presence: sit at her level, tell her what is happening and what comes next, help her reach her family, and do not force her to talk about it. Rushing off leaves her alone with it; a stream of questions overwhelms her. The skill is holding her steady while the block keeps moving."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Location, casualties by tag, hazards found, and what you need — short and plain.",
+      "id": "report-up-the-chain",
+      "itemNames": {
+        "rpt-casualties": "casualties by tag",
+        "rpt-hazards": "hazards found",
+        "rpt-location": "where you are",
+        "rpt-needs": "what you need"
+      },
+      "kind": "sequence",
+      "prompt": "Location, casualties by tag, hazards found, and what you need — short and plain.",
+      "targets": [
+        "rpt-location",
+        "rpt-casualties",
+        "rpt-hazards",
+        "rpt-needs"
+      ],
+      "title": "Radio a short report to your team leader",
+      "why": "A report is what turns one block captain's morning into information the whole response can use: where the Immediate casualty is, which lines are down, which house is too damaged to enter, and what the team needs. Keeping it short and plain on one chain to one team leader, as the incident command system teaches, is how dozens of teams on dozens of blocks get heard without flooding the channel."
+    },
+    {
+      "cue": "Carry the block's needs roster to the team leader's clipboard. It goes nowhere else.",
+      "drag": {
+        "missNote": "Not on the team leader's clipboard. The list of who lives alone and who uses medical equipment goes to the team leader — never to a group chat, a board or a stranger.",
+        "radius": 0.55,
+        "to": "leader-clipboard"
+      },
+      "id": "hand-off-the-roster",
+      "kind": "drag",
+      "prompt": "Carry the block's needs roster to the team leader's clipboard. It goes nowhere else.",
+      "target": "needs-roster",
+      "title": "Hand the roster of who needs help to the team leader only",
+      "why": "The roster the block captain keeps — who lives alone, who uses oxygen or a wheelchair, who cannot hear an alarm — is the most useful and the most dangerous paper on the street. In the right hands it gets help to the people who need it first; in the wrong ones it is a list of vulnerable homes. It goes to the team leader, by hand, and is not copied, photographed or posted."
+    },
+    {
+      "cue": "Times, what was done, who was found and where they went, hazards reported — no medical details beyond the tag.",
+      "id": "close-the-block-log",
+      "kind": "select",
+      "prompt": "Times, what was done, who was found and where they went, hazards reported — no medical details beyond the tag.",
+      "target": "block-log-board",
+      "title": "Close the block's activity log",
+      "why": "The activity log is how the response reconstructs what happened on every block, and how the next shift picks up without re-searching houses. Writing times, actions, where each person was sent and which hazards were reported — but no medical detail beyond the triage tag — makes it useful to the people who follow and safe to leave on the staging table. It is the last thing done before handing off, not the first thing forgotten."
+    },
+    {
+      "cue": "Water, rest, a handover to the next captain — and two minutes with your buddy about how the morning landed.",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "Water, rest, a handover to the next captain — and two minutes with your buddy about how the morning landed.",
+      "target": "crew-checkin-board",
+      "title": "Hand off to your relief and check in with your buddy",
+      "why": "Volunteers after a disaster see things they will carry: a neighbour bleeding on his floor, a woman trapped under her own furniture. Handing off to the relief on time, drinking water and sitting with your buddy for two minutes — what went well, what is sticking — is the programme's rescuer-safety rule applied to the mind. Knowing who to call if it stays with you is part of the kit."
+    }
+  ],
+  "supportLine": "your team leader, the disaster mental-health volunteers at the shelter, or the teammate you trained with who will pick up the phone",
+  "tagline": "The morning after the quake, one block and one captain: checked in, sized up, gas shut where it hisses, the damaged house marked, bleeding stopped, a leg freed an inch at a time, a frightened neighbour steadied — and the roster of who needs help kept off the group chat",
+  "title": "SmartCiti.X~ Neighborhood Emergency Block Captain VR",
+  "trade": "Neighbourhood emergency block captain — CERT-trained volunteer",
+  "underwater": null,
+  "weather": "overcast"
+}

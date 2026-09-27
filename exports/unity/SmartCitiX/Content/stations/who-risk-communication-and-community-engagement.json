@@ -1,0 +1,408 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "loop-closed",
+    "name": "Loop Closed",
+    "note": "A message that said what is known and what is not, trusted voices heard, every rumour logged and none repeated, and last week's questions answered in public"
+  },
+  "category": "Emergency Services",
+  "certification": "WHO outbreak communication guidance — trust, announcing early, transparency, listening to the public and planning — as the risk communication and community engagement working group applies it; WHO infection prevention and control guidance for the practical advice given at the meeting; CDC isolation precautions for what families are told about a relative in isolation; OSHA 29 CFR 1910.1030 and 29 CFR 1910.134 for the health staff who attend; the Sphere Handbook's core humanitarian standard commitments on communication, participation and feedback, and IASC cluster coordination for sharing the rumour log across partners; worked by SEIU and AFSCME public-health staff with NNU/CNA nurses",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "IASC",
+        "citedAs": "IASC",
+        "id": "iasc-cluster-coordination",
+        "title": "Inter-Agency Standing Committee (IASC) cluster approach and cluster coordination guidance"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "Sphere",
+        "citedAs": "Sphere Handbook",
+        "id": "sphere-handbook",
+        "title": "The Sphere Handbook: Humanitarian Charter and Minimum Standards in Humanitarian Response"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO infection prevention and control guidance",
+        "id": "who-ipc-guidance",
+        "title": "WHO guidance on infection prevention and control in health care"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO outbreak communication guidance",
+        "id": "who-outbreak-communication",
+        "title": "WHO outbreak communication guidance"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Emergency Services",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "honest-message",
+        "name": "Honest Message",
+        "note": "Known, not yet known, doing, you can — first time"
+      },
+      {
+        "id": "no-harm-said",
+        "name": "No Harm Said",
+        "note": "No rumour repeated, no promise, no family named, no group blamed"
+      },
+      {
+        "id": "heard-at-back",
+        "name": "Heard at the Back",
+        "note": "Loudspeaker set inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-meeting",
+        "name": "Clean Meeting",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "every-question",
+        "name": "Every Question",
+        "note": "Question tally kept without a dropout"
+      },
+      {
+        "id": "seven-straight",
+        "name": "Seven Straight",
+        "note": "Seven correct actions in a row"
+      }
+    ],
+    "currency": "TRUST",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Community Mobiliser",
+      "RCCE Officer",
+      "Engagement Lead",
+      "RCCE Coordinator",
+      "Community Voice Certified"
+    ],
+    "system": "Community Voice"
+  },
+  "hazards": {
+    "wrc-blame-group": "You agreed with the man blaming the traders from the next village. Blaming a group for an outbreak sets neighbours against each other, pushes that group away from the health services the whole area needs them to use, and has nothing to do with how the disease actually spreads.",
+    "wrc-name-family": "You named the family whose relative was taken to the treatment centre. Naming a family at a public meeting brings stigma to their door by evening, and it teaches every other household that telling the response about a sick relative means being named in front of the market.",
+    "wrc-promise": "You told the crowd there would be no more deaths if everyone followed the advice. A promise the response cannot keep is the fastest way to lose the trust WHO outbreak communication guidance puts first: when the next death comes, everything else said at this meeting is remembered as a lie.",
+    "wrc-repeat-rumour": "You read the rumour out word for word over the loudspeaker so you could deny it. A rumour repeated to the community — even to correct it — reaches people who had never heard it and is remembered long after the correction is forgotten; the meeting leads with what is known and what to do, and the rumour itself goes into the log."
+  },
+  "id": "who-risk-communication-and-community-engagement",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "listen",
+      "alert": "A man at the back stands up and shouts a rumour about the treatment centre across the whole shelter.",
+      "cue": "Write it into the feedback box log — then answer with what is known, not by repeating it.",
+      "delay": 2,
+      "id": "rumour-shouted",
+      "kind": "Rumour in the crowd",
+      "missNote": "The rumour hung in the air unanswered and unlogged. It went round the market by evening, and the treatment centre saw fewer people come forward that week.",
+      "seconds": 13,
+      "target": "wrc-feedback-box",
+      "why": "A rumour shouted at a meeting is feedback: it tells the team what people are hearing. Logging it first means it reaches the working group; answering with what is known, calmly and without repeating the claim, gives the crowd something true to hold onto instead of an argument to remember.",
+      "wrongNote": "Not that. Log the rumour in the feedback box first, then answer with what is known."
+    },
+    {
+      "after": "question-tally",
+      "alert": "The community radio host is on the phone wanting a statement on the new cases, live, right now.",
+      "cue": "Pass it to the designated spokesperson line — do not give a statement you have not cleared.",
+      "delay": 3,
+      "id": "radio-wants-statement",
+      "kind": "Media call",
+      "missNote": "The call went unanswered, then someone on the team gave an off-the-cuff figure to fill the silence. It was wrong, and the correction the next day was heard by far fewer people than the mistake.",
+      "seconds": 13,
+      "target": "wrc-spokesperson-line",
+      "why": "Planning is one of the principles in WHO outbreak communication guidance, and it includes who speaks. An uncleared figure given live to a radio host becomes the number everyone repeats; passing the call to the designated spokesperson means the community hears one consistent, checked message.",
+      "wrongNote": "Not that. Put the radio host through to the designated spokesperson line."
+    }
+  ],
+  "lateNotes": {
+    "wrc-listening-mic": "Open the floor once the message has been given in the community's language — people cannot question a message they have not yet heard.",
+    "wrc-poster": "Post the pictorial poster once the meeting has seen it explained; a poster without the conversation is just paper on a board."
+  },
+  "name": "Risk Communication and Community Engagement",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "outbreak-response-who"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "wrc-answer-board",
+      "wrc-blame-group",
+      "wrc-card-doing",
+      "wrc-card-know",
+      "wrc-card-unknown",
+      "wrc-card-you-can",
+      "wrc-cluster-phone",
+      "wrc-crew-board",
+      "wrc-feedback-box",
+      "wrc-flipchart-crank",
+      "wrc-interpreter",
+      "wrc-listening-mic",
+      "wrc-meeting-log",
+      "wrc-name-family",
+      "wrc-notice-board",
+      "wrc-pa-volume",
+      "wrc-poster",
+      "wrc-promise",
+      "wrc-question-tally",
+      "wrc-religious-leader",
+      "wrc-repeat-rumour",
+      "wrc-rumour-log",
+      "wrc-spokesperson-line",
+      "wrc-womens-group",
+      "wrc-youth-leader"
+    ],
+    "meshes": 280
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read what the community has been saying and asking this week before you say anything to them.",
+      "id": "rumour-log",
+      "kind": "select",
+      "prompt": "Read what the community has been saying and asking this week before you say anything to them.",
+      "target": "wrc-rumour-log",
+      "title": "Read the week's rumour and feedback log",
+      "why": "A meeting that answers questions nobody asked while ignoring the ones everyone is asking is a broadcast, not engagement. The rumour and feedback log collected by the teams all week tells you what people are worried about, what they have heard and what they need, so the meeting starts from the community's questions rather than the response's script."
+    },
+    {
+      "cue": "What we know, then what we do not know yet, then what the response is doing, then what people can do.",
+      "id": "message-build",
+      "itemNames": {
+        "wrc-card-doing": "what the response is doing",
+        "wrc-card-know": "what we know",
+        "wrc-card-unknown": "what we do not know yet",
+        "wrc-card-you-can": "what you can do"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Known, not yet known, what we are doing, what you can do — honesty about the unknown comes before the advice.",
+      "prompt": "What we know, then what we do not know yet, then what the response is doing, then what people can do.",
+      "targets": [
+        "wrc-card-know",
+        "wrc-card-unknown",
+        "wrc-card-doing",
+        "wrc-card-you-can"
+      ],
+      "title": "Build the message in order",
+      "why": "Saying plainly what is known and what is not yet known is what makes a message believable when it changes next week — and in an outbreak it will. Ending on what people can do gives them something practical to take home, which is what turns a frightening announcement into a plan."
+    },
+    {
+      "cue": "Look around the shelter and find the people this community already trusts — and bring them to the front.",
+      "id": "trusted-voices",
+      "itemNames": {
+        "wrc-religious-leader": "the religious leader",
+        "wrc-womens-group": "the women's group chair",
+        "wrc-youth-leader": "the youth leader"
+      },
+      "itemNotes": {
+        "wrc-religious-leader": "Standing at the edge of the shelter; people bring him their questions about funerals and prayers.",
+        "wrc-womens-group": "Sitting with the market traders; she runs the savings group half the mothers belong to.",
+        "wrc-youth-leader": "Leaning on the water tank; the young men who ride the motorbike taxis listen to him, not to officials."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look around the shelter and find the people this community already trusts — and bring them to the front.",
+      "targets": [
+        "wrc-religious-leader",
+        "wrc-womens-group",
+        "wrc-youth-leader"
+      ],
+      "title": "Find the trusted voices",
+      "why": "People believe advice from those they already trust, and in most communities that is not the response team. A religious leader, a women's group chair and a youth leader standing with the team change who the message is coming from — and they are also the people who will hear the next rumour first."
+    },
+    {
+      "cue": "Go through the message with the interpreter in the community's language before the meeting starts.",
+      "id": "interpreter",
+      "kind": "select",
+      "prompt": "Go through the message with the interpreter in the community's language before the meeting starts.",
+      "target": "wrc-interpreter",
+      "title": "Brief the interpreter",
+      "why": "A message given in a second language is understood by the people who least need it. Briefing the interpreter first — on what is known and not known, and on the words that must not be softened or made stronger — is how the message stays honest in translation."
+    },
+    {
+      "cue": "Crank the flip chart up to eye height so the pictures can be seen from the back benches.",
+      "id": "flipchart",
+      "kind": "turn",
+      "prompt": "Crank the flip chart up to eye height so the pictures can be seen from the back benches.",
+      "target": "wrc-flipchart-crank",
+      "title": "Raise the pictorial flip chart",
+      "turn": {
+        "axis": "z",
+        "label": "FLIP CHART",
+        "turns": 0.75
+      },
+      "why": "Pictures carry a message to people who do not read and to children who will repeat it at home. A flip chart set low is seen by the front row only; cranked to eye height, the whole shelter can follow the pictures while the interpreter speaks."
+    },
+    {
+      "cue": "Sweep the volume and commit where the back benches hear clearly without the front row flinching.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.6
+        ],
+        "label": "VOLUME",
+        "missNote": "Not right yet. Sweep again and commit where it reads heard at the back.",
+        "speed": 0.6
+      },
+      "id": "pa-volume",
+      "kind": "gauge",
+      "prompt": "Sweep the volume and commit where the back benches hear clearly without the front row flinching.",
+      "target": "wrc-pa-volume",
+      "title": "Set the loudspeaker",
+      "why": "Too quiet and the back of the crowd starts its own conversation; too loud and a frightening subject sounds like shouting at people. The right level lets an older person at the back hear every word and lets the front row ask a question without competing with the speaker."
+    },
+    {
+      "cue": "Hand the microphone to the community and hold — listen to the whole question before anyone answers.",
+      "holdBreakNote": "You cut in before the question was finished. Hand the microphone back and let them finish.",
+      "id": "listen",
+      "kind": "hold",
+      "prompt": "Hand the microphone to the community and hold — listen to the whole question before anyone answers.",
+      "seconds": 5,
+      "target": "wrc-listening-mic",
+      "title": "Open the floor and listen",
+      "why": "Listening is one of the principles WHO outbreak communication guidance names, and it is the one people notice. A question heard to the end, without interruption, tells the person asking that they matter, and it often turns out to be a different question from the one the team expected."
+    },
+    {
+      "cue": "Carry the poster to the market notice board and pin it where people pass.",
+      "drag": {
+        "missNote": "Not on the market board. The poster belongs where people pass every day.",
+        "radius": 0.5,
+        "to": "wrc-notice-board"
+      },
+      "id": "poster",
+      "kind": "drag",
+      "prompt": "Carry the poster to the market notice board and pin it where people pass.",
+      "target": "wrc-poster",
+      "title": "Post the pictorial poster",
+      "why": "A meeting reaches the people who came to it; a poster at the market notice board reaches everyone who walks past for the next fortnight. Pinned after the meeting has explained it, it becomes a reminder of a conversation rather than an instruction from strangers."
+    },
+    {
+      "cue": "Log each question on the tally as it comes, and keep pace with the room.",
+      "holdBreakNote": "The tally slipped. Questions are being lost — catch back up with the room.",
+      "id": "question-tally",
+      "kind": "track",
+      "prompt": "Log each question on the tally as it comes, and keep pace with the room.",
+      "seconds": 7,
+      "target": "wrc-question-tally",
+      "title": "Keep up with the questions",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "TALLY",
+        "rise": 0.55,
+        "start": 0.2
+      },
+      "why": "Every question asked is information: what people fear, what they have misunderstood, what the response has failed to explain. A tally kept as the questions come, not reconstructed afterwards, is what the RCCE working group uses to decide what next week's message needs to say."
+    },
+    {
+      "cue": "Pin up the answers to the questions people asked last week, where everyone can see them.",
+      "id": "close-loop",
+      "kind": "select",
+      "prompt": "Pin up the answers to the questions people asked last week, where everyone can see them.",
+      "target": "wrc-answer-board",
+      "title": "Post last week's answers",
+      "why": "Communities stop giving feedback when it disappears into a notebook. Posting last week's answers in public shows that questions are heard and acted on, and it is the reason people will bother to tell the team about the next rumour instead of just passing it on."
+    },
+    {
+      "cue": "Hold the line while the RCCE working group reads back the week's top rumours and questions.",
+      "holdBreakNote": "You hung up before the working group read it back. Call back and finish the handover.",
+      "id": "share-log",
+      "kind": "hold",
+      "prompt": "Hold the line while the RCCE working group reads back the week's top rumours and questions.",
+      "seconds": 4,
+      "target": "wrc-cluster-phone",
+      "title": "Share the rumour log with the working group",
+      "why": "The same rumour usually surfaces in several places at once. Sharing the log with the RCCE working group, under IASC cluster coordination, lets every partner answer it the same way, and lets surveillance hear about the sick relative a question mentioned before the family decides to hide them."
+    },
+    {
+      "cue": "After the meeting, check in with the team on the hard moments, and point anyone who needs it to staff care.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "After the meeting, check in with the team on the hard moments, and point anyone who needs it to staff care.",
+      "target": "wrc-crew-board",
+      "title": "Check in with the engagement team",
+      "why": "Engagement teams absorb a community's fear and anger in person, sometimes directed at them by name. A few minutes after the meeting to talk through the hard moments — and to name staff care out loud — is how the team goes back to the next meeting still able to listen."
+    },
+    {
+      "cue": "Hold the log open and read back attendance, the message given, the questions and the rumours before you sign.",
+      "holdBreakNote": "You signed without reading it back. Open the log and read the questions and rumours out first.",
+      "id": "closing-log",
+      "kind": "hold",
+      "prompt": "Hold the log open and read back attendance, the message given, the questions and the rumours before you sign.",
+      "seconds": 4,
+      "target": "wrc-meeting-log",
+      "title": "Close the meeting log",
+      "why": "The meeting log is how the working group knows what was actually said in this community and what came back. Read back before signing, it catches the rumour that was mentioned but not written down, which is usually the one that matters next week."
+    }
+  ],
+  "supportLine": "your agency's staff welfare or staff counsellor service, or the peer-support contact named at your deployment briefing",
+  "tagline": "A community meeting in an outbreak: the rumour log read first, what is known and what is not, trusted voices at the front, the community's language, listening before answering, rumours logged not repeated, and the feedback loop closed",
+  "title": "SmartCiti.X~ Risk Communication and Community Engagement VR",
+  "trade": "Risk communication and community engagement officer — SEIU and AFSCME public-health staff, NNU/CNA nurses, and the humanitarian workforce deployed under IASC clusters",
+  "underwater": null,
+  "weather": "clear"
+}

@@ -1,0 +1,428 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "swale-to-grade",
+    "name": "Swale To Grade",
+    "note": "A bioswale built to the design grade, with a clean subgrade, an unpacked soil mix, and the first inflow disperses across the dams"
+  },
+  "category": "Water & Environmental",
+  "certification": "LIUNA laborers; IUOE Local 3 operating engineers (grading and compaction equipment); San Francisco Bay Regional Water Quality Control Board municipal stormwater (NPDES) permit; San Francisco Stormwater Management Requirements and Design Guidelines; Clean Water Act Section 402 municipal separate storm sewer system (MS4) practice; OSHA 29 CFR 1926 Subpart P excavations for the underdrain trench",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "Regional Water Quality Control Board",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "grade-honest",
+        "name": "Grade Honest",
+        "note": "Read the design plan and the stakes clean before the first cut"
+      },
+      {
+        "id": "nothing-compacted",
+        "name": "Nothing Compacted",
+        "note": "Never a hazard, never a reading called outside its band"
+      },
+      {
+        "id": "true-grade",
+        "name": "True Grade",
+        "note": "Soil depth and riser elevation both read inside the working band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-swale",
+        "name": "Clean Swale",
+        "note": "No corrections across the whole build"
+      },
+      {
+        "id": "steady-place",
+        "name": "Steady Place",
+        "note": "Held the soil placement rate in band the whole load"
+      },
+      {
+        "id": "swale-ready",
+        "name": "Swale Ready",
+        "note": "Swale built and the first inflow watched inside 80% of par"
+      }
+    ],
+    "currency": "IN/HR",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Laborer",
+      "Crew Hand",
+      "Grade Lead",
+      "Site Steward",
+      "Swale Certified"
+    ],
+    "system": "Swale Crew"
+  },
+  "hazards": {
+    "roll-compact-mix": "You ran the plate compactor over the engineered soil mix to settle it faster. The whole reason this mix is specified instead of ordinary fill is that water moves through the pore space between its particles — compacting it closes that pore space, and a bioswale with a compacted soil layer is a shallow ditch that ponds and does the one job it was built for worse than bare ground would have.",
+    "trench-cavein-entry": "You stepped down into the open underdrain trench without using the sloped access. An unshored trench cut for a pipe run does not care that the finished swale above it will be shallow and planted — the walls it has right now can still come in on whoever is standing at the bottom of it, and Subpart P does not have an exception for a trench that is only there for a weekend.",
+    "use-failed-mix": "You placed soil mix from a load whose delivery ticket had already failed its organic content and gradation spec, rather than sending the truck back. A bioswale's filtering capacity is entirely a property of the mix specified for it — a load that failed the ticket is not a slightly worse version of the same soil, it is a different material the design was never sized around, sitting under plants that are about to depend on it working.",
+    "wash-to-drain": "You hosed the day's excess soil and wash water straight into the street's storm drain inlet instead of the site's containment area. That inlet goes to the same bay this whole swale exists to protect, untreated and immediately — which makes it the exact discharge the NPDES permit is written to stop, done with a hose in about the time it takes to notice."
+  },
+  "id": "bioswale-build",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "soil-place",
+      "alert": "The second truck's delivery ticket just came back from the lab failed — the gradation is off spec — and it is already backed up to the hopper waiting to dump.",
+      "cue": "That load does not go in. Flag it before it's dumped.",
+      "delay": 4,
+      "id": "failed-ticket-load",
+      "kind": "Delivery ticket failed",
+      "missNote": "The load went in before the ticket was checked, and a layer of soil the design was never sized around is now buried under check dams and plants that are all going to depend on it filtering the way the spec assumed it would.",
+      "seconds": 13,
+      "target": "reject-load-flag",
+      "why": "A mix that fails its own delivery ticket is not a soil the design was ever sized around, and once it is dumped and spread it is mixed into a layer nobody can un-mix — the flag has to go up while the load is still on the truck, because that is the only moment turning it away costs a phone call instead of an excavator.",
+      "wrongNote": "That's not it. The reject flag is what stops this specific load before the hopper dumps it — nothing else on this site does that."
+    },
+    {
+      "after": "first-inflow",
+      "alert": "A rain cell that was not on this morning's forecast is moving in fast, and the bare soil on the upper bank has no erosion control down yet.",
+      "cue": "That soil is about to take a real storm with nothing holding it. Get the blanket down now.",
+      "delay": 4,
+      "id": "rain-arriving",
+      "kind": "Rain cell arriving early",
+      "missNote": "The storm hit the bare bank before the blanket did, and rills cut straight down through soil that had not been given a season, or even a day, to root in and hold itself together.",
+      "seconds": 12,
+      "target": "erosion-blanket",
+      "why": "Bare, loose engineered soil mix is exactly the material the whole build depends on staying in place and exactly the material a real storm moves first — every particle that washes off the bank before it is stabilised is filtering capacity that is not there anymore, and it goes downhill into the swale the crew just finished shaping. The blanket goes down before the rain does, not after the bank has already moved.",
+      "wrongNote": "Not that. The erosion blanket is the one thing on this bank that stops bare soil from moving in a storm that is already inbound."
+    }
+  ],
+  "lateNotes": {
+    "riser-collar": "Set the riser once the soil is at depth and the dams are down — there is no grade to set it against before the design profile is actually in the ground.",
+    "soil-spread": "Place the soil mix after the pipe's fall is confirmed — soil going in over an unproven pipe just gets dug back up if the fall is wrong.",
+    "test-valve": "Watch the first inflow after the plants are in, not before — an empty swale with no plugs in it tells you nothing about how the finished design behaves.",
+    "underdrain-pipe": "Lay the pipe once the subgrade compaction reading is in — there is nothing honest to lay it against before that."
+  },
+  "name": "Bioswale Build",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-bay-restoration"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "compaction-gauge",
+      "dam-1",
+      "dam-2",
+      "dam-3",
+      "erosion-blanket",
+      "erosion-blanket-corner",
+      "fall-level",
+      "inlet-screen-check",
+      "plan-board",
+      "plant-transition",
+      "plant-upland",
+      "plant-wet",
+      "reject-load-flag",
+      "riser-collar",
+      "roll-compact-mix",
+      "soil-probe",
+      "soil-spread",
+      "stage-gloves",
+      "stage-helmet",
+      "stage-vest",
+      "stake-1",
+      "stake-2",
+      "stake-3",
+      "test-valve",
+      "trench-cavein-entry",
+      "underdrain-pipe",
+      "underdrain-trench",
+      "use-failed-mix",
+      "wash-to-drain"
+    ],
+    "meshes": 246
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the design cross-section: subgrade elevation, soil mix depth, check dam spacing, and the riser's design elevation.",
+      "id": "plan",
+      "kind": "select",
+      "prompt": "Check the design cross-section: subgrade elevation, soil mix depth, check dam spacing, and the riser's design elevation.",
+      "target": "plan-board",
+      "title": "Read the grading plan and the design profile",
+      "why": "Every cut and every fill on this site is a number on this plan before it is a shovel of dirt — the finished swale is judged against the cross-section drawn here, not against what a trench happens to look like once it is dug and backfilled by feel."
+    },
+    {
+      "cue": "Walk the site and click the three stakes the whole cross-section is built from.",
+      "id": "stakes",
+      "itemNames": {
+        "stake-1": "stake 1 — inlet end",
+        "stake-2": "stake 2 — mid-swale",
+        "stake-3": "stake 3 — outlet end"
+      },
+      "itemNotes": {
+        "stake-1": "Stake 1 sets the inlet end of the design template — the swale's whole profile is built off this point, not off where the ground looks lowest this morning.",
+        "stake-2": "Stake 2 is the mid-swale control that says the excavation is still following the surveyed grade and not just running downhill on its own.",
+        "stake-3": "Stake 3 sets the outlet end, where the riser and the underdrain's own outfall are referenced from."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the site and click the three stakes the whole cross-section is built from.",
+      "targets": [
+        "stake-1",
+        "stake-2",
+        "stake-3"
+      ],
+      "title": "Find the survey stakes that set the design grade",
+      "why": "The subgrade cut, the soil depth, the dam spacing and the riser elevation are all measured off these three stakes, not off each other — finding all three before the first cut is what keeps every later reading tied to the same design instead of four separate guesses that happen to look similar."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Hi-vis vest, hard hat, and gloves before stepping into the excavation.",
+      "id": "stage",
+      "itemNames": {
+        "stage-gloves": "gloves",
+        "stage-helmet": "hard hat",
+        "stage-vest": "hi-vis vest"
+      },
+      "kind": "sequence",
+      "prompt": "Hi-vis vest, hard hat, and gloves before stepping into the excavation.",
+      "targets": [
+        "stage-vest",
+        "stage-helmet",
+        "stage-gloves"
+      ],
+      "title": "Stage the crew's own gear",
+      "why": "There is an open trench for the underdrain, grading equipment working the pad, and a soil mix that leaves everyone's hands raw by the end of a shift — the vest keeps a laborer visible to the equipment operator, the hard hat is for the boom of the mix hopper swinging overhead, and the gloves are what a full day of handling wet compost and wire ties does not do to bare skin."
+    },
+    {
+      "cue": "Press the compaction gauge into the exposed subgrade and commit the reading against spec.",
+      "gauge": {
+        "green": [
+          0.38,
+          0.58
+        ],
+        "label": "SUBGRADE",
+        "missNote": "Over the compaction the design allows for infiltration. Loosen the subgrade and read it again before the pipe goes in.",
+        "speed": 0.7
+      },
+      "id": "subgrade",
+      "kind": "gauge",
+      "prompt": "Press the compaction gauge into the exposed subgrade and commit the reading against spec.",
+      "target": "compaction-gauge",
+      "title": "Check the subgrade compaction",
+      "why": "A bioswale only infiltrates through soil that is not already sealed by equipment traffic — a subgrade left over-compacted from the excavator's own tracks stops water at the bottom of the swale as effectively as a slab of concrete would, no matter how loose the soil mix placed on top of it is."
+    },
+    {
+      "cue": "Carry the perforated pipe into the trench and set it in the bedding.",
+      "drag": {
+        "missNote": "Not in the trench bed — a pipe staged on the bank drains nothing.",
+        "radius": 0.45,
+        "to": "underdrain-trench"
+      },
+      "id": "underdrain-lay",
+      "kind": "drag",
+      "prompt": "Carry the perforated pipe into the trench and set it in the bedding.",
+      "target": "underdrain-pipe",
+      "title": "Lay the underdrain pipe",
+      "why": "The underdrain is the swale's backup — water that percolates past the soil mix faster than the ground beneath can absorb it needs somewhere to go that is not sideways into a neighbour's foundation, and that only happens if the pipe is actually in the trench the plan cut for it rather than staged on the bank."
+    },
+    {
+      "cue": "Read the line level on the pipe run and commit the fall against the design slope.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "PIPE FALL",
+        "missNote": "Off the design slope. Reset the bedding and read the level again before the soil mix covers it.",
+        "speed": 0.72
+      },
+      "id": "underdrain-fall",
+      "kind": "gauge",
+      "prompt": "Read the line level on the pipe run and commit the fall against the design slope.",
+      "target": "fall-level",
+      "title": "Check the pipe's fall against the design",
+      "why": "A perforated pipe with no fall on it does not drain, it just fills — the whole point of specifying a slope on the plan is so that whatever gets into the pipe keeps moving to the outlet instead of sitting in it, and the only way to know the pipe actually has that slope is to read it, not to eyeball a trench that looks roughly level."
+    },
+    {
+      "cue": "Hold the spreader chute in the working range — a loose, even lift, not a packed one.",
+      "holdBreakNote": "The rate broke and the chute dumped a pile instead of a lift — that pile is packed the moment it lands. Bring it back to a steady rate.",
+      "id": "soil-place",
+      "kind": "track",
+      "prompt": "Hold the spreader chute in the working range — a loose, even lift, not a packed one.",
+      "seconds": 7,
+      "target": "soil-spread",
+      "title": "Place the engineered soil mix",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.38,
+          0.58
+        ],
+        "label": "SOIL PLACE RATE",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "The engineered mix does its filtering through the spaces between its own particles, so it goes in loose and gets left that way — fed too fast it piles and rides the chute into ridges that pack under their own weight, fed too slow the crew is standing over an idle hopper while the specified lift never actually builds to depth."
+    },
+    {
+      "cue": "Push the depth probe into the placed mix and commit the reading against the design lift.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "SOIL DEPTH",
+        "missNote": "Short of the design lift. Add another pass of soil mix before anything else goes on top of it.",
+        "speed": 0.7
+      },
+      "id": "soil-depth",
+      "kind": "gauge",
+      "prompt": "Push the depth probe into the placed mix and commit the reading against the design lift.",
+      "target": "soil-probe",
+      "title": "Read the soil mix depth against the design",
+      "why": "A loose lift that looks about right is not the same claim as a lift proven to depth — the probe is the only honest answer to how much filtering soil is actually over the underdrain, and it is read now, while there is still time to add another lift, not after the check dams are already sitting on top of it."
+    },
+    {
+      "cue": "Set the check dams at stake 1, then stake 2, then stake 3, working downhill.",
+      "id": "check-dams",
+      "itemNames": {
+        "dam-1": "check dam at stake 1",
+        "dam-2": "check dam at stake 2",
+        "dam-3": "check dam at stake 3"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Inlet to outlet — stake 1, then stake 2, then stake 3. A downstream dam built before the ones above it takes flow the design never asked it to carry alone.",
+      "prompt": "Set the check dams at stake 1, then stake 2, then stake 3, working downhill.",
+      "targets": [
+        "dam-1",
+        "dam-2",
+        "dam-3"
+      ],
+      "title": "Set the check dams at the design spacing",
+      "why": "Check dams are set working downhill so each one keys against still ground the upstream dam has already slowed, rather than against a bed the flow has already scoured. Set out of order, the lowest dam takes the full, unslowed force of the whole run of water above it — exactly the load the spacing on the design was calculated to spread across all three."
+    },
+    {
+      "cue": "Turn the riser's locking collar until the barrel seats at the design elevation.",
+      "id": "riser",
+      "kind": "turn",
+      "prompt": "Turn the riser's locking collar until the barrel seats at the design elevation.",
+      "target": "riser-collar",
+      "title": "Set the overflow riser to design elevation",
+      "turn": {
+        "axis": "y",
+        "label": "RISER COLLAR",
+        "turns": 0.75
+      },
+      "why": "The riser is what keeps the swale a swale instead of a pond once a storm bigger than the design storm shows up — set too low, the swale never holds the depth it was designed to treat; set too high, it backs up onto the finished planting and drowns everything just placed in it. The collar locks it at the one elevation the level actually calls for."
+    },
+    {
+      "cue": "Plant the wet-zone plugs first, then the transition slope, then the upland crest.",
+      "id": "plant",
+      "itemNames": {
+        "plant-transition": "transition-zone plugs — side slope",
+        "plant-upland": "upland plugs — bank crest",
+        "plant-wet": "wet-zone plugs — swale bottom"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Bottom to crest — wet zone, then transition, then upland. A species set out of its zone is a plug that is either drowned or dried out by the first season.",
+      "prompt": "Plant the wet-zone plugs first, then the transition slope, then the upland crest.",
+      "targets": [
+        "plant-wet",
+        "plant-transition",
+        "plant-upland"
+      ],
+      "title": "Set the plants to the planting plan",
+      "why": "The planting plan puts species where the tidal-frame equivalent for a swale — how often that spot actually sees standing water — matches what each species can survive, wettest to driest. Planted out of that order, it is easy to put a species that drowns on every storm into the one spot on the bank that holds water longest."
+    },
+    {
+      "cue": "Hold the test valve open and watch the flow disperse across the dams before calling the swale finished.",
+      "holdBreakNote": "You let go before the flow settled into a pattern across the dams — reopen the valve and watch the full run before calling it finished.",
+      "id": "first-inflow",
+      "kind": "hold",
+      "prompt": "Hold the test valve open and watch the flow disperse across the dams before calling the swale finished.",
+      "seconds": 5,
+      "target": "test-valve",
+      "title": "Watch the first inflow",
+      "why": "Every reading taken so far was a number on a gauge; this is the first time actual water crosses the finished swale, and it is the only check that shows whether the dams actually spread the flow the way the spacing was calculated to, rather than channelling straight down one side the way a plan on paper cannot show you."
+    },
+    {
+      "cue": "Check the inlet screen and the erosion blanket before this swale is left to the weather.",
+      "id": "walk",
+      "itemNames": {
+        "erosion-blanket-corner": "the erosion blanket's loose corner",
+        "inlet-screen-check": "the inlet trash screen"
+      },
+      "itemNotes": {
+        "erosion-blanket-corner": "One corner of the erosion control blanket on the bank has pulled loose from its staple. Left loose, the next wind or the next storm peels the whole blanket back from exactly the soil it is supposed to be holding down.",
+        "inlet-screen-check": "The inlet's trash screen has come half off its frame. Left as is, the first real storm packs it with street debris and sends the flow around the swale instead of through it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the inlet screen and the erosion blanket before this swale is left to the weather.",
+      "targets": [
+        "inlet-screen-check",
+        "erosion-blanket-corner"
+      ],
+      "title": "Walk the site before the crew stands down",
+      "why": "The crew is about to leave a finished bioswale to do its job unattended through however many storms come before the next site visit, and the inlet screen and the blanket are the two things most likely to fail quietly in the meantime. Both get one more look here, because neither one gets fixed by anybody once the crew is off this site."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Building a stormwater bioswale to grade: the design read against the survey stakes, subgrade compaction checked and the underdrain laid to fall, engineered soil placed loose to depth, check dams and the overflow riser set to the design numbers, plants set to the plan, and the first inflow watched to see the swale actually work",
+  "title": "SmartCiti.X~ Bioswale Build VR",
+  "trade": "Laborer / stormwater bioswale construction crew",
+  "underwater": null,
+  "weather": "overcast"
+}

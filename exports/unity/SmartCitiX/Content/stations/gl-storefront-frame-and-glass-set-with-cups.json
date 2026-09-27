@@ -1,0 +1,440 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "storefront-set-clean",
+    "name": "Storefront Set Clean",
+    "note": "A tempered entrance lite blocked, gasketed and beaded square in its frame with the sidewalk never put at risk while it was carried"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "IUPAT District Council 16 glaziers apprenticeship and training (architectural glass and metal); IUPAT Finishing Trades Institute glazier curriculum; ANSI/ASSP Z97.1 safety glazing materials for the tempered entrance lite; OSHA 29 CFR 1926.501 duty to have fall protection and 29 CFR 1926.502 fall protection systems criteria for the stepladder work at the transom; the storefront system manufacturer's glazing details for setting-block location and gasket compression",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IUPAT District Council 16",
+        "id": "iupat-dc16-glaziers",
+        "title": "IUPAT District Council 16 — glaziers apprenticeship and training, architectural glass and metal"
+      },
+      {
+        "body": "union",
+        "citedAs": "Finishing Trades Institute",
+        "id": "iupat-fti",
+        "title": "IUPAT Finishing Trades Institute — industrial painter, glazier and drywall finisher apprenticeship, including lead and containment training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.501",
+        "id": "osha-1926-501",
+        "title": "29 CFR 1926.501 — Duty to have fall protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.502",
+        "id": "osha-1926-502",
+        "title": "29 CFR 1926.502 — Fall protection systems criteria and practices"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "cups-proven",
+        "name": "Cups Proven",
+        "note": "The vacuum cups tested on scrap before they carried the real lite"
+      },
+      {
+        "id": "sidewalk-clear",
+        "name": "Sidewalk Clear",
+        "note": "No unsafe action toward the open threshold the whole run"
+      },
+      {
+        "id": "square-true",
+        "name": "Square True",
+        "note": "The lite squared inside tolerance, first read"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-set",
+        "name": "Clean Set",
+        "note": "The lite set without a correction"
+      },
+      {
+        "id": "held-in-rabbet",
+        "name": "Held In Rabbet",
+        "note": "The lite never came off the blocks before the first gasket lock was in"
+      },
+      {
+        "id": "pane-in-time",
+        "name": "Pane In Time",
+        "note": "Set, sealed and logged inside 80% of par"
+      }
+    ],
+    "currency": "PANE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Pre-apprentice",
+      "Ground Hand",
+      "Glazier",
+      "Lead Glazier",
+      "Storefront Certified"
+    ],
+    "system": "Storefront Crew"
+  },
+  "hazards": {
+    "bare-lite-edge": "You picked the lite up by its bare edge instead of keeping both cups seated on the faces. A tempered storefront lite's edge is ground but not blunted, and the corner is exactly where the whole weight of the pane concentrates if a cup loses its seal; a hand on that edge when the lite shifts is a hand in the one place the glass actually cuts. The lite moves on its cups, gloved, or it stays on the A-frame.",
+    "ladder-top-step": "You stood on the ladder's top step to reach the transom bar. The top step is not a step on this ladder — it is the part the label says never to stand on — and reaching past your own balance point at head height with a lite of glass nearby is exactly how a stepladder goes over sideways. The next rung down keeps your hips inside the rails where the ladder can actually catch you.",
+    "lite-gust": "You carried the lite past the open threshold without a second set of hands steadying it. A gust through a propped storefront doorway meets almost four square feet of glass like a sail meets a door, and a lite that catches wind on cups alone will twist out of the seal before the carrier can plant their feet. Two people, cups seated, and the door prop checked before the lite ever clears the A-frame.",
+    "prop-pinch": "You reached to catch the propped door instead of stepping clear of its swing. A storefront door under a closer is spring-loaded the moment its prop kicks loose, and a hand at the hinge side or the lock stile when that happens is a hand the door does not know is there. The door gets a new prop, or it gets watched from outside its swing — never caught by hand."
+  },
+  "id": "gl-storefront-frame-and-glass-set-with-cups",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "lite-hold",
+      "alert": "A gust has kicked the door prop loose and the storefront door is swinging shut on its closer while your hands are on the lite.",
+      "cue": "The door is loose and swinging on its own now.",
+      "delay": 3,
+      "id": "door-swing",
+      "kind": "The propped door swings",
+      "missNote": "The door swung until it found the jamb on its own. Nobody's hand was near it this time. The closer does not know the crew has a lite on the blocks four feet away, and it will swing exactly the same way the next time the prop walks loose.",
+      "seconds": 11,
+      "target": "door-wedge",
+      "why": "A door on a closer with no prop holding it does exactly what the closer is built to do — shut, on its own schedule, regardless of whose hands are full at the time. A fresh wedge driven under it is what stops the swing without anyone reaching for the hinge side while the lite is still on the blocks.",
+      "wrongNote": "It is the door wedge, driven in fresh. Stop the swing before anyone's hand is anywhere near that hinge."
+    },
+    {
+      "after": "sealant-track",
+      "alert": "A pedestrian has stepped off the kerb toward the threshold where the barricade tape has come down, straight at the sealant work.",
+      "cue": "Someone from the sidewalk is walking toward the open bay.",
+      "delay": 3,
+      "id": "sidewalk-walker",
+      "kind": "Pedestrian toward the open bay",
+      "missNote": "The pedestrian walked up to the frame and looked in before anyone reached them. They stepped back on their own. The tape was down for exactly as long as it took someone to notice, and this time it was a person who noticed on their own rather than a hand on the sealant gun.",
+      "seconds": 11,
+      "target": "sidewalk-barrier",
+      "why": "The barricade tape is the only thing telling a pedestrian this threshold is not a doorway to walk through today, and tape down on one end reads as no barrier at all from the sidewalk side. Restringing it now is what turns a person about to walk into wet sealant and open tools into a person who sees the line before they cross it.",
+      "wrongNote": "It is the sidewalk barrier. Restring the tape before anyone else reaches this threshold."
+    }
+  ],
+  "lateNotes": {
+    "entry-lite": "The lite leaves the A-frame after the cups are proven on scrap and the door prop is confirmed. A lite carried past an unchecked prop is a lite carried past a door that can still swing.",
+    "sealant-gun": "Sealant goes on a lite already gasketed and blocked. A bead run against glass still shifting on its blocks pulls loose the first time the lite settles onto them."
+  },
+  "name": "Storefront Frame And Glass Set With Cups",
+  "parSeconds": 275,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "glaziers-and-architectural-metal"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "glassVacuumLifter",
+        "count": 2,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "tapeMeasure",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.1,
+    "hits": [
+      "anemometer",
+      "bare-lite-edge",
+      "bead-tool",
+      "block-durometer",
+      "block-level",
+      "block-location",
+      "cap-bead",
+      "cut-gloves",
+      "door-wedge",
+      "entry-lite",
+      "floor-offcut",
+      "gasket-roller",
+      "hold-point",
+      "install-log",
+      "ladder-top-step",
+      "lite-gust",
+      "loose-prop",
+      "prop-pinch",
+      "safety-glasses",
+      "sealant-gun",
+      "sidewalk-barrier",
+      "square-gauge",
+      "storefront-rabbet",
+      "tailboard",
+      "tape-down",
+      "unchocked-frame",
+      "vacuum-cups",
+      "weep-holes",
+      "work-boots"
+    ],
+    "meshes": 173
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the day's tailboard — which bay is glazing, the sidewalk closure, who holds the door prop, the wind limit for carrying the lite — and sign it.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Read the day's tailboard — which bay is glazing, the sidewalk closure, who holds the door prop, the wind limit for carrying the lite — and sign it.",
+      "target": "tailboard",
+      "title": "Sign the tailboard with the crew",
+      "why": "The tailboard names which storefront bay is open to the sidewalk today and who is holding the door while the lite moves, because a ground-level job reads as low-risk right up until a lite meets a gust at an open threshold with pedestrians a metre away. Signing it is what makes today's plan the crew's plan rather than something assumed."
+    },
+    {
+      "cue": "Take the anemometer reading at the propped entrance and commit it inside the working band before the lite leaves the A-frame.",
+      "gauge": {
+        "green": [
+          0.2,
+          0.5
+        ],
+        "label": "WIND",
+        "missNote": "That reading is outside the working band at this doorway — over it, chock the doors and wait; under it, read it again at the threshold.",
+        "speed": 0.68
+      },
+      "id": "wind-read",
+      "kind": "gauge",
+      "prompt": "Take the anemometer reading at the propped entrance and commit it inside the working band before the lite leaves the A-frame.",
+      "target": "anemometer",
+      "title": "Read the wind at the open bay",
+      "why": "A storefront bay with both doors propped open is a wind tunnel through the building, and a large tempered lite on hand cups alone has no rating for that funnel the way a crane's load chart rates a gust. A reading over the band means the doors get chocked shut and the lite waits, because carrying it through that gap on a guess is how a lite leaves the cups mid-carry."
+    },
+    {
+      "cue": "Cut-resistant gloves, then safety glasses, then boots checked — in that order, before a hand goes near the A-frame.",
+      "id": "ppe-seq",
+      "itemNames": {
+        "cut-gloves": "cut-resistant gloves",
+        "safety-glasses": "safety glasses",
+        "work-boots": "steel-toe work boots"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Gloves, then glasses, then boots — the hand goes into a glove before it touches anything on the cart.",
+      "prompt": "Cut-resistant gloves, then safety glasses, then boots checked — in that order, before a hand goes near the A-frame.",
+      "targets": [
+        "cut-gloves",
+        "safety-glasses",
+        "work-boots"
+      ],
+      "title": "Glove and glass up before the lite comes off the cart",
+      "why": "A ground-level glazing job still puts a hand on a ground edge and a foot under a lite that can slip, and the order matters because gloves go on before anything is touched, glasses before the first edge is broken free of the A-frame's felt, and boots are the last thing checked because they are the one item nobody remembers to look at once the gloves are already on."
+    },
+    {
+      "cue": "Look at the A-frame and the floor between it and the frame — click the two things wrong before anyone carries anything.",
+      "id": "floor-walk",
+      "itemNames": {
+        "floor-offcut": "a glass offcut left on the floor",
+        "unchocked-frame": "the A-frame cart not chocked"
+      },
+      "itemNotes": {
+        "floor-offcut": "A sliver of tempered offcut is sitting on the floor by the threshold, exactly where the next foot lands carrying a lite.",
+        "unchocked-frame": "The A-frame cart's wheel is not chocked, and a cart of standing glass that rolls under its own lean is a cart that lays its whole load down."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the A-frame and the floor between it and the frame — click the two things wrong before anyone carries anything.",
+      "targets": [
+        "unchocked-frame",
+        "floor-offcut"
+      ],
+      "title": "Walk the bay before the lite moves",
+      "why": "The A-frame cart holds every lite on this job upright on its own lean, and an unchocked wheel turns that lean into a fall the moment someone brushes past it; the offcut on the floor is the kind of thing a boot finds by stepping on it while both hands are full of glass. Both get answered before the first lite comes off the cart."
+    },
+    {
+      "cue": "Pump each cup on the scrap pane, watch the vacuum gauge settle, and confirm the release lever before the cups go anywhere near the entry lite.",
+      "id": "cups-check",
+      "kind": "select",
+      "prompt": "Pump each cup on the scrap pane, watch the vacuum gauge settle, and confirm the release lever before the cups go anywhere near the entry lite.",
+      "target": "vacuum-cups",
+      "title": "Prove the vacuum cups on scrap before trusting them on the lite",
+      "why": "A hand cup that reads full vacuum on a clean face can still be carrying a nicked seal that bleeds down under load, and the way to find that out is on a piece of scrap nobody minds dropping — not on the tempered lite that is going into the frame. The release lever gets checked here too, because a cup that will not let go on command is its own kind of hazard once the lite is up against the rabbet."
+    },
+    {
+      "cue": "Both cups seated on the faces, two-handed, guide the lite from the A-frame to the storefront rabbet — not released until it is offered up square.",
+      "drag": {
+        "missNote": "Not square to the rabbet — a lite offered up crooked will not seat against the stop without forcing it.",
+        "radius": 0.48,
+        "to": "storefront-rabbet"
+      },
+      "id": "lite-drag",
+      "kind": "drag",
+      "prompt": "Both cups seated on the faces, two-handed, guide the lite from the A-frame to the storefront rabbet — not released until it is offered up square.",
+      "target": "entry-lite",
+      "title": "Carry the lite from the A-frame to the frame opening",
+      "why": "The lite is carried face-on with both cups doing the holding, because a lite carried edge-first by hand is a lite with nothing between a slip and the floor. It goes to the rabbet square because a lite offered up skewed will not seat against the glazing stop without being forced, and forcing a tempered lite against an aluminium stop is how a corner chips before it is even set."
+    },
+    {
+      "cue": "Blocks at the quarter points of the sill first, the right durometer for this lite's weight, then checked level — in that order.",
+      "id": "block-seq",
+      "itemNames": {
+        "block-durometer": "correct durometer block for this lite",
+        "block-level": "blocks checked level",
+        "block-location": "setting blocks at the quarter points"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Location, then durometer, then level — a block checked level before it is the right hardness for this lite is a check that means nothing.",
+      "prompt": "Blocks at the quarter points of the sill first, the right durometer for this lite's weight, then checked level — in that order.",
+      "targets": [
+        "block-location",
+        "block-durometer",
+        "block-level"
+      ],
+      "title": "Place the setting blocks",
+      "why": "Setting blocks carry the lite's own dead weight without carrying it onto the gasket, and the manufacturer's glazing detail puts them at the quarter points because that is where a lite this size actually bears without rocking. The wrong durometer block crushes under the load or refuses to compress at all, and a block that is not level tips the lite a fraction of a degree that shows up as a jammed door the first cold morning."
+    },
+    {
+      "cue": "Both hands on the cups, hold the lite flat against the rabbet while the first glazing stop is fitted — do not let go until it clicks home.",
+      "holdBreakNote": "You let go before the stop clicked home — the lite rocked forward off the blocks. Reseat it on the blocks and hold until the stop is in.",
+      "id": "lite-hold",
+      "kind": "hold",
+      "prompt": "Both hands on the cups, hold the lite flat against the rabbet while the first glazing stop is fitted — do not let go until it clicks home.",
+      "seconds": 4,
+      "target": "hold-point",
+      "title": "Hold the lite plumb on the blocks while the first stop is set",
+      "why": "Between the lite landing on the blocks and the first stop clicking in, the lite is held square by your grip on the cups and nothing else, and letting go early lets it rock forward off the blocks it just landed on. The stop is what turns the lite from something you are holding into something the frame is holding."
+    },
+    {
+      "cue": "Feed the gasket into the glazing channel and turn the roller steadily around the full perimeter, no stretch, no slack.",
+      "id": "gasket-roll",
+      "kind": "turn",
+      "prompt": "Feed the gasket into the glazing channel and turn the roller steadily around the full perimeter, no stretch, no slack.",
+      "target": "gasket-roller",
+      "title": "Roll the compression gasket into its groove",
+      "turn": {
+        "axis": "z",
+        "label": "SEAT",
+        "turns": 1
+      },
+      "why": "The gasket is what keeps water and wind load off the sealant and off the glass edge, and it has to go in at its own length rather than stretched, because a stretched gasket shrinks back after installation and opens a gap at the corner it was pulled tightest around. Rolled rather than pushed, it seats evenly instead of bunching at one point and starving the next."
+    },
+    {
+      "cue": "Gun at the exterior joint, run a continuous bead at a steady pace around the frame so the sealant fills to the depth the glazing detail calls for.",
+      "holdBreakNote": "The bead ran out of the band — a thin spot or an overfill at eye level on the storefront. Tool it out and run that stretch again at a steady pace.",
+      "id": "sealant-track",
+      "kind": "track",
+      "prompt": "Gun at the exterior joint, run a continuous bead at a steady pace around the frame so the sealant fills to the depth the glazing detail calls for.",
+      "seconds": 5,
+      "target": "sealant-gun",
+      "title": "Run the perimeter sealant bead",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.43,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "BEAD",
+        "rise": 0.55
+      },
+      "why": "The exterior bead is the storefront's actual weather seal, sitting outside a gasket that only manages compression; run too fast it skins over a gap, too slow it overfills and skins the gasket's own movement joint shut. The steady pace is what puts the manufacturer's specified depth of sealant against the frame the whole way round, on a joint at eye level that shows every flaw from the sidewalk."
+    },
+    {
+      "cue": "Read the diagonal tape against the frame's own corners and commit inside tolerance.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "SQUARE mm",
+        "missNote": "Outside square tolerance against the frame corners — back to the blocks before the bead goes on.",
+        "speed": 0.72
+      },
+      "id": "square-gauge",
+      "kind": "gauge",
+      "prompt": "Read the diagonal tape against the frame's own corners and commit inside tolerance.",
+      "target": "square-gauge",
+      "title": "Check the lite square in its frame",
+      "why": "A storefront lite that is out of square is invisible from across the street and obvious the day the door beside it stops closing flush, because the same frame carries both. The diagonal reading is taken against the frame's own corners rather than a level, since it is the frame's geometry the lite has to match, not true vertical."
+    },
+    {
+      "cue": "Tool the perimeter bead first, then a cap bead at each sill corner where the setting blocks sit.",
+      "id": "joint-seq",
+      "itemNames": {
+        "bead-tool": "the bead tooled",
+        "cap-bead": "cap bead checked at the sill corners"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Tool the main run first, then the cap beads at the corners — capping a corner before the main bead is tooled just gets tooled over again.",
+      "prompt": "Tool the perimeter bead first, then a cap bead at each sill corner where the setting blocks sit.",
+      "targets": [
+        "bead-tool",
+        "cap-bead"
+      ],
+      "title": "Tool the bead and cap the sill corners",
+      "why": "Tooling the bead presses it onto both the frame and the glass edge instead of leaving it sitting proud where it skins over a void, and the sill corners get a cap bead of their own because that is exactly where the setting blocks leave a gap in the main run — the one place water actually finds its way to the weeps if it is missed."
+    },
+    {
+      "cue": "Look at the prop and the barricade tape — click the two things wrong before the crew steps back from the frame.",
+      "id": "door-check",
+      "itemNames": {
+        "loose-prop": "the door prop kicked loose",
+        "tape-down": "barricade tape down at the sidewalk"
+      },
+      "itemNotes": {
+        "loose-prop": "The door prop has walked loose from foot traffic and the door is riding on its closer alone now — a spring waiting for a hand near the hinge.",
+        "tape-down": "The barricade tape along the sidewalk has come off its stanchion on one end, and pedestrians are walking straight toward the threshold where the lite just went in."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the prop and the barricade tape — click the two things wrong before the crew steps back from the frame.",
+      "targets": [
+        "loose-prop",
+        "tape-down"
+      ],
+      "title": "Check the door and the sidewalk before the tools come off the sill",
+      "why": "The door prop and the sidewalk barricade are the two things standing between this finished bay and the public the whole time work continues around it, and both fail the same quiet way — a prop that walks loose, tape that comes off a stanchion nobody was watching. Neither gets left for the next person to notice."
+    },
+    {
+      "cue": "Confirm the weep holes at the sill are open and clear of sealant before calling the bay finished.",
+      "id": "weep-check",
+      "kind": "select",
+      "prompt": "Confirm the weep holes at the sill are open and clear of sealant before calling the bay finished.",
+      "target": "weep-holes",
+      "title": "Check the sill's weep holes are clear",
+      "why": "The weep holes are what lets water that gets past the gasket back out of the frame instead of pooling against the glass edge all winter, and a bead tooled a little too generously at the sill is exactly what plugs them — the one mistake in this whole install that shows up as a stained sill six months from now instead of today."
+    },
+    {
+      "cue": "Lite size, block durometer, square reading, wind readings and the faults found and fixed, and sign it.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Lite size, block durometer, square reading, wind readings and the faults found and fixed, and sign it.",
+      "target": "install-log",
+      "title": "Log the bay",
+      "why": "The log ties this lite's square reading and block spec to a date and a name, which is what the crew shows if a corner ever needs to be explained. It also carries the loose prop and the sidewalk tape as fixed rather than assumed, for whoever walks past this bay after the crew has moved down the strip."
+    }
+  ],
+  "supportLine": "your IUPAT District Council 16 apprenticeship coordinator or job steward, or your employer's employee assistance program if the lite catching the wind at the propped door is what you keep seeing",
+  "tagline": "Tailboard and PPE, the floor walked, the vacuum cups proven on scrap, the lite carried two-handed to the frame, blocked, gasketed and beaded, squared, and the sill's weeps checked clear",
+  "title": "SmartCiti.X~ Storefront Frame And Glass Set With Cups VR",
+  "trade": "Glazier — IUPAT District Council 16 storefront and entrance systems",
+  "underwater": null,
+  "weather": "wind"
+}

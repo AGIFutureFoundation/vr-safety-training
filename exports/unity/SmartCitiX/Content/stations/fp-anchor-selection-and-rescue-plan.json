@@ -1,0 +1,374 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "anchor-and-plan-certified",
+    "name": "Anchor and Plan Certified",
+    "note": "A rated anchor chosen every time, tie-off never broken across a transfer, and a rescue plan briefed before anyone clipped in"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "OSHA 29 CFR 1926.501 duty to have fall protection, 29 CFR 1926.502 fall protection systems criteria and practices, OSHA 29 CFR 1926 Subpart M fall protection for the competent person's own duties, ANSI/ASSP Z359 fall protection code for the anchor and rescue equipment rated here, and Ironworkers and IMPACT apprenticeship and safety training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IMPACT",
+        "id": "ironworkers-impact",
+        "title": "Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.501",
+        "id": "osha-1926-501",
+        "title": "29 CFR 1926.501 — Duty to have fall protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.502",
+        "id": "osha-1926-502",
+        "title": "29 CFR 1926.502 — Fall protection systems criteria and practices"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "rack-checked-clean",
+        "name": "Rack Checked Clean",
+        "note": "The frayed harness found and set aside before it reached the crew"
+      },
+      {
+        "id": "tieoff-unbroken",
+        "name": "Tie-Off Unbroken",
+        "note": "Held at one hundred percent across the whole transfer"
+      },
+      {
+        "id": "never-a-shortcut",
+        "name": "Never a Shortcut",
+        "note": "Never a handrail clipped as an anchor, never a frayed harness worn, never a body under the rescue lift"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-setup",
+        "name": "Clean Setup",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "clearance-on-the-band",
+        "name": "Clearance On The Band",
+        "note": "Fall clearance gauge committed inside the band first time"
+      },
+      {
+        "id": "plan-briefed-fast",
+        "name": "Plan Briefed Fast",
+        "note": "Plan logged inside 80% of par"
+      }
+    ],
+    "currency": "TAG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Deck Hand",
+      "Tie-Off Crew",
+      "Competent Person Trainee",
+      "Rescue Plan Certified",
+      "Fall Protection Certified"
+    ],
+    "system": "Fall Protection"
+  },
+  "hazards": {
+    "clip-to-unrated-handrail": "You clipped the SRL to the guardrail instead of the rated anchor beside it. A handrail is built to keep someone from leaning past the edge, not to catch the full force of a fall — ANSI/ASSP Z359 rates an anchor to a specific load for exactly this reason, and a guardrail was never tested against it.",
+    "skip-tieoff-transfer": "You unclipped from the first anchor before clipping into the second instead of keeping both connected through the transfer. One hundred percent tie-off means exactly what it says — a moment spent connected to nothing while moving between anchors is a moment where a fall has nothing at all to catch it.",
+    "stand-under-rescue-lift": "You stood under the aerial lift's basket while it was being raised to rescue height instead of stepping clear. A basket rising on its own boom is a load moving overhead the same as any other, and standing under its path while positioning it for a rescue is trading one hazard for the very thing the rescue plan exists to prevent.",
+    "use-frayed-harness": "You pulled the frayed harness off the rack instead of setting it aside. Webbing that has started fraying has already lost strength nobody can see from a glance, and a harness like that is the one piece of this whole system that is worn against the body — it does not get a second chance to be inspected once someone is already hanging in it."
+  },
+  "id": "fp-anchor-selection-and-rescue-plan",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hundred-percent-tieoff-watch",
+      "alert": "A fall arrest system has just activated on a crew member working the next bay over — they are hanging in their harness.",
+      "cue": "Get the rescue lift's outriggers down now — the fall clearance check waits.",
+      "delay": 2,
+      "id": "arrest-activates-below",
+      "kind": "A fall arrest activates on a nearby crew member",
+      "missNote": "The clearance check continued while the suspended worker waited; the lift's outriggers were not set until several minutes after the arrest activated.",
+      "seconds": 14,
+      "target": "lift-outriggers",
+      "why": "A crew member already suspended is on the rescue plan's own clock the moment the arrest activates, and setting the lift's outriggers now — the first step toward actually reaching them — is what starts the rescue instead of finishing a calculation for a fall that has not happened yet.",
+      "wrongNote": "The rescue lift's outriggers — a live suspension is answered by starting the rescue, not by finishing paperwork already in hand."
+    },
+    {
+      "after": "stage-rescue-kit",
+      "alert": "A wind gust warning has just come in above the crew's own edge-work limit.",
+      "cue": "Call the crew off the edge now — the rescue plan briefing waits.",
+      "delay": 2,
+      "id": "wind-gust-halts-edge-work",
+      "kind": "A wind gust warning arrives mid-staging",
+      "missNote": "The rescue plan briefing continued at the edge through the gust warning; the crew was still standing at the rail when the wind actually arrived.",
+      "seconds": 12,
+      "target": "crew-radio",
+      "why": "Wind above the edge-work limit changes the fall-clearance math this whole plan was built on, and calling the crew back from the edge the moment the warning lands is what keeps today's anchors from being tested by a gust before anyone finished deciding they were safe to use.",
+      "wrongNote": "The crew radio — a wind gust warning is called in immediately, ahead of finishing a briefing already underway."
+    }
+  ],
+  "lateNotes": {
+    "lifeline-tensioner": "The lifeline has nothing to tension yet — the SRL has to be connected to the anchor first.",
+    "rescue-kit": "Nothing to stage yet — the fall clearance has to be checked before the rescue kit is placed.",
+    "srl-connector": "There is nothing to clip yet — a rated anchor has to be chosen first."
+  },
+  "name": "Anchor Selection & Rescue Plan",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "fall-protection"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "aerialBoomLift",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "clearance-calc",
+      "clip-to-unrated-handrail",
+      "crew-radio",
+      "fp-log",
+      "fp-plan",
+      "frayed-harness",
+      "harness-donned",
+      "lifeline-tensioner",
+      "lift-controls",
+      "lift-outriggers",
+      "rated-anchor",
+      "rescue-board",
+      "rescue-kit",
+      "rescue-point",
+      "second-anchor",
+      "skip-tieoff-transfer",
+      "srl-clipped",
+      "srl-connector",
+      "stand-under-rescue-lift",
+      "use-frayed-harness"
+    ],
+    "meshes": 170
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the plan: the anchor's rated capacity, the fall clearance the site requires, and the rescue timeframe suspension trauma sets.",
+      "id": "read-fall-protection-plan",
+      "kind": "select",
+      "prompt": "Read the plan: the anchor's rated capacity, the fall clearance the site requires, and the rescue timeframe suspension trauma sets.",
+      "target": "fp-plan",
+      "title": "Read the fall protection plan: anchor rating and rescue timeframe",
+      "why": "The fall protection plan is what turns an edge into a system with numbers behind it — the load an anchor is actually rated for, how much clearance a fall needs below it, and how long a suspended worker can safely wait for rescue. It is read before the harness goes on, because none of those numbers can be checked once someone is already tied off."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Harness on and every buckle checked, then the self-retracting lanyard clipped to the back D-ring.",
+      "id": "don-harness",
+      "itemNames": {
+        "harness-donned": "harness donned and buckled",
+        "srl-clipped": "SRL clipped to the D-ring"
+      },
+      "kind": "sequence",
+      "prompt": "Harness on and every buckle checked, then the self-retracting lanyard clipped to the back D-ring.",
+      "targets": [
+        "harness-donned",
+        "srl-clipped"
+      ],
+      "title": "Don the harness and clip the SRL to the back D-ring",
+      "why": "A harness that is not fully buckled distributes a fall's force across whatever straps happened to be tight, instead of across the whole body the way it was designed to, and checking every buckle before clipping the SRL is what makes the rest of this plan mean anything at all."
+    },
+    {
+      "cue": "Look over the harnesses on the rack for fraying webbing, a cracked buckle, or a D-ring that does not sit square.",
+      "id": "inspect-harness-webbing",
+      "itemNames": {
+        "frayed-harness": "frayed harness on the rack"
+      },
+      "itemNotes": {
+        "frayed-harness": "One harness on the rack has webbing fraying at a stitch line — easy to miss under a quick glance, and set aside before the crew reaches for it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the harnesses on the rack for fraying webbing, a cracked buckle, or a D-ring that does not sit square.",
+      "targets": [
+        "frayed-harness"
+      ],
+      "title": "Check the rack before the crew reaches for a harness",
+      "why": "A harness rack reads as interchangeable gear until the one with damage is the one somebody happens to grab, and checking the rack now — before the crew starts tying off for the day — is the only point in this job where a frayed harness costs nothing but a look to catch."
+    },
+    {
+      "cue": "Read both the anchor's rating plate and the handrail beside it, then choose the anchor that is actually rated for fall arrest.",
+      "id": "select-rated-anchor",
+      "kind": "select",
+      "prompt": "Read both the anchor's rating plate and the handrail beside it, then choose the anchor that is actually rated for fall arrest.",
+      "target": "rated-anchor",
+      "title": "Choose the rated anchor over the handrail beside it",
+      "why": "A rated anchor and a handrail that happens to be at the same height are not the same piece of equipment, and choosing correctly here — reading the rating plate rather than picking whichever is closer — is the one decision every other step in this plan depends on."
+    },
+    {
+      "cue": "Clip the self-retracting lanyard's carabiner to the rated anchor and confirm the gate is closed.",
+      "id": "connect-srl",
+      "kind": "select",
+      "prompt": "Clip the self-retracting lanyard's carabiner to the rated anchor and confirm the gate is closed.",
+      "target": "srl-connector",
+      "title": "Connect the SRL to the rated anchor",
+      "why": "A carabiner that is not fully closed can roll open under the exact side-load a fall applies, and confirming the gate now, with two hands and no urgency, is what makes this connection something the rest of the plan can actually rely on."
+    },
+    {
+      "cue": "Turn the lifeline tensioner slowly, watching the line firm up rather than counting turns.",
+      "id": "tension-lifeline",
+      "kind": "turn",
+      "prompt": "Turn the lifeline tensioner slowly, watching the line firm up rather than counting turns.",
+      "target": "lifeline-tensioner",
+      "title": "Tension the horizontal lifeline",
+      "turn": {
+        "label": "TENSION",
+        "turns": 1
+      },
+      "why": "A horizontal lifeline that sags too much lets a fall build more distance — and more force — before the system ever engages, and tensioning it correctly, watching the line rather than guessing at a number of turns, is what keeps the fall clearance calculation from this plan actually holding true."
+    },
+    {
+      "cue": "Move toward the second anchor, keeping the tie-off reading at full connection the whole way across.",
+      "holdBreakNote": "The tie-off reading dropped mid-transfer — a moment disconnected between two anchors is a moment this whole plan exists to eliminate.",
+      "id": "hundred-percent-tieoff-watch",
+      "kind": "track",
+      "prompt": "Move toward the second anchor, keeping the tie-off reading at full connection the whole way across.",
+      "seconds": 6,
+      "target": "second-anchor",
+      "title": "Hold one hundred percent tie-off across the transfer",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.5,
+        "green": [
+          0.85,
+          1
+        ],
+        "label": "TIE-OFF",
+        "rise": 0.05,
+        "start": 0.9
+      },
+      "why": "One hundred percent tie-off means staying connected to something rated for the entire time you are exposed to a fall, and holding the reading steady through the whole transfer — rather than letting it drop while both hands are busy with the next clip — is the discipline this whole plan is actually training."
+    },
+    {
+      "cue": "Read the calculated fall clearance and commit it once it settles inside the band the plan requires.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "CLEARANCE",
+        "missNote": "Not settled inside the plan's band — hold the reading until it stops moving before you commit it.",
+        "speed": 0.65
+      },
+      "id": "verify-fall-clearance",
+      "kind": "gauge",
+      "prompt": "Read the calculated fall clearance and commit it once it settles inside the band the plan requires.",
+      "target": "clearance-calc",
+      "title": "Check the fall clearance against the drop below",
+      "why": "A fall clearance calculation that comes up short means the SRL's own deceleration distance runs out before the fall does, and checking it now — with the anchor already tensioned and the actual drop below measured — is what confirms this specific edge has the room the plan assumed it did."
+    },
+    {
+      "cue": "Carry the rescue kit from the toolchest to the staging point at the edge before the crew ties off.",
+      "drag": {
+        "missNote": "Not at the staging point — the rescue kit has to be at the edge itself, not left back at the toolchest.",
+        "radius": 0.5,
+        "to": "rescue-point"
+      },
+      "id": "stage-rescue-kit",
+      "kind": "drag",
+      "prompt": "Carry the rescue kit from the toolchest to the staging point at the edge before the crew ties off.",
+      "target": "rescue-kit",
+      "title": "Stage the rescue kit at the edge",
+      "why": "A suspended worker's own rescue clock starts the moment they go over the edge, and a rescue kit staged at the point of work — not back in a truck — is what keeps that clock from running out while somebody goes to fetch equipment that should already be here."
+    },
+    {
+      "cue": "Walk the crew through the rescue plan: who responds, how, and the timeframe before suspension trauma sets in.",
+      "id": "brief-rescue-plan",
+      "kind": "select",
+      "prompt": "Walk the crew through the rescue plan: who responds, how, and the timeframe before suspension trauma sets in.",
+      "target": "rescue-board",
+      "title": "Brief the rescue plan to the crew",
+      "why": "A rescue plan that exists only on paper is a rescue plan nobody executes correctly the one time a fall actually happens, and briefing it to the crew before anyone ties off is what makes the response reflexive instead of improvised in the minutes suspension trauma allows."
+    },
+    {
+      "cue": "Deploy the aerial lift's outriggers and level it before it stands by for an assisted rescue.",
+      "id": "position-aerial-lift-outriggers",
+      "kind": "select",
+      "prompt": "Deploy the aerial lift's outriggers and level it before it stands by for an assisted rescue.",
+      "target": "lift-outriggers",
+      "title": "Set the rescue lift's outriggers",
+      "why": "A lift called on to reach a suspended worker fast cannot be discovered unlevel at that moment, and setting its outriggers now, while it is standing by rather than already needed, is what makes the rescue plan's own equipment ready the instant it has to be."
+    },
+    {
+      "cue": "Hold the lift's raise control steady through a full test raise to rescue height.",
+      "holdBreakNote": "The raise control let go partway up — the basket lurched. Hold it smooth from the ground to rescue height in one motion.",
+      "id": "rescue-lift-hold",
+      "kind": "hold",
+      "prompt": "Hold the lift's raise control steady through a full test raise to rescue height.",
+      "seconds": 5,
+      "target": "lift-controls",
+      "title": "Hold the rescue lift's raise smooth",
+      "why": "A basket that jerks on its way up is a basket that would arrive at a suspended worker off balance, and holding the raise smooth on a test run now is what confirms the lift will actually do that cleanly the one time it matters."
+    },
+    {
+      "cue": "Call the crew: anchors rated, clearance checked, rescue plan briefed and the lift standing by.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the crew: anchors rated, clearance checked, rescue plan briefed and the lift standing by.",
+      "target": "crew-radio",
+      "title": "Check in with the crew",
+      "why": "The crew's own confidence in this system depends on hearing it confirmed out loud, not assuming the competent person already checked everything — calling it in is what makes the plan something the whole crew heard, not just something one person verified alone."
+    },
+    {
+      "cue": "Record the anchor rating, the clearance calculation, the frayed harness set aside, and the rescue plan before work begins.",
+      "id": "close-fp-log",
+      "kind": "select",
+      "prompt": "Record the anchor rating, the clearance calculation, the frayed harness set aside, and the rescue plan before work begins.",
+      "target": "fp-log",
+      "title": "Close the fall protection log",
+      "why": "The fall protection log is the site's own record that today's system was actually checked, not assumed to be the same as yesterday's, and a frayed harness pulled off the rack that never makes the log is a hazard the next crew has no way of knowing was already found once."
+    }
+  ],
+  "supportLine": "your Ironworkers local's member assistance programme",
+  "tagline": "The edge before the crew ties off: the fall protection plan read for its anchor rating and rescue timeframe, the harness donned and the SRL clipped, a frayed harness found on the rack before anyone else reaches for it, a rated anchor chosen over the handrail beside it, the lifeline tensioned, tie-off held at one hundred percent across the transfer, the fall clearance checked against the drop below, the rescue kit staged at the edge, the rescue plan briefed to the crew, the aerial lift's outriggers set and its basket held to a smooth rescue-height raise, the crew checked in, and the plan logged",
+  "title": "SmartCiti.X~ Anchor Selection & Rescue Plan VR VR",
+  "trade": "Ironworkers fall-protection competent person selecting anchors and writing the rescue plan before overhead work begins",
+  "underwater": null,
+  "weather": "wind"
+}

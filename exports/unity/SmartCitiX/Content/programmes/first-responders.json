@@ -1,0 +1,198 @@
+{
+  "accent": "#f0645b",
+  "anchors": [
+    {
+      "id": "fruitvale-fire-station",
+      "name": "Fruitvale Fire Station",
+      "position": [
+        420,
+        287
+      ],
+      "stations": [
+        "triage-point",
+        "structure-fire-sizeup"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "fruitvale"
+    },
+    {
+      "id": "ridge-fire-lookout",
+      "name": "Ridge Fire Lookout",
+      "position": [
+        985,
+        -585
+      ],
+      "stations": [
+        "wildland-urban-interface",
+        "or-wildland-fireline-construction-and-lookout",
+        "damage-assessment-team"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "upper-hills"
+    }
+  ],
+  "certification": "NFPA 1500, 1584 and 1710 for fire and rehab, the NHTSA National EMS Scope of Practice, CIT International's crisis intervention model, the NASW Code of Ethics and SAMHSA's trauma-informed care principles, Psychological First Aid, NIMS/ICS through FEMA IS-100 and IS-700, and OSHA 29 CFR 1910.134, 1910.156 and 1910.1030",
+  "competency": {
+    "id": "first-responders",
+    "kind": "programme",
+    "require": 6,
+    "standards": [
+      "nfpa-1500",
+      "nfpa-1584",
+      "nims-ics",
+      "samhsa-trauma-informed",
+      "pfa-field-guide",
+      "osha-1910-134"
+    ],
+    "stations": [
+      "triage-point",
+      "structure-fire-sizeup",
+      "firefighter-rehab-sector",
+      "wildland-urban-interface",
+      "cardiac-arrest-pit-crew",
+      "overdose-response-naloxone",
+      "ambulance-scene-safety",
+      "crisis-intervention-call",
+      "critical-incident-debrief",
+      "traffic-incident-management",
+      "trauma-informed-intake",
+      "crisis-line-shift",
+      "home-visit-safety",
+      "shelter-intake-operations",
+      "damage-assessment-team",
+      "psychological-first-aid",
+      "or-wildland-fireline-construction-and-lookout"
+    ],
+    "title": "Take command of a scene and care for the people in it"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "iaff-training",
+    "naemt-courses",
+    "nasw-code-of-ethics",
+    "afscme-training",
+    "seiu-training",
+    "liuna-training-fund",
+    "nfpa-1001",
+    "nfpa-1500",
+    "nfpa-1584",
+    "nfpa-1710",
+    "nfpa-1140",
+    "nfpa-1977",
+    "nremt-certification",
+    "cit-international-model",
+    "samhsa-trauma-informed",
+    "pfa-field-guide",
+    "red-cross-disaster-services",
+    "nims-ics",
+    "fema-is-courses",
+    "nwcg-wildland-training",
+    "osha-1910-134",
+    "osha-1910-156",
+    "osha-1910-1030"
+  ],
+  "id": "first-responders",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1703,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 120
+  },
+  "name": "First Responders — Fire, EMS, Police, Crisis and Relief",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "triage-point",
+      "why": "The case every responder shares: a casualty tagged and re-tagged as they change, with the crowd and the structure moving around you."
+    },
+    {
+      "app": "smartcity",
+      "id": "structure-fire-sizeup",
+      "why": "The first ten minutes of a residential fire: the 360, the report that puts a picture in every radio on the channel, the mode called out loud, and the accountability check that proves everyone who went in is still there."
+    },
+    {
+      "app": "smartcity",
+      "id": "firefighter-rehab-sector",
+      "why": "The sector behind the fire where the crew itself is the patient: vitals read against a real release criterion, and a member held back for re-evaluation no matter who is asking for him back on the line."
+    },
+    {
+      "app": "smartcity",
+      "id": "wildland-urban-interface",
+      "why": "A house prepped against embers on the wildland edge, with the trigger point that turns a hose lay into a pull-out call the instant the wind says so."
+    },
+    {
+      "app": "smartcity",
+      "id": "cardiac-arrest-pit-crew",
+      "why": "The call this whole series trains toward running as a team instead of a crowd: roles called on arrival, compressions that never really stop, and the swap caught before anybody has to be told the depth already went shallow."
+    },
+    {
+      "app": "smartcity",
+      "id": "overdose-response-naloxone",
+      "why": "A reversal that is not over at the first dose: rescue breaths that buy the time naloxone needs, a second stop in breathing caught before it becomes the story, and a bystander's own dose thanked instead of overlooked."
+    },
+    {
+      "app": "smartcity",
+      "id": "ambulance-scene-safety",
+      "why": "The call that starts before anyone is even out of the cab: the truck itself as the block, the light pattern that warns without blinding, and an agitated occupant approached from the one side traffic cannot reach."
+    },
+    {
+      "app": "smartcity",
+      "id": "crisis-intervention-call",
+      "why": "The call where the words are the tactic: the approach slowed, one speaker, the gap held, time given, and a stabilisation unit at the end of it instead of a cell."
+    },
+    {
+      "app": "smartcity",
+      "id": "critical-incident-debrief",
+      "why": "What the shift costs, four hours later: the signs named, the confidentiality rule said out loud with its limits, and the duty question kept out of the room."
+    },
+    {
+      "app": "smartcity",
+      "id": "traffic-incident-management",
+      "why": "Three services under one plan on a wet shoulder: the block upstream, the taper to the posted speed, a driver in shock kept out of the live lane, and the lane given back."
+    },
+    {
+      "app": "smartcity",
+      "id": "trauma-informed-intake",
+      "why": "A first intake where the room, the permission and the pace all belong to the client, and the reporting limits are said plainly before a disclosure makes them urgent."
+    },
+    {
+      "app": "smartcity",
+      "id": "crisis-line-shift",
+      "why": "One call worked all the way through: asked directly, reflected back, planned together, the dispatch decision said out loud to the caller, and taken to a supervisor afterwards."
+    },
+    {
+      "app": "smartcity",
+      "id": "home-visit-safety",
+      "why": "The unaccompanied visit, where the address, the check-in times and the word for send help are agreed before the car moves and the exit is taken on the plan rather than on the atmosphere."
+    },
+    {
+      "app": "smartcity",
+      "id": "shelter-intake-operations",
+      "why": "The shelter opening before anyone can rest in it: a resident registered with privacy and care, a family kept together, and a fire alarm test that has to be answered as real."
+    },
+    {
+      "app": "smartcity",
+      "id": "damage-assessment-team",
+      "why": "The block swept from the street, buddied and clear of every downed line and gas smell, with a structure classified honestly and never entered to prove it."
+    },
+    {
+      "app": "smartcity",
+      "id": "psychological-first-aid",
+      "why": "Look, listen, link at the family assistance centre: practical needs met first, a person's own words reflected, and a reporter turned away from a family that never agreed to be quoted."
+    },
+    {
+      "app": "smartcity",
+      "id": "or-wildland-fireline-construction-and-lookout",
+      "why": "The wildland edge from the crew's own side of it: LCES named before a tool moves, and a wind shift or a spot fire across the line answered by the radio instead of by someone deciding alone to keep cutting."
+    }
+  ],
+  "summary": "Fifteen stations for the people who run toward the call, with the human side scored as procedure: size-up and rehab on the fireground, cardiac arrest as a pit crew, an overdose reversed, a crisis call de-escalated, a critical incident debriefed, trauma-informed intake and a home visit, a shelter opened and a damage-assessment team sent out, and psychological first aid. Every station closes with the crew's own check-in and the peer-support line the department uses.",
+  "union": "IAFF firefighters and EMS, NAGE and AFSCME EMS locals, police officer associations and the FOP, NASW and SEIU 1021 social workers and crisis counsellors, AFSCME and LIUNA disaster-relief crews with the Red Cross volunteer workforce"
+}

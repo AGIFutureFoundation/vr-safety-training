@@ -1,0 +1,396 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clear-rinse",
+    "name": "Clear Rinse",
+    "note": "Lines checked, strip tested and logged, gauge read, contact time held, eyewash proven clear — no shortcuts"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "The FDA Food Code as adopted in the California Retail Food Code; OSHA 29 CFR 1910.1200 hazard communication and the safety data sheet for every chemical on the line; ANSI/ISEA Z358.1 emergency eyewash and shower equipment; Cal/OSHA general industry safety orders; UNITE HERE Local 2, with AFSCME and SEIU food-service members held to the same warewashing standard in school and hospital kitchens",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "CalCode",
+        "citedAs": "California Retail Food Code",
+        "id": "calcode-retail-food",
+        "title": "California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it"
+      },
+      {
+        "body": "FDA",
+        "citedAs": "FDA Food Code",
+        "id": "fda-food-code",
+        "title": "FDA Food Code — the model code for retail food establishments"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Culinary & Hospitality",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "lines-first",
+        "name": "Lines First",
+        "note": "Dispenser lines checked before the first jug is opened, first time"
+      },
+      {
+        "id": "never-eyeballed",
+        "name": "Never Eyeballed",
+        "note": "Never a sanitiser trusted unread, never a chemical bare-handed, never the eyewash blocked"
+      },
+      {
+        "id": "true-ppm",
+        "name": "True PPM",
+        "note": "The strip reading and the rinse gauge both held inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-pit",
+        "name": "Clean Pit",
+        "note": "No corrections across the whole shift"
+      },
+      {
+        "id": "steady-contact",
+        "name": "Steady Contact",
+        "note": "Held the sanitise contact time without breaking it"
+      },
+      {
+        "id": "pit-fast",
+        "name": "Pit Ready Fast",
+        "note": "Racks running inside 80% of par"
+      }
+    ],
+    "currency": "PPM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Pot Runner",
+      "Steward",
+      "Lead Steward",
+      "Kitchen Safety Rep",
+      "Warewashing Certified"
+    ],
+    "system": "Warewashing"
+  },
+  "hazards": {
+    "arm-length-carry": "You stacked that rack higher than your own sightline and carried it at arm's length across a wet floor instead of loading it on the cart. A dropped stack on quarry tile is a laceration and a burn in the same fall; the cart exists so nobody's hands are the thing balancing a hundred pounds of hot glassware over a slick floor.",
+    "bare-hand-chemical": "You reached into the concentrate jug with a bare hand. Warewashing chemicals are the reason gloves and an apron are staged at this station specifically, not a general kitchen rule — a splash off a jug lip is concentrate, not the diluted solution in the sink.",
+    "blocked-eyewash": "Somebody parked the mop bucket in front of the eyewash. ANSI/ISEA Z358.1 calls for that station to be reachable in about ten seconds with nothing in the way, because a person flushing a chemical splash cannot see well enough to step around a bucket first.",
+    "cross-connected-chemicals": "That concentrate line is plumbed into the wrong inlet on the dispenser — the chlorine sanitiser and an acid-based delimer sharing one draw line. The SDS for both is explicit about this: chlorine plus an acid gives off chlorine gas, and it does that inside a closed dispenser cabinet a foot from where somebody is standing."
+  },
+  "id": "dish-pit",
+  "indoor": "kitchen",
+  "interrupts": [
+    {
+      "after": "contact-time",
+      "alert": "The strip you just dipped mid-shift comes back with no colour change at all — the dispenser is pulling nothing but water.",
+      "cue": "The sanitiser jug behind the dispenser is empty. Swap it before another rack goes through that compartment.",
+      "delay": 3,
+      "id": "sanitizer-empty",
+      "kind": "Dispenser jug ran dry",
+      "missNote": "Racks kept moving through a sanitise compartment that had stopped sanitising an unknown number of cycles ago, and nothing on the floor caught it because nobody looked at the jug.",
+      "seconds": 12,
+      "target": "dispenser-jug-swap",
+      "why": "A dispenser with an empty jug still runs and still smells faintly of sanitiser from the line, which is exactly why the strip exists rather than a nose — every rack that went through since the jug ran dry was rinsed in plain water and reported as sanitised on nobody's log.",
+      "wrongNote": "Not that. The jug swap is the only thing that puts sanitiser back in the line — everything else on this station is downstream of it being empty."
+    },
+    {
+      "after": "eyewash-check",
+      "alert": "The prep cook refilling the delimer bottle at the dispenser just took a faceful off the spout and is calling out — eyes shut, hands over her face.",
+      "cue": "Get her onto the second eyewash head now — don't wait for her to find it herself.",
+      "delay": 3,
+      "id": "coworker-splash",
+      "kind": "Chemical splash to a co-worker",
+      "missNote": "She stood there with her eyes shut for the whole window instead of being walked to the second head, and every second of that is chlorine sitting on the cornea instead of being flushed off it.",
+      "seconds": 12,
+      "target": "coworker-eyewash",
+      "why": "A chemical in the eye is not something the injured person can reliably act on themselves — the instinct is to press the eyes shut, which is the opposite of what a flush needs. Whoever is nearest gets them into the stream and holds their lids open; that fifteen minutes does not start until somebody does that.",
+      "wrongNote": "Not that. Getting her onto the working eyewash head is the one response that actually gets the chemical off her eyes right now."
+    }
+  ],
+  "lateNotes": {
+    "sani-compartment": "The contact time is held after the strip has already proven the concentration — there is nothing honest to time a chemical that has not been tested.",
+    "sds-copy": "The SDS goes to the clinic with the injured worker after the full flush, not instead of it.",
+    "test-strip-station": "The strip is read after the sink is set up wash-rinse-sanitise, against a sanitiser solution that actually exists."
+  },
+  "name": "Dish Pit",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "culinary-kitchen"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "arm-length-carry",
+      "bare-hand-chemical",
+      "blocked-eyewash",
+      "cart-slot",
+      "chem-apron",
+      "chem-gloves",
+      "clean-rack",
+      "coworker-eyewash",
+      "cracked-suction",
+      "cross-connected-chemicals",
+      "crossed-line",
+      "dispenser-jug-swap",
+      "eyewash-drench",
+      "eyewash-paddle",
+      "floor-puddle",
+      "log-sheet",
+      "machine-gauge",
+      "open-jug-cap",
+      "sani-compartment",
+      "sds-binder",
+      "sds-copy",
+      "service-plan",
+      "sink-rinse",
+      "sink-sanitize",
+      "sink-wash",
+      "test-strip-station"
+    ],
+    "meshes": 167
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence"
+  ],
+  "steps": [
+    {
+      "cue": "Open the binder and check the sanitiser and detergent sheets before the shift starts.",
+      "id": "sds",
+      "kind": "select",
+      "prompt": "Open the binder and check the sanitiser and detergent sheets before the shift starts.",
+      "target": "sds-binder",
+      "title": "Read the SDS for the dish machine chemicals",
+      "why": "The safety data sheet is where the incompatibility warning actually lives — OSHA's hazard communication standard puts it on the shelf specifically so nobody has to guess which chemicals can and cannot share a line, a bucket or a spill."
+    },
+    {
+      "cue": "Trace both concentrate lines from their jugs to the dispenser before trusting either one.",
+      "id": "lines",
+      "itemNames": {
+        "cracked-suction": "cracked suction line",
+        "crossed-line": "concentrate line into the wrong inlet"
+      },
+      "itemNotes": {
+        "cracked-suction": "This suction line has a hairline split just above the jug cap, drawing air with every stroke. It reads as sanitiser flowing on the dispenser's own counter while the strip in the sink comes back weak or blank.",
+        "crossed-line": "This line is drawing from the sanitiser jug into what should be the detergent inlet. Swapped like this, the dispenser meters chlorine sanitiser everywhere the wash cycle expects detergent — and pours detergent into the sanitise rinse."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Trace both concentrate lines from their jugs to the dispenser before trusting either one.",
+      "targets": [
+        "crossed-line",
+        "cracked-suction"
+      ],
+      "title": "Check the dispenser's concentrate lines",
+      "why": "The dispenser cabinet is the one place in the pit where the chemicals are still full strength and where two lines running an inch apart are simple to cross by mistake. A line checked here is the difference between the machine actually working and a proportioner confidently metering the wrong chemical all shift."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Pull on the chemical-resistant gloves and the rubber apron before touching the dispenser or the sink.",
+      "id": "ppe",
+      "itemNames": {
+        "chem-apron": "rubber apron",
+        "chem-gloves": "chemical-resistant gloves"
+      },
+      "kind": "sequence",
+      "prompt": "Pull on the chemical-resistant gloves and the rubber apron before touching the dispenser or the sink.",
+      "targets": [
+        "chem-gloves",
+        "chem-apron"
+      ],
+      "title": "Glove and apron up for the chemicals",
+      "why": "Everything at this station — concentrate, sanitiser solution, hot rinse water — is something dish soap and a t-shirt were never rated for. The gloves and apron are staged here rather than at the line because this is the one job in the kitchen where a splash is concentrated rather than diluted."
+    },
+    {
+      "cue": "Watch the final-rinse temperature climb through a cycle and commit once it holds in the Food Code's range for a high-temperature machine.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.78
+        ],
+        "label": "FINAL RINSE",
+        "missNote": "Short of the required final-rinse temperature — that load washed clean and left unsanitised. Hold the machine until the gauge is in range.",
+        "speed": 0.65
+      },
+      "id": "rinse-temp",
+      "kind": "gauge",
+      "prompt": "Watch the final-rinse temperature climb through a cycle and commit once it holds in the Food Code's range for a high-temperature machine.",
+      "target": "machine-gauge",
+      "title": "Read the dish machine's final-rinse gauge",
+      "why": "A high-temperature machine sanitises with heat instead of chemical, and the Food Code's final-rinse number is the only proof that happened — a machine that sounds right and smells like hot water can still be running a rinse ten degrees short, which is a load of dishes that only ever got washed."
+    },
+    {
+      "cue": "Fill wash, then rinse, then sanitise — in that order, left to right.",
+      "id": "sink-setup",
+      "itemNames": {
+        "sink-rinse": "rinse compartment filled",
+        "sink-sanitize": "sanitise compartment filled",
+        "sink-wash": "wash compartment filled"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wash, then rinse, then sanitise — the order the item itself is going to travel through the sink.",
+      "prompt": "Fill wash, then rinse, then sanitise — in that order, left to right.",
+      "targets": [
+        "sink-wash",
+        "sink-rinse",
+        "sink-sanitize"
+      ],
+      "title": "Set up the three-compartment sink",
+      "why": "Each compartment undoes what the last one left behind: wash lifts the soil, rinse clears the detergent, sanitise is the last thing touching the item before it drains dry. Filled out of order, detergent or food soil ends up carried into the sanitiser and neutralises it before the first item ever goes in."
+    },
+    {
+      "cue": "Dip the strip in the sanitise compartment, read it against the colour chart, and commit the concentration.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "SANITISER — CHLORINE",
+        "missNote": "Outside 50 to 100 ppm. Too weak does not sanitise; too strong is itself a hazard and a waste of chemical. Adjust the dispenser and strip-test again.",
+        "speed": 0.7
+      },
+      "id": "strip-test",
+      "kind": "gauge",
+      "prompt": "Dip the strip in the sanitise compartment, read it against the colour chart, and commit the concentration.",
+      "target": "test-strip-station",
+      "title": "Test the sanitiser with a strip",
+      "why": "A dispenser set correctly and a dispenser actually delivering that setting are two different claims, and the strip is the only one of them that is measured rather than assumed. Chlorine sanitiser has to land in the 50 to 100 ppm band — a quaternary sanitiser is read against its own label — and nothing on the machine's dial can substitute for that colour change."
+    },
+    {
+      "cue": "Write the ppm reading and the time on the concentration log before the first rack goes in.",
+      "id": "log-reading",
+      "kind": "select",
+      "prompt": "Write the ppm reading and the time on the concentration log before the first rack goes in.",
+      "target": "log-sheet",
+      "title": "Log the sanitiser reading",
+      "why": "A verified reading nobody wrote down is a fact only for as long as it stays in your head. The log is what turns this shift's test into something a health inspector, the next shift or a steward can actually check without redoing the test themselves."
+    },
+    {
+      "cue": "Submerge the item in the sanitise compartment and hold it for the full contact time the concentration and water temperature call for.",
+      "holdBreakNote": "Pulled early — the item was wet, not sanitised. Put it back and hold the full contact time.",
+      "id": "contact-time",
+      "kind": "hold",
+      "prompt": "Submerge the item in the sanitise compartment and hold it for the full contact time the concentration and water temperature call for.",
+      "seconds": 6,
+      "target": "sani-compartment",
+      "title": "Hold the sanitise contact time",
+      "why": "Sanitiser kills on a curve, not on contact — pull an item the instant it touches the solution and it has been wetted, not sanitised. The Food Code's contact time exists because that curve needs seconds to finish, and a rushed dip is a load that looks identical to a properly sanitised one until somebody gets sick."
+    },
+    {
+      "cue": "Push the paddle valve and hold it open until the flow runs clear of any standing water or rust.",
+      "holdBreakNote": "You let go before the flow ran clear. Hold it open until the water coming out is the water you'd actually want in an eye.",
+      "id": "eyewash-check",
+      "kind": "hold",
+      "prompt": "Push the paddle valve and hold it open until the flow runs clear of any standing water or rust.",
+      "seconds": 5,
+      "target": "eyewash-paddle",
+      "title": "Prove the eyewash runs clear",
+      "why": "ANSI/ISEA Z358.1 calls for a weekly activation test for exactly this reason: the header pipe on an eyewash sits full of stagnant water between uses, and a station nobody has tested delivers a faceful of rust and bacteria to somebody who is already having the worst minute of their shift."
+    },
+    {
+      "cue": "Hold your own eyes in the stream and don't stop early — a real splash gets the full flush, not a quick rinse.",
+      "holdBreakNote": "Stopped short. A chemical splash gets the full fifteen minutes every time, not until it feels better.",
+      "id": "splash-response",
+      "kind": "hold",
+      "prompt": "Hold your own eyes in the stream and don't stop early — a real splash gets the full flush, not a quick rinse.",
+      "seconds": 8,
+      "target": "eyewash-drench",
+      "title": "Drill the fifteen-minute flush",
+      "why": "ANSI/ISEA Z358.1 calls for a continuous fifteen-minute flush for a chemical splash to the eye, timed from the moment the water starts, because a sanitiser or delimer concentrate keeps reacting with tissue for as long as any of it is still on the surface — stopping at the two-minute mark most people's instinct hits leaves the reaction still running."
+    },
+    {
+      "cue": "Pull the copy of the sanitiser's SDS off the binder to send with the injured worker.",
+      "id": "sds-to-clinic",
+      "kind": "select",
+      "prompt": "Pull the copy of the sanitiser's SDS off the binder to send with the injured worker.",
+      "target": "sds-copy",
+      "title": "Take the SDS to the clinic",
+      "why": "Whoever treats a chemical exposure needs to know exactly what was in the eye, not a guess at the brand name — the SDS is what tells a clinic or an ER the pH, the concentration and the first-aid measures the manufacturer actually tested, in the time it takes to hand over a sheet of paper."
+    },
+    {
+      "cue": "Carry the stacked rack to the rolling cart rather than across the floor by hand.",
+      "drag": {
+        "missNote": "Not on the cart — set the rack down and load it onto the cart properly, not balanced on the drainboard.",
+        "radius": 0.42,
+        "to": "cart-slot"
+      },
+      "id": "rack-stage",
+      "kind": "drag",
+      "prompt": "Carry the stacked rack to the rolling cart rather than across the floor by hand.",
+      "target": "clean-rack",
+      "title": "Stage the clean rack on the cart",
+      "why": "A stacked rack carried at arm's length blocks the one hand that would otherwise catch a slip, on the one floor in the kitchen that is reliably wet. The cart carries the weight and the height instead of your wrists and your sightline."
+    },
+    {
+      "cue": "Check the floor and the chemical shelf before handing the station to the next shift.",
+      "id": "walk-close",
+      "itemNames": {
+        "floor-puddle": "puddle with no wet-floor sign",
+        "open-jug-cap": "concentrate jug left uncapped"
+      },
+      "itemNotes": {
+        "floor-puddle": "Standing water with no cone or sign next to it — the exact combination Cal/OSHA's walking-surface rule is written to catch before somebody's foot finds it first.",
+        "open-jug-cap": "That sanitiser jug has been sitting open on the shelf since the last swap. An open concentrate jug in a kitchen this humid is both a fume source and a spill waiting on the next person who bumps the shelf."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the floor and the chemical shelf before handing the station to the next shift.",
+      "targets": [
+        "floor-puddle",
+        "open-jug-cap"
+      ],
+      "title": "Walk the pit before you leave it",
+      "why": "The pit is about to run unattended between shifts or during a break, and a puddle or an open jug does not wait politely for somebody to notice — the walk-through is the last chance to catch either one before it becomes the next person's surprise."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "The dish machine and the three-compartment sink: concentrate lines checked, sanitiser strip-tested and logged, the machine's final rinse read against the gauge, wash-rinse-sanitise held for its contact time, the eyewash proven clear, and a splash to the eye drilled",
+  "title": "SmartCiti.X~ Dish Pit VR",
+  "trade": "UNITE HERE Local 2 dishwasher / kitchen steward",
+  "underwater": null,
+  "weather": null
+}

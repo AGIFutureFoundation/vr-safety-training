@@ -1,0 +1,422 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "numbers-that-agree",
+    "name": "Numbers That Agree",
+    "note": "A branch balanced to design with every reading taken off a proven instrument on a system nobody was inside"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "SMART and its International Training Institute testing, adjusting and balancing curriculum; ASHRAE 111 measurement, testing, adjusting and balancing of building HVAC systems and the NEBB procedural standard for TAB, with NEBB technician certification; SMACNA HVAC Duct Construction Standards and duct leakage test procedures; OSHA 29 CFR 1910.212 machine guarding on belt-driven fans, 29 CFR 1910.147 lockout/tagout at the fan disconnect, 29 CFR 1910.23 ladders and 29 CFR 1910.28 fall protection above a ceiling",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASHRAE",
+        "citedAs": "ASHRAE 111",
+        "id": "ashrae-111",
+        "title": "ANSI/ASHRAE 111 — Measurement, Testing, Adjusting and Balancing of Building HVAC Systems"
+      },
+      {
+        "body": "NEBB",
+        "citedAs": "NEBB",
+        "id": "nebb-tab-procedural-standard",
+        "title": "NEBB Procedural Standard for Testing, Adjusting and Balancing of Environmental Systems, and NEBB TAB technician certification"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.23",
+        "id": "osha-1910-23",
+        "title": "29 CFR 1910.23 — Ladders"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.28",
+        "id": "osha-1910-28",
+        "title": "29 CFR 1910.28 — Duty to have fall protection and falling object protection"
+      },
+      {
+        "body": "SMACNA",
+        "citedAs": "SMACNA",
+        "id": "smacna-hvac-duct-construction",
+        "title": "SMACNA HVAC Duct Construction Standards — Metal and Flexible (pressure classes, seam and joint construction, reinforcement and hangers)"
+      },
+      {
+        "body": "union",
+        "citedAs": "SMART",
+        "id": "smart-iti",
+        "title": "SMART and the International Training Institute — sheet metal, rail and transportation apprenticeship"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Manufacturing & Automation",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "instruments-proven",
+        "name": "Instruments Proven",
+        "note": "Hood calibration and manometer zero checked before the first reading"
+      },
+      {
+        "id": "feet-on-the-floor",
+        "name": "Feet On The Floor",
+        "note": "Never on the top step, never on the grid, never near an unguarded belt"
+      },
+      {
+        "id": "static-on-band",
+        "name": "Static On Band",
+        "note": "Static pressure read inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-branch",
+        "name": "Clean Branch",
+        "note": "The branch balanced without a correction"
+      },
+      {
+        "id": "speed-held",
+        "name": "Speed Held",
+        "note": "Fan speed held in band through the whole traverse"
+      },
+      {
+        "id": "branch-in-time",
+        "name": "Branch In Time",
+        "note": "Balanced, walked and logged inside 80% of par"
+      }
+    ],
+    "currency": "CFM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Pre-apprentice",
+      "Instrument Hand",
+      "TAB Technician",
+      "Balance Lead",
+      "Balance Crew Certified"
+    ],
+    "system": "Balance Crew"
+  },
+  "hazards": {
+    "belt-guard-off": "You reached behind the fan with its belt guard off and the fan running. The guard is what 29 CFR 1910.212 puts between a hand and a belt doing a few thousand feet a minute over a sheave that takes fingers in; a fan is not stopped for a belt check by pulling the guard, it is locked out at the disconnect first. Guard off means fan off.",
+    "grid-step": "You stepped off the ladder onto the ceiling grid to reach the damper. A suspended ceiling holds tiles and nothing else; the grid is wire-hung tee bar that folds under a boot, and the fall is through the ceiling onto whatever is below. Above a ceiling, the load goes on the structure or on a platform — never on the grid.",
+    "top-step": "You stood on the top of the stepladder to reach the diffuser. The top cap and the step below it are not steps — 29 CFR 1910.23 says so and so does the label — and a hood held overhead from up there puts your weight where the ladder has nothing to balance it with. A taller ladder, or the diffuser waits.",
+    "vfd-door-open": "You went to change the fan speed at the drive with its door open and the bus live. A variable frequency drive's door is a cover over terminals that stay charged for minutes after the power goes off, and the keypad works with the door shut; a hand inside a live drive to save opening the keypad menu is an arc flash in a mechanical room. Door shut, keypad, or locked out and tested dead."
+  },
+  "id": "sm-air-balancing-and-testing",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "fan-speed",
+      "alert": "The fire/smoke damper upstream has just driven closed. Its actuator lost signal and the branch readings have collapsed under the hood.",
+      "cue": "The system you are measuring is no longer the system on the drawing.",
+      "delay": 3,
+      "id": "damper-closes",
+      "kind": "Damper closed mid-reading",
+      "missNote": "You held the fan speed and kept reading with the damper shut. Every number you wrote in that minute describes a closed branch, and the report you would have signed said the outlets were starved by a damper that was doing exactly what it was built to do.",
+      "seconds": 12,
+      "target": "damper-actuator",
+      "why": "A fire/smoke damper that drives shut mid-balance changes every flow downstream of it in a second, and the readings taken from that second on describe a closed duct. The fan speed can be held again later; the actuator is reset first so the damper is proven open, because a damper that closed once on a lost signal will close again, and the controls technician on the board needs to know it did.",
+      "wrongNote": "It is the damper actuator. Reset it and prove the blade open — nothing downstream means anything until it is."
+    },
+    {
+      "after": "pitot-hold",
+      "alert": "The mechanic has pulled the belt guard off the fan behind you to look at the belts, and the fan is still running.",
+      "cue": "There is an exposed belt drive a metre from your back.",
+      "delay": 3,
+      "id": "guard-off-fan",
+      "kind": "Guard off a running fan",
+      "missNote": "You held the pitot and finished the point with an exposed belt drive running behind you. Nobody touched it that time. A belt on a sheave at fan speed takes a hand to the shoulder before the person feels it, and the guard is the only thing that has ever stopped that.",
+      "seconds": 12,
+      "target": "fan-disconnect",
+      "why": "A belt guard comes off a fan that has been locked out at its disconnect, never one that is running; the mechanic's habit is what 29 CFR 1910.147 and 1910.212 exist to stop, and the traverse point can be taken again when the fan comes back. The disconnect is thrown by whoever sees the exposed belt first — a hand reaching for a belt on a running sheave does not give anyone time to find the mechanic and explain.",
+      "wrongNote": "It is the fan disconnect. Kill the fan first — the belts can be looked at on a machine that is locked out."
+    }
+  ],
+  "lateNotes": {
+    "branch-damper": "The damper is trimmed after the design flow and the static are known — a damper moved before the readings is a system balanced to a number nobody wrote down.",
+    "damper-lock": "The quadrant is locked after the reading agrees with the design, not before. A damper locked at a guess is a guess the next technician cannot see past."
+  },
+  "name": "Air Balancing and Testing",
+  "parSeconds": 285,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "belt-guard-off",
+      "branch-damper",
+      "crushed-flex",
+      "damper-actuator",
+      "damper-lock",
+      "diffuser-face",
+      "fan-disconnect",
+      "filter-bank",
+      "flex-disconnect",
+      "flow-hood",
+      "grid-step",
+      "hood-cal-tag",
+      "manometer",
+      "manometer-zero",
+      "oa-reading",
+      "open-access-door",
+      "pitot-tube",
+      "return-reading",
+      "supply-reading",
+      "tab-board",
+      "tab-log",
+      "tab-report",
+      "top-step",
+      "unsealed-takeoff",
+      "vfd-dial",
+      "vfd-door-open"
+    ],
+    "meshes": 230
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Sign onto the TAB board, note who is working on the fan today and whether the drive and the fire dampers are in service.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Sign onto the TAB board, note who is working on the fan today and whether the drive and the fire dampers are in service.",
+      "target": "tab-board",
+      "title": "Check in with the mechanical crew",
+      "why": "A balance is measured on a system other trades are still working on: the mechanic who has the fan's belts, the controls technician who has the damper actuators, the electrician with the drive. The board names them and their state of play, which is how you know the fan may be stopped under you or a damper driven while you read; SMART TAB crews sign the board first because a reading taken on a system somebody else is changing is a number that means nothing."
+    },
+    {
+      "cue": "Design flow at each diffuser on the branch, the total, the fan's design static and speed, and the tolerance the specification allows.",
+      "id": "design-read",
+      "kind": "select",
+      "prompt": "Design flow at each diffuser on the branch, the total, the fan's design static and speed, and the tolerance the specification allows.",
+      "target": "tab-report",
+      "title": "Read the design airflows off the TAB report",
+      "why": "The report carries the engineer's design flow for every outlet and the fan, and the tolerance the specification allows around each; the ASHRAE 111 and NEBB procedures balance to those numbers, not to what feels like enough air in a room. A branch balanced to the wrong sheet — last week's revision, the other floor — is a branch that reads perfectly and delivers the wrong air to every room on it."
+    },
+    {
+      "anyOrder": true,
+      "cue": "The hood's calibration tag in date, and the manometer zeroed with both ports open to the room.",
+      "id": "instrument-cal",
+      "itemNames": {
+        "hood-cal-tag": "the flow hood's calibration tag",
+        "manometer-zero": "the manometer zeroed"
+      },
+      "kind": "sequence",
+      "prompt": "The hood's calibration tag in date, and the manometer zeroed with both ports open to the room.",
+      "targets": [
+        "hood-cal-tag",
+        "manometer-zero"
+      ],
+      "title": "Prove the instruments before the first reading",
+      "why": "The NEBB procedure and ASHRAE 111 both start with instruments proven: a flow hood out of calibration reads high or low by a fixed error on every diffuser, and a manometer that was not zeroed adds the same offset to every static reading in the report. Neither error is visible in the numbers, which is why a report from an unproven instrument is a report from no instrument at all."
+    },
+    {
+      "cue": "Lift the hood onto the diffuser so the skirt seals to the ceiling all the way round, from the ladder's proper step.",
+      "drag": {
+        "missNote": "The skirt is not sealed round the diffuser — the hood reads only the air that goes through it.",
+        "radius": 0.45,
+        "to": "diffuser-face"
+      },
+      "id": "hood-drag",
+      "kind": "drag",
+      "prompt": "Lift the hood onto the diffuser so the skirt seals to the ceiling all the way round, from the ladder's proper step.",
+      "target": "flow-hood",
+      "title": "Seat the hood on the diffuser",
+      "why": "A capture hood reads the air that comes through it, and air that leaks round a skirt that does not seal to the ceiling is air the hood never sees; the hood is seated square with the skirt pressed to the tile all round before the reading is trusted. It is seated from a ladder step with both feet on it and the hood's weight over the ladder, because a hood held out at arm's length from the top cap is the fall this trade has more of than any other."
+    },
+    {
+      "cue": "Probes in the test ports either side of the fan, read the total static and commit inside the band on the report.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "STATIC",
+        "missNote": "The static is off the report's band — something between the fan and the outlets is not as drawn. Find it before trimming.",
+        "speed": 0.72
+      },
+      "id": "static-read",
+      "kind": "gauge",
+      "prompt": "Probes in the test ports either side of the fan, read the total static and commit inside the band on the report.",
+      "target": "manometer",
+      "title": "Read the fan's static on the manometer",
+      "why": "The fan's static pressure against the report is the first number that says whether the system is the one on the drawing: too low and a duct has come apart or an access door is open somewhere between here and the outlets, too high and a damper is shut that should be open. Reading it before the branch is trimmed saves an afternoon balancing outlets against a fault that will undo every setting when it is found."
+    },
+    {
+      "cue": "Turn the quadrant to bring the branch toward its design proportion — small moves, reading after each, from the ladder's proper step.",
+      "id": "damper-turn",
+      "kind": "turn",
+      "prompt": "Turn the quadrant to bring the branch toward its design proportion — small moves, reading after each, from the ladder's proper step.",
+      "target": "branch-damper",
+      "title": "Trim the branch damper",
+      "turn": {
+        "axis": "z",
+        "label": "QUADRANT",
+        "turns": 0.5
+      },
+      "why": "The proportional method balances outlets to one another before the fan is set, and the branch damper is how a whole branch is brought into proportion with the others; it moves in small steps because a damper's effect on flow is anything but linear near closed, and one turn too far starves every outlet downstream at once. It is turned from a proper step on the ladder, not from the grid, because the quadrant is above the ceiling and the grid is not a floor."
+    },
+    {
+      "cue": "At the drive's keypad, door shut, bring the fan to the report's speed and hold it steady there while the readings are taken.",
+      "holdBreakNote": "The fan speed wandered out of band — every reading taken while it did is a reading at a speed nobody wrote down. Settle it and hold it.",
+      "id": "fan-speed",
+      "kind": "track",
+      "prompt": "At the drive's keypad, door shut, bring the fan to the report's speed and hold it steady there while the readings are taken.",
+      "seconds": 5,
+      "target": "vfd-dial",
+      "title": "Hold the fan at the design speed",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "FAN Hz",
+        "rise": 0.56
+      },
+      "why": "Every reading in a balance assumes the fan was at one speed while it was taken, and a drive that hunts by a few percent moves every flow in the building by the same few percent under the instrument. The speed is set and held through the readings from the keypad with the door closed, because the door is the cover over a live bus and the keypad does everything a technician needs without opening it."
+    },
+    {
+      "cue": "Pitot tube into the duct at the marked point, held square to the airflow and steady while the velocity pressure settles.",
+      "holdBreakNote": "You pulled the pitot before the reading settled — that point is a swing of the needle, not a velocity. Hold it square and steady.",
+      "id": "pitot-hold",
+      "kind": "hold",
+      "prompt": "Pitot tube into the duct at the marked point, held square to the airflow and steady while the velocity pressure settles.",
+      "seconds": 4,
+      "target": "pitot-tube",
+      "title": "Take a traverse point",
+      "why": "A pitot traverse is the reference the hood and the fan curve are checked against, and each point is held steady until the reading stops moving because velocity pressure in a duct fluctuates and a reading snatched off a swinging gauge is a guess with decimals. The tube is square to the flow because a pitot a few degrees off reads low, and the same few degrees at every point is a whole traverse that is wrong the same way."
+    },
+    {
+      "cue": "With the branch reading inside the tolerance, lock the quadrant and mark the blade position on the duct.",
+      "id": "lock-mark",
+      "kind": "select",
+      "prompt": "With the branch reading inside the tolerance, lock the quadrant and mark the blade position on the duct.",
+      "target": "damper-lock",
+      "title": "Lock the quadrant and mark it",
+      "why": "A damper that is balanced and not locked is a damper the next person to brush past it has unbalanced, and the mark on the duct beside the quadrant is how anyone afterwards can see whether it has moved. The lock and the mark are what make the reading on the report a setting on the system rather than a moment that passed, and they go on only when the number agrees with the design — a locked guess is worse than an open one."
+    },
+    {
+      "cue": "The readings say air is going somewhere it should not — look along the duct and click the two places it is escaping.",
+      "id": "leak-walk",
+      "itemNames": {
+        "flex-disconnect": "a flex run pulled off its collar",
+        "open-access-door": "an access door left open"
+      },
+      "itemNotes": {
+        "flex-disconnect": "The flex to the corner diffuser has pulled off its collar above the ceiling; that outlet's low reading is air going into the plenum.",
+        "open-access-door": "The access door upstream of the branch has been left open by whoever cleaned the coil — the fan's low static was going out through it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "The readings say air is going somewhere it should not — look along the duct and click the two places it is escaping.",
+      "targets": [
+        "open-access-door",
+        "flex-disconnect"
+      ],
+      "title": "Walk the duct for the faults behind the numbers",
+      "why": "A balance is a set of numbers, and the numbers are only as true as the duct they were measured on: an open access door and a flex off its collar explain a low static and a starved outlet better than any damper setting can, and a branch balanced around them is a branch that goes wrong the day somebody closes the door. The technician who reads the numbers is the one who walks the duct, because the numbers said where to look."
+    },
+    {
+      "cue": "Supply first, then return, then outside air — each read and written before the next, at the fan speed you held.",
+      "id": "readings",
+      "itemNames": {
+        "oa-reading": "outside air",
+        "return-reading": "return air",
+        "supply-reading": "total supply air"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Supply, then return, then outside air — the outside air is the difference of the first two, and it is read last.",
+      "prompt": "Supply first, then return, then outside air — each read and written before the next, at the fan speed you held.",
+      "targets": [
+        "supply-reading",
+        "return-reading",
+        "oa-reading"
+      ],
+      "title": "Record the system readings in order",
+      "why": "Supply, return and outside air are the three numbers that have to agree with each other as well as with the design: supply less return is the outside air, and an outside air reading taken before the supply is settled is a reading that the arithmetic will not close on. The order is the NEBB procedure's order, and each is written at the time it is read, because a number carried in the head to the clipboard is a number rounded on the way."
+    },
+    {
+      "cue": "Check the differential across the filter bank against the clean and dirty values on the report.",
+      "id": "filter-check",
+      "kind": "select",
+      "prompt": "Check the differential across the filter bank against the clean and dirty values on the report.",
+      "target": "filter-bank",
+      "title": "Read the filter bank's pressure drop",
+      "why": "A filter bank half loaded with dust is a fixed resistance the whole balance was taken against, and the day the filters are changed every reading in the report moves; the pressure drop across the bank is recorded so the report says what the filters were doing while the numbers were taken. It is also the reading that says a bank is blinded, which is a fan working against a wall and a building short of the air it was designed for."
+    },
+    {
+      "cue": "Head and light above the tile from a proper step: click the two installation faults the balance cannot fix.",
+      "id": "room-walk",
+      "itemNames": {
+        "crushed-flex": "a crushed flex run",
+        "unsealed-takeoff": "an unsealed takeoff"
+      },
+      "itemNotes": {
+        "crushed-flex": "The flex run over the light fitting is crushed to half its diameter by a cable tray somebody rested on it. That outlet will never make design through that.",
+        "unsealed-takeoff": "The takeoff to the corridor diffuser was never sealed — the SMACNA seal class on the drawing says it should have been, and the leakage test would have caught it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Head and light above the tile from a proper step: click the two installation faults the balance cannot fix.",
+      "targets": [
+        "unsealed-takeoff",
+        "crushed-flex"
+      ],
+      "title": "Look above the ceiling before the report is signed",
+      "why": "Some numbers cannot be balanced into agreement, and the reason is above the ceiling: a takeoff nobody sealed, a flex crushed under a cable tray. Finding them is the difference between a TAB report that says the branch cannot make design and one that says it did, and only the first is worth the paper. The look is taken from a ladder step with both feet on it, because the grid is the next hazard after the numbers."
+    },
+    {
+      "cue": "Instruments and calibration, fan speed and static, each outlet against design, the faults found and who has them, and sign it.",
+      "id": "tab-log",
+      "kind": "select",
+      "prompt": "Instruments and calibration, fan speed and static, each outlet against design, the faults found and who has them, and sign it.",
+      "target": "tab-log",
+      "title": "Sign the TAB report for the branch",
+      "why": "The TAB report is the document the engineer, the commissioning agent and the owner accept the system on, and it records not only the numbers but the instruments they were taken with, the fan speed they were taken at and the faults that stop them being met. Under the NEBB procedure it is signed by the technician who took the readings, because the signature is the claim that these numbers describe this system on this day."
+    }
+  ],
+  "supportLine": "your SMART local's training coordinator or the TAB firm's lead technician, or your employer's employee assistance program if the fan behind you with its guard off is what stayed with you",
+  "tagline": "Design airflows off the TAB report, instruments proven, hood on the diffuser, static on the manometer, the branch damper trimmed and locked, the fan held at speed through a traverse, the duct walked for the leaks that explain the numbers",
+  "title": "SmartCiti.X~ Air Balancing and Testing VR",
+  "trade": "Testing, adjusting and balancing technician — SMART, International Training Institute TAB curriculum",
+  "underwater": null,
+  "weather": null
+}

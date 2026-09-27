@@ -1,0 +1,378 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-cutoff",
+    "name": "Clean Cutoff",
+    "note": "Recognised, slowed, cut off quietly, and sent home safe — nobody argued and nobody drove"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "The California ABC Responsible Beverage Service (RBS) Training Program Act; California Business and Professions Code §25602 — sale to an obviously intoxicated person — and the dram-shop civil liability it carries for the licence; NSF-certified ice and glassware equipment kept out of hand contact under the California Retail Food Code; OSHA 29 CFR 1910.1030 bloodborne pathogens for the glass that breaks the moment a cutoff turns physical; UNITE HERE Local 2's contract language on staffing a bar so one bartender is never alone with a cutoff",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Cal. ABC",
+        "citedAs": "§25602",
+        "id": "abc-25602",
+        "title": "California Business and Professions Code §25602 — sale to an obviously intoxicated person"
+      },
+      {
+        "body": "Cal. ABC",
+        "citedAs": "RBS",
+        "id": "abc-rbs-training",
+        "title": "California Responsible Beverage Service Training Act — ABC RBS certification for anyone who serves alcohol"
+      },
+      {
+        "body": "CalCode",
+        "citedAs": "California Retail Food Code",
+        "id": "calcode-retail-food",
+        "title": "California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Culinary & Hospitality",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "read-the-room",
+        "name": "Read the Room",
+        "note": "Every RBS cue spotted before the pour changed"
+      },
+      {
+        "id": "no-argument",
+        "name": "No Argument",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "steady-through-it",
+        "name": "Steady Through It",
+        "note": "Held both watch periods the full count"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quiet-and-fast",
+        "name": "Quiet and Fast",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "no-corrections",
+        "name": "No Corrections",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "seven-straight",
+        "name": "Seven Straight",
+        "note": "Seven correct actions in a row"
+      }
+    ],
+    "currency": "POUR",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Barback",
+      "Service Bartender",
+      "Shift Lead",
+      "Bar Manager",
+      "RBS Certified Trainer"
+    ],
+    "system": "Service Standard"
+  },
+  "hazards": {
+    "free-pour-bottle": "That bottle has no metered pourer on it. A free pour to a guest already showing every RBS cue is exactly the sale §25602 exists to stop, and it is also the sale a dram-shop claim is built out of afterward — the reduced, measured pour is not a suggestion, it is the whole legal difference.",
+    "handoff-note-skip": "The relief board is still blank. The POS flag stops the register; it does not stop the next bartender who never heard about this table from pouring him one anyway the moment your shift ends.",
+    "loud-callout": "You said it into the room instead of to him. A cutoff announced over the bar mic or across three feet of open air turns a quiet decision into a public one, and a customer who has just been embarrassed in front of his table is a customer who argues instead of leaving.",
+    "reorder-tap": "That is the quick-key that rings another round to his tab. A flag on the till only works if nobody presses through it — one more pour after the cutoff undoes the whole conversation and puts the sale back on the same obviously-intoxicated customer §25602 was written for."
+  },
+  "id": "cutoff-overservice",
+  "indoor": "bar",
+  "interrupts": [
+    {
+      "after": "watch-table",
+      "alert": "His friend has just ordered two beers off the tap list and is sliding one straight across the table to him.",
+      "cue": "The cutoff has not even started and the table is already covering for him.",
+      "delay": 3,
+      "id": "friend-second-round",
+      "kind": "Table working around the cutoff",
+      "missNote": "The glass stayed in front of him and he drank from it. Every RBS cue you were watching for is still true, and the table just proved a cutoff has to cover the friend as well as the register.",
+      "seconds": 12,
+      "target": "friend-second-glass",
+      "why": "A cutoff that only stops your own pour is not a cutoff — a friend handing a fresh glass across the table undoes the whole decision in front of you, and it gets stopped the moment it happens, not argued about after.",
+      "wrongNote": "It is the second glass sliding across the table. That is the sale happening right in front of you, table service or not."
+    },
+    {
+      "after": "hold-after",
+      "alert": "He has stood up off the stool, picked his keys up off the bar, and is walking toward the door and the car park.",
+      "cue": "The ride is not called yet and he already has his keys out.",
+      "delay": 3,
+      "id": "customer-stands-to-leave",
+      "kind": "Customer leaving toward the car park",
+      "missNote": "He walked out with his own keys in his hand. Everything from the cues to the quiet cutoff protected the bar's licence for exactly as long as it took him to reach the car park — dram-shop liability does not stop at the door.",
+      "seconds": 12,
+      "target": "customer-keys",
+      "why": "The conversation was won the moment he agreed to stop drinking; it is lost the moment he drives away on it. Getting the keys before the door is the entire point of everything that happened before this second.",
+      "wrongNote": "It is the keys in his hand. Nothing else in reach matters until those are off him."
+    }
+  ],
+  "lateNotes": {
+    "customer-keys": "Not yet — the interrupt already has you reaching for these. Hold the moment until the ride step actually asks for them, or you are grabbing at a set of keys with no plan behind it."
+  },
+  "name": "Cut-Off / Overservice",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bartending-course"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.7,
+    "hits": [
+      "bar-top",
+      "cue-appearance",
+      "cue-coordination",
+      "cue-judgment",
+      "cue-speech",
+      "customer-keys",
+      "cutoff-approach",
+      "cutoff-name",
+      "cutoff-offer",
+      "door-watch-point",
+      "food-menu",
+      "free-pour-bottle",
+      "friend-second-glass",
+      "handoff-note-skip",
+      "incident-log-board",
+      "key-lockbox",
+      "loud-callout",
+      "pos-flag",
+      "pos-terminal",
+      "pour-spout",
+      "reorder-tap",
+      "ride-phone",
+      "shift-radio",
+      "speed-pourer",
+      "table-watch-point",
+      "water-glass"
+    ],
+    "meshes": 179
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Open his tab on the till: drink count and how long he has been running it.",
+      "id": "read-tab",
+      "kind": "select",
+      "prompt": "Open his tab on the till: drink count and how long he has been running it.",
+      "target": "pos-terminal",
+      "title": "Check the tab before you check him",
+      "why": "The count and the clock are the two facts an RBS decision is actually built on — a fourth drink in forty minutes reads completely differently from a fourth drink in three hours, and the till is the only thing in the room keeping an honest number."
+    },
+    {
+      "cue": "Speech, coordination, judgement, appearance — look for all four before the next drink goes out.",
+      "id": "cues-sweep",
+      "itemNames": {
+        "cue-appearance": "flushed, unsteady appearance",
+        "cue-coordination": "lost coordination reaching for the glass",
+        "cue-judgment": "loud, poor judgement with the table",
+        "cue-speech": "slurred, slowed speech"
+      },
+      "itemNotes": {
+        "cue-appearance": "Flushed skin and a slow, unsteady turn of the head belong on the same checklist as the other three, not dismissed as just warm in here.",
+        "cue-coordination": "A hand that misses the glass on the first try and has to correct is coordination going, not clumsiness.",
+        "cue-judgment": "Louder, more argumentative, less aware of the table around him — judgement is usually the first thing RBS training says to watch for and the last thing a customer will admit to.",
+        "cue-speech": "Speech slowing and running together is one of the four RBS categories on its own, before anything else changes."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Speech, coordination, judgement, appearance — look for all four before the next drink goes out.",
+      "targets": [
+        "cue-speech",
+        "cue-coordination",
+        "cue-judgment",
+        "cue-appearance"
+      ],
+      "title": "Read the four RBS cues before you pour again",
+      "why": "The RBS curriculum teaches exactly these four categories because any one of them alone can have an innocent explanation, and two or more together are what actually separates a customer who has had a long week from one who is obviously intoxicated under §25602."
+    },
+    {
+      "cue": "Set a water glass down without being asked.",
+      "id": "water-first",
+      "kind": "select",
+      "prompt": "Set a water glass down without being asked.",
+      "target": "water-glass",
+      "title": "Slow him down with water before you slow him down with a decision",
+      "why": "Slowing service starts before the cutoff conversation does. A water glass costs nothing, buys time for the cues to either resolve or confirm themselves, and never has to be explained to anybody."
+    },
+    {
+      "cue": "Slide the food menu across — something in front of him slows the pace on its own.",
+      "id": "food-offer",
+      "kind": "select",
+      "prompt": "Slide the food menu across — something in front of him slows the pace on its own.",
+      "target": "food-menu",
+      "title": "Offer food off the kitchen's menu",
+      "why": "Food in the stomach does nothing to reverse intoxication that has already happened, but it slows the rate a customer keeps drinking at, and it gives you a second reasonable thing to be doing besides watching the clock on his tab."
+    },
+    {
+      "cue": "Pour to the reduced line on the metered spout, not the standard one.",
+      "gauge": {
+        "green": [
+          0.28,
+          0.42
+        ],
+        "label": "OZ",
+        "missNote": "That landed close to a full standard pour. For a guest already showing two RBS cues, the pour gets smaller before the conversation gets harder.",
+        "speed": 0.72
+      },
+      "id": "reduced-pour",
+      "kind": "gauge",
+      "prompt": "Pour to the reduced line on the metered spout, not the standard one.",
+      "target": "pour-spout",
+      "title": "If one more round is coming, make it a smaller one",
+      "why": "A reduced pour is a real intervention, not a compromise — it buys the table another twenty minutes to sober up on the same tab, and it is the difference between a bar that slowed service and a bar that just kept serving more slowly."
+    },
+    {
+      "cue": "Turn the collar until the metered pourer seats — no more free pours to this table tonight.",
+      "id": "meter-swap",
+      "kind": "turn",
+      "prompt": "Turn the collar until the metered pourer seats — no more free pours to this table tonight.",
+      "target": "speed-pourer",
+      "title": "Swap the free-pour spout for the metered one",
+      "turn": {
+        "axis": "y",
+        "label": "POUR SPOUT",
+        "turns": 0.75
+      },
+      "why": "A metered spout takes the judgement call out of the bottle itself: it cannot be talked into a heavier pour by a customer who has already lost the judgement to ask for one fairly."
+    },
+    {
+      "cue": "Hold your attention on him and the table around him for a moment before you commit to the cutoff.",
+      "holdBreakNote": "You looked away before the picture was clear. A cutoff decided on half the evidence is either too early to defend or too late to matter.",
+      "id": "watch-table",
+      "kind": "hold",
+      "prompt": "Hold your attention on him and the table around him for a moment before you commit to the cutoff.",
+      "seconds": 6,
+      "target": "table-watch-point",
+      "title": "Keep your eyes on the table while the decision forms",
+      "why": "The decision to cut somebody off is made by watching, not by a single glance — RBS training is explicit that the cues are confirmed over a minute or two, not diagnosed on the first pass across the room."
+    },
+    {
+      "cue": "Approach him alone and low-key, say the decision plainly once, then offer the alternative.",
+      "id": "cutoff-words",
+      "itemNames": {
+        "cutoff-approach": "approach quietly, one to one",
+        "cutoff-name": "name the cutoff plainly",
+        "cutoff-offer": "offer water, food or a ride"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Approach quietly first, then name the cutoff, then offer the alternative — offering a ride before he even knows he is cut off reads as an argument you are trying to win, not a decision that is already made.",
+      "prompt": "Approach him alone and low-key, say the decision plainly once, then offer the alternative.",
+      "targets": [
+        "cutoff-approach",
+        "cutoff-name",
+        "cutoff-offer"
+      ],
+      "title": "Have the conversation quietly and without arguing",
+      "why": "The order matters: a quiet approach before the words keeps the table from feeling ambushed, naming it plainly once removes any room to negotiate it away, and the offer that follows is what turns a refusal into a decision he can leave with instead of a fight he has to win."
+    },
+    {
+      "cue": "Mark his tab so the register itself refuses the next round.",
+      "id": "flag-tab",
+      "kind": "select",
+      "prompt": "Mark his tab so the register itself refuses the next round.",
+      "target": "pos-flag",
+      "title": "Flag the tab in the till",
+      "why": "A flag on the tab is the difference between a decision that lives in your head for the next ten minutes and one that survives you getting busy at the other end of the bar."
+    },
+    {
+      "cue": "Call it out to whoever else is working the floor — not just the till.",
+      "id": "tell-shift",
+      "kind": "select",
+      "prompt": "Call it out to whoever else is working the floor — not just the till.",
+      "target": "shift-radio",
+      "title": "Tell the rest of the shift by name",
+      "why": "The POS flag stops one register. A cutoff that only exists on a screen does not stop a barback covering your section for five minutes, or a server who never looked at the tab, from pouring him one anyway."
+    },
+    {
+      "cue": "Keep watching the table and the door while you finish the rest of the shift's business.",
+      "holdBreakNote": "You turned back to the rest of the bar too soon. The two minutes right after a cutoff are the ones that decide whether it holds.",
+      "id": "hold-after",
+      "kind": "hold",
+      "prompt": "Keep watching the table and the door while you finish the rest of the shift's business.",
+      "seconds": 6,
+      "target": "door-watch-point",
+      "title": "Stay with it after the words are said",
+      "why": "A cutoff is not finished when the sentence is finished. The two minutes after it — before the ride is actually arranged — are when a table gets a second drink from a friend or a customer who has decided he does not need one."
+    },
+    {
+      "cue": "Move his keys from the bar top into the lockbox — nobody drives on them tonight.",
+      "drag": {
+        "missNote": "Not in the lockbox. Keys left sitting on the bar are keys somebody can just pick back up.",
+        "radius": 0.45,
+        "to": "key-lockbox"
+      },
+      "id": "secure-keys",
+      "kind": "drag",
+      "prompt": "Move his keys from the bar top into the lockbox — nobody drives on them tonight.",
+      "target": "customer-keys",
+      "title": "Take the keys off the bar and lock them up",
+      "why": "Dram-shop liability does not end at the sale — it follows the guest out the door. Physically taking the keys off the bar is worth more than any conversation about whether he is fine to drive."
+    },
+    {
+      "cue": "Call a rideshare, a cab, or the friend who is actually sober.",
+      "id": "call-ride",
+      "kind": "select",
+      "prompt": "Call a rideshare, a cab, or the friend who is actually sober.",
+      "target": "ride-phone",
+      "title": "Arrange the ride before he leaves the stool",
+      "why": "An offer to call a ride that is never followed through is not a safe cutoff, it is a sentence said to make the conversation feel finished — the ride has to actually be on its way before anyone stands up."
+    },
+    {
+      "cue": "Log the time, the drink count, the cues you saw, and how he got home.",
+      "id": "incident-log",
+      "kind": "select",
+      "prompt": "Log the time, the drink count, the cues you saw, and how he got home.",
+      "target": "incident-log-board",
+      "title": "Write the cutoff into the log",
+      "why": "A written cutoff — time, count, cues, outcome — is what the licence and your own name are protected by if tonight is ever the night that gets asked about later. An unlogged cutoff is a story two people remember differently."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "The RBS cues, the slower pour, the quiet cutoff, the ride home and the log entry that closes it out",
+  "title": "SmartCiti.X~ Cut-Off / Overservice VR",
+  "trade": "Bartender — UNITE HERE Local 2",
+  "underwater": null,
+  "weather": "clear"
+}

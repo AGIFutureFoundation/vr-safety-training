@@ -1,0 +1,379 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "witness-clean",
+    "name": "Witness Clean",
+    "note": "The grid checked against the work plan, the split requested in writing, every form read before anything was signed, and the statement filed the same day"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "The kind of retest witnessing the Community Pollution Patrol Network trains; EPA QA/QC and chain-of-custody guidance (EPA QA/G-5) for what a split-sample request and a custody form actually have to show; DTSC and the Regional Water Board as the agencies whose own retest this is; BAAQMD's Community Advisory Council process for the questions a witness statement feeds; OSHA 29 CFR 1910.120 HAZWOPER as the separate gate for anyone who enters the exclusion zone, which a community witness never does",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "BAAQMD",
+        "citedAs": "BAAQMD",
+        "id": "baaqmd-regulations",
+        "title": "Bay Area Air Quality Management District regulations, complaint line and Community Advisory Council process"
+      },
+      {
+        "body": "DTSC",
+        "citedAs": "DTSC",
+        "id": "dtsc-hazardous-waste-control",
+        "title": "California Department of Toxic Substances Control — state hazardous waste control rules and oversight of contaminated-site cleanups"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "EPA QA/G-5",
+        "id": "epa-qa-g5",
+        "title": "EPA QA/G-5 — Guidance for quality assurance project plans, and the chain-of-custody practice built on it"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "plan-checked",
+        "name": "Plan Checked",
+        "note": "The work plan read and the grid checked against it, clean"
+      },
+      {
+        "id": "never-crossed",
+        "name": "Never Crossed",
+        "note": "Witnessed the whole retest from the public side, never through the fence or straight to the crew"
+      },
+      {
+        "id": "steady-scope",
+        "name": "Steady Scope",
+        "note": "Held the pan rate on the scope inside the band the whole watch"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-witness",
+        "name": "Clean Witness",
+        "note": "No corrections anywhere in the watch"
+      },
+      {
+        "id": "steady-pan",
+        "name": "Steady Pan",
+        "note": "Never broke the scope pan rate"
+      },
+      {
+        "id": "statement-same-day",
+        "name": "Statement Same Day",
+        "note": "Witness statement filed inside 80% of par"
+      }
+    ],
+    "currency": "OBSERVE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Observer",
+      "Grid Checker",
+      "Witness",
+      "Lead Witness",
+      "Community Patrol Certified"
+    ],
+    "system": "Witness Record"
+  },
+  "hazards": {
+    "accept-verbal-split": "You accepted a verbal promise of a split sample instead of getting the request on the form. A promise made across a fence has nothing behind it once the crew packs up and leaves — the split sample the community is entitled to request only exists once it is written down, with the point numbers it covers, on a form somebody signed.",
+    "cross-fence": "You crossed the exclusion tape to get a closer look at the grid. A community witness's whole standing comes from watching the retest honestly from the public side — the moment a witness is inside the exclusion zone, the crew has a legitimate reason to ask why a member of the public is standing where only trained, badged personnel are allowed.",
+    "direct-contact": "You called out straight to the sampling crew instead of routing the question through the liaison. The liaison is the channel for a reason: a question shouted across an active sampling grid can startle a crew mid-sample or get answered off the cuff by someone who isn't the person accountable for what gets told to the community.",
+    "skip-plan": "You started watching the crew work before reading the posted work plan. Without the plan in hand there is nothing to actually check the crew's grid against — a witness who hasn't read the plan is just watching people dig, with no way to say whether what they're doing matches what was promised."
+  },
+  "id": "retest-witnessing",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "pan-scope",
+      "alert": "The sampling crew just picked up point 3's flag and reset it half a lane over from where the work plan shows it, without radioing why.",
+      "cue": "Note the move in your own log now, while you still know which point it was and exactly when it happened.",
+      "delay": 4,
+      "id": "moved-point",
+      "kind": "Grid point moved",
+      "missNote": "The point stayed moved for the rest of the watch with nothing written down about it, and by the time anyone asked why point 3's result looked odd, there was no independent record that it had ever been anywhere but where the plan said it was.",
+      "seconds": 13,
+      "target": "note-discrepancy",
+      "why": "A witness's whole job is catching the moment the ground stops matching the plan, and a moved grid point that never makes it into the witness's own log is a move nobody outside the crew can ever prove happened — if that point's result later reads differently than the plan expected, there is no independent record of when or why it moved, and the crew's own explanation becomes the only account left.",
+      "wrongNote": "Not that — the log. Write down that point 3 moved and when, before the detail of exactly when it happened slips."
+    },
+    {
+      "after": "final-hold",
+      "alert": "The liaison hands you a form through the fence window and asks you to sign it right now, before you've had a chance to actually read what's on it.",
+      "cue": "Read it first — a witness signature means you saw and understood the page, not just that someone handed you a pen.",
+      "delay": 3,
+      "id": "sign-unread",
+      "kind": "Sign this now",
+      "missNote": "The form got signed unread, and when a question about it came up weeks later, the only honest answer the witness could give was that the signature didn't actually mean anyone had checked what it was attached to.",
+      "seconds": 13,
+      "target": "read-before-sign",
+      "why": "A witness's signature on a regulator's document gets read later as proof that the witness reviewed and agreed with what the page actually says, not proof that a pen was in the witness's hand for a few seconds — signing before reading turns the one signature this whole role exists to make trustworthy into exactly the kind of blind attestation a witness is supposed to prevent.",
+      "wrongNote": "Not that — read the form itself before anything else. The pen can wait until you actually know what you're signing."
+    }
+  ],
+  "lateNotes": {
+    "photo-1": "Nothing worth photographing at that point yet — confirm it against the work plan in the grid check first.",
+    "photo-2": "Nothing worth photographing at that point yet — confirm it against the work plan in the grid check first.",
+    "photo-3": "Nothing worth photographing at that point yet — confirm it against the work plan in the grid check first.",
+    "statement-form": "Nothing to write yet — the statement gets written from a finished day's observations, not started before the watch is over."
+  },
+  "name": "Retest Witnessing",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-can-we-live"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "accept-verbal-split",
+      "badge",
+      "coc-form",
+      "cross-fence",
+      "direct-contact",
+      "liaison-window",
+      "note-discrepancy",
+      "photo-1",
+      "photo-2",
+      "photo-3",
+      "point-1",
+      "point-2",
+      "point-3",
+      "point-4",
+      "post-socket",
+      "rangefinder",
+      "read-before-sign",
+      "review-clip",
+      "scope",
+      "scope-focus",
+      "skip-plan",
+      "split-request-form",
+      "statement-form",
+      "vest",
+      "witness-post",
+      "work-plan-board"
+    ],
+    "meshes": 220
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Put on the hi-vis vest and clip on the community witness badge before the retest starts.",
+      "id": "gear-up",
+      "itemNames": {
+        "badge": "community witness badge",
+        "vest": "hi-vis vest"
+      },
+      "kind": "sequence",
+      "prompt": "Put on the hi-vis vest and clip on the community witness badge before the retest starts.",
+      "targets": [
+        "vest",
+        "badge"
+      ],
+      "title": "Vest and witness badge",
+      "why": "The badge is what tells the crew and the liaison that the person on the public side of the tape is there in the community's own witnessing role, not a bystander who wandered up — and the vest keeps that same person visible on a site with equipment moving on the other side of the fence."
+    },
+    {
+      "cue": "Read the work plan posted at the fence line: how many points, where they sit, and the split-sample policy, before the crew starts.",
+      "id": "work-plan",
+      "kind": "select",
+      "prompt": "Read the work plan posted at the fence line: how many points, where they sit, and the split-sample policy, before the crew starts.",
+      "target": "work-plan-board",
+      "title": "Read the posted work plan",
+      "why": "The work plan is the only thing a witness has to check the retest against — how many points the grid calls for, roughly where they sit, and what the community is entitled to ask for in a split. Watching the crew work without having read it first is watching with nothing to compare it to."
+    },
+    {
+      "cue": "Carry the tripod and scope out to the marked public-side observation point, opposite the grid.",
+      "drag": {
+        "missNote": "Not on the marked point — set the post there, or the sight line to the far side of the grid is gone for the rest of the watch.",
+        "radius": 0.35,
+        "to": "post-socket"
+      },
+      "id": "position",
+      "kind": "drag",
+      "prompt": "Carry the tripod and scope out to the marked public-side observation point, opposite the grid.",
+      "target": "witness-post",
+      "title": "Set up the observation post",
+      "why": "The marked observation point is where the witness has an honest line of sight to the whole grid without ever being closer to the exclusion line than the plan allows — set the post up anywhere else and half the grid disappears behind the crew's own truck for the rest of the watch."
+    },
+    {
+      "cue": "Read the rangefinder and commit once you're outside the retest's own posted exclusion distance.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "EXCLUSION",
+        "missNote": "Not outside the posted exclusion distance yet — read the rangefinder again and commit once it clears the line.",
+        "speed": 0.6
+      },
+      "id": "standoff",
+      "kind": "gauge",
+      "prompt": "Read the rangefinder and commit once you're outside the retest's own posted exclusion distance.",
+      "target": "rangefinder",
+      "title": "Confirm standoff from the exclusion line",
+      "why": "A retest crew posts its own exclusion distance for the day's work, separate from the parcel's permanent fence, and confirming it here is what keeps the whole watch honestly on the public side without a witness ever having to guess how close is still close enough."
+    },
+    {
+      "cue": "Turn the focus ring until the grid's own point flags read clearly through the scope.",
+      "id": "focus",
+      "kind": "turn",
+      "prompt": "Turn the focus ring until the grid's own point flags read clearly through the scope.",
+      "target": "scope-focus",
+      "title": "Focus the spotting scope",
+      "turn": {
+        "axis": "y",
+        "label": "FOCUS",
+        "turns": 0.5
+      },
+      "why": "A witness on the public side needs the grid's point numbers to come to the scope rather than walking closer to read them — a scope left out of focus is a witness squinting at flags they cannot actually confirm, which is no better than not checking them at all."
+    },
+    {
+      "cue": "Confirm each flagged point through the scope against the work plan's own numbering, 1 through 4.",
+      "id": "grid-check",
+      "itemNames": {
+        "point-1": "grid point 1",
+        "point-2": "grid point 2",
+        "point-3": "grid point 3",
+        "point-4": "grid point 4"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Not the next point in the plan's own order — checking them out of sequence is how a note ends up written against the wrong point number.",
+      "prompt": "Confirm each flagged point through the scope against the work plan's own numbering, 1 through 4.",
+      "targets": [
+        "point-1",
+        "point-2",
+        "point-3",
+        "point-4"
+      ],
+      "title": "Check the grid against the work plan, in order",
+      "why": "Checking the points in the plan's own order is what keeps the witness's notes matched to the crew's own numbering — check them out of order and it becomes easy to write point 4's location down against point 2's number."
+    },
+    {
+      "cue": "Keep the pan rate inside the band the whole watch — not so fast you miss something, not so slow you fall behind the crew's own pace.",
+      "holdBreakNote": "Pan rate drifted out of the band — bring it back before something on the grid happens off to the side and goes unwatched.",
+      "id": "pan-scope",
+      "kind": "track",
+      "prompt": "Keep the pan rate inside the band the whole watch — not so fast you miss something, not so slow you fall behind the crew's own pace.",
+      "seconds": 9,
+      "target": "scope",
+      "title": "Pan the scope across the grid at a steady rate",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "PAN RATE",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "A pan that's too fast sweeps past exactly the moment a point gets moved or a sample gets pulled without ever really registering it; a pan too slow means the witness is still on point 1 while the crew has already moved to point 4. The steady rate is what keeps every part of the grid actually watched across the time the crew is working it."
+    },
+    {
+      "cue": "Fill out the split-sample request form with the point numbers it covers and hand it through the liaison window.",
+      "id": "split-request",
+      "kind": "select",
+      "prompt": "Fill out the split-sample request form with the point numbers it covers and hand it through the liaison window.",
+      "target": "split-request-form",
+      "title": "Request the split sample in writing",
+      "why": "The split sample the community is entitled to request only exists once it is written down — the point numbers it covers, the date, who asked — because a request that lives only as a conversation across the fence has nothing behind it once the crew and the liaison both leave for the day."
+    },
+    {
+      "cue": "Read the posted chain-of-custody summary and confirm the sample IDs match the grid's own point numbers.",
+      "id": "coc-read",
+      "kind": "select",
+      "prompt": "Read the posted chain-of-custody summary and confirm the sample IDs match the grid's own point numbers.",
+      "target": "coc-form",
+      "title": "Read the chain-of-custody form",
+      "why": "A witness cannot verify a lab result, but a witness can verify that the sample ID leaving this site today is actually tied to the point the grid says it came from — reading the form here, while the samples are still on site, is the only chance to catch a mismatch before it travels anywhere."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Photograph the flagged points from the observation post — every one the grid check confirmed.",
+      "id": "photo-log",
+      "itemNames": {
+        "photo-1": "point 1 photograph",
+        "photo-2": "point 2 photograph",
+        "photo-3": "point 3 photograph"
+      },
+      "kind": "sequence",
+      "prompt": "Photograph the flagged points from the observation post — every one the grid check confirmed.",
+      "targets": [
+        "photo-1",
+        "photo-2",
+        "photo-3"
+      ],
+      "title": "Photograph what the watch confirmed",
+      "why": "A witness's memory of what the grid looked like fades the same way anyone else's does — the photograph is what lets the witness statement, and anyone who reads it later, see the same grid the witness actually watched, not a description of it from memory."
+    },
+    {
+      "cue": "Bring anything that needs asking to the liaison window rather than calling it across the grid.",
+      "id": "route-question",
+      "kind": "select",
+      "prompt": "Bring anything that needs asking to the liaison window rather than calling it across the grid.",
+      "target": "liaison-window",
+      "title": "Route a question through the liaison",
+      "why": "The liaison is the one person accountable for what gets told to the community about this retest — a question answered informally by whichever crew member happens to be closest to the fence is a question answered by someone with no responsibility for getting it right."
+    },
+    {
+      "cue": "Hold position at the observation post and read your own notes back against the work plan before writing anything up.",
+      "holdBreakNote": "Broke off the review before it finished — an interrupted read-back isn't a check, it's a glance at the page.",
+      "id": "final-hold",
+      "kind": "hold",
+      "prompt": "Hold position at the observation post and read your own notes back against the work plan before writing anything up.",
+      "seconds": 6,
+      "target": "review-clip",
+      "title": "Hold a final review before the statement",
+      "why": "The watch is only as good as the last check on it — reading the notes back against the plan here, before the statement gets written, is what catches a point number transposed or a photograph that never got taken before either one becomes part of the official record."
+    },
+    {
+      "cue": "Write the witness statement from today's notes and file it the same day.",
+      "id": "statement",
+      "kind": "select",
+      "prompt": "Write the witness statement from today's notes and file it the same day.",
+      "target": "statement-form",
+      "title": "Write and file the witness statement",
+      "why": "A statement written the same day is a statement built from notes still fresh enough to be exact about which point moved, what the crew said through the liaison, and what the photographs show — left even a day, the same statement starts filling in gaps with what seems likely instead of what was actually seen."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A community witness at a regulator's retest from the public side of the fence: the sampling grid checked against the work plan, the split sample requested in writing, the chain-of-custody form read, a photo log kept, questions routed through the community liaison, and a witness statement written the same day",
+  "title": "SmartCiti.X~ Retest Witnessing VR",
+  "trade": "Community environmental monitor",
+  "underwater": null,
+  "weather": "overcast"
+}
