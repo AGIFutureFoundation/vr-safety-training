@@ -210,5 +210,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "water-and-gas-utility-crews",
     "name": "Water and Gas Utility Crews — Distribution Authority",
     "accent": "#2f9ed1"
+  },
+  {
+    "programme": "aviation-maintenance-and-ground",
+    "name": "Aviation Maintenance and Ground — IAM/TWU Ramp and Line",
+    "accent": "#ffb13a"
   }
 ];

@@ -189,6 +189,10 @@ export const STANDARDS = Object.fromEntries([
   S("fra-49-cfr-232", "FRA", "49 CFR 232 Brake system safety standards for freight and other non-passenger trains", ["Transit & Logistics"]),
   S("bmwed-training", "union", "BMWED roadway worker training for track and structures maintenance", ["Transit & Logistics"], "unverified"),
   S("faa-14-cfr-139-303", "FAA", "14 CFR 139 Certification of airports", ["Transit & Logistics"]),
+  S("faa-14-cfr-43", "FAA", "14 CFR Part 43 Maintenance, preventive maintenance, rebuilding and alteration", ["Transit & Logistics"]),
+  S("faa-14-cfr-121", "FAA", "14 CFR Part 121 Operating requirements for domestic, flag and supplemental air carriers", ["Transit & Logistics"]),
+  S("faa-14-cfr-145", "FAA", "14 CFR Part 145 Repair stations", ["Transit & Logistics"]),
+  S("nfpa-407", "NFPA", "407 Standard for Aircraft Fuel Servicing", ["Transit & Logistics"]),
   S("phmsa-49-cfr-192", "PHMSA", "49 CFR 192 Minimum federal safety standards for gas pipelines", ["Energy & Power"]),
   S("cal-osha-3345", "Cal/OSHA", "8 CCR 3345 Hotel housekeeping musculoskeletal injury prevention", ["Hospitality"]),
   S("calosha-8-ccr-3342", "Cal/OSHA", "8 CCR 3342 Workplace violence prevention plan", ["Hospitality", "Food Service"]),
@@ -734,6 +738,17 @@ export const PROGRAMME_COMPETENCIES = [
     stations: [
       "ut-water-main-break-emergency-shutdown-and-excavation", "ut-hydrant-flow-test-and-flushing-with-traffic-control", "ut-service-line-locate-and-hand-dig-near-gas-main", "ut-gas-meter-set-and-regulator-vent",
       "ut-cathodic-protection-test-station-reading", "ut-pe-pipe-fusion-and-squeeze-off", "ut-water-treatment-chemical-delivery-unloading", "ut-night-storm-response-crew-and-portable-generator"
+    ],
+    require: 4,
+  },
+  {
+    id: "aviation-maintenance-and-ground",
+    title: "Marshal, push, fuel, load, de-ice, jack and service a jet across eight distinct IAM/TWU ramp and line jobs",
+    kind: "programme",
+    standards: ["faa-14-cfr-139-303", "faa-14-cfr-43", "faa-14-cfr-121", "faa-14-cfr-145", "nfpa-407", "osha-1910-147", "osha-1910-178"],
+    stations: [
+      "av-marshalling-and-wingwalker-signals", "av-pushback-tug-and-towbar-connection", "av-ground-power-and-static-bonding-before-fuel", "av-baggage-belt-loader-and-hold-loading",
+      "av-deicing-truck-boom-operations", "av-hangar-jacking-and-stands", "av-borescope-and-tool-control-inventory", "av-lavatory-and-potable-water-separation"
     ],
     require: 4,
   },

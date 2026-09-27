@@ -1,6 +1,6 @@
 # SmartCiti.X training series
 
-_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-27. 516 SmartCiti.X stations across 18 categories and 41 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
+_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-27. 524 SmartCiti.X stations across 18 categories and 42 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
 Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 45 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
@@ -47,6 +47,7 @@ Every station is a real union procedure sited generically, built on the shared e
 - [Healthcare Support](#healthcare-support)
 - [Roofers and Waterproofers](#roofers-and-waterproofers)
 - [Water and Gas Utility Crews — Distribution Authority](#water-and-gas-utility-crews)
+- [Aviation Maintenance and Ground — IAM/TWU Ramp and Line](#aviation-maintenance-and-ground)
 
 <a id="hunters-point-bay-restoration"></a>
 ## Hunters Point Clean-up and Bay Restoration
@@ -1314,6 +1315,26 @@ Eight jobs a water or gas utility crew actually rotates through: a water main br
 | ut-06 | [PE Pipe Fusion & Squeeze-Off](../../WebXR/smartcity/index.html?sim=ut-pe-pipe-fusion-and-squeeze-off) | UWUA / IBEW gas-utility qualified plastic-pipe joiner | overcast | 14 | 2 | — | A squeeze-off bar stands in for a valve that does not exist, a butt-fusion joint is made from two faces scraped clean and heat-soaked evenly, and the bead is inspected and the bore released slowly before either one is trusted. |
 | ut-07 | [Water Treatment Chemical Delivery Unloading](../../WebXR/smartcity/index.html?sim=ut-water-treatment-chemical-delivery-unloading) | UWUA water treatment operator — chemical delivery unloading | overcast | 14 | 2 | — | The shipping papers, the safety data sheet and the tank's own label all have to agree before a single hose connects, and the transfer is watched at the coupling and stopped well short of a tank already checked for room. |
 | ut-08 | [Night Storm-Response Crew & Portable Generator](../../WebXR/smartcity/index.html?sim=ut-night-storm-response-crew-and-portable-generator) | UWUA water and sewer utility emergency-response crew | storm | 13 | 2 | — | A flooded access road is driven slowly and deliberately at night, and the lift station's utility feed is locked out and proven dead before the generator's cable ever touches the transfer switch. |
+
+<a id="aviation-maintenance-and-ground"></a>
+## Aviation Maintenance and Ground — IAM/TWU Ramp and Line
+
+**Union:** IAM and TWU
+
+**Certifications and standards:** IAM and TWU ramp and maintenance training; FAA 14 CFR Part 139 movement-area operations, Part 43 maintenance, Part 121 air carrier operations and Part 145 repair stations; NFPA 407 aircraft fuel servicing and NFPA 77 static electricity; OSHA 29 CFR 1910.132, 1910.147, 1910.178, 1910.1200 and 1910.23; ANSI/ISEA 107 high-visibility apparel across eight distinct ramp and line jobs
+
+Eight jobs an IAM or TWU ramp and line crew actually rotates through: an aircraft marshalled into a tight hangar bay on two wing-walkers and one shared stop signal, a pushback tug and towbar connected with the steering bypass pin seated before any load, ground power and static bonding proven before a drop of fuel moves, a hold built to the load plan with the hazmat bag segregated on its own, a de-icing pass run top-down and checked clean before the holdover clock starts, a jet raised on three jacks brought up together and locked, a borescope inspection tool-controlled end to end against a shadow board, and a lavatory and potable water service worked on two carts that never share a hose. Every station ends on a proof — a gauge, a confirmed count, a signed log — rather than on how the job looked going together.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| av-1 | [Marshalling & Wing-Walker Signals](../../WebXR/smartcity/index.html?sim=av-marshalling-and-wingwalker-signals) | Aircraft marshaller and wing walker — IAM/TWU ramp crew | overcast | 14 | 2 | — | Two wing-walkers and one marshaller share a single stop signal that beats every other instruction the moment it is raised, because neither wingtip is ever visible from the same set of eyes at the same time in a bay this tight. |
+| av-2 | [Pushback Tug & Towbar Connection](../../WebXR/smartcity/index.html?sim=av-pushback-tug-and-towbar-connection) | Pushback tug operator and headset agent — IAM/TWU ramp crew | overcast | 15 | 2 | — | The steering bypass pin goes in before the tug ever takes a load, and the parking brake comes off and goes back on only on the flight deck's own word over the headset — never assumed, never guessed at from the tug's own seat. |
+| av-3 | [Ground Power & Static Bonding Before Fuel](../../WebXR/smartcity/index.html?sim=av-ground-power-and-static-bonding-before-fuel) | Ground power and fuelling ramp agent — IAM/TWU ramp crew | overcast | 14 | 2 | — | The bonding cable is clamped to the aircraft before the nozzle ever touches it, because a fuel connection with no equalised path between the aircraft and the truck is a spark waiting on a vapour that only needs one. |
+| av-4 | [Baggage Belt-Loader & Hold Loading](../../WebXR/smartcity/index.html?sim=av-baggage-belt-loader-and-hold-loading) | Ramp agent, baggage and cargo loading — IAM/TWU ramp crew | overcast | 15 | 2 | — | The hazmat bag is spotted and segregated before the rest of the hold is built around it, and nothing is tied down and signed off until the weight actually matches the load plan's own centre-of-gravity assumptions. |
+| av-5 | [De-icing Truck Boom Operations](../../WebXR/smartcity/index.html?sim=av-deicing-truck-boom-operations) | De-icing truck operator — IAM/TWU ramp crew | wind | 14 | 2 | — | The pass runs top-down and clear of every intake, and the surfaces get checked clean by eye and by hand before the holdover clock the flight deck is timing their own departure against is ever allowed to start. |
+| av-6 | [Hangar Jacking & Stands](../../WebXR/smartcity/index.html?sim=av-hangar-jacking-and-stands) | Aircraft maintenance technician, jacking and stands — IAM/TWU | overcast | 15 | 2 | — | Three jacks come up together, never one ahead of the others, and the downlock pins go in the moment the gear is unloaded — not sometime after this crew is already working underneath a jet held up on hydraulics alone. |
+| av-7 | [Borescope & Tool-Control Inventory](../../WebXR/smartcity/index.html?sim=av-borescope-and-tool-control-inventory) | Aircraft maintenance technician, borescope and tool control — IAM/TWU | overcast | 15 | 2 | — | Every tool is counted against its own shadow-board outline before the engine is touched, and counted again before the job is signed off, because the only question tool control actually answers is whether everything that went out came back. |
+| av-8 | [Lavatory & Potable Water Separation](../../WebXR/smartcity/index.html?sim=av-lavatory-and-potable-water-separation) | Lavatory and potable water service agent — IAM/TWU ramp crew | overcast | 15 | 2 | — | Two services, two completely separate carts, and the one rule that governs the whole job is that nothing from one system ever touches the other — not the hose, not the nozzle, not a hand that has not been re-gloved in between. |
 
 ## Real-world environments
 
