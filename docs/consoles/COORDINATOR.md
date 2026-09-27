@@ -5,3 +5,6 @@ Team: coordinator · Briefs: every brief under `tools/briefs/` · Branch: `claud
 Every team keeps its own console under this folder (see `tools/briefs/console-brief.md`). This one records merges, gates, republishes and what is still open.
 
 - 18:20 UTC · Deep run opened (90 minutes): underwater world (TRENCH data and builder, REEF game and dives), commercial diving and scientific scuba pack (TENDER), marine ecology pack (KELP), Unity content bridge (BRIDGE); the yacht pack (YACHT1) still in flight from the previous run · next: integrate hand-backs through the gated merge chain, republish, report.
+- 17:49 UTC · Bay World expansion merged, gate "All 50 checkers pass" · 4052a21 · next: relay the enlarged bounds to YACHT1 and MAPBOX1.
+- 18:04 UTC · Bay Atlas and the Mapbox layer merged, gate "All 51 checkers pass" · deea4d4 · next: yacht pack.
+- 18:25 UTC · Yacht and charter crew pack merged (eight stations 93–98, builders motorYacht / yachtTender / marinaBerth, harbor-cruise activity, two marina eggs), gate "All 51 checkers pass" · e3a0a90 · next: Deep run hand-backs; republish once TRENCH lands.
