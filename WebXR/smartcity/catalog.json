@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 553
+      "stations": 554
     },
     "trades": {
       "entry": "trades/index.html",
@@ -69,6 +69,7 @@
         "track-access",
         "bus-depot-lift",
         "airport-ramp",
+        "ml-dog-and-hazard-awareness-on-route",
         "ml-delivery-van-pretrip-and-route-loading",
         "bus-yard-fuelling-and-brake-check",
         "tdl-cargo-securement-and-hours",
@@ -8736,6 +8737,89 @@
     },
     {
       "app": "smartcity",
+      "id": "ml-dog-and-hazard-awareness-on-route",
+      "name": "Dog & Hazard Awareness on Route",
+      "title": "SmartCiti.X~ Dog & Hazard Awareness on Route VR",
+      "tagline": "A residential block on foot: the dog warning list read first, a loose dog and a propped gate read on the approach, the non-threatening response worked stop-turn-retreat with the satchel as a barrier, a heaved slab and a blind corner read further down the block, the address flagged for the next carrier, and an optional short pull-out to the next block",
+      "category": "Mobility & Transit",
+      "domain": "Postal & Mail Processing",
+      "trade": "City letter carrier — dog and hazard awareness on the walking route, NALC",
+      "union": null,
+      "certification": "NIOSH guidance on animal-related and slip, trip and fall hazards for workers who deliver on foot; OSHA 29 CFR 1910.132 personal protective equipment, general requirements; OSHA 29 CFR 1910.1030 bloodborne pathogens, for any bite or scratch exposure a carrier reports; FMCSA 49 CFR 392 driving of commercial motor vehicles, for the short pull-out between blocks; NALC training for city letter carrier route safety",
+      "accent": "#2f6fb0",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "hold",
+        "drag",
+        "track",
+        "turn",
+        "drive"
+      ],
+      "badge": {
+        "id": "route-aware",
+        "name": "Route Aware",
+        "note": "A loose dog and every walkway hazard read and answered without a single unsafe move, and the address flagged for the next carrier"
+      },
+      "meshes": 119,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ml-2",
+      "flat": false,
+      "system": "Route Awareness",
+      "currency": "AWARE",
+      "ranks": [
+        "Casual Carrier",
+        "Route Trainee",
+        "Letter Carrier",
+        "Lead Carrier",
+        "Route Aware Certified"
+      ],
+      "awards": [
+        {
+          "id": "read-the-approach",
+          "name": "Read the Approach",
+          "note": "The dog and the propped gate both found before either was a problem"
+        },
+        {
+          "id": "never-reached",
+          "name": "Never Reached",
+          "note": "No unsafe action anywhere in the run — the dog was never reached for"
+        },
+        {
+          "id": "steady-crossing",
+          "name": "Steady Crossing",
+          "note": "The heaved-slab crossing held its balance band the whole way"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "on-time",
+          "name": "On Time",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "calm-hands",
+          "name": "Calm Hands",
+          "note": "The retreat sequence run in order, first try"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ml-dog-and-hazard-awareness-on-route"
+    },
+    {
+      "app": "smartcity",
       "id": "ml-delivery-van-pretrip-and-route-loading",
       "name": "Delivery Van Pre-Trip & Route Loading",
       "title": "SmartCiti.X~ Delivery Van Pre-Trip & Route Loading VR",
@@ -8767,8 +8851,8 @@
         "name": "Route Ready",
         "note": "A full pre-trip and load, every defect found, the load strapped and logged, and the pull-out driven inside the lane and the band"
       },
-      "meshes": null,
-      "lights": null,
+      "meshes": 163,
+      "lights": 0,
       "overBudget": false,
       "index": "ml-1",
       "flat": false,
@@ -29173,7 +29257,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 246,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -29833,7 +29917,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",
