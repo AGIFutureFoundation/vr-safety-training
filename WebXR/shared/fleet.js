@@ -1861,6 +1861,182 @@ export function skiff(parent, x, y, z, opts = {}) {
   return flDone(rig, { footprint: FLEET_BUDGET.skiff.footprint, livery: lv, draft: 0.3 });
 }
 
+// ------------------------------------------------ marine: motor yacht
+
+/** Teak-laid deck: the shared wood-grain painter, planked fine and pale. */
+function flTeakMat() {
+  return flCanvasMat("yacht|teak", 512, 512, (g, w, h) => {
+    woodGrainFace(g, w, h, { planks: 14, tones: [0xb8935e, 0xaa8452, 0xc09b66] });
+    g.fillStyle = "rgba(20,20,20,0.55)";
+    for (let i = 0; i < 14; i++) g.fillRect(i * (w / 14), 0, 2, h);
+  }, { rough: 0.7, metal: 0.05, repeat: [2, 6] });
+}
+/** Gelcoat hull side with a boot-top stripe and the yacht's name, no hail port. */
+function flGelcoatMat(lv) {
+  return flCanvasMat(`yacht|hull|${lv.key}`, 1024, 256, (g, w, h) => {
+    gradientFill(g, w, h, [[0, flCss(flShade(lv.colour, 1.04))], [1, flCss(flShade(lv.colour, 0.9))]]);
+    noiseTexture(g, w, h, { density: 900, alpha: 0.04, tone: "0,0,0" });
+    g.fillStyle = flCss(lv.accent); g.fillRect(0, h * 0.78, w, h * 0.07);
+    g.fillStyle = "#1a2a3a"; g.fillRect(0, h * 0.9, w, h * 0.1);
+    g.font = `700 ${Math.round(h * 0.26)}px 'Barlow Condensed', Arial, sans-serif`;
+    g.textAlign = "right"; g.textBaseline = "middle"; g.fillStyle = "#1c2b3a";
+    g.fillText(lv.fleetName, w * 0.96, h * 0.42);
+    grimeOverlay(g, w, h, { blotches: 2, streaks: 6, alpha: 0.05 });
+  }, { rough: 0.3, metal: 0.15 });
+}
+
+/**
+ * Mid-size motor yacht: 24 m × 6 m, keel at y 0, main deck at 2.4 m,
+ * flybridge at 4.7 m, radar arch and mast light to 8 m. Hull with a flared
+ * bow and a swim platform aft, saloon deckhouse, flybridge with helm and
+ * arch, side decks with rails and stanchions, cleats at bow, spring and
+ * stern, a fuel fill, a shore-power inlet, an engine-room hatch, a tender in
+ * a davit on the aft deck and navigation lights. A station floats it by
+ * setting y to minus its draft (about 1.2 m). Parts: saloonDoor, helm,
+ * bowCleats, springCleats, sternCleats, fuelFill, shorePowerInlet,
+ * engineHatch, davit, tender, fenders, lifeRing, navLights {portLight,
+ * starboardLight, mastheadLight, sternLight}. The bow faces +Z; port is +X.
+ */
+export function motorYacht(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0xf4f5f2, fleetName: "ESTUARY LADY", unitNumber: "MY-24", accent: 0x2b6f9e });
+  const L = 24, W = 6.0, hw = W / 2, Z = (s) => L / 2 - s;
+  const rig = flRig(parent, x, y, z, opts, "motorYacht");
+  const S = rig.shell;
+  const plan = (k, aft) => [[k * hw, -L / 2 + aft], [k * hw, L / 2 - 8.5], [k * hw * 0.88, L / 2 - 4.5], [k * hw * 0.55, L / 2 - 1.6], [k * hw * 0.18, L / 2 - 0.3], [0, L / 2],
+    [-k * hw * 0.18, L / 2 - 0.3], [-k * hw * 0.55, L / 2 - 1.6], [-k * hw * 0.88, L / 2 - 4.5], [-k * hw, L / 2 - 8.5], [-k * hw, -L / 2 + aft]];
+  const gel = flGelcoatMat(lv);
+  flPlan(S, plan(0.8, 1.2), 1.35, 0, 0, 0, 0x1a2a3a, { rough: 0.55, metal: 0.2, finish: "painted", bevel: 0.1 });   // underbody, antifouling
+  flPlan(S, plan(1.0, 1.2), 1.15, 0, 1.3, 0, lv.colour, { material: gel, bevel: 0.06 });                             // flared topsides
+  for (const sx of [1, -1]) flPanel(S, 14, 1.0, sx * (hw + 0.04), 1.9, Z(13.5), gel, sx > 0 ? "+x" : "-x");
+  // Swim platform aft, teak, with the boarding ladder stub.
+  const teak = flTeakMat();
+  flBox(S, W - 1.2, 0.12, 1.3, 0, 1.55, Z(L - 0.65), teak);
+  flRod(S, 0.03, 0.9, 1.6, 1.15, Z(L - 0.15), "y", ...FL.chrome);
+  // Main deck: teak over the whole length, a raised foredeck in gelcoat.
+  flBox(S, W - 0.5, 0.05, L - 2.0, 0, 2.42, Z((L - 1.2) / 2 + 0.4), teak);
+  flPlan(S, plan(0.92, 15.5), 0.25, 0, 2.42, 0, lv.colour, { material: gel, bevel: 0.05 });
+  for (const sx of [1, -1]) flRod(S, 0.07, L - 3.0, sx * (hw + 0.05), 2.36, Z(L / 2 + 0.9), "z", ...FL.black);   // rub rails
+  // Saloon deckhouse: profile in [s-from-bow, y] from the foredeck aft.
+  flSide(S, [[8.0, 2.45], [7.2, 3.6], [7.6, 4.7], [19.0, 4.7], [19.0, 2.45]], W - 1.6, 0, 0, Z(0), 0xe9ebe6, { rough: 0.4, metal: 0.15, finish: "painted", bevel: 0.05 });
+  const glass = flGlassMat();
+  for (const sx of [1, -1]) flPanel(S, 9.5, 0.9, sx * (hw - 0.78), 3.95, Z(13.5), glass, sx > 0 ? "+x" : "-x");
+  flPanel(S, W - 2.0, 1.0, 0, 4.1, Z(7.45), glass, "+z", 0.5);
+  const door = rig.part("saloonDoor", 0.6, 2.45, Z(19.0) - 0.02);
+  flBox(door, 1.2, 2.1, 0.06, -0.6, 1.05, 0, flDoorMat(lv, "R", { window: 0.6, marks: "none", body: 0xe9ebe6 }));
+  door.userData.openAngle = 1.5;
+  // Flybridge: deck, coaming, helm console with wheel, bench, hardtop on an arch, radome and mast.
+  flBox(S, W - 1.4, 0.08, 10.0, 0, 4.74, Z(13.6), teak);
+  flPlan(S, [[hw - 0.75, Z(8.6)], [hw - 0.75, Z(18.6)], [-(hw - 0.75), Z(18.6)], [-(hw - 0.75), Z(8.6)]], 0.9, 0, 4.78, 0, 0xe9ebe6, { rough: 0.4, metal: 0.15, finish: "painted", bevel: 0.04 });
+  flBox(S, W - 1.7, 0.1, 9.6, 0, 4.86, Z(13.6), teak);
+  box(S, 1.6, 0.9, 0.7, 0, 5.3, Z(9.6), 0xdfe3e6, { rough: 0.45, metal: 0.2, finish: "painted" });
+  const helm = rig.part("helm", 0, 5.85, Z(9.95));
+  const wheel = torus(helm, 0.24, 0.025, 0, 0, 0, 0x2b3138, { rough: 0.5, metal: 0.4, seg: 8, seg2: 22 });
+  wheel.rotation.x = 0.35;
+  box(S, 2.4, 0.5, 0.7, 0, 5.1, Z(12.2), 0x3a5f80, { rough: 0.8 });
+  for (const sx of [1, -1]) flStrut(S, [sx * (hw - 1.0), 4.8, Z(16.4)], [sx * (hw - 1.3), 7.0, Z(15.6)], 0.07, 0xe9ebe6, { rough: 0.4, metal: 0.15 });
+  flBox(S, W - 1.8, 0.12, 3.6, 0, 7.05, Z(14.8), flCanvasMat("yacht|hardtop", 64, 64, (g, w, h) => { g.fillStyle = "#e9ebe6"; g.fillRect(0, 0, w, h); }, { rough: 0.4, metal: 0.15 }));
+  cyl(S, 0.36, 0.36, 0.28, 0.6, 7.25, Z(15.4), 0xf1f3f4, { rough: 0.5, seg: 14 });   // radome
+  flRod(S, 0.035, 0.8, -0.6, 7.5, Z(15.4), "y", ...FL.alu);                           // mast
+  // Side-deck rails: top rail and stanchions both sides, the bow pulpit.
+  for (const sx of [1, -1]) {
+    flRod(S, 0.025, L - 5.5, sx * (hw - 0.18), 3.3, Z(L / 2 + 0.2), "z", ...FL.chrome);
+    for (const s of [3.4, 7.2, 11.0, 14.8, 18.6, 22.4]) flRod(S, 0.018, 0.85, sx * (hw - 0.18), 2.87, Z(s), "y", ...FL.chrome);
+    flStrut(S, [sx * (hw - 0.18), 3.3, Z(2.7)], [0, 3.3, Z(0.3)], 0.025, ...FL.chrome);
+  }
+  // Windlass and anchor on the foredeck.
+  box(S, 0.5, 0.35, 0.6, 0, 2.85, Z(1.7), 0xc8ced4, { rough: 0.35, metal: 0.5, finish: "brushed" });
+  box(S, 0.12, 0.5, 0.35, 0, 2.55, Z(-0.05), 0x7d858d, { rough: 0.45, metal: 0.6 });
+  // Mooring cleats: bow, spring and stern, each pair its own part.
+  const cleatAt = (name, s, yy = 2.5) => {
+    const p = rig.part(name, 0, yy, Z(s));
+    for (const sx of [1, -1]) box(p, 0.36, 0.09, 0.1, sx * (hw - 0.45 - (s < 3 ? 0.8 : 0)), 0.05, 0, ...FL.chrome);
+    return p;
+  };
+  cleatAt("bowCleats", 1.4, 2.75); cleatAt("springCleats", 11.5); cleatAt("sternCleats", 22.4);
+  // Fuel fill on the port side deck, shore-power inlet in the aft cockpit coaming, engine-room hatch in the cockpit sole.
+  const fill = rig.part("fuelFill", hw - 0.5, 2.46, Z(15.5));
+  cyl(fill, 0.08, 0.08, 0.04, 0, 0, 0, ...FL.chrome, { seg: 14 });
+  const inlet = rig.part("shorePowerInlet", -(hw - 0.85), 3.0, Z(19.05));
+  box(inlet, 0.22, 0.28, 0.08, 0, 0, 0, 0x2b3138, { rough: 0.5 });
+  box(inlet, 0.18, 0.2, 0.03, 0, 0.02, 0.05, 0xc8ced4, { rough: 0.35, metal: 0.5 });
+  const hatch = rig.part("engineHatch", -1.0, 2.46, Z(20.8));
+  flBox(hatch, 0.9, 0.05, 0.9, 0, 0, 0, flTreadMat());
+  hatch.userData.openAngle = -1.4;
+  // Davit and the tender it carries on the aft deck.
+  const dv = rig.part("davit", 1.4, 2.45, Z(20.6));
+  flRod(dv, 0.06, 1.9, 0, 0.95, 0, "y", ...FL.alu);
+  flStrut(dv, [0, 1.9, 0], [-1.4, 2.2, 0], 0.05, ...FL.alu);
+  flRod(dv, 0.008, 0.9, -1.3, 1.75, 0, "y", 0xb0b4b8, { rough: 0.5 });
+  const td = rig.part("tender", -0.2, 2.5, Z(20.6));
+  flPlan(td, [[0.7, -1.7], [0.7, 0.9], [0.25, 1.65], [0, 1.85], [-0.25, 1.65], [-0.7, 0.9], [-0.7, -1.7]], 0.35, 0, 0, 0, 0x8a949d, { rough: 0.5, metal: 0.2, bevel: 0.04 });
+  for (const sx of [1, -1]) flRod(td, 0.2, 3.0, sx * 0.72, 0.42, 0.05, "z", 0xd8d2c4, { rough: 0.85, seg: 10 });
+  ball(td, 0.22, 0, 0.42, 1.6, 0xd8d2c4, { rough: 0.85, seg: 10, seg2: 8 });
+  box(td, 0.3, 0.45, 0.35, 0, 0.5, -1.85, 0x1b1e22, { rough: 0.45, metal: 0.3 });
+  // Fenders hung along the topsides, and the throwable life ring on the flybridge rail.
+  const fd = rig.part("fenders", 0, 1.85, Z(12.5));
+  for (const sx of [1, -1]) for (const s of [-5.5, 0, 5.5]) cyl(fd, 0.16, 0.16, 0.7, sx * (hw + 0.2), 0, s, 0xf1f3f4, { seg: 10, rough: 0.6 });
+  const ring = rig.part("lifeRing", -(hw - 0.72), 5.5, Z(17.5));
+  const rr = torus(ring, 0.3, 0.07, 0, 0, 0, 0xf06a2b, { rough: 0.7, seg: 8, seg2: 20 });
+  rr.rotation.y = Math.PI / 2;
+  // Navigation lights: sidelights on the deckhouse, masthead on the arch, stern light on the transom.
+  const nav = rig.part("navLights"); nav.userData.fleetBake = false;
+  const port = rig.part("portLight", hw - 0.8, 4.4, Z(7.9), nav);
+  box(port, 0.1, 0.1, 0.14, 0, 0, 0, ...FL.red);
+  const stbd = rig.part("starboardLight", -(hw - 0.8), 4.4, Z(7.9), nav);
+  box(stbd, 0.1, 0.1, 0.14, 0, 0, 0, ...FL.green);
+  const mh = rig.part("mastheadLight", -0.6, 7.95, Z(15.4), nav);
+  cyl(mh, 0.06, 0.06, 0.12, 0, 0, 0, ...FL.lamp, { seg: 10 });
+  const st = rig.part("sternLight", 0, 2.75, Z(L - 1.25), nav);
+  box(st, 0.1, 0.1, 0.1, 0, 0, 0, ...FL.lamp);
+  rig.set("lights", nav);
+  return flDone(rig, { footprint: FLEET_BUDGET.motorYacht.footprint, livery: lv, draft: 1.2, deckY: 2.45 });
+}
+
+// --------------------------------------------- marine: yacht tender
+
+/**
+ * Rigid inflatable yacht tender: 4.2 m × 1.9 m, keel at y 0, tubes to
+ * 0.75 m, console to 1.2 m, one outboard on the transom. A station floats
+ * it by setting y to minus its draft (about 0.25 m). Parts: outboard,
+ * killCord, console, bowEye, sternCleat, fuelTank, navLight. Bow +Z, port +X.
+ */
+export function yachtTender(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0x8a949d, fleetName: "TENDER", unitNumber: "T-1", accent: 0x2b6f9e });
+  const L = 4.2, W = 1.9, hw = W / 2, Z = (s) => L / 2 - s;
+  const rig = flRig(parent, x, y, z, opts, "yachtTender", [0, 0, 0.27]);
+  const S = rig.shell;
+  flPlan(S, [[hw * 0.7, -L / 2], [hw * 0.7, L / 2 - 1.4], [hw * 0.3, L / 2 - 0.35], [0, L / 2 - 0.1], [-hw * 0.3, L / 2 - 0.35], [-hw * 0.7, L / 2 - 1.4], [-hw * 0.7, -L / 2]],
+    0.42, 0, 0, 0, lv.colour, { rough: 0.5, metal: 0.2, finish: "painted", bevel: 0.05 });
+  flBox(S, W - 0.75, 0.03, L - 1.3, 0, 0.43, Z(L / 2 + 0.5), flTreadMat());
+  const tube = [0xdcd6c8, { rough: 0.85, finish: "rubber" }];
+  for (const sx of [1, -1]) {
+    const t = flRod(S, 0.24, L - 1.2, sx * (hw - 0.26), 0.5, Z(L / 2 + 0.5), "z", ...tube, { seg: 12 });
+    t.rotation.y = sx * 0.06;
+  }
+  ball(S, 0.26, 0, 0.5, Z(0.5), ...tube, { seg: 12, seg2: 8 });
+  // Console with the kill-cord clipped to its switch, and the helm seat behind it.
+  const con = rig.part("console", 0, 0.45, Z(2.2));
+  box(con, 0.55, 0.7, 0.45, 0, 0.35, 0, 0xe9ebe6, { rough: 0.45, metal: 0.15, finish: "painted" });
+  flPanel(con, 0.5, 0.22, 0, 0.8, 0.16, flGlassMat(), "+z", 0.55);
+  const kc = rig.part("killCord", 0.12, 1.05, 0.2, con);
+  cyl(kc, 0.025, 0.025, 0.03, 0, 0, 0, ...FL.red, { seg: 10 });
+  hose(kc, [[0, 0, 0.02], [0.12, -0.12, 0.12], [0.2, -0.3, 0.1]], 0.008, 0xd8322c, { steps: 6, rough: 0.7 });
+  box(S, 0.5, 0.42, 0.4, 0, 0.66, Z(2.95), 0x2b3138, { rough: 0.7, finish: "rubber" });
+  const tank = rig.part("fuelTank", 0, 0.45, Z(3.5));
+  box(tank, 0.5, 0.28, 0.35, 0, 0.14, 0, 0xd8322c, { rough: 0.6 });
+  const be = rig.part("bowEye", 0, 0.45, Z(0.2));
+  torus(be, 0.05, 0.012, 0, 0, 0, ...FL.chrome, { seg: 6, seg2: 12 });
+  const sc = rig.part("sternCleat", -(hw - 0.55), 0.76, Z(L - 0.25));
+  box(sc, 0.16, 0.04, 0.05, 0, 0.02, 0, ...FL.chrome);
+  const ob = rig.part("outboard", 0, 0.55, Z(L) - 0.02);
+  box(ob, 0.38, 0.5, 0.45, 0, 0.42, -0.2, 0x1b1e22, { rough: 0.45, metal: 0.3, finish: "painted" });
+  box(ob, 0.11, 0.8, 0.16, 0, -0.13, -0.18, 0x1b1e22, { rough: 0.45, metal: 0.3 });
+  const nl = rig.part("navLight", 0, 0.9, Z(3.1));
+  flRod(nl, 0.012, 0.45, 0, 0.22, 0, "y", ...FL.alu);
+  cyl(nl, 0.035, 0.035, 0.07, 0, 0.48, 0, ...FL.lamp, { seg: 10 });
+  return flDone(rig, { footprint: FLEET_BUDGET.yachtTender.footprint, livery: lv, draft: 0.25 });
+}
+
 // ----------------------------------------------------- marine: barges
 
 /**
@@ -2279,6 +2455,8 @@ export const FLEET_BUDGET = {
   forkliftCounterbalance: { build: "forkliftCounterbalance", meshes: 21, footprint: [1.12, 2.28, 3.57], parts: ["mast", "innerMast", "carriage", "forks", "overheadGuard", "counterweight", "lpgTank", "seat", "controls", "beacon", "wheels", "lights"], note: "5,000 lb LPG counterbalance" },
   yardHustler: { build: "yardHustler", meshes: 19, footprint: [2.91, 3.43, 5.61], parts: ["doorL", "doorRear", "mirrorL", "mirrorR", "wheels", "fifthWheel", "gladHandService", "gladHandEmergency", "beacon", "lights"], note: "terminal tractor, lifting fifth wheel" },
   workboat: { build: "workboat", meshes: 16, footprint: [3.15, 3.45, 8.18], parts: ["wheelhouseDoor", "outboards", "davit", "navLights", "portLight", "starboardLight", "mastheadLight"], note: "7.6 m aluminium workboat" },
+  motorYacht: { build: "motorYacht", meshes: 35, footprint: [6.72, 8.01, 24.23], parts: ["saloonDoor", "helm", "bowCleats", "springCleats", "sternCleats", "fuelFill", "shorePowerInlet", "engineHatch", "davit", "tender", "fenders", "lifeRing", "navLights", "portLight", "starboardLight", "mastheadLight", "sternLight"], note: "24 m motor yacht: flybridge, swim platform, tender in a davit, shore-power inlet" },
+  yachtTender: { build: "yachtTender", meshes: 15, footprint: [1.89, 1.52, 4.55], parts: ["outboard", "killCord", "console", "bowEye", "sternCleat", "fuelTank", "navLight"], note: "4.2 m rigid inflatable tender with an outboard and a kill-cord" },
   skiff: { build: "skiff", meshes: 17, footprint: [2.11, 1.79, 5.69], parts: ["outboard", "console", "killSwitch", "bowCleat", "sternCleat", "navLights", "portLight", "starboardLight", "sternLight"], note: "5.2 m aluminium centre-console skiff" },
   deckBarge: { build: "deckBarge", meshes: 13, footprint: [6.24, 2.7, 16], parts: ["bitts", "ladder"], note: "16 m flat steel deck barge, raked ends" },
   "deckBarge:hopper": { build: "deckBarge", opts: { kind: "hopper" }, meshes: 16, footprint: [6.24, 3.1, 16], parts: ["bitts", "ladder", "coaming", "liner", "load"], note: "deck barge with a lined sediment hopper" },
@@ -2292,6 +2470,6 @@ export const FLEET_BUDGET = {
 /** The builders by the name FLEET_BUDGET's `build` field uses. */
 export const FLEET_BUILDERS = {
   semiTractor, trailer, tractorTrailer, boxTruck, pickup, sedan, cargoVan, deliveryVan, ambulance, fireEngine,
-  bucketTruck, busTransit, schoolBus, forkliftCounterbalance, yardHustler, workboat,
+  bucketTruck, busTransit, schoolBus, forkliftCounterbalance, yardHustler, workboat, motorYacht, yachtTender,
   skiff, deckBarge, salvageCraneBarge, skimmerVessel, deckCrane, derelictBoat, spudBarge,
 };
