@@ -287,6 +287,8 @@ const CSS = `
   .chip:hover{background:var(--raised-2); text-decoration:none}
   .chip b{display:block; font-family:var(--cond); font-weight:600; font-size:15px; letter-spacing:.02em}
   .chip span{display:block; font-size:12px; color:var(--muted); margin-top:2px}
+  .chip .pp-chip[hidden]{display:none}
+  .chip .pp-chip{color:var(--accent, currentColor)}
 
   /* ---- catalog ---- */
   #catalog{margin:8px 0 0}
@@ -834,6 +836,20 @@ const SCRIPT = `
   // rule (a station whose last CLEAN run — two or more stars, no unsafe
   // action — is older than 90 days) without importing that module and its
   // procedure-engine dependencies onto the homepage.
+  // The programme chips on the rail (docs/interop.md): each reads only the
+  // learner passport (shared/passport.js), lazily loaded like sign-in, so a
+  // station passed from any world's job board counts here too.
+  (function passportChips() {
+    var chips = document.querySelectorAll("[data-pp-programme]");
+    if (!chips.length) return;
+    import("./shared/passport.js").then(function (pp) {
+      for (var i = 0; i < chips.length; i++) {
+        var p = pp.ppProgramme(chips[i].getAttribute("data-pp-programme"));
+        if (p && p.passed) pp.ppProgressChip(chips[i], p.id);
+      }
+    }).catch(function () { /* no module server (file://): the rail stays as it is */ });
+  })();
+
   (function continueStrip() {
     var RECORDS_KEY = "vr-training-records-v1", REFRESHER_DAYS = 90, DAY_MS = 86400000;
     var list;
@@ -975,6 +991,7 @@ export function renderHome(catalog, devicesMd, layoutName = "repo") {
     return `      <a class="chip" href="${layout.app.smartcity}?programme=${id}">
         <b>${esc(c.name)}</b>
         <span>${n} stations · ${esc(c.union ?? "")}</span>
+        <span class="pp-chip" data-pp-programme="${id}" hidden></span>
       </a>`;
   }).join("\n");
 

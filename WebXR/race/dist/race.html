@@ -11554,9 +11554,12 @@ const TrainingRecords = {
 const CSV_COLUMNS = [
   "at", "learner", "learnerName", "learnerId", "homePage", "app", "simId", "simName", "category", "trade", "certification", "system",
   "score", "stars", "errors", "hazardHits", "holdBreaks", "seconds", "parSeconds", "passed",
-  "badges", "level", "levelName", "id",
+  "badges", "level", "levelName", "id", "source",
 ];
 
+// `source` is the world whose job board launched the attempt (shared/passport.js):
+// a Bay World board's run is `app: "smartcity"`, `source: "bayworld"`. A record
+// written before the passport has none, and exports as its own app.
 function csvCell(v) {
   if (v == null) return "";
   const s = Array.isArray(v) ? v.join("; ") : String(v);
@@ -11566,7 +11569,7 @@ function csvCell(v) {
 /** RFC 4180 CSV, one row per attempt, columns in CSV_COLUMNS order. */
 function toCSV(list) {
   const lines = [CSV_COLUMNS.join(",")];
-  for (const r of list) lines.push(CSV_COLUMNS.map((c) => csvCell(r[c])).join(","));
+  for (const r of list) lines.push(CSV_COLUMNS.map((c) => csvCell(c === "source" ? r.source ?? r.app : r[c])).join(","));
   return lines.join("\r\n") + "\r\n";
 }
 
@@ -11651,6 +11654,7 @@ function toXAPI(list, { actorName = "YOU", homePage = "https://smartciti.example
           [ext("certification")]: r.certification ?? null,
           [ext("system")]: r.system ?? null,
           [ext("learner-level")]: r.level ?? null,
+          [ext("source-app")]: r.source ?? r.app ?? null,
         },
       },
     })),

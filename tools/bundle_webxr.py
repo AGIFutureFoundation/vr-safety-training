@@ -75,6 +75,10 @@ APPS = {
             WEBXR / "trades/js/rooms/plumbing.js",
             WEBXR / "trades/js/rooms/pressure-washer.js",
             WEBXR / "trades/js/rooms/paint-sprayer.js",
+            # The learner passport (docs/interop.md): one read/write API over
+            # the records, identity and every world's ledger, after its deps.
+            SHARED / "passport-programmes.js",
+            SHARED / "passport.js",
             WEBXR / "trades/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -178,6 +182,10 @@ APPS = {
             # own — see the module's own header — so it only needs to be
             # listed once, before app.js mounts it.
             SHARED / "eggs-app.js",
+            # The learner passport (docs/interop.md): one read/write API over
+            # the records, identity and every world's ledger, after its deps.
+            SHARED / "passport-programmes.js",
+            SHARED / "passport.js",
             WEBXR / "smartcity/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -223,6 +231,11 @@ APPS = {
             SHARED / "a11y.js",
             SHARED / "records.js",
             SHARED / "tracking.js",
+            # The learner passport (docs/interop.md): one read/write API over
+            # the records, identity and every world's ledger, after its deps.
+            SHARED / "identity.js",
+            SHARED / "passport-programmes.js",
+            SHARED / "passport.js",
             WEBXR / "instructor/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -266,6 +279,10 @@ APPS = {
             WEBXR / "holodeck/js/react-ui.js",
             # The Scaffold Climber arcade cabinet (docs/easter-egg.md).
             SHARED / "eggs-app.js",
+            # The learner passport (docs/interop.md): one read/write API over
+            # the records, identity and every world's ledger, after its deps.
+            SHARED / "passport-programmes.js",
+            SHARED / "passport.js",
             WEBXR / "holodeck/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -316,6 +333,13 @@ APPS = {
             WEBXR / "fairway/js/minigames.js",
             WEBXR / "fairway/js/scores.js",
             WEBXR / "fairway/js/world.js",
+            # The learner passport (docs/interop.md): one read/write API over
+            # the records, identity and every world's ledger, after its deps.
+            SHARED / "game.js",
+            SHARED / "competency.js",
+            SHARED / "identity.js",
+            SHARED / "passport-programmes.js",
+            SHARED / "passport.js",
             WEBXR / "fairway/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -413,6 +437,11 @@ APPS = {
             SHARED / "bay-geo.js",
             SHARED / "mapbox.js",
             WEBXR / "bayworld/js/world.js",
+            # The learner passport (docs/interop.md): one read/write API over
+            # the records, identity and every world's ledger, after its deps.
+            SHARED / "identity.js",
+            SHARED / "passport-programmes.js",
+            SHARED / "passport.js",
             WEBXR / "bayworld/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -456,6 +485,11 @@ APPS = {
             WEBXR / "underwater/js/dive-map.js",
             WEBXR / "underwater/js/activities.js",
             WEBXR / "underwater/js/world.js",
+            # The learner passport (docs/interop.md): one read/write API over
+            # the records, identity and every world's ledger, after its deps.
+            SHARED / "identity.js",
+            SHARED / "passport-programmes.js",
+            SHARED / "passport.js",
             WEBXR / "underwater/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -512,6 +546,11 @@ APPS = {
             WEBXR / "regatta/js/race.js",
             WEBXR / "regatta/js/events.js",
             WEBXR / "regatta/js/world.js",
+            # The learner passport (docs/interop.md): one read/write API over
+            # the records, identity and every world's ledger, after its deps.
+            SHARED / "identity.js",
+            SHARED / "passport-programmes.js",
+            SHARED / "passport.js",
             WEBXR / "regatta/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
@@ -715,6 +754,9 @@ DIST_SHARED = [
     # docs/agent-protocols.md), lazily imported by the homepage's own script
     # exactly like radio-quiz.js above.
     "wallet.js", "share-engagement.js", "agent-protocols.js",
+    # The programme chips on the homepage rails (docs/interop.md) import the
+    # passport lazily, with the modules it reads.
+    "passport.js", "passport-programmes.js", "competency.js", "game.js",
 ]
 
 

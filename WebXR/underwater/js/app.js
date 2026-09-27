@@ -3,6 +3,7 @@ import { createGamepad, GAMEPAD_DEADZONE, detectPadVendor } from "../../shared/i
 import { tcTier, tcApplyRenderer } from "../../shared/perf.js";
 import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
 import { TrainingRecords } from "../../shared/records.js";
+import { ppAward, ppMarkBoard, ppBoardDone, ppProgressChip, ppReturnSite, ppHerePage } from "../../shared/passport.js";
 import { DV_SITES, DV_LANDMARKS, DV_ZONES, DEEP_DEPTH_RANGE, dvZoneAt } from "./seabed.js";
 import {
   dvStepDiver, dvStepRov, dvReserveStep, dvReserveLabel, dvStepBuddy, dvBuddyLine, dvAscentLines, dvNearestAscentLine,
@@ -39,7 +40,10 @@ export function dvStartSiteFrom(search, sites = DV_SITES) {
   const site = params.get("site");
   return site ? sites.find((s) => s.id === site) ?? null : null;
 }
-const dvStartSite = dvStartSiteFrom(typeof window !== "undefined" ? window.location?.search : "") ?? DV_SITES[1] ?? DV_SITES[0];
+// A return from a finished station lands on `#site=<id>` (docs/interop.md).
+const dvReturnSiteId = typeof window !== "undefined" ? ppReturnSite(window.location?.hash) : null;
+const dvStartSite = (dvReturnSiteId ? DV_SITES.find((x) => x.id === dvReturnSiteId) : null)
+  ?? dvStartSiteFrom(typeof window !== "undefined" ? window.location?.search : "") ?? DV_SITES[1] ?? DV_SITES[0];
 
 const dvApp = {
   screen: "menu",
@@ -181,6 +185,9 @@ function dvOpenJobBoard(site) {
     ? `${progress.attempts} attempt${progress.attempts === 1 ? "" : "s"} · last run ${progress.lastStation ?? "—"}${progress.badgesEarned.length ? ` · badges: ${progress.badgesEarned.join(", ")}` : ""}`
     : "No attempts yet at this site.";
   $("jb-programmes").textContent = (site.programmes ?? []).length ? `Programme: ${site.programmes.join(", ")}` : "No training programme posted here yet.";
+  // The programme chip and the board's done mark read only the passport.
+  ppProgressChip($("jb-chip"), site.programmes?.[0] ?? null);
+  $("jb-done")?.toggleAttribute("hidden", !ppBoardDone("underwater", site));
   $("jb-launch")?.toggleAttribute("hidden", !(site.stations ?? []).length);
   dvOpenScreen("jobboard");
 }
@@ -188,7 +195,7 @@ $("jb-launch")?.addEventListener("click", () => {
   const site = dvApp.lastSite;
   if (!site || !(site.stations ?? []).length) return;
   dvToast(`Launching ${site.name}…`);
-  window.location.href = dvMissionLink(site);
+  window.location.href = dvMissionLink(site, { page: ppHerePage() });
 });
 $("jb-close")?.addEventListener("click", () => dvOpenScreen("game"));
 
@@ -201,6 +208,10 @@ function dvCheckDiveReturns() {
     dvNoteStationReturn(r.site.id, { storage: dvStore });
     dvNoteStationReturn(r.entry.simId, { storage: dvStore });
     for (const u of r.award.unlocked) dvToast(`Unlocked: ${u.label}`, 4200);
+    // Into the one ledger, source kept, once per attempt id; dive-career.js
+    // has already added the gain to the Deep's own store, so it is `native`.
+    ppAward("underwater", { reputation: r.award.reputationGain, credits: r.award.creditsGain, attemptId: r.entry.id, native: true, reason: `${r.site.name}: ${r.entry.passed ? "passed" : "attempted"} ${r.entry.simName ?? r.entry.simId}` });
+    if (r.entry.passed) ppMarkBoard("underwater", r.site.id, r.entry.id);
   }
   dvRefreshHudCareer();
 }
@@ -459,6 +470,8 @@ function dvStart() {
   dvRenderDiveHud();
   dvRenderReserve();
   dvCheckDiveReturns();
+  const returned = dvReturnSiteId ? DV_SITES.find((x) => x.id === dvReturnSiteId) : null;
+  if (returned) dvOpenJobBoard(returned);
   requestAnimationFrame(dvLoop);
 }
 

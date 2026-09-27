@@ -4,6 +4,8 @@ import { tcTier, tcApplyRenderer } from "../../shared/perf.js";
 import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
 import { WEATHER } from "../../shared/weather.js";
 import { TrainingRecords } from "../../shared/records.js";
+import { ppRecordStation, ppProgressChip, ppCompleteReturns, ppCompleted, ppBoardDone, ppLaunchLink, ppHerePage } from "../../shared/passport.js";
+import { PP_PROGRAMMES } from "../../shared/passport-programmes.js";
 import { FAIRWAY_HOLES } from "./course.js";
 import {
   GOLF_CLUBS, CARE_HABITS,
@@ -132,6 +134,38 @@ $("crew-tag").addEventListener("change", () => {
 function fwShow(id) {
   for (const s of document.querySelectorAll(".screen")) s.hidden = s.id !== id;
 }
+
+// ------------------------------------------------------ grounds crew board
+//
+// Fairway's job board for its grounds programme (docs/interop.md): every
+// station opens in SmartCiti.X with the way home on it, a finished one is
+// paid once into the passport ledger with Fairway as its source, and the chip
+// and the done mark read only the passport.
+const FW_RUNNER = "../smartcity/index.html";
+const FW_GROUNDS = { id: "grounds", name: "Grounds crew board", programme: "grounds-and-landscaping", stations: PP_PROGRAMMES["grounds-and-landscaping"]?.stations ?? [] };
+function fwRenderGroundsBoard() {
+  ppProgressChip($("grounds-chip"), FW_GROUNDS.programme);
+  $("grounds-done")?.toggleAttribute("hidden", !ppBoardDone("fairway", FW_GROUNDS.id));
+  const row = $("grounds-stations");
+  if (!row) return;
+  row.textContent = "";
+  for (const id of FW_GROUNDS.stations) {
+    const a = document.createElement("a");
+    a.className = "gs-link";
+    a.href = ppLaunchLink(FW_RUNNER, { sim: id, from: "fairway", page: ppHerePage(), siteId: FW_GROUNDS.id });
+    a.textContent = `${ppCompleted(id) ? "✓ " : ""}${id.replace(/^gk-/, "").replace(/-/g, " ")}`;
+    row.appendChild(a);
+  }
+}
+function fwCheckGroundsReturns() {
+  const paid = ppCompleteReturns("fairway", [FW_GROUNDS], {
+    pay: (r) => (r.passed ? { reputation: 5 + 3 * (r.stars | 0), credits: 20 + 10 * (r.stars | 0) } : { reputation: 1, credits: 5 }),
+  });
+  for (const x of paid) if (!x.duplicate) toast(`${x.record.simName ?? x.record.simId}: ${x.record.passed ? "passed" : "logged"} — +${x.award.reputation} reputation, +${x.award.credits} credits.`, 4200);
+  fwRenderGroundsBoard();
+}
+fwCheckGroundsReturns();
+window.addEventListener("pageshow", (e) => { if (e.persisted) fwCheckGroundsReturns(); });
 
 $("menu-play").addEventListener("click", fwStartRound);
 $("menu-facility").addEventListener("click", () => { fwRenderFacilityMenu(); fwShow("scr-facility"); });
@@ -324,7 +358,7 @@ function fwFinishRound() {
   const submit = fgSubmitRound(fwStore, app.crewTag, summary.totalStrokes, summary.totalPar);
   const habitsTried = summary.care.opportunities;
   const habitsMet = summary.care.met;
-  TrainingRecords.record({
+  ppRecordStation({
     app: "fairway",
     simId: "fairway-course",
     simName: "Fairway Park — the nine",

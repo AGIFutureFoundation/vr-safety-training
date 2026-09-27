@@ -3,6 +3,7 @@ import { disposeTree, decal, repaint, box, cyl, torus, ball, group, mat, HUD, cl
 import { Session, Progress, Sfx } from "../../shared/game.js";
 import { speak, speechSupported } from "../../shared/voice-assist.js";
 import { TrainingRecords } from "../../shared/records.js";
+import { ppRecordStation } from "../../shared/passport.js";
 import { Identity } from "../../shared/identity.js";
 import { Lrs } from "../../shared/lrs.js";
 import { Platform, FLOW_LOAD, FLOW_START, FLOW_RESUME, FLOW_STATE } from "../../shared/platform.js";
@@ -793,7 +794,7 @@ function showResults(s, summary) {
   // category, the surface-prep bays carry their own.
   Perf.logRun({ app: "trades", simId: state.room?.id, mode: renderer.xr.isPresenting ? "vr" : "flat",
     presenting: renderer.xr.isPresenting, seconds: Math.round(s.elapsed ?? 0) });
-  const attempt = TrainingRecords.record({
+  const attempt = ppRecordStation({
     app: "trades", learner: Progress.playerName,
     learnerName: Identity.current?.name, learnerId: Identity.current?.id, homePage: Identity.current?.homePage,
     simId: s.room.id, simName: s.room.title, category: s.room.category ?? "Trade Skills Simulator", trade: s.room.trade,

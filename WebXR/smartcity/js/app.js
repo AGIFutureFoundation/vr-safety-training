@@ -8,6 +8,7 @@ import {
   toProofCSV, toCompetencyBadges, toCompetencyXAPI, standard, clockText as mmss,
 } from "../../shared/competency.js";
 import { Identity } from "../../shared/identity.js";
+import { ppRecordStation, ppReturnTarget } from "../../shared/passport.js";
 import { Auth, availableProviders, makeAuthEnv, providerById } from "../../shared/auth.js";
 import { Lrs } from "../../shared/lrs.js";
 import { Wallet, makeWalletEnv } from "../../shared/wallet.js";
@@ -1251,7 +1252,10 @@ function showResults(s, summary) {
     ${renderDebrief(s)}
     ${renderCheckIn(s)}
     ${state.tour ? renderTourFooter() : ""}
-    ${inLevel ? renderLevelFooter(levelTask, s) : ""}`;
+    ${inLevel ? renderLevelFooter(levelTask, s) : ""}
+    ${ppRunnerReturn ? `<p class="res-note res-return"><a id="res-return" href="${escapeHtml(ppRunnerReturn.url)}"
+      style="display:inline-block;padding:8px 14px;border-radius:8px;background:var(--accent);color:#04121a;font-weight:700;text-decoration:none">${escapeHtml(ppRunnerReturn.label)}</a>
+      <span class="muted">This run is on your passport; the board there is marked and paid once.</span></p>` : ""}`;
   // Where the learner stood on every competency BEFORE this run, so a
   // competency this run just earned can be told apart from one they already
   // had (see shared/competency.js and the Proof tab).
@@ -1259,7 +1263,11 @@ function showResults(s, summary) {
   // The auditable record of this attempt — separate from the gamified
   // Progress profile, exportable as CSV or xAPI from the Training Records
   // overlay. Custom scenarios record under their base station's category.
-  const attempt = TrainingRecords.record({
+  // Written through the learner passport (shared/passport.js): one record per
+  // attempt, stamped with the world whose board launched it (`?from=`), and
+  // joined to this run's episode when one is being recorded.
+  const attempt = ppRecordStation({
+    source: ppRunnerReturn?.from ?? ppRunnerFrom ?? "smartcity",
     app: "smartcity", learner: Progress.playerName,
     learnerName: Identity.current?.name, learnerId: Identity.current?.id, homePage: Identity.current?.homePage,
     simId: room.id, simName: room.name ?? room.title, category: room.category ?? SIMS_META_BY_ID[room.baseId]?.category,
@@ -1281,7 +1289,7 @@ function showResults(s, summary) {
     events: state.eventsScheduler?.log ?? [],
     ...(room.variant ? { variant: { level: room.variant.level, seed: room.variant.seed, differs: room.variant.differs } } : {}),
     ...(inLevel ? { ladder: levelTag(state.level, levelTask.index) } : {}),
-  });
+  }, { episode: state.episodeRec?.episode ?? null });
   instructorActions = [];
   if (inLevel) { state.level = recordTask(state.level, attempt); writeLevelRun(state.level); }
   // Hand the attempt to the hosting LMS page, if there is one and it told
@@ -4327,6 +4335,12 @@ function drawVrHud() {
 // -------------------------------------------------------------------- intro
 
 let deepLink = new URLSearchParams(location.search).get("sim");
+// The round trip (docs/interop.md): a job board opens a station with
+// `?from=<world>&return=<the world's page>#site=<id>`; the finished run's
+// results card then offers "Back to <world>". Only a same-origin return is
+// honoured (ppReturnTarget), so the parameter can never redirect off-site.
+const ppRunnerFrom = new URLSearchParams(location.search).get("from");
+const ppRunnerReturn = ppReturnTarget(location.search, location.href);
 // A programme deep link (?programme=<id>, from the homepage's programme rail)
 // opens the programmes panel with that block pinned to the top — the same
 // treatment an instructor's assignment gets, so the learner lands on the block

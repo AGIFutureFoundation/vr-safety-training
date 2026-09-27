@@ -364,7 +364,8 @@ await check("a full round's care summary writes one attempt to TrainingRecords u
 
 await check("app.js actually calls TrainingRecords.record under app id \"fairway\" when a round ends", () => {
   const app = readFileSync(join(FAIRWAY, "js", "app.js"), "utf8");
-  assert(/TrainingRecords\.record\(/.test(app), "app.js never calls TrainingRecords.record");
+  // Through the learner passport (shared/passport.js), which writes records.js on its behalf.
+  assert(/(TrainingRecords\.record|ppRecordStation)\(/.test(app), "app.js never calls TrainingRecords.record (or ppRecordStation)");
   assert(/app:\s*"fairway"/.test(app), "app.js's record is not tagged app: \"fairway\"");
   assert(/glSummary\(/.test(app) && /fgSubmitRound\(/.test(app), "app.js should build its record from glSummary() and also submit the round to the leaderboard");
 });
