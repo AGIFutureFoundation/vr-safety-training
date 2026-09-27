@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 552
+      "stations": 556
     },
     "trades": {
       "entry": "trades/index.html",
@@ -204,6 +204,10 @@
         "conveyor-guard",
         "forklift-dock",
         "cnc-cell",
+        "mm-paper-machine-dryer",
+        "mm-coke-oven-heat-rotation",
+        "mm-ladle-pour",
+        "mm-hot-strip-mill-stand",
         "sm-kitchen-exhaust-and-fire-wrap",
         "sm-air-balancing-and-testing",
         "sm-architectural-panels-at-height",
@@ -8732,6 +8736,338 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-paper-machine-dryer",
+      "name": "Paper Machine Dryer Section",
+      "title": "SmartCiti.X~ Paper Machine Dryer Section VR",
+      "tagline": "A dryer-section felt change: drive and steam locked out, pressure bled to zero, the nip guarded, the felt threaded and tensioned, the section proved before power comes back",
+      "category": "Manufacturing & Automation",
+      "domain": "Manufacturing",
+      "trade": "Paper machine dryer section operator",
+      "union": null,
+      "certification": "USW Tony Mazzocchi Center health and safety training; OSHA 29 CFR 1910.147 control of hazardous energy (lockout/tagout); OSHA 29 CFR 1910.212 general machine guarding; ANSI B11 general safety requirements for machines",
+      "accent": "#3a7ca8",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "plant",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "hold",
+        "gauge",
+        "find",
+        "drag",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "felt-changed-clean",
+        "name": "Felt Changed Clean",
+        "note": "A dryer section locked out, bled to zero and reguarded before power went back on it, with the neighbouring section never touched"
+      },
+      "meshes": 121,
+      "lights": 0,
+      "overBudget": false,
+      "index": "711",
+      "flat": false,
+      "system": "Dryer Section Authority",
+      "currency": "REEL",
+      "ranks": [
+        "Machine Tender Helper",
+        "Fourth Hand",
+        "Machine Tender",
+        "Dryer Section Lead",
+        "Dryer Section Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "locked-and-bled",
+          "name": "Locked And Bled",
+          "note": "Drive and steam locked out and pressure bled to zero before the guard came off, first time"
+        },
+        {
+          "id": "your-section-only",
+          "name": "Your Section Only",
+          "note": "Never reached a nip, a bypass valve or the running section next door"
+        },
+        {
+          "id": "tension-on-spec",
+          "name": "Tension On Spec",
+          "note": "Felt tension set inside the manual's band"
+        },
+        {
+          "id": "clean-changeover",
+          "name": "Clean Changeover",
+          "note": "No corrections through the whole felt change"
+        },
+        {
+          "id": "jog-unbroken",
+          "name": "Jog Unbroken",
+          "note": "The proof jog never broke its controlled rate"
+        },
+        {
+          "id": "changeover-fast",
+          "name": "Changeover Fast",
+          "note": "Felt change completed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=mm-paper-machine-dryer"
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-coke-oven-heat-rotation",
+      "name": "Coke Oven Heat Rotation",
+      "title": "SmartCiti.X~ Coke Oven Heat Rotation VR",
+      "tagline": "A battery topside shift worked to the plan's heat-stress rotation: PPE on, a buddy checked in with, a leaking door seal luted, the larry car's path respected, cooldown taken in full",
+      "category": "Manufacturing & Automation",
+      "domain": "Manufacturing",
+      "trade": "Coke oven battery topside worker",
+      "union": null,
+      "certification": "USW Tony Mazzocchi Center health and safety training; ACGIH Threshold Limit Values heat stress guidance; NIOSH criteria documents on occupational heat exposure; OSHA 29 CFR 1910.132 personal protective equipment",
+      "accent": "#d9541c",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "plant",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "turn",
+        "track",
+        "hold",
+        "gauge"
+      ],
+      "badge": {
+        "id": "rotation-held",
+        "name": "Rotation Held",
+        "note": "A topside shift worked to the plan's rotation, PPE on, the buddy system kept, and every cooldown taken in full"
+      },
+      "meshes": 154,
+      "lights": 0,
+      "overBudget": false,
+      "index": "710",
+      "flat": false,
+      "system": "Battery Topside Authority",
+      "currency": "CHARGE",
+      "ranks": [
+        "Larry Car Helper",
+        "Topside Worker",
+        "Battery Operator",
+        "Battery Foreman",
+        "Battery Topside Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "ppe-and-buddy",
+          "name": "PPE And Buddy",
+          "note": "Full PPE on and the buddy checked in with before going topside, first time"
+        },
+        {
+          "id": "off-the-rail",
+          "name": "Off The Rail",
+          "note": "Never touched a hot door face, stood in the larry car's path, reached into the hopper or reached for the wrong drink"
+        },
+        {
+          "id": "strain-in-band",
+          "name": "Strain In Band",
+          "note": "Heat-strain monitor read inside its safe band the whole shift"
+        },
+        {
+          "id": "clean-rotation",
+          "name": "Clean Rotation",
+          "note": "No corrections through the whole rotation"
+        },
+        {
+          "id": "charge-unbroken",
+          "name": "Charge Unbroken",
+          "note": "The larry car charge never broke its controlled rate"
+        },
+        {
+          "id": "rotation-fast",
+          "name": "Rotation Fast",
+          "note": "Rotation completed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=mm-coke-oven-heat-rotation"
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-ladle-pour",
+      "name": "Ladle Pour",
+      "title": "SmartCiti.X~ Ladle Pour VR",
+      "tagline": "A molten-metal ladle tilted to pour: PPE on, the splash barrier closed, additions dry and through the chute, the tilt held to a controlled rate",
+      "category": "Manufacturing & Automation",
+      "domain": "Manufacturing",
+      "trade": "Steelmaking ladle crew",
+      "union": null,
+      "certification": "USW Tony Mazzocchi Center health and safety training; OSHA 29 CFR 1910.132 personal protective equipment; OSHA 29 CFR 1910.133 eye and face protection; ANSI/ISEA 105 hand protection classification; ANSI/ISEA Z358.1 emergency eyewash and shower equipment",
+      "accent": "#d8552a",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "plant",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "hold",
+        "turn",
+        "track",
+        "gauge"
+      ],
+      "badge": {
+        "id": "clean-heat",
+        "name": "Clean Heat",
+        "note": "A heat poured behind a closed barrier, in full PPE, with the tilt held steady and nothing wet ever going near the metal"
+      },
+      "meshes": 142,
+      "lights": 0,
+      "overBudget": false,
+      "index": "709",
+      "flat": false,
+      "system": "Pour Deck Authority",
+      "currency": "HEAT",
+      "ranks": [
+        "Ladle Helper",
+        "Pourer",
+        "Ladle Operator",
+        "Melt Shop Lead",
+        "Pour Deck Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "ppe-first",
+          "name": "PPE First",
+          "note": "Full PPE on before the ladle was ever approached, first time"
+        },
+        {
+          "id": "behind-the-barrier",
+          "name": "Behind The Barrier",
+          "note": "Never stood in the splash zone, added anything wet, or looked at the stream unshielded"
+        },
+        {
+          "id": "steady-tilt",
+          "name": "Steady Tilt",
+          "note": "Tilt rate held inside its band the whole pour"
+        },
+        {
+          "id": "clean-pour",
+          "name": "Clean Pour",
+          "note": "No corrections through the whole heat"
+        },
+        {
+          "id": "tilt-unbroken",
+          "name": "Tilt Unbroken",
+          "note": "The tilt never broke its controlled rate"
+        },
+        {
+          "id": "heat-fast",
+          "name": "Heat Fast",
+          "note": "Heat poured and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=mm-ladle-pour"
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-hot-strip-mill-stand",
+      "name": "Hot-Strip Mill Stand",
+      "title": "SmartCiti.X~ Hot-Strip Mill Stand VR",
+      "tagline": "A finishing-stand roll change: drive and screwdown locked out, zero speed proven, the crane path called, the old rolls rigged out and the new set coupled and set",
+      "category": "Manufacturing & Automation",
+      "domain": "Manufacturing",
+      "trade": "Hot-strip mill roll-shop operator",
+      "union": null,
+      "certification": "USW Tony Mazzocchi Center health and safety training; OSHA 29 CFR 1910.147 control of hazardous energy (lockout/tagout); OSHA 29 CFR 1910.212 general machine guarding; ASME B30.2 overhead and gantry cranes",
+      "accent": "#e0632e",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": "plant",
+      "district": null,
+      "steps": 15,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "hold",
+        "turn",
+        "drag",
+        "track",
+        "find",
+        "gauge"
+      ],
+      "badge": {
+        "id": "stand-cleared",
+        "name": "Stand Cleared",
+        "note": "A roll change made locked out, zero speed proven, the crane path called clear, and the guard back before the stand turned again"
+      },
+      "meshes": 172,
+      "lights": 0,
+      "overBudget": false,
+      "index": "708",
+      "flat": false,
+      "system": "Roll Shop Authority",
+      "currency": "COIL",
+      "ranks": [
+        "Roll-Shop Helper",
+        "Millwright",
+        "Roll-Shop Operator",
+        "Turn Boss",
+        "Roll Shop Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "locked-both",
+          "name": "Locked Both",
+          "note": "Drive and screwdown both locked out before the guard opened, first time"
+        },
+        {
+          "id": "clear-of-the-bite",
+          "name": "Clear Of The Bite",
+          "note": "Never reached the roll bite, the crane's load path or a pulled keeper"
+        },
+        {
+          "id": "gap-on-schedule",
+          "name": "Gap On Schedule",
+          "note": "Roll gap set inside the schedule's band"
+        },
+        {
+          "id": "clean-change",
+          "name": "Clean Change",
+          "note": "No corrections through the whole roll change"
+        },
+        {
+          "id": "lift-steady",
+          "name": "Lift Steady",
+          "note": "The hoist never broke its controlled rate"
+        },
+        {
+          "id": "change-fast",
+          "name": "Change Fast",
+          "note": "Roll change inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=mm-hot-strip-mill-stand"
     },
     {
       "app": "smartcity",
@@ -29090,7 +29426,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 264,
+      "meshes": 255,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -29750,7 +30086,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "100",

@@ -23464,5 +23464,173 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "mm-hot-strip-mill-stand",
+    "index": "708",
+    "domain": "Manufacturing",
+    "trade": "Hot-strip mill roll-shop operator",
+    "category": "Manufacturing & Automation",
+    "certification": "USW Tony Mazzocchi Center health and safety training; OSHA 29 CFR 1910.147 control of hazardous energy (lockout/tagout); OSHA 29 CFR 1910.212 general machine guarding; ASME B30.2 overhead and gantry cranes",
+    "name": "Hot-Strip Mill Stand",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Hot-Strip Mill Stand VR",
+    "tagline": "A finishing-stand roll change: drive and screwdown locked out, zero speed proven, the crane path called, the old rolls rigged out and the new set coupled and set",
+    "accent": 14705454,
+    "accentCss": "#e0632e",
+    "parSeconds": 320,
+    "badge": {
+      "id": "stand-cleared",
+      "name": "Stand Cleared",
+      "note": "A roll change made locked out, zero speed proven, the crane path called clear, and the guard back before the stand turned again"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Roll Shop Authority",
+      "currency": "COIL",
+      "ranks": [
+        "Roll-Shop Helper",
+        "Millwright",
+        "Roll-Shop Operator",
+        "Turn Boss",
+        "Roll Shop Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "mm-ladle-pour",
+    "index": "709",
+    "domain": "Manufacturing",
+    "trade": "Steelmaking ladle crew",
+    "category": "Manufacturing & Automation",
+    "certification": "USW Tony Mazzocchi Center health and safety training; OSHA 29 CFR 1910.132 personal protective equipment; OSHA 29 CFR 1910.133 eye and face protection; ANSI/ISEA 105 hand protection classification; ANSI/ISEA Z358.1 emergency eyewash and shower equipment",
+    "name": "Ladle Pour",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Ladle Pour VR",
+    "tagline": "A molten-metal ladle tilted to pour: PPE on, the splash barrier closed, additions dry and through the chute, the tilt held to a controlled rate",
+    "accent": 14177578,
+    "accentCss": "#d8552a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "clean-heat",
+      "name": "Clean Heat",
+      "note": "A heat poured behind a closed barrier, in full PPE, with the tilt held steady and nothing wet ever going near the metal"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Pour Deck Authority",
+      "currency": "HEAT",
+      "ranks": [
+        "Ladle Helper",
+        "Pourer",
+        "Ladle Operator",
+        "Melt Shop Lead",
+        "Pour Deck Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "mm-coke-oven-heat-rotation",
+    "index": "710",
+    "domain": "Manufacturing",
+    "trade": "Coke oven battery topside worker",
+    "category": "Manufacturing & Automation",
+    "certification": "USW Tony Mazzocchi Center health and safety training; ACGIH Threshold Limit Values heat stress guidance; NIOSH criteria documents on occupational heat exposure; OSHA 29 CFR 1910.132 personal protective equipment",
+    "name": "Coke Oven Heat Rotation",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Coke Oven Heat Rotation VR",
+    "tagline": "A battery topside shift worked to the plan's heat-stress rotation: PPE on, a buddy checked in with, a leaking door seal luted, the larry car's path respected, cooldown taken in full",
+    "accent": 14242844,
+    "accentCss": "#d9541c",
+    "parSeconds": 300,
+    "badge": {
+      "id": "rotation-held",
+      "name": "Rotation Held",
+      "note": "A topside shift worked to the plan's rotation, PPE on, the buddy system kept, and every cooldown taken in full"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Battery Topside Authority",
+      "currency": "CHARGE",
+      "ranks": [
+        "Larry Car Helper",
+        "Topside Worker",
+        "Battery Operator",
+        "Battery Foreman",
+        "Battery Topside Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "mm-paper-machine-dryer",
+    "index": "711",
+    "domain": "Manufacturing",
+    "trade": "Paper machine dryer section operator",
+    "category": "Manufacturing & Automation",
+    "certification": "USW Tony Mazzocchi Center health and safety training; OSHA 29 CFR 1910.147 control of hazardous energy (lockout/tagout); OSHA 29 CFR 1910.212 general machine guarding; ANSI B11 general safety requirements for machines",
+    "name": "Paper Machine Dryer Section",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Paper Machine Dryer Section VR",
+    "tagline": "A dryer-section felt change: drive and steam locked out, pressure bled to zero, the nip guarded, the felt threaded and tensioned, the section proved before power comes back",
+    "accent": 3833000,
+    "accentCss": "#3a7ca8",
+    "parSeconds": 300,
+    "badge": {
+      "id": "felt-changed-clean",
+      "name": "Felt Changed Clean",
+      "note": "A dryer section locked out, bled to zero and reguarded before power went back on it, with the neighbouring section never touched"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Dryer Section Authority",
+      "currency": "REEL",
+      "ranks": [
+        "Machine Tender Helper",
+        "Fourth Hand",
+        "Machine Tender",
+        "Dryer Section Lead",
+        "Dryer Section Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

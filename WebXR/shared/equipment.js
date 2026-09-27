@@ -1513,6 +1513,119 @@ export function batteryChargingStation(parent, x, y, z, opts = {}) {
   return flDone(rig, { footprint: EQUIPMENT_BUDGET.batteryChargingStation.footprint });
 }
 
+/**
+ * A four-high hot-strip mill stand: paired housings either end of the roll
+ * axis, work rolls nested inside backup rolls, a screwdown on top pressing
+ * the top backup roll's chocks, a hinged entry guard across the bite, and an
+ * entry/exit roller table at the pass line. Parts: housingL, housingR,
+ * workRollTop, workRollBottom, backupRollTop, backupRollBottom, screwdown,
+ * guardGate, entryTable, exitTable.
+ */
+export function rollingMillStand(parent, x, y, z, opts = {}) {
+  const colour = opts.colour ?? 0x545c63;
+  const rig = flRig(parent, x, y, z, opts, "rollingMillStand");
+  const S = rig.shell;
+  const rollLen = 2.6, half = rollLen / 2;
+  const housingL = rig.part("housingL", -half - 0.28, 0, 0);
+  box(housingL, 0.5, 2.7, 1.9, 0, 1.35, 0, colour, { rough: 0.55, metal: 0.45, finish: "painted" });
+  box(housingL, 0.7, 0.2, 2.1, 0, 0.1, 0, 0x2b2f34, { rough: 0.7, metal: 0.4 });
+  const housingR = rig.part("housingR", half + 0.28, 0, 0);
+  box(housingR, 0.5, 2.7, 1.9, 0, 1.35, 0, colour, { rough: 0.55, metal: 0.45, finish: "painted" });
+  box(housingR, 0.7, 0.2, 2.1, 0, 0.1, 0, 0x2b2f34, { rough: 0.7, metal: 0.4 });
+  const workTop = rig.part("workRollTop", 0, 1.65, 0);
+  flRod(workTop, 0.2, rollLen, 0, 0, 0, "x", 0xd7dbe0, { rough: 0.18, metal: 0.85, finish: "brushed" });
+  const workBot = rig.part("workRollBottom", 0, 1.05, 0);
+  flRod(workBot, 0.2, rollLen, 0, 0, 0, "x", 0xd7dbe0, { rough: 0.18, metal: 0.85, finish: "brushed" });
+  const backTop = rig.part("backupRollTop", 0, 2.05, 0);
+  flRod(backTop, 0.36, rollLen - 0.1, 0, 0, 0, "x", 0x9aa1a8, { rough: 0.35, metal: 0.6, finish: "brushed" });
+  const backBot = rig.part("backupRollBottom", 0, 0.65, 0);
+  flRod(backBot, 0.36, rollLen - 0.1, 0, 0, 0, "x", 0x9aa1a8, { rough: 0.35, metal: 0.6, finish: "brushed" });
+  // Chocks — the bearing blocks visible at the near housing face, one pair per roll.
+  for (const ypos of [1.65, 1.05, 2.05, 0.65]) {
+    box(S, 0.3, 0.34, 0.46, -half - 0.1, ypos, 0.9, 0x2b2f34, { rough: 0.6, metal: 0.4 });
+    box(S, 0.3, 0.34, 0.46, half + 0.1, ypos, 0.9, 0x2b2f34, { rough: 0.6, metal: 0.4 });
+  }
+  const screw = rig.part("screwdown", 0, 2.85, 0);
+  box(screw, 1.7, 0.5, 1.0, 0, 0, 0, 0x3a4048, { rough: 0.55, metal: 0.45, finish: "painted" });
+  for (const sx of [-0.55, 0.55]) cyl(screw, 0.14, 0.14, 0.5, sx, -0.42, 0, 0xb9bec4, { rough: 0.3, metal: 0.7, seg: 14 });
+  const entry = rig.part("entryTable", 0, 0, -1.9);
+  box(entry, 2.4, 0.1, 1.2, 0, 0.8, 0, 0x4a5057, { rough: 0.6, metal: 0.4, finish: "galvanised" });
+  for (let i = 0; i < 4; i++) flRod(entry, 0.09, 2.2, 0, 0.86, -0.45 + i * 0.3, "x", 0x9aa1a8, { rough: 0.3, metal: 0.6, seg: 10 });
+  const exitTable = rig.part("exitTable", 0, 0, 1.9);
+  box(exitTable, 2.4, 0.1, 1.2, 0, 0.8, 0, 0x4a5057, { rough: 0.6, metal: 0.4, finish: "galvanised" });
+  for (let i = 0; i < 4; i++) flRod(exitTable, 0.09, 2.2, 0, 0.86, -0.45 + i * 0.3, "x", 0x9aa1a8, { rough: 0.3, metal: 0.6, seg: 10 });
+  const guard = rig.part("guardGate", 0, 1.35, -1.15);
+  box(guard, 2.1, 1.3, 0.04, 0, 0, 0, 0xf0b323, { rough: 0.6, opacity: 0.55, transparent: true, finish: "painted" });
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.rollingMillStand.footprint });
+}
+
+/**
+ * An overhead ladle crane: end trucks and a runway carrying a bridge girder,
+ * a hoist trolley riding it, a hook block on a short fall, a bail down to the
+ * ladle's trunnions so the ladle hangs free to tilt, and a pour lip cast at
+ * the rim to show which way it is aimed. Parts: bridge, trolley, hookBlock,
+ * ladleBody, ladleTrunnion, pourLip.
+ */
+export function ladleCrane(parent, x, y, z, opts = {}) {
+  const colour = opts.colour ?? 0x8a6a2a;
+  const rig = flRig(parent, x, y, z, opts, "ladleCrane");
+  const S = rig.shell;
+  for (const sx of [-1.1, 1.1]) {
+    box(S, 0.3, 3.0, 0.3, sx, 1.5, 0, 0x3c444c, { rough: 0.55, metal: 0.5, finish: "galvanised" });
+    box(S, 0.5, 0.15, 1.0, sx, 3.02, 0, 0x3c444c, { rough: 0.55, metal: 0.5, finish: "galvanised" });
+  }
+  const bridge = rig.part("bridge", 0, 3.05, 0);
+  box(bridge, 2.6, 0.32, 0.5, 0, 0, 0, 0x4a5057, { rough: 0.5, metal: 0.5, finish: "painted" });
+  const trolley = rig.part("trolley", 0, -0.24, 0, bridge);
+  box(trolley, 0.5, 0.28, 0.42, 0, 0, 0, 0x2b2f34, { rough: 0.55, metal: 0.45 });
+  const hook = rig.part("hookBlock", 0, -1.34, 0, trolley);
+  box(hook, 0.24, 0.2, 0.16, 0, 0, 0, 0x22262b, { rough: 0.5, metal: 0.5 });
+  cyl(hook, 0.05, 0.05, 0.18, 0, -0.16, 0, 0xb9bec4, { rough: 0.3, metal: 0.7, seg: 10 });
+  for (const sx of [-0.34, 0.34]) flStrut(hook, [sx, -0.1, 0], [sx * 0.7, -1.1, 0], 0.035, 0x8a929a, { rough: 0.4, metal: 0.6 });
+  const ladle = rig.part("ladleBody", 0, -0.95, 0, hook);
+  cyl(ladle, 0.55, 0.4, 0.95, 0, 0, 0, colour, { rough: 0.6, metal: 0.3, finish: "painted" });
+  cyl(ladle, 0.58, 0.58, 0.06, 0, 0.48, 0, 0x2b2f34, { rough: 0.7, metal: 0.3 });
+  const trunnion = rig.part("ladleTrunnion", 0, 0.3, 0, ladle);
+  flRod(trunnion, 0.05, 1.3, 0, 0, 0, "x", 0x9aa1a8, { rough: 0.35, metal: 0.6, seg: 10 });
+  const lip = rig.part("pourLip", 0, 0.42, 0.5, ladle);
+  box(lip, 0.22, 0.14, 0.14, 0, 0, 0, colour, { rough: 0.6, metal: 0.3, finish: "painted" });
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.ladleCrane.footprint });
+}
+
+/**
+ * The cutting end of a continuous mining machine, low for a coal seam:
+ * crawler tracks, a low chassis, twin gathering arms at floor level, a
+ * horizontal cutting drum on the boom with a ring of bits, a discharge
+ * conveyor boom over the top, and an operator canopy. Parts: trackL, trackR,
+ * chassis, gatheringArmL, gatheringArmR, cuttingDrum, boomConveyor, cabGuard.
+ */
+export function continuousMinerFront(parent, x, y, z, opts = {}) {
+  const colour = opts.colour ?? 0xf0b323;
+  const rig = flRig(parent, x, y, z, opts, "continuousMinerFront", [0, 0, -0.42]);
+  const S = rig.shell;
+  eqTrack(rig, "trackL", 1.15, 3.4, 0.5, 0.42);
+  eqTrack(rig, "trackR", -1.15, 3.4, 0.5, 0.42);
+  const chassis = rig.part("chassis", 0, 0.5, 0);
+  box(chassis, 2.5, 0.55, 3.6, 0, 0, 0, colour, { rough: 0.55, metal: 0.35, finish: "painted" });
+  const cab = rig.part("cabGuard", 0, 1.0, -1.35);
+  box(cab, 1.1, 0.5, 0.6, 0, 0, 0, 0x2b2f34, { rough: 0.6, metal: 0.4 });
+  for (const sx of [-0.5, 0.5]) box(cab, 0.06, 0.5, 0.06, sx, 0, 0.28, 0x1b1e22, { rough: 0.6 });
+  const armL = rig.part("gatheringArmL", -0.9, 0.35, 1.9);
+  flBeam(armL, [0, 0, 0], [-0.55, 0, 0.5], 0.28, 0.14, colour, { rough: 0.55, metal: 0.35, finish: "painted" });
+  const armR = rig.part("gatheringArmR", 0.9, 0.35, 1.9);
+  flBeam(armR, [0, 0, 0], [0.55, 0, 0.5], 0.28, 0.14, colour, { rough: 0.55, metal: 0.35, finish: "painted" });
+  const drum = rig.part("cuttingDrum", 0, 0.75, 2.05);
+  flRod(drum, 0.45, 2.0, 0, 0, 0, "x", 0x2b2f34, { rough: 0.7, metal: 0.4, seg: 14 });
+  for (let i = 0; i < 8; i++) {
+    const a = (i / 8) * Math.PI * 2;
+    const bx = -0.75 + (i % 4) * 0.5;
+    box(drum, 0.1, 0.1, 0.24, bx, Math.sin(a) * 0.47, Math.cos(a) * 0.47, 0x6a7178, { rough: 0.5, metal: 0.55 });
+  }
+  const boom = rig.part("boomConveyor", 0, 1.1, -0.4);
+  box(boom, 1.0, 0.35, 2.6, 0, 0, 0, 0x3a4048, { rough: 0.55, metal: 0.4, finish: "painted" });
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.continuousMinerFront.footprint });
+}
+
 // ------------------------------------------------------------------ budget
 
 /** Declared mesh count, footprint [width X, height Y, length Z] and parts per builder; see FLEET_BUDGET. */
@@ -1550,6 +1663,9 @@ export const EQUIPMENT_BUDGET = {
   dockLevelerBay: { build: "dockLevelerBay", meshes: 10, footprint: [2.3, 2.49, 2.1], parts: ["leverPlate", "lip", "restraintArm", "dockLightRed", "dockLightGreen", "restraintLightRed", "restraintLightGreen"], note: "dock leveler, lip, dock bumpers and ICC bar vehicle restraint" },
   roboticPalletizer: { build: "roboticPalletizer", meshes: 8, footprint: [1.24, 2.9, 2.58], parts: ["turret", "upperArm", "foreArm", "wrist", "turntable"], note: "articulated palletizer arm on a pedestal, with a build-pallet turntable" },
   batteryChargingStation: { build: "batteryChargingStation", meshes: 6, footprint: [1, 1.67, 0.8], parts: ["beacon", "cable"], note: "lift-truck battery charger cabinet with a spill containment tray" },
+  rollingMillStand: { build: "rollingMillStand", meshes: 16, footprint: [3.86, 3.1, 5], parts: ["housingL", "housingR", "workRollTop", "workRollBottom", "backupRollTop", "backupRollBottom", "screwdown", "guardGate", "entryTable", "exitTable"], note: "four-high hot-strip mill stand with an entry/exit roller table" },
+  ladleCrane: { build: "ladleCrane", meshes: 10, footprint: [2.7, 3.21, 1.16], parts: ["bridge", "trolley", "hookBlock", "ladleBody", "ladleTrunnion", "pourLip"], note: "overhead ladle crane, ladle hanging free to tilt on its trunnions" },
+  continuousMinerFront: { build: "continuousMinerFront", meshes: 12, footprint: [3.09, 1.28, 4.44], parts: ["trackL", "trackR", "chassis", "gatheringArmL", "gatheringArmR", "cuttingDrum", "boomConveyor", "cabGuard"], note: "continuous mining machine cutting end, low profile for a coal seam" },
 };
 
 /** The builders by the name EQUIPMENT_BUDGET's `build` field uses. */
@@ -1557,6 +1673,6 @@ export const EQUIPMENT_BUILDERS = {
   excavator, amphibiousExcavator, backhoe, skidSteer, dumpTruck, mobileCrane, aerialBoomLift, scissorLift, compactor,
   generatorTrailer, lightTower, concretePump, craneSpreader, dozer, wheelLoader, grader, ranchGrader, crawlerCrane, pileDrivingRig, regionalJet,
   pushbackTug, groundPowerUnit, cargoBeltLoader, deicingTruck, serviceCart, fuelTruck, amrRobot, conveyorSection, dockLevelerBay, roboticPalletizer,
-  batteryChargingStation,
+  batteryChargingStation, rollingMillStand, ladleCrane, continuousMinerFront,
 };
 void THREE; void ball; void flSteerWheel; void flMirror; void flPlan;
