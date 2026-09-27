@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 591
+      "stations": 597
     },
     "trades": {
       "entry": "trades/index.html",
@@ -115,7 +115,10 @@
         "ca-unruly-passenger-deescalation",
         "ca-cabin-medical-event-response",
         "ca-galley-and-cart-safety",
-        "ca-cabin-preflight-safety-check"
+        "ca-cabin-preflight-safety-check",
+        "ml-heat-and-cold-stress-on-route",
+        "ml-dog-and-hazard-awareness-on-route",
+        "ml-delivery-van-pretrip-and-route-loading"
       ]
     },
     {
@@ -238,7 +241,10 @@
         "mm-paper-machine-dryer",
         "mm-coke-oven-heat-rotation",
         "mm-ladle-pour",
-        "mm-hot-strip-mill-stand"
+        "mm-hot-strip-mill-stand",
+        "ml-parcel-sorter-conveyor-jam-and-loto",
+        "ml-mail-handler-forklift-and-container-dock",
+        "ml-flat-sorter-guarding-and-lockout"
       ]
     },
     {
@@ -5105,6 +5111,57 @@
       "ladder": {
         "levels": 20,
         "lessons": 1570,
+        "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
+    },
+    {
+      "id": "postal-and-mail-processing",
+      "name": "Postal & Mail Processing Crew",
+      "union": "NALC, APWU and NPMHU as training bodies for postal and mail processing",
+      "certification": "NALC, APWU and NPMHU training for letter carriers, postal workers and mail handlers, tested against OSHA 29 CFR 1910.147 the control of hazardous energy, 29 CFR 1910.212 machine guarding, 29 CFR 1910.178 powered industrial trucks and 29 CFR 1910.132 personal protective equipment; ASME B20.1 for conveyors and related equipment; the Revised NIOSH Lifting Equation and NIOSH's own guidance on animal, heat and cold stress hazards for workers on foot; FMCSA 49 CFR 392 and 396 for the route's own delivery vehicle; and Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written plant safety programme, across six distinct jobs a letter carrier, a mail handler and a plant clerk actually rotate through",
+      "summary": "Six jobs across a route and a processing plant: a right-hand-drive delivery van pre-tripped and loaded in route order, a residential block walked with a loose dog and a heaved sidewalk read before either becomes a problem, one shift's cold start and heat stretch both worked to the plan, a flat sorter's interlocked guard and sweep arm isolated and locked before a jam is ever cleared, a mail handler's forklift inspected and a container dock read for a pedestrian and an unchocked trailer, and a parcel sorter's divert gate cleared with a defeated light curtain and a coworker's own wrap-point risk caught first. Every station ends on a proof — a gauge, a logged reading, a proven interlock — rather than on how routine the job looked going in.",
+      "accent": "#2f6fb0",
+      "stations": [
+        {
+          "app": "smartcity",
+          "id": "ml-delivery-van-pretrip-and-route-loading",
+          "why": "A right-hand-drive delivery van pre-tripped and loaded in route order, with the load bay read for a blocked door and an unsecured tray before either becomes a problem on the first hard turn."
+        },
+        {
+          "app": "smartcity",
+          "id": "ml-dog-and-hazard-awareness-on-route",
+          "why": "A loose dog and a propped gate read from the sidewalk rather than discovered at the fence line, and the non-threatening retreat worked stop-turn-back with the satchel as a barrier."
+        },
+        {
+          "app": "smartcity",
+          "id": "ml-heat-and-cold-stress-on-route",
+          "why": "One shift's cold start and heat stretch both worked to the plan — a frozen mail slot worked open rather than forced, and a mandatory shade break actually held rather than cut short."
+        },
+        {
+          "app": "smartcity",
+          "id": "ml-flat-sorter-guarding-and-lockout",
+          "why": "A taped-over interlock and a missing access panel found before either is trusted, the sorter isolated and locked before the guard opens, and the interlock itself proven before the restart."
+        },
+        {
+          "app": "smartcity",
+          "id": "ml-mail-handler-forklift-and-container-dock",
+          "why": "A missing seatbelt and a cracked fork tine found cold, the belt fastened before the first move, and the dock read for a pedestrian in the travel path and a trailer nobody has chocked yet."
+        },
+        {
+          "app": "smartcity",
+          "id": "ml-parcel-sorter-conveyor-jam-and-loto",
+          "why": "A defeated light curtain, a cardboard guard patch and a coworker's own loose drawstring all caught before any of them becomes the reason a hand meets a moving belt."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1560,
         "tasks": 120,
         "atBar": 20,
         "partial": 0,
@@ -54220,6 +54277,502 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=md-set-safety-meeting-and-stunt-go-no-go"
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-parcel-sorter-conveyor-jam-and-loto",
+      "name": "Parcel Sorter Conveyor Jam & LOTO",
+      "title": "SmartCiti.X~ Parcel Sorter Conveyor Jam & LOTO VR",
+      "tagline": "A parcel sorter's divert gate jammed mid-cycle: a defeated light curtain and a cardboard field patch found before either is trusted, a coworker's own loose drawstring read as a wrap-point risk, the drive isolated and locked before the guard opens, residual motion checked, the stuck parcel cleared without reaching past a live gate, and the light curtain proven before the line runs again",
+      "category": "Manufacturing & Automation",
+      "domain": "Postal & Mail Processing",
+      "trade": "Mail processing plant clerk — parcel sorter conveyor jam and lockout, APWU",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.147 the control of hazardous energy (lockout/tagout); OSHA 29 CFR 1910.212 general requirements for all machines, including presence-sensing safety devices; ASME B20.1 safety standard for conveyors and related equipment; NIOSH criteria on caught-in and entanglement injuries at unguarded conveyor lines; APWU training for mail processing plant clerks",
+      "accent": "#2f6fb0",
+      "parSeconds": 280,
+      "weather": "clear",
+      "indoor": "plant",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "gauge",
+        "turn",
+        "drag",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "parcel-loto-certified",
+        "name": "Parcel Sorter LOTO Certified",
+        "note": "Isolated and locked the sorter before opening the guard, cleared the stuck parcel without reaching past a live gate, and proved the light curtain before trusting it again"
+      },
+      "meshes": 156,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ml-6",
+      "flat": false,
+      "system": "Parcel Line Isolation",
+      "currency": "ISOLATION",
+      "ranks": [
+        "Plant Clerk",
+        "Jam Aware",
+        "Isolation Handler",
+        "Parcel Line Authority",
+        "Parcel Sorter LOTO Certified"
+      ],
+      "awards": [
+        {
+          "id": "clean-line-read",
+          "name": "Clean Line Read",
+          "note": "Every guarding defect found without a hint"
+        },
+        {
+          "id": "wrap-point-caught",
+          "name": "Wrap Point Caught",
+          "note": "The coworker's loose drawstring flagged before it reached the belt"
+        },
+        {
+          "id": "curtain-proven",
+          "name": "Curtain Proven",
+          "note": "The light curtain was actually tested, not just trusted"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "quick-clear",
+          "name": "Quick Clear",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "isolation-streak",
+          "name": "Isolation Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ml-parcel-sorter-conveyor-jam-and-loto"
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-mail-handler-forklift-and-container-dock",
+      "name": "Mail Handler Forklift & Container Dock",
+      "title": "SmartCiti.X~ Mail Handler Forklift & Container Dock VR",
+      "tagline": "A counterbalance forklift's own daily inspection before the seat is sat in, the seatbelt fastened, the horn tested, the dock read for a pedestrian in the travel path and an unchocked trailer, a container lifted and travelled to a blind corner sounded rather than assumed clear, and the load set down on a controlled, watched descent",
+      "category": "Manufacturing & Automation",
+      "domain": "Postal & Mail Processing",
+      "trade": "Mail handler — forklift and container dock operations, NPMHU",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.178 powered industrial trucks; the Revised NIOSH Lifting Equation for the manual portion of container handling; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written forklift and dock safety programme; NPMHU training for mail handler equipment and dock operations",
+      "accent": "#2f6fb0",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "plant",
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "gauge",
+        "turn",
+        "drag",
+        "hold"
+      ],
+      "badge": {
+        "id": "dock-certified",
+        "name": "Dock Certified",
+        "note": "A clean forklift inspection, the seatbelt fastened before the first move, a pedestrian and an unchocked trailer both read and answered, and a load set down under control"
+      },
+      "meshes": 222,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ml-5",
+      "flat": false,
+      "system": "Dock Operations",
+      "currency": "DOCK",
+      "ranks": [
+        "Dock Helper",
+        "Mail Handler",
+        "Forklift Operator",
+        "Lead Handler",
+        "Dock Certified"
+      ],
+      "awards": [
+        {
+          "id": "cold-forklift-read",
+          "name": "Cold Forklift Read",
+          "note": "Every forklift defect found without a hint"
+        },
+        {
+          "id": "belted-before-moving",
+          "name": "Belted Before Moving",
+          "note": "The seatbelt was fastened before the forklift ever moved"
+        },
+        {
+          "id": "controlled-set-down",
+          "name": "Controlled Set-Down",
+          "note": "The load was lowered on a fully controlled descent"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "on-time",
+          "name": "On Time",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "safe-dock",
+          "name": "Safe Dock",
+          "note": "No unsafe action anywhere in the run"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ml-mail-handler-forklift-and-container-dock"
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-flat-sorter-guarding-and-lockout",
+      "name": "Flat Sorter Guarding & Lockout",
+      "title": "SmartCiti.X~ Flat Sorter Guarding & Lockout VR",
+      "tagline": "A flat sorter's interlocked guard door and sweep-arm pinch point worked the plant's own way: a defeated interlock and a missing panel found before either is trusted, the disconnect isolated and locked before the guard opens, residual motion actually checked, a jammed flat cleared with a hand that never trusts the restart timer, the interlock proven rather than assumed, and the isolation returned in the order it went on",
+      "category": "Manufacturing & Automation",
+      "domain": "Postal & Mail Processing",
+      "trade": "Mail processing plant clerk — flat sorter guarding and lockout, APWU",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.147 the control of hazardous energy (lockout/tagout); OSHA 29 CFR 1910.212 general requirements for all machines, including interlocked guarding; ASME B20.1 safety standard for conveyors and related equipment, for the sorter's own induction belt; NIOSH criteria on caught-in and struck-by injuries at unguarded pinch points; APWU training for mail processing plant clerks",
+      "accent": "#2f6fb0",
+      "parSeconds": 280,
+      "weather": "clear",
+      "indoor": "plant",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "gauge",
+        "turn",
+        "drag",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "sorter-loto-certified",
+        "name": "Sorter LOTO Certified",
+        "note": "Isolated and locked the sorter before opening the guard, cleared the jam without reaching past a live pinch point, and proved the interlock before trusting it again"
+      },
+      "meshes": 152,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ml-4",
+      "flat": false,
+      "system": "Sorter Isolation",
+      "currency": "ISOLATION",
+      "ranks": [
+        "Plant Clerk",
+        "Jam Aware",
+        "Isolation Handler",
+        "Sorter Isolation Authority",
+        "Sorter LOTO Certified"
+      ],
+      "awards": [
+        {
+          "id": "clean-machine-read",
+          "name": "Clean Machine Read",
+          "note": "Every guarding defect found without a hint"
+        },
+        {
+          "id": "locked-before-opened",
+          "name": "Locked Before Opened",
+          "note": "Isolated and locked the sorter before the guard ever opened"
+        },
+        {
+          "id": "interlock-proven",
+          "name": "Interlock Proven",
+          "note": "The interlock was actually tested, not just trusted"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "quick-clear",
+          "name": "Quick Clear",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "isolation-streak",
+          "name": "Isolation Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ml-flat-sorter-guarding-and-lockout"
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-heat-and-cold-stress-on-route",
+      "name": "Heat & Cold Stress on Route",
+      "title": "SmartCiti.X~ Heat & Cold Stress on Route VR",
+      "tagline": "One shift, both extremes: a pre-dawn cold start with frost read on the steps and a frozen mail slot worked open rather than forced, and a midday heat stretch with the day's bulletin read, a hydration refill, the van's cab vented before re-entry, a held shade break, a kept pace and a second buddy check for heat illness signs",
+      "category": "Mobility & Transit",
+      "domain": "Postal & Mail Processing",
+      "trade": "City letter carrier — heat and cold stress on the walking route, NALC",
+      "union": null,
+      "certification": "NIOSH guidance on heat stress and cold stress for outdoor workers; OSHA 29 CFR 1910.132 personal protective equipment, general requirements; OSHA 29 CFR 1910.38 emergency action plans, for a heat-illness or cold-stress response; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written cold-and-heat plan; NALC training for city letter carrier route safety",
+      "accent": "#2f6fb0",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "turn",
+        "drag",
+        "gauge",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "all-weather-route",
+        "name": "All-Weather Route",
+        "note": "Both the cold start and the heat stretch worked to the plan, the shade break actually held, and a coworker's heat-illness call answered without a single unsafe move"
+      },
+      "meshes": 116,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ml-3",
+      "flat": false,
+      "system": "Route Conditioning",
+      "currency": "CONDITION",
+      "ranks": [
+        "Casual Carrier",
+        "Route Trainee",
+        "Letter Carrier",
+        "Lead Carrier",
+        "All-Weather Certified"
+      ],
+      "awards": [
+        {
+          "id": "cold-start-clean",
+          "name": "Cold Start Clean",
+          "note": "Both cold-start hazards found without a hint"
+        },
+        {
+          "id": "held-the-break",
+          "name": "Held the Break",
+          "note": "The shade break held its full time, first try"
+        },
+        {
+          "id": "steady-pace",
+          "name": "Steady Pace",
+          "note": "Pace held in the moderate band the whole hot stretch"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "on-time",
+          "name": "On Time",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "safe-route",
+          "name": "Safe Route",
+          "note": "No unsafe action anywhere in the run"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ml-heat-and-cold-stress-on-route"
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-dog-and-hazard-awareness-on-route",
+      "name": "Dog & Hazard Awareness on Route",
+      "title": "SmartCiti.X~ Dog & Hazard Awareness on Route VR",
+      "tagline": "A residential block on foot: the dog warning list read first, a loose dog and a propped gate read on the approach, the non-threatening response worked stop-turn-retreat with the satchel as a barrier, a heaved slab and a blind corner read further down the block, the address flagged for the next carrier, and an optional short pull-out to the next block",
+      "category": "Mobility & Transit",
+      "domain": "Postal & Mail Processing",
+      "trade": "City letter carrier — dog and hazard awareness on the walking route, NALC",
+      "union": null,
+      "certification": "NIOSH guidance on animal-related and slip, trip and fall hazards for workers who deliver on foot; OSHA 29 CFR 1910.132 personal protective equipment, general requirements; OSHA 29 CFR 1910.1030 bloodborne pathogens, for any bite or scratch exposure a carrier reports; FMCSA 49 CFR 392 driving of commercial motor vehicles, for the short pull-out between blocks; NALC training for city letter carrier route safety",
+      "accent": "#2f6fb0",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "hold",
+        "drag",
+        "track",
+        "turn",
+        "drive"
+      ],
+      "badge": {
+        "id": "route-aware",
+        "name": "Route Aware",
+        "note": "A loose dog and every walkway hazard read and answered without a single unsafe move, and the address flagged for the next carrier"
+      },
+      "meshes": 119,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ml-2",
+      "flat": false,
+      "system": "Route Awareness",
+      "currency": "AWARE",
+      "ranks": [
+        "Casual Carrier",
+        "Route Trainee",
+        "Letter Carrier",
+        "Lead Carrier",
+        "Route Aware Certified"
+      ],
+      "awards": [
+        {
+          "id": "read-the-approach",
+          "name": "Read the Approach",
+          "note": "The dog and the propped gate both found before either was a problem"
+        },
+        {
+          "id": "never-reached",
+          "name": "Never Reached",
+          "note": "No unsafe action anywhere in the run — the dog was never reached for"
+        },
+        {
+          "id": "steady-crossing",
+          "name": "Steady Crossing",
+          "note": "The heaved-slab crossing held its balance band the whole way"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "on-time",
+          "name": "On Time",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "calm-hands",
+          "name": "Calm Hands",
+          "note": "The retreat sequence run in order, first try"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ml-dog-and-hazard-awareness-on-route"
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-delivery-van-pretrip-and-route-loading",
+      "name": "Delivery Van Pre-Trip & Route Loading",
+      "title": "SmartCiti.X~ Delivery Van Pre-Trip & Route Loading VR",
+      "tagline": "A right-hand-drive delivery van before the first stop: yesterday's condition card read, the walk-around worked cold, tread measured, lamps and mirror checked, the load bay read for what's already wrong with it, trays loaded in route order and strapped down, the day logged, and a short pull-out with the mirror, signal and horn checks a curbside route runs on",
+      "category": "Mobility & Transit",
+      "domain": "Postal & Mail Processing",
+      "trade": "City letter carrier — vehicle pre-trip and route loading, NALC",
+      "union": null,
+      "certification": "FMCSA 49 CFR 396 inspection, repair and maintenance, whose driver vehicle inspection record covers a right-hand-drive delivery van the same as any other commercial vehicle; 49 CFR 392 driving of commercial motor vehicles, including the walk-around before the engine starts; the Revised NIOSH Lifting Equation for carrying loaded trays without a twisting lift; OSHA 29 CFR 1910.132 personal protective equipment, general requirements; NALC training for city letter carrier route safety",
+      "accent": "#2f6fb0",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "gauge",
+        "drag",
+        "turn",
+        "drive"
+      ],
+      "badge": {
+        "id": "route-ready",
+        "name": "Route Ready",
+        "note": "A full pre-trip and load, every defect found, the load strapped and logged, and the pull-out driven inside the lane and the band"
+      },
+      "meshes": 163,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ml-1",
+      "flat": false,
+      "system": "Route Readiness",
+      "currency": "READY",
+      "ranks": [
+        "Casual Carrier",
+        "Route Trainee",
+        "Letter Carrier",
+        "Lead Carrier",
+        "Route Ready Certified"
+      ],
+      "awards": [
+        {
+          "id": "cold-walkaround",
+          "name": "Cold Walkaround",
+          "note": "Every vehicle defect found without a hint"
+        },
+        {
+          "id": "clear-bay",
+          "name": "Clear Bay",
+          "note": "Every load-bay hazard found before a single tray was loaded"
+        },
+        {
+          "id": "steady-pullout",
+          "name": "Steady Pull-Out",
+          "note": "The pull-out held its lane and its band the whole way"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "on-time",
+          "name": "On Time",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "safe-route",
+          "name": "Safe Route",
+          "note": "No unsafe action anywhere in the run"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ml-delivery-van-pretrip-and-route-loading"
     },
     {
       "app": "trades",

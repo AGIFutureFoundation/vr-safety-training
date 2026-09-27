@@ -255,5 +255,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "screen-and-media-crafts",
     "name": "Screen & Media Crafts",
     "accent": "#d6558f"
+  },
+  {
+    "programme": "postal-and-mail-processing",
+    "name": "Postal & Mail Processing Crew",
+    "accent": "#2f6fb0"
   }
 ];

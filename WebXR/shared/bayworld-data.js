@@ -229,7 +229,7 @@ export const BAY_SITES = [
   { id: "west-oakland-utility-yard", name: "West Oakland Utility Yard", zone: "west-oakland", position: [-384, 71],
     programmes: ["confined-space", "water-and-gas-utility-crews"], stations: ["valve-vault", "ut-water-main-break-emergency-shutdown-and-excavation"] },
   { id: "west-oakland-truck-yard", name: "West Oakland Truck Yard", zone: "west-oakland", position: [-345, -14],
-    programmes: ["airline-cabin-and-flight-crew", "job-readiness-edition"], stations: ["drive-city-route-and-turns", "drive-backing-serpentine-and-alley-dock", "forklift-dock"] },
+    programmes: ["postal-and-mail-processing", "airline-cabin-and-flight-crew", "job-readiness-edition"], stations: ["drive-city-route-and-turns", "drive-backing-serpentine-and-alley-dock", "forklift-dock"] },
   { id: "west-oakland-warehouse-district", name: "West Oakland Warehouse District", zone: "west-oakland", position: [-327, 70],
     programmes: ["sewing-garment-trades", "warehouse-and-logistics-automation"], stations: ["salon", "machine-threading-needle", "tw-amr-traffic-zone-entry-and-lockout"] },
   { id: "west-oakland-union-hall", name: "West Oakland Union Hall", zone: "west-oakland", position: [-395, 32],

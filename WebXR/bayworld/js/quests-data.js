@@ -4504,6 +4504,90 @@ export const SIDE_QUESTS = [
       "xp": 250,
       "badge": "Screen & Media Crafts — Capstone"
     }
+  },
+  {
+    "id": "bw-side-postal-and-mail-processing-opener",
+    "title": "Postal & Mail Processing Crew — First Shift",
+    "giver": "the programme's training lead",
+    "site": "Postal & Mail Processing Crew",
+    "kind": "side",
+    "tier": 1,
+    "requires": null,
+    "programmeId": "postal-and-mail-processing",
+    "role": "opener",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Postal & Mail Processing Crew",
+        "text": "The training lead meets you at Postal & Mail Processing Crew and points you to the first bench."
+      },
+      {
+        "type": "station",
+        "target": "ml-delivery-van-pretrip-and-route-loading",
+        "text": "A right-hand-drive delivery van pre-tripped and loaded in route order, with the load bay read for a blocked door and an unsecured tray before either becomes a problem on the first hard turn."
+      },
+      {
+        "type": "station",
+        "target": "ml-dog-and-hazard-awareness-on-route",
+        "text": "A loose dog and a propped gate read from the sidewalk rather than discovered at the fence line, and the non-threatening retreat worked stop-turn-back with the satchel as a barrier."
+      },
+      {
+        "type": "station",
+        "target": "ml-heat-and-cold-stress-on-route",
+        "text": "One shift's cold start and heat stretch both worked to the plan — a frozen mail slot worked open rather than forced, and a mandatory shade break actually held rather than cut short."
+      },
+      {
+        "type": "talk",
+        "target": "training-lead",
+        "text": "\"Six jobs across a route and a processing plant: a right-hand-drive delivery van pre-tripped and loaded in route order, a residential block walked with a loose dog and a heaved sidewalk read before either becomes a problem, one shift's cold start and heat stretch both worked to the plan, a flat sorter's interlocked guard and sweep arm isolated and locked before a jam is ever cleared, a mail handler's forklift inspected and a container dock read for a pedestrian and an unchocked trailer, and a parcel sorter's divert gate cleared with a defeated light curtain and a coworker's own wrap-point risk caught first. Every station ends on a proof — a gauge, a logged reading, a proven interlock — rather than on how routine the job looked going in.\""
+      }
+    ],
+    "reward": {
+      "xp": 100,
+      "badge": "Postal & Mail Processing Crew — Opener"
+    }
+  },
+  {
+    "id": "bw-side-postal-and-mail-processing-capstone",
+    "title": "Postal & Mail Processing Crew — Capstone",
+    "giver": "the programme's certifying evaluator",
+    "site": "Postal & Mail Processing Crew",
+    "kind": "side",
+    "tier": 2,
+    "requires": "bw-side-postal-and-mail-processing-opener",
+    "programmeId": "postal-and-mail-processing",
+    "role": "capstone",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Postal & Mail Processing Crew",
+        "text": "The certifying evaluator is waiting at the last bench, sign-off sheet in hand."
+      },
+      {
+        "type": "station",
+        "target": "ml-flat-sorter-guarding-and-lockout",
+        "text": "A taped-over interlock and a missing access panel found before either is trusted, the sorter isolated and locked before the guard opens, and the interlock itself proven before the restart."
+      },
+      {
+        "type": "station",
+        "target": "ml-mail-handler-forklift-and-container-dock",
+        "text": "A missing seatbelt and a cracked fork tine found cold, the belt fastened before the first move, and the dock read for a pedestrian in the travel path and a trailer nobody has chocked yet."
+      },
+      {
+        "type": "station",
+        "target": "ml-parcel-sorter-conveyor-jam-and-loto",
+        "text": "A defeated light curtain, a cardboard guard patch and a coworker's own loose drawstring all caught before any of them becomes the reason a hand meets a moving belt."
+      },
+      {
+        "type": "talk",
+        "target": "certifying-evaluator",
+        "text": "\"Certified under: NALC, APWU and NPMHU training for letter carriers, postal workers and mail handlers, tested against OSHA 29 CFR 1910.147 the control of hazardous energy, 29 CFR 1910.212 machine guarding, 29 CFR 1910.178 powered industrial trucks and 29 CFR 1910.132 personal protective equipment; ASME B20.1 for conveyors and related equipment; the Revised NIOSH Lifting Equation and NIOSH's own guidance on animal, heat and cold stress hazards for workers on foot; FMCSA 49 CFR 392 and 396 for the route's own delivery vehicle; and Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written plant safety programme, across six distinct jobs a letter carrier, a mail handler and a plant clerk actually rotate through\""
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": "Postal & Mail Processing Crew — Capstone"
+    }
   }
 ];
 

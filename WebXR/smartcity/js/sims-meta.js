@@ -25102,5 +25102,257 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "ml-delivery-van-pretrip-and-route-loading",
+    "index": "ml-1",
+    "domain": "Postal & Mail Processing",
+    "trade": "City letter carrier — vehicle pre-trip and route loading, NALC",
+    "category": "Mobility & Transit",
+    "certification": "FMCSA 49 CFR 396 inspection, repair and maintenance, whose driver vehicle inspection record covers a right-hand-drive delivery van the same as any other commercial vehicle; 49 CFR 392 driving of commercial motor vehicles, including the walk-around before the engine starts; the Revised NIOSH Lifting Equation for carrying loaded trays without a twisting lift; OSHA 29 CFR 1910.132 personal protective equipment, general requirements; NALC training for city letter carrier route safety",
+    "name": "Delivery Van Pre-Trip & Route Loading",
+    "weather": "overcast",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Delivery Van Pre-Trip & Route Loading VR",
+    "tagline": "A right-hand-drive delivery van before the first stop: yesterday's condition card read, the walk-around worked cold, tread measured, lamps and mirror checked, the load bay read for what's already wrong with it, trays loaded in route order and strapped down, the day logged, and a short pull-out with the mirror, signal and horn checks a curbside route runs on",
+    "accent": 3108784,
+    "accentCss": "#2f6fb0",
+    "parSeconds": 300,
+    "badge": {
+      "id": "route-ready",
+      "name": "Route Ready",
+      "note": "A full pre-trip and load, every defect found, the load strapped and logged, and the pull-out driven inside the lane and the band"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Route Readiness",
+      "currency": "READY",
+      "ranks": [
+        "Casual Carrier",
+        "Route Trainee",
+        "Letter Carrier",
+        "Lead Carrier",
+        "Route Ready Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ml-dog-and-hazard-awareness-on-route",
+    "index": "ml-2",
+    "domain": "Postal & Mail Processing",
+    "trade": "City letter carrier — dog and hazard awareness on the walking route, NALC",
+    "category": "Mobility & Transit",
+    "certification": "NIOSH guidance on animal-related and slip, trip and fall hazards for workers who deliver on foot; OSHA 29 CFR 1910.132 personal protective equipment, general requirements; OSHA 29 CFR 1910.1030 bloodborne pathogens, for any bite or scratch exposure a carrier reports; FMCSA 49 CFR 392 driving of commercial motor vehicles, for the short pull-out between blocks; NALC training for city letter carrier route safety",
+    "name": "Dog & Hazard Awareness on Route",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Dog & Hazard Awareness on Route VR",
+    "tagline": "A residential block on foot: the dog warning list read first, a loose dog and a propped gate read on the approach, the non-threatening response worked stop-turn-retreat with the satchel as a barrier, a heaved slab and a blind corner read further down the block, the address flagged for the next carrier, and an optional short pull-out to the next block",
+    "accent": 3108784,
+    "accentCss": "#2f6fb0",
+    "parSeconds": 300,
+    "badge": {
+      "id": "route-aware",
+      "name": "Route Aware",
+      "note": "A loose dog and every walkway hazard read and answered without a single unsafe move, and the address flagged for the next carrier"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Route Awareness",
+      "currency": "AWARE",
+      "ranks": [
+        "Casual Carrier",
+        "Route Trainee",
+        "Letter Carrier",
+        "Lead Carrier",
+        "Route Aware Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ml-heat-and-cold-stress-on-route",
+    "index": "ml-3",
+    "domain": "Postal & Mail Processing",
+    "trade": "City letter carrier — heat and cold stress on the walking route, NALC",
+    "category": "Mobility & Transit",
+    "certification": "NIOSH guidance on heat stress and cold stress for outdoor workers; OSHA 29 CFR 1910.132 personal protective equipment, general requirements; OSHA 29 CFR 1910.38 emergency action plans, for a heat-illness or cold-stress response; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written cold-and-heat plan; NALC training for city letter carrier route safety",
+    "name": "Heat & Cold Stress on Route",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Heat & Cold Stress on Route VR",
+    "tagline": "One shift, both extremes: a pre-dawn cold start with frost read on the steps and a frozen mail slot worked open rather than forced, and a midday heat stretch with the day's bulletin read, a hydration refill, the van's cab vented before re-entry, a held shade break, a kept pace and a second buddy check for heat illness signs",
+    "accent": 3108784,
+    "accentCss": "#2f6fb0",
+    "parSeconds": 320,
+    "badge": {
+      "id": "all-weather-route",
+      "name": "All-Weather Route",
+      "note": "Both the cold start and the heat stretch worked to the plan, the shade break actually held, and a coworker's heat-illness call answered without a single unsafe move"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Route Conditioning",
+      "currency": "CONDITION",
+      "ranks": [
+        "Casual Carrier",
+        "Route Trainee",
+        "Letter Carrier",
+        "Lead Carrier",
+        "All-Weather Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ml-flat-sorter-guarding-and-lockout",
+    "index": "ml-4",
+    "domain": "Postal & Mail Processing",
+    "trade": "Mail processing plant clerk — flat sorter guarding and lockout, APWU",
+    "category": "Manufacturing & Automation",
+    "certification": "OSHA 29 CFR 1910.147 the control of hazardous energy (lockout/tagout); OSHA 29 CFR 1910.212 general requirements for all machines, including interlocked guarding; ASME B20.1 safety standard for conveyors and related equipment, for the sorter's own induction belt; NIOSH criteria on caught-in and struck-by injuries at unguarded pinch points; APWU training for mail processing plant clerks",
+    "name": "Flat Sorter Guarding & Lockout",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Flat Sorter Guarding & Lockout VR",
+    "tagline": "A flat sorter's interlocked guard door and sweep-arm pinch point worked the plant's own way: a defeated interlock and a missing panel found before either is trusted, the disconnect isolated and locked before the guard opens, residual motion actually checked, a jammed flat cleared with a hand that never trusts the restart timer, the interlock proven rather than assumed, and the isolation returned in the order it went on",
+    "accent": 3108784,
+    "accentCss": "#2f6fb0",
+    "parSeconds": 280,
+    "badge": {
+      "id": "sorter-loto-certified",
+      "name": "Sorter LOTO Certified",
+      "note": "Isolated and locked the sorter before opening the guard, cleared the jam without reaching past a live pinch point, and proved the interlock before trusting it again"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Sorter Isolation",
+      "currency": "ISOLATION",
+      "ranks": [
+        "Plant Clerk",
+        "Jam Aware",
+        "Isolation Handler",
+        "Sorter Isolation Authority",
+        "Sorter LOTO Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ml-mail-handler-forklift-and-container-dock",
+    "index": "ml-5",
+    "domain": "Postal & Mail Processing",
+    "trade": "Mail handler — forklift and container dock operations, NPMHU",
+    "category": "Manufacturing & Automation",
+    "certification": "OSHA 29 CFR 1910.178 powered industrial trucks; the Revised NIOSH Lifting Equation for the manual portion of container handling; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written forklift and dock safety programme; NPMHU training for mail handler equipment and dock operations",
+    "name": "Mail Handler Forklift & Container Dock",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Mail Handler Forklift & Container Dock VR",
+    "tagline": "A counterbalance forklift's own daily inspection before the seat is sat in, the seatbelt fastened, the horn tested, the dock read for a pedestrian in the travel path and an unchocked trailer, a container lifted and travelled to a blind corner sounded rather than assumed clear, and the load set down on a controlled, watched descent",
+    "accent": 3108784,
+    "accentCss": "#2f6fb0",
+    "parSeconds": 300,
+    "badge": {
+      "id": "dock-certified",
+      "name": "Dock Certified",
+      "note": "A clean forklift inspection, the seatbelt fastened before the first move, a pedestrian and an unchocked trailer both read and answered, and a load set down under control"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Dock Operations",
+      "currency": "DOCK",
+      "ranks": [
+        "Dock Helper",
+        "Mail Handler",
+        "Forklift Operator",
+        "Lead Handler",
+        "Dock Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ml-parcel-sorter-conveyor-jam-and-loto",
+    "index": "ml-6",
+    "domain": "Postal & Mail Processing",
+    "trade": "Mail processing plant clerk — parcel sorter conveyor jam and lockout, APWU",
+    "category": "Manufacturing & Automation",
+    "certification": "OSHA 29 CFR 1910.147 the control of hazardous energy (lockout/tagout); OSHA 29 CFR 1910.212 general requirements for all machines, including presence-sensing safety devices; ASME B20.1 safety standard for conveyors and related equipment; NIOSH criteria on caught-in and entanglement injuries at unguarded conveyor lines; APWU training for mail processing plant clerks",
+    "name": "Parcel Sorter Conveyor Jam & LOTO",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Parcel Sorter Conveyor Jam & LOTO VR",
+    "tagline": "A parcel sorter's divert gate jammed mid-cycle: a defeated light curtain and a cardboard field patch found before either is trusted, a coworker's own loose drawstring read as a wrap-point risk, the drive isolated and locked before the guard opens, residual motion checked, the stuck parcel cleared without reaching past a live gate, and the light curtain proven before the line runs again",
+    "accent": 3108784,
+    "accentCss": "#2f6fb0",
+    "parSeconds": 280,
+    "badge": {
+      "id": "parcel-loto-certified",
+      "name": "Parcel Sorter LOTO Certified",
+      "note": "Isolated and locked the sorter before opening the guard, cleared the stuck parcel without reaching past a live gate, and proved the light curtain before trusting it again"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Parcel Line Isolation",
+      "currency": "ISOLATION",
+      "ranks": [
+        "Plant Clerk",
+        "Jam Aware",
+        "Isolation Handler",
+        "Parcel Line Authority",
+        "Parcel Sorter LOTO Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

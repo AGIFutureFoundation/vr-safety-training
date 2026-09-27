@@ -218,6 +218,8 @@ export const STANDARDS = Object.fromEntries([
   S("iatse-training-trust", "union", "IATSE Training Trust Fund — stagecraft, rigging and entertainment electrical skills training", ["Entertainment & Live Events"]),
   S("osha-1910-95", "OSHA", "29 CFR 1910.95 — Occupational noise exposure", ["Entertainment & Live Events"]),
   S("nfpa-101", "NFPA", "NFPA 101 — Life Safety Code", ["Entertainment & Live Events"]),
+  S("asme-b20-1", "ASME", "ASME B20.1 Safety standard for conveyors and related equipment", ["Manufacturing"]),
+  S("niosh-lifting-equation", "NIOSH", "Revised NIOSH Lifting Equation and its Applications Manual", ["Manufacturing", "Mobility & Transit"], "unverified"),
 ].map((s) => [s.id, { ...s, slug: standardSlug(s.body, s.title) }]));
 
 /** The body and title behind a standard id, or a placeholder for an unknown one. */
@@ -865,6 +867,17 @@ export const PROGRAMME_COMPETENCIES = [
       "md-recording-studio-hearing-conservation-and-load-in", "md-theatre-fly-floor-and-quick-change-lane", "md-newsroom-storm-scene-and-live-truck-mast"
     ],
     require: 4,
+  },
+  {
+    id: "postal-and-mail-processing",
+    title: "Isolate, inspect and prove six distinct letter carrier, mail handler and plant clerk jobs across a route and a processing plant",
+    kind: "programme",
+    standards: ["osha-1910-147", "osha-1910-178", "asme-b20-1", "niosh-lifting-equation"],
+    stations: [
+      "ml-delivery-van-pretrip-and-route-loading", "ml-dog-and-hazard-awareness-on-route", "ml-heat-and-cold-stress-on-route", "ml-flat-sorter-guarding-and-lockout",
+      "ml-mail-handler-forklift-and-container-dock", "ml-parcel-sorter-conveyor-jam-and-loto"
+    ],
+    require: 3,
   },
 ];
 

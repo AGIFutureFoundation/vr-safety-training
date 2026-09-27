@@ -1,6 +1,6 @@
 # SmartCiti.X training series
 
-_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-27. 591 SmartCiti.X stations across 19 categories and 50 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
+_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-27. 597 SmartCiti.X stations across 19 categories and 51 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
 Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 50 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
@@ -56,6 +56,7 @@ Every station is a real union procedure sited generically, built on the shared e
 - [Airline Cabin and Flight Crew — AFA-CWA and ALPA](#airline-cabin-and-flight-crew)
 - [Mill and Mine](#mill-and-mine)
 - [Screen & Media Crafts](#screen-and-media-crafts)
+- [Postal & Mail Processing Crew](#postal-and-mail-processing)
 
 <a id="hunters-point-bay-restoration"></a>
 ## Hunters Point Clean-up and Bay Restoration
@@ -1542,6 +1543,24 @@ Seven jobs a screen and media production actually rotates through: a film set sa
 | 712 | [Recording Studio Hearing Conservation & Load-In](../../WebXR/smartcity/index.html?sim=md-recording-studio-hearing-conservation-and-load-in) | AFM studio musician and load-in crew, running hearing conservation for a session and a grand piano's load-in down the studio ramp | indoor (theatre) | 13 | 2 | — | The monitor level is proven inside the safe band before any headphones go on, the piano is guided down the ramp at a controlled pace instead of let run, and an early-removed earplug is caught on the talkback before the next loud passage. |
 | 713 | [Theatre Fly Floor & Quick-Change Lane](../../WebXR/smartcity/index.html?sim=md-theatre-fly-floor-and-quick-change-lane) | Actors' Equity stage manager, calling a fly cue and a quick change over the same backstage crossover | indoor (theatre) | 13 | 2 | — | The quick-rig costume is dressed in the order its own snaps demand, the fly system's brake tension is proven before a batten flies over a live crossover, and a wrong-batten start is called off on the headset rather than let run. |
 | 714 | [Newsroom Storm Scene & Live Truck Mast](../../WebXR/smartcity/index.html?sim=md-newsroom-storm-scene-and-live-truck-mast) | NewsGuild-CWA field engineer, raising a live truck's telescoping mast at a flooded storm standup under an overhead power line | storm | 13 | 2 | — | The ground rod is driven before a single mast control is touched, the mast's clearance from the power line is watched the whole way up rather than assumed, and a gust closing that clearance is answered on the emergency stow switch. |
+
+<a id="postal-and-mail-processing"></a>
+## Postal & Mail Processing Crew
+
+**Union:** NALC, APWU and NPMHU as training bodies for postal and mail processing
+
+**Certifications and standards:** NALC, APWU and NPMHU training for letter carriers, postal workers and mail handlers, tested against OSHA 29 CFR 1910.147 the control of hazardous energy, 29 CFR 1910.212 machine guarding, 29 CFR 1910.178 powered industrial trucks and 29 CFR 1910.132 personal protective equipment; ASME B20.1 for conveyors and related equipment; the Revised NIOSH Lifting Equation and NIOSH's own guidance on animal, heat and cold stress hazards for workers on foot; FMCSA 49 CFR 392 and 396 for the route's own delivery vehicle; and Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written plant safety programme, across six distinct jobs a letter carrier, a mail handler and a plant clerk actually rotate through
+
+Six jobs across a route and a processing plant: a right-hand-drive delivery van pre-tripped and loaded in route order, a residential block walked with a loose dog and a heaved sidewalk read before either becomes a problem, one shift's cold start and heat stretch both worked to the plan, a flat sorter's interlocked guard and sweep arm isolated and locked before a jam is ever cleared, a mail handler's forklift inspected and a container dock read for a pedestrian and an unchocked trailer, and a parcel sorter's divert gate cleared with a defeated light curtain and a coworker's own wrap-point risk caught first. Every station ends on a proof — a gauge, a logged reading, a proven interlock — rather than on how routine the job looked going in.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| ml-1 | [Delivery Van Pre-Trip & Route Loading](../../WebXR/smartcity/index.html?sim=ml-delivery-van-pretrip-and-route-loading) | City letter carrier — vehicle pre-trip and route loading, NALC | overcast | 12 | 2 | — | A right-hand-drive delivery van pre-tripped and loaded in route order, with the load bay read for a blocked door and an unsecured tray before either becomes a problem on the first hard turn. |
+| ml-2 | [Dog & Hazard Awareness on Route](../../WebXR/smartcity/index.html?sim=ml-dog-and-hazard-awareness-on-route) | City letter carrier — dog and hazard awareness on the walking route, NALC | clear | 13 | 2 | — | A loose dog and a propped gate read from the sidewalk rather than discovered at the fence line, and the non-threatening retreat worked stop-turn-back with the satchel as a barrier. |
+| ml-3 | [Heat & Cold Stress on Route](../../WebXR/smartcity/index.html?sim=ml-heat-and-cold-stress-on-route) | City letter carrier — heat and cold stress on the walking route, NALC | clear | 14 | 2 | — | One shift's cold start and heat stretch both worked to the plan — a frozen mail slot worked open rather than forced, and a mandatory shade break actually held rather than cut short. |
+| ml-4 | [Flat Sorter Guarding & Lockout](../../WebXR/smartcity/index.html?sim=ml-flat-sorter-guarding-and-lockout) | Mail processing plant clerk — flat sorter guarding and lockout, APWU | indoor (plant) | 13 | 2 | — | A taped-over interlock and a missing access panel found before either is trusted, the sorter isolated and locked before the guard opens, and the interlock itself proven before the restart. |
+| ml-5 | [Mail Handler Forklift & Container Dock](../../WebXR/smartcity/index.html?sim=ml-mail-handler-forklift-and-container-dock) | Mail handler — forklift and container dock operations, NPMHU | indoor (plant) | 12 | 2 | — | A missing seatbelt and a cracked fork tine found cold, the belt fastened before the first move, and the dock read for a pedestrian in the travel path and a trailer nobody has chocked yet. |
+| ml-6 | [Parcel Sorter Conveyor Jam & LOTO](../../WebXR/smartcity/index.html?sim=ml-parcel-sorter-conveyor-jam-and-loto) | Mail processing plant clerk — parcel sorter conveyor jam and lockout, APWU | indoor (plant) | 14 | 2 | — | A defeated light curtain, a cardboard guard patch and a coworker's own loose drawstring all caught before any of them becomes the reason a hand meets a moving belt. |
 
 ## Real-world environments
 
