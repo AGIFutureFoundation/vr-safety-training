@@ -26698,5 +26698,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "ws-raised-floor-tile-lift-and-cable-tray-safety",
+    "index": "ws-06",
+    "domain": "Connectivity",
+    "trade": "IBEW telecommunications technician",
+    "category": "Connectivity & Telecom",
+    "certification": "IBEW/NECA JATC telecommunications training as a body; BICSI installation practice for the cable pathway and the tray fill; NFPA 70 (NEC) for the tray bonding and the cable types under a raised floor; 29 CFR 1910.22 for the floor opening and the walking surface; 29 CFR 1910.268 for telecommunications work; the floor manufacturer's instructions and the hall's operating procedure for every load and temperature",
+    "name": "Raised-Floor Tile Lift & Cable Tray Safety",
+    "weather": "overcast",
+    "indoor": "hall",
+    "district": "data-center-build",
+    "title": "SmartCiti.X~ Raised-Floor Tile Lift & Cable Tray Safety VR",
+    "tagline": "One tile out at a time with a proven lifter, the opening barricaded and attended, the plenum inspected, the cable laid into the tray rather than dragged over it, and the tile reseated flush",
+    "accent": 6472096,
+    "accentCss": "#62c1a0",
+    "parSeconds": 300,
+    "badge": {
+      "id": "floor-kept-a-floor",
+      "name": "Floor Kept a Floor",
+      "note": "One tile out, barricaded and attended, the cable laid in, and the tile reseated flush"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Pathway Authority",
+      "currency": "TILES",
+      "ranks": [
+        "Apprentice",
+        "Installer",
+        "Telecom Technician",
+        "Lead Technician",
+        "Pathway Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

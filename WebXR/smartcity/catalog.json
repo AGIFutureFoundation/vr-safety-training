@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 629
+      "stations": 630
     },
     "trades": {
       "entry": "trades/index.html",
@@ -180,6 +180,7 @@
         "tower-climb",
         "cell-site-battery",
         "microwave-backhaul",
+        "ws-raised-floor-tile-lift-and-cable-tray-safety",
         "ws-data-hall-busway-install-and-torque-signoff",
         "aerial-lashing",
         "data-hall"
@@ -9518,6 +9519,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-raised-floor-tile-lift-and-cable-tray-safety",
+      "name": "Raised-Floor Tile Lift & Cable Tray Safety",
+      "title": "SmartCiti.X~ Raised-Floor Tile Lift & Cable Tray Safety VR",
+      "tagline": "One tile out at a time with a proven lifter, the opening barricaded and attended, the plenum inspected, the cable laid into the tray rather than dragged over it, and the tile reseated flush",
+      "category": "Connectivity & Telecom",
+      "domain": "Connectivity",
+      "trade": "IBEW telecommunications technician",
+      "union": null,
+      "certification": "IBEW/NECA JATC telecommunications training as a body; BICSI installation practice for the cable pathway and the tray fill; NFPA 70 (NEC) for the tray bonding and the cable types under a raised floor; 29 CFR 1910.22 for the floor opening and the walking surface; 29 CFR 1910.268 for telecommunications work; the floor manufacturer's instructions and the hall's operating procedure for every load and temperature",
+      "accent": "#62c1a0",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": "hall",
+      "district": "data-center-build",
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "hold",
+        "drag",
+        "find",
+        "track",
+        "turn"
+      ],
+      "badge": {
+        "id": "floor-kept-a-floor",
+        "name": "Floor Kept a Floor",
+        "note": "One tile out, barricaded and attended, the cable laid in, and the tile reseated flush"
+      },
+      "meshes": 163,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ws-06",
+      "flat": false,
+      "system": "Pathway Authority",
+      "currency": "TILES",
+      "ranks": [
+        "Apprentice",
+        "Installer",
+        "Telecom Technician",
+        "Lead Technician",
+        "Pathway Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "barricaded-first",
+          "name": "Barricaded First",
+          "note": "The opening was barricaded before the tile came up"
+        },
+        {
+          "id": "no-open-holes",
+          "name": "No Open Holes",
+          "note": "No unsafe action was recorded"
+        },
+        {
+          "id": "steady-watch",
+          "name": "Steady Watch",
+          "note": "Held the airflow watch steady"
+        },
+        {
+          "id": "clean-pull",
+          "name": "Clean Pull",
+          "note": "No corrections from the ticket to the close-out"
+        },
+        {
+          "id": "unbroken-lift",
+          "name": "Unbroken Lift",
+          "note": "The tile lift ran without a break"
+        },
+        {
+          "id": "brisk-pull",
+          "name": "Brisk Pull",
+          "note": "Lifted, laid in and reseated inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ws-raised-floor-tile-lift-and-cable-tray-safety"
     },
     {
       "app": "smartcity",
@@ -31865,7 +31949,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 256,
+      "meshes": 250,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -32525,7 +32609,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",

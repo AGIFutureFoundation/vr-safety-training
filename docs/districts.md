@@ -69,6 +69,7 @@ Every station in these districts takes the platform's options — `?weather=` (w
 | ws-blade-inspection-from-a-platform | `anemometer-fault` | The met-mast readout shows FAULT; the go/no-go becomes a reading on the handheld anemometer |
 | ws-substation-switching-under-a-permit | `breaker-fails-to-open` | The breaker flag lamp goes amber and its cubicle darkens; the prove-open step becomes holding the order and reporting |
 | ws-data-hall-busway-install-and-torque-signoff | `torque-mark-missing` | A red ring shows on a joint with no torque mark; the mark check becomes re-torquing that joint |
+| ws-raised-floor-tile-lift-and-cable-tray-safety | `damaged-pedestal` | A bent pedestal shows under the open tile; the reseat step becomes keeping the opening barricaded and reporting it |
 
 ## Budget and the gate
 
