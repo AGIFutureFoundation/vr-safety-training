@@ -209,6 +209,9 @@ export const STANDARDS = Object.fromEntries([
   S("ansi-b71-outdoor-power-equipment", "ANSI", "ANSI B71 series — safety specifications for outdoor power equipment (walk-behind and riding mowers, trimmers and blowers), published with the Outdoor Power Equipment Institute", ["Grounds & Landscaping"], "unverified"),
   S("ansi-z133-arboriculture", "ANSI", "ANSI Z133 — safety requirements for arboricultural operations, including chippers used on a tree crew", ["Grounds & Landscaping"], "unverified"),
   S("epa-fifra-pesticide-label", "EPA", "Federal Insecticide, Fungicide, and Rodenticide Act (FIFRA) — the pesticide product label as a legal document, and EPA's pesticide applicator and worker-protection requirements", ["Grounds & Landscaping"], "unverified"),
+  S("usw-mazzocchi-center", "union", "USW Tony Mazzocchi Center health, safety and environmental training", ["Manufacturing"]),
+  S("umwa-training", "union", "UMWA — United Mine Workers of America health and safety training for underground and surface mine crews", ["Manufacturing"], "unverified"),
+  S("niosh-criteria", "NIOSH", "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards", ["Manufacturing"]),
 ].map((s) => [s.id, { ...s, slug: standardSlug(s.body, s.title) }]));
 
 /** The body and title behind a standard id, or a placeholder for an unknown one. */
@@ -793,6 +796,17 @@ export const PROGRAMME_COMPETENCIES = [
       "gk-sports-field-line-marking-and-goal-anchoring", "gk-storm-cleanup-chipper-and-traffic-control", "gk-hardscape-paver-base-and-compaction", "gk-greenhouse-nursery-chemical-storage-and-eyewash"
     ],
     require: 6,
+  },
+  {
+    id: "mill-and-mine",
+    title: "Lock out a mill stand, tilt a ladle behind a closed barrier, and run a mine face and its escapeway to the roof-control and emergency plans",
+    kind: "programme",
+    standards: ["usw-mazzocchi-center", "umwa-training", "osha-1910-147", "niosh-criteria"],
+    stations: [
+      "mm-hot-strip-mill-stand", "mm-ladle-pour", "mm-coke-oven-heat-rotation", "mm-paper-machine-dryer",
+      "mm-continuous-miner-face", "mm-mine-escapeway-drill", "mm-haul-truck-berm", "mm-conveyor-fire-and-gas-monitoring"
+    ],
+    require: 4,
   },
 ];
 

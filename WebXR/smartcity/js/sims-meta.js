@@ -23758,5 +23758,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "mm-conveyor-fire-and-gas-monitoring",
+    "index": "715",
+    "domain": "Mining",
+    "trade": "Underground belt examiner / conveyor attendant",
+    "category": "Manufacturing & Automation",
+    "certification": "UMWA health and safety training; per the mine's examination and ventilation plan and the mine safety regulations, named generically; NFPA 69 explosion prevention systems; OSHA 29 CFR 1910.147 control of hazardous energy (lockout/tagout)",
+    "name": "Conveyor Belt Fire & Gas Monitoring",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Conveyor Belt Fire & Gas Monitoring VR",
+    "tagline": "A belt-entry exam: a stuck roller freed under lockout, the dust swept up, suppression proven armed, and the CO and methane monitors read and trusted",
+    "accent": 9071262,
+    "accentCss": "#8a6a9e",
+    "parSeconds": 300,
+    "badge": {
+      "id": "belt-entry-examined",
+      "name": "Belt Entry Examined",
+      "note": "A belt examined to the plan: the friction source found and freed under lockout, the dust cleared, suppression armed, both monitors read and trusted"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Belt Examiner Authority",
+      "currency": "ROLLER",
+      "ranks": [
+        "Beltman Helper",
+        "Belt Attendant",
+        "Mine Examiner",
+        "Fire Boss",
+        "Belt Examiner Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

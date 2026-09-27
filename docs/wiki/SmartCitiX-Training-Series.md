@@ -1,6 +1,6 @@
 # SmartCiti.X training series
 
-_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-27. 552 SmartCiti.X stations across 19 categories and 45 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
+_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-27. 560 SmartCiti.X stations across 19 categories and 46 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
 Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 48 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
@@ -51,6 +51,7 @@ Every station is a real union procedure sited generically, built on the shared e
 - [Warehouse and Logistics Automation — Teamsters Distribution Floor](#warehouse-and-logistics-automation)
 - [Education Support Staff — Custodial, Grounds, Transport and Classroom](#education-support-staff)
 - [Grounds & Landscaping Crew](#grounds-and-landscaping)
+- [Mill and Mine](#mill-and-mine)
 
 <a id="hunters-point-bay-restoration"></a>
 ## Hunters Point Clean-up and Bay Restoration
@@ -1402,6 +1403,26 @@ Twelve jobs a grounds crew actually rotates through: a ride-on mower's own pre-s
 | gk-10 | [Storm Cleanup: Chipper & Traffic Control](../../WebXR/smartcity/index.html?sim=gk-storm-cleanup-chipper-and-traffic-control) | Grounds storm-response crew member — LIUNA grounds and landscaping crew | wind, fairway-park | 13 | 2 | — | The taper and the signs go up to the traffic-control plan before the shoulder is worked, and every branch is fed from behind the marked line with the chipper locked out before any jam is ever cleared by hand. |
 | gk-11 | [Hardscape Paver Base & Compaction](../../WebXR/smartcity/index.html?sim=gk-hardscape-paver-base-and-compaction) | Hardscape and grounds crew member — LIUNA grounds and landscaping crew | clear, fairway-park | 14 | 2 | — | The utility locate is confirmed before the excavation starts, and the base is compacted to a density the gauge actually proves before a single paver goes down on top of it. |
 | gk-12 | [Greenhouse & Nursery Chemical Storage and Eyewash](../../WebXR/smartcity/index.html?sim=gk-greenhouse-nursery-chemical-storage-and-eyewash) | Nursery and greenhouse grounds worker — SEIU grounds and building staff | clear, fairway-park | 14 | 2 | — | Incompatible chemicals are segregated rather than shelved together, the path to the eyewash stays clear, and the eyewash station itself is activated and flow-tested rather than assumed ready. |
+
+<a id="mill-and-mine"></a>
+## Mill and Mine
+
+**Union:** USW steelworkers and paper crews, UMWA underground and surface mine crews
+
+**Certifications and standards:** USW Tony Mazzocchi Center health and safety training; UMWA health and safety training; OSHA 29 CFR 1910.147 control of hazardous energy for the mill stations; the mine safety regulations, named generically, and each mine's own roof-control, ventilation and emergency plans for the mine stations
+
+Four mill stations and four mine stations under one steelworkers-and-miners pack: a hot-strip stand's roll change, a ladle tilted to pour, a coke battery's heat rotation, a paper machine's felt change; then a continuous miner's cut-and-bolt cycle, an escapeway and self-rescuer drill, a haul truck's berm and dump point, and a belt entry's fire and gas exam.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| 708 | [Hot-Strip Mill Stand](../../WebXR/smartcity/index.html?sim=mm-hot-strip-mill-stand) | Hot-strip mill roll-shop operator | indoor (plant) | 15 | 2 | — | The mill's opener: a roll change locked out on the drive and the screwdown both, zero speed proven, and the crane's own path called clear before the old rolls ever come out. |
+| 709 | [Ladle Pour](../../WebXR/smartcity/index.html?sim=mm-ladle-pour) | Steelmaking ladle crew | indoor (plant) | 14 | 2 | — | PPE on before the ladle is ever approached, the splash barrier closed before the tilt starts, and every addition going in dry and through the chute, never by hand. |
+| 710 | [Coke Oven Heat Rotation](../../WebXR/smartcity/index.html?sim=mm-coke-oven-heat-rotation) | Coke oven battery topside worker | indoor (plant) | 13 | 2 | — | A battery topside worked to the plan's own heat-stress rotation, with the buddy system kept and every cooldown taken in full rather than cut short to get back to work. |
+| 711 | [Paper Machine Dryer Section](../../WebXR/smartcity/index.html?sim=mm-paper-machine-dryer) | Paper machine dryer section operator | indoor (plant) | 14 | 2 | — | A dryer-section felt change with the drive and the steam both locked out and bled to zero before the nip guard ever comes off — and the running section next door left exactly alone. |
+| 712 | [Continuous Miner Face](../../WebXR/smartcity/index.html?sim=mm-continuous-miner-face) | Underground continuous miner operator / roof bolter | clear | 14 | 2 | — | The mine's opener: a cut-and-bolt cycle that never puts a crew under roof the plan has not yet supported, with the cutting head and the crush zone respected the whole time the machine can move. |
+| 713 | [Mine Escapeway & Self-Rescuer Drill](../../WebXR/smartcity/index.html?sim=mm-mine-escapeway-drill) | Underground miner — mine emergency and evacuation drill | clear | 12 | 2 | — | The self-rescuer donned complete before a step is taken, the alternate escapeway taken the moment the primary is found blocked, and the lifeline's own cones read by feel rather than guessed at. |
+| 714 | [Haul Truck Berm & Dump Point](../../WebXR/smartcity/index.html?sim=mm-haul-truck-berm) | Surface mine haul truck operator | heat-haze | 12 | 2 | — | The berm read against the truck's own axle before backing toward it, the spotter's signal taken before the edge, and the highwall above the dump point given the respect an unstable rock face is owed. |
+| 715 | [Conveyor Belt Fire & Gas Monitoring](../../WebXR/smartcity/index.html?sim=mm-conveyor-fire-and-gas-monitoring) | Underground belt examiner / conveyor attendant | clear | 13 | 2 | — | A belt entry's own exam: a stuck roller freed under lockout before it grinds a fire into the dust beside it, and the CO and methane monitors read and trusted rather than covered or guessed at. |
 
 ## Real-world environments
 

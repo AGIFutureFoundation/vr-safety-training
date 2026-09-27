@@ -29,7 +29,7 @@ export const SIM_MM_HAUL_TRUCK_BERM = {
   trade: "Surface mine haul truck operator",
   category: "Manufacturing & Automation",
   weather: "heat-haze",
-  certification: "UMWA health and safety training; per the mine's traffic and dump-point plan and the mine safety regulations, named generically; ANSI B11 general safety requirements for machines",
+  certification: "UMWA health and safety training; per the mine's traffic and dump-point plan and the mine safety regulations, named generically; ANSI B11 general safety requirements for machines; NIOSH criteria documents on haul-truck traffic and berm safety research",
   name: "Haul Truck Berm & Dump Point",
   title: simTitle("Haul Truck Berm & Dump Point"),
   tagline: "A loaded haul run to the dump point: the berm read against the axle, a spotter's signal before backing, a controlled back and dump, an empty return logged",

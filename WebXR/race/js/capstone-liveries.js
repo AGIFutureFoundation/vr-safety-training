@@ -230,5 +230,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "grounds-and-landscaping",
     "name": "Grounds & Landscaping Crew",
     "accent": "#3f9c5a"
+  },
+  {
+    "programme": "mill-and-mine",
+    "name": "Mill and Mine",
+    "accent": "#c77a2e"
   }
 ];

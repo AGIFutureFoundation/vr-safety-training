@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 559
+      "stations": 560
     },
     "trades": {
       "entry": "trades/index.html",
@@ -204,6 +204,7 @@
         "conveyor-guard",
         "forklift-dock",
         "cnc-cell",
+        "mm-conveyor-fire-and-gas-monitoring",
         "mm-haul-truck-berm",
         "mm-mine-escapeway-drill",
         "mm-continuous-miner-face",
@@ -4620,6 +4621,67 @@
         "lessonBar": 75,
         "note": "a lesson is one station step under one condition; see docs/ladders.md"
       }
+    },
+    {
+      "id": "mill-and-mine",
+      "name": "Mill and Mine",
+      "union": "USW steelworkers and paper crews, UMWA underground and surface mine crews",
+      "certification": "USW Tony Mazzocchi Center health and safety training; UMWA health and safety training; OSHA 29 CFR 1910.147 control of hazardous energy for the mill stations; the mine safety regulations, named generically, and each mine's own roof-control, ventilation and emergency plans for the mine stations",
+      "summary": "Four mill stations and four mine stations under one steelworkers-and-miners pack: a hot-strip stand's roll change, a ladle tilted to pour, a coke battery's heat rotation, a paper machine's felt change; then a continuous miner's cut-and-bolt cycle, an escapeway and self-rescuer drill, a haul truck's berm and dump point, and a belt entry's fire and gas exam.",
+      "accent": "#c77a2e",
+      "stations": [
+        {
+          "app": "smartcity",
+          "id": "mm-hot-strip-mill-stand",
+          "why": "The mill's opener: a roll change locked out on the drive and the screwdown both, zero speed proven, and the crane's own path called clear before the old rolls ever come out."
+        },
+        {
+          "app": "smartcity",
+          "id": "mm-ladle-pour",
+          "why": "PPE on before the ladle is ever approached, the splash barrier closed before the tilt starts, and every addition going in dry and through the chute, never by hand."
+        },
+        {
+          "app": "smartcity",
+          "id": "mm-coke-oven-heat-rotation",
+          "why": "A battery topside worked to the plan's own heat-stress rotation, with the buddy system kept and every cooldown taken in full rather than cut short to get back to work."
+        },
+        {
+          "app": "smartcity",
+          "id": "mm-paper-machine-dryer",
+          "why": "A dryer-section felt change with the drive and the steam both locked out and bled to zero before the nip guard ever comes off — and the running section next door left exactly alone."
+        },
+        {
+          "app": "smartcity",
+          "id": "mm-continuous-miner-face",
+          "why": "The mine's opener: a cut-and-bolt cycle that never puts a crew under roof the plan has not yet supported, with the cutting head and the crush zone respected the whole time the machine can move."
+        },
+        {
+          "app": "smartcity",
+          "id": "mm-mine-escapeway-drill",
+          "why": "The self-rescuer donned complete before a step is taken, the alternate escapeway taken the moment the primary is found blocked, and the lifeline's own cones read by feel rather than guessed at."
+        },
+        {
+          "app": "smartcity",
+          "id": "mm-haul-truck-berm",
+          "why": "The berm read against the truck's own axle before backing toward it, the spotter's signal taken before the edge, and the highwall above the dump point given the respect an unstable rock face is owed."
+        },
+        {
+          "app": "smartcity",
+          "id": "mm-conveyor-fire-and-gas-monitoring",
+          "why": "A belt entry's own exam: a stuck roller freed under lockout before it grinds a fire into the dust beside it, and the CO and methane monitors read and trusted rather than covered or guessed at."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1611,
+        "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
     }
   ],
   "stations": [
@@ -8742,6 +8804,89 @@
     },
     {
       "app": "smartcity",
+      "id": "mm-conveyor-fire-and-gas-monitoring",
+      "name": "Conveyor Belt Fire & Gas Monitoring",
+      "title": "SmartCiti.X~ Conveyor Belt Fire & Gas Monitoring VR",
+      "tagline": "A belt-entry exam: a stuck roller freed under lockout, the dust swept up, suppression proven armed, and the CO and methane monitors read and trusted",
+      "category": "Manufacturing & Automation",
+      "domain": "Mining",
+      "trade": "Underground belt examiner / conveyor attendant",
+      "union": null,
+      "certification": "UMWA health and safety training; per the mine's examination and ventilation plan and the mine safety regulations, named generically; NFPA 69 explosion prevention systems; OSHA 29 CFR 1910.147 control of hazardous energy (lockout/tagout)",
+      "accent": "#8a6a9e",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "drag",
+        "turn",
+        "hold",
+        "gauge",
+        "sequence",
+        "track"
+      ],
+      "badge": {
+        "id": "belt-entry-examined",
+        "name": "Belt Entry Examined",
+        "note": "A belt examined to the plan: the friction source found and freed under lockout, the dust cleared, suppression armed, both monitors read and trusted"
+      },
+      "meshes": 112,
+      "lights": 0,
+      "overBudget": false,
+      "index": "715",
+      "flat": false,
+      "system": "Belt Examiner Authority",
+      "currency": "ROLLER",
+      "ranks": [
+        "Beltman Helper",
+        "Belt Attendant",
+        "Mine Examiner",
+        "Fire Boss",
+        "Belt Examiner Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "locked-before-freed",
+          "name": "Locked Before Freed",
+          "note": "The belt drive locked out before the stuck roller was ever touched, first time"
+        },
+        {
+          "id": "never-trusted-a-guess",
+          "name": "Never Trusted A Guess",
+          "note": "Never covered a monitor, reached the pulley nip, brought an ignition source in, or bypassed suppression"
+        },
+        {
+          "id": "both-monitors-read",
+          "name": "Both Monitors Read",
+          "note": "CO and methane both read clear before the belt ran the shift"
+        },
+        {
+          "id": "clean-exam",
+          "name": "Clean Exam",
+          "note": "No corrections through the whole examination"
+        },
+        {
+          "id": "run-unbroken",
+          "name": "Run Unbroken",
+          "note": "The observed belt run never broke its watched rate"
+        },
+        {
+          "id": "exam-fast",
+          "name": "Exam Fast",
+          "note": "Examination completed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=mm-conveyor-fire-and-gas-monitoring"
+    },
+    {
+      "app": "smartcity",
       "id": "mm-haul-truck-berm",
       "name": "Haul Truck Berm & Dump Point",
       "title": "SmartCiti.X~ Haul Truck Berm & Dump Point VR",
@@ -8750,7 +8895,7 @@
       "domain": "Mining",
       "trade": "Surface mine haul truck operator",
       "union": null,
-      "certification": "UMWA health and safety training; per the mine's traffic and dump-point plan and the mine safety regulations, named generically; ANSI B11 general safety requirements for machines",
+      "certification": "UMWA health and safety training; per the mine's traffic and dump-point plan and the mine safety regulations, named generically; ANSI B11 general safety requirements for machines; NIOSH criteria documents on haul-truck traffic and berm safety research",
       "accent": "#c77a2e",
       "parSeconds": 320,
       "weather": "heat-haze",
@@ -29675,7 +29820,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 270,
+      "meshes": 254,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -30335,7 +30480,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "100",
