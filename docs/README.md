@@ -49,6 +49,7 @@ Every page under `docs/`, one line each. Pages marked *generated* are written by
 |---|---|
 | [modules/xr-immersive-lab.md](modules/xr-immersive-lab.md) | Curriculum for the Unity build's Immersive Lab module: XR headset safety — play-space clearance, tethers, AR route separation, hygiene and comfort handover — with objectives, layout, script, assessment and sources. |
 | [images/](images/) | The captures and the mechanics diagram the top-level README embeds for the Unity build. |
+| [unity.md](unity.md) | The Unity content bridge: `tools/export_unity.mjs` writes every station, programme, world and fleet/equipment model under `exports/unity/SmartCitiX/` as a UPM package with a C# runtime that applies the WebXR engine's step kinds, scoring and pass rule; how to run it, what is exported, what is not. |
 
 ## Screenshots
 
