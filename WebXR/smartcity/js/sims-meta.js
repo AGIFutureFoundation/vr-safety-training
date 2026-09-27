@@ -25564,5 +25564,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "me-fish-visual-census-and-data-sheet",
+    "index": "606",
+    "domain": "Environmental",
+    "trade": "Census diver on a restoration monitoring crew, swimming a fixed belt transect with a buddy and writing the data sheet on the bottom",
+    "category": "Water & Environmental",
+    "certification": "AFSCME and LIUNA monitoring crews as training bodies; OSHA 29 CFR 1910.424 SCUBA diving as the rule the buddy and standby practice answers to; the programme's diving safety manual and dive plan for every limit; CDFW oversight of the observation method and its permits; NOAA Fisheries and the U.S. Fish and Wildlife Service consultation measures for in-water monitoring; Regional Water Quality Control Board Section 401 and Section 404 monitoring conditions the census reports on; BCDC permit conditions",
+    "name": "Fish Visual Census & Data Sheet",
+    "weather": "clear",
+    "indoor": null,
+    "district": "bay-underwater",
+    "title": "SmartCiti.X~ Fish Visual Census & Data Sheet VR",
+    "tagline": "The census plan read against the dive plan, the kit checked, the visibility committed, the size bar checked on its target, the timer set, the belt swum at the method's pace while a silt plume rolls in, the timer read, the end marker and the plume found, the tail count held while the surface recalls, the sheet written in order, the slate bagged, the buddy checked and the dive logged",
+    "accent": 7319766,
+    "accentCss": "#6fb0d6",
+    "parSeconds": 300,
+    "badge": {
+      "id": "counted-ahead",
+      "name": "Counted Ahead",
+      "note": "The belt swum at pace counting only what crossed ahead, every size class against the bar, and the sheet written on the bottom"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Census Crew",
+      "currency": "PASS",
+      "ranks": [
+        "Diver Trainee",
+        "Census Diver",
+        "Belt Lead",
+        "Monitoring Lead",
+        "Census Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

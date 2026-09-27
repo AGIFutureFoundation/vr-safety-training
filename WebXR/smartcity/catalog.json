@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 602
+      "stations": 603
     },
     "trades": {
       "entry": "trades/index.html",
@@ -129,6 +129,7 @@
         "lift-station",
         "chlorine-room",
         "backflow-test",
+        "me-fish-visual-census-and-data-sheet",
         "me-tidal-marsh-channel-restoration-day",
         "me-water-column-sampling-from-a-small-boat",
         "me-eelgrass-seed-collection-and-nursery",
@@ -9293,6 +9294,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "me-fish-visual-census-and-data-sheet",
+      "name": "Fish Visual Census & Data Sheet",
+      "title": "SmartCiti.X~ Fish Visual Census & Data Sheet VR",
+      "tagline": "The census plan read against the dive plan, the kit checked, the visibility committed, the size bar checked on its target, the timer set, the belt swum at the method's pace while a silt plume rolls in, the timer read, the end marker and the plume found, the tail count held while the surface recalls, the sheet written in order, the slate bagged, the buddy checked and the dive logged",
+      "category": "Water & Environmental",
+      "domain": "Environmental",
+      "trade": "Census diver on a restoration monitoring crew, swimming a fixed belt transect with a buddy and writing the data sheet on the bottom",
+      "union": null,
+      "certification": "AFSCME and LIUNA monitoring crews as training bodies; OSHA 29 CFR 1910.424 SCUBA diving as the rule the buddy and standby practice answers to; the programme's diving safety manual and dive plan for every limit; CDFW oversight of the observation method and its permits; NOAA Fisheries and the U.S. Fish and Wildlife Service consultation measures for in-water monitoring; Regional Water Quality Control Board Section 401 and Section 404 monitoring conditions the census reports on; BCDC permit conditions",
+      "accent": "#6fb0d6",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": "bay-underwater",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "drag",
+        "turn",
+        "track",
+        "find",
+        "hold"
+      ],
+      "badge": {
+        "id": "counted-ahead",
+        "name": "Counted Ahead",
+        "note": "The belt swum at pace counting only what crossed ahead, every size class against the bar, and the sheet written on the bottom"
+      },
+      "meshes": 172,
+      "lights": 0,
+      "overBudget": false,
+      "index": "606",
+      "flat": false,
+      "system": "Census Crew",
+      "currency": "PASS",
+      "ranks": [
+        "Diver Trainee",
+        "Census Diver",
+        "Belt Lead",
+        "Monitoring Lead",
+        "Census Certified"
+      ],
+      "awards": [
+        {
+          "id": "bar-true",
+          "name": "Bar True",
+          "note": "The size bar checked on its target first time"
+        },
+        {
+          "id": "on-the-belt",
+          "name": "On The Belt",
+          "note": "Never a hazard, never off the line after a school"
+        },
+        {
+          "id": "method-pace",
+          "name": "Method Pace",
+          "note": "Visibility, timer and pace all inside the band"
+        },
+        {
+          "id": "clean-census",
+          "name": "Clean Census",
+          "note": "No corrections from the plan to the log"
+        },
+        {
+          "id": "unbroken-belt",
+          "name": "Unbroken Belt",
+          "note": "Pace and tail count held the whole way"
+        },
+        {
+          "id": "sheet-early",
+          "name": "Sheet Early",
+          "note": "Census logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=me-fish-visual-census-and-data-sheet"
     },
     {
       "app": "smartcity",
@@ -30730,7 +30814,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 259,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -31390,7 +31474,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",
