@@ -23632,5 +23632,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "md-recording-studio-hearing-conservation-and-load-in",
+    "index": "712",
+    "domain": "Screen & Media Crafts",
+    "trade": "AFM studio musician and load-in crew, running hearing conservation for a session and a grand piano's load-in down the studio ramp",
+    "category": "Entertainment & Live Events",
+    "certification": "AFM member safety guidance for orchestra and recording musicians; IATSE stagehand practice for the load-in crew; OSHA 29 CFR 1910.95 occupational noise exposure and hearing conservation; NIOSH criteria for hearing conservation and audiometric monitoring; OSHA 29 CFR 1910.22 walking-working surfaces, applied here to the load-in ramp",
+    "name": "Recording Studio Hearing Conservation & Load-In",
+    "weather": "clear",
+    "indoor": "theatre",
+    "district": null,
+    "title": "SmartCiti.X~ Recording Studio Hearing Conservation & Load-In VR",
+    "tagline": "A live room and control room before a session: the hearing conservation plan read, isolating headphones and earplugs on, the ramp swept for a missing wedge and a frayed spare strap, the piano skid's straps checked against the load chart, the monitor level proven safe before headphones go on, the dolly's casters locked, the ratchet strap held to tension, the moving crew confirmed, the piano guided down the ramp at a controlled pace, the bench carried to its mark, a dosimeter fitted on a pit musician, the talkback confirmed, and the session logged — a second dolly meeting the piano on the ramp and a musician pulling their protection early both answered off a control that isn't the one already in the learner's hand",
+    "accent": 8280002,
+    "accentCss": "#7e57c2",
+    "parSeconds": 340,
+    "badge": {
+      "id": "level-proven-piano-down",
+      "name": "Level Proven, Piano Down",
+      "note": "The monitor level proven safe before any headphones went on, the piano guided down the ramp at a controlled pace, and the early-removed hearing protection caught and answered before the next loud passage"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Session Floor",
+      "currency": "DECIBEL",
+      "ranks": [
+        "Cartage Hand",
+        "Session Sub",
+        "Studio Musician",
+        "Principal Chair",
+        "AFM Steward Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
