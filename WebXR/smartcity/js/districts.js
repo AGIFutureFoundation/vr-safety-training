@@ -6,6 +6,7 @@ import {
   blockFace, brickFace, asphaltFace, palette,
 } from "./citykit.js";
 import { PROPS_BUILDERS } from "../../shared/props.js";
+import { buildFairwayPark } from "../../shared/fairway.js";
 
 // Districts: the part of the VR / flat-screen stage that changes with the
 // station's trade category. The plaza, marquee and skyline are shared; a
@@ -1818,6 +1819,60 @@ export const DISTRICTS = {
       return (t) => {
         for (const hub of turbines) hub.rotation.z = t * 1.3;
         sockCone.rotation.y = Math.PI / 2 + Math.sin(t * 0.4) * 0.3;
+      };
+    },
+  },
+  "fairway-park": {
+    // A large open outdoor world: a nine-hole golf course plus an outdoor
+    // sports facility (shared/fairway.js), shared with a future golf/sports
+    // mini-game and a grounds-and-landscaping training programme. Like
+    // open-range, the ground itself is the district — no plaza, masts,
+    // marquee or apron — and the sky and fog still follow the hour.
+    //
+    // The stage only ever asks shared/fairway.js for its compact
+    // clubhouse-and-first-tee preview (`detail: "low"`): the whole 600×400 m
+    // course and facility (`detail: "high"`, the default) is what
+    // buildFairwayPark() gives a standalone golf or landscaping app that
+    // brings its own camera and its own mesh budget — rendering all of it
+    // inside the shared SmartCiti.X stage would blow both the stage's own
+    // scenic-district budget and the distance nothing built here is meant to
+    // stand past (see districts.js:SCENIC_BUDGET, tools/check_districts.mjs).
+    plaza: false,
+    sky: 0x18240f, fog: 0x1d2c1a, hemi: [0xaebf7a, 0x2a2410], mast: 0xfff0c8,
+    key: 0xfff6e8,
+    weather: "clear",
+    fogRange: [50, 220],
+    far: 220,
+    skyline: false,
+    roam: 26,
+    spawn: { x: 0, z: 16, ry: 0 },
+    dressing: [
+      { prop: "parkBench", x: -20, z: -2, ry: 0.4 },
+      { prop: "streetTree:large", x: 22, z: -4 },
+    ],
+    build(g, _accent, env = {}) {
+      const park = buildFairwayPark(g, { detail: "low", time: env.time, weather: env.weather });
+      // A heat-haze-style shimmer over the course at noon only: the same
+      // warm, barely-there look shared/weather.js's "heat-haze" weather kind
+      // carries, but tied to the hour rather than to the station's own
+      // conditions — optional dressing on an otherwise clear day, never a
+      // stand-in for a station or the URL actually asking for heat-haze
+      // weather (`forceWeather` is not set here, so both still can).
+      // Held well above head height (y = 2.6) so it is never mistaken for
+      // floor-standing scenery by the stage's own clearance checks.
+      let shimmer = null;
+      if (env.time === "day") {
+        const shimmerMat = new THREE.MeshBasicMaterial({ color: 0xd9b46a, transparent: true, opacity: 0.05, depthWrite: false, side: THREE.DoubleSide });
+        shimmerMat.userData.ownMaterial = true;
+        shimmer = new THREE.Mesh(new THREE.PlaneGeometry(50, 34), shimmerMat);
+        shimmer.rotation.x = -Math.PI / 2;
+        shimmer.position.set(0, 2.6, 8);
+        shimmer.castShadow = false; shimmer.receiveShadow = false;
+        g.add(shimmer);
+      }
+      return (t) => {
+        park.animate?.(t);
+        if (shimmer) shimmer.material.opacity = 0.035 + Math.max(0, Math.sin(t * 1.3)) * 0.03;
       };
     },
   },
