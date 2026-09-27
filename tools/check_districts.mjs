@@ -22,6 +22,9 @@
  *     with no skyline and its own weather whatever the station or the URL
  *     asks, golden-gate-deck in its marine layer by default with the skyline
  *     kept off the strait side, and each one's camera far plane handed back;
+ *   - the ?fault= option: every fault a station declares changes its scene
+ *     (onFault) and one step's correct answer, and is listed in
+ *     docs/districts.md;
  *   - the underwater HUD chip: shown with exactly the station's
  *     `room.underwater = { depthLabel, bottomTimeSeconds }`, nothing when it
  *     is unset, and wired into the HUD state in app.js and the chrome in
@@ -33,7 +36,7 @@ import { readFileSync, readdirSync, writeFileSync, mkdtempSync, rmSync } from "n
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
-import { THREE_STUB, WEBXR, installDomStubs, strip } from "./lib/headless.mjs";
+import { THREE_STUB, WEBXR, ROOT as ROOT_DIR, installDomStubs, strip, buildSuite } from "./lib/headless.mjs";
 
 // The stub geometry learns its own dimensions, so the layout rules below can
 // see how big a part is and not only where its centre sits; Color, Fog and
@@ -52,7 +55,7 @@ for (const probe of ["parameters={width,height,depth}", "parameters={radiusTop",
 }
 
 // Same concatenation as every checker, behind the richer stub.
-const MODULES = ["shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/a11y.js", "shared/weather.js", "shared/fleet.js", "shared/props.js", "shared/fairway-data.js", "shared/fairway.js", "shared/bayworld-data.js", "shared/bayworld.js", "shared/underwater-data.js", "shared/underwater.js", "smartcity/js/citykit.js", "smartcity/js/ambient.js",
+const MODULES = ["shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/a11y.js", "shared/weather.js", "shared/fleet.js", "shared/equipment.js", "shared/props.js", "shared/fairway-data.js", "shared/fairway.js", "shared/bayworld-data.js", "shared/bayworld.js", "shared/underwater-data.js", "shared/underwater.js", "smartcity/js/citykit.js", "smartcity/js/ambient.js",
   "smartcity/js/apron.js", "smartcity/js/interiors.js", "smartcity/js/districts.js", "smartcity/js/stage.js"];
 // buildSuite() writes the plain stub; this suite is put together by hand so
 // it gets the one above.
@@ -304,8 +307,52 @@ for (const f of readdirSync(join(WEBXR, "smartcity/js/sims")).filter((n) => n.en
   if (/^\s*underwater\s*:/m.test(src) && !/district:\s*"bay-underwater"/.test(src)) fail(f, "sets `underwater` but does not stand in the bay-underwater district");
 }
 
+let faultRows = 0;
+// The ?fault= simulation option (shared/faults.js, docs/districts.md): every
+// fault a station declares must name one of its own steps, change that
+// step's correct answer, change the scene through the station's onFault(),
+// and be listed in docs/districts.md; app.js must read the query and call
+// onFault once the station is built.
+{
+  const simDir = join(WEBXR, "smartcity/js/sims");
+  const faulted = readdirSync(simDir).filter((n) => n.endsWith(".js") && /^\s*faults\s*:\s*\[/m.test(readFileSync(join(simDir, n), "utf8")));
+  const docSrc = readFileSync(join(ROOT_DIR, "docs/districts.md"), "utf8");
+  if (!/\?fault=/.test(docSrc)) fail("fault", "docs/districts.md does not document the ?fault= option");
+  if (!/faultFromQuery\(location\.search\)/.test(appSrc) || !/faultedRoom\(room,/.test(appSrc) || !/onFault\?\.\(room\.activeFault\)/.test(appSrc)) fail("fault", "app.js does not read ?fault=, rewrite the step and call the station's onFault()");
+  if (faulted.length) {
+    const FS = await buildSuite(["shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/fleet.js", "shared/equipment.js", "shared/toolkit.js", "shared/game.js", "smartcity/js/citykit.js", "smartcity/js/gamify.js", "shared/props.js", "shared/faults.js",
+      ...faulted.map((n) => `smartcity/js/sims/${n}`)],
+    `export const FAULT_ROOMS = [${faulted.map((n) => readFileSync(join(simDir, n), "utf8").match(/export const (SIM_[A-Z0-9_]+)\s*=/)[1]).join(", ")}];\nexport { faultedRoom, faultAnswer, faultFromQuery, THREE as THREE_SUITE };`, "faults");
+    if (FS.faultFromQuery("?sim=x&fault=yaw-brake-fault") !== "yaw-brake-fault" || FS.faultFromQuery("?fault=") !== null) fail("fault", "faultFromQuery does not read ?fault= cleanly");
+    const snap = (root) => { const out = []; root.traverse((o) => out.push(`${o.visible}|${o.position.x.toFixed(3)},${o.position.y.toFixed(3)},${o.position.z.toFixed(3)}|${o.rotation.x.toFixed(3)},${o.rotation.y.toFixed(3)},${o.rotation.z.toFixed(3)}|${o.material?.color?.v ?? ""}|${o.material?.emissive?.v ?? ""}`)); return out.join(";"); };
+    for (const room of FS.FAULT_ROOMS) {
+      for (const f of room.faults) {
+        const tag = `${room.id} ?fault=${f.id}`;
+        faultRows += 1;
+        if (!docSrc.includes(`\`${f.id}\``)) fail(tag, "is not listed in docs/districts.md");
+        const base = room.steps.find((s) => s.id === f.step);
+        if (!base) { fail(tag, `names step "${f.step}", which the station does not have`); continue; }
+        const run = FS.faultedRoom(room, f.id);
+        const changed = run.steps.find((s) => s.id === f.step);
+        if (run.activeFault !== f.id) fail(tag, "faultedRoom did not mark the run");
+        if (FS.faultAnswer(changed) === FS.faultAnswer(base)) fail(tag, "does not change its step's correct answer");
+        if (!f.label || !f.note || /\d/.test(f.note)) fail(tag, "needs a label and a note that states no figure");
+        const r1 = new FS.THREE_SUITE.Group(), r2 = new FS.THREE_SUITE.Group();
+        let a1, a2;
+        try { a1 = room.build(r1); a2 = run.build(r2); } catch (e) { fail(tag, `build threw — ${e.message}`); continue; }
+        if (typeof a2.onFault !== "function") { fail(tag, "the station's build() hands back no onFault()"); continue; }
+        const target = changed.target ?? changed.targets?.[0];
+        if (target && !a2.hits?.[target]) fail(tag, `the faulted step's control "${target}" is not registered`);
+        a2.onFault(f.id);
+        if (snap(r1) === snap(r2)) fail(tag, "onFault() changed nothing in the scene");
+        void a1;
+      }
+    }
+  }
+}
+
 const summary = rows.map((r) => `${r.id} ${r.meshes}/${S.SCENIC_BUDGET} meshes, roam ${r.roam.toFixed(1)}m`).join("; ");
 console.log(failures
   ? `\n${failures} district problem(s) found.`
-  : `\nAll ${rows.length} scenic districts build, fit and are reachable: ${summary}; underwater and scoreboard HUD chips render.`);
+  : `\nAll ${rows.length} scenic districts build, fit and are reachable: ${summary}; underwater and scoreboard HUD chips render; ${faultRows} declared ?fault= option(s) change their scene and their step.`);
 process.exit(failures ? 1 : 0);

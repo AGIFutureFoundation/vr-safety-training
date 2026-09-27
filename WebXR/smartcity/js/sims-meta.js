@@ -26488,5 +26488,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "ws-turbine-climb-and-rescue-kit-check",
+    "index": "ws-01",
+    "domain": "Energy",
+    "trade": "IBEW / Ironworkers wind technician",
+    "category": "Energy & Power",
+    "certification": "IBEW/NECA JATC and Ironworkers IMPACT wind-technician training as bodies; ANSI Z359 for the harness, the fall-arrest rail system and the rescue kit; 29 CFR 1910.269 for work on generation installations; 29 CFR 1910.28 and 29 CFR 1910.23 for the fixed ladder and its fall protection; the turbine manufacturer's manual and the site's climb procedure for every limit",
+    "name": "Turbine Climb & Rescue-Kit Check",
+    "weather": "wind",
+    "indoor": null,
+    "district": "wind-farm",
+    "title": "SmartCiti.X~ Turbine Climb & Rescue-Kit Check VR",
+    "tagline": "The wind read against the site's own limit, the harness walked by hand, the rescue kit opened and proven with a second climber who can use it, and the runner tugged on the rail before a single rung",
+    "accent": 4171734,
+    "accentCss": "#3fa7d6",
+    "parSeconds": 300,
+    "badge": {
+      "id": "proven-before-rung-one",
+      "name": "Proven Before Rung One",
+      "note": "Wind, harness, rescue kit, buddy and runner all proven on the ground before the climb began"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Tower Authority",
+      "currency": "RUNGS",
+      "ranks": [
+        "Trainee Climber",
+        "Climber",
+        "Wind Technician",
+        "Lead Technician",
+        "Tower Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

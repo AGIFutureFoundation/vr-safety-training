@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 624
+      "stations": 625
     },
     "trades": {
       "entry": "trades/index.html",
@@ -44,6 +44,7 @@
         "line-truck",
         "substation-switching",
         "battery-yard",
+        "ws-turbine-climb-and-rescue-kit-check",
         "battery-storage-container-commissioning",
         "temporary-site-power",
         "arc-flash-label-study",
@@ -9513,6 +9514,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-turbine-climb-and-rescue-kit-check",
+      "name": "Turbine Climb & Rescue-Kit Check",
+      "title": "SmartCiti.X~ Turbine Climb & Rescue-Kit Check VR",
+      "tagline": "The wind read against the site's own limit, the harness walked by hand, the rescue kit opened and proven with a second climber who can use it, and the runner tugged on the rail before a single rung",
+      "category": "Energy & Power",
+      "domain": "Energy",
+      "trade": "IBEW / Ironworkers wind technician",
+      "union": null,
+      "certification": "IBEW/NECA JATC and Ironworkers IMPACT wind-technician training as bodies; ANSI Z359 for the harness, the fall-arrest rail system and the rescue kit; 29 CFR 1910.269 for work on generation installations; 29 CFR 1910.28 and 29 CFR 1910.23 for the fixed ladder and its fall protection; the turbine manufacturer's manual and the site's climb procedure for every limit",
+      "accent": "#3fa7d6",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": "wind-farm",
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "find",
+        "drag",
+        "hold",
+        "track",
+        "turn"
+      ],
+      "badge": {
+        "id": "proven-before-rung-one",
+        "name": "Proven Before Rung One",
+        "note": "Wind, harness, rescue kit, buddy and runner all proven on the ground before the climb began"
+      },
+      "meshes": 151,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ws-01",
+      "flat": false,
+      "system": "Tower Authority",
+      "currency": "RUNGS",
+      "ranks": [
+        "Trainee Climber",
+        "Climber",
+        "Wind Technician",
+        "Lead Technician",
+        "Tower Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "kit-opened",
+          "name": "Kit Opened",
+          "note": "The rescue kit was opened and proven, not trusted by its bag"
+        },
+        {
+          "id": "never-free-climbed",
+          "name": "Never Free-Climbed",
+          "note": "No unsafe action was recorded"
+        },
+        {
+          "id": "steady-climber",
+          "name": "Steady Climber",
+          "note": "Held the climb pace steady"
+        },
+        {
+          "id": "clean-climb",
+          "name": "Clean Climb",
+          "note": "No corrections from the permit to the log"
+        },
+        {
+          "id": "unbroken-pace",
+          "name": "Unbroken Pace",
+          "note": "The climb ran to the platform without a break"
+        },
+        {
+          "id": "brisk-ground-check",
+          "name": "Brisk Ground Check",
+          "note": "Up and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ws-turbine-climb-and-rescue-kit-check"
     },
     {
       "app": "smartcity",
@@ -31447,7 +31531,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 261,
+      "meshes": 265,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -32107,7 +32191,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",
