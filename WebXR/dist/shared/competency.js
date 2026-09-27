@@ -148,6 +148,9 @@ export const STANDARDS = Object.fromEntries([
   S("opcmia-local-300", "OPCMIA", "OPCMIA Local 300 cement mason and plasterer apprenticeship, as a training body", ["Construction"], "unverified"),
   S("aci-306", "ACI", "ACI 306 Guide to Cold Weather Concreting", ["Construction"], "unverified"),
   S("nfpa-70e", "NFPA", "70E Standard for Electrical Safety in the Workplace", ["Energy & Power"]),
+  S("osha-1910-269", "OSHA", "29 CFR 1910.269 — Electric power generation, transmission and distribution", ["Energy & Power", "Telecom"]),
+  S("nec-nfpa-70", "NEC/NFPA 70", "NFPA 70 — National Electrical Code", ["Energy & Power", "Telecom"]),
+  S("bicsi-installer", "BICSI", "BICSI Installer 2 and Optical Fiber installer credentials", ["Telecom"]),
   S("nfpa-70-art-690", "NFPA", "70 National Electrical Code Article 690 Solar photovoltaic systems", ["Energy & Power"]),
   S("nfpa-51b", "NFPA", "51B Standard for Fire Prevention During Welding, Cutting, and Other Hot Work", ["Metal Trades"]),
   S("nfpa-25", "NFPA", "25 Standard for the Inspection, Testing, and Maintenance of Water-Based Fire Protection Systems", ["Building Systems"]),
@@ -924,6 +927,17 @@ export const PROGRAMME_COMPETENCIES = [
     stations: [
       "cd-underwater-wet-welding-and-cutting", "cd-pier-piling-inspection-and-wrap-repair", "cd-rov-launch-recovery-and-tether-management", "cd-decompression-chamber-operations-and-post-dive",
       "cd-scientific-scuba-buddy-check-and-lost-buddy-drill", "cd-low-visibility-and-night-dive-line-work", "cd-hydraulic-tools-and-suction-hazards-underwater", "cd-dive-records-and-incident-review"
+    ],
+    require: 4,
+  },
+  {
+    id: "wind-and-data-infrastructure",
+    title: "Climb, lock out, switch, torque, open a floor, answer an alarm and land a pod across a wind farm, a data hall and an ocean data centre without stating a figure the manual or the plan holds",
+    kind: "programme",
+    standards: ["osha-1910-269", "osha-1910-147", "nfpa-70e", "ansi-z359", "nec-nfpa-70", "bicsi-installer"],
+    stations: [
+      "ws-turbine-climb-and-rescue-kit-check", "ws-nacelle-lockout-and-yaw-brake-fault", "ws-blade-inspection-from-a-platform", "ws-substation-switching-under-a-permit",
+      "ws-data-hall-busway-install-and-torque-signoff", "ws-raised-floor-tile-lift-and-cable-tray-safety", "ws-crah-alarm-response-in-a-live-hall", "ws-ocean-pod-retrieval-and-hatch-opening"
     ],
     require: 4,
   },

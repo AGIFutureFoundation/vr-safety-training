@@ -3,12 +3,12 @@
   "facts": [
     {
       "key": "procedures",
-      "value": 633,
+      "value": 641,
       "source": "WebXR/smartcity/catalog.json stations.length"
     },
     {
       "key": "smartcityStations",
-      "value": 624,
+      "value": 632,
       "source": "WebXR/smartcity/catalog.json stations where app = smartcity"
     },
     {
@@ -18,7 +18,7 @@
     },
     {
       "key": "programmes",
-      "value": 54,
+      "value": 55,
       "source": "WebXR/smartcity/js/curricula.js CURRICULA.length"
     },
     {
@@ -43,12 +43,12 @@
     },
     {
       "key": "competencies",
-      "value": 64,
+      "value": 65,
       "source": "WebXR/shared/competency.js COMPETENCIES.length"
     },
     {
       "key": "programmeCompetencies",
-      "value": 54,
+      "value": 55,
       "source": "WebXR/shared/competency.js PROGRAMME_COMPETENCIES.length"
     },
     {
@@ -63,12 +63,12 @@
     },
     {
       "key": "programmeLadderLevels",
-      "value": 1080,
+      "value": 1100,
       "source": "WebXR/smartcity/catalog.json sum of curricula[].ladder.levels"
     },
     {
       "key": "programmeLadderLevelsFull",
-      "value": 1079,
+      "value": 1099,
       "source": "WebXR/smartcity/catalog.json sum of curricula[].ladder.atBar"
     },
     {
@@ -108,7 +108,7 @@
     },
     {
       "key": "bayWorldSites",
-      "value": 50,
+      "value": 52,
       "source": "WebXR/shared/bayworld-data.js BAY_SITES.length"
     },
     {
@@ -128,7 +128,7 @@
     },
     {
       "key": "bayWorldSideQuests",
-      "value": 106,
+      "value": 108,
       "source": "WebXR/bayworld/js/quests-data.js SIDE_QUESTS.length"
     },
     {
@@ -153,7 +153,7 @@
     },
     {
       "key": "deepSites",
-      "value": 32,
+      "value": 33,
       "source": "WebXR/shared/underwater-data.js DEEP_SITES.length"
     },
     {
@@ -173,7 +173,7 @@
     },
     {
       "key": "deepSideDives",
-      "value": 34,
+      "value": 36,
       "source": "WebXR/underwater/js/dives-data.js DV_SIDE_DIVES.length"
     },
     {
@@ -208,12 +208,12 @@
     },
     {
       "key": "scenicDistricts",
-      "value": 7,
+      "value": 10,
       "source": "WebXR/smartcity/js/districts.js DISTRICTS entries with plaza: false"
     },
     {
       "key": "assetBuilders",
-      "value": 131,
+      "value": 134,
       "source": "tools/gen_investor.mjs: entries of EQUIPMENT_BUDGET, FLEET_BUDGET, PROPS_BUDGET, TOOLKIT_BUDGET, WILDLIFE_BUDGET (kinds), SKY_BUDGET (one dome)"
     },
     {
@@ -243,7 +243,7 @@
     },
     {
       "key": "uiPages",
-      "value": 66,
+      "value": 67,
       "source": "ls WebXR/dist/*.html WebXR/dist/tracks/*.html"
     }
   ]

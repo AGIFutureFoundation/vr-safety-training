@@ -1,6 +1,6 @@
 # SmartCiti.X training series
 
-_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-27. 624 SmartCiti.X stations across 19 categories and 54 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
+_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-27. 632 SmartCiti.X stations across 19 categories and 55 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
 Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 61 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
@@ -60,6 +60,7 @@ Every station is a real union procedure sited generically, built on the shared e
 - [Yacht & Charter Crew](#yacht-and-charter-crew)
 - [Marine Ecology & Restoration — Survey and Restoration Crews](#marine-ecology-and-restoration)
 - [Commercial Diving & Scientific Scuba](#commercial-diving-and-scientific-scuba)
+- [Wind & Data Infrastructure](#wind-and-data-infrastructure)
 
 <a id="hunters-point-bay-restoration"></a>
 ## Hunters Point Clean-up and Bay Restoration
@@ -1627,6 +1628,26 @@ Eight jobs of the commercial dive crew and the scientific scuba pair, weighted t
 | 721 | [Low-Visibility & Night Dive Line Work](../../WebXR/smartcity/index.html?sim=cd-low-visibility-and-night-dive-line-work) | Pile Drivers of the Carpenters commercial diver on a night search in low visibility with a buddy diver, the dive supervisor and the tender at the stage above | clear, bay-underwater | 13 | 2 | 95 | In black water the guideline is the way home and the light is the voice, so tie-offs go on in order, a hand stays on the line through a silt-out, and a failed primary light is the abort the plan already wrote. |
 | 722 | [Hydraulic Tools & Suction Hazards Underwater](../../WebXR/smartcity/index.html?sim=cd-hydraulic-tools-and-suction-hazards-underwater) | Pile Drivers of the Carpenters diver-tender locking out a plant intake and tending a hydraulic tool to a diver, with the dive supervisor, the standby diver and the plant operator who wants the pump back | overcast, Maritime & Ports | 13 | 2 | 95 | Nothing goes near an intake grate until the pump is locked, tried and proven slack by a streamer, and the lock stays on against the plant until the supervisor has counted every diver out of the water. |
 | 723 | [Dive Records & Incident Review](../../WebXR/smartcity/index.html?sim=cd-dive-records-and-incident-review) | Pile Drivers of the Carpenters diver-tender completing the dive record and the daily log and running an incident debrief with the dive supervisor, the diver, the standby diver and a client representative | clear, Maritime & Ports | 13 | 2 | 96 | The record is written from the slate and never from memory, released whole or not at all, and the debrief names a condition as the cause so the corrective action changes the procedure and not the diver. |
+
+<a id="wind-and-data-infrastructure"></a>
+## Wind & Data Infrastructure
+
+**Union:** IBEW and the IBEW/NECA JATC, IUOE, the Ironworkers and their IMPACT programme, the UA and SMART as training bodies
+
+**Certifications and standards:** Programme completion record; the credentials it rehearses are issued only by their own bodies — 29 CFR 1910.269 and 29 CFR 1910.147 for the turbine, the substation and the hall, NFPA 70E for every absence-of-voltage test, ANSI Z359 for the tower and the platform, NFPA 70 (NEC) and BICSI practice for the busway and the pathway; every height, wind, voltage, torque, load, depth and limit lives in the manufacturer's manual, the switching order, the lift plan or the dive plan
+
+Eight jobs across a ridge wind farm, a data hall under construction and an ocean data pod: the climb proven on the ground, the nacelle locked and its yaw held, the blade platform's wind go/no-go, collector switching to a written order, a busway torqued and signed, one floor tile out and attended, a CRAH alarm answered in a live hall, and a sealed pod landed and isolated before its hatch opens. Each station runs with a declared ?fault= that changes the scene and one step's right answer, and no figure is ever stated — the manual, the order and the plans hold them.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| ws-01 | [Turbine Climb & Rescue-Kit Check](../../WebXR/smartcity/index.html?sim=ws-turbine-climb-and-rescue-kit-check) | IBEW / Ironworkers wind technician | wind, wind-farm | 12 | 2 | — | The climb is decided on the ground: the wind read against the site's limit, the harness walked by hand, the rescue kit opened and a second climber confirmed before the runner goes on the rail. |
+| ws-02 | [Nacelle Lockout & Yaw-Brake Fault](../../WebXR/smartcity/index.html?sim=ws-nacelle-lockout-and-yaw-brake-fault) | IBEW wind technician | wind, wind-farm | 12 | 2 | — | A stopped rotor is not a locked one, so the crew stops it locally, drives the rotor lock home, proves the yaw held and bleeds the stored energy before a start that must not happen. |
+| ws-03 | [Blade Inspection from a Platform](../../WebXR/smartcity/index.html?sim=ws-blade-inspection-from-a-platform) | Ironworkers / IBEW blade technician | wind, wind-farm | 12 | 2 | — | The wind decides whether a suspended platform leaves the ground and keeps deciding while it is up, and every defect on the blade is photographed and reported rather than guessed at. |
+| ws-04 | [Collector Substation Switching Under a Permit](../../WebXR/smartcity/index.html?sim=ws-substation-switching-under-a-permit) | IBEW substation electrician | overcast, wind-farm | 12 | 2 | — | Collector switching runs to a written order with every step repeated back, the breaker proven open before the disconnect moves and the gap grounded before a permit goes out. |
+| ws-05 | [Data-Hall Busway Install & Torque Sign-Off](../../WebXR/smartcity/index.html?sim=ws-data-hall-busway-install-and-torque-signoff) | IBEW inside wireman | overcast, data-center-build | 12 | 2 | — | A busway joint is only as good as its torque and its record, so the run is proven dead before the lift goes up and every joint is torqued with a calibrated wrench, marked and signed. |
+| ws-06 | [Raised-Floor Tile Lift & Cable Tray Safety](../../WebXR/smartcity/index.html?sim=ws-raised-floor-tile-lift-and-cable-tray-safety) | IBEW telecommunications technician | overcast, data-center-build | 12 | 2 | — | One tile out in a live hall is an opening, an airflow change and a plenum of power and data, so it is barricaded first, attended throughout and reseated flush. |
+| ws-07 | [CRAH Alarm Response in a Live Hall](../../WebXR/smartcity/index.html?sim=ws-crah-alarm-response-in-a-live-hall) | IBEW critical-facilities technician | overcast, data-center-build | 12 | 2 | — | An air-handler alarm is answered as a sequence — read, report, walk down, standby on and the hall watched back — before the failed unit is isolated and proven dead. |
+| ws-08 | [Ocean Pod Retrieval & Hatch Opening](../../WebXR/smartcity/index.html?sim=ws-ocean-pod-retrieval-and-hatch-opening) | IBEW / IUOE marine data-centre crew | wind, ocean-data-center | 13 | 2 | — | A sealed pod comes aboard to the lift plan with the diver out of the water, is fastened and its cable locked out, and its leak lamp is read before a single hatch bolt turns. |
 
 ## Real-world environments
 

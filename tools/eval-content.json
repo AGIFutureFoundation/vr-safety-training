@@ -3866,6 +3866,110 @@
     },
     {
       "app": "smartcity",
+      "id": "ws-ocean-pod-retrieval-and-hatch-opening",
+      "name": "Ocean Pod Retrieval & Hatch Opening",
+      "category": "Connectivity & Telecom",
+      "steps": 13,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.79,
+          "medianWhy": 208,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.975,
+          "meshes": 170,
+          "materials": 80,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.5155668358714045,
+          "nearest": "br-workboat-crane-lift-from-water",
+          "similarity": 0.23688663282571912
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-substation-switching-under-a-permit",
+      "name": "Collector Substation Switching Under a Permit",
+      "category": "Energy & Power",
+      "steps": 12,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9099999999999999,
+          "medianWhy": 232,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.945,
+          "meshes": 158,
+          "materials": 83,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.25599214145383103,
+          "nearest": "substation-switching",
+          "similarity": 0.2888015717092338
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "wp-first-paycheck-coaching",
       "name": "First-Paycheck Coaching",
       "category": "Community Environmental Justice",
@@ -6721,6 +6825,58 @@
           "score": 0.5364779874213838,
           "nearest": "pl-fire-sprinkler-riser-and-flow-test",
           "similarity": 0.23270440251572327
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-crah-alarm-response-in-a-live-hall",
+      "name": "CRAH Alarm Response in a Live Hall",
+      "category": "Connectivity & Telecom",
+      "steps": 12,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.8500000000000001,
+          "medianWhy": 220,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.93,
+          "meshes": 152,
+          "materials": 93,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.5879159369527146,
+          "nearest": "or-solar-farm-tracker-row-maintenance",
+          "similarity": 0.2224168126094571
         }
       }
     },
@@ -11926,6 +12082,58 @@
     },
     {
       "app": "smartcity",
+      "id": "substation-switching",
+      "name": "Substation Switching",
+      "category": "Energy & Power",
+      "steps": 11,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 382,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 3,
+          "inScope": 3,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.9431818181818181,
+          "meshes": 170,
+          "materials": 73,
+          "interactables": 20
+        },
+        "originality": {
+          "score": 0.25599214145383103,
+          "nearest": "ws-substation-switching-under-a-permit",
+          "similarity": 0.2888015717092338
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "scaffold-erection",
       "name": "Scaffold Erection",
       "category": "Construction & Structural Trades",
@@ -12025,6 +12233,58 @@
           "score": 0.12857142857142873,
           "nearest": "av-marshalling-and-wingwalker-signals",
           "similarity": 0.3142857142857143
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-raised-floor-tile-lift-and-cable-tray-safety",
+      "name": "Raised-Floor Tile Lift & Cable Tray Safety",
+      "category": "Connectivity & Telecom",
+      "steps": 12,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.845,
+          "medianWhy": 219,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9575,
+          "meshes": 163,
+          "materials": 63,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.6481481481481483,
+          "nearest": "gl-storefront-frame-and-glass-set-with-cups",
+          "similarity": 0.21037037037037037
         }
       }
     },
@@ -15189,7 +15449,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 261,
+          "meshes": 257,
           "materials": 92,
           "interactables": 29
         },
@@ -19882,58 +20142,6 @@
     },
     {
       "app": "smartcity",
-      "id": "substation-switching",
-      "name": "Substation Switching",
-      "category": "Energy & Power",
-      "steps": 11,
-      "score": 97,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 6,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 382,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "standards": {
-          "score": 1,
-          "cited": 3,
-          "inScope": 3,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 9,
-          "got": 9
-        },
-        "scene": {
-          "score": 0.9431818181818181,
-          "meshes": 170,
-          "materials": 73,
-          "interactables": 20
-        },
-        "originality": {
-          "score": 0.3616161616161617,
-          "nearest": "motor-control-center",
-          "similarity": 0.2676767676767677
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "fire-pump",
       "name": "Fire Pump",
       "category": "Building Systems & Facilities",
@@ -20137,6 +20345,214 @@
           "score": 0.2552596537949403,
           "nearest": "cm-slab-screed-bull-float-and-trowel",
           "similarity": 0.28894806924101196
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-data-hall-busway-install-and-torque-signoff",
+      "name": "Data-Hall Busway Install & Torque Sign-Off",
+      "category": "Connectivity & Telecom",
+      "steps": 12,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.925,
+          "medianWhy": 235,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.995,
+          "meshes": 178,
+          "materials": 77,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.6738805970149254,
+          "nearest": "ws-nacelle-lockout-and-yaw-brake-fault",
+          "similarity": 0.20522388059701493
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-blade-inspection-from-a-platform",
+      "name": "Blade Inspection from a Platform",
+      "category": "Energy & Power",
+      "steps": 12,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9000000000000001,
+          "medianWhy": 230,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9700000000000001,
+          "meshes": 168,
+          "materials": 89,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.6570063694267516,
+          "nearest": "gg-tower-climb-and-tie-off",
+          "similarity": 0.2085987261146497
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-nacelle-lockout-and-yaw-brake-fault",
+      "name": "Nacelle Lockout & Yaw-Brake Fault",
+      "category": "Energy & Power",
+      "steps": 12,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 254,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9325,
+          "meshes": 153,
+          "materials": 81,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.5725490196078432,
+          "nearest": "ws-substation-switching-under-a-permit",
+          "similarity": 0.22549019607843138
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-turbine-climb-and-rescue-kit-check",
+      "name": "Turbine Climb & Rescue-Kit Check",
+      "category": "Energy & Power",
+      "steps": 12,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 289,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9275,
+          "meshes": 151,
+          "materials": 87,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.5095238095238097,
+          "nearest": "gg-tower-climb-and-tie-off",
+          "similarity": 0.23809523809523808
         }
       }
     },

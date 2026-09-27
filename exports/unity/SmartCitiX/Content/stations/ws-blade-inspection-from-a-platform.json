@@ -1,0 +1,394 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "wind-decides",
+    "name": "The Wind Decides",
+    "note": "The go or no-go made against the written limit, the platform proven and every defect on the record"
+  },
+  "category": "Energy & Power",
+  "certification": "Ironworkers IMPACT and IBEW/NECA JATC wind training as bodies; ANSI Z359 for the independent lifeline and harness on a suspended platform; 29 CFR 1910.28 and 29 CFR 1926.502 for the fall-protection system; 29 CFR 1910.269 for work on the generation installation; the platform manufacturer's manual and the site's procedure for every wind and load limit",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z359",
+        "id": "ansi-z359",
+        "title": "ANSI/ASSP Z359 — Fall Protection Code"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBEW/NECA JATC",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "union",
+        "citedAs": "IMPACT",
+        "id": "ironworkers-impact",
+        "title": "Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.269",
+        "id": "osha-1910-269",
+        "title": "29 CFR 1910.269 — Electric power generation, transmission and distribution"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.28",
+        "id": "osha-1910-28",
+        "title": "29 CFR 1910.28 — Duty to have fall protection and falling object protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.502",
+        "id": "osha-1926-502",
+        "title": "29 CFR 1926.502 — Fall protection systems criteria and practices"
+      }
+    ]
+  },
+  "district": "wind-farm",
+  "domain": "Energy",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "limit-read",
+        "name": "Limit Read",
+        "note": "The wind was read against the site's platform limit"
+      },
+      {
+        "id": "no-shortcuts",
+        "name": "No Shortcuts",
+        "note": "No unsafe action was recorded"
+      },
+      {
+        "id": "steady-platform",
+        "name": "Steady Platform",
+        "note": "Held the platform clear of the blade"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-inspection",
+        "name": "Clean Inspection",
+        "note": "No corrections from the plan to the report"
+      },
+      {
+        "id": "unbroken-raise",
+        "name": "Unbroken Raise",
+        "note": "The platform raise ran without a break"
+      },
+      {
+        "id": "brisk-pass",
+        "name": "Brisk Pass",
+        "note": "Inspected and reported inside 80% of par"
+      }
+    ],
+    "currency": "PASSES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Trainee",
+      "Rope Hand",
+      "Blade Technician",
+      "Lead Technician",
+      "Blade Authority Certified"
+    ],
+    "system": "Blade Authority"
+  },
+  "hazards": {
+    "go-over-limit": "You went to send the platform up with the wind over the site's platform limit. A suspended platform is a sail on two ropes, and above the limit it swings into the blade or the tower with the crew inside it; the limit is written so nobody has to argue with it at the foot of the tower.",
+    "rotor-unconfirmed": "You went to raise the platform without confirming the rotor lock. A blade that moves while a platform hangs beside it strikes the platform, and only a locked rotor, confirmed with the nacelle, keeps it parked.",
+    "unclipped-in-platform": "You went to ride the platform without clipping to the independent lifeline. The platform's own ropes hold the platform; the lifeline holds you if the platform, a rope or a hoist fails, and it has to be a separate line to do that.",
+    "under-the-platform": "You went to walk under the raised platform. Anything dropped from a platform — a tool, a camera, a piece of blade — lands in the zone beneath it, which is why the drop zone is barricaded and stays empty."
+  },
+  "id": "ws-blade-inspection-from-a-platform",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "platform-raise",
+      "alert": "A ground hand carrying a tool bag has stepped over the barricade and is walking under the platform.",
+      "cue": "Sound the air horn to clear the drop zone.",
+      "delay": 3,
+      "id": "drop-zone-entry",
+      "kind": "A ground hand walks into the drop zone",
+      "missNote": "The ground hand stayed under the platform with nobody clearing them out.",
+      "seconds": 11,
+      "target": "drop-zone-horn",
+      "why": "The drop zone under a raised platform is empty for a reason: anything that leaves the platform lands there. A horn blast is the site's agreed signal to clear it now, faster than a shout into the wind.",
+      "wrongNote": "It is the air horn. The platform raise is finished; the person underneath needs clearing."
+    },
+    {
+      "after": "platform-drift",
+      "alert": "The lightning detector on the tower base is alarming and a flash shows over the ridge.",
+      "cue": "Bring the platform down with the platform-down control.",
+      "delay": 3,
+      "id": "lightning-alert",
+      "kind": "The lightning detector alarms",
+      "missNote": "The platform stayed up on the tower with the lightning detector alarming.",
+      "seconds": 11,
+      "target": "platform-down-button",
+      "why": "A turbine is the tallest thing on the ridge and the platform hangs off it on steel ropes; the site's lightning procedure takes the crew down and away from the tower when the detector alarms, without waiting to see whether the next strike is closer.",
+      "wrongNote": "It is the platform-down control. Holding the platform off the blade does not take the crew out of a lightning risk."
+    }
+  ],
+  "lateNotes": {
+    "inspection-camera": "The photograph is taken once the defect has been found and the platform is steady beside it, not on the move.",
+    "tagline-anchor": "The tag lines are tied off to their ground anchors before the platform lifts, not once it is already swinging."
+  },
+  "name": "Blade Inspection from a Platform",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "wind-and-data-infrastructure"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "pickup",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "radio",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "blade-park-confirm",
+      "crack-photo-point",
+      "descent-control",
+      "drop-zone-horn",
+      "go-over-limit",
+      "handheld-anemometer",
+      "hoist-brake-test",
+      "hoist-pendant",
+      "inspection-camera",
+      "inspection-report",
+      "leading-edge-erosion",
+      "lifeline-grab",
+      "overload-device-check",
+      "platform-clearance",
+      "platform-down-button",
+      "platform-permit",
+      "platform-wind-readout",
+      "receptor-burn",
+      "rotor-lock-confirm",
+      "rotor-unconfirmed",
+      "secondary-rope-check",
+      "tagline-anchor",
+      "trailing-edge-crack",
+      "unclipped-in-platform",
+      "under-the-platform"
+    ],
+    "meshes": 168
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the platform plan: the blade to inspect, the crew, the site's platform wind limit and the rescue plan.",
+      "id": "platform-plan",
+      "kind": "select",
+      "prompt": "Read the platform plan: the blade to inspect, the crew, the site's platform wind limit and the rescue plan.",
+      "target": "platform-permit",
+      "title": "Read the platform plan and the rescue plan",
+      "why": "The platform plan fixes the limits before the crew is at the foot of the tower with a job waiting, and the rescue plan says how someone is brought down from a platform that stops halfway — both decided on paper, not improvised on the ropes."
+    },
+    {
+      "cue": "Bring the met-mast reading up to where the wind is and commit — inside the site's platform limit or not?",
+      "gauge": {
+        "green": [
+          0.3,
+          0.55
+        ],
+        "label": "WIND vs PLATFORM LIMIT",
+        "missNote": "That reading is not what the mast shows — read it again before the go or no-go.",
+        "speed": 0.6
+      },
+      "id": "wind-go",
+      "kind": "gauge",
+      "prompt": "Bring the met-mast reading up to where the wind is and commit — inside the site's platform limit or not?",
+      "target": "platform-wind-readout",
+      "title": "Go or no-go on the wind",
+      "why": "A suspended platform is lighter and more exposed than a climber on a ladder, so the site sets its own platform limit, often below the climb limit. Reading the mast against that written figure is the decision; everything else in the job depends on it."
+    },
+    {
+      "cue": "Confirm by radio that the rotor lock is in, then that the blade is parked straight down and pitched per the manual.",
+      "id": "rotor-parked",
+      "itemNames": {
+        "blade-park-confirm": "blade confirmed parked straight down",
+        "rotor-lock-confirm": "rotor lock confirmed with the nacelle"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Lock first, then the park position — a parked blade on an unlocked rotor is not parked.",
+      "prompt": "Confirm by radio that the rotor lock is in, then that the blade is parked straight down and pitched per the manual.",
+      "targets": [
+        "rotor-lock-confirm",
+        "blade-park-confirm"
+      ],
+      "title": "Confirm the rotor locked and the blade parked",
+      "why": "The platform hangs beside one blade, and that blade must not move while the crew is there; the rotor lock holds it and the park position puts it where the platform can reach it. Both are confirmed with the nacelle, aloud, before the platform leaves the ground."
+    },
+    {
+      "cue": "Test the hoist brakes, check the overload device, then check the secondary ropes and their arrest devices.",
+      "id": "platform-preuse",
+      "itemNames": {
+        "hoist-brake-test": "hoist brakes tested",
+        "overload-device-check": "overload device checked",
+        "secondary-rope-check": "secondary ropes and fall-arrest devices checked"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Brakes, then the overload device, then the secondary ropes — the order the manufacturer's pre-use check runs.",
+      "prompt": "Test the hoist brakes, check the overload device, then check the secondary ropes and their arrest devices.",
+      "targets": [
+        "hoist-brake-test",
+        "overload-device-check",
+        "secondary-rope-check"
+      ],
+      "title": "Prove the platform before anyone rides it",
+      "why": "A suspended platform has two ways to fail — the hoist and its rope, or the load — and a pre-use check proves the brake that stops it, the device that refuses an overload and the secondary system that catches it. Checked on the ground, where a fault costs a phone call."
+    },
+    {
+      "cue": "Tie the platform's tag lines to their ground anchors.",
+      "id": "taglines",
+      "kind": "select",
+      "prompt": "Tie the platform's tag lines to their ground anchors.",
+      "target": "tagline-anchor",
+      "title": "Tie off the tag lines",
+      "why": "Tag lines tied to ground anchors keep the platform from swinging round the blade as it rises, which matters most at exactly the moment the crew is least able to fend it off."
+    },
+    {
+      "cue": "Clip your harness to the rope grab on the independent lifeline before stepping into the platform.",
+      "id": "clip-lifeline",
+      "kind": "select",
+      "prompt": "Clip your harness to the rope grab on the independent lifeline before stepping into the platform.",
+      "target": "lifeline-grab",
+      "title": "Clip to the independent lifeline",
+      "why": "The platform's own ropes hold the platform; the independent lifeline holds the person if the platform fails. Clipped before stepping in, it is there for the whole ride rather than from somewhere partway up."
+    },
+    {
+      "cue": "Hold the up control and raise the platform smoothly to the blade.",
+      "holdBreakNote": "The raise stopped short — bring the platform up steadily to the blade.",
+      "id": "platform-raise",
+      "kind": "hold",
+      "prompt": "Hold the up control and raise the platform smoothly to the blade.",
+      "seconds": 5,
+      "target": "hoist-pendant",
+      "title": "Raise the platform steadily",
+      "why": "A steady raise keeps both hoists together so the platform stays level and clear of the blade; jerky control makes it swing, and a swinging platform beside a blade is the thing the whole plan exists to avoid."
+    },
+    {
+      "cue": "Work the blade surface and find what needs to go in the report.",
+      "id": "find-defects",
+      "itemNames": {
+        "leading-edge-erosion": "leading-edge erosion",
+        "receptor-burn": "a burn mark at the lightning receptor",
+        "trailing-edge-crack": "a trailing-edge crack"
+      },
+      "itemNotes": {
+        "leading-edge-erosion": "The leading edge is pitted and the coating is worn through in patches — erosion is recorded by location and extent, not repaired from the platform on a guess.",
+        "receptor-burn": "The receptor shows a scorch mark: a strike has come through here, and the down-conductor test is for the electrical crew, not the platform.",
+        "trailing-edge-crack": "A crack runs along the trailing edge bond line — a structural finding for the blade engineer, photographed with a scale and reported."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Work the blade surface and find what needs to go in the report.",
+      "targets": [
+        "leading-edge-erosion",
+        "trailing-edge-crack",
+        "receptor-burn"
+      ],
+      "title": "Find the defects on the blade",
+      "why": "The inspection's job is to see and record, not to decide what a blade can carry. An erosion patch, a bond-line crack and a receptor burn are three different findings for three different people, and each one is only useful if it is found, located and photographed."
+    },
+    {
+      "cue": "Keep the platform's clearance to the blade in the band as the gusts push it.",
+      "holdBreakNote": "The clearance left the band — the platform is swinging; steady it before going on.",
+      "id": "platform-drift",
+      "kind": "track",
+      "prompt": "Keep the platform's clearance to the blade in the band as the gusts push it.",
+      "seconds": 7,
+      "target": "platform-clearance",
+      "title": "Keep the platform clear of the blade",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.3,
+        "green": [
+          0.35,
+          0.65
+        ],
+        "label": "BLADE CLEARANCE",
+        "rise": 0.05,
+        "start": 0.5
+      },
+      "why": "Even inside the limit the wind gusts, and a platform pushed onto a blade damages the blade and throws the crew against the rail. Holding the clearance with the tag lines and the fenders is continuous work, not a single adjustment."
+    },
+    {
+      "cue": "Bring the camera and the scale card to the crack and take the photograph.",
+      "drag": {
+        "missNote": "The camera is not at the crack — the photo has to show the defect with the scale beside it.",
+        "radius": 0.5,
+        "to": "crack-photo-point"
+      },
+      "id": "photograph",
+      "kind": "drag",
+      "prompt": "Bring the camera and the scale card to the crack and take the photograph.",
+      "target": "inspection-camera",
+      "title": "Photograph the crack with a scale",
+      "why": "A photograph with a scale card beside the defect lets the blade engineer judge it without going up themselves, and it becomes the baseline the next inspection compares against. A photo without a scale is a picture, not a record."
+    },
+    {
+      "cue": "Turn the descent control to bring the platform down steadily to the ground.",
+      "id": "platform-lower",
+      "kind": "turn",
+      "prompt": "Turn the descent control to bring the platform down steadily to the ground.",
+      "target": "descent-control",
+      "title": "Lower the platform",
+      "turn": {
+        "axis": "y",
+        "label": "DESCENT",
+        "turns": 0.6
+      },
+      "why": "Coming down is where tired crews rush, and a platform lowered unevenly tilts and swings as it nears the ground crew; a steady descent on the control brings it down level to a clear landing."
+    },
+    {
+      "cue": "File the report: each defect by location, the photographs, the wind at the time and the platform check.",
+      "id": "report",
+      "kind": "select",
+      "prompt": "File the report: each defect by location, the photographs, the wind at the time and the platform check.",
+      "target": "inspection-report",
+      "title": "File the inspection report",
+      "why": "The report turns a morning on the ropes into something the blade engineer and the next crew can act on — each finding located on the blade, photographed and dated, with the conditions it was seen in."
+    }
+  ],
+  "supportLine": "your employer's employee assistance programme, or your Ironworkers or IBEW steward if you are not sure how to reach it",
+  "tagline": "The wind read against the site's platform limit before the platform leaves the ground, the rotor locked with the blade parked, the platform proven, and every defect photographed and reported rather than guessed at",
+  "title": "SmartCiti.X~ Blade Inspection from a Platform VR",
+  "trade": "Ironworkers / IBEW blade technician",
+  "underwater": null,
+  "weather": "wind"
+}

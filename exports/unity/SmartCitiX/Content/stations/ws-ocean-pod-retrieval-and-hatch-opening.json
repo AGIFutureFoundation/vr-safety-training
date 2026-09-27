@@ -1,0 +1,416 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "landed-isolated-opened",
+    "name": "Landed, Isolated, Opened",
+    "note": "The pod lifted to the plan, landed and fastened, its cable locked out and its leak lamp read before the hatch came off"
+  },
+  "category": "Connectivity & Telecom",
+  "certification": "IBEW/NECA JATC training as a body for the pod's electrical isolation; 29 CFR 1910.147 for locking out the shore cable before the hatch; NFPA 70E and 29 CFR 1910.333 for the electrically safe work condition inside the pod; 29 CFR 1910.28 for the deck edge and 29 CFR 1910.132 for the deck PPE and flotation; the lift plan, the dive plan and the pod's operating procedure for every sea state, load, depth and diving limit",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IBEW/NECA JATC",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.28",
+        "id": "osha-1910-28",
+        "title": "29 CFR 1910.28 — Duty to have fall protection and falling object protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.333",
+        "id": "osha-1910-333",
+        "title": "29 CFR 1910.333 — Selection and use of work practices for electrical safety"
+      }
+    ]
+  },
+  "district": "ocean-data-center",
+  "domain": "Connectivity",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "diver-counted",
+        "name": "Diver Counted",
+        "note": "The diver was out and accounted for before the hoist moved"
+      },
+      {
+        "id": "no-hands-in-the-bight",
+        "name": "No Hands in the Bight",
+        "note": "No unsafe action was recorded"
+      },
+      {
+        "id": "steady-taglines",
+        "name": "Steady Tag Lines",
+        "note": "Held the pod steady over the rail"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-recovery",
+        "name": "Clean Recovery",
+        "note": "No corrections from the plan to the log"
+      },
+      {
+        "id": "unbroken-hoist",
+        "name": "Unbroken Hoist",
+        "note": "The hoist ran without a break"
+      },
+      {
+        "id": "brisk-recovery",
+        "name": "Brisk Recovery",
+        "note": "Recovered and logged inside 80% of par"
+      }
+    ],
+    "currency": "LIFTS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Deckhand",
+      "Rigger",
+      "Pod Technician",
+      "Lift Supervisor",
+      "Marine Data Authority Certified"
+    ],
+    "system": "Marine Data Authority"
+  },
+  "hazards": {
+    "hand-between-pod-and-rail": "You went to put a hand on the pod between it and the rail to steady it. A roll of the boat closes that gap faster than a hand can come out; the tag line is how a load is steadied from a distance.",
+    "lift-with-diver-in-water": "You went to start the hoist with the diver still in the water. A load coming off the seabed stirs the bottom, swings on its bridle and can foul the diver's umbilical — the lift waits until the dive supervisor says the diver is out.",
+    "open-hatch-cable-live": "You went to unbolt the hatch with the shore cable still energised. The pod's power and its batteries are behind that hatch, and the cable is isolated and locked before anyone reaches in.",
+    "stand-under-load": "You went to stand under the pod as it swung in over the deck. A suspended load moves with the boat as well as the crane, and the only safe place for a person is outside the area it could land in."
+  },
+  "id": "ws-ocean-pod-retrieval-and-hatch-opening",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hoist",
+      "alert": "A wake from a passing vessel is rolling the workboat and the pod is swinging on the hook just below the rail.",
+      "cue": "Stop the hoist at the crane's stop control until the boat settles.",
+      "delay": 3,
+      "id": "wake-roll",
+      "kind": "A passing wake rolls the workboat",
+      "missNote": "The hoist kept coming up through the roll with the pod swinging at the rail.",
+      "seconds": 11,
+      "target": "crane-stop",
+      "why": "A load swinging at the rail as the boat rolls is the most dangerous moment of a recovery; stopping the hoist holds the pod below the rail, clear of the deck and the crew, until the roll has passed and the tag lines have it again.",
+      "wrongNote": "It is the crane's stop. The hoist control is what brought the pod up into the roll."
+    },
+    {
+      "after": "taglines",
+      "alert": "The skipper is calling from the wheelhouse — a squall line is coming down the channel toward the boat.",
+      "cue": "Answer the bridge on the radio and agree whether the lift lands now or holds.",
+      "delay": 3,
+      "id": "squall-call",
+      "kind": "The skipper calls a squall line",
+      "missNote": "The skipper's call went unanswered with the pod still on the hook.",
+      "seconds": 12,
+      "target": "bridge-radio",
+      "why": "The skipper sees the weather coming and the lift supervisor sees the load; a squall on a boat with a pod on the hook is a decision for both of them together, made on the radio before the wind arrives rather than shouted across the deck after.",
+      "wrongNote": "It is the bridge radio. The tag lines hold the pod; the call decides what happens next."
+    }
+  ],
+  "lateNotes": {
+    "hatch-bolts": "The hatch bolts are turned only once the pod is sea-fastened, its cable locked out and its leak lamp read.",
+    "pod-landing": "The pod is landed only once it is under control on the tag lines and the cradle is clear — never dropped onto the deck on the roll."
+  },
+  "name": "Ocean Pod Retrieval & Hatch Opening",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "wind-and-data-infrastructure"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "oceanDataPod",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "deckCrane",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "radio",
+        "count": 2,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "tagLine",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bridge-radio",
+      "cable-lock",
+      "crane-hoist-control",
+      "crane-stop",
+      "deck-cradle",
+      "deck-cradle-ready",
+      "dive-supervisor-radio",
+      "hand-between-pod-and-rail",
+      "hatch-bolts",
+      "hatch-hold-tag",
+      "hook-released",
+      "kinked-sling",
+      "lift-plan",
+      "lift-with-diver-in-water",
+      "open-hatch-cable-live",
+      "pod-landing",
+      "pod-leak-lamp",
+      "retrieval-log",
+      "sea-fastening",
+      "sea-state-readout",
+      "shore-cable-breaker",
+      "stand-under-load",
+      "tagline-control-meter",
+      "tagline-ready",
+      "worn-shackle-pin"
+    ],
+    "meshes": 170
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the lift plan and the dive plan: the pod's weight per the plan, the crane's radius, the sea-state limit and the diving limits.",
+      "id": "plans",
+      "kind": "select",
+      "prompt": "Read the lift plan and the dive plan: the pod's weight per the plan, the crane's radius, the sea-state limit and the diving limits.",
+      "target": "lift-plan",
+      "title": "Read the lift plan and the dive plan",
+      "why": "The lift plan fixes what the crane may lift at what radius and in what sea, and the dive plan fixes what the diver does and when they are out; both are read before the hook goes in the water so the day's decisions are made against paper rather than against impatience."
+    },
+    {
+      "cue": "Bring the sea-state reading up to where it is and commit — inside the lift plan's limit or not?",
+      "gauge": {
+        "green": [
+          0.3,
+          0.55
+        ],
+        "label": "SEA STATE vs LIFT PLAN",
+        "missNote": "That is not the reading — read the sea state again before the go or no-go.",
+        "speed": 0.6
+      },
+      "id": "sea-state",
+      "kind": "gauge",
+      "prompt": "Bring the sea-state reading up to where it is and commit — inside the lift plan's limit or not?",
+      "target": "sea-state-readout",
+      "title": "Read the sea state against the lift plan",
+      "why": "A crane on a boat lifts a load that moves with the swell, and the lift plan's sea-state limit is where that motion stays within what the crane and the crew can control; read against the written limit, the reading is the go or no-go for the whole recovery."
+    },
+    {
+      "cue": "Clear and chock the deck cradle, then flake out the tag lines and man them.",
+      "id": "deck-prep",
+      "itemNames": {
+        "deck-cradle-ready": "deck cradle cleared and chocked",
+        "tagline-ready": "tag lines flaked and manned"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Cradle, then tag lines — the lines lead to where the pod will land.",
+      "prompt": "Clear and chock the deck cradle, then flake out the tag lines and man them.",
+      "targets": [
+        "deck-cradle-ready",
+        "tagline-ready"
+      ],
+      "title": "Prepare the deck",
+      "why": "The pod needs somewhere to land the moment it clears the rail, and the tag lines need hands on them before it gets there; a deck prepared in advance keeps the load's time in the air as short as it can be."
+    },
+    {
+      "cue": "Confirm with the dive supervisor that the diver who rigged the bridle is out of the water and accounted for.",
+      "id": "diver-clear",
+      "kind": "select",
+      "prompt": "Confirm with the dive supervisor that the diver who rigged the bridle is out of the water and accounted for.",
+      "target": "dive-supervisor-radio",
+      "title": "Confirm the diver is out",
+      "why": "The diver rigged the bridle on the seabed skid and the lift must not start until they are back on deck; the dive supervisor, who has been tending them, is the one person who can say so, and the lift waits for that word every time."
+    },
+    {
+      "cue": "Check the crane's hook, shackle and sling before the hoist and find what stops the lift.",
+      "id": "rigging-check",
+      "itemNames": {
+        "kinked-sling": "a kinked wire sling leg",
+        "worn-shackle-pin": "a shackle pin not moused"
+      },
+      "itemNotes": {
+        "kinked-sling": "One wire leg of the deck-end sling is kinked — a kink is a permanent loss of strength, and the leg comes out of service.",
+        "worn-shackle-pin": "The shackle pin has no mousing — it can back out as the load swings. It is moused before the hoist."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the crane's hook, shackle and sling before the hoist and find what stops the lift.",
+      "targets": [
+        "worn-shackle-pin",
+        "kinked-sling"
+      ],
+      "title": "Check the deck-end rigging",
+      "why": "The rigging at the hook end is what the crew can see and check from deck, and a pin that can back out or a sling leg with a kink fails under exactly the swinging, snatching load a recovery at sea produces."
+    },
+    {
+      "cue": "Hold the hoist control and bring the pod up slowly off its skid and through the splash zone.",
+      "holdBreakNote": "The hoist stopped short — bring the pod up steadily through the splash zone.",
+      "id": "hoist",
+      "kind": "hold",
+      "prompt": "Hold the hoist control and bring the pod up slowly off its skid and through the splash zone.",
+      "seconds": 5,
+      "target": "crane-hoist-control",
+      "title": "Hoist the pod slowly off the bottom",
+      "why": "Breaking a pod out of the seabed and bringing it through the surface are the moments the load on the crane changes fastest; a slow, steady hoist lets the crane operator feel it and stop before a snatch load reaches the boom."
+    },
+    {
+      "cue": "Keep the pod steady on the tag lines as it comes up over the rail and in over the deck.",
+      "holdBreakNote": "The pod got away from the lines — steady it before it comes any further in.",
+      "id": "taglines",
+      "kind": "track",
+      "prompt": "Keep the pod steady on the tag lines as it comes up over the rail and in over the deck.",
+      "seconds": 7,
+      "target": "tagline-control-meter",
+      "title": "Control the pod over the rail",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.3,
+        "green": [
+          0.35,
+          0.65
+        ],
+        "label": "POD SWING",
+        "rise": 0.05,
+        "start": 0.5
+      },
+      "why": "Over the rail the pod swings with the roll, and the tag lines, worked from outside its landing area, are what keep it from striking the rail, the crane or the crew; steady control is continuous work until it is down."
+    },
+    {
+      "cue": "Guide the pod down into the deck cradle and land it square.",
+      "drag": {
+        "missNote": "The pod is not in the cradle — guide it down square into the supports.",
+        "radius": 0.6,
+        "to": "deck-cradle"
+      },
+      "id": "land",
+      "kind": "drag",
+      "prompt": "Guide the pod down into the deck cradle and land it square.",
+      "target": "pod-landing",
+      "title": "Land the pod in its cradle",
+      "why": "A pod landed square in its cradle sits on the supports it was designed for; landed on the roll or off-centre, it rocks, stresses its frame and can shift before it is fastened."
+    },
+    {
+      "cue": "Chain the pod into its cradle, then slack and release the crane hook.",
+      "id": "secure",
+      "itemNames": {
+        "hook-released": "crane hook slacked and released",
+        "sea-fastening": "pod sea-fastened in the cradle"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Fasten first, then release the hook — never the other way round on a moving deck.",
+      "prompt": "Chain the pod into its cradle, then slack and release the crane hook.",
+      "targets": [
+        "sea-fastening",
+        "hook-released"
+      ],
+      "title": "Sea-fasten, then release the hook",
+      "why": "Until it is fastened the crane is still holding the pod on a moving deck; releasing the hook first leaves a heavy load free to shift with the next roll. Fastened, then released, the pod is never unrestrained."
+    },
+    {
+      "cue": "Open the shore-cable breaker named in the pod procedure, then apply your lock and tag.",
+      "id": "isolate",
+      "itemNames": {
+        "cable-lock": "personal lock and tag applied",
+        "shore-cable-breaker": "shore-cable breaker opened"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Breaker first, then your lock and tag.",
+      "prompt": "Open the shore-cable breaker named in the pod procedure, then apply your lock and tag.",
+      "targets": [
+        "shore-cable-breaker",
+        "cable-lock"
+      ],
+      "title": "Isolate the pod's cable",
+      "why": "The pod's cable is how power reaches the equipment behind the hatch, and a lock you hold on its breaker is what keeps it dead while the hatch is open; the tag names the pod and the person inside it."
+    },
+    {
+      "cue": "Read the pod's leak-detect lamp and its status panel against the pod procedure before the hatch.",
+      "id": "leak-check",
+      "kind": "select",
+      "prompt": "Read the pod's leak-detect lamp and its status panel against the pod procedure before the hatch.",
+      "target": "pod-leak-lamp",
+      "title": "Read the pod's leak lamp",
+      "why": "The leak lamp is the pod's own report of whether water or a changed atmosphere is inside; it is read on deck, before anyone opens the hatch, because the answer changes what happens next."
+    },
+    {
+      "cue": "Turn the hatch bolts off in the pattern the pod procedure shows, easing the seal evenly.",
+      "id": "open-hatch",
+      "kind": "turn",
+      "prompt": "Turn the hatch bolts off in the pattern the pod procedure shows, easing the seal evenly.",
+      "target": "hatch-bolts",
+      "title": "Open the hatch bolts in pattern",
+      "turn": {
+        "axis": "z",
+        "label": "HATCH BOLTS",
+        "turns": 0.6
+      },
+      "why": "A sealed hatch comes off evenly so its seal and faces are not damaged for the next deployment and any difference in pressure is released gradually round the whole seal, not through one side; the pattern is the pod procedure's for that reason."
+    },
+    {
+      "cue": "Log the recovery: the sea state, the lift, the lockout, the leak lamp reading and the hatch.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Log the recovery: the sea state, the lift, the lockout, the leak lamp reading and the hatch.",
+      "target": "retrieval-log",
+      "title": "Log the recovery",
+      "why": "The recovery log ties the pod's condition on deck to the conditions it came up in, so the engineers reading it later know whether what they find inside came from the seabed or from the lift."
+    }
+  ],
+  "supportLine": "your employer's employee assistance programme, or your IBEW or IUOE steward if you are not sure how to reach it",
+  "tagline": "The sea state read against the lift plan, the diver out and counted before the hoist moves, the pod brought over the rail on tag lines, sea-fastened and isolated, and its leak lamp read before a hatch bolt turns",
+  "title": "SmartCiti.X~ Ocean Pod Retrieval & Hatch Opening VR",
+  "trade": "IBEW / IUOE marine data-centre crew",
+  "underwater": null,
+  "weather": "wind"
+}

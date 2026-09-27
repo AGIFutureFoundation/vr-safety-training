@@ -275,5 +275,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "commercial-diving-and-scientific-scuba",
     "name": "Commercial Diving & Scientific Scuba",
     "accent": "#1f6f8b"
+  },
+  {
+    "programme": "wind-and-data-infrastructure",
+    "name": "Wind & Data Infrastructure",
+    "accent": "#3fa7d6"
   }
 ];

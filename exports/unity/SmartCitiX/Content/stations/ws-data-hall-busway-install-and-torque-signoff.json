@@ -1,0 +1,400 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "torqued-and-signed",
+    "name": "Torqued & Signed",
+    "note": "Every joint torqued with a calibrated wrench, marked, insulation-tested and signed before the run was handed over"
+  },
+  "category": "Connectivity & Telecom",
+  "certification": "IBEW/NECA JATC inside-wireman training as a body; NFPA 70 (NEC) for the busway installation; NFPA 70E and 29 CFR 1910.333 for the electrically safe work condition; 29 CFR 1910.147 for the lockout; NETA acceptance testing practice for the torque verification and the insulation-resistance test; the busway manufacturer's installation instructions for every torque value and test voltage",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IBEW/NECA JATC",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "NEC/NFPA 70",
+        "citedAs": "NEC",
+        "id": "nec-nfpa-70",
+        "title": "NFPA 70 — National Electrical Code"
+      },
+      {
+        "body": "NETA",
+        "citedAs": "NETA",
+        "id": "neta-ats",
+        "title": "NETA Acceptance Testing Specifications (ATS) and Maintenance Testing Specifications (MTS) for electrical power equipment"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.333",
+        "id": "osha-1910-333",
+        "title": "29 CFR 1910.333 — Selection and use of work practices for electrical safety"
+      }
+    ]
+  },
+  "district": "data-center-build",
+  "domain": "Connectivity",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "dead-first",
+        "name": "Dead First",
+        "note": "The run was proven dead before anyone was on the lift"
+      },
+      {
+        "id": "no-feel-torque",
+        "name": "No Torque by Feel",
+        "note": "No unsafe action was recorded"
+      },
+      {
+        "id": "steady-megger",
+        "name": "Steady Megger",
+        "note": "Held the insulation test steady"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections from the drawings to the sign-off"
+      },
+      {
+        "id": "unbroken-test",
+        "name": "Unbroken Test",
+        "note": "The insulation test ran without a break"
+      },
+      {
+        "id": "brisk-install",
+        "name": "Brisk Install",
+        "note": "Hung, torqued and signed inside 80% of par"
+      }
+    ],
+    "currency": "JOINTS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Wireman",
+      "Inside Wireman",
+      "Foreman",
+      "Busway Authority Certified"
+    ],
+    "system": "Busway Authority"
+  },
+  "hazards": {
+    "climb-lift-rails": "You went to stand on the lift's mid-rail to reach the hanger. Standing on the rail puts your centre of gravity above the guardrail that was meant to stop you, which turns the lift's fall protection into a lever.",
+    "lift-gate-open": "You went to raise the lift with its entry gate open. The guardrails are the fall protection on a scissor lift, and an open gate is a missing section of guardrail at the height of the busway.",
+    "torque-by-feel": "You went to run the joint bolt up with an impact gun and call it tight. A busway joint's bolt is torqued to the manufacturer's value with a calibrated wrench because under-torque overheats the joint and over-torque cracks the insulators — neither shows by feel.",
+    "work-energized-busway": "You went to open the joint cover with the run still fed from upstream. A busway carries the hall's load in bare bars inside that housing, and a joint opened live is an arc-flash source at arm's length on a lift with nowhere to step back to."
+  },
+  "id": "ws-data-hall-busway-install-and-torque-signoff",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "lift-raise",
+      "alert": "A labourer is pushing a pallet jack of cable reels straight under the raised lift's platform.",
+      "cue": "Sound the lift horn and stop them before they are under you.",
+      "delay": 3,
+      "id": "pallet-under-lift",
+      "kind": "A pallet jack is pushed under the raised lift",
+      "missNote": "The pallet jack went under the lift with nobody stopping it.",
+      "seconds": 11,
+      "target": "lift-horn",
+      "why": "Everything used on a raised platform can fall from it, and a person under the lift is also in the path of the platform if it comes down; the horn is the fastest way to stop someone who has not looked up.",
+      "wrongNote": "It is the lift horn. The raise is done; the person underneath is the new hazard."
+    },
+    {
+      "after": "megger-test",
+      "alert": "The commissioning agent is calling — the adjacent busway run is about to be energised for testing.",
+      "cue": "Answer on the site radio and confirm where your crew and your lockout are.",
+      "delay": 3,
+      "id": "adjacent-energize",
+      "kind": "The commissioning agent calls about the next run",
+      "missNote": "The call went unanswered while the next run was energised beside the crew.",
+      "seconds": 12,
+      "target": "site-radio",
+      "why": "Energising the run next to yours changes what is live within reach of the lift, and it is the kind of change that has to be agreed between the crews before it happens; a call answered now confirms your lock is on the right breaker and your crew is clear.",
+      "wrongNote": "It is the site radio. The insulation test is on your run; the call is about the one next to it."
+    }
+  ],
+  "lateNotes": {
+    "busway-section": "The section is hung once the lift is up and the run is proven dead — not handed up to a lift still moving.",
+    "joint-bolt": "The joint bolt is torqued only after the joint has been inspected clean and the section is hung on both hangers."
+  },
+  "name": "Data-Hall Busway Install & Torque Sign-Off",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "wind-and-data-infrastructure"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "scissorLift",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "multimeter",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "radio",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "torqueWrench",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "absence-tester",
+      "busway-drawings",
+      "busway-lock",
+      "busway-section",
+      "busway-tag",
+      "climb-lift-rails",
+      "cracked-insulator",
+      "debris-in-joint",
+      "hanger-point",
+      "joint-bolt",
+      "lift-controls-test",
+      "lift-gate",
+      "lift-gate-open",
+      "lift-guardrails",
+      "lift-horn",
+      "lift-platform-controls",
+      "megger-meter",
+      "signoff-sheet",
+      "site-radio",
+      "torque-by-feel",
+      "torque-marks",
+      "unmarked-joint",
+      "upstream-breaker",
+      "work-energized-busway"
+    ],
+    "meshes": 178
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the busway drawings and the manufacturer's instructions: the run, the joint torque and the test called for.",
+      "id": "drawings",
+      "kind": "select",
+      "prompt": "Read the busway drawings and the manufacturer's instructions: the run, the joint torque and the test called for.",
+      "target": "busway-drawings",
+      "title": "Read the drawings and the installation instructions",
+      "why": "The torque value, the joint sequence and the test voltage all belong to this manufacturer's product, and they live in its instructions; working from another product's numbers is how a joint ends up under- or over-torqued with a clean conscience."
+    },
+    {
+      "cue": "Open the upstream breaker that feeds the run, apply your lock, then hang your tag.",
+      "id": "isolate",
+      "itemNames": {
+        "busway-lock": "personal lock applied",
+        "busway-tag": "tag filled in and hung",
+        "upstream-breaker": "upstream breaker opened"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Breaker open, then lock, then tag — a tag on a closed breaker protects nobody.",
+      "prompt": "Open the upstream breaker that feeds the run, apply your lock, then hang your tag.",
+      "targets": [
+        "upstream-breaker",
+        "busway-lock",
+        "busway-tag"
+      ],
+      "title": "Isolate the run upstream",
+      "why": "The busway is fed from a switchboard in another room, so the only protection for the crew on the lift is a lock on that breaker they hold themselves; the tag tells whoever is at the switchboard which run is being worked and by whom."
+    },
+    {
+      "cue": "Prove the tester on a known source, test the bars at the open end, then prove the tester again — commit when it reads absent.",
+      "gauge": {
+        "green": [
+          0.2,
+          0.45
+        ],
+        "label": "ABSENCE OF VOLTAGE",
+        "missNote": "That is not an absent reading — nobody goes up to this run until the source is found.",
+        "speed": 0.55
+      },
+      "id": "absence-test",
+      "kind": "gauge",
+      "prompt": "Prove the tester on a known source, test the bars at the open end, then prove the tester again — commit when it reads absent.",
+      "target": "absence-tester",
+      "title": "Prove the run dead",
+      "why": "The drawings can name the wrong breaker and a switchboard can be mislabelled; the test on the bars themselves, with a tester proven before and after, is what makes this run an electrically safe work condition rather than a hopeful one."
+    },
+    {
+      "cue": "Check the guardrails and their pins, then test the ground and platform controls, emergency lowering included.",
+      "id": "lift-preuse",
+      "itemNames": {
+        "lift-controls-test": "ground and platform controls tested",
+        "lift-guardrails": "guardrails and pins checked"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Guardrails, then controls — the rails are what you stand inside while you test the platform controls.",
+      "prompt": "Check the guardrails and their pins, then test the ground and platform controls, emergency lowering included.",
+      "targets": [
+        "lift-guardrails",
+        "lift-controls-test"
+      ],
+      "title": "Pre-use the scissor lift",
+      "why": "The guardrails are the fall protection on a scissor lift and the controls are how it comes down if something goes wrong; both are proven on the floor, where a loose pin or a dead emergency-lowering valve is a tag-out rather than a rescue."
+    },
+    {
+      "cue": "Step in and close the lift's entry gate behind you.",
+      "id": "gate-closed",
+      "kind": "select",
+      "prompt": "Step in and close the lift's entry gate behind you.",
+      "target": "lift-gate",
+      "title": "Close the lift gate",
+      "why": "The entry gate is a section of the guardrail, and it only protects when it is shut; closing it before the platform moves is the habit that keeps it from being open at height."
+    },
+    {
+      "cue": "Hold the raise control and bring the platform up steadily below the hangers, watching overhead.",
+      "holdBreakNote": "The raise stopped short — bring the platform up steadily to working height.",
+      "id": "lift-raise",
+      "kind": "hold",
+      "prompt": "Hold the raise control and bring the platform up steadily below the hangers, watching overhead.",
+      "seconds": 5,
+      "target": "lift-platform-controls",
+      "title": "Raise the lift to the busway",
+      "why": "A scissor lift raised smoothly, with an eye overhead, stops short of trays, sprinkler pipe and the busway itself; raised in bursts while looking down at the controls, it pins a hand or a head against the ceiling services."
+    },
+    {
+      "cue": "Bring the section to its hangers and seat it on both before letting go.",
+      "drag": {
+        "missNote": "The section is not on its hangers — both ends go on before you let go.",
+        "radius": 0.5,
+        "to": "hanger-point"
+      },
+      "id": "hang-section",
+      "kind": "drag",
+      "prompt": "Bring the section to its hangers and seat it on both before letting go.",
+      "target": "busway-section",
+      "title": "Hang the busway section",
+      "why": "A busway section is heavy and long, and seated on one hanger it pivots; seating both ends before releasing it keeps the weight on the hangers and off the joint that has not been made yet."
+    },
+    {
+      "cue": "Look into the joint before it is closed and find what has to be put right.",
+      "id": "inspect-joint",
+      "itemNames": {
+        "cracked-insulator": "a cracked joint insulator",
+        "debris-in-joint": "debris between the joint plates"
+      },
+      "itemNotes": {
+        "cracked-insulator": "The insulator between the bars is cracked — under load the bars can close up and track across it. The joint pack is replaced, not torqued over.",
+        "debris-in-joint": "There is drilling swarf between the plates — a joint made up over debris has less contact area and runs hot under load."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look into the joint before it is closed and find what has to be put right.",
+      "targets": [
+        "cracked-insulator",
+        "debris-in-joint"
+      ],
+      "title": "Inspect the joint before it is made",
+      "why": "A joint made up over a cracked insulator or a flake of swarf looks exactly like a good one once the cover is on, and both fail under load as heat. The only chance to see them is before the bolt is torqued."
+    },
+    {
+      "cue": "Turn the calibrated torque wrench on the joint bolt until it clicks at the manufacturer's value.",
+      "id": "torque-joint",
+      "kind": "turn",
+      "prompt": "Turn the calibrated torque wrench on the joint bolt until it clicks at the manufacturer's value.",
+      "target": "joint-bolt",
+      "title": "Torque the joint bolt",
+      "turn": {
+        "axis": "x",
+        "label": "JOINT TORQUE",
+        "turns": 0.6
+      },
+      "why": "The joint bolt sets the pressure between the bars, and the manufacturer's value is the pressure that carries the rated current without overheating or cracking the insulators; a calibrated wrench is the only tool that knows when it has got there."
+    },
+    {
+      "cue": "Mark the torqued bolt and check every joint on the run carries its mark.",
+      "id": "torque-marks",
+      "kind": "select",
+      "prompt": "Mark the torqued bolt and check every joint on the run carries its mark.",
+      "target": "torque-marks",
+      "title": "Mark and verify every joint",
+      "why": "The torque mark is field evidence that the bolt was taken to its value, and a check along the whole run catches the joint that was hand-tightened at the end of a shift and never went back to. The sign-off relies on every mark being there."
+    },
+    {
+      "cue": "Hold the insulation-resistance test steady on each bar for the full test time.",
+      "holdBreakNote": "The test broke before its time — run it again for the full duration.",
+      "id": "megger-test",
+      "kind": "track",
+      "prompt": "Hold the insulation-resistance test steady on each bar for the full test time.",
+      "seconds": 7,
+      "target": "megger-meter",
+      "title": "Insulation-resistance test the run",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.3,
+        "green": [
+          0.35,
+          0.65
+        ],
+        "label": "INSULATION TEST",
+        "rise": 0.05,
+        "start": 0.5
+      },
+      "why": "An insulation-resistance test at the manufacturer's test voltage finds damaged insulators, moisture and debris across the whole run before it is energised; held for the full time, the reading means something, while a flick of the test button measures only how fast the needle moved."
+    },
+    {
+      "cue": "Sign the sheet: each joint, the wrench's calibration number and the test result.",
+      "id": "signoff",
+      "kind": "select",
+      "prompt": "Sign the sheet: each joint, the wrench's calibration number and the test result.",
+      "target": "signoff-sheet",
+      "title": "Sign off the torque and the test",
+      "why": "The sign-off ties every joint to the wrench that torqued it and the test that proved it, so if a joint ever runs hot the record shows who, with what, and against which value — and whether the wrench was in calibration that day."
+    }
+  ],
+  "supportLine": "your employer's employee assistance programme, or your IBEW steward if you are not sure how to reach it",
+  "tagline": "The run isolated upstream and proven dead before the lift goes up, the section hung and its joint inspected, torqued with a calibrated wrench to the manufacturer's value, marked, tested and signed",
+  "title": "SmartCiti.X~ Data-Hall Busway Install & Torque Sign-Off VR",
+  "trade": "IBEW inside wireman",
+  "underwater": null,
+  "weather": "overcast"
+}

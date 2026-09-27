@@ -322,6 +322,9 @@ export const DEEP_SITES = [
   // Anchored here: me-shoreline-debris-and-microplastics-survey (the capstone survey).
   { id: "seamount-capstone-survey", name: "Seamount Capstone Survey", zone: "seamount", position: [640, 460],
     programmes: ["bay-restoration-maritime-underwater", "first-responders", "marine-ecology-and-restoration"], stations: ["br-restoration-data-qa-and-public-reporting", "br-hyperbaric-chamber-standby", "damage-assessment-team", "me-shoreline-debris-and-microplastics-survey"] },
+  // Anchored here: ws-ocean-pod-retrieval-and-hatch-opening.
+  { id: "mud-plain-data-pod-skid", name: "Mud Plain Data Pod Skid", zone: "mud-plain", position: [-270, 380],
+    programmes: ["wind-and-data-infrastructure"], stations: ["ws-ocean-pod-retrieval-and-hatch-opening"] },
 ];
 
 /** Documented mesh budget, authored (before mergeStatic — see kit.js's

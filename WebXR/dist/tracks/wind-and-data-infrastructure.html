@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Wind &amp; Data Infrastructure — training track</title>
+<meta name="description" content="Wind &amp; Data Infrastructure: a twenty-level training track, 1690 lessons across 8 stations.">
+<meta name="generator" content="tools/gen_tracks.mjs">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=Barlow:wght@400;500;600&amp;display=swap">
+<style>
+  :root{
+    --void:#050a10; --panel:#0b141d; --panel-2:#101b27; --raised:#142130; --raised-2:#192a3b;
+    --text:#edf6fb; --muted:#93b2c3; --dim:#6f8ea2;
+    --accent:#4fd1ff; --accent-2:#7ee6ff; --violet:#a079ff;
+    --warn:#f2c14b; --danger:#f0645b; --good:#59c97b;
+    --edge:rgba(126,170,200,.16); --edge-strong:rgba(126,170,200,.32);
+    --r-sm:6px; --r-md:10px;
+    --sans:"Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --cond:"Barlow Condensed", "Barlow", system-ui, sans-serif;
+    --gutter:16px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0; background:var(--void); color:var(--text); font-family:var(--sans); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased}
+  body::before{content:""; position:fixed; inset:0 0 auto; height:60vh; pointer-events:none; z-index:0;
+    background:radial-gradient(900px 480px at 8% -12%, color-mix(in srgb, var(--prog) 16%, transparent), transparent 62%)}
+  .wrap{position:relative; z-index:1; max-width:1120px; margin:0 auto; padding:0 var(--gutter)}
+  a{color:var(--accent-2); text-decoration:none}
+  a:hover{text-decoration:underline}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:var(--r-sm)}
+  .skip{position:absolute; left:-9999px; top:0; background:var(--raised); padding:10px 14px; border-radius:var(--r-sm); z-index:40}
+  .skip:focus{left:var(--gutter); top:8px}
+  .eyebrow{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.16em; font-size:11.5px; color:var(--dim); margin:0}
+  header.top{position:sticky; top:0; z-index:30; background:rgba(5,10,16,.92); border-bottom:1px solid var(--edge); backdrop-filter:blur(8px)}
+  .top-in{display:flex; gap:12px; align-items:center; justify-content:space-between; min-height:50px; padding:8px var(--gutter); max-width:1120px; margin:0 auto}
+  .brandline{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12px; color:var(--muted); margin:0; flex:1 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .back{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.09em; font-size:12.5px; white-space:nowrap}
+  .hero{padding:28px 0 4px}
+  .hero h1{font-family:var(--cond); font-weight:700; text-transform:uppercase; letter-spacing:.012em; font-size:clamp(28px,7.2vw,52px); line-height:1.04; margin:10px 0 0; text-wrap:balance}
+  .union{margin:10px 0 0; color:var(--prog); font-weight:600; font-size:15px}
+  .cert{margin:6px 0 0; color:var(--muted); font-size:14px; max-width:80ch}
+  .summary{margin:14px 0 0; font-size:16px; color:var(--text); max-width:72ch}
+  .stats{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin:22px 0 0}
+  .stat{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:12px 14px}
+  .stat b{display:block; font-family:var(--cond); font-weight:700; font-size:28px; line-height:1.1; font-variant-numeric:tabular-nums}
+  .stat span{font-size:12.5px; color:var(--muted)}
+  .stat.warn b{color:var(--warn)}
+  .gapnote{margin:12px 0 0; padding:10px 13px; border-left:2px solid var(--warn); background:rgba(242,193,75,.06); border-radius:0 var(--r-sm) var(--r-sm) 0; font-size:13.5px; color:var(--muted); max-width:86ch}
+  .gapnote b{color:var(--text)}
+  section.block{margin:38px 0 0; scroll-margin-top:64px}
+  section.block > h2{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.05em; font-size:clamp(19px,4.6vw,25px); margin:0}
+  .sub{margin:6px 0 0; font-size:13.5px; color:var(--muted); max-width:78ch}
+  .legend{display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 0}
+  .band{margin:18px 0 0}
+  .band h3{font-family:var(--cond); font-weight:600; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); margin:0 0 6px}
+  ol.levels{list-style:none; margin:0; padding:0; display:grid; gap:8px}
+  .level{display:grid; grid-template-columns:44px 1fr; gap:12px; padding:12px 13px; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-left:3px solid var(--prog); border-radius:var(--r-sm)}
+  .level.partial{border-left-color:var(--warn)}
+  .lvl-n{font-family:var(--cond); font-weight:700; font-size:26px; line-height:1; text-align:center; color:var(--prog); font-variant-numeric:tabular-nums}
+  .level.partial .lvl-n{color:var(--warn)}
+  .lvl-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 12px}
+  .lvl-head h4{margin:0; font-family:var(--cond); font-weight:600; font-size:18px; letter-spacing:.015em}
+  .lessons{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .lessons b{color:var(--text)}
+  .flag{display:inline-block; padding:1px 7px; border-radius:5px; font-size:11px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; background:var(--edge); color:var(--muted)}
+  .flag.warn{background:rgba(242,193,75,.16); color:var(--warn)}
+  .flag.ok{background:rgba(89,201,123,.16); color:var(--good)}
+  ol.tasks{list-style:none; margin:8px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:6px}
+  .task{display:inline-flex; align-items:center; gap:6px; padding:4px 8px 4px 9px; border-radius:var(--r-sm); background:var(--raised); border:1px solid var(--edge); font-size:13px; color:var(--text)}
+  .task:hover{background:var(--raised-2); text-decoration:none}
+  .task .st{font-variant-numeric:tabular-nums; color:var(--dim); font-size:11.5px}
+  .chip{display:inline-block; padding:0 7px; border-radius:9px; font-size:11px; font-weight:600; white-space:nowrap; background:var(--edge); color:var(--text)}
+  .chip.time{background:rgba(242,193,75,.16); color:#f2d27f}
+  .chip.weather{background:rgba(79,209,255,.16); color:#8fe0ff}
+  .chip.hazard{background:rgba(240,100,91,.18); color:#ff9b93}
+  .chip.interrupt{background:rgba(160,121,255,.2); color:#c7b2ff}
+  .chip.variant{background:rgba(89,201,123,.18); color:#8fe3a8}
+  .lvl-foot{margin:8px 0 0; display:flex; flex-wrap:wrap; gap:6px 14px; font-size:12.5px; color:var(--dim)}
+  .lvl-foot a{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.08em; font-size:12px}
+  .grid{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .station{display:flex; flex-direction:column; background:linear-gradient(180deg,var(--panel-2),var(--panel)); border:1px solid var(--edge); border-top:2px solid var(--tint,var(--prog)); border-radius:var(--r-md); overflow:hidden}
+  .shot{display:block; aspect-ratio:16/9; width:100%; object-fit:cover; background:var(--raised)}
+  .noshot{display:flex; align-items:center; justify-content:center; aspect-ratio:16/9; background:repeating-linear-gradient(135deg,var(--panel),var(--panel) 10px,var(--panel-2) 10px,var(--panel-2) 20px); color:var(--dim); font-size:12.5px}
+  .st-body{padding:12px 14px 14px; display:flex; flex-direction:column; gap:6px; flex:1}
+  .st-body h3{margin:0; font-family:var(--cond); font-weight:600; font-size:19px; letter-spacing:.015em}
+  .st-meta{margin:0; font-size:12.5px; color:var(--dim); font-variant-numeric:tabular-nums}
+  .why{margin:0; font-size:13.5px; color:var(--muted)}
+  .st-std{margin:0; padding:0 0 0 16px; font-size:12.5px; color:var(--muted)}
+  .st-std li{margin:1px 0}
+  .runs{display:flex; flex-wrap:wrap; gap:5px}
+  .run{display:inline-flex; align-items:center; gap:4px; white-space:nowrap}
+  .runs{row-gap:4px; column-gap:10px}
+  .runs a:hover{text-decoration:none; filter:brightness(1.15)}
+  .launch{margin-top:auto; padding-top:6px; font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:12.5px}
+  .launch::after{content:" \2192"}
+  table.std{width:100%; border-collapse:collapse; margin:14px 0 0; font-size:13.5px}
+  table.std th{font-family:var(--cond); font-weight:600; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); text-align:left; padding:6px 8px; border-bottom:1px solid var(--edge-strong)}
+  table.std td{padding:7px 8px; border-bottom:1px solid var(--edge); vertical-align:top}
+  table.std td.n{font-variant-numeric:tabular-nums; color:var(--muted); white-space:nowrap}
+  .tablewrap{overflow-x:auto; -webkit-overflow-scrolling:touch}
+  .proof{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .card{background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-md); padding:14px 16px}
+  .card h3{margin:0 0 6px; font-family:var(--cond); font-weight:600; font-size:18px}
+  .card p, .card li{font-size:13.5px; color:var(--muted)}
+  .card p{margin:6px 0 0}
+  .card ul{margin:6px 0 0; padding-left:18px}
+  footer{margin:52px 0 0; border-top:1px solid var(--edge); background:var(--panel)}
+  .foot{padding:22px var(--gutter) 36px; max-width:1120px; margin:0 auto; font-size:13px; color:var(--dim)}
+  .foot p{margin:0 0 8px; max-width:86ch}
+  @media (min-width:560px){ .stats{grid-template-columns:repeat(4,1fr)} .grid{grid-template-columns:1fr 1fr} .proof{grid-template-columns:1fr 1fr} }
+  @media (min-width:900px){ .hero{padding:44px 0 6px} .grid{grid-template-columns:repeat(3,1fr)} }
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important} }
+</style>
+</head>
+<body style="--prog:#3fa7d6">
+<a class="home-chip" href="../index.html" aria-label="Back to the homepage">&#8962; Home</a>
+<style>.home-chip{position:fixed;top:calc(8px + env(safe-area-inset-top,0px));left:10px;z-index:10000;display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:999px;background:rgba(6,11,18,.78);color:#dbe7ee;border:1px solid rgba(79,209,255,.45);font:600 13px/1 Arial,Helvetica,sans-serif;text-decoration:none;letter-spacing:.02em;backdrop-filter:blur(6px)}.home-chip:hover,.home-chip:focus-visible{background:rgba(79,209,255,.22);color:#fff;outline:2px solid #4fd1ff;outline-offset:2px}@media (max-width:480px){.home-chip{top:calc(6px + env(safe-area-inset-top,0px));left:8px;padding:5px 9px;font-size:12px}}</style>
+<!-- Generated by tools/gen_tracks.mjs from WebXR/smartcity/js/ladders.js and WebXR/smartcity/catalog.json — edit the generator, not this file. -->
+<a class="skip" href="#ladder">Skip to the ladder</a>
+<header class="top">
+  <div class="top-in">
+    <p class="brandline">SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko) · training track</p>
+    <a class="back" href="../index.html">All stations</a>
+  </div>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <p class="eyebrow">Training track · 8 stations · 20 levels · 1690 lessons</p>
+    <h1>Wind &amp; Data Infrastructure</h1>
+    <p class="union">IBEW and the IBEW/NECA JATC, IUOE, the Ironworkers and their IMPACT programme, the UA and SMART as training bodies</p>
+    <p class="cert">Programme completion record; the credentials it rehearses are issued only by their own bodies — 29 CFR 1910.269 and 29 CFR 1910.147 for the turbine, the substation and the hall, NFPA 70E for every absence-of-voltage test, ANSI Z359 for the tower and the platform, NFPA 70 (NEC) and BICSI practice for the busway and the pathway; every height, wind, voltage, torque, load, depth and limit lives in the manufacturer&#39;s manual, the switching order, the lift plan or the dive plan</p>
+    <p class="summary">Eight jobs across a ridge wind farm, a data hall under construction and an ocean data pod: the climb proven on the ground, the nacelle locked and its yaw held, the blade platform&#39;s wind go/no-go, collector switching to a written order, a busway torqued and signed, one floor tile out and attended, a CRAH alarm answered in a live hall, and a sealed pod landed and isolated before its hatch opens. Each station runs with a declared ?fault= that changes the scene and one step&#39;s right answer, and no figure is ever stated — the manual, the order and the plans hold them.</p>
+    <div class="stats">
+      <div class="stat"><b>20 / 20</b><span>levels at 75+ lessons</span></div>
+      <div class="stat"><b>1690</b><span>lessons across the track</span></div>
+      <div class="stat"><b>140</b><span>tasks: a station under a condition</span></div>
+      <div class="stat"><b>0</b><span>more stations needed to fill it</span></div>
+    </div>
+    <p class="gapnote"><b>Every level reaches 75 lessons.</b> A lesson is one station step run under one condition; each level's number is its tasks' steps added up from the station modules.</p>
+  </section>
+
+  <section class="block" id="ladder">
+    <h2>The ladder</h2>
+    <p class="sub">Level 1 is open; each level opens when the one below is passed — every task in one run of it a mastery run. A task opens its station with its condition; the number after each task is its steps.</p>
+    <div class="legend"><span class="chip base">base run</span> <span class="chip time">daylight</span> <span class="chip weather">rain</span> <span class="chip hazard">hazard mode</span> <span class="chip interrupt">interruption</span> <span class="chip variant">assessment variant</span></div>
+      <div class="band">
+        <h3>Levels 1–5 · Orientation and single procedures <span class="sub">— base run, then daylight and dusk</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-1">
+          <span class="lvl-n">1</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation</h4><span class="lessons"><b>84</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ws-raised-floor-tile-lift-and-cable-tray-safety">Raised-Floor Tile Lift &amp; Cable Tray Safety <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check">Turbine Climb &amp; Rescue-Kit Check <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform">Blade Inspection from a Platform <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall">CRAH Alarm Response in a Live Hall <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff">Data-Hall Busway Install &amp; Torque Sign-Off <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault">Nacelle Lockout &amp; Yaw-Brake Fault <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit">Collector Substation Switching Under a Permit <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>17 standards evidenced</span><a href="../smartcity-x.html?programme=wind-and-data-infrastructure&amp;level=1">Open level 1 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-2">
+          <span class="lvl-n">2</span>
+          <div>
+            <div class="lvl-head"><h4>Orientation by daylight</h4><span class="lessons"><b>84</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ws-raised-floor-tile-lift-and-cable-tray-safety&amp;time=day">Raised-Floor Tile Lift &amp; Cable Tray Safety <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check&amp;time=day">Turbine Climb &amp; Rescue-Kit Check <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;time=day">Blade Inspection from a Platform <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall&amp;time=day">CRAH Alarm Response in a Live Hall <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff&amp;time=day">Data-Hall Busway Install &amp; Torque Sign-Off <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault&amp;time=day">Nacelle Lockout &amp; Yaw-Brake Fault <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit&amp;time=day">Collector Substation Switching Under a Permit <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>17 standards evidenced</span><a href="../smartcity-x.html?programme=wind-and-data-infrastructure&amp;level=2">Open level 2 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-3">
+          <span class="lvl-n">3</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures</h4><span class="lessons"><b>84</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ws-raised-floor-tile-lift-and-cable-tray-safety">Raised-Floor Tile Lift &amp; Cable Tray Safety <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check">Turbine Climb &amp; Rescue-Kit Check <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform">Blade Inspection from a Platform <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall">CRAH Alarm Response in a Live Hall <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff">Data-Hall Busway Install &amp; Torque Sign-Off <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault">Nacelle Lockout &amp; Yaw-Brake Fault <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit">Collector Substation Switching Under a Permit <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>17 standards evidenced</span><a href="../smartcity-x.html?programme=wind-and-data-infrastructure&amp;level=3">Open level 3 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-4">
+          <span class="lvl-n">4</span>
+          <div>
+            <div class="lvl-head"><h4>Single procedures at dusk</h4><span class="lessons"><b>84</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ws-raised-floor-tile-lift-and-cable-tray-safety&amp;time=dusk">Raised-Floor Tile Lift &amp; Cable Tray Safety <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check&amp;time=dusk">Turbine Climb &amp; Rescue-Kit Check <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;time=dusk">Blade Inspection from a Platform <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall&amp;time=dusk">CRAH Alarm Response in a Live Hall <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff&amp;time=dusk">Data-Hall Busway Install &amp; Torque Sign-Off <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault&amp;time=dusk">Nacelle Lockout &amp; Yaw-Brake Fault <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit&amp;time=dusk">Collector Substation Switching Under a Permit <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>17 standards evidenced</span><a href="../smartcity-x.html?programme=wind-and-data-infrastructure&amp;level=4">Open level 4 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-5">
+          <span class="lvl-n">5</span>
+          <div>
+            <div class="lvl-head"><h4>Day and night on the clock</h4><span class="lessons"><b>84</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ws-raised-floor-tile-lift-and-cable-tray-safety">Raised-Floor Tile Lift &amp; Cable Tray Safety <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check">Turbine Climb &amp; Rescue-Kit Check <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;time=day">Blade Inspection from a Platform <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall&amp;time=day">CRAH Alarm Response in a Live Hall <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff&amp;time=day">Data-Hall Busway Install &amp; Torque Sign-Off <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault">Nacelle Lockout &amp; Yaw-Brake Fault <span class="chip base">base run</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit&amp;time=day">Collector Substation Switching Under a Permit <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>17 standards evidenced</span><a href="../smartcity-x.html?programme=wind-and-data-infrastructure&amp;level=5">Open level 5 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 6–10 · Weather and the hour <span class="sub">— rain, wind, fog, storm, smoke; an indoor station takes the hour instead</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-6">
+          <span class="lvl-n">6</span>
+          <div>
+            <div class="lvl-head"><h4>Rain</h4><span class="lessons"><b>84</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ws-raised-floor-tile-lift-and-cable-tray-safety&amp;time=dusk">Raised-Floor Tile Lift &amp; Cable Tray Safety <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check&amp;time=dusk">Turbine Climb &amp; Rescue-Kit Check <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;weather=rain">Blade Inspection from a Platform <span class="chip weather">rain</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall&amp;weather=rain">CRAH Alarm Response in a Live Hall <span class="chip weather">rain</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff&amp;weather=rain">Data-Hall Busway Install &amp; Torque Sign-Off <span class="chip weather">rain</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault&amp;time=dusk">Nacelle Lockout &amp; Yaw-Brake Fault <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit&amp;weather=rain">Collector Substation Switching Under a Permit <span class="chip weather">rain</span> <span class="st">12</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>17 standards evidenced</span><a href="../smartcity-x.html?programme=wind-and-data-infrastructure&amp;level=6">Open level 6 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-7">
+          <span class="lvl-n">7</span>
+          <div>
+            <div class="lvl-head"><h4>High wind</h4><span class="lessons"><b>84</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ws-raised-floor-tile-lift-and-cable-tray-safety&amp;weather=wind">Raised-Floor Tile Lift &amp; Cable Tray Safety <span class="chip weather">high wind</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check&amp;weather=wind">Turbine Climb &amp; Rescue-Kit Check <span class="chip weather">high wind</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;weather=wind">Blade Inspection from a Platform <span class="chip weather">high wind</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall&amp;time=day">CRAH Alarm Response in a Live Hall <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff&amp;time=day">Data-Hall Busway Install &amp; Torque Sign-Off <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault&amp;time=day">Nacelle Lockout &amp; Yaw-Brake Fault <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit&amp;weather=wind">Collector Substation Switching Under a Permit <span class="chip weather">high wind</span> <span class="st">12</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>17 standards evidenced</span><a href="../smartcity-x.html?programme=wind-and-data-infrastructure&amp;level=7">Open level 7 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-8">
+          <span class="lvl-n">8</span>
+          <div>
+            <div class="lvl-head"><h4>Fog</h4><span class="lessons"><b>84</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ws-raised-floor-tile-lift-and-cable-tray-safety&amp;time=dusk">Raised-Floor Tile Lift &amp; Cable Tray Safety <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check&amp;time=dusk">Turbine Climb &amp; Rescue-Kit Check <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;time=dusk">Blade Inspection from a Platform <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall&amp;weather=fog">CRAH Alarm Response in a Live Hall <span class="chip weather">fog</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff&amp;weather=fog">Data-Hall Busway Install &amp; Torque Sign-Off <span class="chip weather">fog</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault&amp;weather=fog">Nacelle Lockout &amp; Yaw-Brake Fault <span class="chip weather">fog</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit&amp;weather=fog">Collector Substation Switching Under a Permit <span class="chip weather">fog</span> <span class="st">12</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>17 standards evidenced</span><a href="../smartcity-x.html?programme=wind-and-data-infrastructure&amp;level=8">Open level 8 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-9">
+          <span class="lvl-n">9</span>
+          <div>
+            <div class="lvl-head"><h4>Storm</h4><span class="lessons"><b>84</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ws-raised-floor-tile-lift-and-cable-tray-safety&amp;weather=storm">Raised-Floor Tile Lift &amp; Cable Tray Safety <span class="chip weather">storm</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check&amp;weather=storm">Turbine Climb &amp; Rescue-Kit Check <span class="chip weather">storm</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;weather=storm">Blade Inspection from a Platform <span class="chip weather">storm</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall&amp;weather=storm">CRAH Alarm Response in a Live Hall <span class="chip weather">storm</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff&amp;time=day">Data-Hall Busway Install &amp; Torque Sign-Off <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault&amp;time=day">Nacelle Lockout &amp; Yaw-Brake Fault <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit&amp;time=day">Collector Substation Switching Under a Permit <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>17 standards evidenced</span><a href="../smartcity-x.html?programme=wind-and-data-infrastructure&amp;level=9">Open level 9 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-10">
+          <span class="lvl-n">10</span>
+          <div>
+            <div class="lvl-head"><h4>Weather and hour mixed</h4><span class="lessons"><b>84</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ws-raised-floor-tile-lift-and-cable-tray-safety&amp;weather=overcast">Raised-Floor Tile Lift &amp; Cable Tray Safety <span class="chip weather">overcast</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check&amp;weather=smoke">Turbine Climb &amp; Rescue-Kit Check <span class="chip weather">wildfire smoke</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;weather=overcast">Blade Inspection from a Platform <span class="chip weather">overcast</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall&amp;weather=smoke">CRAH Alarm Response in a Live Hall <span class="chip weather">wildfire smoke</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff&amp;weather=rain">Data-Hall Busway Install &amp; Torque Sign-Off <span class="chip weather">rain</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault&amp;time=dusk">Nacelle Lockout &amp; Yaw-Brake Fault <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit&amp;weather=rain">Collector Substation Switching Under a Permit <span class="chip weather">rain</span> <span class="st">12</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>17 standards evidenced</span><a href="../smartcity-x.html?programme=wind-and-data-infrastructure&amp;level=10">Open level 10 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 11–14 · Hazard mode and interruptions <span class="sub">— assessed hazard mode; declared interruptions fired off their authored step</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-11">
+          <span class="lvl-n">11</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode</h4><span class="lessons"><b>85</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check&amp;hazard=assess">Turbine Climb &amp; Rescue-Kit Check <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;hazard=assess">Blade Inspection from a Platform <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall&amp;hazard=assess">CRAH Alarm Response in a Live Hall <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff&amp;hazard=assess">Data-Hall Busway Install &amp; Torque Sign-Off <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault&amp;hazard=assess">Nacelle Lockout &amp; Yaw-Brake Fault <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit&amp;hazard=assess">Collector Substation Switching Under a Permit <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-ocean-pod-retrieval-and-hatch-opening&amp;hazard=assess">Ocean Pod Retrieval &amp; Hatch Opening <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>16 standards evidenced</span><a href="../smartcity-x.html?programme=wind-and-data-infrastructure&amp;level=11">Open level 11 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-12">
+          <span class="lvl-n">12</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted</h4><span class="lessons"><b>85</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check&amp;interrupt=ground-lead-radio">Turbine Climb &amp; Rescue-Kit Check <span class="chip interrupt">interruption: ground lead radio</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;interrupt=drop-zone-entry">Blade Inspection from a Platform <span class="chip interrupt">interruption: drop zone entry</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall&amp;interrupt=suppression-prealarm">CRAH Alarm Response in a Live Hall <span class="chip interrupt">interruption: suppression prealarm</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff&amp;interrupt=pallet-under-lift">Data-Hall Busway Install &amp; Torque Sign-Off <span class="chip interrupt">interruption: pallet under lift</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault&amp;interrupt=yaw-creep">Nacelle Lockout &amp; Yaw-Brake Fault <span class="chip interrupt">interruption: yaw creep</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit&amp;interrupt=visitor-at-gate">Collector Substation Switching Under a Permit <span class="chip interrupt">interruption: visitor at gate</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-ocean-pod-retrieval-and-hatch-opening&amp;interrupt=wake-roll">Ocean Pod Retrieval &amp; Hatch Opening <span class="chip interrupt">interruption: wake roll</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>16 standards evidenced</span><a href="../smartcity-x.html?programme=wind-and-data-infrastructure&amp;level=12">Open level 12 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-13">
+          <span class="lvl-n">13</span>
+          <div>
+            <div class="lvl-head"><h4>Hazard mode, harder stations</h4><span class="lessons"><b>85</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check&amp;hazard=assess">Turbine Climb &amp; Rescue-Kit Check <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;hazard=assess">Blade Inspection from a Platform <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall&amp;hazard=assess">CRAH Alarm Response in a Live Hall <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff&amp;hazard=assess">Data-Hall Busway Install &amp; Torque Sign-Off <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault&amp;hazard=assess">Nacelle Lockout &amp; Yaw-Brake Fault <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit&amp;hazard=assess">Collector Substation Switching Under a Permit <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-ocean-pod-retrieval-and-hatch-opening&amp;hazard=assess">Ocean Pod Retrieval &amp; Hatch Opening <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>16 standards evidenced</span><a href="../smartcity-x.html?programme=wind-and-data-infrastructure&amp;level=13">Open level 13 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-14">
+          <span class="lvl-n">14</span>
+          <div>
+            <div class="lvl-head"><h4>Interrupted, harder stations</h4><span class="lessons"><b>85</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check&amp;interrupt=gust-front">Turbine Climb &amp; Rescue-Kit Check <span class="chip interrupt">interruption: gust front</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;interrupt=lightning-alert">Blade Inspection from a Platform <span class="chip interrupt">interruption: lightning alert</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall&amp;interrupt=water-spreading">CRAH Alarm Response in a Live Hall <span class="chip interrupt">interruption: water spreading</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff&amp;interrupt=adjacent-energize">Data-Hall Busway Install &amp; Torque Sign-Off <span class="chip interrupt">interruption: adjacent energize</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault&amp;interrupt=ground-crew-radio">Nacelle Lockout &amp; Yaw-Brake Fault <span class="chip interrupt">interruption: ground crew radio</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit&amp;interrupt=annunciator-alarm">Collector Substation Switching Under a Permit <span class="chip interrupt">interruption: annunciator alarm</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-ocean-pod-retrieval-and-hatch-opening&amp;interrupt=squall-call">Ocean Pod Retrieval &amp; Hatch Opening <span class="chip interrupt">interruption: squall call</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>16 standards evidenced</span><a href="../smartcity-x.html?programme=wind-and-data-infrastructure&amp;level=14">Open level 14 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 15–18 · Station chains <span class="sub">— two or more stations back to back, one run under a declared interruption</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-15">
+          <span class="lvl-n">15</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in weather</h4><span class="lessons"><b>85</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check&amp;weather=wind">Turbine Climb &amp; Rescue-Kit Check <span class="chip weather">high wind</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;weather=rain">Blade Inspection from a Platform <span class="chip weather">rain</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall&amp;interrupt=suppression-prealarm">CRAH Alarm Response in a Live Hall <span class="chip interrupt">interruption: suppression prealarm</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff&amp;weather=wind">Data-Hall Busway Install &amp; Torque Sign-Off <span class="chip weather">high wind</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault&amp;interrupt=yaw-creep">Nacelle Lockout &amp; Yaw-Brake Fault <span class="chip interrupt">interruption: yaw creep</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit&amp;weather=rain">Collector Substation Switching Under a Permit <span class="chip weather">rain</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-ocean-pod-retrieval-and-hatch-opening&amp;time=day">Ocean Pod Retrieval &amp; Hatch Opening <span class="chip time">daylight</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>16 standards evidenced</span><span>14 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=wind-and-data-infrastructure&amp;level=15">Open level 15 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-16">
+          <span class="lvl-n">16</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain at dusk</h4><span class="lessons"><b>85</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check&amp;interrupt=ground-lead-radio">Turbine Climb &amp; Rescue-Kit Check <span class="chip interrupt">interruption: ground lead radio</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;hazard=assess">Blade Inspection from a Platform <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall&amp;time=dusk">CRAH Alarm Response in a Live Hall <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff&amp;interrupt=pallet-under-lift">Data-Hall Busway Install &amp; Torque Sign-Off <span class="chip interrupt">interruption: pallet under lift</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault&amp;time=dusk">Nacelle Lockout &amp; Yaw-Brake Fault <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit&amp;interrupt=visitor-at-gate">Collector Substation Switching Under a Permit <span class="chip interrupt">interruption: visitor at gate</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-ocean-pod-retrieval-and-hatch-opening&amp;hazard=assess">Ocean Pod Retrieval &amp; Hatch Opening <span class="chip hazard">hazard mode</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>16 standards evidenced</span><span>14 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=wind-and-data-infrastructure&amp;level=16">Open level 16 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-17">
+          <span class="lvl-n">17</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain, instructor on</h4><span class="lessons"><b>85</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check&amp;interrupt=gust-front">Turbine Climb &amp; Rescue-Kit Check <span class="chip interrupt">interruption: gust front</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;weather=fog">Blade Inspection from a Platform <span class="chip weather">fog</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall&amp;hazard=assess">CRAH Alarm Response in a Live Hall <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff&amp;interrupt=adjacent-energize">Data-Hall Busway Install &amp; Torque Sign-Off <span class="chip interrupt">interruption: adjacent energize</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault&amp;weather=fog">Nacelle Lockout &amp; Yaw-Brake Fault <span class="chip weather">fog</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit&amp;interrupt=annunciator-alarm">Collector Substation Switching Under a Permit <span class="chip interrupt">interruption: annunciator alarm</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-ocean-pod-retrieval-and-hatch-opening&amp;weather=fog">Ocean Pod Retrieval &amp; Hatch Opening <span class="chip weather">fog</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>16 standards evidenced</span><span>14 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=wind-and-data-infrastructure&amp;level=17">Open level 17 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        <li class="level" id="level-18">
+          <span class="lvl-n">18</span>
+          <div>
+            <div class="lvl-head"><h4>Station chain in a storm</h4><span class="lessons"><b>85</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check&amp;time=day">Turbine Climb &amp; Rescue-Kit Check <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;weather=storm">Blade Inspection from a Platform <span class="chip weather">storm</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall&amp;interrupt=water-spreading">CRAH Alarm Response in a Live Hall <span class="chip interrupt">interruption: water spreading</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff&amp;hazard=assess">Data-Hall Busway Install &amp; Torque Sign-Off <span class="chip hazard">hazard mode</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault&amp;time=day">Nacelle Lockout &amp; Yaw-Brake Fault <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit&amp;weather=storm">Collector Substation Switching Under a Permit <span class="chip weather">storm</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-ocean-pod-retrieval-and-hatch-opening&amp;interrupt=wake-roll">Ocean Pod Retrieval &amp; Hatch Opening <span class="chip interrupt">interruption: wake roll</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>16 standards evidenced</span><span>14 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=wind-and-data-infrastructure&amp;level=18">Open level 18 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 19 · Full shift <span class="sub">— five or more of the programme&#39;s hardest jobs</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-19">
+          <span class="lvl-n">19</span>
+          <div>
+            <div class="lvl-head"><h4>Full shift</h4><span class="lessons"><b>85</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check&amp;weather=wind">Turbine Climb &amp; Rescue-Kit Check <span class="chip weather">high wind</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;time=dusk">Blade Inspection from a Platform <span class="chip time">dusk</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall&amp;interrupt=suppression-prealarm">CRAH Alarm Response in a Live Hall <span class="chip interrupt">interruption: suppression prealarm</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff&amp;interrupt=pallet-under-lift">Data-Hall Busway Install &amp; Torque Sign-Off <span class="chip interrupt">interruption: pallet under lift</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault&amp;weather=rain">Nacelle Lockout &amp; Yaw-Brake Fault <span class="chip weather">rain</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit&amp;time=day">Collector Substation Switching Under a Permit <span class="chip time">daylight</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-ocean-pod-retrieval-and-hatch-opening">Ocean Pod Retrieval &amp; Hatch Opening <span class="chip base">base run</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>16 standards evidenced</span><span>14 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=wind-and-data-infrastructure&amp;level=19">Open level 19 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+      <div class="band">
+        <h3>Levels 20 · Capstone <span class="sub">— the hardest stations as assessment variants, no coaching, mastery rule</span></h3>
+        <ol class="levels">
+        <li class="level" id="level-20">
+          <span class="lvl-n">20</span>
+          <div>
+            <div class="lvl-head"><h4>Capstone</h4><span class="lessons"><b>85</b> lessons · 7 tasks</span><span class="flag ok">75+ lessons</span> <span class="flag">no coaching</span></div>
+            <ol class="tasks">
+            <li><a class="task" href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check&amp;variant=assessment">Turbine Climb &amp; Rescue-Kit Check <span class="chip variant">assessment variant</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;variant=assessment">Blade Inspection from a Platform <span class="chip variant">assessment variant</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall&amp;variant=assessment">CRAH Alarm Response in a Live Hall <span class="chip variant">assessment variant</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff&amp;variant=assessment">Data-Hall Busway Install &amp; Torque Sign-Off <span class="chip variant">assessment variant</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault&amp;variant=assessment">Nacelle Lockout &amp; Yaw-Brake Fault <span class="chip variant">assessment variant</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit&amp;variant=assessment">Collector Substation Switching Under a Permit <span class="chip variant">assessment variant</span> <span class="st">12</span></a></li>
+            <li><a class="task" href="../smartcity-x.html?sim=ws-ocean-pod-retrieval-and-hatch-opening&amp;variant=assessment">Ocean Pod Retrieval &amp; Hatch Opening <span class="chip variant">assessment variant</span> <span class="st">13</span></a></li>
+            </ol>
+            <p class="lvl-foot"><span>16 standards evidenced</span><span>14 interruptions an instructor can inject</span><a href="../smartcity-x.html?programme=wind-and-data-infrastructure&amp;level=20">Open level 20 in SmartCiti.X</a></p>
+          </div>
+        </li>
+        </ol>
+      </div>
+  </section>
+
+  <section class="block" id="stations">
+    <h2>Stations</h2>
+    <p class="sub">Every station in the programme, the conditions the ladder runs it under (each chip launches that run, with the levels it appears in), and the standards its own source cites.</p>
+    <div class="grid">
+        <article class="station" style="--tint:#3fa7d6">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Energy &amp; Power</p>
+            <h3>Turbine Climb &amp; Rescue-Kit Check</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 5 min</p>
+            <p class="why">The climb is decided on the ground: the wind read against the site&#39;s limit, the harness walked by hand, the rescue kit opened and a second climber confirmed before the runner goes on the rail.</p>
+            <ul class="st-std"><li>ANSI/ASSP — ANSI/ASSP Z359 — Fall Protection Code</li><li>union — IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum</li><li>union — Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork</li><li>OSHA — 29 CFR 1910.23 — Ladders</li><li>OSHA — 29 CFR 1910.269 — Electric power generation, transmission and distribution</li><li>OSHA — 29 CFR 1910.28 — Duty to have fall protection and falling object protection</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check&amp;weather=wind"><span class="chip weather">high wind</span></a> <span class="st-meta">L7, L15, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check&amp;weather=storm"><span class="chip weather">storm</span></a> <span class="st-meta">L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check&amp;weather=smoke"><span class="chip weather">wildfire smoke</span></a> <span class="st-meta">L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check&amp;interrupt=ground-lead-radio"><span class="chip interrupt">interruption: ground lead radio</span></a> <span class="st-meta">L12, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check&amp;interrupt=gust-front"><span class="chip interrupt">interruption: gust front</span></a> <span class="st-meta">L14, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=ws-turbine-climb-and-rescue-kit-check">Launch Turbine Climb &amp; Rescue-Kit Check</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#5fb8e0">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Energy &amp; Power</p>
+            <h3>Nacelle Lockout &amp; Yaw-Brake Fault</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 5.3 min</p>
+            <p class="why">A stopped rotor is not a locked one, so the crew stops it locally, drives the rotor lock home, proves the yaw held and bleeds the stored energy before a start that must not happen.</p>
+            <ul class="st-std"><li>ANSI/ASSP — ANSI/ASSP Z359 — Fall Protection Code</li><li>union — IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum</li><li>NFPA — NFPA 70E — Standard for Electrical Safety in the Workplace</li><li>OSHA — 29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)</li><li>OSHA — 29 CFR 1910.269 — Electric power generation, transmission and distribution</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L7, L9, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L10, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L8, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault&amp;interrupt=yaw-creep"><span class="chip interrupt">interruption: yaw creep</span></a> <span class="st-meta">L12, L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault&amp;interrupt=ground-crew-radio"><span class="chip interrupt">interruption: ground crew radio</span></a> <span class="st-meta">L14</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=ws-nacelle-lockout-and-yaw-brake-fault">Launch Nacelle Lockout &amp; Yaw-Brake Fault</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#7fc4e8">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Energy &amp; Power</p>
+            <h3>Blade Inspection from a Platform</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 5.3 min</p>
+            <p class="why">The wind decides whether a suspended platform leaves the ground and keeps deciding while it is up, and every defect on the blade is photographed and reported rather than guessed at.</p>
+            <ul class="st-std"><li>ANSI/ASSP — ANSI/ASSP Z359 — Fall Protection Code</li><li>union — IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum</li><li>union — Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork</li><li>OSHA — 29 CFR 1910.269 — Electric power generation, transmission and distribution</li><li>OSHA — 29 CFR 1910.28 — Duty to have fall protection and falling object protection</li><li>OSHA — 29 CFR 1926.502 — Fall protection systems criteria and practices</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L8, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L6, L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;weather=wind"><span class="chip weather">high wind</span></a> <span class="st-meta">L7</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;weather=storm"><span class="chip weather">storm</span></a> <span class="st-meta">L9, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;weather=overcast"><span class="chip weather">overcast</span></a> <span class="st-meta">L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;interrupt=drop-zone-entry"><span class="chip interrupt">interruption: drop zone entry</span></a> <span class="st-meta">L12</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;interrupt=lightning-alert"><span class="chip interrupt">interruption: lightning alert</span></a> <span class="st-meta">L14</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=ws-blade-inspection-from-a-platform">Launch Blade Inspection from a Platform</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#e0a83f">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Energy &amp; Power</p>
+            <h3>Collector Substation Switching Under a Permit</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 5.3 min</p>
+            <p class="why">Collector switching runs to a written order with every step repeated back, the breaker proven open before the disconnect moves and the gap grounded before a permit goes out.</p>
+            <ul class="st-std"><li>union — IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum</li><li>IEEE — IEEE C2 — National Electrical Safety Code (NESC)</li><li>NETA — NETA Acceptance Testing Specifications (ATS) and Maintenance Testing Specifications (MTS) for electrical power equipment</li><li>NFPA — NFPA 70E — Standard for Electrical Safety in the Workplace</li><li>OSHA — 29 CFR 1910.269 — Electric power generation, transmission and distribution</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5, L9, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L6, L10, L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit&amp;weather=wind"><span class="chip weather">high wind</span></a> <span class="st-meta">L7</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L8</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit&amp;interrupt=visitor-at-gate"><span class="chip interrupt">interruption: visitor at gate</span></a> <span class="st-meta">L12, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit&amp;interrupt=annunciator-alarm"><span class="chip interrupt">interruption: annunciator alarm</span></a> <span class="st-meta">L14, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit&amp;weather=storm"><span class="chip weather">storm</span></a> <span class="st-meta">L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=ws-substation-switching-under-a-permit">Launch Collector Substation Switching Under a Permit</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#4fb3a6">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Connectivity &amp; Telecom</p>
+            <h3>Data-Hall Busway Install &amp; Torque Sign-Off</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 5.3 min</p>
+            <p class="why">A busway joint is only as good as its torque and its record, so the run is proven dead before the lift goes up and every joint is torqued with a calibrated wrench, marked and signed.</p>
+            <ul class="st-std"><li>union — IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum</li><li>NEC/NFPA 70 — NFPA 70 — National Electrical Code</li><li>NETA — NETA Acceptance Testing Specifications (ATS) and Maintenance Testing Specifications (MTS) for electrical power equipment</li><li>NFPA — NFPA 70E — Standard for Electrical Safety in the Workplace</li><li>OSHA — 29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)</li><li>OSHA — 29 CFR 1910.333 — Selection and use of work practices for electrical safety</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5, L7, L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L6, L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L8</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff&amp;interrupt=pallet-under-lift"><span class="chip interrupt">interruption: pallet under lift</span></a> <span class="st-meta">L12, L16, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff&amp;interrupt=adjacent-energize"><span class="chip interrupt">interruption: adjacent energize</span></a> <span class="st-meta">L14, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff&amp;weather=wind"><span class="chip weather">high wind</span></a> <span class="st-meta">L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=ws-data-hall-busway-install-and-torque-signoff">Launch Data-Hall Busway Install &amp; Torque Sign-Off</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#62c1a0">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Connectivity &amp; Telecom</p>
+            <h3>Raised-Floor Tile Lift &amp; Cable Tray Safety</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 5 min</p>
+            <p class="why">One tile out in a live hall is an opening, an airflow change and a plenum of power and data, so it is barricaded first, attended throughout and reseated flush.</p>
+            <ul class="st-std"><li>BICSI — BICSI Installer 2 and Optical Fiber installer credentials</li><li>union — IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum</li><li>NEC/NFPA 70 — NFPA 70 — National Electrical Code</li><li>OSHA — 29 CFR 1910.22 — Walking-working surfaces, general requirements</li><li>OSHA — 29 CFR 1910.268 — Telecommunications</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=ws-raised-floor-tile-lift-and-cable-tray-safety"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3, L5</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-raised-floor-tile-lift-and-cable-tray-safety&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-raised-floor-tile-lift-and-cable-tray-safety&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L6, L8</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-raised-floor-tile-lift-and-cable-tray-safety&amp;weather=wind"><span class="chip weather">high wind</span></a> <span class="st-meta">L7</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-raised-floor-tile-lift-and-cable-tray-safety&amp;weather=storm"><span class="chip weather">storm</span></a> <span class="st-meta">L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-raised-floor-tile-lift-and-cable-tray-safety&amp;weather=overcast"><span class="chip weather">overcast</span></a> <span class="st-meta">L10</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=ws-raised-floor-tile-lift-and-cable-tray-safety">Launch Raised-Floor Tile Lift &amp; Cable Tray Safety</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#6fb0e6">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Connectivity &amp; Telecom</p>
+            <h3>CRAH Alarm Response in a Live Hall</h3>
+            <p class="st-meta">12 steps · 4 hazards · 2 interruptions · par 5.3 min</p>
+            <p class="why">An air-handler alarm is answered as a sequence — read, report, walk down, standby on and the hall watched back — before the failed unit is isolated and proven dead.</p>
+            <ul class="st-std"><li>union — IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum</li><li>NFPA — NFPA 70E — Standard for Electrical Safety in the Workplace</li><li>OSHA — 29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)</li><li>OSHA — 29 CFR 1910.22 — Walking-working surfaces, general requirements</li><li>OSHA — 29 CFR 1910.333 — Selection and use of work practices for electrical safety</li><li>OSHA — 29 CFR 1910.38 — Emergency action plans</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall"><span class="chip base">base run</span></a> <span class="st-meta">L1, L3</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L2, L5, L7</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall&amp;time=dusk"><span class="chip time">dusk</span></a> <span class="st-meta">L4, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall&amp;weather=rain"><span class="chip weather">rain</span></a> <span class="st-meta">L6</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L8</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall&amp;weather=storm"><span class="chip weather">storm</span></a> <span class="st-meta">L9</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall&amp;weather=smoke"><span class="chip weather">wildfire smoke</span></a> <span class="st-meta">L10</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall&amp;interrupt=suppression-prealarm"><span class="chip interrupt">interruption: suppression prealarm</span></a> <span class="st-meta">L12, L15, L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall&amp;interrupt=water-spreading"><span class="chip interrupt">interruption: water spreading</span></a> <span class="st-meta">L14, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=ws-crah-alarm-response-in-a-live-hall">Launch CRAH Alarm Response in a Live Hall</a>
+          </div>
+        </article>
+        <article class="station" style="--tint:#3f9fc4">
+          <div class="noshot">No screenshot in docs/screenshots yet</div>
+          <div class="st-body">
+            <p class="eyebrow">Connectivity &amp; Telecom</p>
+            <h3>Ocean Pod Retrieval &amp; Hatch Opening</h3>
+            <p class="st-meta">13 steps · 4 hazards · 2 interruptions · par 5.5 min</p>
+            <p class="why">A sealed pod comes aboard to the lift plan with the diver out of the water, is fastened and its cable locked out, and its leak lamp is read before a single hatch bolt turns.</p>
+            <ul class="st-std"><li>union — IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum</li><li>NFPA — NFPA 70E — Standard for Electrical Safety in the Workplace</li><li>OSHA — 29 CFR 1910.132 — Personal protective equipment, general requirements</li><li>OSHA — 29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)</li><li>OSHA — 29 CFR 1910.28 — Duty to have fall protection and falling object protection</li><li>OSHA — 29 CFR 1910.333 — Selection and use of work practices for electrical safety</li></ul>
+            <div class="runs"><span class="run"><a href="../smartcity-x.html?sim=ws-ocean-pod-retrieval-and-hatch-opening&amp;hazard=assess"><span class="chip hazard">hazard mode</span></a> <span class="st-meta">L11, L13, L16</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-ocean-pod-retrieval-and-hatch-opening&amp;interrupt=wake-roll"><span class="chip interrupt">interruption: wake roll</span></a> <span class="st-meta">L12, L18</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-ocean-pod-retrieval-and-hatch-opening&amp;interrupt=squall-call"><span class="chip interrupt">interruption: squall call</span></a> <span class="st-meta">L14</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-ocean-pod-retrieval-and-hatch-opening&amp;time=day"><span class="chip time">daylight</span></a> <span class="st-meta">L15</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-ocean-pod-retrieval-and-hatch-opening&amp;weather=fog"><span class="chip weather">fog</span></a> <span class="st-meta">L17</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-ocean-pod-retrieval-and-hatch-opening"><span class="chip base">base run</span></a> <span class="st-meta">L19</span></span> <span class="run"><a href="../smartcity-x.html?sim=ws-ocean-pod-retrieval-and-hatch-opening&amp;variant=assessment"><span class="chip variant">assessment variant</span></a> <span class="st-meta">L20</span></span></div>
+            <a class="launch" href="../smartcity-x.html?sim=ws-ocean-pod-retrieval-and-hatch-opening">Launch Ocean Pod Retrieval &amp; Hatch Opening</a>
+          </div>
+        </article>
+    </div>
+  </section>
+
+  <section class="block" id="standards">
+    <h2>Standards evidenced</h2>
+    <p class="sub">Registry entries (tools/standards.json) that a task's own source cites and that govern its category, with the levels that evidence each. Evidencing readiness against a standard is not a licence or a certification issued by its body.</p>
+    <div class="tablewrap"><table class="std">
+      <thead><tr><th>Body</th><th>Standard</th><th>Levels</th></tr></thead>
+      <tbody>
+          <tr><td>ANSI/ASSP</td><td>ANSI/ASSP Z359 — Fall Protection Code</td><td class="n">all 20</td></tr>
+          <tr><td>BICSI</td><td>BICSI Installer 2 and Optical Fiber installer credentials</td><td class="n">10 levels</td></tr>
+          <tr><td>IEEE</td><td>IEEE C2 — National Electrical Safety Code (NESC)</td><td class="n">all 20</td></tr>
+          <tr><td>NEC/NFPA 70</td><td>NFPA 70 — National Electrical Code</td><td class="n">all 20</td></tr>
+          <tr><td>NETA</td><td>NETA Acceptance Testing Specifications (ATS) and Maintenance Testing Specifications (MTS) for electrical power equipment</td><td class="n">all 20</td></tr>
+          <tr><td>NFPA</td><td>NFPA 70E — Standard for Electrical Safety in the Workplace</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.132 — Personal protective equipment, general requirements</td><td class="n">10 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.22 — Walking-working surfaces, general requirements</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.23 — Ladders</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.268 — Telecommunications</td><td class="n">10 levels</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.269 — Electric power generation, transmission and distribution</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.28 — Duty to have fall protection and falling object protection</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.333 — Selection and use of work practices for electrical safety</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1910.38 — Emergency action plans</td><td class="n">all 20</td></tr>
+          <tr><td>OSHA</td><td>29 CFR 1926.502 — Fall protection systems criteria and practices</td><td class="n">all 20</td></tr>
+          <tr><td>union</td><td>IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum</td><td class="n">all 20</td></tr>
+          <tr><td>union</td><td>Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork</td><td class="n">all 20</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="block" id="proves">
+    <h2>What it proves</h2>
+    <div class="proof">
+      <div class="card">
+        <h3>Competency: Climb, lock out, switch, torque, open a floor, answer an alarm and land a pod across a wind farm, a data hall and an ocean data centre without stating a figure the manual or the plan holds</h3>
+        <p>Demonstrated with a mastery run on 4 of its 8 stations, against OSHA 29 CFR 1910.269 — Electric power generation, transmission and distribution; OSHA 29 CFR 1910.147 The control of hazardous energy (lockout/tagout); NFPA 70E Standard for Electrical Safety in the Workplace; ANSI/ASSP Z359 Fall Protection Code; NEC/NFPA 70 NFPA 70 — National Electrical Code; BICSI BICSI Installer 2 and Optical Fiber installer credentials.</p>
+        
+      </div>
+      <div class="card">
+        <h3>Badges</h3>
+        <p>Each passed level earns an Open Badges 2.0 assertion naming the level, its tasks and their conditions, its lessons and the standards it evidences, with the attempts behind it as evidence, and sends an xAPI statement. Passing level 20, the capstone, climbs the whole track.</p>
+        <p>A run demonstrates mastery when it earns two or more stars, records zero unsafe actions, answers every interruption it was given, and finishes within 1.5 times the station&#39;s par time. One mastery run on enough of a competency&#39;s stations earns &quot;demonstrated&quot;; mastery runs on three different days earn &quot;consistent&quot;. No other rule earns a competency.</p>
+        <p>Certification the work leads to: Programme completion record; the credentials it rehearses are issued only by their own bodies — 29 CFR 1910.269 and 29 CFR 1910.147 for the turbine, the substation and the hall, NFPA 70E for every absence-of-voltage test, ANSI Z359 for the tower and the platform, NFPA 70 (NEC) and BICSI practice for the busway and the pathway; every height, wind, voltage, torque, load, depth and limit lives in the manufacturer&#39;s manual, the switching order, the lift plan or the dive plan. No level claims apprenticeship hours: no registry entry states an equivalence.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="foot">
+    <p>Generated from the programme's station modules: lesson counts are read, not typed. The rules are in tools/briefs/ladder-brief.md and the full table in docs/ladders.md.</p>
+    <p><a href="../index.html">Back to every station</a> · SmartCiti.X ~VR Simulators (Powered by AGI Corp &amp; Visko)</p>
+  </div>
+</footer>
+<script type="module">import { ctlMount } from "../shared/controls.js"; ctlMount({ world: "this training track", except: { move: "A page, not a world: Tab walks the stations.", look: "Scroll the page.", interact: "Enter opens the focused station.", map: "Each world keeps its own map.", view: "—", quality: "Set inside each world." } });</script>
+</body>
+</html>

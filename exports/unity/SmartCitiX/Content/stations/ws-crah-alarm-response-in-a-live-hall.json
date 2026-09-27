@@ -1,0 +1,393 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "hall-held",
+    "name": "Hall Held",
+    "note": "The hall kept cool on the standby unit while the failed one was isolated, proven dead and serviced"
+  },
+  "category": "Connectivity & Telecom",
+  "certification": "IBEW/NECA JATC critical-facilities training as a body; 29 CFR 1910.147 for isolating the air handler before service; NFPA 70E and 29 CFR 1910.333 for the absence-of-voltage test at its disconnect; 29 CFR 1910.22 for a wet floor in the hall; 29 CFR 1910.38 for the hall's emergency action plan when the suppression system pre-alarms; the hall's operating procedure and the unit manufacturer's manual for every set point and limit",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IBEW/NECA JATC",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.22",
+        "id": "osha-1910-22",
+        "title": "29 CFR 1910.22 — Walking-working surfaces, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.333",
+        "id": "osha-1910-333",
+        "title": "29 CFR 1910.333 — Selection and use of work practices for electrical safety"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.38",
+        "id": "osha-1910-38",
+        "title": "29 CFR 1910.38 — Emergency action plans"
+      }
+    ]
+  },
+  "district": "data-center-build",
+  "domain": "Connectivity",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "reported-first",
+        "name": "Reported First",
+        "note": "The hall operator heard about it before anything was touched"
+      },
+      {
+        "id": "no-reflexes",
+        "name": "No Reflexes",
+        "note": "No unsafe action was recorded"
+      },
+      {
+        "id": "steady-watch",
+        "name": "Steady Watch",
+        "note": "Held the hall recovery watch steady"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-response",
+        "name": "Clean Response",
+        "note": "No corrections from the alarm to the log"
+      },
+      {
+        "id": "unbroken-test",
+        "name": "Unbroken Test",
+        "note": "The absence test ran without a break"
+      },
+      {
+        "id": "brisk-response",
+        "name": "Brisk Response",
+        "note": "Responded and logged inside 80% of par"
+      }
+    ],
+    "currency": "RACKS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Trainee",
+      "Facilities Tech",
+      "Critical Facilities Tech",
+      "Lead Tech",
+      "Critical Facilities Authority Certified"
+    ],
+    "system": "Critical Facilities Authority"
+  },
+  "hazards": {
+    "prop-containment-door": "You went to prop the cold-aisle containment door open to let the heat out. Containment works by keeping hot and cold air apart; propped open, it mixes them and makes every rack in the row run hotter.",
+    "reach-into-running-fan": "You went to open the fan section with the unit still energised. The fans restart on their own control, and a hand in a fan section when they do is the injury the lockout exists to prevent.",
+    "reset-breaker-repeatedly": "You went to reset the unit's tripped breaker again and again. A breaker that trips is reporting a fault, and resetting it onto that fault repeatedly can turn a failed fan motor into an arc in the panel.",
+    "silence-and-walk-away": "You went to silence the alarm and walk on. A silenced alarm is still a failing unit, and in a live hall the racks on its side warm with every minute nobody is working the problem."
+  },
+  "id": "ws-crah-alarm-response-in-a-live-hall",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "recovery-watch",
+      "alert": "The clean-agent suppression panel at the hall door has gone to pre-alarm on a detector in this zone.",
+      "cue": "Go to the suppression panel and read the zone and the state.",
+      "delay": 3,
+      "id": "suppression-prealarm",
+      "kind": "The suppression panel goes to pre-alarm",
+      "missNote": "The pre-alarm went unread while the work went on.",
+      "seconds": 12,
+      "target": "suppression-panel",
+      "why": "A pre-alarm is the system telling the people in the hall that a detector has seen something; reading the panel gives the zone and state that decide whether the emergency action plan's next step is investigate or leave, and nobody decides that from across the hall.",
+      "wrongNote": "It is the suppression panel. The recovery watch tells you about cooling, not a detector."
+    },
+    {
+      "after": "absence-test",
+      "alert": "Condensate from the unit's pan is running across the floor toward a power whip at the end of the row.",
+      "cue": "Get the spill kit down across the water's path.",
+      "delay": 3,
+      "id": "water-spreading",
+      "kind": "Condensate spreads toward a power whip",
+      "missNote": "The water reached the power whip with nothing in its way.",
+      "seconds": 11,
+      "target": "spill-kit",
+      "why": "Water heading for a power connection is two hazards at once — a slip and an electrical one — and a spill kit's sock laid across its path stops it where it is while the source is dealt with.",
+      "wrongNote": "It is the spill kit. The tester has told you the unit is dead; the water is somewhere else."
+    }
+  ],
+  "lateNotes": {
+    "crah-access-latch": "The access panel opens only once the unit is locked out and proven dead.",
+    "standby-unit-start": "The standby unit is brought on as soon as the walk-down is done — before the failed unit is taken apart, not after."
+  },
+  "name": "CRAH Alarm Response in a Live Hall",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "wind-and-data-infrastructure"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "multimeter",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "radio",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "alarm-panel",
+      "bms-log",
+      "chilled-water-valve",
+      "clogged-filter",
+      "condensate-pan",
+      "crah-access-latch",
+      "crah-disconnect",
+      "crah-filter-status",
+      "crah-lock",
+      "crah-tag",
+      "fan-status-lamp",
+      "filter-slot",
+      "hall-operator-radio",
+      "hall-temp-meter",
+      "new-filter",
+      "prop-containment-door",
+      "reach-into-running-fan",
+      "reset-breaker-repeatedly",
+      "silence-and-walk-away",
+      "spill-kit",
+      "standby-unit-start",
+      "supply-air-readout",
+      "suppression-panel",
+      "tripped-fan-breaker",
+      "unit-tester"
+    ],
+    "meshes": 152
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the building management panel: which unit, which alarm, and since when.",
+      "id": "read-alarm",
+      "kind": "select",
+      "prompt": "Read the building management panel: which unit, which alarm, and since when.",
+      "target": "alarm-panel",
+      "title": "Read the alarm",
+      "why": "A high-temperature alarm, a fan failure and a filter alarm send the technician to different places with different urgency; reading the panel first puts the right tool in hand and the right unit in front of you instead of chasing the loudest noise in the hall."
+    },
+    {
+      "cue": "Radio the hall operator: the unit, the alarm, and that you are responding.",
+      "id": "tell-operator",
+      "kind": "select",
+      "prompt": "Radio the hall operator: the unit, the alarm, and that you are responding.",
+      "target": "hall-operator-radio",
+      "title": "Tell the hall operator",
+      "why": "The hall operator sees the whole hall's cooling and load and may already be moving work off the affected racks; telling them first means two people are working the same problem with the same facts."
+    },
+    {
+      "cue": "Bring the supply-air reading up to where it is and commit — inside the hall's band or not?",
+      "gauge": {
+        "green": [
+          0.55,
+          0.85
+        ],
+        "label": "SUPPLY AIR vs BAND",
+        "missNote": "That is not what the unit is reading — read it again before deciding on the standby.",
+        "speed": 0.6
+      },
+      "id": "supply-read",
+      "kind": "gauge",
+      "prompt": "Bring the supply-air reading up to where it is and commit — inside the hall's band or not?",
+      "target": "supply-air-readout",
+      "title": "Read the supply air against its band",
+      "why": "The supply air leaving the unit says whether it is still cooling at all, and the hall's operating procedure sets the band; read against that written band, the reading decides whether this is a service call or a race to bring the standby unit on."
+    },
+    {
+      "cue": "Check the filter differential, then the fan status, then the condensate pan.",
+      "id": "walk-down",
+      "itemNames": {
+        "condensate-pan": "condensate pan checked",
+        "crah-filter-status": "filter differential checked",
+        "fan-status-lamp": "fan status checked"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Filter, fan, pan — the order the walk-down sheet runs.",
+      "prompt": "Check the filter differential, then the fan status, then the condensate pan.",
+      "targets": [
+        "crah-filter-status",
+        "fan-status-lamp",
+        "condensate-pan"
+      ],
+      "title": "Walk the unit down",
+      "why": "A walk-down in the same order every time finds the common causes — a loaded filter, a stopped fan, a full pan — without opening anything, and tells the technician what to bring for the repair before the unit is isolated."
+    },
+    {
+      "cue": "Find what is causing the alarm on the unit.",
+      "id": "find-cause",
+      "itemNames": {
+        "clogged-filter": "a clogged filter bank",
+        "tripped-fan-breaker": "a tripped fan breaker"
+      },
+      "itemNotes": {
+        "clogged-filter": "The filter differential is well past its change mark — the fans are pulling through a blanket and airflow has dropped.",
+        "tripped-fan-breaker": "One fan's breaker has tripped. It is reported and investigated, not reset onto whatever tripped it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find what is causing the alarm on the unit.",
+      "targets": [
+        "clogged-filter",
+        "tripped-fan-breaker"
+      ],
+      "title": "Find why the unit is failing",
+      "why": "Knowing the cause decides the repair and whether it is safe to restore: a clogged filter is a swap, while a tripped fan breaker is a fault somebody has to find before the fan runs again."
+    },
+    {
+      "cue": "Start the standby unit per the hall's procedure and confirm it is running.",
+      "id": "standby",
+      "kind": "select",
+      "prompt": "Start the standby unit per the hall's procedure and confirm it is running.",
+      "target": "standby-unit-start",
+      "title": "Bring the standby unit on",
+      "why": "The hall's racks cannot wait for the repair, so the redundancy the hall was built with is brought on first; confirming the standby is actually running and moving air, not just switched, is what lets the failed unit be taken out of service."
+    },
+    {
+      "cue": "Keep watching the cold-aisle reading as the standby unit takes the load.",
+      "holdBreakNote": "The watch broke before the hall recovered — keep watching until the cold aisle is back.",
+      "id": "recovery-watch",
+      "kind": "track",
+      "prompt": "Keep watching the cold-aisle reading as the standby unit takes the load.",
+      "seconds": 7,
+      "target": "hall-temp-meter",
+      "title": "Watch the hall recover",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.3,
+        "green": [
+          0.35,
+          0.65
+        ],
+        "label": "COLD AISLE",
+        "rise": 0.05,
+        "start": 0.5
+      },
+      "why": "A standby unit that starts but does not bring the cold aisle back is a second problem; watching the reading recover proves the hall is held before anyone isolates the failed unit and takes away what is left of its cooling."
+    },
+    {
+      "cue": "Open the unit's disconnect, apply your lock, then hang your tag.",
+      "id": "isolate",
+      "itemNames": {
+        "crah-disconnect": "unit disconnect opened",
+        "crah-lock": "personal lock applied",
+        "crah-tag": "tag filled in and hung"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Disconnect, then lock, then tag.",
+      "prompt": "Open the unit's disconnect, apply your lock, then hang your tag.",
+      "targets": [
+        "crah-disconnect",
+        "crah-lock",
+        "crah-tag"
+      ],
+      "title": "Isolate the failed unit",
+      "why": "The unit's fans and heaters restart on their own controls, and the building management system can call it back on; the disconnect, your lock and your tag are what keep it off while hands are inside."
+    },
+    {
+      "cue": "Hold the proven tester on each phase at the unit's terminals until it reads absent.",
+      "holdBreakNote": "The tester came off before it read — hold it on each phase until it does.",
+      "id": "absence-test",
+      "kind": "hold",
+      "prompt": "Hold the proven tester on each phase at the unit's terminals until it reads absent.",
+      "seconds": 5,
+      "target": "unit-tester",
+      "title": "Test the unit dead",
+      "why": "A unit can be fed from more than one source, and an open disconnect can be the wrong one; the test at the unit's own terminals, with a tester proven before and after, is the proof that what you are about to touch is dead."
+    },
+    {
+      "cue": "Turn the access-panel latch and swing the panel open.",
+      "id": "open-panel",
+      "kind": "turn",
+      "prompt": "Turn the access-panel latch and swing the panel open.",
+      "target": "crah-access-latch",
+      "title": "Open the access panel",
+      "turn": {
+        "axis": "z",
+        "label": "ACCESS LATCH",
+        "turns": 0.4
+      },
+      "why": "The panel comes off only once the unit is proven dead, and it is swung open on its hinge rather than lifted off so it does not fall into the aisle or onto a floor tile edge."
+    },
+    {
+      "cue": "Carry the new filter bank to the slot and seat it with the airflow arrow the right way.",
+      "drag": {
+        "missNote": "The filter is not seated in the slot — the arrow faces the airflow and the frame closes round it.",
+        "radius": 0.5,
+        "to": "filter-slot"
+      },
+      "id": "swap-filter",
+      "kind": "drag",
+      "prompt": "Carry the new filter bank to the slot and seat it with the airflow arrow the right way.",
+      "target": "new-filter",
+      "title": "Fit the new filters",
+      "why": "A filter fitted backwards or not seated in its frame lets air bypass it, and the unit's coil loads with dust instead; the arrow and the frame are checked because that is what makes the swap a repair."
+    },
+    {
+      "cue": "Log the alarm, the cause, the standby start and the lockout, and tell the hall operator the unit's state.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Log the alarm, the cause, the standby start and the lockout, and tell the hall operator the unit's state.",
+      "target": "bms-log",
+      "title": "Log the response",
+      "why": "The log is how the next shift knows the hall is running on its standby unit and why, and the tripped breaker stays on it as an open item until someone has found what tripped it."
+    }
+  ],
+  "supportLine": "your employer's employee assistance programme, or your IBEW steward if you are not sure how to reach it",
+  "tagline": "The alarm read and reported, the supply air read against its band, the unit walked down, the standby brought on per the procedure and the hall watched back before the failed unit is isolated and serviced",
+  "title": "SmartCiti.X~ CRAH Alarm Response in a Live Hall VR",
+  "trade": "IBEW critical-facilities technician",
+  "underwater": null,
+  "weather": "overcast"
+}
