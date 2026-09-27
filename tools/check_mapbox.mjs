@@ -5,7 +5,7 @@
  *
  * What is proved here:
  *
- *  1. **The fit is sound.** shared/bay-geo.js's six-to-eight anchors are
+ *  1. **The fit is sound.** shared/bay-geo.js's eleven anchors are
  *     approximate, three-decimal, inside BAY_BOUNDS, and round-trip through
  *     bayToGeo()/geoToBay() within 1 m (they land within a millimetre); every
  *     site and landmark projects inside bayGeoBounds().

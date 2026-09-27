@@ -6,7 +6,7 @@ Implementation: `WebXR/shared/bay-geo.js` (the fit), `WebXR/shared/mapbox.js` (t
 
 ## What the Bay Atlas is
 
-`WebXR/bayworld/atlas.html` (bundled to `WebXR/dist/atlas.html`) lists every Bay World training site and public landmark — 37 sites and 21 landmarks across ten zones, straight from `WebXR/shared/bayworld-data.js` — with, for each one:
+`WebXR/bayworld/atlas.html` (bundled to `WebXR/dist/atlas.html`) lists every Bay World training site and public landmark — 50 sites and 28 landmarks across sixteen zones, straight from `WebXR/shared/bayworld-data.js`, and whatever those counts become — with, for each one:
 
 - the programmes it anchors, as chips that open SmartCiti.X on that programme (`smartcity-x.html?programme=…`);
 - **Open in Bay World**, which starts a shift beside that place (`bayworld.html?site=…`, or `?landmark=…`);
@@ -24,7 +24,7 @@ The badge over the map says which mode is showing; the status line under it says
 
 ## How the two worlds line up
 
-Bay World is a stylised 1600 m × 1100 m field, not a survey. `bay-geo.js` holds eight anchors that pair a Bay World position with the approximate longitude and latitude of the *kind* of public place that part of the world is inspired by — a lakeside promenade, a downtown centre, an uptown strip, a container port, a stadium district, a market district, a hills lookout, a bridge approach. Each is rounded to three decimals, marked `approximate: true`, and asserts nothing else. `bayToGeo()`/`geoToBay()` are one least-squares affine fit over those anchors and its exact inverse; `bayGeoBounds()` is the lon/lat box the whole field maps into. The anchors themselves land a hundred-odd Bay metres from their own coordinates once pushed back through the fit (`bayGeoResidual()`), which is the fit doing its job on a world that is not to scale. It is good enough for a map, and it is only ever presented as that.
+Bay World is a stylised 2400 m × 1600 m field, not a survey. `bay-geo.js` holds eleven anchors that pair a Bay World position with the approximate longitude and latitude of the *kind* of public place that part of the world is inspired by — a lakeside promenade, a downtown centre, an uptown strip, a container port, a stadium district, a market district, a hills lookout, a bridge approach, and at the field's edges an island harbour, a north shoreline and an upper ridge. Each is rounded to three decimals, marked `approximate: true`, and asserts nothing else. `bayToGeo()`/`geoToBay()` are one least-squares affine fit over those anchors and its exact inverse; `bayGeoBounds()` is the lon/lat box the whole field maps into. The anchors themselves land a hundred-odd Bay metres from their own coordinates once pushed back through the fit (`bayGeoResidual()`), which is the fit doing its job on a world that is not to scale. It is good enough for a map, and it is only ever presented as that.
 
 ## Getting a token
 
@@ -56,7 +56,7 @@ Nothing here is ever written back to the repository, and `tools/check_mapbox.mjs
 
 `tools/check_mapbox.mjs`, run by `node tools/check_all.mjs`:
 
-- the eight anchors are approximate, three-decimal, inside the field, and round-trip through `bayToGeo`/`geoToBay` within a millimetre; every site and landmark projects inside `bayGeoBounds()`;
+- the eleven anchors are approximate, three-decimal, inside the field, and round-trip through `bayToGeo`/`geoToBay` within a millimetre; every site and landmark projects inside `bayGeoBounds()`;
 - no string shaped like a Mapbox token (`pk.` or `sk.` followed by a base64url run) appears anywhere in the repository;
 - with `fetch` and the script insertion stubbed and no token, `mapboxToken()` is null and `loadMapboxGl()`, `createBayMap()` and `bayGroundTexture()` all return null without a single request or insertion; with a fake token and a stub library, the loader inserts exactly the pinned cdnjs URL once, the map gets one marker per site and landmark and one polygon per zone, and the ground request goes to the Static Images endpoint alone;
 - the atlas page renders headlessly in fallback mode with one marker per site and per landmark, every deep link, and every programme chip;

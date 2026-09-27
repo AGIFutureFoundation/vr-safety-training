@@ -4,17 +4,19 @@
 // (WebXR/bayworld/atlas.html) and shared/mapbox.js both read this.
 //
 // Pure: no three.js, no DOM, no network. Everything here is derived from the
-// six-to-eight anchors below by least squares, so a headless checker
+// eleven anchors below by least squares, so a headless checker
 // (tools/check_mapbox.mjs) can prove the round trip and the bounds with no
 // browser.
 //
 // The anchors pair a Bay World position with the *approximate* longitude and
 // latitude of the kind of public place that part of the world is inspired
 // by — a lakeside promenade, a downtown centre, a container port, a stadium
-// district, a hills lookout, a bridge approach. Each is rounded to three
-// decimals (about a hundred metres), marked `approximate: true`, and asserts
-// nothing else: no name, no address, no date, no ownership. Bay World is a
-// stylised 1600 m × 1100 m field, not a survey, and the fit that follows is
+// district, a hills lookout, a bridge approach, and at the expanded field's
+// edges an island harbour, a north shoreline and an upper ridge. Each is
+// rounded to three decimals (about a hundred metres), marked `approximate:
+// true`, and asserts nothing else: no name, no address, no date, no
+// ownership. Bay World is a stylised 2400 m × 1600 m field (BAY_BOUNDS,
+// whatever it is today), not a survey, and the fit that follows is
 // what makes the two line up "well enough for a map" rather than exactly —
 // bayGeoResidual() says how far off the anchors themselves land.
 import { BAY_BOUNDS } from "./bayworld-data.js";
@@ -34,6 +36,11 @@ export const BAY_GEO_ANCHORS = [
   { id: "market-district", label: "a market district", bay: [450, 260], lonLat: [-122.224, 37.775], approximate: true },
   { id: "hills-lookout", label: "a hills lookout", bay: [650, -250], lonLat: [-122.183, 37.817], approximate: true },
   { id: "bridge-approach", label: "a bridge approach", bay: [-630, -160], lonLat: [-122.312, 37.826], approximate: true },
+  // The expansion's outer zones, so the fit is pinned at the field's edges
+  // rather than extrapolated to them.
+  { id: "island-harbour", label: "an island harbour with a ferry landing", bay: [150, 620], lonLat: [-122.257, 37.766], approximate: true },
+  { id: "north-shoreline", label: "a north shoreline with a pier", bay: [-760, -620], lonLat: [-122.315, 37.862], approximate: true },
+  { id: "upper-ridge", label: "an upper ridge trail summit", bay: [950, -550], lonLat: [-122.150, 37.835], approximate: true },
 ];
 
 // ------------------------------------------------------------- least squares

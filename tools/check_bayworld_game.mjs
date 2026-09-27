@@ -154,6 +154,9 @@ await check("the real city loads behind a three.js stub, at both detail levels a
     "shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/fleet.js", "shared/props.js", "shared/weather.js",
     "smartcity/js/citykit.js",
     "shared/bayworld-data.js", "shared/bayworld.js",
+    // The satellite-ground hook (docs/mapbox.md): world.js imports these two;
+    // with no token they return null before touching the network.
+    "shared/bay-geo.js", "shared/mapbox.js",
     "bayworld/js/city.js", "bayworld/js/sim.js", "bayworld/js/world.js",
   ];
   const harness = `export { bwBuildWorld, THREE };`;
