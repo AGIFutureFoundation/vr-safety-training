@@ -30,7 +30,7 @@ namespace SmartCitiX
         {
             "at", "learner", "learnerName", "learnerId", "homePage", "app", "simId", "simName", "category", "trade", "certification", "system",
             "score", "stars", "errors", "hazardHits", "holdBreaks", "seconds", "parSeconds", "passed",
-            "badges", "level", "levelName", "id",
+            "badges", "level", "levelName", "id", "source",
         };
 
         public string id;
@@ -57,6 +57,8 @@ namespace SmartCitiX
         public List<string> badges = new List<string>();
         public int level;
         public string levelName;
+        /// The world whose job board launched the attempt (shared/passport.js); the app that ran it when none did.
+        public string source;
         public Debrief debrief = new Debrief();
         public InterruptTally interrupts;
 
@@ -100,7 +102,7 @@ namespace SmartCitiX
                 { "app", app }, { "simId", simId }, { "simName", simName }, { "category", category }, { "trade", trade }, { "certification", certification }, { "system", system },
                 { "score", (double)score }, { "stars", (double)stars }, { "errors", (double)errors }, { "hazardHits", (double)hazardHits }, { "holdBreaks", (double)holdBreaks },
                 { "seconds", (double)seconds }, { "parSeconds", (double)parSeconds }, { "passed", passed }, { "badges", new List<object>(badges.ToArray()) },
-                { "level", (double)level }, { "levelName", levelName },
+                { "level", (double)level }, { "levelName", levelName }, { "source", source ?? app },
             };
             var steps = new List<object>();
             foreach (var s in debrief.steps)
@@ -131,6 +133,7 @@ namespace SmartCitiX
                 system = MiniJson.Str(d, "system"), score = (int)MiniJson.Num(d, "score", 0), stars = (int)MiniJson.Num(d, "stars", 0), errors = (int)MiniJson.Num(d, "errors", 0),
                 hazardHits = (int)MiniJson.Num(d, "hazardHits", 0), holdBreaks = (int)MiniJson.Num(d, "holdBreaks", 0), seconds = (int)MiniJson.Num(d, "seconds", 0),
                 parSeconds = (int)MiniJson.Num(d, "parSeconds", 0), level = (int)MiniJson.Num(d, "level", 0), levelName = MiniJson.Str(d, "levelName"),
+                source = MiniJson.Str(d, "source") ?? MiniJson.Str(d, "app"),
             };
             foreach (var b in MiniJson.List(d, "badges")) if (b is string) r.badges.Add((string)b);
             r.passed = Passed(r.stars, r.hazardHits);
@@ -156,7 +159,7 @@ namespace SmartCitiX
                 case "category": return category; case "trade": return trade; case "certification": return certification; case "system": return system;
                 case "score": return score; case "stars": return stars; case "errors": return errors; case "hazardHits": return hazardHits;
                 case "holdBreaks": return holdBreaks; case "seconds": return seconds; case "parSeconds": return parSeconds; case "passed": return passed;
-                case "badges": return string.Join("; ", badges.ToArray()); case "level": return level; case "levelName": return levelName; case "id": return id;
+                case "badges": return string.Join("; ", badges.ToArray()); case "level": return level; case "levelName": return levelName; case "id": return id; case "source": return source ?? app;
                 default: return null;
             }
         }
