@@ -23674,5 +23674,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "ca-door-evacuation-drill",
+    "index": "ca-6",
+    "domain": "Aviation",
+    "trade": "Flight attendant — AFA-CWA cabin crew",
+    "category": "Mobility & Transit",
+    "certification": "AFA-CWA cabin-safety training; the airline's own emergency evacuation checklist and command set under 14 CFR 121; OSHA 29 CFR 1910.151 medical services and first aid for an evacuation injury this drill is built to prevent",
+    "name": "Door Evacuation Drill",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Door Evacuation Drill VR",
+    "tagline": "Look before opening, confirm the slide before anyone goes onto it, the same short commands shouted over and over, and the door frame physically blocked so the flow through it never stops for a dropped bag or a frozen passenger",
+    "accent": 14701151,
+    "accentCss": "#e0525f",
+    "parSeconds": 330,
+    "badge": {
+      "id": "door-cleared",
+      "name": "Door Cleared",
+      "note": "Conditions assessed before opening, the slide confirmed, the commands never stopped, and the door frame held clear through the entire flow"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Door Cleared",
+      "currency": "EVAC",
+      "ranks": [
+        "New Flight Attendant",
+        "Line Qualified",
+        "Lead Flight Attendant",
+        "Purser",
+        "Door Cleared Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

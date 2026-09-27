@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 557
+      "stations": 558
     },
     "trades": {
       "entry": "trades/index.html",
@@ -69,6 +69,7 @@
         "track-access",
         "bus-depot-lift",
         "airport-ramp",
+        "ca-door-evacuation-drill",
         "ca-cabin-decompression-and-oxygen-masks",
         "ca-unruly-passenger-deescalation",
         "ca-cabin-medical-event-response",
@@ -8737,6 +8738,88 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-door-evacuation-drill",
+      "name": "Door Evacuation Drill",
+      "title": "SmartCiti.X~ Door Evacuation Drill VR",
+      "tagline": "Look before opening, confirm the slide before anyone goes onto it, the same short commands shouted over and over, and the door frame physically blocked so the flow through it never stops for a dropped bag or a frozen passenger",
+      "category": "Mobility & Transit",
+      "domain": "Aviation",
+      "trade": "Flight attendant — AFA-CWA cabin crew",
+      "union": null,
+      "certification": "AFA-CWA cabin-safety training; the airline's own emergency evacuation checklist and command set under 14 CFR 121; OSHA 29 CFR 1910.151 medical services and first aid for an evacuation injury this drill is built to prevent",
+      "accent": "#e0525f",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "hold",
+        "track",
+        "gauge"
+      ],
+      "badge": {
+        "id": "door-cleared",
+        "name": "Door Cleared",
+        "note": "Conditions assessed before opening, the slide confirmed, the commands never stopped, and the door frame held clear through the entire flow"
+      },
+      "meshes": 198,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ca-6",
+      "flat": false,
+      "system": "Door Cleared",
+      "currency": "EVAC",
+      "ranks": [
+        "New Flight Attendant",
+        "Line Qualified",
+        "Lead Flight Attendant",
+        "Purser",
+        "Door Cleared Certified"
+      ],
+      "awards": [
+        {
+          "id": "assessed-first",
+          "name": "Assessed First",
+          "note": "Looked outside and confirmed the slide before opening the door to the flow"
+        },
+        {
+          "id": "flow-held",
+          "name": "Flow Held",
+          "note": "Blocked the door frame and held the flow moving without a break"
+        },
+        {
+          "id": "bags-left-behind",
+          "name": "Bags Left Behind",
+          "note": "Every carry-on caught and left behind before the slide"
+        },
+        {
+          "id": "clean-drill",
+          "name": "Clean Drill",
+          "note": "No corrections anywhere in the drill"
+        },
+        {
+          "id": "fast-drill",
+          "name": "Fast Drill",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "evac-streak",
+          "name": "Command Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ca-door-evacuation-drill"
     },
     {
       "app": "smartcity",
@@ -29505,7 +29588,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 255,
+      "meshes": 261,
       "lights": 0,
       "overBudget": false,
       "index": "92",
