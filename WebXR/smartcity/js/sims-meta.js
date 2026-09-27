@@ -25606,5 +25606,89 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "me-shoreline-debris-and-microplastics-survey",
+    "index": "607",
+    "domain": "Environmental",
+    "trade": "Survey lead on a shoreline monitoring crew, running a debris transect and a sand quadrat with a second surveyor and a sharps kit",
+    "category": "Water & Environmental",
+    "certification": "LIUNA and AFSCME monitoring and clean-up crews as training bodies; OSHA 29 CFR 1910.132 personal protective equipment and 29 CFR 1910.1030 bloodborne pathogens for sharps in the wrack; HAZWOPER awareness for an unknown container, which is reported and left; DTSC oversight of what is found; a quality assurance project plan written to EPA QA/G-5 for the sand samples; Regional Water Quality Control Board Section 401 and BCDC conditions the shoreline record informs; NOAA tide predictions for the survey window; the U.S. Fish and Wildlife Service buffer measures on the upper beach",
+    "name": "Shoreline Debris & Microplastics Survey",
+    "weather": "wind",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Shoreline Debris & Microplastics Survey VR",
+    "tagline": "The protocol and the window read, gloves, vest and the sharps kit on, the tape committed at the strandline, the transect walked at pace while a syringe turns up in the wrack, the unknown container and the line tangle found and left, the quadrat scooped, sieved and jarred in order, the stack shaken, the jar held under the rinse as the wind lifts the samples, the residue jarred, the coordinator called and the survey logged",
+    "accent": 14263361,
+    "accentCss": "#d9a441",
+    "parSeconds": 300,
+    "badge": {
+      "id": "tallied-not-touched",
+      "name": "Tallied, Not Touched",
+      "note": "Every item tallied by category, every sharp in the kit by tongs, the unknown left for the call, and the sand jarred under custody"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Shoreline Crew",
+      "currency": "TALLY",
+      "ranks": [
+        "Volunteer Lead",
+        "Surveyor",
+        "Transect Lead",
+        "Survey Lead",
+        "Shoreline Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "me-invasive-species-identification-and-reporting",
+    "index": "608",
+    "domain": "Environmental",
+    "trade": "Monitoring technician on a harbour survey crew, documenting and reporting a sighting that does not match the reference card, with a coordinator on the radio",
+    "category": "Water & Environmental",
+    "certification": "AFSCME and LIUNA monitoring crews as training bodies; OSHA 29 CFR 1910.132 personal protective equipment for work at a float's edge; CDFW as the body a marine sighting is reported to and whose permit governs any sample taken; the U.S. Fish and Wildlife Service and NOAA Fisheries consultation measures where a sighting touches protected habitat; BCDC permit conditions for the marina; Regional Water Quality Control Board Section 401 conditions the harbour record informs",
+    "name": "Invasive Species Identification & Reporting",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Invasive Species Identification & Reporting VR",
+    "tagline": "The reporting protocol read, the kit checked, the float edge walked at survey pace while a second patch turns up, the position fixed to the protocol's accuracy, the scale card set beside the specimen, the camera held for the diagnostic set while a boater offers to scrape it off, the shots taken in order, the earlier tag and the second patch found, the sample bagged as the permit allows, the form completed, the coordinator called and the sighting logged",
+    "accent": 12152776,
+    "accentCss": "#b96fc8",
+    "parSeconds": 300,
+    "badge": {
+      "id": "reported-not-removed",
+      "name": "Reported, Not Removed",
+      "note": "A sighting turned into a record — photographed to protocol, positioned, sampled only as permitted, reported before it was touched"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Sighting Crew",
+      "currency": "REPORT",
+      "ranks": [
+        "Dock Hand",
+        "Observer",
+        "Survey Tech",
+        "Reporting Lead",
+        "Sighting Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

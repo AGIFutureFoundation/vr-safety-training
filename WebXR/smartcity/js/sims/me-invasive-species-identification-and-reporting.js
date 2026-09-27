@@ -77,7 +77,7 @@ export const SIM_ME_INVASIVE_SPECIES_IDENTIFICATION_AND_REPORTING = {
 
   lateNotes: {
     "scale-card": "The scale card is set once the position is fixed — a photograph without a position is a picture of something somewhere.",
-    "sample-bag": "The sample is bagged once the photo set is complete — the specimen is recorded as it was before anything is taken from it.",
+    "sample-jar-lid": "The sample is bagged once the photo set is complete — the specimen is recorded as it was before anything is taken from it.",
     "coordinator-radio": "The coordinator is called once the form is complete — the call reads the form, and a form half-filled is a call that has to be made twice.",
   },
 
@@ -344,7 +344,6 @@ export const SIM_ME_INVASIVE_SPECIES_IDENTIFICATION_AND_REPORTING = {
     }, { ry: 0.5, accent: MEIS_ACCENT });
     reg(hits, protocolBoard, "protocol-board");
     const second = standingFigure(g, -2.4, 1.6, { ry: 1.2, cloth: 0x4a4a3a, vest: 0xf2c14b, atStation: true });
-    void second;
     for (let i = 0; i < 5; i++) { const b = ball(g, 0.05, -2.4 + i * 0.9, 2.4 + Math.sin(i) * 0.3, -2.9, 0xdfe6ea, { rough: 0.6, seg: 6, seg2: 5 }); b.scale.set(1.6, 0.6, 0.8); }
 
     const wmap = water.material.map;
@@ -365,11 +364,11 @@ export const SIM_ME_INVASIVE_SPECIES_IDENTIFICATION_AND_REPORTING = {
       },
       onHazard() {},
       onInterrupt(it) {
-        if (it.id === "second-sighting-called") rad.userData.show?.("FLOAT 3\nPATCH TOO?");
+        if (it.id === "second-sighting-called") { rad.userData.show?.("FLOAT 3\nPATCH TOO?"); second.position.set(-2.2, 0, -2.0); second.rotation.y = 2.4; patch2.visible = false; }
         if (it.id === "boater-offers-to-scrape") { boater.position.set(1.2, 0.0, -0.2); boater.rotation.y = -2.2; scraper.visible = true; scraper.position.set(1.0, 0.7, -0.4); }
       },
       onInterruptEnd(it) {
-        if (it.id === "second-sighting-called" && it.resolved === "answered") flag.position.set(0.35, 0, -0.85);
+        if (it.id === "second-sighting-called") { second.position.set(-2.4, 0, 1.6); second.rotation.y = 1.2; patch2.visible = true; if (it.resolved === "answered") flag.position.set(0.35, 0, -0.85); }
         if (it.id === "boater-offers-to-scrape") { boater.position.copy(boaterHome); boater.rotation.y = -1.6; scraper.visible = false; }
       },
       animate(t, dt, session) {
