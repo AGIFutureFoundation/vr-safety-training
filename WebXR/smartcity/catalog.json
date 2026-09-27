@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 597
+      "stations": 598
     },
     "trades": {
       "entry": "trades/index.html",
@@ -407,6 +407,7 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "yc-pre-departure-safety-briefing-and-guest-count",
         "br-benthic-grab-and-invertebrate-sorting",
         "br-vhf-and-navigation-in-a-work-zone",
         "br-cold-water-immersion-and-mob-recovery",
@@ -9288,6 +9289,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "yc-pre-departure-safety-briefing-and-guest-count",
+      "name": "Pre-Departure Safety Briefing & Guest Count",
+      "title": "SmartCiti.X~ Pre-Departure Safety Briefing & Guest Count VR",
+      "tagline": "Guests coming aboard for a charter: the standing orders read at the crew board, vest and radio on, the deck walked for the jammed locker and the open hatch, every head counted against the manifest through a late arrival at the gangway, the life jacket shown, the muster point and the no-go areas set, the hailer brought into band, the standing orders read back to the captain while a guest lights up at the fuel fill, the weather door dogged, the count logged and the crew checked in",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Charter yacht deckhand and steward, IBU and SIU trained, with an MEBA engineer aboard and the captain on the flybridge",
+      "union": null,
+      "certification": "IBU and SIU deck training for small passenger and charter vessel crew; MEBA engineering watch; USCG lifesaving equipment and passenger safety rules at 46 CFR 25 and 46 CFR 199 as the vessel's certificate applies them; 33 CFR 83 Inland Navigation Rules; OSHA 29 CFR 1910.132 personal protective equipment; IMO STCW basic safety training; marine VHF practice under 47 CFR 80",
+      "accent": "#2b6f9e",
+      "parSeconds": 270,
+      "weather": "clear",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "hold",
+        "drag",
+        "gauge",
+        "track",
+        "turn"
+      ],
+      "badge": {
+        "id": "every-head-counted",
+        "name": "Every Head Counted",
+        "note": "The manifest matched before a line was touched, the life jacket shown rather than pointed at, and both the late guest and the lit cigarette answered"
+      },
+      "meshes": 348,
+      "lights": 0,
+      "overBudget": true,
+      "index": "yc-1",
+      "flat": false,
+      "system": "Charter Deck",
+      "currency": "KNOT",
+      "ranks": [
+        "Green Hand",
+        "Deckhand",
+        "Lead Deckhand",
+        "Mate",
+        "Charter Deck Certified"
+      ],
+      "awards": [
+        {
+          "id": "orders-first",
+          "name": "Orders First",
+          "note": "The standing orders read before anyone else was briefed"
+        },
+        {
+          "id": "heard-aft",
+          "name": "Heard Aft",
+          "note": "Hailer level committed inside the band first time"
+        },
+        {
+          "id": "feet-on-deck",
+          "name": "Feet On Deck",
+          "note": "Never a count from the gunwale, never a key turned or a line cast before the count"
+        },
+        {
+          "id": "clean-briefing",
+          "name": "Clean Briefing",
+          "note": "No corrections from the crew board to the log"
+        },
+        {
+          "id": "steady-readback",
+          "name": "Steady Read-Back",
+          "note": "The read-back held in band the whole way through"
+        },
+        {
+          "id": "slack-water",
+          "name": "Slack Water",
+          "note": "Count logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=yc-pre-departure-safety-briefing-and-guest-count"
     },
     {
       "app": "smartcity",
@@ -30310,7 +30394,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 263,
+      "meshes": 258,
       "lights": 0,
       "overBudget": false,
       "index": "92",

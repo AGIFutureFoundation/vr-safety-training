@@ -25354,5 +25354,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "yc-pre-departure-safety-briefing-and-guest-count",
+    "index": "yc-1",
+    "domain": "Maritime & Ports",
+    "trade": "Charter yacht deckhand and steward, IBU and SIU trained, with an MEBA engineer aboard and the captain on the flybridge",
+    "category": "Maritime & Ports",
+    "certification": "IBU and SIU deck training for small passenger and charter vessel crew; MEBA engineering watch; USCG lifesaving equipment and passenger safety rules at 46 CFR 25 and 46 CFR 199 as the vessel's certificate applies them; 33 CFR 83 Inland Navigation Rules; OSHA 29 CFR 1910.132 personal protective equipment; IMO STCW basic safety training; marine VHF practice under 47 CFR 80",
+    "name": "Pre-Departure Safety Briefing & Guest Count",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Pre-Departure Safety Briefing & Guest Count VR",
+    "tagline": "Guests coming aboard for a charter: the standing orders read at the crew board, vest and radio on, the deck walked for the jammed locker and the open hatch, every head counted against the manifest through a late arrival at the gangway, the life jacket shown, the muster point and the no-go areas set, the hailer brought into band, the standing orders read back to the captain while a guest lights up at the fuel fill, the weather door dogged, the count logged and the crew checked in",
+    "accent": 2846622,
+    "accentCss": "#2b6f9e",
+    "parSeconds": 270,
+    "badge": {
+      "id": "every-head-counted",
+      "name": "Every Head Counted",
+      "note": "The manifest matched before a line was touched, the life jacket shown rather than pointed at, and both the late guest and the lit cigarette answered"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Charter Deck",
+      "currency": "KNOT",
+      "ranks": [
+        "Green Hand",
+        "Deckhand",
+        "Lead Deckhand",
+        "Mate",
+        "Charter Deck Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
