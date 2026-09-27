@@ -23590,5 +23590,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "ml-flat-sorter-guarding-and-lockout",
+    "index": "ml-4",
+    "domain": "Postal & Mail Processing",
+    "trade": "Mail processing plant clerk — flat sorter guarding and lockout, APWU",
+    "category": "Manufacturing & Automation",
+    "certification": "OSHA 29 CFR 1910.147 the control of hazardous energy (lockout/tagout); OSHA 29 CFR 1910.212 general requirements for all machines, including interlocked guarding; ASME B20.1 safety standard for conveyors and related equipment, for the sorter's own induction belt; NIOSH criteria on caught-in and struck-by injuries at unguarded pinch points; APWU training for mail processing plant clerks",
+    "name": "Flat Sorter Guarding & Lockout",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Flat Sorter Guarding & Lockout VR",
+    "tagline": "A flat sorter's interlocked guard door and sweep-arm pinch point worked the plant's own way: a defeated interlock and a missing panel found before either is trusted, the disconnect isolated and locked before the guard opens, residual motion actually checked, a jammed flat cleared with a hand that never trusts the restart timer, the interlock proven rather than assumed, and the isolation returned in the order it went on",
+    "accent": 3108784,
+    "accentCss": "#2f6fb0",
+    "parSeconds": 280,
+    "badge": {
+      "id": "sorter-loto-certified",
+      "name": "Sorter LOTO Certified",
+      "note": "Isolated and locked the sorter before opening the guard, cleared the jam without reaching past a live pinch point, and proved the interlock before trusting it again"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Sorter Isolation",
+      "currency": "ISOLATION",
+      "ranks": [
+        "Plant Clerk",
+        "Jam Aware",
+        "Isolation Handler",
+        "Sorter Isolation Authority",
+        "Sorter LOTO Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 555
+      "stations": 556
     },
     "trades": {
       "entry": "trades/index.html",
@@ -207,6 +207,7 @@
         "conveyor-guard",
         "forklift-dock",
         "cnc-cell",
+        "ml-flat-sorter-guarding-and-lockout",
         "sm-kitchen-exhaust-and-fire-wrap",
         "sm-air-balancing-and-testing",
         "sm-architectural-panels-at-height",
@@ -8738,6 +8739,89 @@
     },
     {
       "app": "smartcity",
+      "id": "ml-flat-sorter-guarding-and-lockout",
+      "name": "Flat Sorter Guarding & Lockout",
+      "title": "SmartCiti.X~ Flat Sorter Guarding & Lockout VR",
+      "tagline": "A flat sorter's interlocked guard door and sweep-arm pinch point worked the plant's own way: a defeated interlock and a missing panel found before either is trusted, the disconnect isolated and locked before the guard opens, residual motion actually checked, a jammed flat cleared with a hand that never trusts the restart timer, the interlock proven rather than assumed, and the isolation returned in the order it went on",
+      "category": "Manufacturing & Automation",
+      "domain": "Postal & Mail Processing",
+      "trade": "Mail processing plant clerk — flat sorter guarding and lockout, APWU",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.147 the control of hazardous energy (lockout/tagout); OSHA 29 CFR 1910.212 general requirements for all machines, including interlocked guarding; ASME B20.1 safety standard for conveyors and related equipment, for the sorter's own induction belt; NIOSH criteria on caught-in and struck-by injuries at unguarded pinch points; APWU training for mail processing plant clerks",
+      "accent": "#2f6fb0",
+      "parSeconds": 280,
+      "weather": "clear",
+      "indoor": "plant",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "select",
+        "find",
+        "gauge",
+        "turn",
+        "drag",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "sorter-loto-certified",
+        "name": "Sorter LOTO Certified",
+        "note": "Isolated and locked the sorter before opening the guard, cleared the jam without reaching past a live pinch point, and proved the interlock before trusting it again"
+      },
+      "meshes": 152,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ml-4",
+      "flat": false,
+      "system": "Sorter Isolation",
+      "currency": "ISOLATION",
+      "ranks": [
+        "Plant Clerk",
+        "Jam Aware",
+        "Isolation Handler",
+        "Sorter Isolation Authority",
+        "Sorter LOTO Certified"
+      ],
+      "awards": [
+        {
+          "id": "clean-machine-read",
+          "name": "Clean Machine Read",
+          "note": "Every guarding defect found without a hint"
+        },
+        {
+          "id": "locked-before-opened",
+          "name": "Locked Before Opened",
+          "note": "Isolated and locked the sorter before the guard ever opened"
+        },
+        {
+          "id": "interlock-proven",
+          "name": "Interlock Proven",
+          "note": "The interlock was actually tested, not just trusted"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "quick-clear",
+          "name": "Quick Clear",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "isolation-streak",
+          "name": "Isolation Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ml-flat-sorter-guarding-and-lockout"
+    },
+    {
+      "app": "smartcity",
       "id": "ml-heat-and-cold-stress-on-route",
       "name": "Heat & Cold Stress on Route",
       "title": "SmartCiti.X~ Heat & Cold Stress on Route VR",
@@ -8770,7 +8854,7 @@
         "name": "All-Weather Route",
         "note": "Both the cold start and the heat stretch worked to the plan, the shade break actually held, and a coworker's heat-illness call answered without a single unsafe move"
       },
-      "meshes": 114,
+      "meshes": 116,
       "lights": 0,
       "overBudget": false,
       "index": "ml-3",
@@ -29341,7 +29425,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 259,
+      "meshes": 258,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -30001,7 +30085,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",
