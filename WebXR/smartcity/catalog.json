@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 630
+      "stations": 631
     },
     "trades": {
       "entry": "trades/index.html",
@@ -180,6 +180,7 @@
         "tower-climb",
         "cell-site-battery",
         "microwave-backhaul",
+        "ws-crah-alarm-response-in-a-live-hall",
         "ws-raised-floor-tile-lift-and-cable-tray-safety",
         "ws-data-hall-busway-install-and-torque-signoff",
         "aerial-lashing",
@@ -9522,6 +9523,89 @@
     },
     {
       "app": "smartcity",
+      "id": "ws-crah-alarm-response-in-a-live-hall",
+      "name": "CRAH Alarm Response in a Live Hall",
+      "title": "SmartCiti.X~ CRAH Alarm Response in a Live Hall VR",
+      "tagline": "The alarm read and reported, the supply air read against its band, the unit walked down, the standby brought on per the procedure and the hall watched back before the failed unit is isolated and serviced",
+      "category": "Connectivity & Telecom",
+      "domain": "Connectivity",
+      "trade": "IBEW critical-facilities technician",
+      "union": null,
+      "certification": "IBEW/NECA JATC critical-facilities training as a body; 29 CFR 1910.147 for isolating the air handler before service; NFPA 70E and 29 CFR 1910.333 for the absence-of-voltage test at its disconnect; 29 CFR 1910.22 for a wet floor in the hall; 29 CFR 1910.38 for the hall's emergency action plan when the suppression system pre-alarms; the hall's operating procedure and the unit manufacturer's manual for every set point and limit",
+      "accent": "#6fb0e6",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "data-center-build",
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "find",
+        "track",
+        "hold",
+        "turn",
+        "drag"
+      ],
+      "badge": {
+        "id": "hall-held",
+        "name": "Hall Held",
+        "note": "The hall kept cool on the standby unit while the failed one was isolated, proven dead and serviced"
+      },
+      "meshes": 138,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ws-07",
+      "flat": false,
+      "system": "Critical Facilities Authority",
+      "currency": "RACKS",
+      "ranks": [
+        "Trainee",
+        "Facilities Tech",
+        "Critical Facilities Tech",
+        "Lead Tech",
+        "Critical Facilities Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "reported-first",
+          "name": "Reported First",
+          "note": "The hall operator heard about it before anything was touched"
+        },
+        {
+          "id": "no-reflexes",
+          "name": "No Reflexes",
+          "note": "No unsafe action was recorded"
+        },
+        {
+          "id": "steady-watch",
+          "name": "Steady Watch",
+          "note": "Held the hall recovery watch steady"
+        },
+        {
+          "id": "clean-response",
+          "name": "Clean Response",
+          "note": "No corrections from the alarm to the log"
+        },
+        {
+          "id": "unbroken-test",
+          "name": "Unbroken Test",
+          "note": "The absence test ran without a break"
+        },
+        {
+          "id": "brisk-response",
+          "name": "Brisk Response",
+          "note": "Responded and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ws-crah-alarm-response-in-a-live-hall"
+    },
+    {
+      "app": "smartcity",
       "id": "ws-raised-floor-tile-lift-and-cable-tray-safety",
       "name": "Raised-Floor Tile Lift & Cable Tray Safety",
       "title": "SmartCiti.X~ Raised-Floor Tile Lift & Cable Tray Safety VR",
@@ -9534,7 +9618,7 @@
       "accent": "#62c1a0",
       "parSeconds": 300,
       "weather": "overcast",
-      "indoor": "hall",
+      "indoor": null,
       "district": "data-center-build",
       "steps": 12,
       "hazards": 4,
@@ -31949,7 +32033,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 250,
+      "meshes": 248,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -32609,7 +32693,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "100",

@@ -26708,7 +26708,7 @@ export const SIMS_META = [
     "certification": "IBEW/NECA JATC telecommunications training as a body; BICSI installation practice for the cable pathway and the tray fill; NFPA 70 (NEC) for the tray bonding and the cable types under a raised floor; 29 CFR 1910.22 for the floor opening and the walking surface; 29 CFR 1910.268 for telecommunications work; the floor manufacturer's instructions and the hall's operating procedure for every load and temperature",
     "name": "Raised-Floor Tile Lift & Cable Tray Safety",
     "weather": "overcast",
-    "indoor": "hall",
+    "indoor": null,
     "district": "data-center-build",
     "title": "SmartCiti.X~ Raised-Floor Tile Lift & Cable Tray Safety VR",
     "tagline": "One tile out at a time with a proven lifter, the opening barricaded and attended, the plenum inspected, the cable laid into the tray rather than dragged over it, and the tile reseated flush",
@@ -26731,6 +26731,48 @@ export const SIMS_META = [
         "Telecom Technician",
         "Lead Technician",
         "Pathway Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ws-crah-alarm-response-in-a-live-hall",
+    "index": "ws-07",
+    "domain": "Connectivity",
+    "trade": "IBEW critical-facilities technician",
+    "category": "Connectivity & Telecom",
+    "certification": "IBEW/NECA JATC critical-facilities training as a body; 29 CFR 1910.147 for isolating the air handler before service; NFPA 70E and 29 CFR 1910.333 for the absence-of-voltage test at its disconnect; 29 CFR 1910.22 for a wet floor in the hall; 29 CFR 1910.38 for the hall's emergency action plan when the suppression system pre-alarms; the hall's operating procedure and the unit manufacturer's manual for every set point and limit",
+    "name": "CRAH Alarm Response in a Live Hall",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "data-center-build",
+    "title": "SmartCiti.X~ CRAH Alarm Response in a Live Hall VR",
+    "tagline": "The alarm read and reported, the supply air read against its band, the unit walked down, the standby brought on per the procedure and the hall watched back before the failed unit is isolated and serviced",
+    "accent": 7319782,
+    "accentCss": "#6fb0e6",
+    "parSeconds": 320,
+    "badge": {
+      "id": "hall-held",
+      "name": "Hall Held",
+      "note": "The hall kept cool on the standby unit while the failed one was isolated, proven dead and serviced"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Critical Facilities Authority",
+      "currency": "RACKS",
+      "ranks": [
+        "Trainee",
+        "Facilities Tech",
+        "Critical Facilities Tech",
+        "Lead Tech",
+        "Critical Facilities Authority Certified"
       ],
       "rankAt": [
         0,
