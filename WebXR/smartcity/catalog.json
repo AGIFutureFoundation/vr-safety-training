@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 599
+      "stations": 602
     },
     "trades": {
       "entry": "trades/index.html",
@@ -129,6 +129,9 @@
         "lift-station",
         "chlorine-room",
         "backflow-test",
+        "me-tidal-marsh-channel-restoration-day",
+        "me-water-column-sampling-from-a-small-boat",
+        "me-eelgrass-seed-collection-and-nursery",
         "me-oyster-reef-monitoring-and-settlement-tiles",
         "me-kelp-transect-survey-and-photo-quadrats",
         "br-beach-seine-fish-survey-and-handling",
@@ -9290,6 +9293,255 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "me-tidal-marsh-channel-restoration-day",
+      "name": "Tidal Marsh Channel Restoration Day",
+      "title": "SmartCiti.X~ Tidal Marsh Channel Restoration Day VR",
+      "tagline": "The plan and the window read, waders and vest on, the staff read, the flagged path walked while the tide turns early, the alignment staked, the fence post driven, the buffer flag and the buried-line marker found, plugs cut, placed and tamped in order, the rod held for the shot while a bird lands in the buffer, spoil carried to its zone, the crew called and the day logged",
+      "category": "Water & Environmental",
+      "domain": "Environmental",
+      "trade": "Hand-crew lead on a tidal marsh restoration, opening a channel by hand inside the permit's work window with a monitor watching the nesting buffer",
+      "union": null,
+      "certification": "LIUNA and AFSCME restoration and habitat crews as training bodies; OSHA 29 CFR 1910.132 personal protective equipment for mud, water and hand tools; Section 404 permit conditions for placing and moving material in the marsh; Regional Water Quality Control Board Section 401 conditions on turbidity and spoil; BCDC permit conditions; the U.S. Fish and Wildlife Service and NOAA Fisheries consultation measures that set the work window and the nesting buffer; CDFW oversight of the channel work",
+      "accent": "#8fa64a",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "track",
+        "drag",
+        "turn",
+        "find",
+        "hold"
+      ],
+      "badge": {
+        "id": "channel-by-hand",
+        "name": "Channel By Hand",
+        "note": "A channel opened inside the window with every boot on the path, every plug in order and every bucket of spoil in its zone"
+      },
+      "meshes": 259,
+      "lights": 0,
+      "overBudget": false,
+      "index": "605",
+      "flat": false,
+      "system": "Marsh Crew",
+      "currency": "PLUG",
+      "ranks": [
+        "Marsh Hand",
+        "Channel Hand",
+        "Crew Lead",
+        "Restoration Lead",
+        "Marsh Certified"
+      ],
+      "awards": [
+        {
+          "id": "plugs-in-order",
+          "name": "Plugs In Order",
+          "note": "Cut, placed and tamped in order first time"
+        },
+        {
+          "id": "marsh-kept",
+          "name": "Marsh Kept",
+          "note": "Never a hazard, never a boot off the path"
+        },
+        {
+          "id": "true-staff",
+          "name": "True Staff",
+          "note": "The staff read inside the working band"
+        },
+        {
+          "id": "clean-day",
+          "name": "Clean Day",
+          "note": "No corrections from the plan to the log"
+        },
+        {
+          "id": "steady-rod",
+          "name": "Steady Rod",
+          "note": "The path walked and the rod held without a break"
+        },
+        {
+          "id": "out-before-flood",
+          "name": "Out Before The Flood",
+          "note": "Day logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=me-tidal-marsh-channel-restoration-day"
+    },
+    {
+      "app": "smartcity",
+      "id": "me-water-column-sampling-from-a-small-boat",
+      "name": "Water Column Sampling From A Small Boat",
+      "title": "SmartCiti.X~ Water Column Sampling From A Small Boat VR",
+      "tagline": "The sampling plan read, the vest and gloves on, the disk lowered to its vanishing, the bottle clipped to the line, wound down to the plan's mark, held while the messenger trips and a wake comes through, brought up steady while the line fouls aft, the split seal and the blank label found, rinsed, filled and labelled in order, the blank read, the cooler racked under custody, the skipper called and the station logged",
+      "category": "Water & Environmental",
+      "domain": "Environmental",
+      "trade": "Sampling technician on a monitoring crew, working the afterdeck of a small workboat held on station by its skipper",
+      "union": null,
+      "certification": "AFSCME and LIUNA monitoring crews as training bodies; OSHA 29 CFR 1910.132 personal protective equipment for work over the side; 40 CFR 136 analytical methods and the sample handling they require, under a quality assurance project plan written to EPA QA/G-5; Regional Water Quality Control Board Section 401 monitoring conditions and the Section 404 record the samples answer; BCDC permit conditions; NOAA Fisheries consultation measures for the in-water work the samples watch",
+      "accent": "#4fa3c8",
+      "parSeconds": 300,
+      "weather": "wind",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "drag",
+        "turn",
+        "hold",
+        "track",
+        "find"
+      ],
+      "badge": {
+        "id": "bottle-is-evidence",
+        "name": "Bottle Is Evidence",
+        "note": "Every bottle rinsed, filled, labelled and cold under custody, and nobody over the rail to get it"
+      },
+      "meshes": 202,
+      "lights": 0,
+      "overBudget": false,
+      "index": "604",
+      "flat": false,
+      "system": "Sampling Crew",
+      "currency": "BOTTLE",
+      "ranks": [
+        "Deck Hand",
+        "Sampler",
+        "Field Sampler",
+        "Sampling Lead",
+        "Custody Certified"
+      ],
+      "awards": [
+        {
+          "id": "to-the-mark",
+          "name": "To The Mark",
+          "note": "The bottle wound to the plan's mark first time"
+        },
+        {
+          "id": "inboard",
+          "name": "Inboard",
+          "note": "Never a hazard, never a hand in the line or a body over the rail"
+        },
+        {
+          "id": "true-blank",
+          "name": "True Blank",
+          "note": "The disk and the blank both read inside the band"
+        },
+        {
+          "id": "clean-station",
+          "name": "Clean Station",
+          "note": "No corrections from the plan to the log"
+        },
+        {
+          "id": "steady-line",
+          "name": "Steady Line",
+          "note": "The trip held and the retrieve steady the whole way"
+        },
+        {
+          "id": "racked-in-time",
+          "name": "Racked In Time",
+          "note": "Cooler racked and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=me-water-column-sampling-from-a-small-boat"
+    },
+    {
+      "app": "smartcity",
+      "id": "me-eelgrass-seed-collection-and-nursery",
+      "name": "Eelgrass Seed Collection & Nursery",
+      "title": "SmartCiti.X~ Eelgrass Seed Collection & Nursery VR",
+      "tagline": "The collecting permit read, the share meter set, the kit checked, the first bag cut into the cooler, the skiff drifted along the bed's edge while a bag heats on the thwart, the seeded and the torn bag found, the tank valve opened, bags labelled and hung in order, the sieve held while the flow alarm trips, the tank band read, the seed jar racked in the dark, the tender called and the collection logged",
+      "category": "Water & Environmental",
+      "domain": "Environmental",
+      "trade": "Nursery technician on a seagrass restoration crew, collecting flowering shoots from a skiff and running the shore nursery's flow-through tanks",
+      "union": null,
+      "certification": "AFSCME and LIUNA restoration and nursery crews as training bodies; OSHA 29 CFR 1910.132 personal protective equipment for work over the side and in the nursery; CDFW oversight of the collecting permit's share and handling; NOAA Fisheries and the U.S. Fish and Wildlife Service consultation measures for in-water work at the bed; BCDC permit conditions; Regional Water Quality Control Board Section 401 conditions on the nursery's discharge and the Section 404 record the planting will answer to",
+      "accent": "#3fae8f",
+      "parSeconds": 300,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Environmental Monitoring",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "drag",
+        "track",
+        "find",
+        "turn",
+        "hold"
+      ],
+      "badge": {
+        "id": "seed-kept-cold",
+        "name": "Seed Kept Cold",
+        "note": "Every bag cut to the share, kept wet and cool, hung by its label and its seed racked in the dark — first time"
+      },
+      "meshes": 269,
+      "lights": 0,
+      "overBudget": false,
+      "index": "603",
+      "flat": false,
+      "system": "Seed Crew",
+      "currency": "SPATHE",
+      "ranks": [
+        "Nursery Hand",
+        "Collector",
+        "Nursery Tech",
+        "Seed Lead",
+        "Nursery Certified"
+      ],
+      "awards": [
+        {
+          "id": "to-the-share",
+          "name": "To The Share",
+          "note": "The share meter committed inside the permit's band first time"
+        },
+        {
+          "id": "bed-kept",
+          "name": "Bed Kept",
+          "note": "Never a hazard, never a rhizome pulled"
+        },
+        {
+          "id": "steady-drift",
+          "name": "Steady Drift",
+          "note": "The drift and the tank band both read inside the band"
+        },
+        {
+          "id": "clean-collection",
+          "name": "Clean Collection",
+          "note": "No corrections from the permit to the log"
+        },
+        {
+          "id": "sieve-steady",
+          "name": "Sieve Steady",
+          "note": "The drift and the sieve held without a break"
+        },
+        {
+          "id": "racked-early",
+          "name": "Racked Early",
+          "note": "Seed racked and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=me-eelgrass-seed-collection-and-nursery"
     },
     {
       "app": "smartcity",
@@ -30478,7 +30730,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 252,
+      "meshes": 259,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -31138,7 +31390,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "100",

@@ -25522,5 +25522,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "me-tidal-marsh-channel-restoration-day",
+    "index": "605",
+    "domain": "Environmental",
+    "trade": "Hand-crew lead on a tidal marsh restoration, opening a channel by hand inside the permit's work window with a monitor watching the nesting buffer",
+    "category": "Water & Environmental",
+    "certification": "LIUNA and AFSCME restoration and habitat crews as training bodies; OSHA 29 CFR 1910.132 personal protective equipment for mud, water and hand tools; Section 404 permit conditions for placing and moving material in the marsh; Regional Water Quality Control Board Section 401 conditions on turbidity and spoil; BCDC permit conditions; the U.S. Fish and Wildlife Service and NOAA Fisheries consultation measures that set the work window and the nesting buffer; CDFW oversight of the channel work",
+    "name": "Tidal Marsh Channel Restoration Day",
+    "weather": "clear",
+    "indoor": null,
+    "district": "Environmental Monitoring",
+    "title": "SmartCiti.X~ Tidal Marsh Channel Restoration Day VR",
+    "tagline": "The plan and the window read, waders and vest on, the staff read, the flagged path walked while the tide turns early, the alignment staked, the fence post driven, the buffer flag and the buried-line marker found, plugs cut, placed and tamped in order, the rod held for the shot while a bird lands in the buffer, spoil carried to its zone, the crew called and the day logged",
+    "accent": 9414218,
+    "accentCss": "#8fa64a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "channel-by-hand",
+      "name": "Channel By Hand",
+      "note": "A channel opened inside the window with every boot on the path, every plug in order and every bucket of spoil in its zone"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Marsh Crew",
+      "currency": "PLUG",
+      "ranks": [
+        "Marsh Hand",
+        "Channel Hand",
+        "Crew Lead",
+        "Restoration Lead",
+        "Marsh Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
