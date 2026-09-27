@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 554
+      "stations": 556
     },
     "trades": {
       "entry": "trades/index.html",
@@ -361,6 +361,8 @@
         "stage-power",
         "chain-hoist",
         "fly-system",
+        "md-sound-stage-electrical-distribution-and-cable-crossings",
+        "md-location-shoot-traffic-control-and-heat-hydration",
         "md-camera-dolly-and-crane-track",
         "md-set-safety-meeting-and-stunt-go-no-go",
         "stage-load-in-and-truss-rigging",
@@ -8737,6 +8739,173 @@
     },
     {
       "app": "smartcity",
+      "id": "md-sound-stage-electrical-distribution-and-cable-crossings",
+      "name": "Sound Stage Electrical Distribution & Cable Crossings",
+      "title": "SmartCiti.X~ Sound Stage Electrical Distribution & Cable Crossings VR",
+      "tagline": "A soundstage rig before the day's first cue: the power plot's circuit loads read, gloves and glasses on, the floor swept for a taped-over splice and a bare second crossing, the load calc checked against the breaker, the breaker locked out and proven dead before a lug is touched, the new circuit patched, re-energised, clamp-metered under the rating, the gaffer's radio confirmed, the practical's dimmer faded smooth to the cue, the first crossing ramped, the panel's cover closed, and the rig logged — a second electrician reaching for a live lug and a cart crossing the unramped run both answered off a control that isn't the one already in the learner's hand",
+      "category": "Entertainment & Live Events",
+      "domain": "Screen & Media Crafts",
+      "trade": "IATSE set electrician, running a soundstage's temporary distribution to the dimmer rack and today's practical",
+      "union": null,
+      "certification": "IATSE set lighting and electrical department training; NFPA 70E electrical safety in the workplace for the lockout and prove-dead steps; NEC/NFPA 70 wiring practice for the distribution and the cable crossings; OSHA 29 CFR 1910.147 lockout/tagout on the distro breaker; OSHA 29 CFR 1910.305 wiring methods for temporary stage cable runs",
+      "accent": "#ffb300",
+      "parSeconds": 340,
+      "weather": "clear",
+      "indoor": "theatre",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "turn",
+        "hold",
+        "gauge",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "proven-dead-and-patched",
+        "name": "Proven Dead and Patched",
+        "note": "The breaker locked and proven dead before any lug was touched, the load checked under the breaker's rating, and both crossings ramped before anyone wheeled a cart across them"
+      },
+      "meshes": 154,
+      "lights": 0,
+      "overBudget": false,
+      "index": "711",
+      "flat": false,
+      "system": "Distro Bench",
+      "currency": "AMP",
+      "ranks": [
+        "Loader",
+        "Set Lighting Trainee",
+        "Board Operator",
+        "Set Electrician",
+        "Gaffer Certified"
+      ],
+      "awards": [
+        {
+          "id": "dead-before-lug",
+          "name": "Dead Before Lug",
+          "note": "Never landed a lug before the tester proved the circuit dead"
+        },
+        {
+          "id": "second-electrician-answered",
+          "name": "Second Electrician Answered",
+          "note": "The second electrician's reach was stopped off the radio, not ignored"
+        },
+        {
+          "id": "never-past-the-cover",
+          "name": "Never Past the Cover",
+          "note": "Never reached a lug before it was proven dead, never crossed an unramped run, never added a fixture past the breaker's rating, never opened the panel live"
+        },
+        {
+          "id": "clean-patch",
+          "name": "Clean Patch",
+          "note": "No corrections from the plot to the closing log"
+        },
+        {
+          "id": "smooth-fade",
+          "name": "Smooth Fade",
+          "note": "The dimmer fade held its band the whole way up, first time"
+        },
+        {
+          "id": "rig-on-time",
+          "name": "Rig On Time",
+          "note": "Proven, patched and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=md-sound-stage-electrical-distribution-and-cable-crossings"
+    },
+    {
+      "app": "smartcity",
+      "id": "md-location-shoot-traffic-control-and-heat-hydration",
+      "name": "Location Shoot Traffic Control & Heat/Hydration",
+      "title": "SmartCiti.X~ Location Shoot Traffic Control & Heat/Hydration VR",
+      "tagline": "A closed city block before the take: the permit read, hi-vis and paddle on, the block swept for a car that never moved and a blocked curb ramp, the heat index checked and the cooler proven full, the paddle turned to STOP, the all-clear held until both ends read clear, the AD's rolling call confirmed, the paddle held steady through the take, the production van repositioned behind base camp, a jug carried to the cooler, the scheduled heat break called, and the reopening logged — a resident's car and an early heat-illness sign both answered off a control that isn't the one already in the learner's hand",
+      "category": "Entertainment & Live Events",
+      "domain": "Screen & Media Crafts",
+      "trade": "Location department traffic control coordinator, managing a live-street closure, the production van's reposition move, and the crew's heat and hydration break",
+      "union": null,
+      "certification": "IATSE location department training; ANSI/ISEA 107 high-visibility apparel for the traffic control crew; OSHA 29 CFR 1910.132 general personal protective equipment requirements; Cal/OSHA 8 CCR 3203 injury and illness prevention programme requirement, applied here to the production's own written traffic and heat safety plans; NFPA 101 Life Safety Code requirements for keeping the marked emergency-vehicle lane open through the closure",
+      "accent": "#ff7043",
+      "parSeconds": 340,
+      "weather": "heat-haze",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "turn",
+        "hold",
+        "track",
+        "drive",
+        "drag"
+      ],
+      "badge": {
+        "id": "block-held-crew-cool",
+        "name": "Block Held, Crew Cool",
+        "note": "The block swept clean, the cooler proven full before the first take, the resident's car turned back off the paddle, and the heat sign caught and answered before it became something worse"
+      },
+      "meshes": 250,
+      "lights": 0,
+      "overBudget": false,
+      "index": "710",
+      "flat": false,
+      "system": "Location Control",
+      "currency": "BLOCK",
+      "ranks": [
+        "Set PA",
+        "Lock-Up PA",
+        "Traffic Control Trainee",
+        "Location Coordinator",
+        "Location Manager Certified"
+      ],
+      "awards": [
+        {
+          "id": "cooler-proven",
+          "name": "Cooler Proven",
+          "note": "Never called the heat break before the cooler read full"
+        },
+        {
+          "id": "car-turned-back",
+          "name": "Car Turned Back",
+          "note": "The resident's car was turned back on the paddle, not the all-clear call"
+        },
+        {
+          "id": "never-in-the-lane",
+          "name": "Never in the Lane",
+          "note": "Never stood in a blind corner, never crossed behind the reversing van, never blocked the fire lane, never skipped the cable ramp"
+        },
+        {
+          "id": "clean-closure",
+          "name": "Clean Closure",
+          "note": "No corrections from the permit to the closing log"
+        },
+        {
+          "id": "steady-paddle",
+          "name": "Steady Paddle",
+          "note": "The paddle held its band facing traffic the whole take"
+        },
+        {
+          "id": "rolling-on-time",
+          "name": "Rolling On Time",
+          "note": "Cleared for the take inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=md-location-shoot-traffic-control-and-heat-hydration"
+    },
+    {
+      "app": "smartcity",
       "id": "md-camera-dolly-and-crane-track",
       "name": "Camera Dolly & Crane Track",
       "title": "SmartCiti.X~ Camera Dolly & Crane Track VR",
@@ -8769,7 +8938,7 @@
         "name": "Smooth and Balanced",
         "note": "The track swept clean, the arm balanced before the swivel locked, the shot held smooth on the dolly, and the crossing cart and the slipping sled both answered off the right control"
       },
-      "meshes": 168,
+      "meshes": 170,
       "lights": 0,
       "overBudget": false,
       "index": "709",
@@ -29258,7 +29427,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 265,
+      "meshes": 255,
       "lights": 0,
       "overBudget": false,
       "index": "92",
