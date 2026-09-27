@@ -230,5 +230,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "grounds-and-landscaping",
     "name": "Grounds & Landscaping Crew",
     "accent": "#3f9c5a"
+  },
+  {
+    "programme": "wojrc-pathway-edition",
+    "name": "Pathway Edition — wojrc.org",
+    "accent": "#e0a23f"
   }
 ];
