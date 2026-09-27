@@ -345,6 +345,46 @@ APPS = {
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
     },
+    # Bay World (WebXR/bayworld): a free-roam open-world city app whose
+    # missions are the platform's own real training stations, launched by
+    # deep link. world-stub.js stands in for the real city (WebXR/shared/
+    # bayworld-data.js + bayworld.js, team BAY1) until those land, and
+    # quests-sample.js stands in for the real quest board (WebXR/bayworld/js/
+    # quests.js, team BAY3) — see city.js's and quests-select.js's own
+    # headers for the one-line swaps, which move world-stub.js and
+    # quests-sample.js out of this list and the real modules in, in their
+    # place.
+    "bayworld": {
+        "out": "bayworld.html",
+        "modules": [
+            SHARED / "input.js",
+            SHARED / "weather.js",
+            SHARED / "kit.js",
+            SHARED / "textures.js",
+            SHARED / "perf.js",
+            SHARED / "fleet.js",
+            SHARED / "records.js",
+            SHARED / "a11y.js",
+            SHARED / "game.js",
+            SHARED / "competency.js",
+            SHARED / "ladder-milestones-data.js",
+            SHARED / "ladder.js",
+            SHARED / "tracking.js",
+            SHARED / "radio-quiz-data.js",
+            SHARED / "radio-quiz.js",
+            WEBXR / "bayworld/js/world-stub.js",
+            WEBXR / "bayworld/js/city.js",
+            WEBXR / "bayworld/js/quests-sample.js",
+            WEBXR / "bayworld/js/quests-select.js",
+            WEBXR / "bayworld/js/quest-engine.js",
+            WEBXR / "bayworld/js/career.js",
+            WEBXR / "bayworld/js/sim.js",
+            WEBXR / "bayworld/js/map.js",
+            WEBXR / "bayworld/js/world.js",
+            WEBXR / "bayworld/js/app.js",
+        ],
+        "entry": '<script type="module" src="./js/app.js"></script>',
+    },
 }
 
 # Cross-app links (e.g. trades' intro pointing at "../smartcity/index.html")
@@ -531,6 +571,7 @@ DIST_PAGES = {
     "race": "race.html",
     "arcade": "arcade.html",
     "fairway": "fairway.html",
+    "bayworld": "bayworld.html",
 }
 DIST_SHARED = [
     "auth.js", "identity.js", "records.js", "radio-quiz.js", "radio-quiz-data.js",
