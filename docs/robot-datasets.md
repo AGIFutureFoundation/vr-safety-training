@@ -241,6 +241,107 @@ any standards body a station's own `certification` field names — see
 
 ---
 
+## Quality report (`tools/eval_dataset.mjs`)
+
+```bash
+node tools/eval_dataset.mjs tools/out/dataset          # writes into the dataset folder itself
+node tools/eval_dataset.mjs tools/out/dataset --out /tmp/report
+```
+
+Reads every `episodes-*.jsonl` shard back (not the manifest's own counts —
+independently, from the shards themselves) and writes `quality-report.json`
+and `QUALITY_REPORT.md`: coverage per station / step kind / skill / seed,
+action-class balance, hazard and interruption coverage, the duplicate-episode
+rate (by a dedupe key documented at the top of the script, adapted from
+`shared/episodes.js`'s `dedupeKeyFor()` to this exported schema), pose-track
+presence, schema validity against the fields this page documents, and a
+single 0–100 **quality score** — the weighted sum of seven sub-scores (each
+already in [0, 1]); the exact weights and every sub-score's raw value are in
+the tool's own header comment and in the report itself, never a black box.
+Deterministic: the same dataset folder always produces the same numbers
+(`generatedAt` aside).
+
+A real run, the default two-app sample (`node tools/export_dataset.mjs`, 40
+smartcity stations + all 9 trades rooms, 3 skills, 2 seeds — 294 episodes,
+32,895 steps, 49 stations):
+
+| sub-score | value | weight | contribution |
+| --- | --- | --- | --- |
+| schemaValidity | 100% | 30 | 30.0 |
+| actionBalance | 70% | 15 | 10.5 |
+| hazardCoverage | 100% | 10 | 10.0 |
+| interruptionCoverage | 100% | 10 | 10.0 |
+| duplicateRate | 100% | 15 | 15.0 |
+| stationDiversity | 100% | 10 | 10.0 |
+| poseTrackPresence | 52% | 10 | 5.2 |
+
+**Score: 91/100.** The one sub-score not near-perfect on this sample is
+`poseTrackPresence`, and that is expected rather than a defect: a `release`
+action always carries `info.pose: null` (letting go has no target id to
+pose — see `robot-embodiment.js`'s `actedId()`), and a `drive` step's
+observation has no per-target pose to report either. Both action classes are
+common in this sample (10,378 `release` and 4,909 `drive` decisions out of
+32,895), so the presence rate over *all* embodied steps naturally lands well
+under 100% even on a clean export — a station whose steps are mostly
+`select`/`sequence`/`gauge` would read much higher on this sub-score. Read
+`poseTrackPresence` as "does pose data show up on the steps that can carry
+it," not as a defect count.
+
+## Baseline trainer (`tools/train_baseline.mjs`)
+
+```bash
+node tools/train_baseline.mjs tools/out/dataset --out tools/out/baseline
+node tools/train_baseline.mjs tools/out/dataset --out /tmp/b --epochs 10 --limit 2000
+```
+
+A small behaviour-cloning baseline, plain JS, no external dependencies:
+featurises every step's `observation` (a fixed numeric digest, a one-hot step
+kind, a hashed bag of interactable ids — see the tool's own header comment),
+fits a multinomial logistic-regression policy over the nine action classes
+with mini-batch gradient descent, holds out 20% of episodes **by station**
+(every distinct station either trains or evaluates, never both), reports
+top-1/top-3 action accuracy per step kind and per station on the held-out
+set, then **replays the learned policy through the real procedure engine**
+headlessly — the same suite loader `tools/robot_train.mjs` uses — on the
+held-out stations, and reports its pass rate and mean score against the
+scripted expert (skill 1) and novice (skill 0) policies from
+`WebXR/shared/robot.js`. Saves `weights.json` (a documented layout — see the
+file's own `layout` field), a `training-report.json`/`.md`, and a
+`MODEL_CARD.md` (intended use, architecture, data, limitations — **a
+research baseline, not a certification of anything**). `--epochs` and
+`--limit` control training length and data volume; the default run finishes
+in well under a minute on this project's own dev box, comfortably inside the
+four-minute budget on a loaded shared four-core one.
+
+A real run, on the dataset above (25 epochs, the defaults): 39 training
+stations, 10 held out.
+
+| held-out accuracy | value |
+| --- | --- |
+| top-1 | 98.9% |
+| top-3 | 100% |
+
+Replayed on the 10 held-out stations, 5 episodes per policy per station:
+
+| policy | pass rate | mean score |
+| --- | --- | --- |
+| learned | 10% | 1170 |
+| expert (skill 1) | 80% | 3182 |
+| novice (skill 0) | 0% | 1704 |
+
+Read together, these two tables are the point of shipping both a
+classification metric and a replay: 98.9% top-1 accuracy on individual
+held-out decisions did **not** carry over to a comparable pass rate once the
+policy actually ran a full station — a textbook behaviour-cloning
+compounding-error effect (a continuous-adjustment step like `hold`/`track` is
+ticked far more often than it is logged as a decision, so one tick where the
+classifier disagrees with the expert can carry the rest of that step into
+states the classifier never trained on). `MODEL_CARD.md` writes this up from
+each run's own numbers, not as a fixed claim — see its own "Limitations"
+section. The lesson for a reader is the standard one for this whole layer:
+**a metric on isolated decisions is not a substitute for replaying a policy
+through the real engine**, which is exactly why this tool does both.
+
 ## The gate
 
 ```bash
@@ -258,3 +359,20 @@ stable and content-sensitive; and a tiny `tools/export_dataset.mjs` run
 valid manifest, dataset card and JSON-Lines shards whose every step carries
 `observation`/`action`/`reward`/`done`/`info`, and refuses to write under
 `WebXR/dist`.
+
+```bash
+node tools/check_dataset_tools.mjs   # or node tools/check_all.mjs
+```
+
+Checks the quality reporter and the baseline trainer against a tiny dataset
+generated for the run (five trades stations, two skills, two seeds — deleted
+on exit): the exporter → `eval_dataset.mjs` → `train_baseline.mjs` round
+trip; the quality score stays in [0, 100] with weights summing to 100; a
+fresh export reads back with zero schema issues and zero duplicates; an
+injected duplicate episode is caught; `eval_dataset.mjs` is deterministic
+rerun to rerun; the station-level train/test split is disjoint and
+non-empty; held-out top-1 accuracy clears chance across the nine action
+classes; `weights.json` round-trips (two independent deserialisations of the
+same file predict identically, and its declared shapes match this build's
+feature spec); and the replay smoke test produces well-formed pass-rate/
+score summaries for the learned, expert and novice policies alike.
