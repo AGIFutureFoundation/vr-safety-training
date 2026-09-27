@@ -1,6 +1,6 @@
 # SmartCiti.X training series
 
-_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-26. 454 SmartCiti.X stations across 17 categories and 34 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
+_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-27. 462 SmartCiti.X stations across 17 categories and 35 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
 Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 42 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
@@ -40,6 +40,7 @@ Every station is a real union procedure sited generically, built on the shared e
 - [Railroad Crafts — Track, Car and Cab](#railroad-crafts)
 - [Heavy Equipment Operators — IUOE Local 3](#heavy-equipment-operators)
 - [Plumbers and Pipefitters — Journeyman Rough-In and Test Block](#plumbers-and-pipefitters)
+- [Education Support Staff — Custodial, Grounds, Transport and Classroom](#education-support-staff)
 
 <a id="hunters-point-bay-restoration"></a>
 ## Hunters Point Clean-up and Bay Restoration
@@ -1161,6 +1162,26 @@ Eight jobs a UA plumber or pipefitter actually rotates through: medical gas braz
 | pl-06 | [Steam Trap & Condensate Line Repair](../../WebXR/smartcity/index.html?sim=pl-steam-trap-and-condensate-line-repair) | UA pipefitter / steam and condensate systems | indoor (plant) | 14 | 2 | — | The failed trap's line is vented and proven at zero before the body ever opens, the replacement is matched to the application, and the line is warmed back up slowly enough that trapped condensate boils off instead of hammering through the pipe. |
 | pl-07 | [Water Heater & TPR Valve Replacement](../../WebXR/smartcity/index.html?sim=pl-water-heater-and-tpr-valve-replacement) | UA plumber / water heater installer | indoor (service) | 15 | 2 | — | The new tank is strapped against a seismic event before it is ever filled, the relief valve is matched to the tank's own rating rather than its thread size, and the gas connection is tested before the pilot lights. |
 | pl-08 | [Natural Gas Pressure Test & Leak Check](../../WebXR/smartcity/index.html?sim=pl-natural-gas-pressure-test-and-leak-check) | UA plumber / gas piping installer | indoor (service) | 14 | 2 | — | The new run is pressure-tested with air rather than fuel, every joint is soap-checked rather than trusted to the gauge alone, and the line is purged outdoors before any appliance ever sees live gas. |
+
+<a id="education-support-staff"></a>
+## Education Support Staff — Custodial, Grounds, Transport and Classroom
+
+**Union:** AFT and CSEA
+
+**Certifications and standards:** AFT and CSEA training for classified school employees, tested against OSHA's hazard communication, PPE, control-of-hazardous-energy and bloodborne-pathogens standards, ANSI/ISEA Z358.1, FMCSA's school-bus inspection and driving rules, the MUTCD, the California Retail Food Code and NFPA 85 across eight distinct classified-staff jobs
+
+Eight jobs a school's classified staff actually rotate through: a custodial chemical metered through the wall dispenser instead of eyeballed and a floor machine walked for defects before it's plugged in, a playground walked and its climbing structure checked close up before the gate opens, a school bus pre-tripped and driven to a curb stop where the stop arm and crossing gate come out together, a crossing guard judging a real gap in traffic rather than guessing one, a paraeducator's two-person transfer run to the student's own plan, a science lab's chemical storage checked against its compatibility chart with the eyewash and drench shower proven together, a kitchen's delivery probed and its sanitizer tested to the strip rather than by eye, and a boiler room's air handler locked, tagged and proven dead before its filter panel ever comes off. Every station ends on a proof — a gauge, a test strip, a signed log — rather than on how routine the job looked going in.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| 620 | [Custodial Chemical Dilution & Floor Machine](../../WebXR/smartcity/index.html?sim=ed-custodial-chemical-dilution-and-floor-machine) | AFT- or CSEA-represented school custodian running chemical dilution and floor-care equipment | indoor (service) | 14 | 2 | — | A hallway chemical metered through the wall dispenser instead of eyeballed, a floor machine walked for defects before it's plugged in, and a pad never changed until the cord is out of the wall. |
+| 621 | [Playground Equipment Inspection](../../WebXR/smartcity/index.html?sim=ed-playground-equipment-inspection) | AFT- or CSEA-represented school grounds and facilities worker conducting the daily playground equipment safety inspection | clear | 13 | 2 | — | The fence, the fall-zone surfacing and the climbing structure all checked close up before the gate opens, with a sprung S-hook closed by the tool rather than a thumb. |
+| 622 | [Bus Pre-Trip & Loading Zone](../../WebXR/smartcity/index.html?sim=ed-bus-pretrip-and-loading-zone) | AFT- or CSEA-represented school bus driver running the morning pre-trip inspection and the curb-side student loading zone, with a route aide riding along | overcast | 14 | 2 | — | The pre-trip walkaround before the engine starts, the stop arm and crossing gate out together at the curb, and the mirrors checked again before the bus ever rolls away. |
+| 623 | [Crossing Guard Intersection Control](../../WebXR/smartcity/index.html?sim=ed-crossing-guard-intersection-control) | AFT- or CSEA-represented adult school crossing guard posted at the intersection nearest the school | clear | 11 | 2 | — | A gap in traffic judged rather than guessed, the paddle held through the whole crossing, and both directions scanned the entire time it's up. |
+| 624 | [Paraeducator Safe Lift & Transfer](../../WebXR/smartcity/index.html?sim=ed-paraeducator-safe-lift-and-transfer) | AFT- or CSEA-represented paraeducator transferring a student who uses a wheelchair, with a second paraeducator assisting | indoor (clinic) | 11 | 2 | — | The student's own transfer plan read first, the wheelchair's brakes proven, and a braced two-person pivot held steady instead of a solo twist. |
+| 625 | [Science Lab Chemical Storage & Eyewash Check](../../WebXR/smartcity/index.html?sim=ed-science-lab-chemical-storage-and-eyewash) | AFT- or CSEA-represented instructional lab aide maintaining a school science lab's chemical storage and safety equipment between classes | indoor (shop) | 10 | 2 | — | A storage cabinet checked against the compatibility chart, a corrosive decanted with the bottle carrier, and the eyewash and drench shower proven together. |
+| 626 | [Kitchen Receiving & Warewash Sanitizing](../../WebXR/smartcity/index.html?sim=ed-kitchen-receiving-and-warewash-sanitizing) | AFT- or CSEA-represented school nutrition worker receiving deliveries and running the dish room | indoor (kitchen) | 12 | 2 | — | A delivery probed and inspected at the dock before it's accepted, the sanitizer tested to the strip rather than by eye, and dishes timed through their full contact time. |
+| 627 | [Boiler Room & HVAC Filter Change with Lockout](../../WebXR/smartcity/index.html?sim=ed-boiler-room-filter-change-lockout) | AFT- or CSEA-represented school maintenance technician running a boiler-room walk and an air-handler filter change under lockout | indoor (plant) | 13 | 2 | — | The air handler locked, tagged and proven dead before the filter panel ever comes off, and a short observed restart watched steady before the ticket closes. |
 
 ## Real-world environments
 

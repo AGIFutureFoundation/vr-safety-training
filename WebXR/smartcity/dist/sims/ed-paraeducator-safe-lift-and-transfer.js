@@ -69,8 +69,8 @@ export const SIM_ED_PARAEDUCATOR_SAFE_LIFT_AND_TRANSFER = {
   },
 
   lateNotes: {
-    "gait-belt-fit": "Not yet — the belt goes on once the pre-lift check has actually cleared the space, not before.",
-    "braced-pivot": "The pivot happens once the count of three has actually been called — that's the next step.",
+    "gait-belt": "Not yet — the belt goes on once the pre-lift check has actually cleared the space, not before.",
+    "brace-effort": "The pivot happens once the count of three has actually been called — that's the next step.",
   },
 
   steps: [
@@ -286,14 +286,20 @@ export const SIM_ED_PARAEDUCATOR_SAFE_LIFT_AND_TRANSFER = {
     holoTag(g, "brake never locked?", -1.6, 0.75, -0.9, { css: "#f0645b", w: 0.5 });
     reg(hits, unlockedAttemptSpot, "unlocked-brake-attempt");
 
-    // Crew: the second paraeducator, the student in the wheelchair, and a classroom aide across the room.
-    const secondPara = standingFigure(g, -1.9, -0.9, { ry: 1.4, cloth: 0xd8dde2, vest: false, gloves: true });
+    // Crew: the second paraeducator (positioned against the lift itself, so
+    // it is exempt from the open-floor rule the same way a coworker riding
+    // the forks is), the student in the wheelchair, and a classroom aide.
+    const secondPara = standingFigure(g, -1.9, -0.9, { ry: 1.4, cloth: 0xd8dde2, vest: false, gloves: true, atStation: true });
     holoTag(secondPara, "second paraeducator", 0, 1.95, 0, { css: PE_CSS, w: 0.4 });
     reg(hits, secondPara, "second-paraeducator");
     const student = standingFigure(g, -1.6, -0.5, { ry: 0.5, cloth: 0x3f7a9e, trousers: 0x2b3138, atStation: true });
     student.scale.set(0.9, 0.9, 0.9);
     const aide = standingFigure(g, 2.6, 2.2, { ry: -2.2, cloth: 0xd8dde2 });
     holoTag(aide, "classroom aide", 0, 1.9, 0, { css: PE_CSS, w: 0.3 });
+    const pauseLamp = ball(g, 0.05, -0.9, 1.3, -0.2, 0x2a2a2a, { rough: 0.5 });
+    pauseLamp.visible = false;
+    const aideCallLamp = ball(aide, 0.05, 0, 2.1, 0, 0x2a2a2a, { rough: 0.5 });
+    aideCallLamp.visible = false;
 
     return {
       hits,
@@ -308,8 +314,15 @@ export const SIM_ED_PARAEDUCATOR_SAFE_LIFT_AND_TRANSFER = {
         if (step.id === "fasten-seatbelt") seatbeltBuckle.material = mat(0x59c97b, { emissive: 0x59c97b, ei: 0.8 });
       },
 
-      onInterrupt() {},
-      onInterruptEnd() {},
+      onInterrupt(it) {
+        if (it.id === "student-discomfort") { pauseLamp.visible = true; pauseLamp.material = mat(0xf0645b, { emissive: 0xf0645b, ei: 1.6 }); }
+        if (it.id === "aide-calls-for-help") { aideCallLamp.visible = true; aideCallLamp.material = mat(0xf0645b, { emissive: 0xf0645b, ei: 1.6 }); }
+      },
+      onInterruptEnd(it) {
+        if (it.resolved !== "answered") return;
+        if (it.id === "student-discomfort") pauseLamp.visible = false;
+        if (it.id === "aide-calls-for-help") aideCallLamp.visible = false;
+      },
 
       animate(t, dt, session) {
         const tr = session?.track;

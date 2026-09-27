@@ -20,8 +20,8 @@ import { simTitle, system, AWARD } from "../gamify.js";
 // learner is the AFT- or CSEA-represented adult crossing guard posted at the
 // corner; the intersection, the street names and every vehicle are generic.
 
-const CG_ACCENT = 0xf2b21b;
-const CG_CSS = "#f2b21b";
+const XG_ACCENT = 0xf2b21b;
+const XG_CSS = "#f2b21b";
 
 export const SIM_ED_CROSSING_GUARD_INTERSECTION_CONTROL = {
   id: "ed-crossing-guard-intersection-control",
@@ -34,8 +34,8 @@ export const SIM_ED_CROSSING_GUARD_INTERSECTION_CONTROL = {
   name: "Crossing Guard Intersection Control",
   title: simTitle("Crossing Guard Intersection Control"),
   tagline: "The corner before the bell: the post walked for sightlines, a gap in traffic judged before anyone steps off the curb, the paddle raised and held through the whole crossing, both directions watched the entire time, a fallen cone set back up, and the corner left as clear as it was found",
-  accent: CG_ACCENT,
-  accentCss: CG_CSS,
+  accent: XG_ACCENT,
+  accentCss: XG_CSS,
   parSeconds: 300,
   footprint: 2.9,
   badge: { id: "gap-judged-not-guessed", name: "Gap Judged, Not Guessed", note: "Every crossing timed to an actual gap in traffic, the paddle held the whole way across, and never a step off the curb before the gap was checked" },
@@ -189,7 +189,7 @@ export const SIM_ED_CROSSING_GUARD_INTERSECTION_CONTROL = {
   build(root) {
     const hits = {};
     const g = group(root);
-    stationPad(g, 2.9, CG_ACCENT);
+    stationPad(g, 2.9, XG_ACCENT);
 
     // ------------------------------------------------------------- street and sidewalk
     const roadway = box(g, 8.0, 0.06, 6.0, 0, 0.03, -1.0, 0xffffff, { rough: 0.85 });
@@ -209,21 +209,21 @@ export const SIM_ED_CROSSING_GUARD_INTERSECTION_CONTROL = {
     // Post board and equipment cart.
     const postBoard = holoPanel(g, 0.6, 0.38, 2.9, 1.4, 1.3, (cx, w, h) => {
       cx.fillStyle = "rgba(3,16,20,0.9)"; cx.fillRect(0, 0, w, h);
-      cx.fillStyle = CG_CSS; cx.fillRect(0, 0, w, 5);
+      cx.fillStyle = XG_CSS; cx.fillRect(0, 0, w, 5);
       cx.fillStyle = "#faf2df"; cx.font = `600 ${Math.round(h * 0.13)}px 'Barlow Condensed', Arial, sans-serif`;
       cx.textAlign = "center"; cx.textBaseline = "middle"; cx.fillText("POST 4 — MAPLE & 3RD", w / 2, h * 0.28);
       cx.font = `${Math.round(h * 0.1)}px Arial, sans-serif`; cx.fillStyle = "#e8ddc0";
       ["Early dismissal today, 1:15", "Whistle on the cart"].forEach((l, i) => cx.fillText(l, w / 2, h * (0.55 + i * 0.2)));
-    }, { ry: -0.6, accent: CG_ACCENT });
+    }, { ry: -0.6, accent: XG_ACCENT });
     reg(hits, postBoard, "post-board");
 
     const cart = group(g, 2.6, 0, 1.6);
     box(cart, 0.5, 0.6, 0.35, 0, 0.3, 0, 0xd8dde2, { rough: 0.5, metal: 0.3 });
     for (const wx of [-0.2, 0.2]) cyl(cart, 0.07, 0.07, 0.05, wx, 0.07, -0.15, 0x1a1d20, { rough: 0.8, seg: 12 }).rotation.x = Math.PI / 2;
-    holoTag(cart, "equipment cart", 0, 0.7, 0, { css: CG_CSS, w: 0.3 });
+    holoTag(cart, "equipment cart", 0, 0.7, 0, { css: XG_CSS, w: 0.3 });
     const whistleObj = group(cart, 0.15, 0.55, 0);
     ball(whistleObj, 0.02, 0, 0, 0, 0xdfe4e8, { rough: 0.3, metal: 0.6 });
-    holoTag(whistleObj, "whistle", 0, 0.14, 0, { css: CG_CSS, w: 0.2 });
+    holoTag(whistleObj, "whistle", 0, 0.14, 0, { css: XG_CSS, w: 0.2 });
     reg(hits, whistleObj, "whistle");
     const cartInRoad = group(g, 1.3, 0, -1.4);
     box(cartInRoad, 0.5, 0.6, 0.35, 0, 0.3, 0, 0xd8dde2, { rough: 0.5, metal: 0.3, opacity: 0.55, transparent: true });
@@ -250,22 +250,22 @@ export const SIM_ED_CROSSING_GUARD_INTERSECTION_CONTROL = {
     const paddleFace = box(paddleGroup, 0.32, 0.32, 0.01, 0, 0.95, 0, 0xd2312b, { rough: 0.5 });
     decal(paddleGroup, 0.24, 0.1, 0, 0.95, 0.006, paperFace("STOP", [], { bg: "#d2312b", fg: "#ffffff" }));
     void paddleFace;
-    holoTag(paddleGroup, "stop paddle", 0, 1.3, 0, { css: CG_CSS, w: 0.3 });
+    holoTag(paddleGroup, "stop paddle", 0, 1.3, 0, { css: XG_CSS, w: 0.3 });
     reg(hits, paddleGroup, "stop-paddle");
-    const crossingSpot = torus(g, 0.3, 0.014, 0.5, 0.062, 0.0, CG_ACCENT, { emissive: CG_ACCENT, ei: 1.4, rough: 0.4, cast: false, seg: 6, seg2: 18 });
+    const crossingSpot = torus(g, 0.3, 0.014, 0.5, 0.062, 0.0, XG_ACCENT, { emissive: XG_ACCENT, ei: 1.4, rough: 0.4, cast: false, seg: 6, seg2: 18 });
     crossingSpot.rotation.x = Math.PI / 2;
     reg(hits, crossingSpot, "crossing-position");
     const stepOffMarker = box(g, 0.3, 0.05, 0.3, 0.5, 0.03, 0.9, 0x000000, { opacity: 0.001, transparent: true, cast: false });
     holoTag(g, "step off without checking?", 0.5, 0.4, 0.9, { css: "#f0645b", w: 0.56 });
     reg(hits, stepOffMarker, "step-off-without-checking");
 
-    const gapGauge = instrument(g, 1.0, 1.1, 1.3, { idle: "GAP", color: CG_ACCENT, w: 0.13, d: 0.18, ry: -0.4 });
-    holoTag(gapGauge, "traffic gap", 0, 0.2, 0, { css: CG_CSS, w: 0.3 });
+    const gapGauge = instrument(g, 1.0, 1.1, 1.3, { idle: "GAP", color: XG_ACCENT, w: 0.13, d: 0.18, ry: -0.4 });
+    holoTag(gapGauge, "traffic gap", 0, 0.2, 0, { css: XG_CSS, w: 0.3 });
     reg(hits, gapGauge, "traffic-gap");
     const scanCycleObj = ball(g, 0.06, 0.5, 1.5, 0.5, 0x000000, { opacity: 0.001, transparent: true, cast: false });
     reg(hits, scanCycleObj, "scan-cycle");
     const handSignal = ball(g, 0.05, 1.1, 1.1, 0.0, 0xf2c14b, { rough: 0.5, opacity: 0.6, transparent: true });
-    holoTag(g, "clear signal", 1.1, 1.3, 0.0, { css: CG_CSS, w: 0.26 });
+    holoTag(g, "clear signal", 1.1, 1.3, 0.0, { css: XG_CSS, w: 0.26 });
     reg(hits, handSignal, "hand-signal");
     const paddleDownEarly = box(g, 0.1, 0.1, 0.1, 0.3, 0.4, -0.2, 0x000000, { opacity: 0.001, transparent: true, cast: false });
     holoTag(g, "lower the paddle early?", 0.3, 0.6, -0.2, { css: "#f0645b", w: 0.44 });
@@ -274,9 +274,9 @@ export const SIM_ED_CROSSING_GUARD_INTERSECTION_CONTROL = {
     // Fallen cone and its correct spot.
     const fallenCone = cone(g, 1.8, 2.0);
     fallenCone.rotation.z = Math.PI / 2;
-    holoTag(fallenCone, "fallen cone", 0, 0.4, 0, { css: CG_CSS, w: 0.28 });
+    holoTag(fallenCone, "fallen cone", 0, 0.4, 0, { css: XG_CSS, w: 0.28 });
     reg(hits, fallenCone, "fallen-cone");
-    const coneSpot = torus(g, 0.18, 0.012, 2.0, 0.06, 0.6, CG_ACCENT, { emissive: CG_ACCENT, ei: 1.4, rough: 0.4, cast: false, seg: 6, seg2: 18 });
+    const coneSpot = torus(g, 0.18, 0.012, 2.0, 0.06, 0.6, XG_ACCENT, { emissive: XG_ACCENT, ei: 1.4, rough: 0.4, cast: false, seg: 6, seg2: 18 });
     coneSpot.rotation.x = Math.PI / 2;
     reg(hits, coneSpot, "cone-spot");
 
@@ -285,18 +285,18 @@ export const SIM_ED_CROSSING_GUARD_INTERSECTION_CONTROL = {
     reg(hits, paddleStowSpot, "paddle-stowed");
     const notesLog = holoPanel(g, 0.42, 0.28, 3.1, 1.2, 2.2, (cx, w, h) => {
       cx.fillStyle = "rgba(3,16,20,0.9)"; cx.fillRect(0, 0, w, h);
-      cx.fillStyle = CG_CSS; cx.fillRect(0, 0, w, 5);
+      cx.fillStyle = XG_CSS; cx.fillRect(0, 0, w, 5);
       cx.fillStyle = "#faf2df"; cx.font = `600 ${Math.round(h * 0.18)}px 'Barlow Condensed', Arial, sans-serif`;
       cx.textAlign = "center"; cx.textBaseline = "middle"; cx.fillText("SHIFT NOTES", w / 2, h * 0.4);
-    }, { ry: -0.6, accent: CG_ACCENT });
+    }, { ry: -0.6, accent: XG_ACCENT });
     reg(hits, notesLog, "notes-logged");
-    const radioCart = instrument(cart, 0, 0.7, 0.12, { idle: "CH 2 · CORNER", color: CG_ACCENT, w: 0.1, d: 0.14 });
-    holoTag(radioCart, "dispatch radio", 0, 0.16, 0, { css: CG_CSS, w: 0.28 });
+    const radioCart = instrument(cart, 0, 0.7, 0.12, { idle: "CH 2 · CORNER", color: XG_ACCENT, w: 0.1, d: 0.14 });
+    holoTag(radioCart, "dispatch radio", 0, 0.16, 0, { css: XG_CSS, w: 0.28 });
     reg(hits, radioCart, "radio-checkin");
 
     // The step-setup markers: vest, paddle grab, position.
     const vestHook = box(g, 0.12, 0.16, 0.02, 2.5, 1.1, 1.2, 0xd8f23a, { rough: 0.6 });
-    holoTag(g, "hi-vis vest", 2.5, 1.3, 1.2, { css: CG_CSS, w: 0.24 });
+    holoTag(g, "hi-vis vest", 2.5, 1.3, 1.2, { css: XG_CSS, w: 0.24 });
     reg(hits, vestHook, "vest-on");
     const paddleGrabSpot = box(g, 0.1, 0.1, 0.1, 0.4, 0.3, 0.6, 0x000000, { opacity: 0.001, transparent: true, cast: false });
     reg(hits, paddleGrabSpot, "paddle-grabbed");
@@ -309,7 +309,7 @@ export const SIM_ED_CROSSING_GUARD_INTERSECTION_CONTROL = {
     const rollingCarHome = rollingCar.position.clone();
 
     // A cyclist and a crossing student, hidden until called.
-    const cyclist = standingFigure(g, 4.5, -1.6, { ry: 2.6, cloth: 0x2b3138, helmet: 0x59c97b });
+    const cyclist = standingFigure(g, 4.5, -1.6, { ry: 2.6, cloth: 0x2b3138, helmet: 0x59c97b, atStation: true });
     cyclist.visible = false;
     const student = standingFigure(g, 0, -3.4, { ry: 0, cloth: 0x3f7a9e, trousers: 0x2b3138, atStation: true });
     student.scale.set(0.86, 0.86, 0.86);
@@ -318,7 +318,7 @@ export const SIM_ED_CROSSING_GUARD_INTERSECTION_CONTROL = {
 
     // Crew: a second guard trainer observing, clear of every control.
     const trainer = standingFigure(g, -3.0, 2.6, { ry: 1.0, cloth: 0x2b3138, vest: 0xd8f23a, cap: 0x2f6f4a });
-    holoTag(trainer, "corner trainer", 0, 1.95, 0, { css: CG_CSS, w: 0.3 });
+    holoTag(trainer, "corner trainer", 0, 1.95, 0, { css: XG_CSS, w: 0.3 });
 
     return {
       hits,

@@ -19474,5 +19474,215 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "ed-crossing-guard-intersection-control",
+    "index": "623",
+    "domain": "Mobility & Transit",
+    "trade": "AFT- or CSEA-represented adult school crossing guard posted at the intersection nearest the school",
+    "category": "Mobility & Transit",
+    "certification": "AFT and CSEA crossing-guard training; the Manual on Uniform Traffic Control Devices (MUTCD) for the corner's signal timing and the paddle's own standard shape and colour; ANSI/ISEA 107 for the high-visibility vest; the district's and the local police department's own crossing-guard training curriculum for post positioning, the gap-judgement rule and the hand signals used at this corner",
+    "name": "Crossing Guard Intersection Control",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Crossing Guard Intersection Control VR",
+    "tagline": "The corner before the bell: the post walked for sightlines, a gap in traffic judged before anyone steps off the curb, the paddle raised and held through the whole crossing, both directions watched the entire time, a fallen cone set back up, and the corner left as clear as it was found",
+    "accent": 15905307,
+    "accentCss": "#f2b21b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "gap-judged-not-guessed",
+      "name": "Gap Judged, Not Guessed",
+      "note": "Every crossing timed to an actual gap in traffic, the paddle held the whole way across, and never a step off the curb before the gap was checked"
+    },
+    "stepCount": 11,
+    "interruptCount": 2,
+    "game": {
+      "system": "The Corner",
+      "currency": "GAP",
+      "ranks": [
+        "Corner Trainee",
+        "Crossing Guard",
+        "Lead Guard",
+        "Corner Trainer",
+        "Intersection Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ed-paraeducator-safe-lift-and-transfer",
+    "index": "624",
+    "domain": "Building Systems & Facilities",
+    "trade": "AFT- or CSEA-represented paraeducator transferring a student who uses a wheelchair, with a second paraeducator assisting",
+    "category": "Building Systems & Facilities",
+    "certification": "AFT and CSEA paraeducator training; Cal/OSHA's musculoskeletal injury prevention approach (8 CCR 3345) and repetitive-motion standard (8 CCR 5110) for a lift and transfer done this often in a working day; OSHA's bloodborne pathogens standard (29 CFR 1910.1030) and PPE standard (29 CFR 1910.132) for gloves during personal care; the student's own individualized transfer plan for the technique, the equipment and the number of assisting staff, read fresh every time rather than assumed from memory",
+    "name": "Paraeducator Safe Lift & Transfer",
+    "weather": "overcast",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Paraeducator Safe Lift & Transfer VR",
+    "tagline": "The transfer plan read first, the wheelchair's brakes locked and proven, the path cleared, a pre-lift check for what's not right, the gait belt fitted, a braced pivot held steady with a partner rather than a twist alone, the wheelchair parked, the seatbelt fastened, and the transfer logged",
+    "accent": 6000558,
+    "accentCss": "#5b8fae",
+    "parSeconds": 300,
+    "badge": {
+      "id": "plan-read-partner-braced",
+      "name": "Plan Read, Partner Braced",
+      "note": "The plan read before anything else, the brakes proven, never a solo lift or a twisted back, and the student settled and strapped before sign-off"
+    },
+    "stepCount": 11,
+    "interruptCount": 2,
+    "game": {
+      "system": "Safe Transfer",
+      "currency": "LIFT",
+      "ranks": [
+        "Aide Trainee",
+        "Paraeducator",
+        "Lead Paraeducator",
+        "Transfer Trainer",
+        "Safe Handling Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ed-science-lab-chemical-storage-and-eyewash",
+    "index": "625",
+    "domain": "Building Systems & Facilities",
+    "trade": "AFT- or CSEA-represented instructional lab aide maintaining a school science lab's chemical storage and safety equipment between classes",
+    "category": "Building Systems & Facilities",
+    "certification": "AFT and CSEA instructional support training; OSHA's Hazard Communication standard (29 CFR 1910.1200) for the GHS-labelled reagents and the SDS binder; ANSI/ISEA Z358.1 for the eyewash and drench shower; OSHA's eye and hand protection standards (29 CFR 1910.133, 29 CFR 1910.138) at the storage cabinet and the fume hood; the school's own chemical hygiene plan and the manufacturer's compatibility chart for how reagents are segregated on the shelf, named here as governing documents rather than by a clause number",
+    "name": "Science Lab Chemical Storage & Eyewash Check",
+    "weather": "overcast",
+    "indoor": "shop",
+    "district": null,
+    "title": "SmartCiti.X~ Science Lab Chemical Storage & Eyewash Check VR",
+    "tagline": "Between periods: the storage cabinet checked for what's shelved wrong, the fume hood's sash and airflow proven, a corrosive decanted with the bottle carrier, incompatible reagents moved to their own cabinets, the eyewash and drench shower both proven, the inventory checked against its expiry dates, and the SDS binder confirmed current before the next class opens a single bottle",
+    "accent": 10121176,
+    "accentCss": "#9a6fd8",
+    "parSeconds": 320,
+    "badge": {
+      "id": "segregated-and-proven",
+      "name": "Segregated and Proven",
+      "note": "Every incompatible pair separated, the hood and the eyewash both proven, and nothing decanted by a bare hand"
+    },
+    "stepCount": 10,
+    "interruptCount": 2,
+    "game": {
+      "system": "Between Periods",
+      "currency": "ML",
+      "ranks": [
+        "Lab Aide Trainee",
+        "Lab Aide",
+        "Lead Lab Aide",
+        "Lab Safety Trainer",
+        "Chemical Storage Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ed-kitchen-receiving-and-warewash-sanitizing",
+    "index": "626",
+    "domain": "Culinary & Hospitality",
+    "trade": "AFT- or CSEA-represented school nutrition worker receiving deliveries and running the dish room",
+    "category": "Culinary & Hospitality",
+    "certification": "AFT and CSEA school nutrition training; the California Retail Food Code (the FDA Food Code as adopted) for receiving temperatures, date marking and warewashing; ServSafe Food Protection Manager practice for the sanitizer contact time and concentration; OSHA's Hazard Communication standard (29 CFR 1910.1200) for the sanitizer's own SDS and label; NSF/ANSI 2 for the food-contact equipment in the dish room",
+    "name": "Kitchen Receiving & Warewash Sanitizing",
+    "weather": "overcast",
+    "indoor": "kitchen",
+    "district": null,
+    "title": "SmartCiti.X~ Kitchen Receiving & Warewash Sanitizing VR",
+    "tagline": "The dock before the walk-in: the delivery's temperature probed, damage and pest signs caught before a case is accepted, stock dated and rotated oldest first, a damaged case turned away, the sanitizer mixed to the test strip rather than by eye, dishes timed through contact, the rack fed at a steady pace, and the room closed with the chemicals locked away from the food",
+    "accent": 5222601,
+    "accentCss": "#4fb0c9",
+    "parSeconds": 320,
+    "badge": {
+      "id": "tested-not-guessed",
+      "name": "Tested, Not Guessed",
+      "note": "Every delivery temperature probed, the sanitizer tested to the strip, and nothing left holding at a strength nobody actually checked"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Dock to Dish Room",
+      "currency": "PPM",
+      "ranks": [
+        "Kitchen Aide",
+        "Nutrition Worker",
+        "Lead Nutrition Worker",
+        "Kitchen Manager",
+        "Food Safety Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ed-boiler-room-filter-change-lockout",
+    "index": "627",
+    "domain": "Building Systems & Facilities",
+    "trade": "AFT- or CSEA-represented school maintenance technician running a boiler-room walk and an air-handler filter change under lockout",
+    "category": "Building Systems & Facilities",
+    "certification": "AFT and CSEA facilities training; OSHA's control of hazardous energy standard (29 CFR 1910.147) for the air handler's lockout and the proof of zero energy; NFPA 85 for the boiler-room hazards named on the walk; the ASME Boiler and Pressure Vessel Code and the National Board Inspection Code for the boiler's own pressure equipment; the district's maintenance procedure and the equipment manufacturer's manual for the filter's rating and the restart sequence",
+    "name": "Boiler Room & HVAC Filter Change with Lockout",
+    "weather": "overcast",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Boiler Room & HVAC Filter Change with Lockout VR",
+    "tagline": "The ticket read, the boiler's gauges checked, the room walked for a leaking relief valve, a corroded flue and a blocked combustion-air louver, the air handler locked, tagged and proven dead, the filter matched to the unit's own label, the panel latched, the lockout removed in order, and a short observed restart watched steady before sign-off",
+    "accent": 15234603,
+    "accentCss": "#e8762b",
+    "parSeconds": 340,
+    "badge": {
+      "id": "proven-dead-first",
+      "name": "Proven Dead First",
+      "note": "The air handler locked, tagged and proven dead before the panel ever came off, the right filter fitted, and the restart watched steady before the ticket closed"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Boiler Room",
+      "currency": "PSI",
+      "ranks": [
+        "Maintenance Aide",
+        "Maintenance Tech",
+        "Lead Tech",
+        "Building Engineer",
+        "Facilities Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

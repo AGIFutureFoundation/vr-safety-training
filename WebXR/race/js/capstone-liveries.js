@@ -175,5 +175,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "plumbers-and-pipefitters",
     "name": "Plumbers and Pipefitters — Journeyman Rough-In and Test Block",
     "accent": "#2f6f4a"
+  },
+  {
+    "programme": "education-support-staff",
+    "name": "Education Support Staff — Custodial, Grounds, Transport and Classroom",
+    "accent": "#d9a441"
   }
 ];

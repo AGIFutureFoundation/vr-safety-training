@@ -225,7 +225,7 @@ export const SIM_ED_BUS_PRETRIP_AND_LOADING_ZONE = {
     {
       id: "figure-stands-at-bumper",
       kind: "Someone stands up at the front bumper as the bus starts to move",
-      after: "pretrip-drive-continue", delay: 1, seconds: 9,
+      after: "pretrip-drive-continue", delay: 3, seconds: 9,
       alert: "Right as the bus starts to roll, a small figure that was crouched out of mirror view at the front bumper suddenly stands up.",
       cue: "Stop immediately.",
       target: "brake-pedal",
