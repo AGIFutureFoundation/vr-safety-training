@@ -537,58 +537,6 @@
       }
     },
     {
-      "app": "smartcity",
-      "id": "pilot-transfer",
-      "name": "Pilot Transfer",
-      "category": "Maritime & Ports",
-      "steps": 15,
-      "score": 90,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.9666666666666667,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 319,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "standards": {
-          "score": 0.6666666666666666,
-          "cited": 3,
-          "inScope": 2,
-          "outOfScope": 0,
-          "unregistered": 1
-        },
-        "feedback": {
-          "score": 0.7692307692307693,
-          "want": 13,
-          "got": 10
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 251,
-          "materials": 125,
-          "interactables": 31
-        },
-        "originality": {
-          "score": 0.5199181446111869,
-          "nearest": "vessel-gangway-and-hatch-cover-safety",
-          "similarity": 0.23601637107776263
-        }
-      }
-    },
-    {
       "app": "trades",
       "id": "pressure-washer",
       "name": "Wash-Down Yard",
@@ -798,6 +746,58 @@
     },
     {
       "app": "smartcity",
+      "id": "slicer-lockout",
+      "name": "Slicer Lockout",
+      "category": "Culinary & Hospitality",
+      "steps": 14,
+      "score": 91,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 258,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 0.7142857142857143,
+          "cited": 7,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 2
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9290909090909091,
+          "meshes": 158,
+          "materials": 84,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "gr-deli-slicer-sanitation-and-allergen-line",
+          "similarity": 0.4970178926441352
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "vapor-mitigation",
       "name": "Vapor Mitigation",
       "category": "Building Systems & Facilities",
@@ -845,6 +845,58 @@
           "score": 0.6103362391033624,
           "nearest": "bridge-lead-containment",
           "similarity": 0.21793275217932753
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "wind-nacelle",
+      "name": "Wind Nacelle",
+      "category": "Energy & Power",
+      "steps": 13,
+      "score": 91,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.675,
+          "medianWhy": 185,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 0.9,
+          "want": 10,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.9625,
+          "meshes": 165,
+          "materials": 88,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.6327731092436976,
+          "nearest": "mm-hot-strip-mill-stand",
+          "similarity": 0.2134453781512605
         }
       }
     },
@@ -1001,58 +1053,6 @@
           "score": 0.16875,
           "nearest": "fenceline-dust-monitor",
           "similarity": 0.30625
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "mooring-line",
-      "name": "Mooring Line",
-      "category": "Maritime & Ports",
-      "steps": 10,
-      "score": 92,
-      "d": {
-        "variety": {
-          "score": 0.9375,
-          "distinct": 7,
-          "longestRun": 3
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 325,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 7
-        },
-        "standards": {
-          "score": 0.8,
-          "cited": 5,
-          "inScope": 4,
-          "outOfScope": 0,
-          "unregistered": 1
-        },
-        "feedback": {
-          "score": 1,
-          "want": 9,
-          "got": 9
-        },
-        "scene": {
-          "score": 0.7229545454545454,
-          "meshes": 101,
-          "materials": 58,
-          "interactables": 17
-        },
-        "originality": {
-          "score": 0.6040114613180516,
-          "nearest": "mw-ferry-deckhand-and-passenger-safety",
-          "similarity": 0.2191977077363897
         }
       }
     },
@@ -1422,6 +1422,58 @@
     },
     {
       "app": "smartcity",
+      "id": "pilot-transfer",
+      "name": "Pilot Transfer",
+      "category": "Maritime & Ports",
+      "steps": 15,
+      "score": 92,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9666666666666667,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 319,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 0.8,
+          "cited": 5,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 1
+        },
+        "feedback": {
+          "score": 0.7692307692307693,
+          "want": 13,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 251,
+          "materials": 125,
+          "interactables": 31
+        },
+        "originality": {
+          "score": 0.5199181446111869,
+          "nearest": "vessel-gangway-and-hatch-cover-safety",
+          "similarity": 0.23601637107776263
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "ev-extrication",
       "name": "EV Extrication",
       "category": "Emergency Services",
@@ -1630,58 +1682,6 @@
     },
     {
       "app": "smartcity",
-      "id": "wind-nacelle",
-      "name": "Wind Nacelle",
-      "category": "Energy & Power",
-      "steps": 13,
-      "score": 92,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 6,
-          "longestRun": 1
-        },
-        "decisions": {
-          "score": 0.9884615384615384,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.675,
-          "medianWhy": 185,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "standards": {
-          "score": 1,
-          "cited": 4,
-          "inScope": 4,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 0.9,
-          "want": 10,
-          "got": 9
-        },
-        "scene": {
-          "score": 0.9625,
-          "meshes": 165,
-          "materials": 88,
-          "interactables": 22
-        },
-        "originality": {
-          "score": 0.6768683274021353,
-          "nearest": "av-hangar-jacking-and-stands",
-          "similarity": 0.20462633451957296
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "transformer-vault",
       "name": "Transformer Vault",
       "category": "Energy & Power",
@@ -1838,6 +1838,162 @@
     },
     {
       "app": "smartcity",
+      "id": "gr-night-stocking-baler-and-compactor-lockout",
+      "name": "Night Stocking Baler & Compactor Lockout",
+      "category": "Culinary & Hospitality",
+      "steps": 15,
+      "score": 92,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.915,
+          "medianWhy": 233,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.92,
+          "meshes": 148,
+          "materials": 75,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "gr-meat-dept-band-saw-and-grinder-lockout",
+          "similarity": 0.3471502590673575
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gr-produce-receiving-cold-chain-and-pallet-jack",
+      "name": "Produce Receiving, Cold Chain & Pallet Jack",
+      "category": "Culinary & Hospitality",
+      "steps": 14,
+      "score": 92,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.895,
+          "medianWhy": 229,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9275,
+          "meshes": 151,
+          "materials": 90,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "receiving-dock-food",
+          "similarity": 0.45866141732283466
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gr-deli-slicer-sanitation-and-allergen-line",
+      "name": "Deli Slicer Sanitation & Allergen Line",
+      "category": "Culinary & Hospitality",
+      "steps": 14,
+      "score": 92,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.915,
+          "medianWhy": 233,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 1,
+          "cited": 10,
+          "inScope": 10,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.8865909090909091,
+          "meshes": 141,
+          "materials": 84,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "slicer-lockout",
+          "similarity": 0.4970178926441352
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "chiller-plant",
       "name": "Chiller Plant",
       "category": "Building Systems & Facilities",
@@ -1885,6 +2041,58 @@
           "score": 0.5243831640058056,
           "nearest": "ammonia-plant",
           "similarity": 0.2351233671988389
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "mooring-line",
+      "name": "Mooring Line",
+      "category": "Maritime & Ports",
+      "steps": 10,
+      "score": 93,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 325,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 0.8333333333333334,
+          "cited": 6,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 1
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.7229545454545454,
+          "meshes": 101,
+          "materials": 58,
+          "interactables": 17
+        },
+        "originality": {
+          "score": 0.6040114613180516,
+          "nearest": "mw-ferry-deckhand-and-passenger-safety",
+          "similarity": 0.2191977077363897
         }
       }
     },
@@ -2774,16 +2982,16 @@
     },
     {
       "app": "smartcity",
-      "id": "slicer-lockout",
-      "name": "Slicer Lockout",
+      "id": "receiving-dock-food",
+      "name": "Receiving Dock Food",
       "category": "Culinary & Hospitality",
       "steps": 14,
       "score": 93,
       "d": {
         "variety": {
           "score": 1,
-          "distinct": 6,
-          "longestRun": 2
+          "distinct": 8,
+          "longestRun": 1
         },
         "decisions": {
           "score": 0.95,
@@ -2791,36 +2999,36 @@
           "interrupts": 2
         },
         "explanation": {
-          "score": 1,
-          "medianWhy": 258,
+          "score": 0.895,
+          "medianWhy": 229,
           "thin": 0
         },
         "grounding": {
           "score": 1,
-          "authorities": 8
+          "authorities": 7
         },
         "standards": {
-          "score": 0.7142857142857143,
+          "score": 1,
           "cited": 7,
-          "inScope": 5,
+          "inScope": 7,
           "outOfScope": 0,
-          "unregistered": 2
+          "unregistered": 0
         },
         "feedback": {
           "score": 1,
-          "want": 12,
-          "got": 12
+          "want": 13,
+          "got": 13
         },
         "scene": {
-          "score": 0.9290909090909091,
+          "score": 0.945,
           "meshes": 158,
-          "materials": 84,
-          "interactables": 21
+          "materials": 86,
+          "interactables": 22
         },
         "originality": {
-          "score": 0.4831513260530422,
-          "nearest": "knife-skills",
-          "similarity": 0.24336973478939158
+          "score": 0,
+          "nearest": "gr-produce-receiving-cold-chain-and-pallet-jack",
+          "similarity": 0.45866141732283466
         }
       }
     },
@@ -2866,7 +3074,7 @@
         "scene": {
           "score": 0.9275,
           "meshes": 151,
-          "materials": 80,
+          "materials": 79,
           "interactables": 22
         },
         "originality": {
@@ -3185,6 +3393,110 @@
           "score": 0.10241796200345432,
           "nearest": "gk-hardscape-paver-base-and-compaction",
           "similarity": 0.31951640759930916
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gr-meatpacking-line-knife-work-and-ppe-rotation",
+      "name": "Meatpacking Line Knife Work & PPE Rotation",
+      "category": "Culinary & Hospitality",
+      "steps": 14,
+      "score": 93,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.8500000000000001,
+          "medianWhy": 220,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.831590909090909,
+          "meshes": 119,
+          "materials": 70,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.5153310104529618,
+          "nearest": "gr-deli-slicer-sanitation-and-allergen-line",
+          "similarity": 0.23693379790940766
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-continuous-miner-face",
+      "name": "Continuous Miner Face",
+      "category": "Manufacturing & Automation",
+      "steps": 14,
+      "score": 93,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 276,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 0.75,
+          "authorities": 3
+        },
+        "standards": {
+          "score": 1,
+          "cited": 3,
+          "inScope": 3,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.93,
+          "meshes": 152,
+          "materials": 67,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.541166936790924,
+          "nearest": "mm-paper-machine-dryer",
+          "similarity": 0.23176661264181522
         }
       }
     },
@@ -4334,58 +4646,6 @@
     },
     {
       "app": "smartcity",
-      "id": "receiving-dock-food",
-      "name": "Receiving Dock Food",
-      "category": "Culinary & Hospitality",
-      "steps": 14,
-      "score": 94,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 1
-        },
-        "decisions": {
-          "score": 0.95,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.895,
-          "medianWhy": 229,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 7
-        },
-        "standards": {
-          "score": 1,
-          "cited": 7,
-          "inScope": 7,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 13,
-          "got": 13
-        },
-        "scene": {
-          "score": 0.945,
-          "meshes": 158,
-          "materials": 86,
-          "interactables": 22
-        },
-        "originality": {
-          "score": 0.34392678868552434,
-          "nearest": "walk-in-cooler",
-          "similarity": 0.27121464226289516
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "dish-pit",
       "name": "Dish Pit",
       "category": "Culinary & Hospitality",
@@ -4854,6 +5114,58 @@
     },
     {
       "app": "smartcity",
+      "id": "pyro-cue",
+      "name": "Pyro Cue",
+      "category": "Entertainment & Live Events",
+      "steps": 15,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9299999999999999,
+          "medianWhy": 236,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 0.9230769230769231,
+          "want": 13,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9800000000000001,
+          "meshes": 172,
+          "materials": 85,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.5724035608308606,
+          "nearest": "md-set-safety-meeting-and-stunt-go-no-go",
+          "similarity": 0.22551928783382788
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "tr-wheelchair-lift-and-securement-on-a-bus",
       "name": "Wheelchair Lift & Securement on a Bus",
       "category": "Mobility & Transit",
@@ -5265,6 +5577,474 @@
           "score": 0.13344155844155853,
           "nearest": "op-dozer-slope-work-and-rollover-protection",
           "similarity": 0.3133116883116883
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gr-pharmacy-floral-chemical-handling-and-sds",
+      "name": "Pharmacy & Floral Chemical Handling and SDS",
+      "category": "Culinary & Hospitality",
+      "steps": 14,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.905,
+          "medianWhy": 231,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9125,
+          "meshes": 145,
+          "materials": 78,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.3991869918699187,
+          "nearest": "gk-greenhouse-nursery-chemical-storage-and-eyewash",
+          "similarity": 0.2601626016260163
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gr-ammonia-leak-alarm-response-cold-plant",
+      "name": "Ammonia Leak Alarm Response, Cold Plant",
+      "category": "Culinary & Hospitality",
+      "steps": 13,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.8500000000000001,
+          "medianWhy": 220,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.8456818181818182,
+          "meshes": 131,
+          "materials": 65,
+          "interactables": 20
+        },
+        "originality": {
+          "score": 0.5363636363636365,
+          "nearest": "mm-mine-escapeway-drill",
+          "similarity": 0.23272727272727273
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gr-checkstand-ergonomics-and-robbery-prevention",
+      "name": "Checkstand Ergonomics & Robbery Prevention",
+      "category": "Culinary & Hospitality",
+      "steps": 14,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.845,
+          "medianWhy": 219,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.89,
+          "meshes": 136,
+          "materials": 67,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.526955074875208,
+          "nearest": "gr-meatpacking-line-knife-work-and-ppe-rotation",
+          "similarity": 0.23460898502495842
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "gr-meat-dept-band-saw-and-grinder-lockout",
+      "name": "Meat Dept Band Saw & Grinder Lockout",
+      "category": "Culinary & Hospitality",
+      "steps": 15,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 252,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 13,
+          "got": 13
+        },
+        "scene": {
+          "score": 0.965,
+          "meshes": 166,
+          "materials": 95,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "gr-deli-slicer-sanitation-and-allergen-line",
+          "similarity": 0.40555555555555556
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-cabin-decompression-and-oxygen-masks",
+      "name": "Cabin Decompression and Oxygen Mask Drill",
+      "category": "Mobility & Transit",
+      "steps": 13,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.7950000000000002,
+          "medianWhy": 209,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 3,
+          "inScope": 3,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 207,
+          "materials": 67,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.3666666666666668,
+          "nearest": "ca-cabin-preflight-safety-check",
+          "similarity": 0.26666666666666666
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-unruly-passenger-deescalation",
+      "name": "Unruly Passenger De-escalation",
+      "category": "Mobility & Transit",
+      "steps": 13,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 6,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9099999999999999,
+          "medianWhy": 232,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 3,
+          "inScope": 3,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.995,
+          "meshes": 178,
+          "materials": 60,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.3173913043478263,
+          "nearest": "ca-cabin-medical-event-response",
+          "similarity": 0.27652173913043476
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-cabin-preflight-safety-check",
+      "name": "Cabin Pre-Flight Safety Check",
+      "category": "Mobility & Transit",
+      "steps": 13,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.8300000000000001,
+          "medianWhy": 216,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 3,
+          "inScope": 3,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 184,
+          "materials": 70,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.3666666666666668,
+          "nearest": "ca-cabin-decompression-and-oxygen-masks",
+          "similarity": 0.26666666666666666
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-haul-truck-berm",
+      "name": "Haul Truck Berm & Dump Point",
+      "category": "Manufacturing & Automation",
+      "steps": 12,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 6,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 275,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 0.75,
+          "authorities": 3
+        },
+        "standards": {
+          "score": 1,
+          "cited": 3,
+          "inScope": 3,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.8913636363636364,
+          "meshes": 162,
+          "materials": 66,
+          "interactables": 18
+        },
+        "originality": {
+          "score": 0.5229755178907722,
+          "nearest": "av-deicing-truck-boom-operations",
+          "similarity": 0.23540489642184556
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-paper-machine-dryer",
+      "name": "Paper Machine Dryer Section",
+      "category": "Manufacturing & Automation",
+      "steps": 14,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 271,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.8474999999999999,
+          "meshes": 119,
+          "materials": 58,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.22310231023102312,
+          "nearest": "mm-hot-strip-mill-stand",
+          "similarity": 0.2953795379537954
         }
       }
     },
@@ -7077,7 +7857,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 255,
+          "meshes": 265,
           "materials": 83,
           "interactables": 28
         },
@@ -7449,58 +8229,6 @@
           "score": 0.4756410256410258,
           "nearest": "valve-vault",
           "similarity": 0.24487179487179486
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "pyro-cue",
-      "name": "Pyro Cue",
-      "category": "Entertainment & Live Events",
-      "steps": 15,
-      "score": 95,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 7,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.9166666666666666,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.9299999999999999,
-          "medianWhy": 236,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 5
-        },
-        "standards": {
-          "score": 1,
-          "cited": 4,
-          "inScope": 4,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 0.9230769230769231,
-          "want": 13,
-          "got": 12
-        },
-        "scene": {
-          "score": 0.9800000000000001,
-          "meshes": 172,
-          "materials": 85,
-          "interactables": 24
-        },
-        "originality": {
-          "score": 0.6269406392694066,
-          "nearest": "reefer-yard-monitoring",
-          "similarity": 0.2146118721461187
         }
       }
     },
@@ -9378,6 +10106,58 @@
     },
     {
       "app": "smartcity",
+      "id": "hc-workplace-violence-deescalation-at-the-desk",
+      "name": "Workplace Violence De-escalation at the Desk",
+      "category": "Healthcare Support",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.885,
+          "medianWhy": 227,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9575,
+          "meshes": 163,
+          "materials": 77,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.47622377622377626,
+          "nearest": "ca-unruly-passenger-deescalation",
+          "similarity": 0.24475524475524477
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "hc-sterile-processing-decontamination-and-assembly",
       "name": "Sterile Processing Decon & Assembly",
       "category": "Healthcare Support",
@@ -9838,9 +10618,9 @@
           "interactables": 24
         },
         "originality": {
-          "score": 0.11397849462365606,
-          "nearest": "tw-conveyor-jam-clearing-and-loto",
-          "similarity": 0.3172043010752688
+          "score": 0.04239130434782634,
+          "nearest": "ml-flat-sorter-guarding-and-lockout",
+          "similarity": 0.33152173913043476
         }
       }
     },
@@ -9893,6 +10673,58 @@
           "score": 0.4297297297297298,
           "nearest": "tw-pick-to-light-ergonomics-and-rotation",
           "similarity": 0.25405405405405407
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "tw-conveyor-jam-clearing-and-loto",
+      "name": "Conveyor Jam Clearing & LOTO",
+      "category": "Manufacturing & Automation",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 269,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.975,
+          "meshes": 170,
+          "materials": 71,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "ml-flat-sorter-guarding-and-lockout",
+          "similarity": 0.4959349593495935
         }
       }
     },
@@ -10158,6 +10990,370 @@
     },
     {
       "app": "smartcity",
+      "id": "ca-fatigue-and-duty-time-self-check",
+      "name": "Fatigue and Duty-Time Self-Check",
+      "category": "Mobility & Transit",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.8800000000000001,
+          "medianWhy": 226,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 3,
+          "inScope": 3,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.8425,
+          "meshes": 117,
+          "materials": 56,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.5501742160278746,
+          "nearest": "ca-cabin-medical-event-response",
+          "similarity": 0.22996515679442509
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-cabin-medical-event-response",
+      "name": "Cabin Medical Event Response",
+      "category": "Mobility & Transit",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.97,
+          "medianWhy": 244,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.9840909090909091,
+          "meshes": 207,
+          "materials": 77,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.3173913043478263,
+          "nearest": "ca-unruly-passenger-deescalation",
+          "similarity": 0.27652173913043476
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-galley-and-cart-safety",
+      "name": "Galley and Cart Safety",
+      "category": "Mobility & Transit",
+      "steps": 12,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.925,
+          "medianWhy": 235,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 3,
+          "inScope": 3,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.899090909090909,
+          "meshes": 146,
+          "materials": 55,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.4109375000000001,
+          "nearest": "ca-cabin-decompression-and-oxygen-masks",
+          "similarity": 0.2578125
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-hot-strip-mill-stand",
+      "name": "Hot-Strip Mill Stand",
+      "category": "Manufacturing & Automation",
+      "steps": 15,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 324,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9774999999999999,
+          "meshes": 171,
+          "materials": 78,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.22310231023102312,
+          "nearest": "mm-paper-machine-dryer",
+          "similarity": 0.2953795379537954
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-parcel-sorter-conveyor-jam-and-loto",
+      "name": "Parcel Sorter Conveyor Jam & LOTO",
+      "category": "Manufacturing & Automation",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 276,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9400000000000001,
+          "meshes": 156,
+          "materials": 71,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "ml-flat-sorter-guarding-and-lockout",
+          "similarity": 0.533195020746888
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-flat-sorter-guarding-and-lockout",
+      "name": "Flat Sorter Guarding & Lockout",
+      "category": "Manufacturing & Automation",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 276,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.93,
+          "meshes": 152,
+          "materials": 77,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0,
+          "nearest": "ml-parcel-sorter-conveyor-jam-and-loto",
+          "similarity": 0.533195020746888
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "press-brake",
+      "name": "Press Brake",
+      "category": "Manufacturing & Automation",
+      "steps": 12,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 313,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 3,
+          "inScope": 3,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.8738636363636364,
+          "meshes": 155,
+          "materials": 81,
+          "interactables": 18
+        },
+        "originality": {
+          "score": 0.40098039215686276,
+          "nearest": "mm-hot-strip-mill-stand",
+          "similarity": 0.25980392156862747
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "decon-line",
       "name": "Decon Line",
       "category": "Emergency Services",
@@ -10306,9 +11502,9 @@
           "interactables": 16
         },
         "originality": {
-          "score": 0.48892733564013857,
-          "nearest": "tw-conveyor-jam-clearing-and-loto",
-          "similarity": 0.2422145328719723
+          "score": 0.4817258883248732,
+          "nearest": "gr-night-stocking-baler-and-compactor-lockout",
+          "similarity": 0.2436548223350254
         }
       }
     },
@@ -13421,7 +14617,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 252,
+          "meshes": 265,
           "materials": 92,
           "interactables": 29
         },
@@ -15982,10 +17178,10 @@
     },
     {
       "app": "smartcity",
-      "id": "hc-workplace-violence-deescalation-at-the-desk",
-      "name": "Workplace Violence De-escalation at the Desk",
+      "id": "hc-code-response-support-and-crash-cart-check",
+      "name": "Code Response Support & Crash Cart Check",
       "category": "Healthcare Support",
-      "steps": 13,
+      "steps": 15,
       "score": 96,
       "d": {
         "variety": {
@@ -15994,18 +17190,18 @@
           "longestRun": 2
         },
         "decisions": {
-          "score": 0.9884615384615384,
+          "score": 0.9166666666666666,
           "hazards": 4,
           "interrupts": 2
         },
         "explanation": {
-          "score": 0.885,
-          "medianWhy": 227,
+          "score": 1,
+          "medianWhy": 262,
           "thin": 0
         },
         "grounding": {
           "score": 1,
-          "authorities": 6
+          "authorities": 7
         },
         "standards": {
           "score": 1,
@@ -16016,19 +17212,19 @@
         },
         "feedback": {
           "score": 1,
-          "want": 11,
-          "got": 11
+          "want": 10,
+          "got": 10
         },
         "scene": {
-          "score": 0.9575,
-          "meshes": 163,
-          "materials": 77,
-          "interactables": 23
+          "score": 0.9425,
+          "meshes": 157,
+          "materials": 75,
+          "interactables": 24
         },
         "originality": {
-          "score": 0.5805970149253732,
-          "nearest": "patron-deescalation",
-          "similarity": 0.22388059701492538
+          "score": 0.5350340136054422,
+          "nearest": "ca-cabin-preflight-safety-check",
+          "similarity": 0.23299319727891157
         }
       }
     },
@@ -16450,6 +17646,58 @@
     },
     {
       "app": "smartcity",
+      "id": "av-borescope-and-tool-control-inventory",
+      "name": "Borescope & Tool-Control Inventory",
+      "category": "Mobility & Transit",
+      "steps": 15,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9666666666666667,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 251,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.945,
+          "meshes": 158,
+          "materials": 86,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.42212692967409954,
+          "nearest": "ml-flat-sorter-guarding-and-lockout",
+          "similarity": 0.2555746140651801
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "av-deicing-truck-boom-operations",
       "name": "De-icing Truck Boom Operations",
       "category": "Mobility & Transit",
@@ -16658,58 +17906,6 @@
     },
     {
       "app": "smartcity",
-      "id": "tw-conveyor-jam-clearing-and-loto",
-      "name": "Conveyor Jam Clearing & LOTO",
-      "category": "Manufacturing & Automation",
-      "steps": 13,
-      "score": 96,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 7,
-          "longestRun": 1
-        },
-        "decisions": {
-          "score": 0.9884615384615384,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 269,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "standards": {
-          "score": 1,
-          "cited": 6,
-          "inScope": 6,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 10,
-          "got": 10
-        },
-        "scene": {
-          "score": 0.975,
-          "meshes": 170,
-          "materials": 71,
-          "interactables": 24
-        },
-        "originality": {
-          "score": 0.11397849462365606,
-          "nearest": "tw-palletizer-cell-fenced-access-permit",
-          "similarity": 0.3172043010752688
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "tw-amr-traffic-zone-entry-and-lockout",
       "name": "AMR Traffic-Zone Entry & Lockout",
       "category": "Manufacturing & Automation",
@@ -16910,9 +18106,9 @@
           "interactables": 27
         },
         "originality": {
-          "score": 0.4941919191919193,
-          "nearest": "hw-housekeeping-cart-and-chemical-safety",
-          "similarity": 0.24116161616161616
+          "score": 0.47259036144578326,
+          "nearest": "gr-pharmacy-floral-chemical-handling-and-sds",
+          "similarity": 0.24548192771084337
         }
       }
     },
@@ -16965,6 +18161,526 @@
           "score": 0.5053797468354432,
           "nearest": "gk-bunker-renovation-and-drainage",
           "similarity": 0.2389240506329114
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-flight-deck-crew-resource-management",
+      "name": "Flight Deck Crew Resource Management Briefing",
+      "category": "Mobility & Transit",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.935,
+          "medianWhy": 237,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 3,
+          "inScope": 3,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.8222727272727273,
+          "meshes": 128,
+          "materials": 48,
+          "interactables": 19
+        },
+        "originality": {
+          "score": 0.6253996447602131,
+          "nearest": "ra-blue-flag-protection-in-the-yard",
+          "similarity": 0.21492007104795738
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-door-evacuation-drill",
+      "name": "Door Evacuation Drill",
+      "category": "Mobility & Transit",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.9299999999999999,
+          "medianWhy": 236,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 3,
+          "inScope": 3,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9840909090909091,
+          "meshes": 198,
+          "materials": 66,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.484046692607004,
+          "nearest": "ca-cabin-decompression-and-oxygen-masks",
+          "similarity": 0.24319066147859922
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-conveyor-fire-and-gas-monitoring",
+      "name": "Conveyor Belt Fire & Gas Monitoring",
+      "category": "Manufacturing & Automation",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 267,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 3,
+          "inScope": 3,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.8275,
+          "meshes": 111,
+          "materials": 51,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.415277777777778,
+          "nearest": "mm-paper-machine-dryer",
+          "similarity": 0.2569444444444444
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-mine-escapeway-drill",
+      "name": "Mine Escapeway & Self-Rescuer Drill",
+      "category": "Manufacturing & Automation",
+      "steps": 12,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 263,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 3,
+          "inScope": 3,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.7665909090909091,
+          "meshes": 93,
+          "materials": 48,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.5363636363636365,
+          "nearest": "gr-ammonia-leak-alarm-response-cold-plant",
+          "similarity": 0.23272727272727273
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-ladle-pour",
+      "name": "Ladle Pour",
+      "category": "Manufacturing & Automation",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 295,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9025,
+          "meshes": 141,
+          "materials": 74,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.5673621460506707,
+          "nearest": "mm-coke-oven-heat-rotation",
+          "similarity": 0.22652757078986588
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "md-recording-studio-hearing-conservation-and-load-in",
+      "name": "Recording Studio Hearing Conservation & Load-In",
+      "category": "Entertainment & Live Events",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 257,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.9190909090909091,
+          "meshes": 154,
+          "materials": 73,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.5069073783359498,
+          "nearest": "md-camera-dolly-and-crane-track",
+          "similarity": 0.23861852433281006
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "md-sound-stage-electrical-distribution-and-cable-crossings",
+      "name": "Sound Stage Electrical Distribution & Cable Crossings",
+      "category": "Entertainment & Live Events",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 257,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.9190909090909091,
+          "meshes": 154,
+          "materials": 77,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.42656250000000007,
+          "nearest": "md-camera-dolly-and-crane-track",
+          "similarity": 0.2546875
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "md-set-safety-meeting-and-stunt-go-no-go",
+      "name": "Set Safety Meeting & Stunt Go/No-Go",
+      "category": "Entertainment & Live Events",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 349,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 226,
+          "materials": 106,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.3809815950920248,
+          "nearest": "md-location-shoot-traffic-control-and-heat-hydration",
+          "similarity": 0.26380368098159507
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-heat-and-cold-stress-on-route",
+      "name": "Heat & Cold Stress on Route",
+      "category": "Mobility & Transit",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 258,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.8240909090909092,
+          "meshes": 116,
+          "materials": 61,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.6347536617842877,
+          "nearest": "br-volunteer-cleanup-day-safety-lead",
+          "similarity": 0.21304926764314247
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-dog-and-hazard-awareness-on-route",
+      "name": "Dog & Hazard Awareness on Route",
+      "category": "Mobility & Transit",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 250,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.8290909090909091,
+          "meshes": 118,
+          "materials": 62,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.5139534883720931,
+          "nearest": "ml-delivery-van-pretrip-and-route-loading",
+          "similarity": 0.2372093023255814
         }
       }
     },
@@ -17126,58 +18842,6 @@
     },
     {
       "app": "smartcity",
-      "id": "press-brake",
-      "name": "Press Brake",
-      "category": "Manufacturing & Automation",
-      "steps": 12,
-      "score": 97,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 7,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 313,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "standards": {
-          "score": 1,
-          "cited": 3,
-          "inScope": 3,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 11,
-          "got": 11
-        },
-        "scene": {
-          "score": 0.8738636363636364,
-          "meshes": 155,
-          "materials": 81,
-          "interactables": 18
-        },
-        "originality": {
-          "score": 0.5738738738738739,
-          "nearest": "sm-shop-layout-and-shear",
-          "similarity": 0.22522522522522523
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "container-lashing",
       "name": "Container Lashing",
       "category": "Maritime & Ports",
@@ -17201,12 +18865,12 @@
         },
         "grounding": {
           "score": 1,
-          "authorities": 5
+          "authorities": 6
         },
         "standards": {
           "score": 1,
-          "cited": 4,
-          "inScope": 4,
+          "cited": 5,
+          "inScope": 5,
           "outOfScope": 0,
           "unregistered": 0
         },
@@ -19978,9 +21642,9 @@
           "interactables": 21
         },
         "originality": {
-          "score": 0.5720538720538721,
-          "nearest": "ice-well-breakage",
-          "similarity": 0.2255892255892256
+          "score": 0.536424957841484,
+          "nearest": "gr-pharmacy-floral-chemical-handling-and-sds",
+          "similarity": 0.2327150084317032
         }
       }
     },
@@ -23002,58 +24666,6 @@
     },
     {
       "app": "smartcity",
-      "id": "hc-code-response-support-and-crash-cart-check",
-      "name": "Code Response Support & Crash Cart Check",
-      "category": "Healthcare Support",
-      "steps": 15,
-      "score": 97,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 7,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.9166666666666666,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 262,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 7
-        },
-        "standards": {
-          "score": 1,
-          "cited": 5,
-          "inScope": 5,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 10,
-          "got": 10
-        },
-        "scene": {
-          "score": 0.9425,
-          "meshes": 157,
-          "materials": 75,
-          "interactables": 24
-        },
-        "originality": {
-          "score": 0.6666666666666667,
-          "nearest": "hc-workplace-violence-deescalation-at-the-desk",
-          "similarity": 0.20666666666666667
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "hc-linen-and-regulated-waste-handling",
       "name": "Linen & Regulated Waste Handling",
       "category": "Healthcare Support",
@@ -23574,58 +25186,6 @@
     },
     {
       "app": "smartcity",
-      "id": "av-borescope-and-tool-control-inventory",
-      "name": "Borescope & Tool-Control Inventory",
-      "category": "Mobility & Transit",
-      "steps": 15,
-      "score": 97,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 7,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.9666666666666667,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 251,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 5
-        },
-        "standards": {
-          "score": 1,
-          "cited": 6,
-          "inScope": 6,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 10,
-          "got": 10
-        },
-        "scene": {
-          "score": 0.945,
-          "meshes": 158,
-          "materials": 86,
-          "interactables": 26
-        },
-        "originality": {
-          "score": 0.45213675213675225,
-          "nearest": "tw-palletizer-cell-fenced-access-permit",
-          "similarity": 0.24957264957264957
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "tw-cold-storage-ppe-and-rotation",
       "name": "Cold-Storage PPE & Rotation",
       "category": "Manufacturing & Automation",
@@ -23722,9 +25282,9 @@
           "interactables": 26
         },
         "originality": {
-          "score": 0.6214046822742476,
-          "nearest": "receiving-dock-food",
-          "similarity": 0.2157190635451505
+          "score": 0.6000000000000001,
+          "nearest": "gr-produce-receiving-cold-chain-and-pallet-jack",
+          "similarity": 0.22
         }
       }
     },
@@ -23777,6 +25337,318 @@
           "score": 0.45886524822695046,
           "nearest": "ed-crossing-guard-intersection-control",
           "similarity": 0.24822695035460993
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-coke-oven-heat-rotation",
+      "name": "Coke Oven Heat Rotation",
+      "category": "Manufacturing & Automation",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 319,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.93,
+          "meshes": 152,
+          "materials": 78,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.5286163522012579,
+          "nearest": "ra-air-brake-test-and-train-inspection",
+          "similarity": 0.23427672955974843
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "md-theatre-fly-floor-and-quick-change-lane",
+      "name": "Theatre Fly Floor & Quick-Change Lane",
+      "category": "Entertainment & Live Events",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 251,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9625,
+          "meshes": 165,
+          "materials": 78,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.4941628264208911,
+          "nearest": "md-set-safety-meeting-and-stunt-go-no-go",
+          "similarity": 0.2411674347158218
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "md-location-shoot-traffic-control-and-heat-hydration",
+      "name": "Location Shoot Traffic Control & Heat/Hydration",
+      "category": "Entertainment & Live Events",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 9,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 260,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9840909090909091,
+          "meshes": 250,
+          "materials": 93,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.3809815950920248,
+          "nearest": "md-set-safety-meeting-and-stunt-go-no-go",
+          "similarity": 0.26380368098159507
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "md-camera-dolly-and-crane-track",
+      "name": "Camera Dolly & Crane Track",
+      "category": "Entertainment & Live Events",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 280,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.975,
+          "meshes": 170,
+          "materials": 85,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.42656250000000007,
+          "nearest": "md-sound-stage-electrical-distribution-and-cable-crossings",
+          "similarity": 0.2546875
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-mail-handler-forklift-and-container-dock",
+      "name": "Mail Handler Forklift & Container Dock",
+      "category": "Manufacturing & Automation",
+      "steps": 12,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 265,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9363636363636364,
+          "meshes": 222,
+          "materials": 71,
+          "interactables": 18
+        },
+        "originality": {
+          "score": 0.3970684039087949,
+          "nearest": "straddle-carrier-ops",
+          "similarity": 0.26058631921824105
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-delivery-van-pretrip-and-route-loading",
+      "name": "Delivery Van Pre-Trip & Route Loading",
+      "category": "Mobility & Transit",
+      "steps": 12,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 301,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.9575,
+          "meshes": 163,
+          "materials": 66,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.5139534883720931,
+          "nearest": "ml-dog-and-hazard-awareness-on-route",
+          "similarity": 0.2372093023255814
         }
       }
     },
@@ -29133,6 +31005,58 @@
           "score": 0.5425302826379543,
           "nearest": "gl-skylight-glass-replacement-and-fall-protection",
           "similarity": 0.23149394347240915
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "md-newsroom-storm-scene-and-live-truck-mast",
+      "name": "Newsroom Storm Scene & Live Truck Mast",
+      "category": "Entertainment & Live Events",
+      "steps": 13,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 257,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 194,
+          "materials": 92,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.5305084745762713,
+          "nearest": "gk-tree-work-pole-saw-and-drop-zone",
+          "similarity": 0.23389830508474577
         }
       }
     },

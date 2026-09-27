@@ -175,7 +175,7 @@
       "stepPoints": 100,
       "wrongStepPenalty": 25,
       "hazardPenalty": 50,
-      "maxCombo": 2.0,
+      "maxCombo": 2,
       "interruptPoints": 120,
       "interruptSpeedBonus": 60,
       "maxLevel": 33
@@ -207,9 +207,9 @@
     "qualityScore": 91,
     "subScores": {
       "schemaValidity": {
-        "value": 1.0,
+        "value": 1,
         "weight": 30,
-        "contribution": 30.0
+        "contribution": 30
       },
       "actionBalance": {
         "value": 0.7,
@@ -217,24 +217,24 @@
         "contribution": 10.5
       },
       "hazardCoverage": {
-        "value": 1.0,
+        "value": 1,
         "weight": 10,
-        "contribution": 10.0
+        "contribution": 10
       },
       "interruptionCoverage": {
-        "value": 1.0,
+        "value": 1,
         "weight": 10,
-        "contribution": 10.0
+        "contribution": 10
       },
       "duplicateRate": {
-        "value": 1.0,
+        "value": 1,
         "weight": 15,
-        "contribution": 15.0
+        "contribution": 15
       },
       "stationDiversity": {
-        "value": 1.0,
+        "value": 1,
         "weight": 10,
-        "contribution": 10.0
+        "contribution": 10
       },
       "poseTrackPresence": {
         "value": 0.52,
@@ -250,7 +250,7 @@
     "epochs": 25,
     "heldOutAccuracy": {
       "top1": 0.989,
-      "top3": 1.0
+      "top3": 1
     },
     "replay": {
       "learned": {
@@ -262,7 +262,7 @@
         "meanScore": 3182
       },
       "novice": {
-        "passRate": 0.0,
+        "passRate": 0,
         "meanScore": 1704
       }
     },
@@ -276,15 +276,18 @@
   "note_since_draft": "Fairway Park district and game, grounds-and-landscaping programme, warehouse and education packs, and texture quality tiers landed after the paper's first draft; counts above are refreshed from the tree.",
   "refreshedCounts": {
     "asOf": "2026-09-27",
-    "procedures": 561,
-    "smartcityStations": 552,
+    "procedures": 606,
+    "smartcityStations": 597,
     "tradeRooms": 9,
     "categories": 20,
-    "programmes": 45,
-    "checkers": 47,
-    "standards": 446,
+    "programmes": 51,
+    "checkers": 50,
+    "standards": 509,
     "bodies": 95,
-    "ladderLevelsFull": "899/900",
-    "source": "WebXR/smartcity/catalog.json, tools/check_all.mjs, tools/standards.json, docs/ladders.md"
+    "unions": 111,
+    "ladderLevelsFull": "1019/1020",
+    "competencies": 61,
+    "evalCorpusMean": 96,
+    "source": "WebXR/smartcity/catalog.json, tools/check_all.mjs, tools/standards.json, tools/unions.json, docs/ladders.md, tools/check_competency.mjs, tools/eval-content.json"
   }
 }

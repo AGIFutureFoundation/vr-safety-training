@@ -1,26 +1,45 @@
 # Build status — SmartCiti.X and the WebXR training network
 
-Updated: 2026-09-26. A dated log of what landed, wave by wave, over the last sixty commits on the working branch, with the eval score of every station that shipped, the checkers that grew around it, the pages to read and what went wrong first. The Unity prototype's own status stays in [`../STATUS.md`](../STATUS.md).
+Updated: 2026-09-27. A dated log of what landed, wave by wave, over the last sixty commits on the working branch, with the eval score of every station that shipped, the checkers that grew around it, the pages to read and what went wrong first. The Unity prototype's own status stays in [`../STATUS.md`](../STATUS.md).
 
 ## Live totals
 
 | | Now | Where the number comes from |
 |---|---|---|
-| Procedures in the catalog | **561** — 552 SmartCiti.X stations and 9 Trade Skills rooms | `WebXR/smartcity/catalog.json` (`node tools/gen_catalog.mjs`) |
+| Procedures in the catalog | **606** — 597 SmartCiti.X stations and 9 Trade Skills rooms | `WebXR/smartcity/catalog.json` (`node tools/gen_catalog.mjs`) |
 | Categories | **20** — SmartCiti.X trade-union categories (now including Youth Sports & Coaching, Healthcare Support and Grounds & Landscaping) plus Trade Skills Simulator | `catalog.json` |
-| Training programmes | **45**, each a twenty-level ladder of 75-lesson levels (899 of 900 levels full; `docs/ladders.md`) | `catalog.json` → `curricula` (`WebXR/smartcity/js/curricula.js`) |
-| Checkers | **47**, all passing | the `CHECKERS` list in `tools/check_all.mjs`; its last line reads `All 47 checkers pass.` |
-| Content eval | corpus mean **96 / 100** over 561 procedures; every station at 90 or above except the flat, sourced briefings and three readings listed below | `node tools/eval_content.mjs --json` |
-| Standards registry | **446** entries across 95 bodies over the 20 categories | `tools/standards.json` (`node tools/check_standards.mjs --docs`) |
-| Competencies | **41** (31 programme, 10 core) | `node tools/check_competency.mjs` |
+| Training programmes | **51**, each a twenty-level ladder of 75-lesson levels (1019 of 1020 levels full; `docs/ladders.md`) | `catalog.json` → `curricula` (`WebXR/smartcity/js/curricula.js`) |
+| Checkers | **50**, all passing | the `CHECKERS` list in `tools/check_all.mjs`; its last line reads `All 50 checkers pass.` |
+| Content eval | corpus mean **96 / 100** over 606 procedures; every station at 90 or above except the flat, sourced briefings and three readings listed below | `node tools/eval_content.mjs --json` |
+| Standards registry | **509** entries across 95 bodies over the 20 categories | `tools/standards.json` (`node tools/check_standards.mjs --docs`) |
+| Competencies | **61** (51 programme, 10 core) | `node tools/check_competency.mjs` |
 | Device profiles | **33** head-worn devices in 6 run profiles | `node tools/check_devices.mjs` |
-| App | published artifact (private until shared), with the race, the arcade, the eggs and 31 track pages beside it | |
+| App | published artifact (private until shared), with the race, the arcade, the eggs, Fairway Park, Bay World and 51 track pages beside it | |
 
 Under 90 today: `hunters-point` 73, `can-we-live-story` 73, `civic-principles-briefing` 81, `trades-lineage-briefing` 84, `apprenticeship-standards-reading` 88 (flat, sourced briefings and readings — the eval's scene and variety dimensions do not apply to them and the rest is renormalised).
 
 How to read a score: `tools/eval_content.mjs` grades each procedure on variety of interaction, decision density, explanation depth, grounding in named bodies, **standards** (the share of cited authorities that resolve to a registry entry in scope for the station's category, less a penalty for citing out of scope), feedback coverage, scene and originality, and weights them into one number. It is the heartbeat between waves, not a gate; the gate is `node tools/check_all.mjs`.
 
 ---
+
+## Bay World run — the Pathway Edition, a free-roam Bay Area city and the 111-union registry (2026-09-27, 14:10–16:10 UTC)
+
+A two-hour team run, reported every thirty minutes into the whitepaper doc (four reports, promos 08–11). What landed, in merge order:
+
+- **Union registry to 111** (`4b82aad`): `tools/unions.json`, the training bodies in `tools/standards.json`, the null-file brand manifest and `docs/unions.md`; `check_signage.mjs` now requires 111.
+- **Bay World map** (`bb845a2`): `WebXR/shared/bayworld-data.js` (a 1600 × 1100 m tile, 10 zones, 21 public landmarks named with generic descriptions only, 37 job sites, a road graph with lanes) and `WebXR/shared/bayworld.js` (the builder and its day, dusk and night lighting); the `bay-world` district on the campus; `check_bayworld.mjs`.
+- **Quest layer** (`2de1db3`): `WebXR/bayworld/js/quests.js` and `quests-data.js`: a seven-quest main arc, an opener and a capstone side quest generated for every programme by `tools/gen_bay_quests.mjs`, 24 field-note eggs and 4 activities, no violence and no gambling anywhere in the world; `check_bay_quests.mjs`.
+- **Pathway Edition for wojrc.org** (`9e7ade1`): eight stations from Intake and Pathway Planning to Graduation and Alumni-Mentor Day, composed with the Job Readiness Edition roster under the sourced-facts rule in `tools/briefs/wojrc-brief.md` (the organisation is described only by its own published text; the person who named this edition is referred to only as its sponsor). Programme `wojrc-pathway-edition`, competency, ladder, wiki page and Bay World quests; anchored at the port container terminal on the map.
+- **Bay World free-roam game** (`cf732d4`): `WebXR/bayworld/` — walk or drive the ten zones, day turns to night, traffic keeps to its lanes, every job board opens a real training station, a career ledger of reputation and credits, an in-world map; `check_bayworld_game.mjs` walks a main-arc quest and a radio egg through completion.
+- **Grocery and meatpacking pack** (`d3274e3`): eight UFCW stations (`gr-`) from meat-department band-saw and grinder lockout to ammonia-alarm response in a cold plant; programme, ladder, competency and quests.
+- **Published:** artifact version 28 carries the Bay World page, the shared map modules and the Pathway Edition track page beside the 28 station chunks.
+
+- **Airline cabin and flight crew pack** (`b5cb0a7`): eight AFA-CWA and ALPA stations (`ca-`) from cabin preflight and galley cart safety to decompression drills, door evacuation and flight-deck crew resource management, with the `cabinInterior` builder; no duty-hour or altitude figure is stated anywhere.
+- **Mill and mine pack** (`df0c3f7`): eight USW and UMWA stations (`mm-`) from the hot-strip mill stand and ladle pour to the continuous miner face, escapeway drill and conveyor fire and gas monitoring; three equipment builders; gas readouts are qualitative only.
+- **Screen and media crafts pack** (`8a14ce8`): seven stations (`md-`) from the set safety meeting and stunt go or no-go to the theatre fly floor and the newsroom live-truck mast; SAG-AFTRA, AFM and NewsGuild-CWA join Actors' Equity in the registry. The eighth station (an intimacy and conduct coordination briefing) was scoped but not started before the run's cutoff.
+- **Postal and mail processing pack** (`590ce38`): six NALC, APWU and NPMHU stations (`ml-`) from delivery-van pre-trip and dog awareness on route to flat-sorter lockout and the parcel-sorter jam, with the `deliveryVan` builder and a postal palette. Two stations (suspicious package protocol, retail-counter de-escalation) remain for the next run.
+
+- **What failed first:** the Pathway programme was not anchored to any Bay World site, so `check_bayworld` went red on its first merge — `scratchpad` now anchors every new programme by category before the gate (`anchor_programmes.mjs`, folded into the merge chain). Three packs left duplicate union or training-body ids in the registries after the merge (UMWA twice, Actors' Equity under two ids); the merge chain now deduplicates the three registries before regenerating, and the postal pack's competency entry had to be spliced back from its branch after the auto-merge dropped it. The game app had been built against a stub map with 4 zones; its integration pass moved it onto the shared data and renamed its adapted exports off the shared module's names, because the bundler concatenates every module into one scope and erases import aliases.
 
 ## Wave 100 — thirteen union packs, accountability, robot data and opt-in sharing (2026-09-26, later)
 
