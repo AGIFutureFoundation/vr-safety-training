@@ -435,6 +435,94 @@ export function aircraftJack(parent, x, y, z, opts = {}) {
   cyl(saddle, 0.13, 0.1, 0.06, 0, 0.03, 0, 0x2b2f34, { rough: 0.6, seg: 16 });
   return flDone(rig, { footprint: PROPS_BUDGET.aircraftJack.footprint });
 }
+// ------------------------------------------------------------ warehouse
+
+/**
+ * A selective pallet-rack bay: two upright frames, three beam levels, a
+ * pair of rack-end protectors at the aisle-facing base, two loaded pallets
+ * under shrink film on the upper beams, and a capacity plaque — this
+ * platform is never certain of a rack's actual rated load, so the plaque
+ * reads "SEE RATING PLAQUE" rather than a number. `opts.count` (default 3)
+ * sets how many beam levels are loaded pallets versus bare beams.
+ */
+export function palletRackBay(parent, x, y, z, opts = {}) {
+  const rig = prRig(parent, x, y, z, opts, "palletRackBay");
+  const S = rig.shell;
+  const steel = 0x8b929a;
+  for (const sx of [-1.2, 1.2]) box(S, 0.1, 4.0, 1.1, sx, 2.0, 0, steel, { rough: 0.5, metal: 0.5, finish: "galvanised" });
+  const levels = [0.5, 1.9, 3.3];
+  for (const ly of levels) box(S, 2.5, 0.08, 1.05, 0, ly, 0, 0xf0b323, { rough: 0.55, finish: "painted" });
+  for (const sx of [-1.2, 1.2]) box(S, 0.15, 0.5, 0.15, sx, 0.25, 0.55, 0xf0b323, { rough: 0.5, finish: "painted" });
+  for (const ly of [levels[1] + 0.47, levels[2] + 0.47]) {
+    box(S, 1.0, 0.9, 1.0, 0, ly, 0, 0xcfa46a, { rough: 0.85, finish: "brushed" });
+  }
+  const plaqueFace = flCanvasMat("rackPlaque", 256, 160, (g, w, h) => {
+    gradientFill(g, w, h, [[0, "#f0b323"], [1, "#d89a1c"]]);
+    g.fillStyle = "#1a1a1a"; g.font = "700 30px Arial"; g.textAlign = "center";
+    g.fillText("RATED CAPACITY", w / 2, h * 0.32);
+    g.font = "700 22px Arial";
+    g.fillText("SEE RATING PLAQUE", w / 2, h * 0.62);
+    g.fillText("PER MANUFACTURER", w / 2, h * 0.84);
+  }, { rough: 0.5 });
+  flPanel(S, 0.4, 0.26, -1.14, 1.5, 0.53, plaqueFace, "+z");
+  return flDone(rig, { footprint: PROPS_BUDGET.palletRackBay.footprint });
+}
+
+/**
+ * An insulated cold-storage doorway: a steel lintel and jambs, a hinged
+ * insulated door leaf, a hanging PVC strip curtain across the opening, a
+ * dial thermometer, and a warning plaque. Parts: door.
+ */
+export function coldRoomDoor(parent, x, y, z, opts = {}) {
+  const rig = prRig(parent, x, y, z, opts, "coldRoomDoor");
+  const S = rig.shell;
+  const jamb = 0xc7ccd0;
+  box(S, 1.9, 0.15, 0.25, 0, 2.475, 0, jamb, { rough: 0.5, metal: 0.4, finish: "galvanised" });
+  for (const sx of [-0.875, 0.875]) box(S, 0.15, 2.4, 0.25, sx, 1.2, 0, jamb, { rough: 0.5, metal: 0.4, finish: "galvanised" });
+  const door = rig.part("door", -0.75, 0, 0);
+  box(door, 1.5, 2.3, 0.08, 0.75, 1.15, 0, 0xe4e9ec, { rough: 0.4, metal: 0.15, finish: "painted" });
+  door.userData.openAngle = 1.2;
+  for (const sx of [-0.6, -0.2, 0.2, 0.6]) box(S, 0.38, 2.2, 0.015, sx, 1.1, 0.1, 0xd8c98a, { rough: 0.3, opacity: 0.45, cast: false });
+  const gauge = cyl(S, 0.07, 0.07, 0.02, 0.955, 1.6, 0.14, 0xe8eef2, { rough: 0.35, metal: 0.3, seg: 16 });
+  gauge.rotation.x = Math.PI / 2;
+  const plaqueFace = flCanvasMat("coldRoomPlaque", 256, 128, (g, w, h) => {
+    gradientFill(g, w, h, [[0, "#1f6fa8"], [1, "#144e7a"]]);
+    g.fillStyle = "#eaf6fb"; g.font = "700 26px Arial"; g.textAlign = "center";
+    g.fillText("COLD STORAGE", w / 2, h * 0.4);
+    g.font = "700 18px Arial";
+    g.fillText("PPE PER LABEL", w / 2, h * 0.72);
+  }, { rough: 0.5 });
+  flPanel(S, 0.5, 0.25, 0, 2.55, 0.126, plaqueFace, "+z");
+  return flDone(rig, { footprint: PROPS_BUDGET.coldRoomDoor.footprint });
+}
+
+/**
+ * A pick-to-light shelf module: two uprights, three shelves, an LED pick
+ * light strip along each shelf's front edge (a station colours these to
+ * cue which bin to pick from), and a small digital pick-count display on
+ * top. Parts: lights (the three LED strips, front to back low-to-high).
+ */
+export function pickToLightShelf(parent, x, y, z, opts = {}) {
+  const rig = prRig(parent, x, y, z, opts, "pickToLightShelf");
+  const S = rig.shell;
+  const steel = 0x8b929a;
+  for (const sx of [-0.75, 0.75]) box(S, 0.08, 2.2, 0.5, sx, 1.1, 0, steel, { rough: 0.5, metal: 0.5, finish: "galvanised" });
+  const shelfY = [0.5, 1.1, 1.7];
+  for (const sy of shelfY) box(S, 1.6, 0.05, 0.48, 0, sy, 0, 0xc9a86b, { rough: 0.75, finish: "brushed" });
+  const lights = shelfY.map((sy) => {
+    const l = rig.part(`light${sy}`, 0, sy + 0.05, 0.25);
+    box(l, 1.5, 0.03, 0.02, 0, 0, 0, 0xf0b323, { emissive: 0xf0b323, ei: 1.0, rough: 0.4, cast: false });
+    return l;
+  });
+  rig.set("lights", lights);
+  const displayFace = flCanvasMat("pickDisplay", 220, 120, (g, w, h) => {
+    gradientFill(g, w, h, [[0, "#101820"], [1, "#0a1218"]]);
+    g.fillStyle = "#59c97b"; g.font = "700 26px monospace"; g.textAlign = "center";
+    g.fillText("PICK: 0", w / 2, h * 0.55);
+  }, { rough: 0.4 });
+  flPanel(S, 0.42, 0.24, 0, 2.32, 0.24, displayFace, "+z");
+  return flDone(rig, { footprint: PROPS_BUDGET.pickToLightShelf.footprint });
+}
 
 // ------------------------------------------------------------------ budget
 
@@ -472,6 +560,9 @@ export const PROPS_BUDGET = {
   counterweightStack: { build: "counterweightStack", meshes: 5, footprint: [2.5, 1.5, 1.0], parts: [], note: "mobile crane counterweight, five slabs" },
   picnicTable: { build: "picnicTable", meshes: 5, footprint: [1.6, 0.9, 1.5], parts: [], note: "A-frame picnic table" },
   aircraftJack: { build: "aircraftJack", meshes: 5, footprint: [0.78, 1.2, 0.8], parts: ["ram", "saddle"], note: "tripod aircraft jack, ram extended" },
+  palletRackBay: { build: "palletRackBay", meshes: 5, footprint: [2.62, 4.22, 1.18], parts: [], note: "selective pallet-rack bay, two loaded levels and a rating plaque" },
+  coldRoomDoor: { build: "coldRoomDoor", meshes: 5, footprint: [1.98, 2.68, 0.28], parts: ["door"], note: "insulated cold-storage doorway with a PVC strip curtain" },
+  pickToLightShelf: { build: "pickToLightShelf", meshes: 6, footprint: [1.6, 2.44, 0.51], parts: ["lights"], note: "pick-to-light shelf module, three LED pick strips" },
 };
 
 /** The builders by the name PROPS_BUDGET's `build` field uses. */
@@ -479,5 +570,5 @@ export const PROPS_BUILDERS = {
   jerseyBarrier, waterBarrier, coneCluster, lightMast, portableToilet, siteOffice, dumpster,
   scaffoldTower, palletStack, cableSpool, fireHydrant, bollardRow, parkBench, streetTree,
   shrubBed, fencePanel, fencePanelGate, shippingContainer, fuelTank, generatorSkid,
-  counterweightStack, picnicTable, aircraftJack,
+  counterweightStack, picnicTable, aircraftJack, palletRackBay, coldRoomDoor, pickToLightShelf,
 };

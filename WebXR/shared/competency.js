@@ -201,6 +201,9 @@ export const STANDARDS = Object.fromEntries([
   S("usa-basketball-youth-guidelines", "USA Basketball", "Youth development guidelines: age-appropriate play, practice, rest and coach licensing", ["Youth Sports & Coaching"], "unverified"),
   S("cdc-heads-up", "CDC", "Heads Up concussion-in-youth-sports training: recognise, remove, refer, return only with clearance", ["Youth Sports & Coaching"], "unverified"),
   S("safesport-code", "U.S. Center for SafeSport", "Abuse-prevention training and policies for adults who work with young athletes", ["Youth Sports & Coaching"], "unverified"),
+  S("ansi-r15-06", "ANSI/ASSP", "R15.06 Safety requirements for industrial robots and robot systems", ["Manufacturing"]),
+  S("iso-10218", "ISO", "10218 Robots and robotic devices — safety requirements for industrial robots", ["Manufacturing"]),
+  S("ashrae-15", "ASHRAE", "15 Safety Standard for Refrigeration Systems", ["Manufacturing", "Building Systems"]),
 ].map((s) => [s.id, { ...s, slug: standardSlug(s.body, s.title) }]));
 
 /** The body and title behind a standard id, or a placeholder for an unknown one. */
@@ -749,6 +752,17 @@ export const PROGRAMME_COMPETENCIES = [
     stations: [
       "av-marshalling-and-wingwalker-signals", "av-pushback-tug-and-towbar-connection", "av-ground-power-and-static-bonding-before-fuel", "av-baggage-belt-loader-and-hold-loading",
       "av-deicing-truck-boom-operations", "av-hangar-jacking-and-stands", "av-borescope-and-tool-control-inventory", "av-lavatory-and-potable-water-separation"
+    ],
+    require: 4,
+  },
+  {
+    id: "warehouse-and-logistics-automation",
+    title: "Enter, isolate and prove eight distinct Teamsters warehouse and logistics automation jobs",
+    kind: "programme",
+    standards: ["osha-1910-147", "osha-1910-178", "osha-1910-212", "ansi-r15-06", "iso-10218", "ashrae-15"],
+    stations: [
+      "tw-amr-traffic-zone-entry-and-lockout", "tw-conveyor-jam-clearing-and-loto", "tw-high-bay-order-picker-fall-protection", "tw-dock-leveler-and-trailer-restraint-check",
+      "tw-battery-change-and-charging-bay-safety", "tw-palletizer-cell-fenced-access-permit", "tw-cold-storage-ppe-and-rotation", "tw-pick-to-light-ergonomics-and-rotation"
     ],
     require: 4,
   },

@@ -215,5 +215,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "aviation-maintenance-and-ground",
     "name": "Aviation Maintenance and Ground — IAM/TWU Ramp and Line",
     "accent": "#ffb13a"
+  },
+  {
+    "programme": "warehouse-and-logistics-automation",
+    "name": "Warehouse and Logistics Automation — Teamsters Distribution Floor",
+    "accent": "#e4622a"
   }
 ];

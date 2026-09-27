@@ -4201,10 +4201,11 @@ const PALETTES = {
   rail: { accent: 0x59c97b, ground: 0x3a3d41, structure: 0x8b98a5, trim: 0xf2c14b },
   aviation: { accent: 0xffb13a, ground: 0x2f333a, structure: 0xdfe6ea, trim: 0xc8201c },
   gym: { accent: 0xd8232a, ground: 0xc9a06a, structure: 0x2b3138, trim: 0x3b7bbf },
+  warehouse: { accent: 0xf0b323, ground: 0x6d7379, structure: 0x8b929a, trim: 0x2f6f8c },
 };
 
 /** A trade palette by name (construction, marine, clinical, kitchen,
- *  utility, transit, rail, aviation, gym), each `{ accent, ground,
+ *  utility, transit, rail, aviation, gym, warehouse), each `{ accent, ground,
  *  structure, trim }`. An unknown name falls back to `construction` rather
  *  than throwing — a station that misspells a trade still paints something
  *  coherent instead of going grey. Returns a fresh object every call, so a
@@ -7726,6 +7727,152 @@ function fuelTruck(parent, x, y, z, opts = {}) {
   decal(panel, 0.34, 0.3, 0, 0, 0.05, signFace("FUEL\nQTY", { bg: "#101820", accent: "#f2c14b", scale: 0.35 }), { px: 256 });
   return flDone(rig, { footprint: EQUIPMENT_BUDGET.fuelTruck.footprint, livery: lv });
 }
+// -------------------------------------------------------- warehouse & logistics
+//
+// Five builders for the warehouse-and-logistics-automation pack: an AMR, a
+// conveyor bed section, a combined dock-leveler-and-restraint bay, a
+// robotic palletizer arm and a lift-truck battery charging station. Same
+// contract as the rest of this file.
+
+/**
+ * Autonomous mobile robot (AMR/AGV): a low chassis on four caster feet, a
+ * safety-yellow bumper strip all round, a lift plate that rises to carry a
+ * shelf or a pallet, a forward LiDAR puck and a status-light ring on top a
+ * station switches between travelling, yielding and fault colours. Parts:
+ * liftPlate, statusRing, lidar.
+ */
+function amrRobot(parent, x, y, z, opts = {}) {
+  const lv = flLivery(opts.livery, { colour: 0xe4622a, fleetName: "FLEET NAV", unitNumber: "AMR-14" });
+  const rig = flRig(parent, x, y, z, opts, "amrRobot");
+  const S = rig.shell;
+  box(S, 0.62, 0.2, 0.86, 0, 0.14, 0, ...flPaint(lv.colour));
+  box(S, 0.68, 0.05, 0.92, 0, 0.05, 0, EQ_YELLOW, { rough: 0.6, finish: "painted" });
+  for (const sx of [-1, 1]) for (const sz of [-1, 1]) {
+    cyl(S, 0.05, 0.05, 0.08, sx * 0.26, 0.04, sz * 0.36, 0x1c1e21, { rough: 0.7, metal: 0.2, seg: 10 });
+  }
+  const plate = rig.part("liftPlate", 0, 0.26, 0);
+  box(plate, 0.5, 0.03, 0.7, 0, 0, 0, 0x6f7a83, { rough: 0.5, metal: 0.4 });
+  const ring = rig.part("statusRing", 0, 0.27, 0);
+  const beacon = torus(ring, 0.16, 0.014, 0, 0, 0, 0x4fd1ff, { emissive: 0x2f8fdb, ei: 1.2, seg: 8, seg2: 18 });
+  beacon.rotation.x = Math.PI / 2;
+  const lidar = rig.part("lidar", 0, 0.34, 0.4);
+  cyl(lidar, 0.05, 0.06, 0.1, 0, 0, 0, 0x1c1e21, { rough: 0.4, metal: 0.5, seg: 14 });
+  cyl(lidar, 0.045, 0.045, 0.02, 0, 0.06, 0, 0x2f8fdb, { emissive: 0x2f8fdb, ei: 0.8, seg: 14 });
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.amrRobot.footprint, livery: lv });
+}
+
+/**
+ * One roller-conveyor bed section: a galvanised steel frame carrying a line
+ * of rollers, a hinged nip-point guard over the drive end and a yellow
+ * pull-cord E-stop strung along the run. A station stands several end to
+ * end to make a line. Parts: guard, estopCord, rollers (a list, for a spin
+ * animation).
+ */
+function conveyorSection(parent, x, y, z, opts = {}) {
+  const colour = opts.colour ?? 0x4a5560;
+  const rig = flRig(parent, x, y, z, opts, "conveyorSection");
+  const S = rig.shell;
+  for (const sx of [-1, 1]) box(S, 0.05, 0.5, 1.2, sx * 0.26, 0.25, 0, colour, { rough: 0.5, metal: 0.5, finish: "galvanised" });
+  for (const sx of [-1, 1]) for (const sz of [-1, 1]) box(S, 0.08, 0.02, 0.08, sx * 0.26, 0.0, sz * 0.55, 0x2b2f34, { rough: 0.6, metal: 0.4 });
+  const rollers = [];
+  for (let i = 0; i < 5; i++) {
+    const rz = -0.4 + i * 0.2;
+    const r = cyl(S, 0.045, 0.045, 0.5, 0, 0.48, rz, 0x9aa2a8, { rough: 0.35, metal: 0.6, seg: 12 });
+    r.rotation.z = Math.PI / 2;
+    rollers.push(r);
+  }
+  rig.set("rollers", rollers);
+  const guard = rig.part("guard", 0, 0.5, 0.5);
+  box(guard, 0.56, 0.28, 0.04, 0, 0.14, 0, EQ_YELLOW, { rough: 0.5, finish: "painted" });
+  const cord = rig.part("estopCord", 0.29, 0.5, 0);
+  const rope = cyl(cord, 0.008, 0.008, 1.2, 0, 0, 0, 0xd2312b, { rough: 0.6, seg: 8 });
+  rope.rotation.x = Math.PI / 2;
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.conveyorSection.footprint });
+}
+
+/**
+ * A loading-dock bay: a leveler plate and lip flush with the door sill, two
+ * rubber dock bumpers, a red/green dock traffic light, and beneath the
+ * sill a vehicle (ICC bar) restraint hook with its own red/green status
+ * light. Faces +Z into the yard/trailer. Parts: leverPlate, lip,
+ * restraintArm, dockLightRed, dockLightGreen, restraintLightRed,
+ * restraintLightGreen.
+ */
+function dockLevelerBay(parent, x, y, z, opts = {}) {
+  const rig = flRig(parent, x, y, z, opts, "dockLevelerBay");
+  const S = rig.shell;
+  box(S, 2.3, 0.15, 0.9, 0, 0.9, -0.45, 0x9aa2a8, { rough: 0.7, finish: "concrete" });
+  for (const sx of [-0.95, 0.95]) box(S, 0.22, 0.5, 0.22, sx, 0.72, 0.35, 0x1c1e21, { rough: 0.85, finish: "rubber" });
+  const plate = rig.part("leverPlate", 0, 0.9, 0);
+  box(plate, 1.9, 0.06, 0.9, 0, 0, 0.45, 0x6f7a83, { rough: 0.4, metal: 0.55, finish: "galvanised" });
+  const lip = rig.part("lip", 0, 0.9, 0.9, plate);
+  box(lip, 1.9, 0.05, 0.3, 0, 0, 0.15, 0x6f7a83, { rough: 0.4, metal: 0.55, finish: "galvanised" });
+  const arm = rig.part("restraintArm", 0, 0.25, 0.85);
+  box(arm, 0.14, 0.14, 0.7, 0, 0, -0.35, 0x2b2f34, { rough: 0.5, metal: 0.5 });
+  box(arm, 0.28, 0.1, 0.16, 0, 0.02, -0.7, 0xf0b323, { rough: 0.5, finish: "painted" });
+  const dockRed = rig.part("dockLightRed", -0.5, 2.6, -0.42);
+  ball(dockRed, 0.07, 0, 0, 0, 0x8a2020, { emissive: 0x000000, ei: 1, rough: 0.4, seg: 12, seg2: 10 });
+  const dockGreen = rig.part("dockLightGreen", 0.5, 2.6, -0.42);
+  ball(dockGreen, 0.07, 0, 0, 0, 0x2f7d4a, { emissive: 0x2f7d4a, ei: 1.4, rough: 0.4, seg: 12, seg2: 10 });
+  const restraintRed = rig.part("restraintLightRed", -0.4, 0.9, 1.0);
+  ball(restraintRed, 0.05, 0, 0, 0, 0x8a2020, { emissive: 0x000000, ei: 1, rough: 0.4, seg: 10, seg2: 8 });
+  const restraintGreen = rig.part("restraintLightGreen", 0.4, 0.9, 1.0);
+  ball(restraintGreen, 0.05, 0, 0, 0, 0x2f7d4a, { emissive: 0x2f7d4a, ei: 1.4, rough: 0.4, seg: 10, seg2: 8 });
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.dockLevelerBay.footprint });
+}
+
+/**
+ * A robotic palletizer arm: a pedestal base, a rotating turret, an upper
+ * arm and forearm, a suction-cup wrist, and a build-pallet turntable set
+ * out in front of it. Parts: turret, upperArm, foreArm, wrist, turntable.
+ */
+function roboticPalletizer(parent, x, y, z, opts = {}) {
+  const colour = opts.colour ?? 0xe4622a;
+  const rig = flRig(parent, x, y, z, opts, "roboticPalletizer", [0, 0, -0.83]);
+  const S = rig.shell;
+  cyl(S, 0.42, 0.46, 0.9, 0, 0.45, 0, 0xd8d9d4, { rough: 0.5, metal: 0.3, finish: "painted" });
+  for (let i = 0; i < 8; i++) {
+    const a = (i / 8) * Math.PI * 2;
+    box(S, 0.06, 0.9, 0.06, Math.sin(a) * 0.4, 0.45, Math.cos(a) * 0.4, 0xf0b323, { rough: 0.6, finish: "painted", cast: false });
+  }
+  const turret = rig.part("turret", 0, 0.9, 0);
+  cyl(turret, 0.3, 0.3, 0.3, 0, 0.15, 0, colour, { rough: 0.45, finish: "painted", seg: 16 });
+  const upperArm = rig.part("upperArm", 0, 0.3, 0.1, turret);
+  box(upperArm, 0.24, 0.9, 0.24, 0, 0.45, 0, colour, { rough: 0.45, finish: "painted" });
+  const foreArm = rig.part("foreArm", 0, 0.9, 0, upperArm);
+  box(foreArm, 0.2, 0.75, 0.2, 0, 0.38, 0.08, colour, { rough: 0.45, finish: "painted" });
+  const wrist = rig.part("wrist", 0, 0.75, 0.16, foreArm);
+  box(wrist, 0.42, 0.1, 0.42, 0, 0, 0, 0x2b2f34, { rough: 0.5, metal: 0.4 });
+  for (const [sx, sz] of [[-0.16, -0.16], [0.16, -0.16], [-0.16, 0.16], [0.16, 0.16]]) {
+    cyl(wrist, 0.05, 0.05, 0.05, sx, -0.06, sz, 0x1c1e21, { rough: 0.7, finish: "rubber", seg: 10 });
+  }
+  const turntable = rig.part("turntable", 0, 0.06, 1.5);
+  cyl(turntable, 0.62, 0.62, 0.12, 0, 0, 0, 0x6f7a83, { rough: 0.5, metal: 0.4, seg: 24 });
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.roboticPalletizer.footprint });
+}
+
+/**
+ * A lift-truck battery charging station: a wall charger cabinet with a
+ * gauge screen, a coiled charging cable on a reel, and a ribbed spill
+ * containment tray on the floor beneath the connection point. Parts:
+ * cable, beacon.
+ */
+function batteryChargingStation(parent, x, y, z, opts = {}) {
+  const colour = opts.colour ?? 0xd8d9d4;
+  const rig = flRig(parent, x, y, z, opts, "batteryChargingStation", [0, 0, -0.15]);
+  const S = rig.shell;
+  box(S, 0.6, 0.9, 0.32, 0, 1.1, 0, colour, { rough: 0.5, finish: "painted" });
+  const screen = eqControlFaceMat("CHARGER");
+  flPanel(S, 0.5, 0.36, 0, 1.35, 0.161, screen, "+z");
+  box(S, 1.0, 0.05, 0.8, 0, 0.03, 0.15, 0x2b2f34, { rough: 0.75, finish: "grating" });
+  const reel = cyl(S, 0.16, 0.16, 0.1, 0.28, 0.75, 0.17, 0x2b2f34, { rough: 0.5, metal: 0.4, seg: 16 });
+  reel.rotation.z = Math.PI / 2;
+  const beacon = rig.part("beacon", 0, 1.62, 0);
+  ball(beacon, 0.05, 0, 0, 0, 0x59c97b, { emissive: 0x2f7d4a, ei: 1.1, rough: 0.4, seg: 12, seg2: 10 });
+  const cable = rig.part("cable", 0.28, 0.6, 0.3);
+  torus(cable, 0.13, 0.025, 0, 0, 0, 0x1c1e21, { rough: 0.7, finish: "rubber", seg: 10, seg2: 16 });
+  return flDone(rig, { footprint: EQUIPMENT_BUDGET.batteryChargingStation.footprint });
+}
 
 // ------------------------------------------------------------------ budget
 
@@ -7759,13 +7906,19 @@ const EQUIPMENT_BUDGET = {
   serviceCart: { build: "serviceCart", opts: { kind: "lav" }, meshes: 10, footprint: [1.73, 1.77, 4.05], parts: ["hoseReel", "serviceValve", "wheels"], note: "lavatory service truck" },
   "serviceCart:potable": { build: "serviceCart", opts: { kind: "potable" }, meshes: 10, footprint: [1.73, 1.77, 4.05], parts: ["hoseReel", "serviceValve", "wheels"], note: "potable water service truck" },
   fuelTruck: { build: "fuelTruck", meshes: 14, footprint: [3.08, 2.8, 9.88], parts: ["cabDoor", "wheelsF", "wheelsM", "wheelsR", "hoseReel", "nozzleMount", "dispensePanel"], note: "ramp fuel truck with a rear hose reel" },
+  amrRobot: { build: "amrRobot", meshes: 7, footprint: [0.68, 0.41, 0.92], parts: ["liftPlate", "statusRing", "lidar"], note: "autonomous mobile robot (AMR/AGV), low chassis on caster feet" },
+  conveyorSection: { build: "conveyorSection", meshes: 5, footprint: [0.6, 0.79, 1.2], parts: ["guard", "estopCord", "rollers"], note: "roller-conveyor bed section with nip-point guard and pull-cord E-stop" },
+  dockLevelerBay: { build: "dockLevelerBay", meshes: 10, footprint: [2.3, 2.49, 2.1], parts: ["leverPlate", "lip", "restraintArm", "dockLightRed", "dockLightGreen", "restraintLightRed", "restraintLightGreen"], note: "dock leveler, lip, dock bumpers and ICC bar vehicle restraint" },
+  roboticPalletizer: { build: "roboticPalletizer", meshes: 8, footprint: [1.24, 2.9, 2.58], parts: ["turret", "upperArm", "foreArm", "wrist", "turntable"], note: "articulated palletizer arm on a pedestal, with a build-pallet turntable" },
+  batteryChargingStation: { build: "batteryChargingStation", meshes: 6, footprint: [1, 1.67, 0.8], parts: ["beacon", "cable"], note: "lift-truck battery charger cabinet with a spill containment tray" },
 };
 
 /** The builders by the name EQUIPMENT_BUDGET's `build` field uses. */
 const EQUIPMENT_BUILDERS = {
   excavator, amphibiousExcavator, backhoe, skidSteer, dumpTruck, mobileCrane, aerialBoomLift, scissorLift, compactor,
-  generatorTrailer, lightTower, concretePump, craneSpreader, dozer, wheelLoader, grader, ranchGrader, crawlerCrane, pileDrivingRig,
-  regionalJet, pushbackTug, groundPowerUnit, cargoBeltLoader, deicingTruck, serviceCart, fuelTruck,
+  generatorTrailer, lightTower, concretePump, craneSpreader, dozer, wheelLoader, grader, ranchGrader, crawlerCrane, pileDrivingRig, regionalJet,
+  pushbackTug, groundPowerUnit, cargoBeltLoader, deicingTruck, serviceCart, fuelTruck, amrRobot, conveyorSection, dockLevelerBay, roboticPalletizer,
+  batteryChargingStation,
 };
 void THREE; void ball; void flSteerWheel; void flMirror; void flPlan;
 
@@ -8661,6 +8814,94 @@ function aircraftJack(parent, x, y, z, opts = {}) {
   cyl(saddle, 0.13, 0.1, 0.06, 0, 0.03, 0, 0x2b2f34, { rough: 0.6, seg: 16 });
   return flDone(rig, { footprint: PROPS_BUDGET.aircraftJack.footprint });
 }
+// ------------------------------------------------------------ warehouse
+
+/**
+ * A selective pallet-rack bay: two upright frames, three beam levels, a
+ * pair of rack-end protectors at the aisle-facing base, two loaded pallets
+ * under shrink film on the upper beams, and a capacity plaque — this
+ * platform is never certain of a rack's actual rated load, so the plaque
+ * reads "SEE RATING PLAQUE" rather than a number. `opts.count` (default 3)
+ * sets how many beam levels are loaded pallets versus bare beams.
+ */
+function palletRackBay(parent, x, y, z, opts = {}) {
+  const rig = prRig(parent, x, y, z, opts, "palletRackBay");
+  const S = rig.shell;
+  const steel = 0x8b929a;
+  for (const sx of [-1.2, 1.2]) box(S, 0.1, 4.0, 1.1, sx, 2.0, 0, steel, { rough: 0.5, metal: 0.5, finish: "galvanised" });
+  const levels = [0.5, 1.9, 3.3];
+  for (const ly of levels) box(S, 2.5, 0.08, 1.05, 0, ly, 0, 0xf0b323, { rough: 0.55, finish: "painted" });
+  for (const sx of [-1.2, 1.2]) box(S, 0.15, 0.5, 0.15, sx, 0.25, 0.55, 0xf0b323, { rough: 0.5, finish: "painted" });
+  for (const ly of [levels[1] + 0.47, levels[2] + 0.47]) {
+    box(S, 1.0, 0.9, 1.0, 0, ly, 0, 0xcfa46a, { rough: 0.85, finish: "brushed" });
+  }
+  const plaqueFace = flCanvasMat("rackPlaque", 256, 160, (g, w, h) => {
+    gradientFill(g, w, h, [[0, "#f0b323"], [1, "#d89a1c"]]);
+    g.fillStyle = "#1a1a1a"; g.font = "700 30px Arial"; g.textAlign = "center";
+    g.fillText("RATED CAPACITY", w / 2, h * 0.32);
+    g.font = "700 22px Arial";
+    g.fillText("SEE RATING PLAQUE", w / 2, h * 0.62);
+    g.fillText("PER MANUFACTURER", w / 2, h * 0.84);
+  }, { rough: 0.5 });
+  flPanel(S, 0.4, 0.26, -1.14, 1.5, 0.53, plaqueFace, "+z");
+  return flDone(rig, { footprint: PROPS_BUDGET.palletRackBay.footprint });
+}
+
+/**
+ * An insulated cold-storage doorway: a steel lintel and jambs, a hinged
+ * insulated door leaf, a hanging PVC strip curtain across the opening, a
+ * dial thermometer, and a warning plaque. Parts: door.
+ */
+function coldRoomDoor(parent, x, y, z, opts = {}) {
+  const rig = prRig(parent, x, y, z, opts, "coldRoomDoor");
+  const S = rig.shell;
+  const jamb = 0xc7ccd0;
+  box(S, 1.9, 0.15, 0.25, 0, 2.475, 0, jamb, { rough: 0.5, metal: 0.4, finish: "galvanised" });
+  for (const sx of [-0.875, 0.875]) box(S, 0.15, 2.4, 0.25, sx, 1.2, 0, jamb, { rough: 0.5, metal: 0.4, finish: "galvanised" });
+  const door = rig.part("door", -0.75, 0, 0);
+  box(door, 1.5, 2.3, 0.08, 0.75, 1.15, 0, 0xe4e9ec, { rough: 0.4, metal: 0.15, finish: "painted" });
+  door.userData.openAngle = 1.2;
+  for (const sx of [-0.6, -0.2, 0.2, 0.6]) box(S, 0.38, 2.2, 0.015, sx, 1.1, 0.1, 0xd8c98a, { rough: 0.3, opacity: 0.45, cast: false });
+  const gauge = cyl(S, 0.07, 0.07, 0.02, 0.955, 1.6, 0.14, 0xe8eef2, { rough: 0.35, metal: 0.3, seg: 16 });
+  gauge.rotation.x = Math.PI / 2;
+  const plaqueFace = flCanvasMat("coldRoomPlaque", 256, 128, (g, w, h) => {
+    gradientFill(g, w, h, [[0, "#1f6fa8"], [1, "#144e7a"]]);
+    g.fillStyle = "#eaf6fb"; g.font = "700 26px Arial"; g.textAlign = "center";
+    g.fillText("COLD STORAGE", w / 2, h * 0.4);
+    g.font = "700 18px Arial";
+    g.fillText("PPE PER LABEL", w / 2, h * 0.72);
+  }, { rough: 0.5 });
+  flPanel(S, 0.5, 0.25, 0, 2.55, 0.126, plaqueFace, "+z");
+  return flDone(rig, { footprint: PROPS_BUDGET.coldRoomDoor.footprint });
+}
+
+/**
+ * A pick-to-light shelf module: two uprights, three shelves, an LED pick
+ * light strip along each shelf's front edge (a station colours these to
+ * cue which bin to pick from), and a small digital pick-count display on
+ * top. Parts: lights (the three LED strips, front to back low-to-high).
+ */
+function pickToLightShelf(parent, x, y, z, opts = {}) {
+  const rig = prRig(parent, x, y, z, opts, "pickToLightShelf");
+  const S = rig.shell;
+  const steel = 0x8b929a;
+  for (const sx of [-0.75, 0.75]) box(S, 0.08, 2.2, 0.5, sx, 1.1, 0, steel, { rough: 0.5, metal: 0.5, finish: "galvanised" });
+  const shelfY = [0.5, 1.1, 1.7];
+  for (const sy of shelfY) box(S, 1.6, 0.05, 0.48, 0, sy, 0, 0xc9a86b, { rough: 0.75, finish: "brushed" });
+  const lights = shelfY.map((sy) => {
+    const l = rig.part(`light${sy}`, 0, sy + 0.05, 0.25);
+    box(l, 1.5, 0.03, 0.02, 0, 0, 0, 0xf0b323, { emissive: 0xf0b323, ei: 1.0, rough: 0.4, cast: false });
+    return l;
+  });
+  rig.set("lights", lights);
+  const displayFace = flCanvasMat("pickDisplay", 220, 120, (g, w, h) => {
+    gradientFill(g, w, h, [[0, "#101820"], [1, "#0a1218"]]);
+    g.fillStyle = "#59c97b"; g.font = "700 26px monospace"; g.textAlign = "center";
+    g.fillText("PICK: 0", w / 2, h * 0.55);
+  }, { rough: 0.4 });
+  flPanel(S, 0.42, 0.24, 0, 2.32, 0.24, displayFace, "+z");
+  return flDone(rig, { footprint: PROPS_BUDGET.pickToLightShelf.footprint });
+}
 
 // ------------------------------------------------------------------ budget
 
@@ -8698,6 +8939,9 @@ const PROPS_BUDGET = {
   counterweightStack: { build: "counterweightStack", meshes: 5, footprint: [2.5, 1.5, 1.0], parts: [], note: "mobile crane counterweight, five slabs" },
   picnicTable: { build: "picnicTable", meshes: 5, footprint: [1.6, 0.9, 1.5], parts: [], note: "A-frame picnic table" },
   aircraftJack: { build: "aircraftJack", meshes: 5, footprint: [0.78, 1.2, 0.8], parts: ["ram", "saddle"], note: "tripod aircraft jack, ram extended" },
+  palletRackBay: { build: "palletRackBay", meshes: 5, footprint: [2.62, 4.22, 1.18], parts: [], note: "selective pallet-rack bay, two loaded levels and a rating plaque" },
+  coldRoomDoor: { build: "coldRoomDoor", meshes: 5, footprint: [1.98, 2.68, 0.28], parts: ["door"], note: "insulated cold-storage doorway with a PVC strip curtain" },
+  pickToLightShelf: { build: "pickToLightShelf", meshes: 6, footprint: [1.6, 2.44, 0.51], parts: ["lights"], note: "pick-to-light shelf module, three LED pick strips" },
 };
 
 /** The builders by the name PROPS_BUDGET's `build` field uses. */
@@ -8705,7 +8949,7 @@ const PROPS_BUILDERS = {
   jerseyBarrier, waterBarrier, coneCluster, lightMast, portableToilet, siteOffice, dumpster,
   scaffoldTower, palletStack, cableSpool, fireHydrant, bollardRow, parkBench, streetTree,
   shrubBed, fencePanel, fencePanelGate, shippingContainer, fuelTank, generatorSkid,
-  counterweightStack, picnicTable, aircraftJack,
+  counterweightStack, picnicTable, aircraftJack, palletRackBay, coldRoomDoor, pickToLightShelf,
 };
 
 
@@ -10497,6 +10741,9 @@ const STANDARDS = Object.fromEntries([
   S("usa-basketball-youth-guidelines", "USA Basketball", "Youth development guidelines: age-appropriate play, practice, rest and coach licensing", ["Youth Sports & Coaching"], "unverified"),
   S("cdc-heads-up", "CDC", "Heads Up concussion-in-youth-sports training: recognise, remove, refer, return only with clearance", ["Youth Sports & Coaching"], "unverified"),
   S("safesport-code", "U.S. Center for SafeSport", "Abuse-prevention training and policies for adults who work with young athletes", ["Youth Sports & Coaching"], "unverified"),
+  S("ansi-r15-06", "ANSI/ASSP", "R15.06 Safety requirements for industrial robots and robot systems", ["Manufacturing"]),
+  S("iso-10218", "ISO", "10218 Robots and robotic devices — safety requirements for industrial robots", ["Manufacturing"]),
+  S("ashrae-15", "ASHRAE", "15 Safety Standard for Refrigeration Systems", ["Manufacturing", "Building Systems"]),
 ].map((s) => [s.id, { ...s, slug: standardSlug(s.body, s.title) }]));
 
 /** The body and title behind a standard id, or a placeholder for an unknown one. */
@@ -11045,6 +11292,17 @@ const PROGRAMME_COMPETENCIES = [
     stations: [
       "av-marshalling-and-wingwalker-signals", "av-pushback-tug-and-towbar-connection", "av-ground-power-and-static-bonding-before-fuel", "av-baggage-belt-loader-and-hold-loading",
       "av-deicing-truck-boom-operations", "av-hangar-jacking-and-stands", "av-borescope-and-tool-control-inventory", "av-lavatory-and-potable-water-separation"
+    ],
+    require: 4,
+  },
+  {
+    id: "warehouse-and-logistics-automation",
+    title: "Enter, isolate and prove eight distinct Teamsters warehouse and logistics automation jobs",
+    kind: "programme",
+    standards: ["osha-1910-147", "osha-1910-178", "osha-1910-212", "ansi-r15-06", "iso-10218", "ashrae-15"],
+    stations: [
+      "tw-amr-traffic-zone-entry-and-lockout", "tw-conveyor-jam-clearing-and-loto", "tw-high-bay-order-picker-fall-protection", "tw-dock-leveler-and-trailer-restraint-check",
+      "tw-battery-change-and-charging-bay-safety", "tw-palletizer-cell-fenced-access-permit", "tw-cold-storage-ppe-and-rotation", "tw-pick-to-light-ergonomics-and-rotation"
     ],
     require: 4,
   },
@@ -37831,6 +38089,342 @@ const SIMS_META = [
         "Potable Qualified",
         "Lead Service Agent",
         "Never Crossed Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "tw-amr-traffic-zone-entry-and-lockout",
+    "index": "tw-1",
+    "domain": "Warehousing & Logistics",
+    "trade": "Teamsters warehouse associate — automated traffic-zone entry",
+    "category": "Manufacturing & Automation",
+    "certification": "Teamsters warehouse and logistics automation training; OSHA 29 CFR 1910.147 the control of hazardous energy and 29 CFR 1910.212 machine guarding; ANSI R15.06 and ISO 10218 for industrial robots and robot systems, worked the way a site's own robot-cell risk assessment applies them to a mobile-robot floor; NIOSH findings on struck-by incidents around automated material handling",
+    "name": "AMR Traffic-Zone Entry & Lockout",
+    "weather": "clear",
+    "indoor": "garage",
+    "district": null,
+    "title": "SmartCiti.X~ AMR Traffic-Zone Entry & Lockout VR",
+    "tagline": "Crossing into a live autonomous-mobile-robot floor the way the zone is actually built for it: the map read and checked for what is already wrong, access requested at the gate rather than stepped past, the charging dock's power isolated and locked before anyone touches it, and the floor marked for the rest of the fleet before hands-on work starts",
+    "accent": 3117019,
+    "accentCss": "#2f8fdb",
+    "parSeconds": 260,
+    "badge": {
+      "id": "amr-zone-certified",
+      "name": "AMR Zone Certified",
+      "note": "Read the zone honestly, requested access instead of stepping past the gate, isolated and locked the dock before touching it, and marked the floor before working"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Zone Access Control",
+      "currency": "CLEARANCE",
+      "ranks": [
+        "Floor Visitor",
+        "Zone Aware",
+        "Manual-Access Handler",
+        "Zone Access Authority",
+        "AMR Zone Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "tw-conveyor-jam-clearing-and-loto",
+    "index": "tw-2",
+    "domain": "Warehousing & Logistics",
+    "trade": "Teamsters warehouse associate — conveyor line clearing",
+    "category": "Manufacturing & Automation",
+    "certification": "Teamsters warehouse and logistics automation training; OSHA 29 CFR 1910.147 the control of hazardous energy, 29 CFR 1910.212 machine guarding and 29 CFR 1910.178 powered industrial trucks for the lift truck staged at the line's end; ASME B20.1 safety standard for conveyors and related equipment; NIOSH findings on caught-in injuries at unguarded nip points",
+    "name": "Conveyor Jam Clearing & LOTO",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Conveyor Jam Clearing & LOTO VR",
+    "tagline": "Clearing a jammed carton off a live roller line the way the line's own isolation sequence requires it: the pull-cord tried first, the drive isolated and locked at its own disconnect, the residual motion actually checked, the jam cleared with a hand that never has to trust the line's timer, and the guard and the isolation both returned before the belt sees power again",
+    "accent": 14195228,
+    "accentCss": "#d89a1c",
+    "parSeconds": 265,
+    "badge": {
+      "id": "conveyor-loto-certified",
+      "name": "Conveyor LOTO Certified",
+      "note": "Isolated and locked the drive before opening the guard, cleared the jam without reaching past a live nip point, and proved the line clear before restoring power"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Line Isolation",
+      "currency": "ISOLATION",
+      "ranks": [
+        "Line Hand",
+        "Jam Aware",
+        "Isolation Handler",
+        "Line Isolation Authority",
+        "Conveyor LOTO Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "tw-high-bay-order-picker-fall-protection",
+    "index": "tw-3",
+    "domain": "Warehousing & Logistics",
+    "trade": "Teamsters warehouse associate — high-bay order picker operator",
+    "category": "Manufacturing & Automation",
+    "certification": "Teamsters (IBT) warehouse and logistics automation training; OSHA 29 CFR 1910.178 powered industrial trucks, 29 CFR 1910.28 duty to have fall protection and 29 CFR 1910.212 machine guarding; 29 CFR 1910.132 personal protective equipment for the full-body harness; NIOSH findings on falls from elevated order-picker platforms",
+    "name": "High-Bay Order Picker Fall Protection",
+    "weather": "clear",
+    "indoor": "shop",
+    "district": null,
+    "title": "SmartCiti.X~ High-Bay Order Picker Fall Protection VR",
+    "tagline": "Riding a stand-up order picker into the high bay the way its own fall-protection sequence requires: the gate closed before the platform rises, the harness clipped to the platform's own anchor, the height and load proven before reaching for stock, and the unclip saved for after the platform is back on the ground",
+    "accent": 4165954,
+    "accentCss": "#3f9142",
+    "parSeconds": 270,
+    "badge": {
+      "id": "order-picker-certified",
+      "name": "Order Picker Fall Protection Certified",
+      "note": "Closed the gate before rising, clipped to the platform's own anchor, proved the height and load, and never unclipped while still in the air"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "High-Bay Access",
+      "currency": "ANCHOR",
+      "ranks": [
+        "Floor Picker",
+        "Bay Aware",
+        "High-Bay Handler",
+        "High-Bay Access Authority",
+        "Order Picker Fall Protection Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "tw-dock-leveler-and-trailer-restraint-check",
+    "index": "tw-4",
+    "domain": "Warehousing & Logistics",
+    "trade": "Teamsters warehouse associate — dock leveler and trailer restraint",
+    "category": "Manufacturing & Automation",
+    "certification": "Teamsters (IBT) warehouse and logistics automation training; OSHA 29 CFR 1910.178 powered industrial trucks, 29 CFR 1910.147 the control of hazardous energy for the leveler's own power and 29 CFR 1910.36 design and construction requirements for exit routes at the dock door; OSHA 29 CFR 1926.602 material handling equipment; NIOSH findings on trailer-creep incidents at loading docks",
+    "name": "Dock Leveler & Trailer Restraint Check",
+    "weather": "clear",
+    "indoor": "garage",
+    "district": null,
+    "title": "SmartCiti.X~ Dock Leveler & Trailer Restraint Check VR",
+    "tagline": "Proving a trailer is actually held at the dock before the first forklift crosses it: backed fully to the bumpers, the ICC bar restraint engaged, the wheels chocked as the backup the restraint was never meant to be alone, the green light confirmed rather than assumed, and the leveler extended and proven before the crossing starts",
+    "accent": 13128475,
+    "accentCss": "#c8531b",
+    "parSeconds": 270,
+    "badge": {
+      "id": "dock-restraint-certified",
+      "name": "Dock Restraint Certified",
+      "note": "Confirmed the restraint and the chocks before crossing, read the light instead of assuming it, and proved the leveler before trusting it with a load"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Dock Restraint Control",
+      "currency": "RESTRAINT",
+      "ranks": [
+        "Dock Hand",
+        "Restraint Aware",
+        "Dock Restraint Handler",
+        "Dock Restraint Authority",
+        "Dock Restraint Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "tw-battery-change-and-charging-bay-safety",
+    "index": "tw-5",
+    "domain": "Warehousing & Logistics",
+    "trade": "Teamsters warehouse associate — lift-truck battery change",
+    "category": "Manufacturing & Automation",
+    "certification": "Teamsters (IBT) warehouse and logistics automation training; OSHA 29 CFR 1910.178 powered industrial trucks including battery charging, 29 CFR 1910.1200 hazard communication for battery electrolyte, and 29 CFR 1910.132 personal protective equipment for the face shield and apron; NIOSH findings on hydrogen off-gassing incidents in poorly ventilated charging bays",
+    "name": "Battery Change & Charging Bay Safety",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Battery Change & Charging Bay Safety VR",
+    "tagline": "Changing a lift-truck battery the way the charging bay's own sequence requires it: the eyewash and ventilation confirmed clear first, the truck powered down before the spent battery is extracted, the spent battery proven inside its safe charging band, and the replacement installed and reconnected before the truck goes back to work",
+    "accent": 13775147,
+    "accentCss": "#d2312b",
+    "parSeconds": 275,
+    "badge": {
+      "id": "battery-bay-certified",
+      "name": "Battery Bay Certified",
+      "note": "Confirmed the eyewash and ventilation before starting, powered the truck down before touching the battery, and proved the charge before trusting it"
+    },
+    "stepCount": 16,
+    "interruptCount": 2,
+    "game": {
+      "system": "Charging Bay Discipline",
+      "currency": "AMPERE",
+      "ranks": [
+        "Bay Visitor",
+        "Bay Aware",
+        "Battery Handler",
+        "Charging Bay Authority",
+        "Battery Bay Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "tw-palletizer-cell-fenced-access-permit",
+    "index": "tw-6",
+    "domain": "Warehousing & Logistics",
+    "trade": "Teamsters warehouse associate — palletizer cell entry",
+    "category": "Manufacturing & Automation",
+    "certification": "Teamsters warehouse and logistics automation training; ANSI R15.06 and ISO 10218 for industrial robots and robot systems, worked the way a site's own robot-cell risk assessment applies them; OSHA 29 CFR 1910.147 the control of hazardous energy and 29 CFR 1910.212 machine guarding; NIOSH findings on struck-by incidents during robot-cell entry",
+    "name": "Palletizer Cell Fenced-Access Permit",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Palletizer Cell Fenced-Access Permit VR",
+    "tagline": "Entering a robotic palletizer cell the way its own permit-to-enter sequence requires it: the light curtain and gate interlock confirmed honest, the arm's power isolated and locked, the residual motion proven at zero, and the release run in the order that keeps the cell from restarting on someone still inside it",
+    "accent": 8215462,
+    "accentCss": "#7d5ba6",
+    "parSeconds": 280,
+    "badge": {
+      "id": "palletizer-cell-certified",
+      "name": "Palletizer Cell Certified",
+      "note": "Confirmed the curtain and interlock, isolated and locked the arm before entering, and proved zero energy before touching anything inside the fence"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Cell Access Control",
+      "currency": "PERMIT",
+      "ranks": [
+        "Fence Line",
+        "Cell Aware",
+        "Cell Access Handler",
+        "Cell Access Authority",
+        "Palletizer Cell Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "tw-cold-storage-ppe-and-rotation",
+    "index": "tw-7",
+    "domain": "Warehousing & Logistics",
+    "trade": "Teamsters warehouse associate — cold-storage entry and stock rotation",
+    "category": "Manufacturing & Automation",
+    "certification": "Teamsters warehouse and logistics automation training; ASHRAE 15 safety standard for refrigeration systems and IIAR 2 and IIAR 6 for closed-circuit ammonia refrigeration design, inspection and maintenance, worked the way the site's own cold-work programme applies them; OSHA 29 CFR 1910.132 personal protective equipment for insulated cold-work gear; NIOSH findings on cold-storage slip and cold-stress incidents",
+    "name": "Cold-Storage PPE & Rotation",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Cold-Storage PPE & Rotation VR",
+    "tagline": "Entering a cold-storage room the way its own procedure requires it: insulated PPE worn before the door opens, a buddy actually checked in, the ice and the propped door and the torn seal caught before they become a fall or a temperature excursion, and the correct rotation-marked pallet pulled by date rather than by convenience",
+    "accent": 5224649,
+    "accentCss": "#4fb8c9",
+    "parSeconds": 270,
+    "badge": {
+      "id": "cold-storage-certified",
+      "name": "Cold-Storage Certified",
+      "note": "Checked in with a buddy, caught every hazard on the room read, pulled the correct rotation-marked pallet, and checked out again before moving on"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Cold-Room Discipline",
+      "currency": "FROST",
+      "ranks": [
+        "Room Visitor",
+        "Cold Aware",
+        "Cold-Storage Handler",
+        "Cold-Storage Authority",
+        "Cold-Storage Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "tw-pick-to-light-ergonomics-and-rotation",
+    "index": "tw-8",
+    "domain": "Warehousing & Logistics",
+    "trade": "Teamsters warehouse associate — pick-to-light module",
+    "category": "Manufacturing & Automation",
+    "certification": "Teamsters warehouse and logistics automation training; the Revised NIOSH Lifting Equation for manual material handling, worked the way the site's own ergonomics programme applies it; OSHA 29 CFR 1910.147 the control of hazardous energy for the tote lane's drive and 29 CFR 1910.212 machine guarding; ASME B20.1 safety standard for conveyors and related equipment for the tote lane itself",
+    "name": "Pick-to-Light Ergonomics & Rotation",
+    "weather": "clear",
+    "indoor": "datahall",
+    "district": null,
+    "title": "SmartCiti.X~ Pick-to-Light Ergonomics & Rotation VR",
+    "tagline": "Working a pick-to-light module the way its own ergonomics sequence requires it: the pick confirmed against the display rather than trusted to the light alone, a heavy case brought to waist height with the lift-assist table, the pace held inside a sustainable band instead of chased, and the job rotation actually taken on schedule",
+    "accent": 15774499,
+    "accentCss": "#f0b323",
+    "parSeconds": 265,
+    "badge": {
+      "id": "pick-to-light-certified",
+      "name": "Pick-to-Light Ergonomics Certified",
+      "note": "Confirmed every pick against the display, used the lift-assist for the heavy case, held a sustainable pace, and took the rotation on schedule"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Pick Pace Discipline",
+      "currency": "PACE",
+      "ranks": [
+        "New Picker",
+        "Pace Aware",
+        "Pick Module Handler",
+        "Pick Pace Authority",
+        "Pick-to-Light Ergonomics Certified"
       ],
       "rankAt": [
         0,

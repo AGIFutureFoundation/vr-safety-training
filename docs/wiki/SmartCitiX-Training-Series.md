@@ -1,6 +1,6 @@
 # SmartCiti.X training series
 
-_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-27. 524 SmartCiti.X stations across 18 categories and 42 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
+_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-27. 532 SmartCiti.X stations across 18 categories and 43 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
 Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 45 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
@@ -48,6 +48,7 @@ Every station is a real union procedure sited generically, built on the shared e
 - [Roofers and Waterproofers](#roofers-and-waterproofers)
 - [Water and Gas Utility Crews — Distribution Authority](#water-and-gas-utility-crews)
 - [Aviation Maintenance and Ground — IAM/TWU Ramp and Line](#aviation-maintenance-and-ground)
+- [Warehouse and Logistics Automation — Teamsters Distribution Floor](#warehouse-and-logistics-automation)
 
 <a id="hunters-point-bay-restoration"></a>
 ## Hunters Point Clean-up and Bay Restoration
@@ -1335,6 +1336,26 @@ Eight jobs an IAM or TWU ramp and line crew actually rotates through: an aircraf
 | av-6 | [Hangar Jacking & Stands](../../WebXR/smartcity/index.html?sim=av-hangar-jacking-and-stands) | Aircraft maintenance technician, jacking and stands — IAM/TWU | overcast | 15 | 2 | — | Three jacks come up together, never one ahead of the others, and the downlock pins go in the moment the gear is unloaded — not sometime after this crew is already working underneath a jet held up on hydraulics alone. |
 | av-7 | [Borescope & Tool-Control Inventory](../../WebXR/smartcity/index.html?sim=av-borescope-and-tool-control-inventory) | Aircraft maintenance technician, borescope and tool control — IAM/TWU | overcast | 15 | 2 | — | Every tool is counted against its own shadow-board outline before the engine is touched, and counted again before the job is signed off, because the only question tool control actually answers is whether everything that went out came back. |
 | av-8 | [Lavatory & Potable Water Separation](../../WebXR/smartcity/index.html?sim=av-lavatory-and-potable-water-separation) | Lavatory and potable water service agent — IAM/TWU ramp crew | overcast | 15 | 2 | — | Two services, two completely separate carts, and the one rule that governs the whole job is that nothing from one system ever touches the other — not the hose, not the nozzle, not a hand that has not been re-gloved in between. |
+
+<a id="warehouse-and-logistics-automation"></a>
+## Warehouse and Logistics Automation — Teamsters Distribution Floor
+
+**Union:** Teamsters (IBT) warehouse and logistics automation training
+
+**Certifications and standards:** Teamsters (IBT) warehouse and logistics automation training, tested against OSHA 29 CFR 1910.147, 1910.178, 1910.212, 1910.132, 1910.1200, 1910.28 and 1910.36, 29 CFR 1926.602, ASME B20.1, ANSI R15.06 and ISO 10218 for robots, ASHRAE 15 and ANSI/IIAR 2 and 6 for refrigeration, and the Revised NIOSH Lifting Equation across eight distinct union jobs
+
+Eight jobs on a modern automated distribution floor: an AMR traffic zone entered and locked out the way the fleet's own controller expects it, a conveyor jam cleared behind a proven isolation, a high-bay order picker ridden with a harness clipped to its own anchor, a trailer proven restrained before a forklift ever crosses the leveler, a lift-truck battery changed in a bay whose eyewash and ventilation were actually confirmed, a robotic palletizer cell entered on a permit and proven at zero energy, a cold room worked with a buddy actually checked in, and a pick-to-light module run at a pace and a posture that hold up for a whole shift. Every station ends on a proof — a gauge, a locked-and-tagged isolation, a signed log — rather than on how routine the task felt going in.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| tw-1 | [AMR Traffic-Zone Entry & Lockout](../../WebXR/smartcity/index.html?sim=tw-amr-traffic-zone-entry-and-lockout) | Teamsters warehouse associate — automated traffic-zone entry | indoor (garage) | 12 | 2 | — | Crossing into a live autonomous-mobile-robot floor means the map is read for what is already wrong with it, access is requested at the gate instead of stepped past, and the charging dock's power is isolated and locked before anyone touches it. |
+| tw-2 | [Conveyor Jam Clearing & LOTO](../../WebXR/smartcity/index.html?sim=tw-conveyor-jam-clearing-and-loto) | Teamsters warehouse associate — conveyor line clearing | indoor (plant) | 13 | 2 | — | A jammed carton only gets pulled free once the pull-cord is tried, the drive is isolated and locked at its own disconnect, and the residual motion is actually checked rather than assumed stopped. |
+| tw-3 | [High-Bay Order Picker Fall Protection](../../WebXR/smartcity/index.html?sim=tw-high-bay-order-picker-fall-protection) | Teamsters warehouse associate — high-bay order picker operator | indoor (shop) | 13 | 2 | — | The platform's own gate closes and the harness clips to the platform's own anchor before the platform ever leaves the ground, and the unclip waits until it is back down. |
+| tw-4 | [Dock Leveler & Trailer Restraint Check](../../WebXR/smartcity/index.html?sim=tw-dock-leveler-and-trailer-restraint-check) | Teamsters warehouse associate — dock leveler and trailer restraint | indoor (garage) | 13 | 2 | — | A trailer only gets crossed once it is backed flush to the bumpers, the ICC bar restraint is engaged, the wheels are chocked as the backup the restraint was never meant to be alone, and the dock light is read rather than assumed. |
+| tw-5 | [Battery Change & Charging Bay Safety](../../WebXR/smartcity/index.html?sim=tw-battery-change-and-charging-bay-safety) | Teamsters warehouse associate — lift-truck battery change | indoor (service) | 16 | 2 | — | The eyewash and the ventilation get confirmed clear before anything is unplugged, the truck is powered down before the spent battery is extracted, and the charge is proven inside its safe amperage band before it is trusted. |
+| tw-6 | [Palletizer Cell Fenced-Access Permit](../../WebXR/smartcity/index.html?sim=tw-palletizer-cell-fenced-access-permit) | Teamsters warehouse associate — palletizer cell entry | indoor (plant) | 13 | 2 | — | Entering a robotic palletizer cell means the light curtain and gate interlock are confirmed honest, the arm's power is isolated and locked, and the residual energy is proven at zero before anyone is inside the fence. |
+| tw-7 | [Cold-Storage PPE & Rotation](../../WebXR/smartcity/index.html?sim=tw-cold-storage-ppe-and-rotation) | Teamsters warehouse associate — cold-storage entry and stock rotation | indoor (clinic) | 12 | 2 | — | A cold room gets entered with a buddy actually checked in, the ice and the propped door and the torn seal caught before they become a fall or a temperature excursion, and the rotation-marked pallet pulled by date rather than convenience. |
+| tw-8 | [Pick-to-Light Ergonomics & Rotation](../../WebXR/smartcity/index.html?sim=tw-pick-to-light-ergonomics-and-rotation) | Teamsters warehouse associate — pick-to-light module | indoor (datahall) | 13 | 2 | — | A pick-to-light module is worked with the display confirmed over the light alone, a heavy case brought to waist height on the lift-assist table, and the scheduled rotation actually taken instead of skipped for one more cycle. |
 
 ## Real-world environments
 
