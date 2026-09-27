@@ -145,6 +145,34 @@ never require anything). `WebXR/bayworld/js/quests.js` exports
 `questGraphHasCycle()`; the checker asserts the graph is acyclic and that
 every `requires` target actually exists as a quest id.
 
+## 7. The map the quests resolve onto
+
+BAY1's `WebXR/shared/bayworld-data.js` is the ground truth the resolvers
+above (`resolveQuestSite`, `resolveLandmark`) read. Since the expansion
+(`tools/briefs/bayexpand-brief.md`) the field is `BAY_BOUNDS` x:[-1200,
+1200] z:[-800, 800] — 2400 × 1600 m — tiled by nearest centre into
+**16 zones**: the original ten (downtown, uptown, the lake, the estuary
+waterfront, the port, West Oakland, Fruitvale, the Coliseum area, the
+hills and the bridge approach), none of which moved, plus an island
+harbour across the estuary, a north shoreline marina town, Emery
+Crossing (a small distribution-and-lab town), a south shoreline marina and
+treatment plant, the upper hills above the hills, and the outer bay's open
+water with a shipping channel and a buoy-tender pier at its edge. The map
+carries **50 training sites** (every programme in `curricula.js` anchored
+at least once) and **28 public landmarks** (plain public names, generic
+one-line descriptions, no date, height, count, owner, event, organisation
+or brand), joined by **15 roads** in one connected network; the height
+field reads flat on the island, both shorelines and the outer bay and
+climbs to a second dome on the ridge above the hills.
+
+Generated quests resolve by programme anchor (the first site listing the
+programme), main-arc quests by `MAIN_SITE_ALIASES`, eggs by
+`LANDMARK_ALIASES`; the expansion's new sites and landmarks need no alias
+because no existing quest names them, and `tools/check_bayworld.mjs`
+raises its floors to 16 zones, 28 landmarks and 50 sites. The game
+(`WebXR/bayworld/js/`) and `tools/check_bayworld_game.mjs` read every
+count from the data rather than assuming one.
+
 ## Regenerating and checking
 
 ```

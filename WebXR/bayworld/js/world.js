@@ -10,9 +10,10 @@
 // world.js imports buildFairwayPark straight from shared/fairway.js: a
 // module that touches three.js never belongs on city.js's pure side.
 import { buildBayWorld, bayLighting } from "../../shared/bayworld.js";
-import { BW_SITES } from "./city.js";
+import { BW_SITES, BAY_BOUNDS } from "./city.js";
 import { sedan, pickup, boxTruck, semiTractor } from "../../shared/fleet.js";
 import { buildWeather, weatherFor } from "../../shared/weather.js";
+import { bayGroundTexture, bayGroundUvMatrix, mapboxToken, readMapboxConfig } from "../../shared/mapbox.js";
 import { BW_VEHICLES } from "./sim.js";
 
 const BW_EYE_HEIGHT = 1.62;
@@ -61,6 +62,44 @@ function bwSignBoard(THREE, text) {
 // app's day clock is a continuous hour (sim.js's bwAdvanceClock()), so
 // bwHourBucket() below is the one place that turns a continuous hour into
 // the discrete bucket bayLighting() understands.
+/**
+ * Real ground under the city (docs/mapbox.md): when a Mapbox token exists,
+ * shared/mapbox.js's bayGroundTexture() fetches one satellite image of the
+ * world's lon/lat box and it is applied to the ground slab shared/bayworld.js
+ * tagged `userData.bayGround`, with the uv transform that lines the image up
+ * with bay-geo's fit. Without a token nothing is requested and the
+ * procedural grass stays — which is also what happens if the image never
+ * arrives. The deployment's auth-config.json is read only after the
+ * synchronous lookups (launch URL, this browser's storage) found nothing.
+ */
+export function bwApplySatelliteGround(root, THREE, opts = {}) {
+  let ground = null;
+  root.traverse((o) => { if (!ground && o.userData?.bayGround) ground = o; });
+  if (!ground) return null;
+  const apply = (tex) => {
+    if (!tex || !ground.material) return false;
+    const p = ground.geometry?.parameters ?? {};
+    const m = bayGroundUvMatrix({
+      cx: ground.position.x, cz: ground.position.z,
+      w: p.width ?? BAY_BOUNDS.maxX - BAY_BOUNDS.minX, d: p.height ?? BAY_BOUNDS.maxZ - BAY_BOUNDS.minZ,
+    });
+    if (tex.matrix?.set) { tex.matrixAutoUpdate = false; tex.matrix.set(...m); }
+    const mat = ground.material;
+    mat.map = tex; mat.bumpMap = null; mat.roughnessMap = null;
+    mat.color?.setHex?.(0xffffff);
+    mat.needsUpdate = true;
+    ground.userData.bayGroundSatellite = true;
+    return true;
+  };
+  const pending = bayGroundTexture(THREE, opts.token ? { token: opts.token } : {});
+  if (pending) return pending.then(apply).catch(() => false);
+  return readMapboxConfig("../auth-config.json").then((cfg) => {
+    const token = mapboxToken({ config: cfg });
+    const late = token ? bayGroundTexture(THREE, { token }) : null;
+    return late ? late.then(apply).catch(() => false) : false;
+  }).catch(() => false);
+}
+
 export function bwHourBucket(hours) {
   const h = ((hours % 24) + 24) % 24;
   if (h >= 6 && h < 18) return "day";
@@ -90,6 +129,9 @@ export function bwBuildWorld(root, THREE, opts = {}) {
     if (o.isDirectionalLight && !sun) sun = o;
   });
 
+  // Satellite ground, only with a token (see bwApplySatelliteGround()).
+  const satelliteGround = bwApplySatelliteGround(root, THREE);
+
   const player = bwPersonFigure(THREE);
   root.add(player);
 
@@ -105,9 +147,10 @@ export function bwBuildWorld(root, THREE, opts = {}) {
     vehicles[v.id] = mesh;
   });
 
-  // Site signs, drawn once. Bay World's own map now carries 37 of these
-  // (BAY1's BW_SITES), spread across a 1600x1100 m world, so a sign is a
-  // single cheap unmerged plane rather than anything heavier.
+  // Site signs, drawn once — one per BW_SITES entry, however many the shared
+  // map carries (nothing here assumes a count), spread across a world the
+  // size of BAY_BOUNDS, so a sign is a single cheap unmerged plane rather
+  // than anything heavier.
   for (const site of BW_SITES) {
     const sign = bwSignBoard(THREE, site.name);
     sign.position.set(site.position[0], 4.1, site.position[2]);
@@ -181,7 +224,7 @@ export function bwBuildWorld(root, THREE, opts = {}) {
   }
 
   return {
-    city, player, vehicles, sun, hemi,
+    city, player, vehicles, sun, hemi, satelliteGround,
     bwSpawnTrafficMeshes, bwSpawnPedestrianMeshes, bwSetWeather, bwApplyLighting, placeCamera,
   };
 }

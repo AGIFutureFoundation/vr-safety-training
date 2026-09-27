@@ -15,9 +15,10 @@
  * What is proved here:
  *
  *  1. **The adapted map is sound.** city.js imports only the pure data from
- *     shared/bayworld-data.js, adapts BAY1's ten zones, twenty-one landmarks
- *     and thirty-seven sites to this app's own shapes, and every site sits
- *     within a plausible walk of the real road network.
+ *     shared/bayworld-data.js, adapts every one of BAY1's zones, landmarks
+ *     and sites to this app's own shapes — the counts are read from the data,
+ *     never hard-coded, so the map can grow without touching this file —
+ *     and every site sits within a plausible walk of the real road network.
  *  2. **The real city loads.** buildBayWorld() builds behind a stub three.js
  *     and DOM with no throw, at both detail levels and focused on one zone,
  *     and returns real vehicle meshes for the fleet.
@@ -92,6 +93,9 @@ const CAREER = await import(pathToFileURL(jsPath("career.js")).href);
 const QE = await import(pathToFileURL(jsPath("quest-engine.js")).href);
 const QS = await import(pathToFileURL(jsPath("quests-select.js")).href);
 const MAP = await import(pathToFileURL(jsPath("map.js")).href);
+// The shared ground truth the adapter is checked against: counts come from
+// here, never from a number typed into this file.
+const DATA = await import(pathToFileURL(join(WEBXR, "shared", "bayworld-data.js")).href);
 const PLACES = [...CITY.BW_SITES, ...CITY.BW_LANDMARKS];
 
 console.log("Bay World — self-test\n");
@@ -104,11 +108,12 @@ await check("city.js imports the real shared map and adapts it, never the pre-in
   assert(!/from\s+["']\.\/world-stub\.js["']/.test(citySrc), "city.js still imports from the pre-integration stub");
   assert(existsSync(join(WEBXR, "shared", "bayworld-data.js")) && existsSync(join(WEBXR, "shared", "bayworld.js")), "BAY1's shared modules are missing");
 
-  eq(CITY.BW_ZONES.length, 10, "zone count");
-  eq(CITY.BW_LANDMARKS.length, 21, "landmark count");
-  eq(CITY.BW_SITES.length, 37, "site count");
+  eq(CITY.BW_ZONES.length, DATA.BAY_ZONES.length, "zone count (adapter vs shared data)");
+  eq(CITY.BW_LANDMARKS.length, DATA.BAY_LANDMARKS.length, "landmark count (adapter vs shared data)");
+  eq(CITY.BW_SITES.length, DATA.BAY_SITES.length, "site count (adapter vs shared data)");
+  assert(CITY.BW_ZONES.length > 0 && CITY.BW_SITES.length > 0 && CITY.BW_LANDMARKS.length > 0, "the shared map is empty");
   const zoneIds = new Set(CITY.BW_ZONES.map((z) => z.id));
-  eq(zoneIds.size, 10, "zone ids must be distinct");
+  eq(zoneIds.size, CITY.BW_ZONES.length, "zone ids must be distinct");
   for (const z of CITY.BW_ZONES) assert(Array.isArray(z.center) && z.center.length === 2 && typeof z.color === "number", `zone ${z.id} is missing its adapted center/color`);
   for (const l of CITY.BW_LANDMARKS) {
     assert(zoneIds.has(l.zone), `landmark ${l.id} names an unknown zone`);
@@ -121,9 +126,11 @@ await check("city.js imports the real shared map and adapts it, never the pre-in
     assert(Array.isArray(s.programmes) && Array.isArray(s.stations), `site ${s.id} is missing its programmes/stations arrays`);
     if (s.stations.length) sitesWithStations += 1;
   }
-  assert(sitesWithStations >= 30, `only ${sitesWithStations} of 37 sites carry a station — expected most of them to`);
+  assert(sitesWithStations >= Math.ceil(CITY.BW_SITES.length * 0.8), `only ${sitesWithStations} of ${CITY.BW_SITES.length} sites carry a station — expected most of them to`);
 
-  assert(CITY.BAY_ROADS.length === 10, "road count");
+  eq(CITY.BAY_ROADS.length, DATA.BAY_ROADS.length, "road count (adapter vs shared data)");
+  assert(CITY.BAY_ROADS.length > 0, "the shared map has no roads");
+  eq(CITY.BAY_BOUNDS, DATA.BAY_BOUNDS, "BAY_BOUNDS must be re-exported unchanged");
 });
 
 await check("bwRoadAt and bwZoneAt classify sensibly, and every site sits within a plausible walk of the road network", () => {
@@ -147,6 +154,9 @@ await check("the real city loads behind a three.js stub, at both detail levels a
     "shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/fleet.js", "shared/props.js", "shared/weather.js",
     "smartcity/js/citykit.js",
     "shared/bayworld-data.js", "shared/bayworld.js",
+    // The satellite-ground hook (docs/mapbox.md): world.js imports these two;
+    // with no token they return null before touching the network.
+    "shared/bay-geo.js", "shared/mapbox.js",
     "bayworld/js/city.js", "bayworld/js/sim.js", "bayworld/js/world.js",
   ];
   const harness = `export { bwBuildWorld, THREE };`;

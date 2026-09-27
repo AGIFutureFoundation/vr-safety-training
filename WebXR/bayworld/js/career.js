@@ -153,8 +153,12 @@ export function bwIsSiteVisited(siteId, storage) { return bwLoad(storage).visite
 export function bwCollectMissionReturns(records, sites, { storage } = {}) {
   const state = bwLoad(storage);
   const seen = new Set(state.seenRecordIds);
+  // A station the shared map lists at more than one site (a mooring line is
+  // worked at the port and at the marinas alike) credits the FIRST site that
+  // lists it — the canonical anchor, in the order bayworld-data.js declares
+  // them — never whichever happens to come last.
   const bySimId = new Map();
-  for (const s of sites) for (const simId of s.stations ?? []) bySimId.set(simId, s);
+  for (const s of sites) for (const simId of s.stations ?? []) if (!bySimId.has(simId)) bySimId.set(simId, s);
   const results = [];
   for (const r of records) {
     if (!r?.id || seen.has(r.id)) continue;

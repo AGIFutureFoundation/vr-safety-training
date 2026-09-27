@@ -177,12 +177,12 @@
   <div class="card" style="width:min(1100px,100%)">
     <p class="eyebrow">Bay World</p>
     <h2>Map</h2>
-    <p class="lead">Fast travel unlocks for a site once you have visited it once on foot or by road.</p>
+    <p class="lead">Fast travel unlocks for a site once you have visited it once on foot or by road. The <a href="./atlas.html" id="map-atlas-link" style="color:var(--accent)">Atlas</a> lists every site and landmark with its programmes, over a real-world map when you bring your own token.</p>
     <div class="map-layout">
       <canvas id="map-canvas" width="512" height="512"></canvas>
       <div id="map-sites"></div>
     </div>
-    <div class="row" style="margin-top:14px"><button class="btn ghost" id="map-close">Close (M)</button></div>
+    <div class="row" style="margin-top:14px"><button class="btn ghost" id="map-close">Close (M)</button><a class="btn ghost" href="./atlas.html" style="text-decoration:none">Atlas</a></div>
   </div>
 </div>
 
@@ -12457,22 +12457,31 @@ function recordRadioScore(score, of, storage) {
 //
 // ----------------------------------------------------------------- geometry
 //
-// The world sits on a single field, x:[-800,800] z:[-550,550] — 1600 m by
-// 1100 m in scene units (metres, the scale the rest of the platform already
-// builds in). Ten named zones (BAY_ZONES) tile the field by nearest centre
-// (bayZoneAt() below): a dense downtown and an uptown strip inland of it, a
-// lake, an estuary waterfront, a working port with container cranes, a
-// West Oakland-style industrial flank, a Fruitvale-style market district, a
-// stadium/arena district (the "Coliseum area"), hills that climb to the east,
-// and the approach to a suspension bridge on the western edge. Twenty-one
-// public landmarks (BAY_LANDMARKS) and thirty-seven training sites
-// (BAY_SITES) are scattered across those zones, each one nearest to its own
-// zone's centre than to any other's — bayZoneAt() assigning by nearest centre
-// is what "every landmark/site is inside its own zone" actually means here.
+// The world sits on a single field, x:[-1200,1200] z:[-800,800] — 2400 m by
+// 1600 m in scene units (metres, the scale the rest of the platform already
+// builds in). Sixteen named zones (BAY_ZONES) tile the field by nearest
+// centre (bayZoneAt() below). The original ten sit where they always have
+// (nothing that existed moved when the field grew): a dense downtown and an
+// uptown strip inland of it, a lake, an estuary waterfront, a working port
+// with container cranes, a West Oakland-style industrial flank, a
+// Fruitvale-style market district, a stadium/arena district (the "Coliseum
+// area"), hills that climb to the east, and the approach to a suspension
+// bridge on the western edge. Six more ring them: an island across the
+// estuary with a yacht harbour, a ferry landing and an airfield park; a
+// university-town marina and pier on the north shoreline; a small
+// distribution-and-lab town (Emery Crossing) between the bridge approach
+// and that shoreline; a marina and treatment plant on the south shoreline;
+// the upper hills, a ridge above the hills; and the outer bay, open water
+// west of the port with a shipping channel and a buoy-tender pier at its
+// edge. Twenty-eight public landmarks (BAY_LANDMARKS) and fifty training
+// sites (BAY_SITES) are scattered across those zones, each one nearest to
+// its own zone's centre than to any other's — bayZoneAt() assigning by
+// nearest centre is what "every landmark/site is inside its own zone"
+// actually means here.
 //
 // `buildBayWorld(parent, opts)` has two `opts.detail` levels, the same split
 // shared/fairway.js uses for the same reason:
-//   "high" — the whole 1600×1100 m world, built for a standalone free-roam
+//   "high" — the whole 2400×1600 m world, built for a standalone free-roam
 //     app or a quest layer that brings its own camera and its own mesh
 //     budget. Documented budget: BAY_MESH_BUDGET.high.
 //   "low" — a compact street-corner vignette near the world origin,
@@ -12486,19 +12495,19 @@ function recordRadioScore(score, of, storage) {
 
 // --------------------------------------------------------------------- data
 
-/** The world's outer field, in scene units (metres): 1600 m × 1100 m. */
-const BAY_BOUNDS = { minX: -800, maxX: 800, minZ: -550, maxZ: 550 };
+/** The world's outer field, in scene units (metres): 2400 m × 1600 m. */
+const BAY_BOUNDS = { minX: -1200, maxX: 1200, minZ: -800, maxZ: 800 };
 
 /** Bounded, continuous range bayHeight() returns, in metres. */
-const BAY_HEIGHT_RANGE = [0, 95];
+const BAY_HEIGHT_RANGE = [0, 140];
 
 /**
- * Ten zones tiling BAY_BOUNDS by nearest centre (see bayZoneAt()). Each is
+ * Sixteen zones tiling BAY_BOUNDS by nearest centre (see bayZoneAt()). Each is
  * `{ id, name, centre:[x,z], radius, palette:{accent,ground,structure,trim} }`
  * — `radius` is the zone's approximate visual extent for a builder deciding
  * how far to dress it, not a hard edge (bayZoneAt() assigns every point in
- * the field to its nearest zone centre regardless of radius, so the ten
- * zones always tile the whole field with no gap and no double cover).
+ * the field to its nearest zone centre regardless of radius, so the zones
+ * always tile the whole field with no gap and no double cover).
  * `palette` is plain hex numbers in the same {accent, ground, structure,
  * trim} shape shared/textures.js's palette() uses, duplicated here (rather
  * than imported) so this module stays free of any three.js-adjacent import —
@@ -12525,10 +12534,25 @@ const BAY_ZONES = [
     palette: { accent: 0x59c97b, ground: 0x333d22, structure: 0x2a2f36, trim: 0xf2c14b } },
   { id: "bridge-approach", name: "Bridge Approach", centre: [-630, -160], radius: 140,
     palette: { accent: 0xd24a1c, ground: 0x3a3f45, structure: 0x8b98a5, trim: 0xdfe6ec } },
+  // The six zones the expansion added (tools/briefs/bayexpand-brief.md). Every
+  // centre sits far enough from the original ten that no existing landmark or
+  // site changed its nearest centre — tools/check_bayworld.mjs confirms it.
+  { id: "island-harbour", name: "Island Harbour", centre: [150, 620], radius: 170,
+    palette: { accent: 0x4fd6a5, ground: 0xc9b98a, structure: 0xe8e2d4, trim: 0x2b6f8f } },
+  { id: "north-shoreline", name: "North Shoreline", centre: [-760, -620], radius: 170,
+    palette: { accent: 0x3b7bbf, ground: 0x4d5a3a, structure: 0xd9cfb8, trim: 0x233a52 } },
+  { id: "emery-crossing", name: "Emery Crossing", centre: [-680, -370], radius: 140,
+    palette: { accent: 0xf2c14b, ground: 0x3a3f45, structure: 0x8b929a, trim: 0x2b2f33 } },
+  { id: "south-shoreline", name: "South Shoreline", centre: [750, 640], radius: 170,
+    palette: { accent: 0x59c9c9, ground: 0x4a5a4a, structure: 0x9aa6ad, trim: 0xdfe6ec } },
+  { id: "upper-hills", name: "The Upper Hills", centre: [950, -550], radius: 220,
+    palette: { accent: 0xf07a1f, ground: 0x2f3a1e, structure: 0x3a3228, trim: 0xf2c14b } },
+  { id: "outer-bay", name: "The Outer Bay", centre: [-900, 450], radius: 240,
+    palette: { accent: 0xd8232a, ground: 0x0f2e3a, structure: 0x6b7885, trim: 0xdfe6ec } },
 ];
 
 /**
- * Twenty-one public landmarks, `{ id, name, zone, position:[x,z], kind,
+ * Twenty-eight public landmarks, `{ id, name, zone, position:[x,z], kind,
  * blurb }`. Every `name` is a plain generic public-facing name (never a real
  * brand, org or address) and every `blurb` is one generic line asserting no
  * date, height, dimension, count, ownership or history — nothing here could
@@ -12577,16 +12601,35 @@ const BAY_LANDMARKS = [
     blurb: "A fenced yard for staging, fuelling and inspecting trucks and trailers." },
   { id: "estuary-marina", name: "Estuary Marina", zone: "estuary-waterfront", position: [126, 274], kind: "marina",
     blurb: "A small-craft marina with floating docks along the estuary." },
+  // The expansion's landmarks, one or two per new zone.
+  { id: "island-ferry-landing-clock", name: "Ferry Landing Clock", zone: "island-harbour", position: [175, 570], kind: "transit",
+    blurb: "A clock on a post at the head of the ferry ramp, where passengers wait for the next boat." },
+  { id: "island-beach-esplanade", name: "Island Beach Esplanade", zone: "island-harbour", position: [80, 690], kind: "park",
+    blurb: "A paved walk along a sandy beach on the island's open-bay side, with benches facing the water." },
+  { id: "north-pier", name: "North Pier", zone: "north-shoreline", position: [-860, -700], kind: "marina",
+    blurb: "A long public fishing pier reaching out over the shallows from the marina's breakwater." },
+  { id: "emery-public-market", name: "Emery Public Market", zone: "emery-crossing", position: [-690, -330], kind: "market",
+    blurb: "A covered food hall of small stalls beside the town's main crossing." },
+  { id: "south-shoreline-park", name: "South Shoreline Park", zone: "south-shoreline", position: [700, 705], kind: "park",
+    blurb: "A shoreline park of lawns and a bay trail between the marina and the treatment plant." },
+  { id: "ridge-trail-summit", name: "Ridge Trail Summit", zone: "upper-hills", position: [1000, -650], kind: "lookout",
+    blurb: "A trail junction on the ridgeline where the path tops out and the whole bay opens up below." },
+  { id: "channel-marker", name: "Channel Marker", zone: "outer-bay", position: [-950, 520], kind: "infrastructure",
+    blurb: "A lit navigation buoy marking the edge of the shipping channel into the port." },
 ];
 
 /** Lane width, metres, for BAY_ROADS' half-width and bayRoadAt(). */
 const LANE_WIDTH = 3.5;
 
 /**
- * Ten road polylines, `{ id, name, lanes, points:[[x,z],...] }`: a freeway
- * spine running the length of the field, arterials branching off it to each
- * zone's own centre, a waterfront boulevard along the port/estuary shoreline,
- * and a switchback climbing into the hills. Every branch shares an exact
+ * Fifteen road polylines, `{ id, name, lanes, points:[[x,z],...] }`: a
+ * freeway spine running the length of the original field, arterials
+ * branching off it to each zone's own centre, a waterfront boulevard along
+ * the port/estuary shoreline, a switchback climbing into the hills, and the
+ * expansion's five: an island crossing off the waterfront, a north shoreline
+ * arterial through Emery Crossing, a south shoreline arterial off the end of
+ * the freeway, a ridge road on from the top of the switchback, and a short
+ * pier road west from the port to the channel edge. Every branch shares an exact
  * endpoint with the spine (or with another branch), so the network is one
  * connected component by construction — see tools/check_bayworld.mjs, which
  * confirms it rather than trusting this comment.
@@ -12608,10 +12651,27 @@ const BAY_ROADS = [
   { id: "hill-switchback", name: "Hill Switchback Road", lanes: 2, points: [
     [600, 370], [640, 300], [610, 220], [650, 150], [615, 50], [650, -50], [620, -150], [650, -250],
   ] },
+  // The expansion's roads. Each starts on an existing vertex (a junction the
+  // original network already had), so the whole graph stays one piece.
+  { id: "island-crossing", name: "Island Crossing", lanes: 4, points: [
+    [100, 300], [125, 460], [150, 620], [150, 700],
+  ] },
+  { id: "north-shoreline-arterial", name: "North Shoreline Arterial", lanes: 4, points: [
+    [-630, -160], [-680, -370], [-760, -620], [-820, -700],
+  ] },
+  { id: "south-shoreline-arterial", name: "South Shoreline Arterial", lanes: 4, points: [
+    [600, 530], [700, 600], [750, 640], [820, 700],
+  ] },
+  { id: "ridge-road", name: "Ridge Road", lanes: 2, points: [
+    [650, -250], [720, -350], [820, -420], [950, -550], [1000, -620],
+  ] },
+  { id: "channel-pier-road", name: "Channel Pier Road", lanes: 2, points: [
+    [-380, 350], [-520, 420], [-700, 460],
+  ] },
 ];
 
 /**
- * Thirty-seven training anchors, `{ id, name, zone, position:[x,z],
+ * Fifty training anchors, `{ id, name, zone, position:[x,z],
  * programmes:[...], stations:[...] }`. `programmes` names ids from
  * smartcity/js/curricula.js's CURRICULA (every one of that file's programme
  * ids is anchored at least once, somewhere plausible for its trade —
@@ -12695,13 +12755,44 @@ const BAY_SITES = [
     programmes: ["bridge-and-structural"], stations: ["steel-erector", "bridge-cable-inspection", "bridge-lead-containment"] },
   { id: "bridge-approach-maintenance-yard", name: "Bridge Approach Maintenance Yard", zone: "bridge-approach", position: [-658, -134],
     programmes: [], stations: [] },
+  // The expansion's sites (tools/briefs/bayexpand-brief.md), each within a
+  // short walk of one of the expansion's roads.
+  // The yacht harbour anchors the marine stations the catalog already has;
+  // the yacht-and-charter-crew programme and its own stations join this
+  // anchor at integration, once that pack lands in the catalog.
+  { id: "island-yacht-harbor", name: "Island Yacht Harbor", zone: "island-harbour", position: [105, 640],
+    programmes: ["bay-area-union-edition", "port-operations"], stations: ["mooring-line", "mw-workboat-towing-and-line-handling", "mw-ferry-deckhand-and-passenger-safety", "bunkering-watch"] },
+  { id: "island-ferry-landing", name: "Island Ferry Landing", zone: "island-harbour", position: [165, 595],
+    programmes: ["transit-ramp", "bay-area-union-edition"], stations: ["mw-ferry-deckhand-and-passenger-safety", "tr-wheelchair-lift-and-securement-on-a-bus", "forklift-dock"] },
+  { id: "island-boatyard", name: "Island Boatyard", zone: "island-harbour", position: [120, 700],
+    programmes: ["bay-restoration-maritime-underwater", "bay-area-union-edition"], stations: ["br-derelict-vessel-salvage-rigging", "mw-hull-inspection-and-cleaning-dive", "br-dive-tender-and-umbilical-management"] },
+  { id: "island-airfield-park", name: "Island Airfield Park", zone: "island-harbour", position: [190, 690],
+    programmes: ["aviation-maintenance-and-ground", "grounds-and-landscaping"], stations: ["av-marshalling-and-wingwalker-signals", "av-ground-power-and-static-bonding-before-fuel", "gk-sports-field-line-marking-and-goal-anchoring"] },
+  { id: "north-marina-pier", name: "North Marina Pier", zone: "north-shoreline", position: [-800, -640],
+    programmes: ["bay-restoration-maritime-underwater", "ports-maritime-ecology"], stations: ["br-workboat-crane-lift-from-water", "br-vhf-and-navigation-in-a-work-zone", "spill-boom-deploy"] },
+  { id: "north-shoreline-field-lab", name: "North Shoreline Field Lab", zone: "north-shoreline", position: [-735, -590],
+    programmes: ["air-quality-monitoring", "hunters-point-bay-restoration", "bay-restoration-maritime-underwater"], stations: ["air-monitor", "marsh-transect-survey", "eelgrass-transplant", "br-water-quality-sonde-calibration-and-deploy"] },
+  { id: "emery-distribution-center", name: "Emery Distribution Center", zone: "emery-crossing", position: [-640, -400],
+    programmes: ["warehouse-and-logistics-automation", "job-readiness-edition"], stations: ["tw-conveyor-jam-clearing-and-loto", "tw-dock-leveler-and-trailer-restraint-check", "tdl-trailer-loading-and-dock-plate"] },
+  { id: "emery-lab-campus", name: "Emery Lab Campus", zone: "emery-crossing", position: [-720, -350],
+    programmes: ["healthcare-support", "outbreak-response-who"], stations: ["hc-sterile-processing-decontamination-and-assembly", "hc-hazardous-drug-spill-kit-response", "who-surveillance-and-case-definition"] },
+  { id: "south-shoreline-marina", name: "South Shoreline Marina", zone: "south-shoreline", position: [790, 690],
+    programmes: ["bay-restoration-maritime-underwater", "port-operations"], stations: ["br-cold-water-immersion-and-mob-recovery", "br-boom-towing-between-two-vessels", "mooring-line"] },
+  { id: "south-treatment-plant", name: "South Treatment Plant", zone: "south-shoreline", position: [715, 585],
+    programmes: ["water-and-gas-utility-crews", "confined-space", "stationary-engineer"], stations: ["ut-water-treatment-chemical-delivery-unloading", "chlorine-room", "lift-station", "cs-permit-entry-and-attendant-duties"] },
+  { id: "ridge-fire-lookout", name: "Ridge Fire Lookout", zone: "upper-hills", position: [985, -585],
+    programmes: ["first-responders"], stations: ["wildland-urban-interface", "or-wildland-fireline-construction-and-lookout", "damage-assessment-team"] },
+  { id: "ridge-reservoir-yard", name: "Ridge Reservoir Yard", zone: "upper-hills", position: [900, -495],
+    programmes: ["water-and-gas-utility-crews", "energy-transition", "heavy-equipment-operators"], stations: ["ut-cathodic-protection-test-station-reading", "or-solar-farm-tracker-row-maintenance", "op-equipment-daily-walkaround-and-fluids"] },
+  { id: "channel-buoy-tender-pier", name: "Channel Buoy Tender Pier", zone: "outer-bay", position: [-690, 485],
+    programmes: ["port-operations", "ports-maritime-ecology"], stations: ["mooring-line", "pilot-transfer", "spill-boom-deploy", "vessel-gangway-and-hatch-cover-safety"] },
 ];
 
 /** Documented mesh budget, authored (before mergeStatic — see kit.js's
  *  mergeStatic doc and shared/fairway.js's FAIRWAY_MESH_BUDGET, which this
  *  mirrors: "high" is LOD 0, the whole world; "low" is the compact preview
  *  smartcity/js/districts.js registers). */
-const BAY_MESH_BUDGET = { low: 100, high: 3200 };
+const BAY_MESH_BUDGET = { low: 100, high: 3600 };
 
 // ---------------------------------------------------------------- geometry
 
@@ -12726,10 +12817,10 @@ function bwDistToSegment(px, pz, ax, az, bx, bz) {
 }
 
 /** The zone whose centre is nearest (x, z) — a Voronoi assignment over
- *  BAY_ZONES' ten centres, which is what makes the ten zones tile the whole
- *  of BAY_BOUNDS with no gap and no double cover regardless of each zone's
- *  own (approximate, cosmetic) `radius`. Never returns null: every point in
- *  the plane has a nearest one of ten centres. */
+ *  BAY_ZONES' centres, which is what makes the zones tile the whole of
+ *  BAY_BOUNDS with no gap and no double cover regardless of each zone's own
+ *  (approximate, cosmetic) `radius`. Never returns null: every point in the
+ *  plane has a nearest centre. */
 function bayZoneAt(x, z) {
   let best = BAY_ZONES[0], bestDist = Infinity;
   for (const zone of BAY_ZONES) {
@@ -12745,18 +12836,26 @@ function smoothstep(t) {
 }
 
 // The hills climb away from a single high point out past the eastern edge of
-// the Hills zone; every other zone (downtown, the port, the estuary, West
-// Oakland, the bridge approach) is far enough from it that bayHeight() there
-// is only the small citywide undulation below — "flat" in the sense a real
-// downtown grid or a container yard is flat, not perfectly level.
+// the Hills zone, and the upper hills climb on from there to a second, higher
+// dome on the ridge; every other zone (downtown, the port, the estuary, West
+// Oakland, the bridge approach, the island, both shorelines and the outer
+// bay) is far enough from both that bayHeight() there is only the small
+// citywide undulation below — "flat" in the sense a real downtown grid, a
+// container yard or a marina is flat, not perfectly level. The ridge dome's
+// falloff is short enough that it adds only a metre or so at the Hills
+// zone's own centre, so the original hills read as they did before the
+// field grew.
 const HILL_PEAK = [650, -250];
-const HILL_FALLOFF = 650; // metres: bayHeight() is back to the citywide floor at this distance from HILL_PEAK
+const HILL_FALLOFF = 650; // metres: the hill dome is back to the citywide floor at this distance from HILL_PEAK
 const HILL_MAX = 88;
+const RIDGE_PEAK = [950, -550];
+const RIDGE_FALLOFF = 450; // metres: the ridge dome is back to the hill/citywide surface at this distance from RIDGE_PEAK
+const RIDGE_MAX = 100;
 
 /**
  * Deterministic terrain height at (x, z), in metres, bounded to
  * BAY_HEIGHT_RANGE and continuous everywhere (a sum of smooth sine/cosine
- * terms and a clamped smoothstep dome, clamping a continuous function stays
+ * terms and two clamped smoothstep domes, clamping a continuous function stays
  * continuous — see shared/fairway.js's fairwayHeight() for the same
  * reasoning). Used both to give the built terrain its relief and, by a
  * free-roam game or a quest script, to place a vehicle or a walking figure at
@@ -12767,9 +12866,12 @@ function bayHeight(x, z) {
   const t = smoothstep(Math.max(0, 1 - d / HILL_FALLOFF));
   const hill = t * HILL_MAX;
   const ridge = Math.sin(x * 0.01 + z * 0.008) * 3 * t;
+  const d2 = bwDist(x, z, RIDGE_PEAK[0], RIDGE_PEAK[1]);
+  const t2 = smoothstep(Math.max(0, 1 - d2 / RIDGE_FALLOFF));
+  const upper = t2 * RIDGE_MAX;
   const citywide = 1.2 * Math.sin(x * 0.006 + 1.1) * Math.cos(z * 0.005 - 0.4)
     + 0.8 * Math.cos((x - z) * 0.004);
-  const raw = hill + ridge + citywide;
+  const raw = hill + ridge + upper + citywide;
   return Math.max(BAY_HEIGHT_RANGE[0], Math.min(BAY_HEIGHT_RANGE[1], raw));
 }
 
@@ -12814,7 +12916,7 @@ function bayRoadAt(x, z) {
 // quest/objective layer) — see bayworld-data.js's own header for the split.
 //
 // Bay World is deliberately built the same way shared/fairway.js's course
-// is: a "high" LOD 0 build of the whole 1600×1100 m world for a standalone
+// is: a "high" LOD 0 build of the whole 2400×1600 m world for a standalone
 // app with its own camera and mesh budget, and a "low" compact preview
 // vignette, independent of the zone data, for the shared SmartCiti.X stage
 // (smartcity/js/districts.js's "bay-world" entry). `opts.zone` on a "high"
@@ -12893,6 +12995,11 @@ function bwTerrain(cx, cz, w, d) {
   mesh.rotation.x = -Math.PI / 2;
   mesh.position.set(cx, 0, cz);
   mesh.receiveShadow = true;
+  // Tagged so bayworld/js/world.js can find the one ground slab and swap
+  // its paint for a satellite image when a Mapbox token exists
+  // (shared/mapbox.js's bayGroundTexture(), docs/mapbox.md). paintedMat()
+  // already marks the material ownMaterial, so mergeStatic() leaves it be.
+  mesh.userData.bayGround = true;
   return mesh;
 }
 
@@ -12975,6 +13082,12 @@ function paintedFace(g, w, h, o = {}) {
 const BUILDING_STYLE = {
   downtown: "glass", uptown: "brick", "west-oakland": "corrugated", port: "corrugated",
   fruitvale: "painted", coliseum: "concrete", lake: "painted", "bridge-approach": null, hills: null,
+  // The expansion's zones: painted houses on the island and the north
+  // shoreline's town, corrugated sheds in Emery Crossing's distribution town,
+  // concrete on the south shoreline's plant side, nothing on the ridge or the
+  // open water.
+  "island-harbour": "painted", "north-shoreline": "painted", "emery-crossing": "corrugated",
+  "south-shoreline": "concrete", "upper-hills": null, "outer-bay": null,
 };
 
 /** One simple building: a textured box body and a roof cap, two meshes.
@@ -13220,6 +13333,105 @@ function buildMarinaDocks(parent, x, z, name) {
   return 5;
 }
 
+// ------------------------------------------------- the expansion's set pieces
+
+/** A marina with berths: a main float, finger docks off it at regular
+ *  spacing and a small hull moored in every other berth — the island's yacht
+ *  harbour, the north shoreline's marina and the south shoreline's marina
+ *  all build this at their own site. `berths` finger docks, so a caller can
+ *  size it to its zone. */
+function buildMarina(parent, x, z, name, accent, berths = 6) {
+  const g = group(parent, x, 0, z);
+  let n = 0;
+  const len = berths * 6 + 6;
+  box(g, 3, 0.25, len, 0, -0.1, 0, 0x8b6a45, { rough: 0.85, cast: false }); n++;
+  for (let i = 0; i < berths; i++) {
+    const bz = -len / 2 + 6 + i * 6;
+    box(g, 12, 0.2, 1.6, 7.5, -0.12, bz, 0x8b6a45, { rough: 0.85, cast: false }); n++;
+    cyl(g, 0.16, 0.16, 1.4, 1.8, 0.5, bz, 0x5c4a34, { rough: 0.85, seg: 8, cast: false }); n++;
+    if (i % 2 === 0) {
+      // A small hull alongside the finger: a low white box and a cabin.
+      box(g, 7, 0.9, 2.4, 8, 0.25, bz + 2.6, 0xf2f2ee, { rough: 0.5, metal: 0.1, cast: false }); n++;
+      box(g, 2.6, 1.0, 1.8, 7.5, 1.2, bz + 2.6, accent, { rough: 0.5, metal: 0.1, cast: false }); n++;
+    }
+  }
+  cyl(g, 0.12, 0.12, 6, -2.2, 3, -len / 2 + 2, 0xb9c0c6, { rough: 0.5, metal: 0.5, seg: 8, cast: false }); n++;
+  ball(g, 0.22, -2.2, 6.2, -len / 2 + 2, 0xffd27a, { emissive: 0xffd27a, ei: 1.2, seg: 8, seg2: 6, cast: false }); n++;
+  labelFor(g, name, 0, 4, -len / 2 - 3);
+  return n + 1;
+}
+
+/** A clock on a post at the head of a ferry ramp, plus the ramp itself. */
+function buildClockPost(parent, x, z, name, accent) {
+  const g = group(parent, x, 0, z);
+  box(g, 10, 0.15, 6, 0, 0.075, 0, 0xb9b29d, { rough: 0.85, cast: false });
+  const ramp = box(g, 4, 0.2, 12, 0, 0.3, 9, 0x8b98a5, { rough: 0.6, metal: 0.3, cast: false });
+  ramp.rotation.x = 0.06;
+  cyl(g, 0.16, 0.2, 4.2, 0, 2.1, -1.5, 0x2b2f33, { rough: 0.5, metal: 0.5, seg: 10, cast: false });
+  cyl(g, 0.8, 0.8, 0.25, 0, 4.6, -1.5, 0xf6f1e4, { rough: 0.4, metal: 0.1, seg: 20, emissive: 0xf6f1e4, ei: 0.25, cast: false });
+  box(g, 0.08, 0.5, 0.05, 0, 4.8, -1.35, accent, { rough: 0.4, cast: false });
+  box(g, 0.35, 0.08, 0.05, 0.14, 4.6, -1.35, accent, { rough: 0.4, cast: false });
+  labelFor(g, name, 0, 6.2, -1.5);
+  return 7;
+}
+
+/** A paved walk along a sandy beach with benches facing the water. */
+function buildEsplanade(parent, x, z, name) {
+  const g = group(parent, x, 0, z);
+  let n = 0;
+  box(g, 40, 0.12, 4, 0, 0.06, 0, 0xb9b29d, { rough: 0.85, cast: false }); n++;
+  const sand = box(g, 40, 0.08, 14, 0, 0.04, 9, 0xd9c79a, { rough: 0.95, cast: false }); n++;
+  sand.receiveShadow = true;
+  for (const bx of [-14, -4, 6, 16]) { parkBench(g, bx, 0.12, -1.2, { ry: Math.PI }); n += 4; }
+  for (const bx of [-18, 0, 18]) { lightMast(g, bx, 0, -3, { lit: 0.8 }); n += 10; }
+  labelFor(g, name, 0, 3.5, -4);
+  return n + 1;
+}
+
+/** A long public pier on piles, railed both sides, with a lamp at the end. */
+function buildPier(parent, x, z, name) {
+  const g = group(parent, x, 0, z);
+  let n = 0;
+  const len = 48;
+  box(g, 5, 0.3, len, 0, 0.9, 0, 0x8b6a45, { rough: 0.85, cast: false }); n++;
+  for (let i = 0; i < 6; i++) {
+    const bz = -len / 2 + 4 + i * 8;
+    for (const sx of [-2, 2]) { cyl(g, 0.22, 0.26, 1.6, sx, 0.2, bz, 0x4a3a28, { rough: 0.9, seg: 8, cast: false }); n++; }
+  }
+  for (const sx of [-2.4, 2.4]) { box(g, 0.08, 0.9, len, sx, 1.5, 0, 0xb8c1c9, { rough: 0.5, metal: 0.4, cast: false }); n++; }
+  lightMast(g, 0, 1.05, len / 2 - 2, { lit: 1.0 }); n += 10;
+  labelFor(g, name, 0, 4.5, -len / 2 - 2);
+  return n + 1;
+}
+
+/** The ridge lookout: a raised viewing deck on posts, a rail, a trail
+ *  signpost and a bench — the summit of the upper hills' trail. */
+function buildRidgeSummit(parent, x, z, name, accent) {
+  const g = group(parent, x, 0, z);
+  let n = 0;
+  for (const [px, pz] of [[-3, -2], [3, -2], [-3, 2], [3, 2]]) { cyl(g, 0.2, 0.24, 2.2, px, 1.1, pz, 0x4a3a28, { rough: 0.9, seg: 8, cast: false }); n++; }
+  box(g, 8, 0.25, 5, 0, 2.3, 0, 0x8b6a45, { rough: 0.85, cast: false }); n++;
+  box(g, 8.2, 0.9, 0.08, 0, 2.9, -2.5, 0xb8c1c9, { rough: 0.5, metal: 0.4, cast: false }); n++;
+  for (const sx of [-4.05, 4.05]) { box(g, 0.08, 0.9, 5, sx, 2.9, 0, 0xb8c1c9, { rough: 0.5, metal: 0.4, cast: false }); n++; }
+  parkBench(g, 0, 2.42, 1.4, {}); n += 4;
+  cyl(g, 0.08, 0.1, 2.6, 6, 1.3, 1, 0x5c4a34, { rough: 0.85, seg: 8, cast: false }); n++;
+  box(g, 1.4, 0.3, 0.06, 6.6, 2.4, 1, accent, { rough: 0.5, emissive: accent, ei: 0.2, cast: false }); n++;
+  labelFor(g, name, 0, 5, -2.5);
+  return n + 1;
+}
+
+/** A lit navigation buoy at the channel's edge: a float, a lattice mast and
+ *  a light. */
+function buildChannelMarker(parent, x, z, name, accent) {
+  const g = group(parent, x, 0, z);
+  cyl(g, 1.6, 1.4, 1.2, 0, 0.2, 0, accent, { rough: 0.5, metal: 0.3, seg: 16, cast: false });
+  cyl(g, 0.12, 0.16, 4.4, 0, 3.0, 0, 0x2b2f33, { rough: 0.5, metal: 0.6, seg: 8, cast: false });
+  box(g, 1.2, 0.08, 1.2, 0, 4.2, 0, 0x2b2f33, { rough: 0.5, metal: 0.6, cast: false });
+  ball(g, 0.3, 0, 5.5, 0, 0xff5f5f, { emissive: 0xff5f5f, ei: 1.8, seg: 8, seg2: 6, cast: false });
+  labelFor(g, name, 0, 7.2, 0);
+  return 5;
+}
+
 const LANDMARK_BUILDERS = {
   "downtown-tower": (p, x, z, l) => buildTower(p, x, z, l.name),
   "historic-theatre": (p, x, z, l) => buildTheatre(p, x, z, l.name),
@@ -13242,6 +13454,24 @@ const LANDMARK_BUILDERS = {
   "warehouse-district": (p, x, z, l, zone, rng) => buildIndustrialBlock(p, x, z, l.name, "warehouse", rng),
   "truck-yard": (p, x, z, l, zone, rng) => buildIndustrialBlock(p, x, z, l.name, "truck-yard", rng),
   "estuary-marina": (p, x, z, l) => buildMarinaDocks(p, x, z, l.name),
+  // The expansion's landmarks.
+  "island-ferry-landing-clock": (p, x, z, l, zone) => buildClockPost(p, x, z, l.name, zone.palette.accent),
+  "island-beach-esplanade": (p, x, z, l) => buildEsplanade(p, x, z, l.name),
+  "north-pier": (p, x, z, l) => buildPier(p, x, z, l.name),
+  "emery-public-market": (p, x, z, l) => buildMarketStalls(p, x, z, l.name),
+  "south-shoreline-park": (p, x, z, l) => buildParkEntrance(p, x, z, l.name, "shoreline"),
+  "ridge-trail-summit": (p, x, z, l, zone) => buildRidgeSummit(p, x, z, l.name, zone.palette.accent),
+  "channel-marker": (p, x, z, l, zone) => buildChannelMarker(p, x, z, l.name, zone.palette.accent),
+};
+
+/** Site-anchored set pieces the expansion's zones build beyond their
+ *  landmarks: a marina with berths at each of the three marina sites. Keyed
+ *  by BAY_SITES id; the builder looks the site's own position up, so a site
+ *  that moves takes its marina with it. */
+const SITE_BUILDERS = {
+  "island-yacht-harbor": (p, x, z, s, zone) => buildMarina(p, x, z, s.name, zone.palette.accent, 8),
+  "north-marina-pier": (p, x, z, s, zone) => buildMarina(p, x, z, s.name, zone.palette.accent, 5),
+  "south-shoreline-marina": (p, x, z, s, zone) => buildMarina(p, x, z, s.name, zone.palette.accent, 6),
 };
 
 // -------------------------------------------------------------- scenery
@@ -13291,7 +13521,10 @@ function dressStreetFurniture(parent, zone, count, rng) {
   }
 }
 
-const FIGURE_OUTFITS = { port: "marine", "west-oakland": "construction", coliseum: "sport" };
+const FIGURE_OUTFITS = {
+  port: "marine", "west-oakland": "construction", coliseum: "sport",
+  "island-harbour": "marine", "north-shoreline": "marine", "south-shoreline": "marine", "emery-crossing": "construction",
+};
 function dressCrowd(parent, zone, count, rng) {
   const [cx, cz] = zone.centre;
   const outfit = FIGURE_OUTFITS[zone.id] ?? "office";
@@ -13314,26 +13547,40 @@ function dressPortContainers(parent, zone, rng) {
 
 // ---------------------------------------------------------------- assembly
 
+/** Zones that are open ground or open water: few parked cars, little street
+ *  furniture, no crowd. */
+const OPEN_ZONES = new Set(["hills", "bridge-approach", "upper-hills", "outer-bay"]);
+
 /** Everything that belongs to one zone: its own buildings, scenery, crowd
- *  and (for the port and the hills) its own special dressing. */
+ *  and (for the port, the hills, the ridge and the marinas) its own special
+ *  dressing. */
 function buildZoneContent(parent, zone, opts) {
   const rng = bwSeededRng(zone.id.split("").reduce((a, c) => a * 31 + c.charCodeAt(0), 7));
   const buildingCounts = {
     downtown: 14, uptown: 10, "west-oakland": 12, fruitvale: 10, coliseum: 8,
     port: 6, lake: 4, "bridge-approach": 3, hills: 0,
+    "island-harbour": 6, "north-shoreline": 6, "emery-crossing": 8, "south-shoreline": 4, "upper-hills": 0, "outer-bay": 0,
   };
+  const open = OPEN_ZONES.has(zone.id);
   dressZoneBuildings(parent, zone, buildingCounts[zone.id] ?? 6, rng);
   if (zone.id === "hills") dressHillTrees(parent, zone, 30, rng);
+  if (zone.id === "upper-hills") dressHillTrees(parent, zone, 24, rng);
   if (zone.id === "port") dressPortContainers(parent, zone, rng);
-  dressParkedFleet(parent, zone, zone.id === "hills" || zone.id === "bridge-approach" ? 1 : 3, rng);
-  dressStreetFurniture(parent, zone, zone.id === "hills" ? 2 : 5, rng);
-  dressCrowd(parent, zone, zone.id === "hills" || zone.id === "bridge-approach" ? 0 : 2, rng);
+  if (zone.id !== "outer-bay") dressParkedFleet(parent, zone, open ? 1 : 3, rng);
+  dressStreetFurniture(parent, zone, zone.id === "outer-bay" ? 0 : open ? 2 : 5, rng);
+  dressCrowd(parent, zone, open ? 0 : 2, rng);
 
   for (const landmark of BAY_LANDMARKS) {
     if (landmark.zone !== zone.id) continue;
     const build = LANDMARK_BUILDERS[landmark.id];
     if (!build) continue;
     build(parent, landmark.position[0], landmark.position[1], landmark, zone, rng);
+  }
+  for (const site of BAY_SITES) {
+    if (site.zone !== zone.id) continue;
+    const build = SITE_BUILDERS[site.id];
+    if (!build) continue;
+    build(parent, site.position[0], site.position[1], site, zone, rng);
   }
 }
 
@@ -13349,6 +13596,13 @@ function buildWorld(parent, opts) {
   // downtown), the same shoreline the port and estuary-waterfront zones sit
   // against.
   buildWater(parent, -180, 460, 900, 260);
+  // The expansion's water: the outer bay and its shipping channel west of
+  // the port, the open water the north shoreline's marina and pier face, and
+  // the strip of bay along the world's southern edge that the island and the
+  // south shoreline both look out on.
+  buildWater(parent, -1000, 380, 400, 840);
+  buildWater(parent, -1060, -420, 280, 760);
+  buildWater(parent, 0, 765, 2400, 70);
   if (!opts.zone) buildRoads(parent, BAY_ROADS);
   else buildRoads(parent, BAY_ROADS.filter((r) => r.points.some(([x, z]) => bayZoneAt(x, z).id === opts.zone)));
   for (const zone of zones) buildZoneContent(parent, zone, opts);
@@ -19620,8 +19874,12 @@ function bwIsSiteVisited(siteId, storage) { return bwLoad(storage).visitedSites.
 function bwCollectMissionReturns(records, sites, { storage } = {}) {
   const state = bwLoad(storage);
   const seen = new Set(state.seenRecordIds);
+  // A station the shared map lists at more than one site (a mooring line is
+  // worked at the port and at the marinas alike) credits the FIRST site that
+  // lists it — the canonical anchor, in the order bayworld-data.js declares
+  // them — never whichever happens to come last.
   const bySimId = new Map();
-  for (const s of sites) for (const simId of s.stations ?? []) bySimId.set(simId, s);
+  for (const s of sites) for (const simId of s.stations ?? []) if (!bySimId.has(simId)) bySimId.set(simId, s);
   const results = [];
   for (const r of records) {
     if (!r?.id || seen.has(r.id)) continue;
@@ -19948,14 +20206,24 @@ function bwNearestPlace(x, z, places, radius = 14) {
 // transform and "every site, once" rule are checkable with no DOM.
 
 
+/** Metres per pixel's inverse — the one uniform scale that fits the whole of
+ *  BAY_BOUNDS (whatever its size and aspect) inside a `size`-pixel square
+ *  canvas with `pad` pixels of margin. Uniform, so a 2400 × 1600 m field
+ *  letterboxes rather than stretches; everything else here reads it. */
+function bwMapScale(size = 512, pad = 18) {
+  const w = BAY_BOUNDS.maxX - BAY_BOUNDS.minX, h = BAY_BOUNDS.maxZ - BAY_BOUNDS.minZ;
+  return (size - pad * 2) / Math.max(w, h);
+}
+
 /** World (x, z) to a `size`-pixel square canvas, y-down, with `pad` pixels of
- *  margin so nothing sits on the rim. */
+ *  margin so nothing sits on the rim, the field centred in the canvas. */
 function bwWorldToMap(x, z, size = 512, pad = 18) {
   const w = BAY_BOUNDS.maxX - BAY_BOUNDS.minX, h = BAY_BOUNDS.maxZ - BAY_BOUNDS.minZ;
-  const usable = size - pad * 2;
+  const scale = bwMapScale(size, pad);
+  const offX = (size - w * scale) / 2, offY = (size - h * scale) / 2;
   return {
-    x: pad + ((x - BAY_BOUNDS.minX) / w) * usable,
-    y: pad + ((z - BAY_BOUNDS.minZ) / h) * usable,
+    x: offX + (x - BAY_BOUNDS.minX) * scale,
+    y: offY + (z - BAY_BOUNDS.minZ) * scale,
   };
 }
 
@@ -19968,9 +20236,9 @@ function bwMapRoads(size = 512) {
 }
 
 /** Every zone with its map-space centre and radius (radius scaled by the
- *  same factor the world-to-map transform uses in x). */
+ *  same uniform factor the world-to-map transform uses). */
 function bwMapZones(size = 512) {
-  const scale = (size - 36) / (BAY_BOUNDS.maxX - BAY_BOUNDS.minX);
+  const scale = bwMapScale(size);
   return BW_ZONES.map((z) => ({ id: z.id, name: z.name, color: z.color, ...bwWorldToMap(z.center[0], z.center[1], size), radius: z.radius * scale }));
 }
 
@@ -19995,6 +20263,580 @@ function bwMapSites(size = 512, storage) {
 }
 
 
+/* ===== shared/bay-geo.js ===== */
+// Bay World ↔ the world: an approximate affine fit between Bay World's scene
+// metres (shared/bayworld-data.js's x/z field) and public longitude/latitude,
+// so a real-world map can be drawn under the Bay World data — the Bay Atlas
+// (WebXR/bayworld/atlas.html) and shared/mapbox.js both read this.
+//
+// Pure: no three.js, no DOM, no network. Everything here is derived from the
+// eleven anchors below by least squares, so a headless checker
+// (tools/check_mapbox.mjs) can prove the round trip and the bounds with no
+// browser.
+//
+// The anchors pair a Bay World position with the *approximate* longitude and
+// latitude of the kind of public place that part of the world is inspired
+// by — a lakeside promenade, a downtown centre, a container port, a stadium
+// district, a hills lookout, a bridge approach, and at the expanded field's
+// edges an island harbour, a north shoreline and an upper ridge. Each is
+// rounded to three decimals (about a hundred metres), marked `approximate:
+// true`, and asserts nothing else: no name, no address, no date, no
+// ownership. Bay World is a stylised 2400 m × 1600 m field (BAY_BOUNDS,
+// whatever it is today), not a survey, and the fit that follows is
+// what makes the two line up "well enough for a map" rather than exactly —
+// bayGeoResidual() says how far off the anchors themselves land.
+
+/**
+ * `{ id, label, bay:[x, z], lonLat:[lon, lat], approximate: true }` — the
+ * Bay World position of a landmark or a zone centre in bayworld-data.js,
+ * and the approximate public coordinates of the kind of place it is
+ * inspired by. Order does not matter; the fit weights every anchor equally.
+ */
+const BAY_GEO_ANCHORS = [
+  { id: "lakeside-promenade", label: "a lakeside promenade", bay: [275, -47], lonLat: [-122.257, 37.803], approximate: true },
+  { id: "downtown-centre", label: "a downtown centre", bay: [0, 0], lonLat: [-122.272, 37.804], approximate: true },
+  { id: "uptown-strip", label: "an uptown theatre strip", bay: [-40, -230], lonLat: [-122.270, 37.809], approximate: true },
+  { id: "container-port", label: "a container port", bay: [-380, 350], lonLat: [-122.325, 37.797], approximate: true },
+  { id: "stadium-district", label: "a stadium district", bay: [600, 370], lonLat: [-122.201, 37.752], approximate: true },
+  { id: "market-district", label: "a market district", bay: [450, 260], lonLat: [-122.224, 37.775], approximate: true },
+  { id: "hills-lookout", label: "a hills lookout", bay: [650, -250], lonLat: [-122.183, 37.817], approximate: true },
+  { id: "bridge-approach", label: "a bridge approach", bay: [-630, -160], lonLat: [-122.312, 37.826], approximate: true },
+  // The expansion's outer zones, so the fit is pinned at the field's edges
+  // rather than extrapolated to them.
+  { id: "island-harbour", label: "an island harbour with a ferry landing", bay: [150, 620], lonLat: [-122.257, 37.766], approximate: true },
+  { id: "north-shoreline", label: "a north shoreline with a pier", bay: [-760, -620], lonLat: [-122.315, 37.862], approximate: true },
+  { id: "upper-ridge", label: "an upper ridge trail summit", bay: [950, -550], lonLat: [-122.150, 37.835], approximate: true },
+];
+
+// ------------------------------------------------------------- least squares
+
+/** Solve the 3×3 system m·v = rhs by Gaussian elimination with partial
+ *  pivoting. Returns null when the system is singular. */
+function bgSolve3(m, rhs) {
+  const a = m.map((row, i) => [...row, rhs[i]]);
+  for (let col = 0; col < 3; col++) {
+    let pivot = col;
+    for (let r = col + 1; r < 3; r++) if (Math.abs(a[r][col]) > Math.abs(a[pivot][col])) pivot = r;
+    if (Math.abs(a[pivot][col]) < 1e-12) return null;
+    if (pivot !== col) [a[col], a[pivot]] = [a[pivot], a[col]];
+    for (let r = 0; r < 3; r++) {
+      if (r === col) continue;
+      const f = a[r][col] / a[col][col];
+      for (let c = col; c < 4; c++) a[r][c] -= f * a[col][c];
+    }
+  }
+  return [a[0][3] / a[0][0], a[1][3] / a[1][1], a[2][3] / a[2][2]];
+}
+
+/** Least-squares `target ≈ p·x + q·z + r` over the anchors' bay positions:
+ *  the normal equations of the design matrix [x, z, 1]. */
+function bgFitAxis(anchors, target) {
+  const n = [[0, 0, 0], [0, 0, 0], [0, 0, 0]], rhs = [0, 0, 0];
+  for (const a of anchors) {
+    const row = [a.bay[0], a.bay[1], 1], y = target(a);
+    for (let i = 0; i < 3; i++) {
+      rhs[i] += row[i] * y;
+      for (let j = 0; j < 3; j++) n[i][j] += row[i] * row[j];
+    }
+  }
+  return bgSolve3(n, rhs);
+}
+
+/**
+ * The affine fit over `anchors`: `lon = a·x + b·z + c`, `lat = d·x + e·z + f`
+ * and its exact inverse. Returns `{ lon:[a,b,c], lat:[d,e,f], inverse:
+ * { xx, xz, zx, zz } }` — the inverse is the 2×2 matrix inverse of
+ * [[a,b],[d,e]], so geoToBay(bayToGeo(p)) is p to floating-point precision
+ * rather than a second, slightly different fit. Throws when fewer than three
+ * anchors are given or they are collinear (no affine fit exists).
+ */
+function bayGeoFit(anchors = BAY_GEO_ANCHORS) {
+  if (!Array.isArray(anchors) || anchors.length < 3) throw new Error("bayGeoFit needs at least three anchors");
+  const lon = bgFitAxis(anchors, (a) => a.lonLat[0]);
+  const lat = bgFitAxis(anchors, (a) => a.lonLat[1]);
+  if (!lon || !lat) throw new Error("bayGeoFit: the anchors are collinear");
+  const [a, b] = lon, [d, e] = lat;
+  const det = a * e - b * d;
+  if (Math.abs(det) < 1e-18) throw new Error("bayGeoFit: the fit is degenerate");
+  return { lon, lat, inverse: { xx: e / det, xz: -b / det, zx: -d / det, zz: a / det } };
+}
+
+let bgFitCache = null;
+function bgFit() { return (bgFitCache ??= bayGeoFit()); }
+
+// ------------------------------------------------------------------ mapping
+
+/** Bay World `[x, z]` (scene metres) → `[lon, lat]` (degrees). */
+function bayToGeo([x, z]) {
+  const { lon, lat } = bgFit();
+  return [lon[0] * x + lon[1] * z + lon[2], lat[0] * x + lat[1] * z + lat[2]];
+}
+
+/** `[lon, lat]` (degrees) → Bay World `[x, z]` (scene metres); the exact
+ *  inverse of bayToGeo(). A point outside the world maps outside BAY_BOUNDS
+ *  — nothing is clamped, so a caller can tell "off the map" from "at the
+ *  edge". */
+function geoToBay([lon, lat]) {
+  const f = bgFit();
+  const u = lon - f.lon[2], v = lat - f.lat[2];
+  return [f.inverse.xx * u + f.inverse.xz * v, f.inverse.zx * u + f.inverse.zz * v];
+}
+
+/**
+ * The lon/lat box that contains the whole of BAY_BOUNDS: the four corners of
+ * the field through bayToGeo(), then min/max — so a fit with any rotation in
+ * it still yields a box the world fits inside (the box is then a little
+ * larger than the world, which is what a static map image wants). Returns
+ * `{ minLon, minLat, maxLon, maxLat }`.
+ */
+function bayGeoBounds() {
+  const corners = [
+    [BAY_BOUNDS.minX, BAY_BOUNDS.minZ], [BAY_BOUNDS.maxX, BAY_BOUNDS.minZ],
+    [BAY_BOUNDS.minX, BAY_BOUNDS.maxZ], [BAY_BOUNDS.maxX, BAY_BOUNDS.maxZ],
+  ].map(bayToGeo);
+  return {
+    minLon: Math.min(...corners.map((c) => c[0])), maxLon: Math.max(...corners.map((c) => c[0])),
+    minLat: Math.min(...corners.map((c) => c[1])), maxLat: Math.max(...corners.map((c) => c[1])),
+  };
+}
+
+/** Whether `[lon, lat]` lies inside bayGeoBounds() (inclusive). */
+function bayGeoContains([lon, lat]) {
+  const b = bayGeoBounds();
+  return lon >= b.minLon && lon <= b.maxLon && lat >= b.minLat && lat <= b.maxLat;
+}
+
+/**
+ * How far each anchor's own public coordinates land from its Bay World
+ * position once pushed back through the fit, in scene metres: `{ max, mean,
+ * perAnchor:[{ id, metres }] }`. A diagnostic, not a promise — the anchors
+ * are approximate by design and Bay World is not to scale, so a residual of
+ * some tens of metres is the fit doing its job, not failing it.
+ */
+function bayGeoResidual(anchors = BAY_GEO_ANCHORS) {
+  const perAnchor = anchors.map((a) => {
+    const [x, z] = geoToBay(a.lonLat);
+    return { id: a.id, metres: Math.hypot(x - a.bay[0], z - a.bay[1]) };
+  });
+  const max = Math.max(...perAnchor.map((p) => p.metres));
+  const mean = perAnchor.reduce((s, p) => s + p.metres, 0) / (perAnchor.length || 1);
+  return { max, mean, perAnchor };
+}
+
+
+/* ===== shared/mapbox.js ===== */
+// Mapbox under the Bay (docs/mapbox.md): the token lookup, the lazy library
+// loader, a Mapbox GL map over the Bay World data (the Bay Atlas,
+// WebXR/bayworld/atlas.html) and a satellite ground texture for Bay World
+// itself. Positions come from shared/bay-geo.js's affine fit.
+//
+// The rules this module keeps, and tools/check_mapbox.mjs proves:
+//
+//   - No token ships. mapboxToken() reads `?mapbox=` on the launch URL (kept
+//     for the tab in sessionStorage), then localStorage's
+//     "smartciti.mapboxToken", then `mapboxToken` in the deployment's
+//     auth-config.json (WebXR/auth-config.json, null out of the box). A
+//     value that is not shaped like a Mapbox public token is dropped.
+//   - No request to any Mapbox host, and no library load, without a token.
+//     Every function here returns null (or resolves to null) before touching
+//     the network when there is none.
+//   - The library is never vendored: loadMapboxGl() inserts one <script>
+//     for the cdnjs copy at runtime and injects the essential stylesheet
+//     inline, so a static copy of these pages carries no third-party code
+//     and loads none until a viewer supplies a token.
+//   - No three.js import: bayGroundTexture() takes the three.js module the
+//     caller already loaded, so this file bundles into the DOM-only Bay Atlas
+//     without dragging a renderer in. Every absolute URL lives in the two
+//     constants below.
+
+/** The one library URL: Mapbox GL JS from cdnjs, pinned. */
+const MAPBOX_GL_URL = "https://cdnjs.cloudflare.com/ajax/libs/mapbox-gl/3.4.0/mapbox-gl.min.js";
+/** The one Mapbox API URL: the Static Images endpoint for a satellite view. */
+const MAPBOX_STATIC_BASE = "https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static";
+/** The style the atlas map opens with (a `mapbox://` style id is not a host). */
+const MAPBOX_STYLE = "mapbox://styles/mapbox/dark-v11";
+/** Where a token pasted into the atlas is kept, in this browser only. */
+const MAPBOX_TOKEN_KEY = "smartciti.mapboxToken";
+/** The launch-URL parameter that carries a token for one tab. */
+const MAPBOX_URL_PARAM = "mapbox";
+
+// A public token is "pk", a dot, then one or two base64url segments; nothing
+// else (a secret "sk." token must never reach a page, so it is refused too).
+const MB_TOKEN_RE = /^pk\.[A-Za-z0-9_-]{10,}(\.[A-Za-z0-9_-]{4,})?$/;
+
+/** The token if it is shaped like a Mapbox public token, else null. */
+function cleanMapboxToken(v) {
+  if (typeof v !== "string") return null;
+  const t = v.trim();
+  return t.length <= 512 && MB_TOKEN_RE.test(t) ? t : null;
+}
+
+// ------------------------------------------------------------------ storage
+
+function mbStore(name) {
+  try { const s = globalThis[name]; return s && typeof s.getItem === "function" ? s : null; } catch (_) { return null; }
+}
+function mbRead(store, key) { try { return store?.getItem(key) ?? null; } catch (_) { return null; } }
+function mbWrite(store, key, value) {
+  try { if (value == null) store?.removeItem?.(key); else store?.setItem?.(key, value); return true; } catch (_) { return false; }
+}
+
+/**
+ * The token this page may use, or null: `?mapbox=` on the launch URL (then
+ * remembered in sessionStorage for the tab), else sessionStorage, else
+ * localStorage, else `config.mapboxToken` — the parsed auth-config.json a
+ * caller already read with readMapboxConfig(). Synchronous and network-free;
+ * `opts.search/session/local/config` override the browser's own for tests.
+ */
+function mapboxToken(opts = {}) {
+  const search = opts.search ?? (typeof location !== "undefined" ? location.search : "");
+  const session = opts.session === undefined ? mbStore("sessionStorage") : opts.session;
+  const local = opts.local === undefined ? mbStore("localStorage") : opts.local;
+  let fromUrl = null;
+  try { fromUrl = cleanMapboxToken(new URLSearchParams(search || "").get(MAPBOX_URL_PARAM)); } catch (_) { fromUrl = null; }
+  if (fromUrl) { mbWrite(session, MAPBOX_TOKEN_KEY, fromUrl); return fromUrl; }
+  return cleanMapboxToken(mbRead(session, MAPBOX_TOKEN_KEY))
+    ?? cleanMapboxToken(mbRead(local, MAPBOX_TOKEN_KEY))
+    ?? cleanMapboxToken(opts.config?.mapboxToken)
+    ?? null;
+}
+
+/** Keep a pasted token in this browser (localStorage). Returns the cleaned
+ *  token, or null (and stores nothing) when it is not a public token. */
+function rememberMapboxToken(token, opts = {}) {
+  const local = opts.local === undefined ? mbStore("localStorage") : opts.local;
+  const clean = cleanMapboxToken(token);
+  if (clean) mbWrite(local, MAPBOX_TOKEN_KEY, clean);
+  return clean;
+}
+
+/** Forget a remembered token, in both storages. */
+function forgetMapboxToken(opts = {}) {
+  const local = opts.local === undefined ? mbStore("localStorage") : opts.local;
+  const session = opts.session === undefined ? mbStore("sessionStorage") : opts.session;
+  mbWrite(local, MAPBOX_TOKEN_KEY, null);
+  mbWrite(session, MAPBOX_TOKEN_KEY, null);
+  return true;
+}
+
+/**
+ * Read the deployment's auth-config.json (same-origin, beside the page, the
+ * same file shared/auth.js reads) for its `mapboxToken`. Resolves to
+ * `{ mapboxToken }` (cleaned, possibly null) or null when the file is missing
+ * or unreadable. Only runs in a browser (`location` exists) or with
+ * `opts.fetch` supplied — never from a headless checker by accident.
+ */
+async function readMapboxConfig(url = "./auth-config.json", opts = {}) {
+  const f = opts.fetch ?? (typeof location !== "undefined" && typeof globalThis.fetch === "function" ? (...a) => globalThis.fetch(...a) : null);
+  if (!f) return null;
+  try {
+    const res = await f(url, { cache: "no-cache" });
+    if (!res?.ok) return null;
+    const file = await res.json();
+    return file && typeof file === "object" ? { mapboxToken: cleanMapboxToken(file.mapboxToken) } : null;
+  } catch (_) { return null; }
+}
+
+// ------------------------------------------------------------------ library
+
+/**
+ * The essential part of Mapbox GL's stylesheet — the map canvas, markers,
+ * popups and controls — injected inline by loadMapboxGl() so no external
+ * stylesheet is ever linked. Icons the real sheet draws with data-URI images
+ * are replaced by text glyphs; the attribution and wordmark stay visible, as
+ * Mapbox's terms ask.
+ */
+const MAPBOX_GL_CSS = `
+.mapboxgl-map{position:relative;overflow:hidden;font:12px/20px system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+.mapboxgl-canvas{position:absolute;left:0;top:0}
+.mapboxgl-canvas-container.mapboxgl-interactive{cursor:grab}
+.mapboxgl-canvas-container.mapboxgl-interactive:active{cursor:grabbing}
+.mapboxgl-canvas-container.mapboxgl-touch-zoom-rotate,.mapboxgl-canvas-container.mapboxgl-touch-drag-pan{touch-action:none}
+.mapboxgl-marker{position:absolute;top:0;left:0;will-change:transform;opacity:1;transition:opacity .2s}
+.mapboxgl-popup{position:absolute;top:0;left:0;display:flex;will-change:transform;pointer-events:none;z-index:3}
+.mapboxgl-popup-anchor-top,.mapboxgl-popup-anchor-top-left,.mapboxgl-popup-anchor-top-right{flex-direction:column}
+.mapboxgl-popup-anchor-bottom,.mapboxgl-popup-anchor-bottom-left,.mapboxgl-popup-anchor-bottom-right{flex-direction:column-reverse}
+.mapboxgl-popup-anchor-left{flex-direction:row}
+.mapboxgl-popup-anchor-right{flex-direction:row-reverse}
+.mapboxgl-popup-tip{width:0;height:0;border:10px solid transparent;z-index:1}
+.mapboxgl-popup-anchor-top .mapboxgl-popup-tip{align-self:center;border-top:none;border-bottom-color:#0d1e2b}
+.mapboxgl-popup-anchor-top-left .mapboxgl-popup-tip{align-self:flex-start;border-top:none;border-left:none;border-bottom-color:#0d1e2b}
+.mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip{align-self:flex-end;border-top:none;border-right:none;border-bottom-color:#0d1e2b}
+.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip{align-self:center;border-bottom:none;border-top-color:#0d1e2b}
+.mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip{align-self:flex-start;border-bottom:none;border-left:none;border-top-color:#0d1e2b}
+.mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-tip{align-self:flex-end;border-bottom:none;border-right:none;border-top-color:#0d1e2b}
+.mapboxgl-popup-anchor-left .mapboxgl-popup-tip{align-self:center;border-left:none;border-right-color:#0d1e2b}
+.mapboxgl-popup-anchor-right .mapboxgl-popup-tip{align-self:center;border-right:none;border-left-color:#0d1e2b}
+.mapboxgl-popup-content{position:relative;background:#0d1e2b;color:#eaf6ff;border:1px solid rgba(140,200,230,.4);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.45);padding:12px 14px;pointer-events:auto;max-width:280px;font-size:13px;line-height:1.45}
+.mapboxgl-popup-content a{color:#4fd1ff}
+.mapboxgl-popup-close-button{position:absolute;right:2px;top:0;border:0;border-radius:0 8px 0 0;background:transparent;color:#9cc0d6;cursor:pointer;font-size:16px;line-height:1;padding:4px 7px}
+.mapboxgl-popup-close-button:hover{color:#fff}
+.mapboxgl-ctrl-top-left,.mapboxgl-ctrl-top-right,.mapboxgl-ctrl-bottom-left,.mapboxgl-ctrl-bottom-right{position:absolute;pointer-events:none;z-index:2}
+.mapboxgl-ctrl-top-left{top:0;left:0}.mapboxgl-ctrl-top-right{top:0;right:0}.mapboxgl-ctrl-bottom-left{bottom:0;left:0}.mapboxgl-ctrl-bottom-right{bottom:0;right:0}
+.mapboxgl-ctrl{clear:both;pointer-events:auto;transform:translate(0)}
+.mapboxgl-ctrl-top-left .mapboxgl-ctrl{margin:10px 0 0 10px;float:left}
+.mapboxgl-ctrl-top-right .mapboxgl-ctrl{margin:10px 10px 0 0;float:right}
+.mapboxgl-ctrl-bottom-left .mapboxgl-ctrl{margin:0 0 10px 10px;float:left}
+.mapboxgl-ctrl-bottom-right .mapboxgl-ctrl{margin:0 10px 10px 0;float:right}
+.mapboxgl-ctrl-group{background:#0d1e2b;border:1px solid rgba(140,200,230,.4);border-radius:6px;overflow:hidden}
+.mapboxgl-ctrl-group button{width:30px;height:30px;display:block;padding:0;border:0;background:transparent;color:#eaf6ff;cursor:pointer;font:700 18px/30px system-ui,sans-serif}
+.mapboxgl-ctrl-group button+button{border-top:1px solid rgba(140,200,230,.25)}
+.mapboxgl-ctrl-group button:hover{background:rgba(79,209,255,.18)}
+.mapboxgl-ctrl-group button:focus-visible{outline:2px solid #4fd1ff;outline-offset:-2px}
+.mapboxgl-ctrl-icon{display:block;width:100%;height:100%}
+.mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon::before{content:"+"}
+.mapboxgl-ctrl-zoom-out .mapboxgl-ctrl-icon::before{content:"\\2212"}
+.mapboxgl-ctrl-compass .mapboxgl-ctrl-icon::before{content:"N";font-size:13px}
+.mapboxgl-ctrl-attrib{padding:0 6px;background:rgba(6,14,22,.72);color:#9cc0d6;font-size:11px;line-height:18px;border-radius:4px}
+.mapboxgl-ctrl-attrib a{color:#dcf1ff;text-decoration:none}
+.mapboxgl-ctrl-attrib-button{display:none}
+.mapboxgl-ctrl-logo{display:block;width:auto;height:18px;padding:0 6px;color:#dcf1ff;font:700 11px/18px system-ui,sans-serif;text-decoration:none;background:rgba(6,14,22,.72);border-radius:4px}
+.mapboxgl-ctrl-logo::after{content:"Mapbox"}
+.mb-pin{width:16px;height:16px;border-radius:50%;border:2px solid #0a1420;background:#f2c14b;padding:0;cursor:pointer;box-shadow:0 0 0 2px rgba(255,255,255,.35)}
+.mb-pin.mb-pin-landmark{background:#a079ff;border-radius:3px;transform:rotate(45deg)}
+.mb-pin:focus-visible{outline:2px solid #4fd1ff;outline-offset:2px}
+.mb-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.mb-chip{display:inline-block;padding:1px 7px;border-radius:999px;border:1px solid rgba(79,209,255,.45);background:rgba(79,209,255,.12);color:#dcf1ff;font-size:11.5px;text-decoration:none}
+.mb-kind{color:#9cc0d6;font-size:12px;margin:1px 0 4px}
+`;
+
+let mbCssInjected = false;
+/** Insert MAPBOX_GL_CSS into the document once. Returns whether it is there. */
+function injectMapboxCss(doc = globalThis.document) {
+  if (mbCssInjected) return true;
+  if (!doc?.createElement) return false;
+  const style = doc.createElement("style");
+  style.setAttribute?.("data-mapbox-gl-css", "inline");
+  style.textContent = MAPBOX_GL_CSS;
+  (doc.head ?? doc.body ?? doc.documentElement)?.appendChild?.(style);
+  mbCssInjected = true;
+  return true;
+}
+
+function mbInsertScript(url, done, doc = globalThis.document) {
+  if (!doc?.createElement) { done(false); return; }
+  const s = doc.createElement("script");
+  s.src = url; s.async = true; s.crossOrigin = "anonymous";
+  s.onload = () => done(true);
+  s.onerror = () => done(false);
+  (doc.head ?? doc.body ?? doc.documentElement).appendChild(s);
+}
+
+let mbGlPending = null;
+/** Forget a finished or failed load so the next loadMapboxGl() inserts the
+ *  script again — a test seam (tools/check_mapbox.mjs runs several loader
+ *  scenarios in one process); a page never needs it. */
+function resetMapboxGlLoader() { mbGlPending = null; mbCssInjected = false; }
+
+/**
+ * Lazily load Mapbox GL JS from cdnjs — one <script>, inserted once — and
+ * inject the stylesheet above. Resolves to the `mapboxgl` global, or null:
+ * without a token (nothing is inserted at all), when the insertion fails
+ * (blocked host, offline), or when the script loaded but defined nothing.
+ * `opts.insert(url, done, doc)` replaces the DOM insertion for tests and
+ * for a host that wants to load the library its own way.
+ */
+function loadMapboxGl(opts = {}) {
+  const token = opts.token ?? mapboxToken();
+  if (!token) return Promise.resolve(null);
+  const g = globalThis;
+  if (g.mapboxgl?.Map) { injectMapboxCss(opts.doc); return Promise.resolve(g.mapboxgl); }
+  if (!mbGlPending) {
+    mbGlPending = new Promise((resolve) => {
+      let settled = false;
+      const done = (ok) => {
+        if (settled) return;
+        settled = true;
+        const lib = ok && g.mapboxgl?.Map ? g.mapboxgl : null;
+        if (!lib) mbGlPending = null; // a later call may try again (a token pasted after a failure)
+        resolve(lib);
+      };
+      try { (opts.insert ?? mbInsertScript)(MAPBOX_GL_URL, done, opts.doc); } catch (_) { done(false); }
+    }).then((lib) => { if (lib) injectMapboxCss(opts.doc); return lib; });
+  }
+  return mbGlPending;
+}
+
+// ---------------------------------------------------------------------- map
+
+function mbEscape(s) {
+  return String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+function mbHex(n) { return `#${((typeof n === "number" ? n : 0x4fd1ff) & 0xffffff).toString(16).padStart(6, "0")}`; }
+function mbCentre(zone) { return zone.centre ?? zone.center ?? [0, 0]; }
+function mbPosition(item) {
+  const p = item.position ?? [0, 0];
+  return p.length === 3 ? [p[0], p[2]] : [p[0], p[1]];
+}
+
+/** A zone's circle, as a closed lon/lat ring: points around the centre in
+ *  Bay metres, each through bayToGeo(), so the ring is the exact affine
+ *  image of the circle (an ellipse on the map when the fit is anisotropic —
+ *  which is the truth of it, not an artefact). */
+function mapboxZoneRing(zone, steps = 48) {
+  const [cx, cz] = mbCentre(zone), r = zone.radius ?? 100;
+  const ring = [];
+  for (let i = 0; i <= steps; i++) {
+    const a = (i / steps) * Math.PI * 2;
+    ring.push(bayToGeo([cx + Math.cos(a) * r, cz + Math.sin(a) * r]));
+  }
+  return ring;
+}
+
+/** The default popup: name, zone and kind, blurb, and one chip per
+ *  programme. A caller with real links passes `renderPopup` instead. */
+function mapboxDefaultPopup(item, kind, zoneName = "") {
+  const chips = (item.programmes ?? []).map((p) => `<span class="mb-chip">${mbEscape(p.replace(/-/g, " "))}</span>`).join("");
+  return `<b>${mbEscape(item.name)}</b><div class="mb-kind">${mbEscape(zoneName || item.zone || "")}${kind ? ` · ${mbEscape(kind)}` : ""}</div>`
+    + (item.blurb ? `<div>${mbEscape(item.blurb)}</div>` : "")
+    + (chips ? `<div class="mb-chips">${chips}</div>` : "");
+}
+
+/**
+ * A Mapbox GL map over the Bay: fitted to bayGeoBounds(), a marker per site
+ * and per landmark placed by bay-geo, a translucent circle per zone in its
+ * own accent, and a popup per marker (programme chips by default, or
+ * `opts.renderPopup(item, kind)`'s HTML). `opts.onSelect(item, kind)` fires
+ * when a marker is clicked. Resolves to `{ map, markers, destroy }`, or to
+ * null — without a token before anything is requested, or when the library
+ * could not be loaded. `opts.mapboxgl` and `opts.insert` are the test seams.
+ */
+async function createBayMap(container, opts = {}) {
+  const token = opts.token ?? mapboxToken();
+  if (!token || !container) return null;
+  const gl = opts.mapboxgl ?? await loadMapboxGl({ token, insert: opts.insert, doc: opts.doc });
+  if (!gl?.Map) return null;
+  gl.accessToken = token;
+  const b = bayGeoBounds();
+  const map = new gl.Map({
+    container, style: opts.style ?? MAPBOX_STYLE,
+    bounds: [[b.minLon, b.minLat], [b.maxLon, b.maxLat]], fitBoundsOptions: { padding: 28 },
+    attributionControl: true, cooperativeGestures: false,
+  });
+  if (gl.NavigationControl) map.addControl(new gl.NavigationControl({ visualizePitch: false }), "top-right");
+
+  const zones = opts.zones ?? [], landmarks = opts.landmarks ?? [], sites = opts.sites ?? [];
+  const zoneName = (id) => zones.find((z) => z.id === id)?.name ?? id ?? "";
+  const doc = opts.doc ?? globalThis.document;
+  const markers = [];
+  const place = (item, kind) => {
+    const el = doc?.createElement?.("button");
+    if (!el) return;
+    el.className = `mb-pin mb-pin-${kind}`;
+    el.type = "button";
+    el.setAttribute?.("aria-label", `${item.name} (${kind})`);
+    el.title = item.name;
+    el.addEventListener?.("click", () => opts.onSelect?.(item, kind));
+    const html = opts.renderPopup ? opts.renderPopup(item, kind) : mapboxDefaultPopup(item, kind, zoneName(item.zone));
+    const popup = gl.Popup ? new gl.Popup({ offset: 14, maxWidth: "280px" }).setHTML(html) : null;
+    const marker = new gl.Marker({ element: el, anchor: "center" }).setLngLat(bayToGeo(mbPosition(item)));
+    if (popup) marker.setPopup(popup);
+    marker.addTo(map);
+    markers.push({ marker, item, kind });
+  };
+  for (const l of landmarks) place(l, "landmark");
+  for (const s of sites) place(s, "site");
+
+  const features = zones.map((z) => ({
+    type: "Feature",
+    properties: { id: z.id, name: z.name, color: mbHex(z.palette?.accent ?? z.color) },
+    geometry: { type: "Polygon", coordinates: [mapboxZoneRing(z)] },
+  }));
+  const addZones = () => {
+    if (!features.length || map.getSource?.("bay-zones")) return;
+    map.addSource("bay-zones", { type: "geojson", data: { type: "FeatureCollection", features } });
+    map.addLayer({ id: "bay-zones-fill", type: "fill", source: "bay-zones", paint: { "fill-color": ["get", "color"], "fill-opacity": 0.14 } });
+    map.addLayer({ id: "bay-zones-line", type: "line", source: "bay-zones", paint: { "line-color": ["get", "color"], "line-width": 1.5, "line-opacity": 0.7 } });
+  };
+  if (map.isStyleLoaded?.()) addZones(); else map.on("load", addZones);
+
+  return {
+    map, markers,
+    destroy() { for (const m of markers) m.marker.remove?.(); map.remove?.(); },
+  };
+}
+
+// ------------------------------------------------------------------- ground
+
+function mbMercatorY(latDeg) { const phi = (latDeg * Math.PI) / 180; return Math.log(Math.tan(Math.PI / 4 + phi / 2)); }
+
+/** The static image's pixel size: the widest the endpoint allows on the
+ *  long side, the short side in the bounds' own Web Mercator aspect, so the
+ *  image is the box and nothing more (the endpoint fits the box inside the
+ *  requested frame, so a mismatched aspect would pad one axis). */
+function bayStaticImageSize(longSide = 1280) {
+  const b = bayGeoBounds();
+  const dx = ((b.maxLon - b.minLon) * Math.PI) / 180;
+  const dy = mbMercatorY(b.maxLat) - mbMercatorY(b.minLat);
+  const aspect = dx / dy;
+  const side = Math.max(1, Math.min(1280, Math.round(longSide)));
+  return aspect >= 1
+    ? { width: side, height: Math.max(1, Math.round(side / aspect)) }
+    : { width: Math.max(1, Math.round(side * aspect)), height: side };
+}
+
+/** The Static Images URL for a satellite view of bayGeoBounds(). Pure — it
+ *  builds a string and requests nothing; the token is required so no URL
+ *  without one can exist. */
+function bayStaticImageUrl(token, opts = {}) {
+  const clean = cleanMapboxToken(token);
+  if (!clean) return null;
+  const b = bayGeoBounds();
+  const { width, height } = bayStaticImageSize(opts.longSide);
+  const box = [b.minLon, b.minLat, b.maxLon, b.maxLat].map((v) => v.toFixed(6)).join(",");
+  return `${MAPBOX_STATIC_BASE}/[${box}]/${width}x${height}${opts.retina ? "@2x" : ""}?access_token=${encodeURIComponent(clean)}`;
+}
+
+/**
+ * The 3×3 uv transform (row-major, nine numbers for a three.js Matrix3's
+ * set()) that maps a Bay World ground plane's own uv square onto the static
+ * image of bayGeoBounds(). The plane is shared/bayworld.js's bwTerrain():
+ * a PlaneGeometry `w` by `d` centred at (cx, cz) and rotated flat, so its
+ * u runs +x and its v runs −z. Composed affine → affine → affine, so the
+ * texture lands exactly where the fit says the ground is, rotation and all.
+ */
+function bayGroundUvMatrix({ cx = 0, cz = 0, w, d } = {}) {
+  const fit = bayGeoFit();
+  const b = bayGeoBounds();
+  const dLon = b.maxLon - b.minLon || 1, dLat = b.maxLat - b.minLat || 1;
+  const [a, bb, c] = fit.lon, [dd, e, f] = fit.lat;
+  // x = cx − w/2 + u·w ; z = cz + d/2 − v·d
+  const x0 = cx - w / 2, z0 = cz + d / 2;
+  const s0 = (a * x0 + bb * z0 + c - b.minLon) / dLon, su = (a * w) / dLon, sv = (-bb * d) / dLon;
+  const t0 = (dd * x0 + e * z0 + f - b.minLat) / dLat, tu = (dd * w) / dLat, tv = (-e * d) / dLat;
+  return [su, sv, s0, tu, tv, t0, 0, 0, 1];
+}
+
+/**
+ * A satellite image of bayGeoBounds() as a texture for the Bay World ground,
+ * via `three.TextureLoader`. Returns null synchronously when there is no
+ * token (nothing is requested), else a promise that resolves to the texture,
+ * or to null if the image could not load — the caller keeps the procedural
+ * ground either way. `three` is the three.js module the caller already has.
+ */
+function bayGroundTexture(three, opts = {}) {
+  const token = opts.token ?? mapboxToken();
+  if (!token || typeof three?.TextureLoader !== "function") return null;
+  const url = bayStaticImageUrl(token, opts);
+  if (!url) return null;
+  return new Promise((resolve) => {
+    try {
+      const loader = new three.TextureLoader();
+      loader.setCrossOrigin?.("anonymous");
+      loader.load(url, (tex) => {
+        if (tex) {
+          if (three.SRGBColorSpace) tex.colorSpace = three.SRGBColorSpace;
+          if (three.ClampToEdgeWrapping !== undefined) { tex.wrapS = three.ClampToEdgeWrapping; tex.wrapT = three.ClampToEdgeWrapping; }
+          tex.anisotropy = opts.anisotropy ?? 4;
+          tex.needsUpdate = true;
+        }
+        resolve(tex ?? null);
+      }, undefined, () => resolve(null));
+    } catch (_) { resolve(null); }
+  });
+}
+
+
 /* ===== bayworld/js/world.js ===== */
 // Bay World — the three.js scene: the city (BAY1's own shared/bayworld.js),
 // the fleet (shared/fleet.js), pedestrians, weather (shared/weather.js) and
@@ -20007,6 +20849,7 @@ function bwMapSites(size = 512, storage) {
 // ../../shared/bayworld.js, never through city.js — the same way fairway/js/
 // world.js imports buildFairwayPark straight from shared/fairway.js: a
 // module that touches three.js never belongs on city.js's pure side.
+
 
 
 
@@ -20058,6 +20901,44 @@ function bwSignBoard(THREE, text) {
 // app's day clock is a continuous hour (sim.js's bwAdvanceClock()), so
 // bwHourBucket() below is the one place that turns a continuous hour into
 // the discrete bucket bayLighting() understands.
+/**
+ * Real ground under the city (docs/mapbox.md): when a Mapbox token exists,
+ * shared/mapbox.js's bayGroundTexture() fetches one satellite image of the
+ * world's lon/lat box and it is applied to the ground slab shared/bayworld.js
+ * tagged `userData.bayGround`, with the uv transform that lines the image up
+ * with bay-geo's fit. Without a token nothing is requested and the
+ * procedural grass stays — which is also what happens if the image never
+ * arrives. The deployment's auth-config.json is read only after the
+ * synchronous lookups (launch URL, this browser's storage) found nothing.
+ */
+function bwApplySatelliteGround(root, THREE, opts = {}) {
+  let ground = null;
+  root.traverse((o) => { if (!ground && o.userData?.bayGround) ground = o; });
+  if (!ground) return null;
+  const apply = (tex) => {
+    if (!tex || !ground.material) return false;
+    const p = ground.geometry?.parameters ?? {};
+    const m = bayGroundUvMatrix({
+      cx: ground.position.x, cz: ground.position.z,
+      w: p.width ?? BAY_BOUNDS.maxX - BAY_BOUNDS.minX, d: p.height ?? BAY_BOUNDS.maxZ - BAY_BOUNDS.minZ,
+    });
+    if (tex.matrix?.set) { tex.matrixAutoUpdate = false; tex.matrix.set(...m); }
+    const mat = ground.material;
+    mat.map = tex; mat.bumpMap = null; mat.roughnessMap = null;
+    mat.color?.setHex?.(0xffffff);
+    mat.needsUpdate = true;
+    ground.userData.bayGroundSatellite = true;
+    return true;
+  };
+  const pending = bayGroundTexture(THREE, opts.token ? { token: opts.token } : {});
+  if (pending) return pending.then(apply).catch(() => false);
+  return readMapboxConfig("./auth-config.json").then((cfg) => {
+    const token = mapboxToken({ config: cfg });
+    const late = token ? bayGroundTexture(THREE, { token }) : null;
+    return late ? late.then(apply).catch(() => false) : false;
+  }).catch(() => false);
+}
+
 function bwHourBucket(hours) {
   const h = ((hours % 24) + 24) % 24;
   if (h >= 6 && h < 18) return "day";
@@ -20087,6 +20968,9 @@ function bwBuildWorld(root, THREE, opts = {}) {
     if (o.isDirectionalLight && !sun) sun = o;
   });
 
+  // Satellite ground, only with a token (see bwApplySatelliteGround()).
+  const satelliteGround = bwApplySatelliteGround(root, THREE);
+
   const player = bwPersonFigure(THREE);
   root.add(player);
 
@@ -20102,9 +20986,10 @@ function bwBuildWorld(root, THREE, opts = {}) {
     vehicles[v.id] = mesh;
   });
 
-  // Site signs, drawn once. Bay World's own map now carries 37 of these
-  // (BAY1's BW_SITES), spread across a 1600x1100 m world, so a sign is a
-  // single cheap unmerged plane rather than anything heavier.
+  // Site signs, drawn once — one per BW_SITES entry, however many the shared
+  // map carries (nothing here assumes a count), spread across a world the
+  // size of BAY_BOUNDS, so a sign is a single cheap unmerged plane rather
+  // than anything heavier.
   for (const site of BW_SITES) {
     const sign = bwSignBoard(THREE, site.name);
     sign.position.set(site.position[0], 4.1, site.position[2]);
@@ -20178,7 +21063,7 @@ function bwBuildWorld(root, THREE, opts = {}) {
   }
 
   return {
-    city, player, vehicles, sun, hemi,
+    city, player, vehicles, sun, hemi, satelliteGround,
     bwSpawnTrafficMeshes, bwSpawnPedestrianMeshes, bwSetWeather, bwApplyLighting, placeCamera,
   };
 }
@@ -20196,12 +21081,30 @@ const $ = (id) => document.getElementById(id);
 const bwStore = (() => { try { return window.localStorage; } catch { return null; } })();
 const PLACES = [...BW_SITES, ...BW_LANDMARKS];
 
+/** The Bay Atlas's deep link (docs/mapbox.md): `?site=<id>` or
+ *  `?landmark=<id>` names the place the shift starts beside — a few metres
+ *  off it, so the job-board prompt is up as soon as the world appears. An
+ *  id that names nothing is ignored and the shift starts at the depot. */
+function bwStartPlaceFrom(search, sites = BW_SITES, landmarks = BW_LANDMARKS) {
+  let params = null;
+  try { params = new URLSearchParams(search || ""); } catch { return null; }
+  const site = params.get("site"), landmark = params.get("landmark");
+  if (site) return sites.find((s) => s.id === site) ?? null;
+  if (landmark) return landmarks.find((l) => l.id === landmark) ?? null;
+  return null;
+}
+const bwStartPlace = bwStartPlaceFrom(typeof window !== "undefined" ? window.location?.search : "");
+
 const bwApp = {
   screen: "menu",
   scene: null, camera: null, renderer: null, world: null,
   mode: "foot",              // "foot" | "vehicle"
   cameraMode: "chase",       // "chase" | "first"
-  player: { x: -40, z: -50, heading: 0, speed: 0 }, // beside the downtown motor pool (world.js's BW_DEPOT)
+  // Beside the downtown motor pool (world.js's BW_DEPOT), or beside the
+  // place the Bay Atlas deep-linked to.
+  player: bwStartPlace
+    ? { x: bwStartPlace.position[0] + 6, z: bwStartPlace.position[2] + 6, heading: 0, speed: 0 }
+    : { x: -40, z: -50, heading: 0, speed: 0 },
   vehicleId: null,
   vehicleState: null,
   hours: 9,                  // the day clock, 0-24
@@ -20547,8 +21450,9 @@ function bwSetup3D() {
 
   bwApp.traffic = bwSpawnTraffic(2);
   world.trafficMeshes = world.bwSpawnTrafficMeshes(bwApp.traffic.length);
-  // One pedestrian every third site is plenty of life across a 1600x1100 m
-  // world without spawning thirty-seven of them.
+  // One pedestrian every third site is plenty of life across a world the
+  // size of BAY_BOUNDS without spawning one per site, however many sites the
+  // shared map carries.
   bwApp.pedestrians = BW_SITES.filter((_, i) => i % 3 === 0).map((s, i) => bwCreatePedestrian(`ped-${i}`, s.position[0] + 6, s.position[2] + 6, 10));
   world.pedestrianMeshes = world.bwSpawnPedestrianMeshes(bwApp.pedestrians.length);
 }
@@ -20651,6 +21555,7 @@ function bwStart() {
 }
 
 $("menu-start")?.addEventListener("click", bwStart);
+if (bwStartPlace) { const b = $("menu-start"); if (b) b.textContent = `Start the shift at ${bwStartPlace.name}`; }
 $("hud-radio-btn")?.addEventListener("click", bwOpenRadio);
 $("hud-map-btn")?.addEventListener("click", () => bwToggleMap());
 $("map-close")?.addEventListener("click", () => bwToggleMap(false));

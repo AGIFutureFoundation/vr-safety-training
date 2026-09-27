@@ -50,6 +50,8 @@ Edit `WebXR/auth-config.json` (all values are `null` out of the box) or override
 
 Served over HTTPS in all cases: WebAuthn, Google Identity Services and MSAL all require a secure context, as does WebXR itself.
 
+The same file carries one key that is not a sign-in option: `mapboxToken`, `null` out of the box, read by `WebXR/shared/mapbox.js` for the Bay Atlas and Bay World's satellite ground. It takes a Mapbox *public* token (`pk.` prefix) and nothing else; while it is `null` and no viewer has supplied a token of their own, nothing is ever requested from a Mapbox host. See [mapbox.md](mapbox.md).
+
 ## What this does not do
 
 - It does not authorise anything. No option grants access to a station, a record or an export; every page in this repository works signed out.

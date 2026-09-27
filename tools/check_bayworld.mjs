@@ -8,9 +8,9 @@
  * and the pure zone/height/road functions both depend on, deterministically,
  * with no renderer:
  *
- *   - the ten zones tile the whole of BAY_BOUNDS (every sampled point gets a
- *     real zone back, and every zone is reachable — nothing is walled off by
- *     the nearest-centre assignment);
+ *   - the zones (at least sixteen since the expansion) tile the whole of
+ *     BAY_BOUNDS (every sampled point gets a real zone back, and every zone
+ *     is reachable — nothing is walled off by the nearest-centre assignment);
  *   - every landmark's position is nearer its own zone's centre than any
  *     other zone's (bayZoneAt() reads back that zone), and likewise for
  *     every training site;
@@ -19,7 +19,9 @@
  *   - BAY_ROADS forms one connected network (every road shares an exact
  *     endpoint with another, directly or transitively);
  *   - bayHeight() stays inside BAY_HEIGHT_RANGE everywhere sampled, and never
- *     jumps (continuity, sampled rather than proved);
+ *     jumps (continuity, sampled rather than proved); the hills read higher
+ *     than downtown and the port, the upper hills higher than the hills, and
+ *     the island, both shorelines and the outer bay read flat;
  *   - bayRoadAt() reads back onRoad on a road's own centreline and null well
  *     off every road;
  *   - buildBayWorld() builds headlessly at both detail levels, at every
@@ -54,7 +56,7 @@ const inBounds = (x, z) => x >= BAY_BOUNDS.minX && x <= BAY_BOUNDS.maxX && z >= 
 const ZONE_IDS = new Set(BAY_ZONES.map((z) => z.id));
 
 // -------------------------------------------------------------------- zones
-if (BAY_ZONES.length < 10) fail("zones", `BAY_ZONES has ${BAY_ZONES.length} zones, expected at least 10`);
+if (BAY_ZONES.length < 16) fail("zones", `BAY_ZONES has ${BAY_ZONES.length} zones, expected at least 16`);
 for (const zone of BAY_ZONES) {
   const id = `zone ${zone.id}`;
   if (!inBounds(zone.centre[0], zone.centre[1])) fail(id, "centre is outside BAY_BOUNDS");
@@ -86,7 +88,7 @@ for (const zone of BAY_ZONES) {
 }
 
 // --------------------------------------------------------------- landmarks
-if (BAY_LANDMARKS.length < 20) fail("landmarks", `BAY_LANDMARKS has ${BAY_LANDMARKS.length}, expected at least 20`);
+if (BAY_LANDMARKS.length < 28) fail("landmarks", `BAY_LANDMARKS has ${BAY_LANDMARKS.length}, expected at least 28`);
 const NO_HISTORY = /\b(19|20)\d{2}\b|\bfeet\b|\bmiles?\b|\bmeters?\b|\bmetres?\b|\btons?\b/i;
 for (const l of BAY_LANDMARKS) {
   const id = `landmark ${l.id}`;
@@ -104,7 +106,7 @@ for (const l of BAY_LANDMARKS) {
 }
 
 // -------------------------------------------------------------------- sites
-if (BAY_SITES.length < 25) fail("sites", `BAY_SITES has ${BAY_SITES.length}, expected at least 25`);
+if (BAY_SITES.length < 50) fail("sites", `BAY_SITES has ${BAY_SITES.length}, expected at least 50`);
 for (const s of BAY_SITES) {
   const id = `site ${s.id}`;
   if (!ZONE_IDS.has(s.zone)) fail(id, `names an unknown zone "${s.zone}"`);
@@ -196,6 +198,20 @@ if (maxJump > JUMP_CEILING) fail("height", `bayHeight jumped ${maxJump.toFixed(3
   if (!(hHills > hDowntown + 20)) fail("height", `the hills (${hHills.toFixed(1)}m) do not read meaningfully higher than downtown (${hDowntown.toFixed(1)}m)`);
   if (!(hHills > hPort + 20)) fail("height", `the hills (${hHills.toFixed(1)}m) do not read meaningfully higher than the port (${hPort.toFixed(1)}m)`);
   if (hPort > 10) fail("height", `the port reads ${hPort.toFixed(1)}m — expected close to flat`);
+  // The expansion: the upper hills climb on above the hills; the island, both
+  // shorelines and the outer bay all read flat.
+  const upper = BAY_ZONES.find((z) => z.id === "upper-hills");
+  if (!upper) fail("height", "no upper-hills zone to read the ridge from");
+  else {
+    const hUpper = bayHeight(upper.centre[0], upper.centre[1]);
+    if (!(hUpper > hHills + 15)) fail("height", `the upper hills (${hUpper.toFixed(1)}m) do not read meaningfully higher than the hills (${hHills.toFixed(1)}m)`);
+  }
+  for (const id of ["island-harbour", "north-shoreline", "south-shoreline", "outer-bay"]) {
+    const zone = BAY_ZONES.find((z) => z.id === id);
+    if (!zone) { fail("height", `no ${id} zone`); continue; }
+    const h = bayHeight(zone.centre[0], zone.centre[1]);
+    if (h > 10) fail("height", `${id} reads ${h.toFixed(1)}m — expected close to flat`);
+  }
 }
 
 // ------------------------------------------------------------------- build
