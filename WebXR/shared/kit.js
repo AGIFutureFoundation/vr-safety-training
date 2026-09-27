@@ -1827,7 +1827,7 @@ export function personHead(head, o = {}) {
     faceFace(look.face, {
       brow: hex(look.hair),
       iris: IRIS_TONES[((look.seed ?? 0) >>> 7) % IRIS_TONES.length],
-    }), { px: 512, transparent: true, rough: 0.68 });
+    }), { px: o.facePx ?? 512, transparent: true, rough: 0.68 });
   if (o.diveHood) {
     // A close neoprene hood: the cap's own crown with no peak carried out —
     // the same brimless shell scrubCap uses below, sized up a little and
