@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Deep</title>
+<meta name="description" content="A dive game under the bay on the training platform: swim or pilot an ROV over a large seabed, a buddy line, an ascent line at every site, a reserve you watch rather than count, and job boards that launch the platform's real dive and restoration stations. Keyboard, touch and gamepad.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;1,700&family=Barlow:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --void:#03101a; --panel:#06202c; --glass:rgba(4,22,32,.86); --raised:#0b2e3c; --raised-2:#0f3c4d;
+    --text:#e6f7ff; --muted:#9fd0e0; --dim:#5f93a6; --accent:#4fd1ff; --accent2:#8cff5a; --amber:#f2c14b; --coral:#ff9a5a; --pink:#ff5a7a;
+    --edge:rgba(120,210,240,.2); --edge-strong:rgba(120,210,240,.4);
+    --sans:"Barlow", system-ui, sans-serif; --cond:"Barlow Condensed", "Barlow", system-ui, sans-serif;
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none !important}
+  html,body{height:100%;margin:0;overscroll-behavior:none}
+  body{background:var(--void);color:var(--text);font-family:var(--sans);overflow:hidden;-webkit-font-smoothing:antialiased}
+  #stage{position:fixed;inset:0}
+  #stage canvas{display:block;width:100%;height:100%}
+  button{font:inherit;color:inherit}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  .home-chip{position:fixed;top:calc(8px + env(safe-area-inset-top,0px));left:10px;z-index:10000;display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:999px;background:rgba(4,20,30,.8);color:#dcf1ff;border:1px solid rgba(79,209,255,.45);font:600 13px/1 Arial,Helvetica,sans-serif;text-decoration:none;letter-spacing:.02em;backdrop-filter:blur(6px)}
+  .home-chip:hover,.home-chip:focus-visible{background:rgba(79,209,255,.22);color:#fff;outline:2px solid var(--accent);outline-offset:2px}
+  @media (max-width:480px){.home-chip{top:calc(6px + env(safe-area-inset-top,0px));left:8px;padding:5px 9px;font-size:12px}}
+
+  .screen{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto;
+    background:radial-gradient(1100px 650px at 50% 118%, rgba(79,209,255,.1), transparent 60%), linear-gradient(180deg, rgba(3,16,26,.45), rgba(3,16,26,.86));}
+  .card{width:min(920px,100%);max-height:calc(100vh - 32px);overflow:auto;background:var(--glass);border:1px solid var(--edge);
+    border-radius:14px;padding:22px 22px 18px;backdrop-filter:blur(6px);box-shadow:0 30px 80px rgba(0,0,0,.55)}
+  .eyebrow{font-family:var(--cond);font-weight:600;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin:0}
+  h1.logo{font-family:var(--cond);font-style:italic;font-weight:700;text-transform:uppercase;letter-spacing:.01em;margin:6px 0 2px;
+    font-size:clamp(34px,7vw,66px);line-height:.94;background:linear-gradient(92deg,var(--accent),var(--accent2) 60%);
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .stripe{height:6px;width:200px;margin:10px 0 14px;background:repeating-linear-gradient(-45deg,var(--accent) 0 12px,#062430 12px 24px);border-radius:2px}
+  h2{font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:24px;margin:4px 0 10px}
+  p.lead{color:var(--muted);max-width:70ch;margin:0 0 14px;line-height:1.5}
+  .note{font-size:13px;color:var(--dim);line-height:1.5;margin:12px 0 0;max-width:86ch}
+  .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .btn{background:var(--raised);border:1px solid var(--edge-strong);border-radius:8px;padding:11px 16px;cursor:pointer;
+    font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:15px;color:var(--text)}
+  .btn:hover{background:var(--raised-2)}
+  .btn.primary{background:linear-gradient(180deg,#a9e8ff,var(--accent));color:#04222e;border-color:transparent}
+  .btn.ghost{background:transparent}
+  .kbd{display:inline-block;min-width:20px;padding:1px 6px;border-radius:4px;border:1px solid var(--edge-strong);background:#06202c;font-family:var(--cond);font-weight:600;font-size:12.5px;text-align:center}
+
+  /* ---------- HUD ---------- */
+  #hud{position:fixed;inset:0;z-index:10;pointer-events:none;font-family:var(--cond)}
+  #hud .panel{position:absolute;pointer-events:auto;background:rgba(4,20,30,.72);border:1px solid var(--edge);border-radius:10px;backdrop-filter:blur(4px)}
+  #hud-slate{top:calc(10px + env(safe-area-inset-top,0px));left:10px;padding:8px 14px;min-width:220px;font-size:13px}
+  #hud-slate .clock{font-size:20px;font-weight:700;letter-spacing:.03em}
+  #hud-slate .row2{display:flex;gap:12px;color:var(--muted);margin-top:2px}
+  /* The reserve gauge: a bar that shrinks and a word. Never a number. */
+  #hud-reserve{margin-top:8px}
+  #hud-reserve .label{display:flex;justify-content:space-between;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  #hud-reserve .bar{height:10px;border-radius:5px;background:rgba(255,255,255,.08);border:1px solid var(--edge);overflow:hidden;margin-top:3px}
+  #hud-reserve-fill{height:100%;width:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));transition:width .4s linear}
+  #hud-reserve-fill.low{background:linear-gradient(90deg,var(--pink),var(--amber))}
+  #hud-stats{top:calc(10px + env(safe-area-inset-top,0px));right:10px;padding:8px 14px;text-align:right;font-size:13px}
+  #hud-stats b{font-size:17px;color:var(--accent2)}
+  #hud-objective{top:118px;left:10px;right:10px;max-width:420px;padding:8px 14px;font-size:13.5px;color:var(--text)}
+  #hud-activity{top:176px;left:10px;right:10px;max-width:420px;padding:8px 14px;font-size:13.5px;color:var(--amber)}
+  #hud-prompt{left:50%;bottom:130px;transform:translateX(-50%);padding:8px 16px;font-size:14px;white-space:nowrap;background:rgba(79,209,255,.16);border-color:var(--accent)}
+  #hud-minimap{position:absolute;bottom:calc(10px + env(safe-area-inset-bottom,0px));right:10px;border-radius:50%;border:2px solid var(--edge-strong);background:#04141e;pointer-events:none}
+  #hud-buttons{bottom:calc(10px + env(safe-area-inset-bottom,0px));left:10px;display:flex;gap:8px;background:transparent;border:none}
+  #hud-buttons button{padding:8px 12px;border-radius:8px;border:1px solid var(--edge-strong);background:rgba(4,20,30,.72);font-family:var(--cond);font-weight:700;text-transform:uppercase;font-size:12.5px}
+  #view-toggle{position:fixed;bottom:calc(10px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);z-index:15}
+
+  /* ---------- touch controls ---------- */
+  #touch-controls{position:fixed;inset:0;z-index:12;pointer-events:none}
+  #touch-stick{position:absolute;left:24px;bottom:calc(140px + env(safe-area-inset-bottom,0px));width:100px;height:100px;border-radius:50%;background:rgba(10,40,55,.5);border:1px solid var(--edge-strong);pointer-events:auto;touch-action:none}
+  #touch-knob{position:absolute;left:30px;top:30px;width:40px;height:40px;border-radius:50%;background:rgba(79,209,255,.55);pointer-events:none}
+  .touch-btn{position:absolute;width:56px;height:56px;border-radius:50%;background:rgba(10,40,55,.5);border:1px solid var(--edge-strong);color:var(--text);font-family:var(--cond);font-weight:700;font-size:12px;pointer-events:auto;text-transform:uppercase}
+  #touch-up{right:24px;bottom:calc(290px + env(safe-area-inset-bottom,0px))}
+  #touch-down{right:24px;bottom:calc(150px + env(safe-area-inset-bottom,0px))}
+  #touch-sprint{right:96px;bottom:calc(220px + env(safe-area-inset-bottom,0px))}
+  #touch-interact{right:24px;bottom:calc(220px + env(safe-area-inset-bottom,0px))}
+  #touch-view{right:96px;bottom:calc(150px + env(safe-area-inset-bottom,0px))}
+  #touch-map{right:96px;bottom:calc(290px + env(safe-area-inset-bottom,0px))}
+  @media (min-width:900px) and (pointer:fine){ #touch-controls{display:none} }
+
+  #toast{position:fixed;left:50%;bottom:150px;transform:translateX(-50%);z-index:30;background:#06202c;border:1px solid var(--edge-strong);
+    border-radius:8px;padding:9px 16px;font:14px/1.4 var(--sans);opacity:0;pointer-events:none;transition:opacity .25s;max-width:88vw;text-align:center}
+  #toast.on{opacity:1}
+
+  #jb-progress, #jb-programmes, #jb-zone{color:var(--muted);font-size:14px;margin:4px 0}
+  .activity-list{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin:10px 0}
+  .activity-list .btn{text-align:left;padding:14px;text-transform:none;letter-spacing:0;font-family:var(--sans);font-weight:500}
+  .activity-list .btn b{font-family:var(--cond);text-transform:uppercase;letter-spacing:.06em;font-size:15px}
+  .activity-list .btn span{display:block;color:var(--muted);font-size:13px;margin-top:4px}
+
+  #scr-map{z-index:22}
+  #map-canvas{border-radius:12px;border:1px solid var(--edge);max-width:100%;height:auto}
+  .map-layout{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start}
+  #map-sites{flex:1 1 220px;min-width:220px;max-height:512px;overflow:auto}
+  .map-site-row{display:flex;flex-direction:column;gap:2px;padding:8px 0;border-bottom:1px dashed rgba(120,210,240,.15);font-size:13px}
+  .map-site-row .locked{color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<a class="home-chip" href="../index.html" aria-label="Back to the homepage">&#9971; Home</a>
+
+<div id="stage"></div>
+<div id="toast" role="status"></div>
+
+<div id="hud" hidden>
+  <div id="hud-slate" class="panel">
+    <div class="clock" id="hud-clock">9:00 AM</div>
+    <div class="row2"><span id="hud-zone"></span><span id="hud-light"></span><span id="hud-craft"></span></div>
+    <div id="hud-reserve" aria-label="Reserve gauge">
+      <div class="label"><span>Reserve</span><span id="hud-reserve-word">full</span></div>
+      <div class="bar"><div id="hud-reserve-fill"></div></div>
+    </div>
+  </div>
+  <div id="hud-stats" class="panel">
+    <div>Dive reputation <b id="hud-reputation">0</b></div>
+    <div>Survey credits <b id="hud-credits">0</b></div>
+  </div>
+  <div id="hud-objective" class="panel">No active dive.</div>
+  <div id="hud-activity" class="panel" hidden></div>
+  <div id="hud-prompt" class="panel" hidden></div>
+  <canvas id="hud-minimap" width="140" height="140"></canvas>
+  <div id="hud-buttons">
+    <button id="hud-activities-btn">Activities</button>
+    <button id="hud-map-btn">Map (M)</button>
+    <button id="hud-surface-btn">Ascent line (U)</button>
+  </div>
+</div>
+<button id="view-toggle" class="btn ghost" hidden>First person (V)</button>
+
+<div id="touch-controls">
+  <div id="touch-stick"><div id="touch-knob"></div></div>
+  <button class="touch-btn" id="touch-up">Up</button>
+  <button class="touch-btn" id="touch-down">Down</button>
+  <button class="touch-btn" id="touch-sprint">Fin</button>
+  <button class="touch-btn" id="touch-interact">E</button>
+  <button class="touch-btn" id="touch-view">View</button>
+  <button class="touch-btn" id="touch-map">Map</button>
+</div>
+
+<div class="screen" id="scr-menu">
+  <div class="card">
+    <p class="eyebrow">The Deep</p>
+    <h1 class="logo">The Deep</h1>
+    <div class="stripe"></div>
+    <p class="lead">A dive game under the bay: swim or pilot an ROV over a large seabed, from the pier pilings out to the seamount. A buddy on a line, an ascent line to the surface at every site, daylight that falls away as you go down, and a reserve you watch rather than count. Every job board is a real dive or restoration station; finish one and the career ledger fills.</p>
+    <div class="row">
+      <button class="btn primary" id="menu-start">Splash in</button>
+    </div>
+    <p class="note"><b>Controls</b> — Keyboard: <span class="kbd">W</span><span class="kbd">A</span><span class="kbd">S</span><span class="kbd">D</span> or the arrows to fin, <span class="kbd">Space</span> to rise, <span class="kbd">C</span> to sink, <span class="kbd">Shift</span> to fin hard, <span class="kbd">E</span> to open a job board or look at a lantern, <span class="kbd">R</span> to launch or recover the ROV at a site, <span class="kbd">U</span> to take the nearest ascent line, <span class="kbd">V</span> for the camera, <span class="kbd">M</span> for the map. Touch: the on-screen stick and buttons. Gamepad: the left stick fins.</p>
+    <p class="note">Depth, gas, decompression and current limits are never stated here: they are per the dive plan and the tables the supervisor holds. Every zone, landmark and site is original to this platform, and no species, owner or organisation is named.</p>
+  </div>
+</div>
+
+<div class="screen" id="scr-jobboard" hidden>
+  <div class="card">
+    <p class="eyebrow">Job board</p>
+    <h2 id="jb-title">Site</h2>
+    <p id="jb-zone"></p>
+    <p id="jb-progress"></p>
+    <p id="jb-programmes"></p>
+    <div class="row" style="margin-top:14px">
+      <button class="btn primary" id="jb-launch">Start the station</button>
+      <button class="btn ghost" id="jb-close">Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="screen" id="scr-activities" hidden>
+  <div class="card">
+    <p class="eyebrow">Scored activities</p>
+    <h2>Activities</h2>
+    <p class="lead">Four runs scored on time, count or line held — never a wager. Start one and swim to its first marker.</p>
+    <div class="activity-list" id="activity-list"></div>
+    <div class="row" style="margin-top:14px"><button class="btn ghost" id="activities-close">Close</button></div>
+  </div>
+</div>
+
+<div class="screen" id="scr-map" hidden>
+  <div class="card" style="width:min(1100px,100%)">
+    <p class="eyebrow">The Deep</p>
+    <h2>Dive map</h2>
+    <p class="lead">Every site's ascent line opens for fast travel once you have finished a station or a dive there. <a href="../bayworld/index.html" style="color:var(--accent)">Bay World</a> is the city above this water.</p>
+    <div class="map-layout">
+      <canvas id="map-canvas" width="512" height="512"></canvas>
+      <div id="map-sites"></div>
+    </div>
+    <div class="row" style="margin-top:14px"><button class="btn ghost" id="map-close">Close (M)</button></div>
+  </div>
+</div>
+
+<script type="module" src="./js/app.js"></script>
+</body>
+</html>

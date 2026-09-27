@@ -415,6 +415,48 @@ APPS = {
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
     },
+    # The Deep (WebXR/underwater): the dive game under the bay, whose job
+    # boards launch the platform's real dive and restoration stations by deep
+    # link. The shared seabed (WebXR/shared/underwater-data.js + underwater.js,
+    # team DEEP1) has landed; js/seabed.js and js/world.js adapt it (see each
+    # file's header). js/seabed-stub.js and js/seabed-stub-scene.js are the
+    # pre-integration snapshots this app shipped against before that — kept in
+    # the tree but no longer bundled, the same way bayworld/js/world-stub.js
+    # stays after city.js switched to the real map.
+    "underwater": {
+        "index": "underwater.html",
+        "out": "underwater.html",
+        "modules": [
+            SHARED / "input.js",
+            SHARED / "records.js",
+            SHARED / "a11y.js",
+            SHARED / "game.js",
+            SHARED / "competency.js",
+            SHARED / "ladder-milestones-data.js",
+            SHARED / "ladder.js",
+            SHARED / "tracking.js",
+            SHARED / "kit.js",
+            SHARED / "textures.js",
+            SHARED / "perf.js",
+            SHARED / "fleet.js",
+            SHARED / "props.js",
+            WEBXR / "smartcity/js/citykit.js",
+            SHARED / "underwater-data.js",
+            SHARED / "underwater.js",
+            WEBXR / "underwater/js/seabed.js",
+            WEBXR / "underwater/js/dives-data.js",
+            WEBXR / "underwater/js/dives.js",
+            WEBXR / "underwater/js/dives-select.js",
+            WEBXR / "underwater/js/dive-engine.js",
+            WEBXR / "underwater/js/dive-career.js",
+            WEBXR / "underwater/js/dive-sim.js",
+            WEBXR / "underwater/js/dive-map.js",
+            WEBXR / "underwater/js/activities.js",
+            WEBXR / "underwater/js/world.js",
+            WEBXR / "underwater/js/app.js",
+        ],
+        "entry": '<script type="module" src="./js/app.js"></script>',
+    },
     # The Bay Atlas (docs/mapbox.md): a second page in the Bay World folder
     # ("dir"/"index" below), DOM-only — no three.js — over the shared Bay
     # World data, bay-geo's fit and shared/mapbox.js. Mapbox GL itself is
@@ -661,6 +703,7 @@ DIST_PAGES = {
     "bayworld": "bayworld.html",
     "atlas": "atlas.html",
     "regatta": "regatta.html",
+    "underwater": "underwater.html",
 }
 DIST_SHARED = [
     "auth.js", "identity.js", "records.js", "radio-quiz.js", "radio-quiz-data.js",
@@ -686,6 +729,8 @@ def combined_fixup(html: str) -> str:
         index = APPS[app].get("index", "index.html")
         for q in LINK_QUOTES:
             html = html.replace(f'{q}../../{app}/index.html', f'{q}./{page}')
+        # An app whose source page is not index.html (The Deep's
+        # underwater.html) is linked by that name from its siblings.
             html = html.replace(f'{q}../../{app}/{index}', f'{q}./{page}')
             html = html.replace(f'{q}../../{app}/dist/{page}', f'{q}./{page}')
     for q in LINK_QUOTES:
