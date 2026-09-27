@@ -4588,6 +4588,90 @@ export const SIDE_QUESTS = [
       "xp": 250,
       "badge": "Postal & Mail Processing Crew — Capstone"
     }
+  },
+  {
+    "id": "bw-side-commercial-diving-and-scientific-scuba-opener",
+    "title": "Commercial Diving & Scientific Scuba — First Shift",
+    "giver": "the programme's training lead",
+    "site": "Commercial Diving & Scientific Scuba",
+    "kind": "side",
+    "tier": 1,
+    "requires": null,
+    "programmeId": "commercial-diving-and-scientific-scuba",
+    "role": "opener",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Commercial Diving & Scientific Scuba",
+        "text": "The training lead meets you at Commercial Diving & Scientific Scuba and points you to the first bench."
+      },
+      {
+        "type": "station",
+        "target": "cd-underwater-wet-welding-and-cutting",
+        "text": "The switch that makes the diver's rod live is on deck, so the tender learns to close it on the spoken call and nothing else, with the ground on the work and the leads walked before anyone breathes through a helmet."
+      },
+      {
+        "type": "station",
+        "target": "cd-pier-piling-inspection-and-wrap-repair",
+        "text": "A pile is read by hand before the camera and the gauge, its findings said to the surface log as they are found, and a wrap fitted to the owner's form rather than to how it looks in green water."
+      },
+      {
+        "type": "station",
+        "target": "cd-rov-launch-recovery-and-tether-management",
+        "text": "A vehicle on a dive site is tended like a diver — the tether flaked, paid out in step and braked on a snag — and it never crosses to the diver's side of the boat without the supervisor's word."
+      },
+      {
+        "type": "talk",
+        "target": "training-lead",
+        "text": "\"Eight jobs of the commercial dive crew and the scientific scuba pair, weighted to the surface side that keeps the diver alive: the welding tender at the knife switch, the diver reading a pile by hand and fitting its wrap, the ROV tender's tether, the chamber attendant and the post-dive watch, the scientific pair's buddy check and lost-buddy drill, a night search on a guideline, an intake locked out before a hydraulic tool goes down, and the paper that closes the day honestly. No depth, gas, decompression or time figure is ever stated; those live in the dive plan and the tables the supervisor holds.\""
+      }
+    ],
+    "reward": {
+      "xp": 100,
+      "badge": "Commercial Diving & Scientific Scuba — Opener"
+    }
+  },
+  {
+    "id": "bw-side-commercial-diving-and-scientific-scuba-capstone",
+    "title": "Commercial Diving & Scientific Scuba — Capstone",
+    "giver": "the programme's certifying evaluator",
+    "site": "Commercial Diving & Scientific Scuba",
+    "kind": "side",
+    "tier": 2,
+    "requires": "bw-side-commercial-diving-and-scientific-scuba-opener",
+    "programmeId": "commercial-diving-and-scientific-scuba",
+    "role": "capstone",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Commercial Diving & Scientific Scuba",
+        "text": "The certifying evaluator is waiting at the last bench, sign-off sheet in hand."
+      },
+      {
+        "type": "station",
+        "target": "cd-low-visibility-and-night-dive-line-work",
+        "text": "In black water the guideline is the way home and the light is the voice, so tie-offs go on in order, a hand stays on the line through a silt-out, and a failed primary light is the abort the plan already wrote."
+      },
+      {
+        "type": "station",
+        "target": "cd-hydraulic-tools-and-suction-hazards-underwater",
+        "text": "Nothing goes near an intake grate until the pump is locked, tried and proven slack by a streamer, and the lock stays on against the plant until the supervisor has counted every diver out of the water."
+      },
+      {
+        "type": "station",
+        "target": "cd-dive-records-and-incident-review",
+        "text": "The record is written from the slate and never from memory, released whole or not at all, and the debrief names a condition as the cause so the corrective action changes the procedure and not the diver."
+      },
+      {
+        "type": "talk",
+        "target": "certifying-evaluator",
+        "text": "\"Certified under: Programme completion record; the dive credentials it rehearses are issued only by their own bodies — OSHA 29 CFR 1910 Subpart T commercial diving operations (29 CFR 1910.421 through 1910.425, 1910.430 and 1910.440), the ADCI consensus standards, AWS D3.6 for the wet weld, USCG 46 CFR 197 Subpart B from a vessel, 29 CFR 1910.424 and the programme's diving safety manual for the scientific scuba; every depth, gas, decompression, current and time limit lives in the dive plan and the tables the supervisor holds\""
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": "Commercial Diving & Scientific Scuba — Capstone"
+    }
   }
 ];
 

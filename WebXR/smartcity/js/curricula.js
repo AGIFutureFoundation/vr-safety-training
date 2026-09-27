@@ -1249,6 +1249,25 @@ export const CURRICULA = [
       { app: "smartcity", id: "ml-parcel-sorter-conveyor-jam-and-loto", why: "A defeated light curtain, a cardboard guard patch and a coworker's own loose drawstring all caught before any of them becomes the reason a hand meets a moving belt." },
     ],
   },
+  {
+    id: "commercial-diving-and-scientific-scuba",
+    name: "Commercial Diving & Scientific Scuba",
+    union: "Pile Drivers of the Carpenters (UBC) and LIUNA as training bodies; the scientific diving community's own diving safety manuals for the scuba work",
+    certification: "Programme completion record; the dive credentials it rehearses are issued only by their own bodies — OSHA 29 CFR 1910 Subpart T commercial diving operations (29 CFR 1910.421 through 1910.425, 1910.430 and 1910.440), the ADCI consensus standards, AWS D3.6 for the wet weld, USCG 46 CFR 197 Subpart B from a vessel, 29 CFR 1910.424 and the programme's diving safety manual for the scientific scuba; every depth, gas, decompression, current and time limit lives in the dive plan and the tables the supervisor holds",
+    guides: ["carpenters-ictf", "liuna-training-fund", "osha-1910-subpart-t", "osha-1910-424", "osha-1910-430", "osha-1910-440", "adci-consensus-standards", "aws-d3-6", "uscg-46-cfr-197-subpart-b"],
+    summary: "Eight jobs of the commercial dive crew and the scientific scuba pair, weighted to the surface side that keeps the diver alive: the welding tender at the knife switch, the diver reading a pile by hand and fitting its wrap, the ROV tender's tether, the chamber attendant and the post-dive watch, the scientific pair's buddy check and lost-buddy drill, a night search on a guideline, an intake locked out before a hydraulic tool goes down, and the paper that closes the day honestly. No depth, gas, decompression or time figure is ever stated; those live in the dive plan and the tables the supervisor holds.",
+    accent: "#1f6f8b",
+    stations: [
+      { app: "smartcity", id: "cd-underwater-wet-welding-and-cutting", why: "The switch that makes the diver's rod live is on deck, so the tender learns to close it on the spoken call and nothing else, with the ground on the work and the leads walked before anyone breathes through a helmet." },
+      { app: "smartcity", id: "cd-pier-piling-inspection-and-wrap-repair", why: "A pile is read by hand before the camera and the gauge, its findings said to the surface log as they are found, and a wrap fitted to the owner's form rather than to how it looks in green water." },
+      { app: "smartcity", id: "cd-rov-launch-recovery-and-tether-management", why: "A vehicle on a dive site is tended like a diver — the tether flaked, paid out in step and braked on a snag — and it never crosses to the diver's side of the boat without the supervisor's word." },
+      { app: "smartcity", id: "cd-decompression-chamber-operations-and-post-dive", why: "The chamber is checked before it is needed and the surfaced diver is watched rather than asked, so a rubbed shoulder is reported to the supervisor at once and the attendant goes in with a lock that works one door at a time." },
+      { app: "smartcity", id: "cd-scientific-scuba-buddy-check-and-lost-buddy-drill", why: "The buddy check runs in the same order every dive and the lost-buddy drill is worked exactly as the plan wrote it — look for its time, ascend on the line, meet at the surface — so two divers never search each other apart." },
+      { app: "smartcity", id: "cd-low-visibility-and-night-dive-line-work", why: "In black water the guideline is the way home and the light is the voice, so tie-offs go on in order, a hand stays on the line through a silt-out, and a failed primary light is the abort the plan already wrote." },
+      { app: "smartcity", id: "cd-hydraulic-tools-and-suction-hazards-underwater", why: "Nothing goes near an intake grate until the pump is locked, tried and proven slack by a streamer, and the lock stays on against the plant until the supervisor has counted every diver out of the water." },
+      { app: "smartcity", id: "cd-dive-records-and-incident-review", why: "The record is written from the slate and never from memory, released whole or not at all, and the debrief names a condition as the cause so the corrective action changes the procedure and not the diver." },
+    ],
+  },
 ];
 
 /**

@@ -260,5 +260,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "postal-and-mail-processing",
     "name": "Postal & Mail Processing Crew",
     "accent": "#2f6fb0"
+  },
+  {
+    "programme": "commercial-diving-and-scientific-scuba",
+    "name": "Commercial Diving & Scientific Scuba",
+    "accent": "#1f6f8b"
   }
 ];
