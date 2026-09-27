@@ -353,13 +353,14 @@ APPS = {
     },
     # Bay World (WebXR/bayworld): a free-roam open-world city app whose
     # missions are the platform's own real training stations, launched by
-    # deep link. world-stub.js stands in for the real city (WebXR/shared/
-    # bayworld-data.js + bayworld.js, team BAY1) until those land, and
-    # quests-sample.js stands in for the real quest board (WebXR/bayworld/js/
-    # quests.js, team BAY3) — see city.js's and quests-select.js's own
-    # headers for the one-line swaps, which move world-stub.js and
-    # quests-sample.js out of this list and the real modules in, in their
-    # place.
+    # deep link. The shared map (WebXR/shared/bayworld-data.js + bayworld.js,
+    # team BAY1) and the quest layer (WebXR/bayworld/js/quests-data.js +
+    # quests.js, team BAY3) have both landed; city.js and quests-select.js
+    # adapt their shapes for this app's own engine (see each file's own
+    # header). js/world-stub.js and js/quests-sample.js are the pre-
+    # integration snapshots this app shipped against before that — kept in
+    # the tree but no longer bundled, the same way fairway/js/course-stub.js
+    # stays after fairway/js/course.js switched to the real course.
     "bayworld": {
         "out": "bayworld.html",
         "modules": [
@@ -369,6 +370,8 @@ APPS = {
             SHARED / "textures.js",
             SHARED / "perf.js",
             SHARED / "fleet.js",
+            SHARED / "props.js",
+            WEBXR / "smartcity/js/citykit.js",
             SHARED / "records.js",
             SHARED / "a11y.js",
             SHARED / "game.js",
@@ -378,9 +381,11 @@ APPS = {
             SHARED / "tracking.js",
             SHARED / "radio-quiz-data.js",
             SHARED / "radio-quiz.js",
-            WEBXR / "bayworld/js/world-stub.js",
+            SHARED / "bayworld-data.js",
+            SHARED / "bayworld.js",
             WEBXR / "bayworld/js/city.js",
-            WEBXR / "bayworld/js/quests-sample.js",
+            WEBXR / "bayworld/js/quests-data.js",
+            WEBXR / "bayworld/js/quests.js",
             WEBXR / "bayworld/js/quests-select.js",
             WEBXR / "bayworld/js/quest-engine.js",
             WEBXR / "bayworld/js/career.js",

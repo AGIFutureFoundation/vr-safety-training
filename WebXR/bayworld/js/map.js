@@ -1,7 +1,7 @@
 // Bay World — the minimap and full map's own geometry and roster, kept
 // separate from the canvas drawing (world.js/app.js) so the coordinate
 // transform and "every site, once" rule are checkable with no DOM.
-import { BAY_BOUNDS, BAY_ZONES, BAY_LANDMARKS, BAY_ROADS, BAY_SITES } from "./city.js";
+import { BAY_BOUNDS, BAY_ROADS, BW_ZONES, BW_LANDMARKS, BW_SITES } from "./city.js";
 import { bwIsSiteVisited, bwIsFastTravelUnlocked } from "./career.js";
 
 /** World (x, z) to a `size`-pixel square canvas, y-down, with `pad` pixels of
@@ -18,8 +18,8 @@ export function bwWorldToMap(x, z, size = 512, pad = 18) {
 /** Every road as an array of map-space point lists, ready to stroke. */
 export function bwMapRoads(size = 512) {
   return BAY_ROADS.map((road) => {
-    const pts = (road.loop ? [...road.points, road.points[0]] : road.points).map(([x, z]) => bwWorldToMap(x, z, size));
-    return { id: road.id, traffic: !!road.traffic, points: pts };
+    const pts = road.points.map(([x, z]) => bwWorldToMap(x, z, size));
+    return { id: road.id, lanes: road.lanes, points: pts };
   });
 }
 
@@ -27,12 +27,12 @@ export function bwMapRoads(size = 512) {
  *  same factor the world-to-map transform uses in x). */
 export function bwMapZones(size = 512) {
   const scale = (size - 36) / (BAY_BOUNDS.maxX - BAY_BOUNDS.minX);
-  return BAY_ZONES.map((z) => ({ id: z.id, name: z.name, color: z.color, ...bwWorldToMap(z.center[0], z.center[1], size), radius: z.radius * scale }));
+  return BW_ZONES.map((z) => ({ id: z.id, name: z.name, color: z.color, ...bwWorldToMap(z.center[0], z.center[1], size), radius: z.radius * scale }));
 }
 
 /** Every landmark, positioned. */
 export function bwMapLandmarks(size = 512) {
-  return BAY_LANDMARKS.map((l) => ({ id: l.id, name: l.name, ...bwWorldToMap(l.position[0], l.position[2], size) }));
+  return BW_LANDMARKS.map((l) => ({ id: l.id, name: l.name, ...bwWorldToMap(l.position[0], l.position[2], size) }));
 }
 
 /**
@@ -42,7 +42,7 @@ export function bwMapLandmarks(size = 512) {
  * handle.
  */
 export function bwMapSites(size = 512, storage) {
-  return BAY_SITES.map((s) => ({
+  return BW_SITES.map((s) => ({
     id: s.id, name: s.name, zone: s.zone,
     ...bwWorldToMap(s.position[0], s.position[2], size),
     visited: bwIsSiteVisited(s.id, storage),

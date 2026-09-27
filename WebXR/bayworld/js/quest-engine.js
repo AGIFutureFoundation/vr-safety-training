@@ -104,14 +104,20 @@ export function questState(storage) {
   });
 }
 
-function bwPointOf(target, places) {
+/** `fallback` is a quest's own `.anchor` — a plain [x, z] a quest adapter
+ *  (bayworld/js/quests-select.js) can set when a step's own target names no
+ *  place at all (an NPC, a radio, a found-object id like an egg's own
+ *  "bw-egg-…" id): the step still has to happen SOMEWHERE, and that
+ *  somewhere is wherever the quest itself is sited. */
+function bwPointOf(target, places, fallback = null) {
   if (Array.isArray(target)) return target;
   const hit = places?.find((p) => p.id === target);
-  return hit ? (hit.position ? [hit.position[0], hit.position[2]] : hit.center) : null;
+  if (hit) return hit.position ? [hit.position[0], hit.position[2]] : hit.center;
+  return fallback;
 }
 
-function bwNear(player, target, places, radius) {
-  const p = bwPointOf(target, places);
+function bwNear(player, target, places, radius, fallback) {
+  const p = bwPointOf(target, places, fallback);
   if (!p || !player) return false;
   return Math.hypot(player.x - p[0], player.z - p[1]) <= radius;
 }
@@ -121,7 +127,7 @@ function bwFireDone(quest, entry) { for (const cb of bwDoneListeners) cb({ quest
 
 /**
  * Advances every active, non-"station" step against one world snapshot:
- * `{ player: { x, z }, places: [...BAY_SITES, ...BAY_LANDMARKS], interact,
+ * `{ player: { x, z }, places: [...BW_SITES, ...BW_LANDMARKS], interact,
  * inVehicle, speed }`. Returns the ids of quests that completed a step this
  * call (a quest can only ever complete one step per call, in step order).
  */
@@ -134,9 +140,9 @@ export function bwAdvanceQuests(snapshot, { storage } = {}) {
     const step = quest.steps[entry.stepIndex];
     if (!step || step.type === "station") continue; // station steps only move via bwNoteStationReturn
     let hit = false;
-    if (step.type === "goto") hit = bwNear(snapshot.player, step.target, snapshot.places, BW_GOTO_RADIUS);
-    else if (step.type === "find" || step.type === "talk") hit = !!snapshot.interact && bwNear(snapshot.player, step.target, snapshot.places, BW_GOTO_RADIUS);
-    else if (step.type === "drive") hit = !!snapshot.inVehicle && (snapshot.speed ?? 0) >= BW_DRIVE_MIN_SPEED && bwNear(snapshot.player, step.target, snapshot.places, BW_GOTO_RADIUS * 1.5);
+    if (step.type === "goto") hit = bwNear(snapshot.player, step.target, snapshot.places, BW_GOTO_RADIUS, quest.anchor);
+    else if (step.type === "find" || step.type === "talk") hit = !!snapshot.interact && bwNear(snapshot.player, step.target, snapshot.places, BW_GOTO_RADIUS, quest.anchor);
+    else if (step.type === "drive") hit = !!snapshot.inVehicle && (snapshot.speed ?? 0) >= BW_DRIVE_MIN_SPEED && bwNear(snapshot.player, step.target, snapshot.places, BW_GOTO_RADIUS * 1.5, quest.anchor);
     if (!hit) continue;
     bwStepComplete(state, quest, entry);
     advanced.push(quest.id);

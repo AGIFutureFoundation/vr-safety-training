@@ -1,9 +1,16 @@
-// Bay World — the three.js scene: the city (city.js's buildBayWorld), the
-// fleet (shared/fleet.js), pedestrians, weather (shared/weather.js) and the
-// two cameras (third-person chase, first-person). Everything that touches
-// three.js lives here and in app.js; sim.js, career.js, quest-engine.js and
-// map.js never import three.js, so they all run headless.
-import { buildBayWorld, bayLighting, BAY_SITES, BAY_LANDMARKS } from "./city.js";
+// Bay World — the three.js scene: the city (BAY1's own shared/bayworld.js),
+// the fleet (shared/fleet.js), pedestrians, weather (shared/weather.js) and
+// the two cameras (third-person chase, first-person). Everything that
+// touches three.js lives here and in app.js; sim.js, career.js,
+// quest-engine.js and map.js never import three.js, so they all run
+// headless.
+//
+// buildBayWorld()/bayLighting() are imported straight from
+// ../../shared/bayworld.js, never through city.js — the same way fairway/js/
+// world.js imports buildFairwayPark straight from shared/fairway.js: a
+// module that touches three.js never belongs on city.js's pure side.
+import { buildBayWorld, bayLighting } from "../../shared/bayworld.js";
+import { BW_SITES } from "./city.js";
 import { sedan, pickup, boxTruck, semiTractor } from "../../shared/fleet.js";
 import { buildWeather, weatherFor } from "../../shared/weather.js";
 import { BW_VEHICLES } from "./sim.js";
@@ -47,18 +54,41 @@ function bwSignBoard(THREE, text) {
   return mesh;
 }
 
+// BAY1's own bayLighting(time) takes one of three named buckets ("night" |
+// "dusk" | "day") and returns a { sky, fog, hemi:[sky,ground], hemiI, key:
+// [color,intensity], mast } recipe — the same table every district and
+// station already reads from smartcity/js/stage.js's own copy of it. This
+// app's day clock is a continuous hour (sim.js's bwAdvanceClock()), so
+// bwHourBucket() below is the one place that turns a continuous hour into
+// the discrete bucket bayLighting() understands.
+export function bwHourBucket(hours) {
+  const h = ((hours % 24) + 24) % 24;
+  if (h >= 6 && h < 18) return "day";
+  if ((h >= 18 && h < 20) || (h >= 5 && h < 6)) return "dusk";
+  return "night";
+}
+
 /**
  * Builds the whole scene into `root` (a THREE.Group already in the app's own
- * scene). `opts.THREE` is the three.js module the app already loaded.
- * Returns handles the render loop and the HUD both read from every frame.
+ * scene). `THREE` is the three.js module the app already loaded (BAY1's
+ * buildBayWorld() imports its own copy from the same CDN URL, so this never
+ * has to pass it through). Returns handles the render loop and the HUD both
+ * read from every frame.
  */
 export function bwBuildWorld(root, THREE, opts = {}) {
-  const city = buildBayWorld(root, { THREE, detail: opts.detail ?? "high" });
+  const city = buildBayWorld(root, { detail: opts.detail ?? "high", zone: opts.zone, time: "day" });
 
-  const hemi = new THREE.HemisphereLight(0xdcefff, 0x1c2a14, 1.0);
-  const sun = new THREE.DirectionalLight(0xfff3d6, 1.0);
-  sun.castShadow = false; // a city this size skips shadow maps for frame time, not realism
-  root.add(hemi, sun);
+  // BAY1's own buildBayWorld() already added a HemisphereLight and a
+  // DirectionalLight straight into `root` (bayLighting("day")'s own recipe);
+  // this app drives THOSE SAME lights for its continuous day/night cycle
+  // (bwApplyLighting() below) rather than adding a second pair on top of
+  // them, so mergeStatic()-ing the rest of the city never leaves the scene
+  // double-lit.
+  let hemi = null, sun = null;
+  root.traverse((o) => {
+    if (o.isHemisphereLight && !hemi) hemi = o;
+    if (o.isDirectionalLight && !sun) sun = o;
+  });
 
   const player = bwPersonFigure(THREE);
   root.add(player);
@@ -75,8 +105,10 @@ export function bwBuildWorld(root, THREE, opts = {}) {
     vehicles[v.id] = mesh;
   });
 
-  // Site signs and landmark labels, drawn once.
-  for (const site of BAY_SITES) {
+  // Site signs, drawn once. Bay World's own map now carries 37 of these
+  // (BAY1's BW_SITES), spread across a 1600x1100 m world, so a sign is a
+  // single cheap unmerged plane rather than anything heavier.
+  for (const site of BW_SITES) {
     const sign = bwSignBoard(THREE, site.name);
     sign.position.set(site.position[0], 4.1, site.position[2]);
     root.add(sign);
@@ -118,21 +150,20 @@ export function bwBuildWorld(root, THREE, opts = {}) {
     return weather;
   }
 
-  /** Applies bayLighting(time)'s table to the lights, the scene's fog/sky and
-   *  every parked vehicle and lamp's own headlight/glow state. */
-  function bwApplyLighting(scene, time) {
-    const L = bayLighting(time);
-    hemi.intensity = L.ambient.intensity;
-    hemi.color?.setHex?.(L.ambient.color);
-    sun.intensity = L.sun.intensity;
-    sun.color?.setHex?.(L.sun.color);
-    sun.position.set(...L.sun.position);
+  /** Applies bayLighting(bucket)'s recipe (see bwHourBucket()) to the same
+   *  hemi/sun lights BAY1's own buildBayWorld() built, plus the scene's
+   *  fog/sky. Returns the bucket and a couple of plain flags the HUD reads. */
+  function bwApplyLighting(scene, hours) {
+    const bucket = bwHourBucket(hours);
+    const L = bayLighting(bucket);
+    if (hemi) { hemi.color?.setHex?.(L.hemi[0]); hemi.groundColor?.setHex?.(L.hemi[1]); hemi.intensity = L.hemiI; }
+    if (sun) { sun.color?.setHex?.(L.key[0]); sun.intensity = L.key[1]; }
     if (scene) {
-      if (!scene.fog && THREE.FogExp2) scene.fog = new THREE.FogExp2(L.fog.color, L.fog.density);
-      if (scene.fog) { scene.fog.color?.setHex?.(L.fog.color); if ("density" in scene.fog) scene.fog.density = L.fog.density; }
-      scene.background?.setHex?.(L.sky.top);
+      if (!scene.fog && THREE.FogExp2) scene.fog = new THREE.FogExp2(L.fog, 0.006);
+      if (scene.fog) scene.fog.color?.setHex?.(L.fog);
+      scene.background?.setHex?.(L.sky);
     }
-    return L;
+    return { bucket, isNight: bucket === "night", streetlightsOn: bucket !== "day", mast: L.mast };
   }
 
   /** Third-person chase (mode "chase") or first-person (mode "first") camera,

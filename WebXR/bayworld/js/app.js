@@ -2,11 +2,11 @@ import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/
 import { createGamepad, GAMEPAD_DEADZONE, detectPadVendor, driveInputFrom, DRIVE_KEYS, driveActionForKey } from "../../shared/input.js";
 import { TrainingRecords } from "../../shared/records.js";
 import { buildQuiz, recordRadioScore, bestRadioScore } from "../../shared/radio-quiz.js";
-import { BAY_SITES, BAY_LANDMARKS, BAY_ZONES } from "./city.js";
+import { BW_SITES, BW_LANDMARKS, BW_ZONES } from "./city.js";
 import {
   BW_VEHICLES, BW_SPEED_CAP, bwStepPlayer, bwStepVehicle, bwVehicleParams, bwMissionLink,
   bwSpawnTraffic, bwStepTraffic, bwCreatePedestrian, bwStepPedestrian,
-  bwAdvanceClock, bwWeatherFor, bwNearestPlace, bayZoneAt,
+  bwAdvanceClock, bwWeatherFor, bwNearestPlace, bwZoneAt,
 } from "./sim.js";
 import {
   bwCareerState, bwAwardMission, bwAwardQuestReward, bwCollectMissionReturns, bwSiteProgress,
@@ -26,14 +26,14 @@ import { bwBuildWorld } from "./world.js";
 
 const $ = (id) => document.getElementById(id);
 const bwStore = (() => { try { return window.localStorage; } catch { return null; } })();
-const PLACES = [...BAY_SITES, ...BAY_LANDMARKS];
+const PLACES = [...BW_SITES, ...BW_LANDMARKS];
 
 const bwApp = {
   screen: "menu",
   scene: null, camera: null, renderer: null, world: null,
   mode: "foot",              // "foot" | "vehicle"
   cameraMode: "chase",       // "chase" | "first"
-  player: { x: -60, z: -30, heading: 0, speed: 0 },
+  player: { x: -40, z: -50, heading: 0, speed: 0 }, // beside the downtown motor pool (world.js's BW_DEPOT)
   vehicleId: null,
   vehicleState: null,
   hours: 9,                  // the day clock, 0-24
@@ -170,17 +170,23 @@ function bwTryEnterExit() {
 function bwOpenJobBoard(site) {
   bwApp.lastMissionSite = site;
   $("jb-title").textContent = site.name;
-  $("jb-zone").textContent = BAY_ZONES.find((z) => z.id === site.zone)?.name ?? site.zone;
+  $("jb-zone").textContent = BW_ZONES.find((z) => z.id === site.zone)?.name ?? site.zone;
   const progress = bwSiteProgress(TrainingRecords.list(), site);
   $("jb-progress").textContent = progress.attempts
     ? `${progress.attempts} attempt${progress.attempts === 1 ? "" : "s"} · last run ${progress.lastStation ?? "—"}${progress.badgesEarned.length ? ` · badges: ${progress.badgesEarned.join(", ")}` : ""}`
     : "No attempts yet at this site.";
-  $("jb-programmes").textContent = `Programme: ${(site.programmes ?? []).join(", ")}`;
+  $("jb-programmes").textContent = (site.programmes ?? []).length
+    ? `Programme: ${site.programmes.join(", ")}`
+    : "No training programme posted here yet.";
+  // Some of BAY1's sites (a lighting shed, a fire watch, a maintenance yard)
+  // carry no station at all — a real place on the map with nothing to launch
+  // yet, rather than an invented one just to fill the button.
+  $("jb-launch")?.toggleAttribute("hidden", !(site.stations ?? []).length);
   bwOpenScreen("jobboard");
 }
 $("jb-launch")?.addEventListener("click", () => {
   const site = bwApp.lastMissionSite;
-  if (!site) return;
+  if (!site || !(site.stations ?? []).length) return;
   const link = bwMissionLink(site);
   bwToast(`Launching ${site.name}…`);
   window.location.href = link;
@@ -190,7 +196,7 @@ $("jb-close")?.addEventListener("click", () => bwOpenScreen("game"));
 // ------------------------------------------------------------- mission return
 
 function bwCheckMissionReturns() {
-  const results = bwCollectMissionReturns(TrainingRecords.list(), BAY_SITES, { storage: bwStore });
+  const results = bwCollectMissionReturns(TrainingRecords.list(), BW_SITES, { storage: bwStore });
   for (const r of results) {
     bwToast(`${r.site.name}: ${r.entry.passed ? "passed" : "logged"} — +${r.award.reputationGain} reputation, +${r.award.creditsGain} credits.`, 4200);
     // A quest's own "station" step may name either the site (what the job
@@ -342,7 +348,7 @@ function bwDrawFullMap() {
     listEl.appendChild(row);
   }
   listEl.querySelectorAll("[data-fast]").forEach((btn) => btn.addEventListener("click", () => {
-    const site = BAY_SITES.find((s) => s.id === btn.dataset.fast);
+    const site = BW_SITES.find((s) => s.id === btn.dataset.fast);
     if (!site) return;
     bwApp.player.x = site.position[0]; bwApp.player.z = site.position[2];
     bwToggleMap(false);
@@ -373,7 +379,9 @@ function bwSetup3D() {
 
   bwApp.traffic = bwSpawnTraffic(2);
   world.trafficMeshes = world.bwSpawnTrafficMeshes(bwApp.traffic.length);
-  bwApp.pedestrians = BAY_SITES.map((s, i) => bwCreatePedestrian(`ped-${i}`, s.position[0] + 6, s.position[2] + 6, 10));
+  // One pedestrian every third site is plenty of life across a 1600x1100 m
+  // world without spawning thirty-seven of them.
+  bwApp.pedestrians = BW_SITES.filter((_, i) => i % 3 === 0).map((s, i) => bwCreatePedestrian(`ped-${i}`, s.position[0] + 6, s.position[2] + 6, 10));
   world.pedestrianMeshes = world.bwSpawnPedestrianMeshes(bwApp.pedestrians.length);
 }
 
@@ -419,8 +427,8 @@ function bwStep(dt) {
   else playerMesh.visible = false;
   bwApp.world.placeCamera(bwApp.camera, bwApp.cameraMode, bwApp.player.x, 0, bwApp.player.z, bwApp.player.heading);
 
-  bwApp.nearSite = bwNearestPlace(bwApp.player.x, bwApp.player.z, BAY_SITES, 14);
-  bwApp.nearLandmark = bwNearestPlace(bwApp.player.x, bwApp.player.z, BAY_LANDMARKS, 16);
+  bwApp.nearSite = bwNearestPlace(bwApp.player.x, bwApp.player.z, BW_SITES, 14);
+  bwApp.nearLandmark = bwNearestPlace(bwApp.player.x, bwApp.player.z, BW_LANDMARKS, 16);
   bwApp.nearVehicle = null;
   if (bwApp.mode === "foot") {
     for (const v of BW_VEHICLES) {
@@ -448,7 +456,7 @@ function bwStep(dt) {
   bwApp.interactPressed = false;
 
   $("hud-clock").textContent = bwFormatClock(bwApp.hours);
-  $("hud-zone").textContent = BAY_ZONES.find((z) => z.id === bayZoneAt(bwApp.player.x, bwApp.player.z))?.name ?? "";
+  $("hud-zone").textContent = BW_ZONES.find((z) => z.id === bwZoneAt(bwApp.player.x, bwApp.player.z))?.name ?? "";
   $("hud-weather").textContent = bwApp.weather;
   if (!bwApp._mapTick || bwApp._mapTick > 6) { bwDrawMinimap(); bwApp._mapTick = 0; }
   bwApp._mapTick = (bwApp._mapTick ?? 0) + 1;

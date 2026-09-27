@@ -3,12 +3,7 @@
 // no DOM, so tools/check_bayworld_game.mjs drives every rule here headless at
 // any time step, the same way race/js/sim.js and fairway/js/golf.js do for
 // their own apps.
-import { BAY_BOUNDS, BAY_ROADS, bayZoneAt } from "./city.js";
-// bayBuildings()/bayJunctions() are stub-only conveniences, not part of
-// BAY1's own interface — see city.js's own note on why this file reaches
-// past the switch for them, the same way fairway/js/world.js reaches past
-// course.js for buildFairwayPark.
-import { bayBuildings, bayJunctions } from "./world-stub.js";
+import { BAY_BOUNDS, BAY_ROADS, bwZoneAt, bwBuildings, bwJunctions } from "./city.js";
 
 const bwClamp = (v, lo, hi) => (v < lo ? lo : v > hi ? hi : v);
 
@@ -66,7 +61,7 @@ export function bwVehicleParams(id) {
 // The city's own buildings, computed once at full detail regardless of what
 // is actually rendered — a vehicle collides with the same city no matter how
 // far off a distant zone is drawn.
-const BW_COLLISION_BUILDINGS = bayBuildings("high", null);
+const BW_COLLISION_BUILDINGS = bwBuildings("high", null);
 const BW_VEHICLE_HALF_WIDTH = 1.3;
 
 /** The building (if any) a circle of the given radius at (x, z) overlaps. */
@@ -125,8 +120,11 @@ export function bwMissionLink(site, { base = "../smartcity/index.html", station 
 
 // -------------------------------------------------------------------- traffic
 
-const BW_TRAFFIC_ROADS = BAY_ROADS.filter((r) => r.traffic);
-const BW_JUNCTIONS = bayJunctions().filter((j) => j.roads.some((id) => BW_TRAFFIC_ROADS.some((r) => r.id === id)));
+// BAY1's whole road network (a freeway spine, its arterial branches, the
+// waterfront boulevard and the hill switchback) — every one a real through
+// road, so every one carries ambient traffic; none of them loop.
+const BW_TRAFFIC_ROADS = BAY_ROADS;
+const BW_JUNCTIONS = bwJunctions();
 export const BW_JUNCTION_RADIUS = 7;
 export const BW_JUNCTION_PAUSE = 1.4; // seconds an ambient vehicle holds at a crossing
 
@@ -288,4 +286,4 @@ export function bwNearestPlace(x, z, places, radius = 14) {
   return best;
 }
 
-export { bayZoneAt };
+export { bwZoneAt };
