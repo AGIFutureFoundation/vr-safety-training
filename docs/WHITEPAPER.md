@@ -804,6 +804,35 @@ flight at that entry's own time of writing (warehouse automation and
 aviation ground), and the one partial ladder level (Section 4.3) is a
 known, quantified content gap rather than a defect.
 
+## The game
+
+Since this paper's roadmap was written, the open-world direction it named
+has landed in the tree and is described in its own companion paper,
+[`GAME-WHITEPAPER.md`](GAME-WHITEPAPER.md), with every figure sourced in
+`docs/game-whitepaper-facts.json`. The short version: the platform's
+stations now sit inside a free-roam training game. **Bay World**
+(`WebXR/bayworld/`, `WebXR/shared/bayworld-data.js`) is a stylised
+2400 × 1600 m shoreline city of 16 zones, 28 generic public landmarks, 50
+training sites and 15 roads, walked or driven under a day-night clock; every
+one of the catalog's programmes is anchored at a site, and every job board
+deep-links into a real station whose returned record — not the game — awards
+reputation and credits (`WebXR/bayworld/js/career.js`). **Fairway Park**
+(`WebXR/fairway/`, `WebXR/shared/fairway-data.js`) is a nine-hole, par-36
+course and sports facility with a headless golf engine, three mini-games and
+a twelve-station grounds-and-landscaping programme working on it. A generated
+quest layer (`tools/gen_bay_quests.mjs`) adds a seven-quest main arc over the
+Job Readiness Edition, an opener and a capstone side quest for every other
+programme, field-note eggs that quote a real station's own step verbatim,
+and five scored activities — no violence and no gambling anywhere in the
+world. The **Bay Atlas** (`docs/mapbox.md`) lists every site and landmark
+and, only when a viewer supplies their own token, draws a real-world map
+under them; the repository ships none. The game's rule is the platform's:
+nothing in it touches a station's steps, its score or the auditable record,
+and the mastery rule in `competency.js` is the only thing that earns a
+competency. The counts in this paragraph are the game paper's, computed on
+2026-09-27 from the tree at that paper's head commit; where they differ from
+the earlier tables above, the game paper is the later snapshot.
+
 ## 13. Governance, licensing and safety posture
 
 ### 13.1 No invented facts
