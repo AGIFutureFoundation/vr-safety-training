@@ -819,7 +819,10 @@ deep-links into a real station whose returned record — not the game — awards
 reputation and credits (`WebXR/bayworld/js/career.js`). **Fairway Park**
 (`WebXR/fairway/`, `WebXR/shared/fairway-data.js`) is a nine-hole, par-36
 course and sports facility with a headless golf engine, three mini-games and
-a twelve-station grounds-and-landscaping programme working on it. A generated
+a twelve-station grounds-and-landscaping programme working on it. The
+**Deep** (`WebXR/shared/underwater-data.js`) is a 2000 × 1400 m seabed of 14
+zones, 25 landmarks, 32 dive sites and 17 dive lines that states no depth or
+gas limit anywhere. A generated
 quest layer (`tools/gen_bay_quests.mjs`) adds a seven-quest main arc over the
 Job Readiness Edition, an opener and a capstone side quest for every other
 programme, field-note eggs that quote a real station's own step verbatim,
@@ -829,9 +832,8 @@ and, only when a viewer supplies their own token, draws a real-world map
 under them; the repository ships none. The game's rule is the platform's:
 nothing in it touches a station's steps, its score or the auditable record,
 and the mastery rule in `competency.js` is the only thing that earns a
-competency. The counts in this paragraph are the game paper's, computed on
-2026-09-27 from the tree at that paper's head commit; where they differ from
-the earlier tables above, the game paper is the later snapshot.
+competency. The counts here are the game paper's later snapshot; where they
+differ from the tables above, the game paper is current.
 
 ## 13. Governance, licensing and safety posture
 

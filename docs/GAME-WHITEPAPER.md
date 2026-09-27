@@ -1,8 +1,8 @@
 # The training game — Bay World, Fairway Park, the Deep and the Regatta as one free-roam game over a union-trade curriculum
 
 Prepared 2026-09-27 from the working tree of this repository after merging
-`origin/claude/vr-ar-safety-training-wkwmve` (head `8bfb0f6` at the time of
-the count; see `docs/game-whitepaper-facts.json` for every figure below with
+`origin/claude/vr-ar-safety-training-wkwmve` (branch head `c701b5f` at the
+time of the count, after the Deep and the Unity content bridge landed; see `docs/game-whitepaper-facts.json` for every figure below with
 the command or file that produced it). This paper is the companion to
 [`WHITEPAPER.md`](WHITEPAPER.md), which describes the platform as a whole; this
 one describes the *game* that has grown over the platform's stations — the
@@ -144,22 +144,44 @@ turf the grounds crew maintains, and the programme's twelve stations are
 anchored on the map at the Redwood Park Grounds Shop and the Island Airfield
 Park.
 
-### 2.3 The Deep and the Regatta — what is and is not in the tree
+### 2.3 The Deep
 
-The game brief names `WebXR/underwater/` with `underwater-data.js`, and
-`WebXR/regatta/`, each "if present". At head `8bfb0f6` neither directory nor
-the data module exists (`ls WebXR/ WebXR/shared/`); both are runs the
-coordinator's console opened at 18:20 and 18:34 UTC today and lists as open
-(Section 7). What the tree does hold of the Deep is the platform's existing
-underwater work: the `bay-underwater` scenic district (25 of 120 meshes,
-`check_districts.mjs`), the 35-station SF Bay Restoration & Cleanup —
-Maritime and Underwater programme and the 11-station Ports, Maritime and
-Ecology programme, both anchored at Bay World's shoreline sites (Section 4.3).
-What it holds of the Regatta is the yacht: the `motorYacht`, `yachtTender`
-and `marinaBerth` builders, the eight-station Yacht and Charter Crew
-programme, the Harbor Cruise activity and two marina field notes (Section
-4.2). This paper describes those, and describes nothing about a regatta or an
-underwater world that a later commit has not yet landed.
+`WebXR/shared/underwater-data.js` is the third world, "built to the same
+contract as Bay World so the same tools read both worlds" (`docs/underwater.md`):
+"a large stylised seabed — a shallow shelf off the shore, an eelgrass meadow,
+a kelp forest on rock, a shipping channel, a wreck hollow, pier pilings, an
+outfall apron, a tidal-marsh channel mouth, a deep trench and a seamount". Its
+facts rule adds one clause to Bay World's: "depth, gas, decompression and
+current limits are never stated", and `deepDepthAt()` "is a scenery and
+gameplay field … and must never show its number to a learner as a limit".
+
+| Measure | Value | Source |
+|---|---|---|
+| Field | 2000 × 1400 m, x:[−1000, 1000] z:[−700, 700]; the shore along z = −700 | `DEEP_BOUNDS` |
+| Depth field | 1–120 m below the surface, continuous; shelf shallow, channel deeper than the floor beside it, trench deepest, pinnacle rising | `DEEP_DEPTH_RANGE`; `node tools/check_underwater.mjs` |
+| Zones | **14**, from the pier pilings and the shallow shelf to the deep trench and the seamount | `DEEP_ZONES.length` |
+| Landmarks | **25** — the kelp cathedral, the wreck's bow and stern, the reef ball rows, the tide gauge post, the trench lip and floor cairn among them | `DEEP_LANDMARKS.length` |
+| Dive sites | **32**, anchoring **15** programmes and **76** distinct existing stations (`br-`, `mw-`, `uw-`, restoration and port ids) | `DEEP_SITES`; `new Set(programmes).size`, `new Set(stations).size` |
+| Dive lines | **17** in one connected network — 8 transects, 6 anchor lines, 2 guidelines, the channel centreline | `DEEP_LINES`, by `kind` |
+| Mesh budget | 100 low / 1400 high; measured 89 and 1053 | `DEEP_MESH_BUDGET`; `check_underwater.mjs` |
+| Lighting | three bands — shallow, mid, deep — murkier and darker with each, the caustic fading to nothing in the deep band | `deepLighting()`; `docs/underwater.md` |
+| District | `the-deep`, 89 of 120 meshes, the seventh scenic district | `node tools/check_districts.mjs` |
+
+Dive lines stand in for roads: the same `deepLineAt()` a game reads for a
+buddy line or a transect HUD is what the checker reads to prove the network
+is one piece. The checker also proves the negative the facts rule demands —
+"any limit figure — a depth, gas, decompression or current word next to a
+number with a unit — in either module" fails the build. The `cd-` and `me-`
+packs of `tools/briefs/dive-brief.md` are anchored as comments on the sites
+they will join; the dive game itself (`WebXR/underwater/`, team REEF) is not
+yet in the tree and is listed as open in Section 7.
+
+The **Regatta** (`WebXR/regatta/`) is likewise not in the tree at this head.
+What the tree holds of it is the yacht: the `motorYacht`, `yachtTender` and
+`marinaBerth` builders, the eight-station Yacht and Charter Crew programme,
+the Harbor Cruise activity and two marina field notes (Section 4.2). This
+paper describes those and nothing about a regatta a later commit has not yet
+landed.
 
 ### 2.4 The Bay Atlas and the Mapbox layer
 
@@ -183,11 +205,15 @@ insertion".
 ### 2.5 Sky, weather and wildlife
 
 The brief names `WebXR/shared/sky.js` and `wildlife.js` "if present"; neither
-exists at the head commit. What the worlds have today is the platform's
+exists at this head (`ls WebXR/shared/`), re-checked after the Deep and the
+Unity bridge merged. What the worlds have today is the platform's
 shared weather: `WebXR/shared/weather.js`'s 8 weather kinds, each carrying
-an operational note tied to the work (`WHITEPAPER.md` §8.1), and Bay World's
+an operational note tied to the work (`WHITEPAPER.md` §8.1), Bay World's
 own `bwWeatherFor()` and `bwAdvanceClock()` in `sim.js`, which pick a weather
-and turn the day. A skybox, live weather and a wildlife layer are the SKY
+and turn the day, and under water the Deep's three lighting bands
+(`deepLighting()`, Section 2.3). The Deep's builder animates its own
+life — "sways the kelp and the eelgrass, circles the fish schools and drifts
+the marine snow" (`docs/underwater.md`) — but names no species. A skybox, live weather and a wildlife layer are the SKY
 run the coordinator opened at 18:34 UTC (Section 7).
 
 ## 3. Gamification
@@ -363,14 +389,16 @@ fragments appears.
 The game is only as good as the stations behind its job boards, and those are
 measured two ways.
 
-**The gate.** `node tools/check_all.mjs` runs **51** checkers and its last
-line today reads "All 51 checkers pass." Eight of them are the game's own:
+**The gate.** `node tools/check_all.mjs` runs **53** checkers and its last
+line today reads "All 53 checkers pass." Nine of them are the game's own:
 `check_bayworld.mjs` (the map), `check_bayworld_game.mjs` (the app's rules),
 `check_bay_quests.mjs` (the quest layer), `check_mapbox.mjs` (the atlas and
-the token rule), `check_fairway.mjs` and `check_fairway_game.mjs` (the
-course and the golf engine), `check_race.mjs` and `check_arcade.mjs`; three
-more guard the eggs and the ladders (`check_eggs.mjs`, `check_eggs_app.mjs`,
-`check_ladders.mjs`). The rest are the platform's — parse, imports, budget,
+the token rule), `check_underwater.mjs` (the Deep and its no-limit-figure
+rule), `check_fairway.mjs` and `check_fairway_game.mjs` (the course and the
+golf engine), `check_race.mjs` and `check_arcade.mjs`; three more guard the
+eggs and the ladders (`check_eggs.mjs`, `check_eggs_app.mjs`,
+`check_ladders.mjs`), and `check_unity_export.mjs` holds the Unity bridge to
+the tree (Section 6). The rest are the platform's — parse, imports, budget,
 layout reachability, interruptions (**1214** across **607** procedures, 17
 armed on drive steps and answered from the cab), records, competency,
 standards, signage, devices, fleet, models, textures.
@@ -429,28 +457,51 @@ its own; the career ledger is a `localStorage` key
 (`bayworld-career-v1`), storage-injectable so the checker can run it with a
 plain object.
 
-The brief names `docs/unity.md` "if present". It is not in the tree at the
-head commit; the Unity content bridge (BRIDGE) is one of the Deep run's open
-items (Section 7). What exists of the Unity side is the prototype described
-in `README.md` and the Safety Campus page (`WebXR/campus/`) that carries its
-six-site curriculum on the WebXR engine.
+**The Unity bridge.** `docs/unity.md` landed with this merge: "the
+platform's content is authored once, in the WebXR modules.
+`tools/export_unity.mjs` exports it so a Unity project can run the same
+procedures with the same scoring, and commits the result under
+`exports/unity/SmartCitiX/` as a UPM package. Nothing in the export is
+written by hand". `node tools/check_unity_export.mjs` re-runs the content
+half and diffs; its line today reads "Unity export up to date: 614 stations,
+52 programmes, 3 worlds, 89/89 models (7.0 MB), 21.2 MB in all; no token or
+model name." The three worlds are `bayworld.json`, `fairway.json` and
+`underwater.json` — every exported constant of each pure data module — and a
+programme's export carries its anchors, "every Bay World site (and Deep site
+…) whose `programmes` names it", so the game's map reaches Unity with the
+stations. `Runtime/StationRunner.cs` mirrors `game.js`'s `Session` method for
+method with the same scoring constants and pass rule, and
+`Runtime/TrainingRecord.cs` writes "the record shape `WebXR/shared/records.js`
+writes — same fields, same CSV columns, same xAPI 1.0.3 statement, same
+`passed` rule — so a record from Unity reads in the web apps' instructor
+console and LRS export unchanged". What the bridge does not carry is stated
+as plainly: scenes, textures, gamification beyond names, licensed content,
+and the robot layer.
 
 ## 7. Roadmap — what the consoles list as open
 
-`docs/consoles/` holds two consoles at the head commit: `COORDINATOR.md` and
-this paper's own `SCRIBE.md`. The coordinator's entries name what is open:
+`docs/consoles/` holds four consoles at this head: `COORDINATOR.md`,
+`TRENCH.md` (the Deep's data and builder), `BRIDGE.md` (the Unity bridge) and
+this paper's own `SCRIBE.md`. The coordinator's entries record what has
+merged and what is open:
 
-- **The Deep run** (opened 18:20 UTC, 90 minutes): an underwater world
-  (TRENCH — data and builder; REEF — game and dives), the commercial diving
-  and scientific scuba pack (TENDER), the marine ecology pack (KELP) and the
-  Unity content bridge (BRIDGE). Its hand-backs are to be integrated through
-  the gated merge chain and republished.
-- **The Regatta run** (opened 18:34 UTC, 45 minutes, inside the Deep run):
-  the yacht fleet, hosted events and racing (REGATTA); skybox, live weather
-  and wildlife with a pier-fishing activity and Field Guide eggs (SKY); this
-  paper (SCRIBE); a promo of the game and the whitepaper update close the
-  run.
-- **Republish** once TRENCH lands (18:25 UTC entry).
+- **Merged today:** the Bay World expansion (17:49 UTC), the Bay Atlas
+  (18:04), the yacht pack (18:25), the Unity content bridge (18:50,
+  `96899f2`) and the Deep (18:53, `d710528`, "gate All 53 checkers pass").
+- **The Deep run** (opened 18:20 UTC): still open are the dive game with its
+  quests and field-note eggs (REEF, `WebXR/underwater/`, which "switches
+  from its seabed stub to `shared/underwater.js`"), the commercial diving and
+  scientific scuba pack (TENDER, `cd-`) and the marine ecology pack (KELP,
+  `me-`), which "add their programme and station ids to the `DEEP_SITES`
+  entries commented for them" (`TRENCH.md` hand-back).
+- **The Regatta run** (opened 18:34 UTC): the yacht fleet, hosted events and
+  racing (REGATTA); skybox, live weather and wildlife with a pier-fishing
+  activity and Field Guide eggs (SKY); a promo of the game and the
+  whitepaper update close the run.
+- **The bridge's own open item** (`BRIDGE.md`): a bare-colour material on
+  one fleet builder, repaired at export and filed as a task; the models step
+  needs a real three.js r160, now part of the merge chain's regenerate step.
+- **Republish** once the Deep's game lands (18:25 UTC entry).
 
 From `docs/STATUS.md`'s Bay World run, three smaller gaps are quantified
 rather than open-ended: the screen and media crafts pack shipped seven of its
@@ -464,7 +515,7 @@ could not find in the tree is described above as absent, not as coming.
 |---|---|---|
 | Procedures / SmartCiti.X stations / Trade Skills rooms | 614 / 605 / 9 | `WebXR/smartcity/catalog.json` |
 | Categories / programmes | 20 / 52 | same |
-| Checkers | 51, "All 51 checkers pass." | `node tools/check_all.mjs 2>&1 \| tail -1` |
+| Checkers | 53, "All 53 checkers pass." | `node tools/check_all.mjs 2>&1 \| tail -1` |
 | Corpus mean / at or above 95 | 96 / 496 of 614 | `node tools/eval_content.mjs --json` |
 | Standards entries / bodies / verified / unverified | 509 / 95 / 301 / 208 | `tools/standards.json` |
 | Unions in registry / named by programmes | 111 / 58 | `tools/unions.json`; `curricula.js` |
@@ -476,9 +527,12 @@ could not find in the tree is described above as absent, not as coming.
 | Quests: main / side / eggs / activities / registered | 7 / 102 / 26 / 5 / 135 | `WebXR/bayworld/js/quests.js` |
 | Stations cited by quests / landmarks cited | 324 / 25 | same |
 | Fairway holes / par / mini-games / grounds stations | 9 / 36 / 3 / 12 | `fairway-data.js`; `minigames.js`; `curricula.js` |
-| Scenic districts | 6 | `node tools/check_districts.mjs` |
+| Scenic districts | 7 | `node tools/check_districts.mjs` |
+| The Deep zones / landmarks / sites / lines | 14 / 25 / 32 / 17 | `WebXR/shared/underwater-data.js` |
+| The Deep field / depth / mesh budget | 2000 × 1400 m / 1–120 m / 100–1400 | same; `node tools/check_underwater.mjs` |
+| Unity export: stations / programmes / worlds / models / size | 614 / 52 / 3 / 89 / 21.2 MB | `node tools/check_unity_export.mjs` |
 | Atlas anchors / max residual / token shipped | 11 / 242 m / none | `node tools/check_mapbox.mjs` |
 | Interruptions / procedures carrying one | 1214 / 607 | `node tools/check_interrupts.mjs` |
 | Kit builders | 89 | `node tools/check_fleet.mjs` |
 | Device profiles / run profiles | 33 / 6 | `node tools/check_devices.mjs` |
-| Not in tree at head | `WebXR/regatta/`, `WebXR/underwater/`, `underwater-data.js`, `sky.js`, `wildlife.js`, `docs/unity.md` | `ls` |
+| Not in tree at head | `WebXR/regatta/`, `WebXR/underwater/`, `sky.js`, `wildlife.js` | `ls` |

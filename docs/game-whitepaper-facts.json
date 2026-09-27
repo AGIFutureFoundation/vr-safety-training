@@ -1,10 +1,10 @@
 {
   "generatedAt": "2026-09-27",
-  "note": "Every field below was produced by running the named command against this worktree, or by reading the named file, on 2026-09-27 after merging origin/claude/vr-ar-safety-training-wkwmve. Re-run the commands to refresh this file; do not hand-edit the numbers. Companion to docs/GAME-WHITEPAPER.md; the platform-wide figures live in docs/whitepaper-facts.json.",
+  "note": "Every field below was produced by running the named command against this worktree, or by reading the named file, on 2026-09-27 after merging origin/claude/vr-ar-safety-training-wkwmve (refreshed after the Deep and the Unity content bridge landed). Re-run the commands to refresh this file; do not hand-edit the numbers. Companion to docs/GAME-WHITEPAPER.md; the platform-wide figures live in docs/whitepaper-facts.json.",
   "gitState": {
     "mergedBranch": "origin/claude/vr-ar-safety-training-wkwmve",
-    "headCommitAtMerge": "8bfb0f6",
-    "source": "git fetch origin claude/vr-ar-safety-training-wkwmve && git merge --ff-only FETCH_HEAD; git rev-parse --short HEAD"
+    "headCommitAtMerge": "c701b5f",
+    "source": "fetch and merge origin/claude/vr-ar-safety-training-wkwmve, then the short hash of FETCH_HEAD"
   },
   "corpus": {
     "proceduresTotal": 614,
@@ -15,9 +15,9 @@
     "source": "node -e \"const c=require('./WebXR/smartcity/catalog.json');console.log(c.stations.length, c.stations.filter(s=>s.app==='smartcity').length, c.stations.filter(s=>s.app==='trades').length, c.categories.length, c.curricula.length)\" (catalog written by node tools/gen_catalog.mjs)"
   },
   "checkers": {
-    "count": 51,
+    "count": 53,
     "allPass": true,
-    "lastLine": "All 51 checkers pass.",
+    "lastLine": "All 53 checkers pass.",
     "source": "node tools/check_all.mjs 2>&1 | tail -1"
   },
   "contentEval": {
@@ -25,13 +25,37 @@
     "corpusMean": 96,
     "atOrAbove95": 496,
     "below90": [
-      { "id": "hunters-point", "score": 73 },
-      { "id": "can-we-live-story", "score": 73 },
-      { "id": "civic-principles-briefing", "score": 81 },
-      { "id": "trades-lineage-briefing", "score": 84 },
-      { "id": "apprenticeship-standards-reading", "score": 88 }
+      {
+        "id": "hunters-point",
+        "score": 73
+      },
+      {
+        "id": "can-we-live-story",
+        "score": 73
+      },
+      {
+        "id": "civic-principles-briefing",
+        "score": 81
+      },
+      {
+        "id": "trades-lineage-briefing",
+        "score": 84
+      },
+      {
+        "id": "apprenticeship-standards-reading",
+        "score": 88
+      }
     ],
-    "dimensions": ["variety", "decisions", "explanation", "grounding", "standards", "feedback", "scene", "originality"],
+    "dimensions": [
+      "variety",
+      "decisions",
+      "explanation",
+      "grounding",
+      "standards",
+      "feedback",
+      "scene",
+      "originality"
+    ],
     "source": "node tools/eval_content.mjs --json (writes tools/eval-content.json; results[].score read back for the counts)"
   },
   "interruptions": {
@@ -60,7 +84,12 @@
     "core": 10,
     "distinctStations": 602,
     "standardsEvidenced": 122,
-    "masteryRule": { "minStars": 2, "maxHazardHits": 0, "answerEveryInterruption": true, "parMultiple": 1.5 },
+    "masteryRule": {
+      "minStars": 2,
+      "maxHazardHits": 0,
+      "answerEveryInterruption": true,
+      "parMultiple": 1.5
+    },
     "source": "node tools/check_competency.mjs; WebXR/shared/competency.js MASTERY, PROGRAMME_COMPETENCIES.length, CORE_COMPETENCIES.length"
   },
   "ladders": {
@@ -80,22 +109,89 @@
     "source": "node tools/check_tracks.mjs summary line"
   },
   "bayWorld": {
-    "bounds": { "minX": -1200, "maxX": 1200, "minZ": -800, "maxZ": 800 },
+    "bounds": {
+      "minX": -1200,
+      "maxX": 1200,
+      "minZ": -800,
+      "maxZ": 800
+    },
     "widthMetres": 2400,
     "depthMetres": 1600,
-    "heightRangeMetres": [0, 140],
+    "heightRangeMetres": [
+      0,
+      140
+    ],
     "zones": 16,
-    "zoneIds": ["downtown", "uptown", "lake", "estuary-waterfront", "port", "west-oakland", "fruitvale", "coliseum", "hills", "bridge-approach", "island-harbour", "north-shoreline", "emery-crossing", "south-shoreline", "upper-hills", "outer-bay"],
+    "zoneIds": [
+      "downtown",
+      "uptown",
+      "lake",
+      "estuary-waterfront",
+      "port",
+      "west-oakland",
+      "fruitvale",
+      "coliseum",
+      "hills",
+      "bridge-approach",
+      "island-harbour",
+      "north-shoreline",
+      "emery-crossing",
+      "south-shoreline",
+      "upper-hills",
+      "outer-bay"
+    ],
     "landmarks": 28,
-    "landmarkKinds": { "park": 5, "tower": 1, "theatre": 1, "port": 1, "plaza": 1, "infrastructure": 2, "stadium": 1, "arena": 1, "transit": 3, "market": 2, "lookout": 2, "civic": 2, "education": 1, "healthcare": 1, "industrial": 2, "marina": 2 },
+    "landmarkKinds": {
+      "park": 5,
+      "tower": 1,
+      "theatre": 1,
+      "port": 1,
+      "plaza": 1,
+      "infrastructure": 2,
+      "stadium": 1,
+      "arena": 1,
+      "transit": 3,
+      "market": 2,
+      "lookout": 2,
+      "civic": 2,
+      "education": 1,
+      "healthcare": 1,
+      "industrial": 2,
+      "marina": 2
+    },
     "sites": 50,
-    "sitesPerZone": { "port": 4, "estuary-waterfront": 3, "downtown": 4, "uptown": 4, "lake": 2, "west-oakland": 6, "fruitvale": 3, "coliseum": 5, "hills": 4, "bridge-approach": 2, "island-harbour": 4, "north-shoreline": 2, "emery-crossing": 2, "south-shoreline": 2, "upper-hills": 2, "outer-bay": 1 },
+    "sitesPerZone": {
+      "port": 4,
+      "estuary-waterfront": 3,
+      "downtown": 4,
+      "uptown": 4,
+      "lake": 2,
+      "west-oakland": 6,
+      "fruitvale": 3,
+      "coliseum": 5,
+      "hills": 4,
+      "bridge-approach": 2,
+      "island-harbour": 4,
+      "north-shoreline": 2,
+      "emery-crossing": 2,
+      "south-shoreline": 2,
+      "upper-hills": 2,
+      "outer-bay": 1
+    },
     "programmesAnchored": 52,
     "roads": 15,
-    "meshBudget": { "low": 100, "high": 3600 },
+    "meshBudget": {
+      "low": 100,
+      "high": 3600
+    },
     "scenicDistrictMeshes": "83/120",
     "vehicles": 4,
-    "vehicleIds": ["pool-car", "pickup", "box-truck", "class-a-tractor"],
+    "vehicleIds": [
+      "pool-car",
+      "pickup",
+      "box-truck",
+      "class-a-tractor"
+    ],
     "speedCapMetresPerSecond": 22,
     "walkSpeedMetresPerSecond": 4.2,
     "runSpeedMetresPerSecond": 7.4,
@@ -115,7 +211,13 @@
     "eggsByWalking": 17,
     "eggsByRadio": 9,
     "activities": 5,
-    "activityTitles": ["Delivery Run", "Lake Merritt Loop Time Trial", "Port Yard Spotting", "Harbor Cruise", "Skyline Lookout Photo Mode"],
+    "activityTitles": [
+      "Delivery Run",
+      "Lake Merritt Loop Time Trial",
+      "Port Yard Spotting",
+      "Harbor Cruise",
+      "Skyline Lookout Photo Mode"
+    ],
     "questsRegistered": 135,
     "distinctStationsCited": 324,
     "landmarksCited": 25,
@@ -127,24 +229,132 @@
     "source": "node -e \"import('./WebXR/bayworld/js/quests.js').then(q=>console.log(q.MAIN_QUESTS.length, q.SIDE_QUESTS.length, new Set(q.SIDE_QUESTS.map(s=>s.programmeId)).size, q.EGG_QUESTS.length, q.EGG_QUESTS.filter(e=>e.method==='goto').length, q.EGG_QUESTS.filter(e=>e.method==='radio').length, q.SIDE_ACTIVITIES.length, q.ALL_QUESTS.length, q.allCitedStationIds().length, q.landmarksCited().length, q.rewardForTier(1), q.rewardForTier(7), q.findCycle(), q.rewardMonotonicityViolations().length))\" (quests-data.js written by node tools/gen_bay_quests.mjs); node tools/check_bay_quests.mjs"
   },
   "fairwayPark": {
-    "bounds": { "minX": -300, "maxX": 300, "minZ": -50, "maxZ": 350 },
+    "bounds": {
+      "minX": -300,
+      "maxX": 300,
+      "minZ": -50,
+      "maxZ": 350
+    },
     "widthMetres": 600,
     "depthMetres": 400,
     "holes": 9,
     "totalPar": 36,
-    "pars": [4, 3, 5, 4, 3, 4, 5, 4, 4],
-    "heightRangeMetres": [0, 3.5],
-    "facilityParts": ["track", "pitch", "basketballCourt", "tennisCourts", "bleachers", "maintenanceYard", "weatherMast"],
-    "meshBudget": { "low": 130, "high": 900 },
+    "pars": [
+      4,
+      3,
+      5,
+      4,
+      3,
+      4,
+      5,
+      4,
+      4
+    ],
+    "heightRangeMetres": [
+      0,
+      3.5
+    ],
+    "facilityParts": [
+      "track",
+      "pitch",
+      "basketballCourt",
+      "tennisCourts",
+      "bleachers",
+      "maintenanceYard",
+      "weatherMast"
+    ],
+    "meshBudget": {
+      "low": 130,
+      "high": 900
+    },
     "scenicDistrictMeshes": "40/120",
     "miniGames": 3,
-    "miniGameIds": ["freethrow", "penalty", "sprint"],
+    "miniGameIds": [
+      "freethrow",
+      "penalty",
+      "sprint"
+    ],
     "groundsProgrammeStations": 12,
     "source": "node -e \"import('./WebXR/shared/fairway-data.js').then(m=>console.log(m.FAIRWAY_BOUNDS, m.FAIRWAY_HOLES.length, m.FAIRWAY_HOLES.reduce((a,h)=>a+h.par,0), m.FAIRWAY_HOLES.map(h=>h.par), m.FAIRWAY_HEIGHT_RANGE, Object.keys(m.FAIRWAY_FACILITY), m.FAIRWAY_MESH_BUDGET))\"; WebXR/fairway/js/minigames.js exports; node tools/check_fairway.mjs; node tools/check_fairway_game.mjs; node tools/check_districts.mjs (fairway-park 40/120); CURRICULA grounds-and-landscaping stations.length"
   },
+  "theDeep": {
+    "bounds": {
+      "minX": -1000,
+      "maxX": 1000,
+      "minZ": -700,
+      "maxZ": 700
+    },
+    "widthMetres": 2000,
+    "depthMetres": 1400,
+    "depthRangeMetres": [
+      1,
+      120
+    ],
+    "zones": 14,
+    "zoneIds": [
+      "pier-pilings",
+      "shallow-shelf",
+      "eelgrass-meadow",
+      "marsh-mouth",
+      "kelp-forest",
+      "tide-flats",
+      "outfall-apron",
+      "channel-approach",
+      "shipping-channel",
+      "reef-ball-field",
+      "mud-plain",
+      "wreck-hollow",
+      "deep-trench",
+      "seamount"
+    ],
+    "landmarks": 25,
+    "sites": 32,
+    "programmesAnchored": 15,
+    "distinctStationsAnchored": 76,
+    "lines": 17,
+    "linesByKind": {
+      "transect": 8,
+      "anchor-line": 6,
+      "guideline": 2,
+      "channel": 1
+    },
+    "meshBudget": {
+      "low": 100,
+      "high": 1400
+    },
+    "meshesMeasured": {
+      "low": 89,
+      "high": 1053
+    },
+    "lightingBands": 3,
+    "scenicDistrictMeshes": "89/120",
+    "source": "node -e \"import('./WebXR/shared/underwater-data.js').then(m=>console.log(m.DEEP_BOUNDS, m.DEEP_DEPTH_RANGE, m.DEEP_ZONES.length, m.DEEP_LANDMARKS.length, m.DEEP_SITES.length, m.DEEP_LINES.length, m.DEEP_MESH_BUDGET, new Set(m.DEEP_SITES.flatMap(s=>s.programmes)).size, new Set(m.DEEP_SITES.flatMap(s=>s.stations)).size))\"; node tools/check_underwater.mjs summary line; node tools/check_districts.mjs (the-deep 89/120); docs/underwater.md"
+  },
+  "unityBridge": {
+    "stationsExported": 614,
+    "programmesExported": 52,
+    "worldsExported": [
+      "bayworld.json",
+      "fairway.json",
+      "underwater.json"
+    ],
+    "modelsExported": 89,
+    "modelsMB": 7.0,
+    "totalMB": 21.2,
+    "packageName": "org.agifuturefoundation.smartcitix",
+    "source": "node tools/check_unity_export.mjs summary line; ls exports/unity/SmartCitiX/Content/stations | wc -l; ls exports/unity/SmartCitiX/Content/programmes | wc -l; ls exports/unity/SmartCitiX/Content/worlds; ls exports/unity/SmartCitiX/Models/*.glb | wc -l; exports/unity/SmartCitiX/package.json"
+  },
   "districts": {
-    "scenic": 6,
-    "meshes": { "golden-gate-deck": "69/120", "bay-underwater": "25/120", "gym-court": "35/120", "open-range": "89/120", "fairway-park": "40/120", "bay-world": "83/120" },
+    "scenic": 7,
+    "meshes": {
+      "golden-gate-deck": "69/120",
+      "bay-underwater": "25/120",
+      "gym-court": "35/120",
+      "open-range": "89/120",
+      "fairway-park": "40/120",
+      "bay-world": "83/120",
+      "the-deep": "89/120"
+    },
     "source": "node tools/check_districts.mjs summary line"
   },
   "eggsAndArcade": {
@@ -157,17 +367,60 @@
     "source": "node tools/check_race.mjs, node tools/check_arcade.mjs, node tools/check_eggs.mjs summary lines; docs/easter-egg.md; docs/WHITEPAPER.md section 7"
   },
   "maritimePacks": {
-    "yachtAndCharterCrew": { "stations": 8, "sites": ["Marina Boatyard [estuary-waterfront]", "Island Yacht Harbor [island-harbour]"], "evalRange": "93-98 (docs/consoles/COORDINATOR.md 18:25 UTC entry)" },
-    "portsMaritimeEcology": { "stations": 11, "sites": ["Estuary Research Dock [estuary-waterfront]", "North Marina Pier [north-shoreline]", "Channel Buoy Tender Pier [outer-bay]"] },
-    "bayRestorationMaritimeUnderwater": { "stations": 35, "sites": ["Marina Boatyard [estuary-waterfront]", "Island Boatyard [island-harbour]", "North Marina Pier [north-shoreline]", "North Shoreline Field Lab [north-shoreline]", "South Shoreline Marina [south-shoreline]"] },
-    "bayAreaUnionEdition": { "stations": 42, "sites": ["West Oakland Union Hall [west-oakland]", "Island Yacht Harbor [island-harbour]", "Island Ferry Landing [island-harbour]", "Island Boatyard [island-harbour]"] },
-    "wojrcPathwayEdition": { "stations": 40, "sites": ["Port Container Terminal [port]"] },
-    "jobReadinessEdition": { "stations": 32, "mainArcQuests": 7 },
+    "yachtAndCharterCrew": {
+      "stations": 8,
+      "sites": [
+        "Marina Boatyard [estuary-waterfront]",
+        "Island Yacht Harbor [island-harbour]"
+      ],
+      "evalRange": "93-98 (docs/consoles/COORDINATOR.md 18:25 UTC entry)"
+    },
+    "portsMaritimeEcology": {
+      "stations": 11,
+      "sites": [
+        "Estuary Research Dock [estuary-waterfront]",
+        "North Marina Pier [north-shoreline]",
+        "Channel Buoy Tender Pier [outer-bay]"
+      ]
+    },
+    "bayRestorationMaritimeUnderwater": {
+      "stations": 35,
+      "sites": [
+        "Marina Boatyard [estuary-waterfront]",
+        "Island Boatyard [island-harbour]",
+        "North Marina Pier [north-shoreline]",
+        "North Shoreline Field Lab [north-shoreline]",
+        "South Shoreline Marina [south-shoreline]"
+      ]
+    },
+    "bayAreaUnionEdition": {
+      "stations": 42,
+      "sites": [
+        "West Oakland Union Hall [west-oakland]",
+        "Island Yacht Harbor [island-harbour]",
+        "Island Ferry Landing [island-harbour]",
+        "Island Boatyard [island-harbour]"
+      ]
+    },
+    "wojrcPathwayEdition": {
+      "stations": 40,
+      "sites": [
+        "Port Container Terminal [port]"
+      ]
+    },
+    "jobReadinessEdition": {
+      "stations": 32,
+      "mainArcQuests": 7
+    },
     "source": "CURRICULA[].stations.length (WebXR/smartcity/js/curricula.js); BAY_SITES.filter(s=>s.programmes.includes(id)) (WebXR/shared/bayworld-data.js)"
   },
   "fleet": {
     "kitBuilders": 89,
-    "byModule": { "fleet.js": 31, "equipment.js": 37, "toolkit.js": 21 },
+    "byModule": {
+      "fleet.js": 31,
+      "equipment.js": 37,
+      "toolkit.js": 21
+    },
     "source": "node tools/check_fleet.mjs summary line"
   },
   "budget": {
@@ -182,8 +435,13 @@
     "source": "node tools/check_devices.mjs summary line"
   },
   "notPresentInTree": {
-    "paths": ["WebXR/regatta/", "WebXR/underwater/", "WebXR/shared/underwater-data.js", "WebXR/shared/sky.js", "WebXR/shared/wildlife.js", "docs/unity.md"],
-    "note": "Listed by the game whitepaper brief as 'if present'; absent at the head commit above, so the paper describes them only as the coordinator console lists them: open.",
+    "paths": [
+      "WebXR/regatta/",
+      "WebXR/underwater/",
+      "WebXR/shared/sky.js",
+      "WebXR/shared/wildlife.js"
+    ],
+    "note": "Listed by the game whitepaper brief as 'if present'; absent at the head commit above (the Deep's shared data, builder and docs, and docs/unity.md with exports/unity, have landed), so the paper describes them only as the coordinator console lists them: open.",
     "source": "ls WebXR/ WebXR/shared/ docs/ at headCommitAtMerge"
   }
 }
