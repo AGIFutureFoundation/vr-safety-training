@@ -155,6 +155,12 @@ APPS = {
             # its "bay-world" scenic-district preview.
             SHARED / "bayworld-data.js",
             SHARED / "bayworld.js",
+            # The Deep (docs/underwater.md): the shared seabed layout and
+            # builder, after citykit.js for the same reason (underwater.js
+            # borrows holoTag) and before districts.js, which builds its
+            # "the-deep" scenic-district vignette.
+            SHARED / "underwater-data.js",
+            SHARED / "underwater.js",
             WEBXR / "smartcity/js/gamify.js",
             WEBXR / "smartcity/js/districts.js",
             WEBXR / "smartcity/js/interiors.js", WEBXR / "smartcity/js/ambient.js", WEBXR / "smartcity/js/apron.js",

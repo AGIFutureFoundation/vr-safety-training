@@ -328,7 +328,7 @@ export const DEEP_SITES = [
  *  mergeStatic doc and shared/bayworld-data.js's BAY_MESH_BUDGET, which this
  *  mirrors: "high" is LOD 0, the whole seabed; "low" is the compact vignette
  *  smartcity/js/districts.js registers as "the-deep"). */
-export const DEEP_MESH_BUDGET = { low: 100, high: 3600 };
+export const DEEP_MESH_BUDGET = { low: 100, high: 1400 };
 
 // ---------------------------------------------------------------- geometry
 

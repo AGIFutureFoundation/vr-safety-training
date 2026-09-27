@@ -8,6 +8,7 @@ import {
 import { PROPS_BUILDERS } from "../../shared/props.js";
 import { buildFairwayPark } from "../../shared/fairway.js";
 import { buildBayWorld } from "../../shared/bayworld.js";
+import { buildUnderwater } from "../../shared/underwater.js";
 
 // Districts: the part of the VR / flat-screen stage that changes with the
 // station's trade category. The plaza, marquee and skyline are shared; a
@@ -1908,6 +1909,50 @@ export const DISTRICTS = {
     build(g, _accent, env = {}) {
       const world = buildBayWorld(g, { detail: "low", time: env.time, weather: env.weather });
       return (t) => world.animate?.(t);
+    },
+  },
+  "the-deep": {
+    // The bottom of the bay as an open world — a shallow shelf, an eelgrass
+    // meadow, a kelp forest, a shipping channel, a wreck hollow, pier
+    // pilings, an outfall, a marsh mouth, a trench and a seamount
+    // (shared/underwater.js over shared/underwater-data.js) — shared by a
+    // swim-or-ROV dive game and its quest layer. Like bay-underwater, the
+    // learner stands ON the silt: the district brings its own floor and the
+    // stage leaves the plaza, masts, marquee and apron out.
+    //
+    // The stage only ever asks shared/underwater.js for its compact seabed
+    // vignette (`detail: "low"`): the whole 2000×1400 m seabed (`detail:
+    // "high"`, the default) is what a standalone dive app gets from
+    // buildUnderwater() directly, with its own camera and its own mesh
+    // budget (see districts.js:SCENIC_BUDGET, tools/check_districts.mjs, and
+    // shared/underwater-data.js's own header).
+    plaza: false,
+    dressing: null,
+    sky: 0x2a6c68, fog: 0x2a6c68, mast: 0xa8f0e0,
+    // Its own water colour at every hour — the shallow band of
+    // underwater.js's deepLighting() — nothing from TIME's day/dusk skies.
+    skyByTime: {
+      night: { sky: 0x143e48, fog: 0x143e48 },
+      dusk: { sky: 0x1f5c5e, fog: 0x1f5c5e },
+      day: { sky: 0x2a6c68, fog: 0x2a6c68 },
+    },
+    hemi: [0x9fe0d0, 0x16241e],
+    key: 0xbff0e4,
+    // Visibility of a few metres more than bay-underwater's pilings: the
+    // kelp and the reef balls read from the spawn, the piles fade out past them.
+    fogRange: [2, 22],
+    far: 40,
+    skyline: false,
+    // There is no weather on the bottom. The station's own and the URL's are
+    // both ignored, and the stage reports these instead.
+    forceWeather: true, weather: "clear",
+    weatherKind: "underwater", weatherLabel: "Underwater",
+    weatherNote: "Open water over the seabed — the guideline, the buddy and the supervisor on the comms are the way back to the ascent line. Depth, gas, decompression and current limits are per the dive plan and the tables the supervisor holds.",
+    spawn: { x: 0, z: 5.2, ry: 0 },
+    roam: 7,
+    build(g, _accent, env = {}) {
+      const deep = buildUnderwater(g, { detail: "low", time: env.time, weather: env.weather });
+      return (t, dt) => deep.animate?.(t, dt);
     },
   },
 };
