@@ -171,10 +171,12 @@ export function dvAdvanceClock(hours, dtSeconds, daySeconds = DV_DAY_SECONDS) {
 
 /** `../smartcity/dist/smartcity-x.html?sim=<id>&from=underwater` — the one
  *  deep link every job board launches by. */
-export function dvMissionLink(site, { base = "../smartcity/dist/smartcity-x.html", station = null } = {}) {
+export function dvMissionLink(site, { base = "../smartcity/dist/smartcity-x.html", station = null, page = null } = {}) {
   const sim = station ?? site.stations?.[0];
   if (!sim) throw new Error(`site "${site.id}" has no station to launch`);
-  return `${base}?sim=${encodeURIComponent(sim)}&from=underwater`;
+  // `page` (this world's own path) is the way home: `&return=<page>#site=<id>` (docs/interop.md).
+  const back = page ? `&return=${encodeURIComponent(`${page}#site=${encodeURIComponent(site.id)}`)}` : "";
+  return `${base}?sim=${encodeURIComponent(sim)}&from=underwater${back}`;
 }
 
 /** The nearest site or landmark to (x, z) within `radius`, or null. */

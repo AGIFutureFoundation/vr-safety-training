@@ -13,7 +13,12 @@ import { bwAwardQuestReward } from "../../bayworld/js/career.js";
 import { rgCourseById } from "./courses.js";
 
 /** Where a briefing's station link goes: the platform's own station, with `from=regatta` so the return is recognised. */
-export function rgStationLink(stationId) { return `../smartcity/index.html?sim=${encodeURIComponent(stationId)}&from=regatta`; }
+// Given this page's own path, `&return=<page>#site=<event id>` is the way home
+// the runner's "Back to the Bay Regatta" button takes (docs/interop.md).
+export function rgStationLink(stationId, { page = null, eventId = null } = {}) {
+  const back = page ? `&return=${encodeURIComponent(`${page}${eventId ? `#site=${encodeURIComponent(eventId)}` : ""}`)}` : "";
+  return `../smartcity/index.html?sim=${encodeURIComponent(stationId)}&from=regatta${back}`;
+}
 
 /**
  * `{ id, name, kind, day, hour, berth, course, guests, crew, musterPoint,

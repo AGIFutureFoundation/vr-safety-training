@@ -7,6 +7,7 @@ import { bwCareerState } from "../../bayworld/js/career.js";
 import { RG_COURSES, rgCourseById, rgCourseToMap, regattaCourseAt } from "./courses.js";
 import { rgCreateRace, rgStepRace, rgScoreRace, rgLearner, rgTargetFor, rgGiveWayDuty, RG_YACHT } from "./race.js";
 import { rgCalendar, rgEventById, rgBriefingChecklist, rgBriefingResult, rgAwardEvent, rgStationLink, rgLifeJacketsNeeded } from "./events.js";
+import { ppAward, ppCompleted, ppCompleteReturns, ppProgressChip, ppReturnSite, ppHerePage } from "../../shared/passport.js";
 import { rgBuildWorld } from "./world.js";
 
 // Bay Regatta — the app: the events calendar, the briefing, the yacht and
@@ -137,7 +138,15 @@ function rgOpenBriefing(event) {
   }
   $("br-hint").textContent = `${event.guests} guests and ${event.crew} crew are aboard; life jackets are one per person plus a spare. Muster point: ${event.musterPoint}.`;
   const st = $("br-stations"); st.innerHTML = "";
-  for (const id of event.stations) { const a = document.createElement("a"); a.className = "btn ghost"; a.href = rgStationLink(id); a.textContent = id.replace(/^yc-/, "").replace(/-/g, " "); st.appendChild(a); }
+  // Each station opens with the way home on it (docs/interop.md); a station
+  // already passed anywhere on the platform shows its tick from the passport.
+  for (const id of event.stations) {
+    const a = document.createElement("a"); a.className = "btn ghost";
+    a.href = rgStationLink(id, { page: ppHerePage(), eventId: event.id });
+    a.textContent = `${ppCompleted(id) ? "✓ " : ""}${id.replace(/^yc-/, "").replace(/-/g, " ")}`;
+    st.appendChild(a);
+  }
+  ppProgressChip($("br-chip"), RG_PROGRAMME);
   $("br-result").textContent = "";
   rgOpenScreen("briefing");
 }
@@ -244,6 +253,8 @@ function rgShowResults() {
   for (const l of lines) { const li = document.createElement("li"); li.textContent = l; ul.appendChild(li); }
   if (rgApp.event) {
     const award = rgAwardEvent(rgApp.event, { briefingOk: rgApp.briefingOk, score, storage: rgStore });
+    // Paid into Bay World's store by rgAwardEvent; the passport keeps the source.
+    ppAward("regatta", { reputation: award.reputationGain, credits: award.creditsGain, native: true, reason: `${rgApp.event.name}: ${score.stars} of 3 stars` });
     $("res-award").textContent = `+${award.reputationGain} reputation, +${award.creditsGain} credits to the shared career ledger${rgApp.briefingOk ? "" : " (halved: the briefing was not right)"}. Reputation is now ${award.reputation}.`;
     for (const u of award.unlocked ?? []) rgToast(`Unlocked: ${u.label}`, 4200);
   } else $("res-award").textContent = "A free race pays nothing — pick an event from the calendar to earn reputation and credits.";
@@ -284,5 +295,28 @@ $("menu-enter")?.addEventListener("click", () => {
   rgRenderMenu();
 });
 rgRenderMenu();
+
+// ------------------------------------------------------------ the round trip
+//
+// A briefing station's return (docs/interop.md): every fresh attempt at one of
+// an event's stations is paid once into the passport ledger with the regatta
+// as its source, and a return to `#site=<event id>` reopens that briefing.
+const RG_PROGRAMME = "yacht-and-charter-crew";
+function rgCheckStationReturns() {
+  const events = rgCalendar().map((e) => ({ id: e.id, name: e.name, stations: e.stations }));
+  const paid = ppCompleteReturns("regatta", events, {
+    pay: (r) => (r.passed ? { reputation: 3 + (r.stars | 0), credits: 15 + 5 * (r.stars | 0) } : { reputation: 1, credits: 5 }),
+  });
+  for (const x of paid) if (!x.duplicate) rgToast(`${x.site.name}: ${x.record.passed ? "station passed" : "station logged"} — +${x.award.reputation} reputation, +${x.award.credits} credits.`, 4200);
+  const back = ppReturnSite(window.location?.hash);
+  const event = back ? rgEventById(back) : null;
+  if (event) {
+    // The same setup "Enter the harbour" does, so "Lines off" can race from here.
+    if (!rgApp.renderer) { rgSetup3D(); rgWireTouch(); requestAnimationFrame(rgLoop); }
+    rgOpenBriefing(event);
+  }
+}
+rgCheckStationReturns();
+window.addEventListener("pageshow", (e) => { if (e.persisted) rgCheckStationReturns(); });
 
 window.__regattaTest = { app: rgApp, step: rgStep, startRace: rgStartRace };

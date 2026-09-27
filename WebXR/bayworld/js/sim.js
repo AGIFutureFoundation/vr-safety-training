@@ -111,11 +111,14 @@ export function bwStepVehicle(state, input, dt) {
 }
 
 /** `../smartcity/index.html?sim=<id>&from=bayworld` — the one deep link
- *  every mission launches by. `station` defaults to the site's first one. */
-export function bwMissionLink(site, { base = "../smartcity/index.html", station = null } = {}) {
+ *  every mission launches by. `station` defaults to the site's first one.
+ *  `page` (this world's own path) adds the way home the runner's "Back to
+ *  Bay World" button takes: `&return=<page>#site=<id>` (docs/interop.md). */
+export function bwMissionLink(site, { base = "../smartcity/index.html", station = null, page = null } = {}) {
   const sim = station ?? site.stations?.[0];
   if (!sim) throw new Error(`site "${site.id}" has no station to launch`);
-  return `${base}?sim=${encodeURIComponent(sim)}&from=bayworld`;
+  const back = page ? `&return=${encodeURIComponent(`${page}#site=${encodeURIComponent(site.id)}`)}` : "";
+  return `${base}?sim=${encodeURIComponent(sim)}&from=bayworld${back}`;
 }
 
 // -------------------------------------------------------------------- traffic

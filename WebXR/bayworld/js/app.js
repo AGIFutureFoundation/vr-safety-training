@@ -3,6 +3,7 @@ import { createGamepad, GAMEPAD_DEADZONE, detectPadVendor, driveInputFrom, DRIVE
 import { tcTier, tcApplyRenderer } from "../../shared/perf.js";
 import { tcMountTouch, tcMountQuality } from "../../shared/touch.js";
 import { TrainingRecords } from "../../shared/records.js";
+import { ppAward, ppMarkBoard, ppBoardDone, ppProgressChip, ppReturnSite, ppHerePage } from "../../shared/passport.js";
 import { buildQuiz, recordRadioScore, bestRadioScore } from "../../shared/radio-quiz.js";
 import { BW_SITES, BW_LANDMARKS, BW_ZONES } from "./city.js";
 import {
@@ -42,7 +43,12 @@ export function bwStartPlaceFrom(search, sites = BW_SITES, landmarks = BW_LANDMA
   if (landmark) return landmarks.find((l) => l.id === landmark) ?? null;
   return null;
 }
-const bwStartPlace = bwStartPlaceFrom(typeof window !== "undefined" ? window.location?.search : "");
+// A return from a finished station lands on `#site=<id>` (docs/interop.md):
+// the shift starts beside that site and its board opens once the world is up.
+const bwReturnSiteId = typeof window !== "undefined" ? ppReturnSite(window.location?.hash) : null;
+const bwStartPlace = bwReturnSiteId
+  ? bwStartPlaceFrom(`?site=${encodeURIComponent(bwReturnSiteId)}`)
+  : bwStartPlaceFrom(typeof window !== "undefined" ? window.location?.search : "");
 
 const bwApp = {
   screen: "menu",
@@ -187,6 +193,9 @@ function bwOpenJobBoard(site) {
   $("jb-programmes").textContent = (site.programmes ?? []).length
     ? `Programme: ${site.programmes.join(", ")}`
     : "No training programme posted here yet.";
+  // The programme chip and the board's done mark read only the passport.
+  ppProgressChip($("jb-chip"), site.programmes?.[0] ?? null);
+  $("jb-done")?.toggleAttribute("hidden", !ppBoardDone("bayworld", site));
   // Some of BAY1's sites (a lighting shed, a fire watch, a maintenance yard)
   // carry no station at all — a real place on the map with nothing to launch
   // yet, rather than an invented one just to fill the button.
@@ -199,7 +208,7 @@ function bwOpenJobBoard(site) {
 $("jb-launch")?.addEventListener("click", () => {
   const site = bwApp.lastMissionSite;
   if (!site || !(site.stations ?? []).length) return;
-  const link = bwMissionLink(site);
+  const link = bwMissionLink(site, { page: ppHerePage() });
   bwToast(`Launching ${site.name}…`);
   window.location.href = link;
 });
@@ -218,6 +227,10 @@ function bwCheckMissionReturns() {
     bwNoteStationReturn(r.site.id, { storage: bwStore });
     bwNoteStationReturn(r.entry.simId, { storage: bwStore });
     for (const u of r.award.unlocked) bwToast(`Unlocked: ${u.label}`, 4200);
+    // Into the one ledger, source kept, once per attempt id; career.js has
+    // already added the gain to Bay World's own store, so it is `native`.
+    ppAward("bayworld", { reputation: r.award.reputationGain, credits: r.award.creditsGain, attemptId: r.entry.id, native: true, reason: `${r.site.name}: ${r.entry.passed ? "passed" : "attempted"} ${r.entry.simName ?? r.entry.simId}` });
+    if (r.entry.passed) ppMarkBoard("bayworld", r.site.id, r.entry.id);
   }
   bwRefreshHudCareer();
 }
@@ -499,6 +512,8 @@ function bwStart() {
   bwRefreshHudCareer();
   bwRenderQuestHud();
   bwCheckMissionReturns();
+  const returned = bwReturnSiteId ? BW_SITES.find((x) => x.id === bwReturnSiteId) : null;
+  if (returned) bwOpenJobBoard(returned);
   requestAnimationFrame(bwLoop);
 }
 

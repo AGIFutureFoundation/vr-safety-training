@@ -7,6 +7,7 @@ import { Sfx, Session, Progress, placeVehicle } from "../../shared/game.js";
 import { driveActionForKey, driveInputFrom, DRIVE_ACTIONS } from "../../shared/input.js";
 import { speak, speechSupported } from "../../shared/voice-assist.js";
 import { TrainingRecords } from "../../shared/records.js";
+import { ppRecordStation } from "../../shared/passport.js";
 import { Identity } from "../../shared/identity.js";
 import { Lrs } from "../../shared/lrs.js";
 import { createAnnouncer, createTargetCursor, describeTarget, reducedMotion, escapeHtml } from "../../shared/a11y.js";
@@ -852,7 +853,7 @@ function showTrainingResult(s) {
   // loaded from the SmartCiti.X library carries category/certification, a
   // generated procedure records under its template as the category.
   const room = trainingRoom;
-  const attempt = TrainingRecords.record({
+  const attempt = ppRecordStation({
     app: "holodeck", source: lastTrainingParams?.kind ?? "generic",
     learner: Progress.playerName, learnerName: Identity.current?.name, learnerId: Identity.current?.id, homePage: Identity.current?.homePage,
     simId: room.id, simName: room.name ?? room.title,
