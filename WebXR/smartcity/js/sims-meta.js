@@ -25396,5 +25396,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "cd-pier-piling-inspection-and-wrap-repair",
+    "index": "717",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers of the Carpenters commercial diver inspecting a pier pile by hand and camera and fitting a wrap repair, with the dive supervisor keeping the surface log, the tender and the standby diver",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T — 29 CFR 1910.421 pre-dive planning and the briefing, 29 CFR 1910.422 procedures during the dive (communications, hand and power tools), 29 CFR 1910.425 the tended surface-supplied diver and 29 CFR 1910.440 the record of the dive; ADCI consensus standards for underwater inspection and pier work; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel; the owner's inspection form and the dive plan hold every measurement and limit",
+    "name": "Pier Piling Inspection & Wrap Repair",
+    "weather": "clear",
+    "indoor": null,
+    "district": "bay-underwater",
+    "title": "SmartCiti.X~ Pier Piling Inspection & Wrap Repair VR",
+    "tagline": "One pile, by hand and by camera: the inspection plan read on the slate, the growth cleared in a band without gouging, the necked section and the split found by touch, the camera held while the surface records, the pit gauge read to the form, the findings dictated to the surface log, the wrap zone brushed and flushed, the jacket halves fitted and banded, the seam checked, the grout hose landed, the plate photographed and the log closed — with a surging fender and a recall along the way",
+    "accent": 8372126,
+    "accentCss": "#7fbf9e",
+    "parSeconds": 320,
+    "badge": {
+      "id": "read-by-hand",
+      "name": "Read By Hand",
+      "note": "The pile inspected by touch and camera in a marked band, the findings said to the surface as they were found, the wrap fitted to the form"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Pile Watch",
+      "currency": "PILE MARKS",
+      "ranks": [
+        "Tender",
+        "Diver",
+        "Inspection Diver",
+        "Repair Diver",
+        "Pier Inspection Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
