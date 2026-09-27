@@ -179,6 +179,8 @@
             <button id="assign" class="small">Assign</button>
             <button id="open-programme" class="small">Open now</button>
           </div>
+          <p class="fine">Passport on this device, <span id="pp-programme-name">this programme</span>:
+            <span class="pp-chip" id="pp-chip" hidden></span></p>
           <h3>Instructor sign-off</h3>
           <p class="fine">Attest that you watched this learner complete a level, in the programme selected above.
             Stored as a dated attestation with your name and note — never a credential, and shown on the learner's
@@ -229,6 +231,8 @@
     <section class="panel">
       <div class="row">
         <button class="primary" id="log-csv">Export CSV</button>
+        <button id="pp-csv" title="Every attempt on this device's passport, with the app it came from">Passport records CSV</button>
+        <button id="pp-xapi" title="The same attempts as xAPI 1.0.3 statements">Passport xAPI</button>
         <button id="log-clear">Clear</button>
         <label class="muted" for="log-state"><input type="checkbox" id="log-state"> Include position heartbeats</label>
         <span class="muted" id="log-count"></span>

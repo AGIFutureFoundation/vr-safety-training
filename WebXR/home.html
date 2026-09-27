@@ -153,6 +153,8 @@
   .chip:hover{background:var(--raised-2); text-decoration:none}
   .chip b{display:block; font-family:var(--cond); font-weight:600; font-size:15px; letter-spacing:.02em}
   .chip span{display:block; font-size:12px; color:var(--muted); margin-top:2px}
+  .chip .pp-chip[hidden]{display:none}
+  .chip .pp-chip{color:var(--accent, currentColor)}
 
   /* ---- catalog ---- */
   #catalog{margin:8px 0 0}
@@ -380,218 +382,272 @@
       <a class="chip" href="smartcity-x.html?programme=electrical-first-period">
         <b>Inside Wireman — First Period</b>
         <span>8 stations · IBEW — International Brotherhood of Electrical Workers</span>
+        <span class="pp-chip" data-pp-programme="electrical-first-period" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=confined-space">
         <b>Confined Space — Entry and Rescue</b>
         <span>8 stations · LIUNA, UA, IUOE and IAFF technical rescue</span>
+        <span class="pp-chip" data-pp-programme="confined-space" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=fall-protection">
         <b>Working at Height — Fall Protection</b>
         <span>7 stations · Ironworkers, Carpenters, CWA and NATE climbers</span>
+        <span class="pp-chip" data-pp-programme="fall-protection" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=hazmat-environmental">
         <b>Hazmat and Environmental Response</b>
         <span>10 stations · LIUNA hazmat and environmental crews, IAFF, and environmental technicians</span>
+        <span class="pp-chip" data-pp-programme="hazmat-environmental" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=rigging-lifting">
         <b>Rigging and Lifting</b>
         <span>6 stations · Ironworkers, IUOE crane operators, ILWU and IATSE riggers</span>
+        <span class="pp-chip" data-pp-programme="rigging-lifting" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=stationary-engineer">
         <b>Stationary Engineer — Building Plant</b>
         <span>7 stations · IUOE — International Union of Operating Engineers, stationary locals</span>
+        <span class="pp-chip" data-pp-programme="stationary-engineer" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=port-operations">
         <b>Port and Terminal Operations</b>
         <span>7 stations · ILWU longshore, MEBA and SIU marine engineers, IBT terminal drivers</span>
+        <span class="pp-chip" data-pp-programme="port-operations" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=transit-ramp">
         <b>Transit and Ramp Operations</b>
         <span>7 stations · ATU, TWU, IAM and IBEW signal locals</span>
+        <span class="pp-chip" data-pp-programme="transit-ramp" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=energy-transition">
         <b>Energy Transition Systems</b>
         <span>9 stations · IBEW outside construction and utility locals</span>
+        <span class="pp-chip" data-pp-programme="energy-transition" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=live-events">
         <b>Live Events Production</b>
         <span>7 stations · IATSE — International Alliance of Theatrical Stage Employees</span>
+        <span class="pp-chip" data-pp-programme="live-events" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=hunters-point-bay-restoration">
         <b>Hunters Point Clean-up and Bay Restoration</b>
         <span>26 stations · LIUNA Local 261 hazmat and environmental laborers, IUOE Local 3 operating engineers, Teamsters regulated-soil drivers, Pile Drivers Local 34 (Carpenters), UA Local 38 plumbers and pipefitters, and the Inlandboatmen&#39;s Union of the Pacific</span>
+        <span class="pp-chip" data-pp-programme="hunters-point-bay-restoration" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=culinary-kitchen">
         <b>Culinary — The Working Kitchen</b>
         <span>16 stations · UNITE HERE Local 2 cooks, dishwashers and banquet staff; AFSCME and SEIU school and hospital food service</span>
+        <span class="pp-chip" data-pp-programme="culinary-kitchen" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=dental-hygiene-unspoken-smiles">
         <b>Dental Hygiene — Unspoken Smiles</b>
         <span>19 stations · SEIU and UFCW dental and clinic staff, AFSCME public-health hygienists, and the ADHA as the profession&#39;s body</span>
+        <span class="pp-chip" data-pp-programme="dental-hygiene-unspoken-smiles" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=dental-careers-unspoken-smiles">
         <b>Dental Careers — Unspoken Smiles</b>
         <span>19 stations · SEIU and UFCW dental and clinic staff, AFSCME public-health dental staff, the ADHA and the ADAA as the professions&#39; bodies, DANB as the assisting credential</span>
+        <span class="pp-chip" data-pp-programme="dental-careers-unspoken-smiles" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=civic-leadership-and-ei">
         <b>Civic Leadership and Emotional Intelligence</b>
         <span>17 stations · SEIU and AFSCME public-service staff, the trades&#39; own apprenticeship coordinators, and community organisations that train residents for public life</span>
+        <span class="pp-chip" data-pp-programme="civic-leadership-and-ei" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=property-management">
         <b>Property Management — Twenty Zones</b>
         <span>21 stations · SEIU 87 and SEIU-USWW janitors and building staff, IUOE Local 39 stationary engineers, UNITE HERE for residential hospitality staff, and the apartment association&#39;s certified apartment manager and maintenance technician credentials</span>
+        <span class="pp-chip" data-pp-programme="property-management" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=outbreak-response-who">
         <b>Outbreak and Disease Response — WHO and UN Practice</b>
         <span>11 stations · SEIU and AFSCME public-health staff, NNU and CNA nurses, and the humanitarian workforce that deploys under UN clusters</span>
+        <span class="pp-chip" data-pp-programme="outbreak-response-who" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=job-readiness-edition">
         <b>Job Readiness Edition — wojrc.org programmes</b>
         <span>32 stations · Teamsters for warehouse and driving work, ILWU for the port side, the building-trades apprenticeship programmes the edition prepares people for, and SEIU/AFSCME for the public-benefit and wellness staff</span>
+        <span class="pp-chip" data-pp-programme="job-readiness-edition" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=bay-area-union-edition">
         <b>Bay Area Union Edition — Sheet Metal, Bridge, Port and Marine</b>
         <span>42 stations · SMART sheet metal workers, the Ironworkers and IUPAT bridge crews with the Pile Drivers of the Carpenters, ILWU longshore and maintenance workers with the PMA training programme and IUOE crane maintenance, and the marine unions: the Inlandboatmen&#39;s Union of the ILWU, MEBA and SIU, with the Pile Drivers&#39; commercial divers for the underwater work</span>
+        <span class="pp-chip" data-pp-programme="bay-area-union-edition" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=bartending-course">
         <b>Bartending — Behind the Bar</b>
         <span>16 stations · UNITE HERE Local 2 bartenders and barbacks</span>
+        <span class="pp-chip" data-pp-programme="bartending-course" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=hunters-point-can-we-live">
         <b>Hunters Point Edition — Can We Live?</b>
         <span>26 stations · Community science with the Marie Harrison Community Foundation and Greenaction as partners; LIUNA hazmat laborers, IUOE operators, Teamsters and radiation technicians on the site-work pathway</span>
+        <span class="pp-chip" data-pp-programme="hunters-point-can-we-live" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=sewing-garment-trades">
         <b>Sewing and Garment Trades</b>
         <span>11 stations · Workers United (SEIU) garment and textile workers, and UNITE HERE where the sewing room sits inside a hotel or uniform service</span>
+        <span class="pp-chip" data-pp-programme="sewing-garment-trades" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=bridge-and-structural">
         <b>Bridge and Structural Trades</b>
         <span>7 stations · Ironworkers (IW), IUPAT bridge painters, IUOE operating engineers and LIUNA on the deck</span>
+        <span class="pp-chip" data-pp-programme="bridge-and-structural" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=hotel-workers">
         <b>Hotel Workers — Back of House</b>
         <span>7 stations · UNITE HERE hotel housekeepers, laundry and banquet staff</span>
+        <span class="pp-chip" data-pp-programme="hotel-workers" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=builders-trades">
         <b>Builders — Carpenters, Laborers and Masons</b>
         <span>8 stations · UBC carpenters, LIUNA laborers, BAC bricklayers and IUOE operators</span>
+        <span class="pp-chip" data-pp-programme="builders-trades" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=first-responders">
         <b>First Responders — Fire, EMS, Police, Crisis and Relief</b>
         <span>17 stations · IAFF firefighters and EMS, NAGE and AFSCME EMS locals, police officer associations and the FOP, NASW and SEIU 1021 social workers and crisis counsellors, AFSCME and LIUNA disaster-relief crews with the Red Cross volunteer workforce</span>
+        <span class="pp-chip" data-pp-programme="first-responders" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=situational-awareness">
         <b>Situational Awareness — Interruption Drill</b>
         <span>22 stations · Cross-craft — run as a refresher block by IBEW, UA, LIUNA, Ironworkers and IAFF locals</span>
+        <span class="pp-chip" data-pp-programme="situational-awareness" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=ports-maritime-ecology">
         <b>Ports, Maritime and Bay Ecology</b>
         <span>11 stations · ILWU, the Inlandboatmen&#39;s Union of the Pacific, IBEW port electricians, LIUNA and the environmental technicians who monitor the bay</span>
+        <span class="pp-chip" data-pp-programme="ports-maritime-ecology" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=air-quality-monitoring">
         <b>Air Quality — Monitoring and Control</b>
         <span>6 stations · AFSCME air-district technicians, LIUNA environmental laborers, IUOE and USW plant crews</span>
+        <span class="pp-chip" data-pp-programme="air-quality-monitoring" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=basketball-fundamentals">
         <b>Basketball Fundamentals</b>
         <span>18 stations · AFSCME and SEIU parks-and-recreation staff where a public gym runs the league; the programme itself is taught against USA Basketball&#39;s youth guidelines rather than a union apprenticeship</span>
+        <span class="pp-chip" data-pp-programme="basketball-fundamentals" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=bay-restoration-maritime-underwater">
         <b>SF Bay Restoration &amp; Cleanup — Maritime and Underwater</b>
         <span>35 stations · ILWU and the Inlandboatmen&#39;s Union, MEBA and SIU marine crews, Pile Drivers Local 34 divers, IUOE Local 3 dredge and excavator operators, LIUNA Local 261 hazmat and shoreline crews, AFSCME and SEIU agency scientists</span>
+        <span class="pp-chip" data-pp-programme="bay-restoration-maritime-underwater" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=railroad-crafts">
         <b>Railroad Crafts — Track, Car and Cab</b>
         <span>8 stations · BLET, SMART-TD and BMWED</span>
+        <span class="pp-chip" data-pp-programme="railroad-crafts" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=heavy-equipment-operators">
         <b>Heavy Equipment Operators — IUOE Local 3</b>
         <span>8 stations · IUOE — International Union of Operating Engineers Local 3 operating engineer training</span>
+        <span class="pp-chip" data-pp-programme="heavy-equipment-operators" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=plumbers-and-pipefitters">
         <b>Plumbers and Pipefitters — Journeyman Rough-In and Test Block</b>
         <span>8 stations · UA Local 38 apprenticeship</span>
+        <span class="pp-chip" data-pp-programme="plumbers-and-pipefitters" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=glaziers-and-architectural-metal">
         <b>Glaziers and Architectural Metal</b>
         <span>8 stations · IUPAT DC 16 — International Union of Painters and Allied Trades, District Council 16 glaziers apprenticeship</span>
+        <span class="pp-chip" data-pp-programme="glaziers-and-architectural-metal" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=elevator-constructors">
         <b>Elevator Constructor — IUEC Core Skills</b>
         <span>8 stations · IUEC and the NEIEP apprenticeship as a body</span>
+        <span class="pp-chip" data-pp-programme="elevator-constructors" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=insulators-and-boilermakers">
         <b>Insulators and Boilermakers — Building Systems</b>
         <span>8 stations · Insulators Local 16 and Boilermakers Local 549</span>
+        <span class="pp-chip" data-pp-programme="insulators-and-boilermakers" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=cement-masons-and-plasterers">
         <b>Cement Masons and Plasterers</b>
         <span>8 stations · OPCMIA — Operative Plasterers&#39; and Cement Masons&#39; International Association</span>
+        <span class="pp-chip" data-pp-programme="cement-masons-and-plasterers" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=healthcare-support">
         <b>Healthcare Support</b>
         <span>8 stations · SEIU-UHW and NUHW, the training bodies for California&#39;s hospital and clinic support workforce</span>
+        <span class="pp-chip" data-pp-programme="healthcare-support" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=roofers-and-waterproofers">
         <b>Roofers and Waterproofers</b>
         <span>8 stations · Roofers Local 40 — United Union of Roofers, Waterproofers and Allied Workers (URW)</span>
+        <span class="pp-chip" data-pp-programme="roofers-and-waterproofers" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=water-and-gas-utility-crews">
         <b>Water and Gas Utility Crews — Distribution Authority</b>
         <span>8 stations · UWUA — Utility Workers Union of America; IBEW gas locals as bodies</span>
+        <span class="pp-chip" data-pp-programme="water-and-gas-utility-crews" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=aviation-maintenance-and-ground">
         <b>Aviation Maintenance and Ground — IAM/TWU Ramp and Line</b>
         <span>8 stations · IAM and TWU</span>
+        <span class="pp-chip" data-pp-programme="aviation-maintenance-and-ground" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=warehouse-and-logistics-automation">
         <b>Warehouse and Logistics Automation — Teamsters Distribution Floor</b>
         <span>8 stations · Teamsters (IBT) warehouse and logistics automation training</span>
+        <span class="pp-chip" data-pp-programme="warehouse-and-logistics-automation" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=education-support-staff">
         <b>Education Support Staff — Custodial, Grounds, Transport and Classroom</b>
         <span>8 stations · AFT and CSEA</span>
+        <span class="pp-chip" data-pp-programme="education-support-staff" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=grounds-and-landscaping">
         <b>Grounds &amp; Landscaping Crew</b>
         <span>12 stations · LIUNA, SEIU and AFSCME grounds and landscaping crews</span>
+        <span class="pp-chip" data-pp-programme="grounds-and-landscaping" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=wojrc-pathway-edition">
         <b>Pathway Edition — wojrc.org</b>
         <span>40 stations · Teamsters for warehouse and driving work, the building-trades apprenticeship programmes the pathway prepares people for, and SEIU/AFSCME for the public-benefit and wellness staff a participant meets along the way</span>
+        <span class="pp-chip" data-pp-programme="wojrc-pathway-edition" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=grocery-and-meatpacking">
         <b>Grocery and Meatpacking — UFCW Store and Plant Floor</b>
         <span>8 stations · UFCW — United Food and Commercial Workers International Union</span>
+        <span class="pp-chip" data-pp-programme="grocery-and-meatpacking" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=airline-cabin-and-flight-crew">
         <b>Airline Cabin and Flight Crew — AFA-CWA and ALPA</b>
         <span>8 stations · AFA-CWA and ALPA</span>
+        <span class="pp-chip" data-pp-programme="airline-cabin-and-flight-crew" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=mill-and-mine">
         <b>Mill and Mine</b>
         <span>8 stations · USW steelworkers and paper crews, UMWA underground and surface mine crews</span>
+        <span class="pp-chip" data-pp-programme="mill-and-mine" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=screen-and-media-crafts">
         <b>Screen &amp; Media Crafts</b>
         <span>7 stations · SAG-AFTRA, the American Federation of Musicians (AFM), Actors&#39; Equity Association, the NewsGuild-CWA, and IATSE crew locals</span>
+        <span class="pp-chip" data-pp-programme="screen-and-media-crafts" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=postal-and-mail-processing">
         <b>Postal &amp; Mail Processing Crew</b>
         <span>6 stations · NALC, APWU and NPMHU as training bodies for postal and mail processing</span>
+        <span class="pp-chip" data-pp-programme="postal-and-mail-processing" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=yacht-and-charter-crew">
         <b>Yacht &amp; Charter Crew</b>
         <span>8 stations · IBU, SIU and MEBA as training bodies for charter yacht deck, steward and engineering crew</span>
+        <span class="pp-chip" data-pp-programme="yacht-and-charter-crew" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=marine-ecology-and-restoration">
         <b>Marine Ecology &amp; Restoration — Survey and Restoration Crews</b>
         <span>8 stations · AFSCME and SEIU 1021 agency and nonprofit field staff, UPTE-CWA research technicians and LIUNA habitat crews, as training bodies</span>
+        <span class="pp-chip" data-pp-programme="marine-ecology-and-restoration" hidden></span>
       </a>
       <a class="chip" href="smartcity-x.html?programme=commercial-diving-and-scientific-scuba">
         <b>Commercial Diving &amp; Scientific Scuba</b>
         <span>8 stations · Pile Drivers of the Carpenters (UBC) and LIUNA as training bodies; the scientific diving community&#39;s own diving safety manuals for the scuba work</span>
+        <span class="pp-chip" data-pp-programme="commercial-diving-and-scientific-scuba" hidden></span>
       </a>
     </div>
   </section>
@@ -6004,6 +6060,20 @@
   // rule (a station whose last CLEAN run — two or more stars, no unsafe
   // action — is older than 90 days) without importing that module and its
   // procedure-engine dependencies onto the homepage.
+  // The programme chips on the rail (docs/interop.md): each reads only the
+  // learner passport (shared/passport.js), lazily loaded like sign-in, so a
+  // station passed from any world's job board counts here too.
+  (function passportChips() {
+    var chips = document.querySelectorAll("[data-pp-programme]");
+    if (!chips.length) return;
+    import("./shared/passport.js").then(function (pp) {
+      for (var i = 0; i < chips.length; i++) {
+        var p = pp.ppProgramme(chips[i].getAttribute("data-pp-programme"));
+        if (p && p.passed) pp.ppProgressChip(chips[i], p.id);
+      }
+    }).catch(function () { /* no module server (file://): the rail stays as it is */ });
+  })();
+
   (function continueStrip() {
     var RECORDS_KEY = "vr-training-records-v1", REFRESHER_DAYS = 90, DAY_MS = 86400000;
     var list;

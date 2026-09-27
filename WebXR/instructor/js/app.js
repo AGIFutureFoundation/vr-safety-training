@@ -5,6 +5,7 @@ import { buildRoster, matchStation, matchProgramme } from "./roster.js";
 // Instructor sign-off (shared/tracking.js, docs/course-tracking.md): a name,
 // a date and a note attesting a learner's level, never a credential.
 import { SignOffs } from "../../shared/tracking.js";
+import { ppProgressChip, ppExport } from "../../shared/passport.js";
 // Toolbox Talk Bingo (docs/easter-egg.md, "Inside the apps") — a printable
 // card for the room, generated from this console's own live roster, topped
 // up with each roster station's own real hazard vocabulary before the
@@ -246,6 +247,7 @@ function renderPanel(row) {
   $("coach").classList.toggle("on", row.hazardMode === "coach");
   $("assess").classList.toggle("on", row.hazardMode !== "coach");
   renderSignOffs();
+  renderPassportChip();
 }
 
 // -------------------------------------------------------------- sign-off
@@ -295,7 +297,31 @@ $("signoff-btn").addEventListener("click", () => {
   toast(`Signed off ${learnerName(selected)} on ${programme}, level ${level}.`);
   renderSignOffs();
 });
-$("programme").addEventListener("change", renderSignOffs);
+$("programme").addEventListener("change", () => { renderSignOffs(); renderPassportChip(); });
+
+// The learner passport (shared/passport.js, docs/interop.md): the programme
+// chip reads only the passport, which holds the attempts made on THIS device
+// (a kiosk, a shared headset) — the live class view is what shows remote
+// learners. The export is every attempt with the app it came from, in the
+// same columns records.js and Unity's TrainingRecord.cs write.
+function renderPassportChip() {
+  const sel = $("programme");
+  const chip = $("pp-chip");
+  if (!sel || !chip) return;
+  const p = ppProgressChip(chip, sel.value);
+  $("pp-programme-name").textContent = p?.name ?? "this programme";
+}
+function ppConsoleDownload(name, text, type) {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([text], { type }));
+  a.download = name;
+  document.body.append(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+$("pp-csv")?.addEventListener("click", () => ppConsoleDownload("passport-records.csv", ppExport().csv, "text/csv"));
+$("pp-xapi")?.addEventListener("click", () => ppConsoleDownload("passport-xapi.json", JSON.stringify(ppExport().xapi, null, 2), "application/json"));
 $("signoff-level").addEventListener("input", renderSignOffs);
 
 // -------------------------------------------------------------- catalog views
@@ -596,7 +622,7 @@ $("log-clear").addEventListener("click", () => { logRows = []; render(); });
 // cannot offer the catalog view.
 fetch("../smartcity/catalog.json")
   .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`catalog.json: ${r.status}`))))
-  .then((json) => { rawCatalog = json; catalog = buildRoster(json); fillPickers(); render(); })
+  .then((json) => { rawCatalog = json; catalog = buildRoster(json); fillPickers(); renderPassportChip(); render(); })
   .catch(() => { $("roster-count").textContent = "The catalog could not be loaded from this origin, so the roster view is empty. The live class view is unaffected."; fillPickers(); });
 
 if (relayFromSearch() && !bus.relay) toast("The relay URL was rejected — it must start with ws:// or wss://.");
