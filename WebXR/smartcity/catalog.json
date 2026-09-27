@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 628
+      "stations": 629
     },
     "trades": {
       "entry": "trades/index.html",
@@ -180,6 +180,7 @@
         "tower-climb",
         "cell-site-battery",
         "microwave-backhaul",
+        "ws-data-hall-busway-install-and-torque-signoff",
         "aerial-lashing",
         "data-hall"
       ]
@@ -9517,6 +9518,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "ws-data-hall-busway-install-and-torque-signoff",
+      "name": "Data-Hall Busway Install & Torque Sign-Off",
+      "title": "SmartCiti.X~ Data-Hall Busway Install & Torque Sign-Off VR",
+      "tagline": "The run isolated upstream and proven dead before the lift goes up, the section hung and its joint inspected, torqued with a calibrated wrench to the manufacturer's value, marked, tested and signed",
+      "category": "Connectivity & Telecom",
+      "domain": "Connectivity",
+      "trade": "IBEW inside wireman",
+      "union": null,
+      "certification": "IBEW/NECA JATC inside-wireman training as a body; NFPA 70 (NEC) for the busway installation; NFPA 70E and 29 CFR 1910.333 for the electrically safe work condition; 29 CFR 1910.147 for the lockout; NETA acceptance testing practice for the torque verification and the insulation-resistance test; the busway manufacturer's installation instructions for every torque value and test voltage",
+      "accent": "#4fb3a6",
+      "parSeconds": 320,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "data-center-build",
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "gauge",
+        "hold",
+        "drag",
+        "find",
+        "turn",
+        "track"
+      ],
+      "badge": {
+        "id": "torqued-and-signed",
+        "name": "Torqued & Signed",
+        "note": "Every joint torqued with a calibrated wrench, marked, insulation-tested and signed before the run was handed over"
+      },
+      "meshes": 178,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ws-05",
+      "flat": false,
+      "system": "Busway Authority",
+      "currency": "JOINTS",
+      "ranks": [
+        "Apprentice",
+        "Wireman",
+        "Inside Wireman",
+        "Foreman",
+        "Busway Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "dead-first",
+          "name": "Dead First",
+          "note": "The run was proven dead before anyone was on the lift"
+        },
+        {
+          "id": "no-feel-torque",
+          "name": "No Torque by Feel",
+          "note": "No unsafe action was recorded"
+        },
+        {
+          "id": "steady-megger",
+          "name": "Steady Megger",
+          "note": "Held the insulation test steady"
+        },
+        {
+          "id": "clean-run",
+          "name": "Clean Run",
+          "note": "No corrections from the drawings to the sign-off"
+        },
+        {
+          "id": "unbroken-test",
+          "name": "Unbroken Test",
+          "note": "The insulation test ran without a break"
+        },
+        {
+          "id": "brisk-install",
+          "name": "Brisk Install",
+          "note": "Hung, torqued and signed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ws-data-hall-busway-install-and-torque-signoff"
     },
     {
       "app": "smartcity",
@@ -31781,7 +31865,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 266,
+      "meshes": 256,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -32441,7 +32525,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 252,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",

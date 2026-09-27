@@ -26656,5 +26656,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "ws-data-hall-busway-install-and-torque-signoff",
+    "index": "ws-05",
+    "domain": "Connectivity",
+    "trade": "IBEW inside wireman",
+    "category": "Connectivity & Telecom",
+    "certification": "IBEW/NECA JATC inside-wireman training as a body; NFPA 70 (NEC) for the busway installation; NFPA 70E and 29 CFR 1910.333 for the electrically safe work condition; 29 CFR 1910.147 for the lockout; NETA acceptance testing practice for the torque verification and the insulation-resistance test; the busway manufacturer's installation instructions for every torque value and test voltage",
+    "name": "Data-Hall Busway Install & Torque Sign-Off",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "data-center-build",
+    "title": "SmartCiti.X~ Data-Hall Busway Install & Torque Sign-Off VR",
+    "tagline": "The run isolated upstream and proven dead before the lift goes up, the section hung and its joint inspected, torqued with a calibrated wrench to the manufacturer's value, marked, tested and signed",
+    "accent": 5223334,
+    "accentCss": "#4fb3a6",
+    "parSeconds": 320,
+    "badge": {
+      "id": "torqued-and-signed",
+      "name": "Torqued & Signed",
+      "note": "Every joint torqued with a calibrated wrench, marked, insulation-tested and signed before the run was handed over"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Busway Authority",
+      "currency": "JOINTS",
+      "ranks": [
+        "Apprentice",
+        "Wireman",
+        "Inside Wireman",
+        "Foreman",
+        "Busway Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
