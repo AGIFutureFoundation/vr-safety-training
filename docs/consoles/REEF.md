@@ -1,0 +1,8 @@
+# Console REEF — the dive game
+
+Team: DEEP2 · Brief: `tools/briefs/underwater-brief.md` ("The game"), with `tools/briefs/console-brief.md` · Branch: `claude/vr-ar-safety-training-wkwmve`
+
+The Deep's dive game: `WebXR/underwater/` (page `underwater.html`, `js/`), the dive quest layer (`js/dives.js`, generated `js/dives-data.js` from `tools/gen_dive_quests.mjs`), the lantern eggs, the four scored activities, `tools/check_underwater_game.mjs` and `tools/check_dive_quests.mjs`. Built against `js/seabed-stub.js` (data) and `js/seabed-stub-scene.js` (builder) in DEEP1's exact contract until `WebXR/shared/underwater-data.js` and `underwater.js` are on the branch; `js/seabed.js` (data) and `js/world.js` (builder) each hold the one import line that switches.
+
+- 18:23 UTC · Fetched and fast-forwarded to the branch of record; read the briefs, Bay World (app, world, city, map, career, quest-engine, quests-select, quests), gen/check_bay_quests, check_bayworld_game and the bundler · next: the seabed stub in DEEP1's contract shape, the adapter, this console, first commit.
+- 18:28 UTC · Plan: mirror Bay World file for file with `dv`/`DV_` names (seabed.js ↔ city.js, dive-sim.js ↔ sim.js, dive-career.js ↔ career.js, dive-engine.js ↔ quest-engine.js, dives.js/dives-select.js/dives-data.js ↔ quests*.js, dive-map.js ↔ map.js, plus activities.js for the four scored activities); the reserve gauge is a bar with a qualitative label only, no number and no depth readout anywhere in the HUD; job boards deep-link `../smartcity/dist/smartcity-x.html?sim=…&from=underwater` · next: build the pure modules, then the page, world and app.
