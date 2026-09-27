@@ -153,10 +153,11 @@ export const SIM_CA_CABIN_PREFLIGHT_SAFETY_CHECK = {
       why: "An exit-row seat that changes hands resets the briefing to zero — the new passenger's own willingness and ability get confirmed the same way the first one's did, not carried over from a conversation they were never part of.",
     },
     {
-      id: "log-cabin-secure", kind: "select", target: "log-cabin-secure",
+      id: "log-cabin-secure", kind: "hold", target: "log-cabin-secure", seconds: 4,
       title: "Log the cabin secure",
-      cue: "Record the completed checklist, the door status and the equipment count before the call to the flight deck.",
+      cue: "Hold to confirm and save the log entry — the checklist, the door status and the equipment count together.",
       why: "The log is the only record that this specific check happened on this specific flight — a cabin that was actually checked perfectly but never logged leaves nothing behind for anyone downstream to point to.",
+      holdBreakNote: "Let go before the entry actually saved. A log that never finished writing is no different from one that was never opened.",
     },
     {
       id: "notify-flight-deck", kind: "select", target: "interphone",

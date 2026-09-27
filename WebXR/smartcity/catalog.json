@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 555
+      "stations": 556
     },
     "trades": {
       "entry": "trades/index.html",
@@ -69,6 +69,7 @@
         "track-access",
         "bus-depot-lift",
         "airport-ramp",
+        "ca-unruly-passenger-deescalation",
         "ca-cabin-medical-event-response",
         "ca-galley-and-cart-safety",
         "ca-cabin-preflight-safety-check",
@@ -8735,6 +8736,87 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-unruly-passenger-deescalation",
+      "name": "Unruly Passenger De-escalation",
+      "title": "SmartCiti.X~ Unruly Passenger De-escalation VR",
+      "tagline": "Distance kept, a calm scripted approach tried first, the flight deck door reinforced and the captain notified the moment things move the wrong way, and any restraint kit staged and never opened without the captain's own explicit authorization",
+      "category": "Mobility & Transit",
+      "domain": "Aviation",
+      "trade": "Flight attendant — AFA-CWA cabin crew",
+      "union": null,
+      "certification": "AFA-CWA cabin-safety training; the airline's own disruptive-passenger response procedure under 14 CFR 121; Cal/OSHA's workplace violence prevention standard, 8 CCR 3342, for the hazard scan and the honest incident record this station teaches — no physical restraint technique is taught here, only distance, notification and the captain's own authorization",
+      "accent": "#b85fa0",
+      "parSeconds": 340,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "turn",
+        "gauge",
+        "drag"
+      ],
+      "badge": {
+        "id": "cabin-deescalated",
+        "name": "Cabin De-escalated",
+        "note": "Distance kept, the calm approach tried, the flight deck secured and the captain notified, and nothing about restraint decided by anyone but the captain"
+      },
+      "meshes": 178,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ca-4",
+      "flat": false,
+      "system": "Cabin De-escalated",
+      "currency": "CALM",
+      "ranks": [
+        "New Flight Attendant",
+        "Line Qualified",
+        "Lead Flight Attendant",
+        "Purser",
+        "Cabin De-escalated Certified"
+      ],
+      "awards": [
+        {
+          "id": "distance-kept",
+          "name": "Distance Kept",
+          "note": "Noticed the cues and kept distance before anything else"
+        },
+        {
+          "id": "deck-secured",
+          "name": "Flight Deck Secured",
+          "note": "The flight deck door reinforced the moment it mattered"
+        },
+        {
+          "id": "captain-authorized",
+          "name": "Captain Authorized",
+          "note": "Nothing about restraint happened without the captain's own explicit word"
+        },
+        {
+          "id": "clean-response",
+          "name": "Clean Response",
+          "note": "No corrections anywhere in the response"
+        },
+        {
+          "id": "steady-hold",
+          "name": "Steady Hold",
+          "note": "Held position at the aisle the full count, first try"
+        },
+        {
+          "id": "fast-response",
+          "name": "Fast Response",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ca-unruly-passenger-deescalation"
     },
     {
       "app": "smartcity",
@@ -29339,7 +29421,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 262,
+      "meshes": 257,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -29999,7 +30081,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "100",
