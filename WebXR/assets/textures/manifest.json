@@ -1,5 +1,5 @@
 {
-  "licence": "Every painter in WebXR/shared/textures.js draws its face procedurally, from canvas fills, gradients and Math.random() \u2014 nothing here is generated or downloaded, and none of the sixteen tiles below ship a file. A deployment that later generates or licenses a real photographic or PBR tile for a painter may drop it at assets/textures/<id>.jpg and set that entry's `file` to the filename, with the tile's own `licence` and `provenance` recorded on the same entry \u2014 facePaint() then loads that file instead of drawing the canvas for that painter's id (see docs/textures.md, \"Drop-in tiles\"). tools/check_textures.mjs fails the build on an entry whose `file` is set without both, on a shipped file with no entry, and on an entry for a file that is not actually present.",
+  "licence": "Every painter in WebXR/shared/textures.js draws its face procedurally, from canvas fills, gradients and Math.random() \u2014 nothing here is generated or downloaded, and none of the tiles below ship a file. A deployment that later generates or licenses a real photographic or PBR tile for a painter may drop it at assets/textures/<id>.jpg and set that entry's `file` to the filename, with the tile's own `licence` and `provenance` recorded on the same entry \u2014 facePaint() then loads that file instead of drawing the canvas for that painter's id (see docs/textures.md, \"Drop-in tiles\"). tools/check_textures.mjs fails the build on an entry whose `file` is set without both, on a shipped file with no entry, and on an entry for a file that is not actually present.",
   "tiles": {
     "brick": {
       "file": null,
@@ -92,6 +92,106 @@
       "provenance": null
     },
     "cart-path": {
+      "file": null,
+      "licence": null,
+      "provenance": null
+    },
+    "teakDeck": {
+      "file": null,
+      "licence": null,
+      "provenance": null
+    },
+    "hullStripe": {
+      "file": null,
+      "licence": null,
+      "provenance": null
+    },
+    "nonSkid": {
+      "file": null,
+      "licence": null,
+      "provenance": null
+    },
+    "harbourWater": {
+      "file": null,
+      "licence": null,
+      "provenance": null
+    },
+    "causticSeabed": {
+      "file": null,
+      "licence": null,
+      "provenance": null
+    },
+    "kelpBlade": {
+      "file": null,
+      "licence": null,
+      "provenance": null
+    },
+    "reefRock": {
+      "file": null,
+      "licence": null,
+      "provenance": null
+    },
+    "crosswalk": {
+      "file": null,
+      "licence": null,
+      "provenance": null
+    },
+    "laneAsphalt": {
+      "file": null,
+      "licence": null,
+      "provenance": null
+    },
+    "brickPaver": {
+      "file": null,
+      "licence": null,
+      "provenance": null
+    },
+    "tileMosaic": {
+      "file": null,
+      "licence": null,
+      "provenance": null
+    },
+    "corrugatedRoof": {
+      "file": null,
+      "licence": null,
+      "provenance": null
+    },
+    "glassCurtainWall": {
+      "file": null,
+      "licence": null,
+      "provenance": null
+    },
+    "stuccoWarm": {
+      "file": null,
+      "licence": null,
+      "provenance": null
+    },
+    "turfStripe": {
+      "file": null,
+      "licence": null,
+      "provenance": null
+    },
+    "sailCloth": {
+      "file": null,
+      "licence": null,
+      "provenance": null
+    },
+    "canopyFabric": {
+      "file": null,
+      "licence": null,
+      "provenance": null
+    },
+    "rustPatina": {
+      "file": null,
+      "licence": null,
+      "provenance": null
+    },
+    "safetyChevron": {
+      "file": null,
+      "licence": null,
+      "provenance": null
+    },
+    "signageEnamel": {
       "file": null,
       "licence": null,
       "provenance": null

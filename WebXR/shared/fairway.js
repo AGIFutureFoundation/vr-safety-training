@@ -1,6 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { box, cyl, ball, torus, group, mat, decal, mergeStatic, hex } from "./kit.js";
-import { facePaint, paintedMat, turfFace, roughFace, sandFace, cartPathFace } from "./textures.js";
+import { facePaint, paintedMat, turfFace, roughFace, sandFace, cartPathFace, txTexture, txTurfStripeFace } from "./textures.js";
 import { FAIRWAY_BOUNDS, FAIRWAY_HEIGHT_RANGE, FAIRWAY_HOLES, FAIRWAY_FACILITY, FAIRWAY_MESH_BUDGET, fairwayHeight, fairwayGreenAt, fairwayLieAt, seededRng, FAIRWAY_HALF_WIDTH, CART_HALF_WIDTH, TEE_RADIUS } from "./fairway-data.js";
 export { FAIRWAY_BOUNDS, FAIRWAY_HEIGHT_RANGE, FAIRWAY_HOLES, FAIRWAY_FACILITY, FAIRWAY_MESH_BUDGET, fairwayHeight, fairwayGreenAt, fairwayLieAt };
 
@@ -25,7 +25,10 @@ function ribbon(parent, a, b, width, key, painter, o = {}) {
   const len = Math.max(0.5, Math.hypot(dx, dz));
   const mx = (ax + bx) / 2, mz = (az + bz) / 2;
   const g = group(parent, mx, o.y ?? 0.02, mz, Math.atan2(-dx, -dz));
-  const tex = facePaint(key, painter, { repeat: o.repeat ?? Math.max(1, Math.round(len / 14)), px: o.px ?? 256 });
+  const rep = o.repeat ?? Math.max(1, Math.round(len / 14));
+  // A pattern-set surface (o.pattern) paints one canvas and tiles it per
+  // segment; a named painter keeps facePaint()'s own key.
+  const tex = o.pattern ? txTexture(o.pattern.id, { ...o.pattern, id: undefined, repeat: [1, rep] }) : facePaint(key, painter, { repeat: rep, px: o.px ?? 256 });
   const geo = new THREE.PlaneGeometry(width, len);
   const m = new THREE.Mesh(geo, paintedMat(tex, { rough: o.rough ?? 0.85, metal: o.metal ?? 0.02 }));
   m.rotation.x = -Math.PI / 2;
@@ -230,11 +233,12 @@ function fuelCabinet(parent, x, z, ry = 0) {
 function buildHole(parent, hole, opts) {
   const trees = opts.trees !== false;
   for (let i = 1; i < hole.fairway.length; i++) {
-    ribbon(parent, hole.fairway[i - 1], hole.fairway[i], FAIRWAY_HALF_WIDTH * 2, "fairway-turf", turfFace);
+    ribbon(parent, hole.fairway[i - 1], hole.fairway[i], FAIRWAY_HALF_WIDTH * 2, "fairway-turf", turfFace,
+      { pattern: { id: "turfStripe", a: 0x4a9a4c, b: 0x3f8a44, stripes: 10, seed: 31 } });
   }
   ribbon(parent, hole.cartPath[0], hole.cartPath[1], CART_HALF_WIDTH * 2, "cart-path", cartPathFace, { y: 0.018 });
   discSurface(parent, hole.green.centre[0], hole.green.centre[1], hole.green.radius, 0x4fae54,
-    { texKey: "green-turf", painter: (g, w, h) => turfFace(g, w, h, { stripes: 16, a: "#54b258", b: "#4aa04e" }) });
+    { texKey: "green-turf", painter: (g, w, h) => txTurfStripeFace(g, w, h, { stripes: 16, a: 0x54b258, b: 0x4aa04e, seed: 32 }) });
   for (const b of hole.bunkers) {
     discSurface(parent, b.centre[0], b.centre[1], b.radius, 0xd8c79a, { y: 0.01, texKey: "bunker-sand", painter: sandFace });
   }
@@ -266,7 +270,7 @@ function buildFacility(parent, opts) {
   const [tx, tz] = f.track.centre;
   torus(parent, f.track.rx, f.track.laneWidth / 2 + 1, tx, 0.02, tz, 0x9a5a34, { rough: 0.85, seg: 8, seg2: 48 }).rotation.x = Math.PI / 2;
   const pitch = box(parent, f.pitch.w, 0.05, f.pitch.d, tx, 0.03, tz, 0x3f8a44, { rough: 0.85, cast: false });
-  pitch.material = paintedMat(facePaint("facility-pitch", (g, w, h) => turfFace(g, w, h, { stripes: 12 }), { repeat: 4, px: 256 }), { rough: 0.8 });
+  pitch.material = paintedMat(txTexture("turfStripe", { stripes: 12, seed: 33, repeat: 4 }), { rough: 0.8 });
   goalFrame(parent, tx, tz - f.pitch.d / 2 + 0.5, 7.3, 2.4);
   goalFrame(parent, tx, tz + f.pitch.d / 2 - 0.5, 7.3, 2.4, Math.PI);
 
@@ -373,7 +377,7 @@ function buildPreview(parent, opts) {
   ribbon(parent, [10, -20], [10, 24], 5.0, "cart-path", cartPathFace, { y: 0.018 });
   clubhouseShelter(parent, -18, 8, 0.35);
   teeMarker(parent, 12, -12, -0.2);
-  discSurface(parent, 16, 6, 7, 0x4fae54, { texKey: "green-turf", painter: (g, w, h) => turfFace(g, w, h, { stripes: 12, a: "#54b258", b: "#4aa04e" }) });
+  discSurface(parent, 16, 6, 7, 0x4fae54, { texKey: "green-turf-preview", painter: (g, w, h) => txTurfStripeFace(g, w, h, { stripes: 12, a: 0x54b258, b: 0x4aa04e, seed: 32 }) });
   discSurface(parent, 24, 3, 3.4, 0xd8c79a, { y: 0.01, texKey: "bunker-sand", painter: sandFace });
   flagPole(parent, 16, 6, 1);
   const r = seededRng(7);

@@ -32,7 +32,16 @@
  *     never the network);
  *   - palette() returns exactly the four keys { accent, ground, structure,
  *     trim } for every documented trade name, and falls back to
- *     `construction` for an unknown one rather than throwing.
+ *     `construction` for an unknown one rather than throwing;
+ *   - the pattern set (team PALETTE, tools/briefs/mobile-look-brief.md):
+ *     every one of its twenty painters paints headless at all three tiers
+ *     (256, 512, 1024), is deterministic by seed (same seed, same pixels;
+ *     another seed, other pixels), and tiles; txTexture()'s shared cache
+ *     hits on a repeat request and never paints the same canvas twice;
+ *     textureStats() counts canvases and pixels; a full "high" Bay World
+ *     build at the low (phone) tier stays under 12 megapixels of canvas;
+ *     and every world palette's colour-blind-safe accents hold at least
+ *     3:1 contrast against its ground (txPaletteContrast()).
  *
  *     node tools/check_textures.mjs
  */
@@ -49,6 +58,8 @@ const HARNESS = `export {
   facePaint, facePaintCacheSize, clearFacePaintCache, paintedMat, paintTexture,
   noiseWash, edgeWear, tileIdFor, PAINTER_TILE_IDS, loadTextureManifest, externalTileFor,
   palette, PALETTE_NAMES, TEXTURE_RES, QUALITY, THREE,
+  TX_PAINTERS, TX_PAINTER_IDS, TX_PALETTE_NAMES, TX_TIER_RES, TX_ACCENTS, txPalette, txContrast, txPaletteContrast,
+  txTexture, textureStats, txResetTextures, txTier, txNoteCanvas,
 };`;
 const S = await buildSuite(MODULES, HARNESS, "textures");
 
@@ -63,6 +74,11 @@ const PAINTERS = {
   hardwoodCourtFace: S.hardwoodCourtFace, plasterFace: S.plasterFace, stainlessFace: S.stainlessFace,
   turfFace: S.turfFace, roughFace: S.roughFace, cartPathFace: S.cartPathFace,
 };
+// The pattern set joins under each painter's own function name.
+for (const id of S.TX_PAINTER_IDS) PAINTERS[S.TX_PAINTERS[id].name] = S.TX_PAINTERS[id];
+// Painters meant to tile along one axis only: a hull side runs sheer stripe
+// to antifouling top to bottom, so only its horizontal repeat is judged.
+const ONE_AXIS = new Set(["txHullStripeFace"]);
 const NAMES = Object.keys(PAINTERS);
 
 // ---------------------------------------------------------------- headless
@@ -219,7 +235,7 @@ for (const name of NAMES) {
   const diff = (a, c) => Math.max(...a.map((v, i) => Math.abs(v - c[i])));
   const dx = diff(l, r), dy = diff(t, b);
   if (dx > TOLERANCE) fail(name, `left/right edge average colour differs by ${dx.toFixed(0)} (tolerance ${TOLERANCE}) — does not tile horizontally`);
-  if (dy > TOLERANCE) fail(name, `top/bottom edge average colour differs by ${dy.toFixed(0)} (tolerance ${TOLERANCE}) — does not tile vertically`);
+  if (dy > TOLERANCE && !ONE_AXIS.has(name)) fail(name, `top/bottom edge average colour differs by ${dy.toFixed(0)} (tolerance ${TOLERANCE}) — does not tile vertically`);
 }
 
 // ------------------------------------------------------------------ cache
@@ -361,7 +377,96 @@ if (JSON.stringify(fallback) !== JSON.stringify(construction)) fail("palette", "
 const p1 = S.palette("marine"); p1.accent = 0;
 if (S.palette("marine").accent === 0) fail("palette", "palette() hands back a live reference — a caller's edit leaked into the shared table");
 
+// ------------------------------------------------------------ pattern set
+const TX_IDS = S.TX_PAINTER_IDS;
+if (TX_IDS.length !== 20) fail("pattern-set", `${TX_IDS.length} patterns; the brief lists twenty`);
+for (const id of ["teakDeck", "hullStripe", "nonSkid", "harbourWater", "causticSeabed", "kelpBlade", "reefRock", "crosswalk", "laneAsphalt", "brickPaver", "tileMosaic", "corrugatedRoof", "glassCurtainWall", "stuccoWarm", "turfStripe", "sailCloth", "canopyFabric", "rustPatina", "safetyChevron", "signageEnamel"]) {
+  if (!S.TX_PAINTERS[id]) { fail("pattern-set", `no "${id}" painter`); continue; }
+  if (S.tileIdFor(S.TX_PAINTERS[id]) !== id) fail("pattern-set", `${id}: PAINTER_IDS names it "${S.tileIdFor(S.TX_PAINTERS[id])}", not its own id`);
+}
+if (JSON.stringify(S.TX_TIER_RES) !== JSON.stringify({ low: 256, mid: 512, high: 1024 })) fail("pattern-set", `tier sizes are ${JSON.stringify(S.TX_TIER_RES)}; the brief sets low 256, mid 512, high 1024`);
+if (S.txTier() !== "low") fail("pattern-set", `the headless tier is "${S.txTier()}", expected "low"`);
+const fp = (ctx) => { let a = 0, b = 0; for (let i = 0; i < ctx.data.length; i += 7) { a = (a + ctx.data[i] * (i % 251 + 1)) % 1e9; b += ctx.data[i]; } return `${a}|${b.toFixed(0)}`; };
+const SEEDLESS = new Set(["safetyChevron"]);
+for (const id of TX_IDS) {
+  const draw = S.TX_PAINTERS[id];
+  for (const tier of ["low", "mid", "high"]) {
+    const px = S.TX_TIER_RES[tier];
+    try {
+      const canvas = globalThis.document.createElement("canvas");
+      canvas.width = px; canvas.height = px;
+      draw(canvas.getContext("2d"), px, px, { pal: S.txPalette("regatta"), seed: 3 });
+    } catch (e) { fail(`pattern:${id}`, `threw at the ${tier} tier (${px}px) — ${e.message}`); }
+  }
+  try {
+    const a = fp(render(draw, 96, { seed: 7 })), b = fp(render(draw, 96, { seed: 7 })), c = fp(render(draw, 96, { seed: 8 }));
+    if (a !== b) fail(`pattern:${id}`, "the same seed painted different pixels — not deterministic");
+    if (!SEEDLESS.has(id) && a === c) fail(`pattern:${id}`, "a different seed painted identical pixels — the seed is ignored");
+    for (const pal of S.TX_PALETTE_NAMES) render(draw, 32, { pal: S.txPalette(pal) });
+  } catch (e) { fail(`pattern:${id}`, `threw against the software canvas — ${e.message}`); }
+}
+// The shared cache: painter + resolution + palette, one canvas each.
+S.txResetTextures();
+{
+  const a = S.txTexture("teakDeck", { palette: "regatta", repeat: 2 });
+  const b = S.txTexture("teakDeck", { palette: "regatta", repeat: 2 });
+  let st = S.textureStats();
+  if (a !== b) fail("tx-cache", "a repeat txTexture() request built a second texture");
+  if (st.misses !== 1 || st.hits < 1) fail("tx-cache", `after two identical requests: ${st.misses} miss(es), ${st.hits} hit(s); expected 1 and at least 1`);
+  S.txTexture("teakDeck", { palette: "regatta", repeat: 6 });
+  st = S.textureStats();
+  if (st.patterns !== 1 || st.canvases !== 1) fail("tx-cache", `a second tiling painted another canvas (${st.canvases} canvases, ${st.patterns} patterns); it must share the first`);
+  S.txTexture("teakDeck", { palette: "bayworld-night" });
+  S.txTexture("teakDeck", { palette: "regatta", tier: "mid" });
+  st = S.textureStats();
+  if (st.patterns !== 3) fail("tx-cache", `a new palette and a new resolution should each paint once (3 patterns), found ${st.patterns}`);
+  if (st.pixels !== 256 * 256 * 2 + 512 * 512) fail("tx-cache", `textureStats() reports ${st.pixels} pixels; expected ${256 * 256 * 2 + 512 * 512}`);
+  S.txNoteCanvas("fleet|x", 100, 10); S.txNoteCanvas("fleet|x", 100, 10);
+  if (S.textureStats().pixels !== st.pixels + 1000) fail("tx-cache", "txNoteCanvas() must count a noted canvas once");
+  let threw = false; try { S.txTexture("no-such-pattern"); } catch { threw = true; }
+  if (!threw) fail("tx-cache", "an unknown pattern id must throw, not paint grey");
+}
+// Contrast: every palette's accents at least 3:1 against its ground.
+if (S.TX_PALETTE_NAMES.length < 7) fail("tx-palette", `${S.TX_PALETTE_NAMES.length} world palettes; the brief names seven`);
+for (const name of ["bayworld-day", "bayworld-dusk", "bayworld-night", "regatta", "deep-shallow", "deep-mid", "deep-deep"]) {
+  if (!S.TX_PALETTE_NAMES.includes(name)) { fail("tx-palette", `no "${name}" palette`); continue; }
+  const c = S.txPaletteContrast(name);
+  if (!c.ok) fail(`tx-palette:${name}`, `accent contrast against the ground falls to ${c.worst}:1 (${c.pairs.map((q) => `${q.accent} ${q.ratio}`).join(", ")}); at least 3:1 required`);
+  for (const a of S.txPalette(name).accentNames) if (!(a in S.TX_ACCENTS)) fail(`tx-palette:${name}`, `accent "${a}" is not in the colour-blind-safe set`);
+}
+if (Math.abs(S.txContrast(0x000000, 0xffffff) - 21) > 0.01 || Math.abs(S.txContrast(0x777777, 0x777777) - 1) > 1e-9) fail("tx-palette", "txContrast() does not give 21:1 for black on white and 1:1 for a colour on itself");
+if (S.txPaletteContrast("regatta", 50).ok) fail("tx-palette", "txPaletteContrast() passed an impossible 50:1 minimum");
+
+// The phone budget: a full "high" Bay World at the low tier, every canvas
+// counted — textureStats() for what the library painted, and every canvas
+// the headless document handed out (fleet liveries, captions) as the total.
+let bayPixels = null;
+{
+  const B = await buildSuite([
+    "shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/fleet.js", "shared/props.js",
+    "smartcity/js/citykit.js", "shared/bayworld-data.js", "shared/bayworld.js",
+  ], "export { buildBayWorld, textureStats, txResetTextures, txTier, THREE };", "textures-bay");
+  const made = [];
+  const doc = globalThis.document, create = doc.createElement;
+  doc.createElement = (tag) => { const el = create.call(doc, tag); if (String(tag).toLowerCase() === "canvas") made.push(el); return el; };
+  try {
+    B.txResetTextures();
+    B.buildBayWorld(new B.THREE.Group(), { detail: "high" });
+  } finally { doc.createElement = create; }
+  const st = B.textureStats();
+  const total = made.reduce((n, c) => n + (c.width | 0) * (c.height | 0), 0);
+  bayPixels = { library: st.pixels, total, canvases: made.length };
+  if (B.txTier() !== "low") fail("tx-budget", `Bay World built at tier "${B.txTier()}", expected the low tier`);
+  if (st.canvases < 1) fail("tx-budget", "textureStats() saw no canvases during a full Bay World build");
+  if (total >= 12e6) {
+    const sizes = {};
+    for (const c of made) { const k = `${c.width}x${c.height}`; sizes[k] = (sizes[k] ?? 0) + 1; }
+    fail("tx-budget", `a high Bay World build at the low tier paints ${(total / 1e6).toFixed(2)} MP of canvas in ${made.length} canvases (${Object.entries(sizes).sort((a, b) => b[1] - a[1]).map(([k, n]) => `${n}×${k}`).join(", ")}); the phone budget is under 12 MP`);
+  }
+  if (st.canvases > made.length) fail("tx-budget", "textureStats() counts more canvases than were created");
+}
+
 console.log(failures
   ? `\n${failures} texture problem(s) found.`
-  : `\nAll ${NAMES.length} face painters draw headless at TEXTURE_RES (${S.TEXTURE_RES}) and tile within tolerance; the facePaint() cache dedupes per (key, px, repeat); the resolution switch and the drop-in tile manifest both check out; all ${S.PALETTE_NAMES.length} trade palettes carry their four keys.`);
+  : `\nAll ${NAMES.length} face painters draw headless at TEXTURE_RES (${S.TEXTURE_RES}) and tile within tolerance; the facePaint() cache dedupes per (key, px, repeat); the resolution switch and the drop-in tile manifest both check out; all ${S.PALETTE_NAMES.length} trade palettes carry their four keys; the ${TX_IDS.length}-pattern set paints at 256/512/1024, deterministic by seed, cached per painter + resolution + palette; every world palette's accents hold 3:1; a high Bay World at the low tier paints ${(bayPixels.total / 1e6).toFixed(2)} MP of canvas (library ${(bayPixels.library / 1e6).toFixed(2)} MP) under the 12 MP phone budget.`);
 process.exit(failures ? 1 : 0);

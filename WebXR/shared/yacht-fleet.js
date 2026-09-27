@@ -104,7 +104,9 @@ export function buildYacht(parent, id, x, y, z, heading = 0) {
   const k = rgClampLength(yacht.length);
   const root = motorYacht(parent, x, y, z, {
     ry: heading,
-    livery: { colour: yacht.hull, accent: yacht.trim, fleetName: yacht.name.toUpperCase(), unitNumber: yacht.unit },
+    // Each yacht's own colours all the way through to the pattern set: hull
+    // gelcoat, sheer stripe in its trim, boot-top in its burgee colour.
+    livery: { colour: yacht.hull, accent: yacht.trim, bootTop: yacht.burgee, fleetName: yacht.name.toUpperCase(), unitNumber: yacht.unit },
   });
   root.scale.set(k, k, k);
   root.userData.yacht = yacht;

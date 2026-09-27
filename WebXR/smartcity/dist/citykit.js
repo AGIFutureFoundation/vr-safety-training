@@ -706,7 +706,7 @@ export function standingFigure(parent, x, z, o = {}) {
   personLegs(body, { trousers, dress, boots });
   const head = group(body, 0, 1.5, 0);
   personHead(head, {
-    look, k: 0.9, helmet, cap, scrubCap, diveHood, glasses, mask, respirator: o.respirator,
+    look, k: 0.9, helmet, cap, scrubCap, diveHood, glasses, mask, respirator: o.respirator, facePx: o.facePx,
   });
   // Kept as [{shoulder, fore}, ...] (left first, then right) rather than
   // discarded like most callers do: the third-person chase view (app.js)

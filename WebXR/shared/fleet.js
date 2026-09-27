@@ -1,6 +1,6 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
 import { box, cyl, ball, torus, hose, group, mat, mergeStatic, gradientFill, noiseTexture, grimeOverlay } from "./kit.js";
-import { rustFace, corrugatedFace, woodGrainFace } from "./textures.js";
+import { rustFace, corrugatedFace, woodGrainFace, txTeakDeckFace, txHullStripeFace, txNonSkidFace, txNoteCanvas, txTierPx } from "./textures.js";
 
 // Shared fleet kit — every vehicle a station parks, drives or inspects.
 //
@@ -84,6 +84,7 @@ export function flCanvasMat(key, pw, ph, draw, o = {}) {
   canvas.width = pw; canvas.height = ph;
   const g = canvas.getContext("2d");
   try { draw(g, pw, ph); } catch (e) { /* headless 2D stub: no pixels, same build */ }
+  txNoteCanvas(`fleet|${key}`, pw, ph); // counted in shared/textures.js's textureStats()
   const tex = new THREE.CanvasTexture(canvas);
   if (THREE.SRGBColorSpace !== undefined) tex.colorSpace = THREE.SRGBColorSpace;
   tex.anisotropy = 4;
@@ -1863,21 +1864,27 @@ export function skiff(parent, x, y, z, opts = {}) {
 
 // ------------------------------------------------ marine: motor yacht
 
-/** Teak-laid deck: the shared wood-grain painter, planked fine and pale. */
+/** Teak-laid deck: the pattern set's teak planking with black caulk seams
+ *  (shared/textures.js's txTeakDeckFace), at the page's texture tier. */
 function flTeakMat() {
-  return flCanvasMat("yacht|teak", 512, 512, (g, w, h) => {
-    woodGrainFace(g, w, h, { planks: 14, tones: [0xb8935e, 0xaa8452, 0xc09b66] });
-    g.fillStyle = "rgba(20,20,20,0.55)";
-    for (let i = 0; i < 14; i++) g.fillRect(i * (w / 14), 0, 2, h);
-  }, { rough: 0.7, metal: 0.05, repeat: [2, 6] });
+  const px = txTierPx(512);
+  return flCanvasMat(`yacht|teak|${px}`, px, px, (g, w, h) => txTeakDeckFace(g, w, h, { planks: 14, seed: 11 }),
+    { rough: 0.7, metal: 0.05, repeat: [2, 6] });
 }
-/** Gelcoat hull side with a boot-top stripe and the yacht's name, no hail port. */
+/** Diamond non-skid for the raised foredeck and a tender's sole, a shade
+ *  off the gelcoat so it reads as the same moulding. */
+function flNonSkidMat(colour) {
+  const px = txTierPx(256);
+  return flCanvasMat(`yacht|nonskid|${colour}|${px}`, px, px, (g, w, h) => txNonSkidFace(g, w, h, { colour: flShade(colour, 0.94), cells: 16, seed: 13 }),
+    { rough: 0.8, metal: 0.05, repeat: [3, 6] });
+}
+/** Gelcoat hull side: the pattern set's hull stripes (sheer stripe in the
+ *  livery accent, boot-top in `lv.bootTop` or the accent) under the yacht's
+ *  name, no hail port. */
 function flGelcoatMat(lv) {
-  return flCanvasMat(`yacht|hull|${lv.key}`, 1024, 256, (g, w, h) => {
-    gradientFill(g, w, h, [[0, flCss(flShade(lv.colour, 1.04))], [1, flCss(flShade(lv.colour, 0.9))]]);
-    noiseTexture(g, w, h, { density: 900, alpha: 0.04, tone: "0,0,0" });
-    g.fillStyle = flCss(lv.accent); g.fillRect(0, h * 0.78, w, h * 0.07);
-    g.fillStyle = "#1a2a3a"; g.fillRect(0, h * 0.9, w, h * 0.1);
+  const pw = txTierPx(1024), ph = Math.round(pw / 4);
+  return flCanvasMat(`yacht|hull|${lv.key}|${lv.bootTop ?? ""}|${pw}`, pw, ph, (g, w, h) => {
+    txHullStripeFace(g, w, h, { hull: lv.colour, stripe: lv.accent, bootTop: lv.bootTop ?? lv.accent, bottom: 0x1a2a3a, seed: 12 });
     g.font = `700 ${Math.round(h * 0.26)}px 'Barlow Condensed', Arial, sans-serif`;
     g.textAlign = "right"; g.textBaseline = "middle"; g.fillStyle = "#1c2b3a";
     g.fillText(lv.fleetName, w * 0.96, h * 0.42);
@@ -1899,6 +1906,7 @@ function flGelcoatMat(lv) {
  */
 export function motorYacht(parent, x, y, z, opts = {}) {
   const lv = flLivery(opts.livery, { colour: 0xf4f5f2, fleetName: "ESTUARY LADY", unitNumber: "MY-24", accent: 0x2b6f9e });
+  if (opts.livery?.bootTop !== undefined) lv.bootTop = flHex(opts.livery.bootTop);
   const L = 24, W = 6.0, hw = W / 2, Z = (s) => L / 2 - s;
   const rig = flRig(parent, x, y, z, opts, "motorYacht");
   const S = rig.shell;
@@ -1914,7 +1922,7 @@ export function motorYacht(parent, x, y, z, opts = {}) {
   flRod(S, 0.03, 0.9, 1.6, 1.15, Z(L - 0.15), "y", ...FL.chrome);
   // Main deck: teak over the whole length, a raised foredeck in gelcoat.
   flBox(S, W - 0.5, 0.05, L - 2.0, 0, 2.42, Z((L - 1.2) / 2 + 0.4), teak);
-  flPlan(S, plan(0.92, 15.5), 0.25, 0, 2.42, 0, lv.colour, { material: gel, bevel: 0.05 });
+  flPlan(S, plan(0.92, 15.5), 0.25, 0, 2.42, 0, lv.colour, { material: flNonSkidMat(lv.colour), bevel: 0.05 });
   for (const sx of [1, -1]) flRod(S, 0.07, L - 3.0, sx * (hw + 0.05), 2.36, Z(L / 2 + 0.9), "z", ...FL.black);   // rub rails
   // Saloon deckhouse: profile in [s-from-bow, y] from the foredeck aft.
   flSide(S, [[8.0, 2.45], [7.2, 3.6], [7.6, 4.7], [19.0, 4.7], [19.0, 2.45]], W - 1.6, 0, 0, Z(0), 0xe9ebe6, { rough: 0.4, metal: 0.15, finish: "painted", bevel: 0.05 });
@@ -1934,7 +1942,9 @@ export function motorYacht(parent, x, y, z, opts = {}) {
   wheel.rotation.x = 0.35;
   box(S, 2.4, 0.5, 0.7, 0, 5.1, Z(12.2), 0x3a5f80, { rough: 0.8 });
   for (const sx of [1, -1]) flStrut(S, [sx * (hw - 1.0), 4.8, Z(16.4)], [sx * (hw - 1.3), 7.0, Z(15.6)], 0.07, 0xe9ebe6, { rough: 0.4, metal: 0.15 });
-  flBox(S, W - 1.8, 0.12, 3.6, 0, 7.05, Z(14.8), flCanvasMat("yacht|hardtop", 64, 64, (g, w, h) => { g.fillStyle = "#e9ebe6"; g.fillRect(0, 0, w, h); }, { rough: 0.4, metal: 0.15 }));
+  // The hardtop is moulded in the same non-skid as the foredeck, so the two
+  // share one material and the shell still merges to its declared count.
+  flBox(S, W - 1.8, 0.12, 3.6, 0, 7.05, Z(14.8), flNonSkidMat(lv.colour));
   cyl(S, 0.36, 0.36, 0.28, 0.6, 7.25, Z(15.4), 0xf1f3f4, { rough: 0.5, seg: 14 });   // radome
   flRod(S, 0.035, 0.8, -0.6, 7.5, Z(15.4), "y", ...FL.alu);                           // mast
   // Side-deck rails: top rail and stanchions both sides, the bow pulpit.
@@ -2005,9 +2015,14 @@ export function yachtTender(parent, x, y, z, opts = {}) {
   const L = 4.2, W = 1.9, hw = W / 2, Z = (s) => L / 2 - s;
   const rig = flRig(parent, x, y, z, opts, "yachtTender", [0, 0, 0.27]);
   const S = rig.shell;
+  // The hull in the livery's colour with a boot-top stripe in its accent (the
+  // pattern set's hull stripes), and a diamond non-skid sole.
+  const tpw = txTierPx(256);
+  const hullMat = flCanvasMat(`tender|hull|${lv.key}|${tpw}`, tpw, Math.round(tpw / 4), (g, w, h) => txHullStripeFace(g, w, h, { hull: lv.colour, stripe: lv.colour, bootTop: lv.accent, bottom: flShade(lv.colour, 0.6), seed: 12 }),
+    { rough: 0.5, metal: 0.2 });
   flPlan(S, [[hw * 0.7, -L / 2], [hw * 0.7, L / 2 - 1.4], [hw * 0.3, L / 2 - 0.35], [0, L / 2 - 0.1], [-hw * 0.3, L / 2 - 0.35], [-hw * 0.7, L / 2 - 1.4], [-hw * 0.7, -L / 2]],
-    0.42, 0, 0, 0, lv.colour, { rough: 0.5, metal: 0.2, finish: "painted", bevel: 0.05 });
-  flBox(S, W - 0.75, 0.03, L - 1.3, 0, 0.43, Z(L / 2 + 0.5), flTreadMat());
+    0.42, 0, 0, 0, lv.colour, { material: hullMat, bevel: 0.05 });
+  flBox(S, W - 0.75, 0.03, L - 1.3, 0, 0.43, Z(L / 2 + 0.5), flNonSkidMat(0xc8ccce));
   const tube = [0xdcd6c8, { rough: 0.85, finish: "rubber" }];
   for (const sx of [1, -1]) {
     const t = flRod(S, 0.24, L - 1.2, sx * (hw - 0.26), 0.5, Z(L / 2 + 0.5), "z", ...tube, { seg: 12 });

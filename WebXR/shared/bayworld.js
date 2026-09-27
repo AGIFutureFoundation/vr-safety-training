@@ -2,7 +2,7 @@ import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/
 import { box, cyl, ball, torus, group, mat, decal, mergeStatic, hex } from "./kit.js";
 import {
   facePaint, paintedMat, brickFace, blockFace, concreteFace, asphaltFace, corrugatedFace,
-  grassFace, plasterFace, gravelFace,
+  grassFace, plasterFace, gravelFace, woodGrainFace, txTexture, txTierPx, txPalette,
 } from "./textures.js";
 import { streetTree, parkBench, lightMast, fireHydrant, bollardRow, fencePanel, shippingContainer } from "./props.js";
 import { sedan, pickup, cargoVan, boxTruck, busTransit } from "./fleet.js";
@@ -14,6 +14,7 @@ import { standingFigure, holoTag } from "../smartcity/js/citykit.js";
 import {
   BAY_BOUNDS, BAY_ZONES, BAY_LANDMARKS, BAY_ROADS, BAY_SITES, BAY_MESH_BUDGET, BAY_HEIGHT_RANGE,
   bayHeight, bayZoneAt, bayRoadAt, bwSeededRng,
+  TX_BAY_WATER, TX_SHORE_MARGIN, TX_WATER_THICKNESS, txGroundHeight, txTerrainSegments,
 } from "./bayworld-data.js";
 export {
   BAY_BOUNDS, BAY_ZONES, BAY_LANDMARKS, BAY_ROADS, BAY_SITES, BAY_MESH_BUDGET, BAY_HEIGHT_RANGE,
@@ -75,6 +76,28 @@ export function bayLighting(time) {
   return BAY_TIME[time] ?? BAY_TIME.night;
 }
 
+// ---------------------------------------------------------------- palette
+//
+// Team PALETTE's world palette for this build — "bayworld-day", "-dusk" or
+// "-night" from opts.time — read by the water, the ground and the facades
+// below. Set once at the top of buildBayWorld().
+let txBayPaletteName = "bayworld-night";
+
+/** A second tiling of an already-painted texture: a clone sharing the same
+ *  canvas, so a street of buildings costs one canvas per style, not one per
+ *  facade width. */
+function txBayTiled(tex, ru, rv = ru) {
+  const t = typeof tex?.clone === "function" ? tex.clone() : tex;
+  if (t && t !== tex && THREE.RepeatWrapping !== undefined) { t.wrapS = THREE.RepeatWrapping; t.wrapT = THREE.RepeatWrapping; }
+  t?.repeat?.set?.(ru, rv);
+  return t;
+}
+/** hex mixed toward white by k — a light tint for a neutral painted facade. */
+function txBayTint(c, k = 0.5) {
+  const m = (v) => Math.round(v + (255 - v) * k);
+  return (m((c >> 16) & 255) << 16) | (m((c >> 8) & 255) << 8) | m(c & 255);
+}
+
 // ----------------------------------------------------------------- ground
 
 /** A flat ground slab, height-displaced by bayHeight(), textured with a
@@ -82,21 +105,24 @@ export function bayLighting(time) {
  *  shared/fairway.js's bwTerrain() is: the headless content checkers run
  *  against a stub three.js with no real BufferAttribute API, so this checks
  *  for it before touching it and simply builds a flat mesh there instead. */
-function bwTerrain(cx, cz, w, d) {
-  const segX = Math.min(64, Math.max(2, Math.round(w / 20)));
-  const segZ = Math.min(64, Math.max(2, Math.round(d / 20)));
+function bwTerrain(cx, cz, w, d, heightAt = txGroundHeight) {
+  const [segX, segZ] = txTerrainSegments(w, d);
   const geo = new THREE.PlaneGeometry(w, d, segX, segZ);
   const pos = geo.attributes?.position;
   if (pos && typeof pos.setZ === "function" && typeof pos.getX === "function") {
     for (let i = 0; i < pos.count; i++) {
+      // The plane is turned -90 degrees about X below, which sends local +Y
+      // to world -Z: sample the height at world z = cz - localY, or the
+      // relief (and every carved water bed) lands mirrored across the slab.
       const localX = pos.getX(i), localY = pos.getY(i);
-      pos.setZ(i, bayHeight(cx + localX, cz + localY));
+      pos.setZ(i, heightAt(cx + localX, cz - localY));
     }
     pos.needsUpdate = true;
     if (typeof geo.computeVertexNormals === "function") geo.computeVertexNormals();
   }
-  const tex = facePaint("bayworld-ground", (g, w2, h2) => grassFace(g, w2, h2, { a: "#3c6b2f", b: "#345f29" }),
-    { repeat: Math.max(6, Math.round(Math.max(w, d) / 60)), px: 512 });
+  const ground = txPalette(txBayPaletteName).ground;
+  const tex = txTexture("turfStripe", { a: ground, b: bwShade(ground, 0.88), stripes: 8, seed: 5,
+    repeat: Math.max(6, Math.round(Math.max(w, d) / 60)) });
   const mesh = new THREE.Mesh(geo, paintedMat(tex, { rough: 0.92, metal: 0.02 }));
   // Rotated on the mesh, not baked into the geometry — see
   // shared/fairway.js's bwTerrain() for why: a content checker reading a
@@ -116,16 +142,11 @@ function bwTerrain(cx, cz, w, d) {
 /** Still bay water covering the port/estuary side of the world (or a small
  *  patch for the "low" preview). */
 function buildWater(parent, cx, cz, w, d, y = -0.4) {
-  const tex = facePaint("bayworld-water", (g, w2, h2) => {
-    const grad = g.createLinearGradient ? g.createLinearGradient(0, 0, 0, h2) : null;
-    if (grad && typeof grad.addColorStop === "function") {
-      grad.addColorStop(0, "#123244"); grad.addColorStop(1, "#0a2230");
-      g.fillStyle = grad; g.fillRect(0, 0, w2, h2);
-    } else { g.fillStyle = "#123244"; g.fillRect(0, 0, w2, h2); }
-    g.fillStyle = "rgba(210,230,240,0.06)";
-    for (let i = 0; i < 30; i++) g.fillRect(Math.random() * w2, Math.random() * h2, 40 + Math.random() * 60, 2);
-  }, { repeat: Math.max(4, Math.round(Math.max(w, d) / 80)), px: 384 });
-  const m = box(parent, w, 0.1, d, cx, y, cz, 0x0f2e3a, { rough: 0.2, metal: 0.6, cast: false });
+  // Harbour water from the pattern set, in this build's palette: one canvas
+  // for every body, each tiled to its own size.
+  const tex = txTexture("harbourWater", { palette: txBayPaletteName, seed: 9,
+    repeat: [Math.max(4, Math.round(w / 60)), Math.max(4, Math.round(d / 60))] });
+  const m = box(parent, w, TX_WATER_THICKNESS, d, cx, y, cz, 0x0f2e3a, { rough: 0.2, metal: 0.6, cast: false });
   m.material = paintedMat(tex, { rough: 0.22, metal: 0.55 });
   m.receiveShadow = false;
   return m;
@@ -137,26 +158,36 @@ function buildWater(parent, cx, cz, w, d, y = -0.4) {
  *  markings baked into the asphalt texture itself (asphaltFace's own
  *  `o.lanes`) rather than as separate meshes — see shared/fairway.js's
  *  ribbon() for the same "one plane between two arbitrary points" reasoning. */
-function roadRibbon(parent, a, b, lanes) {
+function roadRibbon(parent, a, b, lanes, withCrossing = false) {
   const [ax, az] = a, [bx, bz] = b;
   const dx = bx - ax, dz = bz - az;
   const len = Math.max(0.5, Math.hypot(dx, dz));
   const mx = (ax + bx) / 2, mz = (az + bz) / 2;
   const width = lanes * 3.5;
   const g = group(parent, mx, 0.02, mz, Math.atan2(-dx, -dz));
-  const tex = facePaint(`bayworld-road|${lanes}`, (c, w, h) => asphaltFace(c, w, h, { lanes, tarLines: 2 }),
-    { repeat: Math.max(1, Math.round(len / 16)), px: 384 });
+  // Lane asphalt with worn paint from the pattern set: one canvas per lane
+  // count, tiled along the segment.
+  const tex = txTexture("laneAsphalt", { lanes, seed: 3, repeat: [1, Math.max(1, Math.round(len / 16))] });
   const geo = new THREE.PlaneGeometry(width, len);
   const m = new THREE.Mesh(geo, paintedMat(tex, { rough: 0.85, metal: 0.03 }));
   m.rotation.x = -Math.PI / 2;
   m.receiveShadow = true;
   g.add(m);
+  // A zebra crosswalk across the carriageway at the segment's far end, where
+  // it meets the next junction — one thin plane (BAY_MESH_BUDGET has the
+  // headroom), textured from the pattern set.
+  if (withCrossing && len > 20) {
+    const cw = new THREE.Mesh(new THREE.PlaneGeometry(width, 4), paintedMat(txTexture("crosswalk", { seed: 4, bars: 6, repeat: [Math.max(1, Math.round(width / 6)), 1] }), { rough: 0.8, metal: 0.02 }));
+    cw.rotation.x = -Math.PI / 2;
+    cw.position.set(0, 0.01, -len / 2 + 4);
+    g.add(cw);
+  }
   return g;
 }
 
 function buildRoads(parent, roads) {
   for (const road of roads) {
-    for (let i = 1; i < road.points.length; i++) roadRibbon(parent, road.points[i - 1], road.points[i], road.lanes);
+    for (let i = 1; i < road.points.length; i++) roadRibbon(parent, road.points[i - 1], road.points[i], road.lanes, true);
   }
 }
 
@@ -189,14 +220,18 @@ function paintedFace(g, w, h, o = {}) {
   for (let i = 0; i < 3; i++) g.fillRect(w * (0.15 + i * 0.28), h * 0.28, w * 0.14, h * 0.22);
 }
 
+// Per-zone facades (team PALETTE): glass curtain wall downtown, warm stucco
+// under tile in the market district (Fruitvale), corrugated and brick on the
+// industrial flank (the port, West Oakland, Emery Crossing), painted wood at
+// the marinas (the island harbour and the north shoreline).
 const BUILDING_STYLE = {
-  downtown: "glass", uptown: "brick", "west-oakland": "corrugated", port: "corrugated",
-  fruitvale: "painted", coliseum: "concrete", lake: "painted", "bridge-approach": null, hills: null,
+  downtown: "glass", uptown: "brick", "west-oakland": "brick", port: "corrugated",
+  fruitvale: "stucco", coliseum: "concrete", lake: "painted", "bridge-approach": null, hills: null,
   // The expansion's zones: painted houses on the island and the north
   // shoreline's town, corrugated sheds in Emery Crossing's distribution town,
   // concrete on the south shoreline's plant side, nothing on the ridge or the
   // open water.
-  "island-harbour": "painted", "north-shoreline": "painted", "emery-crossing": "corrugated",
+  "island-harbour": "wood", "north-shoreline": "wood", "emery-crossing": "corrugated",
   "south-shoreline": "concrete", "upper-hills": null, "outer-bay": null,
 };
 
@@ -205,15 +240,24 @@ const BUILDING_STYLE = {
  *  a street of them still varies. */
 function buildingBox(parent, x, z, w, d, h, style, tone, seed) {
   const g = group(parent, x, 0, z, ((seed % 100) / 100 - 0.5) * 0.3);
-  let tex;
-  if (style === "glass") tex = facePaint(`bw-glass|${seed % 7}`, (c, cw, ch) => glassCurtainFace(c, cw, ch, { seed }), { repeat: 1, px: 256 });
-  else if (style === "brick") tex = facePaint(`bw-brick|${tone}`, (c, cw, ch) => brickFace(c, cw, ch, { brick: [tone, bwShade(tone, 0.9), bwShade(tone, 1.1)] }), { repeat: Math.max(1, Math.round(w / 6)), px: 256 });
-  else if (style === "corrugated") tex = facePaint(`bw-corr|${tone}`, (c, cw, ch) => corrugatedFace(c, cw, ch, { colour: tone }), { repeat: Math.max(1, Math.round(w / 4)), px: 256 });
-  else if (style === "concrete") tex = facePaint(`bw-conc|${tone}`, (c, cw, ch) => concreteFace(c, cw, ch, { tone: hex(tone) }), { repeat: Math.max(1, Math.round(w / 8)), px: 256 });
-  else tex = facePaint(`bw-paint|${tone}`, (c, cw, ch) => paintedFace(c, cw, ch, { base: hex(tone) }), { repeat: 1, px: 192 });
+  // One neutral canvas per style (the pattern set's, or a shared painter's),
+  // tiled to the facade and tinted per building through the material colour
+  // — so a whole zone costs one canvas, never one per tone or width.
+  let tex, tint = 0xffffff;
+  const px = txTierPx(256);
+  if (style === "glass") tex = txTexture("glassCurtainWall", { palette: txBayPaletteName, seed: seed % 3, repeat: [Math.max(1, Math.round(w / 12)), Math.max(1, Math.round(h / 16))] });
+  else if (style === "stucco") { tex = txTexture("stuccoWarm", { seed: 2, repeat: Math.max(1, Math.round(w / 6)) }); tint = txBayTint(tone, 0.7); }
+  else if (style === "brick") { tex = txBayTiled(facePaint("bw-brick", brickFace, { repeat: 1, px }), Math.max(1, Math.round(w / 6))); tint = txBayTint(tone, 0.6); }
+  else if (style === "corrugated") { tex = txBayTiled(facePaint("bw-corr", (c, cw, ch) => corrugatedFace(c, cw, ch, { colour: 0xd8dde2 }), { repeat: 1, px }), Math.max(1, Math.round(w / 4))); tint = txBayTint(tone, 0.35); }
+  else if (style === "concrete") { tex = txBayTiled(facePaint("bw-conc", concreteFace, { repeat: 1, px }), Math.max(1, Math.round(w / 8))); tint = txBayTint(tone, 0.6); }
+  else if (style === "wood") { tex = txBayTiled(facePaint("bw-wood", (c, cw, ch) => woodGrainFace(c, cw, ch, { planks: 10, tones: [0xe8e2d6, 0xdcd4c4, 0xf0ebe0] }), { repeat: 1, px }), Math.max(1, Math.round(w / 5)), 1); tint = txBayTint(tone, 0.45); }
+  else { tex = facePaint("bw-paint", (c, cw, ch) => paintedFace(c, cw, ch, { base: "#f2ede4" }), { repeat: 1, px: txTierPx(192) }); tint = txBayTint(tone, 0.4); }
   const body = box(g, w, h, d, 0, h / 2, 0, tone, { rough: 0.75, metal: style === "glass" ? 0.15 : 0.05 });
-  body.material = paintedMat(tex, { rough: style === "glass" ? 0.35 : 0.8, metal: style === "glass" ? 0.2 : 0.04 });
-  box(g, w * 1.03, Math.max(0.3, h * 0.02), d * 1.03, 0, h + Math.max(0.15, h * 0.01), 0, bwShade(tone, 0.7), { rough: 0.8, cast: false });
+  body.material = paintedMat(tex, { color: tint, rough: style === "glass" ? 0.35 : 0.8, metal: style === "glass" ? 0.2 : 0.04 });
+  const cap = box(g, w * 1.03, Math.max(0.3, h * 0.02), d * 1.03, 0, h + Math.max(0.15, h * 0.01), 0, bwShade(tone, 0.7), { rough: 0.8, cast: false });
+  // The roof: corrugated sheet on the sheds, tile over the market's stucco.
+  if (style === "corrugated") cap.material = paintedMat(txTexture("corrugatedRoof", { seed: 1, repeat: Math.max(1, Math.round(w / 8)) }), { color: txBayTint(tone, 0.4), rough: 0.6, metal: 0.3 });
+  else if (style === "stucco") cap.material = paintedMat(txTexture("tileMosaic", { seed: 6, repeat: Math.max(1, Math.round(w / 4)) }), { rough: 0.7 });
   return g;
 }
 
@@ -640,7 +684,11 @@ function dressCrowd(parent, zone, count, rng) {
   const outfit = FIGURE_OUTFITS[zone.id] ?? "office";
   for (let i = 0; i < count; i++) {
     const a = rng() * Math.PI * 2, r = zone.radius * (0.1 + rng() * 0.5);
-    standingFigure(parent, cx + Math.cos(a) * r, cz + Math.sin(a) * r, { ry: rng() * Math.PI * 2, outfit });
+    // Face cards at the tier's size, and on a phone a small set of looks so
+    // the crowd's clothing canvases repeat rather than each painting its own.
+    const lowTier = txTierPx(512) < 512;
+    standingFigure(parent, cx + Math.cos(a) * r, cz + Math.sin(a) * r, { ry: rng() * Math.PI * 2, outfit,
+      facePx: txTierPx(512), ...(lowTier ? { seed: 101 + (i % 6) * 977 } : {}) });
   }
 }
 
@@ -705,14 +753,16 @@ function buildWorld(parent, opts) {
   // Bay water across the port/estuary side of the world (west and south of
   // downtown), the same shoreline the port and estuary-waterfront zones sit
   // against.
-  buildWater(parent, -180, 460, 900, 260);
   // The expansion's water: the outer bay and its shipping channel west of
   // the port, the open water the north shoreline's marina and pier face, and
   // the strip of bay along the world's southern edge that the island and the
-  // south shoreline both look out on.
-  buildWater(parent, -1000, 380, 400, 840);
-  buildWater(parent, -1060, -420, 280, 760);
-  buildWater(parent, 0, 765, 2400, 70);
+  // south shoreline both look out on; then the lake. Every body is laid over
+  // its TX_BAY_WATER rectangle grown by twice TX_SHORE_MARGIN, over a
+  // terrain carved beneath it (bayworld-data.js's water header), so the
+  // ground never covers the water again.
+  for (const [wx, wz, ww, wd, wy] of TX_BAY_WATER) {
+    buildWater(parent, wx, wz, ww + TX_SHORE_MARGIN * 4, wd + TX_SHORE_MARGIN * 4, wy);
+  }
   if (!opts.zone) buildRoads(parent, BAY_ROADS);
   else buildRoads(parent, BAY_ROADS.filter((r) => r.points.some(([x, z]) => bayZoneAt(x, z).id === opts.zone)));
   for (const zone of zones) buildZoneContent(parent, zone, opts);
@@ -724,8 +774,12 @@ function buildWorld(parent, opts) {
  *  scenic-district budget (SCENIC_BUDGET, see smartcity/js/districts.js),
  *  the same convention shared/fairway.js's own buildPreview() follows. */
 function buildBayPreview(parent, opts) {
-  parent.add(bwTerrain(0, 0, 90, 70));
-  buildWater(parent, 0, 38, 90, 18, -0.5);
+  parent.add(bwTerrain(0, 0, 90, 70, bayHeight));
+  // The vignette's strip of water lies just over the highest ground under
+  // it, so the uncarved preview terrain can never cover it.
+  let shore = -Infinity;
+  for (let x = -45; x <= 45; x += 5) for (let z = 29; z <= 47; z += 2) shore = Math.max(shore, bayHeight(x, z));
+  buildWater(parent, 0, 38, 90, 18, shore + 0.08);
   roadRibbon(parent, [-20, -6], [20, -6], 4);
   buildingBox(parent, -22, 10, 14, 12, 34, "glass", 0x1c2b36, 3);
   buildingBox(parent, 20, 12, 12, 10, 8, "brick", 0x7a4a3a, 9);
@@ -753,6 +807,7 @@ function buildBayPreview(parent, opts) {
 export function buildBayWorld(parent, opts = {}) {
   const detail = opts.detail === "low" ? "low" : "high";
   const tod = bayLighting(opts.time);
+  txBayPaletteName = `bayworld-${BAY_TIME[opts.time] ? opts.time : "night"}`;
   const hemi = new THREE.HemisphereLight(tod.hemi[0], tod.hemi[1], tod.hemiI);
   parent.add(hemi);
   const sun = new THREE.DirectionalLight(tod.key[0], tod.key[1]);

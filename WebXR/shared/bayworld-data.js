@@ -444,6 +444,83 @@ export function bayHeight(x, z) {
   return Math.max(BAY_HEIGHT_RANGE[0], Math.min(BAY_HEIGHT_RANGE[1], raw));
 }
 
+// ------------------------------------------------------------------ water
+//
+// Where Bay World is wet. bayHeight() is clamped to BAY_HEIGHT_RANGE (never
+// below 0 m), and the bay-water slabs sit at y -0.4, so a terrain built
+// straight from bayHeight() buried every slab under grass — the Regatta's
+// courses and marinas read as turf. The fix (team PALETTE): the builder's
+// terrain samples txGroundHeight() instead, which carves a seabed at
+// TX_SEABED_DROP below each water surface everywhere inside that water's
+// rectangle grown by TX_SHORE_MARGIN (one terrain cell, so every triangle
+// touching a point on the water is fully carved), and the water mesh itself
+// is laid over the rectangle grown by twice that margin, so the sloping bank
+// between a carved vertex and the first dry one is always under water rather
+// than open to the sky. Each entry is `[cx, cz, w, d, y]`: the rectangle the
+// Regatta's rgOnWater() treats as afloat (regatta/js/courses.js's RG_WATER
+// mirrors the first four) and the water surface's centre height. The lake is
+// the fifth, laid on the hillside east of the promenade at a level just
+// under the lowest ground around it, so its own bank never floats.
+export const TX_SHORE_MARGIN = 40;
+export const TX_SEABED_DROP = 2.6;
+export const TX_WATER_THICKNESS = 0.1;
+/** The terrain slab's vertex grid for a w × d build — the same rule
+ *  shared/bayworld.js's bwTerrain() uses, so a checker can find the cell a
+ *  point lies in without three.js. */
+export function txTerrainSegments(w, d) {
+  return [Math.min(64, Math.max(2, Math.round(w / 20))), Math.min(64, Math.max(2, Math.round(d / 20)))];
+}
+function txLakeLevel(cx, cz, w, d) {
+  const m = TX_SHORE_MARGIN * 2;
+  let lo = Infinity;
+  for (let x = cx - w / 2 - m; x <= cx + w / 2 + m; x += 5) {
+    for (let z = cz - d / 2 - m; z <= cz + d / 2 + m; z += 5) lo = Math.min(lo, bayHeight(x, z));
+  }
+  return +(lo - 0.45).toFixed(2);
+}
+export const TX_BAY_WATER = [
+  [-180, 460, 900, 260, -0.4],   // the port and estuary shore
+  [-1000, 380, 400, 840, -0.4],  // the outer bay and its shipping channel
+  [-1060, -420, 280, 760, -0.4], // the north channel the north shoreline's pier faces
+  [0, 765, 2400, 70, -0.4],      // the open water the island and the south shore look out on
+  [350, -140, 100, 60, txLakeLevel(350, -140, 100, 60)], // the lake, east of the promenade
+];
+function txInRect(x, z, cx, cz, w, d, grow) {
+  return Math.abs(x - cx) <= w / 2 + grow && Math.abs(z - cz) <= d / 2 + grow;
+}
+/** Terrain height the built world's ground actually carries at (x, z):
+ *  bayHeight(), carved down to a seabed under every TX_BAY_WATER body. */
+export function txGroundHeight(x, z) {
+  let h = bayHeight(x, z);
+  for (const [cx, cz, w, d, y] of TX_BAY_WATER) {
+    if (txInRect(x, z, cx, cz, w, d, TX_SHORE_MARGIN)) h = Math.min(h, y - TX_SEABED_DROP);
+  }
+  return h;
+}
+/** The top of the built water surface covering (x, z), or null where no
+ *  water mesh reaches — the mesh is each rectangle grown by twice
+ *  TX_SHORE_MARGIN (see the header above). */
+export function txWaterTopAt(x, z) {
+  let top = null;
+  for (const [cx, cz, w, d, y] of TX_BAY_WATER) {
+    if (txInRect(x, z, cx, cz, w, d, TX_SHORE_MARGIN * 2)) top = Math.max(top ?? -Infinity, y + TX_WATER_THICKNESS / 2);
+  }
+  return top;
+}
+/** The highest terrain vertex of the full-world ground cell holding (x, z):
+ *  an upper bound on the rendered ground there, since a triangle never rises
+ *  above its own corners. */
+export function txGroundMaxAt(x, z) {
+  const { minX, maxX, minZ, maxZ } = BAY_BOUNDS;
+  const [sx, sz] = txTerrainSegments(maxX - minX, maxZ - minZ);
+  const cw = (maxX - minX) / sx, cd = (maxZ - minZ) / sz;
+  const i = Math.max(0, Math.min(sx - 1, Math.floor((x - minX) / cw)));
+  const j = Math.max(0, Math.min(sz - 1, Math.floor((z - minZ) / cd)));
+  let hi = -Infinity;
+  for (const [a, b] of [[0, 0], [1, 0], [0, 1], [1, 1]]) hi = Math.max(hi, txGroundHeight(minX + (i + a) * cw, minZ + (j + b) * cd));
+  return hi;
+}
+
 /**
  * Whether (x, z) sits on a BAY_ROADS polyline, and which one: `{ onRoad:
  * true, lane, heading }` (`lane` the road's own lane count, `heading` the
