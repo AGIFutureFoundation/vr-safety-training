@@ -26362,5 +26362,131 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "md-intimacy-and-conduct-coordination-briefing",
+    "index": "724",
+    "domain": "Screen & Media Crafts",
+    "trade": "First assistant director with the intimacy coordinator — closed-set briefing",
+    "category": "Entertainment & Live Events",
+    "certification": "SAG-AFTRA guidance for scenes involving nudity or simulated intimacy and the intimacy coordinator's role, as the performers' training body; the production's own written conduct and anti-harassment policy and its reporting channel; IATSE crew practice for a closed set; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written production safety programme; Labor Code §6310 protection against retaliation for raising a concern",
+    "name": "Intimacy & Conduct Coordination Briefing",
+    "weather": "clear",
+    "indoor": "theatre",
+    "district": null,
+    "title": "SmartCiti.X~ Intimacy & Conduct Coordination Briefing VR",
+    "tagline": "A sensitive scene flagged in advance, the set closed to essential crew, a stray feed and a phone camera found first, consent confirmed in writing and in private, the stop signal and the reporting channel briefed to everyone, and a debrief before the set is released",
+    "accent": 11558056,
+    "accentCss": "#b05ca8",
+    "parSeconds": 320,
+    "badge": {
+      "id": "set-held-with-care",
+      "name": "Set Held With Care",
+      "note": "A closed set run on agreed scope, a stop signal everyone knew, a named reporting channel and a debrief for the performers"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Closed Set Standard",
+      "currency": "TRUST",
+      "ranks": [
+        "Set PA",
+        "Second AD",
+        "First AD",
+        "Closed-Set Lead",
+        "Conduct Coordination Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ml-suspicious-package-protocol",
+    "index": "ml-7",
+    "domain": "Postal & Mail Processing",
+    "trade": "Mail processing clerk and mail handler — suspicious parcel on the culling belt",
+    "category": "Manufacturing & Automation",
+    "certification": "OSHA 29 CFR 1910.38 emergency action plans — the facility's own written plan for reporting an emergency, evacuating and accounting for everyone; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written plant safety programme; Labor Code §6310 protection against retaliation for stopping work and reporting a hazard; APWU training for mail processing clerks and NPMHU training for mail handlers, as the training bodies",
+    "name": "Suspicious Package Protocol",
+    "weather": "clear",
+    "indoor": "plant",
+    "district": null,
+    "title": "SmartCiti.X~ Suspicious Package Protocol VR",
+    "tagline": "The plan and the exits known before the sort, a parcel that doesn't look right left exactly where it is, the belt stopped, people moved clear, the zone cordoned, the call made per the plan, and nobody back in until responders give the all clear",
+    "accent": 3108784,
+    "accentCss": "#2f6fb0",
+    "parSeconds": 320,
+    "badge": {
+      "id": "zone-held",
+      "name": "Zone Held",
+      "note": "A suspicious parcel left untouched, the area cleared and cordoned, the call made per the facility's plan, and the zone held until the all clear"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Plant Emergency Standard",
+      "currency": "SORT",
+      "ranks": [
+        "New Clerk",
+        "Belt Certified",
+        "Lead Clerk",
+        "Tour Supervisor",
+        "Emergency Plan Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "ml-retail-counter-deescalation",
+    "index": "ml-8",
+    "domain": "Postal & Mail Processing",
+    "trade": "Retail counter clerk — an escalating customer at the window, APWU",
+    "category": "Mobility & Transit",
+    "certification": "Cal/OSHA's workplace violence prevention standard, 8 CCR 3342, as the model for the facility's own written workplace-violence plan — the alarm, the reporting route and an honest incident log; the Injury and Illness Prevention Program, 8 CCR 3203; OSHA 29 CFR 1910.38 emergency action plans for moving people clear; Labor Code §6310 protection against retaliation for reporting; APWU training for retail counter clerks, as the training body",
+    "name": "Retail Counter De-escalation",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Retail Counter De-escalation VR",
+    "tagline": "The clerk's own way off the counter known before the doors open, loose items cleared, the cues noticed early, distance kept, a calm script tried first, the supervisor and the facility's plan brought in the moment it stops working, and a debrief requested afterward",
+    "accent": 3108784,
+    "accentCss": "#2f6fb0",
+    "parSeconds": 300,
+    "badge": {
+      "id": "window-steady",
+      "name": "Window Steady",
+      "note": "An escalating customer met with distance and a calm script, the supervisor and the plan brought in on time, and the incident logged with a debrief requested"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Retail Window Standard",
+      "currency": "WINDOW",
+      "ranks": [
+        "New Clerk",
+        "Window Certified",
+        "Lead Clerk",
+        "Retail Supervisor",
+        "De-escalation Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

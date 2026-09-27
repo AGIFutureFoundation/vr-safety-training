@@ -1,0 +1,389 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "set-held-with-care",
+    "name": "Set Held With Care",
+    "note": "A closed set run on agreed scope, a stop signal everyone knew, a named reporting channel and a debrief for the performers"
+  },
+  "category": "Entertainment & Live Events",
+  "certification": "SAG-AFTRA guidance for scenes involving nudity or simulated intimacy and the intimacy coordinator's role, as the performers' training body; the production's own written conduct and anti-harassment policy and its reporting channel; IATSE crew practice for a closed set; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written production safety programme; Labor Code §6310 protection against retaliation for raising a concern",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3203",
+        "id": "cal-osha-3203",
+        "title": "8 CCR 3203 — Injury and Illness Prevention Program"
+      },
+      {
+        "body": "union",
+        "citedAs": "IATSE",
+        "id": "iatse-training-trust",
+        "title": "IATSE Training Trust Fund — stagecraft, rigging and entertainment electrical skills training"
+      },
+      {
+        "body": "Cal. Labor Code",
+        "citedAs": "Labor Code §6310",
+        "id": "labor-code-6310",
+        "title": "California Labor Code §6310 — no retaliation for reporting an unsafe condition"
+      },
+      {
+        "body": "union",
+        "citedAs": "SAG-AFTRA",
+        "id": "sag-aftra-training",
+        "title": "SAG-AFTRA apprenticeship and training, as a training body"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Screen & Media Crafts",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "set-closed",
+        "name": "Set Closed",
+        "note": "The feed and the camera found before anyone rolled"
+      },
+      {
+        "id": "consent-first",
+        "name": "Consent First",
+        "note": "The written scope, the private check-in and the coordinator's word, in that order"
+      },
+      {
+        "id": "debrief-held",
+        "name": "Debrief Held",
+        "note": "The performers debriefed before the set was released"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-briefing",
+        "name": "Clean Briefing",
+        "note": "No corrections anywhere in the briefing"
+      },
+      {
+        "id": "steady-hold",
+        "name": "Steady Hold",
+        "note": "Held the reset the full count, first try"
+      },
+      {
+        "id": "prompt-set",
+        "name": "Prompt Set",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "TRUST",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Set PA",
+      "Second AD",
+      "First AD",
+      "Closed-Set Lead",
+      "Conduct Coordination Certified"
+    ],
+    "system": "Closed Set Standard"
+  },
+  "hazards": {
+    "improvise-note-decoy": "That sticky note says \"let's just see what happens on the day.\" Anything added or changed on the day that wasn't agreed in advance isn't a creative choice, it's new scope nobody consented to — it goes back through the coordinator and the performers first, or it doesn't happen.",
+    "open-door-decoy": "That stage door is wedged open for airflow. A closed set that anyone can wander into from the corridor isn't closed at all — the performers agreed to a room with a known list of people in it, and a wedged door quietly breaks that agreement.",
+    "phone-policy-off-decoy": "A card reading \"phones OK today.\" On a closed set, personal devices are exactly how a private rehearsal ends up somewhere it was never agreed to go. The device rule for the closed set is set by the production's policy, not relaxed because the day is running late.",
+    "visitor-badge-decoy": "A stack of visitor passes clipped to the closed-set list. Guests, press and anyone not essential to this scene have no place on this set today, however senior they are — handing out passes is how a list of six turns into a room of twenty."
+  },
+  "id": "md-intimacy-and-conduct-coordination-briefing",
+  "indoor": "theatre",
+  "interrupts": [
+    {
+      "after": "reset-hold",
+      "alert": "A crew member from another unit opens the stage door during the reset, saying they only need to grab a cable.",
+      "cue": "The door is the AD team's to hold — call it on the radio.",
+      "delay": 2,
+      "id": "walk-on-at-door",
+      "kind": "Walk-on at the closed door",
+      "missNote": "The crew member walked in and out during the reset. The performers had agreed to a named room, and the room changed without anyone asking them.",
+      "seconds": 12,
+      "target": "ad-radio",
+      "why": "Anyone not on the list stays outside a closed set, whatever they need, and the fastest way to stop the entry without the performers having to deal with it is the AD team's own radio to the door. The cable can be fetched after the set is released or by someone who is on the list.",
+      "wrongNote": "Call it on the AD radio to the door — the performers shouldn't have to deal with the entry themselves."
+    },
+    {
+      "after": "coverage-track",
+      "alert": "A performer gives the agreed stop signal during the reset.",
+      "cue": "The stop signal is honoured at once, for everyone — hold the whole set.",
+      "delay": 2,
+      "id": "performer-signals-stop",
+      "kind": "Stop signal used",
+      "missNote": "The stop signal went unanswered while crew kept setting up. A signal that doesn't stop anything teaches everyone on the set not to use it.",
+      "seconds": 12,
+      "target": "all-stop-lamp",
+      "why": "The stop signal only means something if it works every time, instantly and without anyone asking why. Holding the whole set on the all-stop lamp lets the coordinator speak with the performer privately, and nobody resumes until the performer and coordinator say so.",
+      "wrongNote": "Hit the all-stop — the signal is honoured by stopping everything, not by carrying on carefully."
+    }
+  ],
+  "lateNotes": {
+    "release-board": "Hold that. The set isn't released until the performers have had their debrief and the note is logged.",
+    "stop-signal-board": "Not yet — the agreed scope has to be confirmed with the performers before the stop signal is briefed to the wider set."
+  },
+  "name": "Intimacy & Conduct Coordination Briefing",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "screen-and-media-crafts"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "ad-radio",
+      "all-stop-lamp",
+      "call-sheet",
+      "choreography-board",
+      "closed-sign",
+      "coordinator-ready",
+      "debrief-log",
+      "door-bracket",
+      "door-light-key",
+      "headcount-panel",
+      "improvise-note-decoy",
+      "modesty-kit",
+      "open-door-decoy",
+      "open-monitor",
+      "performer-debrief",
+      "phone-camera",
+      "phone-policy-off-decoy",
+      "private-checkin",
+      "release-board",
+      "reporting-poster",
+      "reset-button",
+      "robe-handover",
+      "robe-rack",
+      "stop-signal-board",
+      "visitor-badge-decoy",
+      "written-scope"
+    ],
+    "meshes": 224
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check that today's call sheet flags the scene as a closed set and names the intimacy coordinator.",
+      "id": "call-sheet-flag",
+      "kind": "select",
+      "prompt": "Check that today's call sheet flags the scene as a closed set and names the intimacy coordinator.",
+      "target": "call-sheet",
+      "title": "Confirm the scene is flagged on the call sheet",
+      "why": "Performers are entitled to know well before the day that a sensitive scene is scheduled and who will coordinate it. A scene that turns up unflagged on the morning's sheet takes away the time to ask questions, raise a concern or bring a representative, which is exactly the time the advance notice exists to give."
+    },
+    {
+      "cue": "Read the stage headcount against the closed-set list and commit only when they match.",
+      "gauge": {
+        "green": [
+          0,
+          0.42
+        ],
+        "label": "HEADCOUNT vs LIST",
+        "missNote": "Committed with more people on the stage than the list allows. The performers agreed to a named room, not whoever happened to be nearby.",
+        "speed": 0.55
+      },
+      "id": "headcount",
+      "kind": "gauge",
+      "prompt": "Read the stage headcount against the closed-set list and commit only when they match.",
+      "target": "headcount-panel",
+      "title": "Match the headcount to the closed-set list",
+      "why": "The closed-set list is the room the performers agreed to work in: essential crew only, named in advance. Every extra person, however well meaning, is someone the performers never agreed would be there, so the count is matched to the list before the briefing starts rather than checked afterward."
+    },
+    {
+      "cue": "Two things on this stage would undo a closed set. Find them.",
+      "id": "set-sweep",
+      "itemNames": {
+        "open-monitor": "a monitor showing the feed to the corridor",
+        "phone-camera": "a phone on a stand, camera facing the set"
+      },
+      "itemNotes": {
+        "open-monitor": "A monitor turned toward the corridor puts a closed set on display to anyone walking past. Closed-set feeds go only to the screens the list allows, so this one is switched off or turned away before anything rolls.",
+        "phone-camera": "A personal phone pointed at the set can record something nobody agreed to share. It comes off the stand and out of the room under the production's device rule, whoever it belongs to."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things on this stage would undo a closed set. Find them.",
+      "targets": [
+        "open-monitor",
+        "phone-camera"
+      ],
+      "title": "Sweep the stage before the briefing",
+      "why": "A closed set depends on the room as much as on the list: a stray feed or an unattended camera can carry the scene out of the room without anyone on it knowing. Sweeping for them before the briefing is the only point at which finding them costs nothing, because nothing has been filmed yet."
+    },
+    {
+      "cue": "Move the CLOSED SET sign onto the stage door bracket.",
+      "drag": {
+        "missNote": "The sign isn't on the door bracket — a sign nobody at the door can see closes nothing.",
+        "radius": 0.4,
+        "to": "door-bracket"
+      },
+      "id": "post-closed-sign",
+      "kind": "drag",
+      "prompt": "Move the CLOSED SET sign onto the stage door bracket.",
+      "target": "closed-sign",
+      "title": "Post the closed-set sign on the stage door",
+      "why": "The sign tells people arriving at the door, before they open it, that the stage is closed to everyone not on the list. Without it, the only thing stopping a wrong entry is someone inside noticing too late, which puts the burden on the performers rather than on the door."
+    },
+    {
+      "cue": "Turn the key on the door light panel so the red closed-set lamp shows outside.",
+      "id": "door-light",
+      "kind": "turn",
+      "prompt": "Turn the key on the door light panel so the red closed-set lamp shows outside.",
+      "target": "door-light-key",
+      "title": "Set the stage-door light to closed",
+      "turn": {
+        "axis": "z",
+        "label": "DOOR LIGHT",
+        "turns": 0.35
+      },
+      "why": "The lamp outside the door is the stage's own way of saying do not enter, and crew are trained to respect it. Turning it on for the whole closed-set period, not just during takes, keeps the corridor from treating the rehearsal and the resets as moments when walking in is fine."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Confirm the scope agreed in advance, hold a private check-in with each performer, then take the coordinator's ready.",
+      "id": "consent-confirm",
+      "itemNames": {
+        "coordinator-ready": "the intimacy coordinator confirms ready",
+        "private-checkin": "private check-in with each performer",
+        "written-scope": "confirm the agreed scope in writing"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "The writing first, then each performer in private, then the coordinator — a ready given before the performers have been asked is a ready given on their behalf.",
+      "prompt": "Confirm the scope agreed in advance, hold a private check-in with each performer, then take the coordinator's ready.",
+      "targets": [
+        "written-scope",
+        "private-checkin",
+        "coordinator-ready"
+      ],
+      "title": "Confirm consent: the writing, the person, then the coordinator",
+      "why": "Consent agreed in advance is the starting point, not the end of the conversation: a performer can change their mind on the day, and the private check-in is where that is safe to say without an audience. The coordinator's ready comes last because it rests on both — the written scope and what each performer said this morning."
+    },
+    {
+      "cue": "Review the agreed choreography with the coordinator, confirm the modesty garments are ready and stage the robes within reach.",
+      "id": "scene-prep",
+      "itemNames": {
+        "choreography-board": "the agreed choreography, reviewed with the coordinator",
+        "modesty-kit": "modesty garments and barriers ready",
+        "robe-rack": "robes staged at arm's reach"
+      },
+      "kind": "sequence",
+      "prompt": "Review the agreed choreography with the coordinator, confirm the modesty garments are ready and stage the robes within reach.",
+      "targets": [
+        "choreography-board",
+        "modesty-kit",
+        "robe-rack"
+      ],
+      "title": "Prepare the scene as agreed",
+      "why": "Choreography that has been walked and agreed is what keeps a sensitive scene a piece of craft rather than an improvisation. The garments and robes are part of that agreement: performers should never have to ask for cover or wait for it between takes."
+    },
+    {
+      "cue": "Brief the whole closed set on the stop word and hand signal: anyone may use it, no reason needed.",
+      "id": "stop-signal",
+      "kind": "select",
+      "prompt": "Brief the whole closed set on the stop word and hand signal: anyone may use it, no reason needed.",
+      "target": "stop-signal-board",
+      "title": "Brief the stop signal to everyone on the set",
+      "why": "A stop signal only works if every person on the set knows it and trusts that using it will be respected without argument. Briefing it to the whole room — performers, camera, sound and the AD team — makes stopping the normal response to discomfort rather than a confrontation someone has to start."
+    },
+    {
+      "cue": "Name who to go to under the production's conduct policy, the union route and the anonymous option.",
+      "id": "reporting-channel",
+      "kind": "select",
+      "prompt": "Name who to go to under the production's conduct policy, the union route and the anonymous option.",
+      "target": "reporting-poster",
+      "title": "Name the reporting channel out loud",
+      "why": "People raise concerns when they know exactly who to tell and believe it will not cost them their job. Naming the production's own contact, the union route and the anonymous option at the briefing — with the promise of no retaliation — means nobody has to go looking for a policy document in the middle of a bad day."
+    },
+    {
+      "cue": "Press and hold the stage reset cue while the coordinator checks in with the performers.",
+      "holdBreakNote": "You dropped the reset before the check-in was finished. The crew started moving again while the performers were still being asked how that take went.",
+      "id": "reset-hold",
+      "kind": "hold",
+      "prompt": "Press and hold the stage reset cue while the coordinator checks in with the performers.",
+      "seconds": 5,
+      "target": "reset-button",
+      "title": "Hold the set in reset for the check-in between takes",
+      "why": "The pause between takes is where a performer can say that something felt different from the rehearsal. Holding the whole stage in reset for that check-in, instead of rushing the next setup, is what makes the check-in real rather than a formality squeezed between camera moves."
+    },
+    {
+      "cue": "Keep the robe handover within reach of the performers the whole reset — not crowding, not drifting away.",
+      "holdBreakNote": "The robe drifted out of reach or crowded in — ease back toward arm's length rather than rushing in.",
+      "id": "coverage-track",
+      "kind": "track",
+      "prompt": "Keep the robe handover within reach of the performers the whole reset — not crowding, not drifting away.",
+      "seconds": 5,
+      "target": "robe-handover",
+      "title": "Keep cover at hand through the reset",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "ROBE DISTANCE",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "Cover that arrives the moment a take ends, without the performer having to ask, is the practical form of respect on a closed set. Too close and the handler crowds the performer; too far and the performer waits exposed while someone walks over."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Hold the performers' debrief with the coordinator, then log any concern exactly as the performer agreed.",
+      "id": "debrief",
+      "itemNames": {
+        "debrief-log": "log any concern raised, as agreed",
+        "performer-debrief": "debrief the performers with the coordinator"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Talk to the performers first, then log — a log written before anyone was asked records the production's version, not theirs.",
+      "prompt": "Hold the performers' debrief with the coordinator, then log any concern exactly as the performer agreed.",
+      "targets": [
+        "performer-debrief",
+        "debrief-log"
+      ],
+      "title": "Debrief the performers, then log it",
+      "why": "A sensitive scene can leave people unsettled even when everything went to plan, and the debrief is the moment to hear that. Logging comes after and only as the performer agrees, because the note belongs to their account of the day — not to the production's wish to close the file."
+    },
+    {
+      "cue": "Release the closed set: sign down, lamp off, feeds restored, list filed.",
+      "id": "release-set",
+      "kind": "select",
+      "prompt": "Release the closed set: sign down, lamp off, feeds restored, list filed.",
+      "target": "release-board",
+      "title": "Release the closed set",
+      "why": "Releasing the set is a deliberate act, not the lights coming up: the sign, the lamp and the feeds go back together, so the corridor learns the stage is open from the same signals that told it the stage was closed. The list is filed so the room can be accounted for if anyone raises a concern later."
+    }
+  ],
+  "supportLine": "the production's own conduct contact, or SAG-AFTRA's member resources — anyone on a closed set who felt something was wrong deserves a conversation, not just a note on the call sheet",
+  "tagline": "A sensitive scene flagged in advance, the set closed to essential crew, a stray feed and a phone camera found first, consent confirmed in writing and in private, the stop signal and the reporting channel briefed to everyone, and a debrief before the set is released",
+  "title": "SmartCiti.X~ Intimacy & Conduct Coordination Briefing VR",
+  "trade": "First assistant director with the intimacy coordinator — closed-set briefing",
+  "underwater": null,
+  "weather": null
+}

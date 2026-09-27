@@ -18,11 +18,11 @@
       "zone": "west-oakland"
     }
   ],
-  "certification": "NALC, APWU and NPMHU training for letter carriers, postal workers and mail handlers, tested against OSHA 29 CFR 1910.147 the control of hazardous energy, 29 CFR 1910.212 machine guarding, 29 CFR 1910.178 powered industrial trucks and 29 CFR 1910.132 personal protective equipment; ASME B20.1 for conveyors and related equipment; the Revised NIOSH Lifting Equation and NIOSH's own guidance on animal, heat and cold stress hazards for workers on foot; FMCSA 49 CFR 392 and 396 for the route's own delivery vehicle; and Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written plant safety programme, across six distinct jobs a letter carrier, a mail handler and a plant clerk actually rotate through",
+  "certification": "NALC, APWU and NPMHU training for letter carriers, postal workers and mail handlers, tested against OSHA 29 CFR 1910.147 the control of hazardous energy, 29 CFR 1910.212 machine guarding, 29 CFR 1910.178 powered industrial trucks and 29 CFR 1910.132 personal protective equipment; ASME B20.1 for conveyors and related equipment; the Revised NIOSH Lifting Equation and NIOSH's own guidance on animal, heat and cold stress hazards for workers on foot; FMCSA 49 CFR 392 and 396 for the route's own delivery vehicle; and Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written plant safety programme, and OSHA 29 CFR 1910.38 emergency action plans for a suspicious parcel on the belt, and 8 CCR 3342 as the model for a written workplace-violence plan at the retail counter, across eight distinct jobs a letter carrier, a mail handler, a plant clerk and a retail clerk actually rotate through",
   "competency": {
     "id": "postal-and-mail-processing",
     "kind": "programme",
-    "require": 3,
+    "require": 4,
     "standards": [
       "osha-1910-147",
       "osha-1910-178",
@@ -35,9 +35,11 @@
       "ml-heat-and-cold-stress-on-route",
       "ml-flat-sorter-guarding-and-lockout",
       "ml-mail-handler-forklift-and-container-dock",
-      "ml-parcel-sorter-conveyor-jam-and-loto"
+      "ml-parcel-sorter-conveyor-jam-and-loto",
+      "ml-suspicious-package-protocol",
+      "ml-retail-counter-deescalation"
     ],
-    "title": "Isolate, inspect and prove six distinct letter carrier, mail handler and plant clerk jobs across a route and a processing plant"
+    "title": "Isolate, inspect, prove and de-escalate across eight distinct letter carrier, mail handler, plant clerk and retail clerk jobs on a route, in a processing plant and at the counter"
   },
   "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
   "guides": [
@@ -50,13 +52,15 @@
     "asme-b20-1",
     "niosh-lifting-equation",
     "fmcsa-49-cfr-396",
-    "cal-osha-3203"
+    "cal-osha-3203",
+    "osha-1910-38",
+    "cal-osha-3342"
   ],
   "id": "postal-and-mail-processing",
   "ladder": {
     "atBar": 20,
     "lessonBar": 75,
-    "lessons": 1560,
+    "lessons": 1550,
     "levels": 20,
     "note": "a lesson is one station step under one condition; see docs/ladders.md",
     "partial": 0,
@@ -95,8 +99,18 @@
       "app": "smartcity",
       "id": "ml-parcel-sorter-conveyor-jam-and-loto",
       "why": "A defeated light curtain, a cardboard guard patch and a coworker's own loose drawstring all caught before any of them becomes the reason a hand meets a moving belt."
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-suspicious-package-protocol",
+      "why": "A parcel that doesn't look right left exactly where it lies, the belt stopped and the floor cleared at a walking pace, and the zone held on the facility's plan until responders give the all clear, whatever the dispatch clock says."
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-retail-counter-deescalation",
+      "why": "The clerk's own way off the counter cleared before opening, an escalating customer met with distance and a low, calm script, and the supervisor and the facility's workplace-violence plan brought in the moment the script stops working."
     }
   ],
-  "summary": "Six jobs across a route and a processing plant: a right-hand-drive delivery van pre-tripped and loaded in route order, a residential block walked with a loose dog and a heaved sidewalk read before either becomes a problem, one shift's cold start and heat stretch both worked to the plan, a flat sorter's interlocked guard and sweep arm isolated and locked before a jam is ever cleared, a mail handler's forklift inspected and a container dock read for a pedestrian and an unchocked trailer, and a parcel sorter's divert gate cleared with a defeated light curtain and a coworker's own wrap-point risk caught first. Every station ends on a proof — a gauge, a logged reading, a proven interlock — rather than on how routine the job looked going in.",
+  "summary": "Eight jobs across a route, a processing plant and a retail counter: a right-hand-drive delivery van pre-tripped and loaded in route order, a residential block walked with a loose dog and a heaved sidewalk read before either becomes a problem, one shift's cold start and heat stretch both worked to the plan, a flat sorter's interlocked guard and sweep arm isolated and locked before a jam is ever cleared, a mail handler's forklift inspected and a container dock read for a pedestrian and an unchocked trailer, and a parcel sorter's divert gate cleared with a defeated light curtain and a coworker's own wrap-point risk caught first, and a suspicious parcel on the culling belt left untouched while the floor is cleared on the facility's plan, and an escalating customer at the retail window met with distance and a calm script. Every station ends on a proof — a gauge, a logged reading, a proven interlock — rather than on how routine the job looked going in.",
   "union": "NALC, APWU and NPMHU as training bodies for postal and mail processing"
 }

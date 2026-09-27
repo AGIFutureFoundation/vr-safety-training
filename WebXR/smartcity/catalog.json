@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 621
+      "stations": 624
     },
     "trades": {
       "entry": "trades/index.html",
@@ -69,6 +69,7 @@
         "track-access",
         "bus-depot-lift",
         "airport-ramp",
+        "ml-retail-counter-deescalation",
         "wp-permit-study-and-knowledge-test",
         "wp-warehouse-ride-along",
         "bus-yard-fuelling-and-brake-check",
@@ -225,6 +226,7 @@
         "conveyor-guard",
         "forklift-dock",
         "cnc-cell",
+        "ml-suspicious-package-protocol",
         "sm-kitchen-exhaust-and-fire-wrap",
         "sm-air-balancing-and-testing",
         "sm-architectural-panels-at-height",
@@ -393,6 +395,7 @@
         "stage-power",
         "chain-hoist",
         "fly-system",
+        "md-intimacy-and-conduct-coordination-briefing",
         "stage-load-in-and-truss-rigging",
         "broadcast-truck",
         "arena-rigging",
@@ -5091,8 +5094,8 @@
       "id": "screen-and-media-crafts",
       "name": "Screen & Media Crafts",
       "union": "SAG-AFTRA, the American Federation of Musicians (AFM), Actors' Equity Association, the NewsGuild-CWA, and IATSE crew locals",
-      "certification": "SAG-AFTRA, AFM, Actors' Equity Association and NewsGuild-CWA member safety guidance; IATSE grip, electrical, fly and stagehand practice; OSHA 29 CFR 1910.95 hearing conservation, 29 CFR 1910.132 general PPE, 29 CFR 1910.147 lockout/tagout and 29 CFR 1926.501 fall protection; NFPA 101 Life Safety Code; FCC RF exposure limits for a live truck's mast; ANSI/ASSP Z359 and ANSI E1.4 rigging standards; ANSI/ISEA 107 high-visibility apparel across seven distinct screen and media crafts jobs",
-      "summary": "Seven jobs a screen and media production actually rotates through: a film set safety meeting and the stunt and SFX go/no-go before a rigged effect, a grip crew's dolly track and counterweighted jib crane, a location shoot's traffic control and the crew's heat and hydration break, a sound stage's electrical distribution and cable crossings, a recording studio's hearing conservation and a piano's load-in, a theatre's fly floor and quick-change lane run from the same calling desk, and a news crew's live truck mast raised at a flooded storm scene. Every station ends on a proof — a gauge proven, a checklist cleared, a radio call answered — rather than on how routine the call sheet made the day look.",
+      "certification": "SAG-AFTRA, AFM, Actors' Equity Association and NewsGuild-CWA member safety guidance; IATSE grip, electrical, fly and stagehand practice; OSHA 29 CFR 1910.95 hearing conservation, 29 CFR 1910.132 general PPE, 29 CFR 1910.147 lockout/tagout and 29 CFR 1926.501 fall protection; NFPA 101 Life Safety Code; FCC RF exposure limits for a live truck's mast; ANSI/ASSP Z359 and ANSI E1.4 rigging standards; ANSI/ISEA 107 high-visibility apparel, and the production's own conduct policy for a closed set, across eight distinct screen and media crafts jobs",
+      "summary": "Eight jobs a screen and media production actually rotates through: a film set safety meeting and the stunt and SFX go/no-go before a rigged effect, a grip crew's dolly track and counterweighted jib crane, a location shoot's traffic control and the crew's heat and hydration break, a sound stage's electrical distribution and cable crossings, a recording studio's hearing conservation and a piano's load-in, a theatre's fly floor and quick-change lane run from the same calling desk, a news crew's live truck mast raised at a flooded storm scene, and a closed-set briefing run beside the intimacy coordinator. Every station ends on a proof — a gauge proven, a checklist cleared, a radio call answered — rather than on how routine the call sheet made the day look.",
       "accent": "#d6558f",
       "stations": [
         {
@@ -5129,12 +5132,17 @@
           "app": "smartcity",
           "id": "md-newsroom-storm-scene-and-live-truck-mast",
           "why": "The ground rod is driven before a single mast control is touched, the mast's clearance from the power line is watched the whole way up rather than assumed, and a gust closing that clearance is answered on the emergency stow switch."
+        },
+        {
+          "app": "smartcity",
+          "id": "md-intimacy-and-conduct-coordination-briefing",
+          "why": "The scene is flagged and the set closed to its list before anyone rolls, consent is confirmed in writing and in private before the coordinator calls ready, and a stop signal from a performer holds the whole set at once."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1570,
+        "lessons": 1569,
         "tasks": 120,
         "atBar": 20,
         "partial": 0,
@@ -5147,8 +5155,8 @@
       "id": "postal-and-mail-processing",
       "name": "Postal & Mail Processing Crew",
       "union": "NALC, APWU and NPMHU as training bodies for postal and mail processing",
-      "certification": "NALC, APWU and NPMHU training for letter carriers, postal workers and mail handlers, tested against OSHA 29 CFR 1910.147 the control of hazardous energy, 29 CFR 1910.212 machine guarding, 29 CFR 1910.178 powered industrial trucks and 29 CFR 1910.132 personal protective equipment; ASME B20.1 for conveyors and related equipment; the Revised NIOSH Lifting Equation and NIOSH's own guidance on animal, heat and cold stress hazards for workers on foot; FMCSA 49 CFR 392 and 396 for the route's own delivery vehicle; and Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written plant safety programme, across six distinct jobs a letter carrier, a mail handler and a plant clerk actually rotate through",
-      "summary": "Six jobs across a route and a processing plant: a right-hand-drive delivery van pre-tripped and loaded in route order, a residential block walked with a loose dog and a heaved sidewalk read before either becomes a problem, one shift's cold start and heat stretch both worked to the plan, a flat sorter's interlocked guard and sweep arm isolated and locked before a jam is ever cleared, a mail handler's forklift inspected and a container dock read for a pedestrian and an unchocked trailer, and a parcel sorter's divert gate cleared with a defeated light curtain and a coworker's own wrap-point risk caught first. Every station ends on a proof — a gauge, a logged reading, a proven interlock — rather than on how routine the job looked going in.",
+      "certification": "NALC, APWU and NPMHU training for letter carriers, postal workers and mail handlers, tested against OSHA 29 CFR 1910.147 the control of hazardous energy, 29 CFR 1910.212 machine guarding, 29 CFR 1910.178 powered industrial trucks and 29 CFR 1910.132 personal protective equipment; ASME B20.1 for conveyors and related equipment; the Revised NIOSH Lifting Equation and NIOSH's own guidance on animal, heat and cold stress hazards for workers on foot; FMCSA 49 CFR 392 and 396 for the route's own delivery vehicle; and Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written plant safety programme, and OSHA 29 CFR 1910.38 emergency action plans for a suspicious parcel on the belt, and 8 CCR 3342 as the model for a written workplace-violence plan at the retail counter, across eight distinct jobs a letter carrier, a mail handler, a plant clerk and a retail clerk actually rotate through",
+      "summary": "Eight jobs across a route, a processing plant and a retail counter: a right-hand-drive delivery van pre-tripped and loaded in route order, a residential block walked with a loose dog and a heaved sidewalk read before either becomes a problem, one shift's cold start and heat stretch both worked to the plan, a flat sorter's interlocked guard and sweep arm isolated and locked before a jam is ever cleared, a mail handler's forklift inspected and a container dock read for a pedestrian and an unchocked trailer, and a parcel sorter's divert gate cleared with a defeated light curtain and a coworker's own wrap-point risk caught first, and a suspicious parcel on the culling belt left untouched while the floor is cleared on the facility's plan, and an escalating customer at the retail window met with distance and a calm script. Every station ends on a proof — a gauge, a logged reading, a proven interlock — rather than on how routine the job looked going in.",
       "accent": "#2f6fb0",
       "stations": [
         {
@@ -5180,12 +5188,22 @@
           "app": "smartcity",
           "id": "ml-parcel-sorter-conveyor-jam-and-loto",
           "why": "A defeated light curtain, a cardboard guard patch and a coworker's own loose drawstring all caught before any of them becomes the reason a hand meets a moving belt."
+        },
+        {
+          "app": "smartcity",
+          "id": "ml-suspicious-package-protocol",
+          "why": "A parcel that doesn't look right left exactly where it lies, the belt stopped and the floor cleared at a walking pace, and the zone held on the facility's plan until responders give the all clear, whatever the dispatch clock says."
+        },
+        {
+          "app": "smartcity",
+          "id": "ml-retail-counter-deescalation",
+          "why": "The clerk's own way off the counter cleared before opening, an escalating customer met with distance and a low, calm script, and the supervisor and the facility's workplace-violence plan brought in the moment the script stops working."
         }
       ],
       "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
       "ladder": {
         "levels": 20,
-        "lessons": 1560,
+        "lessons": 1550,
         "tasks": 120,
         "atBar": 20,
         "partial": 0,
@@ -9495,6 +9513,255 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-retail-counter-deescalation",
+      "name": "Retail Counter De-escalation",
+      "title": "SmartCiti.X~ Retail Counter De-escalation VR",
+      "tagline": "The clerk's own way off the counter known before the doors open, loose items cleared, the cues noticed early, distance kept, a calm script tried first, the supervisor and the facility's plan brought in the moment it stops working, and a debrief requested afterward",
+      "category": "Mobility & Transit",
+      "domain": "Postal & Mail Processing",
+      "trade": "Retail counter clerk — an escalating customer at the window, APWU",
+      "union": null,
+      "certification": "Cal/OSHA's workplace violence prevention standard, 8 CCR 3342, as the model for the facility's own written workplace-violence plan — the alarm, the reporting route and an honest incident log; the Injury and Illness Prevention Program, 8 CCR 3203; OSHA 29 CFR 1910.38 emergency action plans for moving people clear; Labor Code §6310 protection against retaliation for reporting; APWU training for retail counter clerks, as the training body",
+      "accent": "#2f6fb0",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": "service",
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "drag",
+        "track",
+        "sequence",
+        "gauge",
+        "hold",
+        "turn"
+      ],
+      "badge": {
+        "id": "window-steady",
+        "name": "Window Steady",
+        "note": "An escalating customer met with distance and a calm script, the supervisor and the plan brought in on time, and the incident logged with a debrief requested"
+      },
+      "meshes": 198,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ml-8",
+      "flat": false,
+      "system": "Retail Window Standard",
+      "currency": "WINDOW",
+      "ranks": [
+        "New Clerk",
+        "Window Certified",
+        "Lead Clerk",
+        "Retail Supervisor",
+        "De-escalation Certified"
+      ],
+      "awards": [
+        {
+          "id": "counter-clear",
+          "name": "Counter Clear",
+          "note": "Loose items off the counter before they were within reach"
+        },
+        {
+          "id": "voice-held",
+          "name": "Voice Held",
+          "note": "Your own voice held low through the script"
+        },
+        {
+          "id": "debrief-asked",
+          "name": "Debrief Asked",
+          "note": "The incident logged and a debrief actually requested"
+        },
+        {
+          "id": "clean-window",
+          "name": "Clean Window",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-alarm",
+          "name": "Steady Alarm",
+          "note": "Held the alarm the full count, first try"
+        },
+        {
+          "id": "prompt-window",
+          "name": "Prompt Window",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ml-retail-counter-deescalation"
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-suspicious-package-protocol",
+      "name": "Suspicious Package Protocol",
+      "title": "SmartCiti.X~ Suspicious Package Protocol VR",
+      "tagline": "The plan and the exits known before the sort, a parcel that doesn't look right left exactly where it is, the belt stopped, people moved clear, the zone cordoned, the call made per the plan, and nobody back in until responders give the all clear",
+      "category": "Manufacturing & Automation",
+      "domain": "Postal & Mail Processing",
+      "trade": "Mail processing clerk and mail handler — suspicious parcel on the culling belt",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.38 emergency action plans — the facility's own written plan for reporting an emergency, evacuating and accounting for everyone; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written plant safety programme; Labor Code §6310 protection against retaliation for stopping work and reporting a hazard; APWU training for mail processing clerks and NPMHU training for mail handlers, as the training bodies",
+      "accent": "#2f6fb0",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": "plant",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "turn",
+        "sequence",
+        "track",
+        "drag",
+        "gauge",
+        "hold"
+      ],
+      "badge": {
+        "id": "zone-held",
+        "name": "Zone Held",
+        "note": "A suspicious parcel left untouched, the area cleared and cordoned, the call made per the facility's plan, and the zone held until the all clear"
+      },
+      "meshes": 208,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ml-7",
+      "flat": false,
+      "system": "Plant Emergency Standard",
+      "currency": "SORT",
+      "ranks": [
+        "New Clerk",
+        "Belt Certified",
+        "Lead Clerk",
+        "Tour Supervisor",
+        "Emergency Plan Certified"
+      ],
+      "awards": [
+        {
+          "id": "hands-off",
+          "name": "Hands Off",
+          "note": "The parcel left exactly where it was found"
+        },
+        {
+          "id": "all-accounted",
+          "name": "All Accounted",
+          "note": "The assembly headcount matched the tour roster"
+        },
+        {
+          "id": "zone-kept",
+          "name": "Zone Kept",
+          "note": "Nobody back in until responders gave the all clear"
+        },
+        {
+          "id": "clean-tour",
+          "name": "Clean Tour",
+          "note": "No corrections anywhere in the run"
+        },
+        {
+          "id": "steady-brief",
+          "name": "Steady Brief",
+          "note": "Held the responder brief the full count, first try"
+        },
+        {
+          "id": "prompt-plan",
+          "name": "Prompt Plan",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ml-suspicious-package-protocol"
+    },
+    {
+      "app": "smartcity",
+      "id": "md-intimacy-and-conduct-coordination-briefing",
+      "name": "Intimacy & Conduct Coordination Briefing",
+      "title": "SmartCiti.X~ Intimacy & Conduct Coordination Briefing VR",
+      "tagline": "A sensitive scene flagged in advance, the set closed to essential crew, a stray feed and a phone camera found first, consent confirmed in writing and in private, the stop signal and the reporting channel briefed to everyone, and a debrief before the set is released",
+      "category": "Entertainment & Live Events",
+      "domain": "Screen & Media Crafts",
+      "trade": "First assistant director with the intimacy coordinator — closed-set briefing",
+      "union": null,
+      "certification": "SAG-AFTRA guidance for scenes involving nudity or simulated intimacy and the intimacy coordinator's role, as the performers' training body; the production's own written conduct and anti-harassment policy and its reporting channel; IATSE crew practice for a closed set; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written production safety programme; Labor Code §6310 protection against retaliation for raising a concern",
+      "accent": "#b05ca8",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": "theatre",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "find",
+        "drag",
+        "turn",
+        "sequence",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "set-held-with-care",
+        "name": "Set Held With Care",
+        "note": "A closed set run on agreed scope, a stop signal everyone knew, a named reporting channel and a debrief for the performers"
+      },
+      "meshes": 224,
+      "lights": 0,
+      "overBudget": false,
+      "index": "724",
+      "flat": false,
+      "system": "Closed Set Standard",
+      "currency": "TRUST",
+      "ranks": [
+        "Set PA",
+        "Second AD",
+        "First AD",
+        "Closed-Set Lead",
+        "Conduct Coordination Certified"
+      ],
+      "awards": [
+        {
+          "id": "set-closed",
+          "name": "Set Closed",
+          "note": "The feed and the camera found before anyone rolled"
+        },
+        {
+          "id": "consent-first",
+          "name": "Consent First",
+          "note": "The written scope, the private check-in and the coordinator's word, in that order"
+        },
+        {
+          "id": "debrief-held",
+          "name": "Debrief Held",
+          "note": "The performers debriefed before the set was released"
+        },
+        {
+          "id": "clean-briefing",
+          "name": "Clean Briefing",
+          "note": "No corrections anywhere in the briefing"
+        },
+        {
+          "id": "steady-hold",
+          "name": "Steady Hold",
+          "note": "Held the reset the full count, first try"
+        },
+        {
+          "id": "prompt-set",
+          "name": "Prompt Set",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=md-intimacy-and-conduct-coordination-briefing"
     },
     {
       "app": "smartcity",
@@ -31180,7 +31447,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 258,
+      "meshes": 257,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -31840,7 +32107,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",

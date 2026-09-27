@@ -4534,9 +4534,9 @@
           "interactables": 23
         },
         "originality": {
-          "score": 0.5023560209424085,
-          "nearest": "home-visit-safety",
-          "similarity": 0.2395287958115183
+          "score": 0.5016528925619835,
+          "nearest": "ml-retail-counter-deescalation",
+          "similarity": 0.2396694214876033
         }
       }
     },
@@ -5421,6 +5421,58 @@
           "score": 0,
           "nearest": "op-compactor-lift-thickness-and-edge",
           "similarity": 0.394990366088632
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "hc-workplace-violence-deescalation-at-the-desk",
+      "name": "Workplace Violence De-escalation at the Desk",
+      "category": "Healthcare Support",
+      "steps": 13,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 7,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 0.885,
+          "medianWhy": 227,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9575,
+          "meshes": 163,
+          "materials": 77,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.1798534798534801,
+          "nearest": "ml-retail-counter-deescalation",
+          "similarity": 0.304029304029304
         }
       }
     },
@@ -6714,7 +6766,7 @@
         "scene": {
           "score": 1,
           "meshes": 251,
-          "materials": 116,
+          "materials": 117,
           "interactables": 24
         },
         "originality": {
@@ -10366,58 +10418,6 @@
     },
     {
       "app": "smartcity",
-      "id": "hc-workplace-violence-deescalation-at-the-desk",
-      "name": "Workplace Violence De-escalation at the Desk",
-      "category": "Healthcare Support",
-      "steps": 13,
-      "score": 95,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 7,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.9884615384615384,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 0.885,
-          "medianWhy": 227,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 6
-        },
-        "standards": {
-          "score": 1,
-          "cited": 5,
-          "inScope": 5,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 11,
-          "got": 11
-        },
-        "scene": {
-          "score": 0.9575,
-          "meshes": 163,
-          "materials": 77,
-          "interactables": 23
-        },
-        "originality": {
-          "score": 0.47622377622377626,
-          "nearest": "ca-unruly-passenger-deescalation",
-          "similarity": 0.24475524475524477
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "hc-sterile-processing-decontamination-and-assembly",
       "name": "Sterile Processing Decon & Assembly",
       "category": "Healthcare Support",
@@ -12025,6 +12025,58 @@
           "score": 0.12857142857142873,
           "nearest": "av-marshalling-and-wingwalker-signals",
           "similarity": 0.3142857142857143
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-retail-counter-deescalation",
+      "name": "Retail Counter De-escalation",
+      "category": "Mobility & Transit",
+      "steps": 12,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 1
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 270,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 198,
+          "materials": 87,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.1798534798534801,
+          "nearest": "hc-workplace-violence-deescalation-at-the-desk",
+          "similarity": 0.304029304029304
         }
       }
     },
@@ -15137,7 +15189,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 259,
+          "meshes": 261,
           "materials": 92,
           "interactables": 29
         },
@@ -20085,6 +20137,110 @@
           "score": 0.2552596537949403,
           "nearest": "cm-slab-screed-bull-float-and-trowel",
           "similarity": 0.28894806924101196
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "ml-suspicious-package-protocol",
+      "name": "Suspicious Package Protocol",
+      "category": "Manufacturing & Automation",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 278,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 5,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 0.9166666666666666,
+          "want": 12,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 208,
+          "materials": 91,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.5745704467353953,
+          "nearest": "gr-ammonia-leak-alarm-response-cold-plant",
+          "similarity": 0.22508591065292097
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "md-intimacy-and-conduct-coordination-briefing",
+      "name": "Intimacy & Conduct Coordination Briefing",
+      "category": "Entertainment & Live Events",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 289,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 4,
+          "inScope": 4,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 0.9166666666666666,
+          "want": 12,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 224,
+          "materials": 92,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.6598811292719168,
+          "nearest": "who-contact-tracing-visit",
+          "similarity": 0.20802377414561665
         }
       }
     },

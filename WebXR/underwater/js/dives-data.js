@@ -353,6 +353,90 @@ export const DV_SIDE_DIVES = [
     }
   },
   {
+    "id": "dv-side-commercial-diving-and-scientific-scuba-opener",
+    "title": "Commercial Diving & Scientific Scuba — First Dive",
+    "giver": "the programme's dive lead",
+    "site": "Pier Piling Inspection Station",
+    "kind": "side",
+    "tier": 1,
+    "requires": null,
+    "programmeId": "commercial-diving-and-scientific-scuba",
+    "role": "opener",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Pier Piling Inspection Station",
+        "text": "The dive lead meets you at Pier Piling Inspection Station and walks you to the first bench."
+      },
+      {
+        "type": "station",
+        "target": "cd-underwater-wet-welding-and-cutting",
+        "text": "The switch that makes the diver's rod live is on deck, so the tender learns to close it on the spoken call and nothing else, with the ground on the work and the leads walked before anyone breathes through a helmet."
+      },
+      {
+        "type": "station",
+        "target": "cd-pier-piling-inspection-and-wrap-repair",
+        "text": "A pile is read by hand before the camera and the gauge, its findings said to the surface log as they are found, and a wrap fitted to the owner's form rather than to how it looks in green water."
+      },
+      {
+        "type": "station",
+        "target": "cd-rov-launch-recovery-and-tether-management",
+        "text": "A vehicle on a dive site is tended like a diver — the tether flaked, paid out in step and braked on a snag — and it never crosses to the diver's side of the boat without the supervisor's word."
+      },
+      {
+        "type": "talk",
+        "target": "dive-lead",
+        "text": "\"Eight jobs of the commercial dive crew and the scientific scuba pair, weighted to the surface side that keeps the diver alive: the welding tender at the knife switch, the diver reading a pile by hand and fitting its wrap, the ROV tender's tether, the chamber attendant and the post-dive watch, the scientific pair's buddy check and lost-buddy drill, a night search on a guideline, an intake locked out before a hydraulic tool goes down, and the paper that closes the day honestly. No depth, gas, decompression or time figure is ever stated; those live in the dive plan and the tables the supervisor holds.\""
+      }
+    ],
+    "reward": {
+      "xp": 100,
+      "badge": "Commercial Diving & Scientific Scuba — Opener"
+    }
+  },
+  {
+    "id": "dv-side-commercial-diving-and-scientific-scuba-capstone",
+    "title": "Commercial Diving & Scientific Scuba — Capstone Dive",
+    "giver": "the programme's certifying evaluator",
+    "site": "Pier Piling Inspection Station",
+    "kind": "side",
+    "tier": 2,
+    "requires": "dv-side-commercial-diving-and-scientific-scuba-opener",
+    "programmeId": "commercial-diving-and-scientific-scuba",
+    "role": "capstone",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Pier Piling Inspection Station",
+        "text": "The certifying evaluator is waiting at the last bench, sign-off sheet in hand."
+      },
+      {
+        "type": "station",
+        "target": "cd-low-visibility-and-night-dive-line-work",
+        "text": "In black water the guideline is the way home and the light is the voice, so tie-offs go on in order, a hand stays on the line through a silt-out, and a failed primary light is the abort the plan already wrote."
+      },
+      {
+        "type": "station",
+        "target": "cd-hydraulic-tools-and-suction-hazards-underwater",
+        "text": "Nothing goes near an intake grate until the pump is locked, tried and proven slack by a streamer, and the lock stays on against the plant until the supervisor has counted every diver out of the water."
+      },
+      {
+        "type": "station",
+        "target": "cd-dive-records-and-incident-review",
+        "text": "The record is written from the slate and never from memory, released whole or not at all, and the debrief names a condition as the cause so the corrective action changes the procedure and not the diver."
+      },
+      {
+        "type": "talk",
+        "target": "certifying-evaluator",
+        "text": "\"Certified under: Programme completion record; the dive credentials it rehearses are issued only by their own bodies — OSHA 29 CFR 1910 Subpart T commercial diving operations (29 CFR 1910.421 through 1910.425, 1910.430 and 1910.440), the ADCI consensus standards, AWS D3.6 for the wet weld, USCG 46 CFR 197 Subpart B from a vessel, 29 CFR 1910.424 and the programme's diving safety manual for the scientific scuba; every depth, gas, decompression, current and time limit lives in the dive plan and the tables the supervisor holds\""
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": "Commercial Diving & Scientific Scuba — Capstone"
+    }
+  },
+  {
     "id": "dv-side-bay-restoration-maritime-underwater-opener",
     "title": "SF Bay Restoration & Cleanup — Maritime and Underwater — First Dive",
     "giver": "the programme's dive lead",
@@ -770,6 +854,90 @@ export const DV_SIDE_DIVES = [
     "reward": {
       "xp": 250,
       "badge": "Rigging and Lifting — Capstone"
+    }
+  },
+  {
+    "id": "dv-side-marine-ecology-and-restoration-opener",
+    "title": "Marine Ecology & Restoration — Survey and Restoration Crews — First Dive",
+    "giver": "the programme's dive lead",
+    "site": "Eelgrass Transplant Plots",
+    "kind": "side",
+    "tier": 1,
+    "requires": null,
+    "programmeId": "marine-ecology-and-restoration",
+    "role": "opener",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Eelgrass Transplant Plots",
+        "text": "The dive lead meets you at Eelgrass Transplant Plots and walks you to the first bench."
+      },
+      {
+        "type": "station",
+        "target": "me-kelp-transect-survey-and-photo-quadrats",
+        "text": "The fixed transect as the unit of monitoring: the same pins, bearing, frame and camera settings every season, swum at a pace that does not tear the canopy it counts."
+      },
+      {
+        "type": "station",
+        "target": "me-oyster-reef-monitoring-and-settlement-tiles",
+        "text": "A tile's identity and wetness kept from the rack to the lab, and the fresh rack set back on the same footing at the same mark before the flood."
+      },
+      {
+        "type": "station",
+        "target": "me-eelgrass-seed-collection-and-nursery",
+        "text": "Collecting to a permit's share and keeping what was cut alive: shoots cut above the sheath, bags wet and cool, hung by their labels in a tank that never stops flowing."
+      },
+      {
+        "type": "talk",
+        "target": "dive-lead",
+        "text": "\"Eight field methods a marine ecology and restoration crew runs on any survey or planting day: a kelp transect and its photo quadrats, a settlement-tile swap on a shellfish reef, seed collection and a flow-through nursery, water column sampling from a small boat, a hand-crew day opening a marsh channel, a fish visual census, a shoreline debris and microplastics survey, and the reporting method for a sighting that does not match the card. Every station teaches how a measurement is made repeatable and how a crew stays safe making it; none asserts a fact about any bay, species, count or date.\""
+      }
+    ],
+    "reward": {
+      "xp": 100,
+      "badge": "Marine Ecology & Restoration — Survey and Restoration Crews — Opener"
+    }
+  },
+  {
+    "id": "dv-side-marine-ecology-and-restoration-capstone",
+    "title": "Marine Ecology & Restoration — Survey and Restoration Crews — Capstone Dive",
+    "giver": "the programme's certifying evaluator",
+    "site": "Eelgrass Transplant Plots",
+    "kind": "side",
+    "tier": 2,
+    "requires": "dv-side-marine-ecology-and-restoration-opener",
+    "programmeId": "marine-ecology-and-restoration",
+    "role": "capstone",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Eelgrass Transplant Plots",
+        "text": "The certifying evaluator is waiting at the last bench, sign-off sheet in hand."
+      },
+      {
+        "type": "station",
+        "target": "me-fish-visual-census-and-data-sheet",
+        "text": "A count that means the same thing every season: one corridor, one pace, classes against a bar, counting only what crosses ahead, and the sheet written on the bottom."
+      },
+      {
+        "type": "station",
+        "target": "me-shoreline-debris-and-microplastics-survey",
+        "text": "A beach tallied before it is changed and a sand sample kept honest in the wind, with sharps to the kit by tongs and unknowns flagged for the call."
+      },
+      {
+        "type": "station",
+        "target": "me-invasive-species-identification-and-reporting",
+        "text": "How a sighting becomes a record: photographed to protocol, positioned, sampled only as permitted and reported to the named body before anything is touched or said."
+      },
+      {
+        "type": "talk",
+        "target": "certifying-evaluator",
+        "text": "\"Certified under: Programme completion record; the field methods it rehearses answer to the permit and consultation conditions their own bodies set — BCDC, the Regional Water Quality Control Board's Section 401 certification, the Section 404 permit, USFWS and NOAA Fisheries consultation, CDFW oversight of collecting and handling — and, for the two diving stations, OSHA 29 CFR 1910.424 practice under the programme's own diving safety manual. No depth, gas or current limit is stated anywhere in the pack; those live in the dive plan\""
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": "Marine Ecology & Restoration — Survey and Restoration Crews — Capstone"
     }
   },
   {
