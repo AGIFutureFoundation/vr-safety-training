@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 557
+      "stations": 558
     },
     "trades": {
       "entry": "trades/index.html",
@@ -204,6 +204,7 @@
         "conveyor-guard",
         "forklift-dock",
         "cnc-cell",
+        "mm-mine-escapeway-drill",
         "mm-continuous-miner-face",
         "mm-paper-machine-dryer",
         "mm-coke-oven-heat-rotation",
@@ -8737,6 +8738,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "mm-mine-escapeway-drill",
+      "name": "Mine Escapeway & Self-Rescuer Drill",
+      "title": "SmartCiti.X~ Mine Escapeway & Self-Rescuer Drill VR",
+      "tagline": "An evacuation drill to the mine's emergency plan: the self-rescuer donned complete, the alternate escapeway taken, the lifeline followed by feel, a changeover made, the refuge sealed and reported",
+      "category": "Manufacturing & Automation",
+      "domain": "Mining",
+      "trade": "Underground miner — mine emergency and evacuation drill",
+      "union": null,
+      "certification": "UMWA health and safety training; per the mine's emergency plan and the mine safety regulations, named generically; NIOSH criteria documents on occupational safety and emergency evacuation; NIMS/ICS incident command coordination with surface command",
+      "accent": "#4a9e5f",
+      "parSeconds": 300,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "track",
+        "gauge",
+        "hold",
+        "turn",
+        "drag"
+      ],
+      "badge": {
+        "id": "escape-drilled",
+        "name": "Escape Drilled",
+        "note": "An evacuation drill run to the plan: self-rescuer donned complete, the lifeline followed, the refuge sealed and the crew accounted for"
+      },
+      "meshes": 94,
+      "lights": 0,
+      "overBudget": false,
+      "index": "713",
+      "flat": false,
+      "system": "Mine Escape Authority",
+      "currency": "AIR",
+      "ranks": [
+        "New Miner",
+        "Section Hand",
+        "Fire Boss",
+        "Mine Examiner",
+        "Mine Escape Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "sealed-and-donned",
+          "name": "Sealed And Donned",
+          "note": "Self-rescuer donned complete before moving, first time"
+        },
+        {
+          "id": "never-broke-seal",
+          "name": "Never Broke Seal",
+          "note": "Never broke the SCSR seal early, misread the lifeline, pushed the blocked primary, or left the refuge unsealed"
+        },
+        {
+          "id": "unit-swapped-clean",
+          "name": "Unit Swapped Clean",
+          "note": "SCSR indicator read correctly at every changeover check"
+        },
+        {
+          "id": "clean-drill",
+          "name": "Clean Drill",
+          "note": "No corrections through the whole drill"
+        },
+        {
+          "id": "lifeline-unbroken",
+          "name": "Lifeline Unbroken",
+          "note": "The lifeline follow never broke its steady pace"
+        },
+        {
+          "id": "drill-fast",
+          "name": "Drill Fast",
+          "note": "Drill completed inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=mm-mine-escapeway-drill"
     },
     {
       "app": "smartcity",
@@ -29509,7 +29593,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 252,
+      "meshes": 257,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -30169,7 +30253,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",
