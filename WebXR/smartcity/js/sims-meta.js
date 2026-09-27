@@ -23548,5 +23548,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "ml-heat-and-cold-stress-on-route",
+    "index": "ml-3",
+    "domain": "Postal & Mail Processing",
+    "trade": "City letter carrier — heat and cold stress on the walking route, NALC",
+    "category": "Mobility & Transit",
+    "certification": "NIOSH guidance on heat stress and cold stress for outdoor workers; OSHA 29 CFR 1910.132 personal protective equipment, general requirements; OSHA 29 CFR 1910.38 emergency action plans, for a heat-illness or cold-stress response; Cal/OSHA's Injury and Illness Prevention Program, 8 CCR 3203, as the model for a written cold-and-heat plan; NALC training for city letter carrier route safety",
+    "name": "Heat & Cold Stress on Route",
+    "weather": "clear",
+    "indoor": null,
+    "district": null,
+    "title": "SmartCiti.X~ Heat & Cold Stress on Route VR",
+    "tagline": "One shift, both extremes: a pre-dawn cold start with frost read on the steps and a frozen mail slot worked open rather than forced, and a midday heat stretch with the day's bulletin read, a hydration refill, the van's cab vented before re-entry, a held shade break, a kept pace and a second buddy check for heat illness signs",
+    "accent": 3108784,
+    "accentCss": "#2f6fb0",
+    "parSeconds": 320,
+    "badge": {
+      "id": "all-weather-route",
+      "name": "All-Weather Route",
+      "note": "Both the cold start and the heat stretch worked to the plan, the shade break actually held, and a coworker's heat-illness call answered without a single unsafe move"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Route Conditioning",
+      "currency": "CONDITION",
+      "ranks": [
+        "Casual Carrier",
+        "Route Trainee",
+        "Letter Carrier",
+        "Lead Carrier",
+        "All-Weather Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
