@@ -304,8 +304,34 @@ for (const f of readdirSync(join(WEBXR, "smartcity/js/sims")).filter((n) => n.en
   if (/^\s*underwater\s*:/m.test(src) && !/district:\s*"bay-underwater"/.test(src)) fail(f, "sets `underwater` but does not stand in the bay-underwater district");
 }
 
+// Station faults (`?fault=`, docs/districts.md): every declared fault names a
+// real step and a registered target, the step's answer changes when the URL
+// asks for the fault, and is restored when it does not.
+let faultCount = 0;
+{
+  const { loadSmartCity } = await import("./lib/headless.mjs");
+  const city = await loadSmartCity();
+  for (const r of city.ROOMS) {
+    for (const f of r.faults ?? []) {
+      faultCount += 1;
+      const tag = `${r.id} ?fault=${f.id}`;
+      const step = r.steps.find((s) => s.id === f.step);
+      if (!f.id || !f.label || !f.note || !f.target || !f.from) { fail(tag, "a fault needs id, label, note, target and from"); continue; }
+      if (!step) { fail(tag, `names step "${f.step}", which the station does not have`); continue; }
+      if (f.target === f.from) fail(tag, "the fault does not change the step's answer");
+      globalThis.location = { search: `?fault=${f.id}` };
+      const on = r.build(new city.THREE.Group());
+      if (!on.hits[f.target]) fail(tag, `target "${f.target}" is not a registered object`);
+      if (step.target !== f.target) fail(tag, `under the fault, step "${f.step}" still answers at "${step.target}"`);
+      globalThis.location = { search: "" };
+      r.build(new city.THREE.Group());
+      if (step.target !== f.from) fail(tag, `without the fault, step "${f.step}" answers at "${step.target}", not "${f.from}"`);
+    }
+  }
+}
+
 const summary = rows.map((r) => `${r.id} ${r.meshes}/${S.SCENIC_BUDGET} meshes, roam ${r.roam.toFixed(1)}m`).join("; ");
 console.log(failures
   ? `\n${failures} district problem(s) found.`
-  : `\nAll ${rows.length} scenic districts build, fit and are reachable: ${summary}; underwater and scoreboard HUD chips render.`);
+  : `\nAll ${rows.length} scenic districts build, fit and are reachable: ${summary}; underwater and scoreboard HUD chips render; ${faultCount} station fault(s) change their step.`);
 process.exit(failures ? 1 : 0);
