@@ -30,6 +30,7 @@ const CHECKERS = [
   "check_underwater.mjs", "check_underwater_game.mjs", "check_dive_quests.mjs",
   "check_investor.mjs",
   "check_mobile.mjs",
+  "check_ui.mjs",
 ];
 
 let failed = 0;
