@@ -1,0 +1,373 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "floor-worked",
+    "name": "Floor Worked",
+    "note": "The map read, the right three tables found, the pitch rehearsed in order, both conversations held steady, the resume handed off and contact information swapped before the close"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Registered apprenticeship standards as a category — what the coordinator's table on this floor is actually recruiting toward; the OSHA Outreach Training Program's OSHA 10 card, one of the first questions an employer table asks about; Teamsters (IBT) apprenticeship and driver training programmes, named on the union table's own sign; 29 CFR 1910.22 for the walking-working surfaces a crowded hall shares with every other floor; 29 CFR 1910.151 for the first-aid response a warm, packed room can turn into a real need; SAMHSA's guidance on help-seeking, for the coach's own debrief at the end of the floor",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.151",
+        "id": "osha-1910-151",
+        "title": "29 CFR 1910.151 — Medical services and first aid"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.22",
+        "id": "osha-1910-22",
+        "title": "29 CFR 1910.22 — Walking-working surfaces, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "OSHA 10",
+        "id": "osha-outreach-10",
+        "title": "OSHA Outreach Training Program — the 10-hour construction course (OSHA 10): voluntary awareness training taught by an authorized trainer, not a certification and not a substitute for the employer's own training"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBT",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Workforce readiness",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "three-tables",
+        "name": "Three Tables",
+        "note": "The map held through and the right three tables found clean"
+      },
+      {
+        "id": "worked-the-floor",
+        "name": "Worked The Floor",
+        "note": "No unsafe action anywhere on the floor"
+      },
+      {
+        "id": "held-the-room",
+        "name": "Held The Room",
+        "note": "The coordinator conversation carried without a break"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-floor",
+        "name": "Clean Floor",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "steady-volume",
+        "name": "Steady Volume",
+        "note": "The volume gauge committed near the middle of the band"
+      },
+      {
+        "id": "worked-fast",
+        "name": "Worked Fast",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "TABLE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Walking In",
+      "Floor Mapped",
+      "Pitch Given",
+      "Contact Made",
+      "Job Fair Certified"
+    ],
+    "system": "Job Fair Floor"
+  },
+  "hazards": {
+    "wp-eg-cord-tangle": "You were about to cross the tangle of extension cords running between the booth displays and the main aisle. A hall this crowded turns a loose cord into a trip for the person behind you as much as for you — the cords get taped flat along the floor, not left loose across the walkway between tables.",
+    "wp-eg-fainting-visitor": "Someone in the queue near the union table has gone pale and is swaying on their feet. A hot, crowded room is exactly where heat exhaustion shows up first as unsteadiness — get them seated, get water and floor staff over, and stay with them rather than stepping around them to keep your place in line.",
+    "wp-eg-heat-skip-water": "You were about to skip the water table to save time before the coordinator's line got longer. A packed hall with the air conditioning struggling is exactly where people quietly overheat while telling themselves they will grab water after the next table — take the cup now, on the way, rather than after the headache starts.",
+    "wp-eg-line-cutter": "Someone behind you in the coordinator's line has pushed past to cut in ahead, getting in the face of the person he shoved past. Space and a level voice come first — step back, let the floor staff handle the line, and do not let it turn into a shoving match over a spot that will still be there in a minute."
+  },
+  "id": "wp-employer-meet-and-greet",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "hand-resume",
+      "alert": "The power strip feeding the coordinator's table lights and laptop has started sparking behind the tablecloth.",
+      "cue": "Step back and alert the floor staff — do not touch it yourself.",
+      "delay": 3,
+      "id": "wp-eg-power-spark",
+      "kind": "Sparking power strip behind the table",
+      "missNote": "You kept standing near the table while it sparked, and in the version where nobody alerted staff, the cloth skirting caught before anyone with an extinguisher even knew there was a problem.",
+      "seconds": 12,
+      "target": "wp-eg-staff-alert",
+      "why": "A sparking strip under a table skirted in cloth is a fire starting exactly where nobody would see the flame until it is through the fabric, and it is live — pulling at it yourself risks a shock for no gain over stepping back and getting the floor staff, who have a breaker and an extinguisher, to it in seconds.",
+      "wrongNote": "Not the resume bin, and not the strip itself. The staff alert button on the aisle post is what brings someone qualified — press that and step back."
+    },
+    {
+      "after": "coordinator-talk",
+      "alert": "Someone from the line behind you steps up beside the table and starts talking over you to the coordinator.",
+      "cue": "Hold your spot calmly — point to the queue sign rather than arguing it out loud.",
+      "delay": 3,
+      "id": "wp-eg-line-jumper",
+      "kind": "Another job seeker cuts into the conversation",
+      "missNote": "You argued it out loud instead, and in the version where you did, the coordinator's last impression of you was the shouting match, not the conversation you had been having a minute before.",
+      "seconds": 10,
+      "target": "wp-eg-queue-sign",
+      "why": "Arguing with a line jumper in front of the coordinator you are trying to impress does more damage to your own conversation than losing thirty seconds to it, and the queue sign exists exactly so nobody has to settle it by raising their voice — a calm gesture toward it says more about you than winning the argument would.",
+      "wrongNote": "Not the resume bin or the card wheel. The queue sign is what settles it without a scene — point to that."
+    }
+  ],
+  "lateNotes": {
+    "wp-eg-fair-log": "The log closes out the floor last, with which tables you actually worked and what the follow-up is.",
+    "wp-eg-resume-packet": "Not yet. The resume goes in the bin once you have actually introduced yourself at that table — a resume dropped with no conversation behind it gets read last, if at all."
+  },
+  "name": "Employer Meet-and-Greet",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "wp-eg-benefits-table",
+      "wp-eg-card-wheel",
+      "wp-eg-coach",
+      "wp-eg-coordinator-table",
+      "wp-eg-coordinator-track",
+      "wp-eg-cord-tangle",
+      "wp-eg-fainting-visitor",
+      "wp-eg-fair-log",
+      "wp-eg-followup-question",
+      "wp-eg-heat-skip-water",
+      "wp-eg-line-cutter",
+      "wp-eg-map-board",
+      "wp-eg-pitch-ask",
+      "wp-eg-pitch-name",
+      "wp-eg-pitch-strength",
+      "wp-eg-queue-sign",
+      "wp-eg-raffle-booth",
+      "wp-eg-resume-bin",
+      "wp-eg-resume-packet",
+      "wp-eg-signin-table",
+      "wp-eg-staff-alert",
+      "wp-eg-vendor-booth",
+      "wp-eg-volume-dial",
+      "wp-eg-warehouse-greeting",
+      "wp-eg-warehouse-table"
+    ],
+    "meshes": 187
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Sign the registration sheet with your name and which track you are on.",
+      "id": "sign-in",
+      "kind": "select",
+      "prompt": "Sign the registration sheet with your name and which track you are on.",
+      "target": "wp-eg-signin-table",
+      "title": "Sign in at the registration table",
+      "why": "The registration table is how the fair's organisers know who walked the floor and which tables to expect you at, and naming your track — warehouse or Class A — is what lets the volunteers point you toward the right side of the room before you have spent ten minutes finding it yourself."
+    },
+    {
+      "cue": "Hold at the map board and read where the warehouse employer, the apprenticeship coordinator and the benefits table actually are.",
+      "holdBreakNote": "You left the board before finding the benefits table. All three matter — read the map through.",
+      "id": "read-map",
+      "kind": "hold",
+      "prompt": "Hold at the map board and read where the warehouse employer, the apprenticeship coordinator and the benefits table actually are.",
+      "seconds": 6,
+      "target": "wp-eg-map-board",
+      "title": "Read the fair map before you walk the floor",
+      "why": "A job fair floor is not walked table by table in order; it is worked toward the three tables that actually matter for your track, and the map is the only thing that tells you where those three sit among thirty others. Reading it first is what keeps the limited time on the floor aimed at the right conversations instead of the nearest ones."
+    },
+    {
+      "cue": "Among all the booths on the floor, find the warehouse employer, the apprenticeship coordinator and the benefits table.",
+      "decoyNotes": {
+        "wp-eg-raffle-booth": "A raffle for a gift card. Fun, and not why you are here with a limited hour on the floor.",
+        "wp-eg-vendor-booth": "A vendor selling branded water bottles. Also not one of the three tables that matters today."
+      },
+      "id": "find-tables",
+      "itemNames": {
+        "wp-eg-benefits-table": "the benefits and financial coaching table",
+        "wp-eg-coordinator-table": "the apprenticeship coordinator's table",
+        "wp-eg-warehouse-table": "the warehouse employer's table"
+      },
+      "itemNotes": {
+        "wp-eg-benefits-table": "The benefits table answers what health coverage and a retirement plan look like at each employer — worth asking about before an offer, not after.",
+        "wp-eg-coordinator-table": "The apprenticeship coordinator's table is where the application you built the resume for actually starts.",
+        "wp-eg-warehouse-table": "The warehouse employer's table is where an actual opening gets discussed, not just a programme description."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Among all the booths on the floor, find the warehouse employer, the apprenticeship coordinator and the benefits table.",
+      "targets": [
+        "wp-eg-warehouse-table",
+        "wp-eg-coordinator-table",
+        "wp-eg-benefits-table"
+      ],
+      "title": "Find the three tables that actually matter",
+      "why": "A fair floor is built to be walked in an hour by someone who does not yet know which tables matter, which is exactly why decoy booths — raffles, branded giveaways — sit right next to the ones that do. Finding the three that actually move your pathway forward is the whole skill of working a floor instead of wandering it."
+    },
+    {
+      "cue": "Say it in your head in order: your name and track, one real strength, then what you are looking for.",
+      "id": "prep-pitch",
+      "itemNames": {
+        "wp-eg-pitch-ask": "what you are looking for",
+        "wp-eg-pitch-name": "your name and your track",
+        "wp-eg-pitch-strength": "one real strength"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Name and track first so the person across the table knows who they are talking to, one strength next so it lands while they are still listening, and what you are looking for last, since that is the question the whole thirty seconds is building toward.",
+      "prompt": "Say it in your head in order: your name and track, one real strength, then what you are looking for.",
+      "targets": [
+        "wp-eg-pitch-name",
+        "wp-eg-pitch-strength",
+        "wp-eg-pitch-ask"
+      ],
+      "title": "Rehearse the thirty-second pitch in order",
+      "why": "Thirty seconds at a table is not enough time to figure out what to say while you are saying it, and a pitch rehearsed in this order — who you are, one true strength, what you want — is short enough that a busy employer actually hears all of it. Rehearsing it once here is what keeps it from coming out as three unconnected sentences at the table."
+    },
+    {
+      "cue": "Walk up, offer your hand and give the pitch you just rehearsed.",
+      "id": "greet-employer",
+      "kind": "select",
+      "prompt": "Walk up, offer your hand and give the pitch you just rehearsed.",
+      "target": "wp-eg-warehouse-greeting",
+      "title": "Introduce yourself at the warehouse table",
+      "why": "An employer at a fair table has ninety seconds for each of forty people, and the first three of those seconds — a hand offered, a name given clearly — decide whether the rest of your pitch gets their full attention or half of it while they watch the line behind you."
+    },
+    {
+      "cue": "The dial runs quiet to loud. Commit it where a hall this noisy actually needs you, not where a quiet room would.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.68
+        ],
+        "label": "VOLUME",
+        "missNote": "That volume does not carry over a fair floor this loud, or it carries too far and reads as shouting. Find the level that is clearly heard at the table without turning heads at the next one.",
+        "speed": 0.6
+      },
+      "id": "volume-gauge",
+      "kind": "gauge",
+      "prompt": "The dial runs quiet to loud. Commit it where a hall this noisy actually needs you, not where a quiet room would.",
+      "target": "wp-eg-volume-dial",
+      "title": "Find a steady speaking volume in a loud room",
+      "why": "A job fair hall is loud enough that a normal speaking voice disappears into it, and an employer who has to lean in and ask you to repeat yourself is an employer who is already thinking about the next table. Projecting enough to be heard clearly, without shouting over the person one table down, is a skill this room specifically demands and a quiet office never does."
+    },
+    {
+      "cue": "Hold the engagement track in the band: asking questions and listening, not going silent and not talking over them.",
+      "holdBreakNote": "The conversation slipped — into silence or into talking over the coordinator. Ask a question, then actually listen to the answer.",
+      "id": "coordinator-talk",
+      "kind": "track",
+      "prompt": "Hold the engagement track in the band: asking questions and listening, not going silent and not talking over them.",
+      "seconds": 7,
+      "target": "wp-eg-coordinator-track",
+      "title": "Hold a real conversation with the coordinator",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.44,
+        "green": [
+          0.36,
+          0.66
+        ],
+        "label": "ENGAGEMENT",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "A coordinator remembers the applicant who asked a real question about the apprenticeship far more than the one who stood silently or the one who talked without pausing to hear the answer. This is the conversation that puts a face to the application you submit next week, and holding it as an actual back-and-forth is what makes that face memorable for the right reason."
+    },
+    {
+      "cue": "Carry your resume packet to the coordinator's collection bin.",
+      "drag": {
+        "missNote": "Not in the coordinator's bin. A resume left on the table edge is one that walks away with the next gust of foot traffic.",
+        "radius": 0.45,
+        "to": "wp-eg-resume-bin"
+      },
+      "id": "hand-resume",
+      "kind": "drag",
+      "prompt": "Carry your resume packet to the coordinator's collection bin.",
+      "target": "wp-eg-resume-packet",
+      "title": "Hand the resume to the coordinator's table",
+      "why": "A resume handed over in person, after an actual conversation, is read differently than one dropped anonymously into a stack — the coordinator now has a face and a question you asked to attach to the page. It goes into this bin, at this table, once the conversation has actually happened."
+    },
+    {
+      "cue": "Turn the card wheel to log the coordinator's card and leave one of your own.",
+      "id": "swap-contact",
+      "kind": "turn",
+      "prompt": "Turn the card wheel to log the coordinator's card and leave one of your own.",
+      "target": "wp-eg-card-wheel",
+      "title": "Swap contact information",
+      "turn": {
+        "axis": "y",
+        "label": "CONTACT",
+        "turns": 0.5
+      },
+      "why": "A conversation with no contact information exchanged is a conversation neither side can follow up on — the coordinator's card is how you know who to call, and leaving your own is what puts your name back in front of them after the fair, when the memory of one afternoon among forty starts to fade."
+    },
+    {
+      "cue": "Ask the coordinator something specific — the next intake date, not something the flyer already answers.",
+      "id": "follow-up-question",
+      "kind": "select",
+      "prompt": "Ask the coordinator something specific — the next intake date, not something the flyer already answers.",
+      "target": "wp-eg-followup-question",
+      "title": "Ask one real follow-up question",
+      "why": "A question that is already answered on the table's own flyer tells the coordinator you did not read it; a specific one — when the next intake actually opens, what the first week looks like — tells them you are already picturing yourself in the programme. It is a small thing that separates one applicant from the next thirty."
+    },
+    {
+      "cue": "Tell the coach which tables you worked, what the coordinator said, and how the room actually felt.",
+      "id": "coach-debrief",
+      "kind": "select",
+      "prompt": "Tell the coach which tables you worked, what the coordinator said, and how the room actually felt.",
+      "target": "wp-eg-coach",
+      "title": "Debrief with your coach before you leave the floor",
+      "why": "The coach can only help you follow up on a conversation they know happened, and a crowded fair floor is exhausting in a way that is worth naming honestly rather than shrugging off on the way to the car. The debrief is where a good lead gets written down before the details blur into the rest of the day."
+    },
+    {
+      "cue": "Log which three tables you worked, the coordinator's follow-up date, and what to do next.",
+      "id": "close-log",
+      "kind": "select",
+      "prompt": "Log which three tables you worked, the coordinator's follow-up date, and what to do next.",
+      "target": "wp-eg-fair-log",
+      "title": "Close out the job-fair log",
+      "why": "A fair floor generates leads fast and loses them just as fast once the badge comes off — the log is what turns today's conversations into next week's phone calls instead of a business card lost at the bottom of a bag."
+    }
+  ],
+  "supportLine": "the programme's own coaching staff, and 988 or SAMHSA's National Helpline (1-800-662-4357, free and confidential) if a crowded room and a deadline both at once are more than the day can hold",
+  "tagline": "Read the fair map, find the three tables that matter, rehearse the pitch, greet an employer at a steady volume, hold a real conversation with the coordinator, hand off the resume and swap contact information before the floor closes",
+  "title": "SmartCiti.X~ Employer Meet-and-Greet VR",
+  "trade": "Pathway Edition — an employer meet-and-greet and a job-fair walk",
+  "underwater": null,
+  "weather": "clear"
+}

@@ -1,0 +1,380 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "same-for-everyone",
+    "name": "Same for Everyone",
+    "note": "Every applicant and resident served by the same written standard, with nothing steered and nothing refused on the spot"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "The federal Fair Housing Act and its protected classes, applied through one written tenant selection standard, reasonable accommodations and modifications for residents with disabilities, and advertising free of words that steer; EPA's lead-based paint disclosure rule for target housing under 40 CFR 745, with the Lead Warning Statement and the lead pamphlet in every pre-1978 lease; the state landlord-tenant statute's notice before a unit is entered; OSHA 29 CFR 1910.38 (emergency action plans), 29 CFR 1910.36 (exit routes) and 29 CFR 1910.157 (portable extinguishers) for the office itself, with NFPA 101 for its exit; an injury and illness prevention program under 8 CCR 3203 covering a leasing agent who shows units alone; the apartment association's CAM credential; SEIU building service staff who share the building.",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3203",
+        "id": "cal-osha-3203",
+        "title": "8 CCR 3203 — Injury and Illness Prevention Program"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "40 CFR 745",
+        "id": "epa-40-cfr-745",
+        "title": "40 CFR Part 745 — Lead-based paint activities and the Renovation, Repair and Painting rule"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 101",
+        "id": "nfpa-101",
+        "title": "NFPA 101 — Life Safety Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.157",
+        "id": "osha-1910-157",
+        "title": "29 CFR 1910.157 — Portable fire extinguishers"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.36",
+        "id": "osha-1910-36",
+        "title": "29 CFR 1910.36 — Design and construction requirements for exit routes"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.38",
+        "id": "osha-1910-38",
+        "title": "29 CFR 1910.38 — Emergency action plans"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Property Management",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "no-steering",
+        "name": "No Steering",
+        "note": "No unsafe action anywhere in the day"
+      },
+      {
+        "id": "clean-ad",
+        "name": "Clean Copy",
+        "note": "Found every steering phrase on the first read"
+      },
+      {
+        "id": "by-the-number",
+        "name": "By the Number",
+        "note": "Applied the income standard close to its written value"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-day",
+        "name": "Clean Day",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "prompt-office",
+        "name": "Prompt Office",
+        "note": "Finished inside 80% of par"
+      },
+      {
+        "id": "steady-seven",
+        "name": "Steady Seven",
+        "note": "Seven correct actions in a row"
+      }
+    ],
+    "currency": "LEASES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Leasing Trainee",
+      "Leasing Consultant",
+      "Assistant Manager",
+      "Community Manager",
+      "Fair Housing Certified"
+    ],
+    "system": "Fair Housing"
+  },
+  "hazards": {
+    "applicant-file-copy": "You are photocopying another applicant's file to show a prospect why they were turned down and someone else was not. That file holds a stranger's income, credit report and social security number. The decision letter gives this applicant their own reasons; nobody else's file ever leaves the cabinet to make the point.",
+    "diagnosis-question": "You are reaching for the form that asks the resident to name their diagnosis. A reasonable accommodation request needs to show a disability-related need for the accommodation, not the medical detail behind it; asking for a diagnosis turns a request the Fair Housing Act protects into an intrusion, and it is the question most often behind a complaint.",
+    "occupied-unit-key": "That key opens an occupied unit, and the prospect wants to see one 'just like it'. The state landlord-tenant statute requires written notice to the resident before entry for a showing; walking a stranger into someone's home unannounced is a violation of that tenancy and, for the resident who comes home to find them there, a frightening one.",
+    "steering-map": "You are pointing a family with two children to the building on the site map someone has shaded 'families'. That is steering — offering or describing housing differently because of familial status — and the Fair Housing Act treats it as discrimination whether or not the family would have chosen that building anyway. Every applicant gets the whole availability list."
+  },
+  "id": "pm-leasing-office-fair-housing",
+  "indoor": "hotel",
+  "interrupts": [
+    {
+      "after": "lone-worker-checkin",
+      "alert": "A resident comes into the office shaking: a neighbour has been leaving notes with slurs about her religion on her door, and another one was there this morning.",
+      "cue": "Stop, sit with her, and take the report properly — in her words, dated, on the incident form.",
+      "delay": 2,
+      "id": "tenant-harassment",
+      "kind": "Resident reports harassment",
+      "missNote": "The resident waited and left without a report being taken. The harassment is still happening on her door, and there is now no record the property was ever told — which is the worst position a manager can be in.",
+      "seconds": 13,
+      "target": "harassment-report",
+      "why": "A housing provider that knows one resident is harassing another because of a protected characteristic, and does nothing, can be liable under the Fair Housing Act. Taking the report in the resident's own words, dated and in writing, is the first step of the response and the record that the property acted the day it was told — not whenever someone got round to it.",
+      "wrongNote": "Not that. She needs the incident form, taken in her own words and dated, before anything else is decided."
+    },
+    {
+      "after": "accessible-tour",
+      "alert": "A city housing inspector arrives at the office to follow up a resident's complaint about heat in 3F and asks for the unit's repair history.",
+      "cue": "Pull the unit's work-order history for the inspector — dates, tickets, what was done.",
+      "delay": 3,
+      "id": "housing-inspector",
+      "kind": "Inspector arrives",
+      "missNote": "The inspector waited and left with no repair history. A complaint the office cannot document an answer to is written up as unanswered, whatever the engineer actually did in 3F.",
+      "seconds": 12,
+      "target": "work-order-history",
+      "why": "A code enforcement follow-up turns on one question: did the owner know, and what did they do about it? The work-order history answers both with dates. Producing it promptly shows the complaint was taken seriously, and if the repair is still open, it is better that the office says so than that the inspector finds it.",
+      "wrongNote": "That is not what the inspector asked for. Pull the work-order history for 3F — the tickets and their dates."
+    }
+  ],
+  "lateNotes": {
+    "building-log": "The log is written at the end of the day, once there is a day to write down.",
+    "decision-letter": "The decision letter goes out once the application has actually been decided against the written criteria — not drafted while you are still qualifying it.",
+    "file-cabinet-lock": "Lock the cabinet once the day's files are back in it. Locking it now just means unlocking it again for the next applicant."
+  },
+  "name": "Leasing Office and Fair Housing",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "property-management"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "accommodation-form",
+      "ad-able-bodied",
+      "ad-adults-only",
+      "ad-english-only",
+      "applicant-file-copy",
+      "building-log",
+      "crew-checkin-board",
+      "decision-letter",
+      "diagnosis-question",
+      "exit-map",
+      "extinguisher-tag",
+      "fair-housing-poster",
+      "file-cabinet-lock",
+      "harassment-report",
+      "income-calculator",
+      "lead-pamphlet",
+      "lease-packet-socket",
+      "lone-worker-radio",
+      "occupied-unit-key",
+      "selection-criteria",
+      "steering-map",
+      "tour-pace",
+      "work-order-history"
+    ],
+    "meshes": 201
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Pull up the property's written tenant selection criteria before the first applicant walks in.",
+      "id": "selection-criteria",
+      "kind": "select",
+      "prompt": "Pull up the property's written tenant selection criteria before the first applicant walks in.",
+      "target": "selection-criteria",
+      "title": "Open with the written selection criteria",
+      "why": "Fair housing compliance is mostly consistency: the same income standard, the same screening, the same deposit and the same answers for every applicant. The written criteria are what make that possible on a busy day, and they are the document a fair housing investigator asks for first — an office working from memory cannot show it treated two applicants alike."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Confirm the fair housing poster, the evacuation map and the extinguisher's inspection tag are all in place.",
+      "id": "posted-notices",
+      "itemNames": {
+        "exit-map": "evacuation map posted",
+        "extinguisher-tag": "extinguisher tag current",
+        "fair-housing-poster": "fair housing poster posted"
+      },
+      "kind": "sequence",
+      "prompt": "Confirm the fair housing poster, the evacuation map and the extinguisher's inspection tag are all in place.",
+      "targets": [
+        "fair-housing-poster",
+        "exit-map",
+        "extinguisher-tag"
+      ],
+      "title": "Check the office's posted notices",
+      "why": "Three different rules, one wall. The fair housing poster tells every applicant their rights before they ask; the evacuation map is the office's piece of the building's emergency action plan under 29 CFR 1910.38; and a portable extinguisher is only a control if its monthly check under 29 CFR 1910.157 is current. A missing one is found now or during an audit."
+    },
+    {
+      "cue": "The new listing goes live today. Three phrases in it say who is wanted rather than what the unit is. Find them.",
+      "id": "ad-review",
+      "itemNames": {
+        "ad-able-bodied": "\"ideal for active, able-bodied tenants\"",
+        "ad-adults-only": "\"quiet adult community\"",
+        "ad-english-only": "\"English speakers preferred\""
+      },
+      "itemNotes": {
+        "ad-able-bodied": "\"Able-bodied\" describes the tenant, not the unit. Describe the property — stairs, no elevator, a walk-up — and let the reader decide.",
+        "ad-adults-only": "\"Adult community\" in a building that is not lawful senior housing says families with children need not apply — familial status is protected.",
+        "ad-english-only": "A language preference in an ad is a national-origin preference in everything but name, and it is one of the phrases fair housing testers look for first."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "The new listing goes live today. Three phrases in it say who is wanted rather than what the unit is. Find them.",
+      "targets": [
+        "ad-adults-only",
+        "ad-english-only",
+        "ad-able-bodied"
+      ],
+      "title": "Read the draft listing for steering words",
+      "why": "The Fair Housing Act reaches advertising as well as decisions: an ad that indicates a preference is a violation even if no applicant is ever turned away. The fix is always the same — describe the unit and its features, never the kind of person it suits — and the time to make it is before the listing goes out under the property's name."
+    },
+    {
+      "cue": "Run the applicant's verified income against the rent and commit only at the multiple the written criteria state.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.56
+        ],
+        "label": "VERIFIED INCOME ÷ MONTHLY RENT",
+        "missNote": "That is not the multiple the written criteria state. Commit at the written standard — the same number every applicant is measured against.",
+        "speed": 0.5
+      },
+      "id": "income-ratio",
+      "kind": "gauge",
+      "prompt": "Run the applicant's verified income against the rent and commit only at the multiple the written criteria state.",
+      "target": "income-calculator",
+      "title": "Apply the income standard by the number",
+      "why": "An income standard applied by feel drifts: a little lenient for an applicant who seems like a good fit, a little strict for one who does not. That drift is exactly the pattern disparate-treatment complaints are built from. The criteria state one multiple of the rent; applying that number every time is what makes the decision defensible to the applicant and to anyone who reviews it."
+    },
+    {
+      "cue": "A resident asks in writing for a reserved accessible parking space. Log the request and route it to the manager for the interactive process.",
+      "id": "accommodation-request",
+      "kind": "select",
+      "prompt": "A resident asks in writing for a reserved accessible parking space. Log the request and route it to the manager for the interactive process.",
+      "target": "accommodation-form",
+      "title": "Route a reasonable accommodation request",
+      "why": "A request for an accommodation does not need magic words or a particular form, and it cannot be refused at the counter. Logging it with the date and routing it starts the interactive process the Fair Housing Act expects — a conversation about the need and what would meet it — and the date matters, because delay can itself amount to a denial."
+    },
+    {
+      "cue": "The unit is in a building built before 1978. Carry the lead pamphlet and disclosure form into the lease packet.",
+      "drag": {
+        "missNote": "Not in the packet yet — the disclosure has to go inside the lease packet the tenant signs, not sit on the desk beside it.",
+        "radius": 0.5,
+        "to": "lease-packet-socket"
+      },
+      "id": "lead-disclosure",
+      "kind": "drag",
+      "prompt": "The unit is in a building built before 1978. Carry the lead pamphlet and disclosure form into the lease packet.",
+      "target": "lead-pamphlet",
+      "title": "Put the lead disclosure in the lease packet",
+      "why": "EPA's disclosure rule under 40 CFR 745 applies to leases of housing built before 1978: the Lead Warning Statement, any known lead-based paint or reports, and the lead pamphlet go to the tenant before they are bound by the lease, and the signed disclosure is kept on file. A packet without it is a lease that went out missing a federal requirement."
+    },
+    {
+      "cue": "Key the radio and hold until the maintenance desk acknowledges: which unit, who with, when you expect to be back.",
+      "holdBreakNote": "You let the key go before the desk acknowledged. Until someone has repeated the unit and the time back, nobody knows where you are — key it again.",
+      "id": "lone-worker-checkin",
+      "kind": "hold",
+      "prompt": "Key the radio and hold until the maintenance desk acknowledges: which unit, who with, when you expect to be back.",
+      "seconds": 5,
+      "target": "lone-worker-radio",
+      "title": "Check in with the maintenance desk before a showing",
+      "why": "A leasing agent showing a vacant unit to a stranger is working alone behind a closed door, and the property's injury and illness prevention program under 8 CCR 3203 is where the lone-worker rule lives: somebody knows where you are, with whom, and when to come looking. A call that is never acknowledged is not a check-in."
+    },
+    {
+      "cue": "Walk the accessible route to the model unit beside the prospect who uses a wheelchair — not ahead, not hovering.",
+      "holdBreakNote": "You drifted out of step — either rushing ahead or hanging back. Come back alongside and finish the route at their pace.",
+      "id": "accessible-tour",
+      "kind": "track",
+      "prompt": "Walk the accessible route to the model unit beside the prospect who uses a wheelchair — not ahead, not hovering.",
+      "seconds": 6,
+      "target": "tour-pace",
+      "title": "Take the tour at the prospect's pace",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.4,
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "TOUR — PACE BESIDE THE PROSPECT",
+        "rise": 0.45,
+        "start": 0.2
+      },
+      "why": "The tour is the same tour every prospect gets, on the route the building provides for everyone who cannot use the steps. Walking ahead and talking over your shoulder, or hovering and steering the chair, both say this prospect is being handled differently. Beside them, at their pace, is simply the same service — which is the whole standard."
+    },
+    {
+      "cue": "Issue the applicant's decision letter, naming the criterion it turned on and the screening report it relied on.",
+      "id": "decision-letter",
+      "kind": "select",
+      "prompt": "Issue the applicant's decision letter, naming the criterion it turned on and the screening report it relied on.",
+      "target": "decision-letter",
+      "title": "Send the decision with its reasons",
+      "why": "An applicant turned down deserves to know why, and the credit-reporting law expects a notice when a screening report was part of the reason. A letter that names the written criterion is also the office's own record that the decision followed the standard — which is the answer to every question anyone later asks about it."
+    },
+    {
+      "cue": "Put the day's applications back in the cabinet and turn the lock.",
+      "id": "lock-files",
+      "kind": "turn",
+      "prompt": "Put the day's applications back in the cabinet and turn the lock.",
+      "target": "file-cabinet-lock",
+      "title": "Lock the applicant files",
+      "turn": {
+        "axis": "z",
+        "label": "FILE CABINET",
+        "turns": 0.5
+      },
+      "why": "Applications hold social security numbers, bank statements, pay stubs and credit reports for people who trusted the office with them. A cabinet left open over lunch is the easiest identity theft there is, and the property's obligation to keep that information private does not stop when the office gets busy."
+    },
+    {
+      "cue": "Log the accommodation request, the harassment report, the inspector's visit and the applications decided.",
+      "id": "building-log",
+      "kind": "select",
+      "prompt": "Log the accommodation request, the harassment report, the inspector's visit and the applications decided.",
+      "target": "building-log",
+      "title": "Write the day into the building log",
+      "why": "The building log is where a manager, a regional supervisor or a fair housing investigator reconstructs what the office did and when. A harassment report with no log entry, or an accommodation request with no date, is exactly the gap that turns a routine inquiry into a finding that the property was told and did nothing."
+    },
+    {
+      "cue": "Ask your co-worker how the harassment report sat with them, and name the EAP line before you lock up.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Ask your co-worker how the harassment report sat with them, and name the EAP line before you lock up.",
+      "target": "crew-checkin-board",
+      "title": "Check in with your co-worker before close",
+      "why": "Taking a resident's account of being harassed in their own building, carefully and in their words, is emotionally heavy work, and most of it happens in a short conversation nobody else hears. A deliberate check-in at the end of the day, with the support line named, is how a leasing team keeps that weight from quietly accumulating."
+    }
+  ],
+  "supportLine": "your employer's EAP or the SEIU member assistance line — hearing a resident describe harassment in their own home is heavy, and saying so is part of the job",
+  "tagline": "One set of criteria for everyone: notices posted, an ad cleaned of steering words, income applied by the number, an accommodation routed, the lead disclosure packed, a lone-worker check-in, a tour at the prospect's pace, reasons in writing and the files locked",
+  "title": "SmartCiti.X~ Leasing Office and Fair Housing VR",
+  "trade": "Leasing agent and community manager — apartment association CAM credential, working alongside SEIU building service staff",
+  "underwater": null,
+  "weather": null
+}

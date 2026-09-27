@@ -1,0 +1,439 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "grade-authority",
+    "name": "Grade Authority",
+    "note": "Subgrade walked, the crown cut clean to the stringline, and the finished surface checked before it was called done"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926.602 Material handling equipment and 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on struck-by incidents in active work lanes",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.21",
+        "id": "osha-1926-21",
+        "title": "29 CFR 1926.21 — Safety training and education in construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.602",
+        "id": "osha-1926-602",
+        "title": "OSHA 29 CFR 1926.602 Material handling equipment"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations",
+        "id": "osha-1926-subpart-o",
+        "title": "OSHA 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "lane-held",
+        "name": "Lane Held",
+        "note": "Never worked the lane before it was barricaded"
+      },
+      {
+        "id": "stringline-true",
+        "name": "Stringline True",
+        "note": "Set the stringline clean, first try"
+      },
+      {
+        "id": "steady-crown",
+        "name": "Steady Crown",
+        "note": "Held the gauge readings near band centre all shift"
+      },
+      {
+        "id": "clean-cut",
+        "name": "Clean Cut Certified",
+        "note": "Cut the fine-grade pass clean, first try"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-crown",
+        "name": "Quick Crown",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "grade-streak",
+        "name": "Grade Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "GRADE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Hand",
+      "Grader Hand",
+      "Crown Certified",
+      "Grade Authority",
+      "Grade Authority Certified"
+    ],
+    "system": "Grade Authority"
+  },
+  "hazards": {
+    "blade-drop-hazard": "That drops the moldboard without confirming what is underneath it first. A blade that comes down on a foot or a hand does not care that the operator meant to lower it slowly — the clearance gets confirmed before the lever moves, not after.",
+    "circle-underfoot": "You are standing next to the circle while it is turning. The circle and drawbar carry enough torque to angle a loaded moldboard, and a hand or a foot anywhere near it when it turns is not something the mechanism has any way to sense.",
+    "outlet-block-hazard": "That pushes spoil straight into the drainage outlet the crown is supposed to be draining toward. Blocking the one place the water this crown is shedding is meant to go turns a finished grade into standing water on the first rain after the crew has already left.",
+    "unmarked-lane-hazard": "You are running the moldboard in a lane that is not yet barricaded. A grader working a live lane at walking pace is still a machine a driver has seconds to react to, and the barricade is what turns that reaction time into distance instead of a guess."
+  },
+  "id": "op-grader-fine-grade-and-crown",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "fine-grade-pass",
+      "alert": "A pickup has turned into the work lane ahead of the moldboard, past the barricade's own gap.",
+      "cue": "Stop the pass and get the stop paddle up before the grader closes any further on that gap.",
+      "delay": 4,
+      "id": "vehicle-enters-lane",
+      "kind": "Lane incursion",
+      "missNote": "The pass continued while the pickup closed the gap the barricade was supposed to prevent. A grader at working speed does not stop in the distance a driver has to react in.",
+      "seconds": 12,
+      "target": "stop-paddle",
+      "why": "A barricade only controls the traffic that respects it — the plan still needs a live response for the vehicle that does not, and a stop paddle raised the instant an incursion is seen is the only thing standing between a slow-moving grader and a driver who is not expecting it to be there.",
+      "wrongNote": "Not that — the vehicle in the lane is what has to be dealt with before this pass continues."
+    },
+    {
+      "after": "direct-grade-pass",
+      "alert": "The stringline has sagged off a stake and no longer reads true along this section of the cut.",
+      "cue": "Call for the restring before the moldboard cuts against a reference that has already gone bad.",
+      "delay": 4,
+      "id": "stringline-sags",
+      "kind": "Reference lost",
+      "missNote": "The pass continued against a stringline that had already sagged. The crown it cut was wrong from that point on, and nothing about the pass itself would have shown it.",
+      "seconds": 11,
+      "target": "restring-flag",
+      "why": "Every pass after this one is cut against whatever the stringline shows, whether or not the line is still telling the truth — a sagged reference that goes uncorrected does not fail loudly, it just quietly cuts the wrong crown into ground the crew has already moved past.",
+      "wrongNote": "Not that — the sagged stringline is what has to be corrected before this pass means anything."
+    }
+  ],
+  "lateNotes": {
+    "sensor-roll": "The slope sensor gets mounted before the first pass sets the crown, not fitted afterward to check a crown that has already been cut without it.",
+    "straightedge": "The straightedge checks the crown once the pass is finished and the surface has stopped moving, not while the moldboard is still cutting it."
+  },
+  "name": "Grader Fine Grade & Crown",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "heavy-equipment-operators"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "grader",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "level",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "3.05x1.9x0.07",
+        "count": 1,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "blade-drop-hazard",
+      "circle-angle-lever",
+      "circle-underfoot",
+      "clean-subgrade",
+      "closing-log",
+      "cone-a",
+      "cone-b",
+      "drainage-outlet",
+      "grade-checker",
+      "grader-controls",
+      "grading-plan-board",
+      "hard-hat",
+      "hi-vis-vest",
+      "high-spot",
+      "lane-barrier",
+      "outlet-block-hazard",
+      "restring-flag",
+      "sensor-roll",
+      "sensor-socket",
+      "slope-sensor",
+      "soft-spot",
+      "spotter",
+      "stake-a",
+      "stake-b",
+      "stop-paddle",
+      "straightedge",
+      "subgrade-debris",
+      "unmarked-lane-hazard"
+    ],
+    "meshes": 203
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Hi-vis vest and hard hat before anyone is near the machine.",
+      "id": "ppe",
+      "itemNames": {
+        "hard-hat": "hard hat",
+        "hi-vis-vest": "hi-vis vest"
+      },
+      "kind": "sequence",
+      "prompt": "Hi-vis vest and hard hat before anyone is near the machine.",
+      "targets": [
+        "hi-vis-vest",
+        "hard-hat"
+      ],
+      "title": "Suit up before the lane",
+      "why": "A grader working a live lane depends on being seen by anyone approaching it as much as it depends on the operator seeing them — the vest and hard hat are what make the ground crew visible at the distance a driver actually needs to react."
+    },
+    {
+      "cue": "Confirm the crown percentage, the cut direction and the marked hazards before committing the machine.",
+      "id": "grading-plan",
+      "kind": "select",
+      "prompt": "Confirm the crown percentage, the cut direction and the marked hazards before committing the machine.",
+      "target": "grading-plan-board",
+      "title": "Read the grading plan",
+      "why": "The grading plan sets today's crown percentage and which way the surface has to drain — a grader cutting to a crown it was not given, or in a direction the plan did not intend, produces a surface that looks finished and sheds water the wrong way regardless."
+    },
+    {
+      "cue": "Walk the planned cut line. Three problems in the subgrade are hiding along it — find them by looking.",
+      "decoyNotes": {
+        "clean-subgrade": "That section of subgrade is clean, firm and level. Nothing to flag there."
+      },
+      "id": "walk-subgrade",
+      "itemNames": {
+        "high-spot": "high spot in the subgrade",
+        "soft-spot": "soft spot in the subgrade",
+        "subgrade-debris": "debris left on the subgrade"
+      },
+      "itemNotes": {
+        "high-spot": "A high spot the moldboard has to cut through first changes how the rest of the pass tracks — better to know about it before the blade finds it.",
+        "soft-spot": "Ground that gives under a boot is ground that will not hold a compacted crown for long once traffic starts using it.",
+        "subgrade-debris": "A rock or a broken chunk of base left on the subgrade is exactly what a moldboard catches and drags a groove through the finished crown behind it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the planned cut line. Three problems in the subgrade are hiding along it — find them by looking.",
+      "targets": [
+        "soft-spot",
+        "high-spot",
+        "subgrade-debris"
+      ],
+      "title": "Walk the subgrade before the first pass",
+      "why": "A subgrade that looks ready from the cab is not the same thing as one a competent person has actually walked — a soft spot, a high spot or debris the walk-down would have caught costs far less to fix now than it does once it is buried under a crown that was cut on top of it."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Set both stakes and pull the stringline taut between them before the first pass.",
+      "id": "set-stringline",
+      "itemNames": {
+        "stake-a": "stake at the near end",
+        "stake-b": "stake at the far end"
+      },
+      "kind": "sequence",
+      "prompt": "Set both stakes and pull the stringline taut between them before the first pass.",
+      "targets": [
+        "stake-a",
+        "stake-b"
+      ],
+      "title": "Set the stringline stakes",
+      "why": "The stringline is the one reference the operator can actually see from the cab while cutting — set it before the pass starts, and every pass after the first one is cut against a visible line instead of a memory of where the grade was supposed to be."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Cone both approaches and set the barrier the full length of the lane being cut.",
+      "id": "barricade-lane",
+      "itemNames": {
+        "cone-a": "cone at the approach",
+        "cone-b": "cone at the far end",
+        "lane-barrier": "lane barrier"
+      },
+      "kind": "sequence",
+      "prompt": "Cone both approaches and set the barrier the full length of the lane being cut.",
+      "targets": [
+        "cone-a",
+        "cone-b",
+        "lane-barrier"
+      ],
+      "title": "Barricade the work lane",
+      "why": "A grader moves at walking pace, which reads as harmless right up until a driver closes the distance faster than the machine can clear the lane — the barricade is what keeps that distance a driver's problem to manage from a hundred feet back, not the operator's problem to react to at the last second."
+    },
+    {
+      "cue": "Agree hand signals and the stop signal with the dedicated spotter before the first pass.",
+      "id": "spotter-brief",
+      "kind": "select",
+      "prompt": "Agree hand signals and the stop signal with the dedicated spotter before the first pass.",
+      "target": "spotter",
+      "title": "Confirm the spotter's protocol",
+      "why": "The spotter is watching the lane approach and the circle's own danger zone, both of which sit outside the cab's own sightline — that only works if both of them already agree what a stop signal looks like before the moldboard is moving and it is needed for real."
+    },
+    {
+      "cue": "Turn the circle lever to set the moldboard angle the day's crown calls for.",
+      "id": "circle-angle-set",
+      "kind": "turn",
+      "prompt": "Turn the circle lever to set the moldboard angle the day's crown calls for.",
+      "target": "circle-angle-lever",
+      "title": "Angle the circle for the crown",
+      "turn": {
+        "axis": "y",
+        "label": "CIRCLE ANGLE",
+        "turns": 0.55
+      },
+      "why": "The circle sets the moldboard's angle to the direction of travel, and that angle is what actually shapes the crown — a circle left at yesterday's setting cuts yesterday's crown into today's surface no matter how carefully the rest of the pass is run."
+    },
+    {
+      "cue": "Carry the slope sensor to the moldboard mount before the first pass sets the crown.",
+      "drag": {
+        "missNote": "Not seated on the mount — set the sensor on the moldboard bracket before it will read anything.",
+        "radius": 0.4,
+        "to": "sensor-socket"
+      },
+      "id": "sensor-mount",
+      "kind": "drag",
+      "prompt": "Carry the slope sensor to the moldboard mount before the first pass sets the crown.",
+      "target": "sensor-roll",
+      "title": "Mount the slope sensor",
+      "why": "The sensor is what turns the crown from a number on the plan into a live reading the operator can cut against in real time — mounting it before the first pass means every pass from the first one on is checked against the actual crown, not assumed from how the last job felt."
+    },
+    {
+      "cue": "Check the cross-slope reading and commit only inside the target crown band.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "CROSS-SLOPE — CROWN",
+        "missNote": "Outside the target crown. Adjust the circle angle before this pass cuts the surface.",
+        "speed": 0.55
+      },
+      "id": "crown-check",
+      "kind": "gauge",
+      "prompt": "Check the cross-slope reading and commit only inside the target crown band.",
+      "target": "slope-sensor",
+      "title": "Read the crown sensor",
+      "why": "The crown percentage is what makes this surface actually shed water instead of pond on it, and the sensor is the only way to confirm the moldboard is cutting the plan's crown rather than whatever angle looks about right from the cab."
+    },
+    {
+      "cue": "Hold the controls steady for one slow, controlled pass along the stringline.",
+      "holdBreakNote": "Released the controls mid-pass. Hold it through the whole run — that is what keeps this pass on the stringline instead of a guess at where it was.",
+      "id": "fine-grade-pass",
+      "kind": "hold",
+      "prompt": "Hold the controls steady for one slow, controlled pass along the stringline.",
+      "seconds": 6,
+      "target": "grader-controls",
+      "title": "Make the fine-grade pass",
+      "why": "A fine-grade pass is run slow on purpose — a fast, confident pass is exactly the pass that drifts off the stringline half an inch at a time without the operator noticing until the whole run is out of crown from one end to the other."
+    },
+    {
+      "cue": "Keep the grade checker's signal steady, holding the cut on the stringline the whole pass.",
+      "holdBreakNote": "The cut drifted off the stringline. Bring it back on the checker's signal before the moldboard moves again.",
+      "id": "direct-grade-pass",
+      "kind": "track",
+      "prompt": "Keep the grade checker's signal steady, holding the cut on the stringline the whole pass.",
+      "seconds": 8,
+      "target": "grade-checker",
+      "title": "Work the pass under the checker's signal",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "CUT LINE",
+        "rise": 0.5,
+        "start": 0.12
+      },
+      "why": "The grade checker is watching the stringline and the moldboard's actual line against it, from an angle the cab cannot match — continuous signals from that vantage are what keep the pass honest to the string instead of to whatever line looks straight from the seat."
+    },
+    {
+      "cue": "Lay the straightedge across the crown and commit once the gap reads inside tolerance.",
+      "gauge": {
+        "green": [
+          0.35,
+          0.55
+        ],
+        "label": "STRAIGHTEDGE — SURFACE GAP",
+        "missNote": "Outside tolerance. Run the pass again over this section before calling the crown finished.",
+        "speed": 0.5
+      },
+      "id": "straightedge-check",
+      "kind": "gauge",
+      "prompt": "Lay the straightedge across the crown and commit once the gap reads inside tolerance.",
+      "target": "straightedge",
+      "title": "Check the finished crown",
+      "why": "A crown that looks even from the cab can still have a low spot the straightedge catches immediately — checking it here, while the surface is still open to correct, is what keeps a defect from being discovered later by the first puddle that forms on it."
+    },
+    {
+      "cue": "Confirm the outlet the crown drains toward is clear before signing off the surface.",
+      "id": "drainage-outlet-check",
+      "kind": "select",
+      "prompt": "Confirm the outlet the crown drains toward is clear before signing off the surface.",
+      "target": "drainage-outlet",
+      "title": "Confirm the drainage outlet is clear",
+      "why": "A crown only does its job if the water it sheds actually has somewhere to go — an outlet left blocked or buried under the day's spoil turns a correctly cut crown into a surface that ponds water at the low edge on the very first rain."
+    },
+    {
+      "cue": "Log the crown reading and the straightedge result before shutting the machine down.",
+      "id": "shutdown-log",
+      "kind": "select",
+      "prompt": "Log the crown reading and the straightedge result before shutting the machine down.",
+      "target": "closing-log",
+      "title": "Close out the grading log",
+      "why": "The grading log is what the next inspection and the next shift both read — a crown that was cut and checked cleanly but never logged against the plan leaves nothing behind to prove the grade was actually verified."
+    }
+  ],
+  "supportLine": "your IUOE local's member assistance programme, or the site's employee assistance line if a close call in the lane is what stayed with you",
+  "tagline": "Motor grader fine-grading a road surface to its crown: the subgrade walked, a stringline set, the circle angled, the lane barricaded, and the finished crown checked with a straightedge before the drainage outlet is confirmed clear",
+  "title": "SmartCiti.X~ Grader Fine Grade & Crown VR",
+  "trade": "Motor grader operator — IUOE Local 3 operating engineer",
+  "underwater": null,
+  "weather": "clear"
+}

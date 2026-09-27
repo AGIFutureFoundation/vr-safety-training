@@ -1,0 +1,155 @@
+{
+  "accent": "#3f9c5a",
+  "anchors": [
+    {
+      "id": "hills-redwood-park-grounds-shop",
+      "name": "Redwood Park Grounds Shop",
+      "position": [
+        622,
+        -224
+      ],
+      "stations": [
+        "gk-ride-on-mower-pre-start-and-slope-work",
+        "gk-string-trimmer-and-blower-ppe-and-bystander-zone"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "hills"
+    },
+    {
+      "id": "island-airfield-park",
+      "name": "Island Airfield Park",
+      "position": [
+        190,
+        690
+      ],
+      "stations": [
+        "av-marshalling-and-wingwalker-signals",
+        "av-ground-power-and-static-bonding-before-fuel",
+        "gk-sports-field-line-marking-and-goal-anchoring"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "island-harbour"
+    }
+  ],
+  "certification": "LIUNA, SEIU and AFSCME grounds and landscaping crew training, tested against OSHA 29 CFR 1910 general industry standards, ANSI B71 and B175 outdoor power equipment and chainsaw specifications, ANSI Z133 arboricultural safety, the Federal Insecticide, Fungicide, and Rodenticide Act (FIFRA) pesticide label, the Manual on Uniform Traffic Control Devices (MUTCD) and CPSC movable soccer goal guidance across twelve distinct grounds, turf and landscaping jobs",
+  "competency": {
+    "id": "grounds-and-landscaping",
+    "kind": "programme",
+    "require": 6,
+    "standards": [
+      "ansi-b71-outdoor-power-equipment",
+      "ansi-z133-arboriculture",
+      "epa-fifra-pesticide-label",
+      "osha-1910-147"
+    ],
+    "stations": [
+      "gk-ride-on-mower-pre-start-and-slope-work",
+      "gk-string-trimmer-and-blower-ppe-and-bystander-zone",
+      "gk-irrigation-controller-valve-box-and-backflow-check",
+      "gk-pesticide-and-fertilizer-application-per-the-label",
+      "gk-tree-work-pole-saw-and-drop-zone",
+      "gk-chainsaw-start-and-limbing-on-the-ground",
+      "gk-bunker-renovation-and-drainage",
+      "gk-greens-mowing-and-hole-changing",
+      "gk-sports-field-line-marking-and-goal-anchoring",
+      "gk-storm-cleanup-chipper-and-traffic-control",
+      "gk-hardscape-paver-base-and-compaction",
+      "gk-greenhouse-nursery-chemical-storage-and-eyewash"
+    ],
+    "title": "Run, service and make safe the mowers, chemicals, saws and turf equipment a grounds crew works across twelve distinct jobs"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "liuna-training-fund",
+    "seiu-training",
+    "afscme-training",
+    "osha-1910-132",
+    "osha-1910-147",
+    "ansi-b71-outdoor-power-equipment",
+    "ansi-b175-chainsaw",
+    "ansi-z133-arboriculture",
+    "epa-fifra-pesticide-label",
+    "ansi-z358-eyewash",
+    "cpsc-movable-soccer-goals",
+    "mutcd"
+  ],
+  "id": "grounds-and-landscaping",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1705,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 120
+  },
+  "name": "Grounds & Landscaping Crew",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "gk-ride-on-mower-pre-start-and-slope-work",
+      "why": "The walk-around and the interlocks are confirmed before the seat is ever sat in, the bench is walked for the drop-off and the wet patch a wheel cannot see coming, and the slope is cut the way the machine's own operator's manual sets out."
+    },
+    {
+      "app": "smartcity",
+      "id": "gk-string-trimmer-and-blower-ppe-and-bystander-zone",
+      "why": "The guard and the trigger interlock are confirmed rather than assumed, the bystander zone is posted and barricaded before the engine starts, and the blower's discharge is kept off people, pets and the storm drain the whole time it runs."
+    },
+    {
+      "app": "smartcity",
+      "id": "gk-irrigation-controller-valve-box-and-backflow-check",
+      "why": "The panel is locked out before it is opened, a flooded valve box is walked rather than reached into, and the backflow assembly is tested hose to hose in the test procedure's own order rather than eyeballed."
+    },
+    {
+      "app": "smartcity",
+      "id": "gk-pesticide-and-fertilizer-application-per-the-label",
+      "why": "The label and the SDS are read before the container is opened, the mixing happens over containment away from the drain, and the rate and the wind are both held to the label the whole pass."
+    },
+    {
+      "app": "smartcity",
+      "id": "gk-tree-work-pole-saw-and-drop-zone",
+      "why": "The site is surveyed for the overhead line and a dead hanging limb before the saw ever telescopes out, and every cut is made only on the spotter's own signal that the drop zone is still clear."
+    },
+    {
+      "app": "smartcity",
+      "id": "gk-chainsaw-start-and-limbing-on-the-ground",
+      "why": "The saw is started braced on the ground in its own order, the chain brake is proven at idle before the throttle is trusted, and every limbing cut is braced, two-handed and clear of the bar's own kickback zone."
+    },
+    {
+      "app": "smartcity",
+      "id": "gk-bunker-renovation-and-drainage",
+      "why": "The utility locate is confirmed and a competent person's own inspection is checked before anyone steps into the trench, and the drain pipe is joined and graded before the sand goes back down even."
+    },
+    {
+      "app": "smartcity",
+      "id": "gk-greens-mowing-and-hole-changing",
+      "why": "The green is walked for a ball mark and a proud sprinkler head before the reel ever turns, and the new hole is cored and cupped while the old one is filled and tamped so nobody finds it with a footstep."
+    },
+    {
+      "app": "smartcity",
+      "id": "gk-sports-field-line-marking-and-goal-anchoring",
+      "why": "The field is walked and the paint label read before the hopper is filled, and the goal is anchored at every stake and sleeve its own manufacturer's instructions call for, never just the ones that looked like enough."
+    },
+    {
+      "app": "smartcity",
+      "id": "gk-storm-cleanup-chipper-and-traffic-control",
+      "why": "The taper and the signs go up to the traffic-control plan before the shoulder is worked, and every branch is fed from behind the marked line with the chipper locked out before any jam is ever cleared by hand."
+    },
+    {
+      "app": "smartcity",
+      "id": "gk-hardscape-paver-base-and-compaction",
+      "why": "The utility locate is confirmed before the excavation starts, and the base is compacted to a density the gauge actually proves before a single paver goes down on top of it."
+    },
+    {
+      "app": "smartcity",
+      "id": "gk-greenhouse-nursery-chemical-storage-and-eyewash",
+      "why": "Incompatible chemicals are segregated rather than shelved together, the path to the eyewash stays clear, and the eyewash station itself is activated and flow-tested rather than assumed ready."
+    }
+  ],
+  "summary": "Twelve jobs a grounds crew actually rotates through: a ride-on mower's own pre-start and slope work, a string trimmer and blower run inside a posted bystander zone, an irrigation controller and backflow assembly serviced and tested, a labelled pesticide mixed and applied per the label, a pole saw's drop zone controlled under a spotter's signal, a chainsaw started and limbed on the ground with the chain brake proven first, a bunker rebuilt around a graded drain line, a green mowed and its hole changed, a sports field striped and its goals anchored to the manufacturer's own spec, a storm-damaged shoulder cleared with a chipper behind a traffic taper, a paver patio built on a compacted, checked base, and a nursery's chemical storage kept segregated with its eyewash actually flow-tested. Every station ends on a proof — a gauge, a logged reading, a checked interlock — rather than on how safe the job looked going in.",
+  "union": "LIUNA, SEIU and AFSCME grounds and landscaping crews"
+}

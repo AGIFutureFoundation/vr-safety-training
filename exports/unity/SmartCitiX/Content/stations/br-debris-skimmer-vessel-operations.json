@@ -1,0 +1,452 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "nothing-sorted-by-hand",
+    "name": "Nothing Sorted By Hand",
+    "note": "No hand in the belt, no sharp touched, no drum opened, no step onto the conveyor, and both the drum and the seal answered"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Inlandboatmen's Union (IBU) deck practice; MEBA engineering watch; OSHA 29 CFR 1910.147 lockout of the conveyor's hydraulics and 29 CFR 1910.212 guarding; OSHA 29 CFR 1910.1030 sharps and 29 CFR 1910.120 HAZWOPER awareness for unknown containers; OSHA 29 CFR 1910.138 hand protection; USCG 46 CFR 25 lifesaving equipment aboard; NOAA marine forecast and NOAA Fisheries marine mammal guidance; trash recovery reported under the Regional Water Quality Control Board's trash provisions",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IBU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "union",
+        "citedAs": "MEBA",
+        "id": "meba-calhoon-school",
+        "title": "MEBA — the Calhoon MEBA Engineering School's licensed marine engineer training"
+      },
+      {
+        "body": "NOAA Fisheries",
+        "citedAs": "NOAA Fisheries",
+        "id": "noaa-fisheries-mmpa-esa",
+        "title": "NOAA Fisheries (National Marine Fisheries Service) Marine Mammal Protection Act authorizations and Endangered Species Act consultation for in-water work affecting marine mammals"
+      },
+      {
+        "body": "NOAA",
+        "citedAs": "NOAA",
+        "id": "noaa-tides-and-esa",
+        "title": "NOAA tide predictions and NOAA Fisheries Endangered Species Act consultation for in-water work"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.138",
+        "id": "osha-1910-138",
+        "title": "29 CFR 1910.138 — Hand protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "Regional Water Quality Control Board",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 25",
+        "id": "uscg-46-cfr-25",
+        "title": "46 CFR Part 25 — Requirements for uninspected vessels, including lifesaving and fire-fighting equipment"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "guard-first",
+        "name": "Guard First",
+        "note": "The conveyor walked before it ran"
+      },
+      {
+        "id": "depth-true",
+        "name": "Depth True",
+        "note": "Conveyor depth set inside the band first time"
+      },
+      {
+        "id": "tongs-not-hands",
+        "name": "Tongs Not Hands",
+        "note": "Never a hand in the belt or the pile, never a drum opened, never out on the conveyor"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-haul",
+        "name": "Clean Haul",
+        "note": "No corrections from the plan to the tally"
+      },
+      {
+        "id": "matched-belt",
+        "name": "Matched Belt",
+        "note": "Belt held in band all the way through the debris line"
+      },
+      {
+        "id": "before-the-ebb",
+        "name": "Before The Ebb",
+        "note": "Haul tallied inside 80% of par"
+      }
+    ],
+    "currency": "HAUL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ordinary",
+      "Deckhand",
+      "Conveyor Hand",
+      "Lead Deckhand",
+      "Skimmer Deck Certified"
+    ],
+    "system": "Skimmer Deck"
+  },
+  "hazards": {
+    "hand-sort-sharps": "You reached into the basket pile with your gloved hand to sort it. Storm debris hides syringes, broken glass and fishhooks under every bottle, and a cut-resistant glove slows a blade but not a needle — the pile is turned with the tongs and the rake, and nothing in it is picked up by hand until it has been seen.",
+    "open-unknown-drum": "You started to open the bung on the unknown drum in the isolation area. A drum pulled from the Bay can hold solvent, acid or fuel under pressure, and opening it on a small deck releases whatever it holds onto the crew — HAZWOPER awareness is to isolate it, label it unknown and leave it closed for the people trained and equipped to open it.",
+    "reach-into-conveyor": "You reached into the running conveyor to pull a snag off the belt. A conveyor's belt and head pulley take a glove, a sleeve and the arm inside it faster than anyone can pull back, and the guard and the pull-cord stop are there because people reach — a snag is cleared with the belt stopped and locked out, and with the hook, not a hand.",
+    "stand-on-conveyor-frame": "You stepped out onto the lowered conveyor frame to reach a piece of debris. The conveyor is a wet, moving ramp that ends under the water between two hulls, forward of the boat's own wash; a slip there puts a person in the water in front of a vessel that is still making way — nothing is worth stepping off the deck for, and anything the conveyor misses is left for the next pass or the skiff."
+  },
+  "id": "br-debris-skimmer-vessel-operations",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "work-line",
+      "alert": "A small sealed drum with a faded label is riding up the belt toward the basket, sloshing as it tips on the slats.",
+      "cue": "Hit the conveyor's emergency stop on the rail so the drum stops on the belt, short of the basket.",
+      "delay": 2,
+      "id": "drum-on-belt",
+      "kind": "Unknown drum on the belt",
+      "missNote": "The drum rode over the top of the belt and dropped into the basket, splitting a seam; something sharp-smelling ran into the pile the deckhand was about to sort.",
+      "seconds": 14,
+      "target": "conveyor-estop",
+      "why": "An unknown drum dropped into the basket lands on everything else with its bung facing wherever it falls, and if it splits, whatever it holds is in the basket with the sharps and the deckhand's hands. Stopping the belt holds it where it can be seen and isolated with the right gear, per the plan, instead of letting the conveyor decide where it lands.",
+      "wrongNote": "The conveyor emergency stop — halt the belt before the drum reaches the basket, then isolate it."
+    },
+    {
+      "after": "raise-conveyor",
+      "alert": "A harbor seal has surfaced inside the sweep arms, just ahead of the conveyor lip, with the boat still making way.",
+      "cue": "Call the master on the wheelhouse intercom to take the way off the boat and let the seal clear before anything else moves.",
+      "delay": 2,
+      "id": "seal-in-sweeps",
+      "kind": "Harbor seal between the sweeps",
+      "missNote": "The boat kept making way with the conveyor still coming up; the seal was pushed against the lip by the sweeps before it dived clear, and the encounter went unreported.",
+      "seconds": 14,
+      "target": "wheelhouse-intercom",
+      "why": "A seal inside the sweeps is inside the one space the boat is driving debris into, and only the master can take the way off. NOAA Fisheries' guidance and the work plan both say the same thing: stop, give the animal room and let it leave on its own, and record the encounter — the conveyor and the sweeps wait.",
+      "wrongNote": "The wheelhouse intercom — only the master can take the way off the boat so the seal can leave."
+    }
+  ],
+  "lateNotes": {
+    "belt-control": "The belt runs once the sweeps are out and the conveyor is set to depth — not with the lip still out of the water.",
+    "conveyor-depth": "The depth is set once the sweep arms are out and the conveyor has been walked — not before the guard is back on.",
+    "debris-tally": "The haul is tallied once the conveyor is up, the deck washed down and the sweeps stowed — last, not first."
+  },
+  "name": "Debris Skimmer Vessel Operations",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "skiff",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "skimmerVessel",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "battery-in-debris",
+      "belt-control",
+      "belt-lockout",
+      "conveyor-depth",
+      "conveyor-estop",
+      "conveyor-raise",
+      "crew-radio",
+      "cut-gloves",
+      "debris-tally",
+      "decon-station",
+      "hand-sort-sharps",
+      "jam-hook",
+      "open-unknown-drum",
+      "pullcord-slack",
+      "reach-into-conveyor",
+      "sharps-bin",
+      "sharps-in-debris",
+      "sharps-tongs",
+      "skimmer-vest",
+      "stand-on-conveyor-frame",
+      "sweep-valve",
+      "tail-guard-off",
+      "wheelhouse-intercom",
+      "work-plan"
+    ],
+    "meshes": 198
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "At the boarding gate amidships, before stepping forward onto the working deck: work vest on and fastened, cut- and puncture-resistant gloves on.",
+      "id": "pfd-and-gloves",
+      "itemNames": {
+        "cut-gloves": "cut- and puncture-resistant gloves",
+        "skimmer-vest": "work vest (PFD) on and fastened"
+      },
+      "kind": "sequence",
+      "prompt": "At the boarding gate amidships, before stepping forward onto the working deck: work vest on and fastened, cut- and puncture-resistant gloves on.",
+      "targets": [
+        "skimmer-vest",
+        "cut-gloves"
+      ],
+      "title": "PFD and cut gloves on at the boarding gate",
+      "why": "The skimmer's working deck is forward of the wheelhouse, low, wet and open to the water between the hulls, and the person working it spends the job looking down at a belt and a basket rather than at the edge. The work vest goes on at the gate so it is on for all of it, and the gloves are rated for cuts and punctures because what comes up the belt after a storm is not only plastic."
+    },
+    {
+      "cue": "Read the plan: the debris line to work and the tide and wind for it, the sort rules for sharps, batteries and unknown containers, the offload point, the conveyor lockout, and the skiff's job.",
+      "id": "work-plan",
+      "kind": "select",
+      "prompt": "Read the plan: the debris line to work and the tide and wind for it, the sort rules for sharps, batteries and unknown containers, the offload point, the conveyor lockout, and the skiff's job.",
+      "target": "work-plan",
+      "title": "Read the day's work plan with the master",
+      "why": "A skimmer is only as safe as the sort rules the deck works to: the plan says what goes into the basket, what is isolated and what is left alone and reported, so nobody decides on the spot whether a drum is worth opening. It also carries the NOAA forecast for the tide and wind, which decides how the master works the line and how steep the conveyor will be running."
+    },
+    {
+      "cue": "Walk the conveyor from the head pulley above the basket to the lip: every guard in place, the pull-cord taut on its switch, the belt tracking, nothing wrapped round the pulleys.",
+      "id": "conveyor-walk",
+      "itemNames": {
+        "pullcord-slack": "emergency pull-cord hanging slack off its switch",
+        "tail-guard-off": "head pulley guard left off after the last clean-out"
+      },
+      "itemNotes": {
+        "pullcord-slack": "The pull-cord that stops the belt from anywhere along the rail has come off its hook and hangs slack — pull it and nothing would happen, and nobody would know until they needed it.",
+        "tail-guard-off": "The guard over the conveyor's head pulley is lying on the deck beside it — the nip point where the belt wraps the pulley is open at knee height, right where the deckhand kneels to clear the basket chute."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the conveyor from the head pulley above the basket to the lip: every guard in place, the pull-cord taut on its switch, the belt tracking, nothing wrapped round the pulleys.",
+      "targets": [
+        "tail-guard-off",
+        "pullcord-slack"
+      ],
+      "title": "Walk the conveyor before it runs",
+      "why": "A debris conveyor is a belt and pulleys running in salt water with rope, net and plastic bag trying to wrap it all day, so the nip points are where the injuries are. Guarding and a working emergency stop are what OSHA's machine guarding rule asks of any conveyor; walking it before the belt runs is the only time those guards and that cord are checked by someone who is not already reaching for a snag."
+    },
+    {
+      "cue": "Turn the sweep valve to swing both sweep arms out from the hulls, watching the skiff and the water either side as they open.",
+      "id": "sweeps-out",
+      "kind": "turn",
+      "prompt": "Turn the sweep valve to swing both sweep arms out from the hulls, watching the skiff and the water either side as they open.",
+      "target": "sweep-valve",
+      "title": "Swing the sweep arms out",
+      "turn": {
+        "label": "SWEEP ARMS",
+        "turns": 1.25
+      },
+      "why": "The sweep arms funnel a debris line into the conveyor from a width far greater than the boat's own, and they swing out hard and fast on hydraulics. The deckhand watches the water beside each hull as they open, because the skiff working the debris line is often right there, and an arm swung into a skiff is a crushed hull or a crushed hand on its gunwale."
+    },
+    {
+      "cue": "Lower the conveyor and commit its depth with the lip just under the surface, where floating debris rides onto the belt instead of piling against it.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.58
+        ],
+        "label": "CONVEYOR DEPTH",
+        "missNote": "Outside the band — set the lip just under the surface for this chop, not buried and not riding over the line.",
+        "speed": 0.72
+      },
+      "id": "set-depth",
+      "kind": "gauge",
+      "prompt": "Lower the conveyor and commit its depth with the lip just under the surface, where floating debris rides onto the belt instead of piling against it.",
+      "target": "conveyor-depth",
+      "title": "Set the conveyor lip to depth",
+      "why": "Set too shallow, the conveyor's lip rides over the debris line and pushes it away; set too deep, it scoops water and mud, loads the belt and drags the boat's speed down. The right depth is just under the surface for the tide and chop in the plan, and it is set before the belt runs so the first debris that reaches the lip is carried rather than bulldozed."
+    },
+    {
+      "cue": "Hold the belt speed in band against the boat's speed through the water as the debris line comes onto the lip.",
+      "holdBreakNote": "The belt fell out of step with the boat — debris piled at the lip or was thrown off the top. Bring it back to a matched speed and hold it.",
+      "id": "work-line",
+      "kind": "track",
+      "prompt": "Hold the belt speed in band against the boat's speed through the water as the debris line comes onto the lip.",
+      "seconds": 6,
+      "target": "belt-control",
+      "title": "Match the belt to the boat through the debris line",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "BELT SPEED",
+        "rise": 0.58,
+        "start": 0.14
+      },
+      "why": "The belt has to carry debris up faster than the boat pushes it onto the lip, or it piles at the bottom and spills back into the water; run it too fast and light debris is thrown off the top onto the deck. Holding the belt matched to the boat keeps the flow steady and the basket filling evenly, and it keeps the deckhand's eyes on the belt — which is where an object that should not be there shows up first."
+    },
+    {
+      "cue": "Turn the pile in the basket with the rake and look for what the plan says is isolated: sharps, batteries, containers, anything that is not plain trash.",
+      "id": "sort-basket",
+      "itemNames": {
+        "battery-in-debris": "swollen lithium battery pack",
+        "sharps-in-debris": "syringes caught in a plastic bag"
+      },
+      "itemNotes": {
+        "battery-in-debris": "A lithium battery pack from an e-scooter, swollen and cracked — seawater and a damaged cell can heat and vent; it goes to the isolation bin, away from the basket.",
+        "sharps-in-debris": "A plastic bag in the pile holds a cluster of syringes, needles out — the reason the pile is turned with tongs and never by hand."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Turn the pile in the basket with the rake and look for what the plan says is isolated: sharps, batteries, containers, anything that is not plain trash.",
+      "targets": [
+        "sharps-in-debris",
+        "battery-in-debris"
+      ],
+      "title": "Sort the basket for what should not be in it",
+      "why": "Most of a storm's debris line is bottles, foam and bags, but it also carries needles from outfalls, batteries from scooters and phones, and containers of whatever someone poured out. The sort is done by eye and with the rake before anything is lifted, because the hazard in a basket is the object nobody has seen yet."
+    },
+    {
+      "cue": "Pick the bag of syringes up with the long tongs and carry it to the rigid sharps container, never passing it over anyone's hands.",
+      "drag": {
+        "missNote": "Not in the container — the syringes go all the way into the rigid sharps container, not beside it on the deck.",
+        "radius": 0.55,
+        "to": "sharps-bin"
+      },
+      "id": "sharps-away",
+      "kind": "drag",
+      "prompt": "Pick the bag of syringes up with the long tongs and carry it to the rigid sharps container, never passing it over anyone's hands.",
+      "target": "sharps-tongs",
+      "title": "Take the sharps to the sharps container with the tongs",
+      "why": "A needle in storm debris is an unknown exposure, and the sharps container is the only place on deck it is safe. It is carried with the tongs, at arm's length, and dropped straight in, because the moment of greatest risk is the hand-off — which is why there is none. The bloodborne pathogens rule and the plan's sort rules both say the same thing: no hand touches a sharp."
+    },
+    {
+      "cue": "A length of line has wrapped the head pulley and stalled the belt: isolate the conveyor's hydraulics and put your lock and tag on, then cut the line free with the jam hook.",
+      "id": "clear-jam",
+      "itemNames": {
+        "belt-lockout": "conveyor hydraulics isolated, locked and tagged",
+        "jam-hook": "wrapped line cut free with the jam hook"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "The conveyor is locked out first — nobody puts a hook into a pulley that can still turn, even with the belt stopped.",
+      "prompt": "A length of line has wrapped the head pulley and stalled the belt: isolate the conveyor's hydraulics and put your lock and tag on, then cut the line free with the jam hook.",
+      "targets": [
+        "belt-lockout",
+        "jam-hook"
+      ],
+      "title": "Clear the wrapped line at the head pulley under lockout",
+      "why": "A stalled conveyor is still a loaded one: the hydraulic motor is pushing against the wrap, and the moment the line is cut the belt jumps. The lockout rule exists for exactly this job — the energy is isolated and locked before anyone reaches in, and the person clearing the jam holds the only key, so the belt cannot be restarted from the console while a hook is in the pulley."
+    },
+    {
+      "cue": "Hold the raise lever and watch the lip come up clear of the water before the master picks up speed for the offload.",
+      "holdBreakNote": "Let go of the raise lever with the lip still in the water. Take it up again and hold it until the lip is clear.",
+      "id": "raise-conveyor",
+      "kind": "hold",
+      "prompt": "Hold the raise lever and watch the lip come up clear of the water before the master picks up speed for the offload.",
+      "seconds": 5,
+      "target": "conveyor-raise",
+      "title": "Raise the conveyor clear of the water",
+      "why": "A conveyor left down while the boat speeds up is a scoop at the bow that loads the hull, throws water onto the deck and can tear its own frame; it comes up before the throttle does. The deckhand holds the lever and watches the lip clear rather than walking away, because whatever is in the water ahead of the boat is right under the lip at that moment."
+    },
+    {
+      "cue": "Wash the deck, the rake and the tongs down at the decon station, and rinse your gloves before you go aft to the wheelhouse.",
+      "id": "decon",
+      "kind": "select",
+      "prompt": "Wash the deck, the rake and the tongs down at the decon station, and rinse your gloves before you go aft to the wheelhouse.",
+      "target": "decon-station",
+      "title": "Wash down the deck and your gloves",
+      "why": "Storm debris carries sewage, fuel and whatever else washed out of the outfalls, and it ends up on the deck, the tools and the gloves that sorted it. Washing down before going aft keeps it out of the wheelhouse and off the hands that will next touch a radio, a coffee cup or a face."
+    },
+    {
+      "cue": "Turn the sweep valve back to swing both arms in and pin them fore-and-aft along the hulls.",
+      "id": "sweeps-in",
+      "kind": "turn",
+      "prompt": "Turn the sweep valve back to swing both arms in and pin them fore-and-aft along the hulls.",
+      "target": "sweep-valve",
+      "title": "Stow the sweep arms for the run to the offload",
+      "turn": {
+        "label": "SWEEP ARMS",
+        "turns": 1.25
+      },
+      "why": "Sweep arms left out are a width the master cannot see from the helm and a lever the chop works against at speed, so they are stowed and pinned before the run to the offload. Stowing them is the same hydraulic swing as deploying them, and the deckhand watches the water beside each hull again as they come in."
+    },
+    {
+      "cue": "Tally the haul: the basket volume, the sharps and the battery isolated, the unknown drum left closed and reported, the guard and pull-cord found, and the seal inside the sweeps.",
+      "id": "haul-tally",
+      "kind": "select",
+      "prompt": "Tally the haul: the basket volume, the sharps and the battery isolated, the unknown drum left closed and reported, the guard and pull-cord found, and the seal inside the sweeps.",
+      "target": "debris-tally",
+      "title": "Tally the haul and the hazardous finds",
+      "why": "The tally is what the trash recovery is reported against to the Regional Water Quality Control Board and the agency funding the work, and it is where an unknown drum becomes a pickup by a hazmat contractor rather than something left on deck. The guard and the pull-cord go in so the next crew does not find them the same way, and the seal goes in because marine mammal encounters are recorded, not remembered."
+    },
+    {
+      "cue": "On the radio: the conveyor is up and locked out, the sweeps stowed, the finds isolated, and how everyone is after a drum on the belt and a seal between the arms.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the radio: the conveyor is up and locked out, the sweeps stowed, the finds isolated, and how everyone is after a drum on the belt and a seal between the arms.",
+      "target": "crew-radio",
+      "title": "Check in with the master, the skiff and the engineer",
+      "why": "The master worked the line without seeing the belt, the skiff crew were herding debris beside a boat that had to stop for a seal, and the engineer has a guard to refit — each needs the deck's report. It is also the crew's own check-in: sorting needles out of a basket all morning takes something out of people, and the union's member assistance line is there for what does not get said on the radio."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — the Inlandboatmen's Union or MEBA — with the employer's employee assistance line behind it",
+  "tagline": "Working a storm's trash line on the Bay: PFD and cut gloves on at the boarding gate, the work plan read, the conveyor walked, sweeps swung out and the conveyor set to depth, the belt matched to the boat through an unknown drum riding up it, the basket sorted for sharps and a battery, a jam cleared under lockout, the conveyor raised as a harbor seal surfaces between the sweeps, decon, sweeps stowed and the haul tallied",
+  "title": "SmartCiti.X~ Debris Skimmer Vessel Operations VR",
+  "trade": "Inlandboatmen's Union (IBU) deckhand running the conveyor and sorting the basket on a debris skimmer, with the master at the helm, a MEBA engineer on watch and an IBU skiff herding the debris line",
+  "underwater": null,
+  "weather": "overcast"
+}

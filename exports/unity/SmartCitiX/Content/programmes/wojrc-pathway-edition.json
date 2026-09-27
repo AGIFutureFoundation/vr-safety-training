@@ -1,0 +1,301 @@
+{
+  "accent": "#e0a23f",
+  "anchors": [
+    {
+      "id": "port-container-terminal",
+      "name": "Port Container Terminal",
+      "position": [
+        -340,
+        350
+      ],
+      "stations": [
+        "mooring-line",
+        "bunkering-watch",
+        "crane-yard",
+        "dock-crane"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "port"
+    }
+  ],
+  "certification": "Registered apprenticeship standards as a category, the OSHA Outreach Training Program's OSHA 10 course, FMCSA 49 CFR 380 Subpart F entry-level driver training with 49 CFR 383, 393 and 395, OSHA 29 CFR 1910.178 powered industrial trucks and ANSI/ITSDF B56.1, the Revised NIOSH Lifting Equation, HIPAA's Privacy Rule, CFPB and IRS consumer guidance, and SAMHSA's guidance on help-seeking — every credential and requirement stated only as the cited body publishes it, or as \"per the programme's requirements\" where this edition does not have a source for the organisation's own paperwork",
+  "competency": {
+    "id": "wojrc-pathway-edition",
+    "kind": "programme",
+    "require": 6,
+    "standards": [
+      "osha-1910-178",
+      "hipaa-privacy-rule",
+      "samhsa-trauma-informed"
+    ],
+    "stations": [
+      "wp-intake-and-pathway-planning",
+      "wp-mock-interview-and-resume",
+      "wp-employer-meet-and-greet",
+      "wp-warehouse-ride-along",
+      "wp-permit-study-and-knowledge-test",
+      "wp-apprenticeship-enrollment-day",
+      "wp-first-paycheck-coaching",
+      "wp-graduation-and-alumni-mentors",
+      "forklift-dock",
+      "tdl-pallet-jack-and-racking",
+      "tdl-pick-pack-and-scan",
+      "tdl-trailer-loading-and-dock-plate",
+      "tdl-hazmat-labeling-and-segregation",
+      "tdl-lifting-and-ergonomics",
+      "tdl-pretrip-inspection",
+      "tdl-air-brake-test",
+      "tdl-coupling-and-uncoupling",
+      "tdl-backing-and-docking",
+      "tdl-cargo-securement-and-hours",
+      "drive-city-route-and-turns",
+      "drive-freeway-merge-and-following-distance",
+      "drive-mountain-grade-and-engine-brake",
+      "drive-night-fog-and-rail-crossing",
+      "drive-backing-serpentine-and-alley-dock",
+      "drive-light-vehicle-fleet-and-forklift-course",
+      "apprenticeship-standards-reading",
+      "apprenticeship-application-and-test",
+      "jobsite-orientation-and-osha-10",
+      "union-hall-and-dispatch",
+      "first-period-evaluation",
+      "trades-lineage-briefing",
+      "credit-report-reading",
+      "debt-reduction-plan",
+      "pay-stub-and-withholding",
+      "budget-with-irregular-income",
+      "emergency-savings-and-predatory-lending",
+      "wellness-shift-work-sleep-and-stress",
+      "wellness-peer-support-conversation",
+      "wellness-substance-use-and-the-job",
+      "wellness-asking-for-help-and-resources"
+    ],
+    "title": "Walk the pathway: intake to a signed enrolment, a first paycheck and a matched alumni mentor"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "teamsters-training",
+    "ilwu-pma-training",
+    "osha-1910-178",
+    "samhsa-trauma-informed",
+    "seiu-training"
+  ],
+  "id": "wojrc-pathway-edition",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1592,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 126
+  },
+  "name": "Pathway Edition — wojrc.org",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "wp-intake-and-pathway-planning",
+      "why": "The pathway's first appointment: a coach helps an applicant choose warehouse or Commercial Class A from an honest self-assessment rather than a coin flip."
+    },
+    {
+      "app": "smartcity",
+      "id": "wp-mock-interview-and-resume",
+      "why": "Before any application goes in, a resume is built section by section and a mock interview is sat until the posture, the eye contact and the hardest question all hold steady."
+    },
+    {
+      "app": "smartcity",
+      "id": "wp-employer-meet-and-greet",
+      "why": "The job fair floor where the resume and the rehearsed pitch meet an actual employer table and the apprenticeship coordinator in person."
+    },
+    {
+      "app": "smartcity",
+      "id": "wp-warehouse-ride-along",
+      "why": "The warehouse track's first live day: a supervisor beside you on a real pallet-jack route, walking pace and the horn at every cross aisle."
+    },
+    {
+      "app": "smartcity",
+      "id": "wp-permit-study-and-knowledge-test",
+      "why": "The Class A track's first milestone: the manual studied honestly and the knowledge test sat without rushing, permit in hand at the end of it."
+    },
+    {
+      "app": "smartcity",
+      "id": "wp-apprenticeship-enrollment-day",
+      "why": "The paperwork day that turns an offer into an enrolment: documents, the drug-test consent actually understood before it is signed, a physical, and the coordinator's own checklist — every requirement stated only as the programme's own."
+    },
+    {
+      "app": "smartcity",
+      "id": "wp-first-paycheck-coaching",
+      "why": "The wellness resource centre's financial coaching desk the week the first check actually arrives: direct deposit, a budget for the real number, and a benefits election made before the window closes."
+    },
+    {
+      "app": "smartcity",
+      "id": "wp-graduation-and-alumni-mentors",
+      "why": "The pathway's last station: a certificate earned in front of the cohort, and an alumni mentor matched with real 30, 60 and 90-day check-ins booked before anyone leaves the hall."
+    },
+    {
+      "app": "smartcity",
+      "id": "forklift-dock",
+      "why": "Warehouse: the shared opener, where the forklift and the dock are where the training wojrc.org describes actually starts."
+    },
+    {
+      "app": "smartcity",
+      "id": "tdl-pallet-jack-and-racking",
+      "why": "Warehouse: the walkie pallet jack and the rack it feeds, inspected, rated and put away the standard's own way."
+    },
+    {
+      "app": "smartcity",
+      "id": "tdl-pick-pack-and-scan",
+      "why": "Warehouse: one pick wave from scanner to shipping label, with the forklift lane respected the whole way."
+    },
+    {
+      "app": "smartcity",
+      "id": "tdl-trailer-loading-and-dock-plate",
+      "why": "Warehouse: a dropped trailer loaded through a plate door that is rated, chocked and released the way the standard requires."
+    },
+    {
+      "app": "smartcity",
+      "id": "tdl-hazmat-labeling-and-segregation",
+      "why": "Warehouse: the hazmat cage at an outbound door, checked by the person whose signature goes on the shipper's certification."
+    },
+    {
+      "app": "smartcity",
+      "id": "tdl-lifting-and-ergonomics",
+      "why": "Warehouse: the manual handling under every warehouse job, scored the way the Revised NIOSH Lifting Equation actually scores it."
+    },
+    {
+      "app": "smartcity",
+      "id": "tdl-pretrip-inspection",
+      "why": "Class A: the pre-trip that entry-level driver training starts from, with every defect written up before the truck moves."
+    },
+    {
+      "app": "smartcity",
+      "id": "tdl-air-brake-test",
+      "why": "Class A: the in-cab air brake check a skills examiner watches, read against the manual's own figures."
+    },
+    {
+      "app": "smartcity",
+      "id": "tdl-coupling-and-uncoupling",
+      "why": "Class A: hooking and dropping a trailer the manual's way, so a high hook never leaves the yard."
+    },
+    {
+      "app": "smartcity",
+      "id": "tdl-backing-and-docking",
+      "why": "Class A: the alley dock that range training drills, with a spotter who stops the truck the moment they leave the mirror."
+    },
+    {
+      "app": "smartcity",
+      "id": "tdl-cargo-securement-and-hours",
+      "why": "Class A: a flatbed load secured by count and working load limit, driven inside an hours-of-service day the log can certify."
+    },
+    {
+      "app": "smartcity",
+      "id": "drive-city-route-and-turns",
+      "why": "Class A: the first time the learner drives the rig themselves, a block of right turns with the trailer behind."
+    },
+    {
+      "app": "smartcity",
+      "id": "drive-freeway-merge-and-following-distance",
+      "why": "Class A: up the ramp and into traffic at the wheel, with the handbook's own space cushion counted."
+    },
+    {
+      "app": "smartcity",
+      "id": "drive-mountain-grade-and-engine-brake",
+      "why": "Class A: a long downgrade driven on the engine, with a brake-fade warning answered the manual's way."
+    },
+    {
+      "app": "smartcity",
+      "id": "drive-night-fog-and-rail-crossing",
+      "why": "Class A: a placarded tank driven at night in fog, with the crossing stop 49 CFR 392 requires."
+    },
+    {
+      "app": "smartcity",
+      "id": "drive-backing-serpentine-and-alley-dock",
+      "why": "Class A: the yard station's own backing, driven, with the truck stopped the moment the spotter leaves the mirror."
+    },
+    {
+      "app": "smartcity",
+      "id": "drive-light-vehicle-fleet-and-forklift-course",
+      "why": "Class A: the two check-rides a terminal gives before the keys, a pool car and a forklift both driven load-low."
+    },
+    {
+      "app": "smartcity",
+      "id": "apprenticeship-standards-reading",
+      "why": "Apprenticeship: the briefing that opens the steps, reading a registered standard sourced and flat."
+    },
+    {
+      "app": "smartcity",
+      "id": "apprenticeship-application-and-test",
+      "why": "Apprenticeship: the way in, a recruitment notice read, the documents gathered, and an aptitude test sat at a steady pace."
+    },
+    {
+      "app": "smartcity",
+      "id": "jobsite-orientation-and-osha-10",
+      "why": "Apprenticeship: the first morning on site, with the OSHA 10 card understood as awareness and the orientation 29 CFR 1926.21 owes every new hand."
+    },
+    {
+      "app": "smartcity",
+      "id": "union-hall-and-dispatch",
+      "why": "Apprenticeship: the hall between jobs, a dispatch slip read for what it actually says before the morning is planned back from it."
+    },
+    {
+      "app": "smartcity",
+      "id": "first-period-evaluation",
+      "why": "Apprenticeship: the end of the first period, a guarded skills demonstration and the next rate read off the standard's own wage schedule."
+    },
+    {
+      "app": "smartcity",
+      "id": "trades-lineage-briefing",
+      "why": "Apprenticeship: the heritage opener, the trades as a lineage and a plain line around what this edition does and does not know."
+    },
+    {
+      "app": "smartcity",
+      "id": "credit-report-reading",
+      "why": "Financial coaching: the free report pulled from the right place, every line read and the errors disputed with both companies."
+    },
+    {
+      "app": "smartcity",
+      "id": "debt-reduction-plan",
+      "why": "Financial coaching: every debt on the table sorted highest rate first, with a finish date nothing gets to move."
+    },
+    {
+      "app": "smartcity",
+      "id": "pay-stub-and-withholding",
+      "why": "Financial coaching: the first stub read properly, the rate and the hours checked and the W-4 checked with the IRS's own estimator."
+    },
+    {
+      "app": "smartcity",
+      "id": "budget-with-irregular-income",
+      "why": "Financial coaching: construction pay budgeted on the lean month, with the good months feeding a buffer."
+    },
+    {
+      "app": "smartcity",
+      "id": "emergency-savings-and-predatory-lending",
+      "why": "Financial coaching: an emergency fund built automatically and every loan offer read by its APR before anything is signed."
+    },
+    {
+      "app": "smartcity",
+      "id": "wellness-shift-work-sleep-and-stress",
+      "why": "Wellness: the week the roster flips to nights, with a stress check rated honestly and a block of anchor sleep held."
+    },
+    {
+      "app": "smartcity",
+      "id": "wellness-peer-support-conversation",
+      "why": "Wellness: a cohort-mate who cannot keep doing this, met with the signs noticed first and a direct question asked plainly."
+    },
+    {
+      "app": "smartcity",
+      "id": "wellness-substance-use-and-the-job",
+      "why": "Wellness: four in the morning on the dock, the forklift key taken before the conversation and the doors named that do not cost the job."
+    },
+    {
+      "app": "smartcity",
+      "id": "wellness-asking-for-help-and-resources",
+      "why": "Wellness: the week your own life goes sideways, each problem matched to its door and the crisis line told apart from the case manager."
+    }
+  ],
+  "summary": "The participant's own journey through the programmes wojrc.org describes, station by station: a coach helps you choose warehouse or Commercial Class A at intake, a resume and a mock interview get you ready to apply, a job fair puts you in front of the employers and the apprenticeship coordinator, a ride-along day and a permit study day try each track for real, an enrolment day signs the paperwork the programme's own requirements call for, a first paycheck is coached at the wellness resource centre, and a graduation day matches you with an alumni mentor. Those eight stations are followed by the job-readiness edition's own procedures, grouped here by the service they belong to — warehouse, Class A, apprenticeship, financial coaching and wellness — so the whole pathway reads as one line from a coach's first question to a signed mentor commitment. Only the sponsor's own words describe the organisation; everything else here is a procedure with its standard.",
+  "union": "Teamsters for warehouse and driving work, the building-trades apprenticeship programmes the pathway prepares people for, and SEIU/AFSCME for the public-benefit and wellness staff a participant meets along the way"
+}

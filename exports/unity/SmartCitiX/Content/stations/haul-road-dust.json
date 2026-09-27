@@ -1,0 +1,369 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-haul",
+    "name": "Clean Haul",
+    "note": "Every pass wetted to the plan's frequency, every load tarped and washed before the gate, and the alarm answered the instant the wind turned"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "Teamsters drivers on the haul trucks and the water truck; LIUNA laborers on the wheel wash and the sweep; IUOE Local 3 on the water truck's pump and spray-bar equipment; the site's Dust Control Plan under the cleanup order; Bay Area AQMD Regulation 6 particulate limits and its construction dust requirements; EPA 40 CFR Part 58 monitor siting and operation; OSHA 1926 traffic-control provisions; DOT load-securement rules for the tarp",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "union",
+        "citedAs": "Teamsters",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "never-through-alarm",
+        "name": "Never Through The Alarm",
+        "note": "Never silenced a monitor alarm or let a load through unwashed or untarped"
+      },
+      {
+        "id": "steady-pass",
+        "name": "Steady Pass",
+        "note": "Held the wetting and sweeping passes inside the band the whole strip"
+      },
+      {
+        "id": "log-true",
+        "name": "Log True",
+        "note": "Closed out the monitor log with no correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "No corrections anywhere in the shift"
+      },
+      {
+        "id": "unbroken-pass",
+        "name": "Unbroken Pass",
+        "note": "Never broke a wetting or sweeping pass"
+      },
+      {
+        "id": "gate-early",
+        "name": "Gate Early",
+        "note": "Reconciled the log inside 80% of par"
+      }
+    ],
+    "currency": "PASS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Hand",
+      "Wash Attendant",
+      "Pass Lead",
+      "Monitor Authority",
+      "Dust Control Certified"
+    ],
+    "system": "Dust Control"
+  },
+  "hazards": {
+    "silence-alarm": "You hit continue on the dust monitor while it was alarming, to keep the water truck moving on to the next pass. The monitor is the only real-time protection the public road and the fence line have from this haul — silencing it while the reading is over the action level just means whoever is downwind of the plume absorbs the difference instead of the haul.",
+    "skip-wet-pass": "You opened the bypass and let the spray bar skip a pass to save tank water. The plan's wetting frequency is not a suggestion — it is the number that keeps this road from drying out faster than the trucks can re-wet it, and one skipped pass is a dry stretch of road that every truck after it kicks straight into the air.",
+    "sweep-early": "You called the sweep done and pulled the sweeper off the road before the last pass finished. A partial sweep leaves exactly the tracked soil the wash and the tarp were supposed to keep off this stretch sitting on a public road at the end of the shift, for whatever rain or wind moves it next.",
+    "wash-bypass": "You pulled the bypass lever and waved a truck through the gate without running the wheel wash. Tracked soil off this cell is exactly what the wash exists to stop before it reaches a public road — a truck that skips it carries the cell out through its own tires no matter how well the load itself was tarped."
+  },
+  "id": "haul-road-dust",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "wet-pass",
+      "alert": "The downwind perimeter monitor just alarmed above the action level — the wind has freshened and swung onshore while the water truck is still mid-pass.",
+      "cue": "Stop the haul now, before anything else in the plan's response matters.",
+      "delay": 4,
+      "id": "wind-alarm",
+      "kind": "Dust alarm",
+      "missNote": "Two more trucks rolled out of the cell while the monitor sat above the action level, and the plume that crossed the fence line during those minutes is not something a wetter road afterward gets back.",
+      "seconds": 13,
+      "target": "haul-stop",
+      "why": "Stop is the first word in the plan's own alarm response for a reason — every truck that leaves the cell after the alarm sounds adds more dust to a plume that is already over the action level, and wetting the road or calling it in does no good while trucks are still moving through the source.",
+      "wrongNote": "Not that — the haul has to stop first. Everything else in the plan's response waits on the trucks actually being still."
+    },
+    {
+      "after": "wheel-wash",
+      "alert": "A second haul truck is already rolling for the gate with its bed wide open — nobody tarped that load before it left the cell.",
+      "cue": "Flag it down before it reaches the gate; an untarped load doesn't get to leave the cell.",
+      "delay": 3,
+      "id": "untarped-departure",
+      "kind": "Untarped departure",
+      "missNote": "The second truck cleared the gate untarped and was most of a mile down the public road, shedding dust the whole way, before anyone at the cell realized it had never been checked.",
+      "seconds": 12,
+      "target": "flag-down",
+      "why": "A loaded bed moving at road speed is a dust source with no monitor watching it at all — everything the wetting passes, the wash and the tarp step were built to contain is blowing off the back of a truck the moment it clears the gate, and the gate is the last place anyone can stop it before that.",
+      "wrongNote": "Not that — flag the truck down. Nothing else at the gate keeps an untarped load from reaching the public road."
+    }
+  ],
+  "lateNotes": {
+    "decon-wash": "Nothing to wash yet — the load has to be tarped first, or a clean pair of tires on an uncovered load is only half the job done.",
+    "monitor-log-board": "Nothing to reconcile yet — the wetting and sweeping passes have to actually be run before there's anything on the log to check them against.",
+    "street-sweeper": "Nothing to sweep yet — the day's hauling has to actually be finished, or the sweeper is chasing trucks that are still tracking fresh soil behind it.",
+    "tarp-roll": "Nothing to tarp until the truck is actually loaded and staged at the cell mouth — a tarp pulled over an empty bed proves nothing about the load that hasn't left yet.",
+    "water-truck": "Nothing to wet yet — the spray bar has to actually be checked and the valve opened before the truck rolls a pass, or the first pass is guessing at whether the bar even works."
+  },
+  "name": "Haul Road Dust",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-bay-restoration"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "briefing-log",
+      "decon-wash",
+      "dust-monitor",
+      "dust-plan-board",
+      "flag-down",
+      "hard-hat",
+      "haul-stop",
+      "hi-vis-vest",
+      "monitor-log-board",
+      "silence-alarm",
+      "skip-wet-pass",
+      "speed-sign",
+      "spray-bar",
+      "spray-valve",
+      "street-sweeper",
+      "sweep-early",
+      "tarp-roll",
+      "tracked-patch",
+      "truck-load-socket",
+      "wash-bypass",
+      "water-truck"
+    ],
+    "meshes": 199
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the wetting frequency, the monitor action level and the day's wind forecast before the water truck rolls.",
+      "id": "plan",
+      "kind": "select",
+      "prompt": "Check the wetting frequency, the monitor action level and the day's wind forecast before the water truck rolls.",
+      "target": "dust-plan-board",
+      "title": "Read the dust control plan and the day's wind forecast",
+      "why": "Everything that follows — how often the road gets wetted, what a monitor reading over the action level actually means today, whether the forecast wind is going to carry a plume toward the fence line or away from it — is set from this plan and this forecast, not from habit or from how the road looked yesterday."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Hi-vis vest and hard hat before standing anywhere near a moving truck.",
+      "id": "ppe",
+      "itemNames": {
+        "hard-hat": "hard hat",
+        "hi-vis-vest": "hi-vis vest"
+      },
+      "kind": "sequence",
+      "prompt": "Hi-vis vest and hard hat before standing anywhere near a moving truck.",
+      "targets": [
+        "hi-vis-vest",
+        "hard-hat"
+      ],
+      "title": "Suit up before the haul road",
+      "why": "Every driver on this strip is watching for a ground crew that is visible against dust and dirt from a cab well above eye level — vest and hardhat are what make a person on foot readable to a driver at speed, not a formality before the real work starts."
+    },
+    {
+      "cue": "Read both perimeter monitors and commit only once the reading settles inside the pre-haul baseline band.",
+      "gauge": {
+        "green": [
+          0.36,
+          0.55
+        ],
+        "label": "PM10 BASELINE",
+        "missNote": "That is not a settled baseline — read the monitors again before the water truck rolls its first pass.",
+        "speed": 0.6
+      },
+      "id": "monitor-check",
+      "kind": "gauge",
+      "prompt": "Read both perimeter monitors and commit only once the reading settles inside the pre-haul baseline band.",
+      "target": "dust-monitor",
+      "title": "Check the perimeter dust monitors and note the action level",
+      "why": "This is the number the whole shift gets measured against, and the action level printed on the monitor is the line that turns a normal reading into a stop-the-haul reading. A crew that never reads the baseline has no way to prove a later alarm was the haul and not just where the monitors always happened to sit."
+    },
+    {
+      "cue": "Walk the spray bar and confirm every nozzle is clear before the truck rolls a pass.",
+      "id": "sprayer-check",
+      "kind": "select",
+      "prompt": "Walk the spray bar and confirm every nozzle is clear before the truck rolls a pass.",
+      "target": "spray-bar",
+      "title": "Check the water truck's spray bar",
+      "why": "A clogged nozzle on one end of the bar wets one side of the road and leaves the other side dry, and nobody finds that out from the cab — it takes a walk down the bar with the truck stopped, before the first pass, to catch a nozzle that is going to under-wet a whole lane all shift."
+    },
+    {
+      "cue": "Turn the valve open before the truck starts its first pass down the strip.",
+      "id": "spray-valve",
+      "kind": "turn",
+      "prompt": "Turn the valve open before the truck starts its first pass down the strip.",
+      "target": "spray-valve",
+      "title": "Open the spray bar valve",
+      "turn": {
+        "axis": "y",
+        "label": "SPRAY BAR",
+        "turns": 0.6
+      },
+      "why": "The bar has to already be delivering water when the truck starts moving, not partway down the first pass — a valve opened late leaves the first stretch of road exactly as dry as it was before the truck ever rolled onto it."
+    },
+    {
+      "cue": "Drive the strip at the plan's speed, keeping the delivery inside the band so every pass overlaps the last.",
+      "holdBreakNote": "Pass speed drifted out of the band — at that pace the bar is either skating over ground it never really wetted or falling behind the plan's schedule. Bring it back and hold the pass.",
+      "id": "wet-pass",
+      "kind": "track",
+      "prompt": "Drive the strip at the plan's speed, keeping the delivery inside the band so every pass overlaps the last.",
+      "seconds": 9,
+      "target": "water-truck",
+      "title": "Wet the road in passes at the plan's frequency",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "PASS SPEED",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "Too fast and the bar lays down a wet line the sun and the next truck's tires dry out before the following pass ever reaches it; too slow and the truck falls behind the frequency the plan actually calls for, leaving the far end of the strip running dry while the water truck is still working the near end."
+    },
+    {
+      "cue": "Post today's speed limit sign at the cell mouth, then log every driver's sign-off on the briefing before the first truck rolls.",
+      "id": "speed-post",
+      "itemNames": {
+        "briefing-log": "sign the driver briefing",
+        "speed-sign": "post the speed sign"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "The sign goes up first, so there is something on the strip to actually brief drivers against — signing them onto a limit that isn't posted anywhere is signing them onto nothing.",
+      "prompt": "Post today's speed limit sign at the cell mouth, then log every driver's sign-off on the briefing before the first truck rolls.",
+      "targets": [
+        "speed-sign",
+        "briefing-log"
+      ],
+      "title": "Sign and enforce the haul-truck speed limit",
+      "why": "A speed limit that isn't posted and isn't tied to a signature is a number a driver can claim never to have heard — posting the sign is what makes the limit visible on the strip, and the sign-off is what makes it enforceable against a specific driver who is now on record as having heard it."
+    },
+    {
+      "cue": "Pull the tarp over the full bed and secure every corner before the truck rolls for the gate.",
+      "drag": {
+        "missNote": "Not pulled over the load — a tarp bunched at one corner leaves the rest of the bed open to the wind the moment the truck moves.",
+        "radius": 0.42,
+        "to": "truck-load-socket"
+      },
+      "id": "tarp",
+      "kind": "drag",
+      "prompt": "Pull the tarp over the full bed and secure every corner before the truck rolls for the gate.",
+      "target": "tarp-roll",
+      "title": "Tarp the load before it leaves the cell",
+      "why": "A loaded bed is a dust source the moment the truck starts moving, and this strip has no monitor watching a truck once it clears the cell — the tarp is what keeps this load from becoming its own uncontrolled release for every metre of road between here and the gate."
+    },
+    {
+      "cue": "Hold the wash running until the undercarriage and every tire run clear.",
+      "holdBreakNote": "Cut the wash short — the tires were still running dirty when it stopped. Hold it until they actually run clear.",
+      "id": "wheel-wash",
+      "kind": "hold",
+      "prompt": "Hold the wash running until the undercarriage and every tire run clear.",
+      "seconds": 5,
+      "target": "decon-wash",
+      "title": "Run the wheel wash at the gate",
+      "why": "Tracked soil off this cell is exactly what a wheel wash exists to stop before it reaches a public road — cutting the wash short means the truck carries the cell out through its tires no matter how well the load itself was tarped, and that track record sits on the public road until somebody sweeps it."
+    },
+    {
+      "cue": "Drive the sweeper along the frontage in overlapping passes, keeping speed inside the band.",
+      "holdBreakNote": "Sweep speed drifted out of the band — bring it back before the pass leaves a stretch of frontage half-cleaned.",
+      "id": "sweep",
+      "kind": "track",
+      "prompt": "Drive the sweeper along the frontage in overlapping passes, keeping speed inside the band.",
+      "seconds": 8,
+      "target": "street-sweeper",
+      "title": "Sweep the public road at shift's end",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "SWEEP PASS",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "A sweeper run too fast skips the same fine material a wheel wash occasionally lets through, and one run too slow leaves the crew still out on a public road well after the haul that justified the traffic control has stopped — the band is what actually clears a full shift's tracked soil in one pass down the frontage."
+    },
+    {
+      "cue": "Check the monitor readings against the wetting and sweeping passes actually logged, and sign the shift closed.",
+      "id": "log-reconcile",
+      "kind": "select",
+      "prompt": "Check the monitor readings against the wetting and sweeping passes actually logged, and sign the shift closed.",
+      "target": "monitor-log-board",
+      "title": "Reconcile the monitor log with the day's passes",
+      "why": "A clean monitor reading and a haul that actually ran to the plan are two different claims, and this is where they get checked against each other — a monitor log with no record of the passes that were supposed to keep it clean is a shift nobody can reconstruct if a reading is ever questioned later."
+    },
+    {
+      "cue": "Walk the swept stretch of public road and click the one patch that's still tracked.",
+      "id": "final-walk",
+      "itemNames": {
+        "tracked-patch": "tracked soil patch"
+      },
+      "itemNotes": {
+        "tracked-patch": "That patch of the public frontage still shows tire tracks in soil the sweep missed — exactly the material the wash and the tarp were supposed to keep off this stretch, sitting on it at the end of the shift."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the swept stretch of public road and click the one patch that's still tracked.",
+      "targets": [
+        "tracked-patch"
+      ],
+      "title": "Walk the frontage before signing off",
+      "why": "The sweep step and this walk are different skills — driving the sweeper down the frontage is not the same as noticing, from the ground, that one patch never actually got cleared. This is the last look before the shift is signed as clean."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Dust control on the haul road during a soil haul: monitors read against their action level, the road wetted on the plan's schedule, the load tarped and washed clean before the gate, and the alarm that stops the haul the moment the wind turns",
+  "title": "SmartCiti.X~ Haul Road Dust VR",
+  "trade": "Haul road dust control crew — Teamsters haul and water-truck drivers, LIUNA laborers, IUOE Local 3",
+  "underwater": null,
+  "weather": "wind"
+}

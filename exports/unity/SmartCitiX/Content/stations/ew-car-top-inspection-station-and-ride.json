@@ -1,0 +1,381 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "cartop-certified",
+    "name": "Car Top Certified",
+    "note": "A full inspection ride with the stop switch never unconfirmed and clearance checked at every stop"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "IUEC elevator constructors; NEIEP apprenticeship curriculum for car-top inspection procedure; ASME A17.1 the safety code for elevators and escalators, whose inspection-operation and clearance provisions this station follows; OSHA 29 CFR 1910.147 control of hazardous energy for the car-top station's own stop switch",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME A17.1",
+        "id": "asme-a17-1",
+        "title": "ASME A17.1 — Safety Code for Elevators and Escalators"
+      },
+      {
+        "body": "union",
+        "citedAs": "NEIEP",
+        "id": "neiep-training",
+        "title": "IUEC and the National Elevator Industry Educational Program (NEIEP) — elevator constructor apprenticeship and continuing education, taught to the National Elevator Industry Educational Program curriculum"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "switch-before-ride",
+        "name": "Switch Before Ride",
+        "note": "Never rode the car top before the stop switch was confirmed"
+      },
+      {
+        "id": "steady-ride",
+        "name": "Steady Ride",
+        "note": "Held both the ride speed and the clearance reading near band centre"
+      },
+      {
+        "id": "clean-exit",
+        "name": "Clean Exit",
+        "note": "Restored in the correct order, no correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "no-callback",
+        "name": "No Callback",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "ride-held",
+        "name": "Ride Held",
+        "note": "Never dropped out of the inspection speed band"
+      },
+      {
+        "id": "ride-fast",
+        "name": "Ride Fast",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "CLEARANCE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Helper",
+      "Car Top Mechanic",
+      "Adjuster",
+      "Lead Mechanic",
+      "Car Top Authority Certified"
+    ],
+    "system": "Car Top Authority"
+  },
+  "hazards": {
+    "cartop-edge-unrailed": "You leaned past the car-top rail before the car-top stop switch was confirmed engaged. The rail marks the edge; it does not stop the car, and a car that can still answer a call can carry you into the overhead the instant you are not braced for it.",
+    "crosshead-clearance-zone": "You stood directly under the crosshead before confirming the car was on inspection operation at reduced speed. Full clearance above the car assumes a car that stops the instant a button is released — at normal speed that assumption is not one a mechanic standing here gets to rely on.",
+    "traveling-cable-snag": "You put a hand near the traveling cable loop while the car was moving. That loop flexes against the hoistway wall on every trip it makes, and a hand caught between the cable and the wall at running speed does not have time to let go before it is pinned.",
+    "unattended-direction-switch": "You stepped away from the inspection station with the direction switch still engaged. A car that is still commanded to move the moment nobody's hand is on the switch is a car that can creep on its own, which is the exact failure inspection operation's constant-pressure controls exist to prevent."
+  },
+  "id": "ew-car-top-inspection-station-and-ride",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "ride-up",
+      "alert": "A hall call has just registered downstairs while you are still on top of the car mid-ride.",
+      "cue": "Prove the car-top stop switch is still holding before anything else.",
+      "delay": 4,
+      "id": "call-during-ride",
+      "kind": "Call registered",
+      "missNote": "The call sat there registered with the switch unconfirmed. If that switch had actually failed, the first sign would have been the car answering the call with a mechanic still standing on top of it.",
+      "seconds": 12,
+      "target": "cartop-stop-switch",
+      "why": "A registered call on a car that is supposed to be under inspection control means either the enable has failed or the switch was knocked off its detent somewhere in the ride — either way, nothing continues until the stop switch is confirmed still holding, with the mechanic's own hand on it.",
+      "wrongNote": "It is the car-top stop switch. A call registering on a car that should not be answering anything is the only thing worth checking right now."
+    },
+    {
+      "after": "cable-inspect",
+      "alert": "Someone at the controller has just tried to switch this car back to normal operation while you are still on the roof.",
+      "cue": "Reassert the enable switch before this car answers anything but you.",
+      "delay": 4,
+      "id": "normal-op-attempt",
+      "kind": "Normal operation attempted",
+      "missNote": "The attempt to switch back to normal operation went unanswered. A car that starts taking lobby calls with a mechanic still on its roof is exactly the failure inspection operation exists to prevent.",
+      "seconds": 11,
+      "target": "enable-switch",
+      "why": "Inspection operation only holds this car to the roof station as long as the enable switch says so, and somebody at the controller who does not know a mechanic is still up here has just tried to hand control back to the lobby. The enable switch gets reasserted before anything else happens.",
+      "wrongNote": "It is the enable switch. Whoever is at the controller needs this car to stay yours until you are off it, not theirs."
+    }
+  ],
+  "lateNotes": {
+    "clearance-gauge": "Clearance is only read once the car has actually stopped, not while it is still moving.",
+    "ride-control": "The ride only runs once the stop switch, the enable and a direction have all been confirmed in that order."
+  },
+  "name": "Car Top Inspection Station and Ride",
+  "parSeconds": 255,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "elevator-constructors"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "car-top-hatch",
+      "cartop-edge-unrailed",
+      "cartop-log",
+      "cartop-stop-switch",
+      "clearance-gauge",
+      "crosshead-clearance-zone",
+      "damaged-traveling-cable",
+      "direction-selector",
+      "enable-switch",
+      "inspection-permit",
+      "job-ticket",
+      "landing-zone-gauge",
+      "loose-door-hanger",
+      "narrow-crosshead-gap",
+      "ride-control",
+      "traveling-cable",
+      "traveling-cable-snag",
+      "unattended-direction-switch"
+    ],
+    "meshes": 152
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the job ticket and confirm which car this inspection ride is for.",
+      "id": "checkin",
+      "kind": "select",
+      "prompt": "Read the job ticket and confirm which car this inspection ride is for.",
+      "target": "job-ticket",
+      "title": "Check in at the machine room",
+      "why": "A building can run several cars from machine rooms close enough together that a mechanic can lose track of which one they isolated, and the ticket is read here so the car actually ridden is the car actually taken out of service for everyone else."
+    },
+    {
+      "cue": "Read the work order and confirm landing signage is posted before the hatch opens.",
+      "id": "permit",
+      "kind": "select",
+      "prompt": "Read the work order and confirm landing signage is posted before the hatch opens.",
+      "target": "inspection-permit",
+      "title": "Post the inspection work order",
+      "why": "Every landing this car serves gets signage before the hatch opens, because a passenger who presses a call button during this ride has no way of knowing there is a mechanic standing on the roof of the car that would have answered it."
+    },
+    {
+      "cue": "Read the landing-zone indicator and commit once the car sits inside the level band.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.56
+        ],
+        "label": "LANDING ZONE",
+        "missNote": "Not level. Bring the car back into the zone before anyone steps across onto it.",
+        "speed": 0.6
+      },
+      "id": "level-check",
+      "kind": "gauge",
+      "prompt": "Read the landing-zone indicator and commit once the car sits inside the level band.",
+      "target": "landing-zone-gauge",
+      "title": "Confirm the car is level with the landing",
+      "why": "Stepping across a threshold onto a car top assumes that threshold and the car are actually level with each other, and a car parked a little off from re-leveling is a step down or up nobody is expecting with their hands full of tools. It is checked on the indicator, not guessed from how the sill looks."
+    },
+    {
+      "cue": "Open the hatch and step onto the car top.",
+      "id": "cartop-access",
+      "kind": "select",
+      "prompt": "Open the hatch and step onto the car top.",
+      "target": "car-top-hatch",
+      "title": "Open the car-top access",
+      "why": "The hatch is opened from the landing with the car already at that floor, never climbed through while the car is between floors. Once it is open, everything about this car's next move is decided from the station standing on its roof, not from a button in the lobby."
+    },
+    {
+      "cue": "Look over the crosshead, the traveling cable and the door hangers. Three things need fixing before this car moves.",
+      "id": "crosshead-inspect",
+      "itemNames": {
+        "damaged-traveling-cable": "traveling cable jacket with visible wear",
+        "loose-door-hanger": "a door hanger roller riding loose",
+        "narrow-crosshead-gap": "a crosshead clearance that looks tight"
+      },
+      "itemNotes": {
+        "damaged-traveling-cable": "A worn traveling cable jacket exposes the conductors inside it to exactly the flexing and chafing the jacket was there to absorb, and that wear only gets worse with every trip the car makes.",
+        "loose-door-hanger": "A hanger roller riding loose in its track is how a door starts binding, and it is far easier to see from the roof of the car than from inside the cab.",
+        "narrow-crosshead-gap": "A crosshead clearance that reads tight against the car's own data plate gets measured properly and written up before the car rides through it again — not eyeballed and left for the next visit."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the crosshead, the traveling cable and the door hangers. Three things need fixing before this car moves.",
+      "targets": [
+        "narrow-crosshead-gap",
+        "damaged-traveling-cable",
+        "loose-door-hanger"
+      ],
+      "title": "Walk the car top before riding it",
+      "why": "Everything on this car top is inspected standing still, before it is trusted while moving — a defect that is easy to catch with the car parked is much harder to catch on a ride that is also asking a mechanic to watch overhead clearance and mind their footing."
+    },
+    {
+      "cue": "Confirm the car-top inspection station's enable switch is ON.",
+      "id": "inspection-enable",
+      "kind": "select",
+      "prompt": "Confirm the car-top inspection station's enable switch is ON.",
+      "target": "enable-switch",
+      "title": "Arm the inspection station",
+      "why": "Enable is what hands control of this car to the station under the mechanic's own hand, cutting out the automatic calls and the door operator along with it. Nothing about this car answers the lobby again until this same station releases it."
+    },
+    {
+      "cue": "Confirm the car-top stop switch is ON before anyone commits weight to the car top rail.",
+      "id": "stop-switch",
+      "kind": "select",
+      "prompt": "Confirm the car-top stop switch is ON before anyone commits weight to the car top rail.",
+      "target": "cartop-stop-switch",
+      "title": "Confirm the car-top stop switch",
+      "why": "This switch is independent of the enable switch and of anything in the machine room, and it protects the one person standing where a machine room isolation cannot reach — on top of the car itself, where the only control that matters is the one within arm's reach."
+    },
+    {
+      "cue": "Turn the direction selector to UP before touching the run control.",
+      "id": "direction-select",
+      "kind": "turn",
+      "prompt": "Turn the direction selector to UP before touching the run control.",
+      "target": "direction-selector",
+      "title": "Select a direction",
+      "turn": {
+        "axis": "z",
+        "label": "DIRECTION",
+        "turns": 0.2
+      },
+      "why": "The selector is set deliberately, watching which way it is pointed, rather than nudged and corrected once the car starts moving — a car that starts moving the wrong direction on inspection operation is still moving, and the crosshead clearance above it is not designed around a mechanic's surprise."
+    },
+    {
+      "cue": "Hold the run control and keep the car's speed inside the inspection speed band as it climbs.",
+      "holdBreakNote": "You let go and the car stopped, which is exactly what constant pressure is for. Take the control again and hold the speed in band for the rest of the climb.",
+      "id": "ride-up",
+      "kind": "track",
+      "prompt": "Hold the run control and keep the car's speed inside the inspection speed band as it climbs.",
+      "seconds": 8,
+      "target": "ride-control",
+      "title": "Ride up on inspection speed",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "INSPECTION SPEED",
+        "rise": 0.55,
+        "start": 0.15
+      },
+      "why": "Inspection speed is slow enough that the car top's own momentum is never the danger; what is dangerous is a mechanic who lets the speed creep toward normal operation because the ride feels routine by the fourth floor. The band is watched the whole way, not just at the start."
+    },
+    {
+      "cue": "Stop level with the tight spot and commit the clearance reading against the car's data plate minimum.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "CROSSHEAD CLEARANCE",
+        "missNote": "Below the data plate minimum. This gets written up and escalated before the car goes back to normal operation, not adjusted from the car top.",
+        "speed": 0.55
+      },
+      "id": "overhead-clearance",
+      "kind": "gauge",
+      "prompt": "Stop level with the tight spot and commit the clearance reading against the car's data plate minimum.",
+      "target": "clearance-gauge",
+      "title": "Measure the crosshead clearance",
+      "why": "A clearance that looked tight from below is measured properly now that the car is actually stopped there — a number against the data plate's own minimum, not an impression carried up from the crosshead-inspect walk."
+    },
+    {
+      "cue": "Look over the traveling cable's loop and hitch point now that the car is stopped beside it.",
+      "id": "cable-inspect",
+      "kind": "select",
+      "prompt": "Look over the traveling cable's loop and hitch point now that the car is stopped beside it.",
+      "target": "traveling-cable",
+      "title": "Check the traveling cable loop",
+      "why": "The loop is checked stopped, at a point in the travel most inspections never pause at, because a cable that chafes against the hoistway wall does it at a handful of specific points in the run and a routine ride from the lobby never stops there to look."
+    },
+    {
+      "cue": "Turn the direction selector to DOWN, then hold the run control and keep the speed in band on the way back.",
+      "holdBreakNote": "You let go and the car stopped, which is exactly what constant pressure is for. Take the control again and hold the speed in band for the rest of the descent.",
+      "id": "ride-down",
+      "kind": "track",
+      "prompt": "Turn the direction selector to DOWN, then hold the run control and keep the speed in band on the way back.",
+      "seconds": 7,
+      "target": "ride-control",
+      "title": "Ride back down on inspection speed",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "INSPECTION SPEED",
+        "rise": 0.55,
+        "start": 0.15
+      },
+      "why": "The return trip gets the same discipline as the climb — the inspection speed band watched the whole way — because the car top does not know the difference between a mechanic paying attention on the way up and one who has relaxed on the way down."
+    },
+    {
+      "cue": "Neutral the direction selector, release the car-top stop switch, then release the enable switch.",
+      "id": "exit-restore",
+      "itemNames": {
+        "cartop-stop-switch": "car-top stop switch",
+        "direction-selector": "direction selector",
+        "enable-switch": "enable switch"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — direction to neutral first, then the stop switch once you are clear, and the enable switch released last.",
+      "prompt": "Neutral the direction selector, release the car-top stop switch, then release the enable switch.",
+      "targets": [
+        "direction-selector",
+        "cartop-stop-switch",
+        "enable-switch"
+      ],
+      "title": "Stand the car top down in the correct order",
+      "why": "Direction comes off first so the car cannot be commanded to move by anything left engaged; the stop switch is released only once the mechanic is already at the hatch and clear; the enable switch is released last because it is what has been keeping this car answering to the roof and nowhere else."
+    },
+    {
+      "cue": "Write the clearance reading and today's findings on the car-top log.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Write the clearance reading and today's findings on the car-top log.",
+      "target": "cartop-log",
+      "title": "Log the inspection ride",
+      "why": "The next mechanic who rides this car top reads this log before they ride it themselves, and a clearance number that goes unwritten today is a number somebody else has to remeasure from a standing start."
+    }
+  ],
+  "supportLine": "your IUEC local's member assistance programme, or the NEIEP training coordinator for anything about the certification record",
+  "tagline": "Riding the car top on inspection operation: enable, stop switch, direction, crosshead clearance, traveling cable and door hangers checked from above",
+  "title": "SmartCiti.X~ Car Top Inspection Station and Ride VR",
+  "trade": "Elevator constructor / mechanic — IUEC",
+  "underwater": null,
+  "weather": null
+}

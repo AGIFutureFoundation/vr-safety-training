@@ -1,0 +1,436 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "field-proven",
+    "name": "Field Proven",
+    "note": "A communication test, a proven-dead fan circuit, a vacuum verified at every point against design, and an indoor-air sample sealed under chain of custody — all clean"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "UA Local 38 plumbers and pipefitters on the piping and vessel work; IBEW Local 6 electricians on the fan circuit under OSHA 29 CFR 1910.147 control of hazardous energy; LIUNA hazmat laborers on cuttings and waste handling; system design and commissioning per ASTM E2121 sub-slab depressurisation practice, the EPA OSWER vapor intrusion technical guide, and California DTSC's vapor intrusion guidance",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "DTSC",
+        "citedAs": "DTSC",
+        "id": "dtsc-hazardous-waste-control",
+        "title": "California Department of Toxic Substances Control — state hazardous waste control rules and oversight of contaminated-site cleanups"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBEW Local 6",
+        "id": "ibew-local6-training",
+        "title": "IBEW Local 6 apprenticeship and training, as a training body"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UA",
+        "id": "ua-apprenticeship",
+        "title": "UA — United Association plumber, pipefitter and HVAC service apprenticeship standards and UA Star certification"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Building Systems",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "proven-dead-first",
+        "name": "Proven Dead First",
+        "note": "The fan circuit was locked, tagged and proven dead before the housing was ever touched"
+      },
+      {
+        "id": "never-in-live",
+        "name": "Never In Live",
+        "note": "The housing was never opened live and the discharge never landed near an intake"
+      },
+      {
+        "id": "vacuum-true",
+        "name": "Vacuum True",
+        "note": "Held the manometer and vacuum readings near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-commission",
+        "name": "Clean Commission",
+        "note": "No corrections anywhere in the commissioning run"
+      },
+      {
+        "id": "steady-field",
+        "name": "Steady Field",
+        "note": "Held the communication test in band without a dropout"
+      },
+      {
+        "id": "system-live-fast",
+        "name": "System Live",
+        "note": "Placard signed inside 80% of par"
+      }
+    ],
+    "currency": "IN.WC",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Installer I",
+      "Installer II",
+      "Lead Installer",
+      "System Commissioner",
+      "Vapor Intrusion Certified"
+    ],
+    "system": "Vapor Intrusion Control"
+  },
+  "hazards": {
+    "discharge-near-intake": "You routed the discharge toward the low vent instead of above the eave. ASTM E2121 and the EPA's vapor intrusion guidance both require the fan discharge clear of any door, window or air intake specifically so the vapor it just pulled out of the sub-slab does not walk straight back into the building — or the one next door — on the next gust.",
+    "housing-live": "You reached into the fan's terminal housing before its circuit was proven dead. OSHA's 29 CFR 1910.147 exists exactly for this moment: a fan motor's terminal block carries line voltage until somebody has actually locked the breaker, tagged it and tested it dead, and 'it's probably off' is not a control — it is a guess made with a hand inside an energised enclosure.",
+    "tape-not-seal": "You reached for the tape to close the slab crack instead of a proper mechanical or urethane seal. A sub-slab depressurisation system only works if the vacuum field it pulls stays under the slab; a taped crack peels the first time the slab flexes with the season, and the system starts pulling conditioned building air instead of soil vapor without ever telling anyone it failed.",
+    "wrench-riser": "You reached for the pipe wrench on a solvent-welded PVC riser. This joint is sized and torqued by the design, by hand, not by however hard a wrench can turn it — over-torquing a schedule-40 PVC coupling cracks the fitting, and a crack in a vacuum riser never shows itself until the fan is straining to hold a field it cannot reach."
+  },
+  "id": "vapor-mitigation",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "comm-test",
+      "alert": "TP-3, the farthest test point on the print, just dropped to zero on the micromanometer while the rest are holding steady.",
+      "cue": "Something between here and the far corner just gave the vacuum field a shortcut to the room.",
+      "delay": 5,
+      "id": "sump-air-loss",
+      "kind": "Test point lost communication",
+      "missNote": "TP-3 never came back before the window closed. A communication test that was allowed to keep running past a lost test point is a design that gets certified over a gap the crew already knew about, and the gap is exactly where the system will fail to protect the room above it.",
+      "seconds": 14,
+      "target": "sump-lid-open",
+      "why": "A sub-slab vacuum field only extends as far as the slab stays airtight, and the floor drain sump beside the far wall has an unsealed lid sitting right on that flow path. An open sump is a straw from the sub-slab straight into the room air, and it will always win the vacuum ahead of a test point three metres further under the slab — reseal it now or the field extension test you are running is measuring the sump, not the system.",
+      "wrongNote": "That does not touch the leak. The sump lid beside the far wall is what is shorting the field — reseal it."
+    },
+    {
+      "after": "air-sample",
+      "alert": "The breaker for the fan circuit has just tripped to OFF — somebody in the building has been in the panel while the crew's back was turned.",
+      "cue": "The sample in your hand is only good for as long as the fan the room is being sampled under is actually running.",
+      "delay": 4,
+      "id": "occupant-breaker",
+      "kind": "Fan circuit switched off",
+      "missNote": "The fan stayed off for the rest of the hold. The sample that came out of that hold cannot honestly be labelled 'system operating' — the lab has no way to know it, and the report that goes out with it would be wrong in a way nobody could catch later.",
+      "seconds": 13,
+      "target": "fan-breaker",
+      "why": "The indoor-air sample is supposed to represent the building under the mitigated condition — fan running, sub-slab under vacuum — and every second the fan is off during that hold, the sample is drifting back toward the unmitigated condition it was drawn to disprove. Restoring the breaker now is the only way the sample in progress still means what it is labelled to mean.",
+      "wrongNote": "That does not restore the fan. The breaker on the panel is what somebody just switched off."
+    }
+  ],
+  "lateNotes": {
+    "air-sample-pump": "The indoor-air sample is the last field task, after the system is verified holding vacuum at every point — a sample taken before that proves nothing about the mitigated condition.",
+    "ops-placard": "The placard is signed after the sample is in hand and logged, not before — it is a record that the system was proven, not a promise that it will be.",
+    "riser-coupling": "The coupling goes together after the fan is actually hung on its hangers — sealing a joint to a fan that is still on the cart just means doing it twice.",
+    "utube-manometer": "The manometer is set once the fan is powered, wired and actually running — reading it on a dead system tells you nothing but zero."
+  },
+  "name": "Vapor Mitigation",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-bay-restoration"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "air-sample-pump",
+      "alarm-dial",
+      "close-housing",
+      "design-print",
+      "discharge-near-intake",
+      "discharge-pipe",
+      "eave-termination",
+      "fan-breaker",
+      "fan-hanger-socket",
+      "fan-unit",
+      "housing-live",
+      "label-sample",
+      "land-ground",
+      "land-hot",
+      "land-neutral",
+      "lock-tag",
+      "micromanometer",
+      "ops-placard",
+      "riser-coupling",
+      "seal-sample",
+      "slab-crack",
+      "sump-lid-open",
+      "tape-not-seal",
+      "utube-manometer",
+      "vacuum-gauge",
+      "verify-dead",
+      "wrench-riser"
+    ],
+    "meshes": 174
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the test point locations, the design's minimum sub-slab vacuum and the fan and discharge specification before anything is touched.",
+      "id": "design",
+      "kind": "select",
+      "prompt": "Check the test point locations, the design's minimum sub-slab vacuum and the fan and discharge specification before anything is touched.",
+      "target": "design-print",
+      "title": "Read the mitigation design",
+      "why": "The print is what says how many test points prove this system, what vacuum counts as holding at each one, and where the discharge is allowed to terminate. None of that is decided on site by feel — it was sized to the plume and the slab this building actually sits on."
+    },
+    {
+      "cue": "Look over the slab and the floor penetrations and click what needs sealing before the communication test.",
+      "id": "walkdown",
+      "itemNames": {
+        "slab-crack": "unsealed slab penetration",
+        "sump-lid-open": "open floor-drain sump lid"
+      },
+      "itemNotes": {
+        "slab-crack": "This control-joint crack runs straight to the sub-slab gravel the system depends on. Left open, it is a second uncontrolled inlet the fan has to compete with, and the vacuum field will always find the shorter path first.",
+        "sump-lid-open": "The floor-drain sump lid is sitting ajar rather than seated and gasketed. A sump like this is plumbed straight into the same sub-slab void the system is trying to hold a vacuum on, and an open lid gives that vacuum a much easier way out than through the slab."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the slab and the floor penetrations and click what needs sealing before the communication test.",
+      "targets": [
+        "slab-crack",
+        "sump-lid-open"
+      ],
+      "title": "Walk the room before the system goes live",
+      "why": "Every uncontrolled opening in this floor is a path the vacuum field will take instead of the path the design intended. Finding them now, before the fan ever runs, is the difference between commissioning a system and troubleshooting one that never worked."
+    },
+    {
+      "cue": "Hold the temporary suction at the pit steady while the micromanometer differential across the design's test points climbs into and holds the band.",
+      "holdBreakNote": "The field dropped out of band — the differential collapsed before every test point proved connected. Bring it back and hold until the whole slab reads together.",
+      "id": "comm-test",
+      "kind": "track",
+      "prompt": "Hold the temporary suction at the pit steady while the micromanometer differential across the design's test points climbs into and holds the band.",
+      "seconds": 8,
+      "target": "micromanometer",
+      "title": "Run the sub-slab communication test",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "FIELD ΔP",
+        "rise": 0.55,
+        "start": 0.12
+      },
+      "why": "This is the whole premise of the system proven before the fan is ever installed: that the sub-slab is one pneumatically connected space, so that one fan pulling on one pit actually reaches every test point on the print. A system installed on a slab that never passed this test is a fan pulling on a pocket of gravel, not the plume underneath the building."
+    },
+    {
+      "cue": "Open the breaker, lock and tag it, then test the leads dead — in that order — before the fan housing is touched.",
+      "id": "isolate-fan",
+      "itemNames": {
+        "fan-breaker": "fan circuit breaker opened",
+        "lock-tag": "lock and tag applied",
+        "verify-dead": "circuit tested dead"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Open the breaker first, then lock and tag it, then test the leads dead. Testing a circuit nobody has locked out yet proves nothing about what happens the moment you look away.",
+      "prompt": "Open the breaker, lock and tag it, then test the leads dead — in that order — before the fan housing is touched.",
+      "targets": [
+        "fan-breaker",
+        "lock-tag",
+        "verify-dead"
+      ],
+      "title": "Prove the fan circuit dead before the housing opens",
+      "why": "Open, then lock and tag, then test: that order is 1910.147 itself. A breaker left merely open can be closed by anyone who does not see a tag on it, and a circuit that has never actually been tested is only assumed dead — the fan's own terminal block is the last thing to trust that assumption on."
+    },
+    {
+      "cue": "Carry the fan from the cart to the strap hangers below the joist and set it square on the riser line.",
+      "drag": {
+        "missNote": "Not on the hangers — the fan seats on the strap hangers below the joist, in line with the riser, not wherever it lands.",
+        "radius": 0.4,
+        "to": "fan-hanger-socket"
+      },
+      "id": "hang-fan",
+      "kind": "drag",
+      "prompt": "Carry the fan from the cart to the strap hangers below the joist and set it square on the riser line.",
+      "target": "fan-unit",
+      "title": "Hang the fan on its hangers",
+      "why": "The fan hangs on its own strap hangers, isolated from the riser it connects to, so the piping is never carrying the fan's weight or its vibration. A fan resting on the pipe instead of its hangers eventually cracks the very joint it depends on to pull a vacuum."
+    },
+    {
+      "cue": "Turn the coupling by hand to the design's mark, joining the fan inlet to the pipe rising from the sub-slab pit.",
+      "id": "seal-riser",
+      "kind": "turn",
+      "prompt": "Turn the coupling by hand to the design's mark, joining the fan inlet to the pipe rising from the sub-slab pit.",
+      "target": "riser-coupling",
+      "title": "Make up the riser coupling",
+      "turn": {
+        "axis": "y",
+        "label": "RISER COUPLING",
+        "turns": 0.6
+      },
+      "why": "This joint is what carries the entire vacuum the fan generates down to the pit and the gravel beneath it. Made up to the design's mark by hand it seals; short of it, it leaks air the fan then wastes its whole capacity drawing through instead of through the slab."
+    },
+    {
+      "cue": "Land ground, then neutral, then hot, then close and latch the housing — in that order.",
+      "id": "wire-fan",
+      "itemNames": {
+        "close-housing": "housing closed and latched",
+        "land-ground": "ground landed",
+        "land-hot": "hot landed",
+        "land-neutral": "neutral landed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Ground, then neutral, then hot, then close the housing. The hot conductor is landed last precisely so nobody is holding it any longer than the job requires.",
+      "prompt": "Land ground, then neutral, then hot, then close and latch the housing — in that order.",
+      "targets": [
+        "land-ground",
+        "land-neutral",
+        "land-hot",
+        "close-housing"
+      ],
+      "title": "Land the fan's leads and close the housing",
+      "why": "Ground first and hot last is the whole point of the order: a ground that is already landed protects everyone working the rest of the box, and the hot conductor is the one you want in your hand for the shortest time possible, connected last with the circuit already proven dead."
+    },
+    {
+      "cue": "Remove the lock and tag and close the breaker now that the housing is closed and latched.",
+      "id": "restore-power",
+      "kind": "select",
+      "prompt": "Remove the lock and tag and close the breaker now that the housing is closed and latched.",
+      "target": "fan-breaker",
+      "title": "Restore the fan circuit",
+      "why": "Power comes back only once the housing is closed — a fan proven dead for the wiring stays proven dead until there is nothing left inside it for a hand to reach, which is exactly what a closed and latched housing means."
+    },
+    {
+      "cue": "Carry the discharge riser up and set it in the termination clear of the eave line and well away from the intake louvre.",
+      "drag": {
+        "missNote": "Not clear of the roofline — the discharge terminates above the eave, away from every intake, not at whatever fitting is closest.",
+        "radius": 0.4,
+        "to": "eave-termination"
+      },
+      "id": "discharge-route",
+      "kind": "drag",
+      "prompt": "Carry the discharge riser up and set it in the termination clear of the eave line and well away from the intake louvre.",
+      "target": "discharge-pipe",
+      "title": "Route the discharge above the eave",
+      "why": "Everything this fan pulls out of the sub-slab has to go somewhere that is not back into this building or the one beside it. Terminated above the eave and clear of any intake, it disperses; terminated low or near a louvre, the system spends its whole life feeding the exact vapor intrusion it exists to stop back through the nearest open window."
+    },
+    {
+      "cue": "Zero the u-tube manometer with the fan running and commit the reading once it settles.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "SYSTEM ΔP",
+        "missNote": "Outside the operating band the design calls for. Let the fan settle and read it again before calling the manometer set.",
+        "speed": 0.7
+      },
+      "id": "set-manometer",
+      "kind": "gauge",
+      "prompt": "Zero the u-tube manometer with the fan running and commit the reading once it settles.",
+      "target": "utube-manometer",
+      "title": "Set the system manometer",
+      "why": "The manometer is the system's own permanent readout — the thing a building engineer glances at every day long after this crew has left. Set correctly now, a falling reading months from now is the first and only warning that the system has stopped protecting the building."
+    },
+    {
+      "cue": "Dial the low-vacuum alarm to the design's set point below the reading the manometer just proved.",
+      "id": "alarm-setpoint",
+      "kind": "turn",
+      "prompt": "Dial the low-vacuum alarm to the design's set point below the reading the manometer just proved.",
+      "target": "alarm-dial",
+      "title": "Set the alarm set point",
+      "turn": {
+        "axis": "y",
+        "label": "ALARM SET POINT",
+        "turns": 0.5
+      },
+      "why": "The alarm is what tells a building engineer the fan has failed on a Tuesday afternoon rather than the system quietly doing nothing until the next annual inspection finds it. Set below the proven operating point, it trips on an actual loss of vacuum instead of on the system's own normal fluctuation."
+    },
+    {
+      "cue": "Read the weakest of the design's test points against its stated minimum and commit only once every point holds.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.64
+        ],
+        "label": "WEAKEST TEST POINT",
+        "missNote": "Below the design's minimum at that point. The field does not reach that far yet — check the riser and the seals before calling this system verified.",
+        "speed": 0.68
+      },
+      "id": "verify-vacuum",
+      "kind": "gauge",
+      "prompt": "Read the weakest of the design's test points against its stated minimum and commit only once every point holds.",
+      "target": "vacuum-gauge",
+      "title": "Verify vacuum at every test point",
+      "why": "The communication test proved the slab is one connected space; this is the proof the running system actually holds the design's minimum vacuum at the point furthest from the pit, which is the point that fails first if anything is wrong. A system that holds at the pit and fails at the far corner is a system that has not been verified at all."
+    },
+    {
+      "cue": "Hold the sample pump running for the full duration with the system operating.",
+      "holdBreakNote": "The pump came off before the full duration ran — a partial draw is not a representative sample. Reset the canister and hold the complete duration again.",
+      "id": "air-sample",
+      "kind": "hold",
+      "prompt": "Hold the sample pump running for the full duration with the system operating.",
+      "seconds": 6,
+      "target": "air-sample-pump",
+      "title": "Take the indoor-air sample",
+      "why": "This canister is what actually answers the question the whole job exists to answer: is the air in this building, right now, with the system running, safe to breathe. Every other reading in this station is a proxy for this one."
+    },
+    {
+      "cue": "Label the canister, then apply the custody seal.",
+      "id": "coc",
+      "itemNames": {
+        "label-sample": "canister labelled with location, date and time",
+        "seal-sample": "custody seal applied"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Label the canister first, then seal it — the seal is what proves the label on it has not been swapped since.",
+      "prompt": "Label the canister, then apply the custody seal.",
+      "targets": [
+        "label-sample",
+        "seal-sample"
+      ],
+      "title": "Label and seal the sample's chain of custody",
+      "why": "An unlabelled or unsealed canister is a result nobody downstream can trust to be this room, on this day, under this system's operation — and a mitigation system's whole case rests on a sample the lab and the regulator both believe."
+    },
+    {
+      "cue": "Sign and post the placard naming the design vacuum, the alarm set point and who to call if it trips.",
+      "id": "sign-placard",
+      "kind": "select",
+      "prompt": "Sign and post the placard naming the design vacuum, the alarm set point and who to call if it trips.",
+      "target": "ops-placard",
+      "title": "Sign the operations and maintenance placard",
+      "why": "This placard is the only part of the whole job that stays in the room after the crew leaves. A building engineer who finds the alarm tripped six months from now acts on what this placard says, not on what anyone remembers about today."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Commissioning a sub-slab depressurisation system: communication proven at every test point, the fan circuit proven dead before the housing opens, the fan hung and vented clear of any intake, the vacuum verified against design, and an indoor-air sample sealed under chain of custody",
+  "title": "SmartCiti.X~ Vapor Mitigation VR",
+  "trade": "Sub-slab depressurisation system installer",
+  "underwater": null,
+  "weather": "overcast"
+}

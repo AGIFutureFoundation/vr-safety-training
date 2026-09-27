@@ -1,0 +1,401 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "point-set",
+    "name": "Point Set",
+    "note": "One point found, calculated, hung and tagged — over a floor nobody was standing on"
+  },
+  "category": "Entertainment & Live Events",
+  "certification": "IATSE stage locals — ETCP Certified Rigger (Arena); the ESTA E1 series for entertainment rigging practice; OSHA 29 CFR 1926 Subpart M fall protection; the venue's rigging grid drawing and the production's rigging plot as the governing documents",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ETCP",
+        "citedAs": "ETCP",
+        "id": "etcp-certification",
+        "title": "ETCP Certified Rigger (Arena and Theatre) and Certified Entertainment Electrician credentials"
+      },
+      {
+        "body": "union",
+        "citedAs": "IATSE",
+        "id": "iatse-training-trust",
+        "title": "IATSE Training Trust Fund — stagecraft, rigging and entertainment electrical skills training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Live events",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "called-and-confirmed",
+        "name": "Called And Confirmed",
+        "note": "Point called off the plot, counted in the steel and confirmed back before anything was hung"
+      },
+      {
+        "id": "nothing-underneath",
+        "name": "Nothing Underneath",
+        "note": "Never dropped anything and never worked over an open floor"
+      },
+      {
+        "id": "arithmetic-not-feeling",
+        "name": "Arithmetic, Not Feeling",
+        "note": "Leg tension and beam side pull both read inside the plot's figures"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-point",
+        "name": "Clean Point",
+        "note": "The whole point set with no corrections"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Every line held for its full count"
+      },
+      {
+        "id": "ahead-of-the-call",
+        "name": "Ahead Of The Call",
+        "note": "Point set and tagged inside 80% of par"
+      }
+    ],
+    "currency": "POINT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Rigger",
+      "Down-Rigger",
+      "Up-Rigger",
+      "Head Rigger",
+      "High Steel Certified"
+    ],
+    "system": "High Steel Authority"
+  },
+  "hazards": {
+    "free-transition": "You unhooked both legs to get past the purlin. Continuous attachment means one leg is always on something before the other comes off; the transition is the only moment in the whole shift where a rigger is genuinely free, and it is the moment they fall in.",
+    "hung-anchor": "You clipped your lanyard to the point you are hanging. An anchorage is structure — a beam, a purlin, a column — and nothing else. A sling, a shackle, a motor chain or a point somebody else hung is a load path that is there because somebody put it there this morning, and it can come out the same way.",
+    "last-show-mark": "You hung off the paint mark the last show left on the steel. That mark records where somebody else's point went, with somebody else's load, possibly before the venue's drawing was revised. What this beam will take comes off the venue's rigging grid drawing, and nothing else.",
+    "loose-tool": "You took an untethered wrench out onto the beam. Anything carried into the steel is tethered or it is not carried, because the floor below fills with crew, forklifts and eventually an audience, and a dropped shackle from roof height arrives with no warning at all.",
+    "open-floor": "You called for the drop line over a floor that was still open. Nothing comes down — not a rope, not a tape, not a shackle — until the area under the point is taped off and somebody on the ground is watching it and has said so."
+  },
+  "id": "arena-rigging",
+  "indoor": "theatre",
+  "interrupts": [
+    {
+      "after": "carry",
+      "alert": "A forklift and two hands have come through the tape and stopped directly under your point, looking at their own paperwork.",
+      "cue": "There are people under you.",
+      "delay": 3,
+      "id": "floor-breach",
+      "kind": "Drop zone breached",
+      "missNote": "You carried on working with three people and a machine under the point. Nothing came off the beam this time, which is the only reason it ended as a story rather than a fatality — the entire protection those people had was that you did not fumble a shackle in the next forty seconds.",
+      "seconds": 12,
+      "target": "all-stop",
+      "why": "Everything an up-rigger does assumes the floor below is empty. The moment it is not, the job stops — not slows, stops — because there is no version of working over somebody's head that is made safe by being careful. All-stop first, then the zone gets re-established and the spotter gets their authority back.",
+      "wrongNote": "It is the all-stop. Anything else you do next is work carried out over people's heads, and there is no safe way to do that."
+    },
+    {
+      "after": "basket",
+      "alert": "The other crew has just called a second point into the next bay along — onto the same beam you are hanging off.",
+      "cue": "Your beam is about to carry somebody else's point too.",
+      "delay": 3,
+      "id": "beam-shared",
+      "kind": "Second point on your beam",
+      "missNote": "Both points went onto the same beam with nobody totalling them. The beam may well have been fine — but the way you found out was by hanging them and watching, and the deflection that tells you it was not fine arrives with two shows' worth of motors already in the air underneath it.",
+      "seconds": 12,
+      "target": "grid-drawing",
+      "why": "Capacity is not only per point, it is per beam. Two points that are each comfortably inside the per-point figure can put the beam over its total, and neither crew sees it because each is only looking at their own number. The grid drawing is the only document that adds them up, so it is the one that gets opened before the second point goes on.",
+      "wrongNote": "It is the venue's rigging grid drawing. The question is what the beam is allowed to carry in total, and only that drawing answers it."
+    }
+  ],
+  "lateNotes": {
+    "drop-line": "The drop line comes down on the floor's call, once the area under the point is taped off and watched.",
+    "steel-bag": "Steel goes out to the beam after the point is confirmed and the bridle has been worked out on the plot."
+  },
+  "name": "Arena Rigging",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "all-stop",
+      "bay-count",
+      "beam-anchor",
+      "beam-load",
+      "beam-seat",
+      "bridle-calc",
+      "clear-call",
+      "comms-check",
+      "drop-line",
+      "drop-zone-tape",
+      "floor-spotter",
+      "free-transition",
+      "grid-drawing",
+      "harness-check",
+      "haul-line",
+      "hung-anchor",
+      "last-show-mark",
+      "loose-tool",
+      "open-floor",
+      "plumb-drop",
+      "point-call",
+      "point-tag",
+      "rig-plot",
+      "shackle-pin",
+      "sharp-edge",
+      "spare-shackle",
+      "steel-bag",
+      "tool-tether"
+    ],
+    "meshes": 270
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Find your point on the plot: its number, its bay, what hangs on it and how it is made.",
+      "id": "plot",
+      "kind": "select",
+      "prompt": "Find your point on the plot: its number, its bay, what hangs on it and how it is made.",
+      "target": "rig-plot",
+      "title": "Take the production's rigging plot",
+      "why": "Every point on a load-in exists on one document, drawn by the production's rigging designer. The point number, the bay it lands in, the load it carries and whether it is a dead-hang or a bridle are all decided there, before anybody leaves the floor."
+    },
+    {
+      "cue": "Bay numbering, the beams in your bay, what a point and a beam are allowed to carry here, and the no-hang zones.",
+      "id": "grid",
+      "kind": "select",
+      "prompt": "Bay numbering, the beams in your bay, what a point and a beam are allowed to carry here, and the no-hang zones.",
+      "target": "grid-drawing",
+      "title": "Read the venue's rigging grid drawing",
+      "why": "The plot says what the show wants. The grid drawing says what this building will give it — per point and per beam, from the engineer who signed the drawing. When the two disagree, the building wins, and the point moves."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Harness inspected with both lanyard legs on it, every tool on a tether, and comms open to the floor.",
+      "id": "dress",
+      "itemNames": {
+        "comms-check": "headset to the floor",
+        "harness-check": "harness and twin-leg lanyard",
+        "tool-tether": "tools tethered"
+      },
+      "kind": "sequence",
+      "prompt": "Harness inspected with both lanyard legs on it, every tool on a tether, and comms open to the floor.",
+      "targets": [
+        "harness-check",
+        "tool-tether",
+        "comms-check"
+      ],
+      "title": "Dress for the steel",
+      "why": "Three things go up with you and all three are somebody else's safety as much as yours: a harness with two legs so you are never unattached, tethers so nothing you carry can arrive on the floor, and a headset so the person who cannot see you can still talk to you."
+    },
+    {
+      "cue": "Anchor strop around the purlin, both lanyard legs working, before a boot leaves the catwalk.",
+      "id": "anchor",
+      "kind": "select",
+      "prompt": "Anchor strop around the purlin, both lanyard legs working, before a boot leaves the catwalk.",
+      "target": "beam-anchor",
+      "title": "Tie off to structure before you go out",
+      "why": "Fall protection in the steel is continuous, not occasional, and the anchorage is building structure. A rigger moving along a beam is attached to something at all times — that is the rule the whole shift is built on, and there is no part of the job that is worth the exception."
+    },
+    {
+      "cue": "The floor calls the point off the plot; you count bays to the tagged beam; you plumb it down and the floor confirms the mark.",
+      "id": "call",
+      "itemNames": {
+        "bay-count": "count the bays to the tag",
+        "plumb-drop": "plumb it and get it confirmed",
+        "point-call": "take the call off the floor"
+      },
+      "kind": "sequence",
+      "prompt": "The floor calls the point off the plot; you count bays to the tagged beam; you plumb it down and the floor confirms the mark.",
+      "targets": [
+        "point-call",
+        "bay-count",
+        "plumb-drop"
+      ],
+      "title": "Take the point, find it, confirm it both ways",
+      "why": "Up-rigger and down-rigger are one job done by two people who cannot see each other. The point is called from the floor, found in the steel, and confirmed in both directions before anything is hung — because a point in the wrong bay is a point that loads a beam nobody checked."
+    },
+    {
+      "cue": "Tape goes round first, then somebody owns the zone, then the clear comes up to you — in that order.",
+      "id": "clear",
+      "itemNames": {
+        "clear-call": "clear confirmed up",
+        "drop-zone-tape": "tape the drop zone",
+        "floor-spotter": "spotter on the zone"
+      },
+      "kind": "sequence",
+      "prompt": "Tape goes round first, then somebody owns the zone, then the clear comes up to you — in that order.",
+      "targets": [
+        "drop-zone-tape",
+        "floor-spotter",
+        "clear-call"
+      ],
+      "title": "Clear the floor under the point and keep it clear",
+      "why": "Tape alone is a suggestion; a load-in floor walks through tape all day. The zone is taped, then given to a person who stands there and keeps it empty, and only then is the clear called up. Cleared and kept clear are two different jobs and the second one is the one that lasts."
+    },
+    {
+      "cue": "Take the point load and the plot's leg angles, and commit the tension one leg will actually see.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.6
+        ],
+        "label": "LEG TENSION",
+        "missNote": "That is not what the plot's geometry gives. Work it again from the load and the leg angles — an underestimate here is a sling chosen one size too small.",
+        "speed": 0.7
+      },
+      "id": "legs",
+      "kind": "gauge",
+      "prompt": "Take the point load and the plot's leg angles, and commit the tension one leg will actually see.",
+      "target": "bridle-calc",
+      "title": "Work out the tension in each bridle leg",
+      "why": "A bridle is arithmetic, not a feeling. Each leg carries its share of the vertical load divided by the cosine of the leg's angle from vertical, so two legs never carry half each — they carry more, and the flatter you spread them the more it becomes. This is the number the sling, the shackle and the beam are all chosen against."
+    },
+    {
+      "cue": "Commit the sideways pull one beam takes, and set it against the grid drawing's figure for that beam.",
+      "gauge": {
+        "green": [
+          0.58,
+          0.67
+        ],
+        "label": "SIDE PULL",
+        "missNote": "Outside what the grid drawing allows this beam sideways. Bring the legs in, or take the point to a bay the drawing says can hold it.",
+        "speed": 0.7
+      },
+      "id": "beams",
+      "kind": "gauge",
+      "prompt": "Commit the sideways pull one beam takes, and set it against the grid drawing's figure for that beam.",
+      "target": "beam-load",
+      "title": "Check what the bridle does to each beam",
+      "why": "A bridle leg does not just hang off a beam, it drags it towards the other one. The flatter the legs, the larger that horizontal component gets, and a beam rated to carry weight downwards is not automatically rated to be pulled sideways. The grid drawing gives both figures and both have to be satisfied."
+    },
+    {
+      "cue": "Bag over your shoulder, out along the beam on the strop, and land it at the marked seat.",
+      "drag": {
+        "missNote": "That is not the seat on the beam the point was called for. Steel does not get hung near the point, it gets hung on it.",
+        "radius": 0.55,
+        "to": "beam-seat"
+      },
+      "id": "carry",
+      "kind": "drag",
+      "prompt": "Bag over your shoulder, out along the beam on the strop, and land it at the marked seat.",
+      "target": "steel-bag",
+      "title": "Take the steel out to the beam",
+      "why": "The steel goes out once, to the beam the plot named, on a rigger who is attached the whole way. Every extra trip along a beam is another transition, and transitions are where riggers come off."
+    },
+    {
+      "cue": "Sling in a basket round the beam, both eyes in the shackle, and run the pin fully home.",
+      "id": "basket",
+      "kind": "turn",
+      "prompt": "Sling in a basket round the beam, both eyes in the shackle, and run the pin fully home.",
+      "target": "shackle-pin",
+      "title": "Basket the beam and seat the shackle",
+      "turn": {
+        "axis": "y",
+        "label": "SHACKLE PIN",
+        "turns": 1.5
+      },
+      "why": "A basket round the beam puts the load into the section rather than into an edge, and the shackle pin is either all the way home or it is not in. A pin two turns out looks exactly like a pin that is in, and it walks out over a show's worth of movement."
+    },
+    {
+      "cue": "On the floor's call and not before — hand over hand, steady, inside the rate the spotter can track.",
+      "holdBreakNote": "The line stopped halfway down. Take it back up on the call or run it out steady — a rope left hanging mid-air over a working floor is nobody's.",
+      "id": "drop",
+      "kind": "track",
+      "prompt": "On the floor's call and not before — hand over hand, steady, inside the rate the spotter can track.",
+      "seconds": 6,
+      "target": "drop-line",
+      "title": "Lower the drop line on the call",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.38,
+          0.58
+        ],
+        "label": "LOWER",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "The drop line is the first thing that goes from the steel to the floor and it sets the habit for everything after it. It goes on a call, into a zone somebody is watching, at a rate a person on the ground can follow with their eyes. A rope run out fast is indistinguishable from a rope dropped."
+    },
+    {
+      "cue": "The floor ties on and calls; haul steady and hold until the head is at the beam.",
+      "holdBreakNote": "You let go of the haul line with the load in the air. It goes back down through the zone you spent ten minutes clearing.",
+      "id": "haul",
+      "kind": "hold",
+      "prompt": "The floor ties on and calls; haul steady and hold until the head is at the beam.",
+      "seconds": 5,
+      "target": "haul-line",
+      "title": "Haul the point up to the steel",
+      "why": "What comes up is heavier than what went down and it swings. A steady haul keeps it under the point instead of pendulum-ing across the bay into the other crew's steel, and the hold is what stops it being dropped back through the zone halfway up."
+    },
+    {
+      "cue": "Point number on the tag at the head, and read the number and the bay back down.",
+      "id": "tag",
+      "kind": "select",
+      "prompt": "Point number on the tag at the head, and read the number and the bay back down.",
+      "target": "point-tag",
+      "title": "Tag the point and confirm it to the floor",
+      "why": "The tag is how the next person — the motor crew, the head rigger, the venue at strike — knows which point this is without going back to the plot. The read-back closes the loop the call opened: the floor hears its own point number come back from the steel."
+    },
+    {
+      "cue": "Look over the whole point and the steel around it, and click anything that does not come out with you or should not stay.",
+      "id": "walk",
+      "itemNames": {
+        "sharp-edge": "sling bearing on a bare edge",
+        "spare-shackle": "loose shackle left in the steel"
+      },
+      "itemNotes": {
+        "sharp-edge": "The basket is bearing directly on the bottom flange edge with nothing between them. Over a show's worth of movement that edge works its way into the sling — a softener goes in before anybody leaves the beam.",
+        "spare-shackle": "A spare shackle is sitting loose on the bottom flange of the far beam. It is not tethered and it is not in a bag: it is a dropped object waiting for somebody to knock the beam."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the whole point and the steel around it, and click anything that does not come out with you or should not stay.",
+      "targets": [
+        "sharp-edge",
+        "spare-shackle"
+      ],
+      "title": "Walk the beam before you come out of the steel",
+      "why": "The last thing an up-rigger does is leave the bay in a state they would be happy to stand underneath. Everything that gets caught up there gets caught by a rigger looking, not by an inspection later — by then the floor has a show on it."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Setting a point in the roof steel: the point called and confirmed both ways, the bridle worked out on the plot, the beam checked against the grid drawing, the floor cleared and watched, tied off to structure the whole time",
+  "title": "SmartCiti.X~ Arena Rigging VR",
+  "trade": "Arena rigger — up-rigger / down-rigger",
+  "underwater": null,
+  "weather": "overcast"
+}

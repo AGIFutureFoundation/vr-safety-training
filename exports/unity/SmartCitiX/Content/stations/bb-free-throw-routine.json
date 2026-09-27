@@ -1,0 +1,436 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "same-every-time",
+    "name": "Same Every Time",
+    "note": "One routine, held the same way through fatigue and pressure, with water, rest and a clear lane"
+  },
+  "category": "Youth Sports & Coaching",
+  "certification": "USA Basketball youth development guidelines on building routines, managing fatigue and rest between efforts; NFHS basketball rules on free-throw lane positions and when lane players may move; CDC Heads Up for the knocks a crowded lane can bring; the U.S. Center for SafeSport for parents kept welcome but outside the drill and every conversation in view; the American Red Cross first aid course for heat and dehydration signs",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CDC",
+        "citedAs": "CDC Heads Up",
+        "id": "cdc-heads-up",
+        "title": "CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance"
+      },
+      {
+        "body": "NFHS",
+        "citedAs": "NFHS",
+        "id": "nfhs-basketball-rules",
+        "title": "National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport"
+      },
+      {
+        "body": "Red Cross",
+        "citedAs": "American Red Cross first aid",
+        "id": "red-cross-first-aid-course",
+        "title": "American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services"
+      },
+      {
+        "body": "U.S. Center for SafeSport",
+        "citedAs": "U.S. Center for SafeSport",
+        "id": "safesport-code",
+        "title": "U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting"
+      },
+      {
+        "body": "USA Basketball",
+        "citedAs": "USA Basketball",
+        "id": "usa-basketball-youth-guidelines",
+        "title": "USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them"
+      }
+    ]
+  },
+  "district": "gym-court",
+  "domain": "Youth Sports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clean-line",
+        "name": "Clean Line",
+        "note": "Everything wrong at the line found first time"
+      },
+      {
+        "id": "calm-lane",
+        "name": "Calm Lane",
+        "note": "No unsafe action in the whole free-throw block"
+      },
+      {
+        "id": "steady-routine",
+        "name": "Steady Routine",
+        "note": "Routine tempo and composure both inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-routine",
+        "name": "Clean Routine",
+        "note": "No corrections anywhere in the block"
+      },
+      {
+        "id": "unshaken",
+        "name": "Unshaken",
+        "note": "Held composure in band the whole time"
+      },
+      {
+        "id": "brisk-routine",
+        "name": "Brisk Routine",
+        "note": "Practice log reached inside 80% of par"
+      }
+    ],
+    "currency": "SWISHES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Rebound Helper",
+      "Line Coach",
+      "Assistant Coach",
+      "Head Coach",
+      "Routine Mentor"
+    ],
+    "system": "Line Routine"
+  },
+  "hazards": {
+    "lane-players-crash-early": "You let the lane players charge in the moment the shooter started the routine. Players crashing the lane before the release collide with each other and with the shooter's follow-through — shoulders and heads meeting at speed in the narrowest part of the court.",
+    "shoot-from-damp-line": "You let the next shooter step up onto the damp line without wiping it. Sweat drips at the line from every shooter before, and a shooter who rises slightly on the release and lands on a wet patch has nowhere to put their foot but sideways.",
+    "skip-water-between-rounds": "You ran free-throw rounds back to back with the conditioning and no water between. Free throws look like rest, so nobody drinks, but the players on the line are the same ones who just ran; their fluid loss keeps climbing and the first sign is a dizzy shooter at the line.",
+    "sprints-for-every-miss": "You made every miss cost the whole team a sprint. Conditioning used as punishment piles unplanned load on tired legs, teaches players to fear the line rather than own a routine, and is exactly the kind of extra volume youth guidelines warn turns into overuse injuries."
+  },
+  "id": "bb-free-throw-routine",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "calm-breath",
+      "alert": "The fire alarm cuts through the quiet at the line and the exit strobe starts flashing.",
+      "cue": "Everyone out through the marked fire exit now — no finishing the shot — and a headcount outside.",
+      "delay": 3,
+      "id": "fire-alarm-at-the-line",
+      "kind": "Fire alarm",
+      "missNote": "The shooter took the shot and the lane waited to see if it went in before anyone moved. The group left late and in a bunch, and outside nobody was sure the rebounder who went for the ball had come out at all.",
+      "seconds": 12,
+      "target": "fire-exit-door",
+      "why": "The quiet of a free-throw drill makes an alarm feel like an interruption to finish politely. It is not: the ball goes down, the lane empties, and everyone walks out through the marked exit with the adults at the front and back, then a headcount outside against the day's list. Every alarm is treated as real, every time.",
+      "wrongNote": "Not now — the alarm comes first. Everyone to the marked fire exit."
+    },
+    {
+      "after": "composure-on-tired-legs",
+      "alert": "A parent has walked onto the baseline by the door, upset, asking loudly why their child is not getting more shots, and wants to talk to the head coach right now.",
+      "cue": "Send the assistant to greet them at the door and set a time to talk after practice — the head coach stays with the drill.",
+      "delay": 3,
+      "id": "parent-wants-a-word",
+      "kind": "Parent at the door",
+      "missNote": "The head coach walked off to argue with the parent on the baseline while the drill carried on unsupervised. Players were left running the lane with no adult watching, and the child at the centre of it heard every word.",
+      "seconds": 12,
+      "target": "door-greeting-spot",
+      "why": "A parent with a concern deserves a real conversation, just not in the middle of a drill with their child on the line and the whole team listening. The assistant greeting them at the door, calmly, and fixing a time to talk after practice keeps the head coach supervising, keeps the parent heard, and keeps every adult conversation in the open, as SafeSport policies expect.",
+      "wrongNote": "That leaves the parent standing on the baseline. The assistant goes to greet them at the door."
+    }
+  ],
+  "lateNotes": {
+    "crew-checkin-board": "The staff check-in comes after the log, at the end of the block.",
+    "practice-log-board": "The log closes the free-throw block once it has run and the shooters rotated — nothing to record yet."
+  },
+  "name": "Free Throw Routine",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "basketball-fundamentals"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "breath-marker",
+      "composure-meter",
+      "crew-checkin-board",
+      "door-greeting-spot",
+      "fault-changing-dribbles",
+      "fault-deep-breath",
+      "fault-looking-at-bench",
+      "fault-rushing",
+      "fire-exit-door",
+      "foot-alignment-disc",
+      "ft-ball-in-lane",
+      "ft-chair-under-basket",
+      "ft-lane-block",
+      "ft-sweat-at-line",
+      "lane-players-crash-early",
+      "lane-rules-card",
+      "line-socket",
+      "line-towel",
+      "next-shooter-token",
+      "practice-log-board",
+      "pressure-after-a-run",
+      "pressure-one-shot",
+      "pressure-team-watching",
+      "routine-breath",
+      "routine-clock",
+      "routine-dribbles",
+      "routine-eyes",
+      "routine-feet",
+      "routine-shoot",
+      "shoot-from-damp-line",
+      "skip-water-between-rounds",
+      "sprints-for-every-miss",
+      "towel-socket",
+      "water-round-card"
+    ],
+    "meshes": 248
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Look along the free-throw line and down the lane. Mark everything that should not be there.",
+      "decoyNotes": {
+        "ft-lane-block": "The painted lane block is part of the court. Look for what does not belong on the floor."
+      },
+      "id": "check-the-line",
+      "itemNames": {
+        "ft-ball-in-lane": "a ball rolled into the lane",
+        "ft-chair-under-basket": "a folding chair left under the basket",
+        "ft-sweat-at-line": "sweat drips on the free-throw line"
+      },
+      "itemNotes": {
+        "ft-ball-in-lane": "A ball in the lane is under a lane player's feet the moment they move. Rack it.",
+        "ft-chair-under-basket": "A chair under the basket is where a rebound and a landing both end. Fold it and take it to the wall.",
+        "ft-sweat-at-line": "Every shooter drips at the line. Towel it now, and keep the towel there for the whole block."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look along the free-throw line and down the lane. Mark everything that should not be there.",
+      "targets": [
+        "ft-sweat-at-line",
+        "ft-ball-in-lane",
+        "ft-chair-under-basket"
+      ],
+      "title": "Check the line and the lane before the first shot",
+      "why": "A free-throw drill puts one player standing still on a line every shooter before them has dripped on, and a lane full of players about to move at once. A wet line, a ball in the lane and a chair under the basket are the three things that turn that set-up into a slip or a rolled ankle, and all three take seconds to fix before the first shot."
+    },
+    {
+      "cue": "Lane players stay in their spaces until the ball leaves the shooter's hand; the shooter stays behind the line until the ball hits the rim.",
+      "id": "explain-lane-rules",
+      "kind": "select",
+      "prompt": "Lane players stay in their spaces until the ball leaves the shooter's hand; the shooter stays behind the line until the ball hits the rim.",
+      "target": "lane-rules-card",
+      "title": "Explain the lane rules before anyone lines up",
+      "why": "The lane rules exist as much for safety as for fairness. When lane players wait for the release and the shooter stays behind the line, nobody is moving into the same space at the same moment. Explaining it the way NFHS basketball rules frame it, before the first round, means the drill practises the habit games require instead of the scramble players invent without it."
+    },
+    {
+      "cue": "Carry the towel from the bench to the hook beside the line.",
+      "drag": {
+        "missNote": "Not at the line. A towel back at the bench is a towel nobody walks back for — hang it beside the line.",
+        "radius": 0.45,
+        "to": "towel-socket"
+      },
+      "id": "towel-at-the-line",
+      "kind": "drag",
+      "prompt": "Carry the towel from the bench to the hook beside the line.",
+      "target": "line-towel",
+      "title": "Put a towel at the line for the whole block",
+      "why": "A towel beside the line lets every shooter dry their hands and wipe the line between rounds without anyone leaving the drill. It is the small fix that keeps the ball from slipping out of sweaty fingers and keeps the floor where the shooter lands dry, all block long."
+    },
+    {
+      "cue": "Feet on the spot, the same dribbles, one slow breath, eyes on the rim, then shoot and hold.",
+      "id": "build-the-routine",
+      "itemNames": {
+        "routine-breath": "one slow breath",
+        "routine-dribbles": "the same number of dribbles",
+        "routine-eyes": "eyes to the front of the rim",
+        "routine-feet": "feet set on the same spot",
+        "routine-shoot": "shoot and hold the follow-through"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Feet first so the base is set, then the rhythm of the dribbles, then the breath — eyes and shot come last, once the body is still.",
+      "prompt": "Feet on the spot, the same dribbles, one slow breath, eyes on the rim, then shoot and hold.",
+      "targets": [
+        "routine-feet",
+        "routine-dribbles",
+        "routine-breath",
+        "routine-eyes",
+        "routine-shoot"
+      ],
+      "title": "Build one routine, the same every time",
+      "why": "A free throw is the one shot in basketball taken with no defender and all the time in the world, which is exactly why nerves find it. A routine done identically every time — feet, dribbles, breath, eyes, shot — gives a young player something to do instead of worrying, and the order matters because each part settles the body for the next."
+    },
+    {
+      "cue": "Keep the gym quiet at the line while the shooter takes their breath — hold it and watch the lane.",
+      "holdBreakNote": "The noise came back before the breath was done. Quiet the gym and let the shooter take it again.",
+      "id": "calm-breath",
+      "kind": "hold",
+      "prompt": "Keep the gym quiet at the line while the shooter takes their breath — hold it and watch the lane.",
+      "seconds": 7,
+      "target": "breath-marker",
+      "title": "Hold the line quiet for the breath",
+      "why": "The breath is the part of the routine that turns a nervous body into a steady one, and it only works if the shooter gets a genuinely quiet moment. Holding the gym quiet and the lane still for that breath teaches everyone watching that the line belongs to the shooter, and gives the coach a moment to see whether anyone in the lane is itching to move early."
+    },
+    {
+      "cue": "Turn the shooting foot a touch so it points at the rim, with the same foot forward every time.",
+      "id": "align-the-feet",
+      "kind": "turn",
+      "prompt": "Turn the shooting foot a touch so it points at the rim, with the same foot forward every time.",
+      "target": "foot-alignment-disc",
+      "title": "Line up the shooting foot with the rim",
+      "turn": {
+        "axis": "y",
+        "label": "FOOT ANGLE",
+        "turns": 0.25
+      },
+      "why": "Where the shooting foot points is where the hip, shoulder and elbow tend to follow. A foot lined up with the rim, set on the same spot every time, makes the rest of the shot repeatable; a foot that wanders means every free throw is a slightly different shot. It is also the base that keeps the shooter balanced on a slick patch of line."
+    },
+    {
+      "cue": "Commit when the routine reads steady — not rushed, not stalled.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "TEMPO",
+        "missNote": "Outside the band. Rushed routines skip the breath; stalled ones give the nerves time. Find steady and commit.",
+        "speed": 0.62
+      },
+      "id": "routine-tempo",
+      "kind": "gauge",
+      "prompt": "Commit when the routine reads steady — not rushed, not stalled.",
+      "target": "routine-clock",
+      "title": "Keep the routine's tempo steady",
+      "why": "A routine that speeds up under pressure drops its calming parts first, and one that slows down leaves the shooter alone with their nerves; both end in a different shot from the one practised. Keeping the tempo steady — and well inside the time officials allow at the line — is what makes the routine the same in the last minute of a close game as in an empty gym."
+    },
+    {
+      "cue": "Watch each shooter's routine. Mark every habit that is breaking it.",
+      "decoyNotes": {
+        "fault-deep-breath": "The deep breath is part of the routine. Leave it be and look for what breaks it."
+      },
+      "id": "spot-the-breakers",
+      "itemNames": {
+        "fault-changing-dribbles": "a shooter changing the number of dribbles",
+        "fault-looking-at-bench": "a shooter looking over at the bench mid-routine",
+        "fault-rushing": "a shooter rushing the shot after a miss"
+      },
+      "itemNotes": {
+        "fault-changing-dribbles": "Two dribbles, then four, then one — the routine has gone. Cue them back to their own number.",
+        "fault-looking-at-bench": "Eyes on the bench mean the mind is on the bench. Cue 'eyes to the rim' and keep the sideline quiet.",
+        "fault-rushing": "After a miss, the next shot gets rushed to make it go away. Cue 'same routine, same speed'."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Watch each shooter's routine. Mark every habit that is breaking it.",
+      "targets": [
+        "fault-rushing",
+        "fault-changing-dribbles",
+        "fault-looking-at-bench"
+      ],
+      "title": "Spot the habits that break the routine",
+      "why": "Routines break in predictable ways: speed after a miss, a changing dribble count, eyes drifting to the bench. Each is a sign the shooter's attention has left the line. Naming the one habit each player is fighting — calmly, and without making them feel watched from the sideline — keeps the routine theirs rather than a performance for the adults."
+    },
+    {
+      "cue": "After the running block, keep the shooters' composure in band — breath back to steady before every shot.",
+      "holdBreakNote": "Composure slipped — shooters stepping up still gasping, or switched right off. Slow the breath and reset the routine.",
+      "id": "composure-on-tired-legs",
+      "kind": "track",
+      "prompt": "After the running block, keep the shooters' composure in band — breath back to steady before every shot.",
+      "seconds": 8,
+      "target": "composure-meter",
+      "title": "Hold composure at the line on tired legs",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "COMPOSURE",
+        "rise": 0.55,
+        "start": 0.28
+      },
+      "why": "Game free throws come after running, so the routine has to hold when legs are tired and breathing is fast. Holding composure in band — breath slowed, routine intact — is the skill; letting shooters step up still gasping, or so drained they have switched off, practises the miss. It is also the moment a coach sees who is more tired, or more overheated, than they are saying."
+    },
+    {
+      "cue": "Every shooter drinks between rounds — the rounds follow running, so the water does too.",
+      "id": "water-between-rounds",
+      "kind": "select",
+      "prompt": "Every shooter drinks between rounds — the rounds follow running, so the water does too.",
+      "target": "water-round-card",
+      "title": "Put water between every round",
+      "why": "Free-throw rounds are where a practice slows down, and slowing down is the right moment to drink. A rule that every round ends with water means the players who have just been running recover before they shoot again, and it catches the thirst young players do not notice until they are already behind."
+    },
+    {
+      "anyOrder": true,
+      "cue": "One-shot rounds, the whole team watching, and a round after a short run — water before it.",
+      "id": "pressure-rounds",
+      "itemNames": {
+        "pressure-after-a-run": "a shot after a short run, with water first",
+        "pressure-one-shot": "one shot only, make or miss",
+        "pressure-team-watching": "the whole team watching quietly"
+      },
+      "kind": "sequence",
+      "prompt": "One-shot rounds, the whole team watching, and a round after a short run — water before it.",
+      "targets": [
+        "pressure-one-shot",
+        "pressure-team-watching",
+        "pressure-after-a-run"
+      ],
+      "title": "Add pressure rounds once the routine holds",
+      "why": "Pressure is added to a free-throw routine the same way load is added to any skill: once it holds without it. One-shot rounds, an audience of teammates and a round after a short run each rehearse part of what a game feels like, and none of them needs punishment attached to a miss to do it."
+    },
+    {
+      "cue": "Move the next shooter's token onto the line and the last shooter's to the rest bench.",
+      "drag": {
+        "missNote": "Not on the line. Rotate properly — next shooter onto the line, last shooter to the rest bench.",
+        "radius": 0.45,
+        "to": "line-socket"
+      },
+      "id": "rotate-the-shooters",
+      "kind": "drag",
+      "prompt": "Move the next shooter's token onto the line and the last shooter's to the rest bench.",
+      "target": "next-shooter-token",
+      "title": "Rotate the shooters so everyone rests",
+      "why": "Rotating shooters gives every player the same number of attempts and a real rest between them, instead of the best shooter staying at the line while others stand. It keeps the lane moving in an orderly way, and it spreads the work so nobody's legs or focus are carrying more than the rest."
+    },
+    {
+      "cue": "Record each shooter's routine cue, makes out of attempts, water times and the conversation at the door.",
+      "id": "log-the-free-throws",
+      "kind": "select",
+      "prompt": "Record each shooter's routine cue, makes out of attempts, water times and the conversation at the door.",
+      "target": "practice-log-board",
+      "title": "Log the free-throw block",
+      "why": "A shooter's routine cue and makes out of attempts are what let the next practice build on this one; water times show the block was run safely; the parent conversation at the door belongs in writing with who handled it. A log written at the time protects the players, the coach and the programme alike."
+    },
+    {
+      "cue": "At the bench: how the door conversation went, anything the trainer saw after the running, and is everybody good to go on?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "At the bench: how the door conversation went, anything the trainer saw after the running, and is everybody good to go on?",
+      "target": "crew-checkin-board",
+      "title": "Check in with the assistant coach and the athletic trainer",
+      "why": "The assistant handled the parent, the athletic trainer watched the players come off the running block, and the head coach ran the line. A quick check-in agrees what, if anything, needs to go back to the family, flags any player who looked overheated, and keeps the staff acting as one team in view of each other."
+    }
+  ],
+  "supportLine": "your league's coach coordinator, or the assistant who met the parent with you — a hard conversation at the door is worth talking through afterwards",
+  "tagline": "The line and lane checked, the lane rules explained, the same routine every time, the shooting foot lined up, a steady tempo, composure held on tired legs, water between rounds and shooters rotated to rest",
+  "title": "SmartCiti.X~ Free Throw Routine VR",
+  "trade": "Youth basketball coach",
+  "underwater": null,
+  "weather": "clear"
+}

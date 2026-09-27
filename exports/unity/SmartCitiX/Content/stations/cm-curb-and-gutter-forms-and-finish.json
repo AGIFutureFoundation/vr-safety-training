@@ -1,0 +1,416 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "true-to-grade-and-line",
+    "name": "True To Grade And Line",
+    "note": "A curb run set on the grade sheet's line, finished clean and cured, with the crew never in the machine's path or the travel lane"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "OPCMIA Local 300 cement mason apprenticeship as a training body; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction (1926.701 impalement protection); OSHA 29 CFR 1926.1153 respirable crystalline silica; ANSI/ASSP A10.9 concrete and masonry construction safety requirements; ANSI/ASSP A10.47 work zone safety for highway construction; MUTCD temporary traffic control for work adjacent to the travel lane",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "MUTCD",
+        "citedAs": "MUTCD",
+        "id": "mutcd",
+        "title": "Manual on Uniform Traffic Control Devices — temporary traffic control for work zones (Part 6)"
+      },
+      {
+        "body": "union",
+        "citedAs": "OPCMIA",
+        "id": "opcmia-local-300",
+        "title": "OPCMIA Local 300 - cement masons and plasterers apprenticeship, as a training body"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.1153",
+        "id": "osha-1926-1153",
+        "title": "29 CFR 1926.1153 — Respirable crystalline silica in construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.701",
+        "id": "osha-1926-701",
+        "title": "29 CFR 1926.701 — Concrete and masonry construction, general requirements"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "walked-the-line",
+        "name": "Walked The Line",
+        "note": "The alignment walk found the pulled stake and the bare dowel before the pour started, first time"
+      },
+      {
+        "id": "clear-of-the-machine",
+        "name": "Clear Of The Machine And The Lane",
+        "note": "Never in the machine's path, never in the travel lane, never a bare hand on the curb face, never a dry grind"
+      },
+      {
+        "id": "true-to-grade",
+        "name": "True To Grade",
+        "note": "The grade check and the broom finish both held inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections through the whole curb run"
+      },
+      {
+        "id": "held-the-strike",
+        "name": "Held The Strike",
+        "note": "The strike-off pass held for the whole run"
+      },
+      {
+        "id": "run-by-break",
+        "name": "Run By Break",
+        "note": "Set, struck, finished and cured inside 80% of par"
+      }
+    ],
+    "currency": "RUN",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Laborer",
+      "Form Setter",
+      "Cement Mason",
+      "Lead Finisher",
+      "Curb Crew Certified"
+    ],
+    "system": "Curb Crew"
+  },
+  "hazards": {
+    "bare-dowel-curb": "You knelt down beside the uncapped load transfer dowel at the joint line. An upright bar with no cap is the impalement hazard OSHA 29 CFR 1926.701 requires capped before anyone works near it, and a stumble onto it beside a live lane happens exactly when attention is on the traffic, not the ground.",
+    "bare-hand-curb-face": "You went to hand-shape the curb face without gloves. Wet cement is strongly alkaline and burns skin slowly, often without pain until hours later, and a curb finisher's hand is against wet mix for the whole run. Gloves stay on for every minute the mix is wet, the same as anywhere else on the pour.",
+    "dry-grind-curb": "You ran the grinder dry on the high spot in the gutter pan instead of cutting it wet. Grinding hardened concrete with no water or vacuum shroud puts respirable crystalline silica into the air at many times the permissible limit, right at the height of a mason kneeling over the pan to check it.",
+    "machine-travel-path": "You stood in the curb machine's travel path to watch it come down the line. The operator's sightline down a slipform or curb machine is mostly forward and to the sides of the mold, not straight down the track behind it, and a machine advancing on its own hydraulic feed does not stop for somebody standing where it is about to be."
+  },
+  "id": "cm-curb-and-gutter-forms-and-finish",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "clear-machine-path",
+      "alert": "A car has drifted past the cone taper and is rolling toward the curb machine's travel path with the crew still working the line.",
+      "cue": "Get the flagger's stop paddle up before the car reaches the crew.",
+      "delay": 2,
+      "id": "car-enters-work-zone",
+      "kind": "Vehicle drifting into the cone taper",
+      "missNote": "The car kept rolling toward the machine with no paddle raised; it braked hard a few feet short of the travel path with the operator still watching the mold, not the lane.",
+      "seconds": 12,
+      "target": "flagger-stop",
+      "why": "A driver who has already drifted past the taper is not going to be stopped by the cones that failed to hold their attention the first time, and the crew working the curb line has their backs to the lane. The flagger's stop paddle, raised and visible, is the one signal left that reaches a driver already inside the work zone before the machine or a mason does.",
+      "wrongNote": "The flagger's stop paddle — a car is already inside the taper, and it has to be stopped before it reaches the crew or the machine."
+    },
+    {
+      "after": "edge-joint",
+      "alert": "A laborer at the next section has started dry-grinding a high spot in the gutter pan, and the dust is drifting across the finishing crew.",
+      "cue": "Get the water hose on the grinder and stop the dry grinding.",
+      "delay": 2,
+      "id": "grinder-dust-drift",
+      "kind": "Silica dust from dry grinding drifting across the crew",
+      "missNote": "The dry grinding went on through the rest of the finish pass; a haze hung low over the pan and the crew was still coughing it out by the time the joints were cut.",
+      "seconds": 12,
+      "target": "water-hose",
+      "why": "A grinder run dry on hardened concrete puts respirable crystalline silica into the air at many times the permissible limit, and the crew kneeling over the pan nearby is breathing all of it. The silica rule does not allow dry grinding where wet methods will do; the hose feeds water to the wheel and the dry grinding stops until it does.",
+      "wrongNote": "The water hose — the dust drifting over the crew comes first, and wetting the wheel down is what stops it."
+    }
+  ],
+  "lateNotes": {
+    "broom": "The broom only goes over the pan once the bull float and the edging are done; brooming a surface that has not been floated tears it instead of texturing it.",
+    "close-log": "The run is logged once the cure is on and the crew is clear of the lane.",
+    "strike-rail": "The pan only gets struck off once the mix has been accepted on slump — striking a mix nobody tested is finishing a curb that may already be the wrong curb."
+  },
+  "name": "Curb & Gutter Forms & Finish",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "cement-masons-and-plasterers"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "compactor",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "sedan",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bare-dowel",
+      "bare-dowel-curb",
+      "bare-hand-curb-face",
+      "brace-form",
+      "broom",
+      "cap-dowel",
+      "chute-control",
+      "close-log",
+      "cone-taper",
+      "crew-radio",
+      "cure-compound",
+      "cure-zone",
+      "dry-grind-curb",
+      "edge-tool",
+      "flagger-stop",
+      "grade-sheet",
+      "hand-joint",
+      "machine-lane",
+      "machine-travel-path",
+      "pulled-stake",
+      "radius-tool",
+      "reset-stake",
+      "slump-cone",
+      "strike-rail",
+      "unbraced-form",
+      "water-hose"
+    ],
+    "meshes": 208
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the alignment, the grade elevations at each stake, the joint spacing, and the work zone's cone taper and lane closure.",
+      "id": "grade-sheet",
+      "kind": "select",
+      "prompt": "Read the alignment, the grade elevations at each stake, the joint spacing, and the work zone's cone taper and lane closure.",
+      "target": "grade-sheet",
+      "title": "Read the grade sheet and the work zone plan",
+      "why": "A curb and gutter run is set to a string of grade points a survey crew already staked, and every one of those elevations carries drainage that fails if the run is even a little off it — a low spot holds standing water for the life of the street. The work zone plan is read at the same time because this run sits right beside a travel lane, and the taper and closure are what a driver actually sees on approach."
+    },
+    {
+      "cue": "Walk the string line, the stakes and the forms, and click every defect you find.",
+      "id": "alignment-walk",
+      "itemNames": {
+        "bare-dowel": "an uncapped load transfer dowel",
+        "pulled-stake": "a grade stake pulled out of the ground",
+        "unbraced-form": "a curb form with no brace stake"
+      },
+      "itemNotes": {
+        "bare-dowel": "A load transfer dowel at the joint has no cap on it, standing up right where the crew kneels to finish the joint.",
+        "pulled-stake": "One of the grade stakes has been knocked out and is lying beside the alignment string instead of marking the elevation it was set to.",
+        "unbraced-form": "A section of the gutter form has no brace stake driven behind it — nothing is holding that panel against the pressure of the wet mix."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the string line, the stakes and the forms, and click every defect you find.",
+      "targets": [
+        "pulled-stake",
+        "bare-dowel",
+        "unbraced-form"
+      ],
+      "title": "Walk the alignment before the truck arrives",
+      "why": "With no mix on the ground yet, all three of these are corrected in a couple of minutes apiece. Let concrete start moving before anyone deals with them and the same three problems turn into a run poured to a grade the surveyor never actually set, a dowel driven into a kneeling mason's leg, and a form blown out under a weight it was never braced to hold."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Reset the grade stake, cap the dowel, and brace the unbraced form section.",
+      "id": "fix",
+      "itemNames": {
+        "brace-form": "form braced",
+        "cap-dowel": "dowel capped",
+        "reset-stake": "grade stake reset"
+      },
+      "kind": "sequence",
+      "prompt": "Reset the grade stake, cap the dowel, and brace the unbraced form section.",
+      "targets": [
+        "reset-stake",
+        "cap-dowel",
+        "brace-form"
+      ],
+      "title": "Correct what the walk found",
+      "why": "Noting a problem on the walk and then not touching it is its own kind of hazard, because from that point on the crew treats the alignment and the forms as ready when all that has really happened is a line on a clipboard. The stake actually has to go back in the ground, the dowel actually needs its cap, and the panel actually needs its brace before the truck shows up."
+    },
+    {
+      "cue": "Confirm the cone taper and the sign board are in place along the lane closure before the crew steps off the curb line.",
+      "id": "work-zone",
+      "kind": "select",
+      "prompt": "Confirm the cone taper and the sign board are in place along the lane closure before the crew steps off the curb line.",
+      "target": "cone-taper",
+      "title": "Set the work zone's cone taper",
+      "why": "The taper is what actually turns a driver's approach away from the crew and the machine, not a hope that they will notice work happening; MUTCD's temporary traffic control sets the spacing and the warning signs for exactly this reason. It is checked in place before anyone starts working with their back to the lane."
+    },
+    {
+      "cue": "Move the crew out of the curb machine's travel path before it advances down the line.",
+      "id": "clear-machine-path",
+      "kind": "select",
+      "prompt": "Move the crew out of the curb machine's travel path before it advances down the line.",
+      "target": "machine-lane",
+      "title": "Clear the machine's travel path",
+      "why": "A curb machine advances on its own hydraulic feed at a fixed rate the operator does not always have a clean sightline straight behind, and it does not stop itself for someone standing in the track it is about to occupy. The path is cleared before the machine moves, not watched while it is already rolling."
+    },
+    {
+      "cue": "Take the slump off the first load and commit inside the grade sheet's band before any of it goes in the form.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.56
+        ],
+        "label": "SLUMP",
+        "missNote": "Outside the grade sheet's band — reject the load or have it adjusted with admixture at the plant, never with a hose on site.",
+        "speed": 0.7
+      },
+      "id": "slump-check",
+      "kind": "gauge",
+      "prompt": "Take the slump off the first load and commit inside the grade sheet's band before any of it goes in the form.",
+      "target": "slump-cone",
+      "title": "Accept the mix on slump",
+      "why": "Slump proves the load delivered is the mix the plan actually ordered, not one softened with a hose to make it easier to place around the curb machine's mold. A curb finished from an over-wet mix slumps out of its face profile before it ever sets, and there is no fixing that after the forms strip."
+    },
+    {
+      "cue": "Feed the mix into the form at a rate the crew can keep struck off, moving evenly down the line.",
+      "holdBreakNote": "The feed fell out of band with the strike-off. Bring the rate back even with the crew and hold it there.",
+      "id": "place",
+      "kind": "track",
+      "prompt": "Feed the mix into the form at a rate the crew can keep struck off, moving evenly down the line.",
+      "seconds": 6,
+      "target": "chute-control",
+      "title": "Place the mix along the run",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.35,
+          0.55
+        ],
+        "label": "FEED RATE",
+        "rise": 0.55,
+        "start": 0.15
+      },
+      "why": "Placed faster than the crew can strike it off, the mix starts taking its set in the form before the profile is even cut, and a curb struck off after it has begun to stiffen tears instead of shaping. An even feed down the line is what keeps the strike-off pass working fresh mix the whole run."
+    },
+    {
+      "cue": "Draw the curb template along the form rails, cutting the pan and the face to the mold's profile.",
+      "holdBreakNote": "The template lifted off the rail mid-pass and rode over a low spot without cutting it. Reset at the low end and draw the pass again.",
+      "id": "strike-off",
+      "kind": "hold",
+      "prompt": "Draw the curb template along the form rails, cutting the pan and the face to the mold's profile.",
+      "seconds": 5,
+      "target": "strike-rail",
+      "title": "Strike the pan to the form's face",
+      "why": "The form's face is the one reference this run's whole cross-section is built on — the template does nothing but cut the fresh mix down to that profile, and any pass that lifts off the rail leaves a low spot the finish work can only mask, never fix. Carried steady along both rails, the template leaves a true pan and face for the finishing tools to close."
+    },
+    {
+      "cue": "Work the hand tool around the curb return at the basin, matching the radius the grade sheet calls for.",
+      "id": "radius-tool",
+      "kind": "turn",
+      "prompt": "Work the hand tool around the curb return at the basin, matching the radius the grade sheet calls for.",
+      "target": "radius-tool",
+      "title": "Hand-tool the radius at the catch basin",
+      "turn": {
+        "label": "RADIUS",
+        "turns": 1
+      },
+      "why": "A curb machine's mold runs straight; the return at a catch basin or a driveway apron is cut and shaped by hand to the radius the plan calls for, because a return poured to the wrong sweep either misses the basin's grate or leaves a lip a wheel catches on. It is worked while the mix is still plastic enough to move without tearing."
+    },
+    {
+      "cue": "Round the top edge of the curb with the edger, then hand-tool the contraction joints to the grade sheet's spacing.",
+      "id": "edge-joint",
+      "itemNames": {
+        "edge-tool": "curb top edged",
+        "hand-joint": "contraction joints hand-tooled"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "The top edge first, then the joints — the edger needs the surface a shade stiffer than the joints do.",
+      "prompt": "Round the top edge of the curb with the edger, then hand-tool the contraction joints to the grade sheet's spacing.",
+      "targets": [
+        "edge-tool",
+        "hand-joint"
+      ],
+      "title": "Edge the curb top and tool the joints",
+      "why": "An un-eased top edge chips the first time a snowplow blade or a wheel catches it, and a contraction joint cut in the wrong place — or skipped — is a crack the curb draws for itself wherever shrinkage happens to concentrate instead of where the plan controlled it. Both are done while the surface is still plastic enough to tool cleanly."
+    },
+    {
+      "cue": "Draw the broom once across the pan, perpendicular to the flow line, and commit once the texture reads even.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "TEXTURE",
+        "missNote": "Not a clean single pass — commit once the texture first reads even across the pan.",
+        "speed": 0.68
+      },
+      "id": "broom-finish",
+      "kind": "gauge",
+      "prompt": "Draw the broom once across the pan, perpendicular to the flow line, and commit once the texture reads even.",
+      "target": "broom",
+      "title": "Broom the gutter pan for a skid-resistant texture",
+      "why": "A gutter pan carries pedestrian and wheel traffic across a slope that is often wet, and the broom's texture is what actually gives it skid resistance instead of a slick trowelled finish. One even pass, drawn the same direction across the whole run, is what makes the texture consistent instead of patchy."
+    },
+    {
+      "cue": "Carry the sprayer down the run and apply the curing compound evenly across the finished pan and face.",
+      "drag": {
+        "missNote": "Not along the run — the curing compound has to cover the whole finished pan and face, not a stretch of it.",
+        "radius": 0.6,
+        "to": "cure-zone"
+      },
+      "id": "cure",
+      "kind": "drag",
+      "prompt": "Carry the sprayer down the run and apply the curing compound evenly across the finished pan and face.",
+      "target": "cure-compound",
+      "title": "Apply the curing compound",
+      "why": "Curing is the last structural step in this curb, not cleanup: a run allowed to dry in open air instead of curing under a sealed membrane loses real strength and craze-cracks along its whole length, undoing the strike-off and the finish work that came before it. The compound goes on while the surface is still damp enough to seal the water the cement needs."
+    },
+    {
+      "cue": "Record the mix accepted, the dowel capped, the joints cut and the cure applied.",
+      "id": "close-out",
+      "kind": "select",
+      "prompt": "Record the mix accepted, the dowel capped, the joints cut and the cure applied.",
+      "target": "close-log",
+      "title": "Log the run",
+      "why": "The curb log is how the foreman and the paving crew coming in behind know this run was set to the grade sheet and cured before the forms strip, rather than pulled early because the schedule was tight. It is also where the pulled stake and the bare dowel get written down so the next crew on this alignment knows they were found and fixed."
+    },
+    {
+      "cue": "Call the foreman: run struck, finished and cured. Then check in with the crew about the lane and the grinder.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the foreman: run struck, finished and cured. Then check in with the crew about the lane and the grinder.",
+      "target": "crew-radio",
+      "title": "Check in with the crew and the foreman",
+      "why": "The next section's pour and its lane closure both depend on the foreman getting an honest picture from this call, not a summary that skips the parts that went sideways. A car drifted toward the cone taper and a grinder ran dry for a minute — worth saying plainly, alongside a mention that the OPCMIA member assistance line is there for anyone the shift left shaken."
+    }
+  ],
+  "supportLine": "your OPCMIA Local 300 member assistance programme, or the employee assistance line posted on the contractor's site board",
+  "tagline": "A curb and gutter run set and finished beside a live lane: the grade sheet read, the alignment walked for a pulled stake and a bare dowel, the work zone signed, the crew clear of the machine and the travel lane, the pan struck to the form, the radius hand-tooled at the basin, broomed and cured before the forms strip",
+  "title": "SmartCiti.X~ Curb & Gutter Forms & Finish VR",
+  "trade": "Cement mason — OPCMIA Local 300, curb and gutter crew",
+  "underwater": null,
+  "weather": "clear"
+}

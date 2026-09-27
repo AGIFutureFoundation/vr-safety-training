@@ -1,0 +1,403 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "in-and-out-on-air",
+    "name": "In and Out on Air",
+    "note": "Every entry crossed with backup's word, the cylinder swapped before the reserve ran out, and never a step taken off the tape line"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "OSHA 29 CFR 1910.120 HAZWOPER entry and air-management provisions, 29 CFR 1910.134 for the SCBA and its cylinder change-out, and 29 CFR 1910.1200 hazard communication for the cylinder and cart markings; LIUNA Training hazardous waste worker courses; technical-rescue backup training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Environmental Monitoring",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "sealed-before-entry",
+        "name": "Sealed Before Entry",
+        "note": "The facepiece seal held its full check before the line was crossed"
+      },
+      {
+        "id": "swap-before-empty",
+        "name": "Swap Before Empty",
+        "note": "Broke off the valve work and reached the change-out point on the first alarm"
+      },
+      {
+        "id": "line-discipline",
+        "name": "Line Discipline",
+        "note": "Never crossed without backup's word, never a loose seal, never the wrong cylinder off the cart"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-entry",
+        "name": "Clean Entry",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "flow-held-to-zero",
+        "name": "Flow Held to Zero",
+        "note": "Held the valve's flow reading through the whole watch"
+      },
+      {
+        "id": "board-closed-fast",
+        "name": "Board Closed Fast",
+        "note": "Entry board closed inside 80% of par"
+      }
+    ],
+    "currency": "TAG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Line Watcher",
+      "Entry Hand",
+      "Entry Team Lead",
+      "Backup Qualified",
+      "Level B Certified"
+    ],
+    "system": "Entry Team"
+  },
+  "hazards": {
+    "cross-without-ack": "You started across the hot line before backup answered you. The two-person rule behind every HAZWOPER entry only works if someone outside the line knows the moment you go in — cross before backup acknowledges and the person timing your air, watching your line and ready to come get you does not yet know you are on the clock.",
+    "grab-tagged-cylinder": "You pulled the cylinder marked EMPTY — RETEST off the cart instead of the full one beside it. A hazmat air cart carries a spent bottle back to the compressor along with the fresh ones, and 29 CFR 1910.1200's marking rule is exactly why that bottle wears a tag a glance can read — grabbing the nearest cylinder instead of the tagged one is how an entrant walks away from the change-out point with no air behind the facepiece at all.",
+    "skip-seal-check": "You pulled the hood up over the facepiece without holding the seal check first. A facepiece that leaks at the cheek or the strap does not announce itself — 29 CFR 1910.134 has the wearer prove a seal before entry precisely because the entrant is the one person who cannot feel a slow leak on their own face over the fit check's own held breath.",
+    "walk-through-sump": "You stepped straight over the depression instead of routing the marked path around it. Grass and blown dust hide an uncapped valve pit as easily as they hide the drop itself, and a boot that finds it going in finds a leg down a hole that also holds whatever the leaking valve has been putting there — the path is walked around a find like this, never over it."
+  },
+  "id": "hz-level-b-entry-and-scba-change-out",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "fit-check",
+      "alert": "Backup radios that someone has ducked under the outer tape and is walking toward the hot line while you are still suiting up.",
+      "cue": "Break off and sound the recall horn — the hot line is not the place for a person who does not know it is there.",
+      "delay": 3,
+      "id": "perimeter-breach",
+      "kind": "Pedestrian crossing the tape while the team suits up",
+      "missNote": "The horn stayed silent while the pedestrian kept walking; backup had to leave the change-out point to physically turn them back, and for the length of that chase nobody was watching the entry line at all.",
+      "seconds": 16,
+      "target": "recall-horn",
+      "why": "A hot line means nothing to somebody who never read the entry plan, and a pedestrian walking toward one with no facepiece and no idea what is on the other side of the tape is a second casualty forming in real time. The recall horn is the one thing on this pad loud enough to stop them before backup has to physically intercept someone who may already be past the tape.",
+      "wrongNote": "The recall horn — a person walking toward an unmarked hazard answers to noise, not to a radio call they cannot hear."
+    },
+    {
+      "after": "hold-flow-check",
+      "alert": "Your SCBA's low-air alarm starts ringing with the valve only half seated and the flow still above zero.",
+      "cue": "Leave the valve where it stands, radio backup that you're coming out, and head straight for the change-out point.",
+      "delay": 2,
+      "id": "low-air-mid-valve",
+      "kind": "Low-air alarm with the valve only half closed",
+      "missNote": "The valve work carried on past the alarm; the cylinder ran to its true reserve on the walk back, and backup met an entrant at the line who was already breathing hard against a regulator giving them nothing.",
+      "seconds": 14,
+      "target": "changeout-point",
+      "why": "The reserve behind a low-air alarm is sized for the walk out through the hot line and no further, not for finishing a valve that is already most of the way closed. The valve stays where it is — a slower leak is a problem the next entry can finish — because an entrant who keeps working past the alarm to save a second entry is the entrant backup ends up making the actual rescue for.",
+      "wrongNote": "The change-out point — a low-air alarm has one answer, and it is getting to the fresh cylinder staged there before the reserve actually runs out."
+    }
+  ],
+  "lateNotes": {
+    "cylinder-valve-close": "Nothing to swap yet — the cylinder change-out happens at the change-out point, once the low-air alarm has actually sounded.",
+    "functional-check": "There is no fresh cylinder connected yet to functional-check — fit it and open its valve first.",
+    "regulator-swap": "The regulator only comes off a cylinder that has already been shut down and bled — not before."
+  },
+  "name": "Level B Entry & SCBA Change-Out",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hazmat-environmental"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.7,
+    "hits": [
+      "backup-radio",
+      "changeout-point",
+      "chem-suit",
+      "cross-without-ack",
+      "cylinder-cart",
+      "cylinder-valve-close",
+      "entry-tag-board",
+      "flow-gauge",
+      "four-gas-meter",
+      "functional-check",
+      "grab-tagged-cylinder",
+      "hasp-board",
+      "hotline-marker",
+      "leak-valve",
+      "recall-horn",
+      "regulator-swap",
+      "scba-facepiece",
+      "scba-gauge",
+      "skip-seal-check",
+      "sump-depression",
+      "walk-through-sump"
+    ],
+    "meshes": 192
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the entry plan: the hot line, the backup pair's roles, the cylinder reserve the plan requires before entry, and the recall signal.",
+      "id": "entry-plan",
+      "kind": "select",
+      "prompt": "Read the entry plan: the hot line, the backup pair's roles, the cylinder reserve the plan requires before entry, and the recall signal.",
+      "target": "hasp-board",
+      "title": "Read the entry plan: zones, air management and the backup pair",
+      "why": "An entry plan turns a hot zone from a guess into a set of rules everybody on the line is working from: where the hot line actually sits, what the backup pair does if the entrant does not answer, how much air has to be left in the cylinder before the line is crossed, and the one signal that means come out now. It is read before the suit goes on, because the plan cannot be read again once the facepiece seals."
+    },
+    {
+      "cue": "Tell the backup pair the assignment, how long it should take, and the recall signal, before either of you reaches for a suit.",
+      "id": "backup-brief",
+      "kind": "select",
+      "prompt": "Tell the backup pair the assignment, how long it should take, and the recall signal, before either of you reaches for a suit.",
+      "target": "backup-radio",
+      "title": "Brief the backup pair before you suit up",
+      "why": "The backup pair standing at the line only protects an entrant they understand: what the entrant is going in to do, how long it is expected to take, and what signal means stop and come get them. A backup pair briefed after the entrant is already sealed into a facepiece is a backup pair guessing at all three, and the brief is the one part of this job that has to happen face to face."
+    },
+    {
+      "cue": "Wheel the cart carrying the fresh cylinders to the change-out point at the hot line before anyone suits up.",
+      "drag": {
+        "missNote": "Not at the line — the cart has to be staged at the change-out point before anyone suits up, or a low-air alarm mid-entry has nothing waiting for it.",
+        "radius": 0.5,
+        "to": "changeout-point"
+      },
+      "id": "stage-cylinder-cart",
+      "kind": "drag",
+      "prompt": "Wheel the cart carrying the fresh cylinders to the change-out point at the hot line before anyone suits up.",
+      "target": "cylinder-cart",
+      "title": "Stage the spare-cylinder cart at the hot line",
+      "why": "A cylinder change-out only works fast if the fresh air is already where the entrant will come back to — staged at the line, not fetched from a truck once the low-air alarm is already ringing. The entry plan's air-management section exists because an SCBA cylinder empties on a schedule that does not wait for someone to go find a spare one."
+    },
+    {
+      "cue": "Chemical-resistant suit, boots and gloves on and taped, then the SCBA facepiece seated and strapped, with backup checking you.",
+      "id": "don-level-b",
+      "itemNames": {
+        "chem-suit": "chemical-resistant suit, boots and gloves",
+        "scba-facepiece": "SCBA facepiece seated and strapped"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Suit, boots and gloves first — the facepiece goes on last, over a hood that is already sealed at the wrists and ankles.",
+      "prompt": "Chemical-resistant suit, boots and gloves on and taped, then the SCBA facepiece seated and strapped, with backup checking you.",
+      "targets": [
+        "chem-suit",
+        "scba-facepiece"
+      ],
+      "title": "Don Level B in order: suit, then the SCBA facepiece",
+      "why": "Level B protects against an atmosphere the plan has not fully characterised: a NIOSH-certified SCBA supplying air because a cartridge cannot be trusted against an unknown chemical, and a chemical-resistant suit over it for splash. It goes on in the same order every time, checked by backup rather than by the person wearing it, because the two places Level B actually fails — a gap at the wrist tape and a facepiece seated crooked — are both places the wearer cannot see on themselves."
+    },
+    {
+      "cue": "Cover the regulator inlet and inhale gently, holding the facepiece against your face by suction alone, before the hood is pulled up over it.",
+      "holdBreakNote": "Let go of the check before it finished — a seal proven for three seconds is a seal that was never actually proven. Hold it the full six.",
+      "id": "fit-check",
+      "kind": "hold",
+      "prompt": "Cover the regulator inlet and inhale gently, holding the facepiece against your face by suction alone, before the hood is pulled up over it.",
+      "seconds": 6,
+      "target": "scba-facepiece",
+      "title": "Hold the facepiece seal check before the hood comes up",
+      "why": "29 CFR 1910.134 has the wearer prove a seal before every entry, and the only way to prove one is to try to break it: cover the inlet, breathe in, and hold the facepiece in place on suction for the full check. A seal that lets go under a gentle draw would have let go the moment the atmosphere inside the hot line turned out to be worse than the plan expected, and there is no way to feel that failure once the hood is up and the entry has started."
+    },
+    {
+      "cue": "Read the cylinder gauge and commit the reading once it settles inside the band the entry plan sets for going in.",
+      "gauge": {
+        "green": [
+          0.76,
+          0.94
+        ],
+        "label": "CYLINDER",
+        "missNote": "Not settled above the entry plan's minimum — hold the gauge steady until the reading stops moving, then commit.",
+        "speed": 0.7
+      },
+      "id": "cylinder-check",
+      "kind": "gauge",
+      "prompt": "Read the cylinder gauge and commit the reading once it settles inside the band the entry plan sets for going in.",
+      "target": "scba-gauge",
+      "title": "Verify the cylinder above the entry plan's minimum reserve",
+      "why": "The entry plan's minimum reserve is not a suggestion — it is the margin between the walk in, the work, and the walk back out through decon, all done on the air already on your back. A cylinder committed below that margin is an entry that starts the change-out clock before the first step across the line, and the gauge is read now, in daylight, rather than guessed at once the facepiece has fogged."
+    },
+    {
+      "cue": "Hang your entry tag, log the time in and your cylinder reading, and confirm backup has logged the same.",
+      "id": "entry-log",
+      "kind": "select",
+      "prompt": "Hang your entry tag, log the time in and your cylinder reading, and confirm backup has logged the same.",
+      "target": "entry-tag-board",
+      "title": "Sign the entry tag board before crossing the line",
+      "why": "The tag board is how the environmental technician running the line knows, without asking, who is inside, when they went in and how much air they went in with — the same numbers backup needs the moment an alarm sounds. An entry made before the tag is up is an entry nobody outside the line can account for, which is the one thing a permit-based entry system is built to prevent."
+    },
+    {
+      "cue": "Call across the line, wait for backup's acknowledgement, then step across at the marked gap.",
+      "id": "cross-hotline",
+      "kind": "select",
+      "prompt": "Call across the line, wait for backup's acknowledgement, then step across at the marked gap.",
+      "target": "hotline-marker",
+      "title": "Cross the hot line once backup answers you",
+      "why": "The hot line means nothing as a piece of tape — it means something because backup is watching the exact moment someone crosses it, and that moment only counts if backup actually answered first. Stepping across on your own timing, before the word comes back, is the same line with nobody on the other side of it paying attention yet."
+    },
+    {
+      "cue": "Look at the ground the whole way in: a dip in the grass, a stain the weeds have grown through, anything that is not flat.",
+      "id": "path-hazard",
+      "itemNames": {
+        "sump-depression": "grass-covered depression over an uncapped valve pit"
+      },
+      "itemNotes": {
+        "sump-depression": "The ground dips slightly a few metres inside the line, grass grown over what used to be a valve pit's cover. It is marked and walked around, not stepped over — an uncapped pit takes a boot as readily as it took its own lid."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the ground the whole way in: a dip in the grass, a stain the weeds have grown through, anything that is not flat.",
+      "targets": [
+        "sump-depression"
+      ],
+      "title": "Walk the entry path and find what the ground is hiding",
+      "why": "A hot zone's ground hazards do not announce themselves the way a labelled drum does — a pit that lost its cover months ago just looks like uneven grass until a boot finds the edge of it. Finding it from a look at the ground, before the path is walked at pace with a facepiece narrowing the field of view, is what keeps the walk in from being where the day's injury actually happens."
+    },
+    {
+      "cue": "Hold the meter at the valve pit and commit the reading once it settles — the entry-point reading does not carry all the way to the work.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.5
+        ],
+        "label": "LEL / O2",
+        "missNote": "Not a settled reading in the safe band at the work point — hold the meter still until the number stops moving, then commit.",
+        "speed": 0.65
+      },
+      "id": "atmosphere-recheck",
+      "kind": "gauge",
+      "prompt": "Hold the meter at the valve pit and commit the reading once it settles — the entry-point reading does not carry all the way to the work.",
+      "target": "four-gas-meter",
+      "title": "Reread the atmosphere at the work point before touching anything",
+      "why": "The atmosphere at the hot line and the atmosphere at a leaking valve are not the same reading, and HAZWOPER's monitoring provisions exist because a plume behaves differently ten metres downwind of where it started. The meter is read again at the actual work point, held until it settles, because the number that cleared the entry does not clear the job by itself."
+    },
+    {
+      "cue": "Take the valve's handwheel and close it slowly, watching the flow gauge rather than counting turns.",
+      "id": "isolate-valve",
+      "kind": "turn",
+      "prompt": "Take the valve's handwheel and close it slowly, watching the flow gauge rather than counting turns.",
+      "target": "leak-valve",
+      "title": "Throttle the leaking valve shut",
+      "turn": {
+        "label": "VALVE",
+        "turns": 1.25
+      },
+      "why": "A valve that has been leaking long enough to need an entry team is not always a valve that closes cleanly — a seat that has been eroding under a flow can bind or jump partway through, and closing by feel on the flow gauge rather than by a fixed number of turns is what catches that before the handwheel is forced past a point it should have stopped at."
+    },
+    {
+      "cue": "Hold your attention on the flow gauge as the valve closes, keeping the reading inside the band all the way to zero.",
+      "holdBreakNote": "The watch broke before the flow reached zero — a valve that stops being watched partway through its close is a valve nobody actually proved shut. Settle it and hold the watch to the end.",
+      "id": "hold-flow-check",
+      "kind": "track",
+      "prompt": "Hold your attention on the flow gauge as the valve closes, keeping the reading inside the band all the way to zero.",
+      "seconds": 6,
+      "target": "flow-gauge",
+      "title": "Watch the flow settle to zero as the valve seats",
+      "track": {
+        "drift": 0.08,
+        "fall": 0.62,
+        "green": [
+          0.15,
+          0.35
+        ],
+        "label": "FLOW",
+        "rise": 0.1,
+        "start": 0.55
+      },
+      "why": "A valve that looks shut can still be passing a slow flow past a worn seat, and the only way to know it has actually stopped is to watch the gauge all the way down rather than declaring the job done the moment the handwheel stops turning. The watch is held to the end because a leak that restarts once the crew has already turned away is the leak that gets rediscovered somewhere much worse than a valve pit."
+    },
+    {
+      "cue": "At the change-out point: close and bleed the spent cylinder, swap the regulator to a fresh one from the cart, and run the functional check before turning back in.",
+      "id": "swap-cylinder",
+      "itemNames": {
+        "cylinder-valve-close": "spent cylinder valve closed and bled",
+        "functional-check": "positive-pressure functional check on the fresh cylinder",
+        "regulator-swap": "regulator moved to the fresh cylinder off the cart"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Close and bleed the spent cylinder first, then move the regulator to the fresh one, then run the functional check — never the other way round.",
+      "prompt": "At the change-out point: close and bleed the spent cylinder, swap the regulator to a fresh one from the cart, and run the functional check before turning back in.",
+      "targets": [
+        "cylinder-valve-close",
+        "regulator-swap",
+        "functional-check"
+      ],
+      "title": "Change the SCBA cylinder at the line in order",
+      "why": "A cylinder swap done out of order is how a facepiece ends up connected to a bottle that was never actually opened, or a regulator crossed onto a cylinder nobody proved dead first: the spent cylinder is closed and bled before it is touched again, the fresh one goes on next, and the functional check afterward is the only proof the whole chain from cylinder to facepiece is actually delivering air before anyone turns back toward the line."
+    },
+    {
+      "cue": "Take your tag down, log the time out, the cylinder swap, and the valve reading, and confirm with the technician running the board.",
+      "id": "return-log",
+      "kind": "select",
+      "prompt": "Take your tag down, log the time out, the cylinder swap, and the valve reading, and confirm with the technician running the board.",
+      "target": "entry-tag-board",
+      "title": "Close the entry on the tag board",
+      "why": "The tag coming down is the only signal the technician running the board has that this entry is actually finished — a tag left up after the entrant is out is an entry the next shift's count still carries, and a valve reading left unlogged is a repair the plant engineer never hears was needed."
+    },
+    {
+      "cue": "Call backup: the valve is shut, the cylinder was swapped mid-entry, and ask how the low-air alarm felt from their side of the line.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call backup: the valve is shut, the cylinder was swapped mid-entry, and ask how the low-air alarm felt from their side of the line.",
+      "target": "backup-radio",
+      "title": "Check in with the backup pair after the swap",
+      "why": "A low-air alarm inside a hot line is the kind of moment a backup pair remembers longer than the entrant does — they are the ones who do not know, until the radio call comes back, whether it was a routine swap or the start of a rescue. The check-in says it out loud rather than letting it sit, and the LIUNA local's member assistance line exists for whichever side of that radio call needs more than a debrief on the tailgate."
+    }
+  ],
+  "supportLine": "your LIUNA local's member assistance programme, with the IAFF peer support line for the backup pair",
+  "tagline": "A hot-line entry: the entry plan read, the backup pair briefed, a spare-cylinder cart staged at the line, Level B donned and its seal held, the cylinder proven above the entry plan's minimum, the tag board signed, the line crossed with backup's word, a hidden valve pit found before it is stepped in, the atmosphere reread at the work point, the leaking valve throttled shut, the flow watched to zero while the alarm cuts through it, the cylinder swapped at the line in order, and the board closed",
+  "title": "SmartCiti.X~ Level B Entry & SCBA Change-Out VR",
+  "trade": "LIUNA hazmat laborer — Level B entry, with an IAFF technical-rescue backup pair and an environmental technician running the entry board",
+  "underwater": null,
+  "weather": "overcast"
+}

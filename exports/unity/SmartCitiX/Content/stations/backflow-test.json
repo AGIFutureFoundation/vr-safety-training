@@ -1,0 +1,381 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "no-cross-connection",
+    "name": "No Cross Connection",
+    "note": "A test run in order on a bled gauge, with the customer told first and the assembly restored without a hammer — first time"
+  },
+  "category": "Water & Environmental",
+  "certification": "UA plumbers and pipefitters; ANSI/ASSE 5110 Backflow Prevention Assembly Tester certification testing ANSI/ASSE 1013 reduced-pressure principle assemblies built to NSF/ANSI/CAN 61; AWWA M14 cross-connection control guidance and the purveyor's programme; EPA Safe Drinking Water Act obligations on the purveyor",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASSE",
+        "citedAs": "ANSI/ASSE 1013",
+        "id": "asse-1013",
+        "title": "ASSE 1013 — Reduced pressure principle backflow preventers"
+      },
+      {
+        "body": "ASSE",
+        "citedAs": "ANSI/ASSE 5110",
+        "id": "asse-5110",
+        "title": "ASSE 5110 — Backflow prevention assembly tester professional qualification"
+      },
+      {
+        "body": "AWWA",
+        "citedAs": "AWWA M14",
+        "id": "awwa-m14",
+        "title": "AWWA M14 — Backflow prevention and cross-connection control manual"
+      },
+      {
+        "body": "union",
+        "citedAs": "UA",
+        "id": "ua-apprenticeship",
+        "title": "UA — United Association plumber, pipefitter and HVAC service apprenticeship standards and UA Star certification"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Water & Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "told-them-first",
+        "name": "Told Them First",
+        "note": "Hazard identified and the customer notified before a valve moved, first time"
+      },
+      {
+        "id": "never-open",
+        "name": "Never Left Open",
+        "note": "Never a bypass around the assembly, never a test on an unbled gauge, never restored fast"
+      },
+      {
+        "id": "to-the-tenth",
+        "name": "To the Tenth",
+        "note": "Both check readings inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-test",
+        "name": "Clean Test",
+        "note": "No corrections anywhere in the test"
+      },
+      {
+        "id": "steady-bleed",
+        "name": "Steady Bleed",
+        "note": "The hoses bled clean without a break"
+      },
+      {
+        "id": "tested-fast",
+        "name": "Tested In Time",
+        "note": "Report signed inside 80% of par"
+      }
+    ],
+    "currency": "PSID",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Journeyman",
+      "Certified Tester",
+      "Programme Inspector",
+      "Cross-Connection Certified"
+    ],
+    "system": "Cross-Connection Control"
+  },
+  "hazards": {
+    "bypass-the-assembly": "You opened the bypass around the assembly to keep the building in water. For as long as that bypass is open the building's plumbing is connected straight to the public main with nothing between them — which is the exact cross connection the assembly exists to prevent.",
+    "fast-restore": "You threw the shutoff open to restore the service. A sudden restore slams a water hammer through the building's pipework, which breaks joints, fixtures and sometimes the assembly you just certified.",
+    "no-notice": "You shut the water off with no notice to the customer. A building loses its fire sprinklers, its dialysis chairs or its production line the moment that valve closes, and the first anyone knows is when something fails.",
+    "unbled-gauge": "You tested on a gauge with air in the hoses. Air compresses and water does not, so every reading is low by an unknown amount, and an assembly that actually failed gets a passing report with your certification number on it."
+  },
+  "id": "backflow-test",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "gauge",
+      "alert": "The relief port has started weeping again while you're bleeding the hoses — something upstream just moved.",
+      "cue": "Flag the relief before you commit a reading on it.",
+      "delay": 2,
+      "id": "relief-weeps-again",
+      "kind": "Relief weeping mid-bleed",
+      "missNote": "The relief kept weeping while you finished the bleed. Whatever reading comes next is being taken on an assembly that has already changed since the inspection, and the certificate will not say so.",
+      "seconds": 10,
+      "target": "relief-weep-recur",
+      "why": "A relief that starts weeping again after a clean inspection means conditions changed between looking at the assembly and testing it — a pressure fluctuation, a check that was marginal and just gave a little more. ANSI/ASSE 1013 testing assumes the assembly you inspected is the one you are about to read, and a new weep means that assumption just stopped being true.",
+      "wrongNote": "It is the relief port. A fresh weep changes what the readings mean before you take a single one."
+    },
+    {
+      "after": "close-cocks",
+      "alert": "The building's fire pump controller just alarmed on low pressure while you're bringing the service back.",
+      "cue": "Call the customer back before you keep opening the shutoff.",
+      "delay": 3,
+      "id": "fire-alarm-call",
+      "kind": "Fire pump low-pressure alarm",
+      "missNote": "The alarm kept sounding while you finished the restore unannounced. The customer is now finding out about a fire-protection outage from the alarm panel instead of from the tester who caused it.",
+      "seconds": 12,
+      "target": "notify-customer",
+      "why": "A fire pump alarming during the restore is the building telling you the outage reached further than expected — the customer needs that call now, while the service is still coming back slowly, not after it is fully open and the alarm has already been sitting unanswered.",
+      "wrongNote": "It is the phone. A fire pump alarm outranks how fast this valve opens."
+    }
+  ],
+  "lateNotes": {
+    "check-one-test": "The checks are tested after the gauge is zeroed and the hoses are bled — a reading from an unbled gauge is not a reading.",
+    "relief-test": "The relief opening point is taken last, after both checks.",
+    "restore-valve": "The service is restored after the test is complete and the test cocks are closed."
+  },
+  "name": "Backflow Test",
+  "parSeconds": 250,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "bleed-hoses",
+      "bypass-the-assembly",
+      "check-one-test",
+      "check-two-test",
+      "cock-four",
+      "cock-one",
+      "cock-three",
+      "cock-two",
+      "downstream-valve",
+      "fast-restore",
+      "file-purveyor",
+      "hazard-survey",
+      "no-notice",
+      "notify-customer",
+      "notify-fire",
+      "plan-board",
+      "record-readings",
+      "relief-dripping",
+      "relief-test",
+      "relief-weep-recur",
+      "restore-valve",
+      "sign-report",
+      "test-cock-seized",
+      "unbled-gauge"
+    ],
+    "meshes": 164
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the cross-connection survey: what is downstream and how bad it would be in the main.",
+      "id": "hazard",
+      "kind": "select",
+      "prompt": "Read the cross-connection survey: what is downstream and how bad it would be in the main.",
+      "target": "hazard-survey",
+      "title": "Identify what the assembly protects against",
+      "why": "The degree of hazard decides which assembly is required, and it is why a reduced-pressure assembly protects this connection rather than a simpler check valve. AWWA's cross-connection control guidance and the purveyor's own programme both treat a health hazard downstream — anything that could contaminate the public main — as requiring the highest level of protection available, which is exactly why this annual test is not optional paperwork."
+    },
+    {
+      "cue": "Notify the building contact of the outage, and confirm whether the line feeds fire protection.",
+      "id": "notify",
+      "itemNames": {
+        "notify-customer": "customer notified",
+        "notify-fire": "fire protection checked"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Customer first, then the fire-protection question — the second is a consequence of the first.",
+      "prompt": "Notify the building contact of the outage, and confirm whether the line feeds fire protection.",
+      "targets": [
+        "notify-customer",
+        "notify-fire"
+      ],
+      "title": "Tell the customer before anything closes",
+      "why": "The test takes the building's water off, and EPA's Safe Drinking Water Act framework puts the burden of keeping that shutdown safe on the purveyor and its certified testers together, not on the building finding out the hard way. A building that does not know is a building with no sprinklers, no process water and no warning, and a line that feeds fire protection needs the fire service told as well."
+    },
+    {
+      "cue": "Look over the assembly before you touch it and click what is wrong.",
+      "id": "inspect",
+      "itemNames": {
+        "relief-dripping": "relief valve weeping",
+        "test-cock-seized": "seized number two test cock"
+      },
+      "itemNotes": {
+        "relief-dripping": "The relief port is weeping continuously, which usually means the first check is fouled and the assembly may already be failing.",
+        "test-cock-seized": "The number two test cock will not turn — it has to be freed before it can be used, and forcing it snaps the stem."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the assembly before you touch it and click what is wrong.",
+      "targets": [
+        "relief-dripping",
+        "test-cock-seized"
+      ],
+      "title": "Inspect the assembly",
+      "why": "A relief port that is weeping continuously is the assembly reporting its own failure before anyone touches a valve — usually because the first check is already fouled and holding back less than it should. Finding it during inspection means the repair gets planned with the water still on, instead of discovered halfway through the test with the building already shut down."
+    },
+    {
+      "cue": "Hold the bleed open until the hoses run clear of air, and check the gauge reads zero.",
+      "holdBreakNote": "You closed the bleed with air still in the line — start the bleed again, or every reading after this is wrong.",
+      "id": "gauge",
+      "kind": "hold",
+      "prompt": "Hold the bleed open until the hoses run clear of air, and check the gauge reads zero.",
+      "seconds": 5,
+      "target": "bleed-hoses",
+      "title": "Zero the gauge and bleed the hoses",
+      "why": "Air in a hose compresses under pressure and water does not, so any air left in the lines makes every differential reading on this test come back low by an amount nobody can predict. ANSI/ASSE 5110 tester certification exists partly because a bled gauge is the difference between an actual test and a guess, and the guess is the one that ends up on a certificate carrying your number."
+    },
+    {
+      "cue": "Close the number two shutoff to isolate the assembly from the building.",
+      "id": "isolate",
+      "kind": "turn",
+      "prompt": "Close the number two shutoff to isolate the assembly from the building.",
+      "target": "downstream-valve",
+      "title": "Close the downstream shutoff",
+      "turn": {
+        "axis": "y",
+        "label": "No. 2 SHUTOFF",
+        "turns": 1
+      },
+      "why": "The test has to measure the assembly by itself, not the assembly plus whatever the building happens to be drawing downstream of it. Demand pulling on the line while a check is being tested drags the reading around and can hide a check that is actually failing behind ordinary building usage."
+    },
+    {
+      "cue": "Take the differential across the first check and commit — it must hold at least the required pressure drop.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.68
+        ],
+        "label": "CHECK 1 ΔP",
+        "missNote": "Below the minimum — the first check has failed and the assembly cannot be certified.",
+        "speed": 0.7
+      },
+      "id": "check-one",
+      "kind": "gauge",
+      "prompt": "Take the differential across the first check and commit — it must hold at least the required pressure drop.",
+      "target": "check-one-test",
+      "title": "Test check valve number one",
+      "why": "The first check is the assembly's primary barrier, and ANSI/ASSE 1013 sets the minimum differential it has to hold above the relief opening point. Fall short of that margin and the relief ends up doing the first check's job every time building pressure moves — a condition the relief was never sized to run on continuously."
+    },
+    {
+      "cue": "Take the second check's differential and commit — it must hold tight against reverse flow.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.64
+        ],
+        "label": "CHECK 2 ΔP",
+        "missNote": "Not holding — the second check has failed and the assembly needs repair before it goes back in service.",
+        "speed": 0.75
+      },
+      "id": "check-two",
+      "kind": "gauge",
+      "prompt": "Take the second check's differential and commit — it must hold tight against reverse flow.",
+      "target": "check-two-test",
+      "title": "Test check valve number two",
+      "why": "The second check is the backup that holds while the relief is dumping to atmosphere, and it is tested separately from the first for a specific reason: an assembly can pass comfortably on one check while sitting one failure away from the exact cross connection the whole assembly exists to prevent."
+    },
+    {
+      "cue": "Bleed the differential down and commit at the pressure where the relief first discharges.",
+      "gauge": {
+        "green": [
+          0.34,
+          0.5
+        ],
+        "label": "RELIEF OPENS AT",
+        "missNote": "Opening point out of range — the relief is either late or hair-triggered, and either fails the assembly.",
+        "speed": 0.7
+      },
+      "id": "relief",
+      "kind": "gauge",
+      "prompt": "Bleed the differential down and commit at the pressure where the relief first discharges.",
+      "target": "relief-test",
+      "title": "Test the relief valve opening point",
+      "why": "The relief opening point is the last line of defence — it dumps the zone between the checks to atmosphere before backflow can reach the public main — and ANSI/ASSE 1013 requires it to open above a set differential but still below the first check's holding pressure. Outside that window the assembly has no safe margin left, whichever way the two checks eventually fail."
+    },
+    {
+      "cue": "Close four, three, two, then one, and disconnect the hoses.",
+      "id": "close-cocks",
+      "itemNames": {
+        "cock-four": "number four test cock",
+        "cock-one": "number one",
+        "cock-three": "number three",
+        "cock-two": "number two"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Four, three, two, one — the cocks close in the reverse of the order they were opened.",
+      "prompt": "Close four, three, two, then one, and disconnect the hoses.",
+      "targets": [
+        "cock-four",
+        "cock-three",
+        "cock-two",
+        "cock-one"
+      ],
+      "title": "Close the test cocks in order",
+      "why": "Closing the test cocks in reverse of the order they were opened keeps the kit from trapping pressure between the assembly and the hoses, and keeps the zone under test from being back-fed through the test equipment as it comes off — the same logic that put the readings themselves in a fixed order going in."
+    },
+    {
+      "cue": "Crack the downstream shutoff and bring it open slowly while the building refills.",
+      "holdBreakNote": "Too fast — that is a hammer through the whole building. Back it off and bring it open slowly.",
+      "id": "restore",
+      "kind": "track",
+      "prompt": "Crack the downstream shutoff and bring it open slowly while the building refills.",
+      "seconds": 6,
+      "target": "restore-valve",
+      "title": "Restore the service slowly",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.28,
+          0.48
+        ],
+        "label": "OPENING RATE",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "A slow restore lets the building's pipework fill gradually instead of taking the full force of a pressure wave all at once. Thrown open, the surge is a water hammer that travels through every branch of the system, breaking joints and fixture supplies and sometimes damaging the very assembly that was just certified to protect the line."
+    },
+    {
+      "cue": "Write the readings, sign with your certification number, and file the copy with the purveyor.",
+      "id": "report",
+      "itemNames": {
+        "file-purveyor": "copy filed with the water purveyor",
+        "record-readings": "readings recorded",
+        "sign-report": "report signed with the certification number"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Record, then sign, then file — you sign the readings you took, and the filed copy is the signed one.",
+      "prompt": "Write the readings, sign with your certification number, and file the copy with the purveyor.",
+      "targets": [
+        "record-readings",
+        "sign-report",
+        "file-purveyor"
+      ],
+      "title": "Record, sign and file the report",
+      "why": "AWWA's cross-connection control guidance and the purveyor's own programme both treat an assembly with no filed test as equivalent to a failed one, because there is no record proving otherwise. The tester's certification number on the signed report is what makes that specific reading accountable to a specific person, not just a number written down somewhere and forgotten."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Annual RP assembly test: hazard identified, customer notified before the water goes off, gauge zeroed and hoses bled, check one, check two and the relief opening point each tested in order, assembly restored slowly, report signed and filed",
+  "title": "SmartCiti.X~ Backflow Test VR",
+  "trade": "Certified backflow prevention assembly tester",
+  "underwater": null,
+  "weather": null
+}

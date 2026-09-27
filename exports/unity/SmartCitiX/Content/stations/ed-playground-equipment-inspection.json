@@ -1,0 +1,399 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "walked-before-opened",
+    "name": "Walked Before It Opened",
+    "note": "The fence, the surfacing and the structure all checked close up, nothing forced with bare hands, and the one thing that failed today tagged out and roped off before the first student arrived"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "AFT and CSEA facilities training; OSHA's walking-working surfaces standard (29 CFR 1910.22) for the fall-zone surfacing and the ground around the equipment; the district's Injury and Illness Prevention Program (8 CCR 3203) for the daily inspection itself; the equipment manufacturer's own maintenance manual for torque values, hardware and replacement parts; the industry's public playground-safety guidance and its voluntary equipment standard, named here as bodies rather than by a clause number; the district's grounds and facilities procedure for tagging equipment out of service",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFT",
+        "id": "aft-training",
+        "title": "AFT — American Federation of Teachers training for paraprofessionals and school-related personnel"
+      },
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3203",
+        "id": "cal-osha-3203",
+        "title": "8 CCR 3203 — Injury and Illness Prevention Program"
+      },
+      {
+        "body": "union",
+        "citedAs": "CSEA",
+        "id": "csea-training",
+        "title": "CSEA — California School Employees Association training for classified school employees"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.22",
+        "id": "osha-1910-22",
+        "title": "29 CFR 1910.22 — Walking-working surfaces, general requirements"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Building Systems & Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "tool-not-thumb",
+        "name": "Tool, Not Thumb",
+        "note": "Never forced a hook or picked up glass bare-handed"
+      },
+      {
+        "id": "clean-walk",
+        "name": "Clean Walk",
+        "note": "No corrections across the whole yard"
+      },
+      {
+        "id": "steady-shake-test",
+        "name": "Steady Shake Test",
+        "note": "The handrail test held in band without a break"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "gate-open-on-time",
+        "name": "Gate Open on Time",
+        "note": "Whole walk finished inside 80% of par"
+      },
+      {
+        "id": "one-pass-structure",
+        "name": "One-Pass Structure Check",
+        "note": "Close inspection clean on the first pass"
+      },
+      {
+        "id": "nine-in-a-row",
+        "name": "Nine in a Row",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "FT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Grounds Aide",
+      "Facilities Tech",
+      "Lead Groundskeeper",
+      "Building Engineer",
+      "Facilities Certified"
+    ],
+    "system": "Morning Walk"
+  },
+  "hazards": {
+    "bare-hand-broken-glass": "That's broken glass in the fall-zone fill, and a bare hand is about to close on it. Glass in loose fill hides in the next handful just as easily as this one — the litter grabber and the bag are what go into the fill, not fingers.",
+    "force-hook-bare-fingers": "That S-hook is sprung open and a bare thumb is about to muscle it shut. An S-hook closes to a specific gap with the crimping tool so the chain can't work its way back out under a swinging load — pinched shut by hand, it either doesn't close far enough or closes on the finger doing the pinching.",
+    "prop-gate-open-with-rock": "That gate is propped open with a rock instead of latched. A perimeter fence only does its job shut — propping it open for convenience during the walk is the same as not having a fence at all for as long as it stays that way.",
+    "test-ride-tagged-swing": "That swing already has a defect and it hasn't been repaired yet. Getting on it to see how bad it is puts a body weight on hardware nobody has cleared — the only test a suspect swing gets is a hand on the chain from the ground, never a rider."
+  },
+  "id": "ed-playground-equipment-inspection",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "handrail-shake-test",
+      "alert": "A student on a bike has ridden in through the gate you just latched, heading straight for the equipment you're testing.",
+      "cue": "Call them off the equipment before they reach it.",
+      "delay": 3,
+      "id": "cyclist-through-gate",
+      "kind": "Cyclist cuts through the open gate",
+      "missNote": "The bike reached the structure before anyone called out — a yard mid-inspection has tools and open panels lying around that a bike moving fast has no business meeting.",
+      "seconds": 10,
+      "target": "checklist-board",
+      "why": "A bike moving through a play yard mid-inspection is a collision waiting for whichever piece of equipment it reaches first, and the fastest way to stop it is the loudest voice and the nearest whistle at hand — the board is where the whistle hangs, and reaching for it is the same motion as reaching for attention.",
+      "wrongNote": "The whistle by the checklist board — that's the fastest way to get their attention before they reach the structure."
+    },
+    {
+      "after": "crimp-s-hook",
+      "alert": "Working the hook, you notice a wasp nest built into the underside of the platform roof, right next to where your hand is.",
+      "cue": "Back off and flag the area for pest control — don't disturb the nest.",
+      "delay": 2,
+      "id": "wasp-nest-found",
+      "kind": "Wasp nest under the platform roof",
+      "missNote": "The work continued a hand's width from an active nest — the sting that follows is the nest answering the vibration of the tool, not bad luck.",
+      "seconds": 11,
+      "target": "pest-tag",
+      "why": "A nest disturbed by a tool an arm's length away stings whoever is holding it first, and a paraprofessional's job here is to flag the hazard for the people equipped to remove it, not to test how calm the nest is — the tag marks the spot so the next person near it knows before they get close enough to find out themselves.",
+      "wrongNote": "The pest-control tag — that's what flags the nest for removal without anyone testing how calm it is."
+    }
+  ],
+  "lateNotes": {
+    "depth-probe": "Not yet — the fall zone gets probed once the perimeter and the gate are already secured, not before.",
+    "s-hook-crimper": "The hook gets crimped once the close inspection has actually found it open, not before."
+  },
+  "name": "Playground Equipment Inspection",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "education-support-staff"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "wrenchSet",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "3.05x1.9x0.07",
+        "count": 1,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.9,
+    "hits": [
+      "anchor-bolt",
+      "bare-hand-broken-glass",
+      "checklist-board",
+      "clear-the-area",
+      "correct-bolt",
+      "correct-jug-hardware",
+      "depth-probe",
+      "drain-grate",
+      "drainage-clog",
+      "entrapment-gap",
+      "exposed-anchor-bolt",
+      "faded-signage",
+      "fence-gap",
+      "force-hook-bare-fingers",
+      "gate-latch",
+      "glass-pile-spot",
+      "handrail",
+      "inspection-log",
+      "litter-grabber",
+      "out-of-service-tag",
+      "pest-tag",
+      "prop-gate-open-with-rock",
+      "s-hook-crimper",
+      "splintered-rail",
+      "test-ride-tagged-swing",
+      "tie-up-seat"
+    ],
+    "meshes": 178
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the posted checklist for anything flagged from yesterday's walk before starting today's.",
+      "id": "read-checklist",
+      "kind": "select",
+      "prompt": "Read the posted checklist for anything flagged from yesterday's walk before starting today's.",
+      "target": "checklist-board",
+      "title": "Read this morning's checklist",
+      "why": "A defect logged yesterday and not yet fixed is the first thing today's walk needs to know about — reading the board before the gate opens means a known problem gets checked first instead of rediscovered from scratch alongside everything new."
+    },
+    {
+      "cue": "Three things about the fence and yard are not right. Find them before opening for the day.",
+      "id": "perimeter-walk",
+      "itemNames": {
+        "drainage-clog": "the clogged drain in the low corner",
+        "faded-signage": "the sun-faded age-range sign",
+        "fence-gap": "the gap cut in the chain-link"
+      },
+      "itemNotes": {
+        "drainage-clog": "The area drain in the low corner is packed with leaves and silt. A yard that can't drain after rain turns its lowest corner into standing water the next class walks straight into.",
+        "faded-signage": "The sign naming the equipment's age range has faded past reading. A sign nobody can read is a rule nobody outside the district office can be expected to know.",
+        "fence-gap": "Someone has cut a gap in the chain-link at the back corner. A fence that doesn't fully enclose the yard doesn't do the one job it has — keeping the play area separate from the parking lot and the street."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things about the fence and yard are not right. Find them before opening for the day.",
+      "targets": [
+        "fence-gap",
+        "faded-signage",
+        "drainage-clog"
+      ],
+      "title": "Walk the perimeter fence before the gate opens",
+      "why": "The fence line is walked first because it decides whether the yard is a closed space at all — a gap, an unreadable sign or a drain nobody has looked at all fail quietly, and none of them show up on the equipment itself, only on the ground around it."
+    },
+    {
+      "cue": "Swing the gate shut and confirm the latch actually engages.",
+      "id": "gate-latch-secure",
+      "kind": "select",
+      "prompt": "Swing the gate shut and confirm the latch actually engages.",
+      "target": "gate-latch",
+      "title": "Latch the gate properly",
+      "why": "A gate that swings shut but doesn't latch is a gate that the next gust of wind, or the next kid leaning on it, opens right back up — the latch is checked by hand, not assumed from the sound of the gate closing."
+    },
+    {
+      "cue": "Push the depth probe into the loose fill under the climbing structure and commit the reading.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.68
+        ],
+        "label": "SURFACING DEPTH",
+        "missNote": "Not at depth. Compacted fill reads shallow on the probe — it gets topped up before the equipment above it is cleared.",
+        "speed": 0.55
+      },
+      "id": "surfacing-probe",
+      "kind": "gauge",
+      "prompt": "Push the depth probe into the loose fill under the climbing structure and commit the reading.",
+      "target": "depth-probe",
+      "title": "Probe the fall-zone surfacing depth",
+      "why": "Loose-fill surfacing compacts under weather and foot traffic long before it looks thin from standing height, and a compacted fill stops cushioning a fall the same way concrete does — the probe is the only way to know the depth is still what the manufacturer's manual calls for, rather than what it happened to look like walking past."
+    },
+    {
+      "cue": "Three things about the structure itself are not right. Find them from arm's reach, not from across the yard.",
+      "id": "structure-close-inspection",
+      "itemNames": {
+        "entrapment-gap": "the widened gap in the guardrail",
+        "exposed-anchor-bolt": "the anchor bolt standing proud of its footing",
+        "splintered-rail": "the splintered handrail"
+      },
+      "itemNotes": {
+        "entrapment-gap": "This guardrail's gap has widened past the others on the same run. A gap wide enough to admit a small body but not let it back out again is exactly the shape the industry's equipment standard designs every rail spacing around.",
+        "exposed-anchor-bolt": "This footing's anchor bolt is standing up out of the fill instead of sitting flush. A protrusion at ankle height in a fall zone is exactly the kind of thing a running foot catches on, or a fall lands on.",
+        "splintered-rail": "This handrail has split along the grain, and the splinter is standing proud of the surface. A rail like that catches a bare hand sliding down it the same way a fence post catches a sleeve."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things about the structure itself are not right. Find them from arm's reach, not from across the yard.",
+      "targets": [
+        "exposed-anchor-bolt",
+        "splintered-rail",
+        "entrapment-gap"
+      ],
+      "title": "Inspect the climbing structure close up",
+      "why": "A structure that reads fine from ten feet away can hide a raised bolt, a split rail or a stretched gap that only shows up standing next to it — the close inspection is the point in the whole walk where hands actually go on the hardware instead of eyes staying on the whole yard at once."
+    },
+    {
+      "cue": "Read the footing's hardware tag and take the matching bolt from the parts bin.",
+      "id": "select-replacement-hardware",
+      "kind": "select",
+      "prompt": "Read the footing's hardware tag and take the matching bolt from the parts bin.",
+      "target": "correct-bolt",
+      "title": "Pick the matching replacement bolt",
+      "why": "The manufacturer's manual matches every footing to a specific bolt grade and length, not a generic one from the shelf — a bolt that merely fits the hole but isn't rated the same as the one it replaces is a repair that looks finished and isn't."
+    },
+    {
+      "cue": "Turn the wrench on the anchor bolt until it seats to the manufacturer's mark.",
+      "id": "tighten-anchor-bolt",
+      "kind": "turn",
+      "prompt": "Turn the wrench on the anchor bolt until it seats to the manufacturer's mark.",
+      "target": "anchor-bolt",
+      "title": "Torque the loose anchor bolt",
+      "turn": {
+        "label": "ANCHOR BOLT",
+        "turns": 0.6
+      },
+      "why": "An anchor bolt that is snug by feel and one that is actually torqued to the manual's mark are not the same repair — the structure's whole footing depends on every bolt holding the same clamping force, and a hand that stops at 'snug' leaves that judgment to whoever checks it next."
+    },
+    {
+      "cue": "Set the crimping tool on the sprung S-hook and hold it closed to the tool's own gap.",
+      "holdBreakNote": "You let go before the tool finished closing the gap. A hook part-crimped by hand is still a hook a chain can work its way back out of.",
+      "id": "crimp-s-hook",
+      "kind": "hold",
+      "prompt": "Set the crimping tool on the sprung S-hook and hold it closed to the tool's own gap.",
+      "seconds": 6,
+      "target": "s-hook-crimper",
+      "title": "Crimp the open S-hook shut",
+      "why": "The crimping tool closes the hook to a gap a chain link cannot work back out of under a swinging load, which is exactly the failure a hand alone cannot judge or apply enough force to prevent — the tool is held closed for the full squeeze, not eyeballed halfway there."
+    },
+    {
+      "cue": "Apply steady test force to the handrail and keep it in the band that shows a sound mount.",
+      "holdBreakNote": "Force out of band — too light tells you nothing, too hard risks the mount you're trying to test. Bring it back to steady.",
+      "id": "handrail-shake-test",
+      "kind": "track",
+      "prompt": "Apply steady test force to the handrail and keep it in the band that shows a sound mount.",
+      "seconds": 6,
+      "target": "handrail",
+      "title": "Shake-test the handrail",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.38,
+        "green": [
+          0.36,
+          0.6
+        ],
+        "label": "TEST FORCE",
+        "rise": 0.4,
+        "start": 0.15
+      },
+      "why": "A handrail mounted correctly resists a firm, steady push without any give at the base; one working loose flexes more the harder and longer it's tested — reading that difference needs a test force held steady long enough to feel the difference, not a quick tap that could mean either."
+    },
+    {
+      "cue": "Carry the litter grabber to the glass in the fill and bag it.",
+      "drag": {
+        "missNote": "Not at the glass. Carry the grabber all the way to the fill before bagging anything.",
+        "radius": 0.5,
+        "to": "glass-pile-spot"
+      },
+      "id": "collect-broken-glass",
+      "kind": "drag",
+      "prompt": "Carry the litter grabber to the glass in the fill and bag it.",
+      "target": "litter-grabber",
+      "title": "Bag the broken glass with the grabber",
+      "why": "Broken glass in loose fill spreads every time a hand or a rake goes through it looking for the pieces — the grabber and the bag are what go in first, so the next hand into that fill is a student's, not another custodian's checking for what got missed."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Clear anyone nearby, hang the out-of-service tag, then tie the broken seat up out of reach, in that order.",
+      "id": "tag-out-broken-swing",
+      "itemNames": {
+        "clear-the-area": "area cleared",
+        "out-of-service-tag": "out-of-service tag hung",
+        "tie-up-seat": "broken seat tied out of reach"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Clear the area first, then the tag, then tie the seat up — the tag protects nobody while the seat is still swinging at head height.",
+      "prompt": "Clear anyone nearby, hang the out-of-service tag, then tie the broken seat up out of reach, in that order.",
+      "targets": [
+        "clear-the-area",
+        "out-of-service-tag",
+        "tie-up-seat"
+      ],
+      "title": "Tag the broken swing out of service",
+      "why": "A tag on a swing nobody can still reach is a formality; the seat itself has to come up out of reach before the tag means anything to the first class through the gate, and clearing the area first means nobody is standing under the seat while it's being tied off."
+    },
+    {
+      "cue": "Lift the grate and clear the leaves and silt from the drain in the low corner.",
+      "id": "drainage-clear",
+      "kind": "select",
+      "prompt": "Lift the grate and clear the leaves and silt from the drain in the low corner.",
+      "target": "drain-grate",
+      "title": "Clear the drain you found on the walk",
+      "why": "The drain flagged on the perimeter walk doesn't fix itself between finding it and closing out the checklist — clearing it now is what keeps the next rain from turning that corner into the standing water the walk was supposed to catch before a class ever saw it."
+    },
+    {
+      "cue": "Record every finding — fixed and tagged — on the daily inspection log.",
+      "id": "log-inspection",
+      "kind": "select",
+      "prompt": "Record every finding — fixed and tagged — on the daily inspection log.",
+      "target": "inspection-log",
+      "title": "Sign the daily inspection log",
+      "why": "The signed log is the district's own record that the yard was actually walked today, not just that it looked fine from the office window — it is also the only place the tagged swing's repair gets tracked until someone closes it out."
+    }
+  ],
+  "supportLine": "your AFT or CSEA chapter's member assistance line, or the district's employee assistance programme",
+  "tagline": "Before the gate opens: the fence walked, the fall-zone surfacing probed for depth, the structure checked close up, a bolt torqued, an S-hook closed with the tool instead of a thumb, a handrail shake-tested, glass bagged rather than palmed, a broken swing tagged and roped off, and the drain that was clogged left clear",
+  "title": "SmartCiti.X~ Playground Equipment Inspection VR",
+  "trade": "AFT- or CSEA-represented school grounds and facilities worker conducting the daily playground equipment safety inspection",
+  "underwater": null,
+  "weather": "clear"
+}

@@ -1,0 +1,398 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-placement",
+    "name": "Clean Placement",
+    "note": "A pour tested before it started, placed inside the form's rate and consolidated without segregating — first time"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "OPCMIA cement masons and LIUNA laborers; ACI Concrete Field Testing Technician Grade I (slump ASTM C143, air C231, cylinders C31); OSHA 29 CFR 1926 Subpart Q concrete and masonry (1926.701 impalement protection, 1926.703 formwork); ACI 347 formwork pressure and OSHA 1926.1153 respirable crystalline silica",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ACI",
+        "citedAs": "ACI 347",
+        "id": "aci-347",
+        "title": "ACI 347 Guide to Formwork for Concrete — design, construction, removal of forms and reshoring"
+      },
+      {
+        "body": "ACI",
+        "citedAs": "ACI",
+        "id": "aci-concrete-practice",
+        "title": "ACI concrete field testing technician certification and ACI 301 specifications for structural concrete"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "union",
+        "citedAs": "OPCMIA",
+        "id": "opcmia-local-300",
+        "title": "OPCMIA Local 300 - cement masons and plasterers apprenticeship, as a training body"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "walked-it-first",
+        "name": "Walked It First",
+        "note": "The pre-pour walk found the defects before the truck arrived, first time"
+      },
+      {
+        "id": "nobody-under",
+        "name": "Nobody Under the Boom",
+        "note": "Never under the line, never on unbraced form, never a dry cut"
+      },
+      {
+        "id": "to-the-mix",
+        "name": "To the Mix Design",
+        "note": "Slump and placement rate both inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-pour",
+        "name": "Clean Pour",
+        "note": "No corrections anywhere in the placement"
+      },
+      {
+        "id": "steady-lift",
+        "name": "Steady Lift",
+        "note": "The placement rate held for the whole lift"
+      },
+      {
+        "id": "before-set",
+        "name": "Ahead of the Set",
+        "note": "Placed and finished inside 80% of par"
+      }
+    ],
+    "currency": "YARD",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Laborer",
+      "Finisher",
+      "Cement Mason",
+      "Pour Foreman",
+      "Placement Crew Certified"
+    ],
+    "system": "Placement Crew"
+  },
+  "hazards": {
+    "dry-cut-silica": "You dry-cut the hardened spill with no water and no vacuum. Cutting concrete dry puts respirable crystalline silica in the air at many times the permissible limit, and silicosis does not get better.",
+    "overfill-forms": "You kept placing after the forms started to bow. Formwork fails all at once, not gradually, and it buries whoever is inside the pour line under tonnes of wet concrete.",
+    "uncapped-rebar": "You worked over uncapped vertical rebar. A fall of any height onto an uncapped bar is an impalement; the caps are rated for it and they cost less than the ambulance.",
+    "under-the-boom": "You stood under the pump boom with the line charged. A plugged line clears as a whip: the hose end swings hard enough to kill, and the plug lets go without warning when the pressure finally breaks it."
+  },
+  "id": "concrete-pour",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "place",
+      "alert": "The pump remote's link light has gone dead — the boom operator up in the truck cab cannot see your rate commands anymore.",
+      "cue": "The remote in your hand is not talking to the pump.",
+      "delay": 3,
+      "id": "remote-dropout",
+      "kind": "Remote signal lost",
+      "missNote": "The remote stayed dark and the pump kept placing on its last command with nobody able to adjust the rate or stop it from the form side. A rate nobody is steering is exactly how a form goes past its design pressure with no one noticing until it moves.",
+      "seconds": 12,
+      "target": "pump-hardstop",
+      "why": "A wireless placement remote is the only thing standing between the crew at the form and a boom operator who cannot see the lift, the rate of rise, or a person standing where the line comes down — that whole picture exists for him only through the remote's readout. When the link drops, the pump keeps running on its last command with nobody able to slow it, correct the rate, or stop it if the form starts to bow, so the hard-stop at the truck is the only control left that still reaches the pump.",
+      "wrongNote": "The remote is dead. The pump hard-stop at the truck is the only thing left that can still reach it."
+    },
+    {
+      "after": "vibrate",
+      "alert": "A tower crane on the next pour over is swinging a rebar bundle across your deck, and it is tracking straight toward the crew working the lift.",
+      "cue": "There is a suspended load moving over the crew's heads.",
+      "delay": 3,
+      "id": "crane-swing",
+      "kind": "Load overhead",
+      "missNote": "The bundle swung directly over the crew with vibrators still running and nobody looked up. A suspended load crossing a live pour is a struck-by hazard the crew on the ground has no control over except getting out from under it in time.",
+      "seconds": 12,
+      "target": "crane-horn",
+      "why": "A load moving on a crane hook has no brakes a ground crew can apply and no guarantee the operator can see people crouched at form height behind their own boom and rigging — a dropped or swinging load lands with the full weight of the bundle at whatever speed the crane was already moving. Sounding the horn is the fastest way to put every head on the deck up and moving before the load is overhead rather than after.",
+      "wrongNote": "Sound the horn. That is what gets heads up before the load is actually overhead."
+    }
+  ],
+  "lateNotes": {
+    "bull-float": "Finishing starts after the bleed water has come and gone; troweling it back in is what burns a slab.",
+    "pump-remote": "Placement starts once the pre-pour walk is clear, the mix is tested and the crew is clear of the boom.",
+    "vibrator": "Vibration follows placement — consolidating air that has not been placed yet does nothing."
+  },
+  "name": "Concrete Pour",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "builders-trades"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "air-meter",
+      "bare-rebar",
+      "bleed-check",
+      "blow-out",
+      "boom-zone",
+      "brace-pin",
+      "bull-float",
+      "cast-cylinders",
+      "crane-horn",
+      "cure-blanket",
+      "dry-cut-silica",
+      "edge-tool",
+      "form-debris",
+      "joint-key",
+      "loose-brace",
+      "overfill-forms",
+      "pour-card",
+      "pump-hardstop",
+      "pump-remote",
+      "rebar-caps",
+      "slump-cone",
+      "spill-socket",
+      "uncapped-rebar",
+      "under-the-boom",
+      "vibrator",
+      "wet-saw"
+    ],
+    "meshes": 190
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the mix design, the lift height, the placement rate the forms are designed for and today's weather hold.",
+      "id": "plan",
+      "kind": "select",
+      "prompt": "Check the mix design, the lift height, the placement rate the forms are designed for and today's weather hold.",
+      "target": "pour-card",
+      "title": "Read the pour card",
+      "why": "Formwork is engineered against a rate of rise, not a volume — a form rated for a wall placed one foot an hour is a different piece of engineering from the same form placed two feet an hour. The card carries that number, the mix design and the temperature window the pour is allowed in, and none of it is negotiable on site."
+    },
+    {
+      "cue": "Walk the formwork and the deck and click every defect you find.",
+      "id": "prepour",
+      "itemNames": {
+        "bare-rebar": "uncapped vertical rebar",
+        "form-debris": "debris in the form",
+        "loose-brace": "unpinned form brace"
+      },
+      "itemNotes": {
+        "bare-rebar": "A run of vertical bar is uncapped where the crew will be working over it.",
+        "form-debris": "There is sawdust and a tie wire bundle in the bottom of the form, which becomes a cold void in the wall.",
+        "loose-brace": "A kicker brace on the second panel has no pin in it — that panel is carrying nothing."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the formwork and the deck and click every defect you find.",
+      "targets": [
+        "bare-rebar",
+        "loose-brace",
+        "form-debris"
+      ],
+      "title": "Walk the pour before the truck arrives",
+      "why": "Everything found on this walk is a five-minute fix with no truck on site and no clock running. The same defects found once concrete is moving are a stopped pour, a cold joint that never fully bonds, or somebody in the ambulance — the walk is what a five-minute fix looks like instead."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Cap the bar, pin the brace, blow the debris out of the form.",
+      "id": "fix",
+      "itemNames": {
+        "blow-out": "form blown out",
+        "brace-pin": "brace pinned",
+        "rebar-caps": "rebar caps fitted"
+      },
+      "kind": "sequence",
+      "prompt": "Cap the bar, pin the brace, blow the debris out of the form.",
+      "targets": [
+        "rebar-caps",
+        "brace-pin",
+        "blow-out"
+      ],
+      "title": "Correct what the walk found",
+      "why": "A defect found on the walk and left uncorrected is worse than one nobody ever spotted, because now the whole crew believes the walk happened and the form is safe to work around, when the only thing that actually happened is somebody wrote it down."
+    },
+    {
+      "cue": "Take the slump off the first truck and commit inside the mix design's band.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "SLUMP",
+        "missNote": "Outside the design slump — reject the load or have it adjusted with admixture, not with a hose.",
+        "speed": 0.7
+      },
+      "id": "slump",
+      "kind": "gauge",
+      "prompt": "Take the slump off the first truck and commit inside the mix design's band.",
+      "target": "slump-cone",
+      "title": "Slump test the first truck",
+      "why": "Slump is the one field check that the mix arriving on the truck is the mix that was actually ordered. Too stiff and it will not fill the form around the rebar and embeds; too wet means water was added on site after batching, and water added on site is strength taken back out of the cylinder that gets broken in twenty-eight days."
+    },
+    {
+      "cue": "Run the air meter, then cast the test cylinders for the lab.",
+      "id": "air",
+      "itemNames": {
+        "air-meter": "air content measured",
+        "cast-cylinders": "test cylinders cast"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Air first, then the cylinders — the cylinders record the mix that was measured.",
+      "prompt": "Run the air meter, then cast the test cylinders for the lab.",
+      "targets": [
+        "air-meter",
+        "cast-cylinders"
+      ],
+      "title": "Air content and cylinders",
+      "why": "Entrained air is the microscopic space that lets water expand when it freezes without cracking the paste around it, so it is what this wall survives its first winter on; the cylinders are the only proof of strength anyone will have until they are broken at twenty-eight days. Both come off the same load, before a yard of it gets placed."
+    },
+    {
+      "cue": "Move the crew out from under the boom and the line before the pump is charged.",
+      "id": "clear",
+      "kind": "select",
+      "prompt": "Move the crew out from under the boom and the line before the pump is charged.",
+      "target": "boom-zone",
+      "title": "Clear the boom zone",
+      "why": "The zone under a charged line is the one place on this whole pour nobody has a reason to be standing. A plugged line clears as a whip with enough force to kill, and it lets go the instant the pressure finally breaks the plug — never when anyone is watching for it, which is exactly why the zone is cleared before the line goes live, not monitored while it is."
+    },
+    {
+      "cue": "Run the pump at a rate the forms can take, filling in even lifts around the wall.",
+      "holdBreakNote": "Rate out of band — either the lift is going cold or the form is over pressure. Bring it back and hold.",
+      "id": "place",
+      "kind": "track",
+      "prompt": "Run the pump at a rate the forms can take, filling in even lifts around the wall.",
+      "seconds": 7,
+      "target": "pump-remote",
+      "title": "Place the first lift",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.34,
+          0.54
+        ],
+        "label": "RATE OF RISE",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "The rate of rise is the number that sets the actual pressure the fresh concrete puts on the form, independent of how much has gone in total. Placing fast in one corner builds pressure there faster than the form was designed for, and a blown wall form buries whoever is standing in the pour line under tonnes of wet concrete with no warning at all."
+    },
+    {
+      "cue": "Hold the vibrator in, straight down, long enough for the surface to close — then out slowly.",
+      "holdBreakNote": "You pulled out early — the lift has voids in it that will show as honeycomb when the form comes off.",
+      "id": "vibrate",
+      "kind": "hold",
+      "prompt": "Hold the vibrator in, straight down, long enough for the surface to close — then out slowly.",
+      "seconds": 5,
+      "target": "vibrator",
+      "title": "Consolidate the lift",
+      "why": "Vibration drives entrapped air out of concrete that would otherwise cure full of voids; run it too long or drag it sideways and it drives the heavy aggregate down while the cement paste rises, which is segregation and it does not un-mix once the concrete sets. Straight in, straight out, at each insertion point, and never used to push concrete sideways along the form."
+    },
+    {
+      "cue": "Wind the joint key down into the top of the lift before it takes its set.",
+      "id": "joint",
+      "kind": "turn",
+      "prompt": "Wind the joint key down into the top of the lift before it takes its set.",
+      "target": "joint-key",
+      "title": "Set the construction joint key",
+      "turn": {
+        "axis": "y",
+        "label": "JOINT KEY",
+        "turns": 1
+      },
+      "why": "The key is the physical interlock that makes tomorrow's lift act as one structural wall with today's, instead of two slabs stacked on a plane with nothing but friction holding them. It only works pressed in while this lift is still plastic, and the surface still has to be roughened and cleaned before the next pour goes on it."
+    },
+    {
+      "cue": "Watch the surface and commit when the bleed water has gone and the sheen has left it.",
+      "gauge": {
+        "green": [
+          0.52,
+          0.68
+        ],
+        "label": "SURFACE",
+        "missNote": "Too early or too late — too early works water in, too late and you are tearing the surface.",
+        "speed": 0.7
+      },
+      "id": "bleed",
+      "kind": "gauge",
+      "prompt": "Watch the surface and commit when the bleed water has gone and the sheen has left it.",
+      "target": "bleed-check",
+      "title": "Wait out the bleed water",
+      "why": "Finishing while bleed water is still sitting on the surface works that same water back down into the top inch of the slab, and the top inch is the part that carries traffic and has to last decades. Trying to trowel a wet sheen away is the single most common way an otherwise good pour gets a weak, dusting surface."
+    },
+    {
+      "cue": "Bull float, then edge and joint, then get the cure on.",
+      "id": "finish",
+      "itemNames": {
+        "bull-float": "bull float",
+        "cure-blanket": "curing applied",
+        "edge-tool": "edger and jointer"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Float, then edge and joint, then cure — each one works the surface the last one left.",
+      "prompt": "Bull float, then edge and joint, then get the cure on.",
+      "targets": [
+        "bull-float",
+        "edge-tool",
+        "cure-blanket"
+      ],
+      "title": "Float, edge and cure",
+      "why": "Curing is not cleanup at the end of the job, it is the last structural step in making the concrete: a slab that dries out in open air instead of curing under cover loses a large share of its design strength and craze-cracks across the whole surface, which no amount of good placement or vibration upstream can fix afterward."
+    },
+    {
+      "cue": "Bring the wet saw with its water feed to the spill on the slab edge.",
+      "drag": {
+        "missNote": "Not on the spill — set the saw down square on the hardened edge.",
+        "radius": 0.45,
+        "to": "spill-socket"
+      },
+      "id": "cleanup",
+      "kind": "drag",
+      "prompt": "Bring the wet saw with its water feed to the spill on the slab edge.",
+      "target": "wet-saw",
+      "title": "Cut the hardened spill wet",
+      "why": "Cutting hardened concrete dry throws respirable crystalline silica into the air at many times the permissible exposure limit, in particles fine enough to reach deep into the lungs and never come back out. Water on the blade or a vacuum shroud is not a nicety, it is the entire difference between an afternoon's nuisance dust and a disease with no cure."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Wall pour from a boom pump: pre-pour walk, rebar capped and forms braced, slump and air tested before the first yard, nobody under the boom, placement rate inside the form pressure, vibrated not segregated, cylinders cast, finish on the clock",
+  "title": "SmartCiti.X~ Concrete Pour VR",
+  "trade": "Cement mason / concrete finisher and laborer",
+  "underwater": null,
+  "weather": "overcast"
+}

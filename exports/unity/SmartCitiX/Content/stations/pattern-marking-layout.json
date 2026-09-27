@@ -1,0 +1,346 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "marker-true",
+    "name": "Marker True",
+    "note": "A layout on grain, on nap, notched, tagged and counted clean against the cut ticket"
+  },
+  "category": "Sewing & Garment Trades",
+  "certification": "Workers United (SEIU) garment and apparel production; the state apprenticeship standards for industrial sewing machine operators; OSHA 29 CFR 1910.132 hand protection around the awl, notcher and rotary cutter at the marking table; NIOSH ergonomics guidance for the prolonged standing, reaching and bent-over work a marking table asks for",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Manufacturing",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "on-grain",
+        "name": "On Grain",
+        "note": "Never let a piece go down off its own grain line"
+      },
+      {
+        "id": "table-clear",
+        "name": "Table Clear",
+        "note": "Never left a sharp exposed on the table"
+      },
+      {
+        "id": "efficient-marker",
+        "name": "Efficient Marker",
+        "note": "Held the marker's efficiency near the target band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-marker",
+        "name": "Clean Marker",
+        "note": "No corrections through the whole layout"
+      },
+      {
+        "id": "steady-wheel",
+        "name": "Steady Wheel",
+        "note": "Held the tracing wheel's pressure without a break"
+      },
+      {
+        "id": "marker-fast",
+        "name": "Marker Fast",
+        "note": "Layout complete inside 80% of par"
+      }
+    ],
+    "currency": "YARD",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Bundle Runner",
+      "Marker Helper",
+      "Marker Maker",
+      "Lead Marker Maker",
+      "Marker Authority Certified"
+    ],
+    "system": "Marker Authority"
+  },
+  "hazards": {
+    "awl-spare": "That spare awl is standing point up in the tool tray instead of point down or sheathed. A hand reaching in fast for scissors or a tape measure finds the point first, and an awl's whole job is to puncture cloth — it does exactly the same thing to a fingertip with no more effort than that.",
+    "cloth-runoff": "A length of cloth has slid off the table edge and is trailing across the floor into the walking lane. Fabric underfoot is exactly as slippery as it looks and exactly as easy to catch a boot heel in, and a marker maker's attention at this table is on the layout, not on the floor behind them.",
+    "notcher-open": "That notching plier has been left with its jaws open and the notching blade sitting exposed right at the edge of the table, where a hand reaches to gather the next bundle. Notchers are spring-loaded to snap shut through cloth; left open and unattended, the exposed edge is a laceration waiting on whoever's hand crosses it next, not a tool waiting to be picked up.",
+    "rotary-cutter": "That rotary cutter's blade guard is retracted and the blade is sitting exposed on the table edge. A rotary blade left extended looks like nothing is wrong until a hand brushes past it reaching for fabric — it gets set down mid-task and forgotten exactly because nothing about it looks armed."
+  },
+  "id": "pattern-marking-layout",
+  "indoor": "shop",
+  "interrupts": [
+    {
+      "after": "off-grain-find",
+      "alert": "The sleeve piece you laid a few minutes ago has been knocked sideways — its nap is now running backward against the front piece.",
+      "cue": "Something on this table is fighting the nap direction.",
+      "delay": 4,
+      "id": "against-nap",
+      "kind": "Nap drift",
+      "missNote": "The marker went to the cutting table with the sleeve piece's nap running backward. Every piece cut from that layer carries the mistake forward, and the panel comes back from the sewing floor shaded two different ways — cut goods that cannot be un-cut, on a bolt the mill may not even carry anymore.",
+      "seconds": 12,
+      "target": "piece-sleeve",
+      "why": "A piece that shifts after it is laid does not announce itself — the marker still looks complete from a glance, and only the printed nap arrow says one piece is now running backward against its neighbour. That is exactly the kind of two-tone panel that only shows up once the garment is finished and standing under a light, never here on the table where it is still free to fix.",
+      "wrongNote": "It's the sleeve piece — its nap is now running the wrong way against the front piece. Fix that before the layout goes any further."
+    },
+    {
+      "after": "efficiency",
+      "alert": "A runner drops a revised cut ticket on the table — the size ratio for this style just changed in the middle of the marker.",
+      "cue": "The ticket this layout was built from is no longer the ticket.",
+      "delay": 3,
+      "id": "ticket-revised",
+      "kind": "Ticket change",
+      "missNote": "The marker went to the cutting table built against the old ratio. The floor gets a stack of the wrong sizes in the wrong quantities, and the fix is not a chalk correction — it is fabric already cut wrong, sitting in bundles nobody can sew to the order that actually shipped.",
+      "seconds": 12,
+      "target": "cut-ticket",
+      "why": "A size ratio changed mid-marker is not a formality to note and keep going past — every size this layout carries has to match what the sewing floor actually needs now, and a marker finished against yesterday's ratio produces exactly the wrong count of exactly the wrong sizes. That is discovered only once bundles reach a line that cannot sew a size 14 out of a size 8 panel.",
+      "wrongNote": "It's the revised ticket sitting on the table — read it before this marker goes any further."
+    }
+  ],
+  "lateNotes": {
+    "marker-tally": "The count against the cut ticket happens once every piece is down, notched, drilled and labelled — not partway through, while pieces are still moving.",
+    "size-labels": "Not yet — labels go on once the layout's efficiency is checked and the notches and drill holes are struck, not before the marker is actually finished.",
+    "tracing-wheel": "Not yet — the outline gets chalked first. The wheel runs over a line that already exists; it does not draw one from nothing."
+  },
+  "name": "Pattern Marking & Layout",
+  "parSeconds": 250,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "sewing-garment-trades"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "awl-spare",
+      "chalk",
+      "cloth-roller",
+      "cloth-runoff",
+      "cut-ticket",
+      "drill-awl",
+      "grainline-guide",
+      "marker-efficiency",
+      "marker-tally",
+      "nap-arrow",
+      "nap-zone",
+      "notch-punch",
+      "notcher-open",
+      "piece-front",
+      "piece-off-grain",
+      "piece-sleeve",
+      "rotary-cutter",
+      "size-labels",
+      "tracing-wheel"
+    ],
+    "meshes": 205
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the fabric, the size ratio and whether this style calls for a one-way (nap) layout.",
+      "id": "cut-ticket",
+      "kind": "select",
+      "prompt": "Check the fabric, the size ratio and whether this style calls for a one-way (nap) layout.",
+      "target": "cut-ticket",
+      "title": "Read the cut ticket",
+      "why": "The cut ticket sets the exact count and ratio of sizes this marker has to deliver — how many of a size 6, 8 and 10 come off one layer of cloth — and it says whether the fabric has a nap or a one-way print that means every piece on the table has to run the same direction. A marker started from memory instead of the ticket is a bet that this fabric matches the last job, and a bolt of corduroy laid the wrong way looks identical to a right one until the finished garment comes back from the sewing floor shading two different colours panel to panel."
+    },
+    {
+      "cue": "Turn the roller to feed the bolt squarely onto the marking table.",
+      "id": "unroll",
+      "kind": "turn",
+      "prompt": "Turn the roller to feed the bolt squarely onto the marking table.",
+      "target": "cloth-roller",
+      "title": "Feed the cloth onto the table",
+      "turn": {
+        "axis": "x",
+        "label": "FEED ROLLER",
+        "turns": 1.1
+      },
+      "why": "Cloth pulled off a bolt at an angle carries that skew into every piece marked on it, because the grain follows the weave itself, not the edge of the table it happens to be lying on. Feeding it off a turning roller square to the table, rather than yanking a length flat by hand, is what keeps the crosswise and lengthwise threads running perpendicular down the whole layer — the one thing a marker maker cannot fix afterward with a chalk line."
+    },
+    {
+      "cue": "Read the nap arrow printed on the selvedge before anything else goes down on this cloth.",
+      "id": "nap-arrow",
+      "kind": "select",
+      "prompt": "Read the nap arrow printed on the selvedge before anything else goes down on this cloth.",
+      "target": "nap-arrow",
+      "title": "Check the nap arrow",
+      "why": "A napped fabric — corduroy, velvet, most fleece — reflects light differently depending on which way its pile runs, and every pattern piece in this marker has to point the same way that arrow does or the finished garment shows two-tone panels under any light that isn't flat overhead. The arrow gets read and confirmed before the first piece touches the cloth, not caught afterward by eye once the layout is already down."
+    },
+    {
+      "cue": "Carry the front bodice piece onto the table with its grain line parallel to the selvedge.",
+      "drag": {
+        "missNote": "Not on the grain line — carry the piece back and line it up parallel to the selvedge before it stays down.",
+        "radius": 0.4,
+        "to": "grainline-guide"
+      },
+      "id": "grainline",
+      "kind": "drag",
+      "prompt": "Carry the front bodice piece onto the table with its grain line parallel to the selvedge.",
+      "target": "piece-front",
+      "title": "Lay the front piece on grain",
+      "why": "The grain line printed on every pattern piece is not decoration — it is the instruction for how that piece has to sit relative to the fabric's own lengthwise thread, and a piece pinned even a few degrees off it hangs wrong on a body the first time the finished garment is washed and worn. Lining the printed grain line up parallel to the selvedge, checked at both ends of the piece, is what a marker maker confirms before a single other piece goes down on this cloth."
+    },
+    {
+      "cue": "Lay the sleeve piece so its nap direction matches the piece already on the table.",
+      "drag": {
+        "missNote": "Not with the nap — the sleeve piece has to run the same direction as the front piece, or it comes off shaded wrong.",
+        "radius": 0.4,
+        "to": "nap-zone"
+      },
+      "id": "nap-piece",
+      "kind": "drag",
+      "prompt": "Lay the sleeve piece so its nap direction matches the piece already on the table.",
+      "target": "piece-sleeve",
+      "title": "Lay the sleeve piece with the nap",
+      "why": "Two pieces of the same nap-sensitive fabric cut with the pile running opposite directions look identical coming off this table and turn into a jacket with one sleeve catching the light differently from the body the first time anybody stands under a shop lamp. Every piece added to this marker gets checked against the nap arrow already established here, not just eyeballed against the piece next to it."
+    },
+    {
+      "cue": "Chalk the outline of every piece before the tracing wheel runs over any of it.",
+      "id": "chalk",
+      "kind": "select",
+      "prompt": "Chalk the outline of every piece before the tracing wheel runs over any of it.",
+      "target": "chalk",
+      "title": "Chalk the layout's outline",
+      "why": "A chalk outline is what the cutter's blade actually follows once this cloth leaves the table, and a layout that only exists as loose paper pinned on top of the fabric is a layout the cutting room has no way to reproduce if a single piece shifts before the cutter gets to it. Chalking the edges now is what lets this marker survive being carried across the floor to the cutting table."
+    },
+    {
+      "cue": "Hold the wheel's pressure steady while it runs the seam lines, heel to point, on every piece.",
+      "holdBreakNote": "Pressure broke out of the band. A line that faint or that torn has to be run again — reset and trace the seam through in one steady pass.",
+      "id": "trace",
+      "kind": "track",
+      "prompt": "Hold the wheel's pressure steady while it runs the seam lines, heel to point, on every piece.",
+      "seconds": 6,
+      "target": "tracing-wheel",
+      "title": "Run the tracing wheel over the seam lines",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.4,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "WHEEL PRESSURE",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "The wheel's teeth have to bite the chalk through the pattern paper and into the cloth beneath it — pressed too lightly, the mark comes out too faint for the cutting room to see; pressed too hard, it perforates the paper pattern itself, which is graded master stock the same piece gets pulled and reused from tomorrow. A steady hand the whole length of every seam is what keeps the mark legible without wearing the master pattern out one pass at a time."
+    },
+    {
+      "cue": "One piece on this table is off its own grain line. Find it.",
+      "id": "off-grain-find",
+      "itemNames": {
+        "piece-off-grain": "the piece laid off the grain line"
+      },
+      "itemNotes": {
+        "piece-off-grain": "This piece drifted a few degrees off its own printed grain line while the layer was being smoothed. It does not look wrong from across the table — it only shows up as a garment that twists at the seam after the first wash, by which point it is finished goods, not a correction."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "One piece on this table is off its own grain line. Find it.",
+      "targets": [
+        "piece-off-grain"
+      ],
+      "title": "Walk the table before it's chalked further",
+      "why": "A piece that drifted while the layer was being smoothed does not announce itself — the marker still looks complete at a glance, and the grain line printed on the paper is the only thing that says otherwise. Checking every piece against its own line, not just the two most recently placed, is what catches the one that moved before it is chalked and cut along with everything else."
+    },
+    {
+      "cue": "Watch the efficiency reading and commit once the layout is using the cloth inside the target range.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "MARKER EFFICIENCY",
+        "missNote": "Outside the target range — loosen or tighten the nest, but never past what grain and nap allow, and check the reading again.",
+        "speed": 0.7
+      },
+      "id": "efficiency",
+      "kind": "gauge",
+      "prompt": "Watch the efficiency reading and commit once the layout is using the cloth inside the target range.",
+      "target": "marker-efficiency",
+      "title": "Check the marker's efficiency",
+      "why": "The marker's efficiency is the percentage of the cloth actually covered by pattern pieces once everything is nested as tight as the grain and nap rules allow, and it is the number that decides whether this style makes money or loses it on fabric alone. Nesting too loose wastes yardage on every single layer cut from this marker for the life of the style, and nesting past what the grain and nap rules actually allow produces pieces the sewing room has to reject on sight."
+    },
+    {
+      "cue": "Punch the seam notches first, then drill the internal points with the awl.",
+      "id": "mark-points",
+      "itemNames": {
+        "drill-awl": "internal points, drilled with the awl",
+        "notch-punch": "seam notches, punched"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — the notches fix the piece's position first, then the awl marks internal points off that. An awl mark struck before the notches is a guess at where the seam will actually be.",
+      "prompt": "Punch the seam notches first, then drill the internal points with the awl.",
+      "targets": [
+        "notch-punch",
+        "drill-awl"
+      ],
+      "title": "Strike the notches and drill holes",
+      "why": "Notches at the seam edges are what a sewing operator lines two pieces up on without measuring anything, so they get punched first while the piece is still exactly where the layout put it; the awl's job is marking internal points — dart tips, pocket placement — that are only in the right spot once the notches have already fixed the piece's position on the table. Doing it the other way round lets the piece shift between the two marks and the internal point ends up measured off a seam that has not been located yet."
+    },
+    {
+      "cue": "Clip a size tag to every piece on the table before the bundle leaves it.",
+      "id": "size-labels",
+      "kind": "select",
+      "prompt": "Clip a size tag to every piece on the table before the bundle leaves it.",
+      "target": "size-labels",
+      "title": "Tag every piece by size",
+      "why": "A cut piece with no size tag is anonymous the second it is stacked with a dozen others in the same fabric, and a bundler working fast pairs pieces by shape, not by size — which is exactly how a size 8 front ends up sewn to a size 12 back three departments away from anyone who could have caught it here. The tag travels with the piece for the rest of its life on the floor; this table is the cheapest place in the whole shop to attach it."
+    },
+    {
+      "cue": "Check the finished layout's piece count and size ratio against the cut ticket one last time.",
+      "id": "marker-tally",
+      "kind": "select",
+      "prompt": "Check the finished layout's piece count and size ratio against the cut ticket one last time.",
+      "target": "marker-tally",
+      "title": "Count the marker against the cut ticket",
+      "why": "The ticket named an exact count and ratio of sizes before the first piece went down, and the only way to know this marker actually delivers that ratio is to count it back against the ticket now, on this table, while a missing or duplicated piece is still a five-minute fix. Found later, the same mistake is a short bundle discovered on the sewing floor with the fabric already cut and no more of that dye lot on the roll to fix it with."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Grain line to selvedge, nap held one way, notches and drill holes struck, and the marker counted back against the cut ticket",
+  "title": "SmartCiti.X~ Pattern Marking & Layout VR",
+  "trade": "Industrial sewing machine operator — Workers United (SEIU)",
+  "underwater": null,
+  "weather": null
+}

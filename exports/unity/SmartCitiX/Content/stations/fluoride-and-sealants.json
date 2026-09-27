@@ -1,0 +1,434 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "prevention-recorded",
+    "name": "Prevention Recorded",
+    "note": "A varnish and sealant visit completed with the dose right for the age and every sealant retained at recall"
+  },
+  "category": "Dental & Oral Health",
+  "certification": "SEIU and UFCW dental and clinic staff, AFSCME public-health hygienists, and the ADHA as the hygiene profession's own body; the ADA's evidence-based clinical guidelines on fluoride varnish and on pit-and-fissure sealants; the Dental Hygiene Board of California and the state dental practice act's scope rules on who may place a sealant and under what standing order; OSHA 29 CFR 1910.1030 bloodborne pathogens",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADA",
+        "citedAs": "ADA's",
+        "id": "ada-radiographic-guidance",
+        "title": "American Dental Association and FDA guidance on prescribing dental radiographs"
+      },
+      {
+        "body": "ADHA",
+        "citedAs": "ADHA",
+        "id": "adha-standards",
+        "title": "ADHA Standards for Clinical Dental Hygiene Practice"
+      },
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "state dental board",
+        "citedAs": "dental practice act",
+        "id": "state-dental-board",
+        "title": "The state dental board and its dental practice act: licensure, scope of practice, and the allowable-duties rules for dental assistants and hygienists"
+      },
+      {
+        "body": "union",
+        "citedAs": "UFCW",
+        "id": "ufcw-training",
+        "title": "UFCW member training for retail food, clinic and dental support work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Healthcare",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "dose-right",
+        "name": "Dose Right",
+        "note": "The varnish dose held near the correct band for this child's age"
+      },
+      {
+        "id": "no-recontamination",
+        "name": "No Recontamination",
+        "note": "The etched surface never had to be re-etched"
+      },
+      {
+        "id": "clean-visit",
+        "name": "Clean Visit",
+        "note": "No unsafe action across the whole visit"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "on-schedule",
+        "name": "On Schedule",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections the whole visit"
+      },
+      {
+        "id": "steady-streak",
+        "name": "Steady Streak",
+        "note": "Eight correct actions in a row"
+      }
+    ],
+    "currency": "SEAL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Outreach Aide",
+      "Registered Hygienist",
+      "Public Health Lead",
+      "Clinical Lead",
+      "Prevention Certified"
+    ],
+    "system": "Prevention Rounds"
+  },
+  "hazards": {
+    "expired-etchant": "That etchant gel is past its date and has separated in the syringe. An etchant that has degraded no longer reaches full strength in the time on the label, and a surface that looks etched from an old gel can still fail to give the sealant anything to mechanically lock onto.",
+    "fluoride-paste-decoy": "That prophy paste is fluoridated. Cleaning a tooth with a fluoridated paste right before etching it for a sealant leaves a film that interferes with the acid's ability to etch enamel evenly — the sealant bonds to that film instead of to the tooth, and it does not stay long.",
+    "unmeasured-varnish": "That is a full, uncapped tube with no measured dose taken from it. Fluoride varnish is dosed to the child's age for a real reason — acute fluoride toxicity in a small child is rare precisely because programs measure a dose rather than letting a full tube anywhere near one.",
+    "unshielded-curing-light": "That curing light has no shield on its tip. The light is bright enough in the blue spectrum to be a real hazard to the retina at close range, for the child looking up at it and for whoever is holding it — the shield or amber eyewear is not optional trim."
+  },
+  "id": "fluoride-and-sealants",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "rinse-dry",
+      "alert": "The child's tongue pushes past the dry-angle and saliva flows across the etched surface before the sealant goes on.",
+      "cue": "The etched surface is contaminated — re-etch it.",
+      "delay": 4,
+      "id": "saliva-contamination",
+      "kind": "Field contamination",
+      "missNote": "You proceeded onto the contaminated surface anyway. A sealant placed there looks identical to a properly bonded one on the day it goes in, and fails the same way every skipped re-etch does — quietly, at some recall visit months from now.",
+      "seconds": 11,
+      "target": "etchant-gel",
+      "why": "Saliva redeposits organic pellicle onto microporous etched enamel almost immediately, and once that happens the sealant bonds to a film of contamination instead of to the etched tooth. The fix a moment of dry gauze does not undo is a fresh, timed re-etch — not simply drying the surface again and moving on.",
+      "wrongNote": "It is the etchant. A contaminated surface is fixed by re-etching it, not by drying around the problem."
+    },
+    {
+      "after": "cure-light",
+      "alert": "The curing light's radiometer reading comes back well under the unit's rated output.",
+      "cue": "This light's output is reading low — switch to the checked backup.",
+      "delay": 3,
+      "id": "radiometer-low",
+      "kind": "Equipment fault",
+      "missNote": "You kept curing with the same light. Every sealant cured on it after that reading is running the same risk of an under-cured base layer that looks finished on top and never fully hardens underneath.",
+      "seconds": 11,
+      "target": "backup-curing-light",
+      "why": "A light guide loses output as cured resin builds up on its tip and a bulb ages, well before either is dim enough to notice by eye, which is exactly why the reading is checked rather than trusted by looking at the beam. A reading this low will not fully polymerize resin at the depth this sealant needs.",
+      "wrongNote": "It is the backup light. A low radiometer reading is a fault with this unit, not something a longer hold time fixes."
+    }
+  ],
+  "lateNotes": {
+    "curing-light": "Eye protection goes on before the light does. There is also nothing etched or placed to cure yet.",
+    "recall-chart": "Retention is recorded once the sealant is actually placed, cured and checked — there is nothing to record yet.",
+    "sealant-resin": "Not yet. The tooth is not etched, rinsed and dried to the frosted look this material needs to bond to."
+  },
+  "name": "Fluoride and Sealants",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "dental-hygiene-unspoken-smiles"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "air-water-syringe",
+      "backup-curing-light",
+      "cotton-rolls",
+      "curing-light",
+      "dry-angle",
+      "etchant-gel",
+      "expired-etchant",
+      "finishing-bur",
+      "fluoride-paste-decoy",
+      "high-spot-distal",
+      "high-spot-mesial",
+      "isolation-shield",
+      "parent-handout",
+      "prophy-cup",
+      "protective-glasses",
+      "recall-chart",
+      "risk-chart",
+      "sealant-resin",
+      "unmeasured-varnish",
+      "unshielded-curing-light",
+      "varnish-brush",
+      "varnish-tube"
+    ],
+    "meshes": 151
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Review the caries risk assessment before deciding what this visit needs.",
+      "id": "caries-risk",
+      "kind": "select",
+      "prompt": "Review the caries risk assessment before deciding what this visit needs.",
+      "target": "risk-chart",
+      "title": "Complete the caries risk assessment",
+      "why": "A caries risk assessment is what actually decides whether this child needs varnish, sealants, both, or a referral — treating every child on the schedule the same way regardless of risk is how a public-health programme spends its limited chair time on the children who needed it least."
+    },
+    {
+      "cue": "Dispense the measured dose this age band calls for, then commit.",
+      "gauge": {
+        "green": [
+          0.28,
+          0.48
+        ],
+        "label": "VARNISH DOSE",
+        "missNote": "Not the dose this age band calls for. Recheck the applicator against the age chart rather than eyeballing the brush.",
+        "speed": 0.7
+      },
+      "id": "varnish-dose",
+      "kind": "gauge",
+      "prompt": "Dispense the measured dose this age band calls for, then commit.",
+      "target": "varnish-tube",
+      "title": "Measure the varnish dose for this child's age",
+      "why": "Fluoride varnish is dosed by age, not by however much comes out of the applicator brush, because a young child's body weight is small enough that an unmeasured over-application is a real ingestion risk rather than a theoretical one. A single-use, pre-measured applicator or a weighed dot on the mixing pad is the control — a full brush loaded from an open tube is not."
+    },
+    {
+      "cue": "Cotton rolls around the arch first, then the dry-angle over the parotid duct.",
+      "forceClass": "light",
+      "id": "varnish-isolate",
+      "itemNames": {
+        "cotton-rolls": "cotton rolls",
+        "dry-angle": "dry-angle"
+      },
+      "kind": "sequence",
+      "noRobot": true,
+      "outOfOrderNote": "Wrong order — the cotton rolls go in first to hold the field, then the dry-angle over the duct to stop it refilling with saliva.",
+      "prompt": "Cotton rolls around the arch first, then the dry-angle over the parotid duct.",
+      "robotNote": "Cotton rolls and a dry angle go in the child's mouth.",
+      "targets": [
+        "cotton-rolls",
+        "dry-angle"
+      ],
+      "title": "Isolate and dry for the varnish",
+      "why": "The cotton rolls go in first to hold the cheek and tongue clear of the arch, and the dry-angle goes over the parotid duct second because that is the specific source refilling the field with saliva the cotton rolls alone cannot stop. Varnish painted onto a wet surface thins, runs, and sets as a smear instead of the even coat the fluoride release depends on."
+    },
+    {
+      "cue": "Paint the measured dose across all tooth surfaces with the brush.",
+      "forceClass": "light",
+      "id": "varnish-paint",
+      "kind": "select",
+      "noRobot": true,
+      "prompt": "Paint the measured dose across all tooth surfaces with the brush.",
+      "robotNote": "Intraoral: varnish painted onto every surface.",
+      "target": "varnish-brush",
+      "title": "Paint the varnish on all surfaces",
+      "why": "An even, thin coat across every surface is what the ADA's evidence base for varnish is actually built on — patchy coverage on a few teeth is not the same intervention as the trials that showed a caries reduction, whatever dose was measured out for it."
+    },
+    {
+      "cue": "Give the parent the take-home instructions before they leave the chair.",
+      "id": "post-care",
+      "kind": "select",
+      "prompt": "Give the parent the take-home instructions before they leave the chair.",
+      "target": "parent-handout",
+      "title": "Give the parent post-care instructions",
+      "why": "Varnish needs to stay on the teeth to keep releasing fluoride, and the instructions are what tell a parent to hold off on hard or crunchy food and on brushing for the rest of the day. Skipping this step hands back a child who brushes the varnish off on the ride home."
+    },
+    {
+      "cue": "Work plain, non-fluoridated pumice into the pits and fissures — steady pressure, cup flexed into the grooves, not skating over them.",
+      "forceClass": "light",
+      "holdBreakNote": "Pressure dropped out of band — the cup came up off the fissures, and a fissure that was never reached still has plaque in it when the etchant goes on.",
+      "id": "tooth-clean",
+      "kind": "track",
+      "noRobot": true,
+      "prompt": "Work plain, non-fluoridated pumice into the pits and fissures — steady pressure, cup flexed into the grooves, not skating over them.",
+      "robotNote": "A prophy cup on a tooth, in the mouth.",
+      "seconds": 8,
+      "target": "prophy-cup",
+      "title": "Clean the sealant tooth",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.45,
+        "green": [
+          0.32,
+          0.6
+        ],
+        "label": "CUP PRESSURE",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "The molar getting a sealant is cleaned with plain pumice, not the fluoridated paste used everywhere else in a routine cleaning, because a fluoridated paste leaves a film that gets in the way of the etch. The pressure matters as much as the paste: a cup skated across the occlusal table polishes the cusp tips and never reaches into the fissure where the caries actually starts, and a cup leaned on hard enough to stall throws paste and heats the tooth."
+    },
+    {
+      "cue": "Isolate the tooth completely before any etchant goes on.",
+      "forceClass": "light",
+      "id": "seal-isolate",
+      "kind": "select",
+      "noRobot": true,
+      "prompt": "Isolate the tooth completely before any etchant goes on.",
+      "robotNote": "Isolation is placed intraorally, around the tooth being sealed.",
+      "target": "isolation-shield",
+      "title": "Isolate the tooth for bonding",
+      "why": "A sealant's whole bond depends on an etched surface that stays completely dry until the resin is cured, which is a stricter standard than the varnish needed a few minutes ago — a dam or an isolation shield, not cotton rolls alone. Placing a sealant at all is also inside this hygienist's scope only under the state's practice act and the programme's standing order from a supervising dentist, which is confirmed before this tooth is touched, not after."
+    },
+    {
+      "cue": "Apply the etchant and hold it on the surface for exactly the time the label states.",
+      "forceClass": "light",
+      "holdBreakNote": "You lifted the etchant early. An under-etched surface does not give the resin enough to grip — reapply and hold the full time on the label.",
+      "id": "etch-apply",
+      "kind": "hold",
+      "noRobot": true,
+      "prompt": "Apply the etchant and hold it on the surface for exactly the time the label states.",
+      "robotNote": "Etchant on enamel, inside the mouth, on a clock.",
+      "seconds": 8,
+      "target": "etchant-gel",
+      "title": "Etch to the time on the label",
+      "why": "The etch time on the label is not a suggestion in either direction — short it and the enamel has too little micro-porosity for the resin tags that actually hold a sealant on; run it needlessly long and the tooth sits exposed for no gain while the field's isolation is what is really being risked the longer it goes."
+    },
+    {
+      "cue": "Rinse thoroughly, then dry until the enamel looks frosted and chalky, not wet.",
+      "forceClass": "light",
+      "holdBreakNote": "Moisture crept back into band before you finished. Keep drying — a surface that looks frosted for a second and then dulls back to glossy was never fully dry.",
+      "id": "rinse-dry",
+      "kind": "track",
+      "noRobot": true,
+      "prompt": "Rinse thoroughly, then dry until the enamel looks frosted and chalky, not wet.",
+      "robotNote": "The air-water syringe works inside the mouth.",
+      "seconds": 9,
+      "target": "air-water-syringe",
+      "title": "Rinse and dry to the frosted look",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.55,
+        "green": [
+          0.1,
+          0.32
+        ],
+        "label": "SURFACE MOISTURE",
+        "rise": 0.4,
+        "start": 0.85
+      },
+      "why": "A properly etched surface dries to a dull, frosted, chalk-white look — anything glossy is still wet, and anything that stays glossy after real drying effort was not etched enough to begin with. The frosted appearance is the visual proof the bond has something to hold onto; it is not a formality before the next step."
+    },
+    {
+      "cue": "Flow the sealant into the pits and fissures without trapping air.",
+      "forceClass": "light",
+      "id": "sealant-place",
+      "kind": "select",
+      "noRobot": true,
+      "prompt": "Flow the sealant into the pits and fissures without trapping air.",
+      "robotNote": "Resin placed on the occlusal surface.",
+      "target": "sealant-resin",
+      "title": "Place the sealant material",
+      "why": "Sealant material is worked into the pits and fissures deliberately, because a bubble trapped under the resin is a void the cure light cannot reach and the tooth cannot self-repair — it is a gap in a surface that was supposed to be sealed shut."
+    },
+    {
+      "cue": "Give the child protective glasses and put on your own before the curing light comes on.",
+      "id": "eye-protection",
+      "kind": "select",
+      "prompt": "Give the child protective glasses and put on your own before the curing light comes on.",
+      "target": "protective-glasses",
+      "title": "Put on eye protection before the light",
+      "why": "A curing light's output sits in the blue end of the spectrum specifically because that wavelength drives the resin's cure, and that is also the wavelength most associated with retinal risk at close range. The glasses go on before the light does, for the child looking straight up at it as much as for you holding it."
+    },
+    {
+      "cue": "Hold the light steady over the sealant for the manufacturer's full cure time.",
+      "forceClass": "light",
+      "holdBreakNote": "You pulled the light away before the full cure time. An under-cured sealant looks finished and is not — reseat the light and hold the full count.",
+      "id": "cure-light",
+      "kind": "hold",
+      "noRobot": true,
+      "prompt": "Hold the light steady over the sealant for the manufacturer's full cure time.",
+      "robotNote": "The curing light is held in the mouth for the full cure.",
+      "seconds": 8,
+      "target": "curing-light",
+      "title": "Cure the sealant the full time",
+      "why": "The cure time on the light and the material's instructions assumes the tip stays aimed at the surface for the whole count — wave it off early and the resin under the surface, away from the light, stays soft long after the top looks set. A sealant that looks cured and is not wears through in weeks instead of years."
+    },
+    {
+      "cue": "Two spots on this sealant are marked high. Find them on the articulating paper.",
+      "forceClass": "light",
+      "id": "occlusion-check",
+      "itemNames": {
+        "high-spot-distal": "the distal high spot",
+        "high-spot-mesial": "the mesial high spot"
+      },
+      "itemNotes": {
+        "high-spot-distal": "A second mark on the distal marginal ridge — the same problem on the other side of the sealant, and just as easy to miss if you stop checking after the first one.",
+        "high-spot-mesial": "The articulating paper marked a heavy contact here. Left alone, the child bites on this spot every time they close, and that pressure is what chips a sealant that would otherwise have lasted."
+      },
+      "kind": "find",
+      "noHint": true,
+      "noRobot": true,
+      "prompt": "Two spots on this sealant are marked high. Find them on the articulating paper.",
+      "robotNote": "Finding the high spots means feeling the bite on a live child.",
+      "targets": [
+        "high-spot-mesial",
+        "high-spot-distal"
+      ],
+      "title": "Check the occlusion",
+      "why": "A sealant sitting proud of the bite gets hit on every closure until it either wears flat the hard way or chips out entirely, and the only way to know it is high is to mark it and look — it is not something you can feel with a rushed check of the bite in a squirming child."
+    },
+    {
+      "cue": "Adjust the high spots with the finishing bur until the bite is even.",
+      "forceClass": "firm",
+      "id": "excess-removed",
+      "kind": "select",
+      "noRobot": true,
+      "prompt": "Adjust the high spots with the finishing bur until the bite is even.",
+      "robotNote": "A rotary finishing bur in a child's mouth.",
+      "target": "finishing-bur",
+      "title": "Remove the excess and adjust",
+      "why": "The finishing bur takes down exactly the marked high spots and nothing else, because over-adjusting a sealant that is otherwise sitting correctly just opens new margins for the next meal's debris and the next recall's decay risk to start at."
+    },
+    {
+      "cue": "Record today's sealant placement and retention status in the recall chart.",
+      "id": "retention-record",
+      "kind": "select",
+      "prompt": "Record today's sealant placement and retention status in the recall chart.",
+      "target": "recall-chart",
+      "title": "Record retention for the recall",
+      "why": "A sealant that is not recorded is a sealant nobody checks on. Every retention figure a public-health programme can show a funder or a school district starts with this one line in the chart, at the visit the sealant actually went in."
+    }
+  ],
+  "supportLine": "the ADHA's member resources, or your employer's employee assistance program — a hard morning with a child is still a hard morning",
+  "tagline": "Preventive care on a child: a caries risk assessment, varnish dosed to the age and painted after isolation, then sealants cleaned, etched to the label's time, rinsed to the frosted look, placed and cured behind eye protection, checked for a high spot and recorded for the recall",
+  "title": "SmartCiti.X~ Fluoride and Sealants VR",
+  "trade": "Dental hygienist",
+  "underwater": null,
+  "weather": "clear"
+}

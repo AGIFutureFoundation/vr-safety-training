@@ -1,0 +1,390 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "rail-set-certified",
+    "name": "Rail Set Certified",
+    "note": "A guide rail plumbed, set, gauged and logged from a secured false car, with the tag line never out of a hand"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "IUEC elevator constructors; NEIEP apprenticeship curriculum for new-installation rigging; ASME A17.1 the safety code for elevators and escalators; OSHA 29 CFR 1910.147 control of hazardous energy for the hoist's own disconnect; OSHA 29 CFR 1926.501 duty to have fall protection at the open landing edge above a working false car; ANSI Z359 fall-protection equipment for anyone tied off at that edge",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z359",
+        "id": "ansi-z359",
+        "title": "ANSI/ASSP Z359 — Fall Protection Code"
+      },
+      {
+        "body": "ASME",
+        "citedAs": "ASME A17.1",
+        "id": "asme-a17-1",
+        "title": "ASME A17.1 — Safety Code for Elevators and Escalators"
+      },
+      {
+        "body": "union",
+        "citedAs": "NEIEP",
+        "id": "neiep-training",
+        "title": "IUEC and the National Elevator Industry Educational Program (NEIEP) — elevator constructor apprenticeship and continuing education, taught to the National Elevator Industry Educational Program curriculum"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.501",
+        "id": "osha-1926-501",
+        "title": "29 CFR 1926.501 — Duty to have fall protection"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "false-car-first",
+        "name": "False Car First",
+        "note": "Never worked the shaft before the platform and its own stop switch were confirmed"
+      },
+      {
+        "id": "true-rail",
+        "name": "True Rail",
+        "note": "Held both plumb and gauge readings near band centre"
+      },
+      {
+        "id": "clean-set",
+        "name": "Clean Set",
+        "note": "Restore in the correct order, no correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "no-callback",
+        "name": "No Callback",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "hoist-held",
+        "name": "Hoist Held",
+        "note": "Never let the hoist control slip mid-lift"
+      },
+      {
+        "id": "floor-fast",
+        "name": "Floor Fast",
+        "note": "One floor set inside 80% of par"
+      }
+    ],
+    "currency": "PLUMB",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Helper",
+      "Rail Setter",
+      "Lead Mechanic",
+      "Adjuster",
+      "Rail Setting Certified"
+    ],
+    "system": "Rail Setting Authority"
+  },
+  "hazards": {
+    "frayed-hoist-rope": "That hoist rope has visible broken wires along its length that were never reported. A wire rope failing under a suspended rail section does not creak first — the rail simply arrives at the bottom of the shaft, and everyone who was under or near it arrives with it.",
+    "open-hoistway-edge": "You leaned out over the landing opening above the false car with nothing clipped to the fall-protection anchor. There is no car, no door and no floor on the other side of that opening yet — only the shaft, and the platform you are standing on is the only thing between you and the bottom of it.",
+    "rail-clamp-pinch": "You reached bare-handed into the fishplate clamp while it was still under tension from the come-along. A clamp holding two rail sections aligned for bolting closes on whatever is between the plates the instant that tension shifts, and a gloved hand in there loses fingers exactly as fast as an ungloved one.",
+    "swinging-rail-load": "You stood under the rail section while it was still swinging on the hoist. A ten-foot steel rail on the end of a chain fall does not stop the instant the hoist does; it swings until something absorbs that energy, and the wrong something is a person underneath it."
+  },
+  "id": "ew-hoistway-false-car-and-rail-setting",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "hoistway-inspect",
+      "alert": "Somebody on the floor above has forced the landing door open to look down the shaft, with the false car and its load right below.",
+      "cue": "That opening has nothing behind it. Get it locked again.",
+      "delay": 4,
+      "id": "landing-reopened",
+      "kind": "Landing door forced",
+      "missNote": "The landing door stayed forced open above a loaded hoist. The next person who leans on that door the way the first one did is stepping into an open shaft, not a hallway.",
+      "seconds": 12,
+      "target": "landing-door-lock",
+      "why": "A locked landing opening is the only thing standing between the rest of the building and an open shaft with a crew and a suspended load in it. Whoever just forced that door has no way of knowing what they nearly stepped into, and the only correction available is getting it locked again before anyone tests that door a second time.",
+      "wrongNote": "It is the landing door lock. Whatever else is happening in the shaft, that open door above you is the emergency."
+    },
+    {
+      "after": "set-rail",
+      "alert": "The tag line has snagged on a bracket, and the rail section on the hoist has started to spin as it comes up past the false car.",
+      "cue": "Get a hand back on that line before the rail swings into the platform.",
+      "delay": 4,
+      "id": "tagline-snag",
+      "kind": "Load starts to spin",
+      "missNote": "The rail kept spinning past the false car with nobody on the tag line. A ten-foot steel section swinging free at that height is exactly the load a tag line exists to prevent.",
+      "seconds": 11,
+      "target": "tag-line",
+      "why": "A tag line's whole job is to keep a suspended load from doing exactly this — turning a controlled lift into a load with its own momentum. A spinning rail section near an open platform edge is a crush hazard for anyone standing on that platform, and the only fix is the line, not the hoist.",
+      "wrongNote": "It is the tag line. Get it back in hand and bring the spin under control before the rail reaches the platform."
+    }
+  ],
+  "lateNotes": {
+    "false-car-stop-switch": "The false car's own stop switch is confirmed before anyone steps onto the platform, not after.",
+    "rail-gauge-tool": "The gauge reading is taken once the rail is bolted at the bracket, not while it is still hanging on the hoist."
+  },
+  "name": "Hoistway False Car and Rail Setting",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "elevator-constructors"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "chain-hoist",
+      "debris-on-beam",
+      "false-car",
+      "false-car-stop-switch",
+      "fishplate-bolts",
+      "frayed-hoist-rope",
+      "hoist-control",
+      "hoistway-permit",
+      "landing-door-lock",
+      "layout-log",
+      "loose-bracket",
+      "missing-cotter-pin",
+      "monorail-trolley",
+      "open-hoistway-edge",
+      "plumb-instrument",
+      "rail-bracket-slot",
+      "rail-clamp-pinch",
+      "rail-gauge-tool",
+      "rail-section",
+      "swinging-rail-load",
+      "tag-line",
+      "toolbox-talk-panel"
+    ],
+    "meshes": 159
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read today's hoistway work plan and confirm who is riding the false car and who is running the hoist from below.",
+      "id": "toolbox-talk",
+      "kind": "select",
+      "prompt": "Read today's hoistway work plan and confirm who is riding the false car and who is running the hoist from below.",
+      "target": "toolbox-talk-panel",
+      "title": "Attend the toolbox talk",
+      "why": "A new-installation crew moves material and people through the same open shaft all day, and the one thing that keeps that safe is everybody knowing, before the first lock comes off anything, exactly who is above, who is below, and who is answering the hoist controls. A toolbox talk skipped because everyone already knows the drill is the day the drill turns out to have changed since yesterday."
+    },
+    {
+      "cue": "Read the permit and confirm landing barricades are posted at every floor above and below the working level.",
+      "id": "permit",
+      "kind": "select",
+      "prompt": "Read the permit and confirm landing barricades are posted at every floor above and below the working level.",
+      "target": "hoistway-permit",
+      "title": "Open the hoistway work permit",
+      "why": "Every landing opening on a new installation is a hole in the building with nothing behind it yet — no car, no door interlock, nothing. The permit names which floors are barricaded before the false car goes anywhere, because a barricade taken down early is a fall hazard for the next tradesperson through the building who has no reason to expect an open shaft behind that door."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Seat the trolley on the monorail beam, hang the chain hoist from it, then clip on the tag line before anything is lifted.",
+      "id": "rig-hoist",
+      "itemNames": {
+        "chain-hoist": "chain hoist",
+        "monorail-trolley": "monorail trolley",
+        "tag-line": "tag line"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — trolley on the beam first, then the chain hoist on the trolley, and the tag line clipped on last of all.",
+      "prompt": "Seat the trolley on the monorail beam, hang the chain hoist from it, then clip on the tag line before anything is lifted.",
+      "targets": [
+        "monorail-trolley",
+        "chain-hoist",
+        "tag-line"
+      ],
+      "title": "Rig the material hoist in order",
+      "why": "The trolley has to be riding the beam correctly before anything hangs from it, the hoist has to be on the trolley before a load goes on the hook, and the tag line goes on last because it is the one thing that keeps the load from turning into a pendulum the moment it clears the deck. Rigged out of order, a rail section can be swinging before anyone has a hand on the line meant to control it."
+    },
+    {
+      "cue": "Check the false car's hanger bolts against the guide rail brackets before anyone steps onto the platform.",
+      "id": "false-car-secure",
+      "kind": "select",
+      "prompt": "Check the false car's hanger bolts against the guide rail brackets before anyone steps onto the platform.",
+      "target": "false-car",
+      "title": "Confirm the false car is secured to the rail brackets",
+      "why": "The false car is only as safe as the brackets it hangs from, and those brackets were set for exactly this purpose — nothing else in the shaft is rated to carry a crew and a load of material. A platform that looks level and solid from the landing can still have one hanger bolt short of full engagement, which is not something anyone wants to discover with their weight already on it."
+    },
+    {
+      "cue": "Confirm the false car's stop switch is ON before the hoist takes any load.",
+      "id": "false-car-stop",
+      "kind": "select",
+      "prompt": "Confirm the false car's stop switch is ON before the hoist takes any load.",
+      "target": "false-car-stop-switch",
+      "title": "Engage the false car's own stop switch",
+      "why": "This switch is independent of anything in the machine room because there usually is no finished machine room yet — the false car is its own small, self-contained work platform, and its stop switch is the only thing on it a crew member standing there can see and trust with their own eyes."
+    },
+    {
+      "cue": "Sight the plumb line against the bracket and commit the reading inside the band the layout print calls for.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.58
+        ],
+        "label": "BRACKET PLUMB",
+        "missNote": "Outside the print's tolerance. Loosen the bracket, re-sight the line and take the reading again before anything is bolted to it.",
+        "speed": 0.6
+      },
+      "id": "plumb-check",
+      "kind": "gauge",
+      "prompt": "Sight the plumb line against the bracket and commit the reading inside the band the layout print calls for.",
+      "target": "plumb-instrument",
+      "title": "Read the rail bracket plumb line",
+      "why": "Every rail section that goes up afterward follows the line the first bracket sets, so an error here does not stay small — it multiplies floor by floor for the rest of the hoistway. The plumb line is read against the print's own tolerance, not against how straight the bracket looks from across the shaft."
+    },
+    {
+      "cue": "Guide the hoisted rail section over to the bracket slot and land it on the marks.",
+      "drag": {
+        "missNote": "Not seated on the bracket marks. A rail resting against the bracket instead of seated in it is not caught by the fishplate bolts the way it needs to be.",
+        "radius": 0.4,
+        "to": "rail-bracket-slot"
+      },
+      "id": "set-rail",
+      "kind": "drag",
+      "prompt": "Guide the hoisted rail section over to the bracket slot and land it on the marks.",
+      "target": "rail-section",
+      "title": "Carry the rail section to the bracket",
+      "why": "The rail comes up the shaft on the hoist and the tag line, but landing it is a hand job — walked onto the bracket seat rather than lowered blind and hoped into place. A rail section set even slightly off the bracket's marks throws the plumb line the next section above it has to match."
+    },
+    {
+      "cue": "Turn the wrench on the fishplate bolts to the rail manufacturer's spec.",
+      "id": "bolt-torque",
+      "kind": "turn",
+      "prompt": "Turn the wrench on the fishplate bolts to the rail manufacturer's spec.",
+      "target": "fishplate-bolts",
+      "title": "Torque the fishplate bolts",
+      "turn": {
+        "axis": "z",
+        "label": "FISHPLATE BOLTS",
+        "turns": 0.3
+      },
+      "why": "The fishplate is what carries the joint's load from one rail section into the next, and it only does that if every bolt is torqued evenly to the manufacturer's own spec rather than snugged by feel. A joint left loose on one side and tight on the other develops a step at exactly the height a car's guide shoe will ride over it later."
+    },
+    {
+      "cue": "Set the gauge tool across both rails and commit the reading inside the band.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.56
+        ],
+        "label": "RAIL GAUGE",
+        "missNote": "Outside gauge tolerance. Loosen the bracket clips, re-set the tool square across both rails and read it again.",
+        "speed": 0.55
+      },
+      "id": "gauge-check",
+      "kind": "gauge",
+      "prompt": "Set the gauge tool across both rails and commit the reading inside the band.",
+      "target": "rail-gauge-tool",
+      "title": "Check the rail-to-rail gauge",
+      "why": "Plumb tells you one rail is straight; gauge tells you the two rails are the right distance apart for the car that is eventually going to run between them. A rail that is perfectly plumb but gauged wrong still throws the guide shoes the day the car goes in, and that is a much harder fault to find once the hoistway is closed up."
+    },
+    {
+      "cue": "Look over the platform, the brackets and the beam. Three things need fixing before the hoist runs again.",
+      "id": "hoistway-inspect",
+      "itemNames": {
+        "debris-on-beam": "material left sitting on the monorail beam",
+        "loose-bracket": "a bracket clip left finger-tight",
+        "missing-cotter-pin": "a fishplate bolt with no cotter pin"
+      },
+      "itemNotes": {
+        "debris-on-beam": "Anything left sitting on the monorail beam is something that can be knocked off it the next time the trolley runs past — straight down the open shaft onto whoever is below.",
+        "loose-bracket": "A bracket clip left finger-tight will not hold its rail through the first thermal cycle the shaft goes through — it gets torqued now, while the crew is already standing at it.",
+        "missing-cotter-pin": "A fishplate bolt with no cotter pin can back off a fraction of a turn at a time under vibration until nothing is holding the joint at all. It gets pinned before the crew moves up to the next bracket."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the platform, the brackets and the beam. Three things need fixing before the hoist runs again.",
+      "targets": [
+        "loose-bracket",
+        "missing-cotter-pin",
+        "debris-on-beam"
+      ],
+      "title": "Walk the false car and check the rigging",
+      "why": "A false car gets walked before every lift the same way a pit gets walked before every entry: not because something is expected to be wrong, but because the one time something is wrong is the time nobody looked."
+    },
+    {
+      "cue": "Hold the hoist control lever down and bring the next rail section up to the false car.",
+      "holdBreakNote": "You let go and the hoist stopped, which is exactly what constant pressure is for. Take the lever again and hold it for the whole lift.",
+      "id": "hoist-material",
+      "kind": "hold",
+      "prompt": "Hold the hoist control lever down and bring the next rail section up to the false car.",
+      "seconds": 6,
+      "target": "hoist-control",
+      "title": "Run the hoist on constant pressure",
+      "why": "The hoist control is constant pressure for the same reason a car's inspection button is: let go and the load stops where it is instead of running on unattended. A load that keeps climbing after the operator's hand has come off the lever, for any reason, is a load nobody is actually controlling any more."
+    },
+    {
+      "cue": "Confirm the landing door lock is engaged now that the rail section has cleared the opening.",
+      "id": "landing-lock",
+      "kind": "select",
+      "prompt": "Confirm the landing door lock is engaged now that the rail section has cleared the opening.",
+      "target": "landing-door-lock",
+      "title": "Relock the landing opening",
+      "why": "The landing opening only comes unlocked long enough to pass material through it, and it goes straight back to locked the moment that material has cleared — because an unlocked landing opening on a floor with no finished car yet looks, to anyone else in the building, exactly like a door that opens onto a room."
+    },
+    {
+      "cue": "Unclip the tag line, park the chain hoist on the trolley, then release the false car stop switch.",
+      "id": "restore",
+      "itemNames": {
+        "chain-hoist": "chain hoist",
+        "false-car-stop-switch": "false car stop switch",
+        "tag-line": "tag line"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — tag line first, then park the hoist, and the false car stop switch last of all.",
+      "prompt": "Unclip the tag line, park the chain hoist on the trolley, then release the false car stop switch.",
+      "targets": [
+        "tag-line",
+        "chain-hoist",
+        "false-car-stop-switch"
+      ],
+      "title": "Park the rigging in the correct order",
+      "why": "Park from the load inward: the tag line comes off a load that is already landed and secure, the hoist gets parked once nothing is hanging from it, and the false car's own stop switch is the last thing released because it is what has been protecting the platform this whole time."
+    },
+    {
+      "cue": "Write the bracket spacing, the plumb and gauge readings, and the floor level on the layout log.",
+      "id": "as-built-log",
+      "kind": "select",
+      "prompt": "Write the bracket spacing, the plumb and gauge readings, and the floor level on the layout log.",
+      "target": "layout-log",
+      "title": "Log the rail as-built",
+      "why": "The next crew up the shaft is setting their brackets off the line this rail just established, and the only record of whether that line is actually true is what gets written here — not what everyone remembers about how the day went."
+    }
+  ],
+  "supportLine": "your IUEC local's member assistance programme, or the NEIEP training coordinator for anything about the apprenticeship record",
+  "tagline": "Rigging a new hoistway from a false car: secure the platform, rig the monorail hoist, plumb and set the guide rail, gauge it, and log the as-built",
+  "title": "SmartCiti.X~ Hoistway False Car and Rail Setting VR",
+  "trade": "Elevator constructor — new installation, IUEC",
+  "underwater": null,
+  "weather": null
+}

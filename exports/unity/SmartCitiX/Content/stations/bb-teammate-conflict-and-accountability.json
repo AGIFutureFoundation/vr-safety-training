@@ -1,0 +1,423 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "still-teammates",
+    "name": "Still Teammates",
+    "note": "A shove met with a real circle-up instead of a rushed sorry, and both players actually repaired before the next drill"
+  },
+  "category": "Youth Sports & Coaching",
+  "certification": "USA Basketball youth development guidelines on coaching team culture and conflict between young athletes rather than only the skills between them; the Association for Applied Sport Psychology's guidance on accountability that builds rather than shames a young athlete; NFHS basketball rules and its sportsmanship expectations for how teammates treat each other on and off the ball; the U.S. Center for SafeSport for observable, non-shaming correction and for knowing when a physical incident between athletes has to be reported rather than only handled on the floor; CDC Heads Up for a head knock taken in the scramble that led to the shove; the American Red Cross first aid course for checking either player over before play resumes",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Association for Applied Sport Psychology",
+        "citedAs": "Association for Applied Sport Psychology",
+        "id": "aasp-sport-psychology-guidance",
+        "title": "Association for Applied Sport Psychology guidance on mental-skills routines for young athletes: composure after a mistake, pre-performance routines, coach feedback and growth mindset, and decision-making under pressure"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC Heads Up",
+        "id": "cdc-heads-up",
+        "title": "CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance"
+      },
+      {
+        "body": "NFHS",
+        "citedAs": "NFHS",
+        "id": "nfhs-basketball-rules",
+        "title": "National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport"
+      },
+      {
+        "body": "Red Cross",
+        "citedAs": "American Red Cross first aid",
+        "id": "red-cross-first-aid-course",
+        "title": "American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services"
+      },
+      {
+        "body": "U.S. Center for SafeSport",
+        "citedAs": "U.S. Center for SafeSport",
+        "id": "safesport-code",
+        "title": "U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting"
+      },
+      {
+        "body": "USA Basketball",
+        "citedAs": "USA Basketball",
+        "id": "usa-basketball-youth-guidelines",
+        "title": "USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them"
+      }
+    ]
+  },
+  "district": "gym-court",
+  "domain": "Youth Sports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clear-floor-first",
+        "name": "Clear Floor First",
+        "note": "Every hazard on the floor found before the circle-up starts"
+      },
+      {
+        "id": "no-escalation",
+        "name": "No Escalation",
+        "note": "No unsafe action anywhere in the session"
+      },
+      {
+        "id": "steady-circle",
+        "name": "Steady Circle",
+        "note": "Accountability tempo and team trust both inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-session",
+        "name": "Clean Session",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "unshaken",
+        "name": "Unshaken",
+        "note": "Held team trust in band the whole way back into the drill"
+      },
+      {
+        "id": "quick-repair",
+        "name": "Quick Repair",
+        "note": "Practice log reached inside 80% of par"
+      }
+    ],
+    "currency": "REPAIR POINTS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Bench Helper",
+      "Line Coach",
+      "Assistant Coach",
+      "Head Coach",
+      "Culture Mentor"
+    ],
+    "system": "Circle-Up Board"
+  },
+  "hazards": {
+    "force-a-fake-apology-in-front-of-everyone": "You made both players say sorry to each other in front of the whole team right away, rushed and clearly not meant. The Association for Applied Sport Psychology's guidance on accountability warns that a forced, public apology teaches a player to perform contrition, not to actually feel it, and it turns a private repair into a second humiliation watched by the entire team.",
+    "let-teammates-pick-sides": "You let the rest of the team start arguing about who started it while the two players involved were still standing right there. A team choosing sides over a shove splits the group exactly along the line the incident already drew, and it is the U.S. Center for SafeSport's own point that adults, not teammates, are supposed to be the ones handling a conflict between young athletes.",
+    "let-the-drill-keep-running-around-them": "You let the rest of the team keep running the drill right next to the two players who had just shoved each other. A live drill continuing beside an unresolved confrontation is how a bystander gets pulled into it or collides with someone whose attention is anywhere but the ball, and it tells both players their safety mattered less than keeping the practice on schedule.",
+    "skip-the-report-because-it-was-minor": "You decided not to log or report the shove because nobody was hurt and it seemed minor. SafeSport guidance is clear that a physical incident between athletes gets documented and reported through the league's own process regardless of how it looks in the moment, because the record protects both players and the coach if anything about the incident is ever asked about later."
+  },
+  "id": "bb-teammate-conflict-and-accountability",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "cooling-off-pause",
+      "alert": "A teammate on the bench jumps up and starts moving toward the two separated players, ready to get involved.",
+      "cue": "Send the assistant to intercept the teammate and hold the bench back — the head coach stays with the two players.",
+      "delay": 3,
+      "id": "a-teammate-nearly-jumps-in",
+      "kind": "Heated moment",
+      "missNote": "Nobody intercepted the teammate, and by the time the coach noticed, three more players had drifted toward the confrontation instead of staying on the bench.",
+      "seconds": 12,
+      "target": "assistant-intercept-spot",
+      "why": "A third player joining a conflict that was already being handled turns a two-person incident into a bigger one, and the fastest way to stop it is an adult who is not also running the cooling-off pause. Sending the assistant to intercept keeps the head coach focused on the two players who actually need it and keeps the rest of the bench exactly where it should be.",
+      "wrongNote": "That does not stop the teammate from getting involved. Send the assistant to intercept them and hold the bench back."
+    },
+    {
+      "after": "hold-team-trust-while-rejoining-the-drill",
+      "alert": "A parent who saw the shove from the stands comes straight onto the court demanding to know what happened, right in the middle of the drill.",
+      "cue": "Send the assistant to walk the parent off the court and set a time to talk after practice — keep the head coach with the team and the drill running.",
+      "delay": 3,
+      "id": "a-parent-storms-onto-the-court",
+      "kind": "Parent at the door",
+      "missNote": "The head coach stopped the drill to argue with the parent on the court, and the team stood around watching the whole exchange instead of finishing what the circle-up had just started to rebuild.",
+      "seconds": 12,
+      "target": "assistant-parent-spot",
+      "why": "A parent coming onto the live court mid-drill is itself a safety problem before it is a conversation problem, and it undoes the trust the team just rebuilt if the head coach stops everything to argue with them in front of the players. Sending the assistant to walk the parent off calmly, with a real time set to talk later, keeps both the floor and the repair intact.",
+      "wrongNote": "That does not get the parent off the live floor. Send the assistant to walk them off and set a time to talk after practice."
+    }
+  ],
+  "lateNotes": {
+    "crew-checkin-board": "The staff check-in comes after the log, at the very end.",
+    "practice-log-board": "The log closes the circle-up once the repair has held and the team has rejoined the drill — nothing to record yet."
+  },
+  "name": "Teammate Conflict and Accountability",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "basketball-fundamentals"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "accountability-clock",
+      "apology-marker",
+      "assistant-intercept-spot",
+      "assistant-parent-spot",
+      "circle-each-side",
+      "circle-impact",
+      "circle-name-it",
+      "circle-repair",
+      "cooldown-marker",
+      "crew-checkin-board",
+      "force-a-fake-apology-in-front-of-everyone",
+      "handshake-token",
+      "let-teammates-pick-sides",
+      "let-the-drill-keep-running-around-them",
+      "practice-log-board",
+      "quiet-word-spot",
+      "repaired-spot",
+      "reporting-line-card",
+      "residue-avoiding-eye-contact",
+      "residue-back-to-normal-banter",
+      "residue-still-muttering",
+      "residue-teammates-taking-sides",
+      "separation-spot-card",
+      "shove-bystander-circling",
+      "shove-fists-clenched",
+      "shove-loose-ball",
+      "shove-teammate-stepping-back",
+      "skip-the-report-because-it-was-minor",
+      "talking-piece-dial",
+      "team-trust-meter"
+    ],
+    "meshes": 244
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Look at the floor, the two players and everyone standing near them. Mark what has to be fixed and who has to be separated.",
+      "decoyNotes": {
+        "shove-teammate-stepping-back": "A teammate already stepping back and giving space is doing exactly what the moment needs. Look for what is still escalating."
+      },
+      "id": "scan-the-court-after-the-shove",
+      "itemNames": {
+        "shove-bystander-circling": "a teammate circling in, ready to jump into it",
+        "shove-fists-clenched": "a player with fists still clenched",
+        "shove-loose-ball": "the loose ball still sitting where the shove happened"
+      },
+      "itemNotes": {
+        "shove-bystander-circling": "A teammate circling closer is a second shove waiting to happen. Get between them before the crowd forms.",
+        "shove-fists-clenched": "Clenched fists mean the body has not calmed down even if the shoving has stopped. That is who needs separated first.",
+        "shove-loose-ball": "A ball sitting in the middle of a tense standoff is the next trip or the next thing somebody kicks at. Rack it before anything else."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the floor, the two players and everyone standing near them. Mark what has to be fixed and who has to be separated.",
+      "targets": [
+        "shove-loose-ball",
+        "shove-bystander-circling",
+        "shove-fists-clenched"
+      ],
+      "title": "Scan the floor in the first seconds after a shove",
+      "why": "The first seconds after a shove decide whether it stays between two players or pulls in a third: a loose ball still sitting there, a teammate circling in ready to jump in, and fists still clenched are all read in the same glance a coach takes before anyone says a single word about what happened."
+    },
+    {
+      "cue": "Post the first rule: space between them, physically, before either one says another word.",
+      "id": "separate-the-two-players",
+      "kind": "select",
+      "prompt": "Post the first rule: space between them, physically, before either one says another word.",
+      "target": "separation-spot-card",
+      "title": "Separate the two players before any conversation",
+      "why": "Nothing productive gets said while two players are still close enough to shove again. Creating real physical space first, calmly and without singling out who was more at fault, is what makes every step that follows possible — a conversation started too close to the original distance just restarts the confrontation instead of resolving it."
+    },
+    {
+      "cue": "Post the reminder: a physical incident between players gets logged and reported through the league's process, not judged as too minor to matter.",
+      "id": "read-the-reporting-line",
+      "kind": "select",
+      "prompt": "Post the reminder: a physical incident between players gets logged and reported through the league's process, not judged as too minor to matter.",
+      "target": "reporting-line-card",
+      "title": "Read the reporting line before the circle-up starts",
+      "why": "SafeSport guidance treats the reporting threshold as a floor, not a judgement call made in the heat of the moment by whoever happened to be coaching. Reading that line now, before the circle-up even starts, keeps the decision to document the incident from quietly disappearing once the two players seem to have calmed down."
+    },
+    {
+      "cue": "Both players stand apart and breathe — hold here and watch it happen, no talking over it, no rushing the conversation.",
+      "holdBreakNote": "The pause got cut short before either player had actually calmed down. Hold it the whole way through — the conversation can wait a few more seconds.",
+      "id": "cooling-off-pause",
+      "kind": "hold",
+      "prompt": "Both players stand apart and breathe — hold here and watch it happen, no talking over it, no rushing the conversation.",
+      "seconds": 6,
+      "target": "cooldown-marker",
+      "title": "Hold a real cooling-off pause before talking",
+      "why": "A conversation about accountability started while adrenaline is still running high rarely lands as anything but another round of the argument. Holding a genuine pause — long enough for both players' breathing to actually slow — is what makes the circle-up that follows a repair conversation instead of a continuation of the shove with words instead of hands."
+    },
+    {
+      "cue": "Name what happened first, then each side speaks in turn, then the impact is named, then a repair is agreed.",
+      "id": "build-the-circle-up-in-order",
+      "itemNames": {
+        "circle-each-side": "each player gets a turn to speak",
+        "circle-impact": "name the impact, not just the act",
+        "circle-name-it": "name what happened, plainly",
+        "circle-repair": "agree what repair looks like"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. What happened gets named plainly first — jumping straight to a repair before either player has been heard just papers over what actually needs saying.",
+      "prompt": "Name what happened first, then each side speaks in turn, then the impact is named, then a repair is agreed.",
+      "targets": [
+        "circle-name-it",
+        "circle-each-side",
+        "circle-impact",
+        "circle-repair"
+      ],
+      "title": "Build the circle-up in order",
+      "why": "Each part of the circle-up needs the one before it: naming what happened plainly stops either player from re-litigating the story, hearing both sides in turn is only possible once nobody is interrupting, naming the impact only means something once both sides have actually been heard, and a repair agreed before impact is named is a repair aimed at nothing in particular."
+    },
+    {
+      "cue": "Turn the talking-piece dial to hand the floor from one player to the other — only the one holding it speaks.",
+      "id": "pass-the-talking-piece",
+      "kind": "turn",
+      "prompt": "Turn the talking-piece dial to hand the floor from one player to the other — only the one holding it speaks.",
+      "target": "talking-piece-dial",
+      "title": "Turn the talking piece to whoever speaks next",
+      "turn": {
+        "axis": "y",
+        "label": "YOUR TURN",
+        "turns": 0.5
+      },
+      "why": "A circle where only the person holding the talking piece speaks is a small, physical rule that stops a conversation about accountability from turning back into an argument where the loudest voice wins. Turning it from one player to the other makes whose turn it is to talk something the whole group can see, not something the coach has to keep re-asserting out loud."
+    },
+    {
+      "cue": "Commit when the conversation reads steady — not rushed through, not dragged into a public interrogation.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "TEMPO",
+        "missNote": "Outside the band. Rushed through means neither player actually processed what was said; dragged out turns a repair conversation into a public lecture. Find steady and commit.",
+        "speed": 0.6
+      },
+      "id": "accountability-tempo",
+      "kind": "gauge",
+      "prompt": "Commit when the conversation reads steady — not rushed through, not dragged into a public interrogation.",
+      "target": "accountability-clock",
+      "title": "Keep the accountability conversation at the right tempo",
+      "why": "A circle-up rushed through to get back to the drill sooner leaves both players having said the words without meaning them, and one dragged out past the point either player is still listening turns into exactly the public shaming a genuine apology is supposed to avoid. The conversation only works run at its own pace, briefly and completely."
+    },
+    {
+      "cue": "Each player looks at the other and says what they are actually sorry for — hold here, no rushing past it.",
+      "holdBreakNote": "The apology got cut short before it landed. Hold it long enough for both players to actually say and hear it.",
+      "id": "hold-the-apology-with-eye-contact",
+      "kind": "hold",
+      "prompt": "Each player looks at the other and says what they are actually sorry for — hold here, no rushing past it.",
+      "seconds": 5,
+      "target": "apology-marker",
+      "title": "Hold the apology long enough for it to be real",
+      "why": "An apology muttered while looking at the floor is a word said to end the conversation, not a repair. Holding this moment long enough for each player to actually look at the other and name the specific thing they are sorry for is what separates a genuine accountability step from a formality performed to get back on the court faster."
+    },
+    {
+      "cue": "Watch both players and the bench for what the words alone did not fix. Mark what still needs attention.",
+      "decoyNotes": {
+        "residue-back-to-normal-banter": "Two players already back to their normal joking around is the repair actually working. Look for what has not settled."
+      },
+      "id": "spot-the-signs-it-is-not-resolved",
+      "itemNames": {
+        "residue-avoiding-eye-contact": "the two players still avoiding each other's eyes",
+        "residue-still-muttering": "a player still muttering under their breath",
+        "residue-teammates-taking-sides": "teammates on the bench visibly taking sides"
+      },
+      "itemNotes": {
+        "residue-avoiding-eye-contact": "Avoided eye contact after an apology means the repair has not actually landed yet. Slow down before moving on.",
+        "residue-still-muttering": "Muttering after the fact is the conflict still running underneath the words that were said out loud. Check in before the drill resumes.",
+        "residue-teammates-taking-sides": "A bench splitting into camps keeps the conflict alive even after the two players involved have settled it. That needs its own quiet word."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Watch both players and the bench for what the words alone did not fix. Mark what still needs attention.",
+      "targets": [
+        "residue-avoiding-eye-contact",
+        "residue-still-muttering",
+        "residue-teammates-taking-sides"
+      ],
+      "title": "Spot the signs the conflict is not actually resolved",
+      "why": "Saying sorry and meaning it are not always the same moment, and a coach who moves straight back to the drill the instant the apology is said can miss the difference. Avoided eye contact, muttering, and a bench that has quietly picked sides are all signs the repair needs one more minute before the team is actually ready to play together again."
+    },
+    {
+      "cue": "Drag the handshake token from the 'still owed' side of the board to the 'repaired' spot.",
+      "drag": {
+        "missNote": "Still on the 'still owed' side. A repair agreed in words but not physically carried out is a repair still owed — move the token all the way to the repaired spot.",
+        "radius": 0.45,
+        "to": "repaired-spot"
+      },
+      "id": "repair-the-handshake",
+      "kind": "drag",
+      "prompt": "Drag the handshake token from the 'still owed' side of the board to the 'repaired' spot.",
+      "target": "handshake-token",
+      "title": "Move the repair from agreed to done",
+      "why": "Agreeing to repair things is a sentence; actually shaking hands or bumping fists is the action that makes it real to both players and visible to the rest of the team. A physical token moved from owed to done gives the abstract idea of repair something concrete to stand for, the same trick that works for letting go of a missed shot."
+    },
+    {
+      "cue": "Step to the side with the player who threw the first shove — a short, calm sentence, away from the rest of the team.",
+      "id": "quiet-word-with-the-instigator",
+      "kind": "select",
+      "prompt": "Step to the side with the player who threw the first shove — a short, calm sentence, away from the rest of the team.",
+      "target": "quiet-word-spot",
+      "title": "Give the player who started it a quiet word, not a public one",
+      "why": "A correction given quietly, one to one, and briefly is heard as coaching; the same words said in front of the team become a second public consequence stacked on top of whatever the circle-up already asked of that player. Calm, private and observable correction is the standard safe-sport guidance sets for adults working with young athletes."
+    },
+    {
+      "cue": "Keep the team's trust in band as the two players rejoin the drill — not tense and guarded, not forced into fake normal.",
+      "holdBreakNote": "Trust left the band — either still guarded, or forced into acting like nothing happened. Slow the drill back down before pushing further.",
+      "id": "hold-team-trust-while-rejoining-the-drill",
+      "kind": "track",
+      "prompt": "Keep the team's trust in band as the two players rejoin the drill — not tense and guarded, not forced into fake normal.",
+      "seconds": 8,
+      "target": "team-trust-meter",
+      "title": "Hold team trust while the drill starts back up",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.4,
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "TEAM TRUST",
+        "rise": 0.48,
+        "start": 0.3
+      },
+      "why": "Rejoining the drill too soon leaves a team playing tense and guarded around each other, and forcing everyone to act like nothing happened just buries the tension where a coach cannot see it anymore. Holding trust in band as the drill restarts is what tells a coach the repair actually held rather than only looked finished from the sideline."
+    },
+    {
+      "cue": "Record what happened, how the circle-up went, and anything the athletic trainer checked on either player.",
+      "id": "log-the-incident-and-repair",
+      "kind": "select",
+      "prompt": "Record what happened, how the circle-up went, and anything the athletic trainer checked on either player.",
+      "target": "practice-log-board",
+      "title": "Log the incident and the repair",
+      "why": "What actually happened, how the circle-up went and anything the athletic trainer noticed on either player are what protect both players and the coach if the incident is ever asked about later, and they are what the next practice needs if the same two players need checking on again."
+    },
+    {
+      "cue": "At the bench: how the circle-up felt to run, anything either of you saw, and is everybody good to carry on?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "At the bench: how the circle-up felt to run, anything either of you saw, and is everybody good to carry on?",
+      "target": "crew-checkin-board",
+      "title": "Check in with the assistant coach and the athletic trainer",
+      "why": "Separating two players and running a circle-up takes something out of the adults doing it too. A short check-in — what did you see, how did that feel to manage, is a follow-up call worth making to either family — keeps the staff working as a team and is exactly the kind of noticing the guide's check-in points to."
+    }
+  ],
+  "supportLine": "your league's coach coordinator, or the assistant and athletic trainer who helped you separate and check on both players — a shove between two kids you coach is worth talking through afterwards too",
+  "tagline": "A shove over a loose ball does not end when the whistle blows it dead — separated first, cooled down, heard in turn and repaired for real is what actually makes two players teammates again",
+  "title": "SmartCiti.X~ Teammate Conflict and Accountability VR",
+  "trade": "Youth basketball coach",
+  "underwater": null,
+  "weather": "clear"
+}

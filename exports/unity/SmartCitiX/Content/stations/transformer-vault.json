@@ -1,0 +1,371 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "vault-clear",
+    "name": "Vault Clear",
+    "note": "A padmount switched and grounded to a written order, with the oil drawn clean and the vault left safe"
+  },
+  "category": "Energy & Power",
+  "certification": "IBEW — underground distribution journeyman; NFPA 70E arc-flash boundary and PPE category; OSHA 29 CFR 1910.269 for the switching, clearance and grounding; ASTM D3612 dissolved-gas sampling",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IBEW",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.269",
+        "id": "osha-1910-269",
+        "title": "29 CFR 1910.269 — Electric power generation, transmission and distribution"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Utility distribution",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "order-followed",
+        "name": "Order Followed",
+        "note": "Every switch made in the written order's sequence, first time"
+      },
+      {
+        "id": "grounded-first",
+        "name": "Grounded First",
+        "note": "Never worked a conductor before the grounds were on"
+      },
+      {
+        "id": "sample-clean",
+        "name": "Sample Clean",
+        "note": "Oil drawn inside the temperature and fill band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "no-callback",
+        "name": "No Callback",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "stick-steady",
+        "name": "Stick Steady",
+        "note": "Held the elbow pull for the full count"
+      },
+      {
+        "id": "restored-fast",
+        "name": "Restored Fast",
+        "note": "Vault closed inside 80% of par"
+      }
+    ],
+    "currency": "KVA",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Cable Splicer",
+      "UD Journeyman",
+      "Switching Authority",
+      "Vault Authority Certified"
+    ],
+    "system": "Vault Authority"
+  },
+  "hazards": {
+    "bare-elbow": "You went for the elbow bare-handed. A 600-amp load-break elbow is an energised connector behind an insulating boot — it is pulled with a hot stick, in rubber gloves, from outside the flash boundary, and never with a hand on the cable.",
+    "no-ground-work": "You started work on the conductor before the grounds were applied. De-energised is not the same as grounded: a backfeed from a customer generator or an induced voltage from the parallel circuit will kill you just as dead, and the grounds are the only thing that holds the conductor at earth.",
+    "vault-entry": "You climbed into the vault before it was tested and ventilated. Below grade with a transformer in it is a permit space — heavier-than-air gases pool in it, and an oil fire consumes the oxygen in seconds.",
+    "wet-gloves": "Those rubber gloves have been sitting in the rain in an open bag. Class 2 gloves are tested, dated and kept in their bag dry; wet or undated gloves are not PPE, they are the illusion of it."
+  },
+  "id": "transformer-vault",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "test-dead",
+      "alert": "The control room's SCADA is showing a reclose attempt on the loop. The recloser lamp on the switch cabinet has just lit.",
+      "cue": "Your clearance is not on the switch yet.",
+      "delay": 4,
+      "id": "loop-reclose",
+      "kind": "Remote operation",
+      "missNote": "The loop reclosed onto a section you had tested dead and were standing over. The grounds happened not to be on yet, which means for those seconds the only thing between you and a re-energised conductor was somebody else's attention.",
+      "seconds": 12,
+      "target": "clearance-tag",
+      "why": "Until your lock and tag are on that switch and the clearance number is written down, the loop belongs to the control room and they can re-energise it from a desk. The tag is the only thing that makes the conductor yours.",
+      "wrongNote": "It is the clearance tag. Nothing in this vault is yours until your lock is on that switch."
+    },
+    {
+      "after": "oil-sample",
+      "alert": "The rain has picked up and the vault is taking water faster than it drains. It is over the sill and rising on the tank.",
+      "cue": "Get the pump in before it reaches the grounds.",
+      "delay": 4,
+      "id": "vault-filling",
+      "kind": "Water rising",
+      "missNote": "The water reached the ground clamps and the parked elbows. Everything in the vault now has to be dried, inspected and re-tested before it can be re-energised, and the oil sheen went to the drain.",
+      "seconds": 11,
+      "target": "sump-pump",
+      "why": "Water in a vault is a conductor, a slip hazard and a way to lose your footing over live gear all at once. It also floats the oil off any spill straight into the storm drain, which is a reportable release.",
+      "wrongNote": "It is the sump pump. A vault filling with water while you are standing in it outranks the sample."
+    }
+  ],
+  "lateNotes": {
+    "ground-cluster": "The grounds go on after the elbows are parked and the conductor is tested dead — not before it is isolated.",
+    "oil-valve": "The sample comes last, once the transformer is isolated and grounded."
+  },
+  "name": "Transformer Vault",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "situational-awareness"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "arc-suit",
+      "bare-elbow",
+      "class2-gloves",
+      "clearance-tag",
+      "cracked-bushing",
+      "flash-boundary",
+      "gas-meter",
+      "ground-cluster",
+      "hot-stick",
+      "loop-switch",
+      "no-ground-work",
+      "oil-stain",
+      "oil-valve",
+      "phase-a-ground",
+      "phase-b-ground",
+      "phase-c-ground",
+      "phasing-tester",
+      "sump-pump",
+      "switching-order",
+      "vault-blower",
+      "vault-entry",
+      "wet-gloves"
+    ],
+    "meshes": 187
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the order: which way the loop feeds, which elbows come out, and in what sequence.",
+      "id": "switch-order",
+      "kind": "select",
+      "prompt": "Read the order: which way the loop feeds, which elbows come out, and in what sequence.",
+      "target": "switching-order",
+      "title": "Take the written switching order",
+      "why": "Underground loops can be fed from either end. The order says which switch opens first so the vault is fed from nowhere, and it is written down because a switching sequence held in the head is how a loop gets backfed."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Suit to the incident-energy category, gloves in date, and the boundary set before the lid lifts.",
+      "id": "boundary",
+      "itemNames": {
+        "arc-suit": "arc-rated suit",
+        "class2-gloves": "dated class 2 gloves",
+        "flash-boundary": "flash boundary markers"
+      },
+      "kind": "sequence",
+      "prompt": "Suit to the incident-energy category, gloves in date, and the boundary set before the lid lifts.",
+      "targets": [
+        "arc-suit",
+        "class2-gloves",
+        "flash-boundary"
+      ],
+      "title": "Arc-rated PPE and the flash boundary",
+      "why": "The label on the transformer gives the incident energy and the boundary. The suit is chosen against that number, the gloves are in test date, and the boundary keeps everyone who is not switching outside it."
+    },
+    {
+      "cue": "Lift the lid, set the blower, and let the vault turn over before anybody leans in.",
+      "id": "vent",
+      "kind": "select",
+      "prompt": "Lift the lid, set the blower, and let the vault turn over before anybody leans in.",
+      "target": "vault-blower",
+      "title": "Open and ventilate the vault",
+      "why": "A below-grade vault is a permit space. Whatever has collected in it — SF6, exhaust, water vapour off a hot tank — sits at the bottom where a person's head goes first."
+    },
+    {
+      "cue": "Bump-tested meter, lowered on its line, and read oxygen and LEL before entry.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "O2 %",
+        "missNote": "Outside the safe band — keep ventilating and read it again before anyone enters.",
+        "speed": 0.7
+      },
+      "id": "atmos",
+      "kind": "gauge",
+      "prompt": "Bump-tested meter, lowered on its line, and read oxygen and LEL before entry.",
+      "target": "gas-meter",
+      "title": "Test the vault atmosphere",
+      "why": "The meter goes down before the person does, and it reads at the bottom, not at the lip. Twenty point nine oxygen at the top of a vault says nothing about the bottom of it."
+    },
+    {
+      "cue": "Open the switch the order names, in the direction the order names.",
+      "id": "open-switch",
+      "kind": "turn",
+      "prompt": "Open the switch the order names, in the direction the order names.",
+      "target": "loop-switch",
+      "title": "Open the loop switch to the order",
+      "turn": {
+        "axis": "y",
+        "label": "LOOP SW",
+        "turns": 0.5
+      },
+      "why": "The loop is opened at the point the order specifies so that the section containing this transformer is fed from neither direction. Opening the wrong end leaves it live from the other."
+    },
+    {
+      "cue": "Hot stick on the elbow's pulling eye, steady pull, and park it on the standoff bushing.",
+      "holdBreakNote": "The elbow came part way and stopped — a partly seated elbow is worse than a seated one. Park it properly.",
+      "id": "pull-elbows",
+      "kind": "hold",
+      "prompt": "Hot stick on the elbow's pulling eye, steady pull, and park it on the standoff bushing.",
+      "seconds": 5,
+      "target": "hot-stick",
+      "title": "Park the load-break elbows with the hot stick",
+      "why": "A load-break elbow interrupts current as it breaks, which is violent and bright. The stick keeps the length of an insulated pole between that event and the person making it, and the elbow goes on a parking stand rather than lying in the vault."
+    },
+    {
+      "cue": "Live-dead-live on a known source, then all three phases at the bushings.",
+      "gauge": {
+        "green": [
+          0.05,
+          0.2
+        ],
+        "label": "PHASE kV",
+        "missNote": "That is not dead. Recheck the switching and do not touch the conductor.",
+        "speed": 0.8
+      },
+      "id": "test-dead",
+      "kind": "gauge",
+      "prompt": "Live-dead-live on a known source, then all three phases at the bushings.",
+      "target": "phasing-tester",
+      "title": "Test dead on every phase",
+      "why": "The tester is proved on a known live source before and after, because a tester that has failed reads dead on everything. Three phases, every time — the one you skip is the one that is still up."
+    },
+    {
+      "cue": "Cluster to the ground grid first, then each phase in turn with the stick.",
+      "id": "grounds",
+      "itemNames": {
+        "ground-cluster": "ground cluster to the grid",
+        "phase-a-ground": "phase A",
+        "phase-b-ground": "phase B",
+        "phase-c-ground": "phase C"
+      },
+      "kind": "sequence",
+      "prompt": "Cluster to the ground grid first, then each phase in turn with the stick.",
+      "targets": [
+        "ground-cluster",
+        "phase-a-ground",
+        "phase-b-ground",
+        "phase-c-ground"
+      ],
+      "title": "Apply the grounds — earth end first",
+      "why": "The earth connection is made before the phase connection, every time. Making the phase end first turns the ground set into the conductor that carries fault current through your hands to nothing."
+    },
+    {
+      "cue": "Your lock and tag on the switch, and the clearance number written on the order.",
+      "id": "lock",
+      "kind": "select",
+      "prompt": "Your lock and tag on the switch, and the clearance number written on the order.",
+      "target": "clearance-tag",
+      "title": "Take your clearance",
+      "why": "The clearance is held by the person doing the work, not by the control room's intention. The number on the tag matches the number on the order, and it comes off when the work does."
+    },
+    {
+      "cue": "Flush the valve, then fill the syringe to the mark with no headspace.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.66
+        ],
+        "label": "FILL",
+        "missNote": "Under-filled or over-filled — the lab will reject it. Draw it again to the mark.",
+        "speed": 0.7
+      },
+      "id": "oil-sample",
+      "kind": "gauge",
+      "prompt": "Flush the valve, then fill the syringe to the mark with no headspace.",
+      "target": "oil-valve",
+      "title": "Draw an oil sample for dissolved-gas analysis",
+      "why": "Dissolved-gas analysis reads the transformer's health from what the oil has absorbed — acetylene means arcing, ethylene means overheating. Air in the syringe invalidates the sample, so it is drawn with no bubble."
+    },
+    {
+      "cue": "The reverse of the way they went on: phases off, then the cluster.",
+      "id": "restore",
+      "itemNames": {
+        "ground-cluster": "ground cluster last",
+        "phase-a-ground": "phase A",
+        "phase-b-ground": "phase B",
+        "phase-c-ground": "phase C"
+      },
+      "kind": "sequence",
+      "prompt": "The reverse of the way they went on: phases off, then the cluster.",
+      "targets": [
+        "phase-c-ground",
+        "phase-b-ground",
+        "phase-a-ground",
+        "ground-cluster"
+      ],
+      "title": "Remove the grounds — phases first, earth last",
+      "why": "Coming off, the earth connection is the last thing broken, for the same reason it was the first thing made. Anything else leaves a ground set hanging on a conductor with no path to earth."
+    },
+    {
+      "cue": "Look over the tank, the bushings and the floor before the lid goes back on; click what needs a work order.",
+      "id": "walk",
+      "itemNames": {
+        "cracked-bushing": "cracked standoff bushing",
+        "oil-stain": "oil stain under the tank"
+      },
+      "itemNotes": {
+        "cracked-bushing": "The standoff bushing you parked an elbow on is cracked through its skirt. Next switching, that parked elbow is sitting on a bushing that cannot hold it off.",
+        "oil-stain": "There is fresh oil under the tank's drain flange. A padmount that is losing oil is losing its insulation and its cooling at the same time."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the tank, the bushings and the floor before the lid goes back on; click what needs a work order.",
+      "targets": [
+        "cracked-bushing",
+        "oil-stain"
+      ],
+      "title": "Walk the vault before you close it",
+      "why": "The vault gets opened once a year if it is lucky. What you noticed today is what gets fixed before the next fault finds it."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Padmount switching under a written order: clearance, hot stick, load-break elbows, grounds applied, oil drawn for DGA",
+  "title": "SmartCiti.X~ Transformer Vault VR",
+  "trade": "Substation / underground distribution electrician",
+  "underwater": null,
+  "weather": "rain"
+}

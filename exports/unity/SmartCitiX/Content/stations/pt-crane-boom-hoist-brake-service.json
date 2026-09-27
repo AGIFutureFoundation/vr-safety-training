@@ -1,0 +1,377 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "brake-set-true",
+    "name": "Brake Set True",
+    "note": "Latch proven, drive locked, the gap a measured number, the release pressure held, and both calls from outside the house answered"
+  },
+  "category": "Maritime & Ports",
+  "certification": "IUOE crane maintenance; ILWU maintenance and repair with the PMA training programme; OSHA 29 CFR 1917 marine terminals; 29 CFR 1910.147 control of hazardous energy; ASME B30.2 overhead and gantry cranes for the brake, drum and limit requirements; ASME B30.20 for the headblock and spreader below the hook",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.2",
+        "id": "asme-b30-2",
+        "title": "ASME B30.2 — Overhead and gantry cranes (top running bridge, single or multiple girder, top running trolley hoist)"
+      },
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.20",
+        "id": "asme-b30-20",
+        "title": "ASME B30.20 — Below-the-hook lifting devices"
+      },
+      {
+        "body": "union",
+        "citedAs": "ILWU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1917",
+        "id": "osha-1917",
+        "title": "29 CFR 1917 — Marine terminals"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "latch-first",
+        "name": "Latch First",
+        "note": "The boom latch proven before the hoist drive was isolated"
+      },
+      {
+        "id": "gap-by-number",
+        "name": "Gap By Number",
+        "note": "The brake gap committed inside the band on the feeler gauge"
+      },
+      {
+        "id": "house-discipline",
+        "name": "House Discipline",
+        "note": "Never a hand in the drum, never a pin pulled under load, never a limit jumpered"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-service",
+        "name": "Clean Service",
+        "note": "No corrections anywhere in the brake service"
+      },
+      {
+        "id": "held-the-pressure",
+        "name": "Held The Pressure",
+        "note": "Release pressure held in band for the whole test"
+      },
+      {
+        "id": "house-turnaround",
+        "name": "House Turnaround",
+        "note": "Brake logged back inside 80% of par"
+      }
+    ],
+    "currency": "GAP",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Oiler",
+      "Crane Mechanic",
+      "Brake Technician",
+      "Lead Mechanic",
+      "Boom Hoist Certified"
+    ],
+    "system": "Machinery House"
+  },
+  "hazards": {
+    "drum-guard-step": "You stepped over the drum guard to reach the far caliper. The guard is there because a rope drum under tension, even stationary, is a pinch point the length of the house — the far caliper is reached from the far side, around the guard, or not at all until the drive is locked and the ropes are proven slack on the latch.",
+    "latch-pin-under-load": "You pulled the boom latch pin with the boom still hanging on the hoist ropes rather than resting on the latch. The pin is the only thing that holds the boom if the brake you are about to open lets go; pulled while the ropes carry the load, it leaves the whole boom on a brake with its calipers off. The latch is proven seated and carrying the boom before anything else in this house is touched.",
+    "limit-jumper": "You jumpered the boom hoist upper limit switch to finish the test. That limit is the last thing between a boom being raised and a boom two-blocking into the apex; ASME B30.2 has it there precisely because an operator's attention is not a safety device, and a jumper left in after a test is how the next operator finds out.",
+    "unlocked-drum-reach": "You reached into the boom hoist drum with the drive still live. The drum turns on a signal from a cab three storeys below the house and it turns without warning — 29 CFR 1910.147 puts the isolator open and your lock on it before any part of you goes past the guard, because the drum does not know you are there."
+  },
+  "id": "pt-crane-boom-hoist-brake-service",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "try-start",
+      "alert": "The terminal radio calls a storm cell with lightning inside the terminal's radius — all cranes to storm stow, tie-downs proven, everyone off the boom.",
+      "cue": "Break off and prove the crane's storm pins are set at the sill before anything else in the house continues.",
+      "delay": 2,
+      "id": "storm-cell",
+      "kind": "Storm cell called on the terminal radio",
+      "missNote": "The storm cell crossed the terminal with this crane's storm pins unproven and the house crew still working the try. The gust front hit a crane that was, as far as anyone had checked, held to its rails by its brakes alone.",
+      "seconds": 14,
+      "target": "storm-pins",
+      "why": "A container crane in a storm is a sail on rails, and the storm pins and tie-downs at the sill are the only thing that keeps it on them; 29 CFR 1917 has the terminal's storm procedure exist for exactly this call, and the mechanic in the house is the one person on the crane who can prove the pins are actually set rather than assumed set from the ground. Proving them is done the moment the call comes, because the gust front arrives before the rain does.",
+      "wrongNote": "The storm pins at the sill — the call is about the crane staying on its rails, and the pins are the only thing in this house that answers it."
+    },
+    {
+      "after": "release-pressure",
+      "alert": "The gantry travel alarm on the next crane has started — it is gantrying along the rail toward this one with nobody having called the house.",
+      "cue": "Set the gantry lockout flag at the rail now — this crane is not to be closed on while the house is manned.",
+      "delay": 2,
+      "id": "neighbour-gantry",
+      "kind": "Neighbouring crane gantrying toward this one",
+      "missNote": "The neighbouring crane closed to its buffers against this one with the house manned and the release test running — the whole house took the buffer strike, and the mechanic on the caliper found out about the gantry from the floor.",
+      "seconds": 12,
+      "target": "gantry-stop-flag",
+      "why": "Two cranes on one rail close on each other at the gantry drive's pace, and the buffers between them are for a crane that is empty and expected, not one with a mechanic in the house and a brake half-tested. The gantry lockout flag is the signal both operators are trained to stop on, and it is set by the person on the crane being closed on, because the operator moving toward you cannot see the house is manned and the radio may be busy with the storm.",
+      "wrongNote": "The gantry lockout flag at the rail — the crane moving toward you answers to the flag, and nothing else in the house reaches its operator in time."
+    }
+  ],
+  "lateNotes": {
+    "brake-service-log": "The brake is logged back once the stroke has been watched through its cycles, not before the test is finished.",
+    "pressure-test-valve": "The release pressure test needs the drive restored for test and the brake fully assembled — not yet.",
+    "restore-switch": "The locks come off and the breaker closes only once the lining is fitted and the adjuster set — there is nothing to test yet."
+  },
+  "name": "Crane Boom Hoist Brake Service",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "adjuster-nut",
+      "boom-latch",
+      "brake-service-log",
+      "breaker-hasp",
+      "caliper-carrier",
+      "drum-guard-step",
+      "feeler-gauge",
+      "gantry-stop-flag",
+      "glazed-lining",
+      "hoist-breaker",
+      "house-radio",
+      "latch-pin-under-load",
+      "limit-jumper",
+      "maintenance-station",
+      "new-lining",
+      "out-of-service-board",
+      "pressure-test-valve",
+      "restore-switch",
+      "storm-pins",
+      "stroke-indicator",
+      "thruster-unit",
+      "unlocked-drum-reach"
+    ],
+    "meshes": 228
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the terminal's out-of-service notice for this crane, the operator off the cab, and the boom raised to stow.",
+      "id": "house-permit",
+      "kind": "select",
+      "prompt": "Check the terminal's out-of-service notice for this crane, the operator off the cab, and the boom raised to stow.",
+      "target": "out-of-service-board",
+      "title": "Confirm the crane is out of service and the boom is at stow",
+      "why": "A boom hoist brake is serviced with the boom where its weight is carried by something other than the brake, which means raised to stow with the latch engaged, and the crane out of service to the terminal so nobody dispatches it mid-job. 29 CFR 1917 puts the out-of-service marking on the crane itself and the notice with the terminal, because a crane that looks parked from the quay and a crane that is actually released to maintenance are two different machines to the operator walking toward it."
+    },
+    {
+      "cue": "Prove the boom latch is seated and the ropes have gone slack onto it, then open the boom hoist breaker and hang your lock.",
+      "id": "isolate-drive",
+      "itemNames": {
+        "boom-latch": "boom latch engaged and carrying",
+        "breaker-hasp": "your lock on the hasp",
+        "hoist-breaker": "boom hoist drive breaker open"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Latch first — prove the boom is resting on it — then the breaker, then your lock. Isolating a drive that is still holding the boom up is the wrong way round.",
+      "prompt": "Prove the boom latch is seated and the ropes have gone slack onto it, then open the boom hoist breaker and hang your lock.",
+      "targets": [
+        "boom-latch",
+        "hoist-breaker",
+        "breaker-hasp"
+      ],
+      "title": "Prove the latch is carrying, then isolate and lock the hoist drive",
+      "why": "The order is the whole safety case. The latch carrying the boom is what makes it safe to open a brake at all; the breaker open takes the drive out of the picture so the drum cannot turn while calipers are off; the lock keeps it that way against anyone in the electrical room below. 29 CFR 1910.147 wants isolate, lock and try — and in this house the try is the latch itself, because a breaker opened while the ropes still carry the boom is an isolation that has taken away the only thing that could lift the boom back onto the latch."
+    },
+    {
+      "cue": "Hold the boom hoist control at the maintenance station and watch the drum: nothing moves, nothing hums, no fault code.",
+      "holdBreakNote": "Released before the try was complete — a drive with a soft start needs the full hold to prove it is dead. Try again.",
+      "id": "try-start",
+      "kind": "hold",
+      "prompt": "Hold the boom hoist control at the maintenance station and watch the drum: nothing moves, nothing hums, no fault code.",
+      "seconds": 4,
+      "target": "maintenance-station",
+      "title": "Try the boom hoist from the maintenance station",
+      "why": "The try is the only proof the isolation is real: the breaker that was opened is the one that feeds this drive and not the trolley's or the main hoist's, which sit in the same room and look the same from the front. Holding the control for the full try, rather than tapping it, is what gives a soft-start drive or a delayed contactor time to show itself, and the drum, not the panel light, is the thing being watched."
+    },
+    {
+      "cue": "Look at the disc face for scoring and heat checking, and each lining for glazing, oil, cracks and thickness against the mark.",
+      "id": "lining-inspect",
+      "itemNames": {
+        "glazed-lining": "glazed and oil-contaminated lining on the inboard caliper"
+      },
+      "itemNotes": {
+        "glazed-lining": "The inboard caliper's lining has glazed to a mirror and darkened at one edge where gearbox oil has been reaching it — it will hold a static boom and fade the moment it gets hot under a lowering."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the disc face for scoring and heat checking, and each lining for glazing, oil, cracks and thickness against the mark.",
+      "targets": [
+        "glazed-lining"
+      ],
+      "title": "Inspect the brake disc and both linings",
+      "why": "A boom hoist brake is used hard and rarely: it holds the boom for hours and then has to arrest it over a few seconds, and a lining that has glazed or picked up oil will do the first and fail the second. ASME B30.2 makes the brake an inspection item with the crane's other holding parts because the fault shows as a shiny surface on a part that looks intact — and it is found by looking at the lining, not at whether the brake set last time."
+    },
+    {
+      "cue": "Slide the feeler between lining and disc on the released brake and commit the reading inside the manufacturer's band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "BRAKE GAP",
+        "missNote": "Outside the band — the feeler has to sit flat between lining and disc across the full face, not on a high spot at the edge.",
+        "speed": 0.7
+      },
+      "id": "gap-measure",
+      "kind": "gauge",
+      "prompt": "Slide the feeler between lining and disc on the released brake and commit the reading inside the manufacturer's band.",
+      "target": "feeler-gauge",
+      "title": "Measure the brake gap with the feeler gauge",
+      "why": "The gap between lining and disc on a released brake is what sets the stroke the thruster has to make to set it, and the stroke is what sets how fast the brake comes on when the drive drops out. Too tight and the lining drags and heats; too wide and the thruster runs out of travel before the brake is fully set, so a boom being lowered keeps lowering. The manufacturer states the gap as a number for that reason, and the feeler is how a mechanic gets that number rather than an impression of it."
+    },
+    {
+      "cue": "Turn the adjuster in to bring the gap to the figure, then re-check with the feeler before locking it.",
+      "id": "set-adjuster",
+      "kind": "turn",
+      "prompt": "Turn the adjuster in to bring the gap to the figure, then re-check with the feeler before locking it.",
+      "target": "adjuster-nut",
+      "title": "Set the gap on the adjuster",
+      "turn": {
+        "label": "ADJUSTER",
+        "turns": 1
+      },
+      "why": "The adjuster moves the caliper body toward the disc and every fraction of a turn is a change in the gap on both linings at once, so it is turned by a known amount and re-measured rather than turned until it feels right. Locking the adjuster afterwards matters as much as setting it: a boom hoist brake cycles thousands of times between services and an adjuster that walks under vibration takes the gap with it."
+    },
+    {
+      "cue": "Carry the new lining from the bench and seat it in the inboard caliper carrier, backing plate to the carrier face.",
+      "drag": {
+        "missNote": "Not seated — the lining has to sit flat on the carrier face with its pins located, or it will bed on one edge.",
+        "radius": 0.5,
+        "to": "caliper-carrier"
+      },
+      "id": "fit-lining",
+      "kind": "drag",
+      "prompt": "Carry the new lining from the bench and seat it in the inboard caliper carrier, backing plate to the carrier face.",
+      "target": "new-lining",
+      "title": "Fit the replacement lining to the inboard caliper",
+      "why": "The lining seats against the carrier on its backing plate and locates on the carrier's pins, and a lining that is fitted a few degrees off will bed on one edge and glaze there within a week. It goes in with the disc face already checked and the oil source dealt with, because a new lining on an oily disc is the same fault a month later, and it goes in before the adjuster is finally set because the new thickness is what the gap is measured against."
+    },
+    {
+      "cue": "Check the thruster's fluid level, its seals for weeping and the stroke rod for scoring before it is asked to work again.",
+      "id": "thruster-check",
+      "kind": "select",
+      "prompt": "Check the thruster's fluid level, its seals for weeping and the stroke rod for scoring before it is asked to work again.",
+      "target": "thruster-unit",
+      "title": "Check the thruster's fluid, seals and stroke rod",
+      "why": "The thruster is what releases the brake against its springs, and the springs are what set it: a thruster low on fluid or with a scored rod releases slowly or not fully, so the lining drags, and a seal that lets go under a lowering drops the release altogether and slams the brake on with the boom moving. The check is made here, before the test, because a thruster fault found during the release pressure test is a fault found with the brake half-released."
+    },
+    {
+      "cue": "Everyone clear of the drum, the guards back on, your lock off the hasp, the breaker closed — the drive is live for the test only.",
+      "id": "restore-for-test",
+      "kind": "select",
+      "prompt": "Everyone clear of the drum, the guards back on, your lock off the hasp, the breaker closed — the drive is live for the test only.",
+      "target": "restore-switch",
+      "title": "Clear the house, remove your lock and restore the drive for the test",
+      "why": "The tests that follow need the drive powered and the brake operating, and from this moment the drum can turn on a signal. 29 CFR 1910.147 has the head count and the guard check before the lock comes off for exactly the same reason it had the lock go on: the person most likely to be in the machine when it wakes is the mechanic who was inside it a minute ago, and a guard left off for the lining work is a drum with nothing between it and a sleeve."
+    },
+    {
+      "cue": "Bring the thruster's release pressure up to the test figure and hold it there — watch for bleed-down and hold the needle steady.",
+      "holdBreakNote": "The pressure fell out of band — that is the bleed-down or the surge the test exists to find. Bring it back to the test figure and hold.",
+      "id": "release-pressure",
+      "kind": "track",
+      "prompt": "Bring the thruster's release pressure up to the test figure and hold it there — watch for bleed-down and hold the needle steady.",
+      "seconds": 6,
+      "target": "pressure-test-valve",
+      "title": "Hold the brake release pressure under test",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.48,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "RELEASE PRESSURE",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "A hydraulic release held at the test figure for a full interval is what proves the thruster's seals, the lines and the release cylinder under the load they actually carry in service: a slow bleed-down here is a brake that will start to drag mid-shift, and a needle that will not settle is air in the release circuit that will make the brake grab. The pressure is held rather than peaked because the faults being looked for are the ones that take a few seconds to show."
+    },
+    {
+      "cue": "Cycle the brake from the maintenance station and hold your watch on the stroke indicator: full set, full release, three times, no drag.",
+      "holdBreakNote": "The watch broke before the third cycle — a brake that drags on the third stroke is not found in the first two. Watch all three.",
+      "id": "stroke-cycles",
+      "kind": "hold",
+      "prompt": "Cycle the brake from the maintenance station and hold your watch on the stroke indicator: full set, full release, three times, no drag.",
+      "seconds": 5,
+      "target": "stroke-indicator",
+      "title": "Watch the set-and-release stroke through three cycles",
+      "why": "The stroke indicator is the one place the whole brake shows itself at once: the gap that was set, the thruster that was checked and the lining that was fitted all come together in how far the actuator travels and how cleanly it returns. Three cycles rather than one is what catches a brake that sets on the first stroke and drags on the third as the thruster warms, and the watch is held for all three because the fault is in the pattern and not in any single stroke."
+    },
+    {
+      "cue": "Record the gap as found and as set, the lining replaced, the release pressure held, and clear the out-of-service notice with the terminal.",
+      "id": "brake-log",
+      "kind": "select",
+      "prompt": "Record the gap as found and as set, the lining replaced, the release pressure held, and clear the out-of-service notice with the terminal.",
+      "target": "brake-service-log",
+      "title": "Log the brake service and return the crane to the terminal",
+      "why": "ASME B30.2 wants the brake's inspection and adjustment recorded so the next service is a comparison against a known figure rather than a fresh guess, and the terminal needs the out-of-service notice cleared by the person who did the work rather than inferred from a crane that looks ready. The gap as found is the number that says how fast the lining is wearing; the gap as set is the number the next mechanic measures against; the log is the only place either survives the shift."
+    },
+    {
+      "cue": "Call the crane operator and the M&R lead: what was found, what was set, and how the crew is after a shift in the house with a storm cell through it.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the crane operator and the M&R lead: what was found, what was set, and how the crew is after a shift in the house with a storm cell through it.",
+      "target": "house-radio",
+      "title": "Check in with the operator and the M&R crew on the handback",
+      "why": "The operator taking the crane back is the person who will feel the brake first, and deserves to know the lining was glazed rather than to learn it from the way the boom now stops. The call is also the crew's own check-in — a shift in the machinery house with a lightning call on the radio and a neighbour gantrying toward you is a shift with a couple of moments in it, and the IUOE and ILWU practice is to say them out loud, and name the support that exists, before the climb down."
+    }
+  ],
+  "supportLine": "your IUOE local's member assistance programme, with the ILWU-PMA benefit plan's counselling line for the M&R crew alongside you",
+  "tagline": "Machinery house, boom at stow: the latch proven before the drive is isolated and locked, the lining found glazed, the gap measured and set, a new lining fitted, the release pressure held under test while a storm cell and a gantrying neighbour both call for attention, the stroke watched through three cycles, and the brake logged back",
+  "title": "SmartCiti.X~ Crane Boom Hoist Brake Service VR",
+  "trade": "IUOE crane maintenance mechanic with the ILWU maintenance and repair crew, PMA training programme",
+  "underwater": null,
+  "weather": "wind"
+}

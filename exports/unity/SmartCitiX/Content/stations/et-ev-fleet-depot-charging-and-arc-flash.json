@@ -1,0 +1,390 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "depot-certified",
+    "name": "Depot Certified",
+    "note": "Zero energy proven before the panel was touched, a cut cable and a fault indicator both caught before they reached the fleet, and never a re-energise without the lockout confirmed first"
+  },
+  "category": "Energy & Power",
+  "certification": "NFPA 70E for the arc-flash boundary and PPE category at this panel, NFPA 70 National Electrical Code for the dispenser circuits, 29 CFR 1910.269 electric power generation, transmission and distribution practice, 29 CFR 1910.333 selection and use of work practices for electrical safety, and IBEW/NECA JATC apprenticeship and journeyman training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IBEW/NECA JATC",
+        "id": "ibew-neca-jatc",
+        "title": "IBEW/NECA Joint Apprenticeship and Training Committee — inside and outside wireman apprenticeship standards, taught from the electrical training ALLIANCE curriculum"
+      },
+      {
+        "body": "NEC/NFPA 70",
+        "citedAs": "NFPA 70",
+        "id": "nec-nfpa-70",
+        "title": "NFPA 70 — National Electrical Code"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 70E",
+        "id": "nfpa-70e",
+        "title": "NFPA 70E — Standard for Electrical Safety in the Workplace"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.269",
+        "id": "osha-1910-269",
+        "title": "29 CFR 1910.269 — Electric power generation, transmission and distribution"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.333",
+        "id": "osha-1910-333",
+        "title": "29 CFR 1910.333 — Selection and use of work practices for electrical safety"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Energy",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "zero-energy-proven",
+        "name": "Zero Energy Proven",
+        "note": "The meter proved zero energy before the panel was ever opened up"
+      },
+      {
+        "id": "test-held-clean",
+        "name": "Test Held Clean",
+        "note": "The charge session watch stayed in band the whole test"
+      },
+      {
+        "id": "never-a-shortcut",
+        "name": "Never a Shortcut",
+        "note": "Never re-energised without the lockout confirmed, never a damaged cable used, never a fault indicator ignored"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-service",
+        "name": "Clean Service",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "torque-on-spec",
+        "name": "Torque On Spec",
+        "note": "Lug torque committed inside the band first time"
+      },
+      {
+        "id": "permit-closed-fast",
+        "name": "Permit Closed Fast",
+        "note": "Permit closed inside 80% of par"
+      }
+    ],
+    "currency": "TAG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Depot Hand",
+      "Charging Crew",
+      "Panel Lead",
+      "Arc-Flash Certified",
+      "Journeyman Certified"
+    ],
+    "system": "Depot Row"
+  },
+  "hazards": {
+    "energize-panel-not-locked": "You reconnected the dispenser module and reached to re-energise the panel before confirming the lockout was actually off and the disconnect proven closed on your own terms. A panel that is re-energised on assumption rather than on a confirmed, deliberate step is a panel that can still be carrying the fault that sent someone in here in the first place.",
+    "ignore-ground-fault-indicator": "You saw the blinking ground-fault indicator on the next dispenser and kept working instead of tagging it out. A ground-fault indicator lit on a charging dispenser is telling you current is finding a path it should not be on, and walking past it because it was not the dispenser you came to service is leaving exactly that fault live for the next van that plugs in.",
+    "skip-zero-energy-verify": "You reached for the lug before the meter had actually proven zero energy at the panel. NFPA 70E requires proving dead with a meter, not assuming a breaker did its job, because a breaker that looks open and a circuit that is actually de-energised are not guaranteed to be the same thing until the meter says so.",
+    "use-damaged-charge-cable": "You plugged the cut charging cable back into service instead of setting it aside. A charging cable with damaged insulation is carrying current close enough to the surface that a driver's own hand is one flex away from finding it, and a cable like that gets tagged out and replaced, never handed back to the fleet."
+  },
+  "id": "et-ev-fleet-depot-charging-and-arc-flash",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "lockout-panel",
+      "alert": "A fleet driver has just walked up and is about to plug their van into the dispenser you have locked out.",
+      "cue": "Stop them now and redirect them to another stall — the torque work waits.",
+      "delay": 2,
+      "id": "driver-tries-to-plug-in",
+      "kind": "A fleet driver tries to plug into the dispenser mid-service",
+      "missNote": "The torque work continued while the driver kept approaching the dispenser; they were reaching for the connector before anyone called out to stop them.",
+      "seconds": 12,
+      "target": "stop-driver",
+      "why": "A driver plugging into a dispenser fed from a panel you have locked out for a reason has no way of knowing this stall is not safe to use tonight, and stopping them before the plug ever makes contact is what keeps a locked-out circuit from being tested by someone who does not know it is locked out.",
+      "wrongNote": "Stopping the driver — someone approaching a locked-out dispenser is answered immediately, not after finishing the work already in hand."
+    },
+    {
+      "after": "watch-charge-session",
+      "alert": "A ground fault has just tripped a breaker on the depot's second panel while your test charge is still running.",
+      "cue": "Go isolate the second panel now — the fault indicator check down the row waits.",
+      "delay": 2,
+      "id": "ground-fault-trips-elsewhere",
+      "kind": "A ground fault trips on a different panel during the test",
+      "missNote": "The row check continued while the second panel sat tripped and unexamined; a co-worker had already started resetting it without knowing why it tripped in the first place.",
+      "seconds": 14,
+      "target": "second-panel-marker",
+      "why": "A ground fault tripping on a live panel elsewhere in the depot needs eyes on it immediately, before it re-closes on its own or someone else tries to reset it blind, and isolating it now is what keeps one fault from becoming two while attention stays on the test already running.",
+      "wrongNote": "The second panel — a fault tripping elsewhere is answered by isolating it immediately, not by finishing a check already underway."
+    }
+  ],
+  "lateNotes": {
+    "dispenser-tag": "Nothing to tag yet — the re-energised test has to pass clean before this dispenser goes back in service.",
+    "panel-lockout": "The meter has to prove zero energy first — the panel is not locked out until that reading is in hand.",
+    "torque-wrench": "There is nothing to torque yet — the panel has to be proven dead and locked out before any lug is touched."
+  },
+  "name": "EV Fleet Depot Charging & Arc Flash",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "energy-transition"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "cargoVan",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "arc-suit",
+      "charge-current-meter",
+      "cut-charge-cable",
+      "depot-permit",
+      "depot-permit-close",
+      "depot-radio",
+      "dispenser-bracket",
+      "dispenser-module",
+      "dispenser-tag",
+      "energize-panel-not-locked",
+      "face-shield",
+      "ground-fault-indicator",
+      "ignore-ground-fault-indicator",
+      "panel-label",
+      "panel-lockout",
+      "second-panel-marker",
+      "skip-zero-energy-verify",
+      "stop-driver",
+      "test-meter",
+      "torque-wrench",
+      "use-damaged-charge-cable"
+    ],
+    "meshes": 147
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the permit: the arc-flash boundary, the PPE category, and which dispensers are down for service tonight.",
+      "id": "read-depot-permit",
+      "kind": "select",
+      "prompt": "Read the permit: the arc-flash boundary, the PPE category, and which dispensers are down for service tonight.",
+      "target": "depot-permit",
+      "title": "Read the depot's energised work permit",
+      "why": "The energised work permit is what makes this job legal to start — the boundary distance and PPE category this specific panel calls for, and exactly which dispensers are already known to be out of service rather than just slow to charge."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Arc-rated suit and face shield on before touching the panel door.",
+      "id": "don-ppe",
+      "itemNames": {
+        "arc-suit": "arc-rated suit",
+        "face-shield": "arc-rated face shield"
+      },
+      "kind": "sequence",
+      "prompt": "Arc-rated suit and face shield on before touching the panel door.",
+      "targets": [
+        "arc-suit",
+        "face-shield"
+      ],
+      "title": "Arc-rated suit and face shield on before the panel opens",
+      "why": "The panel's own arc-flash label sets a PPE category for exactly this kind of door-open, meter-test work, and putting the suit and shield on before the door even opens is what keeps the label's own requirement from being something read after the fact."
+    },
+    {
+      "cue": "Look over each dispenser's charging cable for a cut, a crushed section, or exposed conductor before working the panel behind them.",
+      "id": "inspect-charge-cable",
+      "itemNames": {
+        "cut-charge-cable": "cut charging cable on the near dispenser"
+      },
+      "itemNotes": {
+        "cut-charge-cable": "The near dispenser's charging cable has a cut through its outer jacket close to the handle — easy to miss in the depot's own low light, and tagged out before any van plugs into it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over each dispenser's charging cable for a cut, a crushed section, or exposed conductor before working the panel behind them.",
+      "targets": [
+        "cut-charge-cable"
+      ],
+      "title": "Check the dispensers before starting panel work",
+      "why": "A charging cable handled by a different driver every night wears in ways that are not always obvious from a few feet away, and checking the row now, before the panel work draws all the attention, is what catches a cut cable while it is still just a maintenance note instead of a shock waiting for the next van."
+    },
+    {
+      "cue": "Read the panel's own arc-flash label: the boundary distance and the incident-energy category, before opening the door.",
+      "id": "read-arc-flash-label",
+      "kind": "select",
+      "prompt": "Read the panel's own arc-flash label: the boundary distance and the incident-energy category, before opening the door.",
+      "target": "panel-label",
+      "title": "Read the panel's arc-flash label",
+      "why": "The label is this specific panel's own incident-energy study written down where the person about to open it can see it, and reading it now, rather than trusting memory of a similar panel, is what makes the PPE already on your body the PPE this panel actually calls for."
+    },
+    {
+      "cue": "Test the panel's terminals with the meter and commit the reading once it settles inside the zero-energy band.",
+      "gauge": {
+        "green": [
+          0,
+          0.06
+        ],
+        "label": "PANEL VOLTS",
+        "missNote": "Not settled at zero — hold the meter on the terminals until the reading stops moving before you commit it.",
+        "speed": 0.65
+      },
+      "id": "verify-panel-de-energized",
+      "kind": "gauge",
+      "prompt": "Test the panel's terminals with the meter and commit the reading once it settles inside the zero-energy band.",
+      "target": "test-meter",
+      "title": "Prove zero energy with the meter",
+      "why": "NFPA 70E requires proving a circuit dead with a meter before it is treated as de-energised, because a breaker that looks open is not the same fact as a meter confirming no voltage is actually present — the reading is what this whole next sequence of steps depends on being true."
+    },
+    {
+      "cue": "Lock and tag the panel's disconnect once the meter has proven zero energy.",
+      "id": "lockout-panel",
+      "kind": "select",
+      "prompt": "Lock and tag the panel's disconnect once the meter has proven zero energy.",
+      "target": "panel-lockout",
+      "title": "Lock and tag the panel",
+      "why": "The lock and tag are what keep this panel from being re-energised by someone else on shift while you are still inside it working a lug — and they only mean something applied after the meter has already proven the circuit dead, not before."
+    },
+    {
+      "cue": "Turn the torque wrench slowly until it clicks at spec, watching the click rather than counting turns.",
+      "id": "torque-lug",
+      "kind": "turn",
+      "prompt": "Turn the torque wrench slowly until it clicks at spec, watching the click rather than counting turns.",
+      "target": "torque-wrench",
+      "title": "Torque the lug to spec",
+      "turn": {
+        "label": "TORQUE",
+        "turns": 1
+      },
+      "why": "A lug torqued past spec can crack its own terminal, and one left under spec can loosen and arc under the dispenser's own charging current — the torque wrench's click is the one signal that tells you this connection is neither."
+    },
+    {
+      "cue": "Carry the replacement dispenser module from the bench and seat it into the panel's own mounting bracket.",
+      "drag": {
+        "missNote": "Not seated in the bracket — the module has to go fully into the mounting bracket's own connector, not rest against the outside of it.",
+        "radius": 0.5,
+        "to": "dispenser-bracket"
+      },
+      "id": "reconnect-dispenser",
+      "kind": "drag",
+      "prompt": "Carry the replacement dispenser module from the bench and seat it into the panel's own mounting bracket.",
+      "target": "dispenser-module",
+      "title": "Reconnect the dispenser module",
+      "why": "The module only completes the circuit once it is actually seated in its bracket and its own connector fully mated, and doing this while the panel is still locked out is what keeps the reconnection itself from being live work."
+    },
+    {
+      "cue": "Remove the lockout, re-energise, and hold your position at the panel watching for a fault the full test.",
+      "holdBreakNote": "The test watch broke off before the full interval finished — a re-energise that is only watched for a second is watched for exactly the second before the fault a longer watch would have caught.",
+      "id": "energize-test-hold",
+      "kind": "hold",
+      "prompt": "Remove the lockout, re-energise, and hold your position at the panel watching for a fault the full test.",
+      "seconds": 5,
+      "target": "panel-lockout",
+      "title": "Re-energise and hold for a clean test",
+      "why": "A fault that is going to show up on re-energising usually shows up in the first few seconds, and holding your position at the panel for the full test — rather than walking away the moment power is restored — is what catches it while you are still standing there with the disconnect in reach."
+    },
+    {
+      "cue": "Start a test charge on the reconnected dispenser and watch the current reading stay inside the band the whole session.",
+      "holdBreakNote": "The current reading ran outside the band during the test session — a dispenser handed back to the fleet on an unfinished watch is a dispenser whose fault gets found by the next driver instead of by this test.",
+      "id": "watch-charge-session",
+      "kind": "track",
+      "prompt": "Start a test charge on the reconnected dispenser and watch the current reading stay inside the band the whole session.",
+      "seconds": 6,
+      "target": "charge-current-meter",
+      "title": "Watch a test charge session stay in band",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.28,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "CHARGE A",
+        "rise": 0.3,
+        "start": 0.5
+      },
+      "why": "A dispenser that draws current outside its rated band during a test is telling you something is still wrong with the reconnection, and watching the whole session — not just the first few seconds of a successful-looking start — is what confirms this dispenser is actually ready to hand back to the fleet."
+    },
+    {
+      "cue": "Look down the row of dispensers for any indicator lit that should not be, not just the one you came to service.",
+      "id": "find-fault-indicator",
+      "itemNames": {
+        "ground-fault-indicator": "blinking ground-fault indicator on the next dispenser"
+      },
+      "itemNotes": {
+        "ground-fault-indicator": "The dispenser down the row has its own ground-fault indicator blinking — not the one on tonight's work order, and easy to walk past while focused on the panel you came to service."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look down the row of dispensers for any indicator lit that should not be, not just the one you came to service.",
+      "targets": [
+        "ground-fault-indicator"
+      ],
+      "title": "Look down the row before closing out",
+      "why": "A depot's other dispensers do not stop needing attention just because tonight's work order names a different one, and looking down the row now — while you are already at the panel with your meter in hand — is what catches a ground fault before a fleet van plugs into it overnight."
+    },
+    {
+      "cue": "Hang an in-service tag on the reconnected dispenser once the test charge session has passed clean.",
+      "id": "tag-cleared-dispenser",
+      "kind": "select",
+      "prompt": "Hang an in-service tag on the reconnected dispenser once the test charge session has passed clean.",
+      "target": "dispenser-tag",
+      "title": "Tag the dispenser back in service",
+      "why": "A tag on a cleared dispenser is what tells the next technician, without asking, that this one already passed its test tonight — a dispenser reconnected but never tagged is a dispenser the depot's own record cannot vouch for tomorrow morning."
+    },
+    {
+      "cue": "Call the supervisor: dispenser cleared, the fault indicator down the row tagged out, panel closed up.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the supervisor: dispenser cleared, the fault indicator down the row tagged out, panel closed up.",
+      "target": "depot-radio",
+      "title": "Check in with the depot supervisor",
+      "why": "The depot supervisor's own dispatch of tomorrow's fleet depends on knowing exactly which dispensers are actually safe to use tonight, and calling it in is what keeps that decision based on what you just confirmed rather than on an assumption that the row is fine."
+    },
+    {
+      "cue": "Record the cut cable found, the lug torqued, the fault indicator tagged, and the test results before signing off.",
+      "id": "close-depot-permit",
+      "kind": "select",
+      "prompt": "Record the cut cable found, the lug torqued, the fault indicator tagged, and the test results before signing off.",
+      "target": "depot-permit-close",
+      "title": "Close the energised work permit",
+      "why": "The permit's own close-out is the depot's record that tonight's work actually happened the way the plan called for, and a cut cable or a fault indicator found tonight that never makes the record is a hazard the next shift finds out about only by finding it again themselves."
+    }
+  ],
+  "supportLine": "your IBEW local's member assistance programme",
+  "tagline": "The row before the fleet plugs in for the night: the depot's energised work permit read, the arc-rated suit and face shield on, a cut charging cable found before anyone plugs into it, the panel's own arc-flash label read, zero energy proven on the meter, the panel locked and tagged, a lug torqued to spec, the dispenser module reconnected, the circuit re-energised and held through a test without a fault, a test charge session watched clean, a blinking ground-fault indicator found on the dispenser down the row before it is ignored, the dispenser tagged back in service, the crew checked in, and the permit closed",
+  "title": "SmartCiti.X~ EV Fleet Depot Charging & Arc Flash VR VR",
+  "trade": "IBEW outside/utility electrician servicing an EV fleet depot's charging dispensers and service panel",
+  "underwater": null,
+  "weather": "overcast"
+}

@@ -1,0 +1,406 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "first-smiles",
+    "name": "First Smiles",
+    "note": "A first visit run without forcing the plan past what the child could actually tolerate"
+  },
+  "category": "Dental & Oral Health",
+  "certification": "The AAPD's Guideline on Behavior Guidance for the Pediatric Dental Patient (tell-show-do and the Frankl behavior rating scale); the state dental hygiene board's scope of practice for a registered dental hygienist; the ADHA; the CDC's Guidelines for Infection Control in Dental Health-Care Settings; OSHA 29 CFR 1910.1030 bloodborne pathogens; HIPAA for the child's record",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "AAPD",
+        "citedAs": "AAPD",
+        "id": "aapd-reference-manual",
+        "title": "AAPD Reference Manual guidance on behaviour guidance and preventive care for paediatric patients"
+      },
+      {
+        "body": "ADHA",
+        "citedAs": "ADHA",
+        "id": "adha-standards",
+        "title": "ADHA Standards for Clinical Dental Hygiene Practice"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "HHS",
+        "citedAs": "HIPAA",
+        "id": "hipaa-privacy-rule",
+        "title": "HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Pediatric dentistry",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "least-restrictive",
+        "name": "Least Restrictive",
+        "note": "Never reached for the restraint or the adult dose"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Held the prophy speed and the retraction near band centre"
+      },
+      {
+        "id": "tsd-clean",
+        "name": "Tell-Show-Do Clean",
+        "note": "Ran tell, show, do with no correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "on-time-visit",
+        "name": "On-Time Visit",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "no-redo",
+        "name": "No Redo",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "calm-streak",
+        "name": "Calm Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "STAR",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Front Desk Helper",
+      "Pediatric Hygienist",
+      "Behaviour Lead",
+      "Clinic Mentor",
+      "AAPD Practice Certified"
+    ],
+    "system": "First Smiles"
+  },
+  "hazards": {
+    "adult-fluoride-varnish": "That is the bulk adult-strength varnish applicator, not the child's unit-dose packet. Fluoride varnish is dosed to a child's weight, and reaching for the adult supply on a five-year-old is exactly the kind of dosing error the unit-dose packets exist to make impossible.",
+    "reach-no-gloves": "You reached toward this child's mouth before gloving up. Standard precautions apply to a five-year-old exactly the way they apply to every other patient in the practice — gloves go on before any contact, not after the first instrument is already in your hand.",
+    "restraint-strap": "That is a papoose board, and reaching for it is not the next move here. A physical restraint is a last resort with its own informed-consent conversation and its own documented reason — it is never the answer to a child who is simply anxious, and it is not a shortcut around tell-show-do.",
+    "sharp-explorer-reach": "That explorer is sitting where a wiggling five-year-old's hand can reach it. A sharp instrument left within a young child's reach is a hazard the moment your attention is on their mouth and not on the tray."
+  },
+  "id": "pediatric-visit",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "intraoral-exam",
+      "alert": "The child has suddenly clamped down on the mirror and will not open back up.",
+      "cue": "Your fingers are still near the mirror. Do not pull it against a closed bite.",
+      "delay": 3,
+      "id": "bite-mirror",
+      "kind": "Child bites down",
+      "missNote": "The mirror stayed under load against a closed bite for the rest of that exam. Sooner or later a bite that hard against metal chips a primary tooth or catches a finger, and neither is a way to end a child's first visit.",
+      "seconds": 12,
+      "target": "mouth-prop",
+      "why": "A sudden bite reflex in a young child is common and it is not defiance — pulling a mirror out against a clamped jaw is how a hygienist's finger gets caught or a handle gets bent, and the soft bite prop is exactly what lets the child release on their own terms without anything being forced.",
+      "wrongNote": "Offer the soft bite prop and let the jaw release on its own — nothing gets pulled against a bite this firm."
+    },
+    {
+      "after": "varnish-set",
+      "alert": "The parent, while you're still holding the cotton rolls, asks you to also smooth down a chipped front tooth today while the child is already sitting still.",
+      "cue": "Your hands are full with the cotton rolls. The parent is waiting on an answer.",
+      "delay": 3,
+      "id": "off-scope-request",
+      "kind": "Parent request",
+      "missNote": "The chipped tooth went untreated and unreferred, and the parent left thinking today's visit had covered it. The plan does not change because the child happens to be sitting still — it changes only with what the hygienist's scope actually allows.",
+      "seconds": 12,
+      "target": "referral-pad",
+      "why": "Smoothing or restoring a chipped tooth is a restorative procedure outside a dental hygienist's scope of practice, however reasonable it sounds with a cooperative child already in the chair — the honest answer protects the child from a treatment done outside the scope that is actually licensed to provide it, not from a wasted trip back for the dentist to finish the same exam.",
+      "wrongNote": "The referral pad is the honest answer here — a scope question does not get solved with the cotton rolls, and it does not get solved by improvising restorative care."
+    }
+  ],
+  "lateNotes": {
+    "fluoride-varnish": "The caries-risk conversation and drying the teeth come first — the varnish goes on last.",
+    "post-care-card": "Hold the cotton rolls in for the varnish's full set time before you move on to post-care.",
+    "recall-wheel": "The visit isn't finished — post-care and the parent's questions come before you set the recall."
+  },
+  "name": "Pediatric Visit",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "dental-hygiene-unspoken-smiles"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2,
+    "hits": [
+      "adult-fluoride-varnish",
+      "child",
+      "clenched-fists",
+      "cotton-rolls",
+      "diet-handout",
+      "exam-light",
+      "faq-card",
+      "fluoride-varnish",
+      "gripping-parent",
+      "medical-history-form",
+      "mirror",
+      "mouth-prop",
+      "parent-lap",
+      "post-care-card",
+      "prophy-handpiece",
+      "reach-no-gloves",
+      "recall-wheel",
+      "referral-pad",
+      "restraint-strap",
+      "risk-chart",
+      "sharp-explorer-reach",
+      "tsd-do",
+      "tsd-show",
+      "tsd-tell",
+      "turned-away"
+    ],
+    "meshes": 163
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the intake form with the parent before the child comes near the chair.",
+      "id": "history-review",
+      "kind": "select",
+      "prompt": "Read the intake form with the parent before the child comes near the chair.",
+      "target": "medical-history-form",
+      "title": "Review the medical and dental history",
+      "why": "A five-year-old cannot report their own allergies, past reactions or a sibling's bad experience at another office, so the whole history for this visit comes from the parent's form, read before a single instrument is introduced. It is also the first HIPAA-covered record of this visit, and it stays between you and the parent, not read out loud across a waiting room."
+    },
+    {
+      "cue": "Bring the child across from the parent's lap into the knee-to-knee position facing you.",
+      "drag": {
+        "missNote": "Not lined up with the parent yet — knees have to actually touch for this position to hold the child securely.",
+        "radius": 0.5,
+        "to": "parent-lap"
+      },
+      "forceClass": "firm",
+      "id": "knee-to-knee",
+      "kind": "drag",
+      "noRobot": true,
+      "prompt": "Bring the child across from the parent's lap into the knee-to-knee position facing you.",
+      "robotNote": "Positioning a child across a parent's lap.",
+      "target": "child",
+      "title": "Position the child knee-to-knee with the parent",
+      "why": "Knee-to-knee puts the child's head in your lap and their body across the parent's, with your knees and the parent's touching — the parent stays in physical contact the whole visit, which is most of what makes a first exam tolerable for a child this age, and it gives you the light and the angle a full-size chair cannot at this size."
+    },
+    {
+      "cue": "Bring the exam light down to the working height of the knee-to-knee position.",
+      "forceClass": "light",
+      "id": "light-aim",
+      "kind": "select",
+      "prompt": "Bring the exam light down to the working height of the knee-to-knee position.",
+      "robotNote": "The light swings over the child's face.",
+      "target": "exam-light",
+      "title": "Aim the light for the knee-to-knee height",
+      "why": "The light is set for an adult in a reclined chair by default, and a child's mouth at knee-to-knee height is a foot lower and a different angle entirely — aimed wrong, you are working half-blind into your own shadow for the whole exam."
+    },
+    {
+      "cue": "Tell what it does, show it on the puppet, then do the real thing — in that order, every time.",
+      "id": "tell-show-do",
+      "itemNames": {
+        "tsd-do": "do — the real action",
+        "tsd-show": "show — demonstrate on the puppet",
+        "tsd-tell": "tell — explain in the child's words"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Tell, then show, then do — doing it before the child has seen it done to the puppet is the surprise tell-show-do exists to remove.",
+      "prompt": "Tell what it does, show it on the puppet, then do the real thing — in that order, every time.",
+      "targets": [
+        "tsd-tell",
+        "tsd-show",
+        "tsd-do"
+      ],
+      "title": "Introduce the mirror with tell-show-do",
+      "why": "Tell-show-do is the AAPD's own basic behaviour-guidance technique, and the order is the entire mechanism: telling in words a five-year-old understands takes the mystery out of a strange tool, showing it on something that is not their own body lets them watch it not hurt anyone, and only then does the same action happen to them — never introduced for the first time as a surprise in their own mouth."
+    },
+    {
+      "cue": "Three things about this child's body language say the plan needs to slow down. Find them.",
+      "forceClass": "none",
+      "id": "read-cooperation",
+      "itemNames": {
+        "clenched-fists": "clenched fists",
+        "gripping-parent": "gripping the parent's sleeve",
+        "turned-away": "head turned away"
+      },
+      "itemNotes": {
+        "clenched-fists": "Small fists held tight are a child bracing, not relaxing — a negative Frankl-scale sign that the pace needs to slow down before the mirror goes back in.",
+        "gripping-parent": "A tight grip on the parent's arm is the child anchoring against something. It is worth noticing before you ask for anything more of them.",
+        "turned-away": "The head has turned away from you and toward the parent. That is the child asking to disengage, well before it becomes an actual refusal."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things about this child's body language say the plan needs to slow down. Find them.",
+      "robotNote": "Fists, a turned head and a grip on a parent are read by looking: the robot may be in the volume and may not touch.",
+      "targets": [
+        "clenched-fists",
+        "turned-away",
+        "gripping-parent"
+      ],
+      "title": "Read the child's cooperation cues",
+      "why": "The Frankl behaviour rating scale exists because a child's cooperation is not a single yes-or-no at the start of the visit — it moves, sometimes step to step, and a hygienist who is only watching the mouth misses every one of the cues that says the current pace is no longer working."
+    },
+    {
+      "cue": "Bring the prophy cup up to speed and commit inside the comfortable band.",
+      "forceClass": "light",
+      "gauge": {
+        "green": [
+          0.28,
+          0.46
+        ],
+        "label": "PROPHY CUP — SPEED",
+        "missNote": "Off the comfortable band for a child this size — a scared five-year-old is a harder recovery than a slow polish.",
+        "speed": 0.7
+      },
+      "id": "toothbrush-prophy",
+      "kind": "gauge",
+      "noRobot": true,
+      "prompt": "Bring the prophy cup up to speed and commit inside the comfortable band.",
+      "robotNote": "A slow-speed cup polishing a child's teeth.",
+      "target": "prophy-handpiece",
+      "title": "Set the slow-speed polishing cup",
+      "why": "A five-year-old's enamel is thinner than an adult's and a five-year-old's nerves are a lot closer to a spinning cup than an adult's are — too slow and the polish does nothing, too fast and the vibration and the noise alone can undo everything tell-show-do just built."
+    },
+    {
+      "cue": "Keep the mirror's retraction light and steady while you look, tooth by tooth.",
+      "forceClass": "light",
+      "holdBreakNote": "Out of the comfortable band. Ease back to a steady, gentle retraction and hold it there.",
+      "id": "intraoral-exam",
+      "kind": "track",
+      "noRobot": true,
+      "prompt": "Keep the mirror's retraction light and steady while you look, tooth by tooth.",
+      "robotNote": "Retraction and a tooth count, inside the mouth.",
+      "seconds": 6,
+      "target": "mirror",
+      "title": "Hold gentle retraction while you count the teeth",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.42,
+        "green": [
+          0.32,
+          0.52
+        ],
+        "label": "RETRACTION",
+        "rise": 0.5,
+        "start": 0.14
+      },
+      "why": "Retraction only has to be firm enough to hold the cheek clear of the view, and on a child that band is narrower than on an adult — too light and the cheek falls back across the teeth you are trying to see, too firm and the discomfort alone can end the exam faster than anything you actually find in the mouth."
+    },
+    {
+      "cue": "Score the caries-risk chart with the parent, then go through the diet handout together.",
+      "id": "risk-and-diet",
+      "itemNames": {
+        "diet-handout": "diet handout",
+        "risk-chart": "caries-risk chart"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Score the risk chart first — the diet conversation that follows is built on what that chart just showed, not the other way round.",
+      "prompt": "Score the caries-risk chart with the parent, then go through the diet handout together.",
+      "targets": [
+        "risk-chart",
+        "diet-handout"
+      ],
+      "title": "Complete the caries-risk conversation",
+      "why": "The risk score is what the diet conversation is actually built on — a sippy cup of juice at nap time reads differently on a child already scored high risk than on one scored low, and running the diet talk before the risk factors are on the chart turns specific coaching into generic advice nobody remembers by the car park."
+    },
+    {
+      "cue": "Paint the child's unit-dose varnish onto the dried teeth.",
+      "forceClass": "light",
+      "id": "varnish-apply",
+      "kind": "select",
+      "noRobot": true,
+      "prompt": "Paint the child's unit-dose varnish onto the dried teeth.",
+      "robotNote": "Varnish onto a child's teeth.",
+      "target": "fluoride-varnish",
+      "title": "Apply the fluoride varnish",
+      "why": "Varnish sets on contact with saliva, which is exactly why the teeth are dried first and why the dose comes pre-measured for this child's size in its own single-use packet — there is no field mixing and no adult-sized applicator anywhere near this part of the visit."
+    },
+    {
+      "cue": "Keep the cotton rolls in place so the varnish sets without saliva contact.",
+      "forceClass": "light",
+      "holdBreakNote": "Cotton rolls came out before the varnish set. Saliva contact this early can strip the dose you just applied — hold them in for the full time.",
+      "id": "varnish-set",
+      "kind": "hold",
+      "noRobot": true,
+      "prompt": "Keep the cotton rolls in place so the varnish sets without saliva contact.",
+      "robotNote": "Cotton rolls held in the mouth while the varnish sets.",
+      "seconds": 5,
+      "target": "cotton-rolls",
+      "title": "Hold the cotton rolls while the varnish sets",
+      "why": "The varnish needs a few minutes of true isolation to bond to the enamel, and the cotton rolls are the only thing holding saliva off it during that window — pull them early and the varnish that just went on can wash straight back off before it has set at all."
+    },
+    {
+      "cue": "Walk the parent through soft foods and no brushing until the next morning.",
+      "id": "post-care",
+      "kind": "select",
+      "prompt": "Walk the parent through soft foods and no brushing until the next morning.",
+      "target": "post-care-card",
+      "title": "Give the post-varnish care instructions",
+      "why": "The varnish keeps working for hours after this visit ends, and that depends entirely on what happens once the family is back in the car — soft foods, no brushing until morning, and a parent who actually knows why, not a card handed over unread on the way out."
+    },
+    {
+      "cue": "Take the parent's questions about thumb-sucking and the first loose tooth.",
+      "id": "parent-questions",
+      "kind": "select",
+      "prompt": "Take the parent's questions about thumb-sucking and the first loose tooth.",
+      "target": "faq-card",
+      "title": "Answer the parent's questions",
+      "why": "Thumb-sucking before the permanent teeth start coming in, and a first loose primary tooth around this age, are both ordinary developmental milestones far more often than they are a problem — and a parent who leaves worrying about a normal thing is a parent who calls the office again before the next recall is due."
+    },
+    {
+      "cue": "Turn the recall wheel to the next visit date.",
+      "id": "recall-schedule",
+      "kind": "turn",
+      "prompt": "Turn the recall wheel to the next visit date.",
+      "target": "recall-wheel",
+      "title": "Set the recall interval",
+      "turn": {
+        "axis": "z",
+        "label": "RECALL",
+        "turns": 0.3
+      },
+      "why": "A first visit that goes well is worth nothing to this child's teeth if the next one does not happen — the recall interval is set here, in front of the parent, while the whole visit is still fresh enough that six months from now is a date they will actually keep."
+    }
+  ],
+  "supportLine": "your employer's employee assistance program, or the ADHA's member resources — a visit that went badly for a five-year-old goes home with the hygienist too",
+  "tagline": "A five-year-old's first dental visit: knee-to-knee, tell-show-do, and a plan that bends to the child in front of you",
+  "title": "SmartCiti.X~ Pediatric Visit VR",
+  "trade": "Registered dental hygienist — pediatric practice",
+  "underwater": null,
+  "weather": null
+}

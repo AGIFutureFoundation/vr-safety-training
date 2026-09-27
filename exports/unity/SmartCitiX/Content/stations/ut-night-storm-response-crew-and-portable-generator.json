@@ -1,0 +1,458 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "station-on-generator",
+    "name": "Station On Generator",
+    "note": "A flooded access road driven with every check made, the utility feed proven isolated before the generator ever connected, and the lift station running again under this crew's own power"
+  },
+  "category": "Water & Environmental",
+  "certification": "UWUA water and sewer utility emergency-response training; OSHA 29 CFR 1910.147 the control of hazardous energy for isolating the lift station's utility feed before the generator connects; the state Manual on Uniform Traffic Control Devices (MUTCD) for the flag control used on the flooded access road; ANSI Z535.4 for the warning signage on the barrier; the utility's own storm-response and mutual-aid procedure for the callout itself",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z535.4",
+        "id": "ansi-z535-4",
+        "title": "ANSI Z535.4 — Product safety signs and labels"
+      },
+      {
+        "body": "MUTCD",
+        "citedAs": "MUTCD",
+        "id": "mutcd",
+        "title": "Manual on Uniform Traffic Control Devices — temporary traffic control for work zones (Part 6)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UWUA",
+        "id": "uwua-training",
+        "title": "UWUA — Utility Workers Union of America training and safety education for water, gas and electric utility crews"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Water",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "isolated-before-connected",
+        "name": "Isolated Before Connected",
+        "note": "The utility feed was isolated and tagged before the generator cable ever connected"
+      },
+      {
+        "id": "never-backfed",
+        "name": "Never Backfed",
+        "note": "No unsafe action was recorded through the whole callout"
+      },
+      {
+        "id": "steady-load",
+        "name": "Steady Load",
+        "note": "Held the generator load watch inside the band the whole time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-callout",
+        "name": "Clean Callout",
+        "note": "No corrections from the callout to the log"
+      },
+      {
+        "id": "unbroken-load-watch",
+        "name": "Unbroken Load Watch",
+        "note": "The generator load watch ran to completion without a break"
+      },
+      {
+        "id": "station-up-fast",
+        "name": "Station Up Fast",
+        "note": "Logged and back on the road inside 80% of par"
+      }
+    ],
+    "currency": "KW",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Service Crew",
+      "Storm Response Tech",
+      "Crew Lead",
+      "Storm Response Authority Certified"
+    ],
+    "system": "Storm Response Authority"
+  },
+  "hazards": {
+    "connect-before-isolate": "You went to connect the generator's cable to the transfer switch before the utility feed was confirmed isolated and tagged. A generator connected to a line the utility still believes is dead backfeeds current onto it, and that current does not stop at the transfer switch — it travels back up a line a utility crew somewhere else may already be working on.",
+    "load-generator-before-checking-output": "You went to move the transfer switch onto the generator before checking its voltage and frequency were actually stable. A generator loaded before it has settled can drop the load it just picked up, and a lift station's pumps cycling on and off against an unstable supply is worse for them than staying off a few minutes longer.",
+    "treat-downed-line-as-dead": "You went to work near the downed line as if it were simply out of service. Every downed line is treated as energized until the utility that owns it says otherwise, storm or no storm — a line that looks dead on a dark, wet night is exactly the line most likely to prove that assumption wrong.",
+    "wade-flood-water": "You went to step into the flood water at the depth marker without checking it first. Standing water this deep can be hiding a dropped grade, a missing manhole cover, or a live circuit from a line this storm has already brought down somewhere upstream — checked first, not waded through on the assumption it is just water."
+  },
+  "id": "ut-night-storm-response-crew-and-portable-generator",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "watch-generator-load",
+      "alert": "The county Emergency Operations Center is calling for a status update on this station — they are tracking every crew out tonight and need this one's status now.",
+      "cue": "Answer the radio and give the EOC this station's status before the load watch continues.",
+      "delay": 3,
+      "id": "eoc-status-request",
+      "kind": "The county EOC radios for a status update",
+      "missNote": "The call went unanswered while the load watch continued. The EOC's picture of this storm still has this station's status missing from it.",
+      "seconds": 13,
+      "target": "eoc-radio",
+      "why": "The EOC is coordinating every crew out on this storm, not just this one, and a status they do not have is a resource they cannot allocate — answering now is what keeps this station's progress visible to everyone else still deciding where the next crew goes tonight.",
+      "wrongNote": "It is the EOC's call, on the radio. The generator's load has not changed — this is about what the county can see from their end."
+    },
+    {
+      "after": "hold-discharge-hose",
+      "alert": "A resident's car has come around the corner behind this crew and is continuing down the flooded access road, with no idea how deep the water actually gets.",
+      "cue": "Get the flag out and wave them back before they reach the deep water.",
+      "delay": 3,
+      "id": "car-on-flooded-road",
+      "kind": "A car tries to continue down the flooded road",
+      "missNote": "The car kept going toward the deep water with nobody flagging them off. A driver with no idea how deep flood water gets finds out by driving into it.",
+      "seconds": 11,
+      "target": "flag-signal",
+      "why": "A driver who has not seen this road tonight has no way to judge how deep that water actually is, and a flag out where the headlights catch it is what turns them around before they find out the hard way — after the fact is a tow call and possibly worse.",
+      "wrongNote": "It is the flag, out where the headlights catch it. The discharge hose has nothing to do with a car that does not belong on this road tonight."
+    }
+  ],
+  "lateNotes": {
+    "generator-cable": "The generator's cable connects to the transfer switch only once the utility feed is confirmed isolated and tagged — not before.",
+    "transfer-switch": "The transfer switch moves to generator only once the generator's own output has been read and found stable."
+  },
+  "name": "Night Storm-Response Crew & Portable Generator",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "water-and-gas-utility-crews"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "generatorTrailer",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "pickup",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "sedan",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "blocked-mirror",
+      "callout-log",
+      "callout-order",
+      "chock-generator-wheels",
+      "connect-before-isolate",
+      "discharge-hose",
+      "downed-line",
+      "eoc-radio",
+      "flag-signal",
+      "flood-depth-marker",
+      "generator-cable",
+      "generator-panel",
+      "generator-start-switch",
+      "load-generator-before-checking-output",
+      "loose-tow-chain",
+      "open-main-disconnect",
+      "response-truck",
+      "tag-main-disconnect",
+      "transfer-switch",
+      "transfer-switch-inlet",
+      "treat-downed-line-as-dead",
+      "truck-brake-pedal",
+      "unhitch-generator",
+      "wade-flood-water"
+    ],
+    "meshes": 192
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "drive",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the callout: which lift station, what has failed, and what this crew is bringing.",
+      "id": "read-callout",
+      "kind": "select",
+      "prompt": "Check the callout: which lift station, what has failed, and what this crew is bringing.",
+      "target": "callout-order",
+      "title": "Read the storm callout",
+      "why": "A storm callout at night is worked from the order, not from memory of how this station usually runs — knowing what actually failed and what equipment this crew is bringing is what keeps the drive out there from being wasted on the wrong assumption."
+    },
+    {
+      "cue": "Walk the truck and the generator before pulling out and find what needs fixing first.",
+      "id": "pre-trip-check",
+      "itemNames": {
+        "blocked-mirror": "a mirror blocked by gear in the bed",
+        "loose-tow-chain": "a loose tow chain on the generator"
+      },
+      "itemNotes": {
+        "blocked-mirror": "Gear loaded in the bed is blocking this mirror's view of the towed trailer — exactly what a driver needs on a dark, flooded road with a generator behind them.",
+        "loose-tow-chain": "This safety chain on the generator trailer is hanging loose enough that it would not actually catch the trailer if the hitch let go — remade before this truck ever leaves the yard."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the truck and the generator before pulling out and find what needs fixing first.",
+      "targets": [
+        "loose-tow-chain",
+        "blocked-mirror"
+      ],
+      "title": "Pre-trip the truck and the towed generator",
+      "why": "A storm callout is the worst possible night to discover a problem with the tow chain or the mirrors — checked now, in the yard under light, rather than found on a dark flooded road with nowhere safe to pull over and fix it."
+    },
+    {
+      "cue": "Drive slowly and deliberately down the access road: lights on, mirrors on the towed generator, horn at the blind bend.",
+      "drive": {
+        "bandLabel": "walking-pace crawl on flood water, per the utility's driver safety programme",
+        "checkWindow": 2.4,
+        "checks": [
+          {
+            "at": 0,
+            "kind": "lights",
+            "note": "Lights on before you move — this road has no lighting of its own tonight."
+          },
+          {
+            "at": 1,
+            "kind": "mirror-right",
+            "note": "Right mirror: the towed generator needs watching through every bit of standing water."
+          },
+          {
+            "at": 2,
+            "kind": "horn",
+            "note": "Horn at the blind bend — anything coming the other way on this road cannot see you any sooner than you can see them."
+          }
+        ],
+        "controls": {
+          "brake": "truck-brake-pedal"
+        },
+        "graceSeconds": 1.8,
+        "laneNote": "You left the lane and stayed out. On a flooded road at night that is the ditch, or worse, nobody can see until the wheels are already in it.",
+        "laneWidth": 1.4,
+        "path": [
+          [
+            0.2,
+            -5.4
+          ],
+          [
+            0.1,
+            -4
+          ],
+          [
+            0.3,
+            -2.6
+          ],
+          [
+            0.1,
+            -1.4
+          ]
+        ],
+        "sceneRate": 0.2,
+        "speedBand": [
+          2,
+          7
+        ]
+      },
+      "holdBreakNote": "Out of the lane or out of the band on the flooded road — slow down and hold the centre of what you can actually see of it.",
+      "id": "drive-to-site",
+      "kind": "drive",
+      "prompt": "Drive slowly and deliberately down the access road: lights on, mirrors on the towed generator, horn at the blind bend.",
+      "target": "response-truck",
+      "title": "Drive the flooded access road",
+      "why": "A flooded, debris-strewn access road at night is worked slowly on purpose — fast enough to get there, and no faster, because the water hides the edge of the road as completely as the dark hides whatever the storm put across it."
+    },
+    {
+      "cue": "Before doing anything else at the pad, find what the truck's own headlights show and what they do not.",
+      "id": "hazard-scan",
+      "itemNames": {
+        "downed-line": "a downed line across the pad",
+        "flood-depth-marker": "the flood-depth marker at the low point"
+      },
+      "itemNotes": {
+        "downed-line": "A line is down across the near corner of this pad. Treated as energized until the utility that owns it says otherwise — no exception for how the storm looks like it is calming down.",
+        "flood-depth-marker": "This marker shows how deep the standing water actually gets right where the pad's low point floods first — checked before anyone wades through it, not estimated by eye in the dark."
+      },
+      "kind": "find",
+      "prompt": "Before doing anything else at the pad, find what the truck's own headlights show and what they do not.",
+      "targets": [
+        "downed-line",
+        "flood-depth-marker"
+      ],
+      "title": "Scan the pad before stepping out further",
+      "why": "Headlights show what is directly in front of the truck and very little else — a downed line at the pad's edge or a flood depth that has changed since the last crew was here both need to be found deliberately, not assumed away because the storm feels like it has passed."
+    },
+    {
+      "cue": "Unhitch the generator at the pad, then chock its wheels before it is touched again.",
+      "id": "position-and-chock",
+      "itemNames": {
+        "chock-generator-wheels": "generator wheels chocked",
+        "unhitch-generator": "generator unhitched"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Unhitch first, then chock — a generator still hitched is not going anywhere on its own, but the moment it is loose it needs the chocks immediately.",
+      "prompt": "Unhitch the generator at the pad, then chock its wheels before it is touched again.",
+      "targets": [
+        "unhitch-generator",
+        "chock-generator-wheels"
+      ],
+      "title": "Position and chock the generator",
+      "why": "A towed generator is still a wheeled trailer once it is unhitched, and chocking it is what keeps it from rolling on a pad that is anything but level after a night of rain — done before the cable ever comes off the reel."
+    },
+    {
+      "cue": "Open the lift station's main utility disconnect, then tag it, before the generator cable comes anywhere near the transfer switch.",
+      "id": "isolate-utility-feed",
+      "itemNames": {
+        "open-main-disconnect": "utility disconnect opened",
+        "tag-main-disconnect": "utility disconnect tagged"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Open it, then tag it — an open disconnect with no tag can be closed by someone with no idea a generator is about to connect on the other side of it.",
+      "prompt": "Open the lift station's main utility disconnect, then tag it, before the generator cable comes anywhere near the transfer switch.",
+      "targets": [
+        "open-main-disconnect",
+        "tag-main-disconnect"
+      ],
+      "title": "Isolate and tag the utility feed",
+      "why": "This is the step the rest of the night depends on: a generator's own output meeting a utility feed that has not been proven dead does not stay contained to this pad — it backfeeds up a line a utility crew somewhere else may already believe is safe to touch."
+    },
+    {
+      "cue": "Carry the generator's cable to the transfer switch inlet now the utility feed is proven isolated.",
+      "drag": {
+        "missNote": "Not seated in the inlet — a cable resting against the switch instead of locked into it will not carry the load and will not stay put in the wind.",
+        "radius": 0.45,
+        "to": "transfer-switch-inlet"
+      },
+      "id": "connect-generator-cable",
+      "kind": "drag",
+      "prompt": "Carry the generator's cable to the transfer switch inlet now the utility feed is proven isolated.",
+      "target": "generator-cable",
+      "title": "Connect the generator to the transfer switch",
+      "why": "This connection only happens once the utility side is dead and tagged — the transfer switch's whole job is keeping the generator's output and the utility's feed from ever touching each other, and that only works if this cable goes on after the utility side is actually open."
+    },
+    {
+      "cue": "Turn the start switch and let the generator come up to speed.",
+      "id": "start-generator",
+      "kind": "turn",
+      "prompt": "Turn the start switch and let the generator come up to speed.",
+      "target": "generator-start-switch",
+      "title": "Start the generator",
+      "turn": {
+        "axis": "y",
+        "label": "GENERATOR START",
+        "turns": 0.4
+      },
+      "why": "The generator needs a moment to come up to a stable speed before anything asks it for load — starting it and immediately loading it is how a cold engine stalls out exactly when this station needs it not to."
+    },
+    {
+      "cue": "Bring the voltage and frequency reading into the generator's own normal band, then commit.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.75
+        ],
+        "label": "GENERATOR OUTPUT",
+        "missNote": "That output has not settled into the generator's normal band — give it another moment and read it again before anything loads onto it.",
+        "speed": 0.6
+      },
+      "id": "check-generator-output",
+      "kind": "gauge",
+      "prompt": "Bring the voltage and frequency reading into the generator's own normal band, then commit.",
+      "target": "generator-panel",
+      "title": "Check the generator's output",
+      "why": "This is the one check that says the generator is actually ready to carry this station's pumps — moved to load before this reads stable, the pumps are asking a supply that has not settled yet, which is a second failure stacked on top of the first one that called this crew out."
+    },
+    {
+      "cue": "Turn the transfer switch from utility to generator now the output has proven stable.",
+      "id": "transfer-switch-to-generator",
+      "kind": "turn",
+      "prompt": "Turn the transfer switch from utility to generator now the output has proven stable.",
+      "target": "transfer-switch",
+      "title": "Move the transfer switch to generator",
+      "turn": {
+        "axis": "y",
+        "label": "TRANSFER SWITCH",
+        "turns": 0.5
+      },
+      "why": "This is the one motion that actually puts the pumps on this crew's power, and it only happens after every step ahead of it has checked out — not on the assumption that a generator running smoothly for a few seconds means the rest of the job went fine too."
+    },
+    {
+      "cue": "Watch the generator's load hold steady in the band as the pumps pick up.",
+      "holdBreakNote": "That load moved out of band during the watch — something is wrong between the generator and the pumps, and it has to be found before this crew leaves the pad.",
+      "id": "watch-generator-load",
+      "kind": "track",
+      "prompt": "Watch the generator's load hold steady in the band as the pumps pick up.",
+      "seconds": 7,
+      "target": "generator-panel",
+      "title": "Watch the load as the pumps come on",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.35,
+        "green": [
+          0.4,
+          0.68
+        ],
+        "label": "GENERATOR LOAD",
+        "rise": 0.1,
+        "start": 0.5
+      },
+      "why": "The moment the pumps actually start pulling load is the moment a marginal connection or an undersized generator shows itself — held under watch through that window, a drop or a spike is caught with a hand still on the transfer switch instead of found later as a station that quietly stopped pumping again."
+    },
+    {
+      "cue": "Hold the temporary discharge hose aimed away from the roadway while the wet well catches up.",
+      "holdBreakNote": "The hose came off target before the wet well caught up — hold it again, a discharge aimed back at the road is a road nobody can drive on until it clears.",
+      "id": "hold-discharge-hose",
+      "kind": "hold",
+      "prompt": "Hold the temporary discharge hose aimed away from the roadway while the wet well catches up.",
+      "seconds": 5,
+      "target": "discharge-hose",
+      "title": "Hold the discharge hose clear",
+      "why": "The wet well has been rising the whole time this station sat without power, and the first minutes back on generator send it out faster than usual — held clear of the roadway for the full watch, that discharge goes where it is supposed to instead of back across the one road this crew and everyone behind them needs to keep using tonight."
+    },
+    {
+      "cue": "Radio the station's status to the EOC and log the generator hours and fuel before leaving.",
+      "id": "radio-log-and-close",
+      "kind": "select",
+      "prompt": "Radio the station's status to the EOC and log the generator hours and fuel before leaving.",
+      "target": "callout-log",
+      "title": "Radio the EOC and log the callout",
+      "why": "The county's picture of this storm depends on every crew closing out the same way — a station reported back up and a log with real fuel and hours on it is what lets the next shift, or the crew that swaps this generator for permanent power, pick this job up without guessing at where it was left."
+    }
+  ],
+  "supportLine": "your utility's employee assistance programme, or your UWUA steward if you are not sure how to reach it",
+  "tagline": "A flooded access road driven slowly and deliberately at night, the lift station's utility feed locked out and proven dead before the generator's cable ever touches the transfer switch, and the pumps watched back to work under a light this crew brought with them",
+  "title": "SmartCiti.X~ Night Storm-Response Crew & Portable Generator VR",
+  "trade": "UWUA water and sewer utility emergency-response crew",
+  "underwater": null,
+  "weather": "storm"
+}

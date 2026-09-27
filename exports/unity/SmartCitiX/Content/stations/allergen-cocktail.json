@@ -1,0 +1,397 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "read-the-label",
+    "name": "Read the Label",
+    "note": "Every allergen order answered from the label and the recipe card, clean, with the reaction chain ready if it was ever needed"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "The FDA's FALCPA major food-allergen labelling under 21 CFR 101 (egg, milk, tree nuts) as it reaches bottled liqueurs and house syrups; the TTB's sulphite-disclosure requirement on wine labels; the California Retail Food Code and NSF International's equipment-sanitation standards on cross-contact and food-contact surfaces; UNITE HERE Local 2's service standards; and the venue's own written allergy protocol",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CalCode",
+        "citedAs": "California Retail Food Code",
+        "id": "calcode-retail-food",
+        "title": "California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it"
+      },
+      {
+        "body": "FDA",
+        "citedAs": "21 CFR 101",
+        "id": "fda-21-cfr-101",
+        "title": "21 CFR Part 101 — Food labeling, including the major food allergens"
+      },
+      {
+        "body": "TTB",
+        "citedAs": "TTB",
+        "id": "ttb-labeling",
+        "title": "TTB alcohol labelling and standards of fill (27 CFR Part 5)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Culinary & Hospitality",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "label-read",
+        "name": "Label Read",
+        "note": "Every bottle and recipe card checked before the first pour"
+      },
+      {
+        "id": "no-cross-contact",
+        "name": "No Cross-Contact",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "steady-build",
+        "name": "Steady Build",
+        "note": "The shake and the mocktail build both carried clean the whole way"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-service",
+        "name": "Clean Service",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "six-straight",
+        "name": "Six Straight",
+        "note": "Six correct actions in a row"
+      },
+      {
+        "id": "on-time",
+        "name": "On Time",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "POUR",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Barback",
+      "Well Bartender",
+      "Lead Bartender",
+      "Bar Manager",
+      "Service Certified"
+    ],
+    "system": "Service Standards"
+  },
+  "hazards": {
+    "amaretto-decoy": "You poured from the amaretto bottle itself. Amaretto is an almond-flavoured liqueur and one of the most common hidden nut sources behind a bar — reaching for the familiar bottle instead of the nut-free substitute is exactly the mistake this whole check exists to catch.",
+    "bare-hand-garnish": "You dressed the glass with bare hands instead of the tongs. A garnish tray is touched by every drink that crosses it, and a bare hand carries whatever the last five drinks left on it straight onto a glass somebody said they cannot safely touch.",
+    "dirty-shaker": "You reached for the shaker already sitting on the rail instead of a clean one. It shook a regular round twenty minutes ago and carries enough residue on the gasket to matter to a true allergy — an allergy order gets its own clean tool every time, not whichever one is closest.",
+    "wheat-tap": "You poured from the house lager tap for a customer who said celiac. Beer is made from barley or wheat and carries gluten the label on the tap handle never mentions — the gluten-free alternative is the pour, not the lager with a splash of something else in it."
+  },
+  "id": "allergen-cocktail",
+  "indoor": "bar",
+  "interrupts": [
+    {
+      "after": "shake",
+      "alert": "A colleague hands you a fresh shaker for the next round — it's still wet with orgeat from the last ticket.",
+      "cue": "Swap it for a clean one before this order goes anywhere near it.",
+      "delay": 2,
+      "id": "wet-orgeat-shaker",
+      "kind": "Cross-contact risk",
+      "missNote": "The allergy order went into the shaker your colleague handed you. It had already held orgeat that shift, and \"rinsed\" is not the same claim as \"clean\" for someone whose reaction does not care about the difference.",
+      "seconds": 12,
+      "target": "clean-shaker-swap",
+      "why": "A shaker rinsed but still wet with orgeat carries a nut allergen on its own gasket and threads. It gets swapped for a genuinely clean one before the allergy order touches it, not wiped down and reused because a colleague already has it in hand.",
+      "wrongNote": "It's the shaker. Swap it for a clean one — nothing else about this ticket matters until that happens."
+    },
+    {
+      "after": "build-mocktail",
+      "alert": "A friend at the table has ordered a shot \"as a joke\" and is sliding it toward the guest who ordered non-alcoholic.",
+      "cue": "Intercept the shot before it reaches them.",
+      "delay": 2,
+      "id": "shot-as-joke",
+      "kind": "Drink tampering",
+      "missNote": "The shot reached the table. A non-alcoholic order that ends up with alcohol in it anyway — pushed there by a third party — is exactly the failure this whole request was trying to avoid, and it happened while you were watching.",
+      "seconds": 11,
+      "target": "intercept-shot",
+      "why": "A guest who asked for non-alcoholic gets exactly that, and a friend's idea of a joke does not get to override an order they were honest about. The shot is intercepted the moment it's spotted moving, not after somebody has already had a sip.",
+      "wrongNote": "The shot glass sliding across the table is the thing to stop — intercept it before it reaches them."
+    }
+  ],
+  "lateNotes": {
+    "call-911": "The auto-injector gets found and used first — the call matters, but it does not treat a closing airway while you're dialling.",
+    "incident-log-sheet": "The log gets written after the reaction is actually handled, not instead of handling it.",
+    "keep-seated": "Keeping them from leaving comes after the injector and the call, not instead of either one."
+  },
+  "name": "Allergens & Honest Drinks",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bartending-course"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "allergy-drink-serve",
+      "allergy-ticket",
+      "amaretto-decoy",
+      "bare-hand-garnish",
+      "bottle-amaretto",
+      "bottle-frangelico",
+      "bottle-orgeat",
+      "call-911",
+      "citrus-tongs",
+      "clean-jigger",
+      "clean-shaker",
+      "clean-shaker-swap",
+      "dirty-shaker",
+      "dried-fruit-sulphite",
+      "epi-locator",
+      "gluten-free-alt",
+      "incident-log-sheet",
+      "intercept-shot",
+      "keep-seated",
+      "mocktail-build",
+      "mocktail-flag",
+      "mocktail-ticket",
+      "nut-free-sub",
+      "shaker-handle",
+      "syrup-recipe-card",
+      "wheat-tap",
+      "wine-sulphite-label"
+    ],
+    "meshes": 166
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Ask what they're allergic to and how severe, and put it on the ticket.",
+      "id": "ask-allergy",
+      "kind": "select",
+      "prompt": "Ask what they're allergic to and how severe, and put it on the ticket.",
+      "target": "allergy-ticket",
+      "title": "Take the allergy seriously — write it down",
+      "why": "An allergy told out loud and never written down survives exactly as long as it takes for the ticket to change hands. The ticket is what every set of hands behind this bar actually reads before a bottle gets touched."
+    },
+    {
+      "cue": "Walk the back bar and identify every nut liqueur before you touch a shaker.",
+      "id": "check-labels",
+      "itemNames": {
+        "bottle-amaretto": "amaretto",
+        "bottle-frangelico": "Frangelico",
+        "bottle-orgeat": "orgeat"
+      },
+      "itemNotes": {
+        "bottle-amaretto": "An almond-flavoured liqueur — often almond-flavoured rather than almond-derived, but never provably so from behind the bar, which is why it is treated as a nut source either way.",
+        "bottle-frangelico": "A hazelnut liqueur, tree nut, and the third bottle a nut-allergy order has to be built around rather than with.",
+        "bottle-orgeat": "An almond syrup, full stop — the single most common hidden nut ingredient in a classic sour or tiki cocktail."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the back bar and identify every nut liqueur before you touch a shaker.",
+      "targets": [
+        "bottle-amaretto",
+        "bottle-orgeat",
+        "bottle-frangelico"
+      ],
+      "title": "Check the bottles for hidden nuts",
+      "why": "Nothing on this menu says almond or hazelnut anywhere in its name, so the bottle's own label — not the recipe committed to memory — is what a nut allergy actually depends on getting right."
+    },
+    {
+      "cue": "Read what's actually in the house-made syrup before it goes anywhere near this order.",
+      "id": "check-syrup-card",
+      "kind": "select",
+      "prompt": "Read what's actually in the house-made syrup before it goes anywhere near this order.",
+      "target": "syrup-recipe-card",
+      "title": "Check the house syrup's recipe card",
+      "why": "A house-made syrup carries no label of its own — the recipe card kept behind the bar is the only place its egg white, dairy, or nut content is written down at all, which is exactly why it gets checked instead of assumed."
+    },
+    {
+      "cue": "A jigger that hasn't measured a nut liqueur tonight, then a shaker straight off the clean rack.",
+      "id": "clean-tools",
+      "itemNames": {
+        "clean-jigger": "a dedicated jigger",
+        "clean-shaker": "a clean shaker"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "The jigger gets pulled clean before the shaker does — reaching for the shaker first still leaves the actual measuring tool unaccounted for.",
+      "prompt": "A jigger that hasn't measured a nut liqueur tonight, then a shaker straight off the clean rack.",
+      "targets": [
+        "clean-jigger",
+        "clean-shaker"
+      ],
+      "title": "Pull dedicated tools for this order",
+      "why": "Cross-contact travels through the tool as much as the ingredient — a jigger or shaker that measured amaretto an hour ago carries enough residue to matter to a real allergy, so this order gets equipment nothing else has touched tonight."
+    },
+    {
+      "cue": "Carry the nut-free syrup to the clean shaker — not the orgeat, not the amaretto.",
+      "drag": {
+        "missNote": "Not in the shaker. Set down anywhere else, the substitute is a bottle on a rail, not a drink.",
+        "radius": 0.4,
+        "to": "clean-shaker"
+      },
+      "id": "sub-pour",
+      "kind": "drag",
+      "prompt": "Carry the nut-free syrup to the clean shaker — not the orgeat, not the amaretto.",
+      "target": "nut-free-sub",
+      "title": "Pour the nut-free substitute",
+      "why": "The substitute only protects anyone once it is actually the thing that goes in the shaker. Deciding to use it and then reaching for the familiar bottle out of habit is the same mistake as never deciding at all."
+    },
+    {
+      "cue": "Hold the shake — this glass never touches the tools that made the last round.",
+      "holdBreakNote": "You broke the shake off early. A rushed shake in the right shaker is still safer than a full one in the wrong one, but neither is the standard — hold it the full count.",
+      "id": "shake",
+      "kind": "hold",
+      "prompt": "Hold the shake — this glass never touches the tools that made the last round.",
+      "seconds": 5,
+      "target": "shaker-handle",
+      "title": "Shake it in the clean shaker",
+      "why": "The shake itself is the last chance for cross-contact to happen unnoticed, so it happens in the tool that has touched nothing else tonight, held the full count rather than rushed to get to the next ticket."
+    },
+    {
+      "cue": "Strain into a clean glass and mark the ticket so the kitchen and the next bartender both know why.",
+      "id": "strain-serve",
+      "kind": "select",
+      "prompt": "Strain into a clean glass and mark the ticket so the kitchen and the next bartender both know why.",
+      "target": "allergy-drink-serve",
+      "title": "Strain, garnish safe, and mark it",
+      "why": "A correctly made allergy drink that arrives at the table unmarked is one glass swap away from being the wrong drink to the wrong guest — the mark on the ticket is what keeps the whole chain honest after it leaves your hands."
+    },
+    {
+      "cue": "No follow-up questions about why — just build it right.",
+      "id": "mocktail-order",
+      "kind": "select",
+      "prompt": "No follow-up questions about why — just build it right.",
+      "target": "mocktail-ticket",
+      "title": "Take the non-alcoholic order at face value",
+      "why": "A guest who orders non-alcoholic is owed the same care as anyone else's order, not a raised eyebrow or a second guess about the reason. \"Mocktail\" is a drink order, not a conversation starter."
+    },
+    {
+      "cue": "Steady build — the same care as any other ticket, not a rushed afterthought.",
+      "holdBreakNote": "Pace drifted out of band — too rushed reads as an afterthought, too fussy holds up the rail for no reason.",
+      "id": "build-mocktail",
+      "kind": "track",
+      "prompt": "Steady build — the same care as any other ticket, not a rushed afterthought.",
+      "seconds": 5,
+      "target": "mocktail-build",
+      "title": "Build the mocktail to the recipe",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "BUILD",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "A mocktail thrown together fast because it \"doesn't really count\" reads to the guest exactly like what it is. Building it at the same steady pace as anything else on the rail is the whole of what taking it seriously looks like."
+    },
+    {
+      "cue": "A flag straw or a marked ticket — something that survives the glass changing hands.",
+      "id": "mark-mocktail",
+      "kind": "select",
+      "prompt": "A flag straw or a marked ticket — something that survives the glass changing hands.",
+      "target": "mocktail-flag",
+      "title": "Mark the glass so it can't be mistaken",
+      "why": "A mocktail that looks identical to the drink beside it is a swap waiting to happen the first time a runner, a friend, or a second bartender touches the tray. The mark is what keeps a non-alcoholic order non-alcoholic after it leaves your sight."
+    },
+    {
+      "cue": "Tongs, not fingers — and check what's actually preserving that dried fruit.",
+      "id": "check-garnish",
+      "itemNames": {
+        "citrus-tongs": "tongs for the garnish",
+        "dried-fruit-sulphite": "sulphite-treated dried fruit"
+      },
+      "itemNotes": {
+        "citrus-tongs": "The garnish tray is touched by every drink that crosses it — tongs are what keep one bare hand from carrying the last five drinks' residue onto this one.",
+        "dried-fruit-sulphite": "Sulphur dioxide preserves the colour of dried fruit garnish and is exactly the kind of ingredient a sulphite-sensitive guest asks about by name."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Tongs, not fingers — and check what's actually preserving that dried fruit.",
+      "targets": [
+        "citrus-tongs",
+        "dried-fruit-sulphite"
+      ],
+      "title": "Check the garnish tray",
+      "why": "A shared garnish tray is a cross-contact surface like any cutting board, and the fruit sitting on it can carry its own disclosure requirement. Both get the same attention the bottles already got."
+    },
+    {
+      "cue": "Barley and wheat mean gluten — pour the gluten-free alternative instead.",
+      "id": "gluten-swap",
+      "kind": "select",
+      "prompt": "Barley and wheat mean gluten — pour the gluten-free alternative instead.",
+      "target": "gluten-free-alt",
+      "title": "Swap the beer for a celiac guest",
+      "why": "Beer is made from barley or wheat and carries gluten that no tap handle discloses on its own. A guest who says celiac gets the gluten-free cider or spirit poured without having to ask twice."
+    },
+    {
+      "cue": "\"Contains Sulfites\" is required on the label for a reason — read it before you pour for a sensitive guest.",
+      "id": "sulphite-disclosure",
+      "kind": "select",
+      "prompt": "\"Contains Sulfites\" is required on the label for a reason — read it before you pour for a sensitive guest.",
+      "target": "wine-sulphite-label",
+      "title": "Read the sulphite disclosure on the wine",
+      "why": "The TTB requires a sulphite disclosure on any wine carrying ten parts per million or more, which makes the label — not the varietal, not the producer's reputation — the actual answer for a guest who reacts to sulphites."
+    },
+    {
+      "cue": "Hives are spreading at the rail. Find their auto-injector, call 911, and keep them from walking out.",
+      "id": "reaction-response",
+      "itemNames": {
+        "call-911": "call 911",
+        "epi-locator": "find their auto-injector",
+        "keep-seated": "keep them from leaving"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "The auto-injector is found first, the call goes out right behind it, and only then does anyone worry about the door — reversing that order costs the minutes that matter most.",
+      "prompt": "Hives are spreading at the rail. Find their auto-injector, call 911, and keep them from walking out.",
+      "targets": [
+        "epi-locator",
+        "call-911",
+        "keep-seated"
+      ],
+      "title": "Someone starts reacting — respond in order",
+      "why": "Most guests who carry a serious allergy carry their own auto-injector, and finding it fast is the one action that can reverse a closing airway before EMS arrives. The call follows immediately after, and nobody lets a reacting guest walk out to their car alone while any of this is happening — and OSHA's 1910.1030 bloodborne pathogen standard is why the used needle goes to EMS or a sharps container, never a bare hand or the trash."
+    },
+    {
+      "cue": "Write down the drink, the ingredient, the timeline and the outcome once EMS has the guest.",
+      "id": "incident-log",
+      "kind": "select",
+      "prompt": "Write down the drink, the ingredient, the timeline and the outcome once EMS has the guest.",
+      "target": "incident-log-sheet",
+      "title": "Log what was served and what happened",
+      "why": "A written record of exactly what was in the glass and when the reaction started is what the receiving hospital and the venue's own review both need afterward — and it is what proves the protocol was followed rather than just believed to have been."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Take the allergy order seriously, read the label instead of the memory, keep dedicated tools for it, and if someone starts reacting: find their auto-injector, call 911, and don't let them leave",
+  "title": "SmartCiti.X~ Allergens & Honest Drinks VR",
+  "trade": "Bartender — UNITE HERE Local 2",
+  "underwater": null,
+  "weather": "clear"
+}

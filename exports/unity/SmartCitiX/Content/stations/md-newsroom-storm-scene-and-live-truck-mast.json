@@ -1,0 +1,379 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "mast-up-crew-dry",
+    "name": "Mast Up, Crew Dry",
+    "note": "The ground rod driven before any mast control was touched, the clearance held the whole raise, and the gust and the rising water both answered before either one became the story"
+  },
+  "category": "Entertainment & Live Events",
+  "certification": "NewsGuild-CWA member safety guidance for broadcast and news field crews; FCC RF exposure limits for the mast's transmission antenna; OSHA 29 CFR 1910.268 telecommunications work practices for the telescoping mast; NEC/NFPA 70 clearance practice for work near overhead power lines; NFPA 101 Life Safety Code requirements for the crew's escape route off the flooded scene",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "FCC",
+        "citedAs": "FCC",
+        "id": "fcc-rf-exposure",
+        "title": "FCC radiofrequency exposure limits for transmitter sites (47 CFR 1.1310)"
+      },
+      {
+        "body": "NEC/NFPA 70",
+        "citedAs": "NFPA 70",
+        "id": "nec-nfpa-70",
+        "title": "NFPA 70 — National Electrical Code"
+      },
+      {
+        "body": "union",
+        "citedAs": "NewsGuild-CWA",
+        "id": "newsguild-cwa-training",
+        "title": "TNG-CWA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 101",
+        "id": "nfpa-101",
+        "title": "NFPA 101 — Life Safety Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.268",
+        "id": "osha-1910-268",
+        "title": "29 CFR 1910.268 — Telecommunications"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Screen & Media Crafts",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "grounded-first",
+        "name": "Grounded First",
+        "note": "Never touched a mast control before the ground rod was driven"
+      },
+      {
+        "id": "gust-answered",
+        "name": "Gust Answered",
+        "note": "The gust toward the power line was stowed off the emergency switch, not ridden out"
+      },
+      {
+        "id": "never-under-the-mast",
+        "name": "Never Under the Mast",
+        "note": "Never raised the mast before the ground rod, never stepped into floodwater near a cable, never released a loaded outrigger, never blocked the escape route"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-standup",
+        "name": "Clean Standup",
+        "note": "No corrections from the assignment to the closing log"
+      },
+      {
+        "id": "steady-sway",
+        "name": "Steady Sway",
+        "note": "The mast's sway held its band the whole live shot, first time"
+      },
+      {
+        "id": "live-on-time",
+        "name": "Live On Time",
+        "note": "Mast up and confirmed inside 80% of par"
+      }
+    ],
+    "currency": "SIGNAL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Desk Assistant",
+      "Field Producer",
+      "ENG Photographer",
+      "Field Engineer",
+      "Chief Engineer Certified"
+    ],
+    "system": "Live Truck"
+  },
+  "hazards": {
+    "block-escape-route-with-gear": "You set a gear case down in the crew's marked escape route off the flooded scene. That route is the one path back to dry, stable ground if the water rises faster than the forecast said it would, and a case sitting in it is a case somebody has to clear before the route does what it's there for.",
+    "raise-mast-without-ground-check": "You reached for the mast's raise control before the truck's ground rod was driven. A telescoping mast is the tallest metal object on the block the moment it goes up, and the ground rod is what gives a stray charge somewhere to go besides through the truck's own frame and whoever is standing on the running board.",
+    "release-outrigger-while-raised": "You released an outrigger's lock while the mast was still up. The outriggers are what keeps the truck stable against the mast's own leverage once it's extended, and releasing one while the mast is loaded turns a stable platform into one leaning on three legs instead of four.",
+    "step-in-floodwater-near-cable": "You stepped into standing floodwater near a downed line without checking it first. Water does not announce which puddle has a live conductor sitting in it and which one is just rain, and the only safe assumption in a flooded scene is that any water near a line could be carrying a charge until somebody who knows says otherwise."
+  },
+  "id": "md-newsroom-storm-scene-and-live-truck-mast",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "mast-raise",
+      "alert": "A gust has pushed the mast toward the power line's minimum approach distance, right while you're holding the raise control.",
+      "cue": "Hit the mast's emergency stow switch before it gets any closer.",
+      "delay": 2,
+      "id": "gust-toward-power-line",
+      "kind": "Gust pushes the mast toward the line",
+      "missNote": "The mast swayed into the reduced clearance zone before anyone hit the stow switch. It settled back on its own once the gust passed — this time.",
+      "seconds": 12,
+      "target": "emergency-stow-switch",
+      "why": "The raise control only ever moves the mast up — it has nothing built in to pull it back down fast, and a gust closing the clearance needs an answer that acts now, not one that stops the raise and waits. The emergency stow switch is the one control built to bring the mast down immediately, separate from the normal raise and lower controls.",
+      "wrongNote": "Not the raise control — letting go of it only stops the mast going up. The emergency stow switch is what actually brings it back down now."
+    },
+    {
+      "after": "mast-sway-watch",
+      "alert": "Floodwater is rising fast around the truck's stabilizer legs, right while you're watching the mast's sway.",
+      "cue": "Call the crew to move the truck to higher ground over the radio.",
+      "delay": 2,
+      "id": "floodwater-rising-at-stabilizers",
+      "kind": "Floodwater rises around the stabilizer legs",
+      "missNote": "The water kept rising around the stabilizers. The truck stayed put on legs nobody could confirm were still on solid ground.",
+      "seconds": 12,
+      "target": "producer-radio",
+      "why": "A stabilizer leg standing in rising water is a stabilizer leg whose footing nobody can actually see anymore, and the mast stays trustworthy only as long as the truck under it does. The radio call is what gets the decision to relocate made and acted on before the water decides it for everyone.",
+      "wrongNote": "Not the mast controls — the mast isn't the problem here. The radio is what reaches the crew who need to move the truck."
+    }
+  ],
+  "lateNotes": {
+    "field-log": "The log is written last, after the guy line is anchored and the IFB is confirmed.",
+    "mast-raise-control": "The mast only comes up once the ground rod is driven and the outriggers are locked — raising it before either of those is raising it on hope.",
+    "producer-radio": "The producer confirms only once the mast is up and the clearance is proven — confirming a shot that isn't ready yet just sets a countdown for nobody."
+  },
+  "name": "Newsroom Storm Scene & Live Truck Mast",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "screen-and-media-crafts"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "boxTruck",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "anchor-mark",
+      "assignment-sheet",
+      "block-escape-route-with-gear",
+      "clearance-chart",
+      "downed-branch-on-guy-line",
+      "emergency-stow-switch",
+      "field-log",
+      "frayed-spare-guy-line",
+      "ground-rod",
+      "guy-anchor-bag",
+      "ifb-radio",
+      "mast-raise-control",
+      "mast-sway",
+      "open-storm-drain-near-mark",
+      "outrigger-lock",
+      "producer-radio",
+      "rain-gear",
+      "raise-mast-without-ground-check",
+      "release-outrigger-while-raised",
+      "rubber-boots",
+      "step-in-floodwater-near-cable",
+      "wind-gauge"
+    ],
+    "meshes": 194
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read today's assignment: the standup location, the live shot time, and the power line clearance chart for this truck's mast.",
+      "id": "read-assignment",
+      "kind": "select",
+      "prompt": "Read today's assignment: the standup location, the live shot time, and the power line clearance chart for this truck's mast.",
+      "target": "assignment-sheet",
+      "title": "Read the storm assignment sheet",
+      "why": "The assignment is where today's shot is actually specified before the truck is even parked — where the standup goes, when it airs, and which of this truck's own clearance charts applies to the specific line running over this particular corner."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Put on rain gear and rubber boots before stepping off the truck into standing water.",
+      "id": "ppe-donning",
+      "itemNames": {
+        "rain-gear": "rain gear",
+        "rubber-boots": "rubber boots"
+      },
+      "kind": "sequence",
+      "prompt": "Put on rain gear and rubber boots before stepping off the truck into standing water.",
+      "targets": [
+        "rain-gear",
+        "rubber-boots"
+      ],
+      "title": "Rain gear and rubber boots on before stepping into the scene",
+      "why": "A flooded storm scene is worked in gear rated for it, not whatever kept the rain off on the drive over — rubber boots are what keeps floodwater's own unknowns off bare skin, and both go on before the first step off the truck, not once a boot is already wet."
+    },
+    {
+      "cue": "Walk the scene and click the three things wrong with how it was set.",
+      "id": "scene-sweep",
+      "itemNames": {
+        "downed-branch-on-guy-line": "branch resting on the guy line",
+        "frayed-spare-guy-line": "frayed spare guy line",
+        "open-storm-drain-near-mark": "open storm drain near the standup mark"
+      },
+      "itemNotes": {
+        "downed-branch-on-guy-line": "A storm-broken branch is resting across the mast's guy line, adding weight and tension the line was never rigged to carry. It gets cleared before the mast is trusted to hold anything else against it.",
+        "frayed-spare-guy-line": "The spare guy line coiled on the truck has a frayed section near its clip — easy to grab in a hurry if the good line isn't obviously the one in reach. A frayed line holds fine right up until the mast's own load actually tests it.",
+        "open-storm-drain-near-mark": "The storm drain beside the standup mark has lost its cover in the flooding. A reporter backing up a step mid-live-shot has no way to see an open drain under floodwater, and it's marked and barricaded before anyone stands anywhere near it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the scene and click the three things wrong with how it was set.",
+      "targets": [
+        "downed-branch-on-guy-line",
+        "frayed-spare-guy-line",
+        "open-storm-drain-near-mark"
+      ],
+      "title": "Sweep the scene before the mast goes up",
+      "why": "A storm scene reads the same whether it's actually safe or almost safe, and these three — a branch loading the guy line, a spare line nobody would trust and a drain hidden under floodwater — are exactly what turns a routine live shot into the story instead of the one covering it."
+    },
+    {
+      "cue": "Check the mast's clearance chart against the height of the power line running over this corner before raising anything.",
+      "id": "clearance-chart-check",
+      "kind": "select",
+      "prompt": "Check the mast's clearance chart against the height of the power line running over this corner before raising anything.",
+      "target": "clearance-chart",
+      "title": "Check the mast's clearance chart against the power line",
+      "why": "The chart is what turns 'looks far enough' into an actual number — the mast's rated extension against the line's own height and the utility's own minimum approach distance, not how far away the line happens to look from the truck."
+    },
+    {
+      "cue": "Drive the truck's ground rod and confirm the bond before any mast control is touched.",
+      "id": "ground-rod-check",
+      "kind": "select",
+      "prompt": "Drive the truck's ground rod and confirm the bond before any mast control is touched.",
+      "target": "ground-rod",
+      "title": "Drive the truck's ground rod before touching a mast control",
+      "why": "The mast is the tallest metal object on this corner the moment it starts up, and the ground rod is what gives a stray charge a path to earth instead of through the truck's own frame — it goes in before the first mast control is touched, every time, storm or clear sky."
+    },
+    {
+      "cue": "Read the wind gauge and commit inside the mast manufacturer's own safe operating band before raising it.",
+      "gauge": {
+        "green": [
+          0.1,
+          0.5
+        ],
+        "label": "WIND",
+        "missNote": "Outside the mast's own safe wind band — wait it out rather than raising into a gust.",
+        "speed": 0.6
+      },
+      "id": "wind-check",
+      "kind": "gauge",
+      "prompt": "Read the wind gauge and commit inside the mast manufacturer's own safe operating band before raising it.",
+      "target": "wind-gauge",
+      "title": "Read the wind gauge before raising the mast",
+      "why": "A telescoping mast is rated for a specific wind range, and a gust that would barely move a reporter's rain hood can put real leverage on a mast fully extended near a power line. Reading the gauge here is what keeps 'feels calm enough' from being the only check before a very tall, very exposed object goes up."
+    },
+    {
+      "cue": "Turn each outrigger's lock to SET before the mast is raised.",
+      "id": "outrigger-lock",
+      "kind": "turn",
+      "prompt": "Turn each outrigger's lock to SET before the mast is raised.",
+      "target": "outrigger-lock",
+      "title": "Lock the outriggers before the mast goes up",
+      "turn": {
+        "label": "OUTRIGGERS",
+        "turns": 1
+      },
+      "why": "The outriggers are what keep the truck stable against the mast's own leverage once it's extended — locking them before the mast goes up is what makes 'stable platform' a fact rather than a hope for the whole time the mast is exposed to the wind."
+    },
+    {
+      "cue": "Hold the raise control, watching the mast's clearance from the power line the whole way up — stop the instant it closes rather than the instant it looks close.",
+      "holdBreakNote": "You let go before the clearance was actually confirmed the whole way up. A mast stopped partway is safer than one raised on assumption.",
+      "id": "mast-raise",
+      "kind": "hold",
+      "prompt": "Hold the raise control, watching the mast's clearance from the power line the whole way up — stop the instant it closes rather than the instant it looks close.",
+      "seconds": 5,
+      "target": "mast-raise-control",
+      "title": "Raise the mast, watching its clearance from the line",
+      "why": "A mast raised on a timer or a habit rather than a watched clearance is a mast raised on the assumption that today's line height and today's parking spot are exactly like every other day's — holding the control while actually watching the gap is what catches the one day they aren't."
+    },
+    {
+      "cue": "Confirm with the producer on the radio that the mast is up, the clearance is proven, and the shot is ready before the countdown starts.",
+      "id": "producer-check",
+      "kind": "select",
+      "prompt": "Confirm with the producer on the radio that the mast is up, the clearance is proven, and the shot is ready before the countdown starts.",
+      "target": "producer-radio",
+      "title": "Confirm the producer before going live",
+      "why": "The producer in the control room has no way to see this corner's power line or this mast's own clearance — the radio call is what turns 'should be ready' into an actual confirmation from the field engineer who was standing right there watching it go up."
+    },
+    {
+      "cue": "Watch the mast's sway stay inside its safe band through the whole live shot — a mast that sways too far starts closing the clearance it was raised with.",
+      "holdBreakNote": "The sway pushed past the band — that's the mast closing the clearance it was raised with, not just wind noise.",
+      "id": "mast-sway-watch",
+      "kind": "track",
+      "prompt": "Watch the mast's sway stay inside its safe band through the whole live shot — a mast that sways too far starts closing the clearance it was raised with.",
+      "seconds": 6,
+      "target": "mast-sway",
+      "title": "Watch the mast's sway through the live shot",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.5,
+        "green": [
+          0.2,
+          0.45
+        ],
+        "label": "MAST SWAY",
+        "rise": 0.5,
+        "start": 0.3
+      },
+      "why": "Wind doesn't stop being a factor once the mast is up — a gust partway through a live shot can sway a fully extended mast several feet, and the clearance it was raised with is only as good as it staying inside the band the whole time it's up, not just at the moment it stopped rising."
+    },
+    {
+      "cue": "Carry the anchor bag from the truck to the guy line's marked anchor point and set it.",
+      "drag": {
+        "missNote": "Not on the marked anchor point — a guy line tied off nearby instead of on the rated anchor holds for exactly as long as nothing tests it.",
+        "radius": 0.5,
+        "to": "anchor-mark"
+      },
+      "id": "guy-line-anchor",
+      "kind": "drag",
+      "prompt": "Carry the anchor bag from the truck to the guy line's marked anchor point and set it.",
+      "target": "guy-anchor-bag",
+      "title": "Anchor the guy line",
+      "why": "A guy line without a proper anchor is a guy line held by whatever it's tied to at the moment, which in a storm is exactly the kind of thing that comes loose when it matters most. The marked anchor point is rated for the load; a nearby fence post or a parked cone is not."
+    },
+    {
+      "cue": "Confirm the reporter's earpiece IFB is live with the control room before the countdown.",
+      "id": "ifb-check",
+      "kind": "select",
+      "prompt": "Confirm the reporter's earpiece IFB is live with the control room before the countdown.",
+      "target": "ifb-radio",
+      "title": "Confirm the reporter's IFB",
+      "why": "A reporter standing up live with a dead earpiece is a reporter who can't hear the anchor's toss or the producer's count — confirming the IFB here is what keeps a clean signal chain from failing at the one link nobody can see from the truck."
+    },
+    {
+      "cue": "Log the mast height used, the clearance proven, the wind reading, and the branch and drain found and fixed.",
+      "id": "field-log",
+      "kind": "select",
+      "prompt": "Log the mast height used, the clearance proven, the wind reading, and the branch and drain found and fixed.",
+      "target": "field-log",
+      "title": "Log the mast, the clearance and the scene finds",
+      "why": "The log is what the next crew sent to this same corner reads before they raise anything — a line's real height and a drain that loses its cover in a flood are exactly what the next truck needs to know before they find it out themselves in the next storm."
+    }
+  ],
+  "supportLine": "your NewsGuild-CWA local's member assistance contact, or the station's own employee assistance programme",
+  "tagline": "A flooded corner before a live storm standup: the assignment sheet read, rain gear and boots on, the scene swept for a branch on the guy line and an open storm drain, the clearance chart checked against the power line, the ground rod driven before a single mast control is touched, the wind gauge read, the outriggers locked, the mast raised watching its clearance, the producer confirmed, the mast's sway watched inside its band, the guy line anchored, the IFB confirmed, and the shot logged — a gust pushing the mast toward the line and rising floodwater around the stabilizer legs both answered off a control that isn't the one already in the learner's hand",
+  "title": "SmartCiti.X~ Newsroom Storm Scene & Live Truck Mast VR",
+  "trade": "NewsGuild-CWA field engineer, raising a live truck's telescoping mast at a flooded storm standup under an overhead power line",
+  "underwater": null,
+  "weather": "storm"
+}

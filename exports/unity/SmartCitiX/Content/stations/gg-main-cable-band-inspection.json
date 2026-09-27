@@ -1,0 +1,386 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "band-held",
+    "name": "Band Held",
+    "note": "Every band bolt brought to tension in the charted order, none slackened out of turn, and the pump bled to zero before a coupling was opened"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "Ironworkers and IMPACT bridge crew training; the National Bridge Inspection Standards (23 CFR 650) and the AASHTO Manual for Bridge Element Inspection for the band and cable condition; the owner's band-bolt tension procedure and sequence chart; OSHA 29 CFR 1926.502 and ANSI/ASSP Z359 for the hand-rope tie-off; 29 CFR 1926.106 for work over water",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "AASHTO",
+        "citedAs": "AASHTO",
+        "id": "aashto-bridge-inspection",
+        "title": "AASHTO Manual for Bridge Element Inspection and the LRFD Bridge Design Specifications"
+      },
+      {
+        "body": "union",
+        "citedAs": "Ironworkers",
+        "id": "ironworkers-impact",
+        "title": "Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork"
+      },
+      {
+        "body": "NBIS",
+        "citedAs": "National Bridge Inspection Standards",
+        "id": "nbis-23-cfr-650",
+        "title": "23 CFR Part 650 Subpart C — National Bridge Inspection Standards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.106",
+        "id": "osha-1926-106",
+        "title": "29 CFR 1926.106 — Working over or near water"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.502",
+        "id": "osha-1926-502",
+        "title": "29 CFR 1926.502 — Fall protection systems criteria and practices"
+      }
+    ]
+  },
+  "district": "golden-gate-deck",
+  "domain": "Construction",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "charted-order",
+        "name": "Charted Order",
+        "note": "Bolts tensioned in the chart's sequence without a correction"
+      },
+      {
+        "id": "steady-pressure",
+        "name": "Steady Pressure",
+        "note": "Tensioner pressure held inside the band the whole check"
+      },
+      {
+        "id": "dry-hands",
+        "name": "Dry Hands",
+        "note": "No unsafe action with the hydraulics or on the cable"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-band",
+        "name": "Clean Band",
+        "note": "No corrections from the work order to the log"
+      },
+      {
+        "id": "no-dropout",
+        "name": "No Dropout",
+        "note": "The tension check never dropped out of band"
+      },
+      {
+        "id": "band-inside-par",
+        "name": "Band Inside Par",
+        "note": "Logged inside 80% of par"
+      }
+    ],
+    "currency": "BAND",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Catwalk Hand",
+      "Band Checker",
+      "Tensioner Tech",
+      "Cable Lead",
+      "Cable Crew Certified"
+    ],
+    "system": "Cable Crew"
+  },
+  "hazards": {
+    "bolt-out-of-sequence": "You put the wrench on the band's far bolt and started backing it off, out of the charted order. A cable band holds on the cable by friction, and the friction comes from every bolt pulling the two halves together evenly; slacken one out of turn and the load it carried goes to its neighbours unevenly, the band can rock on the cable, and a band that has moved even a little has moved the suspender ropes with it. The sequence chart is the engineer's, and it is followed bolt by bolt.",
+    "cable-walk-unclipped": "You went to step up onto the main cable itself with your lanyard still on the traveller's rail and no hand-rope connection. The top of a main cable is curved, wet with the marine layer and slick with paint, and the hand ropes run alongside it precisely so a person on the cable is always connected to them. Off the traveller without that connection is a walk with nothing to stop a slip.",
+    "pressurised-coupler": "You reached for the tensioner's hose coupling with the pump still showing pressure. A hydraulic bolt tensioner runs at pressures that can cut skin and inject fluid under it if a coupling is cracked live, and the injury looks like a pinprick until it is a surgical emergency. The pump is bled to zero and the gauge read before any coupling is touched.",
+    "untethered-socket": "The socket and ratchet are sitting untethered on the traveller grating, over the edge of the deck with the strait beyond it. The traveller moves and flexes on the cable, grating has gaps, and a socket that drops from a cable band falls onto whatever is under the span — a lane of traffic or a boat. Every tool on the traveller rides on a lanyard or goes back in the tethered bag."
+  },
+  "id": "gg-main-cable-band-inspection",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "seat-tensioner",
+      "alert": "A gust comes up the span and the traveller's pennant stands out red — the wind reading on the traveller mast is past the work-stop limit.",
+      "cue": "Let go of the tensioner, get both hands on the traveller handrail and ride the gust out low.",
+      "delay": 2,
+      "id": "gust-on-the-cable",
+      "kind": "Gust past the work-stop limit",
+      "missNote": "The seating went on through the gust with both hands on the tensioner and none on the traveller. A gust past the limit on a moving platform is exactly when a person goes over the rail.",
+      "seconds": 12,
+      "target": "handrail-grab",
+      "why": "A person holding a heavy tensioner at the edge of a traveller in a gust has neither hand for themselves. The work-stop limit exists because past it the wind can move a body on a platform that is itself moving on the cable, and the answer is the same every time: let the tool hang on its lanyard, both hands on the handrail, get low and wait. The tensioner can be re-seated; a person cannot be re-seated.",
+      "wrongNote": "The handrail — both hands on the traveller. The tensioner hangs on its lanyard until the gust passes."
+    },
+    {
+      "after": "tension-check",
+      "alert": "A work boat has come in under the span, right below the traveller — inside the exclusion the crew set on the water.",
+      "cue": "Stop the check and call the boat and the safety skiff on the cable radio: overhead work, clear the zone below.",
+      "delay": 3,
+      "id": "boat-under-the-band",
+      "kind": "Boat under the work zone",
+      "missNote": "The check carried on with a boat directly under the traveller. Had a nut or a tool gone over, it would have landed on a crew below who had no way to know they were under live overhead work.",
+      "seconds": 13,
+      "target": "cable-radio",
+      "why": "Anything that leaves the traveller — a socket, a nut, a drop of hydraulic fluid — falls onto whatever is below, and from this height nobody on a boat hears it coming. The exclusion on the water only works if the crew above holds it, so the check stops and the call goes out the moment a boat is under the zone: overhead work stops until the boat is clear, and the safety skiff moves it on.",
+      "wrongNote": "The cable radio — the boat is out of reach, and the only thing on this traveller that reaches it is the radio."
+    }
+  ],
+  "lateNotes": {
+    "band-bolt-nut": "The bolts are brought to tension once the tensioner is seated on the first bolt of the chart — not with a wrench by feel.",
+    "band-log": "The band is logged once the pump is bled and stowed — the log records a finished inspection.",
+    "caulk-cartridge": "The end joint is recaulked once the bolts are at tension; caulking a band that is still being pulled up only cracks the new bead."
+  },
+  "name": "Main Cable Band Inspection",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "band-bolt-nut",
+      "band-end-joint",
+      "band-gap-rust",
+      "band-log",
+      "band-work-order",
+      "bolt-out-of-sequence",
+      "cable-radio",
+      "cable-walk-unclipped",
+      "caulk-cartridge",
+      "caulk-split",
+      "handrail-grab",
+      "handrope-anchor",
+      "hose-coupler",
+      "pressurised-coupler",
+      "pump-release",
+      "tensioner-pump",
+      "tensioner-seat",
+      "traveller-brake",
+      "traveller-crank",
+      "untethered-socket",
+      "witness-mark-gauge",
+      "witness-paint",
+      "wrapping-wire-break"
+    ],
+    "meshes": 212
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read which band is due, what the last inspection recorded, the tension figure, and the bolt sequence chart for this band.",
+      "id": "work-order",
+      "kind": "select",
+      "prompt": "Read which band is due, what the last inspection recorded, the tension figure, and the bolt sequence chart for this band.",
+      "target": "band-work-order",
+      "title": "Read the band work order and the sequence chart",
+      "why": "Every band on a main cable is numbered, and the work order says which one is due and why: a cycle under the National Bridge Inspection Standards, or a finding from the last walk. The sequence chart is the engineer's order for bringing the bolts to tension so the band closes evenly round the cable, and the tension figure is the number the whole job is measured against. Neither is something a crew improvises on the traveller."
+    },
+    {
+      "cue": "Clip your lanyard to the hand rope running beside the cable, then set and pin the traveller's brake before anything else is touched.",
+      "id": "tie-off",
+      "itemNames": {
+        "handrope-anchor": "lanyard on the hand rope",
+        "traveller-brake": "traveller brake set and pinned"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Hand rope first — the brake is set by a person, and that person is connected before they lean over it.",
+      "prompt": "Clip your lanyard to the hand rope running beside the cable, then set and pin the traveller's brake before anything else is touched.",
+      "targets": [
+        "handrope-anchor",
+        "traveller-brake"
+      ],
+      "title": "Clip to the hand rope and set the traveller brake",
+      "why": "The hand rope is the fall-protection line for anyone working at the cable, and the connection goes on before the work because a traveller parked on a sloping cable is a platform that can creep. The brake is set and pinned second, and checked by hand, because a band inspection puts the crew's weight and a heavy tensioner on one side of a platform held on the cable by its own brake alone."
+    },
+    {
+      "cue": "Look over the band and the cable either side of it and find where water is getting in: the seam, the end joints, the wrapping wire.",
+      "id": "band-walk",
+      "itemNames": {
+        "band-gap-rust": "rust bleeding from the band's split seam",
+        "caulk-split": "caulking split at the band's end",
+        "wrapping-wire-break": "a break in the cable's wrapping wire beside the band"
+      },
+      "itemNotes": {
+        "band-gap-rust": "Rust is bleeding out of the seam between the two band halves. Water is getting into the seam, and the steel of the band and the bolts inside it are corroding where no one can see them.",
+        "caulk-split": "The caulking at the band's lower end has split along its length. The end joint is the path water takes down into the cable under the band, and the cable wires under a band are the ones hardest to inspect.",
+        "wrapping-wire-break": "The wrapping wire round the cable beside the band has parted, and its paint has cracked with it. The wrapping and its paint are the cable's weather skin; a break in it lets water reach the main wires."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the band and the cable either side of it and find where water is getting in: the seam, the end joints, the wrapping wire.",
+      "targets": [
+        "band-gap-rust",
+        "caulk-split",
+        "wrapping-wire-break"
+      ],
+      "title": "Walk the band: seam, end joints, wrapping",
+      "why": "A main cable fails from the inside, where water gets into the wires and stays there, and a cable band is the place water most wants to enter: a seam down the side, a joint at each end, and wrapping wire that has to be cut and closed round it. AASHTO element inspection rates the band and the cable next to it on exactly these defects, because each one is a path for water to the parallel wires the whole span hangs from."
+    },
+    {
+      "cue": "Set the slip gauge across the painted witness mark at the band's upper end and commit the reading inside the band.",
+      "gauge": {
+        "green": [
+          0.08,
+          0.4
+        ],
+        "label": "BAND SLIP · % OF ALLOWANCE",
+        "missNote": "That reading is past the slip allowance — or the gauge was not square to the mark. Set it across the mark itself and read again; a real slip is the engineer's call.",
+        "speed": 0.62
+      },
+      "id": "witness-mark",
+      "kind": "gauge",
+      "prompt": "Set the slip gauge across the painted witness mark at the band's upper end and commit the reading inside the band.",
+      "target": "witness-mark-gauge",
+      "title": "Read the band's slip against its witness mark",
+      "why": "A band that has slipped down the cable has taken its suspender ropes with it, and the only way to know is the witness mark painted across the band's end and the cable when the band was last set. The slip gauge turns that mark into a number the engineer can compare with the last inspection; a reading outside the band is a finding that goes to the engineer before any bolt is touched."
+    },
+    {
+      "cue": "Thread the hydraulic tensioner's puller onto bolt one of the chart and hold it square on the band's bolt ear while it seats.",
+      "holdBreakNote": "The tensioner came off square before it seated. Hold it on the ear until the puller threads fully home.",
+      "id": "seat-tensioner",
+      "kind": "hold",
+      "prompt": "Thread the hydraulic tensioner's puller onto bolt one of the chart and hold it square on the band's bolt ear while it seats.",
+      "seconds": 5,
+      "target": "tensioner-seat",
+      "title": "Seat the tensioner on the chart's first bolt",
+      "why": "A hydraulic tensioner stretches the bolt rather than twisting the nut, which is why its reading means something: it pulls the bolt to a set load and the nut is run down to hold it. That only works if the tensioner sits square on the ear; seated crooked it loads the bolt on one side, reads high, and can slip off under pressure with a hand beside it."
+    },
+    {
+      "cue": "Work round the chart: pressure up, run the nut down on each bolt in turn, one to eight, crossing the band as the chart shows.",
+      "id": "band-bolts",
+      "kind": "turn",
+      "prompt": "Work round the chart: pressure up, run the nut down on each bolt in turn, one to eight, crossing the band as the chart shows.",
+      "target": "band-bolt-nut",
+      "title": "Run the band bolts to tension in the charted sequence",
+      "turn": {
+        "label": "BAND BOLTS · CHART ORDER",
+        "turns": 1.2
+      },
+      "why": "The chart crosses the band — top then bottom, one end then the other — so the halves close evenly round the cable and the clamping force is spread over the whole band. Brought up in the wrong order, the first bolts pull the halves together at one end and the last ones cannot close the other, and a band clamped unevenly can slip on the cable under the next change in load."
+    },
+    {
+      "cue": "Bring the pump to the check pressure and hold it steady while your partner tries each nut — no overshoot, no sag.",
+      "holdBreakNote": "The pressure left the band while a nut was being tried — that bolt's check means nothing. Bring it back to the figure and try it again.",
+      "id": "tension-check",
+      "kind": "track",
+      "prompt": "Bring the pump to the check pressure and hold it steady while your partner tries each nut — no overshoot, no sag.",
+      "seconds": 7,
+      "target": "tensioner-pump",
+      "title": "Hold the check pressure while each nut is tried",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "TENSIONER · CHECK PRESSURE",
+        "rise": 0.58,
+        "start": 0.1
+      },
+      "why": "The check is how the crew knows the bolts are holding what the engineer asked for: at the check pressure, a nut that turns has lost tension and one that does not is holding at least that much. The pressure is held steady rather than pumped past the figure, because overshooting stretches the bolt past its set and proves nothing, and sagging below it passes a bolt that is not actually at tension."
+    },
+    {
+      "cue": "Take the caulk gun to the band's lower end and run a bead into the split joint all the way round.",
+      "drag": {
+        "missNote": "Not at the joint — the bead goes into the split at the band's lower end, not on the band face or the wrapping.",
+        "radius": 0.4,
+        "to": "band-end-joint"
+      },
+      "id": "recaulk",
+      "kind": "drag",
+      "prompt": "Take the caulk gun to the band's lower end and run a bead into the split joint all the way round.",
+      "target": "caulk-cartridge",
+      "title": "Recaulk the band's split end joint",
+      "why": "The end joint is where the band meets the wrapped cable, and it is sealed so water running down the cable sheds over the band instead of into it. A split bead is a funnel: the next rain runs straight into the cable under the band, where the wires are hardest to reach. Recaulked after the bolts are at tension, the bead is not cracked again by the band closing."
+    },
+    {
+      "cue": "Paint a fresh witness line across the band's upper end and the cable, dated, so the next inspection has a clean line to read.",
+      "id": "re-mark",
+      "kind": "select",
+      "prompt": "Paint a fresh witness line across the band's upper end and the cable, dated, so the next inspection has a clean line to read.",
+      "target": "witness-paint",
+      "title": "Renew the witness mark across the band and the cable",
+      "why": "The witness mark is only useful if the next crew can read it: the old line is weathered, and the band has just been brought to tension. A fresh line across the band and the cable, dated, is the starting point for the next slip reading, and without it the next inspection is measuring against a mark nobody can trust."
+    },
+    {
+      "cue": "Open the pump's release and watch the gauge drop to zero; only then uncouple the hose from the tensioner.",
+      "id": "bleed-pump",
+      "itemNames": {
+        "hose-coupler": "hose uncoupled from the tensioner",
+        "pump-release": "pump released to zero and the gauge read"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Release first, coupler second — a hose uncoupled with pressure on it is the injury this sequence exists to prevent.",
+      "prompt": "Open the pump's release and watch the gauge drop to zero; only then uncouple the hose from the tensioner.",
+      "targets": [
+        "pump-release",
+        "hose-coupler"
+      ],
+      "title": "Bleed the pump to zero, then uncouple the hose",
+      "why": "Stored hydraulic pressure stays in a hose and a tensioner long after the pump stops, and a coupling cracked under pressure can inject fluid through skin or whip the hose end. The release is opened and the gauge read at zero first, every time, because the only way to know a hydraulic line is dead is to see it on the gauge."
+    },
+    {
+      "cue": "Take the brake pin out and crank the traveller back to its parking position, hand over hand on the crank.",
+      "id": "crank-back",
+      "kind": "turn",
+      "prompt": "Take the brake pin out and crank the traveller back to its parking position, hand over hand on the crank.",
+      "target": "traveller-crank",
+      "title": "Crank the traveller back off the band",
+      "turn": {
+        "label": "TRAVELLER CRANK",
+        "turns": 1
+      },
+      "why": "The traveller rides the cable on a hand crank so the person riding it can stop it at once. It goes back to its parking position under control, never allowed to run, because on a sloping cable a free traveller picks up speed with only its parking brake to stop it — and a parking brake is not an arrester."
+    },
+    {
+      "cue": "Record the slip reading, the bolt check, the rust at the seam, the recaulked joint and the wrapping break for the engineer.",
+      "id": "band-log",
+      "kind": "select",
+      "prompt": "Record the slip reading, the bolt check, the rust at the seam, the recaulked joint and the wrapping break for the engineer.",
+      "target": "band-log",
+      "title": "Log the band: slip, bolts, seam, joint, wrapping",
+      "why": "The band log is how the owner's engineer follows each band over years: its slip reading against the last one, its bolts' check, and the defects that let water in. The rust at the seam and the wrapping break are repair items for the next crew and rating items under the National Bridge Inspection Standards, and a finding logged now is one the next inspection can compare against."
+    },
+    {
+      "cue": "Call the engineer and your partner on the cable channel: band logged, traveller parked, and how everyone is after a shift on the cable.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the engineer and your partner on the cable channel: band logged, traveller parked, and how everyone is after a shift on the cable.",
+      "target": "cable-radio",
+      "title": "Check in with the engineer and your partner",
+      "why": "The engineer needs to hear the band is finished and what was found, and the partner who held the tensioner deserves to hear the job is closed rather than work it out from the crew walking away. A shift over the water with a gust through it is also the kind that stays with people, so the crew checks in with each other before the next job; the Ironworkers' member assistance line is there for anything that does not clear with the shift."
+    }
+  ],
+  "supportLine": "the Ironworkers' member assistance programme through your local, and the crew's peer-support contact",
+  "tagline": "A cable band checked from the traveller: tied to the hand rope and the brake set, the seam and caulking walked, the band read against its witness mark, the tensioner seated while a gust hits, the band bolts brought to tension in the charted sequence and held there while a boat passes under, the end joint recaulked, the pump bled before a hose is touched, and the band logged",
+  "title": "SmartCiti.X~ Main Cable Band Inspection VR",
+  "trade": "Ironworkers — main cable crew, trained through the Ironworkers' IMPACT programme, working with the owner's bridge engineer",
+  "underwater": null,
+  "weather": null
+}

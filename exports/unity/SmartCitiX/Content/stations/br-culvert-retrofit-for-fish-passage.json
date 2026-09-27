@@ -1,0 +1,448 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "passage-restored",
+    "name": "Passage Restored",
+    "note": "Every fish out, every lift compacted to grade, invert reading true — first time"
+  },
+  "category": "Water & Environmental",
+  "certification": "IUOE Local 3 operating engineer — excavator; LIUNA Local 261 laborers — confined space and dewatering ground crew; OSHA 29 CFR 1926 Subpart P excavations; OSHA 29 CFR 1926 Subpart AA confined spaces in construction; U.S. Army Corps of Engineers Clean Water Act (CWA) Section 404 permit conditions; San Francisco Bay Regional Water Quality Control Board CWA Section 401 water quality certification; California Department of Fish and Wildlife Lake and Streambed Alteration Agreement for fish passage; U.S. Fish and Wildlife Service Endangered Species Act consultation; work window per the permit",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CDFW",
+        "citedAs": "CDFW",
+        "id": "cdfw-lake-streambed-alteration",
+        "title": "California Department of Fish and Wildlife oversight under the California Fish and Game Code, including Lake and Streambed Alteration Agreements (§1602) for work affecting a river, stream or lake"
+      },
+      {
+        "body": "union",
+        "citedAs": "CWA",
+        "id": "cwa-training",
+        "title": "CWA member training for outside-plant, tower and broadcast work"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926 Subpart AA",
+        "id": "osha-1926-subpart-aa",
+        "title": "OSHA 29 CFR 1926 Subpart AA — Confined spaces in construction"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "Section 401",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      },
+      {
+        "body": "USACE",
+        "citedAs": "Section 404",
+        "id": "usace-section-404",
+        "title": "Clean Water Act §404 permit conditions for the discharge of dredged or fill material"
+      },
+      {
+        "body": "USFWS",
+        "citedAs": "Endangered Species Act",
+        "id": "usfws-esa",
+        "title": "Endangered Species Act §7 consultation and species protection measures set by the U.S. Fish and Wildlife Service"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "dry-clean",
+        "name": "Dry And Clean",
+        "note": "Never a hazard, dewatering discharge always filtered"
+      },
+      {
+        "id": "grade-true",
+        "name": "Invert True",
+        "note": "Dewatering meter and invert grade both read inside the working band"
+      },
+      {
+        "id": "channel-first",
+        "name": "Channel Read Clean",
+        "note": "Fish exclusion and dam both read clean before the pump ever started"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-crossing",
+        "name": "Clean Crossing",
+        "note": "No corrections across the whole retrofit"
+      },
+      {
+        "id": "steady-swing",
+        "name": "Steady Swing",
+        "note": "Held the excavator swing inside the working band the whole pass"
+      },
+      {
+        "id": "crossing-fast",
+        "name": "Crossing Closed Fast",
+        "note": "Retrofit closed out inside 80% of par"
+      }
+    ],
+    "currency": "CULVERT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Laborer",
+      "Oiler",
+      "Operator",
+      "Lead Operator",
+      "Culvert Certified"
+    ],
+    "system": "Culvert Crew"
+  },
+  "hazards": {
+    "confined-entry-no-permit": "You climbed into the culvert barrel without a confined space permit or an attendant topside. A concrete barrel this size is exactly the kind of space Subpart AA exists for — no natural ventilation, one way in and out, and an atmosphere nobody has tested — and going in on a guess instead of a permit is the guess that ends with somebody topside not knowing you're in trouble until it's too late to matter.",
+    "dewater-discharge-unfiltered": "You ran the bypass pump's discharge straight into the creek below the dam instead of through the filter bag staged for it. Every gallon this pump moves is water the 401 certification expects to leave this site cleaner than the trench it came out of, not sediment-laden water dumped straight into the same reach the fish exclusion net was set up to protect in the first place.",
+    "excavator-swing-radius": "You walked into the excavator's swing radius while the house was powered and turning. The counterweight and boom sweep an arc with no warning beyond the beacon and the whistle, and a trench full of exposed bedding does not make that arc any smaller or any more forgiving of a body standing in it.",
+    "manual-lift-baffle": "You went to muscle the precast baffle section into the trench by hand instead of walking it in on the tag line while the excavator took the weight. A precast section this size has no safe grip for a human hand, and a crushed hand in a trench is not an injury this crew gets to walk off."
+  },
+  "id": "br-culvert-retrofit-for-fish-passage",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "dewatering-meter",
+      "alert": "The bypass pump has lost its prime and the water in the excavation is climbing back up around the old culvert invert instead of draining past it.",
+      "cue": "Get to the priming valve now, not after the trench floods back out — the pump needs to be re-primed before the pit fills further.",
+      "delay": 4,
+      "id": "pump-loses-prime",
+      "kind": "Bypass pump loses prime",
+      "missNote": "The trench kept filling while the pump idled unprimed, and by the time anyone reached the valve the water was back over the old invert — the whole morning's dewatering undone in the time it took to notice a gauge nobody was watching.",
+      "seconds": 14,
+      "target": "pump-priming-valve",
+      "why": "A pump that has lost prime stops moving water but keeps running, and every minute it sits unprimed is a minute the trench refills with exactly the water the whole dewatering plan exists to keep out of it — re-priming it the moment it is noticed is what keeps a lost prime from becoming a flooded excavation the crew has to dewater a second time.",
+      "wrongNote": "That is not it. The pump's own priming valve is what gets it moving water again — nothing else in this trench does that job."
+    },
+    {
+      "after": "excavator-swing",
+      "alert": "A juvenile fish is trapped in the last pool of water inside the exclusion zone, right where the bucket's next pass would go.",
+      "cue": "Hit the dig estop now. Nothing digs in that pool while a fish is still in it.",
+      "delay": 3,
+      "id": "fish-in-exclusion-zone",
+      "kind": "Fish trapped in the shrinking dewatering pool",
+      "missNote": "The bucket went in on the next pass anyway, and nobody could afterward say whether the fish made it out from under it — a question that never has a good answer once the pass is already made.",
+      "seconds": 13,
+      "target": "dig-estop",
+      "why": "The fish exclusion net was set up specifically because a fish that slipped past it before dewatering started is not a hypothetical — it is exactly this pool, and the bucket stops the moment it is seen, not once the current pass is finished, because the Endangered Species Act and the CDFW streambed agreement both treat a fish struck by machinery as the harm the whole exclusion effort exists to prevent.",
+      "wrongNote": "It's the excavator's own dig estop. Nothing else in this trench stops the bucket before it reaches the pool."
+    }
+  ],
+  "lateNotes": {
+    "baffle-set": "Set the baffle section only after the invert bedding is dug to grade — lowering a precast section onto an unchecked bed just buries a bad grade under concrete nobody can fix afterward.",
+    "excavator-swing": "The swing pass starts only after the fish exclusion net and the dam are both in — digging bedding in a channel that still has fish or flow in it undoes the reason either one was set up.",
+    "invert-rod": "Read the invert grade only after backfill is compacted around the culvert — a reading taken before the lifts are in is not the grade the crossing will actually hold once loaded."
+  },
+  "name": "Culvert Retrofit For Fish Passage",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "excavator",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "align-stake-1",
+      "align-stake-2",
+      "align-stake-3",
+      "baffle-set",
+      "blind-spot-cone",
+      "bypass-pump-valve",
+      "closing-log",
+      "cofferdam-bags",
+      "confined-entry-no-permit",
+      "confined-space-board",
+      "dam-line",
+      "dewater-discharge-unfiltered",
+      "dewatering-meter",
+      "dig-estop",
+      "excavator-swing",
+      "excavator-swing-radius",
+      "exclusion-net",
+      "invert-rod",
+      "lift-bottom",
+      "lift-mid",
+      "lift-top",
+      "manual-lift-baffle",
+      "permit-board",
+      "pinch-point-flag",
+      "pump-priming-valve",
+      "stage-hardhat",
+      "stage-hearing",
+      "stage-hi-vis"
+    ],
+    "meshes": 259
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the Corps' 404 conditions, the 401 certification, the streambed agreement, and the work window before anything is staged.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Read the Corps' 404 conditions, the 401 certification, the streambed agreement, and the work window before anything is staged.",
+      "target": "permit-board",
+      "title": "Check the permit conditions and the work window before staging",
+      "why": "This crossing is worked under the same set of signatures every in-water retrofit on the Bay carries — the Corps' Section 404 permit, the Water Board's 401 certification, California Department of Fish and Wildlife's streambed alteration agreement, and a work window the permit itself sets — and a culvert crew that treats this as a road job instead of a permitted in-water job answers for every condition on it regardless."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Hard hat, high-visibility vest and hearing protection before anyone works near the running excavator.",
+      "id": "stage-ppe",
+      "itemNames": {
+        "stage-hardhat": "hard hat",
+        "stage-hearing": "hearing protection",
+        "stage-hi-vis": "high-visibility vest"
+      },
+      "kind": "sequence",
+      "prompt": "Hard hat, high-visibility vest and hearing protection before anyone works near the running excavator.",
+      "targets": [
+        "stage-hardhat",
+        "stage-hi-vis",
+        "stage-hearing"
+      ],
+      "title": "Stage the ground crew's PPE",
+      "why": "A ground crew works within feet of a swinging counterweight and a running diesel all day in a trench that is also loud enough on its own to mask a shouted warning — the vest is what lets the operator see a person against the trench wall, the hard hat is for whatever the boom or a baffle section finds on the way down, and hearing protection is for noise nobody notices is a problem until the day it already was one."
+    },
+    {
+      "cue": "Walk the crossing and click the three stakes the new alignment is built from.",
+      "id": "find-stakes",
+      "itemNames": {
+        "align-stake-1": "alignment stake — upstream",
+        "align-stake-2": "alignment stake — center",
+        "align-stake-3": "alignment stake — downstream"
+      },
+      "itemNotes": {
+        "align-stake-1": "Stake 1 marks the upstream end of the new culvert alignment. The trench is dug from here, not from wherever the old pipe happened to sit.",
+        "align-stake-2": "Stake 2 is the center control — the check that the trench is still following the surveyed alignment and not drifting off it a bucket load at a time.",
+        "align-stake-3": "Stake 3 marks the downstream end. Past it, whatever the bucket cuts is not part of the permitted crossing."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the crossing and click the three stakes the new alignment is built from.",
+      "targets": [
+        "align-stake-1",
+        "align-stake-2",
+        "align-stake-3"
+      ],
+      "title": "Find the survey stakes that set the culvert alignment",
+      "why": "The trench, the baffle placement and the backfill lifts are all set against stakes a surveyor already placed, not against where the old culvert looked like it belonged. Finding all three before anything is dug is what keeps a whole day of excavation building the one permitted alignment instead of three honest guesses at it."
+    },
+    {
+      "cue": "Check that the exclusion net spans the full channel width upstream of the work zone before any dewatering starts.",
+      "id": "fish-exclusion-net",
+      "kind": "select",
+      "prompt": "Check that the exclusion net spans the full channel width upstream of the work zone before any dewatering starts.",
+      "target": "exclusion-net",
+      "title": "Confirm the fish exclusion net is deployed across the channel",
+      "why": "Every fish upstream of this crossing has to be given the chance to be somewhere else before the channel is dammed and pumped dry, and the net is what makes that a fact instead of a hope — dewatering behind a net that does not span the full channel just concentrates whatever fish it missed into the exact pool the crew is about to dig through."
+    },
+    {
+      "cue": "Carry the sandbags out and stack them along the marked dam line above the work zone.",
+      "drag": {
+        "missNote": "Not on the line — the dam has to run bank to bank or the flow finds the gap on the first real push.",
+        "radius": 0.5,
+        "to": "dam-line"
+      },
+      "id": "dam-place",
+      "kind": "drag",
+      "prompt": "Carry the sandbags out and stack them along the marked dam line above the work zone.",
+      "target": "cofferdam-bags",
+      "title": "Build the cofferdam across the channel",
+      "why": "The dam is what turns a live channel into a dry excavation, and a dam that does not run the full width of the channel is a dam the first real flow finds the gap in — every bag placed on the line is one more foot of channel the pump does not have to fight to keep dry."
+    },
+    {
+      "cue": "Open the bypass pump's valve to start diverting flow around the work zone.",
+      "id": "pump-start",
+      "kind": "turn",
+      "prompt": "Open the bypass pump's valve to start diverting flow around the work zone.",
+      "target": "bypass-pump-valve",
+      "title": "Start the bypass pump",
+      "turn": {
+        "axis": "y",
+        "label": "BYPASS PUMP",
+        "turns": 0.8
+      },
+      "why": "The bypass is what keeps the reach downstream of the dam wet and passable for anything already below it while the crew works dry above — a dam with no bypass running just backs the whole channel's flow up against the sandbags until something gives."
+    },
+    {
+      "cue": "Take the turbidity reading on the filtered discharge and commit it inside the permit's limit.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "DISCHARGE",
+        "missNote": "Outside the permit's discharge limit. Let the filtered reading settle and commit again inside the band.",
+        "speed": 0.7
+      },
+      "id": "dewatering-meter",
+      "kind": "gauge",
+      "prompt": "Take the turbidity reading on the filtered discharge and commit it inside the permit's limit.",
+      "target": "dewatering-meter",
+      "title": "Read the dewatering discharge meter",
+      "why": "The 401 certification does not care how clean the water in the trench looks — it cares what comes out of the filter bag before it reaches the creek, and reading the meter now is what tells the crew the filter is doing its job instead of assuming it is because nobody has checked."
+    },
+    {
+      "cue": "Work the swing at a controlled rate across the trench, keeping it inside the working band.",
+      "holdBreakNote": "The swing broke off the rate and the boom drifted off its arc. Bring it back to a controlled rate before it reaches the trench wall.",
+      "id": "excavator-swing",
+      "kind": "track",
+      "prompt": "Work the swing at a controlled rate across the trench, keeping it inside the working band.",
+      "seconds": 7,
+      "target": "excavator-swing",
+      "title": "Swing the boom to dig out the old culvert bedding",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.36,
+          0.58
+        ],
+        "label": "SWING",
+        "rise": 0.55,
+        "start": 0.1
+      },
+      "why": "A steady swing rate is what lets the operator stop the house exactly where the trench wall is, every single pass; swing too fast and the boom's own momentum carries the bucket into ground that was not supposed to be cut yet, swing too slow and the crew is burning the dewatered window on a pass that should already be done."
+    },
+    {
+      "cue": "Check the permit board and confirm the attendant is posted before the crew climbs into the old culvert barrel.",
+      "id": "confined-space-permit",
+      "kind": "select",
+      "prompt": "Check the permit board and confirm the attendant is posted before the crew climbs into the old culvert barrel.",
+      "target": "confined-space-board",
+      "title": "Confirm the confined space permit before anyone enters the barrel",
+      "why": "The old culvert barrel is a permit-required confined space the moment a crew member's shoulders go past the opening — no through ventilation, one way out, and an atmosphere nobody has tested until it is — and the permit and the attendant are what stand between that and a rescue nobody topside knows to start."
+    },
+    {
+      "cue": "Hold the tag line steady while the excavator lowers the precast section onto the checked bedding.",
+      "holdBreakNote": "The tag line went slack and the section started to swing — take it up again and hold it steady until the section is seated.",
+      "id": "baffle-set",
+      "kind": "hold",
+      "prompt": "Hold the tag line steady while the excavator lowers the precast section onto the checked bedding.",
+      "seconds": 5,
+      "target": "baffle-set",
+      "title": "Guide the new box culvert section onto the bedding",
+      "why": "A precast section swinging on a single cable drifts the moment it clears the trench wall, and a taut tag line is what a person on the ground uses to walk it straight down onto the bedding instead of letting it swing and land wherever the crane's own drift happens to put it."
+    },
+    {
+      "cue": "Place and compact the backfill lifts in order: bottom, then mid, then top.",
+      "id": "backfill-lifts",
+      "itemNames": {
+        "lift-bottom": "backfill lift — bottom",
+        "lift-mid": "backfill lift — mid",
+        "lift-top": "backfill lift — top"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Bottom lift, then mid, then top. A lift compacted before the one below it is proven just traps whatever voids that lower lift still has.",
+      "prompt": "Place and compact the backfill lifts in order: bottom, then mid, then top.",
+      "targets": [
+        "lift-bottom",
+        "lift-mid",
+        "lift-top"
+      ],
+      "title": "Compact the backfill in lifts, bottom to top",
+      "why": "A culvert backfilled in one pass leaves voids under the haunches that settle unevenly the first time a vehicle loads the road above it; compacted bottom lift first, each lift is proven solid before the next one goes on top of it, which is the only way this crossing ends up carrying a road instead of slowly swallowing one."
+    },
+    {
+      "cue": "Read the level rod at the culvert invert and commit the reading inside the design band.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "INVERT",
+        "missNote": "Off the design slope. Read the rod again at the marked point before the dam comes out.",
+        "speed": 0.72
+      },
+      "id": "invert-grade",
+      "kind": "gauge",
+      "prompt": "Read the level rod at the culvert invert and commit the reading inside the design band.",
+      "target": "invert-rod",
+      "title": "Check the culvert invert grade",
+      "why": "A fish-passage culvert only works if its invert sits at the slope the design called for — too steep and the flow through it is too fast for a fish to swim against, too flat and it silts in behind the very backfill the crew just compacted. The rod reading is the only honest check that the crossing was actually built to the design instead of just poured to look about right."
+    },
+    {
+      "cue": "Check the pinch point and the blind spot before the excavator is shut down for the day.",
+      "id": "walk-hazards",
+      "itemNotes": {
+        "blind-spot-cone": "This cone sits in the operator's blind spot behind the counterweight, exactly where nobody should be standing while the machine is powered.",
+        "pinch-point-flag": "This flag marks a pinch point at the excavator's swing frame that a hand could still reach into while the machine sits idling — click it to confirm the crew has kept clear."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the pinch point and the blind spot before the excavator is shut down for the day.",
+      "targets": [
+        "pinch-point-flag",
+        "blind-spot-cone"
+      ],
+      "title": "Walk the crossing and confirm the crew is clear of the machine",
+      "why": "The two places on this machine most likely to catch a hand or a body are also the two places easiest to forget once the grading itself is done — walking them now, machine still idling, is the last chance to catch a crew habit that a shutdown checklist alone will not."
+    },
+    {
+      "cue": "Record the trench dug, the discharge readings, the lifts compacted, and the invert grade for the crew's record.",
+      "id": "log-culvert",
+      "kind": "select",
+      "prompt": "Record the trench dug, the discharge readings, the lifts compacted, and the invert grade for the crew's record.",
+      "target": "closing-log",
+      "title": "Log the day's retrofit",
+      "why": "The next crew on this crossing — and the inspector who signs off the fish-passage design — reads today's log, not today's memory of it. A retrofit that went in clean but was never logged looks, from the record, exactly like a crossing nobody has verified, and an invert reading that was never written down is a fact nobody downstream can confirm on its own."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Replacing a perched culvert with a fish-passage crossing on a dewatered reach: fish excluded and the channel dammed before the pump starts, the old bedding dug to a controlled swing, the barrel entered only on a confined space permit, the new box set to the laser and backfilled lift by lift, and the invert grade checked before the dam ever comes out",
+  "title": "SmartCiti.X~ Culvert Retrofit For Fish Passage VR",
+  "trade": "Operating engineer — excavator, culvert retrofit crew",
+  "underwater": null,
+  "weather": "overcast"
+}

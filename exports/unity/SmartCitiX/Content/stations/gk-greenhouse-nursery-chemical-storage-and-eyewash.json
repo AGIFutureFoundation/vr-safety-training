@@ -1,0 +1,432 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "storage-secured",
+    "name": "Storage Secured",
+    "note": "Chemicals segregated, the eyewash path clear and flow-tested, the ventilation confirmed, and every container properly labelled"
+  },
+  "category": "Grounds & Landscaping",
+  "certification": "OSHA 29 CFR 1910.1200 hazard communication, 29 CFR 1910.132 personal protective equipment, 29 CFR 1910.133 eye and face protection, 29 CFR 1910.134 respiratory protection and 29 CFR 1910.151 medical services and first aid; ANSI Z358 emergency eyewash and shower equipment; Federal Insecticide, Fungicide, and Rodenticide Act (FIFRA) pesticide storage requirements; SEIU grounds and building staff training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI",
+        "citedAs": "ANSI Z358",
+        "id": "ansi-z358-eyewash",
+        "title": "ANSI Z358 — emergency eyewash and shower equipment"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "FIFRA",
+        "id": "epa-fifra-pesticide-label",
+        "title": "Federal Insecticide, Fungicide, and Rodenticide Act (FIFRA) — the pesticide product label as a legal document, and EPA's pesticide applicator and worker-protection requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.133",
+        "id": "osha-1910-133",
+        "title": "29 CFR 1910.133 — Eye and face protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.151",
+        "id": "osha-1910-151",
+        "title": "29 CFR 1910.151 — Medical services and first aid"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": "fairway-park",
+  "domain": "Grounds & Landscaping",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "segregated",
+        "name": "Properly Segregated",
+        "note": "Never stored incompatible chemicals together"
+      },
+      {
+        "id": "eyewash-tested",
+        "name": "Eyewash Tested",
+        "note": "Flow-tested the eyewash station rather than assuming it worked"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcut",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "steady-hands",
+        "name": "Steady Hands",
+        "note": "Held the eyewash and fume gauges near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-check",
+        "name": "Quick Check",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-round",
+        "name": "Clean Round",
+        "note": "No corrections across the whole run"
+      },
+      {
+        "id": "grounds-streak",
+        "name": "Grounds Streak",
+        "note": "Eight correct actions in a row"
+      }
+    ],
+    "currency": "TURF",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Hand",
+      "Storage Tech",
+      "Storage Certified",
+      "Crew Lead",
+      "Grounds Certified"
+    ],
+    "system": "Grounds Crew"
+  },
+  "hazards": {
+    "block-eyewash-access": "You stacked stock in front of the path to the eyewash station. An eyewash a splashed person cannot actually reach within seconds is not a working safety device — it is a fixture on the wall that happens to be there, and the fifteen seconds it takes to move stock out of the way is not a fifteen seconds anyone has after an actual splash.",
+    "mix-chemicals-in-open-container": "You poured a second chemical into a container that already held a different one. Two products that are each safe on their own can react the moment they are combined in an open container, and doing that without knowing both SDS sheets agree it is safe is exactly how a routine transfer becomes a fume release.",
+    "skip-ppe-during-transfer": "You transferred the chemical without gloves or eye protection on. The moment of highest exposure in this whole room is the pour — the container open, the product moving — and skipping the PPE right then is skipping it for the one part of the job it actually has to cover.",
+    "store-acid-with-oxidizer": "You stored the acid on the same shelf as the oxidizer. The SDS for each one exists precisely to flag which chemicals cannot share a shelf, and an incompatible pair stored together is one spill or one cracked container away from a reaction neither label was written expecting to happen on its own."
+  },
+  "id": "gk-greenhouse-nursery-chemical-storage-and-eyewash",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "eyewash-flush-test",
+      "alert": "The eyewash flow has dropped to a trickle mid-test, and discoloured water is coming through the line.",
+      "cue": "Open the backup water valve before calling the test complete.",
+      "delay": 3,
+      "id": "eyewash-flow-drops",
+      "kind": "Equipment failure",
+      "missNote": "The test was logged while the flow was still trickling. An eyewash that fails its own test is not a working eyewash no matter what the log says.",
+      "seconds": 10,
+      "target": "backup-water-valve",
+      "why": "An eyewash that trickles instead of flushing does not actually clear a chemical from an eye in the time that matters, and opening the backup valve immediately — rather than logging the test as passed on a fixture that just failed it — is what keeps this discovery from happening for the first time during an actual splash.",
+      "wrongNote": "Not that — the backup water valve is what this trickle needs, before the test is called complete."
+    },
+    {
+      "after": "monitor-fume-reading",
+      "alert": "The fume reading has spiked as the ventilation fan stalls mid-decant, and vapour is starting to build in the room.",
+      "cue": "Hit the emergency ventilation switch before the decanting continues.",
+      "delay": 4,
+      "id": "ventilation-fan-fails",
+      "kind": "Ventilation failure",
+      "missNote": "The decanting continued while the fume reading kept climbing. A room that has stopped ventilating does not clear itself while the pour is still going.",
+      "seconds": 11,
+      "target": "emergency-vent-switch",
+      "why": "A stalled fan during an active decant means vapour is building with nothing carrying it away, and the emergency switch is what brings backup ventilation online immediately — continuing the pour while the reading climbs is trusting a room that has already stopped doing the one thing that makes decanting this product safe indoors.",
+      "wrongNote": "Not that — the emergency ventilation switch is what this spike needs, before the decanting continues."
+    }
+  ],
+  "lateNotes": {
+    "expired-product-unlabeled": "A container with no legible label or a date long past is treated as unknown hazardous waste until it is identified, not assumed safe because it has been sitting there a while.",
+    "eyewash-station": "The eyewash gets activated and flow-tested on its own schedule, not only checked by looking at it — a fixture that looks fine can still fail to flow when it is actually needed."
+  },
+  "name": "Greenhouse & Nursery Chemical Storage and Eyewash",
+  "parSeconds": 305,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "grounds-and-landscaping"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "apron",
+      "backup-water-valve",
+      "block-eyewash-access",
+      "blocked-eyewash-path",
+      "chemical-gloves",
+      "closing-log",
+      "containment-tray-check",
+      "emergency-vent-switch",
+      "expired-product-unlabeled",
+      "eye-protection",
+      "eyewash-flow-gauge",
+      "eyewash-station",
+      "eyewash-test-valve",
+      "fume-monitor",
+      "incompatible-shelf",
+      "label-new-container",
+      "lock-storage-room",
+      "mix-chemicals-in-open-container",
+      "post-inventory-sign",
+      "properly-labeled-shelf",
+      "sds-binder-index",
+      "separate-acid-shelf",
+      "separate-oxidizer-shelf",
+      "skip-ppe-during-transfer",
+      "spill-kit",
+      "storage-entrance-socket",
+      "store-acid-with-oxidizer",
+      "vent-fan-check"
+    ],
+    "meshes": 99
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Confirm every chemical in the room has a current safety data sheet on file before touching anything.",
+      "id": "read-sds-binder",
+      "kind": "select",
+      "prompt": "Confirm every chemical in the room has a current safety data sheet on file before touching anything.",
+      "target": "sds-binder-index",
+      "title": "Check the SDS binder index",
+      "why": "The SDS binder is the one place this room's own hazards, compatibilities and first-aid steps are all written down — checking the index before the walk-through is what confirms nothing in the room is being handled without its own safety data sheet backing it up."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Chemical-resistant gloves, eye protection and an apron before any container is opened.",
+      "id": "ppe-up",
+      "itemNames": {
+        "apron": "chemical-resistant apron",
+        "chemical-gloves": "chemical-resistant gloves",
+        "eye-protection": "eye protection"
+      },
+      "kind": "sequence",
+      "prompt": "Chemical-resistant gloves, eye protection and an apron before any container is opened.",
+      "targets": [
+        "chemical-gloves",
+        "eye-protection",
+        "apron"
+      ],
+      "title": "Suit up before handling anything",
+      "why": "A storage room inspection still means touching containers, checking labels and sometimes decanting product, and the gloves, eye protection and apron going on first is what covers every one of those moments rather than only the ones that felt risky enough to suit up for."
+    },
+    {
+      "cue": "Three things in this room change the plan — find them before the first container is moved.",
+      "decoyNotes": {
+        "properly-labeled-shelf": "That shelf is labelled, compatible and clear of anything blocking access to it. Nothing to flag there."
+      },
+      "id": "walk-the-storage-room",
+      "itemNames": {
+        "blocked-eyewash-path": "the stock blocking the eyewash path",
+        "expired-product-unlabeled": "the container with no legible label",
+        "incompatible-shelf": "the shelf mixing incompatible chemicals"
+      },
+      "itemNotes": {
+        "blocked-eyewash-path": "Stock stacked in front of the eyewash is a working fixture nobody can actually reach in the seconds after a splash.",
+        "expired-product-unlabeled": "A container with no legible label is treated as unknown until it is identified — never assumed safe because it has been sitting there a while.",
+        "incompatible-shelf": "A shelf mixing chemicals that should never touch each other is exactly what a spill or a cracked container turns into a reaction nobody planned for."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things in this room change the plan — find them before the first container is moved.",
+      "targets": [
+        "incompatible-shelf",
+        "expired-product-unlabeled",
+        "blocked-eyewash-path"
+      ],
+      "title": "Walk the storage room before touching anything",
+      "why": "A storage room that looks organised from the doorway is not the same thing as a room someone has actually walked and checked, and an incompatible shelf, an unlabelled container or a blocked eyewash path are exactly what a walk-down catches before any of them becomes the reason someone needed the eyewash and could not reach it."
+    },
+    {
+      "cue": "Check that every shelf holding liquid product sits over its own secondary containment.",
+      "id": "confirm-containment",
+      "kind": "select",
+      "prompt": "Check that every shelf holding liquid product sits over its own secondary containment.",
+      "target": "containment-tray-check",
+      "title": "Confirm secondary containment",
+      "why": "Secondary containment is what keeps a leaking or overturned container's contents on a tray instead of spreading across the floor toward whatever else is stored nearby — confirming it is under every shelf that needs it is what makes a small leak stay a small leak."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Move the acid and the oxidizer to their own separate, compatible shelving.",
+      "id": "segregate-chemicals",
+      "itemNames": {
+        "separate-acid-shelf": "move the acid to its own shelf",
+        "separate-oxidizer-shelf": "move the oxidizer to its own shelf"
+      },
+      "kind": "sequence",
+      "prompt": "Move the acid and the oxidizer to their own separate, compatible shelving.",
+      "targets": [
+        "separate-acid-shelf",
+        "separate-oxidizer-shelf"
+      ],
+      "title": "Segregate the incompatible chemicals",
+      "why": "Segregating chemicals by compatibility rather than by what fits on the nearest open shelf is what actually prevents the reaction their own SDS sheets warn about — the segregation is the safety control, not an afterthought once everything is already shelved."
+    },
+    {
+      "cue": "Check the ventilation fan is operating before decanting anything volatile.",
+      "id": "check-ventilation-fan",
+      "kind": "select",
+      "prompt": "Check the ventilation fan is operating before decanting anything volatile.",
+      "target": "vent-fan-check",
+      "title": "Confirm the ventilation fan is running",
+      "why": "A room's rated ventilation is what actually keeps a decanted vapour from building up to a level the SDS warns about, and confirming the fan is running before the first container is opened is what makes that ventilation something the crew can trust rather than assume."
+    },
+    {
+      "cue": "Turn the activation valve to start the weekly eyewash flow test.",
+      "id": "test-eyewash-valve",
+      "kind": "turn",
+      "prompt": "Turn the activation valve to start the weekly eyewash flow test.",
+      "target": "eyewash-test-valve",
+      "title": "Activate the eyewash station",
+      "turn": {
+        "axis": "z",
+        "label": "EYEWASH VALVE",
+        "turns": 0.35
+      },
+      "why": "An eyewash station activated on its own testing schedule, rather than only looked at, is the only way to actually know the plumbing behind it still delivers a working flow — turning the valve is what starts a real test instead of a visual check that tells the crew nothing about whether water will actually come out when it is needed."
+    },
+    {
+      "cue": "Hold under the eyewash stream for the full flush test.",
+      "holdBreakNote": "Stepped out from under the stream before the flush test finished. Hold the full test every time, not just until the water starts.",
+      "id": "eyewash-flush-test",
+      "kind": "hold",
+      "prompt": "Hold under the eyewash stream for the full flush test.",
+      "seconds": 5,
+      "target": "eyewash-station",
+      "title": "Hold the flush test to completion",
+      "why": "A flush test cut short does not actually confirm the flow rate or the water quality the way the full test does — holding it to completion is what turns this into proof the eyewash works, not just a station that briefly ran."
+    },
+    {
+      "cue": "Read the flow gauge and commit only inside the manufacturer's band.",
+      "gauge": {
+        "green": [
+          0.45,
+          0.72
+        ],
+        "label": "EYEWASH FLOW RATE",
+        "missNote": "Outside the manufacturer's band. Let the line clear and the reading settle before committing it.",
+        "speed": 0.58
+      },
+      "id": "check-eyewash-flow",
+      "kind": "gauge",
+      "prompt": "Read the flow gauge and commit only inside the manufacturer's band.",
+      "target": "eyewash-flow-gauge",
+      "title": "Check the eyewash flow rate",
+      "why": "A flow that reads inside the manufacturer's own band is what actually confirms this eyewash will rinse an eye effectively — a trickle that looks like flow from across the room is not the same thing as a flow rate proven on the gauge."
+    },
+    {
+      "cue": "Carry the spill kit from storage to the room's entrance.",
+      "drag": {
+        "missNote": "Not at the entrance — carry the spill kit to where the entrance actually is.",
+        "radius": 0.4,
+        "to": "storage-entrance-socket"
+      },
+      "id": "stage-spill-kit",
+      "kind": "drag",
+      "prompt": "Carry the spill kit from storage to the room's entrance.",
+      "target": "spill-kit",
+      "title": "Stage the spill kit at the entrance",
+      "why": "A spill kit staged at the entrance is one anyone can reach without walking past whatever just spilled — kept in a back corner, it is a kit that requires crossing the hazard to reach the thing meant to contain it."
+    },
+    {
+      "cue": "Keep the fume reading steady in band for the whole decanting pass.",
+      "holdBreakNote": "The fume reading climbed out of band during the pour. Pause decanting until the reading settles back down.",
+      "id": "monitor-fume-reading",
+      "kind": "track",
+      "prompt": "Keep the fume reading steady in band for the whole decanting pass.",
+      "seconds": 8,
+      "target": "fume-monitor",
+      "title": "Monitor the fume reading while decanting",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.15,
+          0.45
+        ],
+        "label": "FUME READING",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "A fume reading held steady in band confirms the ventilation is actually keeping pace with the decanting, and a reading that drifts upward mid-pour is the room's own early warning that the air is not clearing the way the SDS assumes it will."
+    },
+    {
+      "cue": "Apply a proper label to the container the moment it is opened and repackaged.",
+      "id": "label-new-container",
+      "kind": "select",
+      "prompt": "Apply a proper label to the container the moment it is opened and repackaged.",
+      "target": "label-new-container",
+      "title": "Label the newly opened container",
+      "why": "A container relabelled the instant it is opened is a container anyone in the room can identify later — one left with a faded or missing label is the exact 'expired-product-unlabeled' hazard the walk-down at the start of this shift was trying to prevent from happening again."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Lock the room and post the current inventory sign before leaving.",
+      "id": "close-up-storage",
+      "itemNames": {
+        "lock-storage-room": "lock the storage room",
+        "post-inventory-sign": "post the current chemical inventory sign"
+      },
+      "kind": "sequence",
+      "prompt": "Lock the room and post the current inventory sign before leaving.",
+      "targets": [
+        "lock-storage-room",
+        "post-inventory-sign"
+      ],
+      "title": "Close up the storage room",
+      "why": "Locking the room keeps access limited to people who actually need it, and a posted, current inventory sign is what tells anyone responding to an emergency exactly what is behind that door without having to open every container to find out."
+    },
+    {
+      "cue": "Log the segregation check, the eyewash flow reading and the ventilation confirmation before leaving.",
+      "id": "shutdown-log",
+      "kind": "select",
+      "prompt": "Log the segregation check, the eyewash flow reading and the ventilation confirmation before leaving.",
+      "target": "closing-log",
+      "title": "Close out the storage inspection log",
+      "why": "The storage inspection log is what the next inspection and the safety committee both read — a room checked cleanly but never logged leaves nothing behind to prove the eyewash was actually flow-tested and the chemicals actually segregated today."
+    }
+  ],
+  "supportLine": "your union steward or the nursery's employee assistance line",
+  "tagline": "A nursery chemical storage room kept the way the labels require: incompatible chemicals segregated, the eyewash path kept clear, the ventilation confirmed running, the eyewash station itself flow-tested, and every opened container relabelled",
+  "title": "SmartCiti.X~ Greenhouse & Nursery Chemical Storage and Eyewash VR",
+  "trade": "Nursery and greenhouse grounds worker — SEIU grounds and building staff",
+  "underwater": null,
+  "weather": "clear"
+}

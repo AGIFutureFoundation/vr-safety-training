@@ -1,0 +1,423 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "lift-control",
+    "name": "Lift Control",
+    "note": "Every lift measured before rolling, the edge kept back from, and the density proven before the next lift went on"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "IUOE Local 3 operating engineer training; OSHA 29 CFR 1926.602 Material handling equipment and 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations; 29 CFR 1926.21 safety training and education; NIOSH fatality-investigation findings on rollover incidents near unsupported edges",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.21",
+        "id": "osha-1926-21",
+        "title": "29 CFR 1926.21 — Safety training and education in construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.602",
+        "id": "osha-1926-602",
+        "title": "OSHA 29 CFR 1926.602 Material handling equipment"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations",
+        "id": "osha-1926-subpart-o",
+        "title": "OSHA 29 CFR 1926 Subpart O Motor vehicles, mechanized equipment, and marine operations"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "edge-held",
+        "name": "Edge Held",
+        "note": "Never rolled the drum inside the marked edge setback"
+      },
+      {
+        "id": "belted-every-pass",
+        "name": "Belted Every Pass",
+        "note": "Never started a pass without the seatbelt buckled"
+      },
+      {
+        "id": "steady-density",
+        "name": "Steady Density",
+        "note": "Held the gauge readings near band centre all shift"
+      },
+      {
+        "id": "lift-clean",
+        "name": "Lift Measured Clean",
+        "note": "Measure the lift thickness clean, first try"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-lift",
+        "name": "Quick Lift",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "lift-streak",
+        "name": "Lift Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "LIFT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Hand",
+      "Compactor Hand",
+      "Lift Certified",
+      "Edge Authority",
+      "Lift Control Certified"
+    ],
+    "system": "Lift Control"
+  },
+  "hazards": {
+    "edge-drum-hazard": "The drum is inside the marked setback from the fill edge. Compacted fill at an unsupported edge can still give way under a rolling drum's weight, and a single-drum machine that starts to go over that edge has nothing to catch it on the way down.",
+    "oversized-rock-hazard": "That rock sitting in the roll path is larger than this lift's spec allows compacted into it. A rock that size leaves a void under it once it works loose, and a fill with a void in it settles unevenly under whatever gets built on top later.",
+    "probe-left-in-lift": "That drives the drum over ground with the density probe still inserted. A probe left in the lift gets crushed or dragged the instant a multi-tonne drum rolls over it, and the reading it was in the middle of taking is gone with it.",
+    "unbelted-start": "That starts the drum rolling without the seatbelt buckled. The ROPS canopy over this seat only protects an operator who stays inside its zone of protection through a rollover, and the belt is the only thing that keeps a body there."
+  },
+  "id": "op-compactor-lift-thickness-and-edge",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "roll-pass",
+      "alert": "The drum has drifted closer to the fill edge than the marked setback allows while attention was on the pass count.",
+      "cue": "Call it out and pull the drum back before it closes on the edge any further.",
+      "delay": 4,
+      "id": "drum-nears-edge",
+      "kind": "Edge drift",
+      "missNote": "The drum kept closing on the edge while the pass continued. A compactor that goes over an unsupported edge does not give its operator a second chance at the decision that would have stopped it.",
+      "seconds": 12,
+      "target": "spotter",
+      "why": "A drift toward an unsupported edge does not correct itself, and the operator is the one person least able to judge that distance accurately from directly above it — calling it out the moment it is seen is what keeps a recoverable drift from becoming a rollover with nothing underneath it.",
+      "wrongNote": "Not that — the drift toward the edge is what has to be dealt with before this pass continues."
+    },
+    {
+      "after": "direct-roll-pattern",
+      "alert": "The drum has kicked a buried rock loose into the roll path just ahead of the next pass.",
+      "cue": "Signal stop and get the rock cleared before the drum reaches it.",
+      "delay": 4,
+      "id": "rock-kicked-up",
+      "kind": "Debris kicked up",
+      "missNote": "The pass continued over the loosened rock. A rock thrown by a compactor drum travels with enough force to injure anyone standing where it lands, and it also leaves a void in the lift right where the rock used to be.",
+      "seconds": 11,
+      "target": "debris-stop-flag",
+      "why": "A rock the drum has already kicked loose is a rock that can be thrown clear of the roll path the instant the drum contacts it again, and it is also proof this lift was never actually clean of oversized material in the first place — both are reasons to stop before the next pass, not after.",
+      "wrongNote": "Not that — the rock in the roll path is what has to be cleared before this pass continues."
+    }
+  ],
+  "lateNotes": {
+    "probe-roll": "The density reading happens after this lift is rolled to its full pass count, not partway through when the number would not mean anything yet.",
+    "stake-a": "The lift gets staked and measured before the first pass compacts it, not after a lift that turned out too thick to compact properly all the way through."
+  },
+  "name": "Compactor Lift Thickness & Edge",
+  "parSeconds": 260,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "heavy-equipment-operators"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "compactor",
+        "count": 1,
+        "kit": "equipment"
+      },
+      {
+        "builder": "0.9x1.5x1.5",
+        "count": 1,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "clean-lift",
+      "closing-log",
+      "compactor-controls",
+      "cone-a",
+      "cone-b",
+      "debris-stop-flag",
+      "density-gauge",
+      "edge-barrier",
+      "edge-drum-hazard",
+      "hard-hat",
+      "hi-vis-vest",
+      "lift-plan-board",
+      "oversized-rock",
+      "oversized-rock-hazard",
+      "pass-tally",
+      "probe-left-in-lift",
+      "probe-roll",
+      "probe-socket",
+      "seatbelt",
+      "spotter",
+      "stake-a",
+      "stake-b",
+      "unbelted-start",
+      "uncompacted-pocket",
+      "vibration-dial",
+      "wet-spot"
+    ],
+    "meshes": 171
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Hi-vis vest and hard hat before anyone is near the machine.",
+      "id": "ppe",
+      "itemNames": {
+        "hard-hat": "hard hat",
+        "hi-vis-vest": "hi-vis vest"
+      },
+      "kind": "sequence",
+      "prompt": "Hi-vis vest and hard hat before anyone is near the machine.",
+      "targets": [
+        "hi-vis-vest",
+        "hard-hat"
+      ],
+      "title": "Suit up before the fill",
+      "why": "A spotter watching a drum's distance from an edge has enough to track already without also having to pick a person out of the same dirt-coloured background the fill is made of — the vest and hard hat make the ground crew visible from the seat at a glance."
+    },
+    {
+      "cue": "Buckle in before the drum moves, every pass, not just the ones near the edge.",
+      "id": "rops-seatbelt",
+      "kind": "select",
+      "prompt": "Buckle in before the drum moves, every pass, not just the ones near the edge.",
+      "target": "seatbelt",
+      "title": "Buckle the seatbelt",
+      "why": "The ROPS canopy only protects an operator who stays inside its zone of protection through a rollover, and the seatbelt is the only thing that keeps a body there instead of against the inside of a structure built to survive an impact, not a passenger thrown into its path."
+    },
+    {
+      "cue": "Confirm the lift thickness, the pass count and the density target before the first roll.",
+      "id": "lift-plan",
+      "kind": "select",
+      "prompt": "Confirm the lift thickness, the pass count and the density target before the first roll.",
+      "target": "lift-plan-board",
+      "title": "Read the compaction spec",
+      "why": "The compaction spec sets the loose lift thickness this drum can actually compact all the way through — a lift built thicker than the spec allows can look fully rolled on top while the bottom of it stays loose the whole time."
+    },
+    {
+      "cue": "Walk the lift. Three problems are hiding in it — find them by looking.",
+      "decoyNotes": {
+        "clean-lift": "That section of lift is dry, even and free of oversized material. Nothing to flag there."
+      },
+      "id": "walk-the-lift",
+      "itemNames": {
+        "oversized-rock": "oversized rock in the lift",
+        "uncompacted-pocket": "uncompacted pocket in the lift",
+        "wet-spot": "wet spot in the lift"
+      },
+      "itemNotes": {
+        "oversized-rock": "A rock bigger than the spec allows leaves a void under it once it works loose under load — it comes out before the drum ever reaches it.",
+        "uncompacted-pocket": "A soft pocket that gives underfoot is fill that has not actually been compacted yet, whatever the surface next to it looks like.",
+        "wet-spot": "Fill compacted wet of its target moisture does not reach the same density no matter how many passes the drum makes over it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the lift. Three problems are hiding in it — find them by looking.",
+      "targets": [
+        "uncompacted-pocket",
+        "oversized-rock",
+        "wet-spot"
+      ],
+      "title": "Walk the lift before the first pass",
+      "why": "A lift that looks ready from the seat is not the same thing as one a competent person has actually walked — a pocket, an oversized rock or a wet spot found now costs a shovel and a few minutes, and found later costs a fill that settles unevenly under whatever gets built on it."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Set both thickness stakes to the spec depth before the first pass.",
+      "id": "stake-lift",
+      "itemNames": {
+        "stake-a": "thickness stake at the near end",
+        "stake-b": "thickness stake at the far end"
+      },
+      "kind": "sequence",
+      "prompt": "Set both thickness stakes to the spec depth before the first pass.",
+      "targets": [
+        "stake-a",
+        "stake-b"
+      ],
+      "title": "Stake the lift thickness",
+      "why": "The stakes are the visible check the operator can see from the seat that this lift was actually built to the spec's loose thickness, not to whatever depth the dozer happened to leave it at."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Cone both approaches and set the barrier the full length of the unsupported edge.",
+      "id": "barricade-edge",
+      "itemNames": {
+        "cone-a": "cone at the approach",
+        "cone-b": "cone at the far side",
+        "edge-barrier": "barrier along the fill edge"
+      },
+      "kind": "sequence",
+      "prompt": "Cone both approaches and set the barrier the full length of the unsupported edge.",
+      "targets": [
+        "cone-a",
+        "cone-b",
+        "edge-barrier"
+      ],
+      "title": "Barricade the fill edge",
+      "why": "A barrier along the edge is the visible line that keeps the setback honest for everyone on the crew, not just for the operator trying to judge the same distance from directly above it."
+    },
+    {
+      "cue": "Agree hand signals and the stop signal with the dedicated spotter before the first pass.",
+      "id": "spotter-brief",
+      "kind": "select",
+      "prompt": "Agree hand signals and the stop signal with the dedicated spotter before the first pass.",
+      "target": "spotter",
+      "title": "Confirm the spotter's protocol",
+      "why": "The spotter is watching the one thing the operator's own seat cannot judge — how close the drum actually sits to the edge — and that only works if both of them already agree what a stop signal looks like before the drum is rolling and it is needed for real."
+    },
+    {
+      "cue": "Turn the dial to the amplitude and frequency this lift's material calls for.",
+      "id": "vibration-mode",
+      "kind": "turn",
+      "prompt": "Turn the dial to the amplitude and frequency this lift's material calls for.",
+      "target": "vibration-dial",
+      "title": "Set the vibration mode for this lift",
+      "turn": {
+        "axis": "y",
+        "label": "VIBRATION MODE",
+        "turns": 0.5
+      },
+      "why": "The wrong vibration setting for the material either fails to reach the target density or over-compacts it into a surface that will not bond with the next lift — the dial gets set to what this lift's material actually needs, not left at whatever the last lift used."
+    },
+    {
+      "cue": "Carry the density probe to the test point and seat it before reading it.",
+      "drag": {
+        "missNote": "Not seated at the test point — set the probe on the marked spot before it will read anything.",
+        "radius": 0.4,
+        "to": "probe-socket"
+      },
+      "id": "density-probe",
+      "kind": "drag",
+      "prompt": "Carry the density probe to the test point and seat it before reading it.",
+      "target": "probe-roll",
+      "title": "Place the density probe",
+      "why": "The probe only reads what it is actually seated in — placing it deliberately at the marked test point is what makes the reading that follows mean something about this lift, rather than about wherever the probe happened to be dropped."
+    },
+    {
+      "cue": "Hold the controls steady through one slow, controlled pass, watching the setback the whole time.",
+      "holdBreakNote": "Released the controls mid-pass, near the edge. Hold it through the whole pass — that is what keeps this a controlled roll instead of a guess at the setback.",
+      "id": "roll-pass",
+      "kind": "hold",
+      "prompt": "Hold the controls steady through one slow, controlled pass, watching the setback the whole time.",
+      "seconds": 6,
+      "target": "compactor-controls",
+      "title": "Roll the lift",
+      "why": "A controlled pass near an edge is slow on purpose — a fast, confident pass is exactly the pass where a small drift toward the edge goes unnoticed until the drum is already past the point a correction can catch it."
+    },
+    {
+      "cue": "Keep the spotter's signal steady, holding the drum's overlap pattern clear of the marked edge.",
+      "holdBreakNote": "The roll pattern drifted off line. Bring it back on the spotter's signal before the drum moves again.",
+      "id": "direct-roll-pattern",
+      "kind": "track",
+      "prompt": "Keep the spotter's signal steady, holding the drum's overlap pattern clear of the marked edge.",
+      "seconds": 8,
+      "target": "spotter",
+      "title": "Roll the pattern under the spotter's signal",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "ROLL PATTERN",
+        "rise": 0.5,
+        "start": 0.12
+      },
+      "why": "The overlap pattern is what gets full density across the whole lift instead of stripes of it, and the spotter's continuous signal is what lets the operator run that pattern with confidence instead of splitting attention between the pattern and the edge at the same time."
+    },
+    {
+      "cue": "Read the probe and commit only inside the target density band.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.8
+        ],
+        "label": "LIFT DENSITY",
+        "missNote": "Under target. Run another pass over this lift before calling it compacted.",
+        "speed": 0.55
+      },
+      "id": "density-check",
+      "kind": "gauge",
+      "prompt": "Read the probe and commit only inside the target density band.",
+      "target": "density-gauge",
+      "title": "Read the density gauge",
+      "why": "A lift that looks fully rolled from the seat is not the same thing as one that has actually reached the spec's target density — the gauge is the only reading that confirms this lift is done, rather than merely finished-looking."
+    },
+    {
+      "cue": "Confirm the number of passes on this lift matches what the spec calls for.",
+      "id": "pass-count-confirm",
+      "kind": "select",
+      "prompt": "Confirm the number of passes on this lift matches what the spec calls for.",
+      "target": "pass-tally",
+      "title": "Confirm the pass count against the spec",
+      "why": "A lift that reached density on fewer passes than the spec calls for is a lift that got lucky, not one that was actually built to a repeatable standard — the count and the density reading together are what the next inspection can actually check against."
+    },
+    {
+      "cue": "Log the thickness, the pass count and the density reading before shutting the machine down.",
+      "id": "shutdown-log",
+      "kind": "select",
+      "prompt": "Log the thickness, the pass count and the density reading before shutting the machine down.",
+      "target": "closing-log",
+      "title": "Close out the lift log",
+      "why": "The lift log is what the next lift and the next inspection both read — a lift that was compacted correctly but never logged leaves nothing behind to prove it, which matters the moment anything above it ever settles unevenly."
+    }
+  ],
+  "supportLine": "your IUOE local's member assistance programme, or the site's employee assistance line if a close call at that edge is what stayed with you",
+  "tagline": "Single-drum compactor rolling a fill in lifts: the loose lift measured against the spec, the edge marked and kept back from, a spotter watching the drum's distance from it, and every lift proven with a density reading",
+  "title": "SmartCiti.X~ Compactor Lift Thickness & Edge VR",
+  "trade": "Compactor operator — IUOE Local 3 operating engineer",
+  "underwater": null,
+  "weather": "clear"
+}

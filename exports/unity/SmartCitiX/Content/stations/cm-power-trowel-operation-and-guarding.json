@@ -1,0 +1,378 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "guarded-every-pass",
+    "name": "Guarded Every Pass",
+    "note": "A trowel walked, guarded and pitched to the manufacturer's bands with nobody's hand near a turning blade — first time"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "OPCMIA Local 300 cement mason apprenticeship as a training body; OSHA 29 CFR 1926 Subpart Q concrete and masonry construction; OSHA 29 CFR 1910.212 machine guarding, as applied to the trowel's guard ring; OSHA 29 CFR 1926.1153 respirable crystalline silica for the surface it finishes; ANSI/ASSP A10.9 concrete and masonry construction safety requirements; the manufacturer's operation manual for pitch, guard fitment and cord rating",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "OPCMIA",
+        "id": "opcmia-local-300",
+        "title": "OPCMIA Local 300 - cement masons and plasterers apprenticeship, as a training body"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.212",
+        "id": "osha-1910-212",
+        "title": "29 CFR 1910.212 — General requirements for all machines (machine guarding)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.1153",
+        "id": "osha-1926-1153",
+        "title": "29 CFR 1926.1153 — Respirable crystalline silica in construction"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "walked-it-first",
+        "name": "Walked It First",
+        "note": "The pre-op walk found the missing guard and the frayed cord before the engine ever turned over, first time"
+      },
+      {
+        "id": "guard-never-off",
+        "name": "Guard Never Off",
+        "note": "Never ran it unguarded, never reached under a turning pan, never a bare hand in the mix, never plugged the frayed cord in wet"
+      },
+      {
+        "id": "on-the-pitch",
+        "name": "On The Pitch",
+        "note": "Blade pitch and floor flatness both held inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-pass",
+        "name": "Clean Pass",
+        "note": "No corrections through the whole floor pass"
+      },
+      {
+        "id": "steady-walk",
+        "name": "Steady Walk",
+        "note": "The walking speed held in band for the whole finish pass"
+      },
+      {
+        "id": "floor-by-break",
+        "name": "Floor By Break",
+        "note": "Guarded, pitched, edged and logged inside 80% of par"
+      }
+    ],
+    "currency": "PASS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Laborer",
+      "Trowel Hand",
+      "Cement Mason",
+      "Lead Finisher",
+      "Finish Crew Certified"
+    ],
+    "system": "Finish Crew"
+  },
+  "hazards": {
+    "bare-hand-edge": "You went to hand-finish the edge without gloves. Fresh concrete is strongly alkaline and burns skin slowly, often without pain until hours later, and an edger's hand is in contact with wet mix for the whole perimeter pass. Gloves stay on for every minute the mix is wet.",
+    "frayed-cord-wet-slab": "You went to plug the trowel in on the frayed extension cord while the slab underneath it was still wet. Water and a compromised cord jacket on a live circuit is exactly how a cord energizes standing water, and a mason's boots on a wet slab are not insulation. The cord is swapped and the circuit is GFCI-protected before anything gets plugged in near the pour.",
+    "reach-under-running": "You reached toward the pans to clear a jam while the engine was still running. A power trowel's blades keep spinning on their own momentum for a few seconds after the throttle is cut, long enough to take fingers the instant a hand crosses the guard line; the machine is shut down and the blades are stopped and confirmed still before anyone's hand goes near them.",
+    "trowel-unguarded": "You went to start the trowel with the guard ring still off. The guard ring is the only thing standing between a spinning blade turning fast enough to finish concrete and a boot or a hand that strays over the pans; OSHA 29 CFR 1910.212 requires the guard fitted before the machine runs, not fitted afterward if nothing goes wrong first."
+  },
+  "id": "cm-power-trowel-operation-and-guarding",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "float-pass",
+      "alert": "A laborer carrying a bucket has stepped straight into the trowel's walking lane, right where the machine is about to turn back across the bay.",
+      "cue": "Hit the kill switch before the trowel reaches him.",
+      "delay": 2,
+      "id": "bystander-near-blades",
+      "kind": "Laborer walking into the trowel's lane",
+      "missNote": "The trowel kept walking its pattern with the laborer still in the lane; it clipped his boot with the guard ring on the turn before anyone reached the switch.",
+      "seconds": 12,
+      "target": "kill-switch",
+      "why": "A power trowel operator walking backward through a turn cannot always see someone stepping into the lane from the side, and the machine has no way to stop itself for a person the way a person could step aside for another person. The kill switch is the fastest way to stop the blades before the machine reaches him, faster than shouting over the engine.",
+      "wrongNote": "The kill switch — a person is in the trowel's lane and the machine has to be stopped before it reaches him, not steered around him."
+    },
+    {
+      "after": "walk-speed",
+      "alert": "The extension cord feeding the trowel is lying in a puddle at the edge of the bay and it has started sparking where the jacket is nicked.",
+      "cue": "Trip the breaker before anyone touches the cord or the puddle.",
+      "delay": 2,
+      "id": "cord-sparking",
+      "kind": "Extension cord sparking in a puddle",
+      "missNote": "The cord kept sparking in the puddle through the rest of the pass; a mason walked the trowel's cord across the wet patch without anyone cutting power to it first.",
+      "seconds": 12,
+      "target": "breaker-panel",
+      "why": "A sparking cord in standing water is an energized puddle, not a nuisance to step around, and pulling the plug by hand while it is arcing is exactly how a mason becomes the second casualty. The breaker at the panel kills the circuit from a distance, which is the only safe way to de-energize a cord nobody should be touching.",
+      "wrongNote": "The breaker panel — a live cord sparking in a puddle gets killed from the panel, never grabbed by hand."
+    }
+  ],
+  "lateNotes": {
+    "close-log": "The floor is logged once it has been checked flat and the machine is shut down and locked out.",
+    "pitch-dial-finish": "The pitch only goes to the finish angle once the float pass has closed the surface; finishing too early burnishes a surface that has not actually set enough to take it.",
+    "trowel-handle": "The float pass starts once the guard is fitted, the cord is swapped and the pitch is set — not before, because the blades only turn under those three things being true."
+  },
+  "name": "Power Trowel Operation & Guarding",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "cement-masons-and-plasterers"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "bare-hand-edge",
+      "breaker-panel",
+      "close-log",
+      "crew-radio",
+      "edger",
+      "fit-guard",
+      "frayed-cord",
+      "frayed-cord-wet-slab",
+      "kill-switch",
+      "no-guard-ring",
+      "perimeter-zone",
+      "pitch-dial-finish",
+      "pitch-dial-float",
+      "reach-under-running",
+      "straightedge",
+      "swap-cord",
+      "swap-pan",
+      "trowel-card",
+      "trowel-handle",
+      "trowel-unguarded",
+      "walk-lane",
+      "worn-pan"
+    ],
+    "meshes": 175
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the pitch schedule for float and finish, the guard ring requirement, and today's walking pattern.",
+      "id": "trowel-card",
+      "kind": "select",
+      "prompt": "Read the pitch schedule for float and finish, the guard ring requirement, and today's walking pattern.",
+      "target": "trowel-card",
+      "title": "Read the trowel operation card",
+      "why": "A power trowel's blade pitch is set to the manufacturer's own schedule for float and for finish, and the guard ring is a fitted part of the machine before it ever starts — neither one is something a cement mason improvises on the slab. The card names the pattern the walk follows across the bay, so every square foot gets the same number of passes instead of some getting three and some getting none."
+    },
+    {
+      "cue": "Walk around the trowel and the cord run and click every defect you find.",
+      "id": "pre-op-walk",
+      "itemNames": {
+        "frayed-cord": "a frayed extension cord",
+        "no-guard-ring": "the guard ring off the trowel",
+        "worn-pan": "a cracked float pan"
+      },
+      "itemNotes": {
+        "frayed-cord": "The extension cord run out to the trowel has its jacket split open for a hand's width, right where it lies across the still-wet slab edge.",
+        "no-guard-ring": "The guard ring that belts the spinning blades is sitting on the ground next to the machine instead of fitted around the rotor.",
+        "worn-pan": "One of the float pans is cracked clean through — a pan that lets go at speed throws a piece of itself across the bay."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk around the trowel and the cord run and click every defect you find.",
+      "targets": [
+        "no-guard-ring",
+        "frayed-cord",
+        "worn-pan"
+      ],
+      "title": "Walk the machine before the engine starts",
+      "why": "With the engine cold and the blades not turning, every one of these takes a minute or two to sort out. Discover them instead once the machine is running and a foot strays near an unguarded blade, a compromised cord grounds through the wet slab, or a cracked pan finally lets go at full speed — none of which end with a two-minute fix."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Fit the guard ring, swap the frayed cord for a sound one, and swap the cracked pan.",
+      "id": "fix",
+      "itemNames": {
+        "fit-guard": "guard ring fitted",
+        "swap-cord": "cord swapped",
+        "swap-pan": "cracked pan swapped"
+      },
+      "kind": "sequence",
+      "prompt": "Fit the guard ring, swap the frayed cord for a sound one, and swap the cracked pan.",
+      "targets": [
+        "fit-guard",
+        "swap-cord",
+        "swap-pan"
+      ],
+      "title": "Correct what the walk found",
+      "why": "Leaving a spotted defect uncorrected is arguably worse than never spotting it, because everyone downstream now treats the trowel as checked and safe to run on the strength of a note nobody actually acted on. The walk only earns that trust once the guard is really on, the cord is really sound and the pan is really running true."
+    },
+    {
+      "cue": "Move anyone not running the machine out of the lane the trowel will walk across the bay.",
+      "id": "clear-zone",
+      "kind": "select",
+      "prompt": "Move anyone not running the machine out of the lane the trowel will walk across the bay.",
+      "target": "walk-lane",
+      "title": "Clear bystanders from the trowel's walking lane",
+      "why": "A power trowel operator watches the pans and the surface, not the crowd behind, and the machine cannot see or stop for someone stepping into its path the way a person can step aside for a person. The lane is cleared before the engine starts, which is the only point anyone can be certain it is actually empty."
+    },
+    {
+      "cue": "Set the blade pitch to the manufacturer's float angle before the engine turns the rotor.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "PITCH",
+        "missNote": "Off the float angle — back the pitch off and set it against the manufacturer's schedule again.",
+        "speed": 0.68
+      },
+      "id": "pitch-float",
+      "kind": "gauge",
+      "prompt": "Set the blade pitch to the manufacturer's float angle before the engine turns the rotor.",
+      "target": "pitch-dial-float",
+      "title": "Pitch the blades for the float pass",
+      "why": "Too flat a pitch on the float pass barely closes the surface after the bull float; too steep and the blades dig in and gouge a slab that has not set hard enough to take it yet. The manufacturer's float angle is the one setting that closes the surface evenly without either mistake, and it is set before the rotor is under power, not adjusted by feel once it is spinning."
+    },
+    {
+      "cue": "Hold the handlebars steady and walk the trowel across the bay in overlapping passes, guard down, nothing near the pans.",
+      "holdBreakNote": "The handlebars let go mid-pass and the trowel walked itself off line. Reset at the edge of the last clean pass and hold it steady again.",
+      "id": "float-pass",
+      "kind": "hold",
+      "prompt": "Hold the handlebars steady and walk the trowel across the bay in overlapping passes, guard down, nothing near the pans.",
+      "seconds": 5,
+      "target": "trowel-handle",
+      "title": "Walk the float pass",
+      "why": "The float pass is what actually closes the surface the bull float left rough, and it only does that walked at a steady pace in overlapping passes — rushed, it skips strips that never get closed at all, and those strips read as soft, dusting patches for the life of the floor."
+    },
+    {
+      "cue": "Keep the trowel's ground speed inside the manufacturer's band as you walk the finish pattern.",
+      "holdBreakNote": "The walking speed left the band while nobody was watching it. Bring it back into the band and hold the pace.",
+      "id": "walk-speed",
+      "kind": "track",
+      "prompt": "Keep the trowel's ground speed inside the manufacturer's band as you walk the finish pattern.",
+      "seconds": 6,
+      "target": "walk-lane",
+      "title": "Hold the walking speed for the finish pass",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "GROUND SPEED",
+        "rise": 0.5,
+        "start": 0.2
+      },
+      "why": "Walked too fast, the blades skim the surface without burnishing it; walked too slow, they burn the surface and leave dark, glazed streaks that never take a sealer evenly. The manufacturer's speed band is what makes every pass across the bay come out looking like the same floor instead of a patchwork of however fast the operator happened to be walking that minute."
+    },
+    {
+      "cue": "Turn the pitch dial up to the manufacturer's finish angle once the float pass has closed the surface.",
+      "id": "pitch-finish",
+      "kind": "turn",
+      "prompt": "Turn the pitch dial up to the manufacturer's finish angle once the float pass has closed the surface.",
+      "target": "pitch-dial-finish",
+      "title": "Dial the blades to the finish pitch",
+      "turn": {
+        "label": "FINISH PITCH",
+        "turns": 1
+      },
+      "why": "The finish pitch is steeper than the float pitch on purpose — it is what actually burnishes the closed surface into the hard, dense wear layer a trowel finish is for. Dialed in before the surface is ready, it tears a still-soft slab instead of polishing a set one."
+    },
+    {
+      "cue": "Carry the edger to the wall line the trowel's pans cannot get close to and finish it by hand.",
+      "drag": {
+        "missNote": "Not along the wall line — the hand edge has to run the whole perimeter the trowel's pans cannot reach.",
+        "radius": 0.6,
+        "to": "perimeter-zone"
+      },
+      "id": "edge-perimeter",
+      "kind": "drag",
+      "prompt": "Carry the edger to the wall line the trowel's pans cannot get close to and finish it by hand.",
+      "target": "edger",
+      "title": "Hand-edge the perimeter the trowel cannot reach",
+      "why": "A power trowel's pans cannot reach all the way to a wall or a column without striking it, so the last foot of perimeter is always finished by hand — skipped, it is the one strip of every floor that never matches the machine-finished field around it."
+    },
+    {
+      "cue": "Draw the straightedge across a finished strip and commit once it reads flat against the job card's tolerance.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "FLATNESS",
+        "missNote": "Out of flat — mark the spot and check the pitch schedule before troweling over it again.",
+        "speed": 0.66
+      },
+      "id": "flatness-check",
+      "kind": "gauge",
+      "prompt": "Draw the straightedge across a finished strip and commit once it reads flat against the job card's tolerance.",
+      "target": "straightedge",
+      "title": "Check the floor for flatness",
+      "why": "A trowel finish can look glassy and still be out of flat underneath it, and a floor that is out of flat shows up later as standing water on a slab meant to drain, or a gap under a slab-on-grade partition track. The straightedge is the only check that catches it while the crew is still standing on the floor that made it."
+    },
+    {
+      "cue": "Cut the engine at the kill switch and watch the pans come to a full stop before anyone's hand goes near them.",
+      "id": "shutdown-lockout",
+      "kind": "select",
+      "prompt": "Cut the engine at the kill switch and watch the pans come to a full stop before anyone's hand goes near them.",
+      "target": "kill-switch",
+      "title": "Shut down and confirm the blades stopped",
+      "why": "A trowel's blades carry their own momentum for a few seconds after the throttle cuts, and a hand that reaches for the pans on the assumption the machine is already off is reaching for blades that are still turning. The kill switch and a confirmed stop, watched, are what actually make the machine safe to touch."
+    },
+    {
+      "cue": "Record the guard fitted, the cord swapped, the pitch schedule run and the flatness checked.",
+      "id": "close-log",
+      "kind": "select",
+      "prompt": "Record the guard fitted, the cord swapped, the pitch schedule run and the flatness checked.",
+      "target": "close-log",
+      "title": "Log the floor",
+      "why": "The finish log tells the foreman and the next trade in behind the cement masons that this floor was guarded, pitched to the schedule and checked flat rather than just finished on the clock — it is also where the cracked pan and the frayed cord get written down so they never go back into service unrepaired."
+    },
+    {
+      "cue": "Call the foreman: floor guarded, pitched and logged. Then check in with the crew about the cord and the laborer near the blades.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the foreman: floor guarded, pitched and logged. Then check in with the crew about the cord and the laborer near the blades.",
+      "target": "crew-radio",
+      "title": "Check in with the crew and the foreman",
+      "why": "The next bay's pour gets planned around whatever this call actually reports, not around a shift that quietly went fine. A laborer stepped closer to a running trowel than anyone would like, and a cord sat live in a puddle for longer than it should have — both belong in the call, along with a reminder that the OPCMIA member assistance line is there whenever a shift leaves somebody rattled."
+    }
+  ],
+  "supportLine": "your OPCMIA Local 300 member assistance programme, or the employee assistance line posted on the contractor's site board",
+  "tagline": "A walk-behind trowel run right: the machine walked before the engine starts, the guard ring and cord fixed, bystanders clear, blades pitched to float then to finish inside the manufacturer's bands, the perimeter edged, the floor checked flat, and the machine locked out before anyone's hand goes near the pans",
+  "title": "SmartCiti.X~ Power Trowel Operation & Guarding VR",
+  "trade": "Cement mason — OPCMIA Local 300, power trowel operator",
+  "underwater": null,
+  "weather": "clear"
+}

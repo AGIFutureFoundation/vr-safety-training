@@ -1,0 +1,466 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "room-held",
+    "name": "Room Held",
+    "note": "An ammonia alarm worked from the outside in: ventilation first, entry on air, circuit pumped down and returned in the right order"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "RETA CARO / CIRO industrial refrigeration operator; UA refrigeration service technicians and IUOE stationary engineers; IIAR 6 inspection, testing and maintenance and IIAR 2 machinery-room provisions; ASHRAE 15 refrigeration machinery rooms; OSHA 29 CFR 1910.119 process safety management where the charge is 10,000 lb or more; 1910.147 lockout/tagout; 1910.134 respiratory protection",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASHRAE",
+        "citedAs": "ASHRAE 15",
+        "id": "ashrae-15",
+        "title": "ANSI/ASHRAE 15 — Safety Standard for Refrigeration Systems"
+      },
+      {
+        "body": "IIAR",
+        "citedAs": "IIAR 2",
+        "id": "iiar-2",
+        "title": "ANSI/IIAR 2 — Safe design of closed-circuit ammonia refrigeration systems"
+      },
+      {
+        "body": "IIAR",
+        "citedAs": "IIAR 6",
+        "id": "iiar-6",
+        "title": "ANSI/IIAR 6 — Inspection, testing and maintenance of closed-circuit ammonia refrigeration systems"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.119",
+        "id": "osha-1910-119",
+        "title": "29 CFR 1910.119 — Process safety management of highly hazardous chemicals"
+      },
+      {
+        "body": "RETA",
+        "citedAs": "RETA",
+        "id": "reta-refrigeration-operator",
+        "title": "RETA industrial refrigeration operator certification"
+      },
+      {
+        "body": "union",
+        "citedAs": "UA",
+        "id": "ua-apprenticeship",
+        "title": "UA — United Association plumber, pipefitter and HVAC service apprenticeship standards and UA Star certification"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "outside-first",
+        "name": "Outside First",
+        "note": "Ventilation started and the room read from the emergency control station before the door was touched"
+      },
+      {
+        "id": "no-water",
+        "name": "No Water On It",
+        "note": "Never played a hose onto liquid ammonia, never propped the door, never entered an alarmed room without air"
+      },
+      {
+        "id": "stopped-short",
+        "name": "Stopped Short Of Vacuum",
+        "note": "Pumped the low side down and stopped above atmospheric"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-plant",
+        "name": "Clean Plant",
+        "note": "No corrections through the whole callout"
+      },
+      {
+        "id": "held-the-rate",
+        "name": "Held The Rate",
+        "note": "Held the pump-down rate steady the whole way"
+      },
+      {
+        "id": "ice-back",
+        "name": "Ice Back On",
+        "note": "Plant back on line inside 80% of par"
+      }
+    ],
+    "currency": "PSIG",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Plant Attendant",
+      "Refrigeration Operator",
+      "Lead Operator",
+      "Chief Engineer",
+      "Refrigeration Authority Certified"
+    ],
+    "system": "Refrigeration Authority"
+  },
+  "hazards": {
+    "no-scba": "You went into an alarmed machinery room without air. Ammonia gives you plenty of warning — you will smell it far below the level that hurts you, which is the one mercy of the stuff — but a release big enough to put the detector into high alarm is far past warning, and at that concentration one breath closes your airway.",
+    "prop-door": "You wedged the machinery room door open. That door is self-closing and tight-fitting because the room is designed to hold what is in it and vent it to one known place. Propped, the room's ventilation pulls from the corridor instead, and the corridor is where everybody leaves by.",
+    "vacuum-pull": "You kept pumping after the gauge reached atmospheric. Below that, the low side draws air and moisture in through every fitting that was only ever sealed against pressure from the inside. The water makes the system corrosive and the air is a non-condensable that never leaves until somebody purges it — and in a room full of ammonia, air in the system is the other half of a flammable mixture.",
+    "water-hose": "You pulled the hose to wash the leak down. Ammonia dissolves in water almost without limit, which is exactly the trap: water played onto liquid ammonia hands it the heat it needs to boil, so the pool you were trying to knock down leaves as vapour instead, and what is left is a large volume of contaminated water that is now somebody else's problem downstream. Water goes on people, or into a fog curtain a trained crew sets up. It does not go on the liquid."
+  },
+  "id": "ammonia-plant",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "pumpdown",
+      "alert": "The discharge pressure is climbing fast and the condenser fans have gone quiet. The high-pressure cut-out is about to take the machine out from under you.",
+      "cue": "Something upstairs has stopped. The compressor cannot push into a condenser that is not rejecting heat.",
+      "delay": 4,
+      "id": "head-pressure",
+      "kind": "Condenser tripped",
+      "missNote": "The high-pressure cut-out tripped the machine mid-pump-down, which leaves the circuit half evacuated and the liquid line still holding, and now the job restarts from a system in a state nobody planned for.",
+      "seconds": 13,
+      "target": "condenser-switch",
+      "why": "A pump-down is the compressor moving the whole low-side charge into the high side, so the condenser is doing more work than usual, not less. Lose the fans and head pressure runs away in under a minute — the relief lifts, and a relief lifting vents your charge to the roof instead of into the receiver where you were putting it.",
+      "wrongNote": "That is not what stopped. The fans are on the condenser switch, and head pressure is not waiting."
+    },
+    {
+      "after": "locate",
+      "alert": "Somebody has wedged the machinery room door open behind you to run a cable in from the corridor.",
+      "cue": "The room is not holding what is in it any more.",
+      "delay": 4,
+      "id": "door-propped",
+      "kind": "Containment broken",
+      "missNote": "The door stayed wedged while you worked. The corridor detector went into alarm too, which is how the rest of the building found out they were sharing your release.",
+      "seconds": 12,
+      "target": "machine-room-door",
+      "why": "The room's emergency ventilation is drawn from a known path to a known discharge. Propped open, the room draws its make-up air from the corridor and pushes what it has back out the same way — so the one place in the building that was designed to contain an ammonia release is now venting into the route everybody else evacuates along.",
+      "wrongNote": "It is the door. Everything else in this room depends on it being shut."
+    }
+  ],
+  "lateNotes": {
+    "king-valve": "The king valve closes after the room has been entered and the source found, so you know which circuit you are pumping down.",
+    "machine-room-door": "The door opens after the ventilation has been running and after you are on air, not before.",
+    "shaft-seal": "The seal comes apart after the compressor is valved in, pumped down and locked out — not on a circuit that is still holding charge."
+  },
+  "name": "Ammonia Plant",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "ammonia-suit",
+      "compressor-disconnect",
+      "condenser-switch",
+      "corridor-socket",
+      "detector-head",
+      "detector-readout",
+      "discharge-stop",
+      "ecs-panel",
+      "entry-barrier",
+      "eyewash",
+      "frost-line",
+      "king-valve",
+      "lockout-hasp",
+      "machine-room-door",
+      "muster-board",
+      "nh3-gloves",
+      "no-scba",
+      "oil-pool",
+      "prop-door",
+      "relief-vent",
+      "scba-set",
+      "seal-leak",
+      "shaft-seal",
+      "suction-control",
+      "suction-gauge",
+      "suction-stop",
+      "vacuum-pull",
+      "vent-switch",
+      "water-hose"
+    ],
+    "meshes": 221
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Take the alarm at the panel on the outside wall: which detector, which level, how long.",
+      "id": "alarm",
+      "kind": "select",
+      "prompt": "Take the alarm at the panel on the outside wall: which detector, which level, how long.",
+      "target": "ecs-panel",
+      "title": "Read the alarm at the emergency control station",
+      "why": "The emergency control station is outside the machinery room on purpose, so every decision about the room is made by somebody who is not yet breathing what is in it. Which head and which set point is the difference between a seal weeping and a line letting go."
+    },
+    {
+      "cue": "Turn the emergency ventilation switch at the panel to RUN before anything else happens.",
+      "id": "vent",
+      "kind": "turn",
+      "prompt": "Turn the emergency ventilation switch at the panel to RUN before anything else happens.",
+      "target": "vent-switch",
+      "title": "Start emergency ventilation from outside",
+      "turn": {
+        "axis": "z",
+        "label": "EMERGENCY VENTILATION",
+        "turns": 0.25
+      },
+      "why": "The ventilation runs before the door opens, not after, so the room is already moving air to its own discharge by the time there is a gap in the wall. Started from outside because the switch you would have to walk in to reach is a switch you would have to walk into the release to reach."
+    },
+    {
+      "cue": "Carry the barrier across the corridor approach so nobody walks up behind you.",
+      "drag": {
+        "missNote": "Not across the approach — a barrier off to one side is a barrier people walk past.",
+        "radius": 0.45,
+        "to": "corridor-socket"
+      },
+      "id": "barrier",
+      "kind": "drag",
+      "prompt": "Carry the barrier across the corridor approach so nobody walks up behind you.",
+      "target": "entry-barrier",
+      "title": "Close the approach off",
+      "why": "A machinery room with a live alarm has one person going towards it and everybody else going away. The barrier is what stops the third party — the caterer, the ice crew, the contractor with a cable — from arriving at the open door while you are inside it."
+    },
+    {
+      "cue": "Check the board: who is signed into the plant and who is out.",
+      "id": "muster",
+      "kind": "select",
+      "prompt": "Check the board: who is signed into the plant and who is out.",
+      "target": "muster-board",
+      "title": "Account for everybody",
+      "why": "The room is the only place in the building the release can be, so the only question that matters is whether anyone is in it. That is answered off the board before entry, because the answer changes the job from a repair into a rescue."
+    },
+    {
+      "cue": "Take the reading off the detection panel and commit on it.",
+      "gauge": {
+        "green": [
+          0.12,
+          0.34
+        ],
+        "label": "ROOM NH3",
+        "missNote": "That is not a room you go into to change a seal. Let the ventilation run it down and read it again.",
+        "speed": 0.7
+      },
+      "id": "detect",
+      "kind": "gauge",
+      "prompt": "Take the reading off the detection panel and commit on it.",
+      "target": "detector-readout",
+      "title": "Read the room concentration",
+      "why": "The number decides the protection. Ammonia announces itself long before it hurts you, so a reading in the low hundreds is a leak to be worked; a reading in the thousands is a room nobody enters to do maintenance, on air or otherwise, until the ventilation has pulled it down."
+    },
+    {
+      "cue": "Air first, suit over it, gauntlets and shield last.",
+      "id": "ppe",
+      "itemNames": {
+        "ammonia-suit": "ammonia-rated suit",
+        "nh3-gloves": "gauntlets and face shield",
+        "scba-set": "SCBA on air"
+      },
+      "kind": "sequence",
+      "prompt": "Air first, suit over it, gauntlets and shield last.",
+      "targets": [
+        "scba-set",
+        "ammonia-suit",
+        "nh3-gloves"
+      ],
+      "title": "Dress for the room",
+      "why": "Air first because the pack is what you are protecting; the suit goes over it so nothing can snag the harness. The gauntlets are for liquid, not vapour — anhydrous ammonia takes the water out of skin on contact, and the burn it leaves is a cold burn that keeps going."
+    },
+    {
+      "cue": "Open the door, go in, and let it close itself behind you.",
+      "id": "entry",
+      "kind": "select",
+      "prompt": "Open the door, go in, and let it close itself behind you.",
+      "target": "machine-room-door",
+      "title": "Enter with the ventilation running",
+      "why": "It closes behind you because it is meant to. Nothing about the entry defeats the room's containment, and the way back out is a door handle, not a wedge."
+    },
+    {
+      "cue": "Walk the machine and click what the room is showing you, without touching any of it.",
+      "id": "locate",
+      "itemNames": {
+        "frost-line": "the frosted suction line",
+        "oil-pool": "oil under the compressor",
+        "seal-leak": "the weeping shaft seal"
+      },
+      "itemNotes": {
+        "frost-line": "The suction line is frosted well past where the insulation ends, which says the machine is pulling liquid back rather than vapour.",
+        "oil-pool": "There is oil under the compressor. Ammonia carries oil around with it, so oil on the floor is refrigerant that has been leaving for a while.",
+        "seal-leak": "The shaft seal on number two is weeping — a thin white plume at the coupling end, right where the shaft leaves the housing."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the machine and click what the room is showing you, without touching any of it.",
+      "targets": [
+        "seal-leak",
+        "frost-line",
+        "oil-pool"
+      ],
+      "title": "Find the leak and what it is telling you",
+      "why": "The seal is the leak, but the frost line and the oil are the reason the seal went: a machine flooding back has been running wet, and a wet machine washes the oil film off the seal faces. Fix the seal only and you change it again next month."
+    },
+    {
+      "cue": "Close the liquid outlet at the receiver, all the way over.",
+      "id": "king-valve",
+      "kind": "turn",
+      "prompt": "Close the liquid outlet at the receiver, all the way over.",
+      "target": "king-valve",
+      "title": "Close the king valve",
+      "turn": {
+        "axis": "y",
+        "label": "KING VALVE",
+        "turns": 0.5
+      },
+      "why": "The king valve is the top of the circuit you are about to empty: shut it and the receiver stops feeding the low side, so everything the compressor pulls out has somewhere to go and nothing comes back. A valve left part-closed is a valve still feeding it."
+    },
+    {
+      "cue": "Run the machine down and hold the pull-down rate steady in the band.",
+      "holdBreakNote": "Pull-down rate out of band — too slow and the room keeps breathing it, too fast and you are pulling liquid through a sick machine. Bring it back and hold.",
+      "id": "pumpdown",
+      "kind": "track",
+      "prompt": "Run the machine down and hold the pull-down rate steady in the band.",
+      "seconds": 7,
+      "target": "suction-control",
+      "title": "Pump the low side down",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.36,
+          0.56
+        ],
+        "label": "PULL-DOWN RATE",
+        "rise": 0.55,
+        "start": 0.08
+      },
+      "why": "Steady, because a pump-down that is rushed drags liquid and oil back through a machine that is already damaged, and one that is too slow leaves the room breathing the leak for longer than it has to. The rate is the one thing the operator controls here."
+    },
+    {
+      "cue": "Watch the suction gauge and commit at the pressure you stop the machine.",
+      "gauge": {
+        "green": [
+          0.52,
+          0.68
+        ],
+        "label": "SUCTION",
+        "missNote": "Stopped too late or too early — below zero psig you are drawing air in, and well above it you have left a low side still full of charge to open.",
+        "speed": 0.7
+      },
+      "id": "pressure",
+      "kind": "gauge",
+      "prompt": "Watch the suction gauge and commit at the pressure you stop the machine.",
+      "target": "suction-gauge",
+      "title": "Stop above atmospheric",
+      "why": "Slightly positive, never into vacuum. A system left above atmospheric leaks outward if it leaks at all; one pulled into vacuum draws air and moisture in through every joint, and neither of those comes back out without a purge."
+    },
+    {
+      "cue": "Suction stop closed, discharge stop closed, then open the motor disconnect.",
+      "id": "isolate",
+      "itemNames": {
+        "compressor-disconnect": "motor disconnect",
+        "discharge-stop": "discharge stop valve",
+        "suction-stop": "suction stop valve"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — suction stop, then discharge stop, then the disconnect. The machine is valved in before it is electrically isolated.",
+      "prompt": "Suction stop closed, discharge stop closed, then open the motor disconnect.",
+      "targets": [
+        "suction-stop",
+        "discharge-stop",
+        "compressor-disconnect"
+      ],
+      "title": "Valve the machine in, then kill the power",
+      "why": "The valves come first so the machine is a sealed box before it is a dead box: close the electrics first and you are working the valves on a machine that a control call could still try to start. Suction before discharge, so what little charge is left is pushed forward rather than trapped behind you."
+    },
+    {
+      "cue": "Your padlock and your tag on the motor disconnect.",
+      "id": "lock",
+      "kind": "select",
+      "prompt": "Your padlock and your tag on the motor disconnect.",
+      "target": "lockout-hasp",
+      "title": "Lock the disconnect",
+      "why": "Your lock, your name. An ice plant runs on automatic controls and a building management system that has no idea your hands are inside a compressor — the lock is the only thing in the room that outranks a call for cooling."
+    },
+    {
+      "cue": "Pull the seal, check the shaft and the faces, and fit the new one.",
+      "id": "seal",
+      "kind": "select",
+      "prompt": "Pull the seal, check the shaft and the faces, and fit the new one.",
+      "target": "shaft-seal",
+      "title": "Change the shaft seal",
+      "why": "The faces come out together and go back together: a new seal on a scored shaft sleeve is a new leak on a slower timer. What the shaft looks like under the old seal is the evidence for whether the flooding back has been going on longer than this callout."
+    },
+    {
+      "cue": "Your lock off, discharge open, then suction, then the king valve.",
+      "id": "restore",
+      "itemNames": {
+        "discharge-stop": "discharge stop open",
+        "king-valve": "king valve open",
+        "lockout-hasp": "your lock off the disconnect",
+        "suction-stop": "suction stop open"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — lock off, discharge, suction, king valve. The discharge is never the one still shut when the machine turns.",
+      "prompt": "Your lock off, discharge open, then suction, then the king valve.",
+      "targets": [
+        "lockout-hasp",
+        "discharge-stop",
+        "suction-stop",
+        "king-valve"
+      ],
+      "title": "Return it in the right order",
+      "why": "Discharge before suction, always: a compressor started against a closed discharge stop has nowhere to put what it is moving, and it finds out in about a second. The lock comes off first because nothing gets opened while your lock is still on it, and the king valve last because that is what puts liquid back into a circuit you want proven tight first."
+    },
+    {
+      "cue": "Click the three things you check on the way out.",
+      "id": "walk",
+      "itemNames": {
+        "detector-head": "detector head",
+        "eyewash": "eyewash and drench shower",
+        "relief-vent": "relief vent line"
+      },
+      "itemNotes": {
+        "detector-head": "The detector head is where the vapour goes, up near the ceiling over the machines. A head in the wrong place is a room with no detection and a green light saying otherwise.",
+        "eyewash": "The drench shower outside the door still runs. Fifteen minutes of water is the only first aid there is for an ammonia splash, and it has to be water that is already there.",
+        "relief-vent": "The relief vent line discharges to the roof and its outlet is clear. If it were not, the room's last line of defence would be a relief valve venting into the room it is protecting."
+      },
+      "kind": "find",
+      "prompt": "Click the three things you check on the way out.",
+      "targets": [
+        "relief-vent",
+        "detector-head",
+        "eyewash"
+      ],
+      "title": "Walk the room before you sign it off",
+      "why": "The three things that will not be there when they are needed unless somebody looked today: somewhere for the relief to go, something to notice the next leak, and water for the person who is standing in it."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Detection alarm on an arena ice plant: everything decided at the outside panel first, entry on air, circuit pumped down and locked, seal changed, discharge open before suction on the way back",
+  "title": "SmartCiti.X~ Ammonia Plant VR",
+  "trade": "Industrial refrigeration operator / refrigeration fitter",
+  "underwater": null,
+  "weather": "overcast"
+}

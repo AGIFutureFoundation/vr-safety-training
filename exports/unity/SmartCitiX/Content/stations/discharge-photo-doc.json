@@ -1,0 +1,352 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "record-that-holds",
+    "name": "Record That Holds",
+    "note": "A dry-boots documentation an inspector can act on — the right bottle, a scaled photo, both hotlines called"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "CWA (Clean Water Act) NPDES illicit-discharge reporting to the Regional Water Quality Control Board (RWQCB); the city's pollution-reporting hotline; EPA QA/QC and chain-of-custody guidance (EPA QA/G-5) for any grab sample relied on in public; OSHA 29 CFR 1910.132 general PPE for the patrol's own gear; the Community Pollution Patrol Network's discharge documentation protocol",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "CWA",
+        "id": "cwa-training",
+        "title": "CWA member training for outside-plant, tower and broadcast work"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "EPA QA/G-5",
+        "id": "epa-qa-g5",
+        "title": "EPA QA/G-5 — Guidance for quality assurance project plans, and the chain-of-custody practice built on it"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "RWQCB",
+        "citedAs": "RWQCB",
+        "id": "rwqcb-401-certification",
+        "title": "Regional Water Quality Control Board Clean Water Act §401 certification and waste discharge requirements"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "dry-boots",
+        "name": "Dry Boots",
+        "note": "Never a hazard — the water, the bottle, the photo or the sample stayed clean"
+      },
+      {
+        "id": "both-called",
+        "name": "Both Called",
+        "note": "Water Board and city hotline both notified, first time"
+      },
+      {
+        "id": "reading-true",
+        "name": "Reading True",
+        "note": "The flow estimate read inside spec"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-record",
+        "name": "Clean Record",
+        "note": "No corrections across the whole documentation"
+      },
+      {
+        "id": "steady-grab",
+        "name": "Steady Grab",
+        "note": "Held the pole sampler through the full grab"
+      },
+      {
+        "id": "logged-fast",
+        "name": "Logged Fast",
+        "note": "Sample, photo and both calls done inside 80% of par"
+      }
+    ],
+    "currency": "REPORT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Patrol Member",
+      "Documentation Lead",
+      "Patrol Coordinator",
+      "Complaint Steward",
+      "Patrol Record Certified"
+    ],
+    "system": "Patrol Record"
+  },
+  "hazards": {
+    "hand-to-worker": "You started to hand the sample cooler to the site worker who offered to \"take it inside\" for you. The sample is the patrol's own record of what left this drain on this day — once it is out of the patrol's hands, there is no way to prove later that it was not swapped, diluted or simply never delivered anywhere at all.",
+    "skip-scale": "You snapped the photo without ever setting the scale card in frame. A sheen with nothing beside it to measure against is a photo an inspector cannot use to judge size or extent — the scale card is what turns a picture into evidence instead of an impression.",
+    "step-in-water": "You stepped down into the discharge to reach the sample point directly. The pole sampler exists so a patrol member's boots never have to touch water nobody has tested yet — whatever this discharge turns out to carry, wading into it to save an arm's length of reach is not part of the protocol that keeps a patrol member safe.",
+    "wrong-bottle": "You grabbed the plain jar instead of the amber preserved bottle. A discharge sample without the right preservative starts changing chemically before it ever reaches anyone who can test it — the amber bottle and its preservative are what make this grab still mean something by the time a regulator looks at it."
+  },
+  "id": "discharge-photo-doc",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "grab-sample",
+      "alert": "The sheen on the water has spread faster than the flow looked like it would, and it is now lapping right up to the mud where you are standing.",
+      "cue": "Step back to the retreat line — the sheen has reached the bank.",
+      "delay": 3,
+      "id": "sheen-reaches-shore",
+      "kind": "Sheen reaches the shore",
+      "missNote": "The grab finished with the sheen already washing against the patrol member's boots the whole time — nobody knows yet what was in it, and now nobody knows what it touched.",
+      "seconds": 12,
+      "target": "retreat-line",
+      "why": "Whatever is in that sheen has not been identified yet, and a patrol member standing in a discharge that has just reached their own boots is not documenting the release any more — they are exposed to it. Stepping back to the marked line is the one response that keeps the patrol able to finish this report at all.",
+      "wrongNote": "That's not it — the retreat line is the marked ground back from the water, and that is where a spreading sheen means you need to be."
+    },
+    {
+      "after": "hold-photo",
+      "alert": "A worker from the site the drain runs under has walked over and is reaching for the sample bottle, saying he'll \"get it tested in-house and save everyone the trouble.\"",
+      "cue": "Keep the sample — latch the case and decline.",
+      "delay": 3,
+      "id": "worker-requests-sample",
+      "kind": "Site worker asks for the sample",
+      "missNote": "The bottle went into the worker's hands, and with it went the only independent proof of what this drain discharged today — whatever the site's own testing later reports, there is no longer a patrol sample to check it against.",
+      "seconds": 12,
+      "target": "case-latch",
+      "why": "The patrol's sample is the only independent record of what actually came out of this drain today — handing it to the very site the discharge came from breaks the one thing that made the sample worth taking, before it has gone anywhere the patrol can vouch for.",
+      "wrongNote": "Not that — the case latch is what keeps this sample in the patrol's own hands. Nothing else here does."
+    }
+  ],
+  "lateNotes": {
+    "sample-bottle": "Nothing to grab yet — the flow has to be estimated first, or the sample is taken before anyone has recorded how much of it there actually was."
+  },
+  "name": "Discharge Photo Doc",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-can-we-live"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "bottle-uncapped",
+      "call-city-hotline",
+      "call-water-board",
+      "camera",
+      "camera-charged",
+      "case-latch",
+      "field-sheet",
+      "flow-staff",
+      "gps-device",
+      "grab-pole",
+      "hand-to-worker",
+      "hi-vis-vest",
+      "nitrile-gloves",
+      "obs-color",
+      "obs-sheen",
+      "patrol-board",
+      "retreat-line",
+      "sample-bottle",
+      "scale-card",
+      "scale-socket",
+      "skip-scale",
+      "step-in-water",
+      "wrong-bottle"
+    ],
+    "meshes": 177
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence"
+  ],
+  "steps": [
+    {
+      "cue": "Check what gets noted, which bottle and preservative, and both numbers to call before you get close to the water.",
+      "id": "plan",
+      "kind": "select",
+      "prompt": "Check what gets noted, which bottle and preservative, and both numbers to call before you get close to the water.",
+      "target": "patrol-board",
+      "title": "Read the documentation protocol",
+      "why": "The protocol is what turns \"I saw something\" into a report a regulator can open a file on — it names the observations that matter, the bottle this kind of grab needs, and the two calls that have to happen today, not whenever it's convenient."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Gloves on, vest on, and check the camera has battery before walking down to the bank.",
+      "id": "stage-gear",
+      "itemNames": {
+        "camera-charged": "camera, battery checked",
+        "hi-vis-vest": "high-visibility vest",
+        "nitrile-gloves": "nitrile gloves"
+      },
+      "kind": "sequence",
+      "prompt": "Gloves on, vest on, and check the camera has battery before walking down to the bank.",
+      "targets": [
+        "nitrile-gloves",
+        "hi-vis-vest",
+        "camera-charged"
+      ],
+      "title": "Stage the patrol's own gear",
+      "why": "The gloves are what keeps whatever is in this discharge off the patrol member's hands if the bottle needs handling at the bank; the vest is what keeps a patrol member visible working a drain outfall beside a road; and a camera that dies mid-shoot is a discharge that goes undocumented no matter how carefully everything else was done."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Look at the surface of the flow and record what you see before anything else disturbs it.",
+      "id": "field-obs",
+      "itemNames": {
+        "obs-color": "discharge colour",
+        "obs-sheen": "surface sheen"
+      },
+      "kind": "sequence",
+      "prompt": "Look at the surface of the flow and record what you see before anything else disturbs it.",
+      "targets": [
+        "obs-sheen",
+        "obs-color"
+      ],
+      "title": "Note the sheen and colour",
+      "why": "A rainbow sheen or an unusual colour is often the only sign of what is actually in a discharge before any lab result comes back — noted now, in plain words, it is exactly what a Water Board investigator asks a caller for first."
+    },
+    {
+      "cue": "Read the staff gauge in the channel and commit the stage reading.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.58
+        ],
+        "label": "STAGE",
+        "missNote": "Let the staff reading settle and read it again — a stage off by a third changes how urgent this call is.",
+        "speed": 0.7
+      },
+      "id": "flow-estimate",
+      "kind": "gauge",
+      "prompt": "Read the staff gauge in the channel and commit the stage reading.",
+      "target": "flow-staff",
+      "title": "Estimate the flow",
+      "why": "\"A discharge\" and \"a discharge running at this rate\" are different reports — the flow estimate is what lets an inspector judge whether this is a trickle worth a note or a release worth a same-day response."
+    },
+    {
+      "cue": "Hold the pole sampler out into the flow from dry ground until the bottle is full.",
+      "holdBreakNote": "You lifted the pole before the bottle filled — a partial grab from a discharge already changing by the minute is not a sample worth defending later.",
+      "id": "grab-sample",
+      "kind": "hold",
+      "prompt": "Hold the pole sampler out into the flow from dry ground until the bottle is full.",
+      "seconds": 8,
+      "target": "grab-pole",
+      "title": "Take the grab from the bank",
+      "why": "The pole is the whole reason boots never have to leave the bank — holding it steady out over the flow is what lets the sample come from the discharge itself rather than from whatever the patrol member's own footing stirred up on the way to it."
+    },
+    {
+      "cue": "Cap the amber preserved bottle — not the plain jar beside it.",
+      "id": "bottle",
+      "kind": "select",
+      "prompt": "Cap the amber preserved bottle — not the plain jar beside it.",
+      "target": "sample-bottle",
+      "title": "Cap the sample in the right bottle",
+      "why": "This kind of grab has a preservative for a reason written on the bottle's own label — cap the wrong container and the sample starts changing before anyone downstream of this bank ever gets to look at it."
+    },
+    {
+      "cue": "Record the exact coordinates and the time on the field device.",
+      "id": "gps-time",
+      "kind": "select",
+      "prompt": "Record the exact coordinates and the time on the field device.",
+      "target": "gps-device",
+      "title": "Log the GPS coordinates and time",
+      "why": "A discharge report without a location and a timestamp is a story nobody downstream can act on — the coordinates are what let an inspector find this exact drain, and the time is what lets them connect it to whatever else happened on the site that day."
+    },
+    {
+      "cue": "Carry the scale card down to the water's edge, in view of the sheen, without stepping in.",
+      "drag": {
+        "missNote": "Not close enough to the water's edge — the scale card has to be in the same frame as the sheen.",
+        "radius": 0.45,
+        "to": "scale-socket"
+      },
+      "id": "place-scale",
+      "kind": "drag",
+      "prompt": "Carry the scale card down to the water's edge, in view of the sheen, without stepping in.",
+      "target": "scale-card",
+      "title": "Set the scale card in frame",
+      "why": "A photo of a sheen with nothing beside it to measure against tells an inspector nothing about how big it actually is — the scale card, held at the edge rather than in the water, is what turns the picture into something a case file can use."
+    },
+    {
+      "cue": "Hold the camera steady on the sheen and the scale card until the shot is sharp.",
+      "holdBreakNote": "The shot came out blurred — hold the frame steady on the sheen and the scale card together before releasing the shutter.",
+      "id": "hold-photo",
+      "kind": "hold",
+      "prompt": "Hold the camera steady on the sheen and the scale card until the shot is sharp.",
+      "seconds": 6,
+      "target": "camera",
+      "title": "Photograph the discharge with the scale in frame",
+      "why": "A blurred or rushed photo is as useless to an inspector as no photo at all — holding steady long enough for a sharp frame is what makes this the one piece of evidence that survives long after the discharge itself has washed out on the next tide."
+    },
+    {
+      "cue": "Call the Regional Water Board first, then the city's pollution hotline.",
+      "id": "notify",
+      "itemNames": {
+        "call-city-hotline": "city pollution hotline",
+        "call-water-board": "Regional Water Quality Control Board"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "The Water Board first, since they hold the enforcement authority here — the city hotline afterward gets the immediate response moving.",
+      "prompt": "Call the Regional Water Board first, then the city's pollution hotline.",
+      "targets": [
+        "call-water-board",
+        "call-city-hotline"
+      ],
+      "title": "Notify the Regional Water Board and the city hotline",
+      "why": "The Regional Water Board is who actually has authority to act on an illicit discharge under the Clean Water Act; the city hotline is what gets a public works crew looking at the drain itself the same day — one without the other leaves either the enforcement side or the immediate response side never hearing about it."
+    },
+    {
+      "cue": "Write up the sheen, colour, flow, sample, photo and both calls in one place.",
+      "id": "field-sheet",
+      "kind": "select",
+      "prompt": "Write up the sheen, colour, flow, sample, photo and both calls in one place.",
+      "target": "field-sheet",
+      "title": "Complete the field sheet",
+      "why": "The field sheet is what ties the bottle, the photo and the two phone calls together into one report — without it, a regulator has a bottle, a picture and a memory of a phone call that nothing on paper actually connects to each other."
+    },
+    {
+      "cue": "Look over the bottle case and the bank once more before heading back.",
+      "id": "walk",
+      "itemNames": {
+        "bottle-uncapped": "the sample bottle, cap resting loose"
+      },
+      "itemNotes": {
+        "bottle-uncapped": "The sample bottle's cap is sitting on top, not turned down — an open bottle riding back to the car is a sample that is no longer only what came out of the drain."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the bottle case and the bank once more before heading back.",
+      "targets": [
+        "bottle-uncapped"
+      ],
+      "title": "Check the case before you leave the bank",
+      "why": "This is the last chance to catch anything before the walk back turns a small mistake into a ruined sample — nobody is coming back to this drain today to take the grab again."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Documenting a discharge from a storm drain: sheen, colour and flow noted, a grab taken from the bank in the right preserved bottle, GPS and time logged, a photo taken with a scale in frame, the Regional Water Board and the city hotline both notified — and the patrol never once in the water",
+  "title": "SmartCiti.X~ Discharge Photo Doc VR",
+  "trade": "Community environmental monitor",
+  "underwater": null,
+  "weather": "overcast"
+}

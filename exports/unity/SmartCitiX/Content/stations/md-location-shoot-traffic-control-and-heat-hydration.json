@@ -1,0 +1,442 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "block-held-crew-cool",
+    "name": "Block Held, Crew Cool",
+    "note": "The block swept clean, the cooler proven full before the first take, the resident's car turned back off the paddle, and the heat sign caught and answered before it became something worse"
+  },
+  "category": "Entertainment & Live Events",
+  "certification": "IATSE location department training; ANSI/ISEA 107 high-visibility apparel for the traffic control crew; OSHA 29 CFR 1910.132 general personal protective equipment requirements; Cal/OSHA 8 CCR 3203 injury and illness prevention programme requirement, applied here to the production's own written traffic and heat safety plans; NFPA 101 Life Safety Code requirements for keeping the marked emergency-vehicle lane open through the closure",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI/ISEA 107",
+        "id": "ansi-isea-107",
+        "title": "ANSI/ISEA 107 — High-visibility safety apparel and accessories"
+      },
+      {
+        "body": "Cal/OSHA",
+        "citedAs": "8 CCR 3203",
+        "id": "cal-osha-3203",
+        "title": "8 CCR 3203 — Injury and Illness Prevention Program"
+      },
+      {
+        "body": "union",
+        "citedAs": "IATSE",
+        "id": "iatse-training-trust",
+        "title": "IATSE Training Trust Fund — stagecraft, rigging and entertainment electrical skills training"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 101",
+        "id": "nfpa-101",
+        "title": "NFPA 101 — Life Safety Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Screen & Media Crafts",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "cooler-proven",
+        "name": "Cooler Proven",
+        "note": "Never called the heat break before the cooler read full"
+      },
+      {
+        "id": "car-turned-back",
+        "name": "Car Turned Back",
+        "note": "The resident's car was turned back on the paddle, not the all-clear call"
+      },
+      {
+        "id": "never-in-the-lane",
+        "name": "Never in the Lane",
+        "note": "Never stood in a blind corner, never crossed behind the reversing van, never blocked the fire lane, never skipped the cable ramp"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-closure",
+        "name": "Clean Closure",
+        "note": "No corrections from the permit to the closing log"
+      },
+      {
+        "id": "steady-paddle",
+        "name": "Steady Paddle",
+        "note": "The paddle held its band facing traffic the whole take"
+      },
+      {
+        "id": "rolling-on-time",
+        "name": "Rolling On Time",
+        "note": "Cleared for the take inside 80% of par"
+      }
+    ],
+    "currency": "BLOCK",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Set PA",
+      "Lock-Up PA",
+      "Traffic Control Trainee",
+      "Location Coordinator",
+      "Location Manager Certified"
+    ],
+    "system": "Location Control"
+  },
+  "hazards": {
+    "block-fire-lane": "You set a gear cart down in the marked fire lane the permit requires stay open the whole time the block is closed. That lane is not a suggestion — it is the one path a real emergency response still has through a closed set, and anything parked in it is the reason a truck cannot get through the one day it actually needs to.",
+    "cross-behind-reversing-van": "You crossed behind the production van while it was backing up. A van's driver has almost no view of the ground directly behind the rear bumper, and the last few feet of any backing move are exactly the distance a driver cannot confirm clear from the mirrors alone — that is what a spotter is for, not a shortcut across.",
+    "skip-cable-ramp": "You ran a cable across the roadway with no rubber ramp over it. A cable lying bare across a lane is a trip hazard for anyone still crossing on foot and a crush hazard for the cable itself the moment a vehicle's tyre finds it, and the ramp is what turns a bare cable crossing into one that survives the day.",
+    "stand-in-blind-corner": "You stood in the roadway at the block's blind corner, where a driver coming around it has no sightline to you until they are already on top of you. A flagger's whole job depends on being seen before a car has to react, and the one place that fails is exactly the corner nobody can see around."
+  },
+  "id": "md-location-shoot-traffic-control-and-heat-hydration",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "all-clear-hold",
+      "alert": "A car has turned onto the closed block from the far end and is heading toward the marked take zone.",
+      "cue": "Turn the paddle to STOP and wave them off before they reach the zone.",
+      "delay": 2,
+      "id": "resident-car-turns-in",
+      "kind": "Resident car turns onto the closed block",
+      "missNote": "The car kept coming and rolled into the edge of the take zone before anyone turned the paddle on it.",
+      "seconds": 12,
+      "target": "stop-slow-paddle",
+      "why": "A driver who does not know the block is closed is not reading anyone's radio call — the paddle is the one thing in the whole closure built to be understood at a glance by someone who has no other context, and it's what actually stops the car before it reaches the zone.",
+      "wrongNote": "Not the all-clear radio — the driver can't hear that. The paddle is what a driver with no other context is built to read."
+    },
+    {
+      "after": "paddle-hold-steady",
+      "alert": "A crew member near the shade tent looks flushed and unsteady on their feet — the heat index just ticked up a category.",
+      "cue": "Send them to the medic tent and call it in over the location radio.",
+      "delay": 2,
+      "id": "heat-illness-sign",
+      "kind": "Early heat-illness sign at the shade tent",
+      "missNote": "Nobody called it in. The crew member sat down in the shade and nobody with medical training ever actually looked at them.",
+      "seconds": 12,
+      "target": "medic-radio-loc",
+      "why": "An early heat-illness sign is the moment the plan is actually for, and calling it in over the radio — rather than just walking them to shade and hoping — is what gets a medic looking at them before it becomes the emergency the plan was trying to prevent in the first place.",
+      "wrongNote": "Not the paddle — that answers traffic, not a person. The location radio is what reaches the medic."
+    }
+  ],
+  "lateNotes": {
+    "all-clear-radio": "The all-clear only gets called once the paddle has already turned traffic — calling it first just tells everyone the block is clear when it still has a car in it.",
+    "heat-break-radio": "The break gets called once the cooler is proven full — calling it on an empty cooler is calling a break nobody can actually take.",
+    "production-van": "The van repositions after the take is struck — moving it mid-take is its own hazard on a live take."
+  },
+  "name": "Location Shoot Traffic Control & Heat/Hydration",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "screen-and-media-crafts"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "cargoVan",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "sedan",
+        "count": 2,
+        "kit": "fleet"
+      },
+      {
+        "builder": "0.5x0.79x1.83",
+        "count": 1,
+        "kit": "unknown"
+      },
+      {
+        "builder": "1x0.71x0.84",
+        "count": 2,
+        "kit": "unknown"
+      },
+      {
+        "builder": "2.45x3.1x6.49",
+        "count": 1,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "ad-radio-loc",
+      "all-clear-radio",
+      "block-fire-lane",
+      "blocked-crosswalk-ramp",
+      "cross-behind-reversing-van",
+      "heat-break-radio",
+      "heat-index-board",
+      "hivis-vest",
+      "hydration-cooler-slot",
+      "hydration-gauge",
+      "medic-radio-loc",
+      "missing-cone",
+      "paddle-hold",
+      "permit-board",
+      "production-van",
+      "skip-cable-ramp",
+      "stand-in-blind-corner",
+      "stop-slow-paddle",
+      "unmarked-parked-car",
+      "water-jug",
+      "wrap-log"
+    ],
+    "meshes": 250
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "drive",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the permit board: the closure window, the block limits, and the fire lane the permit requires stay open.",
+      "id": "read-permit",
+      "kind": "select",
+      "prompt": "Read the permit board: the closure window, the block limits, and the fire lane the permit requires stay open.",
+      "target": "permit-board",
+      "title": "Read the location closure permit",
+      "why": "The permit is the one document that actually says what today's closure is allowed to be — which hours, which block, and which lane has to stay open no matter what the shot needs. A traffic plan built from memory instead of the permit is a plan that drifts a little further from what was actually approved every time it's used."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Put on the hi-vis vest and pick up the STOP/SLOW paddle before stepping past the curb.",
+      "id": "ppe-donning",
+      "itemNames": {
+        "hivis-vest": "hi-vis vest",
+        "stop-slow-paddle": "STOP/SLOW paddle"
+      },
+      "kind": "sequence",
+      "prompt": "Put on the hi-vis vest and pick up the STOP/SLOW paddle before stepping past the curb.",
+      "targets": [
+        "hivis-vest",
+        "stop-slow-paddle"
+      ],
+      "title": "Hi-vis and paddle on before stepping into the roadway",
+      "why": "A flagger is only as safe as being seen, and the vest goes on before the first step into the roadway, not once a car is already approaching. The paddle is what turns a person standing in a street into a traffic control device a driver is trained to recognise and obey."
+    },
+    {
+      "cue": "Walk the closure and click the three things wrong with how it was set.",
+      "id": "street-sweep",
+      "itemNames": {
+        "blocked-crosswalk-ramp": "cart blocking the curb ramp",
+        "missing-cone": "gap in the cone line",
+        "unmarked-parked-car": "car left on the block"
+      },
+      "itemNotes": {
+        "blocked-crosswalk-ramp": "A gear cart is sitting square across the accessible curb ramp. Anyone using that ramp has nowhere else to go, and a location closure that blocks the one accessible path off the crosswalk is not a closure the permit allows.",
+        "missing-cone": "There's a gap in the cone line where a cone has been knocked over or never set. A closure that reads solid from one end and has a hole in the middle is a closure a driver finds by accident rather than by reading it correctly.",
+        "unmarked-parked-car": "A car is still parked on the block despite the posted closure notice. It has to be moved or worked around before a single take rolls, because a background vehicle nobody accounted for is a continuity problem at best and a real obstruction at worst."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the closure and click the three things wrong with how it was set.",
+      "targets": [
+        "unmarked-parked-car",
+        "missing-cone",
+        "blocked-crosswalk-ramp"
+      ],
+      "title": "Sweep the block before the first take",
+      "why": "A closure looks the same whether it's actually solid or has a gap in it, and the three finds here are the ones a driver, a pedestrian or the next department all discover the hard way if nobody walks the block first."
+    },
+    {
+      "cue": "Read the heat index board and check today's category against the break schedule in the production's own heat plan.",
+      "id": "heat-index-check",
+      "kind": "select",
+      "prompt": "Read the heat index board and check today's category against the break schedule in the production's own heat plan.",
+      "target": "heat-index-board",
+      "title": "Check the heat index against the production's plan",
+      "why": "The production's heat plan sets break frequency and hydration requirements by category, not by how anyone happens to feel at the moment — a heat index that has climbed into the next category changes the schedule whether or not the crew has noticed yet."
+    },
+    {
+      "cue": "Read the cooler's fill gauge and commit inside the band the crew size calls for.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.85
+        ],
+        "label": "COOLER",
+        "missNote": "Not full enough for the crew size — top it off before calling any break on it.",
+        "speed": 0.6
+      },
+      "id": "hydration-cooler-check",
+      "kind": "gauge",
+      "prompt": "Read the cooler's fill gauge and commit inside the band the crew size calls for.",
+      "target": "hydration-gauge",
+      "title": "Prove the hydration cooler is full before the first take",
+      "why": "A cooler that reads full at wrap yesterday is not the same cooler today, and a heat break called on a cooler nobody actually checked is a break that runs out of water halfway through the crew. Proving the level here, before the first take, is what makes the break schedule mean something later."
+    },
+    {
+      "cue": "Turn the paddle face from SLOW to STOP before traffic is held for the take.",
+      "id": "paddle-to-stop",
+      "kind": "turn",
+      "prompt": "Turn the paddle face from SLOW to STOP before traffic is held for the take.",
+      "target": "stop-slow-paddle",
+      "title": "Turn the paddle to STOP before the take rolls",
+      "turn": {
+        "label": "PADDLE",
+        "turns": 1
+      },
+      "why": "STOP and SLOW are two different instructions to a driver, and the paddle only says one of them at a time — turning it to STOP is the one action that actually holds traffic rather than just slowing it past a live take."
+    },
+    {
+      "cue": "Hold the ALL CLEAR call until the flagger at the far end confirms clear too.",
+      "holdBreakNote": "You let go before the far end confirmed. Your own end reading clear says nothing about the end you can't see.",
+      "id": "all-clear-hold",
+      "kind": "hold",
+      "prompt": "Hold the ALL CLEAR call until the flagger at the far end confirms clear too.",
+      "seconds": 4,
+      "target": "all-clear-radio",
+      "title": "Hold the all-clear until both ends read clear",
+      "why": "A block has two ends, and 'clear' only means anything once both flaggers agree on it at the same time — releasing the call the instant your own end looks clear is how a take rolls with a car still approaching from the end nobody was watching."
+    },
+    {
+      "cue": "Confirm the assistant director's 'rolling' call before traffic stays held for the take.",
+      "id": "ad-rolling-call",
+      "kind": "select",
+      "prompt": "Confirm the assistant director's 'rolling' call before traffic stays held for the take.",
+      "target": "ad-radio-loc",
+      "title": "Confirm the AD's rolling call",
+      "why": "Traffic is only held for an actual take, not for a rehearsal or a reset — confirming the AD's own call is what keeps a block closed for exactly as long as a take is really running, rather than however long it takes someone to notice it wasn't."
+    },
+    {
+      "cue": "Keep the paddle's STOP face square to oncoming traffic for the whole take — a paddle that drops or turns away stops meaning anything to the driver who is still watching it.",
+      "holdBreakNote": "The paddle drooped or turned off-square — bring it back to facing traffic rather than snapping it back up.",
+      "id": "paddle-hold-steady",
+      "kind": "track",
+      "prompt": "Keep the paddle's STOP face square to oncoming traffic for the whole take — a paddle that drops or turns away stops meaning anything to the driver who is still watching it.",
+      "seconds": 5,
+      "target": "paddle-hold",
+      "title": "Hold the paddle steady facing traffic through the take",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.42,
+          0.58
+        ],
+        "label": "PADDLE FACE",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "A driver who has already stopped for a paddle is still reading it the whole time they're stopped, and a paddle that droops or turns away mid-take reads as 'clear to go' to someone who was never told otherwise. Holding it square is what keeps the hold actually holding."
+    },
+    {
+      "cue": "Drive the production van a short distance to reposition it clear of the shot, checking your mirrors through the move.",
+      "drive": {
+        "bandLabel": "walking pace, per the location's own limit",
+        "checkWindow": 1.6,
+        "checks": [
+          {
+            "at": 0,
+            "kind": "mirror-right",
+            "note": "Right mirror before the van moves — crew and gear cluster on that side near base camp."
+          },
+          {
+            "at": 1,
+            "kind": "horn",
+            "note": "A short tap on the horn tells anyone behind the van it's about to move, before they're relying on you to have seen them."
+          },
+          {
+            "at": 2,
+            "kind": "mirror-left",
+            "note": "Left mirror as the van settles into its new spot — the lane beside it needs checking before anyone treats it as parked."
+          }
+        ],
+        "graceSeconds": 1.6,
+        "laneWidth": 1.6,
+        "path": [
+          [
+            -2.4,
+            -2
+          ],
+          [
+            -2.4,
+            -3.1
+          ],
+          [
+            -2.1,
+            -4.2
+          ]
+        ],
+        "sceneRate": 0.2,
+        "speedBand": [
+          2,
+          6
+        ]
+      },
+      "holdBreakNote": "Out of the lane or the band on the reposition — a short move on a closed block is still a move a walking crew shares the street with.",
+      "id": "van-reposition",
+      "kind": "drive",
+      "prompt": "Drive the production van a short distance to reposition it clear of the shot, checking your mirrors through the move.",
+      "target": "production-van",
+      "title": "Reposition the production van behind base camp",
+      "why": "A van repositioned on a closed block still shares that block with a walking crew, and the short move is driven the same way any move is — mirrors checked, not just assumed clear because the block is closed to outside traffic. A closure keeps strangers out; it does not make everyone already inside it visible from the driver's seat."
+    },
+    {
+      "cue": "Carry the full water jug from the gear line to the hydration cooler's fill slot.",
+      "drag": {
+        "missNote": "Not on the cooler's fill slot — the jug has to seat there, not sit next to it.",
+        "radius": 0.5,
+        "to": "hydration-cooler-slot"
+      },
+      "id": "water-jug-refill",
+      "kind": "drag",
+      "prompt": "Carry the full water jug from the gear line to the hydration cooler's fill slot.",
+      "target": "water-jug",
+      "title": "Carry a full jug to the hydration cooler",
+      "why": "The cooler only stays proven full if somebody actually refills it before it runs low, and carrying the jug here — before the break is called, not during it — is what keeps the break from being the moment the crew finds out the cooler was already empty."
+    },
+    {
+      "cue": "Call the heat and hydration break over the location radio, per the schedule the heat index set.",
+      "id": "heat-break-call",
+      "kind": "select",
+      "prompt": "Call the heat and hydration break over the location radio, per the schedule the heat index set.",
+      "target": "heat-break-radio",
+      "title": "Call the scheduled heat and hydration break",
+      "why": "The break is called on the schedule the heat plan set, not on how the crew looks in the moment — heat illness shows up after the point a break would have still helped, so the call is made on the clock and the index, not on waiting for someone to visibly struggle."
+    },
+    {
+      "cue": "Log the closure times, the parked car and blocked ramp found, and the heat break taken before reopening the block.",
+      "id": "wrap-log",
+      "kind": "select",
+      "prompt": "Log the closure times, the parked car and blocked ramp found, and the heat break taken before reopening the block.",
+      "target": "wrap-log",
+      "title": "Log the closure, the finds and the break",
+      "why": "The log is what the next location department reads before they take this same block — a car that had to be worked around and a ramp that was blocked are exactly what the next crew needs to plan for before they're standing in the same spot finding it out again."
+    }
+  ],
+  "supportLine": "your IATSE local's member assistance contact, or the production's own employee assistance programme",
+  "tagline": "A closed city block before the take: the permit read, hi-vis and paddle on, the block swept for a car that never moved and a blocked curb ramp, the heat index checked and the cooler proven full, the paddle turned to STOP, the all-clear held until both ends read clear, the AD's rolling call confirmed, the paddle held steady through the take, the production van repositioned behind base camp, a jug carried to the cooler, the scheduled heat break called, and the reopening logged — a resident's car and an early heat-illness sign both answered off a control that isn't the one already in the learner's hand",
+  "title": "SmartCiti.X~ Location Shoot Traffic Control & Heat/Hydration VR",
+  "trade": "Location department traffic control coordinator, managing a live-street closure, the production van's reposition move, and the crew's heat and hydration break",
+  "underwater": null,
+  "weather": "heat-haze"
+}

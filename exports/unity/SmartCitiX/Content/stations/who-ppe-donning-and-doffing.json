@@ -1,0 +1,425 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "off-in-order",
+    "name": "Off in Order",
+    "note": "On in the right order, sealed, buddy-checked, and off again with the respirator last and clean hands at the end"
+  },
+  "category": "Emergency Services",
+  "certification": "WHO infection prevention and control guidance on personal protective equipment, hand hygiene and the trained observer; CDC isolation precautions and the CDC donning and doffing sequence for gown, respirator, eye protection and gloves; OSHA 29 CFR 1910.134 for the respirator programme, its fit test and the user seal check every time it goes on; OSHA 29 CFR 1910.1030 for the gloves, the gown and the waste stream; WHO outbreak communication guidance for what staff say at the door; the Sphere Handbook's health standards and IASC cluster coordination for the Health Cluster partners who staff an isolation area together; worked by NNU/CNA nurses alongside SEIU and AFSCME public-health staff",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "CDC",
+        "citedAs": "CDC",
+        "id": "cdc-guidance",
+        "title": "CDC infection-prevention and public-health guidance, including the Guidelines for Infection Control in Dental Health-Care Settings and Legionella control guidance"
+      },
+      {
+        "body": "IASC",
+        "citedAs": "IASC",
+        "id": "iasc-cluster-coordination",
+        "title": "Inter-Agency Standing Committee (IASC) cluster approach and cluster coordination guidance"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      },
+      {
+        "body": "Sphere",
+        "citedAs": "Sphere Handbook",
+        "id": "sphere-handbook",
+        "title": "The Sphere Handbook: Humanitarian Charter and Minimum Standards in Humanitarian Response"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO",
+        "id": "who-guidance",
+        "title": "World Health Organization technical and field guidance for health emergencies and outbreak response"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO infection prevention and control guidance",
+        "id": "who-ipc-guidance",
+        "title": "WHO guidance on infection prevention and control in health care"
+      },
+      {
+        "body": "WHO",
+        "citedAs": "WHO outbreak communication guidance",
+        "id": "who-outbreak-communication",
+        "title": "WHO outbreak communication guidance"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Emergency Services",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "last-off",
+        "name": "Last Off",
+        "note": "The doffing order held clean, respirator last"
+      },
+      {
+        "id": "untouched",
+        "name": "Untouched",
+        "note": "No gloved hand near the face, no reused glove, no shaken gown"
+      },
+      {
+        "id": "timer-true",
+        "name": "Timer True",
+        "note": "The rotation timer set inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-anteroom",
+        "name": "Clean Anteroom",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "full-rub",
+        "name": "Full Rub",
+        "note": "Hand hygiene held without a dropout"
+      },
+      {
+        "id": "eight-straight",
+        "name": "Eight Straight",
+        "note": "Eight correct actions in a row"
+      }
+    ],
+    "currency": "BARRIER",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Trainee",
+      "PPE Trained",
+      "Buddy Observer",
+      "IPC Focal Person",
+      "Barrier Discipline Certified"
+    ],
+    "system": "Barrier Discipline"
+  },
+  "hazards": {
+    "wpd-glove-face": "You pushed your eye protection back up with a gloved hand. A glove that has been in the isolation area is the most contaminated surface on your body, and the eyes, nose and mouth are exactly the membranes the whole ensemble exists to protect — if it slips, you leave and re-don, you do not adjust it with that hand.",
+    "wpd-gown-shake": "You shook the gown out as it came off. A gown is rolled inside-out and away from the body so the contaminated front folds in on itself; shaking it throws whatever is on the outside into the air of the doffing area and onto the person helping you.",
+    "wpd-respirator-first": "You pulled the respirator off first, with the gown and gloves still on. Doffing out of order puts your bare face and the air you breathe next to the most contaminated things you are wearing — the respirator comes off last, outside the patient area, after everything that touched the patient is already in the bin.",
+    "wpd-reuse-gloves": "You rubbed your gloved hands and went to pull the same gloves back on. Gloves are single-use: once removed they go in the bin, and hand hygiene is done on bare hands, because alcohol rub on a glove does not make it clean again and damages the glove it is meant to protect."
+  },
+  "id": "who-ppe-donning-and-doffing",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "hand-rub",
+      "alert": "While you rub, the doffing dispenser across the room flashes empty — the cartridge the doffing point will need later is out.",
+      "cue": "Swap in the spare cartridge now, while your hands are clean and before anyone doffs to an empty dispenser.",
+      "delay": 2,
+      "id": "empty-doffing-dispenser",
+      "kind": "Empty dispenser",
+      "missNote": "Nobody replaced the cartridge. The next worker out of the isolation area doffed to an empty dispenser and walked across the anteroom to the sink with contaminated hands, touching the door plate on the way.",
+      "seconds": 14,
+      "target": "wpd-spare-cartridge",
+      "why": "Hand hygiene after doffing is only possible if the dispenser at the doffing point works. Finding it empty with contaminated hands is the moment people walk to the next room touching handles on the way. A clean-handed worker replacing it now is the whole reason spare cartridges are stocked in the anteroom.",
+      "wrongNote": "That will not refill it. The spare cartridge is on the shelf by the doffing point."
+    },
+    {
+      "after": "seal-check",
+      "alert": "A colleague in a half-tied gown is already at the isolation door with a hand on the plate — no buddy check.",
+      "cue": "Stop them at the door — nobody goes in unchecked.",
+      "delay": 2,
+      "id": "no-buddy-at-door",
+      "kind": "Unchecked entry",
+      "missNote": "The colleague went through unchecked. The gown opened at the back while they turned a patient, and they spent the rest of the shift on the exposure follow-up list instead of the rota.",
+      "seconds": 13,
+      "target": "wpd-zone-door",
+      "why": "A gown tie that is loose at the door is a gown that falls open at a bedside, and the buddy check is the only control that sees it. Stopping a colleague at the door costs them a minute and some embarrassment; letting them in costs a breach inside the one room where there is nothing clean to fix it with.",
+      "wrongNote": "Not that. Your colleague is at the isolation door — stop them there before it opens."
+    }
+  ],
+  "lateNotes": {
+    "wpd-rotation-timer": "Set the rotation timer before you enter — once you are inside, nobody should be reaching for a clock with a gloved hand.",
+    "wpd-shield-ratchet": "Size the headband before you gown, while your hands are clean; adjusting it later means touching your face with a glove."
+  },
+  "name": "PPE Donning and Doffing",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "outbreak-response-who"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "wpd-bin-lid",
+      "wpd-buddy",
+      "wpd-cracked-shield",
+      "wpd-crew-board",
+      "wpd-doff-dispenser",
+      "wpd-doff-gloves",
+      "wpd-doff-gown",
+      "wpd-doff-respirator",
+      "wpd-doff-shield",
+      "wpd-doff-socket",
+      "wpd-don-gloves",
+      "wpd-don-gown",
+      "wpd-don-respirator",
+      "wpd-don-shield",
+      "wpd-entry-log",
+      "wpd-glove-face",
+      "wpd-gown-shake",
+      "wpd-handrub",
+      "wpd-respirator-first",
+      "wpd-reuse-gloves",
+      "wpd-rotation-timer",
+      "wpd-seal-check",
+      "wpd-shield-ratchet",
+      "wpd-spare-cartridge",
+      "wpd-torn-gown",
+      "wpd-waste-bin",
+      "wpd-zone-door"
+    ],
+    "meshes": 164
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Look over every item on the donning rack and pick out the ones that are damaged.",
+      "id": "inspect-kit",
+      "itemNames": {
+        "wpd-cracked-shield": "face shield with a crack",
+        "wpd-torn-gown": "gown with a torn seam"
+      },
+      "itemNotes": {
+        "wpd-cracked-shield": "A hairline crack across the visor; splash goes through a crack as easily as through an open face.",
+        "wpd-torn-gown": "A split along the sleeve seam — it would open at the elbow the first time you reach across a bed."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over every item on the donning rack and pick out the ones that are damaged.",
+      "targets": [
+        "wpd-torn-gown",
+        "wpd-cracked-shield"
+      ],
+      "title": "Inspect the kit before any of it goes on",
+      "why": "A defect found in the anteroom costs a replacement from the shelf; the same defect found in the isolation area costs a breach, an exit, a doff and an exposure report. Every item is checked before it is put on because once it is on you cannot see your own back seam or the edge of your own visor."
+    },
+    {
+      "cue": "Carry the lidded infectious-waste bin to the marked doffing point before you gown.",
+      "drag": {
+        "missNote": "Not on the doffing mark. The bin belongs exactly where the items will come off, so nothing is carried to it.",
+        "radius": 0.45,
+        "to": "wpd-doff-socket"
+      },
+      "id": "stage-bin",
+      "kind": "drag",
+      "prompt": "Carry the lidded infectious-waste bin to the marked doffing point before you gown.",
+      "target": "wpd-waste-bin",
+      "title": "Stage the waste bin at the doffing point",
+      "why": "Doffing is the moment most self-contamination happens, and it goes wrong fastest when the person doffing has to walk, reach or turn to find where contaminated items go. Placing the bin at the doffing mark first means every item leaves your body straight into it, and nothing is carried or set down on the way."
+    },
+    {
+      "cue": "Turn the ratchet on the face shield to your head size while your hands are still clean.",
+      "id": "size-headband",
+      "kind": "turn",
+      "prompt": "Turn the ratchet on the face shield to your head size while your hands are still clean.",
+      "target": "wpd-shield-ratchet",
+      "title": "Size the face-shield headband",
+      "turn": {
+        "axis": "z",
+        "label": "HEADBAND",
+        "turns": 0.75
+      },
+      "why": "Eye protection that is loose slides down the moment you lean over a bed, and the instinct is to push it back up — with a glove. Sizing the headband now, before anything else is on, is what removes the reason to ever touch your face once you are inside."
+    },
+    {
+      "cue": "Rub every surface of both hands — palms, backs, between fingers, thumbs, fingertips — until they are dry, and keep the rub steady.",
+      "holdBreakNote": "The rub fell out of technique. Surfaces are being missed — bring it back to the full sequence and keep going until the hands are dry.",
+      "id": "hand-rub",
+      "kind": "track",
+      "prompt": "Rub every surface of both hands — palms, backs, between fingers, thumbs, fingertips — until they are dry, and keep the rub steady.",
+      "seconds": 6,
+      "target": "wpd-handrub",
+      "title": "Hand hygiene before you don",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.5,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "HAND RUB",
+        "rise": 0.6,
+        "start": 0.2
+      },
+      "why": "The WHO hand-hygiene technique is a sequence of surfaces for a reason: people who rub quickly miss the same places — thumbs, fingertips, backs of the hands — every time. Gloves go on over whatever is on the hands underneath, so the rub before donning is what decides what the gloves are sealing in."
+    },
+    {
+      "cue": "Gown, then respirator, then face shield, then gloves over the gown cuffs.",
+      "id": "don-sequence",
+      "itemNames": {
+        "wpd-don-gloves": "gloves",
+        "wpd-don-gown": "gown",
+        "wpd-don-respirator": "respirator",
+        "wpd-don-shield": "face shield"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Gown, respirator, face shield, gloves — gloves last so they cover the gown cuffs.",
+      "prompt": "Gown, then respirator, then face shield, then gloves over the gown cuffs.",
+      "targets": [
+        "wpd-don-gown",
+        "wpd-don-respirator",
+        "wpd-don-shield",
+        "wpd-don-gloves"
+      ],
+      "title": "Don in order",
+      "why": "The CDC donning sequence builds the ensemble so each layer sits correctly on the one before: the gown ties first, the respirator seals to bare skin, eye protection goes over the respirator straps, and gloves go on last so they pull over the gown cuffs and cover the wrist. Out of order, there is a gap at the wrist or a strap under a visor."
+    },
+    {
+      "cue": "Cover the respirator and breathe in and out — hold until there is no leak at the edges.",
+      "holdBreakNote": "You stopped before the check was done. A seal is either confirmed or it is not — cover the respirator and check again.",
+      "id": "seal-check",
+      "kind": "hold",
+      "prompt": "Cover the respirator and breathe in and out — hold until there is no leak at the edges.",
+      "seconds": 5,
+      "target": "wpd-seal-check",
+      "title": "Seal-check the respirator",
+      "why": "OSHA 29 CFR 1910.134 requires a user seal check every time a tight-fitting respirator is put on, separate from the annual fit test. The fit test says this model fits your face; the seal check says it is sitting on your face properly right now, and it is the only check that catches a strap twisted today."
+    },
+    {
+      "cue": "Turn to your buddy and let them check you head to toe against the checklist before you enter.",
+      "id": "buddy-check",
+      "kind": "select",
+      "prompt": "Turn to your buddy and let them check you head to toe against the checklist before you enter.",
+      "target": "wpd-buddy",
+      "title": "Buddy check before the door",
+      "why": "Nobody can see their own back ties or the gap between a glove and a sleeve. WHO infection prevention and control guidance builds a second person — a trained observer — into entering and leaving an isolation area, and the check happens every time because the one time it is skipped is the time the tie came loose."
+    },
+    {
+      "cue": "Sweep the timer and commit to the rotation on today's IPC board: 45 minutes.",
+      "gauge": {
+        "green": [
+          0.47,
+          0.53
+        ],
+        "label": "ROTATION",
+        "missNote": "That is not today's rotation. Commit the time on the IPC board — 45 minutes — and let the timer make the call.",
+        "speed": 0.6
+      },
+      "id": "rotation-timer",
+      "kind": "gauge",
+      "prompt": "Sweep the timer and commit to the rotation on today's IPC board: 45 minutes.",
+      "target": "wpd-rotation-timer",
+      "title": "Set the rotation timer",
+      "why": "Heat and fatigue build fast inside a full ensemble, and a tired worker is the one who touches their face or rushes a doff. The rotation on today's board is set by the IPC lead for this ward, this heat and this ensemble; the timer is set to it before entering so the decision to leave is made by a clock, not by how you feel at minute fifty."
+    },
+    {
+      "cue": "Gloves first, then face shield, then gown rolled away from you, and the respirator last — outside the patient area.",
+      "id": "doff-sequence",
+      "itemNames": {
+        "wpd-doff-gloves": "gloves",
+        "wpd-doff-gown": "gown",
+        "wpd-doff-respirator": "respirator",
+        "wpd-doff-shield": "face shield"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Gloves, face shield, gown, respirator last. The respirator stays on until everything that touched the patient is off.",
+      "prompt": "Gloves first, then face shield, then gown rolled away from you, and the respirator last — outside the patient area.",
+      "targets": [
+        "wpd-doff-gloves",
+        "wpd-doff-shield",
+        "wpd-doff-gown",
+        "wpd-doff-respirator"
+      ],
+      "title": "Doff in order",
+      "why": "The doffing order takes the most contaminated items off first and keeps the respirator on until last, because the hands and the front of the gown have been closest to the patient and the airway is the one thing that must stay protected until nothing contaminated is left on you. The CDC sequence is written so each removal touches only what is still clean."
+    },
+    {
+      "cue": "Rub your bare hands at the doffing dispenser until dry — immediately after the respirator comes off.",
+      "holdBreakNote": "You stopped before your hands were dry. Keep rubbing until they are — the door handle is next.",
+      "id": "doff-hand-hygiene",
+      "kind": "hold",
+      "prompt": "Rub your bare hands at the doffing dispenser until dry — immediately after the respirator comes off.",
+      "seconds": 4,
+      "target": "wpd-doff-dispenser",
+      "title": "Hand hygiene after the last item",
+      "why": "Every doffing step is a chance to touch a contaminated surface without noticing, and the last item off is the respirator, handled by its straps at the back of the head. Hand hygiene straight afterwards is what removes whatever the careful doffing still left behind, before you touch a door handle, a phone or your own face."
+    },
+    {
+      "cue": "Close the bin lid without pressing the contents down and tag it for collection.",
+      "id": "close-waste",
+      "kind": "select",
+      "prompt": "Close the bin lid without pressing the contents down and tag it for collection.",
+      "target": "wpd-bin-lid",
+      "title": "Close and tag the waste bin",
+      "why": "A bin left open in a doffing area is contaminated PPE in the room's air and within reach of the next person, and pushing the contents down to fit more drives air and droplets back up out of it. Closed at the fill line and tagged, it leaves the anteroom as waste handled under OSHA 29 CFR 1910.1030 rather than as a hazard for whoever cleans up."
+    },
+    {
+      "cue": "Before you leave, check in with your buddy on how the shift went and point anyone who needs it to staff care.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Before you leave, check in with your buddy on how the shift went and point anyone who needs it to staff care.",
+      "target": "wpd-crew-board",
+      "title": "Check in with your buddy and the team",
+      "why": "Working inside an ensemble next to very sick people is physically draining and it stays with people, and the buddy who watched you doff is the person most likely to notice that you are not all right. Checking in before leaving, and saying the staff welfare contact out loud, is part of keeping the rota staffed next week."
+    },
+    {
+      "cue": "Hold the log open and record your time in, time out, buddy and any breach before you sign.",
+      "holdBreakNote": "You signed without recording the times and your buddy. Open it again and fill it in before signing.",
+      "id": "closing-log",
+      "kind": "hold",
+      "prompt": "Hold the log open and record your time in, time out, buddy and any breach before you sign.",
+      "seconds": 4,
+      "target": "wpd-entry-log",
+      "title": "Close out the entry log",
+      "why": "The entry log is how the IPC team finds out who was in the isolation area and when if a breach or an exposure is reported later. A time out and a buddy's name written honestly — including a slip that nobody else saw — is what lets an exposure be followed up in hours instead of guessed at in days."
+    }
+  ],
+  "supportLine": "your agency's staff welfare or staff counsellor service, or the peer-support contact named at your deployment briefing",
+  "tagline": "The isolation anteroom: kit inspected, the bin staged, hand hygiene in full, the donning order, a seal check every time, a buddy at the door, and the doffing order that keeps the respirator on until last",
+  "title": "SmartCiti.X~ PPE Donning and Doffing VR",
+  "trade": "Isolation-area nurse and IPC focal person — NNU/CNA nurses, SEIU and AFSCME public-health staff, and the humanitarian workforce deployed under IASC clusters",
+  "underwater": null,
+  "weather": "clear"
+}

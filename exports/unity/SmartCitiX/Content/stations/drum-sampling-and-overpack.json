@@ -1,0 +1,435 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "sampled-and-contained",
+    "name": "Sampled and Contained",
+    "note": "The bulging drum left for remote opening, the sample drawn full depth and sealed, the wind and the low-air bell both answered, and the leaker overpacked and marked"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "OSHA 29 CFR 1910.120 HAZWOPER, including its drum and container handling provisions, and 29 CFR 1910.134 for the SCBA; EPA RCRA 40 CFR 261 waste identification and 40 CFR 262 generator marking for the overpack; PHMSA 49 CFR 172 hazard communication for the shipment; EPA QA/G-5 sampling quality practice and chain of custody; NIOSH guidance on chemical protective clothing; LIUNA Training hazardous waste worker courses",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "EPA",
+        "citedAs": "EPA QA/G-5",
+        "id": "epa-qa-g5",
+        "title": "EPA QA/G-5 — Guidance for quality assurance project plans, and the chain-of-custody practice built on it"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA Training",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "HAZWOPER",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "PHMSA",
+        "citedAs": "49 CFR 172",
+        "id": "phmsa-49-cfr-172",
+        "title": "49 CFR Part 172 — Hazardous materials table, communications, emergency response information and training"
+      },
+      {
+        "body": "RCRA",
+        "citedAs": "40 CFR 261",
+        "id": "rcra-40-cfr-261",
+        "title": "40 CFR Part 261 — Identification and listing of hazardous waste"
+      },
+      {
+        "body": "RCRA",
+        "citedAs": "40 CFR 262",
+        "id": "rcra-40-cfr-262",
+        "title": "40 CFR Part 262 — Standards applicable to generators of hazardous waste, including the manifest"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Environmental Monitoring",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "full-column",
+        "name": "Full Column",
+        "note": "The sampler held to the bottom long enough to take the whole column"
+      },
+      {
+        "id": "level-lift",
+        "name": "Level Lift",
+        "note": "The leaker hoisted into the salvage drum without a swing"
+      },
+      {
+        "id": "no-sparks-no-shortcuts",
+        "name": "No Sparks, No Shortcuts",
+        "note": "No bulging drum opened, no steel wrench, never downwind, never a drum by hand"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-drum-run",
+        "name": "Clean Drum Run",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "vapour-read-true",
+        "name": "Vapour Read True",
+        "note": "The monitor reading committed inside the band first time"
+      },
+      {
+        "id": "air-to-spare",
+        "name": "Air To Spare",
+        "note": "Custody signed inside 80% of par"
+      }
+    ],
+    "currency": "DRUM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Site Laborer",
+      "Drum Handler",
+      "Sampler",
+      "Drum Crew Lead",
+      "Hazardous Waste Worker Certified"
+    ],
+    "system": "Drum Crew"
+  },
+  "hazards": {
+    "lift-drum-by-hand": "You went to tip the drum onto its chime to roll it by hand. A full drum weighs a few hundred kilograms, its rusted chime can split as it tips, and its contents are unknown — rolled by hand, it either crushes a foot, strains a back or splits and empties onto the person rolling it. Drums on this site move on the drum lifter and the hoist, not by hand.",
+    "open-bulging-drum": "You put the bung wrench on the bulging drum. A drum whose ends have domed is holding pressure — gas off a reacting or decomposing contents — and cracking its bung by hand puts your face at the one opening that pressure has been waiting for. HAZWOPER's drum rules have a drum that may be under pressure opened so that the pressure is relieved safely, from a remote location or behind shielding; this one gets a remote opener or goes into a salvage drum as it is.",
+    "stand-downwind": "You stepped round to the downwind side of the drums. Whatever comes out of an opened drum goes where the wind takes it, and on the downwind side it goes through the crew — Level B's SCBA protects your lungs, but the vapour on your suit, the monitor's readings and the next worker's approach all depend on staying upwind of the work. The windsock is read before every move.",
+    "steel-bung-wrench": "You picked up the steel bung wrench. Drums of unknown contents are treated as flammable until the monitor says otherwise, and a steel wrench slipping on a steel bung throws exactly the spark that lights a drum's headspace. The non-sparking brass wrench is on the pallet for that reason, and the drum is bonded before either touches it."
+  },
+  "id": "drum-sampling-and-overpack",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "coliwasa",
+      "alert": "The windsock has swung round — the wind is now blowing from the open drum straight across the crew and toward the decon corridor.",
+      "cue": "Cap the drum, stop sampling and move the crew to the new upwind staging marker.",
+      "delay": 2,
+      "id": "wind-shift",
+      "kind": "Wind swinging round onto the crew",
+      "missNote": "The crew stayed where they were with the wind across the open drum; the monitor on the buddy's chest went into alarm, vapour drifted into the decon corridor, and the site safety officer called the whole zone out.",
+      "seconds": 14,
+      "target": "upwind-marker",
+      "why": "Every position on a drum site is set by the wind — the crew upwind of the work, the decon corridor upwind of the zone — and when it swings, all of it is wrong at once. The sampling stops, the drum is capped and the crew moves to the new upwind side before anything else, because a vapour release travelling through the crew and into decon is how a contained job becomes a site evacuation.",
+      "wrongNote": "The upwind staging marker — the wind has moved, so the crew has to move with it before anything else happens."
+    },
+    {
+      "after": "overpack-lift",
+      "alert": "Your buddy's SCBA low-air bell has started ringing — their cylinder is down to its reserve with the drum still on the hoist.",
+      "cue": "Set the drum down where it is safe and send your buddy to the decon corridor now, escorted.",
+      "delay": 2,
+      "id": "low-air-bell",
+      "kind": "Buddy's low-air alarm",
+      "missNote": "The lift carried on while the bell rang; the buddy's cylinder ran down in the decon line, and the site safety officer had to pull their facepiece in a contaminated corridor.",
+      "seconds": 12,
+      "target": "decon-corridor",
+      "why": "An SCBA's low-air alarm means the reserve is all that is left, and the reserve is sized for getting out through decon, not for finishing the lift. The buddy system HAZWOPER requires is exactly this: the buddy with air sets the load down safely and sends the one without air to decon now, because decon itself takes time and the cylinder does not wait.",
+      "wrongNote": "The decon corridor — the bell is about air, and the only answer to a low cylinder is getting that person out through decon now."
+    }
+  ],
+  "lateNotes": {
+    "custody-form": "The custody form is signed once the sample is sealed and the overpack is marked — it is the last thing.",
+    "custody-seal": "The custody seal goes on once the jar is filled and capped — there is nothing to seal yet.",
+    "lid-ring-bolt": "The lid ring is torqued once the leaking drum is down inside the salvage drum and the lid is on."
+  },
+  "name": "Drum Sampling & Overpack",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hazmat-environmental"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "absorbent-berm",
+      "bond-clamp",
+      "brass-bung-wrench",
+      "bulging-drum",
+      "chem-suit",
+      "coliwasa",
+      "custody-form",
+      "custody-seal",
+      "decon-corridor",
+      "drum-chime",
+      "hasp-board",
+      "hoist-pendant",
+      "lid-ring-bolt",
+      "lift-drum-by-hand",
+      "open-bulging-drum",
+      "pid-monitor",
+      "salvage-marking",
+      "sample-jar",
+      "scba-facepiece",
+      "site-radio",
+      "stand-downwind",
+      "steel-bung-wrench",
+      "upwind-marker",
+      "waste-label",
+      "weeping-chime"
+    ],
+    "meshes": 249
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the site safety plan: the exclusion zone and decon corridor, Level B, the monitor action levels, the buddy system, the emergency signal and the drum handling rules.",
+      "id": "site-plan",
+      "kind": "select",
+      "prompt": "Read the site safety plan: the exclusion zone and decon corridor, Level B, the monitor action levels, the buddy system, the emergency signal and the drum handling rules.",
+      "target": "hasp-board",
+      "title": "Read the site safety plan: zones, protection and action levels",
+      "why": "An abandoned-drum site is a room full of unknowns, and the site-specific safety and health plan HAZWOPER requires is where the unknowns are turned into rules: which zone is which, what protection each needs, the monitor readings at which the crew stops or leaves, who watches whom, and the one signal that means get out. It is read before the suit goes on, because once the facepiece is on, the plan cannot be read — only remembered."
+    },
+    {
+      "cue": "Chemical-resistant suit, boots and gloves on and taped, then the SCBA on, the facepiece sealed and checked, and the hood up — with your buddy checking you.",
+      "id": "level-b",
+      "itemNames": {
+        "chem-suit": "chemical-resistant suit, boots and gloves",
+        "scba-facepiece": "SCBA facepiece on and seal checked"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Suit first — the SCBA facepiece goes on last, after the suit, boots and gloves, and its seal is checked before the hood comes up.",
+      "prompt": "Chemical-resistant suit, boots and gloves on and taped, then the SCBA on, the facepiece sealed and checked, and the hood up — with your buddy checking you.",
+      "targets": [
+        "chem-suit",
+        "scba-facepiece"
+      ],
+      "title": "Put on Level B in order: suit, then the SCBA facepiece",
+      "why": "Level B is the protection for an atmosphere nobody has identified yet: supplied air from the SCBA, because a cartridge cannot be chosen for a chemical nobody knows, and a chemical-resistant suit over it. It goes on in order with a buddy checking, because the facepiece seal and the tape at the gloves are the two places it fails, and neither can be seen by the person wearing it. 29 CFR 1910.134 governs the SCBA and its seal check."
+    },
+    {
+      "cue": "From upwind, look over each drum: labels, bulging heads, corrosion, crystals round the bung, leaks at the chimes.",
+      "id": "drum-survey",
+      "itemNames": {
+        "bulging-drum": "bulging drum — domed ends, fourth in the row"
+      },
+      "itemNotes": {
+        "bulging-drum": "The fourth drum's top and bottom heads have domed outward, and its bung is crusted — it is holding pressure. It is marked, left shut and kept out of the sampling round until it can be opened remotely or overpacked as it is."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "From upwind, look over each drum: labels, bulging heads, corrosion, crystals round the bung, leaks at the chimes.",
+      "targets": [
+        "bulging-drum"
+      ],
+      "title": "Walk the drum row and read every drum before touching any",
+      "why": "The drums tell you what they are before you open them, if you look: domed heads mean pressure, crystals round a bung can mean a shock-sensitive residue, rust through a chime means the drum will not survive being moved, and a label or its absence decides what the monitor has to look for. The survey is done upwind, eyes only, before anyone touches a drum, because the drum that should not be opened looks the same as the others to a wrench."
+    },
+    {
+      "cue": "Hold the monitor's probe at the drum tops, upwind side first, and commit the reading once it settles against the plan's action level.",
+      "gauge": {
+        "green": [
+          0.2,
+          0.38
+        ],
+        "label": "VOC",
+        "missNote": "Not a settled reading below the action level — hold the probe still at the drum top until the number stops moving, then commit.",
+        "speed": 0.7
+      },
+      "id": "vapour-reading",
+      "kind": "gauge",
+      "prompt": "Hold the monitor's probe at the drum tops, upwind side first, and commit the reading once it settles against the plan's action level.",
+      "target": "pid-monitor",
+      "title": "Read the vapour at the drums against the action level",
+      "why": "The photoionisation and flammable-gas readings at the drums are what decide whether sampling goes ahead in Level B or stops for a higher level of protection: a reading over the plan's action level changes the job before anyone opens a bung. The probe is held at the drum tops long enough for the reading to settle, because the monitor responds in seconds, not instantly, and a reading committed on the way up is a number that was never true."
+    },
+    {
+      "cue": "Clamp the bonding cable onto the drum's bare chime, through the paint and rust, with the other end already on the grounding rod.",
+      "drag": {
+        "missNote": "Not on the chime — the clamp has to bite bare metal on the drum itself, not the pallet or a painted face.",
+        "radius": 0.5,
+        "to": "drum-chime"
+      },
+      "id": "bond-drum",
+      "kind": "drag",
+      "prompt": "Clamp the bonding cable onto the drum's bare chime, through the paint and rust, with the other end already on the grounding rod.",
+      "target": "bond-clamp",
+      "title": "Bond the drum before its bung is touched",
+      "why": "A drum of unknown liquid is treated as flammable, and a drum sitting on a rotten pallet can carry a static charge that discharges as a spark the moment a wrench or a sampling tube touches the bung. The bonding clamp goes on first, biting through paint and rust to bare metal, with the cable already on the ground rod, so that any charge goes to earth through the cable rather than through the headspace."
+    },
+    {
+      "cue": "With the non-sparking wrench, crack the bung a quarter turn and let it vent, then open it the rest of the way — face away, never over the opening.",
+      "id": "bung-vent",
+      "kind": "turn",
+      "prompt": "With the non-sparking wrench, crack the bung a quarter turn and let it vent, then open it the rest of the way — face away, never over the opening.",
+      "target": "brass-bung-wrench",
+      "title": "Crack the bung slowly with the brass wrench",
+      "turn": {
+        "label": "BUNG",
+        "turns": 1
+      },
+      "why": "Even a drum that is not visibly bulging can hold some pressure, and cracking the bung a little first lets it hiss out before the bung is free — rather than the bung and a jet of contents leaving together. The brass wrench cannot strike a spark on the steel bung, the body stays to the side, and the monitor stays in the other hand, because the first breath of the headspace is the reading that matters."
+    },
+    {
+      "cue": "Lower the composite liquid waste sampler slowly through the bung to the bottom, close its stopper, and hold while you withdraw it steadily.",
+      "holdBreakNote": "Pulled the sampler before it was closed and steady — the column drained back into the drum. Lower it again and take the whole depth.",
+      "id": "coliwasa",
+      "kind": "hold",
+      "prompt": "Lower the composite liquid waste sampler slowly through the bung to the bottom, close its stopper, and hold while you withdraw it steadily.",
+      "seconds": 5,
+      "target": "coliwasa",
+      "title": "Draw a full-depth sample with the COLIWASA",
+      "why": "Drummed liquids separate into layers — a light solvent floating on water, a sludge on the bottom — and a sample from the top is a sample of one layer. The COLIWASA is lowered slowly so it takes the whole column without mixing it, closed at the bottom so the column stays in the tube, and drawn out steadily so nothing drains back. EPA QA/G-5 sampling practice is built on the sample being the thing it claims to be, and this is how a drum's sample becomes that."
+    },
+    {
+      "cue": "Drain the sampler into the jar, cap it, label it with the drum number, then put the custody seal across the cap and into the cooler.",
+      "id": "sample-seal",
+      "itemNames": {
+        "custody-seal": "custody seal across the cap",
+        "sample-jar": "sample jar filled, capped and labelled"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "The jar is filled, capped and labelled first — the custody seal goes across a closed cap, not an open jar.",
+      "prompt": "Drain the sampler into the jar, cap it, label it with the drum number, then put the custody seal across the cap and into the cooler.",
+      "targets": [
+        "sample-jar",
+        "custody-seal"
+      ],
+      "title": "Fill, cap and label the jar, then seal it for custody",
+      "why": "A sample is only evidence if nobody could have changed it between the drum and the lab, and the custody seal across the cap is the proof: a broken seal at the lab is a sample that can no longer be relied on. The label ties the jar to the drum it came from, and both go on at the drum, in gloves, because a jar labelled later from memory can be attached to the wrong drum — and the drum's disposal follows the lab result."
+    },
+    {
+      "cue": "Look under and around each drum: stains in the gravel, wet chimes, a drum sitting lower on its pallet than the rest.",
+      "id": "leak-find",
+      "itemNames": {
+        "weeping-chime": "weeping bottom chime on the end drum"
+      },
+      "itemNotes": {
+        "weeping-chime": "The end drum's bottom chime has rusted through and is weeping a dark liquid into the gravel under the pallet. It cannot be moved as it is without splitting further — it goes into a salvage drum where it stands."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look under and around each drum: stains in the gravel, wet chimes, a drum sitting lower on its pallet than the rest.",
+      "targets": [
+        "weeping-chime"
+      ],
+      "title": "Find the leaker before it is moved",
+      "why": "A drum that has rusted through at its chime will split when it is lifted by the chime, and it is the drum most likely to be lifted, because it is the one leaking. Finding the leak before the drum is touched decides how it is handled: contain what is on the ground, then lift the drum straight up into a salvage drum without tipping it, so the leak goes into the overpack rather than onto the crew."
+    },
+    {
+      "cue": "Lay the portable berm round the leaking drum and put absorbent pads on the stain, chosen for a liquid you have not identified.",
+      "id": "spill-contain",
+      "kind": "select",
+      "prompt": "Lay the portable berm round the leaking drum and put absorbent pads on the stain, chosen for a liquid you have not identified.",
+      "target": "absorbent-berm",
+      "title": "Berm and pad the leak before the lift",
+      "why": "HAZWOPER has salvage drums and absorbent kept where drums may leak, and this is why: what has already reached the ground is stopped from spreading while the drum is dealt with, and what drips during the lift lands in the berm rather than in the gravel. The absorbent is the universal kind, because a pad chosen for oil on an acid is a pad that reacts."
+    },
+    {
+      "cue": "With the drum lifter on, run the gantry hoist slowly and hold the drum level as it rises, swings over and lowers into the salvage drum.",
+      "holdBreakNote": "The drum swung or tipped on the way over — stop the hoist, let it settle level, then carry on slowly.",
+      "id": "overpack-lift",
+      "kind": "track",
+      "prompt": "With the drum lifter on, run the gantry hoist slowly and hold the drum level as it rises, swings over and lowers into the salvage drum.",
+      "seconds": 6,
+      "target": "hoist-pendant",
+      "title": "Lift the leaker into the salvage drum on the hoist",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "LIFT",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "A leaking drum is lifted straight up and kept level, because a drum that tips pours from its leak and a drum that swings can strike the salvage drum's rim and split further. The hoist is run slowly on its pendant from outside the load's path, the drum is guided without hands under it, and it is lowered all the way to the salvage drum's bottom before the lifter is released."
+    },
+    {
+      "cue": "Put the lid on the salvage drum, fit the closing ring and run the ring bolt up to the maker's figure.",
+      "id": "lid-ring",
+      "kind": "turn",
+      "prompt": "Put the lid on the salvage drum, fit the closing ring and run the ring bolt up to the maker's figure.",
+      "target": "lid-ring-bolt",
+      "title": "Seat the salvage drum's lid and torque the ring",
+      "turn": {
+        "label": "RING",
+        "turns": 1
+      },
+      "why": "A salvage drum is only a containment if its lid seals, and the lid seals because the ring is closed to the figure on the drum maker's closure instructions — the same figure the drum was tested to as packaging. A ring left loose weeps the first time the overpack is tipped onto a dolly, and the whole point of the overpack was to stop the weeping."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Mark the overpack as a salvage drum with its hazard label, and put the hazardous waste label on with the accumulation start date.",
+      "id": "marking",
+      "itemNames": {
+        "salvage-marking": "salvage drum marking and the hazard label",
+        "waste-label": "hazardous waste label with the start date"
+      },
+      "kind": "sequence",
+      "prompt": "Mark the overpack as a salvage drum with its hazard label, and put the hazardous waste label on with the accumulation start date.",
+      "targets": [
+        "salvage-marking",
+        "waste-label"
+      ],
+      "title": "Mark the overpack for storage and for shipment",
+      "why": "The overpack now holds an unknown waste, and it has to say so to everyone who handles it next. 40 CFR 262 has a generator's hazardous waste container marked with the words, its hazards and the date accumulation began, which starts the clock on how long it may stay on site; the salvage marking and the hazard label under PHMSA's 49 CFR 172 are what the driver and the receiving facility will read. Both go on at the drum, before it moves."
+    },
+    {
+      "cue": "Record the sample's drum number, time, sampler and seal on the custody form, and log the bulging drum, the leaker overpacked and the readings.",
+      "id": "custody-log",
+      "kind": "select",
+      "prompt": "Record the sample's drum number, time, sampler and seal on the custody form, and log the bulging drum, the leaker overpacked and the readings.",
+      "target": "custody-form",
+      "title": "Sign the chain-of-custody form and the drum log",
+      "why": "The chain-of-custody form is the sample's passport: every hand it passes through signs it, and the lab will not rely on a sample whose form has a gap. The drum log records what cannot wait for the lab — a bulging drum awaiting remote opening, a leaker in an overpack starting its accumulation clock — and it is written in the contamination reduction zone, from the drum-side notes, not from memory after decon."
+    },
+    {
+      "cue": "Call the site safety officer: the drum run is done and you are coming through decon, and check in with your buddy after the low-air bell.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Call the site safety officer: the drum run is done and you are coming through decon, and check in with your buddy after the low-air bell.",
+      "target": "site-radio",
+      "title": "Check in with the site safety officer and your buddy",
+      "why": "The site safety officer tracks every person inside the exclusion zone and their air, and the walk to decon starts on this call. It is also the crew's check-in: a buddy's low-air bell ringing while a drum is on the hoist is the kind of moment that stays with both people, and hazmat crews talk it through after decon — with the member assistance line named for anyone who needs more than the debrief."
+    }
+  ],
+  "supportLine": "your LIUNA local's member assistance programme, or the employee assistance line on the site safety plan",
+  "tagline": "Abandoned drums in the exclusion zone: the site safety plan read, Level B on in order, a bulging drum found and left shut, the vapour read, a good drum bonded and its bung cracked with a brass wrench, a full-depth sample drawn while the wind swings round, the jar sealed, a weeping chime found and bermed, the leaker lifted into a salvage drum while a buddy's low-air bell rings, the lid ring torqued, the overpack marked, and the custody form signed",
+  "title": "SmartCiti.X~ Drum Sampling & Overpack VR",
+  "trade": "LIUNA hazmat laborer or environmental technician — drum sampling and overpacking in Level B, with a buddy and the site safety officer at decon",
+  "underwater": null,
+  "weather": "overcast"
+}

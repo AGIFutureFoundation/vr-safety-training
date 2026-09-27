@@ -1,0 +1,337 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "steam-certified",
+    "name": "Steam Certified",
+    "note": "Isolated, cooled, tested and relit with nothing skipped"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "IUOE — state-licensed Stationary Engineer, boiler operation",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 85",
+        "id": "nfpa-85",
+        "title": "NFPA 85 — Boiler and Combustion Systems Hazards Code"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "cold-and-clear",
+        "name": "Cold and Clear",
+        "note": "Never open the port before pressure and atmosphere are proven safe"
+      },
+      {
+        "id": "double-block",
+        "name": "Double Block Certified",
+        "note": "Isolate the fuel train in the correct order every time"
+      },
+      {
+        "id": "steam-precise",
+        "name": "Steam Precise",
+        "note": "Hold every reading near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "fast-relight",
+        "name": "Fast Relight",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "steam-streak",
+        "name": "Steam Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "STEAM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Fireman",
+      "Boiler Operator",
+      "Stationary Engineer",
+      "Plant Lead",
+      "Steam Certified"
+    ],
+    "system": "Steam Certified"
+  },
+  "hazards": {
+    "firebox-no-test": "You are entering the firebox before the atmosphere has been tested. Residual combustion gases displace oxygen with nothing to smell, and OSHA's permit-required confined space rule counts an oxygen-deficient space as immediately dangerous to life — most confined-space deaths are the second person going in after the first.",
+    "hot-inspection-port": "You are opening the inspection port before pressure and temperature are confirmed safe. Water at 300°F flashes to roughly sixteen hundred times its volume the instant the drum is opened to atmosphere, and it scalds through clothing before you can pull your hand back. ASME Section VII exists to make that sequence a procedure rather than a judgement call.",
+    "live-fuel-valve": "That fuel valve is not actually isolated. Working the burner train with a live gas supply behind it is one dropped spark or one hot refractory face away from an explosion, and it is the failure NFPA 85 was written around after a run of furnace explosions that all started with an isolation somebody believed in.",
+    "relight-not-clear": "You are relighting the burner without confirming the isolation locks are off and everyone is clear. A light-off with somebody still inside the firebox, or with fuel that leaked in during the work and no purge to carry it out, is the exact ignition NFPA 85's pre-ignition purge requirement is there to prevent."
+  },
+  "id": "boiler-room",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "atmosphere-test",
+      "alert": "The fuel supply indicator has gone red again and the bleed has stopped venting. The block valve is passing.",
+      "cue": "Your isolation is leaking. Open the bleed and prove it.",
+      "delay": 4,
+      "id": "block-passing",
+      "kind": "Isolation failing",
+      "missNote": "You entered the firebox with fuel passing the block and no open vent between you and it. Gas accumulating in an unfired firebox needs no ignition source until it finds one, and the one it usually finds is the igniter on the relight.",
+      "seconds": 12,
+      "target": "bleed-valve",
+      "why": "A double block and bleed is only an isolation while the bleed is open and venting to atmosphere. A bleed that goes quiet is not good news — it means the vent is blocked or the pressure between the blocks has nowhere to go, and the space you are about to enter is downstream of it.",
+      "wrongNote": "It is the bleed valve. An isolation that has stopped venting is not an isolation, and nothing else here matters until it is venting again."
+    },
+    {
+      "after": "firebox-entry",
+      "alert": "The building management system is calling for steam. The burner control has latched a start request and the panel lamp is lit.",
+      "cue": "Something upstairs wants this boiler lit and you are inside it.",
+      "delay": 5,
+      "id": "bms-start-call",
+      "kind": "Remote start request",
+      "missNote": "You stayed in the firebox with a start request latched and never went back to the hasp. The locks happened to still be on. Nothing about the last four minutes made that true — it was true before you got there and you never checked.",
+      "seconds": 12,
+      "target": "lockout-point",
+      "why": "A latched start request is the plant telling you that the only thing standing between you and the burner is your lock. That is exactly what it is for — but it is worth being certain it is still on the hasp, because a start request is also the moment somebody goes looking for why the boiler will not run.",
+      "wrongNote": "It is the lockout point. With a start request latched, your lock is the control, and a control you have not looked at is an assumption."
+    }
+  ],
+  "lateNotes": {
+    "inspection-port": "The port only gets opened once the drum has cooled into the safe band and the firebox atmosphere has tested clear — not to check on progress along the way.",
+    "lockout-point": "Both isolation locks go on before anyone reaches toward the firebox, and neither comes off until the repair is actually finished and the space is clear."
+  },
+  "name": "Boiler Room",
+  "parSeconds": 245,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "property-management",
+    "situational-awareness",
+    "stationary-engineer"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": null,
+    "hits": [
+      "bleed-valve",
+      "boiler-hmi",
+      "csp-permit",
+      "firebox-no-test",
+      "firebox-repair",
+      "fuel-block-valve",
+      "fuel-valve",
+      "gas-meter",
+      "hot-inspection-port",
+      "inspection-port",
+      "live-fuel-valve",
+      "lockout-point",
+      "pressure-gauge",
+      "relight-not-clear",
+      "steam-valve",
+      "work-order"
+    ],
+    "meshes": 124
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Confirm the boiler, the refractory repair task and the required isolations.",
+      "id": "workorder",
+      "kind": "select",
+      "prompt": "Confirm the boiler, the refractory repair task and the required isolations.",
+      "target": "work-order",
+      "title": "Read the work order",
+      "why": "The work order names exactly which fuel and steam lines this repair needs isolated, and on a header shared by three boilers the wrong stop valve looks identical to the right one. Working from memory in a multi-boiler plant is how a line gets left live behind a lock that was hung on the wrong valve."
+    },
+    {
+      "cue": "Stop the burner from the control panel and confirm flame-out.",
+      "id": "shutdown",
+      "kind": "select",
+      "prompt": "Stop the burner from the control panel and confirm flame-out.",
+      "target": "boiler-hmi",
+      "title": "Shut the boiler down",
+      "why": "A controlled shutdown lets the burner management system run its own post-firing purge and prove flame-out before anything is isolated. Chopping the fuel on a boiler that is still firing leaves unburned fuel in a hot furnace, which is the condition NFPA 85 spends most of its length trying to prevent."
+    },
+    {
+      "cue": "Watch the drum pressure and temperature fall, and commit once it is inside the safe band.",
+      "gauge": {
+        "green": [
+          0,
+          0.15
+        ],
+        "label": "DRUM PRESSURE / TEMPERATURE",
+        "missNote": "Still hot and pressurised. Keep bleeding down — the port and firebox stay closed until this reads inside the safe band.",
+        "speed": 0.5
+      },
+      "id": "cooldown",
+      "kind": "gauge",
+      "prompt": "Watch the drum pressure and temperature fall, and commit once it is inside the safe band.",
+      "target": "pressure-gauge",
+      "title": "Confirm the drum has cooled and depressurised",
+      "why": "A boiler drum holds stored heat and pressure long after the burner stops, and thick steel gives it up slowly — a 150 HP boiler can still be above 200°F hours after flame-out. ASME Section VII's cooling guidance is about the metal as much as the operator: the safe band on the gauge is what makes the port approachable, not the clock."
+    },
+    {
+      "cue": "Close the upstream block, close the downstream block, then open the bleed valve between them.",
+      "id": "isolate-fuel-train",
+      "itemNames": {
+        "bleed-valve": "bleed valve",
+        "fuel-block-valve": "downstream fuel block valve",
+        "fuel-valve": "upstream fuel block valve"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — both blocks close before the bleed valve opens, so the vent is confirming isolation rather than releasing line pressure.",
+      "prompt": "Close the upstream block, close the downstream block, then open the bleed valve between them.",
+      "targets": [
+        "fuel-valve",
+        "fuel-block-valve",
+        "bleed-valve"
+      ],
+      "title": "Isolate the fuel train — double block and bleed",
+      "why": "Two closed valves with an open vent between them is the only arrangement that proves isolation rather than asserting it: anything passing the upstream block goes out of the bleed instead of building up behind the downstream one. A vent that stays quiet is the confirmation — two closed handles are just two closed handles."
+    },
+    {
+      "cue": "Grab the handwheel and turn it closed — a full turn and a half.",
+      "id": "isolate-steam",
+      "kind": "turn",
+      "prompt": "Grab the handwheel and turn it closed — a full turn and a half.",
+      "target": "steam-valve",
+      "title": "Isolate the main steam stop valve",
+      "turn": {
+        "axis": "z",
+        "label": "MAIN STEAM STOP",
+        "turns": 1.5
+      },
+      "why": "The steam side is isolated independently of the fuel side. Two other boilers are still making steam into the same header, so leaving the main stop open leaves a live path back into the drum you are about to climb inside — and a non-return valve is a check on flow direction, not an isolation anybody is allowed to work behind."
+    },
+    {
+      "cue": "Apply lockout tags to the fuel train and the steam stop valve.",
+      "id": "lock-all",
+      "kind": "select",
+      "prompt": "Apply lockout tags to the fuel train and the steam stop valve.",
+      "target": "lockout-point",
+      "title": "Lock out the isolation points",
+      "why": "OSHA's control-of-hazardous-energy rule at 29 CFR 1910.147 is built on one idea: the only person who can restore an isolation is the person who locked it. Your own lock on both hasps is what stops the next shift, who did not see you go in, from reversing the fuel or steam isolation while you are inside the firebox."
+    },
+    {
+      "cue": "Sample the firebox air and commit only inside the safe oxygen range.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.6
+        ],
+        "label": "FIREBOX ATMOSPHERE — OXYGEN",
+        "missNote": "Outside the safe range. Ventilate the firebox and re-test before anyone's head goes near that opening.",
+        "speed": 0.6
+      },
+      "id": "atmosphere-test",
+      "kind": "gauge",
+      "prompt": "Sample the firebox air and commit only inside the safe oxygen range.",
+      "target": "gas-meter",
+      "title": "Test the firebox atmosphere",
+      "why": "A firebox that has just been fired holds combustion gases that settle and linger, and they clear on the ventilation's timetable rather than one you can guess at. The safe band on this meter is 19.5 to 23.5 percent oxygen — the same figures OSHA's confined-space rule uses — and the meter is the only thing that proves it."
+    },
+    {
+      "cue": "Sign the permit for firebox entry: attendant posted, retrieval plan named.",
+      "id": "entry-permit",
+      "kind": "select",
+      "prompt": "Sign the permit for firebox entry: attendant posted, retrieval plan named.",
+      "target": "csp-permit",
+      "title": "Open the confined-space entry permit",
+      "why": "The firebox is a permit-required confined space in its own right, separate from the boiler lockout: limited entry, poor ventilation, not built for people to work in. OSHA's rule wants an attendant outside who never goes in after you and a retrieval plan named in advance — signed before anyone's shoulders go through that port."
+    },
+    {
+      "cue": "Unbolt and swing open the inspection port now that pressure and atmosphere are confirmed safe.",
+      "id": "open-port",
+      "kind": "select",
+      "prompt": "Unbolt and swing open the inspection port now that pressure and atmosphere are confirmed safe.",
+      "target": "inspection-port",
+      "title": "Open the inspection port",
+      "why": "This is where every control ahead of it pays off — cooled, depressurised, double-block-and-bleed isolated, locked, tested, permitted. Open the port any earlier and at least one of those is still an assumption, and the port is the last physical thing between an assumption and a person's face."
+    },
+    {
+      "cue": "Work the plastic refractory into the damaged lining and hold it under pressure until it is rammed solid.",
+      "holdBreakNote": "Let go part way. A patch rammed in two goes, with the first lift already skinning over, does not bond to itself — start the lift again and drive it home in one.",
+      "id": "firebox-entry",
+      "kind": "hold",
+      "prompt": "Work the plastic refractory into the damaged lining and hold it under pressure until it is rammed solid.",
+      "seconds": 5,
+      "target": "firebox-repair",
+      "title": "Ram the refractory patch home",
+      "why": "Plastic refractory only develops its strength if it is rammed tight against the old face with no voids behind it. A patch pressed in and let go traps air, and on the next firing that pocket flashes to steam and blows the patch off the wall — straight into the burner throat. IBB refractory crews ram it in one pass for that reason."
+    },
+    {
+      "cue": "Confirm the repair is complete and everyone is clear, then remove the fuel and steam locks.",
+      "id": "remove-locks",
+      "kind": "select",
+      "prompt": "Confirm the repair is complete and everyone is clear, then remove the fuel and steam locks.",
+      "target": "lockout-point",
+      "title": "Remove the isolation locks",
+      "why": "Locks come off in the reverse order they went on, and only once the firebox is confirmed empty, the port is closed and every tool is accounted for. Under 29 CFR 1910.147 a lock is removed by the person who applied it — the count of people out has to match the count of people in before anyone touches a hasp."
+    },
+    {
+      "cue": "Run the pre-ignition purge, light the burner, then hold the firing rate so the drum comes up inside the warm-up band.",
+      "holdBreakNote": "Firing rate fell away and the flame went unstable at the bottom of the range. Bring it back up and hold a steady rise the whole way.",
+      "id": "relight",
+      "kind": "track",
+      "prompt": "Run the pre-ignition purge, light the burner, then hold the firing rate so the drum comes up inside the warm-up band.",
+      "seconds": 5,
+      "target": "boiler-hmi",
+      "title": "Purge, light off and raise steam",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.42,
+        "green": [
+          0.38,
+          0.58
+        ],
+        "label": "WARM-UP RATE — DRUM PRESSURE RISE",
+        "rise": 0.5,
+        "start": 0.08
+      },
+      "why": "NFPA 85 requires a pre-ignition purge of several furnace volumes before the igniter is ever energised, to sweep out anything that leaked in during the work. After light-off the rate matters too: raising steam faster than the drum can equalise puts a temperature difference across thick steel, and thermal shock cracks tubes and rolls seats."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Boiler lockout, confined-space firebox entry and a controlled re-light",
+  "title": "SmartCiti.X~ Boiler Room VR",
+  "trade": "Stationary engineer / steamfitter",
+  "underwater": null,
+  "weather": null
+}

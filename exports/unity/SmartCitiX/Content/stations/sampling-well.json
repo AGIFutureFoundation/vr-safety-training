@@ -1,0 +1,351 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "chain-unbroken",
+    "name": "Chain Unbroken",
+    "note": "A stabilised low-flow sample, bottles in order, custody signed, nothing agitated and nothing dumped"
+  },
+  "category": "Environmental Monitoring",
+  "certification": "LIUNA hazmat & environmental laborer — OSHA HAZWOPER 40-hour (29 CFR 1910.120); low-flow groundwater sampling per the EPA Region 4 SESD operating procedure; chain of custody under the site QAPP (EPA QA/G-5)",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "EPA",
+        "citedAs": "EPA QA/G-5",
+        "id": "epa-qa-g5",
+        "title": "EPA QA/G-5 — Guidance for quality assurance project plans, and the chain-of-custody practice built on it"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.120",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "volatiles-first",
+        "name": "Volatiles First",
+        "note": "Bottles filled in the required order, first time"
+      },
+      {
+        "id": "no-agitation",
+        "name": "No Agitation",
+        "note": "Never bailed, never dumped, never leaned in"
+      },
+      {
+        "id": "steady-purge",
+        "name": "Steady Purge",
+        "note": "Held the purge flow steady in the low-flow band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-draw",
+        "name": "Clean Draw",
+        "note": "No corrections anywhere in the sampling event"
+      },
+      {
+        "id": "level-true",
+        "name": "Level True",
+        "note": "Water level and flow read inside spec"
+      },
+      {
+        "id": "holding-time",
+        "name": "Holding Time",
+        "note": "Sample on ice inside 80% of par"
+      }
+    ],
+    "currency": "ALIQUOT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Sampler",
+      "Purge Lead",
+      "Field Chemist",
+      "Custody Holder",
+      "Integrity Certified"
+    ],
+    "system": "Sample Integrity"
+  },
+  "hazards": {
+    "bailer": "You reached for the bailer. Dropping a bailer down the well agitates the column, strips volatiles and stirs sediment — the sample would be of the disturbance, not the aquifer. Low-flow means the pump, set in the screen, at a rate the well can give.",
+    "head-over-well": "You leaned your head over the open casing. A well on this site can carry hydrogen sulfide or VOC vapour at the casing; you read the meter at the opening before your face is anywhere near it.",
+    "purge-to-ground": "You dumped the purge water on the ground. It is groundwater from a contaminated site: it goes into the labelled purge drum for characterisation and disposal, not back into the soil beside the well you are trying to characterise.",
+    "truck-idling": "The truck is idling upwind of the open bottles. Engine exhaust is a volatile organic source — it can put a detection in a VOC vial that the aquifer never had, and a false detection here is a false plume."
+  },
+  "id": "sampling-well",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "purge",
+      "alert": "The PID left running on the tailgate starts chirping again — it's picking up something on the wind, coming off the casing you opened ten minutes ago.",
+      "cue": "The PID's alarming again, mid-purge.",
+      "delay": 3,
+      "id": "vapor-alarm-purge",
+      "kind": "Vapor alarm mid-purge",
+      "missNote": "The alarm went unanswered for the rest of the purge. The reading the crew went by for respiratory protection was ten minutes and one changed vapor reading out of date, and nobody at the casing knew it.",
+      "seconds": 12,
+      "target": "pid-meter",
+      "why": "A rising PID reading partway through the purge means the vapor at the casing has changed since the headspace screen at the start — a different slug of the plume moving through the screen at low flow can bring up something the opening reading never saw, and a stale number is not what tells you whether to mask up.",
+      "wrongNote": "That's not the flow reading — the PID is what's telling you what's coming off the casing right now."
+    },
+    {
+      "after": "cooler",
+      "alert": "A gust catches the well cap where you set it down and starts rolling it toward the drum — the casing behind you is still open.",
+      "cue": "The cap's rolling away and the casing's still open.",
+      "delay": 2,
+      "id": "cap-rolls-cooler",
+      "kind": "Open casing",
+      "missNote": "The cap sat off the casing for the drive back to the truck. Rain that afternoon put runoff straight down a well that was supposed to be sealed, and the next round of samples from this location came back with a signature nobody could explain until someone remembered the cap.",
+      "seconds": 12,
+      "target": "well-cap",
+      "why": "An open casing on a contaminated-site well is a path for surface water, insects and anything airborne to get into the screened interval you just spent half an hour purging clean, and it stays open exactly as long as nobody has walked back to seat it — easy to forget once your hands are full of bottles and a cooler lid.",
+      "wrongNote": "That's not the casing — the cap that needs to go back on is the one rolling toward the drum."
+    }
+  ],
+  "lateNotes": {
+    "bladder-pump": "The pump is set after the water level is measured — the level tells you where the screen and the intake belong.",
+    "coc-form": "Nothing to sign yet. Custody starts when the bottles are filled, labelled and in your hand."
+  },
+  "name": "Sampling Well",
+  "parSeconds": 245,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-bay-restoration"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "bailer",
+      "bladder-pump",
+      "bottle-general",
+      "bottle-metals",
+      "bottle-voc",
+      "coc-form",
+      "cooler",
+      "flow-cell",
+      "head-over-well",
+      "label-mismatch",
+      "level-meter",
+      "nitrile-gloves",
+      "param-cond",
+      "param-do",
+      "param-ph",
+      "pid-meter",
+      "purge-to-ground",
+      "safety-glasses",
+      "sampling-plan",
+      "truck-idling",
+      "well-cap",
+      "well-socket"
+    ],
+    "meshes": 188
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Check the well, the analytes, the bottle order and the holding times before the cap comes off.",
+      "id": "plan",
+      "kind": "select",
+      "prompt": "Check the well, the analytes, the bottle order and the holding times before the cap comes off.",
+      "target": "sampling-plan",
+      "title": "Read the sampling plan",
+      "why": "The plan names the well, what the lab will analyse, which bottle fills first and how long each analyte has before its holding time makes the result worthless. You read it here, at the truck with the casing still capped, not at the cooler with three open bottles already waiting on you."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Fresh nitrile gloves for every well, glasses before the cap comes off.",
+      "id": "ppe",
+      "itemNames": {
+        "nitrile-gloves": "nitrile gloves",
+        "safety-glasses": "safety glasses"
+      },
+      "kind": "sequence",
+      "prompt": "Fresh nitrile gloves for every well, glasses before the cap comes off.",
+      "targets": [
+        "nitrile-gloves",
+        "safety-glasses"
+      ],
+      "title": "Gloves and glasses",
+      "why": "The gloves protect you from the water and, just as much, the water from you — a fingerprint of hand lotion or yesterday's well is cross-contamination the lab will report as if the aquifer put it there. A fresh pair every well is what keeps that possibility off the chain of custody entirely."
+    },
+    {
+      "cue": "Open the cap and read the PID at the casing before your face is near it.",
+      "id": "headspace",
+      "kind": "select",
+      "prompt": "Open the cap and read the PID at the casing before your face is near it.",
+      "target": "pid-meter",
+      "title": "Screen the casing headspace",
+      "why": "The casing can hold vapour that has been sitting sealed under the cap since the last visit, at a concentration nothing at ground level would predict. The meter goes to the opening first, before a face does, and the reading it gives is what decides whether this is a routine well or one that gets worked in a respirator."
+    },
+    {
+      "cue": "Lower the probe until it tones, then commit the depth to water.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.6
+        ],
+        "label": "DEPTH",
+        "missNote": "That is not the water surface — lower it until the tone, then commit. A wrong level puts the intake in the wrong place.",
+        "speed": 0.7
+      },
+      "id": "level",
+      "kind": "gauge",
+      "prompt": "Lower the probe until it tones, then commit the depth to water.",
+      "target": "level-meter",
+      "title": "Measure the water level",
+      "why": "Depth to water sets where the pump's intake belongs relative to the screen, and it is the baseline every drawdown reading for the rest of the purge gets measured against. It is the first number on the field sheet because the pump placement, the purge rate and the stabilisation call all depend on it being right."
+    },
+    {
+      "cue": "Carry the bladder pump from the truck and lower it to the middle of the screened interval.",
+      "drag": {
+        "missNote": "Not at the casing — set the pump down the well, intake in the screen.",
+        "radius": 0.35,
+        "to": "well-socket"
+      },
+      "id": "pump",
+      "kind": "drag",
+      "prompt": "Carry the bladder pump from the truck and lower it to the middle of the screened interval.",
+      "target": "bladder-pump",
+      "title": "Set the pump in the screen",
+      "why": "The intake sits in the screen, mid-interval, so what comes up the tubing is formation water moving through that specific depth — not the stagnant casing water sitting above the screen, and not sediment stirred off the bottom by an intake set too low."
+    },
+    {
+      "cue": "Hold the pump rate steady in the low-flow band — enough to move water, not enough to draw the level down.",
+      "holdBreakNote": "Flow dropped out of the band — the drawdown starts again. Bring it back and hold.",
+      "id": "purge",
+      "kind": "track",
+      "prompt": "Hold the pump rate steady in the low-flow band — enough to move water, not enough to draw the level down.",
+      "seconds": 8,
+      "target": "flow-cell",
+      "title": "Purge at low flow",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "FLOW",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "Low flow is the whole method: a rate the well can supply without drawdown, so the sample is the aquifer moving through the screen. Too fast pulls the column down and stirs it; too slow and the parameters never stabilise."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Read pH, conductivity and dissolved oxygen off the flow cell — three consecutive readings inside the criteria.",
+      "id": "stabilise",
+      "itemNames": {
+        "param-cond": "conductivity",
+        "param-do": "dissolved oxygen",
+        "param-ph": "pH"
+      },
+      "kind": "sequence",
+      "prompt": "Read pH, conductivity and dissolved oxygen off the flow cell — three consecutive readings inside the criteria.",
+      "targets": [
+        "param-ph",
+        "param-cond",
+        "param-do"
+      ],
+      "title": "Confirm the parameters have stabilised",
+      "why": "Stable parameters are the evidence the stagnant casing water is gone and formation water is at the pump. The bottles wait for it; a sample filled before stabilisation is a sample of the well, not the aquifer."
+    },
+    {
+      "cue": "Volatiles first, zero headspace — then metals, then general chemistry.",
+      "id": "bottles",
+      "itemNames": {
+        "bottle-general": "general chemistry bottle",
+        "bottle-metals": "metals bottle",
+        "bottle-voc": "VOC vials"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Volatiles first — every minute the water is open, they are leaving it. The VOC vials fill before anything else.",
+      "prompt": "Volatiles first, zero headspace — then metals, then general chemistry.",
+      "targets": [
+        "bottle-voc",
+        "bottle-metals",
+        "bottle-general"
+      ],
+      "title": "Fill the bottles in order",
+      "why": "Volatiles leave the water every second it is exposed, so they are captured first, gently, with no air in the vial. The order is the analytes' order of fragility, not the label order."
+    },
+    {
+      "cue": "Label each bottle — well, date, time, sampler — and sign the form.",
+      "id": "custody",
+      "kind": "select",
+      "prompt": "Label each bottle — well, date, time, sampler — and sign the form.",
+      "target": "coc-form",
+      "title": "Sign the chain of custody",
+      "why": "From here the bottle is evidence, not just a water sample. The custody form is the unbroken line from this casing to the lab bench — well, date, time and sampler on every label, and every hand the cooler passes through afterward signs its own line on the form."
+    },
+    {
+      "cue": "Bottles into the cooler, ice on top, hold the lid down until it seals.",
+      "holdBreakNote": "Lid up early — the cooler never sealed. Hold it shut.",
+      "id": "cooler",
+      "kind": "hold",
+      "prompt": "Bottles into the cooler, ice on top, hold the lid down until it seals.",
+      "seconds": 3,
+      "target": "cooler",
+      "title": "Pack on ice",
+      "why": "Most holding times are set on the assumption the sample is at 4 °C from the minute it leaves the well. Left warm on the tailgate for even an hour, the metals bottle is unaffected and the volatiles are already off-gassing out of the vial — the two analyte groups fail at completely different rates, and ice is what stops both."
+    },
+    {
+      "cue": "Read every label against the form and click the one that is wrong.",
+      "id": "check",
+      "itemNames": {
+        "label-mismatch": "mislabelled bottle"
+      },
+      "itemNotes": {
+        "label-mismatch": "That vial is labelled for the next well. A wrong label is a sample that gets attributed to the wrong place — a plume that appears where it isn't and hides where it is."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Read every label against the form and click the one that is wrong.",
+      "targets": [
+        "label-mismatch"
+      ],
+      "title": "Check the labels before the truck moves",
+      "why": "The lab trusts the label completely — it has no other way to know which well a bottle came from. A mismatch caught here against the form is a pen stroke and a relabel; caught at the bench weeks later, it is a resample, a broken trend line and a report nobody can stand behind."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Low-flow groundwater sampling: water level, pump set, stabilised purge, volatiles first, chain of custody",
+  "title": "SmartCiti.X~ Sampling Well VR",
+  "trade": "Environmental sampling technician",
+  "underwater": null,
+  "weather": "overcast"
+}

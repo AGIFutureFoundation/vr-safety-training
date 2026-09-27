@@ -1,0 +1,401 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "by-the-tables",
+    "name": "By The Tables",
+    "note": "The standby dressed, the panel never left, the umbilical never paid out foul, and the obligation read from the tables the supervisor holds"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Pile Drivers of the Carpenters commercial diver apprenticeship and the UBC International Training Fund; OSHA 29 CFR 1910 Subpart T commercial diving operations — the safe practices manual, the dive team, pre-dive, during-dive and post-dive procedures and the dive record; ADCI consensus standards for commercial diving; USCG 46 CFR 197 Subpart B where the dive is worked from a vessel under Coast Guard jurisdiction; Inlandboatmen's Union of the ILWU deck practice on the dive boat",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ADCI",
+        "citedAs": "ADCI",
+        "id": "adci-consensus-standards",
+        "title": "Association of Diving Contractors International — International Consensus Standards for Commercial Diving and Underwater Operations"
+      },
+      {
+        "body": "union",
+        "citedAs": "Pile Drivers",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "ILWU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910 Subpart T",
+        "id": "osha-1910-subpart-t",
+        "title": "29 CFR 1910 Subpart T — Commercial diving operations (dive team qualifications, the safe practices manual, pre-dive, during-dive and post-dive procedures, equipment and the dive record)"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 197 Subpart B",
+        "id": "uscg-46-cfr-197-subpart-b",
+        "title": "46 CFR Part 197 Subpart B — Commercial diving operations from vessels and facilities under Coast Guard jurisdiction"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "plan-briefed",
+        "name": "Plan Briefed",
+        "note": "The whole team briefed on the dive plan before anything was dressed or lined up"
+      },
+      {
+        "id": "read-true",
+        "name": "Read True",
+        "note": "Supply and pneumo both committed inside the band"
+      },
+      {
+        "id": "panel-held",
+        "name": "Panel Held",
+        "note": "Never without a dressed standby, never off the panel, never a foul umbilical, never a table off a phone"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-dive",
+        "name": "Clean Dive",
+        "note": "No corrections from the plan to the log"
+      },
+      {
+        "id": "stage-steady",
+        "name": "Stage Steady",
+        "note": "The stage lowered in band the whole descent"
+      },
+      {
+        "id": "in-the-window",
+        "name": "In The Window",
+        "note": "Dive logged inside 80% of par"
+      }
+    ],
+    "currency": "FATHOM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Tender",
+      "Diver",
+      "Lead Diver",
+      "Dive Supervisor",
+      "Dive Station Certified"
+    ],
+    "system": "Dive Station"
+  },
+  "hazards": {
+    "deco-from-phone": "You went to read the decompression obligation off an app on a phone. The obligation is read from the tables the supervisor holds for this dive — the tables named in the dive plan and the safe practices manual, the same ones the dive record is written against. An app of unknown provenance, on a screen in the sun, is not the table the team agreed to dive on.",
+    "leave-panel": "You left the air panel to help at the stage. The supervisor at the panel is the diver's gas supply, pneumo and comms all at once, and a panel nobody is watching is a diver breathing on nothing anyone can see. The tender and the deckhand work the stage; the supervisor stays at the panel for the whole time the diver is in the water.",
+    "no-standby": "You called the diver off the surface with the standby diver still undressed on the bench. The standby is the dive team's only answer to a diver who is fouled, unconscious or cut off below, and 29 CFR 1910 Subpart T and the ADCI consensus standards put a standby diver at the station ready to go in for exactly that reason — ready means dressed, checked and on comms, not sitting beside the gear.",
+    "umbilical-foul-cleat": "You went to pay out the umbilical while a bight of it was caught under a deck cleat. A foul on the surface becomes a snatch on the diver below: the tender pays out, the foul holds, and the diver is pulled up short or off the stage with the supervisor still watching the panel. The umbilical is flaked clear and walked free before any of it goes over the side."
+  },
+  "id": "mw-dive-supervisor-and-dive-plan",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "comms-check",
+      "alert": "The diver's voice has cut out mid-check — nothing on the speaker and no answer to the supervisor's call.",
+      "cue": "Have the tender take up the umbilical and give line-pull signals to the diver.",
+      "delay": 2,
+      "id": "comms-dead-on-stage",
+      "kind": "Comms lost with the diver",
+      "missNote": "The supervisor kept pressing the comms button with no answer while the tender stood holding a slack umbilical; the diver, hearing nothing either, had no idea whether to stay or come up.",
+      "seconds": 14,
+      "target": "tender-line",
+      "why": "When voice comms fail, the umbilical itself is the backup: the tender takes up the slack and gives the agreed line-pull signals, and the diver answers the same way. It is done immediately rather than after fiddling with the comms box, because until the diver answers the team does not know whether the comms have failed or the diver has.",
+      "wrongNote": "The tender's line — with voice gone, line-pull signals on the umbilical are how the diver is reached."
+    },
+    {
+      "after": "lower-stage",
+      "alert": "A launch is coming in toward the pier with its screw turning, heading for the water right over the stage — it has not seen the flag.",
+      "cue": "Hail the launch on the VHF handset: diver in the water, keep clear, stop your engine.",
+      "delay": 2,
+      "id": "launch-screw-turning",
+      "kind": "Vessel with its screw turning near the dive",
+      "missNote": "The launch kept coming with its screw turning, crossed the water over the stage, and the supervisor was still watching the winch when its wash hit the umbilical.",
+      "seconds": 14,
+      "target": "vhf-handset",
+      "why": "A propeller over an umbilical is the most direct way a diver is killed, and a launch that has not seen the flag has to be told, immediately and in words, that there is a diver under the water ahead of it. The VHF call is the fastest way to reach the helmsman; the stage and the diver cannot get out of the way of a screw, so the screw has to be kept away from them.",
+      "wrongNote": "The VHF — the launch has to hear that there is a diver in the water before its screw reaches the umbilical."
+    }
+  ],
+  "lateNotes": {
+    "dive-log": "The dive is logged once the decompression obligation has been read and the stop clock set — it records the dive, it does not plan it.",
+    "pneumo-gauge": "The pneumo is read once the diver is at the work — there is nothing to read while the stage is still on deck.",
+    "stage-winch": "The stage goes down once the comms check has been held and the tools are on it — not with the diver's voice still unproven."
+  },
+  "name": "Dive Supervisor & Dive Plan",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-area-union-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "alpha-flag",
+      "comms-box",
+      "deco-clock",
+      "deco-from-phone",
+      "deco-tables",
+      "dive-log",
+      "dive-plan-board",
+      "fitting-no-wire",
+      "leave-panel",
+      "no-standby",
+      "o2-kit-seal",
+      "panel-primary-valve",
+      "panel-supply-gauge",
+      "pneumo-gauge",
+      "screw-lockout",
+      "stage-basket",
+      "stage-winch",
+      "standby-harness",
+      "team-board",
+      "tender-line",
+      "tool-bag",
+      "umbilical-foul-cleat",
+      "umbilical-kink",
+      "vhf-handset"
+    ],
+    "meshes": 218
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "At the plan board with the diver, the tender, the standby and the deckhand: the task, the depth and bottom time per the plan, the gas, the tables, the hazards, the emergency procedures, and who does what.",
+      "id": "dive-plan",
+      "kind": "select",
+      "prompt": "At the plan board with the diver, the tender, the standby and the deckhand: the task, the depth and bottom time per the plan, the gas, the tables, the hazards, the emergency procedures, and who does what.",
+      "target": "dive-plan-board",
+      "title": "Brief the dive plan with the whole team",
+      "why": "The dive plan is the dive: 29 CFR 1910 Subpart T has the employer's safe practices manual and the plan for each dive set out the task, the limits and the emergency procedures, and the brief is where every member of the team hears the same version of it. A tender who does not know the planned bottom time, or a standby who does not know where the diver will be working, is part of a team that will improvise when something goes wrong."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Lock and tag the dive boat's engine controls with the deckhand, and hoist the diver-down flag where approaching traffic can see it.",
+      "id": "lockout-and-flag",
+      "itemNames": {
+        "alpha-flag": "diver-down flag hoisted",
+        "screw-lockout": "dive boat's engine controls locked and tagged"
+      },
+      "kind": "sequence",
+      "prompt": "Lock and tag the dive boat's engine controls with the deckhand, and hoist the diver-down flag where approaching traffic can see it.",
+      "targets": [
+        "screw-lockout",
+        "alpha-flag"
+      ],
+      "title": "Lock out the dive boat's screw and hoist the dive flag",
+      "why": "A turning propeller near a diver's umbilical is one of the ways commercial divers die, and the dive boat's own screw is the one the team controls completely: its controls are locked and tagged before anyone is in the water. The diver-down flag is how the rest of the harbour is told there is a person under the water here; together they close the two directions a propeller can come from."
+    },
+    {
+      "cue": "Walk the whole umbilical: the gas hose, the pneumo hose, the comms cable and the strength member, the fittings made up and safety-wired, the flake in clean figure-eights.",
+      "id": "umbilical-walk",
+      "itemNames": {
+        "fitting-no-wire": "umbilical fitting at the helmet without its safety wire",
+        "umbilical-kink": "kinked section of the umbilical's gas hose"
+      },
+      "itemNotes": {
+        "fitting-no-wire": "The gas fitting at the helmet end has been made up but not safety-wired; a fitting working loose on the bottom is a diver's gas supply coming apart at the helmet.",
+        "umbilical-kink": "A section of the umbilical's gas hose has taken a hard kink where it was coiled tight — under supply pressure a kink restricts the diver's gas and weakens the hose wall at the fold."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the whole umbilical: the gas hose, the pneumo hose, the comms cable and the strength member, the fittings made up and safety-wired, the flake in clean figure-eights.",
+      "targets": [
+        "umbilical-kink",
+        "fitting-no-wire"
+      ],
+      "title": "Walk the umbilical from the panel to the helmet",
+      "why": "The umbilical is the diver's gas, voice, depth reading and lifting line in one bundle, and every metre of it goes into the water. It is walked end to end before the dive because a kink, an unwired fitting or a chafed comms cable is found on deck in a minute and found on the bottom only when it fails — and the flake is laid in figure-eights so it pays out without twisting or snagging."
+    },
+    {
+      "cue": "Open the primary supply valve on the air control panel steadily, with the secondary supply lined up and ready on its own valve.",
+      "id": "line-up-air",
+      "kind": "turn",
+      "prompt": "Open the primary supply valve on the air control panel steadily, with the secondary supply lined up and ready on its own valve.",
+      "target": "panel-primary-valve",
+      "title": "Line up the primary air supply at the panel",
+      "turn": {
+        "label": "PRIMARY SUPPLY",
+        "turns": 1
+      },
+      "why": "The panel is where the diver's gas comes from, and it is lined up deliberately: primary open, secondary ready and able to be switched to in seconds. A surface-supplied diver has a bailout on their back for the moment the surface fails, but the plan is that the surface does not fail — and that starts with the supervisor opening the primary by hand and seeing the pressure come up, not assuming last dive's line-up still stands."
+    },
+    {
+      "cue": "Read the panel's supply gauge and commit it against the over-bottom supply the dive plan and the tables require for the planned depth.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "SUPPLY vs PLAN",
+        "missNote": "Outside the band — let the needle settle and read it against the supply the dive plan sets for this depth.",
+        "speed": 0.68
+      },
+      "id": "supply-read",
+      "kind": "gauge",
+      "prompt": "Read the panel's supply gauge and commit it against the over-bottom supply the dive plan and the tables require for the planned depth.",
+      "target": "panel-supply-gauge",
+      "title": "Read the supply against the dive plan",
+      "why": "A demand helmet delivers gas only while the supply is far enough above the pressure at the diver's depth, and the dive plan, built on the tables the supervisor holds, sets what that supply must be for this dive. The supervisor reads it at the panel before the diver leaves the surface, because a supply that is fine on deck and marginal at the work is found out by the diver working hard and not getting a breath."
+    },
+    {
+      "cue": "Walk the station for the emergency: the oxygen kit sealed and full, the standby's harness and umbilical made up, the first-aid kit and the recovery gear at hand.",
+      "id": "station-check",
+      "itemNames": {
+        "o2-kit-seal": "oxygen kit with its seal broken and the cylinder low",
+        "standby-harness": "standby diver's harness unclipped from their umbilical"
+      },
+      "itemNotes": {
+        "o2-kit-seal": "The first-aid oxygen kit's seal is broken and its cylinder gauge reads low — the kit is on station for a diver who surfaces with symptoms, and a low cylinder runs out before the diver reaches help.",
+        "standby-harness": "The standby diver's umbilical is not clipped to their harness; a standby who goes in like that has a gas supply and no strength member if they need to be pulled back."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the station for the emergency: the oxygen kit sealed and full, the standby's harness and umbilical made up, the first-aid kit and the recovery gear at hand.",
+      "targets": [
+        "o2-kit-seal",
+        "standby-harness"
+      ],
+      "title": "Check the station is ready for the dive going wrong",
+      "why": "Every item on a dive station exists for the dive that goes wrong, and the check is done now because none of it can be fixed with a diver in trouble below. The oxygen kit is what treats a diver who surfaces with symptoms until they reach a chamber, and the standby's rig is what reaches a diver who cannot surface at all — both are walked by the supervisor, not taken on trust from the last dive."
+    },
+    {
+      "cue": "Hand the diver's tool bag onto the stage and clip it to the stage rail, so the tools go down with the diver and not on a line afterwards.",
+      "drag": {
+        "missNote": "Not on the stage — the bag clips to the stage rail so it travels with the diver, never lowered on its own line.",
+        "radius": 0.5,
+        "to": "stage-basket"
+      },
+      "id": "tools-on-stage",
+      "kind": "drag",
+      "prompt": "Hand the diver's tool bag onto the stage and clip it to the stage rail, so the tools go down with the diver and not on a line afterwards.",
+      "target": "tool-bag",
+      "title": "Pass the tool bag onto the stage",
+      "why": "Tools go down on the stage with the diver, clipped to the rail, because a bag lowered separately on a line is a second thing hanging in the water beside the umbilical, and a tool dropped from the surface is a weight falling on a diver who cannot see it. Clipped on the stage, the bag arrives where the diver is and comes back up the same way, with nothing loose in the water column."
+    },
+    {
+      "cue": "Keep the comms button and talk the diver through the check: voice both ways, the pneumo reading at the surface, the free-flow and the bailout checked, and the diver ready to leave the surface.",
+      "holdBreakNote": "The check was dropped before the diver had confirmed everything — a comms check is only complete when both ends have heard it through. Take it from the top.",
+      "id": "comms-check",
+      "kind": "hold",
+      "prompt": "Keep the comms button and talk the diver through the check: voice both ways, the pneumo reading at the surface, the free-flow and the bailout checked, and the diver ready to leave the surface.",
+      "seconds": 5,
+      "target": "comms-box",
+      "title": "Hold the comms check with the diver on the stage",
+      "why": "The diver's voice is how the supervisor knows the diver is breathing, thinking clearly and where they say they are, and it is proven both ways at the surface before the stage moves. The check also runs the diver's own last checks aloud — bailout on, free-flow working, pneumo reading — so both ends of the umbilical hear them done rather than assuming them."
+    },
+    {
+      "cue": "Work the stage winch to lower the diver at the steady rate the dive plan gives, with the tender paying out the umbilical in step — no stops, no snatches.",
+      "holdBreakNote": "The stage went out of band on the way down — a stall or a snatch the diver felt. Bring the winch back to a steady rate and hold it.",
+      "id": "lower-stage",
+      "kind": "track",
+      "prompt": "Work the stage winch to lower the diver at the steady rate the dive plan gives, with the tender paying out the umbilical in step — no stops, no snatches.",
+      "seconds": 6,
+      "target": "stage-winch",
+      "title": "Lower the stage at a steady rate",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.46,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "STAGE WINCH",
+        "rise": 0.56,
+        "start": 0.14
+      },
+      "why": "The stage takes the diver down at a controlled rate so the diver can equalise, the tender can pay out the umbilical without a bight forming, and the supervisor can watch the pneumo follow the descent. A snatch on the winch throws the diver against the stage rails, and a stall leaves them hanging mid-water; the rate is held in band so everything at both ends of the umbilical moves together."
+    },
+    {
+      "cue": "With the diver at the work, bleed the pneumo and read the diver's depth, and commit it against the depth the dive plan gives for this task.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.58
+        ],
+        "label": "PNEUMO",
+        "missNote": "Outside the band — bleed the pneumo, let it settle, and read the diver's depth against the dive plan's figure.",
+        "speed": 0.7
+      },
+      "id": "pneumo-read",
+      "kind": "gauge",
+      "prompt": "With the diver at the work, bleed the pneumo and read the diver's depth, and commit it against the depth the dive plan gives for this task.",
+      "target": "pneumo-gauge",
+      "title": "Read the diver's depth on the pneumofathometer",
+      "why": "The pneumofathometer is the supervisor's measurement of the diver's actual depth, and it is the number the decompression obligation is read against — not the depth on the chart or the depth the diver thinks they are at. It is read with the pneumo bled and settled, and committed against the plan, because a diver working deeper than planned is on a different line of the tables than the one the dive was briefed on."
+    },
+    {
+      "cue": "Read the decompression obligation for the pneumo depth and the bottom time from the tables the supervisor holds, then set the stop clock for the ascent.",
+      "id": "deco-obligation",
+      "itemNames": {
+        "deco-clock": "stop clock set for the ascent",
+        "deco-tables": "obligation read from the tables the supervisor holds"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order — the obligation is read from the tables first; the clock is set from what the tables say, never the other way round.",
+      "prompt": "Read the decompression obligation for the pneumo depth and the bottom time from the tables the supervisor holds, then set the stop clock for the ascent.",
+      "targets": [
+        "deco-tables",
+        "deco-clock"
+      ],
+      "title": "Read the decompression obligation and set the clock",
+      "why": "Decompression obligations come from the tables the supervisor holds for this dive — the tables the plan names — read at the depth the pneumo actually showed and the bottom time the clock actually ran. The obligation is read before the ascent begins and the clock set from it, because a stop worked out in a hurry at the end of a dive is how a diver gets bent; the tables decide, not memory and not an estimate."
+    },
+    {
+      "cue": "Record the diver, the task, the depth from the pneumo, the bottom time, the table and schedule used, the lost comms and the launch, and the diver's condition on surfacing.",
+      "id": "dive-log",
+      "kind": "select",
+      "prompt": "Record the diver, the task, the depth from the pneumo, the bottom time, the table and schedule used, the lost comms and the launch, and the diver's condition on surfacing.",
+      "target": "dive-log",
+      "title": "Record the dive in the dive log",
+      "why": "The dive record is required under 29 CFR 1910 Subpart T and it is what a diver's future dives are planned against: repetitive dives, the next day's work and any symptoms that appear hours later are all read against it. The lost comms and the launch go in as well, because an incident that ended well is still information the next supervisor on this pier should have."
+    },
+    {
+      "cue": "Team debrief at the board: how the dive went, the comms drop and the launch, how the diver feels and who watches them for symptoms, and how everyone is.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Team debrief at the board: how the dive went, the comms drop and the launch, how the diver feels and who watches them for symptoms, and how everyone is.",
+      "target": "team-board",
+      "title": "Debrief and check in with the dive team",
+      "why": "A diver who has surfaced is watched for decompression symptoms for some time afterwards, and the team is told who is watching and what to look for. The debrief is also where the tender, the standby and the deckhand say what they saw — a launch with its screw turning toward a diver is a frightening minute for everyone at the station, and the Pile Drivers' and the Inlandboatmen's member assistance lines are there for what the debrief does not settle."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — the Pile Drivers or the Inlandboatmen's Union — with the employer's employee assistance line behind it",
+  "tagline": "The dive station at the surface: the plan briefed, the screw locked out and the flag up, the umbilical walked, the air lined up and the supply read against the plan, the station checked, the tools on the stage, the comms check held through a dead line, the stage lowered while a launch comes in with its screw turning, the pneumo read, the decompression obligation read from the tables the supervisor holds, and the dive logged",
+  "title": "SmartCiti.X~ Dive Supervisor & Dive Plan VR",
+  "trade": "Pile Drivers of the Carpenters commercial diver as dive supervisor on a surface-supplied air dive, with the tender, the standby diver and an Inlandboatmen's Union of the ILWU deckhand on the dive boat",
+  "underwater": null,
+  "weather": "overcast"
+}

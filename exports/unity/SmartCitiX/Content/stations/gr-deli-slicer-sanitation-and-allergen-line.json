@@ -1,0 +1,420 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "line-proven",
+    "name": "Line Proven",
+    "note": "A full allergen changeover with the swab reading clean before the placard ever flipped back"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "UFCW member training for retail food work; NSF/ANSI 8 commercial powered food preparation equipment; OSHA 29 CFR 1910.147 control of hazardous energy; OSHA 29 CFR 1910.138 hand protection; ANSI/ISEA 105 cut-resistance ratings; FDA Food Code; FDA 21 CFR 101 food labeling and the major food allergens; California Retail Food Code; ServSafe Food Protection Manager",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI/ISEA 105",
+        "id": "ansi-isea-105",
+        "title": "ANSI/ISEA 105 — Hand protection classification, including the A1–A9 cut levels"
+      },
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI/ISEA-rated",
+        "id": "ansi-isea-107",
+        "title": "ANSI/ISEA 107 — High-visibility safety apparel and accessories"
+      },
+      {
+        "body": "CalCode",
+        "citedAs": "California Retail Food Code",
+        "id": "calcode-retail-food",
+        "title": "California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it"
+      },
+      {
+        "body": "FDA",
+        "citedAs": "21 CFR 101",
+        "id": "fda-21-cfr-101",
+        "title": "21 CFR Part 101 — Food labeling, including the major food allergens"
+      },
+      {
+        "body": "FDA",
+        "citedAs": "FDA Food Code",
+        "id": "fda-food-code",
+        "title": "FDA Food Code — the model code for retail food establishments"
+      },
+      {
+        "body": "NSF",
+        "citedAs": "NSF/ANSI 8",
+        "id": "nsf-ansi-8",
+        "title": "NSF/ANSI 8 — Commercial powered food preparation equipment"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.138",
+        "id": "osha-1910-138",
+        "title": "29 CFR 1910.138 — Hand protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "ServSafe",
+        "citedAs": "ServSafe",
+        "id": "servsafe-certification",
+        "title": "ServSafe Food Protection Manager and ServSafe Alcohol certification (National Restaurant Association)"
+      },
+      {
+        "body": "union",
+        "citedAs": "UFCW",
+        "id": "ufcw-training",
+        "title": "UFCW member training for retail food, clinic and dental support work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Grocery deli department",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "lock-first",
+        "name": "Lock First",
+        "note": "Locked the cord out before the guard ever came off"
+      },
+      {
+        "id": "edge-away",
+        "name": "Edge Away",
+        "note": "Never touched the blade's edge directly"
+      },
+      {
+        "id": "swab-clean",
+        "name": "Swab Clean",
+        "note": "Read the ATP swab inside the clean band every time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-changeover",
+        "name": "Clean Changeover",
+        "note": "No corrections through the whole changeover"
+      },
+      {
+        "id": "held-the-hold",
+        "name": "Held The Hold",
+        "note": "Never broke the sanitiser hold early"
+      },
+      {
+        "id": "changeover-fast",
+        "name": "Changeover Fast",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "SWAB",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Wrapper",
+      "Deli Clerk",
+      "Lead Deli Clerk",
+      "Deli Manager",
+      "Deli Line Authority Certified"
+    ],
+    "system": "Deli Line Authority"
+  },
+  "hazards": {
+    "bare-blade-touch": "You touched the mounted blade's edge directly to check it. Gloved or not, a fingertip is never how this edge gets checked — a folded cloth held flat against the face of the blade tells you everything a touch would, without an edge anywhere near your skin.",
+    "open-bin-lid": "That bin's allergen placard is missing and its lid is off. An open, unlabelled bin next to product with none of that allergen in it is exactly how a declared ingredient ends up in an order nobody warned about.",
+    "shared-scoop": "That's the one scoop sitting between both bins — the peanut-declared salad and the one next to it with none in it. A scoop that touches one bin and then the other carries the allergen across on contact alone; each bin gets its own scoop, always, not whichever one is closest.",
+    "wrong-cord": "That's the panini press's cord, not the slicer's. Locking out the wrong plug leaves this blade fully live while your hands are inside the guard — the tag in your hand has to match the machine you're standing at, every time."
+  },
+  "id": "gr-deli-slicer-sanitation-and-allergen-line",
+  "indoor": "kitchen",
+  "interrupts": [
+    {
+      "after": "sanitize-hold",
+      "alert": "A coworker has picked up the one scoop off the counter and is about to dip it in the peanut-declared bin, then the one right next to it.",
+      "cue": "That scoop is on its way to being in both bins in the same minute.",
+      "delay": 4,
+      "id": "coworker-shared-scoop",
+      "kind": "Cross-contact about to happen",
+      "missNote": "The scoop went into both bins before anyone stopped it. Whatever cross-contact your changeover just proved clean on the slicer, the bins next to it just undid with a single scoop.",
+      "seconds": 13,
+      "target": "scoop-rack",
+      "why": "Every bin on an allergen line gets its own scoop, every time — pointing your coworker at the dedicated rack is the only thing that stops a shared scoop from doing in one dip what your entire slicer changeover was built to prevent everywhere else.",
+      "wrongNote": "It's the dedicated scoop rack — hand them the right one before that scoop touches a second bin."
+    },
+    {
+      "after": "clean-blade",
+      "alert": "A second clerk has grabbed the slicer's cord and is reaching for the outlet — a rush order just came in and they haven't clocked your lock.",
+      "cue": "Your hand is on the blade and somebody is about to give it power.",
+      "delay": 3,
+      "id": "second-worker-replug",
+      "kind": "Lockout defeated",
+      "missNote": "They plugged it in with your hand still at the blade. The lock was doing its job right up until somebody didn't look for it — a cord-lockout only protects the person who makes sure it gets seen.",
+      "seconds": 11,
+      "target": "cord-lock",
+      "why": "Your lock on that cord is the entire reason it's safe to have a hand on this blade right now, and it only works if everyone else sees it before they reach for the outlet. Stop them and point at the lock — the rush order waits.",
+      "wrongNote": "It's your lock on that cord — get their hand off the plug and make sure they see it before anything else happens."
+    }
+  ],
+  "lateNotes": {
+    "allergen-placard": "Not yet — the placard flips only once the swab reads clean, not before.",
+    "blade-guard": "Not yet — the cord comes out and gets locked before that guard is touched at all.",
+    "slicer-blade": "Glove on first. The blade doesn't get wiped bare-handed, not even once."
+  },
+  "name": "Deli Slicer Sanitation & Allergen Line",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "grocery-and-meatpacking"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.3,
+    "hits": [
+      "allergen-card",
+      "allergen-log",
+      "allergen-placard",
+      "atp-swab",
+      "bare-blade-touch",
+      "blade-guard",
+      "carriage",
+      "cord-lock",
+      "cut-glove",
+      "open-bin-lid",
+      "outlet",
+      "parts-tray",
+      "power-plug",
+      "sani-bottle",
+      "scoop-rack",
+      "shared-scoop",
+      "slicer-blade",
+      "slicer-body",
+      "slicer-rail",
+      "test-switch",
+      "wrong-cord"
+    ],
+    "meshes": 142
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check what's coming off this slicer and what allergen the next order declares none of.",
+      "id": "allergen-card",
+      "kind": "select",
+      "prompt": "Check what's coming off this slicer and what allergen the next order declares none of.",
+      "target": "allergen-card",
+      "title": "Read the allergen changeover card",
+      "why": "FDA 21 CFR 101 is why the major food allergens get named on a label at all, and the card is what tells you this changeover is a full allergen clean, not a routine wipe-down — the next customer's order depends on the difference being caught here, before the blade is even unplugged."
+    },
+    {
+      "cue": "Pull the plug and clip your padlock through the cord-lockout device over the prongs.",
+      "id": "slicer-lockout",
+      "kind": "select",
+      "prompt": "Pull the plug and clip your padlock through the cord-lockout device over the prongs.",
+      "target": "cord-lock",
+      "title": "Unplug the slicer and lock the cord out",
+      "why": "OSHA 29 CFR 1910.147 asks for the same promise here a breaker lock makes on a panel, sized for an appliance: the plug physically cannot go back in while your padlock is through it, so nobody — including you in a hurry — reconnects power before this clean is actually finished."
+    },
+    {
+      "cue": "Lift the guard clear, then draw the carriage off its rail — in that order — onto the parts tray.",
+      "id": "teardown-order",
+      "itemNames": {
+        "blade-guard": "blade guard",
+        "carriage": "product carriage"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — the guard lifts clear first, then the carriage draws off the rail behind it.",
+      "prompt": "Lift the guard clear, then draw the carriage off its rail — in that order — onto the parts tray.",
+      "targets": [
+        "blade-guard",
+        "carriage"
+      ],
+      "title": "Break the slicer down in order",
+      "why": "The carriage rides past the edge on every pass it makes, so it comes off only after the guard is already clear and the cord is already locked — there is no version of an allergen changeover where a hand is this close to the blade on a machine that could still be told to run."
+    },
+    {
+      "cue": "Pull the ANSI/ISEA-rated cut-resistant glove on before your hand goes near the blade.",
+      "id": "glove-on",
+      "kind": "select",
+      "prompt": "Pull the ANSI/ISEA-rated cut-resistant glove on before your hand goes near the blade.",
+      "target": "cut-glove",
+      "title": "Glove the cleaning hand",
+      "why": "Locking the cord out stops the blade from moving; it does not stop the blade from being a blade. OSHA 29 CFR 1910.138 is why the rated glove goes on for the one part of this changeover where a hand actually has to be beside the edge."
+    },
+    {
+      "cue": "Fold the cloth flat and wipe outward from the centre, keeping clear of the edge, staying in the safe band.",
+      "holdBreakNote": "Drifted toward the edge. Bring the wipe back out to a safe distance before continuing.",
+      "id": "clean-blade",
+      "kind": "track",
+      "prompt": "Fold the cloth flat and wipe outward from the centre, keeping clear of the edge, staying in the safe band.",
+      "seconds": 6,
+      "target": "slicer-blade",
+      "title": "Wipe the blade edge-away",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.4,
+        "green": [
+          0.35,
+          0.6
+        ],
+        "label": "DISTANCE FROM EDGE",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "Every trace of the last product has to come off this blade's face before an allergen changeover means anything, and it comes off wiped away from the edge with a folded cloth — stray too close and the wipe is grazing the one part of this machine still sharp with the guard sitting on a tray."
+    },
+    {
+      "cue": "Apply sanitiser to the blade face and slicing bed and hold for the full labelled contact time.",
+      "holdBreakNote": "Wiped it off early. Contact time is what makes the sanitiser work — spray it again and hold the full count.",
+      "id": "sanitize-hold",
+      "kind": "hold",
+      "prompt": "Apply sanitiser to the blade face and slicing bed and hold for the full labelled contact time.",
+      "seconds": 8,
+      "target": "sani-bottle",
+      "title": "Sanitise the blade and bed, and hold contact time",
+      "why": "The sanitiser only earns its kill claim over its full labelled contact time, not the time it takes to feel done — an allergen changeover run short on this hold is a swab reading that only looks clean because nothing has actually been proven yet."
+    },
+    {
+      "cue": "Run the ATP swab across the blade face and bed and commit once the reading is inside the clean band.",
+      "gauge": {
+        "green": [
+          0,
+          0.22
+        ],
+        "label": "ATP SWAB READING",
+        "missNote": "Reading is outside the clean band — sanitise again before this line is trusted for the next order.",
+        "speed": 0.6
+      },
+      "id": "allergen-swab",
+      "kind": "gauge",
+      "prompt": "Run the ATP swab across the blade face and bed and commit once the reading is inside the clean band.",
+      "target": "atp-swab",
+      "title": "Swab the blade and bed for allergen protein",
+      "why": "A clean-looking blade and a clean blade are not the same claim — the swab is what actually proves it for an allergen changeover, the way a look never can. A reading outside the clean band means the sanitiser step gets repeated, not argued with."
+    },
+    {
+      "cue": "Two things on this line are wrong. Find them by looking.",
+      "decoyNotes": {
+        "scoop-rack": "The dedicated scoop rack is fully stocked, each scoop in its own bin's slot. Leave it."
+      },
+      "id": "walk-line",
+      "itemNames": {
+        "open-bin-lid": "an allergen bin with its lid and placard off",
+        "shared-scoop": "one scoop resting across two bins"
+      },
+      "itemNotes": {
+        "open-bin-lid": "This bin's lid and placard are both off. An open, unlabelled allergen bin next to product with none of that allergen in it is the exact gap this whole changeover exists to close.",
+        "shared-scoop": "One scoop, propped across the rim of both bins. Whatever was in the last one it touched is now one dip away from the next."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two things on this line are wrong. Find them by looking.",
+      "targets": [
+        "shared-scoop",
+        "open-bin-lid"
+      ],
+      "title": "Walk the allergen line before it reopens",
+      "why": "The changeover isn't finished when the slicer swabs clean — it's finished when the whole line around it is as clean as the blade. Two things left wrong here become the next customer's undisclosed exposure, not just a tidiness note."
+    },
+    {
+      "cue": "Seat the carriage back on the rail, then reseat the guard over the blade — in that order.",
+      "id": "reassemble",
+      "itemNames": {
+        "blade-guard": "blade guard",
+        "carriage": "product carriage"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — the carriage seats on its rail first, then the guard closes over it.",
+      "prompt": "Seat the carriage back on the rail, then reseat the guard over the blade — in that order.",
+      "targets": [
+        "carriage",
+        "blade-guard"
+      ],
+      "title": "Rebuild the slicer in reverse",
+      "why": "Reassembly runs teardown in reverse for a reason: a guard forced on before the carriage is square on its rail can bind against it, and a bound part now is a part somebody forces later under load."
+    },
+    {
+      "cue": "Bump the power switch with the guard seated and confirm the motor is live only now.",
+      "id": "prove-interlock",
+      "kind": "select",
+      "prompt": "Bump the power switch with the guard seated and confirm the motor is live only now.",
+      "target": "test-switch",
+      "title": "Prove the guard interlock",
+      "why": "The interlock is what should have kept this slicer from running the entire time the guard was off, and testing it after reassembly — guard seated, before the lock comes off — is the only way to know it still does that job."
+    },
+    {
+      "cue": "Take your padlock off the cord-lockout device now that the slicer is fully reassembled and proven.",
+      "id": "release-lock",
+      "kind": "select",
+      "prompt": "Take your padlock off the cord-lockout device now that the slicer is fully reassembled and proven.",
+      "target": "cord-lock",
+      "title": "Remove your lock from the cord",
+      "why": "Your lock, your call — nobody else removes it, and it comes off only once the interlock is proven and every part is back where it belongs."
+    },
+    {
+      "cue": "Seat the plug fully into the outlet, last, after everything else is done.",
+      "drag": {
+        "missNote": "Not seated in the outlet — push the plug fully home.",
+        "radius": 0.25,
+        "to": "outlet"
+      },
+      "id": "plug-in",
+      "kind": "drag",
+      "prompt": "Seat the plug fully into the outlet, last, after everything else is done.",
+      "target": "power-plug",
+      "title": "Plug the slicer back in",
+      "why": "Power comes back to this machine exactly once in this whole changeover, and it's the very last thing that happens — after the guard, after the interlock test, after your own lock is off."
+    },
+    {
+      "cue": "Turn the placard holder to show the correct allergen declaration for what's coming next.",
+      "id": "relabel-line",
+      "kind": "turn",
+      "prompt": "Turn the placard holder to show the correct allergen declaration for what's coming next.",
+      "target": "allergen-placard",
+      "title": "Flip the line's allergen placard",
+      "turn": {
+        "axis": "y",
+        "label": "ALLERGEN PLACARD",
+        "turns": 0.5
+      },
+      "why": "The placard is what tells the next clerk, and the customer standing at the case, what this line has and has not touched — leaving yesterday's declaration up is a wrong answer with a confident sign behind it."
+    },
+    {
+      "cue": "Sign the log to close out the allergen changeover.",
+      "id": "sign-allergen-log",
+      "kind": "select",
+      "prompt": "Sign the log to close out the allergen changeover.",
+      "target": "allergen-log",
+      "title": "Sign the allergen changeover log",
+      "why": "The signature is the clerk taking responsibility for the whole changeover — locked, cleaned, swabbed clean, placard flipped — and it is the record a manager reads if this line's history is ever questioned."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "The slicer locked, torn down, cleaned and swab-proven clean between a declared allergen and the next order, with the line's own placard flipped to match",
+  "title": "SmartCiti.X~ Deli Slicer Sanitation & Allergen Line VR",
+  "trade": "Deli clerk",
+  "underwater": null,
+  "weather": null
+}

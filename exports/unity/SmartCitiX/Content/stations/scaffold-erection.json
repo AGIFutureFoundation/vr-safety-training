@@ -1,0 +1,361 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "green-tagged",
+    "name": "Green Tagged",
+    "note": "A scaffold built on sound ground, plumb, tied, fully planked, guarded and tagged by the competent person"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "UBC (Carpenters) — scaffold erector qualification; OSHA 29 CFR 1926.451 / 1926.454 scaffold competent person; fall protection during erection per 1926.451(g)",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI A10.8",
+        "id": "ansi-a10-8",
+        "title": "ANSI/ASSP A10.8 — Scaffolding safety requirements"
+      },
+      {
+        "body": "union",
+        "citedAs": "Carpenters",
+        "id": "carpenters-ictf",
+        "title": "United Brotherhood of Carpenters International Training Fund — carpenter, pile driver and millwright apprenticeship"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.451",
+        "id": "osha-1926-451",
+        "title": "29 CFR 1926.451 — Scaffolds, general requirements"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "sound-ground",
+        "name": "Sound Ground",
+        "note": "Sills and base plates set before a frame went up, first time"
+      },
+      {
+        "id": "tied-in",
+        "name": "Tied In",
+        "note": "Never climbed the frames, never worked an untied lift"
+      },
+      {
+        "id": "plumb-true",
+        "name": "Plumb True",
+        "note": "Plumb and level inside tolerance"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-build",
+        "name": "Clean Build",
+        "note": "No corrections through the whole erection"
+      },
+      {
+        "id": "tie-held",
+        "name": "Tie Held",
+        "note": "Held every tie to torque"
+      },
+      {
+        "id": "up-by-break",
+        "name": "Up by Break",
+        "note": "Tagged inside 80% of par"
+      }
+    ],
+    "currency": "LIFT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Erector",
+      "Lead Erector",
+      "Competent Person",
+      "Scaffold Foreman",
+      "Scaffold Authority Certified"
+    ],
+    "system": "Scaffold Authority"
+  },
+  "hazards": {
+    "block-on-sill": "You set a base plate on a concrete block instead of a mudsill. Blocks crack and tip; a base plate on a tipped block puts a leg in the air and the load on the other three.",
+    "climb-frames": "You climbed the cross-braces to reach the second lift. Braces are not a ladder; they flex, they are not spaced for feet, and the fall is onto the frames below. Access is a ladder or a stair, built in.",
+    "plank-gap": "You left a plank gap over the wall side wide enough to step through. Full planking means no gap over 1 inch at the wall, and none anywhere a foot can go.",
+    "untied-work": "You started planking the second lift with no tie to the structure. Two lifts of frame scaffold with no tie is a free-standing tower over its height-to-base ratio — the wind, or one person leaning, is enough."
+  },
+  "id": "scaffold-erection",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "planking",
+      "alert": "A gust has come round the corner of the building and the whole second lift has moved with it. You can hear the tie tube working in its coupler down at lift one.",
+      "cue": "You are stood on the one thing making this a scaffold and not a tower.",
+      "delay": 3,
+      "id": "gust-on-the-lift",
+      "kind": "Wind",
+      "missNote": "The planking went on over a slack tie. Two lifts of frame with the elevation closed and nothing holding it to the wall is a free-standing tower well outside its height-to-base ratio, and it does not come down slowly or give anybody a warning first.",
+      "seconds": 12,
+      "target": "wall-tie",
+      "why": "Planking is the moment a scaffold stops being an open frame and turns into a sail: the boards close the elevation off, the wind can no longer go through it, and every gust from there on is a lever with the whole height of the frame behind it. A tie coupler that was torqued yesterday works loose under that cycling, and a tie that is finger-tight is a tie that is not there. Go down and put the tie back to torque before another board goes on, because the scaffold that fails is not the one that was never checked — it is the one that was checked once.",
+      "wrongNote": "It is the tie. Everything about this scaffold standing up in wind comes back to whether it is fastened to the building."
+    },
+    {
+      "after": "guardrails",
+      "alert": "There is water running across the footprint. Somebody has left a hose going at the wall and it is ponding under the right-hand sill line, which has started to bed in.",
+      "cue": "You signed off that ground first thing this morning.",
+      "delay": 3,
+      "id": "ground-soaked",
+      "kind": "Foundation",
+      "missNote": "The footprint kept taking water with the scaffold loaded. The sill bedded in far enough to take the leg out of plumb, and an out-of-plumb frame with a working platform and a crew on it is carrying its load through connections that were never designed to take it sideways.",
+      "seconds": 13,
+      "target": "ground-check",
+      "why": "The competent person's inspection of the ground is not a thing that happens once at seven and then stays true all day. Saturate the fill under one mudsill and its bearing capacity falls away, the sill beds in, and the leg on it stops carrying its share — so the load redistributes onto three legs and the frame racks toward the low corner while everyone above is looking at guardrails. More scaffolds come down through their foundations than through their members, and almost every one of those had a ground condition that changed after somebody approved it.",
+      "wrongNote": "The problem is under the scaffold, not on it. That footprint needs looking at again before anything else happens up top."
+    }
+  ],
+  "lateNotes": {
+    "frame-2": "The second lift goes on after the first is plumb, level and tied.",
+    "green-tag": "The tag is the last thing on. It says everything before it was done."
+  },
+  "name": "Scaffold Erection",
+  "parSeconds": 250,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "fall-protection"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "access-ladder",
+      "base-plate",
+      "block-on-sill",
+      "climb-frames",
+      "frame-1",
+      "frame-2",
+      "frame-2-socket",
+      "frame-socket",
+      "green-tag",
+      "ground-check",
+      "level-tool",
+      "midrail",
+      "missing-pin",
+      "mudsill-a",
+      "mudsill-b",
+      "plank-1",
+      "plank-2",
+      "plank-3",
+      "plank-gap",
+      "scaffold-plan",
+      "toeboard",
+      "toprail",
+      "untied-work",
+      "wall-tie"
+    ],
+    "meshes": 110
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence"
+  ],
+  "steps": [
+    {
+      "cue": "Check the height, the tie pattern, the load class and the ground report.",
+      "id": "plan",
+      "kind": "select",
+      "prompt": "Check the height, the tie pattern, the load class and the ground report.",
+      "target": "scaffold-plan",
+      "title": "Read the scaffold plan",
+      "why": "The scaffold plan is the competent person's design under OSHA's 29 CFR 1926.451 and ANSI A10.8 — how high, how tied, how loaded, and what ground it assumes underneath it. Erection follows that plan on site; improvising a taller build, a different tie pattern or a heavier load than the plan calls for turns a designed structure into a guess nobody has checked."
+    },
+    {
+      "cue": "Walk the footprint: firm, level, no backfill, no voids, drainage away from the legs.",
+      "id": "ground",
+      "kind": "select",
+      "prompt": "Walk the footprint: firm, level, no backfill, no voids, drainage away from the legs.",
+      "target": "ground-check",
+      "title": "Inspect the ground",
+      "why": "Everything above the mudsills stands on this footprint alone. Soft ground, uncompacted backfill or a low spot that will pond water settles under load once the frames go up, and a scaffold that racks toward one settling leg is carrying its weight through connections designed to go straight down, not sideways."
+    },
+    {
+      "cue": "Mudsills under each leg line, then base plates centred on the sills, then screw jacks.",
+      "id": "sills",
+      "itemNames": {
+        "base-plate": "base plates on the sills",
+        "mudsill-a": "left mudsill",
+        "mudsill-b": "right mudsill"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Sills first, then base plates on them — a plate on the ground is a leg on the ground.",
+      "prompt": "Mudsills under each leg line, then base plates centred on the sills, then screw jacks.",
+      "targets": [
+        "mudsill-a",
+        "mudsill-b",
+        "base-plate"
+      ],
+      "title": "Set the mudsills and base plates",
+      "why": "The sill spreads the leg load over the ground; the base plate sits on the sill, never on the ground or a block. In that order, so the jacks have something to stand on."
+    },
+    {
+      "cue": "Set the first pair of frames on the base plates and brace them.",
+      "drag": {
+        "missNote": "Not on the base plates — set the frame legs onto the plates.",
+        "radius": 0.5,
+        "to": "frame-socket"
+      },
+      "id": "frame-1",
+      "kind": "drag",
+      "prompt": "Set the first pair of frames on the base plates and brace them.",
+      "target": "frame-1",
+      "title": "Stand the first lift",
+      "why": "The first lift sets the alignment for everything stacked on it later — square, plumb and braced now is square, plumb and braced at four lifts; out of square now multiplies at every lift after. It goes onto the base plates, gets braced both sides, and nobody lets go of the frame until the braces are actually pinned, not just leaned against it."
+    },
+    {
+      "cue": "Adjust the screw jacks until the frames read plumb and the ledgers level; commit inside tolerance.",
+      "gauge": {
+        "green": [
+          0.45,
+          0.6
+        ],
+        "label": "PLUMB",
+        "missNote": "Out of plumb — adjust the jacks and read the level again.",
+        "speed": 0.75
+      },
+      "id": "plumb",
+      "kind": "gauge",
+      "prompt": "Adjust the screw jacks until the frames read plumb and the ledgers level; commit inside tolerance.",
+      "target": "level-tool",
+      "title": "Plumb and level the first lift",
+      "why": "Out of plumb at the first lift does not stay small — it doubles at the second lift and compounds at every one after that, and by four lifts up a small lean at the base has become a structure visibly leaning off the wall. The screw jacks get adjusted now, while the scaffold is one lift high, light, and still easy to move by hand."
+    },
+    {
+      "cue": "Set the tie into the wall anchor and torque it to the coupler figure.",
+      "holdBreakNote": "Came off before the coupler was torqued — the tie is not holding anything. Set it again.",
+      "id": "tie",
+      "kind": "hold",
+      "prompt": "Set the tie into the wall anchor and torque it to the coupler figure.",
+      "seconds": 4,
+      "target": "wall-tie",
+      "title": "Tie the scaffold to the structure",
+      "why": "The tie is what makes this a structure fastened to the building instead of a free-standing tower carrying its own wind load — NIOSH fatality investigations into scaffold collapses keep finding the same missing element, a tie pattern that was never installed or was installed after the fact. It goes in at the first lift, torqued to the coupler figure, before a second lift raises the wind-sail height any further."
+    },
+    {
+      "cue": "Second pair of frames on the first, coupling pins in, braced.",
+      "drag": {
+        "missNote": "Not on the first lift — set the frames over the coupling pins.",
+        "radius": 0.5,
+        "to": "frame-2-socket"
+      },
+      "id": "frame-2",
+      "kind": "drag",
+      "prompt": "Second pair of frames on the first, coupling pins in, braced.",
+      "target": "frame-2",
+      "title": "Stand the second lift",
+      "why": "The second lift only goes up once the first is plumb, level and tied — stacking height onto an unchecked lift just carries the same error higher and adds weight the tie was never sized for. Coupling pins go in so the frames cannot lift off the legs below them, and braces go on both sides so the two lifts cannot rack independently of each other."
+    },
+    {
+      "cue": "Planks across the full width, wall side closed, ends overhanging the ledger by the rule, cleated.",
+      "id": "planking",
+      "itemNames": {
+        "plank-1": "outside plank",
+        "plank-2": "middle plank",
+        "plank-3": "wall-side plank"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Outside in — the wall-side plank closes the gap last.",
+      "prompt": "Planks across the full width, wall side closed, ends overhanging the ledger by the rule, cleated.",
+      "targets": [
+        "plank-1",
+        "plank-2",
+        "plank-3"
+      ],
+      "title": "Fully plank the working platform",
+      "why": "Full planking is the only floor the crew above ever stands on — a gap wide enough to step through is a leg through the platform onto the lift below, and a plank laid but not cleated to the ledger is a plank that walks sideways the first time someone's weight shifts near its edge, dropping whoever was standing on it."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Top rail, mid rail and toeboard on every open side of the platform.",
+      "id": "guardrails",
+      "itemNames": {
+        "midrail": "mid rail",
+        "toeboard": "toeboard",
+        "toprail": "top rail"
+      },
+      "kind": "sequence",
+      "prompt": "Top rail, mid rail and toeboard on every open side of the platform.",
+      "targets": [
+        "toprail",
+        "midrail",
+        "toeboard"
+      ],
+      "title": "Guardrails and toeboards",
+      "why": "Ten feet up, the guardrail is the fall protection. Top rail stops a person, mid rail stops a slip under it, toeboard stops the hammer going over onto whoever is below."
+    },
+    {
+      "cue": "Attach the ladder and the access gate so the platform is reached without climbing frames.",
+      "id": "access",
+      "kind": "select",
+      "prompt": "Attach the ladder and the access gate so the platform is reached without climbing frames.",
+      "target": "access-ladder",
+      "title": "Fit the access ladder",
+      "why": "The ladder is how the scaffold gets used every day after it is built, not just how it gets erected once. Without a proper access point fitted before the platform opens, the first person up climbs the cross-braces because that is what is there, and every person after them learns that climbing the frames is normal, right up until a foot goes through a brace that was never meant to carry it."
+    },
+    {
+      "cue": "Inspect every connection, brace, tie and plank before the tag goes on; click what is wrong.",
+      "id": "inspect",
+      "itemNames": {
+        "missing-pin": "missing coupling pin"
+      },
+      "itemNotes": {
+        "missing-pin": "The right-hand frame on the second lift has no coupling pin — the frame is sitting in the socket by weight alone. One lift of the platform and it comes up with the plank."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Inspect every connection, brace, tie and plank before the tag goes on; click what is wrong.",
+      "targets": [
+        "missing-pin"
+      ],
+      "title": "Competent person inspection",
+      "why": "The green tag is the competent person's signature on a claim that every connection, tie, plank and guardrail was actually checked, not assumed. The inspection is the work that has to happen before that word means anything — walking every pin, coupler and tie by hand rather than looking at the structure from the ground and deciding it looks fine."
+    },
+    {
+      "cue": "Green tag at the access point: inspected, date, competent person's name.",
+      "id": "tag",
+      "kind": "select",
+      "prompt": "Green tag at the access point: inspected, date, competent person's name.",
+      "target": "green-tag",
+      "title": "Hang the green tag",
+      "why": "Green says built and inspected; anyone may use it. Yellow says restrictions; red says stay off. The colour at the ladder is the whole crew's instruction."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Frame scaffold, two lifts: ground and sills, base plates, plumb and level, tie-ins, full planking, guardrails, ladder access, green tag",
+  "title": "SmartCiti.X~ Scaffold Erection VR",
+  "trade": "Scaffold erector / carpenter",
+  "underwater": null,
+  "weather": "wind"
+}

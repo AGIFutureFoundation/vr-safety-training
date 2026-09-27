@@ -1,0 +1,369 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "pit-cleared",
+    "name": "Pit Cleared",
+    "note": "Both buffers proven, runby measured and the refuge space kept clear the whole visit"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "IUEC elevator constructors; NEIEP apprenticeship curriculum for pit and buffer maintenance; ASME A17.1 the safety code for elevators and escalators, whose buffer provisions this test is run against; OSHA 29 CFR 1910.147 control of hazardous energy for the sump pump circuit; OSHA 29 CFR 1910.23 ladders, for the fixed pit access ladder",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME A17.1",
+        "id": "asme-a17-1",
+        "title": "ASME A17.1 — Safety Code for Elevators and Escalators"
+      },
+      {
+        "body": "union",
+        "citedAs": "NEIEP",
+        "id": "neiep-training",
+        "title": "IUEC and the National Elevator Industry Educational Program (NEIEP) — elevator constructor apprenticeship and continuing education, taught to the National Elevator Industry Educational Program curriculum"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.23",
+        "id": "osha-1910-23",
+        "title": "29 CFR 1910.23 — Ladders"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "switch-first",
+        "name": "Switch First",
+        "note": "Never entered the pit before the stop switch was confirmed"
+      },
+      {
+        "id": "both-buffers",
+        "name": "Both Buffers",
+        "note": "Held both buffer readings and the runby reading near band centre"
+      },
+      {
+        "id": "clean-exit",
+        "name": "Clean Exit",
+        "note": "Restored in the correct order, no correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "no-callback",
+        "name": "No Callback",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "ladder-held",
+        "name": "Ladder Held",
+        "note": "Never let the ladder latch slip while deploying it"
+      },
+      {
+        "id": "pit-fast",
+        "name": "Pit Fast",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "RUNBY",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Pit Hand",
+      "Pit Mechanic",
+      "Adjuster",
+      "Lead Mechanic",
+      "Pit Authority Certified"
+    ],
+    "system": "Pit Authority"
+  },
+  "hazards": {
+    "blocked-refuge-space": "You are looking at a refuge space with material stacked in it. That recess exists so a mechanic caught in the pit when a car or counterweight starts moving has one specific place to stand that both stay clear of — stacking parts in it removes the only shelter this pit has.",
+    "buffer-pinch-point": "You reached into the gap between the oil buffer's plunger and its striker plate while the compression test was running. That gap is exactly wide enough for a hand and exactly where a buffer under test closes to, which is the one place on this device a mechanic's fingers do not belong while it is being tested.",
+    "energized-sump-pump": "You opened the sump pump's junction box without confirming its circuit was isolated. A pit sump sits in standing water by design, and a live junction box in a wet pit is a shock hazard in the one place on this job site where a mechanic is most likely to be standing in that water.",
+    "unconfirmed-runby-zone": "You put the tape measure into the counterweight's runby without reconfirming the pit stop switch was still holding. A switch confirmed on the way in can still be knocked off its detent by a tool bag or a shoulder brushing past it, and the runby is exactly where that failure would first show up."
+  },
+  "id": "ew-pit-work-and-buffer-inspection",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "spring-buffer",
+      "alert": "The sump's high-water alarm has just tripped while you are still at the buffers, and the pit floor is starting to take on water.",
+      "cue": "Get to the pump before the water reaches the buffers.",
+      "delay": 4,
+      "id": "sump-alarm",
+      "kind": "High-water alarm",
+      "missNote": "The water kept rising with nobody at the pump. A flooded pit does not just risk the equipment in it — it turns the pit floor into a shock hazard around anything still carrying power.",
+      "seconds": 12,
+      "target": "sump-pump",
+      "why": "A tripped high-water alarm means the pump has already fallen behind whatever is coming into this pit, and the buffers, the ladder base and anything left on the floor are all at the same low point the water is heading for. The pump gets attention before the buffer test resumes, not after.",
+      "wrongNote": "It is the sump pump. Whatever the buffer reading was about to show, the rising water is the more urgent problem."
+    },
+    {
+      "after": "oil-buffer",
+      "alert": "Somebody at the landing above has started turning the release wheel to stow the pit ladder, with you still down here.",
+      "cue": "Stop them — that is your only way out.",
+      "delay": 4,
+      "id": "ladder-closing",
+      "kind": "Ladder being stowed",
+      "missNote": "The ladder kept folding with a mechanic still in the pit. A pit with no ladder down is a pit with no way out short of somebody upstairs noticing and reversing it.",
+      "seconds": 11,
+      "target": "ladder-latch",
+      "why": "The pit ladder is the one exit this space has, and whoever is turning that wheel from the landing has no way of seeing that anyone is still standing at the bottom of it. It gets stopped before the ladder folds any further, not after it is already halfway up.",
+      "wrongNote": "It is the ladder release latch. Whatever else is happening, your way out of this pit is the emergency."
+    }
+  ],
+  "lateNotes": {
+    "oil-can": "The buffer is only topped up after its stroke has already been measured, not before.",
+    "spring-buffer": "Buffer readings are only taken once the pit stop switch is confirmed and the refuge space is clear."
+  },
+  "name": "Pit Work and Buffer Inspection",
+  "parSeconds": 250,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "elevator-constructors"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "blocked-refuge-space",
+      "buffer-pinch-point",
+      "corroded-rung",
+      "dim-pit-light",
+      "energized-sump-pump",
+      "job-ticket",
+      "ladder-latch",
+      "landing-permit",
+      "oil-buffer",
+      "oil-buffer-fill",
+      "oil-can",
+      "pit-debris",
+      "pit-ladder",
+      "pit-log",
+      "pit-stop-switch",
+      "refuge-space",
+      "runby-tape",
+      "spring-buffer",
+      "spring-buffer-gauge-tool",
+      "sump-pump",
+      "unconfirmed-runby-zone"
+    ],
+    "meshes": 139
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "select",
+    "sequence",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the job ticket and confirm which shaft's pit this door actually opens onto.",
+      "id": "checkin",
+      "kind": "select",
+      "prompt": "Read the job ticket and confirm which shaft's pit this door actually opens onto.",
+      "target": "job-ticket",
+      "title": "Check in at the pit access door",
+      "why": "Some buildings put two or three pit access doors within a few steps of each other, one per shaft, and the ticket is read here rather than assumed because a mechanic who climbs down the wrong ladder has just put themselves in a hoistway nobody isolated for them."
+    },
+    {
+      "cue": "Read the permit and confirm the landing above is barricaded before the ladder comes down.",
+      "id": "permit",
+      "kind": "select",
+      "prompt": "Read the permit and confirm the landing above is barricaded before the ladder comes down.",
+      "target": "landing-permit",
+      "title": "Post the pit-entry permit",
+      "why": "The permit is what tells the next person at that landing, before they ever press a call button, that somebody is working underneath them. A pit entered without that signage posted is a pit entered on the assumption that nobody upstairs will do anything unexpected, which is not an assumption this job is built to need."
+    },
+    {
+      "cue": "Turn the release wheel to lower the fixed pit ladder to its working position.",
+      "id": "ladder-release",
+      "kind": "turn",
+      "prompt": "Turn the release wheel to lower the fixed pit ladder to its working position.",
+      "target": "ladder-latch",
+      "title": "Deploy the pit ladder",
+      "turn": {
+        "axis": "z",
+        "label": "LADDER RELEASE",
+        "turns": 0.3
+      },
+      "why": "A stowed pit ladder is folded up against the wall specifically so it is out of the counterweight's path when nobody is using it, and the release wheel is turned all the way rather than partway so the ladder locks fully into its working position before any weight goes on it."
+    },
+    {
+      "cue": "Confirm the pit stop switch is ON before committing any weight to the ladder.",
+      "id": "pit-switch",
+      "kind": "select",
+      "prompt": "Confirm the pit stop switch is ON before committing any weight to the ladder.",
+      "target": "pit-stop-switch",
+      "title": "Engage the pit stop switch",
+      "why": "This switch is reached from the landing, before the ladder is trusted, because it is the one control a mechanic can watch with their own eyes while they climb down underneath a counterweight that a machine room two floors away is not the thing keeping still today."
+    },
+    {
+      "cue": "Climb down the ladder facing it, now that the switch is confirmed.",
+      "id": "pit-entry",
+      "kind": "select",
+      "prompt": "Climb down the ladder facing it, now that the switch is confirmed.",
+      "target": "pit-ladder",
+      "title": "Descend into the pit",
+      "why": "Down the ladder, facing it, with the pit light already on — never stepped down onto a buffer or dropped the last part of the way. A pit is a low, cluttered space with a counterweight running down one side of it, and the way in is the way the ladder provides, not the fast way."
+    },
+    {
+      "cue": "Look over the ladder, the floor and the lighting. Three things need fixing before this pit is signed off.",
+      "id": "pit-inspect",
+      "itemNames": {
+        "corroded-rung": "a corroded ladder rung",
+        "dim-pit-light": "a pit light that is failing",
+        "pit-debris": "debris left on the pit floor"
+      },
+      "itemNotes": {
+        "corroded-rung": "A corroded rung fails exactly when someone puts their full weight on it climbing out in a hurry, which is the one moment nobody wants to discover it.",
+        "dim-pit-light": "A failing pit light is how a mechanic ends up reading a buffer gauge, or the runby tape, by phone flashlight — which is how small mistakes in a pit stay unnoticed.",
+        "pit-debris": "Anything loose on the pit floor is a trip hazard in a space with almost no room to fall safely and a counterweight running down one wall of it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the ladder, the floor and the lighting. Three things need fixing before this pit is signed off.",
+      "targets": [
+        "corroded-rung",
+        "pit-debris",
+        "dim-pit-light"
+      ],
+      "title": "Walk the pit before touching the buffers",
+      "why": "A pit inspection is a search for what has quietly changed since the last visit, not a checklist read from the ladder. Everything down here matters most on the day something else has already gone wrong, so it gets looked at properly on every ordinary day in between."
+    },
+    {
+      "cue": "Load the spring buffer and commit the compression reading inside the manufacturer's rated band.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "SPRING COMPRESSION",
+        "missNote": "Outside the rated band. Flag the buffer for replacement before this car goes back in service on it.",
+        "speed": 0.6
+      },
+      "id": "spring-buffer",
+      "kind": "gauge",
+      "prompt": "Load the spring buffer and commit the compression reading inside the manufacturer's rated band.",
+      "target": "spring-buffer",
+      "title": "Measure the spring buffer compression",
+      "why": "A spring buffer that looks fine sitting still can still be weak, corroded internally or simply the wrong spring for this car's rated speed — none of which shows until it is loaded and measured against the number on the manufacturer's own chart."
+    },
+    {
+      "cue": "Trip the sump pump's test switch and confirm it starts, runs and shuts off correctly.",
+      "id": "sump-pump",
+      "kind": "select",
+      "prompt": "Trip the sump pump's test switch and confirm it starts, runs and shuts off correctly.",
+      "target": "sump-pump",
+      "title": "Test the sump pump",
+      "why": "A sump pump that has not moved water in months can seize, and the only way to know before the pit actually floods is to run it under controlled conditions today, on a circuit already confirmed protected, rather than wait for the day water is actually rising in it."
+    },
+    {
+      "cue": "Run the plunger through its stroke and commit the reading inside the rated band.",
+      "gauge": {
+        "green": [
+          0.45,
+          0.65
+        ],
+        "label": "BUFFER STROKE",
+        "missNote": "Outside the rated stroke. Check the oil level and the orifice before this buffer is trusted again.",
+        "speed": 0.55
+      },
+      "id": "oil-buffer",
+      "kind": "gauge",
+      "prompt": "Run the plunger through its stroke and commit the reading inside the rated band.",
+      "target": "oil-buffer",
+      "title": "Measure the oil buffer stroke",
+      "why": "An oil buffer's whole job is metering fluid through an orifice at a controlled rate as the plunger compresses, and a stroke that is too short or too long usually means the oil level or the orifice itself is wrong — a fault that a buffer sitting still, looking full, gives no sign of at all."
+    },
+    {
+      "cue": "Reconfirm the pit stop switch, then run the tape and commit the runby reading inside the code minimum.",
+      "gauge": {
+        "green": [
+          0.38,
+          0.58
+        ],
+        "label": "COUNTERWEIGHT RUNBY",
+        "missNote": "Below the code minimum. This gets written up and escalated before the car runs again, not adjusted on the spot.",
+        "speed": 0.6
+      },
+      "id": "runby-measure",
+      "kind": "gauge",
+      "prompt": "Reconfirm the pit stop switch, then run the tape and commit the runby reading inside the code minimum.",
+      "target": "runby-tape",
+      "title": "Measure the counterweight runby",
+      "why": "Runby is the clearance the counterweight still has to travel before it would strike the buffer beneath it, and a car that has stretched its ropes over time, or been releveled without the runby being rechecked, can quietly lose that margin. It is measured on this visit rather than trusted from the last one."
+    },
+    {
+      "cue": "Carry the buffer oil can to the reservoir fill point and top it up to the mark.",
+      "drag": {
+        "missNote": "Not at the fill point. Oil poured anywhere else on the buffer body does nothing for the reservoir and leaves a slip hazard on the pit floor.",
+        "radius": 0.4,
+        "to": "oil-buffer-fill"
+      },
+      "id": "oil-top-up",
+      "kind": "drag",
+      "prompt": "Carry the buffer oil can to the reservoir fill point and top it up to the mark.",
+      "target": "oil-can",
+      "title": "Top up the oil buffer",
+      "why": "The buffer's stroke is only correct at the oil level the manufacturer rated it for, and topping it up now, with the stroke already measured and written down, means the next reading anyone takes off this buffer is a true one rather than one skewed by a top-up nobody logged."
+    },
+    {
+      "cue": "Confirm the sump pump is back in automatic, release the pit stop switch once you are clear of the ladder, then stow the ladder.",
+      "id": "exit-restore",
+      "itemNames": {
+        "ladder-latch": "ladder release latch",
+        "pit-stop-switch": "pit stop switch",
+        "sump-pump": "sump pump test switch"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Wrong order — pump back to automatic first, then the pit switch once you are clear, and the ladder stowed last.",
+      "prompt": "Confirm the sump pump is back in automatic, release the pit stop switch once you are clear of the ladder, then stow the ladder.",
+      "targets": [
+        "sump-pump",
+        "pit-stop-switch",
+        "ladder-latch"
+      ],
+      "title": "Close out the pit in the correct order",
+      "why": "Automatic mode on the pump is restored before anything else because a pit left in test mode is a pit a rising sump has no pump answering it. The pit switch is released only once every mechanic is actually up the ladder and clear, and the ladder is stowed last because it is the one thing confirming nobody is still down there."
+    },
+    {
+      "cue": "Write the buffer readings, the runby measurement and today's findings on the pit log.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Write the buffer readings, the runby measurement and today's findings on the pit log.",
+      "target": "pit-log",
+      "title": "Log the pit service",
+      "why": "The next mechanic to open this pit door reads this log before they read the buffers themselves, and a runby number that goes unwritten today is a number somebody else has to remeasure from zero the next time this pit is due."
+    }
+  ],
+  "supportLine": "your IUEC local's member assistance programme, or the NEIEP training coordinator for anything about the certification record",
+  "tagline": "A full pit service: refuge space, ladder, sump pump, spring and oil buffer testing, and counterweight runby, logged before anyone climbs back out",
+  "title": "SmartCiti.X~ Pit Work and Buffer Inspection VR",
+  "trade": "Elevator constructor / mechanic — IUEC",
+  "underwater": null,
+  "weather": "wind"
+}

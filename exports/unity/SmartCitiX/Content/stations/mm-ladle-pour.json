@@ -1,0 +1,389 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "clean-heat",
+    "name": "Clean Heat",
+    "note": "A heat poured behind a closed barrier, in full PPE, with the tilt held steady and nothing wet ever going near the metal"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "USW Tony Mazzocchi Center health and safety training; OSHA 29 CFR 1910.132 personal protective equipment; OSHA 29 CFR 1910.133 eye and face protection; ANSI/ISEA 105 hand protection classification; ANSI/ISEA Z358.1 emergency eyewash and shower equipment",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI/ISEA 105",
+        "id": "ansi-isea-105",
+        "title": "ANSI/ISEA 105 — Hand protection classification, including the A1–A9 cut levels"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.133",
+        "id": "osha-1910-133",
+        "title": "29 CFR 1910.133 — Eye and face protection"
+      },
+      {
+        "body": "union",
+        "citedAs": "USW",
+        "id": "usw-mazzocchi-center",
+        "title": "USW Tony Mazzocchi Center health, safety and environmental training"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Manufacturing",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "ppe-first",
+        "name": "PPE First",
+        "note": "Full PPE on before the ladle was ever approached, first time"
+      },
+      {
+        "id": "behind-the-barrier",
+        "name": "Behind The Barrier",
+        "note": "Never stood in the splash zone, added anything wet, or looked at the stream unshielded"
+      },
+      {
+        "id": "steady-tilt",
+        "name": "Steady Tilt",
+        "note": "Tilt rate held inside its band the whole pour"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-pour",
+        "name": "Clean Pour",
+        "note": "No corrections through the whole heat"
+      },
+      {
+        "id": "tilt-unbroken",
+        "name": "Tilt Unbroken",
+        "note": "The tilt never broke its controlled rate"
+      },
+      {
+        "id": "heat-fast",
+        "name": "Heat Fast",
+        "note": "Heat poured and logged inside 80% of par"
+      }
+    ],
+    "currency": "HEAT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ladle Helper",
+      "Pourer",
+      "Ladle Operator",
+      "Melt Shop Lead",
+      "Pour Deck Authority Certified"
+    ],
+    "system": "Pour Deck Authority"
+  },
+  "hazards": {
+    "bare-sample-spoon": "You picked up the sample spoon with the bare handle. A spoon that has been resting near an open ladle carries heat well up its shaft, and a hand on bare metal there does not get a warning before it is burned — the insulated handle is what makes the spoon safe to hold, not how careful the hand holding it tries to be.",
+    "direct-stream-view": "You leaned to look straight at the stream through the gap in the barrier. The stream throws both heat and light that a face shield is rated for and an unprotected look is not; the barrier has a gap for the mirror that is meant to be used, not for a face.",
+    "splash-zone": "You stood in the splash zone while the stream was live. A splash off molten steel does not behave like a splash off anything ordinary — it goes through cloth, it sticks, and the couple of seconds it takes to react is already too long. The zone in front of the stream is empty by design, not watched from a safe distance by luck.",
+    "wet-alloy-bag": "You reached for the damp addition bag. Moisture meeting molten metal flashes to steam far faster than it can escape, and a wet addition dropped into a ladle is one of the more reliable ways to start a violent eruption out of the top of it. Additions go in dry, every time, with no exception for a bag that only got a little wet."
+  },
+  "id": "mm-ladle-pour",
+  "indoor": "plant",
+  "interrupts": [
+    {
+      "after": "watch-stream",
+      "alert": "The hot spot on the shell you noted earlier has brightened sharply and a thin bead of metal is now visible weeping from it.",
+      "cue": "The shell is starting to breach, not just glow.",
+      "delay": 4,
+      "id": "breakout-warning",
+      "kind": "Refractory failing",
+      "missNote": "The weep kept spreading while the pour continued. A breakout does not pause for the ladle to finish emptying, and a crew that keeps pouring past the first sign of one is treating a structural failure as a cosmetic one.",
+      "seconds": 13,
+      "target": "breakout-alarm",
+      "why": "A weeping shell is a lining that has failed, and the failure does not stay small — a shell breach lets molten steel find the crane structure and everyone on the deck below it. The breakout alarm is what clears the deck and calls the response before the weep becomes a stream nobody can stand near.",
+      "wrongNote": "It is the breakout alarm. Nothing else clears the deck fast enough for a shell that is already weeping."
+    },
+    {
+      "after": "add-alloy",
+      "alert": "The tilt has started creeping further open on its own, past where you set it, with nobody's hand adding to the rate.",
+      "cue": "The tilt is moving without you.",
+      "delay": 3,
+      "id": "tilt-drift",
+      "kind": "Tilt creeping",
+      "missNote": "The tilt kept creeping and the mould overfilled past the pour order's level. A drive fault does not correct itself, and a stream that keeps running because nobody stopped the machine is exactly the failure the e-stop exists to catch.",
+      "seconds": 12,
+      "target": "tilt-estop",
+      "why": "A tilt drive that keeps moving after the control was let go of is a control fault, not a heavier pour, and letting it run is how a mould that was filling correctly gets overfilled by a machine nobody is actually commanding any more. The tilt e-stop is the one control that answers a drive doing something the pourer did not ask for.",
+      "wrongNote": "It is the tilt e-stop. A creeping drive is answered by stopping the drive, not by anything at the barrier."
+    }
+  ],
+  "lateNotes": {
+    "alloy-bag": "The addition goes in once the stream is already running clean, not before.",
+    "tilt-control-lever": "Not yet. The barrier is closed and the temperature is read before the ladle tilts."
+  },
+  "name": "Ladle Pour",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "mill-and-mine"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "ladleCrane",
+        "count": 1,
+        "kit": "equipment"
+      }
+    ],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "addition-chute",
+      "alloy-bag",
+      "bare-sample-spoon",
+      "breakout-alarm",
+      "direct-stream-view",
+      "face-shield-down",
+      "heat-gauntlets",
+      "heat-log",
+      "immersion-probe",
+      "ladle-cradle",
+      "pour-order-board",
+      "pour-position-mark",
+      "reflective-coat",
+      "shell-hot-spot",
+      "splash-barrier",
+      "splash-zone",
+      "stream-gauge",
+      "tilt-control-lever",
+      "tilt-control-wheel",
+      "tilt-estop",
+      "trolley-token",
+      "trunnion-lock",
+      "wet-alloy-bag"
+    ],
+    "meshes": 142
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the heat number, the grade, the target temperature band and the mould this heat is going to.",
+      "id": "pour-order",
+      "kind": "select",
+      "prompt": "Check the heat number, the grade, the target temperature band and the mould this heat is going to.",
+      "target": "pour-order-board",
+      "title": "Read the heat's pour order",
+      "why": "The pour order is what says which mould this heat belongs to and what temperature band it is supposed to be poured in, and it is read before the ladle is ever approached. A crew that pours from memory rather than from the order is one heat away from pouring the wrong grade into the wrong mould."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Aluminized coat on, face shield down, heat gauntlets on — all three before the ladle is approached.",
+      "id": "ppe-don",
+      "itemNames": {
+        "face-shield-down": "face shield down",
+        "heat-gauntlets": "heat gauntlets on",
+        "reflective-coat": "aluminized coat on"
+      },
+      "kind": "sequence",
+      "prompt": "Aluminized coat on, face shield down, heat gauntlets on — all three before the ladle is approached.",
+      "targets": [
+        "reflective-coat",
+        "face-shield-down",
+        "heat-gauntlets"
+      ],
+      "title": "Put on the full pour PPE",
+      "why": "Radiant heat off an open ladle reaches skin long before a splash ever could, and the coat, the shield and the gauntlets each answer a different part of that exposure. None of the three does the other one's job: a shield with no coat still leaves the forearms exposed, and a coat with the shield up still leaves the face to whatever the stream throws."
+    },
+    {
+      "cue": "Check the shell for a hot spot and click what you see.",
+      "id": "shell-check",
+      "itemNames": {
+        "shell-hot-spot": "a bright hot spot on the ladle shell"
+      },
+      "itemNotes": {
+        "shell-hot-spot": "There is a patch on the ladle's outer shell glowing brighter than the steel around it — the sign of refractory wearing thin enough that the shell itself is starting to feel the heat the lining is supposed to be holding back."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the shell for a hot spot and click what you see.",
+      "targets": [
+        "shell-hot-spot"
+      ],
+      "title": "Walk the ladle shell before it is hung",
+      "why": "A ladle's refractory lining is what stands between the shell and several tonnes of molten steel, and a shell that has started to glow is a lining that is failing, not a ladle that is merely warm. Finding it here, before the ladle is hung and tilted, is what keeps a thin spot from becoming a breakout with the ladle already over the mould."
+    },
+    {
+      "cue": "Check the hook's safety latch is closed over the trunnion pin before the ladle is lifted.",
+      "id": "trunnion-lock",
+      "kind": "select",
+      "prompt": "Check the hook's safety latch is closed over the trunnion pin before the ladle is lifted.",
+      "target": "trunnion-lock",
+      "title": "Confirm the crane hook is locked on the trunnions",
+      "why": "The trunnions are the only thing the crane is actually holding the ladle by, and the latch is what keeps the hook from walking off the pin under the ladle's own swing. A ladle this heavy that comes off its hook does not fall so much as it lands, all at once, wherever it happens to be hanging."
+    },
+    {
+      "cue": "Drag the trolley control to the marked pour position over the mould.",
+      "drag": {
+        "missNote": "Not on the mark — the stream needs to land inside the mould, not beside it.",
+        "radius": 0.4,
+        "to": "pour-position-mark"
+      },
+      "id": "position-trolley",
+      "kind": "drag",
+      "prompt": "Drag the trolley control to the marked pour position over the mould.",
+      "target": "trolley-token",
+      "title": "Position the ladle over the mould",
+      "why": "The trolley is what moves the ladle across the bay, and the pour position mark is where the stream will actually land inside the mould rather than off its edge. Getting the position right before the tilt starts is what keeps the whole pour aimed at the mould instead of correcting a stream that has already started running."
+    },
+    {
+      "cue": "Swing the splash barrier closed across the pour deck before the tilt starts.",
+      "id": "clear-splash-zone",
+      "kind": "select",
+      "prompt": "Swing the splash barrier closed across the pour deck before the tilt starts.",
+      "target": "splash-barrier",
+      "title": "Close the splash barrier",
+      "why": "The barrier is what keeps anyone but the pourer out of the zone the stream can reach if it splashes, and it is closed before the tilt starts rather than trusted to stop somebody who has already wandered into range. A barrier closed after the pour begins has already failed at the one job it has."
+    },
+    {
+      "cue": "Dip the immersion probe and hold it until the reading settles.",
+      "holdBreakNote": "You pulled the probe before the reading settled. A number taken mid-dip is not the heat's actual temperature yet.",
+      "id": "sample-temp",
+      "kind": "hold",
+      "prompt": "Dip the immersion probe and hold it until the reading settles.",
+      "seconds": 5,
+      "target": "immersion-probe",
+      "title": "Read the heat's temperature",
+      "why": "The pour order's temperature band is only useful against a real reading taken right before the tilt — a heat that has sat can cool well outside the band the mould was designed to be filled at, and pouring outside that band is how a casting comes out with defects that show up only after it has already solidified."
+    },
+    {
+      "cue": "Turn the tilt wheel a small amount to ease the ladle off its rest before committing to the pour.",
+      "id": "tilt-start",
+      "kind": "turn",
+      "prompt": "Turn the tilt wheel a small amount to ease the ladle off its rest before committing to the pour.",
+      "target": "tilt-control-wheel",
+      "title": "Crack the ladle off the stop",
+      "turn": {
+        "axis": "x",
+        "label": "TILT",
+        "turns": 0.25
+      },
+      "why": "Easing the ladle off its stop slowly, rather than starting straight into the full tilt rate, is what lets the crew see the first of the stream while the ladle is barely open — the moment a nozzle or a lining problem shows itself, before the pour is running at full rate and hard to stop cleanly."
+    },
+    {
+      "cue": "Hold the tilt lever steady and keep the rate in the controlled band as the stream runs.",
+      "holdBreakNote": "Tilt rate out of band — bring it back before the stream drifts off the mould.",
+      "id": "tilt-pour",
+      "kind": "track",
+      "prompt": "Hold the tilt lever steady and keep the rate in the controlled band as the stream runs.",
+      "seconds": 6,
+      "target": "tilt-control-lever",
+      "title": "Hold the tilt through the pour",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.42,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "TILT RATE",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "A tilt taken too fast overfills the mould and throws the stream wide of where the trolley aimed it; a tilt taken too slow lets the stream wander and cool as it falls. The steady rate a pourer holds through the whole heat is what keeps the stream landing exactly where the trolley put the ladle."
+    },
+    {
+      "cue": "Read the stream gauge off the mirror and keep the flow reading inside its band.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "FLOW",
+        "missNote": "Flow out of band — ease the tilt back until the stream steadies.",
+        "speed": 0.7
+      },
+      "id": "watch-stream",
+      "kind": "gauge",
+      "prompt": "Read the stream gauge off the mirror and keep the flow reading inside its band.",
+      "target": "stream-gauge",
+      "title": "Watch the stream through the mirror",
+      "why": "The stream is read through the barrier's mirror, not by leaning to look straight at it, and the flow it shows is what tells the pourer whether the nozzle is running clean or starting to freeze shut. A flow that has drifted out of band is the first sign of a problem the tilt rate alone will not show."
+    },
+    {
+      "cue": "Carry the dry alloy bag to the addition chute and feed it in.",
+      "drag": {
+        "missNote": "Not at the chute — the addition goes in through the chute, not thrown toward the ladle.",
+        "radius": 0.4,
+        "to": "addition-chute"
+      },
+      "id": "add-alloy",
+      "kind": "drag",
+      "prompt": "Carry the dry alloy bag to the addition chute and feed it in.",
+      "target": "alloy-bag",
+      "title": "Add the dry ferroalloy through the chute",
+      "why": "The chute lets an addition reach the metal from outside the splash zone and at a controlled rate — a shovelful dropped straight in by hand does neither, and it puts a hand and an arm exactly where the metal can react to whatever the addition brings with it."
+    },
+    {
+      "cue": "Turn the tilt wheel back to bring the ladle upright once the mould is at its level.",
+      "id": "tilt-close",
+      "kind": "turn",
+      "prompt": "Turn the tilt wheel back to bring the ladle upright once the mould is at its level.",
+      "target": "tilt-control-wheel",
+      "title": "Bring the ladle back upright",
+      "turn": {
+        "axis": "x",
+        "label": "TILT",
+        "turns": 0.25
+      },
+      "why": "The tilt comes back the same controlled way it went out — stopped at the level the pour order calls for, not run past it and corrected, because a mould overfilled by a slow-to-stop tilt is a defect poured in a second that takes far longer than that to fix."
+    },
+    {
+      "cue": "Lower the empty ladle into its cradle and mark the area no-entry until it cools.",
+      "id": "ladle-return",
+      "kind": "select",
+      "prompt": "Lower the empty ladle into its cradle and mark the area no-entry until it cools.",
+      "target": "ladle-cradle",
+      "title": "Return the ladle to its cradle",
+      "why": "An emptied ladle is not a cool one — the shell and the skull of metal left inside it stay dangerously hot long after the pour is over, and the cradle area is marked off exactly as if the ladle were still full, per the plant's own procedure, until it has actually cooled."
+    },
+    {
+      "cue": "Record the heat number, the temperature read and the pour time in the heat log.",
+      "id": "log-heat",
+      "kind": "select",
+      "prompt": "Record the heat number, the temperature read and the pour time in the heat log.",
+      "target": "heat-log",
+      "title": "Log the heat",
+      "why": "The heat log is what lets the next stage of the process know exactly what it received — the grade, the temperature it was poured at, and when. A heat that pours clean but never gets logged is a heat the rest of the mill has to take on faith."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A molten-metal ladle tilted to pour: PPE on, the splash barrier closed, additions dry and through the chute, the tilt held to a controlled rate",
+  "title": "SmartCiti.X~ Ladle Pour VR",
+  "trade": "Steelmaking ladle crew",
+  "underwater": null,
+  "weather": null
+}

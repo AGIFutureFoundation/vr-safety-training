@@ -1,0 +1,448 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "label-followed",
+    "name": "Label Followed",
+    "note": "Label and SDS read, PPE on, mixing contained, the area walked and posted, and the whole application held to the label's own rate and buffer"
+  },
+  "category": "Grounds & Landscaping",
+  "certification": "Federal Insecticide, Fungicide, and Rodenticide Act (FIFRA) — the product label as a legal document and EPA's pesticide applicator and worker-protection requirements; OSHA 29 CFR 1910.132 personal protective equipment, 29 CFR 1910.133 eye and face protection, 29 CFR 1910.134 respiratory protection, 29 CFR 1910.138 hand protection and 29 CFR 1910.1200 hazard communication; AFSCME parks and grounds member training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "AFSCME",
+        "id": "afscme-training",
+        "title": "AFSCME member education and safety training for public-service and air-district members"
+      },
+      {
+        "body": "EPA",
+        "citedAs": "FIFRA",
+        "id": "epa-fifra-pesticide-label",
+        "title": "Federal Insecticide, Fungicide, and Rodenticide Act (FIFRA) — the pesticide product label as a legal document, and EPA's pesticide applicator and worker-protection requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.133",
+        "id": "osha-1910-133",
+        "title": "29 CFR 1910.133 — Eye and face protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.134",
+        "id": "osha-1910-134",
+        "title": "29 CFR 1910.134 — Respiratory protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.138",
+        "id": "osha-1910-138",
+        "title": "29 CFR 1910.138 — Hand protection"
+      }
+    ]
+  },
+  "district": "fairway-park",
+  "domain": "Grounds & Landscaping",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "label-read",
+        "name": "Label Read First",
+        "note": "Never mixed before reading the label and the SDS"
+      },
+      {
+        "id": "contained-mix",
+        "name": "Contained Mix",
+        "note": "Mixed over containment, clear of the drain"
+      },
+      {
+        "id": "no-shortcut",
+        "name": "No Shortcut",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "steady-rate",
+        "name": "Steady Rate",
+        "note": "Held the mix gauge and the application rate near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "quick-app",
+        "name": "Quick Application",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "clean-round",
+        "name": "Clean Round",
+        "note": "No corrections across the whole run"
+      },
+      {
+        "id": "grounds-streak",
+        "name": "Grounds Streak",
+        "note": "Nine correct actions in a row"
+      }
+    ],
+    "currency": "TURF",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Hand",
+      "Applicator Trainee",
+      "Label Certified",
+      "Crew Lead",
+      "Grounds Certified"
+    ],
+    "system": "Grounds Crew"
+  },
+  "hazards": {
+    "mix-near-drain": "You mixed the concentrate right beside the storm drain. A spill or a splash at that spot does not need to be large to reach the drain, and once it is in the drain it is no longer this crew's spill to contain — it is whatever the drain feeds, with nobody downstream given any say in it.",
+    "remove-respirator-during-mix": "You pulled the respirator off while the concentrate was still open. The respirator the label calls for during mixing is doing its job precisely while the container is open and the vapour or dust concentration is highest — taking it off mid-mix defeats the one control that was actually protecting the airway at the moment it mattered most.",
+    "smoke-near-mixing": "That ignition source is right next to open concentrate and mixed product. Several labelled formulations carry a flammability warning for exactly this reason, and an open flame anywhere near an active mixing station is a risk the label does not need a specific incident to have already warned about.",
+    "spray-toward-pollinator-bed": "You aimed the spray straight at the bed with bees actively working the blooms. A label's restriction on spraying during pollinator activity exists because a direct application is the one exposure a foraging bee cannot avoid, and aiming away from an active bed while it is still blooming is what the label is actually asking for."
+  },
+  "id": "gk-pesticide-and-fertilizer-application-per-the-label",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "calibrate-spray-wand",
+      "alert": "A gust has picked up mid-calibration and the label's own wind limit is now in question for the pass toward the sidewalk.",
+      "cue": "Shut the sprayer off at the tank valve until the gust passes and the wind is rechecked.",
+      "delay": 3,
+      "id": "wind-picks-up",
+      "kind": "Drift risk",
+      "missNote": "The sprayer kept running through the gust. Product carried on wind like that does not stay inside the treatment area the label assumed it would.",
+      "seconds": 10,
+      "target": "tank-shutoff-valve",
+      "why": "A label's wind limit exists because drift carries product exactly where nobody planned for it to go — a sidewalk, a neighbour's yard, an open window — and shutting off at the tank the moment a gust exceeds what was checked is what keeps a calibration pass from becoming an off-target application nobody can call back.",
+      "wrongNote": "Not that — the tank shutoff is what this gust needs, before the calibration pass continues."
+    },
+    {
+      "after": "apply-under-rate-signal",
+      "alert": "A resident has pushed a stroller past the posted sign and into the buffer zone ahead of the application row.",
+      "cue": "Stop the spray at the wand's own stop lever before the row reaches the buffer.",
+      "delay": 4,
+      "id": "stroller-into-buffer",
+      "kind": "Bystander incursion",
+      "missNote": "The application kept running while the stroller was still in the buffer. A posted zone nobody stops for protects nobody standing in it.",
+      "seconds": 11,
+      "target": "stop-spray-lever",
+      "why": "A posted sign only protects someone who has already read it, and a stroller already past the sign is already inside the zone the label's re-entry interval exists to keep clear — stopping the spray immediately is what keeps this from becoming the exposure the posting was meant to prevent.",
+      "wrongNote": "Not that — stop the spray at the wand before anything else about this row matters."
+    }
+  ],
+  "lateNotes": {
+    "buffer-marker": "The buffer to water is marked before the sprayer starts, not estimated by eye once the tank is already open and running.",
+    "pollinator-activity": "A bed this active with foraging bees is exactly what a label's pollinator-protection language is written to keep an application away from while it is blooming."
+  },
+  "name": "Pesticide & Fertilizer Application",
+  "parSeconds": 310,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "grounds-and-landscaping"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "2.3x0.72x1",
+        "count": 1,
+        "kit": "unknown"
+      }
+    ],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "buffer-marker",
+      "chemical-gloves",
+      "clear-lawn-area",
+      "closing-log",
+      "containment-tray",
+      "coveralls",
+      "eye-protection",
+      "eyewash-station-check",
+      "label-panel",
+      "measuring-cup",
+      "metering-valve",
+      "mix-gauge",
+      "mix-near-drain",
+      "mixing-area-clear",
+      "mixing-station-socket",
+      "play-equipment",
+      "pollinator-activity",
+      "post-sign-a",
+      "post-sign-b",
+      "rate-indicator",
+      "remove-respirator-during-mix",
+      "respirator",
+      "rinse-station",
+      "sds-binder",
+      "smoke-near-mixing",
+      "spray-toward-pollinator-bed",
+      "spray-wand",
+      "stop-spray-lever",
+      "tank-shutoff-valve",
+      "uncovered-pond",
+      "wind-flag"
+    ],
+    "meshes": 116
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the label's own rate, PPE, buffer and re-entry instructions before opening the container.",
+      "id": "read-label",
+      "kind": "select",
+      "prompt": "Read the label's own rate, PPE, buffer and re-entry instructions before opening the container.",
+      "target": "label-panel",
+      "title": "Read the product label",
+      "why": "The label is a legal document under federal pesticide law, not a suggestion — every rate, every PPE requirement and every buffer distance this application follows comes from that label, read before the container is ever opened, not recalled from memory of the last job."
+    },
+    {
+      "cue": "Confirm the SDS's first-aid and spill instructions before mixing.",
+      "id": "read-sds",
+      "kind": "select",
+      "prompt": "Confirm the SDS's first-aid and spill instructions before mixing.",
+      "target": "sds-binder",
+      "title": "Check the safety data sheet",
+      "why": "The label tells the crew how to apply the product correctly; the SDS is what tells them what to do if something goes wrong — reading both before mixing is what makes sure a spill or an exposure has an answer ready instead of one improvised on the spot."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Chemical-resistant gloves, respirator, eye protection and coveralls before the container is opened.",
+      "id": "ppe-up",
+      "itemNames": {
+        "chemical-gloves": "chemical-resistant gloves",
+        "coveralls": "coveralls",
+        "eye-protection": "eye protection",
+        "respirator": "respirator"
+      },
+      "kind": "sequence",
+      "prompt": "Chemical-resistant gloves, respirator, eye protection and coveralls before the container is opened.",
+      "targets": [
+        "chemical-gloves",
+        "respirator",
+        "eye-protection",
+        "coveralls"
+      ],
+      "title": "Put on the PPE the label calls for",
+      "why": "The label sets out exactly which PPE this product's own handling instructions call for, and putting all of it on before the container is opened is what makes the protection actually cover the moment of highest exposure — pouring and mixing the concentrate — instead of arriving after it."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Set the containment tray under the mixing station, confirm the eyewash is reachable, and clear the area of anyone not mixing.",
+      "id": "mix-setup",
+      "itemNames": {
+        "containment-tray": "secondary containment tray",
+        "eyewash-station-check": "eyewash station check",
+        "mixing-area-clear": "mixing area cleared of bystanders"
+      },
+      "kind": "sequence",
+      "prompt": "Set the containment tray under the mixing station, confirm the eyewash is reachable, and clear the area of anyone not mixing.",
+      "targets": [
+        "containment-tray",
+        "eyewash-station-check",
+        "mixing-area-clear"
+      ],
+      "title": "Set up the mixing area",
+      "why": "A containment tray catches a drip or a spill before it reaches the ground, a reachable eyewash is what actually matters in the fifteen seconds after a splash, and clearing the area of anyone not mixing keeps the exposure to the one person trained and suited for it."
+    },
+    {
+      "cue": "Carry the measuring cup marked for this product to the mixing station.",
+      "drag": {
+        "missNote": "Not at the mixing station — carry the cup to where the mixing station actually is.",
+        "radius": 0.4,
+        "to": "mixing-station-socket"
+      },
+      "id": "stage-measuring-cup",
+      "kind": "drag",
+      "prompt": "Carry the measuring cup marked for this product to the mixing station.",
+      "target": "measuring-cup",
+      "title": "Stage the correct measuring cup",
+      "why": "Using the cup marked and dedicated to this product, carried to the mixing station rather than grabbed from a shared shelf, is what keeps a residue from a different chemical out of today's tank mix before the first drop is even measured."
+    },
+    {
+      "cue": "Turn the metering valve to draw the concentrate at the rate the label sets, watching the cup fill.",
+      "id": "meter-concentrate",
+      "kind": "turn",
+      "prompt": "Turn the metering valve to draw the concentrate at the rate the label sets, watching the cup fill.",
+      "target": "metering-valve",
+      "title": "Meter the concentrate to the label's rate",
+      "turn": {
+        "axis": "z",
+        "label": "METERING VALVE",
+        "turns": 0.4
+      },
+      "why": "The metering valve is what turns the label's own rate from a number on a page into an actual measured amount in the cup — turning it slowly while watching the fill is what keeps this measurement accurate instead of a guess stopped early or run over."
+    },
+    {
+      "cue": "Read the mix gauge and commit only inside the band the label calls for.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.66
+        ],
+        "label": "TANK MIX CONCENTRATION",
+        "missNote": "Outside the label's band. Adjust the mix and let the reading settle before committing it.",
+        "speed": 0.58
+      },
+      "id": "check-mix-gauge",
+      "kind": "gauge",
+      "prompt": "Read the mix gauge and commit only inside the band the label calls for.",
+      "target": "mix-gauge",
+      "title": "Confirm the tank mix concentration",
+      "why": "A tank mixed too weak under-treats and wastes a trip; mixed too strong risks turf damage and uses more product than the label allows — the gauge is what confirms the actual mix is inside the label's own band before a single pass is sprayed."
+    },
+    {
+      "cue": "Three things in this area change what the label allows here — find them before the sprayer is even filled.",
+      "decoyNotes": {
+        "clear-lawn-area": "That stretch of lawn is open turf with nothing nearby that changes the plan. Nothing to flag there."
+      },
+      "id": "walk-treatment-area",
+      "itemNames": {
+        "play-equipment": "the play equipment inside the treatment area",
+        "pollinator-activity": "the bed with active pollinator activity",
+        "uncovered-pond": "the uncovered ornamental pond"
+      },
+      "itemNotes": {
+        "play-equipment": "Play equipment sitting inside the planned treatment area means the label's re-entry interval has to be posted and enforced right at the spot children actually use.",
+        "pollinator-activity": "A bed this active with foraging bees is exactly the kind of pollinator activity a label's own restriction language exists to route an application around.",
+        "uncovered-pond": "An uncovered pond inside drift range is exactly the surface water a label's aquatic-toxicity warning is written to keep an application away from."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things in this area change what the label allows here — find them before the sprayer is even filled.",
+      "targets": [
+        "pollinator-activity",
+        "play-equipment",
+        "uncovered-pond"
+      ],
+      "title": "Walk the treatment area before mixing anything",
+      "why": "A treatment area that looks like open turf from the truck is not the same thing as an area someone has actually walked, and a pollinator bed, a play structure or an uncovered pond are exactly what a walk-down catches before the label's own restrictions get violated by accident."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Set a re-entry sign at both entrances before the sprayer starts.",
+      "id": "post-treated-area",
+      "itemNames": {
+        "post-sign-a": "sign at the near entrance",
+        "post-sign-b": "sign at the far entrance"
+      },
+      "kind": "sequence",
+      "prompt": "Set a re-entry sign at both entrances before the sprayer starts.",
+      "targets": [
+        "post-sign-a",
+        "post-sign-b"
+      ],
+      "title": "Post the treated area",
+      "why": "The label's re-entry interval only protects anyone if it is actually posted where people enter the area — a sign at both entrances is what turns that interval from a line on the label into something a resident or a coworker can actually see and respect."
+    },
+    {
+      "cue": "Set the buffer marker at the distance the label sets from the pond and the storm drain before spraying.",
+      "id": "mark-water-buffer",
+      "kind": "select",
+      "prompt": "Set the buffer marker at the distance the label sets from the pond and the storm drain before spraying.",
+      "target": "buffer-marker",
+      "title": "Mark the buffer to water",
+      "why": "The label's buffer distance to water is the one number on it written specifically to keep this product out of a pond or a drain — marking it before the sprayer starts is what turns that distance into a line the applicator can actually see rather than a guess made mid-pass."
+    },
+    {
+      "cue": "Hold the wand steady over the calibration pad for the full check before applying to the turf.",
+      "holdBreakNote": "Released the wand before the calibration finished. Hold it steady over the pad for the full check, every time.",
+      "id": "calibrate-spray-wand",
+      "kind": "hold",
+      "prompt": "Hold the wand steady over the calibration pad for the full check before applying to the turf.",
+      "seconds": 4,
+      "target": "spray-wand",
+      "title": "Calibrate the spray wand",
+      "why": "A wand calibrated over a pad rather than the first few feet of actual turf is what confirms the nozzle is delivering the label's rate evenly before any of it lands somewhere that cannot be recalibrated after the fact."
+    },
+    {
+      "cue": "Keep the rate indicator steady in band while walking each marked row at an even pace.",
+      "holdBreakNote": "The application rate drifted out of band. Adjust the walking pace back to the label's rate before continuing the row.",
+      "id": "apply-under-rate-signal",
+      "kind": "track",
+      "prompt": "Keep the rate indicator steady in band while walking each marked row at an even pace.",
+      "seconds": 8,
+      "target": "rate-indicator",
+      "title": "Apply the rows under the rate indicator",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "APPLICATION RATE",
+        "rise": 0.5,
+        "start": 0.16
+      },
+      "why": "The label's rate assumes an even walking pace and a steady overlap between passes — a rate indicator that drifts out of band is the sprayer's own way of saying the pace changed, which is exactly what turns a uniform application into stripes of over- and under-treated turf."
+    },
+    {
+      "cue": "Confirm the wind is inside the label's own limit before starting the next row.",
+      "id": "check-wind",
+      "kind": "select",
+      "prompt": "Confirm the wind is inside the label's own limit before starting the next row.",
+      "target": "wind-flag",
+      "title": "Check the wind before continuing",
+      "why": "A label's wind limit is what keeps drift from carrying product off the treatment area, and checking it before every row — not just once at the start of the shift — is what actually catches a gust that picked up since the last check."
+    },
+    {
+      "cue": "Rinse the tank and the measuring cup at the rinse station before storing anything.",
+      "id": "rinse-and-cleanup",
+      "kind": "select",
+      "prompt": "Rinse the tank and the measuring cup at the rinse station before storing anything.",
+      "target": "rinse-station",
+      "title": "Triple-rinse the equipment",
+      "why": "A tank or a measuring cup put away with residue still in it is the next application's contamination waiting to happen — the rinse station is what actually gets this equipment clean before it is trusted with a different product next time."
+    },
+    {
+      "cue": "Log the product, the area treated and the date before leaving the site.",
+      "id": "log-application",
+      "kind": "select",
+      "prompt": "Log the product, the area treated and the date before leaving the site.",
+      "target": "closing-log",
+      "title": "Log the application record",
+      "why": "The application record is what the site's own compliance file and the next crew both read — an application handled cleanly but never logged leaves nothing behind to prove the label was actually followed rather than just intended."
+    }
+  ],
+  "supportLine": "your union steward or the parks department's employee assistance line",
+  "tagline": "A labelled turf product mixed and applied the way its own label sets out: PPE the label calls for, mixing over containment away from the drain, the treatment area walked for a pollinator bed and a play area, the buffer to water marked, and the rate and the wind held the whole pass",
+  "title": "SmartCiti.X~ Pesticide & Fertilizer Application VR",
+  "trade": "Grounds pesticide and fertilizer applicator — AFSCME parks and grounds crew",
+  "underwater": null,
+  "weather": "clear"
+}

@@ -1,0 +1,142 @@
+{
+  "accent": "#4fb0a0",
+  "anchors": [
+    {
+      "id": "coliseum-area-hospital",
+      "name": "Coliseum Area Hospital",
+      "position": [
+        621,
+        398
+      ],
+      "stations": [
+        "who-ppe-donning-and-doffing",
+        "hc-patient-transport-and-safe-handling"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "coliseum"
+    },
+    {
+      "id": "emery-lab-campus",
+      "name": "Emery Lab Campus",
+      "position": [
+        -720,
+        -350
+      ],
+      "stations": [
+        "hc-sterile-processing-decontamination-and-assembly",
+        "hc-hazardous-drug-spill-kit-response",
+        "who-surveillance-and-case-definition"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "emery-crossing"
+    }
+  ],
+  "certification": "WHO infection prevention and control guidance, WHO outbreak communication guidance, CDC isolation precautions, OSHA 29 CFR 1910.1030 and 1910.134, the Sphere Handbook's minimum standards, and IASC cluster coordination practice",
+  "competency": {
+    "id": "outbreak-response-who",
+    "kind": "programme",
+    "require": 6,
+    "standards": [
+      "cdc-guidance",
+      "osha-1910-1030",
+      "osha-1910-134"
+    ],
+    "stations": [
+      "decon-line",
+      "who-surveillance-and-case-definition",
+      "who-ppe-donning-and-doffing",
+      "who-isolation-ward-setup",
+      "who-contact-tracing-visit",
+      "who-treatment-centre-triage",
+      "who-water-sanitation-and-hygiene",
+      "who-vaccination-line",
+      "who-risk-communication-and-community-engagement",
+      "who-safe-and-dignified-burial",
+      "who-after-action-review"
+    ],
+    "title": "Respond to an outbreak under WHO infection-prevention and outbreak-communication practice"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "seiu-training",
+    "afscme-training",
+    "cdc-guidance",
+    "osha-1910-1030",
+    "osha-1910-134",
+    "nims-ics"
+  ],
+  "id": "outbreak-response-who",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1548,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 120
+  },
+  "name": "Outbreak and Disease Response — WHO and UN Practice",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "decon-line",
+      "why": "The shared opener: a decontamination line run in order is the same discipline an isolation ward and a treatment centre are built on."
+    },
+    {
+      "app": "smartcity",
+      "id": "who-surveillance-and-case-definition",
+      "why": "The first alert: a written case definition read before anything is counted, a signal verified before it is believed, a report filed at the tier the evidence supports, and a silent site chased rather than counted as zero."
+    },
+    {
+      "app": "smartcity",
+      "id": "who-ppe-donning-and-doffing",
+      "why": "The anteroom every clinical station after this one depends on: kit inspected, the donning order, a seal check every time, a buddy at the door, and the doffing order that keeps the respirator on until last."
+    },
+    {
+      "app": "smartcity",
+      "id": "who-isolation-ward-setup",
+      "why": "An ordinary ward turned into an isolation area before the first patient arrives: one-way flow, suspected and confirmed kept apart, a room held at negative pressure, and hand hygiene within reach of every bed."
+    },
+    {
+      "app": "smartcity",
+      "id": "who-contact-tracing-visit",
+      "why": "The daily household visit that finds the next case before it spreads: the community focal person met first, the interview held outdoors at distance, every contact found, and a sick contact referred rather than driven."
+    },
+    {
+      "app": "smartcity",
+      "id": "who-treatment-centre-triage",
+      "why": "The treatment centre's gate: every arrival screened touch-free against the posted definition, suspected cases sent by their own path, and the ambulance and the family that follow handled without breaking either rule."
+    },
+    {
+      "app": "smartcity",
+      "id": "who-water-sanitation-and-hygiene",
+      "why": "The camp water point the Sphere Handbook sets standards for: water treated in order, chlorine dosed from the jar test, a residual read at the tap, and latrines sited downhill with a basin at every one."
+    },
+    {
+      "app": "smartcity",
+      "id": "who-vaccination-line",
+      "why": "An outbreak vaccination session end to end: the cold chain proven, every vial checked, an auto-disable syringe straight into the safety box uncapped, and every person watched before they go home."
+    },
+    {
+      "app": "smartcity",
+      "id": "who-risk-communication-and-community-engagement",
+      "why": "The community meeting WHO outbreak communication guidance describes: what is known and what is not, trusted voices at the front, rumours logged rather than repeated, and last week's questions answered in public."
+    },
+    {
+      "app": "smartcity",
+      "id": "who-safe-and-dignified-burial",
+      "why": "A burial team's visit taught as one procedure for safety and dignity: the family heard first with their community representative, the body carried by the whole team, the grave marked, and a supervised doff."
+    },
+    {
+      "app": "smartcity",
+      "id": "who-after-action-review",
+      "why": "The last station: a no-blame review once the outbreak is over, the frontline heard first, planned set against actual, and every lesson turned into an action with an owner and a date."
+    }
+  ],
+  "summary": "Ten stations from the first alert to the last discharge: surveillance and case definition, PPE, an isolation ward, contact tracing, a treatment centre, water and sanitation, a vaccination line, risk communication, safe and dignified burial, and the after-action review.",
+  "union": "SEIU and AFSCME public-health staff, NNU and CNA nurses, and the humanitarian workforce that deploys under UN clusters"
+}

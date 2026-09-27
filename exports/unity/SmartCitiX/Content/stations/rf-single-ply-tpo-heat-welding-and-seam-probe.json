@@ -1,0 +1,419 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "seam-probed-clean",
+    "name": "Seam Probed Clean",
+    "note": "Every seam probed fused, the perimeter fastened to the wind-uplift pattern, and nobody caught a lungful of fumes doing it"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "OSHA 29 CFR 1926.501 and 29 CFR 1926.502 fall protection at the roof edge and around the open hatch, and 29 CFR 1926 Subpart M Fall protection generally; ANSI Z359 for the harness and anchor; 29 CFR 1926.1153 for any cutting or grinding dust nearby; NRCA single-ply installation and wind-uplift practice; Roofers Local 40 apprenticeship and training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z359",
+        "id": "ansi-z359",
+        "title": "ANSI/ASSP Z359 — Fall Protection Code"
+      },
+      {
+        "body": "NRCA",
+        "citedAs": "NRCA",
+        "id": "nrca-roofing-practices",
+        "title": "National Roofing Contractors Association — roofing and waterproofing application, safety and quality practices"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.1153",
+        "id": "osha-1926-1153",
+        "title": "29 CFR 1926.1153 — Respirable crystalline silica in construction"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.501",
+        "id": "osha-1926-501",
+        "title": "29 CFR 1926.501 — Duty to have fall protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.502",
+        "id": "osha-1926-502",
+        "title": "29 CFR 1926.502 — Fall protection systems criteria and practices"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926 Subpart M Fall protection",
+        "id": "osha-1926-subpart-m",
+        "title": "OSHA 29 CFR 1926 Subpart M Fall protection"
+      },
+      {
+        "body": "union",
+        "citedAs": "Roofers Local 40",
+        "id": "roofers-local-40-training",
+        "title": "Roofers Local 40 — United Union of Roofers, Waterproofers and Allied Workers apprenticeship and training"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "plan-first",
+        "name": "Plan First",
+        "note": "The fastening plan read before the first plate was driven"
+      },
+      {
+        "id": "steady-weld",
+        "name": "Steady Weld",
+        "note": "The welder swept the whole seam without a break in pace"
+      },
+      {
+        "id": "no-lungful",
+        "name": "No Lungful",
+        "note": "No hand at the hot nozzle, no open primer can, no unfastened edge left for the wind"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-run",
+        "name": "Clean Run",
+        "note": "No corrections anywhere on the roof"
+      },
+      {
+        "id": "fully-fused",
+        "name": "Fully Fused",
+        "note": "The seam probe committed inside the fused band first time"
+      },
+      {
+        "id": "sheet-closed",
+        "name": "Sheet Closed",
+        "note": "Log written inside 80% of par"
+      }
+    ],
+    "currency": "FUSE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Apprentice",
+      "Welder Hand",
+      "Seam Prober",
+      "Lead Mechanic",
+      "Wind-Uplift Certified"
+    ],
+    "system": "Probe Line"
+  },
+  "hazards": {
+    "hot-nozzle-clear": "You reached toward the welder's nozzle to clear a scrap of jammed membrane while it was still powered on. The nozzle runs at a temperature high enough to fuse thermoplastic sheet in seconds, and a bare hand finds that out the same way the membrane does — instantly and without warning, which is why the welder is switched off and set down before anyone's fingers go near the tip.",
+    "loose-perimeter-sheet": "The last row of fastening plates along this sheet's perimeter has not been driven yet, and the sheet is already flapping at the free edge. A single-ply roof holds against wind uplift only where it is actually fastened to the pattern the manufacturer's wind-uplift rating assumes — a sheet plated everywhere except the edge is a sheet with nothing stopping the wind from getting underneath it and peeling the whole course.",
+    "open-hatch-no-guard": "The roof hatch beside the weld path is standing open with its guardrail gate unlatched. 29 CFR 1926.501 treats an open hatch as a hole to be guarded the whole time it is open, and a roofer walking backward while feeding the welder's cord is exactly the person who finds an unguarded hole by stepping into it, not by looking for it first.",
+    "primer-can-open": "The seam primer's can is sitting open behind the parapet, in the one corner of the roof the wind does not reach. Its solvent vapour is heavier than air and has nowhere to go in that dead pocket, so it pools instead of dispersing — exactly the low-ventilation condition the primer's own label warns keeps its cap on except while it is actually being brushed onto a seam."
+  },
+  "id": "rf-single-ply-tpo-heat-welding-and-seam-probe",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "weld-pass",
+      "alert": "A gust catches the unfastened stretch of perimeter sheet, and it starts lifting off the deck from the free edge inward.",
+      "cue": "Grab the fastener driver and get the remaining plates in before the wind gets further under the sheet.",
+      "delay": 2,
+      "id": "wind-lifts-perimeter",
+      "kind": "Gust off the parapet",
+      "missNote": "The gust kept working under the sheet until it folded back on itself, dragging grit into the underside that keeps it from ever lying flat again.",
+      "seconds": 14,
+      "target": "fastener-driver",
+      "why": "A single-ply sheet is only as secure as its last driven fastener, and the moment between rolling a sheet out and finishing its perimeter row is exactly when a gust can find the free edge and start peeling — which is why NRCA's practice is to fasten a sheet's perimeter before moving on rather than leaving it for the end of the day.",
+      "wrongNote": "That does not hold a lifting sheet down. Get the fastener driver on the remaining plates before the wind gets any further under it."
+    },
+    {
+      "after": "sheet-layout",
+      "alert": "The laborer stacking scrap behind the parapet radios that their head is swimming and their eyes are stinging.",
+      "cue": "Cap the open primer can pooling fumes in that dead-air corner and get the laborer moved upwind.",
+      "delay": 3,
+      "id": "fumes-behind-parapet",
+      "kind": "Laborer feeling dizzy",
+      "missNote": "The can stayed open and the laborer kept working in the pooled fumes until the headache was bad enough to call it in on the radio themselves.",
+      "seconds": 14,
+      "target": "primer-can",
+      "why": "Solvent vapour in a still corner behind a parapet does not disperse the way it would in open air, and a worker who has been breathing it for a while feels the effect before anyone watching from a few feet away notices anything at all. Capping the can stops it adding to the pool; moving the laborer gets them out of what is already there.",
+      "wrongNote": "Not that. Cap the primer can that is filling that corner with fumes, and get the laborer clear of it."
+    }
+  ],
+  "lateNotes": {
+    "log-board": "The log is written once the perimeter has been walked and checked, not before.",
+    "primer-can": "The cap goes back on right after the primer is brushed on, not held open in reserve for the next seam.",
+    "seam-probe": "The probe reads the seam once the welder has actually passed over it and it has had a moment to cool — there is nothing fused yet before that."
+  },
+  "name": "Single-Ply TPO Heat Welding & Seam Probe",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "roofers-and-waterproofers"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "anchor-clip",
+      "chute-socket",
+      "fastener-driver",
+      "fastener-row",
+      "harness",
+      "hot-nozzle-clear",
+      "layout-line",
+      "log-board",
+      "loose-perimeter-sheet",
+      "membrane-sheet",
+      "membrane-tear",
+      "open-hatch-no-guard",
+      "perimeter-sheet",
+      "plan-board",
+      "primer-can",
+      "primer-can-open",
+      "radio",
+      "scrap-bag",
+      "seam-cure",
+      "seam-probe",
+      "welder-cord-frayed",
+      "welder-nozzle",
+      "welder-temp"
+    ],
+    "meshes": 170
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the plan: the fastener spacing at the field, the perimeter and the corners, and the wind-uplift rating it is built to.",
+      "id": "fastening-plan",
+      "kind": "select",
+      "prompt": "Read the plan: the fastener spacing at the field, the perimeter and the corners, and the wind-uplift rating it is built to.",
+      "target": "plan-board",
+      "title": "Read the fastening plan and wind-uplift pattern",
+      "why": "A mechanically-attached single-ply roof only performs to its wind-uplift rating where the fasteners are actually placed on the pattern the engineering behind that rating assumes — tighter at the perimeter and corners than in the field, per the manufacturer's plan. Skipping the plan and fastening from habit is how a roof that was rated for the building's wind zone fails at a corner nobody reinforced."
+    },
+    {
+      "cue": "Put the harness on and snug it, then clip the lanyard to the certified roof anchor before working toward the perimeter.",
+      "id": "harness-on",
+      "itemNames": {
+        "anchor-clip": "lanyard clipped to the roof anchor",
+        "harness": "full-body harness on and snugged"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Harness first — the lanyard clips to the back D-ring of a harness that is already on, not to one still on the rack.",
+      "prompt": "Put the harness on and snug it, then clip the lanyard to the certified roof anchor before working toward the perimeter.",
+      "targets": [
+        "harness",
+        "anchor-clip"
+      ],
+      "title": "Harness on, then clipped to the roof anchor",
+      "why": "This roof has an open hatch and an unguarded perimeter in the same work area, and 29 CFR 1926.502 makes the anchor, harness and connection one rated system rather than three pieces of gear worn out of habit. Snugged before it is clipped, because a loose harness slides under load exactly where it should not."
+    },
+    {
+      "cue": "Check the welder's cord and nozzle, and look over the next staged sheet for tears or punctures before it is rolled out.",
+      "id": "welder-inspect",
+      "itemNames": {
+        "membrane-tear": "a tear in a staged membrane sheet",
+        "welder-cord-frayed": "a frayed patch on the welder's power cord"
+      },
+      "itemNotes": {
+        "membrane-tear": "A staged sheet has a puncture near its edge from a dropped tool. Welded over without a patch, that tear is a leak path the membrane's whole warranty depends on nobody rolling out.",
+        "welder-cord-frayed": "The cord's insulation is worn through to bare copper a hand's width from the strain relief — flexed hot near a nozzle running at welding temperature, that is a shock and a burn waiting on the same fault."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the welder's cord and nozzle, and look over the next staged sheet for tears or punctures before it is rolled out.",
+      "targets": [
+        "welder-cord-frayed",
+        "membrane-tear"
+      ],
+      "title": "Inspect the welder and the staged sheet before starting",
+      "why": "The welder runs hundreds of degrees at its nozzle and pulls real current to get there, so its cord is inspected before every plug-in the same way a harness is inspected before every use. A torn sheet is cheaper to catch on the stack than to find as a leak call a year after it is welded into the field."
+    },
+    {
+      "cue": "Read the welder's nozzle temperature and commit once it sits in the manufacturer's working band for this membrane.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "WELDER NOZZLE — TEMPERATURE",
+        "missNote": "Off the manufacturer's welding band. Let it settle and read it again before the nozzle touches the seam.",
+        "speed": 0.6
+      },
+      "id": "welder-temp",
+      "kind": "gauge",
+      "prompt": "Read the welder's nozzle temperature and commit once it sits in the manufacturer's working band for this membrane.",
+      "target": "welder-temp",
+      "title": "Bring the welder's nozzle to temperature",
+      "why": "A nozzle run too cool never fuses the sheets into one membrane — it lays a bead on top that peels the first time it is tested; run too hot, it scorches through the top ply instead of welding it. The manufacturer's temperature band is what the machine was built to weld this thickness of TPO at."
+    },
+    {
+      "cue": "Carry the next TPO sheet from the stack and roll it out flat to the chalked layout line over the insulation.",
+      "drag": {
+        "missNote": "Not on the layout line. Carry the sheet all the way out to the chalk mark before letting it lie flat.",
+        "radius": 0.55,
+        "to": "layout-line"
+      },
+      "id": "sheet-layout",
+      "kind": "drag",
+      "prompt": "Carry the next TPO sheet from the stack and roll it out flat to the chalked layout line over the insulation.",
+      "target": "membrane-sheet",
+      "title": "Roll the next sheet out to the layout line",
+      "why": "The layout line marks the overlap the fastening plan is built around; short of it and the seam has nothing to weld, long past it and the pattern underneath drifts off its marks course by course. The sheet is carried flat rather than dragged across the insulation boards, because a dragged sheet picks up grit that keeps the weld from ever fusing clean."
+    },
+    {
+      "cue": "Set the plate on its mark and drive the fastener until it seats flush — not proud, not sunk through the facer.",
+      "id": "fastener-drive",
+      "kind": "turn",
+      "prompt": "Set the plate on its mark and drive the fastener until it seats flush — not proud, not sunk through the facer.",
+      "target": "fastener-driver",
+      "title": "Drive the perimeter plate to the pattern",
+      "turn": {
+        "axis": "z",
+        "label": "FASTENER DRIVER",
+        "turns": 0.5
+      },
+      "why": "A plate driven proud tents the membrane welded over it and becomes the first place a foot finds a soft spot; a fastener sunk through the insulation's facer loses its pull-out strength exactly where the wind-uplift rating needs it most. Flush and on the plan's mark is the only setting that gives the pattern its rated holding power."
+    },
+    {
+      "cue": "Hold the nozzle and trailing roller moving at a steady pace along the seam — too slow scorches the sheet, too fast leaves it unfused.",
+      "holdBreakNote": "The sweep broke out of the steady band. Bring the nozzle back to a steady pace along the seam before it cools past welding temperature.",
+      "id": "weld-pass",
+      "kind": "track",
+      "prompt": "Hold the nozzle and trailing roller moving at a steady pace along the seam — too slow scorches the sheet, too fast leaves it unfused.",
+      "seconds": 6,
+      "target": "welder-nozzle",
+      "title": "Sweep the welder along the seam at a steady pace",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.42,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "WELDER SWEEP SPEED",
+        "rise": 0.5,
+        "start": 0.15
+      },
+      "why": "The nozzle melts both sheets to a running edge for the roller right behind it to press together, and that only happens inside a narrow speed window: held still, the top ply scorches through before the weld is even made; swept too fast, the roller presses two sheets that never got hot enough to become one. The steady middle pace is what the manufacturer's welding guide calls a sound seam."
+    },
+    {
+      "cue": "Drag the blunt probe along the whole seam and commit the reading once it stays in the fully-fused band end to end.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "SEAM PROBE — RESISTANCE",
+        "missNote": "The probe caught a gap or skated over a scorched patch. Re-weld that stretch of seam before probing it again.",
+        "speed": 0.55
+      },
+      "id": "seam-probe",
+      "kind": "gauge",
+      "prompt": "Drag the blunt probe along the whole seam and commit the reading once it stays in the fully-fused band end to end.",
+      "target": "seam-probe",
+      "title": "Probe the cooled seam for a continuous weld",
+      "why": "A probe dropping into a gap the eye cannot see is how a roofer finds the one span of seam that never actually fused, before the membrane finds it for them during the next storm. NRCA's quality-control practice has every seam probed after it cools, and a probe that catches anywhere means that stretch gets re-welded, not signed off."
+    },
+    {
+      "cue": "Brush the primer onto the detail seam, then cap the can immediately rather than leaving it open for the next one.",
+      "id": "primer-cap",
+      "kind": "select",
+      "prompt": "Brush the primer onto the detail seam, then cap the can immediately rather than leaving it open for the next one.",
+      "target": "primer-can",
+      "title": "Cap the seam primer right after use",
+      "why": "The primer's solvent is what makes it dangerous to leave open — it keeps evaporating whether anyone is using it or not, and a can left open behind a parapet fills a dead-air corner with vapour nobody is watching. Capped between uses, it only ever off-gasses while it is actually being brushed on."
+    },
+    {
+      "cue": "Press the hand roller onto the freshly welded patch and hold it there until the manufacturer's cure time has passed.",
+      "holdBreakNote": "The roller came off before the cure time was up — hold it down a little longer before anyone walks that patch.",
+      "id": "seam-cure",
+      "kind": "hold",
+      "prompt": "Press the hand roller onto the freshly welded patch and hold it there until the manufacturer's cure time has passed.",
+      "seconds": 4,
+      "target": "seam-cure",
+      "title": "Hold the roller on the fresh patch while it cures",
+      "why": "A weld is fully bonded once it has cooled and set, and stepping onto it before then can peel the very seam that was just probed clean. Holding the roller down for the manufacturer's cure time is the cheap way to make sure the next boot on that patch is standing on a finished seam rather than a warm one."
+    },
+    {
+      "cue": "Drag the bag of membrane trim and backer scrap to the chute rather than leaving it loose on the deck.",
+      "drag": {
+        "missNote": "Not in the chute. Drag the scrap bag all the way to the chute before letting go.",
+        "radius": 0.55,
+        "to": "chute-socket"
+      },
+      "id": "scrap-haul",
+      "kind": "drag",
+      "prompt": "Drag the bag of membrane trim and backer scrap to the chute rather than leaving it loose on the deck.",
+      "target": "scrap-bag",
+      "title": "Haul the trim scrap to the debris chute",
+      "why": "Loose trim scrap on a finished membrane is exactly what tears the next sheet dragged over it, and blown scrap off an open roof is a falling-object hazard for anyone below. The chute takes it off the roof the same day it is cut, not at the end of the job."
+    },
+    {
+      "cue": "Walk the finished perimeter against the fastening plan: count the plate row and find the stretch of edge that is still unfastened.",
+      "id": "perimeter-check",
+      "itemNames": {
+        "fastener-row": "the perimeter fastener row counted against the plan",
+        "perimeter-sheet": "the stretch of edge that is still unfastened"
+      },
+      "itemNotes": {
+        "fastener-row": "Counted plate by plate against the wind-uplift pattern's spacing, this run is one short of the plan — the gap will not show up as a leak, only as the one spot a gust finds a purchase months from now.",
+        "perimeter-sheet": "This stretch of perimeter still has bare membrane past its last plate — the sheet the earlier gust already tried to get under, now confirmed and ready for its last few fasteners."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the finished perimeter against the fastening plan: count the plate row and find the stretch of edge that is still unfastened.",
+      "targets": [
+        "fastener-row",
+        "perimeter-sheet"
+      ],
+      "title": "Walk the perimeter and find what the plan says should already be closed",
+      "why": "A roof that is fastened everywhere except one forgotten stretch of edge is a roof the wind will find that one stretch on, and the walk-round at the end of the day — plate row counted, every stretch of edge looked at — is the last chance to catch a skipped fastener or an unfinished sheet before the crew is gone and the first real gust arrives overnight."
+    },
+    {
+      "cue": "Write the frayed cord replaced, the torn sheet swapped, the seam probes clean, and the fastener row confirmed into the log.",
+      "id": "log-board",
+      "kind": "select",
+      "prompt": "Write the frayed cord replaced, the torn sheet swapped, the seam probes clean, and the fastener row confirmed into the log.",
+      "target": "log-board",
+      "title": "Log the course, the finds and the fastener count",
+      "why": "The next roofer on this course inherits whatever the log says rather than what actually happened, so the finds that do not show up in the finished membrane — a cord replaced, a sheet swapped before it was welded in — are exactly the things worth writing down while they are still fresh."
+    },
+    {
+      "cue": "Radio the crew laying sheet behind you: the course is welded and probed, the perimeter is fastened, and name the support line.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Radio the crew laying sheet behind you: the course is welded and probed, the perimeter is fastened, and name the support line.",
+      "target": "radio",
+      "title": "Check in with the crew fastening behind you",
+      "why": "A welding crew and a fastening crew are working the same course a few feet apart, and a short check-in is what keeps the fastening crew from covering a seam that has not actually been probed yet, or welding started on a sheet that is not fully plated down."
+    }
+  ],
+  "supportLine": "Roofers Local 40's member assistance programme, or your contractor's employee assistance line",
+  "tagline": "The fastening plan read, harness clipped, the welder and a staged sheet inspected, the welder's nozzle brought to temperature, a sheet dragged out and fastened to the wind-uplift pattern, the seam welded at a steady pace and probed clean, the primer capped, scrap hauled off, the perimeter checked and the day logged, with a gust testing an unfinished edge and fumes pooling behind the parapet along the way",
+  "title": "SmartCiti.X~ Single-Ply TPO Heat Welding & Seam Probe VR",
+  "trade": "Roofer heat-welding a mechanically-attached TPO membrane and probing every seam before it is signed off",
+  "underwater": null,
+  "weather": "wind"
+}

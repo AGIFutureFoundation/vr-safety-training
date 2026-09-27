@@ -1,0 +1,134 @@
+{
+  "accent": "#9fd84f",
+  "anchors": [
+    {
+      "id": "hills-transmission-corridor",
+      "name": "Hills Transmission Corridor",
+      "position": [
+        681,
+        -250
+      ],
+      "stations": [
+        "solar-deck",
+        "battery-yard",
+        "or-transmission-line-right-of-way-patrol"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "hills"
+    },
+    {
+      "id": "ridge-reservoir-yard",
+      "name": "Ridge Reservoir Yard",
+      "position": [
+        900,
+        -495
+      ],
+      "stations": [
+        "ut-cathodic-protection-test-station-reading",
+        "or-solar-farm-tracker-row-maintenance",
+        "op-equipment-daily-walkaround-and-fluids"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "upper-hills"
+    }
+  ],
+  "certification": "NFPA 70E, NFPA 855 energy storage, NEC Article 690 photovoltaic systems and utility interconnection practice",
+  "competency": {
+    "id": "energy-transition",
+    "kind": "programme",
+    "require": 5,
+    "standards": [
+      "nfpa-70e",
+      "nfpa-855",
+      "nfpa-70-art-690"
+    ],
+    "stations": [
+      "solar-deck",
+      "battery-yard",
+      "charge-point",
+      "substation-switching",
+      "cell-site-battery",
+      "battery-storage-container-commissioning",
+      "et-ev-fleet-depot-charging-and-arc-flash",
+      "or-transmission-line-right-of-way-patrol",
+      "or-solar-farm-tracker-row-maintenance"
+    ],
+    "title": "Commission and isolate photovoltaic, storage and charging systems"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "ibew-neca-jatc",
+    "nfpa-70e",
+    "nfpa-855",
+    "nec-nfpa-70",
+    "nabcep-pv",
+    "ieee-450",
+    "neta-ats",
+    "osha-1910-269",
+    "osha-1910-147"
+  ],
+  "id": "energy-transition",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1642,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 130
+  },
+  "name": "Energy Transition Systems",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "solar-deck",
+      "why": "A photovoltaic array that is energised whenever the sun is up and cannot be switched off at the panel."
+    },
+    {
+      "app": "smartcity",
+      "id": "battery-yard",
+      "why": "Grid storage: AC before DC, the bleed-down and the thermal event you are trying not to start."
+    },
+    {
+      "app": "smartcity",
+      "id": "charge-point",
+      "why": "The load end: high-current DC in a public place."
+    },
+    {
+      "app": "smartcity",
+      "id": "substation-switching",
+      "why": "The interconnection, switched on a written order with grounds proven on."
+    },
+    {
+      "app": "smartcity",
+      "id": "cell-site-battery",
+      "why": "A smaller string in a cabinet, where the same chemistry is maintained by one person alone at night."
+    },
+    {
+      "app": "smartcity",
+      "id": "battery-storage-container-commissioning",
+      "why": "Grid storage from delivered to first charge, where the gas detection is proven before the doors are trusted and a cell group running hot is stopped on the E-stop."
+    },
+    {
+      "app": "smartcity",
+      "id": "et-ev-fleet-depot-charging-and-arc-flash",
+      "why": "The depot row at the panel a whole fleet plugs into: zero energy proven before the lockout, a cut cable and a live ground fault both caught before the vans ever see them."
+    },
+    {
+      "app": "smartcity",
+      "id": "or-transmission-line-right-of-way-patrol",
+      "why": "The corridor these stations feed and draw from, walked and driven on open range, where a downed conductor is treated as energised from the first look at it, not judged safe by what it looks like lying in the grass."
+    },
+    {
+      "app": "smartcity",
+      "id": "or-solar-farm-tracker-row-maintenance",
+      "why": "The array itself serviced under a real combiner lockout, with the manual override never turning a row until the meter, not the switch position, says the DC is actually dead."
+    }
+  ],
+  "summary": "The plant a utility is building now: solar, storage, charging and the substation that ties them together. Direct current behaves differently, and every station here is about that difference.",
+  "union": "IBEW outside construction and utility locals"
+}

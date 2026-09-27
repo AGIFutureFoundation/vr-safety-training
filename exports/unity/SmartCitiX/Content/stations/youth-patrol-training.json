@@ -1,0 +1,397 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "first-shift-clean",
+    "name": "First Shift Clean",
+    "note": "Roles held, the buddy rule never broken, the boundary respected, and a real observation logged and handed off"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "The foundation's own youth patrol training protocol, run under adult supervision; BAAQMD's complaint process for what a filed observation is used for; NIOSH heat-stress guidance and the same shade-and-water trigger the state's heat-illness prevention standard sets for outdoor workers, adopted here as the patrol's own rule; EPA Air Quality Index guidance for reading a smoke or particulate reading before a shift; the patrol's own rule that members work the public side of a fence line, never inside it",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "BAAQMD",
+        "citedAs": "BAAQMD",
+        "id": "baaqmd-regulations",
+        "title": "Bay Area Air Quality Management District regulations, complaint line and Community Advisory Council process"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.120",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "roles-held",
+        "name": "Roles Held",
+        "note": "Every role assigned and the buddy check passed clean"
+      },
+      {
+        "id": "boundary-kept",
+        "name": "Boundary Kept",
+        "note": "Never a hazard, never a step over the fence line"
+      },
+      {
+        "id": "true-eyes",
+        "name": "True Eyes",
+        "note": "The smoke reading and the steady observation both read inside the working band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "No corrections anywhere in the first shift"
+      },
+      {
+        "id": "steady-scan",
+        "name": "Steady Scan",
+        "note": "Held the patrol scan rate in band the whole route"
+      },
+      {
+        "id": "shift-on-time",
+        "name": "Shift On Time",
+        "note": "Debrief reached inside 80% of par"
+      }
+    ],
+    "currency": "SHIFT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Trainee Patroller",
+      "Patrol Member",
+      "Route Lead",
+      "Team Recorder",
+      "First-Shift Certified"
+    ],
+    "system": "Patrol Roster"
+  },
+  "hazards": {
+    "argue-with-security": "You argued back when site security spoke to the team. The patrol's whole credibility rests on staying calm and factual at the fence — an argument gives anyone who wants to dismiss a youth patrol a reason to, and it puts a teenager in a confrontation an adult chaperone is the one supposed to handle.",
+    "cross-fence-line": "You stepped through the gap toward the inside of the fence. The patrol's whole job is done from the public side of a fence line — the moment a foot crosses it, a youth patrol member is standing somewhere with real hazards and no training or escort to be there, and the parcel behind that fence is exactly the kind this edition trains everyone to treat as off-limits without both.",
+    "skip-water-break": "You kept the route going past the shade tent instead of pulling the team in for water. Heat does not announce itself before it becomes a problem in a teenager standing on pavement in direct sun — the shade-and-water break is not a reward for finishing the route, it is what keeps the route safe to finish at all.",
+    "split-from-buddy": "You sent a member off alone to check something down the route. The buddy rule exists so nobody on this team is ever the only set of eyes on a situation — alone, a member has no one to back up what they saw, no one to go for help if something goes wrong, and no one who can vouch for what actually happened."
+  },
+  "id": "youth-patrol-training",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "patrol-scan",
+      "alert": "While the team's attention is on the scan, one member has peeled off toward the gap in the fence to get a closer look.",
+      "cue": "Call them back before they reach the gap — do not go get them yourself and leave the rest of the team split.",
+      "delay": 4,
+      "id": "member-wanders-to-gap",
+      "kind": "Member straying from the group",
+      "missNote": "The member reached the gap before anyone called them back. A patrol that cannot recall its own members from a fence gap on the public sidewalk is not ready for the version of this that happens on a real route with a real hazard on the other side.",
+      "seconds": 12,
+      "target": "recall-whistle",
+      "why": "The recall whistle is the patrol's own signal for exactly this — every member trained to stop and regroup the moment it sounds, instead of one adult or team lead walking off to fetch a straying member and leaving the rest of the team unsupervised at the fence line themselves.",
+      "wrongNote": "That does not call them back. The recall whistle is the signal the whole team is trained to stop for — nothing else on this route does what it does."
+    },
+    {
+      "after": "steady-observation",
+      "alert": "The heat index on the team's own thermometer just crossed the shade-and-water trigger the patrol trains to.",
+      "cue": "That is the number that means the whole team stops and gets to shade and water now, not at the end of the route.",
+      "delay": 4,
+      "id": "heat-index-trigger",
+      "kind": "Heat index rising",
+      "missNote": "The team kept walking the route past the trigger with nobody sent to shade. Heat illness in a teenager on a sunny sidewalk does not wait for the end of a route to show up, and by the time it does, water and shade are treatment, not prevention.",
+      "seconds": 12,
+      "target": "shade-tent",
+      "why": "The trigger is set below the point where heat becomes dangerous specifically so the team has time to act before anyone on it is actually in trouble — waiting to see if somebody starts to feel it is waiting past the point the number was chosen to catch.",
+      "wrongNote": "That does not answer the heat index. Get the team to the shade tent for water — nothing else on this route lowers the number that just tripped."
+    }
+  ],
+  "lateNotes": {
+    "debrief-circle": "The debrief happens after the log is handed off — there is nothing yet to debrief.",
+    "response-board": "The fence-line response comes after an observation has actually been logged — there is nothing at the fence yet to be approached about."
+  },
+  "name": "Youth Patrol Training",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-can-we-live"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "argue-with-security",
+      "binoculars",
+      "boundary-marker-north",
+      "boundary-marker-south",
+      "buddy-signin-board",
+      "cross-fence-line",
+      "debrief-circle",
+      "gear-hat",
+      "gear-smoke-mask",
+      "gear-sunscreen",
+      "gear-water",
+      "handoff-basket",
+      "log-description",
+      "log-location",
+      "log-photo",
+      "log-time",
+      "recall-whistle",
+      "response-board",
+      "role-lead",
+      "role-photographer",
+      "role-recorder",
+      "role-solo",
+      "scan-badge",
+      "shade-station-socket",
+      "shade-tent",
+      "skip-water-break",
+      "smoke-gauge",
+      "split-from-buddy",
+      "water-cooler"
+    ],
+    "meshes": 250
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Give out the route lead, the recorder and the photographer badges before anyone steps off the curb.",
+      "decoyNotes": {
+        "role-solo": "There is no solo role on this patrol. Every member on the route has a job and a buddy — going out with nobody assigned to watch your back is not a fourth role, it is the buddy rule already broken before the shift starts."
+      },
+      "id": "assign-roles",
+      "itemNames": {
+        "role-lead": "route lead",
+        "role-photographer": "photographer",
+        "role-recorder": "recorder"
+      },
+      "kind": "sequence",
+      "options": [
+        {
+          "id": "role-lead",
+          "label": "Route lead"
+        },
+        {
+          "id": "role-recorder",
+          "label": "Recorder"
+        },
+        {
+          "id": "role-photographer",
+          "label": "Photographer"
+        },
+        {
+          "id": "role-solo",
+          "label": "Nobody — go out solo"
+        }
+      ],
+      "prompt": "Give out the route lead, the recorder and the photographer badges before anyone steps off the curb.",
+      "targets": [
+        "role-lead",
+        "role-recorder",
+        "role-photographer"
+      ],
+      "title": "Assign the three shift roles",
+      "why": "A route lead calls the pace and the boundary, a recorder writes down exactly what is seen and when, and a photographer documents it — three separate jobs so that one distracted moment does not lose the whole observation. Handing out badges before the shift starts is what keeps those three jobs from all landing on whoever happens to notice something first."
+    },
+    {
+      "cue": "Find the two flags that mark where tonight's route starts and ends before the team moves.",
+      "id": "boundary-walk",
+      "itemNames": {
+        "boundary-marker-north": "the route's north boundary marker",
+        "boundary-marker-south": "the route's south boundary marker"
+      },
+      "itemNotes": {
+        "boundary-marker-north": "This flag marks where the patrol's route ends to the north — past it is outside tonight's assignment, not somewhere to keep walking because it looks interesting.",
+        "boundary-marker-south": "This flag marks the south end. A route with a marked start and end is one the recorder can log honestly against, rather than guessing where 'the patrol area' actually stopped."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the two flags that mark where tonight's route starts and ends before the team moves.",
+      "targets": [
+        "boundary-marker-north",
+        "boundary-marker-south"
+      ],
+      "title": "Walk the route and find both boundary markers",
+      "why": "A patrol route with an unmarked boundary is a route every member defines for themselves, which is how one team ends up logging four different stretches of sidewalk as 'the route.' Finding both markers first means every log entry tonight is describing the same ground — and it is what keeps the whole team on the public side of the fence, since that boundary, not the fence itself, is where a youth patrol's route ends and the ground an OSHA HAZWOPER-trained crew works under 29 CFR 1910.120 begins."
+    },
+    {
+      "cue": "Pair every member with a buddy and sign both names on the board before moving off the curb.",
+      "id": "buddy-check",
+      "kind": "select",
+      "prompt": "Pair every member with a buddy and sign both names on the board before moving off the curb.",
+      "target": "buddy-signin-board",
+      "title": "Pair up and sign the buddy board",
+      "why": "The buddy rule is the first thing this patrol trains and the last thing it lets slide: nobody moves along this fence line alone. Signing the board is what makes the pairing a fact the route lead can check at a glance, instead of an assumption everyone is trusting somebody else made."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Take sunscreen, a hat, a full water bottle and a smoke mask from the gear table before heading out.",
+      "id": "gear-up",
+      "itemNames": {
+        "gear-hat": "wide-brim hat",
+        "gear-smoke-mask": "smoke mask",
+        "gear-sunscreen": "sunscreen",
+        "gear-water": "water bottle"
+      },
+      "kind": "sequence",
+      "prompt": "Take sunscreen, a hat, a full water bottle and a smoke mask from the gear table before heading out.",
+      "targets": [
+        "gear-sunscreen",
+        "gear-hat",
+        "gear-water",
+        "gear-smoke-mask"
+      ],
+      "title": "Stage sun and smoke protection",
+      "why": "A patrol shift is an hour or more standing and walking on open pavement with no shade until the tent, and this edition trains sun and smoke protection the same way it trains the buddy rule — staged before the exposure starts, not reached for once somebody already feels it. The smoke mask travels with every member even on a clear day, because a smoke event does not wait for the gear table to be nearby."
+    },
+    {
+      "cue": "Wheel the water cooler from the gear table to the shade tent before the route starts.",
+      "drag": {
+        "missNote": "Not seated at the tent — carry the cooler all the way to the shade station before letting go.",
+        "radius": 0.45,
+        "to": "shade-station-socket"
+      },
+      "id": "water-stage",
+      "kind": "drag",
+      "prompt": "Wheel the water cooler from the gear table to the shade tent before the route starts.",
+      "target": "water-cooler",
+      "title": "Carry the water cooler to the shade tent",
+      "why": "The shade-and-water break only works if the water is already waiting at the tent when the team needs it — sending someone back to the gear table for it after the heat trigger has already gone off adds exactly the delay the trigger was set early enough to avoid."
+    },
+    {
+      "cue": "Read the gauge and commit only if today's reading falls in the range the patrol trains to go out in.",
+      "gauge": {
+        "green": [
+          0.15,
+          0.4
+        ],
+        "label": "AQI",
+        "missNote": "Outside today's go/no-go range for the route. Read the gauge again before deciding to head out.",
+        "speed": 0.7
+      },
+      "id": "smoke-check",
+      "kind": "gauge",
+      "prompt": "Read the gauge and commit only if today's reading falls in the range the patrol trains to go out in.",
+      "target": "smoke-gauge",
+      "title": "Read today's smoke and particulate reading",
+      "why": "A patrol that walks a route on a day the air itself is the hazard is training the wrong lesson before it has taken a single step — reading the gauge honestly, and being willing to call off or shorten a route on a bad-air day, is the same judgment call the network's own professional monitors have to make before every shift."
+    },
+    {
+      "cue": "Walk the route holding a steady scanning rate — not so fast you miss something, not so slow the team bunches up at the fence.",
+      "holdBreakNote": "The scan rate dropped out of band. Bring the pace back to steady before the route continues.",
+      "id": "patrol-scan",
+      "kind": "track",
+      "prompt": "Walk the route holding a steady scanning rate — not so fast you miss something, not so slow the team bunches up at the fence.",
+      "seconds": 7,
+      "target": "scan-badge",
+      "title": "Scan the fence line at a steady patrol pace",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "SCAN RATE",
+        "rise": 0.55,
+        "start": 0.12
+      },
+      "why": "Moving too fast down the fence line means the recorder and the photographer never get a clean look at anything worth logging; moving too slow bunches the whole team up in one place along a fence they are supposed to be walking past, not lingering at. A steady scan is what actually gives every member on the route a fair look at what is there."
+    },
+    {
+      "cue": "Hold the binoculars steady on what the team spotted down the fence line before calling it in to the recorder.",
+      "holdBreakNote": "You lowered the binoculars before the look was steady. A half-second glance is not enough to call in — hold it again until you can describe what you are actually looking at.",
+      "id": "steady-observation",
+      "kind": "hold",
+      "prompt": "Hold the binoculars steady on what the team spotted down the fence line before calling it in to the recorder.",
+      "seconds": 5,
+      "target": "binoculars",
+      "title": "Hold a steady look on the distant marker",
+      "why": "A glance at something along the fence line is an impression; a held, steady look is an observation the recorder can actually write down with confidence — what it was, roughly where, and for how long it was there. The recorder writes down what the team actually saw, not what someone thought they glimpsed while already walking on."
+    },
+    {
+      "cue": "Write the time, then the location, then the description, then attach the photo — in that order.",
+      "id": "log-entry",
+      "itemNames": {
+        "log-description": "description",
+        "log-location": "location",
+        "log-photo": "photo",
+        "log-time": "time"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Time, then location, then description, then photo — filled in any other order, the entry is missing the two facts that let anyone else use it.",
+      "prompt": "Write the time, then the location, then the description, then attach the photo — in that order.",
+      "targets": [
+        "log-time",
+        "log-location",
+        "log-description",
+        "log-photo"
+      ],
+      "title": "Fill in the observation log in order",
+      "why": "Time and location first is what lets anyone reading this log later place the observation on the record without guessing; the description and the photo mean nothing without them. This is the same order the network's professional monitors use, because a log filled in out of order is a log somebody has to reconstruct instead of just read."
+    },
+    {
+      "cue": "Place the finished log entry in the route lead's basket before moving on.",
+      "id": "handoff-to-lead",
+      "kind": "select",
+      "prompt": "Place the finished log entry in the route lead's basket before moving on.",
+      "target": "handoff-basket",
+      "title": "Hand the completed log to the route lead",
+      "why": "The route lead is the one who carries every log entry back to the patrol network at the end of the shift — an entry that stays in the recorder's own notebook instead of being handed off is an observation that never leaves this route."
+    },
+    {
+      "cue": "Post the response the patrol trains: stay together, stay polite, give your name if asked, and step back to the sidewalk.",
+      "id": "stranger-response",
+      "kind": "select",
+      "prompt": "Post the response the patrol trains: stay together, stay polite, give your name if asked, and step back to the sidewalk.",
+      "target": "response-board",
+      "title": "Answer site security calmly at the fence",
+      "why": "The patrol works from the public sidewalk, which means it has every right to be there — but the way to prove that is staying calm and factual, not winning an argument. A team that answers this the way it trains keeps the shift about the observation, not about a confrontation at the fence that nobody needed to have."
+    },
+    {
+      "cue": "Bring the whole team into the circle to close out the shift out loud.",
+      "id": "debrief",
+      "kind": "select",
+      "prompt": "Bring the whole team into the circle to close out the shift out loud.",
+      "target": "debrief-circle",
+      "title": "Gather the team for the debrief",
+      "why": "A shift that just ends when the route is walked teaches nothing the next shift can use — a debrief said out loud, while everyone remembers it the same way, is what turns one team's first patrol into something the next new member gets told before their own first shift."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A youth patrol team's first shift: roles assigned, the route and the fence-line boundary walked, the buddy rule kept, sun and smoke gear staged, an observation logged the way the network can use it, the calm answer at the fence, and a debrief that closes the shift",
+  "title": "SmartCiti.X~ Youth Patrol Training VR",
+  "trade": "Youth patrol member",
+  "underwater": null,
+  "weather": "clear"
+}

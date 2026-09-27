@@ -1,0 +1,414 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "key-first",
+    "name": "Key First",
+    "note": "The forklift key taken before a word was said, the conversation kept level, and nothing taken to make the shift"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "SAMHSA's guidance on substance use in the workplace and its national helpline, and its trauma-informed care principles for how the conversation is had; OSHA's anti-retaliation rule in 29 CFR 1904, which protects a worker who reports an injury or a hazard from a drug test used as punishment for reporting; the federal drug and alcohol testing programme for commercial drivers that FMCSA administers, taught in the Class A block and named here as the employer's process; the Americans with Disabilities Act, which protects a person in recovery and does not protect current illegal use; the federal confidentiality rule for substance use disorder treatment records, and HIPAA for the employee assistance programme's own file; NIOSH's guidance on shift work and stimulant use; the Teamsters' training programmes and the contract language that puts a steward beside a member in a reasonable-suspicion meeting",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "DOJ",
+        "citedAs": "Americans with Disabilities Act",
+        "id": "ada-title-ii",
+        "title": "Americans with Disabilities Act Title II — programme accessibility for public entities and their services"
+      },
+      {
+        "body": "HHS",
+        "citedAs": "HIPAA",
+        "id": "hipaa-privacy-rule",
+        "title": "HIPAA Privacy and Security Rules (45 CFR Parts 160 and 164)"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1904",
+        "id": "osha-1904",
+        "title": "29 CFR 1904 — Recording and reporting occupational injuries and illnesses"
+      },
+      {
+        "body": "NCTSN",
+        "citedAs": "Psychological First Aid",
+        "id": "pfa-field-guide",
+        "title": "Psychological First Aid Field Operations Guide (NCTSN and the National Center for PTSD), and the WHO field guide"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      },
+      {
+        "body": "union",
+        "citedAs": "Teamsters",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Workforce readiness",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "read-him-right",
+        "name": "Read Him Right",
+        "note": "Every sign found before the key was taken"
+      },
+      {
+        "id": "clean-hands",
+        "name": "Clean Hands",
+        "note": "No unsafe action anywhere in the run — the bottle, the key and the chat left alone"
+      },
+      {
+        "id": "stayed-with-him",
+        "name": "Stayed With Him",
+        "note": "The wait and the conversation both carried their full count"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "no-corrections",
+        "name": "No Corrections",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "own-number",
+        "name": "Own Number",
+        "note": "Your own stress check committed inside the band first time"
+      },
+      {
+        "id": "six-straight",
+        "name": "Six Straight",
+        "note": "Six correct actions in a row"
+      }
+    ],
+    "currency": "SHIFT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Trainee",
+      "Crew Lead",
+      "Reasonable-Suspicion Aware",
+      "Shift Steward",
+      "Job Ready"
+    ],
+    "system": "Wellness Resource Center"
+  },
+  "hazards": {
+    "call-out-on-the-floor": "You said it in front of the crew — \"what are you on?\" A reasonable-suspicion conversation held on the dock in front of six people is an accusation, not a conversation, and it decides the outcome before the supervisor is involved: he denies it in front of everyone, the crew takes sides, and the door to treatment closes in the time it took to say it. It happens in the break room, with the door shut, and it starts with what you saw.",
+    "cover-the-impairment": "You handed him the forklift key — \"just take it easy.\" Covering for a crew-mate who is impaired feels like loyalty and is the opposite: it puts him on a five-thousand-pound machine among people on foot, and if anything happens the record will show a crew lead who saw the signs and gave him the key anyway. The loyal act is the key in your pocket and the conversation that follows.",
+    "pill-to-make-shift": "You took the pill he offered — \"you look worse than I do.\" A stimulant taken to make a shift is the most common way a sleep problem on a rotating roster becomes a substance problem, and on a dock it is a forklift operator whose reaction time is wrong in a direction he cannot feel. SAMHSA's workplace guidance and NIOSH's shift-work guidance say the same thing from two directions: the fix for a missed sleep window is sleep, and the thing that makes a shift possible tonight makes the next one impossible.",
+    "search-the-locker": "You opened his locker to find the bottle. Whatever is in there, a peer searching a crew-mate's locker is a peer who has appointed himself investigator, and the employer's process — the trained supervisor's determination, the testing programme, the contract's rule about a steward being present — exists precisely so that no individual does that. You would also have destroyed the one thing the process depends on: that he trusts the person who sat with him."
+  },
+  "id": "wellness-substance-use-and-the-job",
+  "indoor": "garage",
+  "interrupts": [
+    {
+      "after": "stay-with-him",
+      "alert": "Your phone buzzes on the table: somebody on the crew has posted a photo of him in the chat with a laughing emoji.",
+      "cue": "Reply once — take it down — and put the phone away. Nothing else goes in that thread.",
+      "delay": 3,
+      "id": "chat-photo",
+      "kind": "Crew group chat — photo posted",
+      "missNote": "The photo stayed up and the thread grew. By the time the supervisor arrived, six people had an opinion about a process none of them was part of, and he found out on his own phone while you sat beside him.",
+      "seconds": 12,
+      "target": "phone-takedown",
+      "why": "A photo in the crew chat turns a reasonable-suspicion process into a public event before the supervisor is even in the room, and it is the kind of thing an employer's own policy and the contract both have something to say about. One reply, asking for it down, from the crew lead who is sitting with him, is what stops it; a thread about it is worse than the photo. Whatever he is going through now becomes the thing the crew remembers about him, unless somebody says stop.",
+      "wrongNote": "Not the stay point, and not the phone's screen. The thing that has to happen is the one reply that says take it down — anything else is joining the thread."
+    },
+    {
+      "after": "keep-it-level",
+      "alert": "He stands — \"I'm fine, I've got a trailer to unload\" — and heads for the dock door.",
+      "cue": "Radio the supervisor now. Do not block the door, do not argue.",
+      "delay": 3,
+      "id": "he-heads-for-the-dock",
+      "kind": "He gets up for the dock",
+      "missNote": "He walked out onto the dock and stood at a forklift with no key while the crew watched. Nothing was called, nobody came, and the conversation you had kept level for ten minutes ended as a scene on the floor.",
+      "seconds": 13,
+      "target": "radio-supervisor",
+      "why": "A crew-mate walking toward the dock is the moment the conversation stops being enough. Standing in the door starts a confrontation you will lose; arguing restarts the thing you have just kept level; the radio to the supervisor is what actually changes the dock, because the supervisor can stop a forklift being run and you cannot. The key in your pocket is why he cannot drive; the radio is why he does not get to try.",
+      "wrongNote": "Not the level point, and not the door. The right response is the radio to the supervisor — the person who can actually stop a truck being run."
+    }
+  ],
+  "lateNotes": {
+    "incident-note": "The note goes to the supervisor after the doors are named. A handoff without the doors is a referral to discipline alone.",
+    "process-card": "The process card comes after the conversation is level and the supervisor has been called — reading it to him first turns a peer into an investigator."
+  },
+  "name": "Wellness — Substance Use and the Job",
+  "parSeconds": 335,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "job-readiness-edition",
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "cabinet-lock",
+      "call-out-on-the-floor",
+      "cover-the-impairment",
+      "crew-checkin-board",
+      "eap-card",
+      "helpline-card",
+      "his-place",
+      "incident-note",
+      "key-hook-pull",
+      "level-point",
+      "phone-takedown",
+      "pill-to-make-shift",
+      "process-card",
+      "radio-supervisor",
+      "report-card",
+      "say-not-driving",
+      "say-supervisor-with-you",
+      "say-what-you-saw",
+      "search-the-locker",
+      "sign-coffee-cup",
+      "sign-fast-talk",
+      "sign-jaw-clench",
+      "sign-pupils",
+      "sign-tired-eyes",
+      "stay-point",
+      "stress-dial",
+      "super-tray",
+      "treatment-card",
+      "water-bottle"
+    ],
+    "meshes": 260
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Three things on him do not fit four in the morning. Find them; leave the things that do.",
+      "decoyNotes": {
+        "sign-coffee-cup": "The coffee is the coffee. Everyone on this shift has one, and it is not the finding.",
+        "sign-tired-eyes": "Tired eyes at four in the morning are four in the morning. The signs that matter are the ones that point the other way."
+      },
+      "id": "read-the-signs",
+      "itemNames": {
+        "sign-fast-talk": "talking fast, three subjects at once",
+        "sign-jaw-clench": "the jaw working",
+        "sign-pupils": "pupils wide under the break-room lights"
+      },
+      "itemNotes": {
+        "sign-fast-talk": "Three topics in one breath, none finished. Pressured speech is the sign crew-mates notice and put down to a good mood.",
+        "sign-jaw-clench": "The jaw is working and the hands will not stay still. A stimulant shows in the muscles before it shows anywhere else.",
+        "sign-pupils": "Pupils wide under bright fluorescent light. That is not tiredness; tiredness goes the other way."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things on him do not fit four in the morning. Find them; leave the things that do.",
+      "targets": [
+        "sign-jaw-clench",
+        "sign-fast-talk",
+        "sign-pupils"
+      ],
+      "title": "Read him before you say anything",
+      "why": "A reasonable-suspicion conversation has to start from specific, observable signs, both because the supervisor's determination will be made on them and because \"you seem off\" is an accusation while \"your jaw's going and you've been on three subjects at once\" is an observation. The signs of a stimulant point the opposite way to the signs of a night shift — wide pupils, fast speech, a jaw that will not stop — and reading them right is what separates a crew lead who is concerned from one who is guessing."
+    },
+    {
+      "cue": "The key comes off the hook and into your pocket before the conversation starts. Not the one beside it.",
+      "id": "take-the-key",
+      "kind": "select",
+      "prompt": "The key comes off the hook and into your pocket before the conversation starts. Not the one beside it.",
+      "target": "key-hook-pull",
+      "title": "Take the forklift key off the hook",
+      "why": "The machine is the emergency; the conversation is not. A forklift is five thousand pounds moving among people on foot, and OSHA's powered industrial truck rules already say an operator has to be capable of running it safely — a crew lead who has read the signs and leaves the key on the hook has decided the conversation matters more than the dock. Taking the key first also changes the conversation: it is no longer about whether he is fine, it is about the fact that he is not driving this shift, and that is settled."
+    },
+    {
+      "cue": "Turn the cam lock a full turn. The spare key is in there too.",
+      "id": "lock-the-cabinet",
+      "kind": "turn",
+      "prompt": "Turn the cam lock a full turn. The spare key is in there too.",
+      "target": "cabinet-lock",
+      "title": "Lock the key cabinet",
+      "turn": {
+        "axis": "y",
+        "label": "KEY CABINET",
+        "turns": 1
+      },
+      "why": "A key in your pocket and a spare on a hook is a key on a hook. Locking the cabinet closes the second route to the machine, and it does it without a word being said to him about it — which matters, because the conversation about to happen should not be about who is guarding what. It is the same discipline as isolating a machine before working on it: the energy source is controlled first, and then the work begins."
+    },
+    {
+      "cue": "Carry the water bottle to his place at the table. Not the coffee, not the energy drink.",
+      "drag": {
+        "missNote": "Not in front of him. Water beside the coffee machine is water for the room; water in front of a person is an offer.",
+        "radius": 0.5,
+        "to": "his-place"
+      },
+      "id": "water-for-him",
+      "kind": "drag",
+      "prompt": "Carry the water bottle to his place at the table. Not the coffee, not the energy drink.",
+      "target": "water-bottle",
+      "title": "Put water in front of him",
+      "why": "A stimulant dehydrates and a crash is coming, and water in front of him is the first thing in this room that is for him rather than about him. It is also the physical version of the register the whole conversation needs — you are not his supervisor and not his investigator; you are the person who noticed and sat down. Psychological First Aid puts practical needs first for the same reason: a person who has been handed something cannot be being handed a charge."
+    },
+    {
+      "cue": "What you saw, then that he is off the truck, then that the supervisor is coming and you are staying.",
+      "id": "say-it",
+      "itemNames": {
+        "say-not-driving": "that he is not on the truck this shift",
+        "say-supervisor-with-you": "that the supervisor is being called, and you will stay with him",
+        "say-what-you-saw": "what you saw — the jaw, the speech, the eyes"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "What you saw, then the truck, then the supervisor and you. Opening with the supervisor is a threat; opening with the truck is a verdict without a reason.",
+      "prompt": "What you saw, then that he is off the truck, then that the supervisor is coming and you are staying.",
+      "targets": [
+        "say-what-you-saw",
+        "say-not-driving",
+        "say-supervisor-with-you"
+      ],
+      "title": "Say it plainly, in order",
+      "why": "The order is the message. Leading with what you saw gives him something concrete and undeniable that is not an accusation about what he took; the truck decision second tells him it is already made and not up for argument; the supervisor and your staying last tells him what happens next and that he will not face it alone. Reverse it and it is a threat, a verdict and an afterthought."
+    },
+    {
+      "cue": "Not accusing, not excusing. Hold it in the band while he pushes back.",
+      "holdBreakNote": "The conversation tipped — into an argument or into letting it go. Come back to what you saw and what has been decided, in the same voice.",
+      "id": "keep-it-level",
+      "kind": "track",
+      "prompt": "Not accusing, not excusing. Hold it in the band while he pushes back.",
+      "seconds": 7,
+      "target": "level-point",
+      "title": "Keep the conversation level",
+      "track": {
+        "drift": 0.15,
+        "fall": 0.42,
+        "green": [
+          0.36,
+          0.68
+        ],
+        "label": "LEVEL",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "He will push back — \"I'm fine, I've done this shift a hundred times\" — and the two easy responses are to argue and to fold. Arguing makes it an interrogation and he denies everything; folding makes it nothing and he drives. Level means repeating what you saw, repeating the decision about the truck, and not defending either, because neither needs a defence. SAMHSA's trauma-informed principles call it collaboration without collusion: the door to help is open, the door to the forklift is shut, and your tone is the same for both."
+    },
+    {
+      "cue": "The dial is yours this time. Commit it where you actually are.",
+      "gauge": {
+        "green": [
+          0.55,
+          0.8
+        ],
+        "label": "YOUR NUMBER",
+        "missNote": "That is not where you are. Four in the morning, a crew-mate impaired and a supervisor on the way is not a three, and a crew lead who says it is will handle the next ten minutes as if it were.",
+        "speed": 0.6
+      },
+      "id": "own-stress-check",
+      "kind": "gauge",
+      "prompt": "The dial is yours this time. Commit it where you actually are.",
+      "target": "stress-dial",
+      "title": "Check your own stress before the supervisor arrives",
+      "why": "The guide's stress check is here for the crew lead, not the crew-mate, because the person about to brief a supervisor at four in the morning about a friend is under real load and will make the handoff worse if he pretends otherwise. Naming your own number — a six or a seven, honestly — is what lets you say what you saw in the same flat voice you used a minute ago, and it is the practice the peer-support station asks you to offer other people. It is scored only for honesty against the room."
+    },
+    {
+      "cue": "Sit. Do not leave him alone with the door, the dock or his phone.",
+      "holdBreakNote": "You got up. He was alone with the door and the dock for the minutes that matter most — sit back down and stay until the supervisor is in the room.",
+      "id": "stay-with-him",
+      "kind": "hold",
+      "prompt": "Sit. Do not leave him alone with the door, the dock or his phone.",
+      "seconds": 8,
+      "target": "stay-point",
+      "title": "Stay with him until the supervisor arrives",
+      "why": "The minutes between the call and the supervisor's arrival are when a crew-mate walks — to the dock, to the lot, to his car — and every one of those is worse than the meeting he is avoiding. Staying is not guarding; it is the promise from the third thing you said, kept. It is also the window in which he is most likely to say something true about what he took and why, and a crew lead who is in the room hears it."
+    },
+    {
+      "cue": "Read the process card: the trained supervisor determines reasonable suspicion, the employer's programme tests, the steward sits in. Your part ended at the handoff.",
+      "id": "whose-decision",
+      "kind": "select",
+      "prompt": "Read the process card: the trained supervisor determines reasonable suspicion, the employer's programme tests, the steward sits in. Your part ended at the handoff.",
+      "target": "process-card",
+      "title": "Know whose decision the test is",
+      "why": "A peer who says \"they'll test you\" has made a promise about a process he does not own, and a peer who says \"I won't let them\" has made a worse one. Reasonable suspicion is a determination a trained supervisor makes on documented observations; testing is the employer's programme — the federal one FMCSA administers for anyone who holds a commercial licence — and the contract puts a steward in the room. Knowing that is what lets you tell him the truth: you saw what you saw, you called who you had to call, and the rest is a process with rules he has rights inside."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Three real doors, with what each one protects. Not \"get help\".",
+      "id": "name-the-doors",
+      "itemNames": {
+        "eap-card": "the employee assistance programme — confidential, records with the clinician",
+        "helpline-card": "SAMHSA's national helpline — treatment referral, any hour",
+        "treatment-card": "treatment, with the job protected — the confidentiality rule for treatment records and the Americans with Disabilities Act for a person in recovery"
+      },
+      "kind": "sequence",
+      "prompt": "Three real doors, with what each one protects. Not \"get help\".",
+      "targets": [
+        "eap-card",
+        "helpline-card",
+        "treatment-card"
+      ],
+      "title": "Name the doors he can take without losing the job",
+      "why": "The thing a crew-mate believes at four in the morning is that admitting anything ends the job, and the doors on this board are the reasons that is not the whole truth. The employee assistance programme keeps its own file under HIPAA; the confidentiality rule for treatment records keeps a treatment programme's records out of an employer's hands without his consent; the Americans with Disabilities Act protects a person in recovery, though not current use. SAMHSA's helpline is on the board because it answers at four in the morning. A peer who can name those, specifically, has given him a reason to walk into the meeting instead of out of the building."
+    },
+    {
+      "cue": "Read the report card: a crew lead who reports a hazard cannot be drug-tested for reporting it.",
+      "id": "reporting-protected",
+      "kind": "select",
+      "prompt": "Read the report card: a crew lead who reports a hazard cannot be drug-tested for reporting it.",
+      "target": "report-card",
+      "title": "Know that reporting is protected",
+      "why": "The other fear in this room is yours — that a crew lead who raises this becomes the next one tested, or the one written up for making trouble. OSHA's anti-retaliation rule in 29 CFR 1904 says an employer may not use a drug test, or anything else, to punish a worker for reporting an injury or a hazard, and a crew-mate impaired on a forklift is a hazard by any reading. Knowing the rule is what lets you make the call without bargaining with yourself about it, and it is what you tell the next crew lead who is deciding whether to."
+    },
+    {
+      "cue": "Carry the note to the supervisor's tray — what you saw, when, and that the key was taken. Nothing about what he took.",
+      "drag": {
+        "missNote": "Not in the tray. The note is the supervisor's starting point and it goes to the supervisor, not to the table and not to the chat.",
+        "radius": 0.5,
+        "to": "super-tray"
+      },
+      "id": "hand-the-note",
+      "kind": "drag",
+      "prompt": "Carry the note to the supervisor's tray — what you saw, when, and that the key was taken. Nothing about what he took.",
+      "target": "incident-note",
+      "title": "Hand the note to the supervisor",
+      "why": "The supervisor's determination is made on documented observations, and the note is where those come from: time, the three signs, the key taken, the water given, the call made. What is not in it is what you think he took, because you do not know and the process does not need you to. A note in the tray is also the end of your part — the reasonable-suspicion process starts where the peer's stops, and the paper is where the line is."
+    },
+    {
+      "cue": "The supervisor has him. Answer the guide's question about yourself — it is never scored.",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "The supervisor has him. Answer the guide's question about yourself — it is never scored.",
+      "target": "crew-checkin-board",
+      "title": "Take the check-in",
+      "why": "The crew lead who did this right has just reported a friend at four in the morning, and the department that runs a reasonable-suspicion process without a check-in for the person who raised it is teaching its crew leads not to raise the next one. The guide asks how you are; the answer stays in your own browser; and the peer-support team and the EAP line are on the card for the run where the honest answer is \"need a minute\". Take it before the next truck backs in."
+    }
+  ],
+  "supportLine": "the programme's peer-support team or the employee assistance programme (EAP) line your employer or union carries, and SAMHSA's national helpline for treatment referral",
+  "tagline": "Four in the morning on the dock: the signs read, the forklift key taken before the conversation, what you saw said plainly, the conversation kept level, whose decision the test is, the doors he can take without losing the job, and the pill you did not take",
+  "title": "SmartCiti.X~ Wellness — Substance Use and the Job VR",
+  "trade": "Warehouse pre-apprentice — trainee crew lead, Teamsters-bound",
+  "underwater": null,
+  "weather": "clear"
+}

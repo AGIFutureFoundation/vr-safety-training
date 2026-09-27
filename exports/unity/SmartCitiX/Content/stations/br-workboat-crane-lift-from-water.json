@@ -1,0 +1,445 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "heavier-out-of-the-water",
+    "name": "Heavier Out Of The Water",
+    "note": "The chart read for the boat, the limiter never bypassed, nobody under the log, and both the slack hook and the roll answered"
+  },
+  "category": "Maritime & Ports",
+  "certification": "Inlandboatmen's Union (IBU) deck and crane practice; MEBA engineering watch; ASME B30.22 articulating boom cranes and ASME B30.9 slings; OSHA 29 CFR 1926.1437 cranes afloat and 29 CFR 1926.106 work over water; USCG 46 CFR 25 lifesaving equipment on the workboat; NOAA marine forecast for the sea state; debris removal under the BCDC permit and the vessel's crane manual",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.22",
+        "id": "asme-b30-22",
+        "title": "ASME B30.22 — Articulating boom cranes"
+      },
+      {
+        "body": "ASME",
+        "citedAs": "ASME B30.9",
+        "id": "asme-b30-9",
+        "title": "ASME B30.9 — Slings"
+      },
+      {
+        "body": "BCDC",
+        "citedAs": "BCDC",
+        "id": "bcdc-bay-plan",
+        "title": "San Francisco Bay Plan and BCDC permit conditions under the McAteer-Petris Act"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "union",
+        "citedAs": "MEBA",
+        "id": "meba-calhoon-school",
+        "title": "MEBA — the Calhoon MEBA Engineering School's licensed marine engineer training"
+      },
+      {
+        "body": "NOAA",
+        "citedAs": "NOAA",
+        "id": "noaa-tides-and-esa",
+        "title": "NOAA tide predictions and NOAA Fisheries Endangered Species Act consultation for in-water work"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.106",
+        "id": "osha-1926-106",
+        "title": "29 CFR 1926.106 — Working over or near water"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.1437",
+        "id": "osha-1926-1437",
+        "title": "29 CFR 1926.1437 — Floating cranes/derricks and land cranes/derricks on barges"
+      },
+      {
+        "body": "USCG",
+        "citedAs": "46 CFR 25",
+        "id": "uscg-46-cfr-25",
+        "title": "46 CFR Part 25 — Requirements for uninspected vessels, including lifesaving and fire-fighting equipment"
+      }
+    ]
+  },
+  "district": "Maritime & Ports",
+  "domain": "Maritime & Ports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "walked-the-crane",
+        "name": "Walked The Crane",
+        "note": "The crane walked before the hydraulics were opened"
+      },
+      {
+        "id": "chart-true",
+        "name": "Chart True",
+        "note": "Capacity read inside the band first time"
+      },
+      {
+        "id": "hands-off-the-log",
+        "name": "Hands Off The Log",
+        "note": "Never under the load, never a hand on the log, never out through the gate, never the limiter bypassed"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-pick",
+        "name": "Clean Pick",
+        "note": "No corrections from the plan to the log"
+      },
+      {
+        "id": "smooth-hoist",
+        "name": "Smooth Hoist",
+        "note": "Hoist held in band all the way through the surface"
+      },
+      {
+        "id": "on-station",
+        "name": "On Station",
+        "note": "Lift logged inside 80% of par"
+      }
+    ],
+    "currency": "PICK",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ordinary",
+      "Deckhand",
+      "Crane Deckhand",
+      "Lead Deckhand",
+      "Deck Crane Certified"
+    ],
+    "system": "Crane Deck"
+  },
+  "hazards": {
+    "hand-on-log": "You reached out to fend the swinging log off with your hands. A suspended log has momentum the arms cannot stop, and fending it pins the hand between log and rail or knocks the person off balance at an open gate — the tag line controls the log, from a distance, and a log that is swinging wrong is stopped with the crane.",
+    "lean-through-gate": "You leaned out through the open rail gate to reach the log with a boat hook. An open gate on a rolling workboat is a gap straight into the water, and reaching out through it puts the body's weight past the edge — the work vest keeps a person afloat, but the log and the hull are right there; the log is reached with the hook from inside the rail or not at all.",
+    "overload-bypass": "You turned the crane's overload limiter bypass key to get the lift moving. The limiter is what stops the crane lifting past its chart; a log that trips it is heavier than planned — full of water or snagged — and bypassing it is how a knuckle crane tears its pedestal out of the deck or rolls a small boat. The answer to a trip is to stop, not to override.",
+    "under-load-at-rail": "You stood inboard of the rail under the log's swing path as it came aboard. A waterlogged log is dense, slick and unpredictable in a choker; if it slips, or the boat rolls as it swings, it comes down on whoever is under it — the swing path is cleared before the lift and nobody stands in it until the load is landed."
+  },
+  "id": "br-workboat-crane-lift-from-water",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hoist-through",
+      "alert": "A ferry's wake is rolling in: the boat lifts on the swell, the hook goes slack over the log, and the next trough will snatch it taut.",
+      "cue": "Hold the hoist in neutral and call the master on the wheelhouse intercom to put the bow into the swell.",
+      "delay": 2,
+      "id": "swell-slack-hook",
+      "kind": "Swell slackens the hook",
+      "missNote": "The hoist kept coming as the boat dropped off the swell; the choker snatched taut, the limiter tripped mid-air, and the log swung out and back against the hull with the hook latch already bent.",
+      "seconds": 14,
+      "target": "wheelhouse-intercom",
+      "why": "A hook that goes slack and then snatches taut in a swell puts a shock load on the crane far above the log's weight, and the crane cannot fix that on its own — the boat has to meet the swell. Holding the hoist and telling the master is the answer, because the master can turn the boat into the wake and the operator cannot.",
+      "wrongNote": "The wheelhouse intercom — the master needs to put the bow into the swell before the hook snatches."
+    },
+    {
+      "after": "tag-hold",
+      "alert": "The boat takes a hard roll and the log swings in toward the second deckhand standing by the open gate.",
+      "cue": "Hit the crane's emergency stop on the operator's console so every crane motion stops, and shout the deckhand clear.",
+      "delay": 2,
+      "id": "roll-swings-log",
+      "kind": "Roll swings the log at the rail",
+      "missNote": "The crane kept slewing as the boat rolled; the log swung into the deckhand by the open gate and knocked them against the rail.",
+      "seconds": 14,
+      "target": "crane-estop",
+      "why": "A swinging load moving toward a person is stopped by stopping the crane, not by anyone trying to catch it. The emergency stop freezes every motion so the operator is not adding slew or hoist to the swing, and the shout moves the deckhand back from the gate — the tag line then damps what is left.",
+      "wrongNote": "The emergency stop on the console — freeze the crane first, then let the tag line take the swing out."
+    }
+  ],
+  "lateNotes": {
+    "crane-chart": "The chart is read once the crane has been walked and its hydraulics opened, before anything is rigged to the hook.",
+    "crane-lever": "The hoist comes up once the choker is on the pick point, the tag line is set and the swing path is clear — not before.",
+    "crane-log": "The lift is logged once the log is landed and lashed — last, not first."
+  },
+  "name": "Workboat Crane Lift From Water",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bay-restoration-maritime-underwater"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "deckCrane",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "workboat",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 3,
+    "hits": [
+      "choker",
+      "crane-chart",
+      "crane-estop",
+      "crane-lever",
+      "crane-log",
+      "crane-valve",
+      "crane-vest",
+      "crew-radio",
+      "hand-on-log",
+      "hook-latch",
+      "hook-load",
+      "hose-leak",
+      "landing-dunnage",
+      "lash-ratchet",
+      "lean-through-gate",
+      "lift-plan",
+      "log-pick-point",
+      "loose-bag",
+      "open-hatch",
+      "overload-bypass",
+      "rigging-gloves",
+      "tagline-log",
+      "under-load-at-rail",
+      "wheelhouse-intercom"
+    ],
+    "meshes": 182
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "At the wheelhouse door, before stepping out onto the afterdeck: work vest on and fastened, rigging gloves on.",
+      "id": "pfd-and-gloves",
+      "itemNames": {
+        "crane-vest": "work vest (PFD) on and fastened",
+        "rigging-gloves": "rigging gloves"
+      },
+      "kind": "sequence",
+      "prompt": "At the wheelhouse door, before stepping out onto the afterdeck: work vest on and fastened, rigging gloves on.",
+      "targets": [
+        "crane-vest",
+        "rigging-gloves"
+      ],
+      "title": "PFD and gloves on at the wheelhouse door",
+      "why": "The afterdeck of a small workboat is low to the water and wet, and a lift over the side means an open gate in the rail for most of the job. The work vest goes on before the deck, not at the rail, because the moment someone needs it is not one they choose; the gloves go on because a wet choker and a hydraulic hose fitting both take skin off a bare hand."
+    },
+    {
+      "cue": "Read the plan: the log's estimated weight, the pick point, the crane's chart for this boat, the sea-state limit in the crane manual, where it lands, and who does what.",
+      "id": "lift-plan",
+      "kind": "select",
+      "prompt": "Read the plan: the log's estimated weight, the pick point, the crane's chart for this boat, the sea-state limit in the crane manual, where it lands, and who does what.",
+      "target": "lift-plan",
+      "title": "Read the lift plan with the master",
+      "why": "A log that has been in the Bay for months is heavier than it looks and heavier again once it is out of the water, where it loses the lift the water was giving it. The plan puts the estimate beside the chart for this crane on this boat, and it names the sea-state limit, because a knuckle crane on a small hull is rated for a boat that is not rolling — the master and the deck agree the limits before the crane moves."
+    },
+    {
+      "cue": "Walk the crane from the pedestal to the hook: hydraulic hoses and fittings, pins, the wire, the hook and its latch.",
+      "id": "crane-walk",
+      "itemNames": {
+        "hook-latch": "hook safety latch bent open",
+        "hose-leak": "hydraulic fitting weeping at the boom cylinder"
+      },
+      "itemNotes": {
+        "hook-latch": "The hook's safety latch is bent and does not close — a choker eye can jump the hook when the load goes slack in a swell and comes taut again.",
+        "hose-leak": "The hose fitting at the main boom cylinder is weeping oil down the pedestal — a weeping fitting under load is one that lets go, and the oil it drips makes the deck under the operator slick."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the crane from the pedestal to the hook: hydraulic hoses and fittings, pins, the wire, the hook and its latch.",
+      "targets": [
+        "hose-leak",
+        "hook-latch"
+      ],
+      "title": "Walk the crane before it moves",
+      "why": "A deck crane lives in salt spray and works in short bursts, so it fails at its hoses, its pins and its hook latch, and it fails under load. ASME B30.22 puts a frequent inspection on the operator for exactly this reason: the few minutes spent walking the crane on deck are the only time anyone gets close enough to see a weeping fitting before it is holding a log over the side."
+    },
+    {
+      "cue": "Turn the crane's hydraulic supply valve open on the manifold and watch the pressure lamp come up before touching the controls.",
+      "id": "open-hydraulics",
+      "kind": "turn",
+      "prompt": "Turn the crane's hydraulic supply valve open on the manifold and watch the pressure lamp come up before touching the controls.",
+      "target": "crane-valve",
+      "title": "Open the crane's hydraulic supply",
+      "turn": {
+        "label": "HYDRAULIC SUPPLY",
+        "turns": 1.25
+      },
+      "why": "The crane runs off the boat's hydraulic system, and opening its supply slowly lets the lines fill and the pressure come up without a surge through the fitting you have just flagged. The operator watches the pressure come up before the controls are touched, because a crane that moves on half pressure moves unpredictably — and the engineer below needs to know the crane is now drawing on the system."
+    },
+    {
+      "cue": "Read the chart's capacity at the outreach the log is at, for the boat's condition today, and commit it against the plan's estimate plus the choker.",
+      "gauge": {
+        "green": [
+          0.42,
+          0.58
+        ],
+        "label": "CAPACITY AT OUTREACH",
+        "missNote": "Outside the band — read the capacity at the outreach the log is really at, for this boat, not the pedestal plate.",
+        "speed": 0.72
+      },
+      "id": "read-chart",
+      "kind": "gauge",
+      "prompt": "Read the chart's capacity at the outreach the log is at, for the boat's condition today, and commit it against the plan's estimate plus the choker.",
+      "target": "crane-chart",
+      "title": "Read the crane's capacity for this boat",
+      "why": "A knuckle crane's capacity falls away as it reaches out, and on a small boat the chart is set as much by how far the hull can heel as by the crane's own strength. The outreach to a log alongside is near the end of the boom, so the capacity there — not the figure on the pedestal plate — is the one set against the estimate, before anything is rigged."
+    },
+    {
+      "cue": "Send the choker down on the hook and see it passed round the log at the painted pick point, the eye choked up tight, from inside the rail with the boat hook.",
+      "drag": {
+        "missNote": "Not at the pick point — the choker has to go round the log at the painted mark, or the log will stand on end when it lifts.",
+        "radius": 0.6,
+        "to": "log-pick-point"
+      },
+      "id": "rig-choker",
+      "kind": "drag",
+      "prompt": "Send the choker down on the hook and see it passed round the log at the painted pick point, the eye choked up tight, from inside the rail with the boat hook.",
+      "target": "choker",
+      "title": "Pass the choker round the log at the pick point",
+      "why": "A log picked off its middle hangs level and comes aboard under control; picked off one end it stands up, swings and slides out of the choker. The choker goes round at the pick point and is choked tight before any strain, and it is worked from inside the rail with the boat hook so nobody has to reach out over the water to seat it."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Make the tag line fast to the log's inboard end and lead it back inside the rail, and lay the dunnage across the landing area so the log lands on timber, not on the deck.",
+      "id": "tag-and-dunnage",
+      "itemNames": {
+        "landing-dunnage": "dunnage laid across the landing area",
+        "tagline-log": "tag line made fast to the log's end"
+      },
+      "kind": "sequence",
+      "prompt": "Make the tag line fast to the log's inboard end and lead it back inside the rail, and lay the dunnage across the landing area so the log lands on timber, not on the deck.",
+      "targets": [
+        "tagline-log",
+        "landing-dunnage"
+      ],
+      "title": "Set the tag line and lay the landing dunnage",
+      "why": "The tag line is how the deck steadies the log without touching it, and it goes on before the lift because nobody can reach the log once it is in the air. The dunnage gives the log something to land on that will not let it roll and leaves room to pull the choker out from under it — a log landed flat on a wet deck pins the choker and invites someone to reach under it."
+    },
+    {
+      "cue": "Walk the path the log will swing through and the landing area: anything left on deck, anything open, anyone who would be under it.",
+      "id": "swing-path",
+      "itemNames": {
+        "loose-bag": "gear bag left in the swing path",
+        "open-hatch": "deck hatch open in the landing area"
+      },
+      "itemNotes": {
+        "loose-bag": "A gear bag has been left on deck right where the log will swing in — something to trip over while watching a load, and something the log will land on.",
+        "open-hatch": "The lazarette hatch is open beside the landing area — a hole to step into while tending the tag line, and one the log's end could drop into if the boat rolls."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the path the log will swing through and the landing area: anything left on deck, anything open, anyone who would be under it.",
+      "targets": [
+        "loose-bag",
+        "open-hatch"
+      ],
+      "title": "Clear the swing path and the landing area",
+      "why": "Everyone on deck will be watching the log once it is in the air, not their feet, so the deck has to be clear before the lift. A bag in the swing path and an open hatch in the landing area are how a deckhand ends up stumbling backward toward an open gate with a tag line in their hands — clearing them is quicker than any lift."
+    },
+    {
+      "cue": "Feather the hoist lever to bring the log up through the surface slowly, keeping the load steady in band as the water runs out of it.",
+      "holdBreakNote": "The load broke out of band — the hoist snatched or went slack. Feather it back to a slow steady lift and hold it.",
+      "id": "hoist-through",
+      "kind": "track",
+      "prompt": "Feather the hoist lever to bring the log up through the surface slowly, keeping the load steady in band as the water runs out of it.",
+      "seconds": 6,
+      "target": "crane-lever",
+      "title": "Hoist the log slowly through the surface",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.44,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "HOOK LOAD",
+        "rise": 0.58,
+        "start": 0.14
+      },
+      "why": "The load on the hook climbs as the log comes out of the water and loses the water's support, and climbs again with every roll of the boat. Hoisting slowly and steadily lets the operator see the load build against the chart and stop before the limiter does it for them; a fast hoist in a seaway is how a small crane is shock-loaded and a small boat is heeled hard."
+    },
+    {
+      "cue": "As the crane slews the log inboard, keep a steady pull on the tag line from inside the rail, feeding it through open hands.",
+      "holdBreakNote": "Let go of the tag line mid-swing — the log swung toward the rail. Take it up again and hold a steady pull.",
+      "id": "tag-hold",
+      "kind": "hold",
+      "prompt": "As the crane slews the log inboard, keep a steady pull on the tag line from inside the rail, feeding it through open hands.",
+      "seconds": 5,
+      "target": "tagline-log",
+      "title": "Steady the log inboard on the tag line",
+      "why": "A log swinging in over a rolling deck wants to keep swinging, and a steady pull on the tag line takes the swing out before it reaches the rail or a person. The line runs through open hands and never round a wrist, because if the log drops or the boat rolls hard the line goes with it — and whoever has it wrapped goes too."
+    },
+    {
+      "cue": "Bring the log down onto the dunnage in the landing area, level, and let the crane take the weight off only once it is sitting.",
+      "drag": {
+        "missNote": "Not on the dunnage — land the log across the timbers, not on the bare deck beside them.",
+        "radius": 0.6,
+        "to": "landing-dunnage"
+      },
+      "id": "land-log",
+      "kind": "drag",
+      "prompt": "Bring the log down onto the dunnage in the landing area, level, and let the crane take the weight off only once it is sitting.",
+      "target": "hook-load",
+      "title": "Land the log on the dunnage",
+      "why": "The log is landed on the dunnage so it cannot roll and the choker can be freed without anyone reaching under it. It comes down slowly and level, and the operator keeps a little weight on the hook until it is sitting, because a log dropped the last few centimetres bounces and rolls on a wet deck."
+    },
+    {
+      "cue": "Pass the strap over the log to the pad-eyes and ratchet it taut before the choker comes off.",
+      "id": "lash-log",
+      "kind": "turn",
+      "prompt": "Pass the strap over the log to the pad-eyes and ratchet it taut before the choker comes off.",
+      "target": "lash-ratchet",
+      "title": "Lash the log to the deck pad-eyes",
+      "turn": {
+        "label": "LASHING RATCHET",
+        "turns": 1.25
+      },
+      "why": "A log on deck is a heavy round object on a boat that rolls, and until it is lashed it can move — onto a foot, against the rail, through the open gate. It is lashed before the choker is freed, so there is never a moment when it is sitting loose, and the gate is closed only once the lashing is on."
+    },
+    {
+      "cue": "Log the lift: the load read against the estimate, the weeping fitting and the bent latch, the slack hook in the swell, and the roll that sent the log at the rail.",
+      "id": "crane-log",
+      "kind": "select",
+      "prompt": "Log the lift: the load read against the estimate, the weeping fitting and the bent latch, the slack hook in the swell, and the roll that sent the log at the rail.",
+      "target": "crane-log",
+      "title": "Log the lift and the crane's defects",
+      "why": "The crane log is where a weeping fitting becomes a repair before the next lift and a bent latch becomes a new hook, and the load actually read against the estimate tells the next crew how far a waterlogged log can be from a guess. The swell and the roll go in too, because they are the conditions the crane manual's limits are about."
+    },
+    {
+      "cue": "On the radio: the log is aboard and lashed, what the crane needs, and how everyone is after a hook that went slack and a log that swung at the rail.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "On the radio: the log is aboard and lashed, what the crane needs, and how everyone is after a hook that went slack and a log that swung at the rail.",
+      "target": "crew-radio",
+      "title": "Check in with the master, the deckhand and the engineer",
+      "why": "The master held the boat on station through a swell and a roll without seeing the deck, and the engineer has a hydraulic fitting to look at — both need the deck's report now. It is also the crew's own check-in: a log swinging at a deckhand on an open rail is the kind of moment that deserves to be talked through, and the union's member assistance line is there for what does not get said on the radio."
+    }
+  ],
+  "supportLine": "your union hall's member assistance programme — the Inlandboatmen's Union or MEBA — with the employer's employee assistance line behind it",
+  "tagline": "A waterlogged drift log lifted aboard a workboat: PFD and gloves on at the wheelhouse door, the lift plan read, the crane walked, hydraulics opened, the chart read for this boat, the choker passed, tag line and dunnage set, the swing path cleared, the log hoisted through the surface as a swell slackens the hook, swung inboard on the tag line through a roll that sends it at the rail, landed, lashed and logged",
+  "title": "SmartCiti.X~ Workboat Crane Lift From Water VR",
+  "trade": "Inlandboatmen's Union (IBU) deckhand qualified on a workboat's knuckle-boom crane, with a second IBU deckhand on the tag line, the master at the helm and a MEBA engineer on watch",
+  "underwater": null,
+  "weather": "wind"
+}

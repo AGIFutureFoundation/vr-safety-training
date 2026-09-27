@@ -1,0 +1,161 @@
+{
+  "accent": "#b8862b",
+  "anchors": [
+    {
+      "id": "uptown-theatre-district",
+      "name": "Uptown Theatre District",
+      "position": [
+        -68,
+        -204
+      ],
+      "stations": [
+        "bar-well-setup",
+        "id-check-underage"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "uptown"
+    }
+  ],
+  "certification": "California ABC Responsible Beverage Service certification (mandatory for anyone serving alcohol since 2022), TIPS or ServSafe Alcohol, the California Retail Food Code for ice and glassware, Cal/OSHA's workplace violence prevention plan requirement, and California Labor Code 351 on tips",
+  "competency": {
+    "id": "bartending-course",
+    "kind": "programme",
+    "require": 6,
+    "standards": [
+      "abc-rbs-training",
+      "calosha-8-ccr-3342",
+      "fda-food-code"
+    ],
+    "stations": [
+      "kitchen",
+      "bar-well-setup",
+      "id-check-underage",
+      "jigger-pour-spec",
+      "cutoff-overservice",
+      "spiked-drink-response",
+      "patron-deescalation",
+      "keg-cellar-co2",
+      "ice-well-breakage",
+      "draught-line-cleaning",
+      "till-drop-robbery",
+      "allergen-cocktail",
+      "last-call-lockup",
+      "tip-pool-labor",
+      "wvpp-panic-button",
+      "rbs-service-capstone"
+    ],
+    "title": "Serve alcohol responsibly and handle the room behind the bar"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "unite-here-training",
+    "abc-rbs-training",
+    "abc-25602",
+    "abc-25631",
+    "abc-25658",
+    "servsafe-certification",
+    "calcode-retail-food",
+    "cal-osha-3342",
+    "cal-osha-3203",
+    "labor-code-351",
+    "dol-29-cfr-531"
+  ],
+  "id": "bartending-course",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1661,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 125
+  },
+  "name": "Bartending — Behind the Bar",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "trades",
+      "id": "kitchen",
+      "why": "The kitchen the bar shares a wall with: the Food Code for ice, glassware and the sanitiser bucket, before a single drink is poured."
+    },
+    {
+      "app": "smartcity",
+      "id": "bar-well-setup",
+      "why": "Opening the bar itself: sanitiser tested to strength, the ice well burned out and refilled with a scoop that never touches a glass, garnish gloved and dated, and the licence and RBS certificates posted before the first guest is let in."
+    },
+    {
+      "app": "smartcity",
+      "id": "id-check-underage",
+      "why": "The door: F.L.A.G. worked in order, a UV check against the security features, the birth-date math done against the calendar, and a refusal that is polite, documented and handed off to the rest of the bar."
+    },
+    {
+      "app": "smartcity",
+      "id": "jigger-pour-spec",
+      "why": "The pour itself: the standard drink measured to the jigger, a counted free pour held steady, shaken, stirred and built each to its own method, and the round logged per customer the way RBS training expects."
+    },
+    {
+      "app": "smartcity",
+      "id": "cutoff-overservice",
+      "why": "The RBS cues read in a real guest, the pour slowed before it is refused outright, and the cutoff itself said quietly once, backed by §25602 and the dram-shop exposure it carries for the licence."
+    },
+    {
+      "app": "smartcity",
+      "id": "spiked-drink-response",
+      "why": "Patron safety when the cues are somebody else's drink, not his own tab: the rail watched, the safe-word scheme posted, and a suspect glass retained rather than rinsed the moment a guest is not the person her count says she should be."
+    },
+    {
+      "app": "smartcity",
+      "id": "patron-deescalation",
+      "why": "A confrontation worked from behind the bar's own barrier — named once, backed up, refused — with the panic button the instant a hand crosses the bar and the 8 CCR §3342 log it leaves behind."
+    },
+    {
+      "app": "smartcity",
+      "id": "keg-cellar-co2",
+      "why": "The barback's own cellar: CO2 and nitrogen chained upright, the room monitor read before the door ever opens, and the change worked coupler off, coupler on, leak-checked at the gauge."
+    },
+    {
+      "app": "smartcity",
+      "id": "ice-well-breakage",
+      "why": "A glass breaks into the well mid-service: the well stopped and marked, the ice burned down rather than picked through, and the cut it leaves you treated to the same bloodborne-pathogens plan as any other bar-top spill."
+    },
+    {
+      "app": "smartcity",
+      "id": "draught-line-cleaning",
+      "why": "The lines cleaned to the cleaner's own SDS: taps tagged before the chemical goes in, contact time held, and nothing reconnected until the strip reads a neutral pH."
+    },
+    {
+      "app": "smartcity",
+      "id": "till-drop-robbery",
+      "why": "The till counted down with a witness and dropped with an escort, and the plan for the night somebody demands it instead: comply, don't chase, and let the alarm and the police do the rest."
+    },
+    {
+      "app": "smartcity",
+      "id": "allergen-cocktail",
+      "why": "The nut liqueurs, the egg white, the dairy and the gluten a label — not a memory — actually discloses, dedicated tools for the order that needs them, and the auto-injector found fast if it ever comes to that."
+    },
+    {
+      "app": "smartcity",
+      "id": "last-call-lockup",
+      "why": "The last hour of the shift as its own procedure: last call on the ABC's clock, the \"one more\" refused, rides checked, the restrooms swept, and the building locked down behind a crew that walked out together."
+    },
+    {
+      "app": "smartcity",
+      "id": "tip-pool-labor",
+      "why": "The paycheck the drinks pay for: the jar counted in the open, a lawful pool with no manager's hand in it, the breaks and the split shift entered honest, and the steward standing behind the sheet."
+    },
+    {
+      "app": "smartcity",
+      "id": "wvpp-panic-button",
+      "why": "The workplace violence prevention plan proven rather than filed: the panic button tested to dispatch, the hazard walk run before the smoking area goes dark, and the log kept honest enough for the safety committee to trust."
+    },
+    {
+      "app": "smartcity",
+      "id": "rbs-service-capstone",
+      "why": "The whole course, down one rail in real time: an ID checked, a fourth round cut off, a carry-out refused, a round poured to spec, and a drink nobody should ever hand back."
+    }
+  ],
+  "summary": "Fifteen stations from opening the well to closing the till, and the customers in between: the one who is twenty, the one who has had enough, the one who will not take no, and the one whose drink was touched while she looked away. Every step names the law or the standard a bartender is held to.",
+  "union": "UNITE HERE Local 2 bartenders and barbacks"
+}

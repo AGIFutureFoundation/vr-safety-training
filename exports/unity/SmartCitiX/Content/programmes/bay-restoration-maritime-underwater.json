@@ -1,0 +1,647 @@
+{
+  "accent": "#4fb3c8",
+  "anchors": [
+    {
+      "id": "estuary-marina-boatyard",
+      "name": "Marina Boatyard",
+      "position": [
+        104,
+        249
+      ],
+      "stations": [
+        "br-dive-site-hazard-assessment-and-jsa",
+        "br-surface-supplied-dive-station-setup",
+        "yc-pre-departure-safety-briefing-and-guest-count",
+        "yc-line-handling-and-docking-in-crosswind",
+        "yc-fuel-dock-transfer-and-spill-kit",
+        "yc-engine-room-pre-start-and-bilge-check",
+        "yc-man-overboard-recovery-drill",
+        "yc-galley-fire-and-fixed-system",
+        "yc-tender-launch-and-guest-transfer",
+        "yc-shore-power-connection-and-in-water-electrical-safety"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "estuary-waterfront"
+    },
+    {
+      "id": "island-boatyard",
+      "name": "Island Boatyard",
+      "position": [
+        120,
+        700
+      ],
+      "stations": [
+        "br-derelict-vessel-salvage-rigging",
+        "mw-hull-inspection-and-cleaning-dive",
+        "br-dive-tender-and-umbilical-management"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "island-harbour"
+    },
+    {
+      "id": "north-marina-pier",
+      "name": "North Marina Pier",
+      "position": [
+        -800,
+        -640
+      ],
+      "stations": [
+        "br-workboat-crane-lift-from-water",
+        "br-vhf-and-navigation-in-a-work-zone",
+        "spill-boom-deploy"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "north-shoreline"
+    },
+    {
+      "id": "north-shoreline-field-lab",
+      "name": "North Shoreline Field Lab",
+      "position": [
+        -735,
+        -590
+      ],
+      "stations": [
+        "air-monitor",
+        "marsh-transect-survey",
+        "eelgrass-transplant",
+        "br-water-quality-sonde-calibration-and-deploy"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "north-shoreline"
+    },
+    {
+      "id": "south-shoreline-marina",
+      "name": "South Shoreline Marina",
+      "position": [
+        790,
+        690
+      ],
+      "stations": [
+        "br-cold-water-immersion-and-mob-recovery",
+        "br-boom-towing-between-two-vessels",
+        "mooring-line"
+      ],
+      "table": "BAY_SITES",
+      "world": "bayworld",
+      "zone": "south-shoreline"
+    },
+    {
+      "id": "approach-boom-tow-site",
+      "name": "Approach Boom Tow Site",
+      "position": [
+        -780,
+        40
+      ],
+      "stations": [
+        "br-boom-towing-between-two-vessels",
+        "mw-oil-transfer-watch-and-boom",
+        "br-debris-skimmer-vessel-operations"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "channel-approach"
+    },
+    {
+      "id": "channel-dredge-survey",
+      "name": "Channel Dredge Survey",
+      "position": [
+        -140,
+        40
+      ],
+      "stations": [
+        "dredge-barge",
+        "br-dredge-material-screening-and-disposal-decision",
+        "br-barge-loading-of-contaminated-sediment"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "shipping-channel"
+    },
+    {
+      "id": "eelgrass-fish-census-line",
+      "name": "Eelgrass Fish Census Line",
+      "position": [
+        80,
+        -560
+      ],
+      "stations": [
+        "br-beach-seine-fish-survey-and-handling",
+        "br-benthic-grab-and-invertebrate-sorting",
+        "br-restoration-data-qa-and-public-reporting"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "eelgrass-meadow"
+    },
+    {
+      "id": "eelgrass-turbidity-curtain",
+      "name": "Eelgrass Turbidity Curtain",
+      "position": [
+        40,
+        -500
+      ],
+      "stations": [
+        "br-turbidity-curtain-deployment",
+        "br-bird-nesting-buffer-and-work-window"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "eelgrass-meadow"
+    },
+    {
+      "id": "flats-sediment-core-site",
+      "name": "Flats Sediment Core Site",
+      "position": [
+        -130,
+        -230
+      ],
+      "stations": [
+        "br-underwater-sediment-core-sampling",
+        "br-sediment-chain-of-custody-and-lab-prep",
+        "shoreline-sediment-grab"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "tide-flats"
+    },
+    {
+      "id": "flats-sonde-station",
+      "name": "Flats Sonde Station",
+      "position": [
+        -80,
+        -280
+      ],
+      "stations": [
+        "br-water-quality-sonde-calibration-and-deploy",
+        "air-monitor",
+        "sensor-colocation-check"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "tide-flats"
+    },
+    {
+      "id": "flats-workboat-anchorage",
+      "name": "Flats Workboat Anchorage",
+      "position": [
+        -60,
+        -240
+      ],
+      "stations": [
+        "br-workboat-crane-lift-from-water",
+        "br-vhf-and-navigation-in-a-work-zone",
+        "mw-workboat-towing-and-line-handling"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "tide-flats"
+    },
+    {
+      "id": "kelp-transect-start",
+      "name": "Kelp Transect Start",
+      "position": [
+        -480,
+        -200
+      ],
+      "stations": [
+        "br-underwater-debris-survey-and-mapping",
+        "br-restoration-data-qa-and-public-reporting"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "kelp-forest"
+    },
+    {
+      "id": "marsh-mouth-culvert",
+      "name": "Marsh Mouth Culvert",
+      "position": [
+        620,
+        -580
+      ],
+      "stations": [
+        "br-culvert-retrofit-for-fish-passage",
+        "br-fish-screen-maintenance",
+        "br-tidal-marsh-grading-amphibious-excavator"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "marsh-mouth"
+    },
+    {
+      "id": "marsh-mouth-invasive-plot",
+      "name": "Marsh Mouth Invasive Plot",
+      "position": [
+        700,
+        -570
+      ],
+      "stations": [
+        "spartina-removal",
+        "br-intertidal-invasive-removal-by-hand-crew",
+        "br-levee-inspection-and-seepage"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "marsh-mouth"
+    },
+    {
+      "id": "mud-plain-hotspot-survey",
+      "name": "Mud Plain Hotspot Survey",
+      "position": [
+        -290,
+        310
+      ],
+      "stations": [
+        "br-legacy-mercury-and-pcb-hotspot-handling",
+        "sediment-cap",
+        "rad-survey"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "mud-plain"
+    },
+    {
+      "id": "mud-plain-trash-capture",
+      "name": "Mud Plain Trash Capture Site",
+      "position": [
+        -330,
+        360
+      ],
+      "stations": [
+        "br-trash-capture-device-service",
+        "br-volunteer-cleanup-day-safety-lead"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "mud-plain"
+    },
+    {
+      "id": "pier-surface-supplied-station",
+      "name": "Pier Surface-Supplied Station",
+      "position": [
+        -720,
+        -530
+      ],
+      "stations": [
+        "br-surface-supplied-dive-station-setup",
+        "br-dive-tender-and-umbilical-management",
+        "br-hyperbaric-chamber-standby"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "pier-pilings"
+    },
+    {
+      "id": "reef-ball-placement-site",
+      "name": "Reef Ball Placement Site",
+      "position": [
+        330,
+        40
+      ],
+      "stations": [
+        "br-workboat-crane-lift-from-water",
+        "br-derelict-vessel-salvage-rigging",
+        "container-lashing"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "reef-ball-field"
+    },
+    {
+      "id": "seamount-capstone-survey",
+      "name": "Seamount Capstone Survey",
+      "position": [
+        640,
+        460
+      ],
+      "stations": [
+        "br-restoration-data-qa-and-public-reporting",
+        "br-hyperbaric-chamber-standby",
+        "damage-assessment-team"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "seamount"
+    },
+    {
+      "id": "shelf-checkout-site",
+      "name": "Shelf Checkout Site",
+      "position": [
+        -360,
+        -540
+      ],
+      "stations": [
+        "br-dive-site-hazard-assessment-and-jsa",
+        "br-cold-water-immersion-and-mob-recovery",
+        "trench-box"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "shallow-shelf"
+    },
+    {
+      "id": "shelf-debris-sweep",
+      "name": "Shelf Debris Sweep",
+      "position": [
+        -320,
+        -580
+      ],
+      "stations": [
+        "br-underwater-debris-survey-and-mapping",
+        "br-derelict-gear-recovery-dive",
+        "br-shoreline-cleanup-sharps-and-hazardous-debris"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "shallow-shelf"
+    },
+    {
+      "id": "wreck-photo-survey",
+      "name": "Wreck Photo Survey",
+      "position": [
+        240,
+        310
+      ],
+      "stations": [
+        "br-underwater-debris-survey-and-mapping",
+        "mw-hull-inspection-and-cleaning-dive",
+        "br-drone-shoreline-survey"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "wreck-hollow"
+    },
+    {
+      "id": "wreck-salvage-rigging",
+      "name": "Wreck Salvage Rigging",
+      "position": [
+        270,
+        260
+      ],
+      "stations": [
+        "br-derelict-vessel-salvage-rigging",
+        "uw-lift-bag-rigging-and-object-recovery",
+        "rl-critical-lift-plan-and-signalperson"
+      ],
+      "table": "DEEP_SITES",
+      "world": "underwater",
+      "zone": "wreck-hollow"
+    }
+  ],
+  "certification": "Programme completion record; the dive, vessel and hazmat credentials it rehearses are issued only by their own bodies — OSHA 29 CFR 1910 Subpart T and the ADCI consensus standard for the dive crew, USCG 33 and 46 CFR for the vessels, OSHA 1910.120 HAZWOPER inside any sediment exclusion zone, and the Section 404/401 permit conditions for every hour of in-water work",
+  "competency": {
+    "id": "bay-restoration-maritime-underwater",
+    "kind": "programme",
+    "require": 6,
+    "standards": [
+      "osha-1910-subpart-t",
+      "adci-consensus-standards",
+      "osha-1910-120",
+      "usace-section-404"
+    ],
+    "stations": [
+      "br-dive-site-hazard-assessment-and-jsa",
+      "br-surface-supplied-dive-station-setup",
+      "br-underwater-debris-survey-and-mapping",
+      "br-underwater-sediment-core-sampling",
+      "br-derelict-gear-recovery-dive",
+      "br-hyperbaric-chamber-standby",
+      "br-dive-tender-and-umbilical-management",
+      "br-derelict-vessel-salvage-rigging",
+      "br-workboat-crane-lift-from-water",
+      "br-debris-skimmer-vessel-operations",
+      "br-boom-towing-between-two-vessels",
+      "br-barge-loading-of-contaminated-sediment",
+      "br-cold-water-immersion-and-mob-recovery",
+      "br-vhf-and-navigation-in-a-work-zone",
+      "br-dredge-spoils-dewatering-pad",
+      "br-turbidity-curtain-deployment",
+      "br-sediment-chain-of-custody-and-lab-prep",
+      "br-water-quality-sonde-calibration-and-deploy",
+      "br-legacy-mercury-and-pcb-hotspot-handling",
+      "br-trash-capture-device-service",
+      "br-dredge-material-screening-and-disposal-decision",
+      "br-marine-mammal-observer-during-pile-driving",
+      "br-bird-nesting-buffer-and-work-window",
+      "br-tidal-marsh-grading-amphibious-excavator",
+      "br-native-planting-and-erosion-mats",
+      "br-culvert-retrofit-for-fish-passage",
+      "br-shoreline-cleanup-sharps-and-hazardous-debris",
+      "br-intertidal-invasive-removal-by-hand-crew",
+      "br-levee-inspection-and-seepage",
+      "br-fish-screen-maintenance",
+      "br-drone-shoreline-survey",
+      "br-volunteer-cleanup-day-safety-lead",
+      "br-restoration-data-qa-and-public-reporting",
+      "br-beach-seine-fish-survey-and-handling",
+      "br-benthic-grab-and-invertebrate-sorting"
+    ],
+    "title": "Work the water side of a Bay restoration and clean-up job: dive, vessel, sediment, shoreline and monitoring crews"
+  },
+  "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+  "guides": [
+    "liuna-training-fund",
+    "iuoe-training",
+    "carpenters-ictf",
+    "ilwu-pma-training",
+    "osha-1910-120",
+    "usace-section-404",
+    "bcdc-bay-plan",
+    "rwqcb-401-certification"
+  ],
+  "id": "bay-restoration-maritime-underwater",
+  "ladder": {
+    "atBar": 20,
+    "lessonBar": 75,
+    "lessons": 1641,
+    "levels": 20,
+    "note": "a lesson is one station step under one condition; see docs/ladders.md",
+    "partial": 0,
+    "stationsNeeded": 0,
+    "tasks": 117
+  },
+  "name": "SF Bay Restoration & Cleanup — Maritime and Underwater",
+  "schema": "smartcitix.programme/1",
+  "stations": [
+    {
+      "app": "smartcity",
+      "id": "br-dive-site-hazard-assessment-and-jsa",
+      "why": "Every restoration dive starts on deck with the supervisor's job safety analysis, where the intake, the neighbouring pile hammer, the current and the contaminated water are found and controlled before anyone dresses."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-surface-supplied-dive-station-setup",
+      "why": "The station the diver breathes from is built by the dive team itself, so the compressor intake, the condensate, both supplies, the bailout and the helmet's non-return valve are proven before the first dive of the day."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-underwater-debris-survey-and-mapping",
+      "why": "No debris comes off the Bay floor until a diver has mapped it on a baseline, found the drums, batteries, rebar and hulls, and left the hazardous items for the work plan."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-underwater-sediment-core-sampling",
+      "why": "Dredging and capping decisions rest on sediment cores a diver takes by hand, so the cable crossing, a steady push, a capped core and the chain of custody are rehearsed with a bailout and a recall along the way."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-derelict-gear-recovery-dive",
+      "why": "Ghost nets and lost pots keep killing what the restoration is bringing back, and recovering them means working from up-current, cutting away from the umbilical and keeping a lift bag neutral and never on the diver."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-hyperbaric-chamber-standby",
+      "why": "A decompression dive is only as safe as the chamber standing by on deck, so the chamber operator rehearses the leak test, the fire load, venting before the door and blowing a symptomatic diver down while the physician is called."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-dive-tender-and-umbilical-management",
+      "why": "The tender keeps the diver's gas, voice and lifting line in hand for the whole dive, from the harness check and a steady pay-out to a bight near a propeller, dressing the standby and flaking the umbilical afterwards."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-derelict-vessel-salvage-rigging",
+      "why": "A crane barge alongside a wreck is work over water on a deck with no bulwark, and a person who goes over the edge in Bay water loses the use of their hands to the cold long before they tire — the work vest is what keeps their face out of the water until the skiff reaches them."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-workboat-crane-lift-from-water",
+      "why": "The afterdeck of a small workboat is low to the water and wet, and a lift over the side means an open gate in the rail for most of the job."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-debris-skimmer-vessel-operations",
+      "why": "The skimmer's working deck is forward of the wheelhouse, low, wet and open to the water between the hulls, and the person working it spends the job looking down at a belt and a basket rather than at the edge."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-boom-towing-between-two-vessels",
+      "why": "The afterdeck of a boom-towing boat is low, wet and slick with product by the end of the job, and the tow line on it can move fast."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-barge-loading-of-contaminated-sediment",
+      "why": "The barge deck is work over water and it is also inside the site's contamination zone, so both kinds of protection go on before the gangway."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-cold-water-immersion-and-mob-recovery",
+      "why": "The first moments in cold water bring a gasp and a loss of breath control that a person cannot choose to stop, and a PFD is what keeps the mouth clear of the water through it."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-vhf-and-navigation-in-a-work-zone",
+      "why": "The watch that keeps the whole zone safe on the water: the radio checked and the watch set on 16, the sécurité call that tells every bridge what is out here, the marker set where the chart puts it, a ferry crossing handled by the rules, and fog signals sounded as the bank comes over."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-dredge-spoils-dewatering-pad",
+      "why": "Wet dredged sediment comes ashore into a lined pad, and the decant that drains from it goes back to the Bay only through a filter train under the pad's discharge conditions, sampled under custody and diverted the moment the effluent meter trips."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-turbidity-curtain-deployment",
+      "why": "The curtain closes the water round a dredge before it digs, laid from upcurrent with its skirt set against the tide table and the shore end sealed, so the certification's compliance point has a boundary to be judged against."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-sediment-chain-of-custody-and-lab-prep",
+      "why": "Cores become laboratory samples at a dockside bench with custody signed at every hand-off, the volatiles taken before anything is mixed and anything unlabelled kept out of the batch, because a sediment result is only as defensible as its record."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-water-quality-sonde-calibration-and-deploy",
+      "why": "The compliance sonde is calibrated against in-date standards, locked at the plan's depth and checked side by side before its readings count, and when it trips the dredge is stopped on its say-so."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-legacy-mercury-and-pcb-hotspot-handling",
+      "why": "A delineated mercury and PCB hotspot is dug in thin cuts straight into its own lined bin, with vapour read throughout, free mercury contained by the spill kit and the crew doffed through decon in order."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-trash-capture-device-service",
+      "why": "The outfall net that keeps storm drain trash out of the Bay is lifted by crane, emptied and replaced without anyone under the load, a hand in the catch or a piece of it going back into the channel."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-dredge-material-screening-and-disposal-decision",
+      "why": "The screener on the dredge deck matches every bite to the placement decision already made about its dredge unit, and stops, samples and holds the scow when the bucket brings up material that decision never described."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-marine-mammal-observer-during-pile-driving",
+      "why": "A pile-driving crew can only work under NOAA Fisheries' own authorization when its observer scans the shutdown zone clean before every ramp-up and calls an immediate stop the moment a harbor seal or harbor porpoise is inside it."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-bird-nesting-buffer-and-work-window",
+      "why": "An amphibious excavator staged on a restoration bench does not move until the compliance biologist has read the work-window calendar, confirmed the buffer by rangefinder and heard the operator's own acknowledgement of the flagged line."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-tidal-marsh-grading-amphibious-excavator",
+      "why": "Grading a tidal marsh from an amphibious excavator, with the tide, the permit window and the ground crew all in the operator's picture."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-native-planting-and-erosion-mats",
+      "why": "The graded bank above the marsh is only held until roots can hold it themselves, so the coir mat goes down pinned top to toe before a single native plug is bored, tamped and watered in."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-culvert-retrofit-for-fish-passage",
+      "why": "A perched culvert that a fish cannot swim through only becomes passable on a dry, fish-excluded channel, dug and backfilled to a laser-checked invert instead of a grade that just looks about right."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-shoreline-cleanup-sharps-and-hazardous-debris",
+      "why": "A storm-tide beach cleanup is ordinary trash until the moment it isn't, so sharps get tongs and a staged container, a suspect drum gets flagged and called in, and nothing this crew is not trained to handle ever gets opened by hand."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-intertidal-invasive-removal-by-hand-crew",
+      "why": "With no sprayer on this crew at all, every plant comes out whole on a wrench, every root fragment gets hunted out of the disturbed soil, and boots get brushed clean at the buffer so nothing this crew pulls ever gets a second chance to spread."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-levee-inspection-and-seepage",
+      "why": "A sand boil gets ringed with sandbags and never blocked, and a burrow gets flagged and reported and never dug at, because on a levee patrol the counterintuitive answer is usually the one that keeps a small seepage path from becoming a bigger one."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-fish-screen-maintenance",
+      "why": "A fish screen's drive motor gets locked out before anyone's hands go near the drum, and the lock never comes off until a confirmed headcount says every hand that went on the disconnect is clear of it again."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-drone-shoreline-survey",
+      "why": "A shoreline survey line only means what it claims to mean when the airspace was actually checked, the buffer marker was set to the confirmed point, and the aircraft came home the moment a gust pushed past today's wind limit."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-volunteer-cleanup-day-safety-lead",
+      "why": "A volunteer crew that has never worked this shoreline before is briefed on sharps and the buddy system before a single bag is opened, and a missing volunteer or a surging tide gets an immediate call rather than a wait to see."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-restoration-data-qa-and-public-reporting",
+      "why": "Every field sheet is checked before it's scanned and every suspect value is flagged rather than typed straight in, so the one line the public dashboard is allowed to say about the Bay is a line the reviewed data actually backs up."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-beach-seine-fish-survey-and-handling",
+      "why": "The net is set from the skiff and hauled as one crew, every fish is named and counted at the generic level the reference calls for, and none of them spends longer out of the water than the permit's handling window allows."
+    },
+    {
+      "app": "smartcity",
+      "id": "br-benthic-grab-and-invertebrate-sorting",
+      "why": "The grab comes up from the workboat's rail with hands clear of its live jaws, the sample is sieved and sorted into generic taxonomic groups, and every jar is in custody before the organisms inside it have any chance to degrade."
+    }
+  ],
+  "summary": "Thirty-five more jobs the deep restoration and clean-up of San Francisco Bay will need, weighted to the water: the dive crew and its tender, the workboats, barges and skimmers, the shoreline and wetland crews, the sediment and water-quality work, and the monitoring and community science around it. Built in five packs of seven; every dive station keeps a standby diver, a tender and a supervisor on deck, and no depth, gas or decompression number is ever stated — those live in the dive plan.",
+  "union": "ILWU and the Inlandboatmen's Union, MEBA and SIU marine crews, Pile Drivers Local 34 divers, IUOE Local 3 dredge and excavator operators, LIUNA Local 261 hazmat and shoreline crews, AFSCME and SEIU agency scientists"
+}

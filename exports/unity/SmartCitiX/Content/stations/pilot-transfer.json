@@ -1,0 +1,429 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "ladder-fit-to-climb",
+    "name": "Fit To Climb",
+    "note": "A pilot ladder rigged to the drawing on a certified ladder, attended from the moment it went over the side"
+  },
+  "category": "Maritime & Ports",
+  "certification": "IOMM&P — International Organization of Masters, Mates & Pilots; ILA / IBU where the boat's crew are covered; SOLAS Chapter V regulation 23 (pilot transfer arrangements); IMO Assembly Resolution A.1045(27) as amended, pilot transfer arrangements; ISO 799 pilot ladders and the manufacturer's certificate; the flag State's requirements and the ship's own SMS procedure for pilot transfer under the ISM Code",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "ILA",
+        "id": "ila-training",
+        "title": "ILA apprenticeship and training, as a training body"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBU",
+        "id": "ilwu-pma-training",
+        "title": "ILWU-PMA joint training for longshore, crane and clerk work, and the Inlandboatmen's Union marine division"
+      },
+      {
+        "body": "IMO",
+        "citedAs": "SOLAS",
+        "id": "imo-solas",
+        "title": "SOLAS — International Convention for the Safety of Life at Sea"
+      },
+      {
+        "body": "union",
+        "citedAs": "IOMM&P",
+        "id": "mmp-training",
+        "title": "MM&P apprenticeship and training, as a training body"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Maritime",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "condemned-it",
+        "name": "Condemned It",
+        "note": "Found every fault in the ladder before it went over the side"
+      },
+      {
+        "id": "never-unattended",
+        "name": "Never Unattended",
+        "note": "The ladder was never over the side without somebody on it"
+      },
+      {
+        "id": "to-the-request",
+        "name": "To The Request",
+        "note": "Ladder height and ship's speed both inside what the pilot asked for"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-transfer",
+        "name": "Clean Transfer",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "report-held",
+        "name": "Report Held",
+        "note": "Held the transmit key through the whole report to the bridge"
+      },
+      {
+        "id": "boat-away",
+        "name": "Boat Away",
+        "note": "Pilot on the bridge inside 80% of par"
+      }
+    ],
+    "currency": "FATHOM",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ordinary Seafarer",
+      "Able Seafarer",
+      "Third Officer",
+      "Chief Officer",
+      "Deck Department Certified"
+    ],
+    "system": "Deck Department"
+  },
+  "hazards": {
+    "discharge-running": "You called the boat alongside with a ship's side discharge running over the transfer position. The transfer happens where the shell plating is clear of discharges — anything overboard there lands on the ladder, on the pilot and in the boat, and it makes the steps and the side ropes something a wet glove cannot hold.",
+    "rail-secured": "You took the ladder's securing round the bulwark rail. A handrail, a stanchion and a rail cap are there to stop a person going over the side, not to carry one hanging off the shell plating — they are welded for the load of a hand, not the load of a ladder with a pilot on it. The ladder is secured to a strong point provided for it in the approved arrangement, and to nothing else.",
+    "retrieval-foul": "You bent the retrieval line on low, at the bottom of the ladder, and led it aft. A retrieval line is only rigged when the pilot asks for one, it is made fast at or above the last spreader step, and it is led forward so it stays clear of the pilot and of the boat coming alongside. Bent on low and led aft, it is a line the boat runs over and a line that pulls the ladder out from under the person on it.",
+    "unattended-ladder": "You left the point of transfer with the ladder over the side. The pilot does not arrive at an unattended ladder: the officer in attendance is there so that somebody with a means of communication to the bridge sees the transfer happen, sees it go wrong, and can stop the ship. A ladder nobody is watching is a ladder nobody can raise the alarm from."
+  },
+  "id": "pilot-transfer",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "manropes",
+      "alert": "The pilot boat has run in on the ladder before the point of transfer was reported ready, and she is riding up on the quarter wave with the coxswain holding her on the plating.",
+      "cue": "The boat is on the ladder and nobody told her to come.",
+      "delay": 3,
+      "id": "boat-early",
+      "kind": "Boat alongside early",
+      "missNote": "The boat stayed on the ladder and the pilot came up an arrangement nobody had reported ready, with the man-ropes still being made fast at the top of it. That it worked was the coxswain's boat handling, not the ship's arrangement — and the next time the boat comes in early it will be onto a ladder that is still one turn short of secured.",
+      "seconds": 12,
+      "target": "boat-signal",
+      "why": "A boat comes alongside when the ship's side is ready and the officer in attendance says so, because the coxswain cannot see the ladder's securing, the height or whether anybody is standing at the top of it. Waving her off costs a minute of boat handling; a pilot stepping off onto an arrangement that was not reported ready costs everything.",
+      "wrongNote": "It is the signalling lamp at the bulwark. The boat has to be told to stand off, and she has to be told by the ship, now."
+    },
+    {
+      "after": "speed",
+      "alert": "The pilot ladder has surged against the accommodation ladder's bottom platform and the two are working against each other with every roll of the ship.",
+      "cue": "Your two ladders have stopped being one arrangement.",
+      "delay": 3,
+      "id": "lashing-surge",
+      "kind": "Combination arrangement moving",
+      "missNote": "The ladders kept working against each other and the pilot crossed from the ladder to the platform over a gap that was opening and shutting with the roll. A foot into that gap as it closes is a broken leg at best, and on the way the pilot cannot see it because they are looking up at the platform and climbing with both hands.",
+      "seconds": 11,
+      "target": "combination-lashing",
+      "why": "A combination arrangement is only safe while the two ladders cannot move relative to each other: the whole hazard it exists to remove is the gap at the platform, and a securing that has surged puts that gap back and makes it open and close on the roll. It is re-secured before anybody is on it, not watched to see whether it settles.",
+      "wrongNote": "It is the securing between the pilot ladder and the accommodation ladder. Nothing else puts the two back together as one arrangement."
+    }
+  ],
+  "lateNotes": {
+    "ladder-veer": "The ladder goes over the side after the point of transfer is manned and the buoy, the light and the heaving line are already there.",
+    "manrope-fwd": "Man-ropes go down after the ladder is at the height asked for, and only because the pilot asked for them."
+  },
+  "name": "Pilot Transfer",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "ports-maritime-ecology"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "accom-ladder",
+      "attending-officer",
+      "boat-signal",
+      "bridge-vhf",
+      "bulwark-ladder",
+      "buoy-bracket",
+      "combination-lashing",
+      "discharge-running",
+      "discharge-valve",
+      "escort-route",
+      "handhold-stanchions",
+      "heaving-line",
+      "knotted-siderope",
+      "ladder-cert",
+      "ladder-overlap",
+      "ladder-veer",
+      "lifebuoy",
+      "manrope-aft",
+      "manrope-fwd",
+      "rail-secured",
+      "retrieval-foul",
+      "shackle-join",
+      "spare-ladder",
+      "speed-repeater",
+      "split-step",
+      "stanchion-base",
+      "strong-point",
+      "transfer-light",
+      "transfer-point",
+      "transfer-request",
+      "unattended-ladder"
+    ],
+    "meshes": 254
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Which side, what height, what course and speed, man-ropes or no man-ropes.",
+      "id": "request",
+      "kind": "select",
+      "prompt": "Which side, what height, what course and speed, man-ropes or no man-ropes.",
+      "target": "transfer-request",
+      "title": "Take the pilot's boarding request",
+      "why": "The pilot states how they want to board and the ship either provides it or says it cannot. Everything after this — the side the lee is made on, how far the ladder is veered, whether man-ropes go over at all — is answering that request rather than guessing at it."
+    },
+    {
+      "cue": "The manufacturer's certificate for this ladder, and the date it was last inspected and by whom.",
+      "id": "certificate",
+      "kind": "select",
+      "prompt": "The manufacturer's certificate for this ladder, and the date it was last inspected and by whom.",
+      "target": "ladder-cert",
+      "title": "Check the ladder's certificate and its inspection record",
+      "why": "A pilot ladder is certified equipment with a record behind it, not a length of rope and some steps. The certificate says it was built to the standard; the inspection record says somebody has looked at it since. A ladder with neither is a ladder nobody can vouch for, and it does not go over the side."
+    },
+    {
+      "cue": "Walk the whole length of it — steps and side ropes both — and click every fault you find.",
+      "id": "inspect",
+      "itemNames": {
+        "knotted-siderope": "the knot in the side rope",
+        "shackle-join": "the shackled joint",
+        "split-step": "the split step"
+      },
+      "itemNotes": {
+        "knotted-siderope": "There is a knot worked into one side rope. Side ropes run continuous: a knot is a repair, it is a hard point the hands and feet catch on, and it is a place the rope has already been cut.",
+        "shackle-join": "Somebody has joined a length in with a shackle. Shackles, knots and splices are not how a pilot ladder is made up — the pin is the one part of it that can work loose without anybody seeing.",
+        "split-step": "The fourth step in is split along the grain and the end of it moves under a thumb. A step that flexes is a step that turns under a boot with the ship rolling."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the whole length of it — steps and side ropes both — and click every fault you find.",
+      "targets": [
+        "split-step",
+        "knotted-siderope",
+        "shackle-join"
+      ],
+      "title": "Lay the ladder out on deck and go over it",
+      "why": "This is where pilots are saved, on a dry deck with the ladder flat and the light on it. Every one of these faults is invisible once the ladder is over the side and hanging against the plating, and every one of them has put somebody in the water. Anything found here condemns this ladder: it is not repaired at the rail."
+    },
+    {
+      "cue": "Certified spare up on deck, secured to the strong point, then the handhold stanchions and the bulwark ladder at the gateway.",
+      "id": "rig",
+      "itemNames": {
+        "bulwark-ladder": "the bulwark ladder at the gateway",
+        "handhold-stanchions": "the two handhold stanchions",
+        "spare-ladder": "the certified spare ladder",
+        "strong-point": "the deck strong point"
+      },
+      "kind": "sequence",
+      "prompt": "Certified spare up on deck, secured to the strong point, then the handhold stanchions and the bulwark ladder at the gateway.",
+      "targets": [
+        "spare-ladder",
+        "strong-point",
+        "handhold-stanchions",
+        "bulwark-ladder"
+      ],
+      "title": "Make up the certified ladder at the point of access",
+      "why": "The arrangement is a drawing that has been approved for this ship, and the drawing says where the ladder is secured and how a person gets from the top of it onto the deck. Securing first, because a ladder that is made fast cannot be dropped while the access is being made up; handholds and the bulwark ladder next, because the top of the ladder is where a climb ends and where a tired pilot lets go."
+    },
+    {
+      "cue": "Carry it to the bracket at the gateway, light attached, before anything goes over the side.",
+      "drag": {
+        "missNote": "Not in the bracket at the point of transfer. A lifebuoy stowed somewhere else on deck is a lifebuoy for somewhere else.",
+        "radius": 0.55,
+        "to": "buoy-bracket"
+      },
+      "id": "buoy",
+      "kind": "drag",
+      "prompt": "Carry it to the bracket at the gateway, light attached, before anything goes over the side.",
+      "target": "lifebuoy",
+      "title": "Lifebuoy and self-igniting light to the point of transfer",
+      "why": "A lifebuoy with a self-igniting light is what marks the spot in the dark when somebody goes in, and the spot moves the instant the ship goes past it. Carried there beforehand it is a throw away; fetched afterwards it is a run down the deck and back while the person in the water is already astern."
+    },
+    {
+      "cue": "Take them to the gateway and leave them where a hand can reach them without turning round.",
+      "drag": {
+        "missNote": "Still stowed. At the point of transfer means at the point of transfer, not in the locker twenty metres aft.",
+        "radius": 0.55,
+        "to": "transfer-point"
+      },
+      "id": "heaving",
+      "kind": "drag",
+      "prompt": "Take them to the gateway and leave them where a hand can reach them without turning round.",
+      "target": "heaving-line",
+      "title": "Heaving line and lifejacket to hand at the point",
+      "why": "The heaving line is how the pilot's bag comes up and how a line gets to the boat or to somebody in the water; the lifejacket is for whoever has to go over or into the boat. Both belong at the point of transfer with the buoy, for the same reason the buoy does: there is no time later, and nobody to spare."
+    },
+    {
+      "cue": "An officer at the gateway, with a means of communication to the bridge, in direct sight of the ladder.",
+      "id": "officer",
+      "kind": "select",
+      "prompt": "An officer at the gateway, with a means of communication to the bridge, in direct sight of the ladder.",
+      "target": "attending-officer",
+      "title": "Post the responsible officer at the point of transfer",
+      "why": "The pilot does not arrive at an unattended ladder. The officer in attendance is the one person who can see the ladder, the boat and the pilot at once and can reach the bridge in a second — so they are posted before the ladder goes over and they stay there until the pilot is on deck and the boat is away."
+    },
+    {
+      "cue": "Wheel it shut, and tell the bridge the line is closed for the transfer.",
+      "id": "discharge",
+      "kind": "turn",
+      "prompt": "Wheel it shut, and tell the bridge the line is closed for the transfer.",
+      "target": "discharge-valve",
+      "title": "Shut the ship's side discharge over the transfer position",
+      "turn": {
+        "axis": "z",
+        "label": "OVERBOARD",
+        "turns": 1.5
+      },
+      "why": "The transfer position is chosen where the shell plating is clear of discharges, and where a discharge is unavoidably above it the valve is shut for the transfer. Anything running down the plating lands on the steps, on the side ropes and on the pilot, and it takes the grip out of both gloves at once."
+    },
+    {
+      "cue": "Accommodation ladder down and leading aft, pilot ladder rigged alongside its bottom platform and extending above it, then the two secured together.",
+      "id": "combination",
+      "itemNames": {
+        "accom-ladder": "the accommodation ladder, leading aft",
+        "combination-lashing": "the two ladders secured to each other",
+        "ladder-overlap": "the pilot ladder alongside the bottom platform"
+      },
+      "kind": "sequence",
+      "prompt": "Accommodation ladder down and leading aft, pilot ladder rigged alongside its bottom platform and extending above it, then the two secured together.",
+      "targets": [
+        "accom-ladder",
+        "ladder-overlap",
+        "combination-lashing"
+      ],
+      "title": "Rig the combination arrangement",
+      "why": "The freeboard here is more than a pilot climbs on a ladder alone, so the arrangement is a combination: the accommodation ladder does most of the height and the pilot ladder does the part nearest the water. It leads aft so the pilot steps off the boat and walks with the ship rather than into it, and the two ladders are secured to each other because a pilot ladder swinging free of a platform is a gap that opens and closes with the roll, at the exact moment somebody is stepping across it. A trapdoor arrangement is a different drawing again, with its own rules for the opening and the ladder through it."
+    },
+    {
+      "cue": "Pay it out steadily and hold it at the height on the boarding request while it is made fast.",
+      "id": "veer",
+      "kind": "track",
+      "prompt": "Pay it out steadily and hold it at the height on the boarding request while it is made fast.",
+      "seconds": 6,
+      "target": "ladder-veer",
+      "title": "Veer the ladder to the height the pilot asked for",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.42,
+        "green": [
+          0.34,
+          0.54
+        ],
+        "label": "HEIGHT",
+        "rise": 0.5
+      },
+      "why": "How far the ladder is veered is the pilot's call, because the pilot is the one judging it against the boat's deck and the sea running. Too high and the step off the boat is a jump; too low and the boat rides the bottom of the ladder up and crushes it against the plating. Steadily, because a ladder dropped in a run snatches its own securing."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Both of them, secured on deck and led down beside the ladder within reach of a hand on either side.",
+      "id": "manropes",
+      "itemNames": {
+        "manrope-aft": "after man-rope",
+        "manrope-fwd": "forward man-rope"
+      },
+      "kind": "sequence",
+      "prompt": "Both of them, secured on deck and led down beside the ladder within reach of a hand on either side.",
+      "targets": [
+        "manrope-fwd",
+        "manrope-aft"
+      ],
+      "title": "Rig the man-ropes the pilot asked for",
+      "why": "Man-ropes are rigged when the pilot asks for them and not otherwise, because a pilot who does not want them finds two loose ropes in the way of the climb. Asked for, they are rigged properly: secured on deck at the point the arrangement provides, hanging beside the ladder rather than across it, and reaching down as far as the pilot asked the ladder to go."
+    },
+    {
+      "cue": "Hold the transmit key and make the whole report — ladder rigged, height, who checked it, point of transfer manned.",
+      "holdBreakNote": "The report was cut off part way. A half-made report leaves the bridge acting on half the picture — key up and make the whole of it.",
+      "id": "report",
+      "kind": "hold",
+      "prompt": "Hold the transmit key and make the whole report — ladder rigged, height, who checked it, point of transfer manned.",
+      "seconds": 5,
+      "target": "bridge-vhf",
+      "title": "Report the arrangement rigged to the bridge",
+      "why": "The bridge is about to make a lee and hold a course and speed on the strength of this report, and the pilot is about to leave a boat on the strength of what the bridge tells them. Made in full, it names who inspected the ladder, so the report is a person putting their name to the arrangement rather than a word on the radio."
+    },
+    {
+      "cue": "Read the repeater at the point of transfer and commit it against what the pilot asked for.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.46
+        ],
+        "label": "SPEED",
+        "missNote": "That is not the speed the pilot asked for. Call the bridge and have it adjusted before the boat comes in — do not let the boat come alongside to a speed nobody agreed.",
+        "speed": 0.7
+      },
+      "id": "speed",
+      "kind": "gauge",
+      "prompt": "Read the repeater at the point of transfer and commit it against what the pilot asked for.",
+      "target": "speed-repeater",
+      "title": "Check the ship's speed at the transfer",
+      "why": "A lee is only a lee at the speed and heading it was worked out for, and speed at the ship's side is the one thing the deck party can see and the bridge cannot feel. Too fast and the boat cannot hold station on the ladder; too slow and the ship will not steer and the lee falls away. Reading it here and saying so is what keeps the manoeuvre honest."
+    },
+    {
+      "cue": "Go over the whole point of access one more time — handholds, deck, lighting — and click anything that needs putting right.",
+      "id": "walk",
+      "itemNames": {
+        "stanchion-base": "the loose stanchion base",
+        "transfer-light": "the unlit transfer position"
+      },
+      "itemNotes": {
+        "stanchion-base": "The forward handhold stanchion moves at its base. A handhold is only a handhold if it is rigidly secured where it is bolted down — this one comes away in the hand of whoever grabs it hardest.",
+        "transfer-light": "The light over the point of access is out. The transfer position, the ladder and the deck where the pilot steps aboard are all lit or none of it is, and this one is in the dark from the water up."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Go over the whole point of access one more time — handholds, deck, lighting — and click anything that needs putting right.",
+      "targets": [
+        "stanchion-base",
+        "transfer-light"
+      ],
+      "title": "Walk the arrangement before the boat is called in",
+      "why": "The arrangement has been handled by four people in twenty minutes and everything in it is now either right or nearly right. This is the last look anybody gets at it from the safe side, and the two things that go wrong most at the top of a pilot ladder are a handhold that is not one and a point of access nobody can see."
+    },
+    {
+      "cue": "Take them in through the house door and go with them, by the route the ship uses.",
+      "id": "escort",
+      "kind": "select",
+      "prompt": "Take them in through the house door and go with them, by the route the ship uses.",
+      "target": "escort-route",
+      "title": "Meet the pilot and escort them to the bridge",
+      "why": "A pilot is a stranger on this ship with wet hands and a bag, arriving in the dark on a deck they have never walked. The transfer is not finished at the top of the ladder: it finishes when somebody has walked them to the bridge by a safe route, and the officer in attendance has seen the boat clear the ship's side."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Rigging a pilot ladder at sea: certificate and inspection before it goes over the side, the arrangement to the approved drawing, lifebuoy and light and heaving line at the point of transfer first, combination secured to itself, officer in attendance with the bridge, and the ship's lee held",
+  "title": "SmartCiti.X~ Pilot Transfer VR",
+  "trade": "Deck officer / able seafarer — pilot transfer party",
+  "underwater": null,
+  "weather": "wind"
+}

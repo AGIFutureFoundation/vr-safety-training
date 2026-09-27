@@ -1,0 +1,430 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "route-aware",
+    "name": "Route Aware",
+    "note": "A loose dog and every walkway hazard read and answered without a single unsafe move, and the address flagged for the next carrier"
+  },
+  "category": "Mobility & Transit",
+  "certification": "NIOSH guidance on animal-related and slip, trip and fall hazards for workers who deliver on foot; OSHA 29 CFR 1910.132 personal protective equipment, general requirements; OSHA 29 CFR 1910.1030 bloodborne pathogens, for any bite or scratch exposure a carrier reports; FMCSA 49 CFR 392 driving of commercial motor vehicles, for the short pull-out between blocks; NALC training for city letter carrier route safety",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 392",
+        "id": "fmcsa-49-cfr-392",
+        "title": "49 CFR Part 392 — Driving of commercial motor vehicles, including conduct at railroad grade crossings, hazardous conditions, and the hand-held mobile phone and texting prohibitions"
+      },
+      {
+        "body": "union",
+        "citedAs": "NALC",
+        "id": "nalc-training",
+        "title": "NALC apprenticeship and training, as a training body"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Postal & Mail Processing",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "read-the-approach",
+        "name": "Read the Approach",
+        "note": "The dog and the propped gate both found before either was a problem"
+      },
+      {
+        "id": "never-reached",
+        "name": "Never Reached",
+        "note": "No unsafe action anywhere in the run — the dog was never reached for"
+      },
+      {
+        "id": "steady-crossing",
+        "name": "Steady Crossing",
+        "note": "The heaved-slab crossing held its balance band the whole way"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-shift",
+        "name": "Clean Shift",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "on-time",
+        "name": "On Time",
+        "note": "Complete inside 80% of par"
+      },
+      {
+        "id": "calm-hands",
+        "name": "Calm Hands",
+        "note": "The retreat sequence run in order, first try"
+      }
+    ],
+    "currency": "AWARE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Casual Carrier",
+      "Route Trainee",
+      "Letter Carrier",
+      "Lead Carrier",
+      "Route Aware Certified"
+    ],
+    "system": "Route Awareness"
+  },
+  "hazards": {
+    "broken-walkway-hazard": "A heaved sidewalk slab, lifted a good two inches proud of the one behind it by a root underneath. A satchel-loaded carrier looking down at the next address rather than at their own feet is exactly who catches a toe on a lip like this one.",
+    "obstructed-sightline-hazard": "An overgrown shrub crowds the walk right at a blind corner by the porch steps. A carrier who cannot see around a corner cannot read whatever is coming around it either — a dog off its own property, a bicycle, a kid on a scooter — until it is already too close to do much about.",
+    "propped-gate-hazard": "The side gate is propped open with a brick instead of latched. An open gate is a second way for a yard dog to reach the sidewalk behind a carrier's back, and it is also the reason a dog that looks contained from the front is not actually contained at all.",
+    "unleashed-dog-hazard": "A dog loose in the yard, not tied and not behind a closed door. It is not a hazard because it is aggressive — nobody has told it who a stranger walking up the path is, and a carrier's own approach is the first thing it reacts to. It gets read from the sidewalk, never approached."
+  },
+  "id": "ml-dog-and-hazard-awareness-on-route",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "hold-ground",
+      "alert": "A second, larger dog has come around the side of the house to join the first, both now standing at the edge of the yard.",
+      "cue": "Radio the loose-dog encounter in immediately rather than trying to read two dogs alone.",
+      "delay": 3,
+      "id": "second-dog",
+      "kind": "A second dog joins",
+      "missNote": "The second dog was never called in. Two dogs read as one manageable situation for too long is exactly how a carrier ends up managing neither of them well.",
+      "seconds": 12,
+      "target": "backup-radio",
+      "why": "One dog read calmly from a safe distance is a manageable situation; two is a different one, and the route's own guidance is to call it in rather than to keep improvising alone once the picture changes for the worse. The radio call is what gets a decision made by someone who can see the whole route, not just this one yard.",
+      "wrongNote": "Not that — call the second dog in before doing anything else."
+    },
+    {
+      "after": "balance-crossing",
+      "alert": "The property's sprinklers have kicked on right across the heaved section of walkway, throwing spray over the slab you are still crossing.",
+      "cue": "Step onto the grass verge rather than push straight on across the now-wet, already-uneven slab.",
+      "delay": 3,
+      "id": "sprinklers-on",
+      "kind": "Sprinklers activate on the walkway",
+      "missNote": "The wet, heaved slab was crossed anyway. A dry uneven lip and a wet uneven lip are not the same fall risk, and this is the moment that difference actually mattered.",
+      "seconds": 11,
+      "target": "step-to-verge",
+      "why": "A slab that was already lifted and uneven is worse wet — the same lip that catches a toe dry now has a slick film over it too, and the grass verge sidesteps both problems for the few seconds the sprinklers run rather than betting the crossing on dry footing that is no longer there.",
+      "wrongNote": "Not that — the verge is the way around the sprinkler spray, not through it."
+    }
+  ],
+  "lateNotes": {
+    "heaved-slab-crossing": "The slab is crossed carefully once it has actually been read as a hazard, not walked over without a glance down.",
+    "unleashed-dog-hazard": "The dog is read and answered with distance and the satchel, never approached and never reached for."
+  },
+  "name": "Dog & Hazard Awareness on Route",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "postal-and-mail-processing"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "deliveryVan",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "backup-radio",
+      "barrier-position",
+      "broken-walkway-hazard",
+      "clear-walk-decoy",
+      "dog-deterrent",
+      "dog-warning-board",
+      "fenced-dog-decoy",
+      "heaved-slab-crossing",
+      "hi-vis-vest",
+      "mail-satchel",
+      "mail-slot-flap",
+      "obstructed-sightline-hazard",
+      "propped-gate-hazard",
+      "retreat-path-marker",
+      "route-checkin-radio",
+      "safe-mailbox",
+      "step-to-verge",
+      "stop-cue-marker",
+      "turn-sideon-marker",
+      "unleashed-dog-hazard",
+      "van-rig"
+    ],
+    "meshes": 119
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "drive",
+    "find",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Hi-vis vest and the dog deterrent spray before starting the block on foot.",
+      "id": "ppe",
+      "itemNames": {
+        "dog-deterrent": "dog deterrent spray",
+        "hi-vis-vest": "hi-vis vest"
+      },
+      "kind": "sequence",
+      "prompt": "Hi-vis vest and the dog deterrent spray before starting the block on foot.",
+      "targets": [
+        "hi-vis-vest",
+        "dog-deterrent"
+      ],
+      "title": "Suit up for the walking loop",
+      "why": "A carrier on foot among driveways and blind corners is seen first because of the vest, and the deterrent spray is carried clipped and ready rather than buried in the satchel — reaching for it after a dog is already close is reaching too late to matter."
+    },
+    {
+      "cue": "Read today's dog warning list for this block before walking it.",
+      "id": "dog-warning-card",
+      "kind": "select",
+      "prompt": "Read today's dog warning list for this block before walking it.",
+      "target": "dog-warning-board",
+      "title": "Read the route's dog warning list",
+      "why": "The warning list is the route's own memory of every address where a previous carrier flagged a dog, and reading it before the block is walked is what turns a surprise at the gate into something already expected and already planned for."
+    },
+    {
+      "cue": "Read the yard from the sidewalk before starting up the walk. Two things are already wrong with it — find them.",
+      "decoyNotes": {
+        "fenced-dog-decoy": "That dog is calm, behind an intact fence with the gate latched. Nothing to flag there."
+      },
+      "id": "approach-hazard-read",
+      "itemNames": {
+        "propped-gate-hazard": "the propped-open gate",
+        "unleashed-dog-hazard": "the loose dog"
+      },
+      "itemNotes": {
+        "propped-gate-hazard": "Propped with a brick instead of latched. A second way for the dog to reach the sidewalk.",
+        "unleashed-dog-hazard": "Loose in the yard, not tied and not behind a door. Read from the sidewalk — never approached."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Read the yard from the sidewalk before starting up the walk. Two things are already wrong with it — find them.",
+      "targets": [
+        "unleashed-dog-hazard",
+        "propped-gate-hazard"
+      ],
+      "title": "Read the approach before the front walk",
+      "why": "A yard read from the sidewalk costs nothing and changes everything about what happens next; the same yard discovered at the gate line, already inside the dog's own space, has already used up the distance that made every other option available."
+    },
+    {
+      "cue": "Hold still, side-on, without raised arms or eye contact, and read what the dog does next.",
+      "holdBreakNote": "The stance broke early. The calm hold is what buys the time to see whether the dog is actually coming closer or just curious.",
+      "id": "hold-ground",
+      "kind": "hold",
+      "prompt": "Hold still, side-on, without raised arms or eye contact, and read what the dog does next.",
+      "seconds": 8,
+      "target": "unleashed-dog-hazard",
+      "title": "Hold a calm, non-threatening stance",
+      "why": "A carrier who freezes calmly gives a loose dog nothing to react to; one who bolts, waves an arm or stares it down gives it exactly the kind of signal that turns an uncertain dog into a chasing one. The hold is the whole point — nothing happens here except watching."
+    },
+    {
+      "anyOrder": false,
+      "cue": "Stop, turn side-on to the dog, then back away slowly — in that order, never turning your back.",
+      "id": "retreat-sequence",
+      "itemNames": {
+        "retreat-path-marker": "back away slowly",
+        "stop-cue-marker": "stop moving",
+        "turn-sideon-marker": "turn side-on"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Stop, then turn side-on, then back away — reversing this gives the dog either a runner or a turned back, and either one changes what it does next.",
+      "prompt": "Stop, turn side-on to the dog, then back away slowly — in that order, never turning your back.",
+      "targets": [
+        "stop-cue-marker",
+        "turn-sideon-marker",
+        "retreat-path-marker"
+      ],
+      "title": "Work the retreat in order",
+      "why": "Each part of this sequence removes one thing a dog can react to: stopping removes the chase trigger of a moving target, turning side-on removes the confrontation of a direct face-on stance, and backing away slowly — without ever turning a back to the dog — removes distance without ever removing sight of it."
+    },
+    {
+      "cue": "Carry the satchel in front of you as a barrier while you continue backing clear.",
+      "drag": {
+        "missNote": "Not into position — the satchel goes between you and the dog, not left hanging at your side.",
+        "radius": 0.45,
+        "to": "barrier-position"
+      },
+      "id": "barrier-drag",
+      "kind": "drag",
+      "prompt": "Carry the satchel in front of you as a barrier while you continue backing clear.",
+      "target": "mail-satchel",
+      "title": "Put the satchel between you and the dog",
+      "why": "A satchel held between a carrier and a dog is something to put weight against that is not an arm or a leg, and it costs nothing to carry that way while backing off — it is the cheapest barrier a carrier has on the whole route, and it is already in their hands."
+    },
+    {
+      "cue": "Once clear of the yard, deliver to the next address's mailbox as normal.",
+      "id": "safe-mailbox",
+      "kind": "select",
+      "prompt": "Once clear of the yard, deliver to the next address's mailbox as normal.",
+      "target": "safe-mailbox",
+      "title": "Continue to the next mailbox",
+      "why": "The block does not stop because one address had a dog in it — the route continues once the carrier is actually clear, which is the entire reason the retreat happened in the first place rather than a standoff that used up the rest of the loop's time."
+    },
+    {
+      "cue": "Look over the next stretch of sidewalk before crossing it. Two things are already wrong with it — find them.",
+      "decoyNotes": {
+        "clear-walk-decoy": "That stretch of slab is flat and unobstructed. Nothing to flag there."
+      },
+      "id": "sidewalk-hazard-read",
+      "itemNames": {
+        "broken-walkway-hazard": "the heaved sidewalk slab",
+        "obstructed-sightline-hazard": "the shrub blocking the blind corner"
+      },
+      "itemNotes": {
+        "broken-walkway-hazard": "Lifted a good two inches by a root underneath. It gets a wide, careful step, not a distracted stride.",
+        "obstructed-sightline-hazard": "Crowds the walk right at a blind corner. It gets reported for trimming — a carrier cannot see what it hides."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look over the next stretch of sidewalk before crossing it. Two things are already wrong with it — find them.",
+      "targets": [
+        "broken-walkway-hazard",
+        "obstructed-sightline-hazard"
+      ],
+      "title": "Read the walk further down the block",
+      "why": "A sidewalk read for what is actually on it rather than assumed flat is how a lifted slab or a blind corner gets crossed carefully instead of caught by surprise while looking down at the next address on the satchel."
+    },
+    {
+      "cue": "Cross the lifted section keeping your footing indicator inside the steady band.",
+      "holdBreakNote": "Footing drifted out of the steady band. Slow down and place the step deliberately rather than push through the lift.",
+      "id": "balance-crossing",
+      "kind": "track",
+      "prompt": "Cross the lifted section keeping your footing indicator inside the steady band.",
+      "seconds": 8,
+      "target": "heaved-slab-crossing",
+      "title": "Cross the heaved slab",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.4,
+        "green": [
+          0.36,
+          0.64
+        ],
+        "label": "FOOTING",
+        "rise": 0.4,
+        "start": 0.5
+      },
+      "why": "A lip this size is a stumble waiting on a distracted stride, and watching the footing indicator through the crossing is what keeps a carrier's attention on the one uneven step that actually needs it rather than on the mail already being sorted for the next address."
+    },
+    {
+      "cue": "Turn the mail slot flap open, feed the mail through, and let it close gently.",
+      "id": "mail-slot-deliver",
+      "kind": "turn",
+      "prompt": "Turn the mail slot flap open, feed the mail through, and let it close gently.",
+      "target": "mail-slot-flap",
+      "title": "Deliver through the mail slot",
+      "turn": {
+        "axis": "x",
+        "label": "SLOT FLAP",
+        "turns": 0.3
+      },
+      "why": "A mail slot flap let go carelessly snaps back on whatever is still in the opening — a hand, a finger, or the next piece of mail bent in the hinge. Turning it open and letting it ease shut is a two-second habit that keeps the slot from ever becoming its own small hazard."
+    },
+    {
+      "cue": "Flag today's address on the route's dog warning list before moving on.",
+      "id": "dog-warning-log",
+      "kind": "select",
+      "prompt": "Flag today's address on the route's dog warning list before moving on.",
+      "target": "dog-warning-board",
+      "title": "Flag the address for the next carrier",
+      "why": "A dog encounter that ends safely but never gets logged is a surprise the next carrier — or the same carrier on a different day — walks into cold. The warning list only works if every carrier who reads it also writes to it."
+    },
+    {
+      "cue": "Signal, check the mirror, and roll the van forward a short block at a walking-pace crawl.",
+      "drive": {
+        "bandLabel": "residential crawl, per the posted limit",
+        "checkWindow": 2,
+        "checks": [
+          {
+            "at": 0,
+            "kind": "signal-right",
+            "note": "Signal before rolling — a carrier's own van pulling out is exactly the kind of move a distracted driver behind it will not expect."
+          },
+          {
+            "at": 1,
+            "kind": "mirror-right",
+            "note": "Mirror check before the roll: the curb side is where the last stop's foot traffic still is."
+          }
+        ],
+        "controls": {},
+        "graceSeconds": 1.6,
+        "laneWidth": 1.6,
+        "path": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            -4.5
+          ]
+        ],
+        "sceneRate": 0.15,
+        "speedBand": [
+          2,
+          6
+        ]
+      },
+      "holdBreakNote": "Out of the marked lane, or moving faster than a residential crawl allows.",
+      "id": "block-to-block-drive",
+      "kind": "drive",
+      "prompt": "Signal, check the mirror, and roll the van forward a short block at a walking-pace crawl.",
+      "target": "van-rig",
+      "title": "Pull out to the next block",
+      "why": "Per 49 CFR 392 a commercial vehicle's driver checks mirrors and signals before every move, even a fifty-metre crawl to the next block — a route that treats the short moves as too small to matter is a route that eventually treats all of them that way."
+    },
+    {
+      "cue": "Radio the loose-dog encounter and the sidewalk hazard in to dispatch before starting the next loop.",
+      "id": "route-checkin",
+      "kind": "select",
+      "prompt": "Radio the loose-dog encounter and the sidewalk hazard in to dispatch before starting the next loop.",
+      "target": "route-checkin-radio",
+      "title": "Check in at the end of the loop",
+      "why": "Dispatch and the route book both depend on what actually happened on the ground reaching them — a hazard read, answered and then never reported is a hazard the route's own record has no way of learning from."
+    }
+  ],
+  "supportLine": "your NALC branch's member assistance representative, or the station's own employee assistance line",
+  "tagline": "A residential block on foot: the dog warning list read first, a loose dog and a propped gate read on the approach, the non-threatening response worked stop-turn-retreat with the satchel as a barrier, a heaved slab and a blind corner read further down the block, the address flagged for the next carrier, and an optional short pull-out to the next block",
+  "title": "SmartCiti.X~ Dog & Hazard Awareness on Route VR",
+  "trade": "City letter carrier — dog and hazard awareness on the walking route, NALC",
+  "underwater": null,
+  "weather": "clear"
+}

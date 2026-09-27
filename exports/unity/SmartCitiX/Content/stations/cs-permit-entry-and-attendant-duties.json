@@ -1,0 +1,440 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "never-left-the-hole",
+    "name": "Never Left the Hole",
+    "note": "The permit complete before entry, the count always right, the attendant never off the opening and never inside it"
+  },
+  "category": "Water & Environmental",
+  "certification": "OSHA 29 CFR 1910.146 permit-required confined spaces — the entry permit's required fields, the duties of the entrant, attendant and entry supervisor, and rescue and emergency services; OSHA 29 CFR 1926 Subpart AA where the entry is construction work, with its coordination between employers on a shared site; ANSI Z117.1 confined-space entry practice; OSHA 29 CFR 1910.147 for the isolations the permit lists; NIOSH confined-space criteria; LIUNA, UA and IUOE confined-space training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI Z117.1",
+        "id": "ansi-z117-1",
+        "title": "ANSI/ASSP Z117.1 — Safety requirements for entering confined spaces"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "union",
+        "citedAs": "LIUNA",
+        "id": "liuna-training-fund",
+        "title": "LIUNA Training and Education Fund — construction craft laborer, hazardous waste and environmental remediation curricula"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.146",
+        "id": "osha-1910-146",
+        "title": "29 CFR 1910.146 — Permit-required confined spaces"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926 Subpart AA",
+        "id": "osha-1926-subpart-aa",
+        "title": "OSHA 29 CFR 1926 Subpart AA — Confined spaces in construction"
+      },
+      {
+        "body": "union",
+        "citedAs": "UA",
+        "id": "ua-apprenticeship",
+        "title": "UA — United Association plumber, pipefitter and HVAC service apprenticeship standards and UA Star certification"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Water & Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "stayed-outside",
+        "name": "Stayed Outside",
+        "note": "Never went in, never left the post, never let an unsigned entry or an untrained helper through"
+      },
+      {
+        "id": "blank-means-stop",
+        "name": "Blank Means Stop",
+        "note": "Every blank on the permit caught before the entry"
+      },
+      {
+        "id": "clean-watch",
+        "name": "Clean Watch",
+        "note": "No corrections from the permit to the file"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "unbroken-watch",
+        "name": "Unbroken Watch",
+        "note": "The watch held in band the whole time"
+      },
+      {
+        "id": "clear-comms",
+        "name": "Clear Comms",
+        "note": "The comm check committed inside the band first time"
+      },
+      {
+        "id": "tight-entry",
+        "name": "Tight Entry",
+        "note": "Permit to file inside 80% of par"
+      }
+    ],
+    "currency": "ENTRIES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Hole Watch Trainee",
+      "Attendant",
+      "Lead Attendant",
+      "Entry Supervisor",
+      "Permit Space Qualified"
+    ],
+    "system": "Permit Space"
+  },
+  "hazards": {
+    "attendant-goes-in": "You started to climb into the manway to see why the entrant was quiet. The attendant never enters: they are the only person outside who knows how many people are in the space and the only one positioned to summon rescue. An attendant who goes in to help becomes a second casualty in whatever put the first one down, with nobody left at the opening.",
+    "entry-before-signature": "You waved the entrant into the manway before the entry supervisor had signed the permit. The signature is the entry supervisor's statement that every condition on the permit is in place — isolations, testing, rescue — and without it the entry is not authorised. Nobody goes past the barrier until it is signed.",
+    "leave-for-the-truck": "You walked off toward the truck for the spare seal. An attendant stays at the opening for the whole entry unless another trained attendant takes over. Walking away leaves nobody watching the entrant, the monitor or the perimeter, and nobody to call rescue if the entrant goes quiet.",
+    "untrained-helper": "You let the passing laborer duck in to 'hand the entrant a wrench'. Only the entrants named on the permit enter, because only they are trained for this space, wearing its equipment, and on the attendant's count. Anybody else is an unaccounted person in a hazardous atmosphere."
+  },
+  "id": "cs-permit-entry-and-attendant-duties",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "watch",
+      "alert": "The job foreman walks up: 'Run and grab the spare seal off the truck, he'll be fine for two minutes.'",
+      "cue": "Do not leave. Radio the entry supervisor for a relief attendant — you stay at the manway until one is standing next to you.",
+      "delay": 2,
+      "id": "pulled-off-post",
+      "kind": "Attendant pulled off the post",
+      "missNote": "You stayed put but nobody called for relief, and the foreman went off and came back with another hand who walked straight to the manway to 'help'. For two minutes nobody was watching the monitor or the count.",
+      "seconds": 12,
+      "target": "supervisor-radio",
+      "why": "The attendant does not leave the opening for any errand, for any length of time, unless another trained attendant takes over. The foreman is asking for a small thing; what they are actually asking is for nobody to be watching the entrant. The answer is a relief attendant called by radio, not an argument.",
+      "wrongNote": "That does not solve it. Radio the entry supervisor for a relief attendant — that is the only way anyone other than you watches this hole."
+    },
+    {
+      "after": "comm-interval",
+      "alert": "The entrant's reply comes back slurred, then stops. The monitor on the line has started to chirp.",
+      "cue": "Order the evacuation now: sound the air horn and call them out, and get ready to haul on the retrieval line — do not go in.",
+      "delay": 2,
+      "id": "no-answer",
+      "kind": "Entrant not answering",
+      "missNote": "Nobody ordered the evacuation. The entrant stayed on the mixer with the monitor chirping until they slumped against the tank wall, and the retrieval line had to haul a person who could no longer help.",
+      "seconds": 12,
+      "target": "evac-horn",
+      "why": "Slurred speech then silence is the textbook sign of an atmosphere affecting an entrant, and the attendant's duty under 1910.146 is to order them out, summon rescue and use the retrieval line — never to enter. The horn is the order everyone understands; the line is the rescue the attendant can do from outside.",
+      "wrongNote": "The entrant has stopped answering. Sound the air horn and order them out — that is the attendant's job right now."
+    }
+  ],
+  "lateNotes": {
+    "entrant-tag": "The entrant tags in once the permit is signed, the opening is posted and comms are proven from inside.",
+    "permit-file": "The permit is cancelled and filed once the count is zero and the space is closed.",
+    "retrieval-anchor": "The retrieval line goes on the entrant's harness before the entrant goes in, not once they are inside."
+  },
+  "name": "Permit Entry & Attendant Duties",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "confined-space"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "pickup",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "flashlight",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "fourGasMeter",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "radio",
+        "count": 2,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "attendant-goes-in",
+      "attendant-named",
+      "comms-call",
+      "comms-panel",
+      "count-zero",
+      "crew-radio",
+      "duration-blank",
+      "entrant-named",
+      "entrant-out",
+      "entrant-tag",
+      "entry-before-signature",
+      "evac-horn",
+      "hose-in-manway",
+      "idling-truck",
+      "leave-for-the-truck",
+      "manway-barrier",
+      "permit-board",
+      "permit-file",
+      "rescue-blank",
+      "retrieval-anchor",
+      "supervisor-radio",
+      "supervisor-signs",
+      "tag-socket",
+      "tag-to-out",
+      "test-blank",
+      "untrained-helper",
+      "visitor-in-barrier",
+      "watch-post"
+    ],
+    "meshes": 224
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Read the posted permit: the space and the purpose of entry, the date and duration, the entrants, attendant and entry supervisor by name, the hazards, isolations, acceptable conditions, test results, rescue service and communication method.",
+      "id": "permit-read",
+      "kind": "select",
+      "prompt": "Read the posted permit: the space and the purpose of entry, the date and duration, the entrants, attendant and entry supervisor by name, the hazards, isolations, acceptable conditions, test results, rescue service and communication method.",
+      "target": "permit-board",
+      "title": "Read the entry permit field by field",
+      "why": "29 CFR 1910.146 sets out what an entry permit has to identify, and every field is there because an entry went wrong without it: the purpose, so the job does not grow into something else inside the tank; the duration, so a permit does not outlive the conditions it was written for; the names, so the count means something; the rescue service, so help is arranged before it is needed. The attendant reads it because the attendant enforces it."
+    },
+    {
+      "cue": "Three required fields on this permit are blank or open-ended. Find them before anyone signs.",
+      "id": "permit-blanks",
+      "itemNames": {
+        "duration-blank": "permit duration left open-ended",
+        "rescue-blank": "rescue service left blank",
+        "test-blank": "initial atmosphere test column empty"
+      },
+      "itemNotes": {
+        "duration-blank": "The duration is blank. A permit is valid for the job and the conditions it describes; open-ended, it is still 'valid' tomorrow when nothing on it is true.",
+        "rescue-blank": "Nobody is named for rescue. An entry with no rescue arranged is an entry where the plan for a collapse is the attendant going in — the entry stops until a rescue service is named and reachable.",
+        "test-blank": "The initial test results are empty. The acceptable conditions mean nothing until a reading is written against them, time and tester included."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three required fields on this permit are blank or open-ended. Find them before anyone signs.",
+      "targets": [
+        "rescue-blank",
+        "duration-blank",
+        "test-blank"
+      ],
+      "title": "Find the blanks on this permit",
+      "why": "A blank field on a permit is not an oversight to be filled in later; it is a condition of entry that nobody has established. The attendant is often the last person to read the permit before the entrant goes in, and a permit with a blank rescue line, no duration or no test results is one the entry supervisor sends back rather than signs, under 1910.146 and under ANSI Z117.1 practice alike."
+    },
+    {
+      "cue": "The entry supervisor signs the completed permit, you initial as attendant, and the entrant initials against their name.",
+      "id": "roles-signed",
+      "itemNames": {
+        "attendant-named": "you, named as attendant",
+        "entrant-named": "the pipefitter, named as entrant",
+        "supervisor-signs": "entry supervisor signs the completed permit"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "The supervisor signs the completed permit first — the attendant and entrant are taking on an authorised entry, not an unsigned one.",
+      "prompt": "The entry supervisor signs the completed permit, you initial as attendant, and the entrant initials against their name.",
+      "targets": [
+        "supervisor-signs",
+        "attendant-named",
+        "entrant-named"
+      ],
+      "title": "Roles signed: supervisor, attendant, entrant",
+      "why": "Each role in a permit entry carries different duties under 1910.146, and the signatures are what make the division real: the entry supervisor authorises and can terminate the entry, the attendant watches and summons, the entrant works and gets out when told. On a construction job the rule in 29 CFR 1926 Subpart AA adds that the host and every contractor with people near the space know who holds each role."
+    },
+    {
+      "cue": "Close the barrier round the manway platform and hang the danger sign where anyone approaching sees it.",
+      "id": "post-opening",
+      "kind": "select",
+      "prompt": "Close the barrier round the manway platform and hang the danger sign where anyone approaching sees it.",
+      "target": "manway-barrier",
+      "title": "Barricade the opening and post it",
+      "why": "The open manway is a way into a hazardous atmosphere for anybody who walks past, and a plant has people walking past all day. A barrier and the posted danger sign mark the space as a permit space in use so that nobody wanders in, and they give the attendant a line to hold: anybody inside the barrier who is not on the permit is somebody the attendant turns away."
+    },
+    {
+      "cue": "With the entrant just inside the manway, key the hardwired set and commit when their reply reads clear, not broken.",
+      "gauge": {
+        "green": [
+          0.48,
+          0.66
+        ],
+        "label": "COMMS",
+        "missNote": "Not a clear reply — reseat the headset lead and key it again before the entrant goes past the manway.",
+        "speed": 0.7
+      },
+      "id": "comms-check",
+      "kind": "gauge",
+      "prompt": "With the entrant just inside the manway, key the hardwired set and commit when their reply reads clear, not broken.",
+      "target": "comms-panel",
+      "title": "Prove comms with the entrant from inside the tank",
+      "why": "Steel tank walls eat radio signals, and a set that works on the platform can be dead two metres inside. The communication method on the permit has to be proven from where the entrant will work before they go there, because the attendant's whole job depends on hearing them. A hardwired set on the retrieval line, or a radio relay the permit names, is proven with a real reply."
+    },
+    {
+      "cue": "Take the entrant's tag from OUT and hang it in the IN column as they go through the manway.",
+      "drag": {
+        "missNote": "Not in the IN column — hang the entrant's tag on the IN side of the board as they go through the manway.",
+        "radius": 0.5,
+        "to": "tag-socket"
+      },
+      "id": "tag-in",
+      "kind": "drag",
+      "prompt": "Take the entrant's tag from OUT and hang it in the IN column as they go through the manway.",
+      "target": "entrant-tag",
+      "title": "Tag the entrant in on the attendant board",
+      "why": "The attendant's first duty under 1910.146 is to know how many people are in the space and who they are, continuously and accurately. A tag board at the opening turns that into something visible to everyone — the entry supervisor, a relief attendant, a rescue team arriving — and it is the only record that matters in the minute when somebody asks how many are inside."
+    },
+    {
+      "cue": "Check the retrieval line runs from the entrant's harness to the anchor and winch at the manway, so you can bring them out without going in.",
+      "id": "retrieval-on",
+      "kind": "select",
+      "prompt": "Check the retrieval line runs from the entrant's harness to the anchor and winch at the manway, so you can bring them out without going in.",
+      "target": "retrieval-anchor",
+      "title": "Retrieval line on the entrant's harness, anchored outside",
+      "why": "Non-entry rescue is the attendant's rescue: a retrieval line on the entrant's harness, anchored outside, lets the attendant pull a person out of the space without entering it, which 1910.146 requires wherever it does not add a hazard of its own. It has to go on before entry, because once the entrant is down there is no reaching them to clip it on."
+    },
+    {
+      "cue": "Stay at the opening with the entrant in sight or in voice contact, the monitor in view and the perimeter in the corner of your eye.",
+      "holdBreakNote": "Your watch slipped out of band — drifting, or tunnelled on one thing. Bring it back: entrant, monitor, perimeter, round and round.",
+      "id": "watch",
+      "kind": "track",
+      "prompt": "Stay at the opening with the entrant in sight or in voice contact, the monitor in view and the perimeter in the corner of your eye.",
+      "seconds": 7,
+      "target": "watch-post",
+      "title": "Keep a continuous watch at the manway",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "WATCH",
+        "rise": 0.55,
+        "start": 0.12
+      },
+      "why": "The attendant watches three things at once: the entrant, for signs the atmosphere is getting to them; the monitor on the line, for a change in the space; and the barrier, for anybody coming in. None of that works from anywhere but the opening, and it does not pause — which is why 1910.146 keeps the attendant at the post until relieved and gives them nothing else to do."
+    },
+    {
+      "cue": "Call the entrant on the set and hold until they answer with their status.",
+      "holdBreakNote": "You broke off before the entrant answered. An unanswered check is exactly what you are listening for — hold until you hear them.",
+      "id": "comm-interval",
+      "kind": "hold",
+      "prompt": "Call the entrant on the set and hold until they answer with their status.",
+      "seconds": 6,
+      "target": "comms-call",
+      "title": "Run a comm check and wait for the answer",
+      "why": "A comm check is a question the entrant has to answer, not a noise the attendant makes. The answer — clear words, the right status — is how the attendant hears the early signs of an atmosphere working on someone: slurring, confusion, no reply. That is why the check is held until it is answered, and why the answer is judged, not just received."
+    },
+    {
+      "cue": "Three things round the manway have changed since the entry started. Find them.",
+      "id": "perimeter",
+      "itemNames": {
+        "hose-in-manway": "a hose run through the manway",
+        "idling-truck": "a truck idling upwind of the manway",
+        "visitor-in-barrier": "a visitor inside the barrier"
+      },
+      "itemNotes": {
+        "hose-in-manway": "A washdown hose has been run through the manway. It blocks the way out and the retrieval line, and it can carry water into the tank. It comes out.",
+        "idling-truck": "A delivery truck is idling upwind of the manway, its exhaust drifting toward the opening and the blower intake. It gets moved.",
+        "visitor-in-barrier": "A plant visitor has stepped inside the barrier to look in. Only the people on the permit come inside it; the attendant turns them back."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things round the manway have changed since the entry started. Find them.",
+      "targets": [
+        "idling-truck",
+        "visitor-in-barrier",
+        "hose-in-manway"
+      ],
+      "title": "Keep the perimeter",
+      "why": "The attendant's duties under 1910.146 include keeping unauthorised people away and watching for conditions outside the space that could endanger the entrant. A plant does not stop around a permit entry: trucks deliver, visitors tour, somebody needs a hose. Each change is small and each one reaches the entrant — exhaust at the opening, a body in the barrier, the exit blocked."
+    },
+    {
+      "cue": "See the entrant out of the manway, move their tag back to OUT, confirm the count is zero, then close the manway.",
+      "id": "tag-out",
+      "itemNames": {
+        "count-zero": "count reads zero, manway closed",
+        "entrant-out": "entrant out through the manway",
+        "tag-to-out": "tag moved back to OUT"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out, then the tag, then the count — the board follows the person, never the other way round.",
+      "prompt": "See the entrant out of the manway, move their tag back to OUT, confirm the count is zero, then close the manway.",
+      "targets": [
+        "entrant-out",
+        "tag-to-out",
+        "count-zero"
+      ],
+      "title": "Entrant out, tag out, count zero",
+      "why": "An entry ends when the count is zero, not when the work is done. The attendant sees each entrant out with their own eyes and moves the tag themselves, so the board is never right by assumption, and only then is the manway closed. A manway closed on a count nobody checked is how a person has been sealed in a space."
+    },
+    {
+      "cue": "The entry supervisor cancels the permit; note the blanks you caught, the unanswered check, the truck, the visitor and the hose, and file it.",
+      "id": "permit-file",
+      "kind": "select",
+      "prompt": "The entry supervisor cancels the permit; note the blanks you caught, the unanswered check, the truck, the visitor and the hose, and file it.",
+      "target": "permit-file",
+      "title": "Cancel the permit and file it with the problems noted",
+      "why": "A cancelled permit is kept because the problems written on it are how the permit programme gets reviewed and fixed — 1910.146 has the employer review its programme using the cancelled permits. The blanks caught before entry, the unanswered check and the perimeter breaches are exactly the things that review is for; a clean-looking file is a programme that learns nothing."
+    },
+    {
+      "cue": "Radio the entry supervisor that the permit is closed, and check in with the entrant about the moment they went quiet.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Radio the entry supervisor that the permit is closed, and check in with the entrant about the moment they went quiet.",
+      "target": "crew-radio",
+      "title": "Check in with the entry supervisor and the entrant",
+      "why": "The entry supervisor needs to hear the permit is closed and the space secured before the plant brings the tank back. The entrant who went quiet, and the attendant who was deciding whether to haul, have both had a frightening few minutes, and the member assistance programme on the back of the permit exists for exactly that. Asking costs nothing on the platform."
+    }
+  ],
+  "supportLine": "your LIUNA, UA or IUOE local's member assistance programme, or the employee assistance line printed on the back of the entry permit",
+  "tagline": "The attendant's shift at a tank manway: the permit read field by field and its blanks caught, roles signed, the opening barricaded and posted, the comms checked from inside, the entrant tagged in, the retrieval line on, a continuous watch the foreman tries to pull you off, a comm check that goes unanswered, the perimeter kept, the entrant tagged out, and the permit cancelled and filed",
+  "title": "SmartCiti.X~ Permit Entry & Attendant Duties VR",
+  "trade": "Confined-space attendant — LIUNA laborer at the manway, with a UA pipefitter entrant and an IUOE operator as entry supervisor",
+  "underwater": null,
+  "weather": "overcast"
+}

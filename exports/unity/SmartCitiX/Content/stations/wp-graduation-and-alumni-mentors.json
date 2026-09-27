@@ -1,0 +1,395 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "graduated",
+    "name": "Graduated",
+    "note": "Checked in, the ceremony prepped in order, the remarks held through, the mentors found, composure held for your name, the certificate received, a real mentor conversation had, and the check-ins booked"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Registered apprenticeship standards as a category — the credential this graduation actually marks progress toward; the OSHA Outreach Training Program's OSHA 10 card, named on the certificate table as one of the credentials this cohort is graduating with; Teamsters (IBT) apprenticeship and training programmes, whose local sponsors the alumni-mentor table on the floor; 29 CFR 1910.22 for the walking-working surfaces a crowded hall shares with every other floor; 29 CFR 1910.151 for the first-aid response a warm, packed room can turn into a real need; SAMHSA's guidance on help-seeking, for the coach's own closing check-in",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.151",
+        "id": "osha-1910-151",
+        "title": "29 CFR 1910.151 — Medical services and first aid"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.22",
+        "id": "osha-1910-22",
+        "title": "29 CFR 1910.22 — Walking-working surfaces, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "OSHA 10",
+        "id": "osha-outreach-10",
+        "title": "OSHA Outreach Training Program — the 10-hour construction course (OSHA 10): voluntary awareness training taught by an authorized trainer, not a certification and not a substitute for the employer's own training"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBT",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Workforce readiness",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "found-the-mentors",
+        "name": "Found The Mentors",
+        "note": "The ceremony prep held in order and the mentors found clean"
+      },
+      {
+        "id": "steady-crowd",
+        "name": "Steady Crowd",
+        "note": "No unsafe action anywhere on the floor"
+      },
+      {
+        "id": "held-composure",
+        "name": "Held Composure",
+        "note": "The composure track carried without a break"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-graduation",
+        "name": "Clean Graduation",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "honest-readiness",
+        "name": "Honest Readiness",
+        "note": "The readiness gauge committed near the middle of the band"
+      },
+      {
+        "id": "on-schedule-day",
+        "name": "On-Schedule Day",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "COHORT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Checked In",
+      "Ceremony Ready",
+      "Certificate Earned",
+      "Mentor Matched",
+      "Pathway Certified"
+    ],
+    "system": "Graduation Hall"
+  },
+  "hazards": {
+    "wp-gr-av-cable-trip": "You were about to cross the stage's microphone cable where it runs loose across the aisle instead of taped flat. A cable across an aisle this crowded is a trip for someone carrying a cake or walking a grandparent to a seat, not just for you — it gets taped down before doors open, not discovered mid-ceremony.",
+    "wp-gr-gatecrasher": "Someone without a ticket is arguing loudly with the check-in table, trying to push past into the seating area. Space and a level tone come first — step back, let the check-in staff and the venue handle it, and do not let the argument spill into the row of families trying to find their seats.",
+    "wp-gr-grandparent-faint": "An older family member in the third row has gone pale and unsteady on their feet in the heat. A hot, standing-room ceremony is hard on an older body in a way it is not on a younger one — get them seated, get water and the venue's first-aid contact, and stay with them rather than stepping around them to get back to your own seat.",
+    "wp-gr-stuffy-hall": "The hall's air conditioning is struggling to keep up with a room this full, and it has gone warm in the back rows. A hot, crowded hall on a day people are dressed up and standing for photos is exactly where someone quietly overheats — prop a door for a cross breeze and keep water moving through the room rather than waiting for someone to ask."
+  },
+  "id": "wp-graduation-and-alumni-mentors",
+  "indoor": "service",
+  "interrupts": [
+    {
+      "after": "composure-track",
+      "alert": "The podium microphone lets out a loud burst of feedback right as the names are about to start being called.",
+      "cue": "Do not freeze up. Signal the AV tech at the side table.",
+      "delay": 3,
+      "id": "wp-gr-mic-feedback",
+      "kind": "Microphone feedback squeals through the hall",
+      "missNote": "Nobody signalled the booth, and in the version where the feedback kept cutting in and out, it happened again right as your own name was called instead of being fixed beforehand.",
+      "seconds": 12,
+      "target": "wp-gr-av-tech",
+      "why": "A startling noise seconds before your own moment is exactly what composure is being practised for, and the fix is not to power through it in silence — the AV tech at the side table can mute and reset the feed in seconds once someone signals them, which is faster than the sound stopping on its own.",
+      "wrongNote": "Not the name card. The AV tech is who actually fixes the feed — signal them, then settle back into composure."
+    },
+    {
+      "after": "mentor-talk",
+      "alert": "A photographer taps your shoulder mid-conversation, asking for a solo photo right now, camera already raised.",
+      "cue": "Ask them to wait — point to the photo queue sign rather than stopping the conversation cold.",
+      "delay": 3,
+      "id": "wp-gr-photo-interrupt",
+      "kind": "A photographer interrupts the mentor conversation",
+      "missNote": "You stopped the conversation cold for the photo, and in the version where you did, the mentor's story was left half-told and the contact exchange that was about to happen never quite got back on track.",
+      "seconds": 10,
+      "target": "wp-gr-photo-queue",
+      "why": "A mentor who gets cut off mid-sentence for a photo reads it as the conversation mattering less than the picture, which is the opposite of what today is actually about — pointing to the queue sign says the photo will happen without making the mentor feel like an interruption in their own conversation.",
+      "wrongNote": "Not the alumni wall, and not the mentor themselves. The photo queue sign is what tells the photographer to wait — point to that and keep talking."
+    }
+  ],
+  "lateNotes": {
+    "wp-gr-graduation-log": "The log closes out the day last, with the mentor's name and the check-in dates actually booked.",
+    "wp-gr-your-photo": "Not yet. The photo goes on the wall once the certificate is actually in hand — the wall is for graduates, not for the cohort still waiting to walk."
+  },
+  "name": "Graduation and Alumni-Mentor Day",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.8,
+    "hits": [
+      "wp-gr-alumni-wall",
+      "wp-gr-av-cable-trip",
+      "wp-gr-av-tech",
+      "wp-gr-checkin-dial",
+      "wp-gr-checkin-table",
+      "wp-gr-coach",
+      "wp-gr-commitment-card",
+      "wp-gr-gatecrasher",
+      "wp-gr-graduation-log",
+      "wp-gr-grandparent-faint",
+      "wp-gr-mentor-ask",
+      "wp-gr-mentor-contact",
+      "wp-gr-mentor-intro",
+      "wp-gr-mentor-one",
+      "wp-gr-mentor-three",
+      "wp-gr-mentor-two",
+      "wp-gr-name-card",
+      "wp-gr-other-graduate",
+      "wp-gr-photo-queue",
+      "wp-gr-podium",
+      "wp-gr-prep-folder",
+      "wp-gr-prep-phone",
+      "wp-gr-prep-seat",
+      "wp-gr-readiness-dial",
+      "wp-gr-stage-certificate",
+      "wp-gr-stuffy-hall",
+      "wp-gr-venue-staff",
+      "wp-gr-your-photo"
+    ],
+    "meshes": 203
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Sign in at the check-in table and collect your seat assignment.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Sign in at the check-in table and collect your seat assignment.",
+      "target": "wp-gr-checkin-table",
+      "title": "Check in at the graduation table",
+      "why": "A graduation with a full cohort and their families runs on a seating plan the venue built ahead of time, and checking in is what confirms you are seated and accounted for before the ceremony starts — the same habit as every appointment this pathway has run on since the first day at intake."
+    },
+    {
+      "cue": "Pick up your certificate folder, find your assigned seat, then silence your phone — in that order.",
+      "id": "ceremony-prep",
+      "itemNames": {
+        "wp-gr-prep-folder": "pick up your certificate folder",
+        "wp-gr-prep-phone": "silence your phone",
+        "wp-gr-prep-seat": "find your assigned seat"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Folder first, since it is handed out at the table before the floor fills up; your seat next, while the aisles are still easy to move through; and the phone last, right before the remarks start, so it is not silenced too early and then checked out of habit anyway.",
+      "prompt": "Pick up your certificate folder, find your assigned seat, then silence your phone — in that order.",
+      "targets": [
+        "wp-gr-prep-folder",
+        "wp-gr-prep-seat",
+        "wp-gr-prep-phone"
+      ],
+      "title": "Prepare for the ceremony in order",
+      "why": "Doing these in this order keeps the floor moving: the folder is collected while the table still has a short line, the seat is found while the aisles are clear, and the phone is silenced last, closest to when the remarks actually start, so the habit holds through the ceremony instead of wearing off in the twenty minutes beforehand."
+    },
+    {
+      "cue": "Hold your attention on the podium through the coordinator's opening remarks.",
+      "holdBreakNote": "Your attention drifted before the remarks named the cohort's own milestones. Come back to the podium and hear the rest.",
+      "id": "hold-remarks",
+      "kind": "hold",
+      "prompt": "Hold your attention on the podium through the coordinator's opening remarks.",
+      "seconds": 6,
+      "target": "wp-gr-podium",
+      "title": "Hold through the coordinator's remarks",
+      "why": "The coordinator's remarks name the specific things this cohort did — which tracks, which milestones, who is walking today — and holding your attention through them, rather than checking out because you already know your own story, is part of what makes the ceremony feel like it belongs to the whole cohort and not just to whoever is speaking."
+    },
+    {
+      "cue": "Three people in the crowd are wearing alumni-mentor ribbons. Find all three among the graduates and the venue staff.",
+      "decoyNotes": {
+        "wp-gr-other-graduate": "Another graduate, in the same robe as everyone else — no ribbon, so not a mentor today.",
+        "wp-gr-venue-staff": "Venue staff in a plain uniform. Helpful for directions, not one of the mentor table's alumni."
+      },
+      "id": "find-mentors",
+      "itemNames": {
+        "wp-gr-mentor-one": "an alumni mentor wearing a ribbon, warehouse track",
+        "wp-gr-mentor-three": "an alumni mentor wearing a ribbon, apprenticeship track",
+        "wp-gr-mentor-two": "an alumni mentor wearing a ribbon, Class A track"
+      },
+      "itemNotes": {
+        "wp-gr-mentor-one": "A ribbon on a jacket marks a graduate who came back specifically to talk to this year's cohort about the warehouse track.",
+        "wp-gr-mentor-three": "This mentor's ribbon marks the apprenticeship track, and they are here because somebody found them at their own graduation the same way.",
+        "wp-gr-mentor-two": "This mentor's ribbon marks the Class A track — worth finding if that is where you are headed next."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three people in the crowd are wearing alumni-mentor ribbons. Find all three among the graduates and the venue staff.",
+      "targets": [
+        "wp-gr-mentor-one",
+        "wp-gr-mentor-two",
+        "wp-gr-mentor-three"
+      ],
+      "title": "Find the alumni mentors on the floor",
+      "why": "The alumni-mentor table only works if graduates can actually find the mentors in a crowded hall, and the ribbon is the one signal that separates a mentor from another graduate in the same robe or a staff member in uniform. Finding all three is the first step toward the conversation the rest of today's mentoring is built on."
+    },
+    {
+      "cue": "The dial runs one to ten. Commit it where you actually are today, not where graduation day makes you want to say.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.7
+        ],
+        "label": "READINESS",
+        "missNote": "That number sounds like graduation-day adrenaline talking, not the honest answer. Rate it honestly — the mentor conversation is worth more if it starts from where you actually are.",
+        "speed": 0.6
+      },
+      "id": "readiness-gauge",
+      "kind": "gauge",
+      "prompt": "The dial runs one to ten. Commit it where you actually are today, not where graduation day makes you want to say.",
+      "target": "wp-gr-readiness-dial",
+      "title": "Rate your own readiness for what comes next, honestly",
+      "why": "This is the same honest self-check the pathway has asked for since the intake gauge on day one, and it matters just as much here: a mentor can only help with a readiness level you actually name, and an inflated ten on graduation day gets a conversation that skips exactly the support an honest six would have asked for."
+    },
+    {
+      "cue": "Hold the composure track in the band: breathing steady, neither frozen nor bouncing off the walls.",
+      "holdBreakNote": "Your composure slipped — into freezing up or into being overwhelmed. Breathe and settle back to steady before your name is called.",
+      "id": "composure-track",
+      "kind": "track",
+      "prompt": "Hold the composure track in the band: breathing steady, neither frozen nor bouncing off the walls.",
+      "seconds": 7,
+      "target": "wp-gr-name-card",
+      "title": "Hold your composure while your name is about to be called",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.44,
+        "green": [
+          0.36,
+          0.66
+        ],
+        "label": "COMPOSURE",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "The seconds before your own name is called in a full hall are nerve-wracking in a way nothing else in the pathway quite prepares you for, and holding steady — not frozen, not overwhelmed — is its own small skill, one that walking across a stage in front of people who came to see you is exactly the place to practise it."
+    },
+    {
+      "cue": "Walk to the stage and take your certificate from the coordinator.",
+      "id": "receive-certificate",
+      "kind": "select",
+      "prompt": "Walk to the stage and take your certificate from the coordinator.",
+      "target": "wp-gr-stage-certificate",
+      "title": "Walk across and receive your certificate",
+      "why": "The certificate in your hand is the actual, physical record of everything the pathway's stations have been building toward since intake — receiving it in front of the cohort and the families who came is the moment the whole programme exists to make happen."
+    },
+    {
+      "cue": "Introduce yourself, ask about their path since graduation, then exchange contact information — in that order.",
+      "id": "mentor-talk",
+      "itemNames": {
+        "wp-gr-mentor-ask": "ask about their path",
+        "wp-gr-mentor-contact": "exchange contact information",
+        "wp-gr-mentor-intro": "introduce yourself"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Introduce yourself first, ask about their path second so the conversation has something to actually talk about, and exchange contact information last, once there is a real reason for either of you to want to stay in touch.",
+      "prompt": "Introduce yourself, ask about their path since graduation, then exchange contact information — in that order.",
+      "targets": [
+        "wp-gr-mentor-intro",
+        "wp-gr-mentor-ask",
+        "wp-gr-mentor-contact"
+      ],
+      "title": "Have a real conversation with a mentor",
+      "why": "A mentor relationship that starts with a business card and nothing else rarely goes anywhere; one that starts with an actual question about their path — what the first year on the job was like, what they would do differently — gives both people a reason to follow up. The contact information matters more once there is something worth following up on."
+    },
+    {
+      "cue": "Carry your photo card to the alumni wall and pin it up.",
+      "drag": {
+        "missNote": "Not on the wall. A photo left in your hand does not do what it is meant to for next year's cohort.",
+        "radius": 0.45,
+        "to": "wp-gr-alumni-wall"
+      },
+      "id": "pin-photo",
+      "kind": "drag",
+      "prompt": "Carry your photo card to the alumni wall and pin it up.",
+      "target": "wp-gr-your-photo",
+      "title": "Pin your photo to the alumni wall",
+      "why": "The alumni wall is what next year's cohort sees on their own graduation day — every photo on it is proof that somebody who once sat in their seat made it across the stage. Pinning your own up is a small thing that matters more to the next group than it feels like it does to you today."
+    },
+    {
+      "cue": "Turn the dial to schedule your 30, 60 and 90-day check-ins with your mentor.",
+      "id": "book-checkin",
+      "kind": "turn",
+      "prompt": "Turn the dial to schedule your 30, 60 and 90-day check-ins with your mentor.",
+      "target": "wp-gr-checkin-dial",
+      "title": "Book your mentor check-ins",
+      "turn": {
+        "axis": "y",
+        "label": "30 · 60 · 90 DAY CHECK-IN",
+        "turns": 0.6
+      },
+      "why": "A mentor relationship started today and left with no next date usually fades within a month, the way most good intentions do once the first hard week on the job arrives. Booking the 30, 60 and 90-day check-ins now, while the mentor is standing right here, is what keeps the relationship alive past the first week it would actually help most."
+    },
+    {
+      "cue": "Read the commitment card with your mentor, then both sign it.",
+      "id": "sign-commitment",
+      "kind": "select",
+      "prompt": "Read the commitment card with your mentor, then both sign it.",
+      "target": "wp-gr-commitment-card",
+      "title": "Sign the mentorship commitment",
+      "why": "A signed commitment, however informal, is what turns 'let's stay in touch' into an actual expectation both people can be held to — it is the same principle as every other agreement this pathway has run on, applied to the one relationship meant to outlast the programme itself."
+    },
+    {
+      "cue": "Tell the coach how the whole pathway actually went, and what you are walking into next.",
+      "id": "coach-final-checkin",
+      "kind": "select",
+      "prompt": "Tell the coach how the whole pathway actually went, and what you are walking into next.",
+      "target": "wp-gr-coach",
+      "title": "Have a final check-in with your coach",
+      "why": "This is the last conversation with the coach who has been in every station since intake, and it is worth having honestly rather than rushing past on the way to the reception — the coach's notes here are what the alumni-mentor programme reads if you ever come back through this same door for help."
+    },
+    {
+      "cue": "Log your mentor's name, the check-in dates and what comes next, then sign it.",
+      "id": "close-log",
+      "kind": "select",
+      "prompt": "Log your mentor's name, the check-in dates and what comes next, then sign it.",
+      "target": "wp-gr-graduation-log",
+      "title": "Close out the graduation log",
+      "why": "The graduation log is the last entry in the file this pathway has kept since day one, and a mentor's name with real dates attached is what makes the alumni-mentor programme something that actually follows up rather than a ribbon worn for one afternoon."
+    }
+  ],
+  "supportLine": "the programme's own coaching staff, and 988 or SAMHSA's National Helpline (1-800-662-4357, free and confidential) if a day this big brings up more than the room can hold",
+  "tagline": "Check in, prep for the ceremony in order, hold through the remarks, find the alumni mentors on the floor, hold your composure, receive the certificate, have a real mentor conversation, and book the check-ins that keep the pathway going after today",
+  "title": "SmartCiti.X~ Graduation and Alumni-Mentor Day VR",
+  "trade": "Pathway Edition — a graduation and alumni-mentor day",
+  "underwater": null,
+  "weather": "clear"
+}

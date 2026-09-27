@@ -1,0 +1,583 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "low-gear-first",
+    "name": "Low Gear First",
+    "note": "The gear chosen before the crest, the speed held on the engine, snub braking in band and the fade answered — first time"
+  },
+  "category": "Mobility & Transit",
+  "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose Class A curriculum includes speed management and hazardous conditions such as mountain grades; 49 CFR 383 for the skills test's road portion; 49 CFR 392 for driving a commercial motor vehicle in hazardous conditions; 49 CFR 393 for brakes, including the adjustment a long grade depends on; 49 CFR 396 for writing a brake defect in the driver vehicle inspection report; 49 CFR 395 for the duty status at the bottom; the state CDL handbook's mountain driving and snub braking guidance; CVSA brake out-of-service criteria; Teamsters (IBT) freight locals' driver training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CVSA",
+        "citedAs": "CVSA",
+        "id": "cvsa-out-of-service-criteria",
+        "title": "CVSA North American Standard Inspection Program and North American Standard Out-of-Service Criteria for roadside inspection of drivers and commercial motor vehicles"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 380 Subpart F",
+        "id": "fmcsa-49-cfr-380-subpart-f",
+        "title": "49 CFR Part 380 Subpart F — Entry-level driver training requirements for Class A and Class B commercial driver licence applicants, delivered by a provider listed on the Training Provider Registry"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 383",
+        "id": "fmcsa-49-cfr-383",
+        "title": "49 CFR Part 383 — Commercial driver's license standards; requirements and penalties, including the Class A, B and C vehicle groups and the knowledge and skills tests"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 392",
+        "id": "fmcsa-49-cfr-392",
+        "title": "49 CFR Part 392 — Driving of commercial motor vehicles, including conduct at railroad grade crossings, hazardous conditions, and the hand-held mobile phone and texting prohibitions"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 393",
+        "id": "fmcsa-49-cfr-393",
+        "title": "49 CFR Part 393 — Parts and accessories necessary for safe operation, including brakes, tires, emergency equipment and Subpart I protection against shifting and falling cargo"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 395",
+        "id": "fmcsa-49-cfr-395",
+        "title": "49 CFR Part 395 — Hours of service of drivers, including electronic logging devices"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 396",
+        "id": "fmcsa-49-cfr-396",
+        "title": "49 CFR Part 396 — Inspection, repair and maintenance, including the driver vehicle inspection report"
+      },
+      {
+        "body": "state CDL handbook",
+        "citedAs": "state CDL handbook",
+        "id": "state-cdl-handbook",
+        "title": "The commercial driver's license manual each state issues for its CDL knowledge and skills tests — driving safely, space management, speed and following distance, mountain, night and fog driving, railroad crossings and backing"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBT",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": "Mobility & Transit",
+  "domain": "Commercial Driving",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "engine-does-it",
+        "name": "The Engine Does It",
+        "note": "Crest and descent driven with every check on time"
+      },
+      {
+        "id": "cool-brakes",
+        "name": "Cool Brakes",
+        "note": "Never started down in the climbing gear, rode the brakes, coasted or reached for the phone"
+      },
+      {
+        "id": "snub-not-ride",
+        "name": "Snub, Not Ride",
+        "note": "Every drive and the snub braking in band with no excursion"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-grade",
+        "name": "Clean Grade",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "right-gear",
+        "name": "Right Gear",
+        "note": "Gear choice and drives near the centre of their bands"
+      },
+      {
+        "id": "on-time",
+        "name": "On Time",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "PERCENT",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Permit Holder",
+      "Grade Trainee",
+      "Mountain Driver",
+      "Pass Lead",
+      "Grade Certified"
+    ],
+    "system": "Grade"
+  },
+  "hazards": {
+    "drm-climbing-gear": "You went to start down the grade in the gear you climbed in. On a long downgrade a rig in too high a gear picks up speed the engine cannot hold, and the driver ends up using the service brakes to do the engine's job. The handbook's rule is to choose the low gear before the crest — often lower than the gear you climbed in — because shifting down once you are running away may not be possible.",
+    "drm-coast-neutral": "You went to coast down the grade in neutral. Out of gear, the engine brake does nothing and the service brakes have to take the whole load; getting back into gear at speed may be impossible. Coasting a commercial vehicle downhill is prohibited and it is how runaways begin.",
+    "drm-phone": "You went to pick up the hand-held phone on the grade. 49 CFR 392 prohibits hand-held mobile phone use and texting while driving a commercial vehicle, and a long downgrade is where your eyes belong on the speed, the mirrors and the brake-temperature signs of your own trailer.",
+    "drm-ride-brakes": "You went to ride the brakes with light, steady pressure all the way down. That is how brakes overheat and fade: the drums and linings get hotter the longer they are held on, and a faded brake does almost nothing when you finally need it. Let the engine hold the speed and use firm snub applications instead."
+  },
+  "id": "drive-mountain-grade-and-engine-brake",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "drm-descent",
+      "alert": "The brake-temperature warning has lit, there is a hot smell in the cab, and the pedal is going further down for less slowing.",
+      "cue": "Get the engine doing the work.",
+      "delay": 3,
+      "id": "drm-brake-fade",
+      "kind": "Brake-fade warning",
+      "missNote": "You kept leaning on brakes that were already fading. A faded brake gets weaker the more it is used, and a rig that loses its brakes on a long grade is a runaway with nowhere to go but the escape ramp or the curve at the bottom.",
+      "seconds": 10,
+      "target": "drm-engine-brake",
+      "why": "A fading brake needs the load taken off it at once: down a gear with the engine brake on high, so the engine holds the rig and the brakes can cool. If that cannot hold the speed, the escape ramp is the plan — not pumping a brake that is already too hot to work.",
+      "wrongNote": "It is the engine brake and a lower gear. The service brakes are fading, so the engine has to take the load now."
+    },
+    {
+      "after": "drm-bottom",
+      "alert": "Round the curve at the bottom a car has stopped in your lane with its hazard lights on, and the driver is getting out.",
+      "cue": "Stop short of it.",
+      "delay": 3,
+      "id": "drm-stopped-car",
+      "kind": "Car stopped on the curve",
+      "missNote": "You drove on toward a car stopped in your lane with its driver stepping out. A loaded rig at the bottom of a grade, with hot brakes, needs every foot of the distance you just gave away.",
+      "seconds": 10,
+      "target": "drm-brake-pedal",
+      "why": "A car stopped in the lane on a curve is exactly why the descent was driven at a speed the rig could stop from. Braking now, firmly and in a straight line, with a glance for a way round only once you are slowing, keeps the rig and the person getting out of that car apart.",
+      "wrongNote": "It is the brake. A car is stopped in your lane and its driver is on the road."
+    }
+  ],
+  "lateNotes": {
+    "drm-dvir": "The brake fade goes in the report at the bottom, after the hubs are checked, so it records what you found.",
+    "drm-hub": "The hubs are checked at the pull-out at the bottom, once the rig is stopped.",
+    "drm-retarder-dial": "The engine brake goes back to its low setting at the bottom, on the flat — not while you are still on the grade."
+  },
+  "name": "Mountain Grade and Engine Brake",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "job-readiness-edition",
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "sedan",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "semiTractor",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "tractorTrailer",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "trailer:dryVan",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "drm-air-gauge",
+      "drm-brake-pedal",
+      "drm-climbing-gear",
+      "drm-coast-neutral",
+      "drm-crew-checkin",
+      "drm-dvir",
+      "drm-eld-status",
+      "drm-engine-brake",
+      "drm-escape-ramp",
+      "drm-gear-gauge",
+      "drm-grade-sign",
+      "drm-hub",
+      "drm-mirror-set",
+      "drm-phone",
+      "drm-retarder-dial",
+      "drm-ride-brakes",
+      "drm-rig",
+      "drm-rockfall",
+      "drm-service-brake",
+      "drm-smoking-truck"
+    ],
+    "meshes": 268
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drive",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the sign before the crest: how steep, how long, the truck advisory and the escape ramp.",
+      "id": "drm-sign",
+      "kind": "select",
+      "prompt": "Read the sign before the crest: how steep, how long, the truck advisory and the escape ramp.",
+      "target": "drm-grade-sign",
+      "title": "Read the grade warning",
+      "why": "A grade is driven with the numbers on its sign, read before the crest: how steep it is, how far it runs, the speed trucks are advised to hold and where the escape ramp is. Those decide the gear you pick and the speed you commit to, and the one thing a driver cannot do on a long downgrade is change their mind about either halfway down with hot brakes."
+    },
+    {
+      "cue": "At the pull-out before the top: air pressure up and holding, engine brake on, mirrors showing both tandems.",
+      "id": "drm-pullout",
+      "itemNames": {
+        "drm-air-gauge": "air pressure up and holding",
+        "drm-engine-brake": "engine brake switched on",
+        "drm-mirror-set": "mirrors show both trailer tandems"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Air first — the brakes have to be ready before anything else — then the engine brake, then the mirrors.",
+      "prompt": "At the pull-out before the top: air pressure up and holding, engine brake on, mirrors showing both tandems.",
+      "targets": [
+        "drm-air-gauge",
+        "drm-engine-brake",
+        "drm-mirror-set"
+      ],
+      "title": "Brake check at the pull-out",
+      "why": "The pull-out before a long grade is where the brakes are checked, while it is still easy to stop: the air pressure built and holding, the engine brake switched on so it is ready the moment you lift off the throttle, and the mirrors set to show the trailer tandems, because smoke from a hot brake shows there before you smell it."
+    },
+    {
+      "cue": "Down to the low gear before the crest, then over the top slowly with a look in both mirrors.",
+      "drive": {
+        "bandLabel": "slow over the crest",
+        "checkWindow": 1.6,
+        "checks": [
+          {
+            "at": 0,
+            "kind": "gear-down",
+            "note": "The low gear goes in before the crest — often lower than the gear you climbed in."
+          },
+          {
+            "at": 2,
+            "kind": "mirror-left",
+            "note": "Left mirror as the grade takes hold: the traffic behind is about to find you slow."
+          },
+          {
+            "at": 4,
+            "kind": "mirror-right",
+            "note": "Right mirror: the trailer tandem, and any smoke from it."
+          }
+        ],
+        "controls": {
+          "brake": "drm-brake-pedal"
+        },
+        "graceSeconds": 1.8,
+        "laneNote": "You left the lane at the crest — on a mountain road that is the drop or the rock face.",
+        "laneWidth": 1.5,
+        "path": [
+          [
+            -5.6,
+            -3.2
+          ],
+          [
+            -5,
+            -4.8
+          ],
+          [
+            -3.8,
+            -6.2
+          ],
+          [
+            -2,
+            -7
+          ],
+          [
+            0,
+            -7.2
+          ]
+        ],
+        "sceneRate": 0.1,
+        "speedBand": [
+          10,
+          25
+        ]
+      },
+      "holdBreakNote": "Out of the lane or out of the band at the crest. Slow before the top, not after it.",
+      "id": "drm-crest",
+      "kind": "drive",
+      "prompt": "Down to the low gear before the crest, then over the top slowly with a look in both mirrors.",
+      "target": "drm-rig",
+      "title": "Low gear before the crest",
+      "why": "The gear for the descent is chosen at the top, while the rig is still slow enough to shift easily. Over the crest the grade takes hold at once, and a driver who is still hunting for a lower gear has already started to run away. Cresting slowly in the low gear with the engine brake on means the rig settles into the grade at a speed the engine can hold."
+    },
+    {
+      "cue": "Watch the tachometer as the grade takes hold, and commit when the engine is holding the speed on its own.",
+      "gauge": {
+        "green": [
+          0.5,
+          0.72
+        ],
+        "label": "TACHOMETER",
+        "missNote": "That gear is not holding the rig — pull over where you can and choose again rather than hand the job to the brakes.",
+        "speed": 0.7
+      },
+      "id": "drm-gear-choice",
+      "kind": "gauge",
+      "prompt": "Watch the tachometer as the grade takes hold, and commit when the engine is holding the speed on its own.",
+      "target": "drm-gear-gauge",
+      "title": "Confirm the gear holds the speed",
+      "why": "The right gear is the one in which the engine, with the engine brake on, holds the rig at a safe speed with only occasional help from the service brakes. Too high a gear and the speed creeps up until the brakes are working constantly; too low and the engine is screaming. Reading it early in the grade is what makes the rest of the descent calm."
+    },
+    {
+      "cue": "Hold the safe speed on the engine brake, check both mirrors for smoke and followers, and stay in your lane through the bends.",
+      "drive": {
+        "bandLabel": "safe speed for the grade, per the sign",
+        "checkWindow": 1.5,
+        "checks": [
+          {
+            "at": 1,
+            "kind": "mirror-right",
+            "note": "Right mirror: the tandem and the brake drums — smoke means the brakes are doing too much."
+          },
+          {
+            "at": 2,
+            "kind": "mirror-left",
+            "note": "Left mirror: faster traffic stacking up behind wants to pass on the grade."
+          },
+          {
+            "at": 4,
+            "kind": "mirror-right",
+            "note": "Right mirror again through the bend: the trailer is tracking inside the curve."
+          }
+        ],
+        "controls": {
+          "brake": "drm-brake-pedal",
+          "gear-down": "drm-engine-brake"
+        },
+        "graceSeconds": 1.8,
+        "laneWidth": 1.5,
+        "path": [
+          [
+            0,
+            -7.2
+          ],
+          [
+            2,
+            -7
+          ],
+          [
+            3.8,
+            -6.2
+          ],
+          [
+            5,
+            -5
+          ],
+          [
+            5.6,
+            -3.4
+          ],
+          [
+            5.8,
+            -1.8
+          ]
+        ],
+        "sceneRate": 0.075,
+        "speedBand": [
+          18,
+          32
+        ]
+      },
+      "holdBreakNote": "Out of lane or band on the grade — ease the speed back on the engine and snub the brakes, don't ride them.",
+      "id": "drm-descent",
+      "kind": "drive",
+      "prompt": "Hold the safe speed on the engine brake, check both mirrors for smoke and followers, and stay in your lane through the bends.",
+      "target": "drm-rig",
+      "title": "Down the grade on the engine",
+      "why": "Down the grade the engine brake carries the load and the service brakes are for the moments it cannot. Holding a steady safe speed, checking both mirrors for brake smoke and for traffic stacking up behind, and keeping the rig in its lane through the bends is the whole skill — a descent that feels boring is a descent done right."
+    },
+    {
+      "cue": "When the speed reaches your safe speed, brake firmly until it is about five below, then release. Keep it in band.",
+      "holdBreakNote": "The speed left the snub band — brake firmly when it reaches safe speed, release five below.",
+      "id": "drm-snub",
+      "kind": "track",
+      "prompt": "When the speed reaches your safe speed, brake firmly until it is about five below, then release. Keep it in band.",
+      "seconds": 6,
+      "target": "drm-service-brake",
+      "title": "Snub the brakes, don't ride them",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.46,
+        "green": [
+          0.36,
+          0.6
+        ],
+        "label": "SPEED",
+        "rise": 0.52,
+        "start": 0.3
+      },
+      "why": "The state CDL handbook's snub braking is firm, short applications: once the rig reaches its safe speed, brake hard enough to feel a definite slowdown until it is about five mph below that speed, then release and let it build again. Firm and short gives the drums time to cool between applications; light and constant cooks them."
+    },
+    {
+      "cue": "Look ahead down the grade and on the shoulders. Find what changes your plan.",
+      "id": "drm-scan",
+      "itemNames": {
+        "drm-escape-ramp": "the escape ramp entrance",
+        "drm-rockfall": "fallen rock at the lane edge",
+        "drm-smoking-truck": "the truck on the shoulder with smoking brakes"
+      },
+      "itemNotes": {
+        "drm-escape-ramp": "The escape ramp's entrance, a deep gravel bed off to the right. Know where it is before you need it; if your brakes go, it is the plan.",
+        "drm-rockfall": "Fallen rock at the lane edge under the cut. Straddling it or swerving round it at speed on a grade both go badly — slow early.",
+        "drm-smoking-truck": "A rig stopped on the shoulder with smoke pouring from its trailer brakes — what riding the brakes looks like. Give it room; its driver may be out on the road."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look ahead down the grade and on the shoulders. Find what changes your plan.",
+      "targets": [
+        "drm-smoking-truck",
+        "drm-escape-ramp",
+        "drm-rockfall"
+      ],
+      "title": "Scan the grade ahead",
+      "why": "A mountain grade tells you what is coming if you look far enough down it: a truck already in trouble on the shoulder, the escape ramp you might need, rock that has come down from the cut. Spotting them early is what lets you slow on the engine instead of on the brakes, and knowing where the escape ramp is turns a brake failure from a crash into a plan."
+    },
+    {
+      "cue": "Watch the right mirror past the escape ramp, check left through the curve, and go up a gear once the rig is on the flat.",
+      "drive": {
+        "bandLabel": "curve at the bottom, per the posted limit",
+        "checkWindow": 1.4,
+        "checks": [
+          {
+            "at": 1,
+            "kind": "mirror-right",
+            "note": "Right mirror as the escape ramp slides past: the tandems are still smoke-free."
+          },
+          {
+            "at": 3,
+            "kind": "mirror-left",
+            "note": "Left mirror through the curve: the trailer swings, and the lane beside you matters."
+          },
+          {
+            "at": 4,
+            "kind": "gear-up",
+            "note": "Up a gear only now, with the rig on the flat."
+          }
+        ],
+        "controls": {
+          "brake": "drm-brake-pedal"
+        },
+        "graceSeconds": 1.8,
+        "laneWidth": 1.5,
+        "path": [
+          [
+            5.8,
+            -1.8
+          ],
+          [
+            5.9,
+            0
+          ],
+          [
+            5.4,
+            1.8
+          ],
+          [
+            4.2,
+            3.2
+          ],
+          [
+            2.6,
+            4
+          ]
+        ],
+        "sceneRate": 0.075,
+        "speedBand": [
+          12,
+          26
+        ]
+      },
+      "holdBreakNote": "Out of lane or band in the curve at the bottom — the grade is not over until the road is flat.",
+      "id": "drm-bottom",
+      "kind": "drive",
+      "prompt": "Watch the right mirror past the escape ramp, check left through the curve, and go up a gear once the rig is on the flat.",
+      "target": "drm-rig",
+      "title": "The curve at the bottom",
+      "why": "The bottom of a grade is where drivers relax too soon: the curve there is often the sharpest, the escape ramp's entrance is still beside you, and the brakes are at their hottest. Checking the right mirror past the ramp, the left through the curve, and only going back up through the gears once the road flattens keeps the descent's discipline all the way to the end."
+    },
+    {
+      "cue": "At the pull-out, hold your hand near — not on — each wheel hub to feel for one much hotter than the rest.",
+      "holdBreakNote": "You pulled away before you had felt each hub — take the time; a hot one is the finding that matters.",
+      "id": "drm-hub-check",
+      "kind": "hold",
+      "prompt": "At the pull-out, hold your hand near — not on — each wheel hub to feel for one much hotter than the rest.",
+      "seconds": 3,
+      "target": "drm-hub",
+      "title": "Feel the hubs at the pull-out",
+      "why": "A hub far hotter than its neighbours after a grade points to a brake that was dragging or doing more than its share — out of adjustment, or starting to fail. Checking by holding a hand near it, never on it, is how a driver finds that at the bottom instead of discovering it on the next grade, and it is exactly what the inspection report needs to record."
+    },
+    {
+      "cue": "Turn the engine-brake selector back to its low setting for the flat road ahead.",
+      "id": "drm-retarder",
+      "kind": "turn",
+      "prompt": "Turn the engine-brake selector back to its low setting for the flat road ahead.",
+      "target": "drm-retarder-dial",
+      "title": "Engine brake back to low for the flat",
+      "turn": {
+        "axis": "z",
+        "label": "ENGINE BRAKE",
+        "turns": 0.5
+      },
+      "why": "The engine brake's high setting that was right on the grade is wrong on the flat, and on a slick road a high setting can lock the drive wheels and start a skid. Turning it back down at the bottom matches the retarder to the road you are on now, the same way you chose it for the grade at the top."
+    },
+    {
+      "cue": "Record the brake-fade warning and the hot hub in the driver vehicle inspection report.",
+      "id": "drm-report",
+      "kind": "select",
+      "prompt": "Record the brake-fade warning and the hot hub in the driver vehicle inspection report.",
+      "target": "drm-dvir",
+      "title": "Write the fade in the inspection report",
+      "why": "A brake that faded on the grade and a hub that ran hot are defects, and 49 CFR 396 has the driver report defects so they are repaired before the vehicle runs again. Writing them down today is what stops tomorrow's driver taking the same rig down the same grade with a brake nobody knew was weak."
+    },
+    {
+      "cue": "Go over the gear choice, the fade warning and the descent with the trainer, and say how it felt.",
+      "id": "drm-debrief",
+      "kind": "select",
+      "prompt": "Go over the gear choice, the fade warning and the descent with the trainer, and say how it felt.",
+      "target": "drm-crew-checkin",
+      "title": "Talk the grade through with the trainer",
+      "why": "A first long grade with a loaded trailer is frightening in a way that is easy to hide, and fear left unspoken turns into either recklessness or freezing next time. Talking through the gear choice, the moment the fade warning came up and how the descent felt, with a trainer who has done it many times, is how the confidence gets built on something real."
+    },
+    {
+      "cue": "Change the electronic log to on duty, not driving, for the inspection at the pull-out.",
+      "id": "drm-log",
+      "kind": "select",
+      "prompt": "Change the electronic log to on duty, not driving, for the inspection at the pull-out.",
+      "target": "drm-eld-status",
+      "title": "Log the stop at the bottom",
+      "why": "The walk-round and report at the bottom are on-duty work under 49 CFR 395, not driving and not a break, and the electronic logging device records whatever status is selected. Logging the stop honestly keeps the day's limits true, and a grade that took longer than planned is exactly when a driver is tempted to fudge the record."
+    }
+  ],
+  "supportLine": "your carrier's employee assistance programme, or your Teamsters steward if you are not sure how to reach it",
+  "tagline": "Over the crest and down the long grade: brakes checked at the top, the low gear picked before the crest, the engine brake doing the work, snub braking not riding, the escape ramp noted and a fading brake answered",
+  "title": "SmartCiti.X~ Mountain Grade and Engine Brake VR",
+  "trade": "Class A driver trainee, Job Readiness Edition deep driving — Teamsters linehaul in the mountains: grades, the engine brake and brake fade under the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F)",
+  "underwater": null,
+  "weather": "wind"
+}

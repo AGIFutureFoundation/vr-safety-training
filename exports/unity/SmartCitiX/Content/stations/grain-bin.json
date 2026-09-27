@@ -1,0 +1,434 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "never-on-the-grain",
+    "name": "Never On The Grain",
+    "note": "A bridge broken from above with the bin locked out, the line tight and the observer still at the hatch"
+  },
+  "category": "Manufacturing & Automation",
+  "certification": "BCTGM — grain miller and terminal elevator operator, with the grain-handling locals; OSHA 29 CFR 1910.272 grain handling facilities, whose entry provisions at 1910.272(g) cover bins, silos and tanks: equipment that presents a danger de-energised, disconnected, locked out and tagged; a body harness with lifeline; an observer stationed outside with communications maintained; rescue equipment suited to the structure; and no entry underneath a bridging condition or where built-up grain on the sides could fall and bury. Walking down grain is prohibited by the same standard. OSHA 1910.147 energy control; 1910.146 permit-required confined spaces where it applies",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "BCTGM",
+        "id": "bctgm-training",
+        "title": "BCTGM apprenticeship and safety training for bakery, confectionery and grain milling work"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.272",
+        "id": "osha-1910-272",
+        "title": "29 CFR 1910.272 — Grain handling facilities"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Manufacturing",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "locked-first",
+        "name": "Locked First",
+        "note": "Every motor that moves grain dead and locked before the hatch came off, first time"
+      },
+      {
+        "id": "feet-off-it",
+        "name": "Feet Off It",
+        "note": "Never stood on the grain, never worked under the wall, never gave the bin an ignition source"
+      },
+      {
+        "id": "proved-the-air",
+        "name": "Proved The Air",
+        "note": "Oxygen read inside limits both before the entry and after the bridge went"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-entry",
+        "name": "Clean Entry",
+        "note": "Clean run, no corrections"
+      },
+      {
+        "id": "worked-it-through",
+        "name": "Worked It Through",
+        "note": "Every timed hold carried the full count"
+      },
+      {
+        "id": "out-before-the-shift",
+        "name": "Out Before The Shift",
+        "note": "Bin cleared and the crew out inside 80% of par"
+      }
+    ],
+    "currency": "BUSHEL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Elevator Hand",
+      "Grain Miller",
+      "Bin Entry Lead",
+      "Elevator Superintendent",
+      "Bin Entry Authority Certified"
+    ],
+    "system": "Bin Entry Authority"
+  },
+  "hazards": {
+    "air-blowdown": "You reached for the air hose to blow the dust off the ledges. Compressed air takes a settled layer that was merely dirty and puts it into the air as a suspended cloud, which is the one condition a grain dust deflagration needs and cannot get from dust lying still. Dust comes down by vacuum or by hand, never on an air jet.",
+    "observer-enters": "You sent the observer in. Now nobody is at the hatch, nobody is tending the line and nobody is left to call the plant — and the observer exists in the standard precisely so that the second person does not become the second casualty. More than one bin fatality has been a would-be rescuer who went in after the first.",
+    "sweep-running": "You started the sweep auger to help the grain move while somebody was in the bin. Flowing grain takes a person under in seconds — faster than the observer can shout and far faster than anyone can pull them back — and an unguarded sweep will take a leg off on its own account. Nothing that moves grain runs while the bin is occupied.",
+    "under-the-wall": "You put yourself under the vertical face of crusted grain on the wall. That face is tonnes of caked material standing on nothing but its bond to the sheet, and it comes away in slabs with no warning at all. The rule for a wall is the opposite of the rule for a bridge: you work it from above and from the side, never from beneath it.",
+    "unrated-light": "You took an ordinary shop light into the bin. In a space with grain dust in it the lamp, the switch and the trailing cord are all ignition sources, and the only fitting that belongs in there is one built and rated for a dust atmosphere. Anything else stays out on the deck.",
+    "walk-down-grain": "You stepped out onto the crust. A bridge is a shell over a hole, and the moment it gives there is nothing under your feet but the drop and the grain that comes down after you. Walking on grain to make it flow is prohibited outright by the grain handling standard, and it is the practice behind entrapment after entrapment."
+  },
+  "id": "grain-bin",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "rig",
+      "alert": "The distributor has swung the fill spout over this bin and the gate lamp above the hatch has gone green. The house is loading out.",
+      "cue": "Something upstairs is about to start putting grain in on top of you.",
+      "delay": 3,
+      "id": "spout-swings",
+      "kind": "Bin taking grain",
+      "missNote": "The spout stayed lined up on this bin. The route ran, and the first the crew knew of it was grain coming through the hatch onto the line — which puts a load on an entrant that no harness is rated for, from a direction the observer can do nothing about. The bin was filling while somebody was hanging in it.",
+      "seconds": 12,
+      "target": "spout-gate",
+      "why": "The isolation you did covers what moves grain out from under the bin. What buries somebody from above is the fill, and that is a different set of motors in a different room, run by a person looking at a route on a screen rather than at your hatch. The gate over the bin belongs in the same isolation, and a green lamp says it is not in it.",
+      "wrongNote": "It is the fill spout gate. Nothing else stops grain coming in from above, and it has to be shut before anything else happens."
+    },
+    {
+      "after": "break-bridge",
+      "alert": "The surface under you has started to move. The reclaim is running — somebody has put a lock back in the box and called the bin from the control room.",
+      "cue": "The grain is flowing and you are hanging above it.",
+      "delay": 4,
+      "id": "reclaim-runs",
+      "kind": "Grain moving",
+      "missNote": "The reclaim kept running. The crust you had just broken went down the draw cone and took the working position with it, and the line — tight, which is the only reason any of this is survivable — was carrying a load it was never meant to hold against flowing grain. Everyone who has ever been pulled out of this was pulled out because the machinery stopped first.",
+      "seconds": 13,
+      "target": "bin-estop",
+      "why": "Flowing grain is the whole hazard: it takes a person past the knees in a couple of seconds and covers them well inside a minute, and the pull needed to free a buried body is several times what a harness or a coworker can apply. There is no version of this where you finish the job first. The bin gets stopped, and it gets stopped from where you are.",
+      "wrongNote": "It is the emergency stop on the bin. Stop the grain moving; everything else can wait until it has."
+    }
+  ],
+  "lateNotes": {
+    "body-harness": "The harness goes on after the space has been proved — dressing out early is how a crew talks itself into an entry it has not earned.",
+    "bridge-bar": "The bar goes into the bridge after the bin is locked out, the air is proved, the line is on and the observer is at the hatch.",
+    "descent-line": "Nobody goes on the line until the lockout, the atmosphere, the rig and the observer are all done and standing."
+  },
+  "name": "Grain Bin",
+  "parSeconds": 300,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "air-blowdown",
+      "auger-disconnect",
+      "bin-estop",
+      "body-harness",
+      "bond-clamp",
+      "bridge-bar",
+      "comms-radio",
+      "conveyor-lock",
+      "crusted-wall",
+      "descent-line",
+      "dust-ledge",
+      "dust-vac",
+      "entry-permit",
+      "fumigation-board",
+      "gas-meter",
+      "hatch-dogs",
+      "lifeline-anchor",
+      "observer-enters",
+      "observer-post",
+      "probe-pole",
+      "rescue-tube",
+      "retrieval-winch",
+      "spout-gate",
+      "summon-alarm",
+      "sweep-running",
+      "torn-sweep-guard",
+      "try-start",
+      "tube-stage",
+      "under-the-wall",
+      "unrated-light",
+      "walk-down-grain"
+    ],
+    "meshes": 210
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "anyOrder": true,
+      "cue": "Read what is in the bin, how it is bridged, what was last put on it and when.",
+      "id": "permit",
+      "itemNames": {
+        "entry-permit": "bin entry permit",
+        "fumigation-board": "fumigation record"
+      },
+      "kind": "sequence",
+      "prompt": "Read what is in the bin, how it is bridged, what was last put on it and when.",
+      "targets": [
+        "entry-permit",
+        "fumigation-board"
+      ],
+      "title": "Take the bin entry permit and the fumigation record",
+      "why": "The permit certifies that the entry conditions have been met before anybody goes in. The fumigation record is the half of it that gets forgotten: a treated bin has a re-entry interval on it, and phosphine gives no useful warning at the concentrations that matter."
+    },
+    {
+      "cue": "Open the disconnects for the sweep and the reclaim, lock and tag each one, then try to start them.",
+      "id": "lockout",
+      "itemNames": {
+        "auger-disconnect": "sweep and reclaim disconnects opened",
+        "conveyor-lock": "lock and tag on each",
+        "try-start": "try to start at the panel"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Disconnect, then lock, then try to start — each step is what makes the one before it true.",
+      "prompt": "Open the disconnects for the sweep and the reclaim, lock and tag each one, then try to start them.",
+      "targets": [
+        "auger-disconnect",
+        "conveyor-lock",
+        "try-start"
+      ],
+      "title": "Lock out everything that moves grain",
+      "why": "This is the control that matters most in a grain bin, and it is first for a reason: grain only engulfs somebody when it is moving, and what moves it is a motor. Opening the disconnect stops the motor, the lock stops the hand, and the try-to-start is the only part of it that proves you locked the right one."
+    },
+    {
+      "cue": "Hold the wand and keep the suction in the band, working the ledges before the hatch comes off.",
+      "holdBreakNote": "Suction out of band — either the dust is staying where it is or you are throwing it into the air. Steady it.",
+      "id": "dust-down",
+      "kind": "track",
+      "prompt": "Hold the wand and keep the suction in the band, working the ledges before the hatch comes off.",
+      "seconds": 6,
+      "target": "dust-vac",
+      "title": "Vacuum the dust off the deck and the ledges",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.45,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "SUCTION",
+        "rise": 0.55,
+        "start": 0.12
+      },
+      "why": "A grain elevator is a dust explosion environment and the grain handling standard requires a housekeeping programme for exactly this reason. Dust lying on a ledge is a nuisance; the same dust airborne is a fuel. It comes down at a rate that lifts it into the hose rather than off the ledge, and it comes down before the bin is opened rather than after."
+    },
+    {
+      "cue": "Clamp the bonding lead onto bare metal on the bin before anything electrical goes near the opening.",
+      "id": "bond",
+      "kind": "select",
+      "prompt": "Clamp the bonding lead onto bare metal on the bin before anything electrical goes near the opening.",
+      "target": "bond-clamp",
+      "title": "Bond the vacuum and the drop light to the bin steel",
+      "why": "Moving grain and moving dust both build static, and a vacuum hose is a machine for generating it. Bonding ties everything to one potential so the charge has somewhere to go that is not a spark across a gap with dust in it."
+    },
+    {
+      "cue": "Back the dogs off a turn and a half each and lift the cover clear of the coaming.",
+      "id": "hatch",
+      "kind": "turn",
+      "prompt": "Back the dogs off a turn and a half each and lift the cover clear of the coaming.",
+      "target": "hatch-dogs",
+      "title": "Undog the roof hatch",
+      "turn": {
+        "axis": "y",
+        "label": "HATCH DOGS",
+        "turns": 1.5
+      },
+      "why": "The hatch is opened after the isolation and the housekeeping, not before. From the moment it is off, the bin is an open hole in a walking surface and everything that follows happens beside it."
+    },
+    {
+      "cue": "Lower the meter through the opening and commit when the reading is inside the entry band.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.64
+        ],
+        "label": "O₂ HEADSPACE",
+        "missNote": "Outside the entry band — ventilate the bin and read it again before anyone leans in, let alone goes in.",
+        "speed": 0.72
+      },
+      "id": "atmosphere",
+      "kind": "gauge",
+      "prompt": "Lower the meter through the opening and commit when the reading is inside the entry band.",
+      "target": "gas-meter",
+      "title": "Test the air in the headspace and down the manway",
+      "why": "Spoiling grain consumes oxygen and gives off carbon dioxide, so the air over a crusted surface can be well short of breathable while the bin looks entirely ordinary, and fumigant residue sits in the same space. This is not what kills most of the people who die in bins, but it is what kills the ones who never reach the grain."
+    },
+    {
+      "cue": "Reach the pole in from the coaming and hold it on the crust while you feel for what is underneath.",
+      "holdBreakNote": "You lifted the pole before you had felt the reach. Half a sounding tells you about half the surface.",
+      "id": "probe",
+      "kind": "hold",
+      "prompt": "Reach the pole in from the coaming and hold it on the crust while you feel for what is underneath.",
+      "seconds": 5,
+      "target": "probe-pole",
+      "title": "Sound the surface from the opening",
+      "why": "A bridge looks like a floor. The pole is how you find out whether it is one: a crust that gives, drums hollow, or lets the pole straight through has a void under it, and the depth of that void is how far a person would fall before the grain came in on top of them. It is done from the opening, on your knees, with no weight on the grain."
+    },
+    {
+      "cue": "Mark the vertical face of caked grain on the sheet and plan to work above it and to one side.",
+      "id": "wall-crust",
+      "kind": "select",
+      "prompt": "Mark the vertical face of caked grain on the sheet and plan to work above it and to one side.",
+      "target": "crusted-wall",
+      "title": "Read the crusted wall and set the work position clear of it",
+      "why": "A wall of crusted grain is a different hazard from a bridge and carries the opposite rule. A bridge fails under you; a wall fails onto you, in slabs, with a person's weight of grain in every square metre of face. You break it down from above and from the side, and you are never standing under it when it lets go."
+    },
+    {
+      "cue": "Harness on, lifeline onto the anchor over the hatch, then wind the slack out at the winch.",
+      "id": "rig",
+      "itemNames": {
+        "body-harness": "body harness on and checked",
+        "lifeline-anchor": "lifeline to the davit head",
+        "retrieval-winch": "slack wound out at the winch"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Harness, then the anchor, then the slack — you are attached to the bin before the bin is asked to hold you.",
+      "prompt": "Harness on, lifeline onto the anchor over the hatch, then wind the slack out at the winch.",
+      "targets": [
+        "body-harness",
+        "lifeline-anchor",
+        "retrieval-winch"
+      ],
+      "title": "Rig the harness, the lifeline and the retrieval",
+      "why": "The harness and lifeline are what the standard asks for; the slack is the part crews leave out. A line with two metres of slack in it lets an entrant go two metres into the grain before it does anything at all, and two metres is already past saving. Wound tight, the line is a limit on how far you can sink rather than a way of pulling you out afterwards — because nothing pulls you out afterwards."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Observer outside the opening, radio tested in both directions, alarm pull where they can hit it without walking away.",
+      "id": "observer",
+      "itemNames": {
+        "comms-radio": "radio checked both ways",
+        "observer-post": "observer stationed at the hatch",
+        "summon-alarm": "alarm pull inside their reach"
+      },
+      "kind": "sequence",
+      "prompt": "Observer outside the opening, radio tested in both directions, alarm pull where they can hit it without walking away.",
+      "targets": [
+        "observer-post",
+        "comms-radio",
+        "summon-alarm"
+      ],
+      "title": "Post the observer and give them a way to call for help",
+      "why": "The observer is required to stay outside the bin and to keep communications going, and the one thing that must never happen is that they leave the hatch to fetch help. So the means of summoning it is at the hatch: a pull station, a radio to the control room, a phone on the platform — anything that raises the plant without costing the entrant the only person watching them."
+    },
+    {
+      "cue": "Carry the rescue tube across from the platform to the marked spot beside the hatch.",
+      "drag": {
+        "missNote": "Not on the staging mark — a rescue tube in the store room is a rescue tube nobody has.",
+        "radius": 0.5,
+        "to": "tube-stage"
+      },
+      "id": "rescue-stage",
+      "kind": "drag",
+      "prompt": "Carry the rescue tube across from the platform to the marked spot beside the hatch.",
+      "target": "rescue-tube",
+      "title": "Stage the bin rescue tube at the opening",
+      "why": "Rescue equipment suited to the structure is part of the entry, not part of the response. A bin rescue tube is a coffer dam the observer can drop around a partly buried entrant to hold the grain off them while it is augered clear — and it is only any use if it is already beside the hatch, because there is no time to go and look for one."
+    },
+    {
+      "cue": "Take your weight on the line and come down at a controlled rate, staying off the surface.",
+      "holdBreakNote": "Descent rate out of band — the winch cannot pay out to that. Bring it back and hold it.",
+      "id": "descend",
+      "kind": "track",
+      "prompt": "Take your weight on the line and come down at a controlled rate, staying off the surface.",
+      "seconds": 6,
+      "target": "descent-line",
+      "title": "Come down the line to the working position",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.5,
+        "green": [
+          0.38,
+          0.58
+        ],
+        "label": "DESCENT",
+        "rise": 0.6,
+        "start": 0.1
+      },
+      "why": "You come down on the line rather than the ladder because the line is the thing holding you, and at a rate the winch can follow. The working position is above the crust and clear of the wall face, with your feet on nothing that could start flowing."
+    },
+    {
+      "cue": "Work the bar down through the crust from where you are hanging, and hold the work until it gives.",
+      "holdBreakNote": "You stopped part way through. A crust worked half through is a crust that fails later, under somebody who thought it was sound.",
+      "id": "break-bridge",
+      "kind": "hold",
+      "prompt": "Work the bar down through the crust from where you are hanging, and hold the work until it gives.",
+      "seconds": 6,
+      "target": "bridge-bar",
+      "title": "Break the bridge from above with the bar",
+      "why": "The bridge is broken with a tool, at arm's length, from above it — the entrant's weight never goes on the grain and never gets below it. When the crust goes it goes all at once and the surface drops several feet in a second, and that exact moment is why the line is tight and why the observer is at the hatch."
+    },
+    {
+      "cue": "Second reading, same meter, now that what was under the bridge is in the bin with you.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.62
+        ],
+        "label": "O₂ AFTER",
+        "missNote": "The void has put the bin out of limits — up the line, out through the hatch, and ventilate before anybody goes back.",
+        "speed": 0.74
+      },
+      "id": "retest",
+      "kind": "gauge",
+      "prompt": "Second reading, same meter, now that what was under the bridge is in the bin with you.",
+      "target": "gas-meter",
+      "title": "Read the air again now the void is open",
+      "why": "The void under a bridge has been sealed beneath spoiling grain for weeks. Breaking the crust vents all of it into the space at once, so the reading that justified the entry describes a bin that no longer exists. You are inside it when this happens, which is why the meter stays on you."
+    },
+    {
+      "cue": "Before the locks come off, look over the sweep, the guards and the ledges; click what needs a work order.",
+      "id": "walk",
+      "itemNames": {
+        "dust-ledge": "dust build-up on the gallery beam",
+        "torn-sweep-guard": "torn guard on the sweep auger"
+      },
+      "itemNotes": {
+        "dust-ledge": "There is a settled layer along the top of the gallery beam that nobody can reach from the walkway. That is exactly what a housekeeping programme is for, and exactly where the secondary explosion comes from when a primary one shakes the building.",
+        "torn-sweep-guard": "The back shield on the sweep auger has been folded up out of the way and never put back. That auger runs unattended every time the bin is drawn down, and what it is guarding is the part that takes a leg off."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Before the locks come off, look over the sweep, the guards and the ledges; click what needs a work order.",
+      "targets": [
+        "torn-sweep-guard",
+        "dust-ledge"
+      ],
+      "title": "Walk the bin and the gallery before you sign it off",
+      "why": "The bin is the only part of this job with a permit on it, and it is not the part that will hurt the next person. What gets the next crew is the guard nobody refitted and the dust nobody can reach, and both of those are found by somebody walking the plant with their eyes open."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Breaking a bridge in a terminal bin: everything that moves grain locked out first, dust down and bonded, atmosphere proved, the crust worked from above on a tight line with an observer who never leaves the hatch",
+  "title": "SmartCiti.X~ Grain Bin VR",
+  "trade": "Grain elevator operator / bin entry crew",
+  "underwater": null,
+  "weather": "clear"
+}

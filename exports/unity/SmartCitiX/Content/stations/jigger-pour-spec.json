@@ -1,0 +1,367 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "rail-on-spec",
+    "name": "Rail On Spec",
+    "note": "Every build measured, every glass and garnish right, and the round logged clean"
+  },
+  "category": "Culinary & Hospitality",
+  "certification": "California ABC Responsible Beverage Service (RBS) certification and Business and Professions Code §25602 sale to an obviously intoxicated person; the California Retail Food Code for glassware and ware-washing; Cal/OSHA 8 CCR §3203 Injury and Illness Prevention Program; California Labor Code §351 on tips; UNITE HERE Local 2's own standard for a drink built to spec rather than by feel",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "Cal. ABC",
+        "citedAs": "§25602",
+        "id": "abc-25602",
+        "title": "California Business and Professions Code §25602 — sale to an obviously intoxicated person"
+      },
+      {
+        "body": "Cal. ABC",
+        "citedAs": "RBS",
+        "id": "abc-rbs-training",
+        "title": "California Responsible Beverage Service Training Act — ABC RBS certification for anyone who serves alcohol"
+      },
+      {
+        "body": "CalCode",
+        "citedAs": "California Retail Food Code",
+        "id": "calcode-retail-food",
+        "title": "California Retail Food Code (Health and Safety Code Division 104, Part 7) — the FDA Food Code as California adopts it"
+      },
+      {
+        "body": "Cal. Labor Code",
+        "citedAs": "Labor Code §351",
+        "id": "labor-code-351",
+        "title": "California Labor Code §351 — gratuities are the sole property of the employee"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1030",
+        "id": "osha-1910-1030",
+        "title": "29 CFR 1910.1030 — Bloodborne pathogens"
+      },
+      {
+        "body": "union",
+        "citedAs": "UNITE HERE",
+        "id": "unite-here-training",
+        "title": "UNITE HERE hospitality training funds — cooks, housekeepers, bartenders and banquet staff"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Culinary & Hospitality",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "jigger-true",
+        "name": "Jigger True",
+        "note": "The jigger pour landed inside the calibrated band"
+      },
+      {
+        "id": "never-overserved",
+        "name": "Never Overserved",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "three-builds-clean",
+        "name": "Three Builds Clean",
+        "note": "Shaken, stirred and built all completed without a correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-rail",
+        "name": "Clean Rail",
+        "note": "No corrections anywhere in the run"
+      },
+      {
+        "id": "steady-stir",
+        "name": "Steady Stir",
+        "note": "Held the stir in band the whole way"
+      },
+      {
+        "id": "rail-fast",
+        "name": "Rail Fast",
+        "note": "Complete inside 80% of par"
+      }
+    ],
+    "currency": "POUR",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Barback",
+      "Bartender",
+      "Shift Lead",
+      "Bar Manager",
+      "RBS Certified Trainer"
+    ],
+    "system": "Rail Standard"
+  },
+  "hazards": {
+    "cracked-glass": "That rocks glass has a chip out of the rim. A chipped glass is a cut waiting to happen on a guest's own lip, and the Retail Food Code's ware-washing standard exists to keep NSF-listed glassware in service only while it is actually sound — a cut that draws blood behind the bar is also the moment OSHA's bloodborne pathogens standard, 29 CFR 1910.1030, governs the clean-up, so a chip takes a glass out of rotation the moment it's noticed, not after.",
+    "free-pour-no-count": "That pour went in with no count and no jigger — just guessing. An unmeasured pour is either giving product away or overpouring the drink, and either way it means the bar's own pour cost and the guest's own drink count both stopped being numbers anyone can trust.",
+    "reach-across-guest": "You reached the shaker tin straight across a seated guest instead of going around. A hand full of ice and spirit passing over someone's head or drink is an ordinary bar layout problem with a genuinely bad worst case, and Cal/OSHA's Injury and Illness Prevention Program under 8 CCR §3203 treats an avoidable reach like this as exactly the kind of routine hazard a safe work practice is supposed to rule out.",
+    "used-jigger-no-rinse": "You measured this pour in a jigger that just came off a different spirit with no rinse in between. Flavour carries between pours the same way bacteria does — a jigger that goes straight from one bottle to another is quietly changing the taste of every drink it touches after the first one."
+  },
+  "id": "jigger-pour-spec",
+  "indoor": "bar",
+  "interrupts": [
+    {
+      "after": "free-pour-count",
+      "alert": "A customer asks for 'a double, make it a strong one' — for a friend at the end of the bar who's already on their third drink tonight.",
+      "cue": "Check the tab before you pour anything.",
+      "delay": 2,
+      "id": "double-for-a-friend",
+      "kind": "Customer ordering for a friend already three drinks in",
+      "missNote": "The double got poured before anyone checked the tab. Three drinks became five in one order, and the log that was supposed to catch this never got looked at.",
+      "seconds": 12,
+      "target": "check-the-tab",
+      "why": "A third party ordering a stronger drink for someone else is exactly the pattern Business and Professions Code §25602 is written around — the tab already shows three drinks logged, and a double poured on top of that is the bartender's own liability the moment it's served, not the friend's.",
+      "wrongNote": "Check the tab. Three drinks are already logged against that guest — look before you pour, not after."
+    },
+    {
+      "after": "stir-build",
+      "alert": "The ice well next to you runs dry mid-build, and a barback reaches for a rocks glass to scoop more from the bin behind you.",
+      "cue": "Stop them — hand off the proper scoop, not the glass.",
+      "delay": 3,
+      "id": "ice-well-runs-dry",
+      "kind": "Ice well runs dry mid-build",
+      "missNote": "The barback scooped with the glass anyway. Whatever chipped off it is now somewhere in the well, mixed into ice that's about to go into someone's drink.",
+      "seconds": 11,
+      "target": "proper-scoop",
+      "why": "A glass scooping ice can chip against the well's edge with nobody noticing until the chip is already mixed into a full bin — the fix is putting the actual scoop in the barback's hand before the glass ever touches the ice, mid-build or not.",
+      "wrongNote": "It's the scoop. That's what belongs in their hand, not the glass."
+    }
+  ],
+  "lateNotes": {
+    "garnish-correct": "Pick the glass and finish the build before the garnish goes anywhere near it.",
+    "strainer": "Nothing to strain until the shaker's actually been sealed and shaken."
+  },
+  "name": "Pouring to Spec",
+  "parSeconds": 280,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bartending-course"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.4,
+    "hits": [
+      "bar-spoon",
+      "built-ice",
+      "built-spirit",
+      "built-top",
+      "check-the-tab",
+      "cost-card",
+      "cracked-glass",
+      "drink-log",
+      "free-pour-no-count",
+      "garnish-correct",
+      "glass-rocks",
+      "jigger",
+      "overfilled-glass",
+      "proper-scoop",
+      "reach-across-guest",
+      "shaker-tin",
+      "speed-pourer",
+      "standard-card",
+      "strainer",
+      "used-jigger-no-rinse",
+      "wrong-garnish-on-rail"
+    ],
+    "meshes": 154
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the reference card: 1.5 oz spirits, 5 oz wine, 12 oz beer at roughly 5% ABV.",
+      "id": "know-the-standard",
+      "kind": "select",
+      "prompt": "Check the reference card: 1.5 oz spirits, 5 oz wine, 12 oz beer at roughly 5% ABV.",
+      "target": "standard-card",
+      "title": "Know the standard drink",
+      "why": "Every pour on this rail is measured against the same standard-drink reference, and it is what the RBS course's whole idea of 'how many drinks has this table had' is actually built on — a bartender who does not know the standard cannot judge a round against it."
+    },
+    {
+      "cue": "Fill the jigger and commit once it reads inside the 1.5 oz band.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "SPIRIT OZ",
+        "missNote": "Off the standard pour. Reset the jigger and pour again — a drink built on a bad measurement is off spec before the shaker even opens.",
+        "speed": 0.72
+      },
+      "id": "jigger-pour",
+      "kind": "gauge",
+      "prompt": "Fill the jigger and commit once it reads inside the 1.5 oz band.",
+      "target": "jigger",
+      "title": "Pour the spirit to the jigger's line",
+      "why": "A jigger measures the pour instead of trusting the hand holding the bottle, and 1.5 oz is not a rounded-off guess — it is the actual standard-drink figure the ABC's own RBS training and the bar's pour cost are both built around, so a jigger pour that misses the line is wrong in both directions at once."
+    },
+    {
+      "cue": "Hold the pour through a steady four-count, no faster and no slower.",
+      "holdBreakNote": "Broke the count early. A four-count that turns into a three-count is a short pour on every drink built this way for the rest of the shift until it's corrected.",
+      "id": "free-pour-count",
+      "kind": "hold",
+      "prompt": "Hold the pour through a steady four-count, no faster and no slower.",
+      "seconds": 4,
+      "target": "speed-pourer",
+      "title": "Hold a counted free pour",
+      "why": "A counted free pour is only as good as the count itself — a speed pourer held for a practised, steady four-count delivers the same 1.5 oz the jigger just proved, which is the entire reason a bar trusts a fast bartender's free pour on a busy rail instead of jiggering every single one."
+    },
+    {
+      "cue": "This build calls for a rocks glass — not the coupe, not the pint.",
+      "id": "glass-selection",
+      "kind": "select",
+      "prompt": "This build calls for a rocks glass — not the coupe, not the pint.",
+      "target": "glass-rocks",
+      "title": "Pick the right glass",
+      "why": "The glass is part of the recipe, not just presentation — the wrong glass either short-pours the drink to fill it properly or leaves it swimming in ice with nowhere for the spirit to actually sit, and a guest can tell the difference on the first sip either way."
+    },
+    {
+      "cue": "Twist-lock the tins together before the shake, not after.",
+      "id": "seal-shaker",
+      "kind": "turn",
+      "prompt": "Twist-lock the tins together before the shake, not after.",
+      "target": "shaker-tin",
+      "title": "Seal the shaker tins",
+      "turn": {
+        "axis": "y",
+        "label": "SHAKER SEAL",
+        "turns": 1
+      },
+      "why": "A shaker that isn't fully seated will pop apart under the pressure of the shake itself, and that is spirit, ice and citrus across the bar top and the floor behind it — the twist-lock is checked by feel before a single shake, not assumed from how it looked going together."
+    },
+    {
+      "cue": "Twist the hawthorne strainer fully onto the shaking tin before pouring out.",
+      "id": "strain",
+      "kind": "turn",
+      "prompt": "Twist the hawthorne strainer fully onto the shaking tin before pouring out.",
+      "target": "strainer",
+      "title": "Seat the strainer",
+      "turn": {
+        "axis": "y",
+        "label": "STRAINER SEAT",
+        "turns": 1
+      },
+      "why": "A strainer that isn't seated square lets ice chips and citrus pulp through into the glass, which is the difference between a clean shaken drink and one that reads like it was made in a hurry — it gets seated and checked the same way the shaker itself was."
+    },
+    {
+      "cue": "Hold a steady stir speed — too fast overdilutes, too slow never chills or opens the drink at all.",
+      "holdBreakNote": "The stir speed broke out of band. Bring it back to a steady rate and hold it — a stir that drifts is a drink that's either warm or watered down.",
+      "id": "stir-build",
+      "kind": "track",
+      "prompt": "Hold a steady stir speed — too fast overdilutes, too slow never chills or opens the drink at all.",
+      "seconds": 6,
+      "target": "bar-spoon",
+      "title": "Stir the spirit-forward build",
+      "track": {
+        "drift": 0.1,
+        "fall": 0.4,
+        "green": [
+          0.42,
+          0.6
+        ],
+        "label": "STIR SPEED",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "A stirred drink is chilled and diluted by exactly the amount a steady, practised stir speed delivers over the right count — stirring too hard melts more ice than the recipe wants, and barely moving the spoon leaves the drink warm and undiluted, which reads as a mistake to anyone who has had the same drink made right."
+    },
+    {
+      "cue": "Ice first, then the measured spirit, then the top — in that order.",
+      "id": "built-drink",
+      "itemNames": {
+        "built-ice": "ice in the glass",
+        "built-spirit": "spirit measured in",
+        "built-top": "topped and stirred once"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Ice, then spirit, then the top — pouring the top before the spirit just dilutes a drink that was never actually built yet.",
+      "prompt": "Ice first, then the measured spirit, then the top — in that order.",
+      "targets": [
+        "built-ice",
+        "built-spirit",
+        "built-top"
+      ],
+      "title": "Build the third drink directly in the glass",
+      "why": "A built drink is made in the glass it's served in, and the order is the method: ice first so the spirit chills as it goes in rather than after, spirit measured the same as any other pour, and the top poured last so it doesn't get diluted sitting on warm ice before the spirit ever arrives."
+    },
+    {
+      "cue": "This build takes the citrus twist, not the olive and not the cherry.",
+      "id": "garnish-select",
+      "kind": "select",
+      "prompt": "This build takes the citrus twist, not the olive and not the cherry.",
+      "target": "garnish-correct",
+      "title": "Choose the right garnish",
+      "why": "A garnish is part of the drink's own aromatics, not decoration added at the end — the wrong one changes what the guest smells with every sip, which is the same as changing the recipe without telling them."
+    },
+    {
+      "cue": "Confirm this build's ingredients against the recipe's costed pour.",
+      "id": "pour-cost-check",
+      "kind": "select",
+      "prompt": "Confirm this build's ingredients against the recipe's costed pour.",
+      "target": "cost-card",
+      "title": "Check the pour cost",
+      "why": "The pour-cost card is what a jigger pour and a costed recipe are both in service of — a bar that doesn't check its builds against it eventually finds out the hard way, at the end of a month with no idea which drink on the menu was quietly losing money on every pour."
+    },
+    {
+      "cue": "Enter this round against the table's running count on the tablet.",
+      "id": "log-drink-count",
+      "kind": "select",
+      "prompt": "Enter this round against the table's running count on the tablet.",
+      "target": "drink-log",
+      "title": "Log the round for the table",
+      "why": "RBS training expects a bartender to be able to say how many drinks any one guest has had tonight, and that answer only exists if every round gets logged against the table as it's served — reconstructing it from memory at the point someone looks obviously intoxicated is already too late under Business and Professions Code §25602."
+    },
+    {
+      "cue": "Two finished drinks on the rail aren't right — find them before they leave the bar.",
+      "id": "spot-the-mismeasure",
+      "itemNames": {
+        "overfilled-glass": "an overfilled glass",
+        "wrong-garnish-on-rail": "a drink with the wrong garnish"
+      },
+      "itemNotes": {
+        "overfilled-glass": "Filled right to the rim with no room for the ice to be swirled without spilling — somebody free-poured this one without counting.",
+        "wrong-garnish-on-rail": "An olive sitting in a drink that calls for a twist — the aromatics on this one are wrong before it even reaches the table."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Two finished drinks on the rail aren't right — find them before they leave the bar.",
+      "targets": [
+        "overfilled-glass",
+        "wrong-garnish-on-rail"
+      ],
+      "title": "Walk the rail before it goes out",
+      "why": "The rail is the last place a build can be caught before it's in a guest's hand, and a quick look across everything waiting to go out catches the drink that was fine right up until the very last, unmeasured step."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "The standard drink measured to the jigger, a counted free pour held steady, shaken, stirred and built each worked to its own method, garnish and glass to spec, pour cost checked, and the round logged per customer",
+  "title": "SmartCiti.X~ Pouring to Spec VR",
+  "trade": "Bartender — UNITE HERE Local 2",
+  "underwater": null,
+  "weather": "clear"
+}

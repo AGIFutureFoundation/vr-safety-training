@@ -1,0 +1,407 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "her-story",
+    "name": "Her Story",
+    "note": "The foundation, its founder and the record answered without an unsafe conclusion"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Community science under the foundation's own programmes with Greenaction for Health and Environmental Justice; OSHA HAZWOPER 29 CFR 1910.120 for anyone who goes inside a cleanup fence; EPA QA/QC and chain-of-custody guidance for any sample that will be relied on; informed consent under 45 CFR 46 for biomonitoring",
+  "citations": {
+    "sources": [
+      {
+        "label": "Marie Harrison Community Foundation",
+        "url": "https://www.canwelive.org/"
+      },
+      {
+        "label": "BAAQMD Community Advisory Council — Arieann Harrison",
+        "url": "https://www.baaqmd.gov/en/about-the-air-district/community-advisory-council/harrison"
+      },
+      {
+        "label": "San Francisco Bay View — Marie Harrison, mother of the movement (2019)",
+        "url": "https://sfbayview.com/2019/05/marie-harrison-mother-of-the-movement-for-environmental-justice/"
+      },
+      {
+        "label": "Greenaction — in honor and memory of Marie Harrison",
+        "url": "https://greenaction.org/2020/05/06/in-honor-and-memory-of-marie-harrison-1-30-1948-5-5-2019/"
+      },
+      {
+        "label": "Inside Climate News — advocates have taken air monitoring into their own hands (2021)",
+        "url": "https://insideclimatenews.org/news/27112021/air-pollution-bayview-hunters-point-san-francisco/"
+      },
+      {
+        "label": "Greenaction — June 2026 community call to action and demands",
+        "url": "https://greenaction.org/2026/06/06/june-2026-bayview-hunters-point-community-call-to-action-and-demands-issued-by-greenaction-and-the-marie-harrison-community-foundation-inc/"
+      },
+      {
+        "label": "EPA Superfund site profile",
+        "url": "https://cumulis.epa.gov/supercpad/cursites/csitinfo.cfm?id=0902722"
+      },
+      {
+        "label": "Greenaction — Bayview Hunters Point",
+        "url": "https://greenaction.org/bayview-hunters-point/"
+      },
+      {
+        "label": "OSHA 29 CFR 1910.120 — HAZWOPER",
+        "url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.120"
+      }
+    ],
+    "standards": [
+      {
+        "body": "HHS",
+        "citedAs": "45 CFR 46",
+        "id": "hhs-45-cfr-46",
+        "title": "45 CFR Part 46 — Federal Policy for the Protection of Human Subjects (the Common Rule)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.120",
+        "id": "osha-1910-120",
+        "title": "29 CFR 1910.120 — Hazardous waste operations and emergency response (HAZWOPER)"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Environmental",
+  "flat": true,
+  "game": {
+    "badges": [
+      {
+        "id": "named-right",
+        "name": "Named Right",
+        "note": "The foundation and its founder answered clean"
+      },
+      {
+        "id": "consent-first",
+        "name": "Consent First",
+        "note": "Never chose a sample over a person's consent"
+      },
+      {
+        "id": "record-straight",
+        "name": "Record Straight",
+        "note": "The site record and the community's role answered without correction"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-sheet",
+        "name": "Clean Sheet",
+        "note": "No corrections anywhere in the check"
+      },
+      {
+        "id": "read-it-first",
+        "name": "Read It First",
+        "note": "Finish inside 70% of par — you read the dossier, not the options"
+      }
+    ],
+    "currency": "PATROL",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Neighbour",
+      "Patrol Member",
+      "Monitor Lead",
+      "Data Steward",
+      "Community Scientist"
+    ],
+    "system": "Community Science"
+  },
+  "hazards": {
+    "dismiss-community": "You dismissed the neighbourhood's monitors as noise. On a site whose contractor data was found unreliable, the community's independent record is the control, not a courtesy.",
+    "no-consent": "You chose to collect a biomonitoring sample first and explain later. A person's hair, urine or blood is theirs; informed consent, in their language, with the right to say no and to get their own results back, comes before any tube is opened — that is the rule under 45 CFR 46 and the foundation's own practice.",
+    "speak-for-org": "You presented this simulator as the foundation's own programme. It is a training aid offered to them; their programmes are theirs to describe, and putting words in their mouth is exactly what a community organisation spends its life correcting.",
+    "walk-in": "You treated an active Superfund parcel as open ground. Parcels are behind fences and institutional controls; a community monitor works from the public side of the fence unless trained, badged and escorted."
+  },
+  "id": "can-we-live-story",
+  "indoor": null,
+  "interrupts": [],
+  "lateNotes": {},
+  "name": "Can We Live? — The Story",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-can-we-live"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": null,
+    "hits": [],
+    "meshes": 0
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "select",
+    "sequence"
+  ],
+  "steps": [
+    {
+      "cue": "Pick the statement that matches the foundation's own record.",
+      "id": "founder",
+      "kind": "select",
+      "options": [
+        {
+          "id": "f-arieann",
+          "label": "Arieann Harrison, Executive Director, who founded it in honour of her mother Marie Harrison"
+        },
+        {
+          "id": "f-navy",
+          "label": "The Navy's community relations office, as part of the cleanup programme"
+        },
+        {
+          "id": "f-city",
+          "label": "The City of San Francisco's Department of Public Health"
+        }
+      ],
+      "prompt": "Pick the statement that matches the foundation's own record.",
+      "target": "f-arieann",
+      "title": "Who founded and leads the Marie Harrison Community Foundation?",
+      "why": "Who an organisation is decides whose training this is. A community foundation founded by a resident in her mother's name is accountable to the neighbourhood first; a training aid offered to it has to know that before it says a word about the site."
+    },
+    {
+      "cue": "Pick the description that matches the sourced record.",
+      "id": "marie",
+      "kind": "select",
+      "options": [
+        {
+          "id": "m-plant",
+          "label": "A resident of Hunters View whose community campaign helped close the PG&E Hunters Point power plant in 2006, later a Greenaction advocate who kept testifying while on oxygen"
+        },
+        {
+          "id": "m-contractor",
+          "label": "The Navy's radiological contractor's community liaison"
+        },
+        {
+          "id": "m-scientist",
+          "label": "A university scientist who ran the shipyard's monitoring programme"
+        }
+      ],
+      "prompt": "Pick the description that matches the sourced record.",
+      "target": "m-plant",
+      "title": "Who was Marie Harrison?",
+      "why": "The story is the reason the work exists. A neighbour who worked at the shipyard as a young woman, lived beside the power plant, helped shut it down and testified on oxygen until her death is why the foundation measures its own air — and why its patrols log what they smell."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Select every programme that is the foundation's — order doesn't matter.",
+      "decoyNotes": {
+        "p-navy": "Radiological clearance of parcels is the Navy's job under EPA and state oversight, not a community foundation's. The foundation monitors, screens, educates and holds the process to account."
+      },
+      "id": "programmes",
+      "itemNames": {
+        "p-bio": "Hunters Point Biomonitoring Initiative",
+        "p-patrol": "Community Pollution Patrol Network",
+        "p-scholar": "Academic Scholarship",
+        "p-women": "Solutions for Women"
+      },
+      "kind": "sequence",
+      "options": [
+        {
+          "id": "p-patrol",
+          "label": "Community Pollution Patrol Network"
+        },
+        {
+          "id": "p-bio",
+          "label": "Hunters Point Biomonitoring Initiative"
+        },
+        {
+          "id": "p-scholar",
+          "label": "Marie Harrison Community Foundation Academic Scholarship"
+        },
+        {
+          "id": "p-women",
+          "label": "Solutions for Women"
+        },
+        {
+          "id": "p-navy",
+          "label": "Radiological clearance of shipyard parcels"
+        }
+      ],
+      "prompt": "Select every programme that is the foundation's — order doesn't matter.",
+      "targets": [
+        "p-patrol",
+        "p-bio",
+        "p-scholar",
+        "p-women"
+      ],
+      "title": "Which programmes does the foundation run?",
+      "why": "The twenty-five stations of this edition are organised around these programmes: a patrol station trains what a patrol does, a biomonitoring station trains consent and custody, a scholarship is why the youth stations exist. Knowing the programmes is knowing the syllabus."
+    },
+    {
+      "cue": "Pick the real effort.",
+      "id": "air",
+      "kind": "select",
+      "options": [
+        {
+          "id": "a-ten",
+          "label": "Ten air monitors placed in and around Bayview Hunters Point by the community project named for her"
+        },
+        {
+          "id": "a-none",
+          "label": "None — the neighbourhood relies on the Navy's on-site instruments"
+        },
+        {
+          "id": "dismiss-community",
+          "label": "A few hobby sensors whose data should be disregarded on a regulated site"
+        }
+      ],
+      "prompt": "Pick the real effort.",
+      "target": "a-ten",
+      "title": "What is the Marie Harrison Bayview Air Monitoring Project?",
+      "why": "A low-cost sensor network is only as good as its siting, its co-location checks and its data review — which is why three stations of this edition are about exactly that. The point of the project is that the neighbourhood holds its own record, and the point of the training is that the record stands up."
+    },
+    {
+      "cue": "Pick the order the programme requires.",
+      "id": "consent",
+      "kind": "select",
+      "options": [
+        {
+          "id": "c-consent",
+          "label": "Explain the study in the resident's language, confirm they can decline and will get their own results back, get signed consent, then collect under chain of custody"
+        },
+        {
+          "id": "no-consent",
+          "label": "Collect the sample while they are willing and go through the paperwork afterwards"
+        },
+        {
+          "id": "c-verbal",
+          "label": "A verbal yes at the door is enough for a hair sample"
+        }
+      ],
+      "prompt": "Pick the order the programme requires.",
+      "target": "c-consent",
+      "title": "A resident agrees to join the biomonitoring initiative. What comes first?",
+      "why": "Biomonitoring turns a neighbour into a study participant. Informed consent under 45 CFR 46 — the study explained, the right to refuse, the right to their own results — is the ethical floor, and chain of custody is what makes the result mean anything when it comes back."
+    },
+    {
+      "cue": "Pick the response the patrol trains.",
+      "id": "patrol",
+      "kind": "select",
+      "options": [
+        {
+          "id": "pt-log",
+          "label": "Log time, place, wind, what you smell and see, take a photo, and file the complaint with the Air District — then keep patrolling"
+        },
+        {
+          "id": "pt-confront",
+          "label": "Go through the site gate to find whoever is responsible"
+        },
+        {
+          "id": "walk-in",
+          "label": "Walk onto the parcel to photograph the source up close"
+        }
+      ],
+      "prompt": "Pick the response the patrol trains.",
+      "target": "pt-log",
+      "title": "On patrol you smell solvent downwind of a fenced parcel. What does a patrol member do?",
+      "why": "A patrol is a record, not a raid. A timed, located, photographed, wind-noted observation filed with the Air District is evidence an inspector can act on; a body inside the fence is a trespass and an exposure, and it puts the patrol's credibility at risk."
+    },
+    {
+      "cue": "Pick the statement that matches the 2026 record.",
+      "id": "record",
+      "kind": "select",
+      "options": [
+        {
+          "id": "r-live",
+          "label": "An active Superfund site since 1989 under the Navy with EPA and state oversight; the contractor data case settled in 2026 while the residents' 2024 federal suit over the cleanup's adequacy continues"
+        },
+        {
+          "id": "r-done",
+          "label": "A completed cleanup, transferred to the city"
+        },
+        {
+          "id": "r-private",
+          "label": "A private redevelopment with no federal role"
+        }
+      ],
+      "prompt": "Pick the statement that matches the 2026 record.",
+      "target": "r-live",
+      "title": "Where does the site record stand?",
+      "why": "Everything a community monitor does happens against an unfinished record: parcels still under cleanup, litigation still open. Saying that honestly is the first thing a patrol lead owes a new member."
+    },
+    {
+      "cue": "Pick the role the record supports.",
+      "id": "community-data",
+      "kind": "select",
+      "options": [
+        {
+          "id": "cd-control",
+          "label": "As an independent check on the site's own record, made credible by siting, calibration checks, chain of custody and honest data review"
+        },
+        {
+          "id": "dismiss-community",
+          "label": "As anecdote — only the regulators' instruments count"
+        },
+        {
+          "id": "cd-replace",
+          "label": "As a replacement for the regulators' monitoring, which can then stop"
+        }
+      ],
+      "prompt": "Pick the role the record supports.",
+      "target": "cd-control",
+      "title": "How should community data be treated on this site?",
+      "why": "Neither dismissed nor oversold. Community data earned its standing here because the official data failed; it keeps that standing only by being done carefully, which is what the sensor, dust and sampling stations of this edition teach."
+    },
+    {
+      "cue": "Pick the OSHA requirement.",
+      "id": "gate",
+      "kind": "select",
+      "options": [
+        {
+          "id": "g-hazwoper",
+          "label": "A 40-hour HAZWOPER course, three supervised field days and an annual refresher, plus the site's own orientation — the trades on site are LIUNA laborers, IUOE operators, Teamsters and radiation technicians"
+        },
+        {
+          "id": "g-none",
+          "label": "A site badge and a toolbox talk"
+        },
+        {
+          "id": "g-volunteer",
+          "label": "Patrol experience counts as site training"
+        }
+      ],
+      "prompt": "Pick the OSHA requirement.",
+      "target": "g-hazwoper",
+      "title": "What is the training gate from community patrol into paid cleanup work?",
+      "why": "This edition ends with the pathway: patrol members and scholarship students who want the work behind the fence go through the same federal floor as every union laborer on the site. 29 CFR 1910.120 is the gate, and the site orientation sits on top of it."
+    },
+    {
+      "cue": "Pick the honest description.",
+      "id": "edition",
+      "kind": "select",
+      "options": [
+        {
+          "id": "e-aid",
+          "label": "A training aid built to be offered to the foundation and its partners, sited generically, that does not speak for the foundation"
+        },
+        {
+          "id": "speak-for-org",
+          "label": "The foundation's official training programme, describing its work on its behalf"
+        },
+        {
+          "id": "e-navy",
+          "label": "The Navy's community outreach curriculum"
+        }
+      ],
+      "prompt": "Pick the honest description.",
+      "target": "e-aid",
+      "title": "What is this Hunters Point Edition?",
+      "why": "The last unsafe conclusion is about us. A simulator that claims to be a community organisation's own voice takes something that is theirs. This edition is offered; what the foundation says about its work, including its CLEAR page, is for the foundation to say."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "The Marie Harrison Community Foundation, the woman it is named for, and the community fight over the shipyard cleanup — a sourced briefing and knowledge check that opens the Hunters Point Edition",
+  "title": "SmartCiti.X~ Can We Live? — The Story VR",
+  "trade": "Community environmental monitor",
+  "underwater": null,
+  "weather": null
+}

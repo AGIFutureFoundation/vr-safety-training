@@ -1,0 +1,435 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "opening-measured-clean",
+    "name": "Opening Measured Clean",
+    "note": "A field measurement taken against a locked, railed scaffold and squared to the drawing, with the order going out on the building's own numbers rather than the paper's"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "IUPAT District Council 16 glaziers apprenticeship and training (architectural glass and metal); IUPAT Finishing Trades Institute glazier curriculum; ANSI/ASSP Z97.1 safety glazing materials for the ordered lite; OSHA 29 CFR 1926.451 scaffolds general requirements and 29 CFR 1926.454 training requirements for scaffold erectors and users for the rolling tower used to reach the transom; OSHA 29 CFR 1926.501 duty to have fall protection and 29 CFR 1926.502 fall protection systems criteria",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "union",
+        "citedAs": "IUPAT District Council 16",
+        "id": "iupat-dc16-glaziers",
+        "title": "IUPAT District Council 16 — glaziers apprenticeship and training, architectural glass and metal"
+      },
+      {
+        "body": "union",
+        "citedAs": "Finishing Trades Institute",
+        "id": "iupat-fti",
+        "title": "IUPAT Finishing Trades Institute — industrial painter, glazier and drywall finisher apprenticeship, including lead and containment training"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.451",
+        "id": "osha-1926-451",
+        "title": "29 CFR 1926.451 — Scaffolds, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.454",
+        "id": "osha-1926-454",
+        "title": "29 CFR 1926.454 — Training requirements for scaffold erectors and users"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.501",
+        "id": "osha-1926-501",
+        "title": "29 CFR 1926.501 — Duty to have fall protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926.502",
+        "id": "osha-1926-502",
+        "title": "29 CFR 1926.502 — Fall protection systems criteria and practices"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction & Structural Trades",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "scaffold-locked",
+        "name": "Scaffold Locked",
+        "note": "Every caster locked before the platform was climbed"
+      },
+      {
+        "id": "nobody-under",
+        "name": "Nobody Under",
+        "note": "No unsafe action on or under the scaffold the whole run"
+      },
+      {
+        "id": "square-read",
+        "name": "Square Read",
+        "note": "The opening's diagonal reading taken inside tolerance, first time"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-takeoff",
+        "name": "Clean Takeoff",
+        "note": "The measurement taken without a correction"
+      },
+      {
+        "id": "plumb-held",
+        "name": "Plumb Held",
+        "note": "The straightedge held steady the full reading"
+      },
+      {
+        "id": "takeoff-in-time",
+        "name": "Takeoff In Time",
+        "note": "Measured, checked and logged inside 80% of par"
+      }
+    ],
+    "currency": "MEASURE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Pre-apprentice",
+      "Ground Hand",
+      "Field Surveyor",
+      "Lead Glazier",
+      "Takeoff Certified"
+    ],
+    "system": "Survey Crew"
+  },
+  "hazards": {
+    "sample-panel-wind": "You held the glass colour sample out past the opening's edge to check it against the sky without a second hand steadying it. A sample this size catches a gust at height the same as any other lite, and a coupon that gets away from you at an open bay is a small piece of glass falling from a floor where a small piece of glass falling is exactly as dangerous as a large one to whoever is underneath. It is held close to the body, both hands, or clamped to a stand.",
+    "scaffold-unlocked-wheel": "You climbed the rolling scaffold before every caster was locked. A tower on wheels is designed to move when it is meant to and stay dead still every other time, and the difference between those two states is entirely the locks — a platform that rolls a few centimetres while someone is on it can put them off the edge just as surely as a platform with no wheels at all. Every caster gets checked locked before a foot goes on the first rung.",
+    "temp-cover-edge": "You ran a hand along the damaged corner of the temporary cover on the next bay without looking at it first. The plywood over that bay has a split corner from the last time something struck it, and a split edge on a cover panel can carry a sliver or a sharp break the same as any other material that has already failed once. It gets looked at before it gets touched, and reported rather than picked at.",
+    "tripod-pinch": "You folded the laser's tripod leg with your fingers inside the hinge. A tripod leg locks with real spring force so it cannot collapse under the instrument's own weight, and that same force is what a finger meets if it is inside the hinge when the leg folds. The legs are worked from the outside, thumb and fingers clear of where they close."
+  },
+  "id": "gl-shop-drawing-takeoff-and-field-measure",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "plumb-hold",
+      "alert": "A gust has come through the adjacent bay's temporary cover and the loose weather film behind it is flapping hard enough to pull at its staples.",
+      "cue": "The weather film behind the cover is tearing loose.",
+      "delay": 3,
+      "id": "gust-cover",
+      "kind": "Gust at the adjacent opening",
+      "missNote": "The film tore two more staples free before the gust dropped. It held, this time, on the staples that were left. The clamp bar exists for exactly this gust and sat unused the whole time the film was tearing.",
+      "seconds": 11,
+      "target": "film-clamp",
+      "why": "A weather film held on by staples alone is one gust away from tearing free entirely, and the clamp bar across its edge is what holds it without anyone reaching into a gust-driven flap to restaple it by hand. It gets clamped now; the staples can be redone once the wind settles.",
+      "wrongNote": "It is the film clamp bar. Secure the tearing edge before reaching anywhere near it by hand."
+    },
+    {
+      "after": "takeoff-seq",
+      "alert": "Someone crossing the lobby is walking straight toward the scaffold's base, where the cordon cones have been kicked out of place.",
+      "cue": "Someone is approaching the scaffold with the cordon out of place.",
+      "delay": 3,
+      "id": "walker-under-scaffold",
+      "kind": "Someone walks toward the scaffold",
+      "missNote": "The person walked past the scaffold's base and out the other side without looking up. Nothing fell while they were under it, this time. The cordon was out of place for exactly as long as it took someone to walk through where it should have been.",
+      "seconds": 11,
+      "target": "scaffold-cordon",
+      "why": "A rolling scaffold with tools still up on the platform is exactly the kind of thing nobody crossing a lobby thinks to look up at, and the cordon around its base is the only thing telling them not to walk directly under it. It gets reset the moment it is out of place, not after someone has already crossed the line it used to mark.",
+      "wrongNote": "It is the scaffold cordon. Reset it before anyone else walks under that platform."
+    }
+  ],
+  "lateNotes": {
+    "colour-sample": "The sample only goes out toward the opening after the scaffold is locked and the tape readings are already taken. A sample held out before the platform is secure is one more thing to drop from a moving surface.",
+    "laser-offset": "The laser is zeroed before it is trusted for a reading that goes on the takeoff sheet. A reading taken on an uncalibrated offset is a number the shop will cut a lite to."
+  },
+  "name": "Shop Drawing Takeoff And Field Measure",
+  "parSeconds": 270,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "glaziers-and-architectural-metal"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "level",
+        "count": 1,
+        "kit": "toolkit"
+      },
+      {
+        "builder": "tapeMeasure",
+        "count": 1,
+        "kit": "toolkit"
+      }
+    ],
+    "error": null,
+    "footprint": 2,
+    "hits": [
+      "anemometer",
+      "caster-locks",
+      "colour-sample",
+      "damaged-cover-corner",
+      "diagonal-instrument",
+      "far-jamb",
+      "film-clamp",
+      "guardrails-up",
+      "laser-offset",
+      "loose-fastener",
+      "measuring-wheel",
+      "outriggers-out",
+      "record-diagonal",
+      "record-height",
+      "record-width",
+      "sample-panel-wind",
+      "scaffold-cordon",
+      "scaffold-still-unlocked",
+      "scaffold-unlocked-wheel",
+      "shop-drawing",
+      "straightedge",
+      "tailboard",
+      "takeoff-log",
+      "tape-hook",
+      "temp-cover-edge",
+      "tool-on-platform",
+      "tripod-pinch"
+    ],
+    "meshes": 149
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Read the day's tailboard — which bay is being measured, the scaffold plan, the wind limit for the sample check, who else has access — and sign it.",
+      "id": "check-in",
+      "kind": "select",
+      "prompt": "Read the day's tailboard — which bay is being measured, the scaffold plan, the wind limit for the sample check, who else has access — and sign it.",
+      "target": "tailboard",
+      "title": "Sign the tailboard with the crew",
+      "why": "A takeoff looks like paperwork right up until the scaffold goes up and the opening turns out to be a storey above a lobby floor, and the tailboard is what makes today's plan for the rolling tower and the sample check the crew's plan rather than something improvised once the tape is already out."
+    },
+    {
+      "cue": "Take the anemometer reading at the opening and commit it inside the working band before the colour sample is held up to it.",
+      "gauge": {
+        "green": [
+          0.2,
+          0.5
+        ],
+        "label": "WIND",
+        "missNote": "That reading is outside the working band for holding the sample at the opening — over it, wait; under it, read it again at the bay.",
+        "speed": 0.66
+      },
+      "id": "wind-read",
+      "kind": "gauge",
+      "prompt": "Take the anemometer reading at the opening and commit it inside the working band before the colour sample is held up to it.",
+      "target": "anemometer",
+      "title": "Read the wind before the sample goes out to the opening",
+      "why": "A colour sample held out at an open bay to check against daylight is briefly exactly the kind of small flat panel a gust takes an interest in, and the reading is taken here rather than assumed from the lobby because the opening itself funnels whatever the building's exterior is doing that morning."
+    },
+    {
+      "cue": "Lock every caster first, then deploy the outriggers, then fit the guardrails — in that order, before anyone climbs.",
+      "id": "scaffold-seq",
+      "itemNames": {
+        "caster-locks": "every caster locked",
+        "guardrails-up": "guardrails fitted",
+        "outriggers-out": "outriggers deployed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Casters, then outriggers, then guardrails — nothing gets climbed until the platform underneath it cannot move on its own.",
+      "prompt": "Lock every caster first, then deploy the outriggers, then fit the guardrails — in that order, before anyone climbs.",
+      "targets": [
+        "caster-locks",
+        "outriggers-out",
+        "guardrails-up"
+      ],
+      "title": "Set up the rolling scaffold",
+      "why": "29 CFR 1926.451 has a scaffold's stability and its guardrails checked before it is climbed, and the order here follows the actual risk: a tower that can roll is dangerous before anyone is on it, the outriggers are what stop it tipping once someone's weight moves toward one side, and the guardrails are what catches the fall the first two were meant to prevent needing to catch."
+    },
+    {
+      "cue": "Look at the cover panel and the floor where the scaffold will stand — click the two things wrong before setup starts.",
+      "id": "site-walk",
+      "itemNames": {
+        "damaged-cover-corner": "the temporary cover's split corner",
+        "loose-fastener": "a loose fastener on the lobby floor"
+      },
+      "itemNotes": {
+        "damaged-cover-corner": "The plywood cover over the next bay has a split corner that nobody has flagged since it happened.",
+        "loose-fastener": "A fastener from some earlier job is sitting on the lobby floor right where the scaffold's own wheels are about to roll over it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the cover panel and the floor where the scaffold will stand — click the two things wrong before setup starts.",
+      "targets": [
+        "damaged-cover-corner",
+        "loose-fastener"
+      ],
+      "title": "Walk the lobby before the scaffold goes up",
+      "why": "A split cover corner and a stray fastener under a scaffold's own wheel path are both things that read as background clutter in a lobby that sees foot traffic all day, and both change what happens the moment this crew's own work brings a hand or a caster into contact with them."
+    },
+    {
+      "cue": "Read the drawing's revision block and confirm it matches the bay actually in front of you before a single measurement is taken.",
+      "id": "drawing-check",
+      "kind": "select",
+      "prompt": "Read the drawing's revision block and confirm it matches the bay actually in front of you before a single measurement is taken.",
+      "target": "shop-drawing",
+      "title": "Check the shop drawing revision against the field opening",
+      "why": "A shop drawing set changes revisions the same way any construction document does, and a measurement taken against the wrong revision is a measurement that answers a question nobody is asking anymore. The revision block is checked first because everything that follows only means something if it is being measured against the current drawing."
+    },
+    {
+      "cue": "Turn the offset dial to zero against a known reference before trusting the meter for a reading that goes on the takeoff sheet.",
+      "id": "laser-turn",
+      "kind": "turn",
+      "prompt": "Turn the offset dial to zero against a known reference before trusting the meter for a reading that goes on the takeoff sheet.",
+      "target": "laser-offset",
+      "title": "Zero the laser meter's reference offset",
+      "turn": {
+        "axis": "z",
+        "label": "ZERO",
+        "turns": 1
+      },
+      "why": "A laser meter measures from whatever its own reference offset is set to, and an offset left over from the last job's different mounting method reads a number that is wrong by exactly that offset — consistently, confidently, and wrong. It is zeroed against a known reference here, not assumed correct from this morning."
+    },
+    {
+      "cue": "Hook the tape at one jamb and draw it across to the other, flat and untwisted, before reading the width.",
+      "drag": {
+        "missNote": "Not flat to the far jamb — a sagging tape reads a width the opening does not actually have.",
+        "radius": 0.45,
+        "to": "far-jamb"
+      },
+      "id": "width-drag",
+      "kind": "drag",
+      "prompt": "Hook the tape at one jamb and draw it across to the other, flat and untwisted, before reading the width.",
+      "target": "tape-hook",
+      "title": "Stretch the tape across the opening's width",
+      "why": "A tape that twists or sags between the jambs reads a distance longer than the opening actually is, and the width on the takeoff sheet is the one number every other trade downstream treats as fact — a lite ordered to a sagging tape's reading arrives too wide for a rabbet that was never actually that big."
+    },
+    {
+      "cue": "Both hands on the straightedge, hold it flat against the jamb while the out-of-plumb reading is taken — do not let it drift.",
+      "holdBreakNote": "The straightedge drifted off the jamb before the reading was taken — that number is not the opening's actual plumb. Reset it flat and hold until the reading is read.",
+      "id": "plumb-hold",
+      "kind": "hold",
+      "prompt": "Both hands on the straightedge, hold it flat against the jamb while the out-of-plumb reading is taken — do not let it drift.",
+      "seconds": 4,
+      "target": "straightedge",
+      "title": "Hold the straightedge steady against the jamb",
+      "why": "A straightedge that drifts even a few millimetres while the reading is being taken changes the number by exactly how much it drifted, and an opening's actual plumb is what tells the shop whether the new unit needs a shim allowance built into the order or can go in true. It is held steady the whole time the reading is being read, not just when it is first placed."
+    },
+    {
+      "cue": "Roll the measuring wheel along the sill at a steady pace so the reading accumulates evenly across the whole run.",
+      "holdBreakNote": "The pace ran out of the band — the wheel's count is no longer reliable for that stretch. Run it again at a steady pace.",
+      "id": "sill-track",
+      "kind": "track",
+      "prompt": "Roll the measuring wheel along the sill at a steady pace so the reading accumulates evenly across the whole run.",
+      "seconds": 5,
+      "target": "measuring-wheel",
+      "title": "Run the measuring wheel across the sill at a steady pace",
+      "track": {
+        "drift": 0.13,
+        "fall": 0.43,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "WHEEL",
+        "rise": 0.55
+      },
+      "why": "A measuring wheel run too fast skips small sections of an uneven sill and undercounts the distance, while one run too slow can double-count where it hesitates — a steady pace is what the wheel's own mechanism actually depends on to read the sill's true length rather than an approximation of it."
+    },
+    {
+      "cue": "Read the diagonal gauge across both corners and commit inside tolerance.",
+      "gauge": {
+        "green": [
+          0.44,
+          0.6
+        ],
+        "label": "DIAGONAL mm",
+        "missNote": "Outside diagonal tolerance — this opening is out of square by more than the standard unit's allowance. Flag it before the order goes in.",
+        "speed": 0.72
+      },
+      "id": "square-gauge",
+      "kind": "gauge",
+      "prompt": "Read the diagonal gauge across both corners and commit inside tolerance.",
+      "target": "diagonal-instrument",
+      "title": "Check the opening's diagonal against tolerance",
+      "why": "An opening's two diagonals tell you whether it is actually a rectangle or a parallelogram that happens to have the right width and height, and a unit ordered to a width and height alone can still arrive unable to seat square in an opening whose diagonals do not match — the reading here is what a width and height measurement on their own cannot catch."
+    },
+    {
+      "cue": "Both hands on the sample, held close to the body at the opening's edge, steady while the colour match is checked against daylight.",
+      "holdBreakNote": "The sample drifted out past a safe hold at the opening's edge — bring it back in close before continuing the check.",
+      "id": "sample-hold",
+      "kind": "hold",
+      "prompt": "Both hands on the sample, held close to the body at the opening's edge, steady while the colour match is checked against daylight.",
+      "seconds": 4,
+      "target": "colour-sample",
+      "title": "Hold the colour sample to daylight at the opening",
+      "why": "A finish colour reads differently under shop lighting than it does against the sky the finished unit will actually sit under, and the sample is checked here, at the opening, for that reason. It is held close and two-handed because this is exactly the small flat panel a gust at an open bay takes an interest in."
+    },
+    {
+      "cue": "Width first, then height, then the diagonal reading — written onto the takeoff sheet in the order they were actually measured.",
+      "id": "takeoff-seq",
+      "itemNames": {
+        "record-diagonal": "diagonal recorded on the takeoff sheet",
+        "record-height": "height recorded on the takeoff sheet",
+        "record-width": "width recorded on the takeoff sheet"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Width, then height, then diagonal — recorded in the order they were actually read off the tape and the gauge.",
+      "prompt": "Width first, then height, then the diagonal reading — written onto the takeoff sheet in the order they were actually measured.",
+      "targets": [
+        "record-width",
+        "record-height",
+        "record-diagonal"
+      ],
+      "title": "Record the takeoff",
+      "why": "The takeoff sheet is the one document the shop actually cuts glass from, and recording the numbers in the order they were measured is what keeps a transposed digit from being the only thing between a correct order and a lite that does not fit — three numbers checked once each in sequence catch more than the same three numbers checked all at once at the end."
+    },
+    {
+      "cue": "Look at the casters and the platform — click the two things wrong before the crew leaves the tower where it stands.",
+      "id": "scaffold-walk",
+      "itemNames": {
+        "scaffold-still-unlocked": "a caster left unlocked after the climb-down",
+        "tool-on-platform": "a tool left on the scaffold platform"
+      },
+      "itemNotes": {
+        "scaffold-still-unlocked": "One of the casters got knocked out of its lock partway through the job and nobody noticed climbing back down.",
+        "tool-on-platform": "The laser meter is still sitting on the scaffold platform above head height for anyone walking under it."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look at the casters and the platform — click the two things wrong before the crew leaves the tower where it stands.",
+      "targets": [
+        "scaffold-still-unlocked",
+        "tool-on-platform"
+      ],
+      "title": "Walk the scaffold before it is left standing",
+      "why": "A scaffold left standing in a lobby is a scaffold other people are going to walk past and under before this crew comes back for it, and an unlocked caster or a tool left on the platform are both things that turn a piece of equipment into a hazard for someone who never signed today's tailboard."
+    },
+    {
+      "cue": "Width, height, diagonal, wind readings and the faults found and fixed, and sign it.",
+      "id": "log",
+      "kind": "select",
+      "prompt": "Width, height, diagonal, wind readings and the faults found and fixed, and sign it.",
+      "target": "takeoff-log",
+      "title": "Log the takeoff",
+      "why": "The log ties this bay's actual field measurements to a date and a name, which is what the shop orders glass against instead of the drawing's original dimension. It also carries the damaged cover and the loose fastener as fixed rather than assumed, for whoever walks this lobby before the crew returns to install."
+    }
+  ],
+  "supportLine": "your IUPAT District Council 16 apprenticeship coordinator or job steward, or your employer's employee assistance program if the scaffold rolling out from under you is what you keep seeing",
+  "tagline": "Tailboard and wind read, the rolling scaffold set up locked and railed, the drawing checked against the actual opening, width, height and diagonal taken and squared, a colour sample held to daylight, and the takeoff logged",
+  "title": "SmartCiti.X~ Shop Drawing Takeoff And Field Measure VR",
+  "trade": "Glazier — IUPAT District Council 16 takeoff and field measure",
+  "underwater": null,
+  "weather": "wind"
+}

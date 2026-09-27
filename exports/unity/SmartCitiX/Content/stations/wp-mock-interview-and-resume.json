@@ -1,0 +1,400 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "resume-ready",
+    "name": "Resume Ready",
+    "note": "The resume built in order, the mock interview held with posture and eye contact through every interruption, the hard question answered honestly, and the packet printed, signed and filed"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "Registered apprenticeship standards as a category — the written apprenticeship standard the coordinator's notice on the wall is drawn from, since the resume and the interview both exist to get an application read against it; the OSHA Outreach Training Program's OSHA 10 card, one of the lines the resume has to carry; Teamsters (IBT) apprenticeship and driver training programmes, named on the posting board as one of the routes this resume could open; 29 CFR 1910.22 for the walking-working surfaces an interview room shares with every other office; 29 CFR 1910.151 for the first-aid posture a warm, crowded room can turn into a real need; SAMHSA's guidance on help-seeking, for the coach's own check-in at the end",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "DOL",
+        "citedAs": "apprenticeship standard",
+        "id": "dol-apprenticeship-standards",
+        "title": "Registered apprenticeship standards, as a category — the written standards a sponsor registers with the U.S. Department of Labor or a State Apprenticeship Agency: the term, on-the-job learning, related instruction, the progressive wage schedule, the ratio, the probationary period and the selection procedure"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.151",
+        "id": "osha-1910-151",
+        "title": "29 CFR 1910.151 — Medical services and first aid"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.22",
+        "id": "osha-1910-22",
+        "title": "29 CFR 1910.22 — Walking-working surfaces, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "OSHA 10",
+        "id": "osha-outreach-10",
+        "title": "OSHA Outreach Training Program — the 10-hour construction course (OSHA 10): voluntary awareness training taught by an authorized trainer, not a certification and not a substitute for the employer's own training"
+      },
+      {
+        "body": "SAMHSA",
+        "citedAs": "SAMHSA",
+        "id": "samhsa-trauma-informed",
+        "title": "SAMHSA's six principles of a trauma-informed approach"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBT",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Workforce readiness",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "gaps-found",
+        "name": "Gaps Found",
+        "note": "Every gap in the draft resume found clean"
+      },
+      {
+        "id": "steady-room",
+        "name": "Steady Room",
+        "note": "No unsafe action anywhere in the run"
+      },
+      {
+        "id": "held-the-poise",
+        "name": "Held The Poise",
+        "note": "The poise track carried without a break"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-packet",
+        "name": "Clean Packet",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "honest-answer",
+        "name": "Honest Answer",
+        "note": "The confidence gauge committed near the middle of the band"
+      },
+      {
+        "id": "one-sitting",
+        "name": "One Sitting",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "PAGE",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Draft",
+      "Resume Built",
+      "Interview Sat",
+      "Packet Filed",
+      "Interview Certified"
+    ],
+    "system": "Interview Room"
+  },
+  "hazards": {
+    "wp-mi-chair-slump": "You were about to sit the whole mock interview hunched forward in a chair set too low for the desk. A chair that forces you to slump for thirty minutes strains the same low back and shoulders an eight-hour shift will later — raise the seat and square it to the desk before you sit down, not after your back tells you.",
+    "wp-mi-no-show-visitor": "A walk-in who missed his own interview slot is at the front desk raising his voice, demanding to go in ahead of you. Space and a level answer come first: step back, let the front desk handle the schedule, and do not let the argument follow you into the interview room.",
+    "wp-mi-stuffy-room": "The window unit in this room has been off for an hour and the air has gone stale and warm. A hot, airless room dulls concentration exactly when the mock interview needs it most, and it is a plain comfort and safety issue before it is anything else — open the door for a cross breeze and get water before you start, not partway through when the headache has already begun.",
+    "wp-mi-trip-cord": "You were about to step over the printer's extension cord running loose across the middle of the room. A cord across the floor between the desk and the door is a trip in a room people cross in a hurry between interviews — it gets taped down along the wall, not left where the next applicant's feet land."
+  },
+  "id": "wp-mock-interview-and-resume",
+  "indoor": "clinic",
+  "interrupts": [
+    {
+      "after": "mock-questions",
+      "alert": "Your phone lights up and buzzes loudly on the side table in the middle of the mock interview.",
+      "cue": "Do not check it. Reach over and flip the mute switch.",
+      "delay": 3,
+      "id": "wp-mi-phone-buzz",
+      "kind": "Phone buzzing mid-answer",
+      "missNote": "You kept glancing at the phone through the rest of the question, and in the version where you did, the coach's notes say exactly that: distracted, checked phone twice. That is not the note a coordinator wants to read either.",
+      "seconds": 12,
+      "target": "wp-mi-phone-mute",
+      "why": "A phone that keeps buzzing through an interview reads as somebody who is not fully in the room, and glancing at it costs the eye contact the poise track is built around. The mute switch is the whole fix — silencing it now is a habit worth having before the real interview, where nobody will remind you.",
+      "wrongNote": "Not the recorder, and not the track itself. The switch on the phone is what stops the buzzing — reach for that."
+    },
+    {
+      "after": "star-answer",
+      "alert": "A fire alarm test starts in the building — a light flashing over the hallway exit sign outside the open door.",
+      "cue": "Pause the interview and check the exit route sign before you decide it is only a test.",
+      "delay": 3,
+      "id": "wp-mi-fire-drill",
+      "kind": "Fire alarm test in the building",
+      "missNote": "You kept talking through the alarm, and in the version where it had been real, nobody in this room had looked at the exit sign or moved toward it.",
+      "seconds": 12,
+      "target": "wp-mi-exit-sign",
+      "why": "Every alarm is treated as real until the building says otherwise, whether it turns out to be a scheduled test or not — that is what the exit route sign and the posted evacuation plan are for, and checking it costs seconds an actual fire would make back many times over. It is also, plainly, more important than finishing the sentence you were on.",
+      "wrongNote": "Not the recorder or the phone. The exit sign is what tells you the way out — check that first, alarm test or not."
+    }
+  ],
+  "lateNotes": {
+    "wp-mi-interview-log": "The log closes out the session last, with the feedback and what the resume still needs before it goes out.",
+    "wp-mi-resume-packet": "Not yet. The packet gets printed once the resume sections are actually built and the interview is behind you — not before either is done."
+  },
+  "name": "Mock Interview and Resume",
+  "parSeconds": 320,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.2,
+    "hits": [
+      "wp-mi-blame-boss",
+      "wp-mi-chair-slump",
+      "wp-mi-coach",
+      "wp-mi-confidence-dial",
+      "wp-mi-exit-sign",
+      "wp-mi-gap-dates",
+      "wp-mi-gap-osha10",
+      "wp-mi-gap-reference",
+      "wp-mi-honest-answer",
+      "wp-mi-interview-log",
+      "wp-mi-no-show-visitor",
+      "wp-mi-osha10-copy",
+      "wp-mi-packet-folder",
+      "wp-mi-phone-mute",
+      "wp-mi-poise-track",
+      "wp-mi-posting-board",
+      "wp-mi-recorder-dial",
+      "wp-mi-resume-packet",
+      "wp-mi-section-contact",
+      "wp-mi-section-experience",
+      "wp-mi-section-skills",
+      "wp-mi-signin-sheet",
+      "wp-mi-star-action",
+      "wp-mi-star-result",
+      "wp-mi-star-situation",
+      "wp-mi-star-task",
+      "wp-mi-stuffy-room",
+      "wp-mi-trip-cord",
+      "wp-mi-vague-story"
+    ],
+    "meshes": 128
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Sign the sheet at the door with your name and the time your slot starts.",
+      "id": "sign-in",
+      "kind": "select",
+      "prompt": "Sign the sheet at the door with your name and the time your slot starts.",
+      "target": "wp-mi-signin-sheet",
+      "title": "Sign in for the interview slot",
+      "why": "The coach runs slots back to back most afternoons, and the sheet is how the front desk knows who is next and how long the room has actually been running behind. Signing in yourself is also the first small rehearsal for an application everything else in the room is building toward: arrive, announce yourself, and be ready when your name is called."
+    },
+    {
+      "cue": "Hold at the board and read the notice: what it asks for, the deadline, and what the resume has to answer.",
+      "holdBreakNote": "You left the board before the deadline line. That is the one number the whole session runs against — read it through.",
+      "id": "read-posting",
+      "kind": "hold",
+      "prompt": "Hold at the board and read the notice: what it asks for, the deadline, and what the resume has to answer.",
+      "seconds": 6,
+      "target": "wp-mi-posting-board",
+      "title": "Read the apprenticeship notice all the way through",
+      "why": "A resume built without reading the actual notice guesses at what matters and usually guesses wrong — the notice says which tools, which certifications and which deadline the coordinator is reading applications against. Reading it in full before touching the resume is what keeps every line that follows aimed at something real instead of a generic template."
+    },
+    {
+      "cue": "Three things are missing from the draft resume on the desk. Find all three.",
+      "id": "find-gaps",
+      "itemNames": {
+        "wp-mi-gap-dates": "missing dates on a past job",
+        "wp-mi-gap-osha10": "the OSHA 10 card left off entirely",
+        "wp-mi-gap-reference": "no reference or contact listed"
+      },
+      "itemNotes": {
+        "wp-mi-gap-dates": "A job listed with no start or end date reads to a coordinator as a job somebody does not want dated — usually because it is not one, not because of anything worse. Fill in the real months.",
+        "wp-mi-gap-osha10": "The OSHA 10 card is exactly the kind of line an applicant assumes is too small to matter and a coordinator is specifically scanning for. Leaving it off costs more than it would ever cost to add.",
+        "wp-mi-gap-reference": "A resume with no name a coordinator can call is a resume that has to be taken entirely on its own word. One reference with a working number is worth more than another paragraph of description."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Three things are missing from the draft resume on the desk. Find all three.",
+      "targets": [
+        "wp-mi-gap-dates",
+        "wp-mi-gap-osha10",
+        "wp-mi-gap-reference"
+      ],
+      "title": "Find the three gaps in the draft",
+      "why": "A coordinator reading forty applications in an afternoon does not chase down what a resume left out — a gap just reads as a weaker application than one with the same experience written completely. Finding these three before the resume is finalised is the difference between an application that gets a callback and one that gets set aside for looking unfinished."
+    },
+    {
+      "cue": "Lay out the resume: contact information, then work experience, then skills and certifications — in that order.",
+      "id": "build-resume",
+      "itemNames": {
+        "wp-mi-section-contact": "contact information at the top",
+        "wp-mi-section-experience": "work experience in the middle",
+        "wp-mi-section-skills": "skills and certifications last"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Contact information goes first so a coordinator can reach you without hunting, work experience next so it can be read against the apprenticeship notice, and skills and certifications last, where they are read once the coordinator already knows who you are.",
+      "prompt": "Lay out the resume: contact information, then work experience, then skills and certifications — in that order.",
+      "targets": [
+        "wp-mi-section-contact",
+        "wp-mi-section-experience",
+        "wp-mi-section-skills"
+      ],
+      "title": "Build the resume in the order a coordinator reads it",
+      "why": "A coordinator's eye moves down a resume the same way most people's does, and putting each section where it is expected to be is what makes a page easy to read fast rather than hunted through. This is the same order the posting board's notice itself follows, which is not a coincidence — the notice was written by someone reading resumes the same way."
+    },
+    {
+      "cue": "The dial runs one to ten. Commit it where you actually are before the mock interview starts.",
+      "gauge": {
+        "green": [
+          0.4,
+          0.7
+        ],
+        "label": "CONFIDENCE",
+        "missNote": "That number does not match somebody who has not sat an interview since high school. Rate it honestly — the coach spends the mock differently for a nervous ten out of ten than for an honest five.",
+        "speed": 0.6
+      },
+      "id": "confidence-gauge",
+      "kind": "gauge",
+      "prompt": "The dial runs one to ten. Commit it where you actually are before the mock interview starts.",
+      "target": "wp-mi-confidence-dial",
+      "title": "Rate your interview confidence honestly",
+      "why": "The coach reads this number to decide which questions to slow down on, not to judge the applicant. An inflated number gets a mock interview that skips exactly the practice a nervous applicant needed, while an honest one gets extra time on eye contact and pacing before the real interview, when there is no coach in the room to notice the difference."
+    },
+    {
+      "cue": "Hold the poise track in the band: sitting up, eyes on the coach, not slumping and not staring past them.",
+      "holdBreakNote": "Your poise slipped — into slumping or into staring past the coach. Sit up, find their eyes and settle back into it.",
+      "id": "mock-questions",
+      "kind": "track",
+      "prompt": "Hold the poise track in the band: sitting up, eyes on the coach, not slumping and not staring past them.",
+      "seconds": 7,
+      "target": "wp-mi-poise-track",
+      "title": "Hold your posture and eye contact through the questions",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.44,
+        "green": [
+          0.36,
+          0.66
+        ],
+        "label": "POISE",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "A real interviewer reads posture and eye contact as much as any answer, often before a word is spoken, and both are habits a nervous body forgets under pressure unless they have been practised somewhere lower-stakes first. This room is exactly that somewhere — the mistake here costs a note from the coach, not the application."
+    },
+    {
+      "cue": "The coach asks why you left your last job. Choose the honest, plain answer over the ones that dress it up or blame somebody else.",
+      "id": "hard-question",
+      "kind": "select",
+      "prompt": "The coach asks why you left your last job. Choose the honest, plain answer over the ones that dress it up or blame somebody else.",
+      "target": "wp-mi-honest-answer",
+      "title": "Answer the hardest question honestly",
+      "why": "A coordinator has heard every version of a dressed-up answer and every version of a blame-somebody-else answer, and both read as evasive in a way a plain, honest one does not — 'the schedule stopped working with my second job' answers the question and moves on. Practising the honest version here, out loud, is what keeps it from coming out garbled the one time it actually counts."
+    },
+    {
+      "cue": "Walk through one example using the situation, the task, the action you took and the result — in that order.",
+      "id": "star-answer",
+      "itemNames": {
+        "wp-mi-star-action": "the action you took",
+        "wp-mi-star-result": "the result",
+        "wp-mi-star-situation": "the situation",
+        "wp-mi-star-task": "the task"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Situation, task, action, result — in that order. A result with no action in front of it sounds like luck, and an action with no situation in front of it sounds like a habit rather than something you chose to do.",
+      "prompt": "Walk through one example using the situation, the task, the action you took and the result — in that order.",
+      "targets": [
+        "wp-mi-star-situation",
+        "wp-mi-star-task",
+        "wp-mi-star-action",
+        "wp-mi-star-result"
+      ],
+      "title": "Answer the experience question in order",
+      "why": "A coordinator asking for an example of solving a problem is listening for a structure, whether or not they could name it: what was going on, what needed doing, what you actually did, and what happened because of it. Answering out of order buries the one part — what you actually did — that the question was asked to find out."
+    },
+    {
+      "cue": "Turn the recorder dial back to hear how you actually sounded, not how you remember it.",
+      "id": "review-recording",
+      "kind": "turn",
+      "prompt": "Turn the recorder dial back to hear how you actually sounded, not how you remember it.",
+      "target": "wp-mi-recorder-dial",
+      "title": "Review the recording with the coach",
+      "turn": {
+        "axis": "y",
+        "label": "PLAYBACK",
+        "turns": 0.6
+      },
+      "why": "Almost everyone is a worse judge of their own filler words and pace than a recording is, and the gap between how you think you sounded and how you actually sounded is exactly what the coach wants you to hear while there is still time to fix it. Reviewing it together is uncomfortable for about thirty seconds and useful for the whole real interview."
+    },
+    {
+      "cue": "Carry the copy of your OSHA 10 card into the resume packet folder.",
+      "drag": {
+        "missNote": "Not in the packet. A copy set beside the folder is as good as a copy left at home.",
+        "radius": 0.4,
+        "to": "wp-mi-packet-folder"
+      },
+      "id": "attach-reference",
+      "kind": "drag",
+      "prompt": "Carry the copy of your OSHA 10 card into the resume packet folder.",
+      "target": "wp-mi-osha10-copy",
+      "title": "Attach the OSHA 10 copy to the resume packet",
+      "why": "A card mentioned on the resume and a copy actually in the packet are two different things to a coordinator moving fast through a stack — the copy answers the question before it is asked and saves you a second trip to prove something you already have. It goes in now, while it is in your hand, not as a promise to send it later."
+    },
+    {
+      "cue": "Sit with the coach and go over what worked, what to fix, and how the pressure of the deadline is sitting with you.",
+      "id": "coach-feedback",
+      "kind": "select",
+      "prompt": "Sit with the coach and go over what worked, what to fix, and how the pressure of the deadline is sitting with you.",
+      "target": "wp-mi-coach",
+      "title": "Go over the coach's feedback",
+      "why": "The coach saw things from across the desk that no recording catches — a hand that would not stop moving, an answer that improved the second time you gave it — and the feedback only helps if you hear it while the mock interview is still fresh. It is also where a coach asks the other question: whether the deadline pressure has become more than nerves."
+    },
+    {
+      "cue": "Print the finished resume, read it once more, then sign the cover sheet.",
+      "id": "print-resume",
+      "kind": "select",
+      "prompt": "Print the finished resume, read it once more, then sign the cover sheet.",
+      "target": "wp-mi-resume-packet",
+      "title": "Print and sign the final resume",
+      "why": "A resume printed and read one last time catches the typo that survives every earlier pass, and signing the cover sheet is what makes it the version you are standing behind rather than a draft still open to changes. This is the copy that leaves the room."
+    },
+    {
+      "cue": "Log the feedback, the deadline and what the resume still needs, then sign it.",
+      "id": "close-log",
+      "kind": "select",
+      "prompt": "Log the feedback, the deadline and what the resume still needs, then sign it.",
+      "target": "wp-mi-interview-log",
+      "title": "Close out the interview log",
+      "why": "The log is what the coach reads before your next session instead of trying to remember one interview out of a full afternoon of them. A deadline and a note written down get followed up on; feedback nobody logged has to be given all over again from nothing."
+    }
+  ],
+  "supportLine": "the programme's own coaching staff, and 988 or SAMHSA's National Helpline (1-800-662-4357, free and confidential) if the pressure of the application is more than the room can hold",
+  "tagline": "Build the resume section by section, sit a mock interview with your posture and eye contact held, answer the hardest question honestly, and leave with a resume printed, signed and filed with its reference",
+  "title": "SmartCiti.X~ Mock Interview and Resume VR",
+  "trade": "Pathway Edition — a mock interview and a resume for a union apprenticeship application",
+  "underwater": null,
+  "weather": "clear"
+}

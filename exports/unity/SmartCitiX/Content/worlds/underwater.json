@@ -1,0 +1,1424 @@
+{
+  "DEEP_BOUNDS": {
+    "maxX": 1000,
+    "maxZ": 700,
+    "minX": -1000,
+    "minZ": -700
+  },
+  "DEEP_DEPTH_RANGE": [
+    1,
+    120
+  ],
+  "DEEP_LANDMARKS": [
+    {
+      "blurb": "Rows of piles under the pier deck, each one furred with growth and ringed by the shadows of the planks above.",
+      "id": "piling-forest",
+      "kind": "pilings",
+      "name": "Pier Piling Forest",
+      "position": [
+        -760,
+        -600
+      ],
+      "zone": "pier-pilings"
+    },
+    {
+      "blurb": "A steel ladder bolted to the pier's landward face — the surface-supplied crews' way in and out.",
+      "id": "pier-ladder",
+      "kind": "ladder",
+      "name": "Pier Ladder",
+      "position": [
+        -700,
+        -540
+      ],
+      "zone": "pier-pilings"
+    },
+    {
+      "blurb": "A scatter of rounded boulders on bright sand, the first thing a new diver learns to navigate around.",
+      "id": "shelf-boulder-garden",
+      "kind": "boulders",
+      "name": "Shelf Boulder Garden",
+      "position": [
+        -330,
+        -600
+      ],
+      "zone": "shallow-shelf"
+    },
+    {
+      "blurb": "A stock anchor half buried in the sand, a favourite turning mark for the shelf swim.",
+      "id": "old-anchor",
+      "kind": "anchor",
+      "name": "The Old Anchor",
+      "position": [
+        -390,
+        -520
+      ],
+      "zone": "shallow-shelf"
+    },
+    {
+      "blurb": "The line where the sand gives way to swaying grass, staked with the survey transect's end markers.",
+      "id": "eelgrass-edge",
+      "kind": "meadow",
+      "name": "Eelgrass Meadow Edge",
+      "position": [
+        60,
+        -580
+      ],
+      "zone": "eelgrass-meadow"
+    },
+    {
+      "blurb": "Gridded transplant plots pegged out in the meadow, each corner flagged for the monitoring divers.",
+      "id": "eelgrass-nursery-plots",
+      "kind": "meadow",
+      "name": "Eelgrass Nursery Plots",
+      "position": [
+        150,
+        -500
+      ],
+      "zone": "eelgrass-meadow"
+    },
+    {
+      "blurb": "A ridge of sand built where the marsh channel drops its load, shifting a little with every big tide.",
+      "id": "marsh-mouth-bar",
+      "kind": "bar",
+      "name": "Marsh Mouth Sandbar",
+      "position": [
+        640,
+        -600
+      ],
+      "zone": "marsh-mouth"
+    },
+    {
+      "blurb": "A buoyed line across the channel mouth that drift surveys follow with the ebb.",
+      "id": "marsh-drift-line",
+      "kind": "drift",
+      "name": "Marsh Drift Line",
+      "position": [
+        700,
+        -520
+      ],
+      "zone": "marsh-mouth"
+    },
+    {
+      "blurb": "The tallest stand in the forest, where the stipes rise like columns and the canopy closes overhead.",
+      "id": "kelp-cathedral",
+      "kind": "kelp",
+      "name": "Kelp Cathedral",
+      "position": [
+        -520,
+        -240
+      ],
+      "zone": "kelp-forest"
+    },
+    {
+      "blurb": "A rock ledge at the forest's edge where the kelp holdfasts grip and the photo quadrats are laid.",
+      "id": "holdfast-ledge",
+      "kind": "ledge",
+      "name": "Holdfast Ledge",
+      "position": [
+        -450,
+        -180
+      ],
+      "zone": "kelp-forest"
+    },
+    {
+      "blurb": "A graduated post standing on the flats, its face read by every survey team on the way out.",
+      "id": "tide-gauge-post",
+      "kind": "gauge",
+      "name": "Tide Gauge Post",
+      "position": [
+        -120,
+        -240
+      ],
+      "zone": "tide-flats"
+    },
+    {
+      "blurb": "A weighted mooring with a water-quality sonde clipped to its riser, serviced on a schedule the crew holds.",
+      "id": "sonde-mooring",
+      "kind": "mooring",
+      "name": "Sonde Mooring",
+      "position": [
+        -60,
+        -300
+      ],
+      "zone": "tide-flats"
+    },
+    {
+      "blurb": "The ported end of an outfall pipe on its rock apron, the discharge zone flagged on every dive plan.",
+      "id": "outfall-diffuser",
+      "kind": "diffuser",
+      "name": "Outfall Diffuser",
+      "position": [
+        420,
+        -240
+      ],
+      "zone": "outfall-apron"
+    },
+    {
+      "blurb": "The buried-and-exposed run of pipe leading out to the diffuser, marked with stakes along its length.",
+      "id": "outfall-pipe-run",
+      "kind": "pipe",
+      "name": "Outfall Pipe Run",
+      "position": [
+        370,
+        -320
+      ],
+      "zone": "outfall-apron"
+    },
+    {
+      "blurb": "A line of buoy moorings whose chains drop from the surface at the channel's western approach.",
+      "id": "approach-buoy-chain",
+      "kind": "markers",
+      "name": "Approach Buoy Chain",
+      "position": [
+        -760,
+        20
+      ],
+      "zone": "channel-approach"
+    },
+    {
+      "blurb": "The moorings of the channel markers, each chain rising out of sight to a lit buoy overhead.",
+      "id": "channel-marker-chain",
+      "kind": "markers",
+      "name": "Channel Marker Chain",
+      "position": [
+        -170,
+        80
+      ],
+      "zone": "shipping-channel"
+    },
+    {
+      "blurb": "Hollow concrete domes in tidy rows, set out on the bottom for the monitoring programme.",
+      "id": "reef-ball-rows",
+      "kind": "reef",
+      "name": "Reef Ball Rows",
+      "position": [
+        340,
+        -20
+      ],
+      "zone": "reef-ball-field"
+    },
+    {
+      "blurb": "A steel rack of tiles left on the bottom for whatever settles, photographed on a schedule the crew holds.",
+      "id": "settlement-tile-rack",
+      "kind": "rack",
+      "name": "Settlement Tile Rack",
+      "position": [
+        400,
+        30
+      ],
+      "zone": "reef-ball-field"
+    },
+    {
+      "blurb": "A concrete mooring block sunk in the mud, its chain the only fixed thing on the plain.",
+      "id": "mud-plain-mooring",
+      "kind": "mooring",
+      "name": "Mud Plain Mooring Block",
+      "position": [
+        -320,
+        350
+      ],
+      "zone": "mud-plain"
+    },
+    {
+      "blurb": "The upright bow of an old workboat hull in the hollow, its rail still readable under the growth.",
+      "id": "wreck-bow",
+      "kind": "wreck",
+      "name": "The Wreck's Bow",
+      "position": [
+        230,
+        280
+      ],
+      "zone": "wreck-hollow"
+    },
+    {
+      "blurb": "The hull's stern, settled deeper in the scour, where the survey photo line ends.",
+      "id": "wreck-stern",
+      "kind": "wreck",
+      "name": "The Wreck's Stern",
+      "position": [
+        280,
+        330
+      ],
+      "zone": "wreck-hollow"
+    },
+    {
+      "blurb": "The edge where the mud plain drops away into the dark — the turnaround point on most dive plans.",
+      "id": "trench-lip",
+      "kind": "ledge",
+      "name": "Trench Lip",
+      "position": [
+        -660,
+        420
+      ],
+      "zone": "deep-trench"
+    },
+    {
+      "blurb": "A stacked-stone marker on the trench floor left by the ROV crews as a survey datum.",
+      "id": "trench-floor-cairn",
+      "kind": "cairn",
+      "name": "Trench Floor Cairn",
+      "position": [
+        -720,
+        520
+      ],
+      "zone": "deep-trench"
+    },
+    {
+      "blurb": "The mount's top, in brighter water, ringed by the transect pins of the capstone survey.",
+      "id": "seamount-pinnacle",
+      "kind": "pinnacle",
+      "name": "Seamount Pinnacle",
+      "position": [
+        660,
+        440
+      ],
+      "zone": "seamount"
+    },
+    {
+      "blurb": "A dip between the pinnacle and a lower shoulder where the ascent line to the surface is set.",
+      "id": "seamount-saddle",
+      "kind": "saddle",
+      "name": "Seamount Saddle",
+      "position": [
+        600,
+        500
+      ],
+      "zone": "seamount"
+    }
+  ],
+  "DEEP_LINES": [
+    {
+      "id": "shore-guideline",
+      "kind": "guideline",
+      "name": "Shore Guideline",
+      "points": [
+        [
+          -760,
+          -600
+        ],
+        [
+          -700,
+          -560
+        ],
+        [
+          -350,
+          -560
+        ],
+        [
+          100,
+          -540
+        ],
+        [
+          400,
+          -540
+        ],
+        [
+          650,
+          -560
+        ]
+      ]
+    },
+    {
+      "id": "main-guideline",
+      "kind": "guideline",
+      "name": "Main Guideline",
+      "points": [
+        [
+          -700,
+          -560
+        ],
+        [
+          -500,
+          -220
+        ],
+        [
+          -100,
+          -260
+        ],
+        [
+          -150,
+          60
+        ],
+        [
+          -300,
+          330
+        ],
+        [
+          250,
+          300
+        ],
+        [
+          650,
+          450
+        ]
+      ]
+    },
+    {
+      "id": "kelp-transect",
+      "kind": "transect",
+      "name": "Kelp Transect",
+      "points": [
+        [
+          -500,
+          -220
+        ],
+        [
+          -520,
+          -240
+        ],
+        [
+          -450,
+          -180
+        ]
+      ]
+    },
+    {
+      "id": "eelgrass-transect",
+      "kind": "transect",
+      "name": "Eelgrass Transect",
+      "points": [
+        [
+          100,
+          -540
+        ],
+        [
+          60,
+          -580
+        ],
+        [
+          150,
+          -500
+        ]
+      ]
+    },
+    {
+      "id": "reef-ball-transect",
+      "kind": "transect",
+      "name": "Reef Ball Transect",
+      "points": [
+        [
+          -100,
+          -260
+        ],
+        [
+          350,
+          0
+        ],
+        [
+          340,
+          -20
+        ],
+        [
+          400,
+          30
+        ]
+      ]
+    },
+    {
+      "id": "outfall-transect",
+      "kind": "transect",
+      "name": "Outfall Transect",
+      "points": [
+        [
+          400,
+          -540
+        ],
+        [
+          400,
+          -260
+        ],
+        [
+          370,
+          -320
+        ],
+        [
+          420,
+          -240
+        ]
+      ]
+    },
+    {
+      "id": "marsh-drift-transect",
+      "kind": "transect",
+      "name": "Marsh Drift Transect",
+      "points": [
+        [
+          650,
+          -560
+        ],
+        [
+          640,
+          -600
+        ],
+        [
+          700,
+          -520
+        ]
+      ]
+    },
+    {
+      "id": "wreck-photo-line",
+      "kind": "transect",
+      "name": "Wreck Photo Line",
+      "points": [
+        [
+          250,
+          300
+        ],
+        [
+          230,
+          280
+        ],
+        [
+          280,
+          330
+        ]
+      ]
+    },
+    {
+      "id": "trench-lip-transect",
+      "kind": "transect",
+      "name": "Trench Lip Transect",
+      "points": [
+        [
+          -300,
+          330
+        ],
+        [
+          -660,
+          420
+        ],
+        [
+          -700,
+          480
+        ],
+        [
+          -720,
+          520
+        ]
+      ]
+    },
+    {
+      "id": "seamount-transect",
+      "kind": "transect",
+      "name": "Seamount Transect",
+      "points": [
+        [
+          650,
+          450
+        ],
+        [
+          660,
+          440
+        ],
+        [
+          600,
+          500
+        ]
+      ]
+    },
+    {
+      "id": "pier-anchor-line",
+      "kind": "anchor-line",
+      "name": "Pier Anchor Line",
+      "points": [
+        [
+          -750,
+          -560
+        ],
+        [
+          -760,
+          -600
+        ]
+      ]
+    },
+    {
+      "id": "flats-anchor-line",
+      "kind": "anchor-line",
+      "name": "Flats Anchor Line",
+      "points": [
+        [
+          -100,
+          -260
+        ],
+        [
+          -120,
+          -240
+        ],
+        [
+          -60,
+          -300
+        ]
+      ]
+    },
+    {
+      "id": "wreck-anchor-line",
+      "kind": "anchor-line",
+      "name": "Wreck Anchor Line",
+      "points": [
+        [
+          250,
+          300
+        ],
+        [
+          250,
+          340
+        ]
+      ]
+    },
+    {
+      "id": "seamount-ascent-line",
+      "kind": "anchor-line",
+      "name": "Seamount Ascent Line",
+      "points": [
+        [
+          600,
+          500
+        ],
+        [
+          640,
+          470
+        ]
+      ]
+    },
+    {
+      "id": "mud-plain-anchor-line",
+      "kind": "anchor-line",
+      "name": "Mud Plain Anchor Line",
+      "points": [
+        [
+          -300,
+          330
+        ],
+        [
+          -320,
+          350
+        ]
+      ]
+    },
+    {
+      "id": "channel-centreline",
+      "kind": "channel",
+      "name": "Channel Centreline",
+      "points": [
+        [
+          -1000,
+          20
+        ],
+        [
+          -750,
+          0
+        ],
+        [
+          -400,
+          40
+        ],
+        [
+          -150,
+          60
+        ],
+        [
+          150,
+          130
+        ],
+        [
+          500,
+          180
+        ],
+        [
+          1000,
+          220
+        ]
+      ]
+    },
+    {
+      "id": "approach-anchor-line",
+      "kind": "anchor-line",
+      "name": "Approach Anchor Line",
+      "points": [
+        [
+          -750,
+          0
+        ],
+        [
+          -760,
+          20
+        ]
+      ]
+    }
+  ],
+  "DEEP_MESH_BUDGET": {
+    "high": 1400,
+    "low": 100
+  },
+  "DEEP_SITES": [
+    {
+      "id": "pier-piling-inspection-station",
+      "name": "Pier Piling Inspection Station",
+      "position": [
+        -740,
+        -580
+      ],
+      "programmes": [
+        "bay-area-union-edition"
+      ],
+      "stations": [
+        "mw-pier-pile-inspection-dive",
+        "mw-underwater-welding-and-cutting",
+        "gg-pile-driver-fender-repair"
+      ],
+      "zone": "pier-pilings"
+    },
+    {
+      "id": "pier-surface-supplied-station",
+      "name": "Pier Surface-Supplied Station",
+      "position": [
+        -720,
+        -530
+      ],
+      "programmes": [
+        "bay-restoration-maritime-underwater"
+      ],
+      "stations": [
+        "br-surface-supplied-dive-station-setup",
+        "br-dive-tender-and-umbilical-management",
+        "br-hyperbaric-chamber-standby"
+      ],
+      "zone": "pier-pilings"
+    },
+    {
+      "id": "pier-creosote-pile-site",
+      "name": "Pier Creosote Pile Site",
+      "position": [
+        -790,
+        -560
+      ],
+      "programmes": [
+        "hunters-point-bay-restoration",
+        "heavy-equipment-operators"
+      ],
+      "stations": [
+        "creosote-pile-removal",
+        "op-pile-driving-rig-and-lead-setup",
+        "br-marine-mammal-observer-during-pile-driving"
+      ],
+      "zone": "pier-pilings"
+    },
+    {
+      "id": "shelf-checkout-site",
+      "name": "Shelf Checkout Site",
+      "position": [
+        -360,
+        -540
+      ],
+      "programmes": [
+        "bay-restoration-maritime-underwater",
+        "situational-awareness"
+      ],
+      "stations": [
+        "br-dive-site-hazard-assessment-and-jsa",
+        "br-cold-water-immersion-and-mob-recovery",
+        "trench-box"
+      ],
+      "zone": "shallow-shelf"
+    },
+    {
+      "id": "shelf-debris-sweep",
+      "name": "Shelf Debris Sweep",
+      "position": [
+        -320,
+        -580
+      ],
+      "programmes": [
+        "bay-restoration-maritime-underwater"
+      ],
+      "stations": [
+        "br-underwater-debris-survey-and-mapping",
+        "br-derelict-gear-recovery-dive",
+        "br-shoreline-cleanup-sharps-and-hazardous-debris"
+      ],
+      "zone": "shallow-shelf"
+    },
+    {
+      "id": "shelf-lift-bag-site",
+      "name": "Shelf Lift Bag Site",
+      "position": [
+        -400,
+        -580
+      ],
+      "programmes": [
+        "bay-area-union-edition",
+        "rigging-lifting"
+      ],
+      "stations": [
+        "uw-lift-bag-rigging-and-object-recovery",
+        "rl-critical-lift-plan-and-signalperson"
+      ],
+      "zone": "shallow-shelf"
+    },
+    {
+      "id": "eelgrass-transplant-plots",
+      "name": "Eelgrass Transplant Plots",
+      "position": [
+        130,
+        -520
+      ],
+      "programmes": [
+        "hunters-point-bay-restoration"
+      ],
+      "stations": [
+        "eelgrass-transplant",
+        "br-native-planting-and-erosion-mats"
+      ],
+      "zone": "eelgrass-meadow"
+    },
+    {
+      "id": "eelgrass-fish-census-line",
+      "name": "Eelgrass Fish Census Line",
+      "position": [
+        80,
+        -560
+      ],
+      "programmes": [
+        "bay-restoration-maritime-underwater"
+      ],
+      "stations": [
+        "br-beach-seine-fish-survey-and-handling",
+        "br-benthic-grab-and-invertebrate-sorting",
+        "br-restoration-data-qa-and-public-reporting"
+      ],
+      "zone": "eelgrass-meadow"
+    },
+    {
+      "id": "eelgrass-turbidity-curtain",
+      "name": "Eelgrass Turbidity Curtain",
+      "position": [
+        40,
+        -500
+      ],
+      "programmes": [
+        "bay-restoration-maritime-underwater"
+      ],
+      "stations": [
+        "br-turbidity-curtain-deployment",
+        "br-bird-nesting-buffer-and-work-window"
+      ],
+      "zone": "eelgrass-meadow"
+    },
+    {
+      "id": "marsh-mouth-tide-gate",
+      "name": "Marsh Mouth Tide Gate",
+      "position": [
+        660,
+        -530
+      ],
+      "programmes": [
+        "hunters-point-bay-restoration"
+      ],
+      "stations": [
+        "tide-gate",
+        "marsh-transect-survey",
+        "living-shoreline"
+      ],
+      "zone": "marsh-mouth"
+    },
+    {
+      "id": "marsh-mouth-culvert",
+      "name": "Marsh Mouth Culvert",
+      "position": [
+        620,
+        -580
+      ],
+      "programmes": [
+        "bay-restoration-maritime-underwater"
+      ],
+      "stations": [
+        "br-culvert-retrofit-for-fish-passage",
+        "br-fish-screen-maintenance",
+        "br-tidal-marsh-grading-amphibious-excavator"
+      ],
+      "zone": "marsh-mouth"
+    },
+    {
+      "id": "marsh-mouth-invasive-plot",
+      "name": "Marsh Mouth Invasive Plot",
+      "position": [
+        700,
+        -570
+      ],
+      "programmes": [
+        "hunters-point-bay-restoration",
+        "bay-restoration-maritime-underwater"
+      ],
+      "stations": [
+        "spartina-removal",
+        "br-intertidal-invasive-removal-by-hand-crew",
+        "br-levee-inspection-and-seepage"
+      ],
+      "zone": "marsh-mouth"
+    },
+    {
+      "id": "kelp-transect-start",
+      "name": "Kelp Transect Start",
+      "position": [
+        -480,
+        -200
+      ],
+      "programmes": [
+        "bay-restoration-maritime-underwater"
+      ],
+      "stations": [
+        "br-underwater-debris-survey-and-mapping",
+        "br-restoration-data-qa-and-public-reporting"
+      ],
+      "zone": "kelp-forest"
+    },
+    {
+      "id": "kelp-night-line-site",
+      "name": "Kelp Night Line Site",
+      "position": [
+        -530,
+        -260
+      ],
+      "programmes": [
+        "bay-area-union-edition"
+      ],
+      "stations": [
+        "mw-diver-emergency-and-recovery",
+        "mw-dive-supervisor-and-dive-plan"
+      ],
+      "zone": "kelp-forest"
+    },
+    {
+      "id": "flats-sonde-station",
+      "name": "Flats Sonde Station",
+      "position": [
+        -80,
+        -280
+      ],
+      "programmes": [
+        "bay-restoration-maritime-underwater",
+        "air-quality-monitoring"
+      ],
+      "stations": [
+        "br-water-quality-sonde-calibration-and-deploy",
+        "air-monitor",
+        "sensor-colocation-check"
+      ],
+      "zone": "tide-flats"
+    },
+    {
+      "id": "flats-sediment-core-site",
+      "name": "Flats Sediment Core Site",
+      "position": [
+        -130,
+        -230
+      ],
+      "programmes": [
+        "bay-restoration-maritime-underwater",
+        "hunters-point-can-we-live"
+      ],
+      "stations": [
+        "br-underwater-sediment-core-sampling",
+        "br-sediment-chain-of-custody-and-lab-prep",
+        "shoreline-sediment-grab"
+      ],
+      "zone": "tide-flats"
+    },
+    {
+      "id": "flats-workboat-anchorage",
+      "name": "Flats Workboat Anchorage",
+      "position": [
+        -60,
+        -240
+      ],
+      "programmes": [
+        "bay-restoration-maritime-underwater",
+        "bay-area-union-edition"
+      ],
+      "stations": [
+        "br-workboat-crane-lift-from-water",
+        "br-vhf-and-navigation-in-a-work-zone",
+        "mw-workboat-towing-and-line-handling"
+      ],
+      "zone": "tide-flats"
+    },
+    {
+      "id": "outfall-diffuser-inspection",
+      "name": "Outfall Diffuser Inspection",
+      "position": [
+        410,
+        -260
+      ],
+      "programmes": [
+        "hazmat-environmental",
+        "water-and-gas-utility-crews"
+      ],
+      "stations": [
+        "stormwater-outfall",
+        "ut-cathodic-protection-test-station-reading"
+      ],
+      "zone": "outfall-apron"
+    },
+    {
+      "id": "outfall-intake-lockout-site",
+      "name": "Outfall Intake Lockout Site",
+      "position": [
+        380,
+        -290
+      ],
+      "programmes": [
+        "bay-area-union-edition",
+        "confined-space"
+      ],
+      "stations": [
+        "uw-intake-screen-cleaning-with-lockout",
+        "uw-pipeline-crossing-inspection-dive",
+        "cs-permit-entry-and-attendant-duties"
+      ],
+      "zone": "outfall-apron"
+    },
+    {
+      "id": "outfall-discharge-photo-point",
+      "name": "Outfall Discharge Photo Point",
+      "position": [
+        440,
+        -220
+      ],
+      "programmes": [
+        "hunters-point-can-we-live"
+      ],
+      "stations": [
+        "discharge-photo-doc",
+        "air-sensor-install"
+      ],
+      "zone": "outfall-apron"
+    },
+    {
+      "id": "approach-buoy-tender-station",
+      "name": "Approach Buoy Tender Station",
+      "position": [
+        -740,
+        -20
+      ],
+      "programmes": [
+        "port-operations",
+        "ports-maritime-ecology"
+      ],
+      "stations": [
+        "mooring-line",
+        "pilot-transfer",
+        "spill-boom-deploy"
+      ],
+      "zone": "channel-approach"
+    },
+    {
+      "id": "approach-boom-tow-site",
+      "name": "Approach Boom Tow Site",
+      "position": [
+        -780,
+        40
+      ],
+      "programmes": [
+        "bay-restoration-maritime-underwater",
+        "bay-area-union-edition"
+      ],
+      "stations": [
+        "br-boom-towing-between-two-vessels",
+        "mw-oil-transfer-watch-and-boom",
+        "br-debris-skimmer-vessel-operations"
+      ],
+      "zone": "channel-approach"
+    },
+    {
+      "id": "channel-dredge-survey",
+      "name": "Channel Dredge Survey",
+      "position": [
+        -140,
+        40
+      ],
+      "programmes": [
+        "hunters-point-bay-restoration",
+        "bay-restoration-maritime-underwater"
+      ],
+      "stations": [
+        "dredge-barge",
+        "br-dredge-material-screening-and-disposal-decision",
+        "br-barge-loading-of-contaminated-sediment"
+      ],
+      "zone": "shipping-channel"
+    },
+    {
+      "id": "channel-scour-survey",
+      "name": "Channel Scour Survey",
+      "position": [
+        -180,
+        90
+      ],
+      "programmes": [
+        "bay-area-union-edition",
+        "bridge-and-structural"
+      ],
+      "stations": [
+        "uw-bridge-pier-scour-survey",
+        "uw-underwater-concrete-and-bag-placement",
+        "bridge-cable-inspection"
+      ],
+      "zone": "shipping-channel"
+    },
+    {
+      "id": "reef-ball-monitoring-plot",
+      "name": "Reef Ball Monitoring Plot",
+      "position": [
+        360,
+        -10
+      ],
+      "programmes": [
+        "hunters-point-bay-restoration",
+        "ports-maritime-ecology"
+      ],
+      "stations": [
+        "oyster-reef-monitoring",
+        "ballast-water-sampling"
+      ],
+      "zone": "reef-ball-field"
+    },
+    {
+      "id": "reef-ball-placement-site",
+      "name": "Reef Ball Placement Site",
+      "position": [
+        330,
+        40
+      ],
+      "programmes": [
+        "bay-restoration-maritime-underwater",
+        "port-operations"
+      ],
+      "stations": [
+        "br-workboat-crane-lift-from-water",
+        "br-derelict-vessel-salvage-rigging",
+        "container-lashing"
+      ],
+      "zone": "reef-ball-field"
+    },
+    {
+      "id": "mud-plain-hotspot-survey",
+      "name": "Mud Plain Hotspot Survey",
+      "position": [
+        -290,
+        310
+      ],
+      "programmes": [
+        "bay-restoration-maritime-underwater",
+        "hunters-point-bay-restoration"
+      ],
+      "stations": [
+        "br-legacy-mercury-and-pcb-hotspot-handling",
+        "sediment-cap",
+        "rad-survey"
+      ],
+      "zone": "mud-plain"
+    },
+    {
+      "id": "mud-plain-trash-capture",
+      "name": "Mud Plain Trash Capture Site",
+      "position": [
+        -330,
+        360
+      ],
+      "programmes": [
+        "bay-restoration-maritime-underwater"
+      ],
+      "stations": [
+        "br-trash-capture-device-service",
+        "br-volunteer-cleanup-day-safety-lead"
+      ],
+      "zone": "mud-plain"
+    },
+    {
+      "id": "wreck-photo-survey",
+      "name": "Wreck Photo Survey",
+      "position": [
+        240,
+        310
+      ],
+      "programmes": [
+        "bay-restoration-maritime-underwater",
+        "bay-area-union-edition"
+      ],
+      "stations": [
+        "br-underwater-debris-survey-and-mapping",
+        "mw-hull-inspection-and-cleaning-dive",
+        "br-drone-shoreline-survey"
+      ],
+      "zone": "wreck-hollow"
+    },
+    {
+      "id": "wreck-salvage-rigging",
+      "name": "Wreck Salvage Rigging",
+      "position": [
+        270,
+        260
+      ],
+      "programmes": [
+        "bay-restoration-maritime-underwater",
+        "rigging-lifting"
+      ],
+      "stations": [
+        "br-derelict-vessel-salvage-rigging",
+        "uw-lift-bag-rigging-and-object-recovery",
+        "rl-critical-lift-plan-and-signalperson"
+      ],
+      "zone": "wreck-hollow"
+    },
+    {
+      "id": "trench-rov-station",
+      "name": "Trench ROV Station",
+      "position": [
+        -680,
+        460
+      ],
+      "programmes": [
+        "bay-area-union-edition"
+      ],
+      "stations": [
+        "uw-rov-pre-dive-and-tether-management",
+        "mw-dive-supervisor-and-dive-plan"
+      ],
+      "zone": "deep-trench"
+    },
+    {
+      "id": "seamount-capstone-survey",
+      "name": "Seamount Capstone Survey",
+      "position": [
+        640,
+        460
+      ],
+      "programmes": [
+        "bay-restoration-maritime-underwater",
+        "first-responders"
+      ],
+      "stations": [
+        "br-restoration-data-qa-and-public-reporting",
+        "br-hyperbaric-chamber-standby",
+        "damage-assessment-team"
+      ],
+      "zone": "seamount"
+    }
+  ],
+  "DEEP_ZONES": [
+    {
+      "blurb": "A forest of timber and concrete piles under a public pier, furred with growth and lit from above between the deck planks.",
+      "centre": [
+        -750,
+        -560
+      ],
+      "id": "pier-pilings",
+      "name": "The Pier Pilings",
+      "palette": {
+        "accent": 11071712,
+        "seabed": 4872013,
+        "water": 1989212
+      },
+      "radius": 170
+    },
+    {
+      "blurb": "Sun-lit sand and scattered boulders in the shallows off the shore, where every dive in this world begins.",
+      "centre": [
+        -350,
+        -560
+      ],
+      "id": "shallow-shelf",
+      "name": "The Shallow Shelf",
+      "palette": {
+        "accent": 15909195,
+        "seabed": 9075290,
+        "water": 2386534
+      },
+      "radius": 200
+    },
+    {
+      "blurb": "A soft-bottom meadow of ribbon grass swaying in the tide, with transplant plots staked along its edge.",
+      "centre": [
+        100,
+        -540
+      ],
+      "id": "eelgrass-meadow",
+      "name": "Eelgrass Meadow",
+      "palette": {
+        "accent": 5884283,
+        "seabed": 5925434,
+        "water": 2780264
+      },
+      "radius": 200
+    },
+    {
+      "blurb": "Where a tidal-marsh channel spills onto the flats: turbid water, a sandbar, and current that turns with the tide.",
+      "centre": [
+        650,
+        -560
+      ],
+      "id": "marsh-mouth",
+      "name": "Marsh Channel Mouth",
+      "palette": {
+        "accent": 9164453,
+        "seabed": 6969914,
+        "water": 3828314
+      },
+      "radius": 190
+    },
+    {
+      "blurb": "Tall kelp anchored to a rocky rise, its canopy closing overhead into shifting green light.",
+      "centre": [
+        -500,
+        -220
+      ],
+      "id": "kelp-forest",
+      "name": "Kelp Forest",
+      "palette": {
+        "accent": 8042056,
+        "seabed": 3815978,
+        "water": 1790036
+      },
+      "radius": 200
+    },
+    {
+      "blurb": "Open flats with a tide-gauge post and a sonde mooring, the survey teams' usual first stop.",
+      "centre": [
+        -100,
+        -260
+      ],
+      "id": "tide-flats",
+      "name": "Tide Gauge Flats",
+      "palette": {
+        "accent": 5231103,
+        "seabed": 6974042,
+        "water": 2055262
+      },
+      "radius": 190
+    },
+    {
+      "blurb": "A rock apron around an outfall diffuser, its pipe run marked and the discharge zone flagged on every dive plan.",
+      "centre": [
+        400,
+        -260
+      ],
+      "id": "outfall-apron",
+      "name": "The Outfall Apron",
+      "palette": {
+        "accent": 15759903,
+        "seabed": 5921370,
+        "water": 2052692
+      },
+      "radius": 190
+    },
+    {
+      "blurb": "The western approach to the shipping channel, a buoy chain overhead and traffic that a dive supervisor never lets a diver forget.",
+      "centre": [
+        -750,
+        0
+      ],
+      "id": "channel-approach",
+      "name": "Channel Approach",
+      "palette": {
+        "accent": 14164778,
+        "seabed": 4868682,
+        "water": 1326664
+      },
+      "radius": 220
+    },
+    {
+      "blurb": "A dredged trough across the middle of the world, marked by a chain of channel markers and closed to diving whenever traffic moves.",
+      "centre": [
+        -150,
+        60
+      ],
+      "id": "shipping-channel",
+      "name": "The Shipping Channel",
+      "palette": {
+        "accent": 14164778,
+        "seabed": 4147786,
+        "water": 1194564
+      },
+      "radius": 230
+    },
+    {
+      "blurb": "Rows of hollow concrete reef balls set on the bottom for monitoring, with a settlement-tile rack at one end.",
+      "centre": [
+        350,
+        0
+      ],
+      "id": "reef-ball-field",
+      "name": "Reef Ball Field",
+      "palette": {
+        "accent": 5232293,
+        "seabed": 5925466,
+        "water": 1790036
+      },
+      "radius": 200
+    },
+    {
+      "blurb": "Flat, featureless soft bottom south of the channel where a fin kick lifts a cloud that hangs for minutes.",
+      "centre": [
+        -300,
+        330
+      ],
+      "id": "mud-plain",
+      "name": "The Mud Plain",
+      "palette": {
+        "accent": 9148581,
+        "seabed": 3815988,
+        "water": 1126204
+      },
+      "radius": 230
+    },
+    {
+      "blurb": "A scoured hollow beside the channel holding an old workboat hull, bow and stern still readable under the growth.",
+      "centre": [
+        250,
+        300
+      ],
+      "id": "wreck-hollow",
+      "name": "The Wreck Hollow",
+      "palette": {
+        "accent": 15909195,
+        "seabed": 3820100,
+        "water": 1061436
+      },
+      "radius": 200
+    },
+    {
+      "blurb": "A steep-walled trench in the south-west of the world, dark below its lip — the far end of any survey career here.",
+      "centre": [
+        -700,
+        480
+      ],
+      "id": "deep-trench",
+      "name": "The Deep Trench",
+      "palette": {
+        "accent": 5929626,
+        "seabed": 2763312,
+        "water": 664112
+      },
+      "radius": 260
+    },
+    {
+      "blurb": "A rock mount rising from the deep south-east floor to a pinnacle in clearer, brighter water.",
+      "centre": [
+        650,
+        450
+      ],
+      "id": "seamount",
+      "name": "The Seamount",
+      "palette": {
+        "accent": 16747098,
+        "seabed": 4866104,
+        "water": 997956
+      },
+      "radius": 260
+    }
+  ],
+  "id": "underwater",
+  "schema": "smartcitix.world/1",
+  "source": "WebXR/shared/underwater-data.js"
+}

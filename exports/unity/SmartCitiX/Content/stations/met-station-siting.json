@@ -1,0 +1,383 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "true-north-set",
+    "name": "True North Set",
+    "note": "Sited clear of every obstruction, aligned to true north, levelled, grounded, and the first day's data checked against the airport's before anyone trusts a wind direction off it"
+  },
+  "category": "Community Environmental Justice",
+  "certification": "The community air network's own siting protocol, drawn from WMO and NOAA/NWS surface-observation siting standards; NFPA 780 lightning protection for the mast's own ground rod; OSHA 29 CFR 1926 fall protection if a tilt-up mast is ever climbed instead of lowered; EPA 40 CFR Part 58 meteorological support requirements for a network whose readings get compared against a federal cleanup order's own air data",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "NFPA",
+        "citedAs": "NFPA 780",
+        "id": "nfpa-780",
+        "title": "NFPA 780 — Installation of Lightning Protection Systems"
+      },
+      {
+        "body": "NOAA",
+        "citedAs": "NOAA",
+        "id": "noaa-tides-and-esa",
+        "title": "NOAA tide predictions and NOAA Fisheries Endangered Species Act consultation for in-water work"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      }
+    ]
+  },
+  "district": "Environmental Monitoring",
+  "domain": "Environmental",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "clear-exposure",
+        "name": "Clear Exposure",
+        "note": "Found the obstruction and sited clear of it, first time"
+      },
+      {
+        "id": "never-shorted",
+        "name": "Never Shorted",
+        "note": "Never skipped the ground rod, never wired the logger live, never sited on magnetic north"
+      },
+      {
+        "id": "true-and-level",
+        "name": "True and Level",
+        "note": "Held the compass alignment and the rain gauge level near band centre"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-siting",
+        "name": "Clean Siting",
+        "note": "No corrections anywhere in the commissioning"
+      },
+      {
+        "id": "unbroken-plumb",
+        "name": "Unbroken Plumb",
+        "note": "Never broke the co-location check"
+      },
+      {
+        "id": "sited-fast",
+        "name": "Sited Fast",
+        "note": "Logged the siting inside 80% of par"
+      }
+    ],
+    "currency": "SITING",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Yard Hand",
+      "Mast Rigger",
+      "Siting Lead",
+      "Network Authority",
+      "Siting Certified"
+    ],
+    "system": "Station Siting"
+  },
+  "hazards": {
+    "ignore-declination": "You hit the quick-set button and pointed the mast at magnetic north instead of turning it to the true north the compass reading and the local declination actually call for. Every wind direction this station logs from now on is off by the same fixed error nobody sees in any single reading — the network's map of which way the plume moved on a given day is wrong in exactly the direction this shortcut was taken.",
+    "site-too-close": "You sited the mast in the spot right beside the shed instead of the clear ground the survey found. A wind sensor that close to a building reads the building's own turbulence off its roofline, not the neighbourhood's wind — every direction and speed this station logs from that spot is a reading of the shed, dressed up as a reading of the block.",
+    "skip-ground": "You clipped the jumper wire across the ground rod connection instead of running the mast's ground lead to it. A mast is the tallest thing in this yard the moment it's raised, and the ground rod is the only path a lightning strike has to the earth that doesn't run through the logger, the sensors and whoever is standing near them — bypassing it to save a few minutes of driving a rod into hard ground is a bet made with someone else's storm.",
+    "wire-live": "You connected the sensor cables to the logger's terminals while the logger was still powered on. A live terminal block does not care whether the hands touching it know the wiring diagram — it shorts, sparks, or slowly fries a channel exactly the same either way, and the fix for a fried input channel on a community station with one spare is however long it takes to get a replacement shipped."
+  },
+  "id": "met-station-siting",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "raise-mast",
+      "alert": "A gust just caught the mast as it came up — it's leaning hard to one side and the guys aren't tensioned yet to hold it there.",
+      "cue": "Grab the steadying handle and hold the mast plumb now, before the next gust puts it on the ground.",
+      "delay": 4,
+      "id": "gust-off-plumb",
+      "kind": "Gust off plumb",
+      "missNote": "The mast leaned further with every gust until it came down against the fence, bending the mount the wind sensor was supposed to sit on — the siting this station spent the last ten minutes getting right now has a bent mast to match it.",
+      "seconds": 13,
+      "target": "steady-mast-handle",
+      "why": "A tilt-up mast between horizontal and vertical, with its guys still slack, is entirely dependent on whoever is holding it — a gust that catches it in that window can walk it right off plumb and into a fall that bends the mast, breaks a sensor mount, or comes down on whoever is standing where the guys were about to go. Steadying it by hand is the only thing holding it up until the first guy line is actually staked.",
+      "wrongNote": "Not that — grab the steadying handle. Nothing else in this yard holds a half-raised mast up against the next gust."
+    },
+    {
+      "after": "colocate-check",
+      "alert": "Checking the co-location readout against your own watch, the logger's timestamp is a full hour off true time.",
+      "cue": "Reset the logger's clock to true time now, before another hour of readings logs under the wrong timestamp.",
+      "delay": 4,
+      "id": "clock-drift",
+      "kind": "Clock drift",
+      "missNote": "The drift went uncorrected through the rest of the day-one check, and every reading logged in that window now carries a timestamp an hour off from what actually happened — a mismatch that shows up the first time anyone tries to line this station's data up against another one.",
+      "seconds": 13,
+      "target": "clock-reset",
+      "why": "Every reading this network takes is only as useful as the timestamp on it — a station whose clock has drifted an hour logs a real gust or a real exceedance under a time nobody else's record agrees with, which is exactly the kind of discrepancy that lets a comparison against the airport's data, or against another station in the network, be waved away as noise instead of taken as a match.",
+      "wrongNote": "Not that — reset the logger's clock. Nothing else on this mast fixes a timestamp that's already drifted."
+    }
+  ],
+  "lateNotes": {
+    "airport-data-board": "Pull this after the co-location check, not before — comparing a full day of data against the airport means nothing until that day has actually been logged.",
+    "colocate-instrument": "Nothing to compare yet — the station has to actually be logging first, or the reference instrument has no live reading to check itself against.",
+    "compass-align": "Nothing to align yet — the mast has to actually be standing and guyed before turning it means anything, or you're aligning a pole that's still lying on the ground.",
+    "datalogger-clock": "Sync it after the station is powered, not before — a clock synced on a dead logger drifts right back to zero the moment power comes on.",
+    "power-switch": "Nothing to power up yet — the sensors have to actually be wired to the logger first, or you're energising a board with nothing connected to it.",
+    "rain-gauge-level": "The gauge has to be seated in clear, sited ground first — levelling it before the site survey is done just means levelling it in the wrong spot."
+  },
+  "name": "Met Station Siting",
+  "parSeconds": 310,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "hunters-point-can-we-live"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "airport-data-board",
+      "clock-reset",
+      "colocate-instrument",
+      "compass-align",
+      "datalogger-clock",
+      "datalogger-enclosure",
+      "guy-e",
+      "guy-n",
+      "guy-w",
+      "ignore-declination",
+      "mast",
+      "mast-crank",
+      "mast-socket",
+      "power-switch",
+      "rain-gauge-level",
+      "shed-obstruction",
+      "site-too-close",
+      "siting-guide-board",
+      "siting-log",
+      "skip-ground",
+      "steady-mast-handle",
+      "wire-live",
+      "wire-rain",
+      "wire-temp",
+      "wire-wind"
+    ],
+    "meshes": 180
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the required wind-sensor height, the clearance rule from obstructions, and the rain-gauge levelling spec before you touch a mast.",
+      "id": "read-siting-guide",
+      "kind": "select",
+      "prompt": "Check the required wind-sensor height, the clearance rule from obstructions, and the rain-gauge levelling spec before you touch a mast.",
+      "target": "siting-guide-board",
+      "title": "Read the community network's siting protocol",
+      "why": "This protocol is where the actual numbers come from — the sensor height, the minimum clearance from anything tall enough to disturb the wind, the levelling tolerance on the rain gauge — and every one of them exists so this station's readings can be compared, honestly, against the airport's and against every other station in the network built to the same spec."
+    },
+    {
+      "cue": "Walk the yard and click the one structure that sits inside the required clearance.",
+      "id": "survey-site",
+      "itemNames": {
+        "shed-obstruction": "shed inside the clearance radius"
+      },
+      "itemNotes": {
+        "shed-obstruction": "That shed sits well inside the minimum clearance the siting protocol calls for — a mast raised anywhere near it reads the shed's own wind shadow, not the yard's actual exposure."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk the yard and click the one structure that sits inside the required clearance.",
+      "targets": [
+        "shed-obstruction"
+      ],
+      "title": "Survey the yard for obstructions",
+      "why": "A tape measure tells you how far something is; it doesn't tell you whether that's far enough for a given obstruction's height, and walking the yard before committing to a spot is what actually catches a shed or a fence line close enough to disturb the exposure this station is supposed to be reading."
+    },
+    {
+      "cue": "Pull the mast off the cart and set its base in the socket the survey found clear.",
+      "drag": {
+        "missNote": "Not seated in the clear socket — a base set short of it still sits inside the shed's own wind shadow, not the open exposure the survey found.",
+        "radius": 0.42,
+        "to": "mast-socket"
+      },
+      "id": "site-mast",
+      "kind": "drag",
+      "prompt": "Pull the mast off the cart and set its base in the socket the survey found clear.",
+      "target": "mast",
+      "title": "Carry the mast to the clear ground",
+      "why": "Where this base gets seated decides what every reading the mast ever takes is actually exposed to — seated near the obstruction the survey just found, the mast reads that obstruction's own turbulence for as long as it stands there; seated on the clear ground, it reads the yard's own wind the way the protocol assumes it will."
+    },
+    {
+      "cue": "Hold the crank turning until the mast locks upright — a rushed crank leaves it swinging on the hinge.",
+      "holdBreakNote": "Released the crank before it locked — the mast is still short of vertical. Hold it through to the lock, not to wherever looks close enough.",
+      "id": "raise-mast",
+      "kind": "hold",
+      "prompt": "Hold the crank turning until the mast locks upright — a rushed crank leaves it swinging on the hinge.",
+      "seconds": 5,
+      "target": "mast-crank",
+      "title": "Raise the tilt-up mast",
+      "why": "A tilt-up mast exists so nobody ever has to climb it — the sensors get mounted at the base and the whole pole is winched upright afterward — and holding the crank through the full raise, rather than letting it free-spin the last stretch, is what brings it to vertical under control instead of letting momentum snap it past plumb on its own hinge."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Stake and tension all three guy lines the moment the mast locks upright.",
+      "id": "guy-mast",
+      "itemNames": {
+        "guy-e": "east guy line",
+        "guy-n": "north guy line",
+        "guy-w": "west guy line"
+      },
+      "kind": "sequence",
+      "prompt": "Stake and tension all three guy lines the moment the mast locks upright.",
+      "targets": [
+        "guy-n",
+        "guy-e",
+        "guy-w"
+      ],
+      "title": "Stake and tension the guy lines",
+      "why": "A freshly raised mast is only as stable as the hands that raised it until the guys are tensioned — three lines staked to the ground and pulled tight is what turns a mast someone is still steadying by hand into one that will actually stand through the first real gust after everyone walks away from it."
+    },
+    {
+      "cue": "Secure the weatherproof enclosure to the mast before running a single sensor cable to it.",
+      "id": "mount-datalogger",
+      "kind": "select",
+      "prompt": "Secure the weatherproof enclosure to the mast before running a single sensor cable to it.",
+      "target": "datalogger-enclosure",
+      "title": "Mount the datalogger enclosure",
+      "why": "Every sensor on this mast terminates at this box, and a box that isn't actually secured and sealed before the cables are run is a box that's still going to need moving — pulling three sets of cable slack loose to reposition an enclosure is exactly the kind of rework that mounting it first, once, avoids."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Connect all three sensor cables to their labelled terminals on the powered-down logger.",
+      "id": "wire-sensors",
+      "itemNames": {
+        "wire-rain": "rain gauge cable",
+        "wire-temp": "temperature sensor cable",
+        "wire-wind": "wind sensor cable"
+      },
+      "kind": "sequence",
+      "prompt": "Connect all three sensor cables to their labelled terminals on the powered-down logger.",
+      "targets": [
+        "wire-wind",
+        "wire-temp",
+        "wire-rain"
+      ],
+      "title": "Wire the sensors to the logger",
+      "why": "Each sensor's cable has to land on the specific terminal the logger's manual assigns it, or the station logs wind speed into the rain channel and calls it data — checking every cable against its label, with the logger dead, is what makes the wiring something a second person could verify later rather than something only the installer remembers doing right."
+    },
+    {
+      "cue": "Turn the mounting collar until the reference mark lines up with true north on the compass plate, correcting for local declination.",
+      "id": "align-compass",
+      "kind": "turn",
+      "prompt": "Turn the mounting collar until the reference mark lines up with true north on the compass plate, correcting for local declination.",
+      "target": "compass-align",
+      "title": "Turn the mast to true north",
+      "turn": {
+        "axis": "y",
+        "label": "TRUE NORTH",
+        "turns": 0.55
+      },
+      "why": "A compass needle points at magnetic north, not true north, and the gap between them at this latitude is large enough to matter — turning the collar to the corrected mark, not just to wherever the needle itself points, is what keeps every wind direction this station ever logs pointed at the actual compass rose the rest of the network and the airport both report against."
+    },
+    {
+      "cue": "Walk the gauge's feet out and commit only once the bubble settles dead centre.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.54
+        ],
+        "label": "GAUGE LEVEL",
+        "missNote": "Not level — the bubble drifted before you committed. Walk a foot back out and settle it dead centre.",
+        "speed": 0.55
+      },
+      "id": "level-rain-gauge",
+      "kind": "gauge",
+      "prompt": "Walk the gauge's feet out and commit only once the bubble settles dead centre.",
+      "target": "rain-gauge-level",
+      "title": "Level the rain gauge",
+      "why": "A rain gauge that leans even slightly funnels water toward one side of its own funnel instead of catching it evenly, over- or under-reading every storm it measures for as long as it stands there — levelling it once, correctly, before the first rain is the only chance this station gets to make that number honest."
+    },
+    {
+      "cue": "Switch the logger on now that every sensor is wired, grounded and mounted.",
+      "id": "power-on",
+      "kind": "select",
+      "prompt": "Switch the logger on now that every sensor is wired, grounded and mounted.",
+      "target": "power-switch",
+      "title": "Power up the station",
+      "why": "This is the first moment any of today's wiring actually gets tested — a station powered up only after every cable is checked against its label is a station whose first live reading tells you whether the install is right, instead of whether it's simply live."
+    },
+    {
+      "cue": "Set the logger's clock to a reference time source before the first reading logs.",
+      "id": "sync-clock",
+      "kind": "select",
+      "prompt": "Set the logger's clock to a reference time source before the first reading logs.",
+      "target": "datalogger-clock",
+      "title": "Sync the logger's clock",
+      "why": "Every reading this station ever takes carries whatever timestamp the logger's clock reads at that instant, and a clock set from guesswork instead of a reference source is a station whose entire record is offset by however wrong that guess was — syncing it now, at commissioning, is the only chance to start the record honest."
+    },
+    {
+      "cue": "Hold the calibrated reference anemometer beside the new sensor and keep the two readings tracking together.",
+      "holdBreakNote": "The readings drifted apart — hold the reference instrument steady beside the new sensor until they track together again.",
+      "id": "colocate-check",
+      "kind": "track",
+      "prompt": "Hold the calibrated reference anemometer beside the new sensor and keep the two readings tracking together.",
+      "seconds": 8,
+      "target": "colocate-instrument",
+      "title": "Run the co-location check",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.46,
+        "green": [
+          0.4,
+          0.6
+        ],
+        "label": "AGREEMENT",
+        "rise": 0.5,
+        "start": 0.5
+      },
+      "why": "A brand-new sensor can be wired correctly and still read wrong — the only way to catch that at commissioning, rather than a season later when the data finally looks strange, is to hold a known-good instrument beside it and watch the two agree in real time before trusting the new one to run unattended."
+    },
+    {
+      "cue": "Pull the airport's own hourly record for the same day and compare it against this station's first full day of data.",
+      "id": "compare-airport",
+      "kind": "select",
+      "prompt": "Pull the airport's own hourly record for the same day and compare it against this station's first full day of data.",
+      "target": "airport-data-board",
+      "title": "Check the first day against the airport's record",
+      "why": "The airport's station is the one instrument in the region every reading eventually gets measured against, and a rough match on wind direction and general trend, even with the expected local differences, is the last proof that this siting actually captured this yard's weather rather than something the install itself introduced."
+    },
+    {
+      "cue": "Record the mast location, height, true-north alignment and the day-one comparison before you leave the station running.",
+      "id": "log-siting",
+      "kind": "select",
+      "prompt": "Record the mast location, height, true-north alignment and the day-one comparison before you leave the station running.",
+      "target": "siting-log",
+      "title": "Log the siting",
+      "why": "The next technician who services this mast, and the network coordinator deciding whether to trust its data, both read this entry instead of asking the person who installed it — a station left running with no siting record behind it is one nobody but its installer can vouch for."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "Siting the community's own weather station: exposure clear of buildings, a tilt-up mast raised and guyed, the datalogger wired and grounded, the mast turned to true north, the rain gauge levelled, and the first day's data checked against the airport's own record",
+  "title": "SmartCiti.X~ Met Station Siting VR",
+  "trade": "Community environmental monitor",
+  "underwater": null,
+  "weather": "wind"
+}

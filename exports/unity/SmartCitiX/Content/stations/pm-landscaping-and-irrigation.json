@@ -1,0 +1,436 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "green-and-safe",
+    "name": "Green and Safe",
+    "note": "Program kept, heads fixed, blade serviced under lockout, and a geyser shut off at its own valve"
+  },
+  "category": "Building Systems & Facilities",
+  "certification": "ASSE 1020 for the irrigation pressure vacuum breaker and the ASSE 5110 tester who certifies it each year; AWWA M14 cross-connection control; OSHA 29 CFR 1910.95 hearing conservation for the mower and blower, 29 CFR 1910.133 eye protection and 29 CFR 1910.132 PPE for trimming; 29 CFR 1910.147 lockout on the mower blade; 29 CFR 1910.1200 hazard communication for fertiliser and fuel; NIOSH heat guidance for grounds crews; the local water agency's watering-day rules; SEIU building staff, IUOE Local 39 engineers on the backflow and the apartment association's CAMT credential",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ASSE",
+        "citedAs": "ASSE 1020",
+        "id": "asse-1020",
+        "title": "ASSE 1020 — Pressure vacuum breaker assemblies"
+      },
+      {
+        "body": "ASSE",
+        "citedAs": "ASSE 5110",
+        "id": "asse-5110",
+        "title": "ASSE 5110 — Backflow prevention assembly tester professional qualification"
+      },
+      {
+        "body": "AWWA",
+        "citedAs": "AWWA M14",
+        "id": "awwa-m14",
+        "title": "AWWA M14 — Backflow prevention and cross-connection control manual"
+      },
+      {
+        "body": "union",
+        "citedAs": "IUOE",
+        "id": "iuoe-training",
+        "title": "IUOE local training funds and the IUOE National Training Fund — operating and stationary engineer apprenticeship"
+      },
+      {
+        "body": "NIOSH",
+        "citedAs": "NIOSH",
+        "id": "niosh-criteria",
+        "title": "NIOSH criteria documents, Health Hazard Evaluations and the Pocket Guide to Chemical Hazards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.1200",
+        "id": "osha-1910-1200",
+        "title": "29 CFR 1910.1200 — Hazard communication"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.132",
+        "id": "osha-1910-132",
+        "title": "29 CFR 1910.132 — Personal protective equipment, general requirements"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.133",
+        "id": "osha-1910-133",
+        "title": "29 CFR 1910.133 — Eye and face protection"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.147",
+        "id": "osha-1910-147",
+        "title": "29 CFR 1910.147 — The control of hazardous energy (lockout/tagout)"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.95",
+        "id": "osha-1910-95",
+        "title": "29 CFR 1910.95 — Occupational noise exposure"
+      },
+      {
+        "body": "union",
+        "citedAs": "SEIU",
+        "id": "seiu-training",
+        "title": "SEIU and Workers United education and training funds for clinic, garment, food-service and public-service members"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Building Systems & Facilities",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "program-kept",
+        "name": "Program Kept",
+        "note": "The controller adjusted, never reset"
+      },
+      {
+        "id": "blade-safe",
+        "name": "Blade Safe",
+        "note": "No unsafe act anywhere on the grounds"
+      },
+      {
+        "id": "even-pressure",
+        "name": "Even Pressure",
+        "note": "Held the zone pressure through the manual run"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-round",
+        "name": "Clean Round",
+        "note": "No corrections across the whole round"
+      },
+      {
+        "id": "steady-zone",
+        "name": "Steady Zone",
+        "note": "Held the manual run without breaking the band"
+      },
+      {
+        "id": "before-the-heat",
+        "name": "Before the Heat",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "GALLONS",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Grounds Helper",
+      "Irrigation Tech",
+      "Grounds Lead",
+      "Grounds Supervisor",
+      "Irrigation Certified"
+    ],
+    "system": "Grounds Crew"
+  },
+  "hazards": {
+    "dig-without-locate": "You went to dig out the broken lateral without calling for a utility locate. The front lawn carries the building's gas service, the electrical feed to the site lighting and the telecom line, and a spade through any of them is a very bad morning — the locate marks come first, then the shovel.",
+    "factory-reset": "You pressed the controller's factory reset to clear a fault. Mid-season, that wipes every zone's run times, the watering days the water agency allows and the seasonal adjustment, and the controller falls back to a default that waters every day — the lawn floods, the building breaks the watering rules, and nobody finds out until the bill or the fine arrives.",
+    "hand-under-deck": "You reached under the mower deck to clear a clump with the engine still running. The blade spins at a speed that cuts through a boot, and a clump that lets go frees the blade all at once — the engine is off, the plug boot off and the blade blocked before a hand goes near it.",
+    "refuel-hot-engine": "You started refuelling the trimmer straight after running it. Petrol splashed on a hot muffler vaporises and can flash, and the person holding the can is standing in the middle of it — let the engine cool, refuel on bare ground away from the building."
+  },
+  "id": "pm-landscaping-and-irrigation",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "loosen-blade",
+      "alert": "While you hold the wrench, a resident walking her dog steps over the knocked-down posting flag onto the lawn that was treated with fertiliser this morning.",
+      "cue": "Stand the posting flag back up and point her to the path. The blade stays blocked.",
+      "delay": 3,
+      "id": "treated-lawn",
+      "kind": "Resident walking onto the treated lawn",
+      "missNote": "She and the dog crossed the treated lawn the whole window. The flag is still lying in the grass, and the next resident will do the same.",
+      "seconds": 12,
+      "target": "posting-flag",
+      "why": "Posting flags are how the building tells residents and their pets to keep off a treated lawn until the product's label says it is safe, and a flag lying in the grass tells them nothing. Standing it back up and pointing to the path answers her now and everyone who comes after her.",
+      "wrongNote": "That doesn't warn her. The posting flag is what tells residents the lawn has been treated — stand it back up."
+    },
+    {
+      "after": "run-zone",
+      "alert": "The contract mower clips a head on zone four as it runs — a geyser shoots across the walkway where residents are coming and going.",
+      "cue": "Close zone four's valve in the valve box. Don't reach over the geyser for the head.",
+      "delay": 3,
+      "id": "sheared-head",
+      "kind": "Sprinkler head sheared by a mower",
+      "missNote": "The geyser ran across the walkway the whole window. The bed is washing out, the path is flooded, and the zone is still open.",
+      "seconds": 12,
+      "target": "zone-valve-box",
+      "why": "A sheared head dumps the zone's whole flow out of one broken riser, flooding the bed, washing mulch onto the path and spraying residents on the walkway. Closing the zone valve stops it at its source in seconds, where reaching into the geyser to stuff the riser only gets you soaked and the water keeps coming.",
+      "wrongNote": "That doesn't stop the flow. Zone four's valve in the green valve box shuts the geyser off at its source."
+    }
+  ],
+  "lateNotes": {
+    "new-nozzle": "Not yet — the new nozzle goes on after the mower is serviced and the zone is ready to run.",
+    "seasonal-adjust": "The seasonal adjustment is set after the soil has been read and the zone has run — not on a guess."
+  },
+  "name": "Landscaping & Irrigation",
+  "parSeconds": 290,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "property-management"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "blade-block",
+      "blade-wrench",
+      "building-log",
+      "contractor-checkin",
+      "controller-cabinet-lock",
+      "controller-dial",
+      "cracked-trimmer-guard",
+      "dig-without-locate",
+      "factory-reset",
+      "fuel-can-uncapped",
+      "hand-under-deck",
+      "head-on-sidewalk",
+      "head-socket",
+      "moisture-probe",
+      "mower-engine-off",
+      "new-nozzle",
+      "posting-flag",
+      "pvb-bonnet-drip",
+      "refuel-hot-engine",
+      "schedule-sheet",
+      "seasonal-adjust",
+      "spark-plug-boot",
+      "zone-pressure",
+      "zone-valve-box"
+    ],
+    "meshes": 181
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the zone run times and the water agency's permitted days before touching the controller.",
+      "id": "read-schedule",
+      "kind": "select",
+      "prompt": "Check the zone run times and the water agency's permitted days before touching the controller.",
+      "target": "schedule-sheet",
+      "title": "Read the controller program and the watering rules",
+      "why": "The controller's program is a season's worth of decisions about soil, sun and plant type, and the water agency's permitted days are a rule the building can be fined for breaking. Reading both first means any change you make is an adjustment to a known program, not a guess that quietly overwrites the work of whoever set it up in spring."
+    },
+    {
+      "cue": "Find the head that is watering the wrong thing and the device that is not protecting the water.",
+      "id": "walk-zones",
+      "itemNames": {
+        "head-on-sidewalk": "spray head soaking the sidewalk",
+        "pvb-bonnet-drip": "vacuum breaker dripping at its bonnet"
+      },
+      "itemNotes": {
+        "head-on-sidewalk": "This head has been knocked round and is spraying the public sidewalk instead of the bed. It wastes water, leaves a slick path for residents and is exactly what a water agency inspector writes up.",
+        "pvb-bonnet-drip": "The pressure vacuum breaker is dripping from under its bonnet. A little spill at start-up is normal; a steady drip means the air inlet poppet is not seating, and the device that keeps lawn water out of the drinking water needs its tester."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the head that is watering the wrong thing and the device that is not protecting the water.",
+      "targets": [
+        "head-on-sidewalk",
+        "pvb-bonnet-drip"
+      ],
+      "title": "Walk the zones",
+      "why": "Irrigation problems hide in plain sight because nobody watches the system run at five in the morning. Walking the zones finds the head that is wasting water on concrete, and it finds the vacuum breaker that is the only thing between fertilised lawn water and the building's drinking water — AWWA's cross-connection manual treats lawn irrigation as a classic backflow hazard for exactly that reason."
+    },
+    {
+      "cue": "Turn the controller dial to trim zone four's run time for the shaded bed.",
+      "id": "set-run-time",
+      "kind": "turn",
+      "prompt": "Turn the controller dial to trim zone four's run time for the shaded bed.",
+      "target": "controller-dial",
+      "title": "Adjust zone four's run time",
+      "turn": {
+        "axis": "z",
+        "label": "ZONE 4 RUN TIME",
+        "turns": 0.4
+      },
+      "why": "A zone's run time is set for its own sun, soil and plants, and a shaded bed watered like the sunny lawn next to it rots its roots and runs off onto the sidewalk. Trimming the one zone on the dial keeps every other zone's program intact — which is the whole difference between adjusting a controller and resetting it."
+    },
+    {
+      "cue": "Push the probe into the root zone and commit when the reading settles in the band.",
+      "gauge": {
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "SOIL MOISTURE",
+        "missNote": "Outside the band — saturated drowns the roots, dry means the zone isn't reaching them. Read it again, deeper.",
+        "speed": 0.55
+      },
+      "id": "read-soil",
+      "kind": "gauge",
+      "prompt": "Push the probe into the root zone and commit when the reading settles in the band.",
+      "target": "moisture-probe",
+      "title": "Read the soil moisture in the bed",
+      "why": "What the lawn looks like from the path is a poor guide to what is happening at the roots, and overwatering kills a lawn as surely as thirst does. The probe reading in the root zone is what the run time should answer to, and it turns an argument about whether the grass looks dry into a number."
+    },
+    {
+      "cue": "Engine off and key out, spark plug boot off, then the blade block set before any hand goes under.",
+      "id": "lockout-mower",
+      "itemNames": {
+        "blade-block": "blade block set",
+        "mower-engine-off": "engine off, key out",
+        "spark-plug-boot": "spark plug boot pulled"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Key, plug boot, block — setting the block with the plug still connected leaves the engine one blade-turn from firing.",
+      "prompt": "Engine off and key out, spark plug boot off, then the blade block set before any hand goes under.",
+      "targets": [
+        "mower-engine-off",
+        "spark-plug-boot",
+        "blade-block"
+      ],
+      "title": "Lock out the mower for its blade",
+      "why": "A mower blade can turn the engine over when it is moved by hand, and an engine with its plug connected can fire on that one turn. Key out, boot off and a block wedged against the blade is the grounds crew's lockout: nothing can start it, and the blade cannot move while the nut is worked."
+    },
+    {
+      "cue": "Brace the wrench against the blocked blade and hold steady until the nut breaks free.",
+      "holdBreakNote": "You let off before the nut broke free. Jerking at it again is how the wrench slips onto the edge — hold steady until it gives.",
+      "id": "loosen-blade",
+      "kind": "hold",
+      "prompt": "Brace the wrench against the blocked blade and hold steady until the nut breaks free.",
+      "seconds": 5,
+      "target": "blade-wrench",
+      "title": "Hold the wrench while the blade nut breaks loose",
+      "why": "A blade nut is torqued hard and breaks loose all at once, and a hand braced badly slides straight along a sharp edge when it does. Holding the wrench steady against the blocked blade, gloved, pulling away from the edge, is how a blade change ends without stitches."
+    },
+    {
+      "cue": "Carry the matched nozzle to the head, seat it and turn its arc back onto the bed.",
+      "drag": {
+        "missNote": "Not on the head — a nozzle left on the path is a head still spraying the sidewalk.",
+        "radius": 0.5,
+        "to": "head-socket"
+      },
+      "id": "fit-nozzle",
+      "kind": "drag",
+      "prompt": "Carry the matched nozzle to the head, seat it and turn its arc back onto the bed.",
+      "target": "new-nozzle",
+      "title": "Fit a new nozzle on the misaligned head",
+      "why": "Heads in a zone are matched for precipitation rate, and a nozzle swapped for whatever was in the truck makes one patch of the zone flood while the rest stays dry. Seating the matched nozzle and setting its arc back onto the bed fixes both the wasted water and the slick on the sidewalk."
+    },
+    {
+      "cue": "Start zone four from the controller and keep the pressure in the band as the heads pop up.",
+      "holdBreakNote": "The pressure left the band. Short means dry rings, high means mist on the wind — bring it back to full throw.",
+      "id": "run-zone",
+      "kind": "track",
+      "prompt": "Start zone four from the controller and keep the pressure in the band as the heads pop up.",
+      "seconds": 7,
+      "target": "zone-pressure",
+      "title": "Run zone four manually and watch its pressure",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.38,
+        "green": [
+          0.4,
+          0.64
+        ],
+        "label": "ZONE PRESSURE",
+        "rise": 0.44,
+        "start": 0.25
+      },
+      "why": "Every head in a zone is designed for a pressure band: too low and the spray falls short, leaving dry rings; too high and it mists away on the wind. Watching the pressure as the zone runs is also how a broken head or a split lateral announces itself, because pressure falls off a cliff the moment water has an easier way out."
+    },
+    {
+      "cue": "Find the fuel and the tool that will hurt someone on the next round.",
+      "id": "walk-shed",
+      "itemNames": {
+        "cracked-trimmer-guard": "trimmer with a cracked debris guard",
+        "fuel-can-uncapped": "fuel can left uncapped by the shed door"
+      },
+      "itemNotes": {
+        "cracked-trimmer-guard": "The string trimmer's debris guard is split through. Without it, stones and glass come off the line toward the operator's legs and eyes.",
+        "fuel-can-uncapped": "The fuel can's cap is off and it is sitting in the sun by the door. Vapour pours out of it at ankle height toward the mower's hot muffler."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Find the fuel and the tool that will hurt someone on the next round.",
+      "targets": [
+        "fuel-can-uncapped",
+        "cracked-trimmer-guard"
+      ],
+      "title": "Walk the tool shed",
+      "why": "The tool shed is where a grounds crew's worst days usually start: fuel left open near an engine, a guard cracked last week and used anyway. The hazard communication standard covers the fuel and the PPE standard covers the eyes and legs the guard protects — neither helps if the shed is not walked."
+    },
+    {
+      "cue": "Watch the seasonal adjust percentage and commit where it matches this week's weather.",
+      "gauge": {
+        "green": [
+          0.45,
+          0.66
+        ],
+        "label": "SEASONAL ADJUST",
+        "missNote": "Outside the week's band — too low scorches the lawn, too high floods it. Set it again.",
+        "speed": 0.55
+      },
+      "id": "seasonal-adjust",
+      "kind": "gauge",
+      "prompt": "Watch the seasonal adjust percentage and commit where it matches this week's weather.",
+      "target": "seasonal-adjust",
+      "title": "Set the controller's seasonal adjustment",
+      "why": "The seasonal adjustment scales every zone's run time together as the weather changes, which is how a controller follows a heatwave or a cool week without anyone touching the individual programs. Set against the week's weather and the soil reading, it keeps the lawn alive on the least water the season allows."
+    },
+    {
+      "cue": "Close the controller's cabinet and turn its lock.",
+      "id": "lock-controller",
+      "kind": "turn",
+      "prompt": "Close the controller's cabinet and turn its lock.",
+      "target": "controller-cabinet-lock",
+      "title": "Lock the controller cabinet",
+      "turn": {
+        "axis": "z",
+        "label": "CABINET LOCK",
+        "turns": 0.3
+      },
+      "why": "An unlocked controller on the side of a building is one curious resident, contractor or passer-by away from a factory reset or a zone left running all night. Locking it keeps the program that was just set exactly as it was set, and it makes the next change somebody's decision rather than an accident."
+    },
+    {
+      "cue": "Show the contractor where the heads are flagged, hand over the sheared head, and ask how the crew is doing in the heat.",
+      "id": "crew-checkin",
+      "kind": "select",
+      "prompt": "Show the contractor where the heads are flagged, hand over the sheared head, and ask how the crew is doing in the heat.",
+      "target": "contractor-checkin",
+      "title": "Check in with the mowing contractor",
+      "why": "The contract mowing crew will be back next week over the same heads, and a sheared head handed over in person — with the flags that mark the others — is how it does not happen twice. A crew working in the sun with loud machines all morning is also a crew worth asking about water, shade and hearing, which NIOSH's heat guidance puts on the lead, not the calendar."
+    },
+    {
+      "cue": "Log the run-time change, the soil reading, the head repairs, the vacuum breaker drip and the sheared head.",
+      "id": "building-log",
+      "kind": "select",
+      "prompt": "Log the run-time change, the soil reading, the head repairs, the vacuum breaker drip and the sheared head.",
+      "target": "building-log",
+      "title": "Enter the round in the building log",
+      "why": "The building log is where the vacuum breaker's drip is recorded until the certified tester has been, where the sheared head becomes a back-charge to the mowing contract, and where next spring's technician finds out why zone four runs shorter than the others. A controller program with no written history is one that gets reset the first time it is misunderstood."
+    }
+  ],
+  "supportLine": "your union steward or member-assistance contact, or your employer's employee assistance program",
+  "tagline": "The front lawn in a dry summer: the controller set to the season instead of reset, the vacuum breaker walked, the mower serviced under lockout, a sheared head shut at its valve, and the shed walked",
+  "title": "SmartCiti.X~ Landscaping & Irrigation VR",
+  "trade": "Grounds and irrigation technician — SEIU building staff, with IUOE Local 39 engineers on the backflow and the apartment association's CAMT credential",
+  "underwater": null,
+  "weather": "wind"
+}

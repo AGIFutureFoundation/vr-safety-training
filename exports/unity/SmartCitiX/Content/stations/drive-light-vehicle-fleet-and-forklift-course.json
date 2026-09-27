@@ -1,0 +1,609 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "keys-earned",
+    "name": "Keys Earned",
+    "note": "Both check-rides clean: the car backed into its space and the forklift driven load-low, horn at every corner and trailing its tall load — first time"
+  },
+  "category": "Mobility & Transit",
+  "certification": "OSHA 29 CFR 1910.178 powered industrial truck operator training, with formal instruction, practical training and an evaluation of the operator in the workplace, and a truck examined before use; ANSI B56.1 for the counterbalance truck's safe operation; ANSI/ISEA 107 high-visibility apparel on the warehouse floor; the employer's fleet policy for a pool car, built on the state CDL handbook's space-management habits and the same conduct 49 CFR 392 asks of commercial drivers; FMCSA 49 CFR 380 Subpart F entry-level driver training as the Class A path this job leads to; Teamsters (IBT) terminal locals' training",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI B56.1",
+        "id": "ansi-b56-1",
+        "title": "ANSI/ITSDF B56.1 — Safety standard for low lift and high lift trucks"
+      },
+      {
+        "body": "ANSI/ASSP",
+        "citedAs": "ANSI/ISEA 107",
+        "id": "ansi-isea-107",
+        "title": "ANSI/ISEA 107 — High-visibility safety apparel and accessories"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 380 Subpart F",
+        "id": "fmcsa-49-cfr-380-subpart-f",
+        "title": "49 CFR Part 380 Subpart F — Entry-level driver training requirements for Class A and Class B commercial driver licence applicants, delivered by a provider listed on the Training Provider Registry"
+      },
+      {
+        "body": "FMCSA",
+        "citedAs": "49 CFR 392",
+        "id": "fmcsa-49-cfr-392",
+        "title": "49 CFR Part 392 — Driving of commercial motor vehicles, including conduct at railroad grade crossings, hazardous conditions, and the hand-held mobile phone and texting prohibitions"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1910.178",
+        "id": "osha-1910-178",
+        "title": "29 CFR 1910.178 — Powered industrial trucks"
+      },
+      {
+        "body": "state CDL handbook",
+        "citedAs": "state CDL handbook",
+        "id": "state-cdl-handbook",
+        "title": "The commercial driver's license manual each state issues for its CDL knowledge and skills tests — driving safely, space management, speed and following distance, mountain, night and fog driving, railroad crossings and backing"
+      },
+      {
+        "body": "union",
+        "citedAs": "IBT",
+        "id": "teamsters-training",
+        "title": "Teamsters apprenticeship and driver training programmes, including regulated-soil and yard work"
+      }
+    ]
+  },
+  "district": "Mobility & Transit",
+  "domain": "Commercial Driving",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "two-rides",
+        "name": "Two Rides",
+        "note": "Car and forklift drives all finished with every check on time"
+      },
+      {
+        "id": "no-riders",
+        "name": "No Riders",
+        "note": "Never used the phone, gave a ride on the forks, travelled with the load high or jumped from the truck"
+      },
+      {
+        "id": "smooth-course",
+        "name": "Smooth Course",
+        "note": "Every drive and the mast tilt in band with no excursion"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-rides",
+        "name": "Clean Rides",
+        "note": "No corrections anywhere"
+      },
+      {
+        "id": "just-clear",
+        "name": "Just Clear",
+        "note": "Fork height and drives near the centre of their bands"
+      },
+      {
+        "id": "on-time",
+        "name": "On Time",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "LAP",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "New Hire",
+      "Yard Trainee",
+      "Fleet Driver",
+      "Terminal Operator",
+      "Course Certified"
+    ],
+    "system": "Check-ride"
+  },
+  "hazards": {
+    "drl-fork-rider": "You went to give a coworker a lift on the forks. Nobody rides on the forks or the load of a forklift: there is nothing to hold, the operator cannot see them, and a sudden stop or a mast movement throws them off or catches them in the mast. OSHA's forklift rule prohibits riders unless there is a proper seat for them.",
+    "drl-high-travel": "You went to travel with the load raised high. A forklift's stability depends on keeping the load low and tilted back; carried high, a turn or a bump moves the combined centre of gravity outside the stability triangle and the truck tips sideways.",
+    "drl-jump-clear": "You went to jump clear of a tipping forklift. The overhead guard is there to protect a belted operator who stays in the seat; people who jump are the ones caught under the guard as the truck goes over. Stay in, hold on, brace your feet and lean away from the fall.",
+    "drl-phone": "You went to pick up the phone while driving the pool car round the lot. Car parks are full of people walking between vehicles and children who are hard to see, and a hand-held phone takes a hand and your eyes from both; the fleet policy — like 49 CFR 392 for commercial drivers — rules it out while the wheels are turning."
+  },
+  "id": "drive-light-vehicle-fleet-and-forklift-course",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "drl-pull-out",
+      "alert": "A small child has run out from between two parked cars after a ball, straight into the aisle ahead of you.",
+      "cue": "Stop.",
+      "delay": 3,
+      "id": "drl-child",
+      "kind": "Child between cars",
+      "missNote": "You kept driving with a child running into the aisle. Children are below the bonnet line and the sightlines between parked cars are measured in feet — this is how car-park injuries happen.",
+      "seconds": 10,
+      "target": "drl-brake-pedal",
+      "why": "A child between parked cars is invisible until they are in front of you, which is why the lot speed is walking pace. Braking at once is the only answer; the parent, the ball and the rest of it come after the car has stopped.",
+      "wrongNote": "It is the brake. A child has run out in front of you."
+    },
+    {
+      "after": "drl-lift-forward",
+      "alert": "A picker has stepped out from behind the rack end into the cross aisle ahead, reading a scanner, not looking your way.",
+      "cue": "Warn them.",
+      "delay": 3,
+      "id": "drl-walker",
+      "kind": "Pedestrian at the aisle end",
+      "missNote": "You drove on toward a picker in the aisle with no warning. Forklift strikes on pedestrians happen at aisle ends, at low speed, when neither person expected the other.",
+      "seconds": 10,
+      "target": "drl-horn",
+      "why": "Someone reading a scanner has not seen or heard a forklift. The horn gets their eyes up before the forks reach them, and you hold at a crawl until they are clear — pedestrians on a warehouse floor are the reason the site speed and the horn at every blind end exist.",
+      "wrongNote": "It is the horn. A picker is in the cross aisle reading a scanner."
+    }
+  ],
+  "lateNotes": {
+    "drl-fleet-log": "The log is filled in at the end, once both check-rides are done.",
+    "drl-fork-gauge": "The fork height is set once the forklift has passed its pre-use check and you are about to lift the load.",
+    "drl-forklift-key": "The key comes out once the forks are down and the truck is parked at the end of the course."
+  },
+  "name": "Light Vehicle Fleet and Forklift Course",
+  "parSeconds": 340,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "job-readiness-edition",
+    "wojrc-pathway-edition"
+  ],
+  "scene": {
+    "equipment": [
+      {
+        "builder": "forkliftCounterbalance",
+        "count": 1,
+        "kit": "fleet"
+      },
+      {
+        "builder": "sedan",
+        "count": 1,
+        "kit": "fleet"
+      }
+    ],
+    "error": null,
+    "footprint": 2.6,
+    "hits": [
+      "drl-brake-pedal",
+      "drl-checkride-card",
+      "drl-cracked-lamp",
+      "drl-crew-checkin",
+      "drl-fleet-log",
+      "drl-fork-gauge",
+      "drl-fork-rider",
+      "drl-forklift",
+      "drl-forklift-key",
+      "drl-high-travel",
+      "drl-horn",
+      "drl-jump-clear",
+      "drl-key-board",
+      "drl-lift-chains",
+      "drl-lift-horn",
+      "drl-lift-lpg",
+      "drl-loose-mirror",
+      "drl-phone",
+      "drl-pool-car",
+      "drl-soft-tyre",
+      "drl-tilt-lever"
+    ],
+    "meshes": 210
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "drive",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track"
+  ],
+  "steps": [
+    {
+      "cue": "Read the sheet: the pool-car lap round the lot, then the forklift course through the warehouse aisle.",
+      "id": "drl-card",
+      "kind": "select",
+      "prompt": "Read the sheet: the pool-car lap round the lot, then the forklift course through the warehouse aisle.",
+      "target": "drl-checkride-card",
+      "title": "Read the check-ride sheet",
+      "why": "A check-ride is an assessment with a sheet, and reading it first tells you what the supervisor will be watching: the walk-round, full stops, backing into the space, then the forklift's pre-use check, fork height, the horn at the aisle end and travelling in reverse with a tall load. Knowing the standard before you are measured against it is not cheating; it is the point."
+    },
+    {
+      "cue": "Walk round the car before you get in. Find what the last driver left for you.",
+      "id": "drl-walk-round",
+      "itemNames": {
+        "drl-cracked-lamp": "the cracked tail lamp",
+        "drl-loose-mirror": "the loose door mirror",
+        "drl-soft-tyre": "the soft rear tyre"
+      },
+      "itemNotes": {
+        "drl-cracked-lamp": "A cracked tail lamp lens. It still lights, but water gets in and it fails; the next driver needs to know, and so does the fleet desk.",
+        "drl-loose-mirror": "A door mirror that droops when touched. It will not hold its setting on the first bump, and a mirror you cannot trust is one you stop using.",
+        "drl-soft-tyre": "A rear tyre visibly low. A pool car with a soft tyre handles badly and runs hot; it is reported, and pumped or changed, before the lap."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Walk round the car before you get in. Find what the last driver left for you.",
+      "targets": [
+        "drl-soft-tyre",
+        "drl-cracked-lamp",
+        "drl-loose-mirror"
+      ],
+      "title": "Walk round the pool car",
+      "why": "A pool car is driven by a different person every day, and nobody owns its problems unless the walk-round finds them. Tyres, lamps and mirrors take a minute to check, and every one of them is something the last driver noticed and did not report — or did not notice at all. You are the one signing for it now."
+    },
+    {
+      "cue": "Check your mirror before you pull out, signal right into the aisle, check right, and hold the lot speed.",
+      "drive": {
+        "bandLabel": "lot speed, per the posted limit",
+        "checkWindow": 1.4,
+        "checks": [
+          {
+            "at": 0,
+            "kind": "mirror-left",
+            "note": "Mirror and a look over the shoulder before you pull out of the space."
+          },
+          {
+            "at": 1,
+            "kind": "signal-right",
+            "note": "Signal right into the aisle — the people walking there need to know too."
+          },
+          {
+            "at": 3,
+            "kind": "mirror-right",
+            "note": "Right mirror past the parked cars: anyone stepping out from between them."
+          }
+        ],
+        "controls": {
+          "brake": "drl-brake-pedal"
+        },
+        "graceSeconds": 1.8,
+        "laneWidth": 1.2,
+        "path": [
+          [
+            -5.2,
+            -2.4
+          ],
+          [
+            -5.2,
+            -4.4
+          ],
+          [
+            -4.4,
+            -5.6
+          ],
+          [
+            -2.6,
+            -6
+          ],
+          [
+            0,
+            -6
+          ]
+        ],
+        "sceneRate": 0.18,
+        "speedBand": [
+          3,
+          10
+        ]
+      },
+      "holdBreakNote": "Out of the lane or out of the band in the lot — slow down; the lot speed is walking pace with room to stop.",
+      "id": "drl-pull-out",
+      "kind": "drive",
+      "prompt": "Check your mirror before you pull out, signal right into the aisle, check right, and hold the lot speed.",
+      "target": "drl-pool-car",
+      "title": "Pull out and round the lot",
+      "why": "A car park is where slow-speed crashes and pedestrian injuries cluster, because everyone is distracted and the sightlines are short between parked vehicles. A mirror and a look before pulling out, a signal at the turn into the aisle, and a speed at which you can stop for someone stepping out from between cars are the habits the check-ride is looking for."
+    },
+    {
+      "cue": "Hold a full stop at the stop sign, look both ways along the service road, then go.",
+      "holdBreakNote": "The car rolled before the look was done — a full stop means wheels still until you have checked both ways.",
+      "id": "drl-stop-sign",
+      "kind": "hold",
+      "prompt": "Hold a full stop at the stop sign, look both ways along the service road, then go.",
+      "seconds": 3,
+      "target": "drl-brake-pedal",
+      "title": "Full stop at the lot's stop sign",
+      "why": "The lot's exit onto the service road carries trucks as well as cars, and a truck driver in a high cab may not see a small car at all. A full stop — wheels still, not a roll — with a look each way is what gives you time to see a tractor coming, and it is the single thing a fleet check-ride most often fails people on."
+    },
+    {
+      "cue": "Back the car into the marked space, checking both mirrors, so it can leave forward.",
+      "drive": {
+        "bandLabel": "creep, in reverse",
+        "checkWindow": 1.3,
+        "checks": [
+          {
+            "at": 0,
+            "kind": "mirror-left",
+            "note": "Left mirror and over your shoulder: the aisle behind you is clear to reverse into."
+          },
+          {
+            "at": 2,
+            "kind": "mirror-right",
+            "note": "Right mirror: the car in the next space is clear of your front corner as you swing."
+          },
+          {
+            "at": 4,
+            "kind": "mirror-left",
+            "note": "Left mirror: square in the lines, and stop."
+          }
+        ],
+        "controls": {
+          "brake": "drl-brake-pedal"
+        },
+        "graceSeconds": 2,
+        "laneWidth": 1.1,
+        "path": [
+          [
+            0,
+            -6
+          ],
+          [
+            1,
+            -6.1
+          ],
+          [
+            1.7,
+            -6.6
+          ],
+          [
+            1.9,
+            -7.6
+          ],
+          [
+            1.9,
+            -8.4
+          ]
+        ],
+        "reverse": true,
+        "sceneRate": 0.26,
+        "speedBand": [
+          1,
+          4
+        ]
+      },
+      "holdBreakNote": "Out of the space's lane or too fast in reverse — creep it in.",
+      "id": "drl-back-in",
+      "kind": "drive",
+      "prompt": "Back the car into the marked space, checking both mirrors, so it can leave forward.",
+      "target": "drl-pool-car",
+      "title": "Back into the space",
+      "why": "Backing into a space when you arrive means leaving forward later, when the lot is busier and you are in more of a hurry — the reverse is done at the quiet moment with a clear view of the space. Most fleet policies ask for it for exactly that reason. Slow, with both mirrors and a look over the shoulder, is the whole technique."
+    },
+    {
+      "cue": "Check the forklift before you use it: forks and mast chains, then the horn, then the LPG tank and its coupling.",
+      "id": "drl-pre-use",
+      "itemNames": {
+        "drl-lift-chains": "mast chains and forks — no cracks, even tension",
+        "drl-lift-horn": "horn sounds",
+        "drl-lift-lpg": "LPG tank secure, no smell at the coupling"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Forks and chains first — the load hangs from them — then the horn, then the tank.",
+      "prompt": "Check the forklift before you use it: forks and mast chains, then the horn, then the LPG tank and its coupling.",
+      "targets": [
+        "drl-lift-chains",
+        "drl-lift-horn",
+        "drl-lift-lpg"
+      ],
+      "title": "Forklift pre-use check",
+      "why": "OSHA's forklift rule has a truck examined before it is placed in service, and a truck with a defect taken out of service until it is fixed. The forks and chains carry the load over your head, the horn is how you are heard at every blind corner, and a leaking LPG coupling is a fire source under your seat — each checked in a minute, every shift."
+    },
+    {
+      "cue": "Lower the loaded forks to travel height — just clear of the floor — and commit.",
+      "gauge": {
+        "green": [
+          0.3,
+          0.52
+        ],
+        "label": "FORK HEIGHT",
+        "missNote": "That height is wrong for travel — set the forks just clear of the floor before you move.",
+        "speed": 0.7
+      },
+      "id": "drl-fork-height",
+      "kind": "gauge",
+      "prompt": "Lower the loaded forks to travel height — just clear of the floor — and commit.",
+      "target": "drl-fork-gauge",
+      "title": "Set the forks for travel",
+      "why": "A load carried low keeps the truck's centre of gravity inside its stability triangle, so a turn or a bump rocks it rather than tips it. Too low and the fork tips catch a floor joint or a dock plate; too high and the truck is top-heavy. Just clear of the floor, with the mast tilted back, is how the course wants it carried."
+    },
+    {
+      "cue": "Beacon on, drive the aisle at the site speed, and sound the horn at the aisle end before you turn.",
+      "drive": {
+        "bandLabel": "site speed limit",
+        "checkWindow": 1.4,
+        "checks": [
+          {
+            "at": 0,
+            "kind": "lights",
+            "note": "Beacon and blue spot on before you move — they announce the truck before anyone sees it."
+          },
+          {
+            "at": 2,
+            "kind": "horn",
+            "note": "Horn at the aisle end, before you turn — anyone crossing needs the warning first."
+          },
+          {
+            "at": 4,
+            "kind": "mirror-left",
+            "note": "Look along the cross aisle as you come round: the path is clear before the forks swing into it."
+          }
+        ],
+        "controls": {
+          "brake": "drl-brake-pedal",
+          "horn": "drl-horn"
+        },
+        "graceSeconds": 1.8,
+        "laneWidth": 1.2,
+        "path": [
+          [
+            4.6,
+            -3.6
+          ],
+          [
+            4.6,
+            -6
+          ],
+          [
+            4.6,
+            -8
+          ],
+          [
+            3.8,
+            -9
+          ],
+          [
+            2.6,
+            -9.2
+          ]
+        ],
+        "sceneRate": 0.28,
+        "speedBand": [
+          2,
+          6
+        ]
+      },
+      "holdBreakNote": "Out of the aisle's lane or over the site speed — slow down and keep the load centred.",
+      "id": "drl-lift-forward",
+      "kind": "drive",
+      "prompt": "Beacon on, drive the aisle at the site speed, and sound the horn at the aisle end before you turn.",
+      "target": "drl-forklift",
+      "title": "Down the aisle, horn at the end",
+      "why": "A warehouse aisle is a corridor with blind ends, and the people walking across the end of it cannot see a forklift coming. The beacon lights the floor ahead of you, a steady speed within the site limit keeps you able to stop, and the horn at the end of the aisle tells anyone crossing that a truck is about to appear — before it does."
+    },
+    {
+      "cue": "Hold the mast tilted back just enough to cradle the tall load while you pick it up.",
+      "holdBreakNote": "The tilt drifted out of band — steady the load back against the carriage.",
+      "id": "drl-tilt",
+      "kind": "track",
+      "prompt": "Hold the mast tilted back just enough to cradle the tall load while you pick it up.",
+      "seconds": 5,
+      "target": "drl-tilt-lever",
+      "title": "Cradle the load with the mast tilt",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.44,
+        "green": [
+          0.4,
+          0.62
+        ],
+        "label": "MAST TILT",
+        "rise": 0.5,
+        "start": 0.2
+      },
+      "why": "Tilting the mast back cradles the load against the carriage so it cannot slide forward off the forks when the truck brakes. Too little tilt and the load rides out on the tips; too much and a tall load leans back toward the operator. Holding it steady in the band while you take the load is what makes the next leg — in reverse — safe."
+    },
+    {
+      "cue": "The load blocks your view forward, so travel in reverse: horn first, look where you are going over each shoulder.",
+      "drive": {
+        "bandLabel": "site speed, in reverse",
+        "checkWindow": 1.3,
+        "checks": [
+          {
+            "at": 0,
+            "kind": "horn",
+            "note": "Horn before you reverse — the aisle behind you is where people walk."
+          },
+          {
+            "at": 1,
+            "kind": "mirror-left",
+            "note": "Over your left shoulder as you come round the corner."
+          },
+          {
+            "at": 3,
+            "kind": "mirror-right",
+            "note": "Over your right shoulder down the straight: the aisle is clear to the parking bay."
+          }
+        ],
+        "controls": {
+          "brake": "drl-brake-pedal"
+        },
+        "graceSeconds": 2,
+        "laneWidth": 1.2,
+        "path": [
+          [
+            2.6,
+            -9.2
+          ],
+          [
+            3.8,
+            -9
+          ],
+          [
+            4.6,
+            -8
+          ],
+          [
+            4.6,
+            -5.6
+          ]
+        ],
+        "reverse": true,
+        "sceneRate": 0.3,
+        "speedBand": [
+          1,
+          4
+        ]
+      },
+      "holdBreakNote": "Out of the aisle's lane or too fast in reverse — slow, and look where you are going.",
+      "id": "drl-lift-reverse",
+      "kind": "drive",
+      "prompt": "The load blocks your view forward, so travel in reverse: horn first, look where you are going over each shoulder.",
+      "target": "drl-forklift",
+      "title": "Reverse out behind the tall load",
+      "why": "OSHA's forklift rule is plain: when the load blocks the view forward, the operator travels with the load trailing — in reverse — looking in the direction of travel. Sounding the horn before you move and turning to look over each shoulder, rather than trusting a mirror, is how you see the person or the rack upright behind you."
+    },
+    {
+      "cue": "Forks flat on the floor, brake set, then take the key and hang it on the key board.",
+      "drag": {
+        "missNote": "Not on the board — hang the key on its hook where the next operator signs it out.",
+        "radius": 0.45,
+        "to": "drl-key-board"
+      },
+      "id": "drl-park-lift",
+      "kind": "drag",
+      "prompt": "Forks flat on the floor, brake set, then take the key and hang it on the key board.",
+      "target": "drl-forklift-key",
+      "title": "Park it: forks down, key out",
+      "why": "A parked forklift with its forks raised is a shin and head strike waiting for someone walking past, and one with the key left in it is one anybody can drive — trained or not. Forks flat on the floor, the parking brake set and the key on the board means the truck is harmless where it stands and only an authorised operator takes it out next."
+    },
+    {
+      "cue": "Go over both rides with the supervisor: the child in the lot, the pedestrian at the aisle end, and how it felt.",
+      "id": "drl-debrief",
+      "kind": "select",
+      "prompt": "Go over both rides with the supervisor: the child in the lot, the pedestrian at the aisle end, and how it felt.",
+      "target": "drl-crew-checkin",
+      "title": "Debrief with the supervisor",
+      "why": "A check-ride's debrief is where the supervisor explains what they saw and why it matters, and where a new hire can say what felt shaky — the child who ran out, the person who stepped into the aisle. Saying it out loud to the person who decides whether you get the keys is uncomfortable, and it is how the training actually lands."
+    },
+    {
+      "cue": "Write the pool car's mileage and defects, and sign the forklift's pre-use checklist.",
+      "id": "drl-log",
+      "kind": "select",
+      "prompt": "Write the pool car's mileage and defects, and sign the forklift's pre-use checklist.",
+      "target": "drl-fleet-log",
+      "title": "Fill in the vehicle logs",
+      "why": "The pool car's log and the forklift's checklist are how the next person learns what you found: the soft tyre, the cracked lamp, the mirror that will not hold. An unrecorded defect is one the fleet desk cannot fix and the next driver inherits, and the forklift's signed checklist is the record the employer keeps that the truck was examined before use."
+    }
+  ],
+  "supportLine": "your employer's employee assistance programme, or your Teamsters steward if you are not sure how to reach it",
+  "tagline": "Two check-rides before the keys: a pool car walked round, pulled out, stopped fully and backed into its space, then a forklift checked, forks low and tilted back, horn at the aisle end and in reverse behind a tall load",
+  "title": "SmartCiti.X~ Light Vehicle Fleet and Forklift Course VR",
+  "trade": "Freight terminal new hire, Job Readiness Edition deep driving — a Teamsters terminal's fleet check-ride and forklift course, building on the habits the entry-level driver training rule (FMCSA 49 CFR 380 Subpart F) teaches",
+  "underwater": null,
+  "weather": "clear"
+}

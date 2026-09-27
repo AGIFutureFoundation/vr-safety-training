@@ -1,0 +1,365 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "rope-cleared",
+    "name": "Rope Cleared",
+    "note": "A suspender rope inspected from the traveller, start to finish, with two lanyards live and the wire count against the rejection criterion"
+  },
+  "category": "Construction & Structural Trades",
+  "certification": "Ironworkers (IW) bridge inspection crew; OSHA 29 CFR 1926 Subpart M fall protection and ANSI/ASSP Z359 fall-arrest systems for 100% tie-off on a moving platform; the National Bridge Inspection Standards (23 CFR 650 Subpart C) and the AASHTO Manual for Bridge Evaluation governing suspender-rope condition rating and the wire-rope rejection criteria",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "AASHTO",
+        "citedAs": "AASHTO",
+        "id": "aashto-bridge-inspection",
+        "title": "AASHTO Manual for Bridge Element Inspection and the LRFD Bridge Design Specifications"
+      },
+      {
+        "body": "union",
+        "citedAs": "Ironworkers",
+        "id": "ironworkers-impact",
+        "title": "Ironworkers and IMPACT — apprenticeship and safety training for structural, ornamental and reinforcing ironwork"
+      },
+      {
+        "body": "NBIS",
+        "citedAs": "National Bridge Inspection Standards",
+        "id": "nbis-23-cfr-650",
+        "title": "23 CFR Part 650 Subpart C — National Bridge Inspection Standards"
+      },
+      {
+        "body": "OSHA",
+        "citedAs": "29 CFR 1926",
+        "id": "osha-1926",
+        "title": "29 CFR 1926 — Safety and health regulations for construction"
+      }
+    ]
+  },
+  "district": null,
+  "domain": "Construction",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "two-point-live",
+        "name": "Two-Point Live",
+        "note": "Never rode the cable on one lanyard"
+      },
+      {
+        "id": "flux-steady",
+        "name": "Flux Steady",
+        "note": "Held the flux head inside the coupling band the whole pass"
+      },
+      {
+        "id": "clean-finding",
+        "name": "Clean Finding",
+        "note": "No corrections from the plan to the report"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "rope-clean",
+        "name": "Rope Clean",
+        "note": "No corrections through the whole inspection"
+      },
+      {
+        "id": "steady-pass",
+        "name": "Steady Pass",
+        "note": "Held the flux pass with no dropout"
+      },
+      {
+        "id": "span-inside-par",
+        "name": "Span Inside Par",
+        "note": "Finished inside 80% of par"
+      }
+    ],
+    "currency": "SPAN",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Ground Hand",
+      "Cable Rider",
+      "Rope Inspector",
+      "Lead Inspector",
+      "Bridge Inspection Authority Certified"
+    ],
+    "system": "Bridge Inspection Authority"
+  },
+  "hazards": {
+    "frayed-lanyard-rack": "That lanyard's stitching has let go at the shock pack. ANSI/ASSP Z359 retires a lanyard on any sign of damage to the webbing or the pack, because a shock absorber that has already started to fail does not announce how much capacity is left in it — it either holds or it does not, and there is no way to tell which from the rack.",
+    "loose-tool-on-traveller": "That wrench is sitting untethered on the traveller's grating, over the water. Nothing about a moving platform keeps a loose tool from walking to the low edge on its own — every bump in the ride does a little of the work — and anything that goes over from up here reaches whatever is below with no warning at all.",
+    "no-exclusion-below": "There is no marked exclusion zone in the water under the traveller. A boat, a barge, or a work skiff can pass directly beneath a platform that is actively inspecting a suspender rope, and the people below have no way to know that is a bad place to be — the exclusion has to be set and held from up here, because nobody down there can see it coming.",
+    "unclipped-cable-transfer": "You reached past the traveller's rail toward the cable saddle without the second lanyard engaged. For the length of that reach you were connected to nothing — the whole reason two lanyards ride this cable is so one is always live while the other moves, and a transfer with neither clipped is a transfer with no fall protection at all, over open water."
+  },
+  "id": "bridge-cable-inspection",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "flux-pass",
+      "alert": "A gust off the water has pushed the traveller past its posted wind limit — you can feel it rocking on the cable.",
+      "cue": "Park it on the brake before you touch anything else.",
+      "delay": 4,
+      "id": "wind-gust-limit",
+      "kind": "Wind",
+      "missNote": "The pass carried on with the traveller rocking past its wind limit. An inspection reading taken from a platform that will not hold still is a reading nobody downstream can trust, and the platform itself was one harder gust from swinging into the tower.",
+      "seconds": 13,
+      "target": "traveller-brake",
+      "why": "A cable traveller is a suspended access platform, not a fixed one, and every suspended platform carries a wind rating past which it stops being predictable to ride — the manufacturer sets that limit because a gust strong enough to rock the platform is strong enough to swing it into the cable, the tower, or the rope it is meant to be inspecting. The brake is what turns a platform still exposed to the wind into one that is at least not also moving on its own, and it is the first thing that happens before the gust decides where the traveller goes next.",
+      "wrongNote": "It is the brake. Nothing about the rope matters while the platform underneath you is still moving in the wind."
+    },
+    {
+      "after": "photograph",
+      "alert": "The camera bag has worked its way to the traveller's low rail and is easing toward the edge, straight over the water below.",
+      "cue": "Get it tethered before it goes over.",
+      "delay": 3,
+      "id": "tool-over-rail",
+      "kind": "Dropped object",
+      "missNote": "The bag went over the rail. It reached the water long before anyone below could have seen it coming, and everything the report needed from that camera went with it.",
+      "seconds": 11,
+      "target": "tool-tether",
+      "why": "Anything not clipped down on a moving platform finds the low edge eventually — the traveller never sits perfectly level, and every small correction on the cable nudges whatever is loose a little further toward whichever rail is downhill. Over water there is no ground crew to shout a warning and no hard hat below that changes the outcome; the only real control is tethering it before the platform ever moves.",
+      "wrongNote": "It is the tool tether. Nothing else on this platform matters while gear is sliding toward open water."
+    }
+  ],
+  "lateNotes": {
+    "flux-head": "The flux head doesn't go on the rope until both lanyards are live and the brakes are set — the traveller has to be trusted before the inspection starts, not during it.",
+    "report-panel": "The report gets the wire count and the photograph together, not before either one exists."
+  },
+  "name": "Bridge Cable Inspection",
+  "parSeconds": 310,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "bridge-and-structural"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "broken-strand-visible",
+      "cable-crank",
+      "camera",
+      "corroded-socket",
+      "finding-tag",
+      "flux-head",
+      "frayed-lanyard-rack",
+      "inspection-plan",
+      "loose-tool-on-traveller",
+      "no-exclusion-below",
+      "report-panel",
+      "second-lanyard-anchor",
+      "tool-tether",
+      "traveller-anchor",
+      "traveller-brake",
+      "unclipped-cable-transfer",
+      "water-stain-band",
+      "wire-counter"
+    ],
+    "meshes": 172
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Confirm which suspender rope is due this cycle and what triggered the inspection.",
+      "id": "plan",
+      "kind": "select",
+      "prompt": "Confirm which suspender rope is due this cycle and what triggered the inspection.",
+      "target": "inspection-plan",
+      "title": "Read the bridge inspection plan",
+      "why": "The National Bridge Inspection Standards set the cycle this rope is due on, and the plan is what tells the crew which rope, which socket, and what condition rating triggered a closer look this time rather than the routine walk-by. Riding out to the wrong rope, or riding out without knowing what the last report flagged, means the inspection answers a question nobody actually asked."
+    },
+    {
+      "cue": "Connect your fall-arrest lanyard to the traveller's dedicated anchor point before boarding.",
+      "id": "anchor-clip",
+      "kind": "select",
+      "prompt": "Connect your fall-arrest lanyard to the traveller's dedicated anchor point before boarding.",
+      "target": "traveller-anchor",
+      "title": "Clip the primary lanyard to the traveller anchor",
+      "why": "The traveller's anchor is rated for a fall-arrest connection and inspected before the shift the way any anchor under ANSI/ASSP Z359 has to be — it is the one point on this platform a rider's life is allowed to depend on. Boarding before it is clipped means trusting the platform's rail and grating to do a job neither one is rated for."
+    },
+    {
+      "cue": "Connect the second lanyard to the independent anchor point so you are never down to one connection.",
+      "id": "second-lanyard",
+      "kind": "select",
+      "prompt": "Connect the second lanyard to the independent anchor point so you are never down to one connection.",
+      "target": "second-lanyard-anchor",
+      "title": "Clip the second lanyard to its own anchor",
+      "why": "One lanyard is a single point of failure the moment it is unclipped to move to something else — the second lanyard, on its own anchor, is what makes a transfer along the cable a hundred percent tie-off instead of a hopeful one. OSHA 1926 Subpart M and the union's own bridge-crew practice both start from the same fact: a rider with two independent connections can always keep one live while the other moves."
+    },
+    {
+      "cue": "Check the brake wheel is engaged and the traveller is holding its position on the cable before work starts.",
+      "id": "brake-check",
+      "kind": "select",
+      "prompt": "Check the brake wheel is engaged and the traveller is holding its position on the cable before work starts.",
+      "target": "traveller-brake",
+      "title": "Confirm the traveller's brakes are set",
+      "why": "A traveller that has not been proven to hold on the cable is a platform that might still be drifting when the crank lets go of it — the brake is what the crank hands off to, and it is checked before the ride starts rather than assumed from the fact that the platform has not moved yet. It is also the control this whole inspection comes back to the moment the wind does something the crew did not plan for."
+    },
+    {
+      "cue": "Turn the hand crank to move the traveller along the cable until it sits under the suspender socket.",
+      "id": "advance-traveller",
+      "kind": "turn",
+      "prompt": "Turn the hand crank to move the traveller along the cable until it sits under the suspender socket.",
+      "target": "cable-crank",
+      "title": "Crank the traveller into position",
+      "turn": {
+        "axis": "z",
+        "label": "CABLE CRANK",
+        "turns": 1.2
+      },
+      "why": "The traveller only reaches the rope by riding the main cable itself, hand over hand on a geared crank rather than a powered drive, because a hand crank is a control the rider can stop instantly and a motor is not. Overshooting the socket and cranking back costs time; overshooting it and grabbing for the rope to correct costs a hand off the crank while the platform is still moving."
+    },
+    {
+      "cue": "Look the rope over top to bottom and click the three things a trained eye catches before any instrument does.",
+      "id": "visual-walk",
+      "itemNames": {
+        "broken-strand-visible": "a broken strand, visible by eye",
+        "corroded-socket": "corrosion at the rope socket",
+        "water-stain-band": "a discoloured band lower on the rope"
+      },
+      "itemNotes": {
+        "broken-strand-visible": "A strand has let go far enough that the wires are standing proud of the lay. One broken strand seen by eye means there are almost always more that the eye alone will not find, which is exactly why the flux head follows the visual walk rather than replacing it.",
+        "corroded-socket": "The socket where this rope terminates into the cable band shows rust bleeding out from the seam — corrosion here works on the inside of the socket long before it ever marks the wire, and by the time it is visible from outside the strength it has already taken is not visible at all.",
+        "water-stain-band": "A band lower on the rope is a different colour than the wire above and below it — water has been sitting against the strand there rather than running off, and that is where corrosion starts on a rope that looks sound everywhere else."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Look the rope over top to bottom and click the three things a trained eye catches before any instrument does.",
+      "targets": [
+        "corroded-socket",
+        "broken-strand-visible",
+        "water-stain-band"
+      ],
+      "title": "Walk the rope visually before it goes on flux",
+      "why": "The visual walk-down catches what a trained eye is good at — a socket that has started to weep rust, a strand that has actually parted, a band where water sits instead of shedding — before the flux head ever goes on the wire. AASHTO's condition-rating guidance treats the visual inspection as its own pass rather than a formality ahead of the instrument, because the two methods find different things and neither one substitutes for the other."
+    },
+    {
+      "cue": "Hold the flux head against the rope and keep it in steady contact for the full pass.",
+      "holdBreakNote": "Coupling dropped out of band — that stretch of rope was not actually read by the instrument, whatever the pass log says.",
+      "id": "flux-pass",
+      "kind": "track",
+      "prompt": "Hold the flux head against the rope and keep it in steady contact for the full pass.",
+      "seconds": 7,
+      "target": "flux-head",
+      "title": "Run the magnetic-flux head down the rope",
+      "track": {
+        "drift": 0.12,
+        "fall": 0.45,
+        "green": [
+          0.38,
+          0.6
+        ],
+        "label": "FLUX HEAD COUPLING",
+        "rise": 0.5,
+        "start": 0.1
+      },
+      "why": "A magnetic-flux head finds broken wires inside the rope's core that no visual walk-down will ever see, because a flux reading reports on wire that a socket, a wrap, or the rope's own outer strands are hiding from the eye. The reading only means anything if the head keeps steady coupling with the wire the whole length of the pass — lift it off for a stretch and that stretch of rope goes back into service unread rather than cleared."
+    },
+    {
+      "cue": "Read the wire counter and commit the count against the rope's rejection criterion.",
+      "gauge": {
+        "green": [
+          0,
+          0.18
+        ],
+        "label": "BROKEN WIRES / LENGTH",
+        "missNote": "That count is past the rejection criterion for this rope. It gets flagged for the engineer, not rounded down to 'acceptable' because the rest of the rope looks fine.",
+        "speed": 0.62
+      },
+      "id": "wire-count",
+      "kind": "gauge",
+      "prompt": "Read the wire counter and commit the count against the rope's rejection criterion.",
+      "target": "wire-counter",
+      "title": "Count the broken wires against the rejection criterion",
+      "why": "A wire rope is rated to lose a certain number of wires in a given length before the AASHTO Manual for Bridge Evaluation calls it rejected, and that number is a count, not an impression — 'a few broken wires' means something different to every person who says it. The counter turns the flux pass and the visual walk into the one number the report and the next inspection cycle can actually compare against."
+    },
+    {
+      "cue": "Carry the finding tag from the tool rack to the corroded socket and mark it in place.",
+      "drag": {
+        "missNote": "Not on the socket — the tag has to sit on the actual finding, not somewhere near it on the rope.",
+        "radius": 0.3,
+        "to": "corroded-socket"
+      },
+      "id": "mark-finding",
+      "kind": "drag",
+      "prompt": "Carry the finding tag from the tool rack to the corroded socket and mark it in place.",
+      "target": "finding-tag",
+      "title": "Tag the finding at the socket",
+      "why": "A finding that lives only in someone's memory of where it was on the rope is a finding the next crew has to relocate from scratch. The tag stays on the rope at the exact point of the defect so the engineer reviewing the report, and the crew that comes back to re-inspect it, are looking at the same six inches of wire the flux head actually read."
+    },
+    {
+      "cue": "Photograph the socket with the tag in frame before you leave it.",
+      "id": "photograph",
+      "kind": "select",
+      "prompt": "Photograph the socket with the tag in frame before you leave it.",
+      "target": "camera",
+      "title": "Photograph the tagged finding",
+      "why": "A written description of corrosion is one inspector's judgment call; a photograph with the tag in frame is evidence the engineer reviewing the report can judge for themselves. The photograph is taken with the tag already placed so the picture and the physical marker point at exactly the same six inches of rope."
+    },
+    {
+      "cue": "Enter the wire count, the socket condition and the photograph reference into the report.",
+      "id": "report",
+      "kind": "select",
+      "prompt": "Enter the wire count, the socket condition and the photograph reference into the report.",
+      "target": "report-panel",
+      "title": "Log the finding in the inspection report",
+      "why": "The report is the only thing that leaves this platform — the rope stays where it is, the traveller goes back to the tower, and everything the owner's inspector and the engineer act on afterward comes from what got written down here. A finding that was seen but never logged is, as far as the bridge's maintenance record is concerned, a finding that never happened."
+    },
+    {
+      "cue": "Turn the hand crank to bring the traveller back off the span to the tower platform.",
+      "id": "retract-traveller",
+      "kind": "turn",
+      "prompt": "Turn the hand crank to bring the traveller back off the span to the tower platform.",
+      "target": "cable-crank",
+      "title": "Crank the traveller back to the tower",
+      "turn": {
+        "axis": "z",
+        "label": "CABLE CRANK — RETURN",
+        "turns": 1.2
+      },
+      "why": "The return ride carries the same rule as the ride out: hand over hand on the crank, not released to gravity or momentum, because a traveller allowed to freewheel back down a sagging cable picks up speed with nothing but the brake to stop it, and the brake is meant to be a parking control, not a way to arrest a runaway platform."
+    },
+    {
+      "cue": "Unclip the second lanyard first, then the primary, only once you are standing on the tower platform itself.",
+      "id": "unclip-descend",
+      "itemNames": {
+        "second-lanyard-anchor": "second lanyard",
+        "traveller-anchor": "primary lanyard"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Second lanyard first, primary last — unclipping the primary while the second is still your only connection defeats the reason there were ever two.",
+      "prompt": "Unclip the second lanyard first, then the primary, only once you are standing on the tower platform itself.",
+      "targets": [
+        "second-lanyard-anchor",
+        "traveller-anchor"
+      ],
+      "title": "Unclip in reverse order at the tower platform",
+      "why": "Unclipping happens in the reverse of how the rider clipped in, and only once both feet are on a platform that needs no lanyard at all — the second lanyard comes off first because the primary is the one connection kept live the longest, right up until there is solid decking underfoot and nothing left to fall from."
+    }
+  ],
+  "supportLine": null,
+  "tagline": "A suspender rope walked from the traveller: two lanyards live, the brakes set, the wires counted against the rejection criterion, and the finding photographed before the report is signed",
+  "title": "SmartCiti.X~ Bridge Cable Inspection VR",
+  "trade": "Ironworker — bridge inspection, with the owner's inspector",
+  "underwater": null,
+  "weather": "wind"
+}

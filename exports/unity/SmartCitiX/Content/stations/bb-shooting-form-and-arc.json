@@ -1,0 +1,429 @@
+{
+  "app": "smartcity",
+  "badge": {
+    "id": "nothing-but-arc",
+    "name": "Nothing but Arc",
+    "note": "The shot built right, the arc and release in band, and nobody under the rim or shooting on empty"
+  },
+  "category": "Youth Sports & Coaching",
+  "certification": "USA Basketball youth development guidelines on ball size and rim height scaled to age, shooting progressions and managing repetition with rest; NFHS guidance on equipment in safe condition and padded goal supports; CDC Heads Up for a knock to the head under a crowded rim; the U.S. Center for SafeSport for observable, encouraging correction; the American Red Cross first aid course for a player down under the basket",
+  "citations": {
+    "sources": [],
+    "standards": [
+      {
+        "body": "CDC",
+        "citedAs": "CDC Heads Up",
+        "id": "cdc-heads-up",
+        "title": "CDC Heads Up concussion-in-youth-sports training for coaches, parents and athletes: recognise the signs, remove the player from play, refer for evaluation, and return only with clearance"
+      },
+      {
+        "body": "NFHS",
+        "citedAs": "NFHS",
+        "id": "nfhs-basketball-rules",
+        "title": "National Federation of State High School Associations (NFHS) basketball rules and its sports medicine advisory guidance on concussion, heat and hydration for school sport"
+      },
+      {
+        "body": "Red Cross",
+        "citedAs": "American Red Cross first aid",
+        "id": "red-cross-first-aid-course",
+        "title": "American Red Cross first aid, CPR and AED course for coaches and staff: check the scene, call, care, and hand over to emergency services"
+      },
+      {
+        "body": "U.S. Center for SafeSport",
+        "citedAs": "U.S. Center for SafeSport",
+        "id": "safesport-code",
+        "title": "U.S. Center for SafeSport abuse-prevention training and policies for adults who work with young athletes: two adults present, observable and interruptible interactions, and reporting"
+      },
+      {
+        "body": "USA Basketball",
+        "citedAs": "USA Basketball",
+        "id": "usa-basketball-youth-guidelines",
+        "title": "USA Basketball youth development guidelines: age-appropriate play, practice length and frequency, rest and multi-sport participation for young players, and the coach licence that teaches them"
+      }
+    ]
+  },
+  "district": "gym-court",
+  "domain": "Youth Sports",
+  "flat": false,
+  "game": {
+    "badges": [
+      {
+        "id": "safe-hoop",
+        "name": "Safe Hoop",
+        "note": "Every defect on the practice hoop found first time"
+      },
+      {
+        "id": "clear-lane",
+        "name": "Clear Lane",
+        "note": "No unsafe action in the whole shooting block"
+      },
+      {
+        "id": "true-arc",
+        "name": "True Arc",
+        "note": "Arc and release timing both inside the band"
+      }
+    ],
+    "challenges": [
+      {
+        "id": "clean-form",
+        "name": "Clean Form",
+        "note": "No corrections anywhere in the block"
+      },
+      {
+        "id": "steady-arc",
+        "name": "Steady Arc",
+        "note": "Held the arc in band the whole time"
+      },
+      {
+        "id": "quick-release",
+        "name": "Quick Release",
+        "note": "Practice log reached inside 80% of par"
+      }
+    ],
+    "currency": "MAKES",
+    "rankAt": [
+      0,
+      900,
+      2200,
+      4000,
+      6500
+    ],
+    "ranks": [
+      "Rebounder",
+      "Shooting Helper",
+      "Assistant Coach",
+      "Shooting Coach",
+      "Skills Director"
+    ],
+    "system": "Shot Chart"
+  },
+  "hazards": {
+    "balls-under-the-basket": "You left missed balls lying under the basket. The landing zone of every jump shot and every rebound is exactly where they come to rest, and a foot coming down on a ball is how an ankle rolls under the rim.",
+    "rebounders-under-the-rim": "You let three rebounders crowd under the rim while shooters kept shooting. Every missed shot comes down among them, every rebounder jumps with eyes on the ball, and a shooter landing into the lane lands among them too — heads, elbows and ankles all meeting in one small space.",
+    "shoot-in-the-hot-corner": "You kept the shooting block going in the unventilated corner with no water between rounds. Shooting feels light work, so young players do not notice how much they are sweating in a warm corner of the gym — until they are dizzy at the free throw line.",
+    "shoot-until-arms-go": "You set the block to keep shooting until the arms gave out. Form breaks down first when a young shooter is tired, so the last hundred shots teach the wrong mechanics, and high-repetition shooting with no rest is the load youth guidelines warn builds sore shoulders, elbows and wrists."
+  },
+  "id": "bb-shooting-form-and-arc",
+  "indoor": null,
+  "interrupts": [
+    {
+      "after": "form-shots",
+      "alert": "A rebounder and a shooter came down together under the rim. The rebounder is on the floor holding a knee and has not got up.",
+      "cue": "Stop the shooting and radio the athletic trainer — the player stays where they are until they are checked.",
+      "delay": 3,
+      "id": "rebounder-down-under-the-rim",
+      "kind": "Player down",
+      "missNote": "Shooters kept shooting over the player on the floor, and the rebounder struggled up and limped off alone. A knee that stayed down after a collision may be more than a knock, and missed balls were still landing around them while they tried.",
+      "seconds": 12,
+      "target": "trainer-radio",
+      "why": "A player who stays down after a collision needs a trained assessment before anyone moves them or they try to stand. Stopping the drill clears the rim, the radio gets the athletic trainer there fast, and the coach keeps the player still and calm — check, call, care, as the American Red Cross first aid course teaches — until the trainer takes over.",
+      "wrongNote": "That is not the call. Radio the athletic trainer and stop the shooting."
+    },
+    {
+      "after": "shot-arc",
+      "alert": "The fire alarm is sounding and the exit strobe is flashing with shooters mid-shot and balls still in the air.",
+      "cue": "Balls down, everybody out through the marked fire exit, headcount outside against the check-in sheet.",
+      "delay": 3,
+      "id": "fire-alarm-at-the-hoop",
+      "kind": "Fire alarm",
+      "missNote": "Two shooters stayed to take one more shot and a rebounder went back for their bottle. By the time the group was outside, the headcount was two short and nobody knew where they were.",
+      "seconds": 12,
+      "target": "fire-exit-door",
+      "why": "An alarm ends the drill instantly: balls dropped where they are, no one going to fetch a bag, everyone out through the marked exit with an adult at the front and back, and a headcount outside. Leaving the balls on the floor is fine — nobody is coming back through that door until it is safe.",
+      "wrongNote": "The alarm comes first. Balls down and everybody to the marked fire exit."
+    }
+  ],
+  "lateNotes": {
+    "crew-checkin-board": "The staff check-in comes after the log, at the end of the block.",
+    "practice-log-board": "The log closes the shooting block once it has run and the follow-through is held — nothing to record yet."
+  },
+  "name": "Shooting Form and Arc",
+  "parSeconds": 330,
+  "passRule": {
+    "hazardHits": 0,
+    "note": "stars >= 2 and no unsafe action (WebXR/shared/records.js passed())",
+    "stars": 2
+  },
+  "programmes": [
+    "basketball-fundamentals"
+  ],
+  "scene": {
+    "equipment": [],
+    "error": null,
+    "footprint": 2.5,
+    "hits": [
+      "age-size-card",
+      "arc-meter",
+      "ball-cart",
+      "balls-under-the-basket",
+      "cart-socket",
+      "crew-checkin-board",
+      "fault-elbow-flare",
+      "fault-fading-back",
+      "fault-high-release",
+      "fault-thumb-flick",
+      "fire-exit-door",
+      "follow-through-marker",
+      "form-balance",
+      "form-elbow",
+      "form-eyes",
+      "form-follow-through",
+      "form-shot-marker",
+      "height-crank",
+      "hoop-loose-rim",
+      "hoop-scuffed-board",
+      "hoop-torn-net",
+      "hoop-unpadded-base",
+      "practice-log-board",
+      "prog-catch-and-shoot",
+      "prog-form-close",
+      "prog-mid-range",
+      "rebounders-under-the-rim",
+      "release-meter",
+      "shoot-in-the-hot-corner",
+      "shoot-until-arms-go",
+      "shot-count-board",
+      "trainer-radio"
+    ],
+    "meshes": 205
+  },
+  "schema": "smartcitix.station/1",
+  "stepKinds": [
+    "drag",
+    "find",
+    "gauge",
+    "hold",
+    "select",
+    "sequence",
+    "track",
+    "turn"
+  ],
+  "steps": [
+    {
+      "cue": "Check the rim, the net and the base. Mark everything that has to be fixed first.",
+      "decoyNotes": {
+        "hoop-scuffed-board": "Scuffs on the backboard are cosmetic. Look for what would hurt a shooter or rebounder."
+      },
+      "id": "inspect-the-hoop",
+      "itemNames": {
+        "hoop-loose-rim": "a rim that rattles on its bracket",
+        "hoop-torn-net": "a net torn and hanging",
+        "hoop-unpadded-base": "the portable hoop's base with its pad missing"
+      },
+      "itemNotes": {
+        "hoop-loose-rim": "A loose rim sends shots flying unpredictably and can let go under a hanging player. Tag it out until it is tightened.",
+        "hoop-torn-net": "A torn net catches fingers on follow-throughs and snags on rebounds. Replace it before anyone shoots.",
+        "hoop-unpadded-base": "The base of a portable hoop is steel at shin and knee height right where drives end. The pad goes back on first."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Check the rim, the net and the base. Mark everything that has to be fixed first.",
+      "targets": [
+        "hoop-loose-rim",
+        "hoop-torn-net",
+        "hoop-unpadded-base"
+      ],
+      "title": "Inspect the practice hoop before anybody shoots",
+      "why": "A portable practice hoop takes a beating, and its defects hurt people in predictable ways: a loose rim gives way or throws shots wild, a torn net snags fingers, an unpadded base is bare steel exactly where a driving player's shins end up. School-sport guidance asks for goal supports to be padded and equipment in safe condition, and a coach who checks at the start of every block keeps it that way."
+    },
+    {
+      "cue": "Post today's setting: the smaller ball and the lower rim for this age group.",
+      "id": "size-ball-and-rim",
+      "kind": "select",
+      "prompt": "Post today's setting: the smaller ball and the lower rim for this age group.",
+      "target": "age-size-card",
+      "title": "Match the ball and rim to the age group",
+      "why": "Youth development guidance scales the ball and the rim to the player for the same reason a child learns to write with a pencil their hand can hold. A ball too big for small hands and a rim too high for young legs force a shove from the chest that teaches the wrong shot for years; the right size lets a young player shoot with real form and actually see it go in."
+    },
+    {
+      "cue": "Turn the height crank until the rim sits at the setting on the card.",
+      "id": "crank-the-rim",
+      "kind": "turn",
+      "prompt": "Turn the height crank until the rim sits at the setting on the card.",
+      "target": "height-crank",
+      "title": "Crank the practice hoop down to the age setting",
+      "turn": {
+        "axis": "z",
+        "label": "RIM HEIGHT",
+        "turns": 1
+      },
+      "why": "An adjustable portable hoop is only useful if somebody adjusts it. Cranking the rim to the age setting before the block — and locking it — lets every shooter use the legs-to-fingertips motion the rest of the station teaches, and the crank is turned by the coach with nobody under the board."
+    },
+    {
+      "cue": "Balance first, then eyes on the rim, then the elbow under the ball, then the follow-through.",
+      "id": "build-the-shot",
+      "itemNames": {
+        "form-balance": "balance: feet set, knees bent",
+        "form-elbow": "elbow under the ball",
+        "form-eyes": "eyes on the front of the rim",
+        "form-follow-through": "follow through, wrist relaxed"
+      },
+      "kind": "sequence",
+      "outOfOrderNote": "Out of order. Feet and balance first — an elbow or a follow-through built on a wobbling base will not hold up when the shot gets longer.",
+      "prompt": "Balance first, then eyes on the rim, then the elbow under the ball, then the follow-through.",
+      "targets": [
+        "form-balance",
+        "form-eyes",
+        "form-elbow",
+        "form-follow-through"
+      ],
+      "title": "Build the shot from balance up",
+      "why": "Shooting form is built from the floor up because power comes from the legs and accuracy from a straight line through the elbow. Balance gives a stable base, eyes fix the target, an elbow under the ball keeps the line straight, and a relaxed follow-through puts soft backspin on the ball. Coached in that order, young shooters stop heaving from the chest and start shooting with their whole body."
+    },
+    {
+      "cue": "Keep the group on one-hand form shots right in front of the rim — hold the drill here while you watch every elbow.",
+      "holdBreakNote": "The group drifted back out to long shots too early. Bring them in close and hold form shooting until the line is right.",
+      "id": "form-shots",
+      "kind": "hold",
+      "prompt": "Keep the group on one-hand form shots right in front of the rim — hold the drill here while you watch every elbow.",
+      "seconds": 7,
+      "target": "form-shot-marker",
+      "title": "Run one-hand form shots close to the rim",
+      "why": "One-hand form shots close in strip the shot down to the shooting hand and the line, with no distance to hide a flaw behind. Holding the group on them before anyone moves out is where a coach sees each elbow, wrist and follow-through clearly, and where young shooters feel the ball roll off their fingers correctly and drop."
+    },
+    {
+      "cue": "Keep the arc up in band — high enough to drop through the rim, not a flat line, not a moon ball.",
+      "holdBreakNote": "The arc left the band — flattening out, or turning into a moon ball. Bring it back to up, over and down.",
+      "id": "shot-arc",
+      "kind": "track",
+      "prompt": "Keep the arc up in band — high enough to drop through the rim, not a flat line, not a moon ball.",
+      "seconds": 8,
+      "target": "arc-meter",
+      "title": "Hold the shot arc in the band that drops",
+      "track": {
+        "drift": 0.14,
+        "fall": 0.44,
+        "green": [
+          0.42,
+          0.62
+        ],
+        "label": "ARC",
+        "rise": 0.55,
+        "start": 0.25
+      },
+      "why": "A flat shot meets the rim almost edge-on and has a tiny target; a shot with a real arc drops through a rim that looks much bigger from above. Too high and control disappears. Holding young shooters in the band — up, over and down — builds the habit of lifting the ball with the legs rather than pushing it on a line, which is also what keeps shoulders from doing all the work."
+    },
+    {
+      "cue": "Commit when the release reads right at the top — not on the way up, not on the way down.",
+      "gauge": {
+        "green": [
+          0.46,
+          0.6
+        ],
+        "label": "RELEASE",
+        "missNote": "Off the top. Early and the arms shove it; late and the shooter is falling and the legs have given nothing. Find the top and commit.",
+        "speed": 0.7
+      },
+      "id": "release-timing",
+      "kind": "gauge",
+      "prompt": "Commit when the release reads right at the top — not on the way up, not on the way down.",
+      "target": "release-meter",
+      "title": "Time the release at the top of the jump",
+      "why": "A jump shot released at the top of the jump uses the legs for power and meets a still body for accuracy. Released on the way up, the arms shove the ball; released on the way down, the shooter is falling and the shot comes up short or fades. Timing the release is what connects the legs to the arc — and a shooter at the top is also not landing into a defender or rebounder mid-shot."
+    },
+    {
+      "cue": "Roll the ball cart out of the lane to its spot beside the baseline.",
+      "drag": {
+        "missNote": "Still in the landing zone. The cart goes all the way out to its spot beside the baseline.",
+        "radius": 0.5,
+        "to": "cart-socket"
+      },
+      "id": "clear-the-lane",
+      "kind": "drag",
+      "prompt": "Roll the ball cart out of the lane to its spot beside the baseline.",
+      "target": "ball-cart",
+      "title": "Move the ball cart out from under the basket",
+      "why": "Under the basket is where shooters land, rebounders jump and missed balls collect. A ball cart parked there is steel at knee height in the busiest square metre of the drill; moving it out to the baseline, and racking missed balls into it, keeps the landing zone clear for every jump."
+    },
+    {
+      "cue": "Watch the shooters. Mark each habit that needs a correction now.",
+      "decoyNotes": {
+        "fault-high-release": "A high release point is a good habit, not a flaw. Look for the thumb, the elbow and the landing."
+      },
+      "id": "find-the-flaws",
+      "itemNames": {
+        "fault-elbow-flare": "the shooting elbow flaring out to the side",
+        "fault-fading-back": "a shooter fading back on every shot",
+        "fault-thumb-flick": "the guide-hand thumb flicking the ball"
+      },
+      "itemNotes": {
+        "fault-elbow-flare": "An elbow out to the side throws the line off. Cue 'elbow under the ball, point it at the rim'.",
+        "fault-fading-back": "Fading on every shot costs power and lands the shooter off balance. Cue 'jump straight up, land where you took off'.",
+        "fault-thumb-flick": "The guide hand steadies the ball and leaves; a flicking thumb puts side-spin on it. Cue 'guide hand quiet'."
+      },
+      "kind": "find",
+      "noHint": true,
+      "prompt": "Watch the shooters. Mark each habit that needs a correction now.",
+      "targets": [
+        "fault-thumb-flick",
+        "fault-elbow-flare",
+        "fault-fading-back"
+      ],
+      "title": "Find the flaws worth fixing",
+      "why": "Most shooting problems in young players come from three habits: a guide hand that pushes, an elbow that flares, and a body that fades away. Each one bends the line the ball travels on, and the fade also lands a shooter off balance among rebounders. Naming one cue per player, calmly and in view of the group, fixes more than a speech about everything at once."
+    },
+    {
+      "anyOrder": true,
+      "cue": "Form shots close in, mid-range from the elbows, catch-and-shoot off a pass — a short set of each.",
+      "id": "shooting-progression",
+      "itemNames": {
+        "prog-catch-and-shoot": "catch-and-shoot off a pass",
+        "prog-form-close": "form shots close in",
+        "prog-mid-range": "mid-range from the elbows"
+      },
+      "kind": "sequence",
+      "prompt": "Form shots close in, mid-range from the elbows, catch-and-shoot off a pass — a short set of each.",
+      "targets": [
+        "prog-form-close",
+        "prog-mid-range",
+        "prog-catch-and-shoot"
+      ],
+      "title": "Walk the shooting progression",
+      "why": "Distance and movement are added only once the form holds, because every step out adds power the form has to carry. A short set at each stage — close, mid-range, off the catch — keeps the mechanics honest and the repetitions sharp, which is the progression youth development guidance recommends for every skill."
+    },
+    {
+      "cue": "Post today's plan: a fixed number of shots per round, water and rest between rounds.",
+      "id": "count-and-rest",
+      "kind": "select",
+      "prompt": "Post today's plan: a fixed number of shots per round, water and rest between rounds.",
+      "target": "shot-count-board",
+      "title": "Set a shot count with rest between rounds",
+      "why": "Shooting feels like light work, so it is the drill most likely to run long. A fixed shot count per round, with rest and water between rounds, keeps every shot a good one, spreads load across shoulders and wrists, and fits the youth guidance to manage repetition rather than measure effort by how long players can keep going."
+    },
+    {
+      "cue": "Every shooter holds the follow-through — wrist relaxed, fingers pointing at the rim — until the ball hits the rim or the net.",
+      "holdBreakNote": "The follow-through dropped before the ball landed. Hold the wrist up until the ball reaches the rim.",
+      "id": "hold-the-follow-through",
+      "kind": "hold",
+      "prompt": "Every shooter holds the follow-through — wrist relaxed, fingers pointing at the rim — until the ball hits the rim or the net.",
+      "seconds": 5,
+      "target": "follow-through-marker",
+      "title": "Hold the follow-through until the ball lands",
+      "why": "Holding the follow-through makes the release visible: a straight wrist with the fingers pointing at the rim shows the line was true, and a twisted one shows why it missed. It is also the moment a shooter is standing still and balanced rather than drifting into the lane, which keeps the landing zone quiet for rebounders."
+    },
+    {
+      "cue": "Record the hoop fixes, the rim height used, shot counts and the cue each shooter is working on.",
+      "id": "log-the-shooting",
+      "kind": "select",
+      "prompt": "Record the hoop fixes, the rim height used, shot counts and the cue each shooter is working on.",
+      "target": "practice-log-board",
+      "title": "Log the shooting block",
+      "why": "The rim height used, the shot count and one cue per shooter are the three things the next practice needs to pick up where this one ended. Written down with the hoop fixes and anything the athletic trainer saw, they also show the load each player carried, which matters when a shoulder starts to ache later in the season."
+    },
+    {
+      "cue": "At the bench: anything either of you saw under the rim, and are all three of you good to carry on?",
+      "id": "crew-check-in",
+      "kind": "select",
+      "prompt": "At the bench: anything either of you saw under the rim, and are all three of you good to carry on?",
+      "target": "crew-checkin-board",
+      "title": "Check in with the assistant coach and the athletic trainer",
+      "why": "The assistant rebounded and watched the lane, the athletic trainer handled the player who went down, and the head coach was watching form. A short check-in pools those three views, agrees what the parents of the injured player will be told and by whom, and keeps the staff working as a team in the open."
+    }
+  ],
+  "supportLine": "your league's coach coordinator, or the athletic trainer who took the player from you — a player down at your practice is worth a conversation afterwards",
+  "tagline": "A practice hoop inspected and set to the right height, the ball sized to the hands, the shot built from balance up, the arc held in a band that drops, the release timed at the top, the lane clear and a shot count with rest",
+  "title": "SmartCiti.X~ Shooting Form and Arc VR",
+  "trade": "Youth basketball coach",
+  "underwater": null,
+  "weather": "clear"
+}
