@@ -197,6 +197,9 @@ export const STANDARDS = Object.fromEntries([
   S("usa-basketball-youth-guidelines", "USA Basketball", "Youth development guidelines: age-appropriate play, practice, rest and coach licensing", ["Youth Sports & Coaching"], "unverified"),
   S("cdc-heads-up", "CDC", "Heads Up concussion-in-youth-sports training: recognise, remove, refer, return only with clearance", ["Youth Sports & Coaching"], "unverified"),
   S("safesport-code", "U.S. Center for SafeSport", "Abuse-prevention training and policies for adults who work with young athletes", ["Youth Sports & Coaching"], "unverified"),
+  S("ansi-b71-outdoor-power-equipment", "ANSI", "ANSI B71 series — safety specifications for outdoor power equipment (walk-behind and riding mowers, trimmers and blowers), published with the Outdoor Power Equipment Institute", ["Grounds & Landscaping"], "unverified"),
+  S("ansi-z133-arboriculture", "ANSI", "ANSI Z133 — safety requirements for arboricultural operations, including chippers used on a tree crew", ["Grounds & Landscaping"], "unverified"),
+  S("epa-fifra-pesticide-label", "EPA", "Federal Insecticide, Fungicide, and Rodenticide Act (FIFRA) — the pesticide product label as a legal document, and EPA's pesticide applicator and worker-protection requirements", ["Grounds & Landscaping"], "unverified"),
 ].map((s) => [s.id, { ...s, slug: standardSlug(s.body, s.title) }]));
 
 /** The body and title behind a standard id, or a placeholder for an unknown one. */
@@ -736,6 +739,18 @@ export const PROGRAMME_COMPETENCIES = [
       "ut-cathodic-protection-test-station-reading", "ut-pe-pipe-fusion-and-squeeze-off", "ut-water-treatment-chemical-delivery-unloading", "ut-night-storm-response-crew-and-portable-generator"
     ],
     require: 4,
+  },
+  {
+    id: "grounds-and-landscaping",
+    title: "Run, service and make safe the mowers, chemicals, saws and turf equipment a grounds crew works across twelve distinct jobs",
+    kind: "programme",
+    standards: ["ansi-b71-outdoor-power-equipment", "ansi-z133-arboriculture", "epa-fifra-pesticide-label", "osha-1910-147"],
+    stations: [
+      "gk-ride-on-mower-pre-start-and-slope-work", "gk-string-trimmer-and-blower-ppe-and-bystander-zone", "gk-irrigation-controller-valve-box-and-backflow-check", "gk-pesticide-and-fertilizer-application-per-the-label",
+      "gk-tree-work-pole-saw-and-drop-zone", "gk-chainsaw-start-and-limbing-on-the-ground", "gk-bunker-renovation-and-drainage", "gk-greens-mowing-and-hole-changing",
+      "gk-sports-field-line-marking-and-goal-anchoring", "gk-storm-cleanup-chipper-and-traffic-control", "gk-hardscape-paver-base-and-compaction", "gk-greenhouse-nursery-chemical-storage-and-eyewash"
+    ],
+    require: 6,
   },
 ];
 

@@ -10172,6 +10172,9 @@ const STANDARDS = Object.fromEntries([
   S("usa-basketball-youth-guidelines", "USA Basketball", "Youth development guidelines: age-appropriate play, practice, rest and coach licensing", ["Youth Sports & Coaching"], "unverified"),
   S("cdc-heads-up", "CDC", "Heads Up concussion-in-youth-sports training: recognise, remove, refer, return only with clearance", ["Youth Sports & Coaching"], "unverified"),
   S("safesport-code", "U.S. Center for SafeSport", "Abuse-prevention training and policies for adults who work with young athletes", ["Youth Sports & Coaching"], "unverified"),
+  S("ansi-b71-outdoor-power-equipment", "ANSI", "ANSI B71 series — safety specifications for outdoor power equipment (walk-behind and riding mowers, trimmers and blowers), published with the Outdoor Power Equipment Institute", ["Grounds & Landscaping"], "unverified"),
+  S("ansi-z133-arboriculture", "ANSI", "ANSI Z133 — safety requirements for arboricultural operations, including chippers used on a tree crew", ["Grounds & Landscaping"], "unverified"),
+  S("epa-fifra-pesticide-label", "EPA", "Federal Insecticide, Fungicide, and Rodenticide Act (FIFRA) — the pesticide product label as a legal document, and EPA's pesticide applicator and worker-protection requirements", ["Grounds & Landscaping"], "unverified"),
 ].map((s) => [s.id, { ...s, slug: standardSlug(s.body, s.title) }]));
 
 /** The body and title behind a standard id, or a placeholder for an unknown one. */
@@ -10711,6 +10714,18 @@ const PROGRAMME_COMPETENCIES = [
       "ut-cathodic-protection-test-station-reading", "ut-pe-pipe-fusion-and-squeeze-off", "ut-water-treatment-chemical-delivery-unloading", "ut-night-storm-response-crew-and-portable-generator"
     ],
     require: 4,
+  },
+  {
+    id: "grounds-and-landscaping",
+    title: "Run, service and make safe the mowers, chemicals, saws and turf equipment a grounds crew works across twelve distinct jobs",
+    kind: "programme",
+    standards: ["ansi-b71-outdoor-power-equipment", "ansi-z133-arboriculture", "epa-fifra-pesticide-label", "osha-1910-147"],
+    stations: [
+      "gk-ride-on-mower-pre-start-and-slope-work", "gk-string-trimmer-and-blower-ppe-and-bystander-zone", "gk-irrigation-controller-valve-box-and-backflow-check", "gk-pesticide-and-fertilizer-application-per-the-label",
+      "gk-tree-work-pole-saw-and-drop-zone", "gk-chainsaw-start-and-limbing-on-the-ground", "gk-bunker-renovation-and-drainage", "gk-greens-mowing-and-hole-changing",
+      "gk-sports-field-line-marking-and-goal-anchoring", "gk-storm-cleanup-chipper-and-traffic-control", "gk-hardscape-paver-base-and-compaction", "gk-greenhouse-nursery-chemical-storage-and-eyewash"
+    ],
+    require: 6,
   },
 ];
 
@@ -37199,6 +37214,468 @@ const SIMS_META = [
         "Ground Hand",
         "Mower Operator",
         "Slope Certified",
+        "Crew Lead",
+        "Grounds Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "gk-string-trimmer-and-blower-ppe-and-bystander-zone",
+    "index": "gk-02",
+    "domain": "Grounds & Landscaping",
+    "trade": "Grounds maintenance worker — AFSCME parks and grounds crew",
+    "category": "Grounds & Landscaping",
+    "certification": "OSHA 29 CFR 1910.132 personal protective equipment, 29 CFR 1910.133 eye and face protection, 29 CFR 1910.95 occupational noise exposure and 29 CFR 1910.138 hand protection; ANSI B71 outdoor power equipment safety specifications for trimmers and blowers; NIOSH guidance on hand-arm vibration and noise from portable power equipment; AFSCME parks and grounds member training",
+    "name": "Trimmer & Blower PPE and Bystander Zone",
+    "weather": "clear",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Trimmer & Blower PPE and Bystander Zone VR",
+    "tagline": "A string trimmer and a backpack blower on a park path that still has people on it: PPE first, the guard and trigger interlock confirmed, the bystander zone posted and barricaded, and the blower's discharge kept off people, pets and the storm drain",
+    "accent": 15249978,
+    "accentCss": "#e8b23a",
+    "parSeconds": 285,
+    "badge": {
+      "id": "zone-held",
+      "name": "Zone Held",
+      "note": "PPE on, guard and interlock confirmed, the bystander zone posted, and the discharge never once crossed toward a person, a pet or the drain"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Grounds Crew",
+      "currency": "TURF",
+      "ranks": [
+        "Ground Hand",
+        "Trimmer Operator",
+        "Zone Certified",
+        "Crew Lead",
+        "Grounds Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "gk-irrigation-controller-valve-box-and-backflow-check",
+    "index": "gk-03",
+    "domain": "Grounds & Landscaping",
+    "trade": "Irrigation technician — SEIU grounds and building staff",
+    "category": "Grounds & Landscaping",
+    "certification": "ASSE 1020 pressure vacuum breaker assemblies and ASSE 5110 backflow-assembly tester qualification; AWWA M14 cross-connection control practice; OSHA 29 CFR 1910.147 control of hazardous energy and 29 CFR 1910.133 eye and face protection; SEIU grounds and building staff training",
+    "name": "Irrigation Controller, Valve Box & Backflow Check",
+    "weather": "clear",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Irrigation Controller, Valve Box & Backflow Check VR",
+    "tagline": "A service call on the system that keeps the turf alive: the controller's schedule read, the panel locked out, a flooded valve box walked rather than reached into, a zone isolated, and the backflow assembly tested hose to hose in the test procedure's own order",
+    "accent": 3842249,
+    "accentCss": "#3aa0c9",
+    "parSeconds": 300,
+    "badge": {
+      "id": "cross-connection-proven",
+      "name": "Cross-Connection Proven",
+      "note": "Panel locked out, the valve box walked before a hand went near it, the zone isolated, and the backflow assembly tested clean in the procedure's own order"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Grounds Crew",
+      "currency": "GALLONS",
+      "ranks": [
+        "Ground Hand",
+        "Irrigation Tech",
+        "Backflow Certified",
+        "Crew Lead",
+        "Grounds Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "gk-pesticide-and-fertilizer-application-per-the-label",
+    "index": "gk-04",
+    "domain": "Grounds & Landscaping",
+    "trade": "Grounds pesticide and fertilizer applicator — AFSCME parks and grounds crew",
+    "category": "Grounds & Landscaping",
+    "certification": "Federal Insecticide, Fungicide, and Rodenticide Act (FIFRA) — the product label as a legal document and EPA's pesticide applicator and worker-protection requirements; OSHA 29 CFR 1910.132 personal protective equipment, 29 CFR 1910.133 eye and face protection, 29 CFR 1910.134 respiratory protection, 29 CFR 1910.138 hand protection and 29 CFR 1910.1200 hazard communication; AFSCME parks and grounds member training",
+    "name": "Pesticide & Fertilizer Application",
+    "weather": "clear",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Pesticide & Fertilizer Application VR",
+    "tagline": "A labelled turf product mixed and applied the way its own label sets out: PPE the label calls for, mixing over containment away from the drain, the treatment area walked for a pollinator bed and a play area, the buffer to water marked, and the rate and the wind held the whole pass",
+    "accent": 13214010,
+    "accentCss": "#c9a13a",
+    "parSeconds": 310,
+    "badge": {
+      "id": "label-followed",
+      "name": "Label Followed",
+      "note": "Label and SDS read, PPE on, mixing contained, the area walked and posted, and the whole application held to the label's own rate and buffer"
+    },
+    "stepCount": 15,
+    "interruptCount": 2,
+    "game": {
+      "system": "Grounds Crew",
+      "currency": "TURF",
+      "ranks": [
+        "Ground Hand",
+        "Applicator Trainee",
+        "Label Certified",
+        "Crew Lead",
+        "Grounds Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "gk-tree-work-pole-saw-and-drop-zone",
+    "index": "gk-05",
+    "domain": "Grounds & Landscaping",
+    "trade": "Grounds tree crew member — LIUNA grounds and landscaping crew",
+    "category": "Grounds & Landscaping",
+    "certification": "ANSI Z133 safety requirements for arboricultural operations; OSHA 29 CFR 1910.132 personal protective equipment, 29 CFR 1910.133 eye and face protection and 29 CFR 1910.95 occupational noise exposure; NIOSH guidance on tree-care struck-by and electrocution incidents; LIUNA grounds and landscaping crew training",
+    "name": "Tree Work: Pole Saw & Drop Zone",
+    "weather": "clear",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Tree Work: Pole Saw & Drop Zone VR",
+    "tagline": "A pole saw pruning job worked from the ground: the site surveyed for the overhead line and the dead hanging limb, the drop zone barricaded and a spotter briefed, the line clearance actually checked, and the cut made only on the spotter's signal",
+    "accent": 5934906,
+    "accentCss": "#5a8f3a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "zone-controlled",
+      "name": "Zone Controlled",
+      "note": "Site surveyed, drop zone barricaded, line clearance proven, and every cut made only on the spotter's signal"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Grounds Crew",
+      "currency": "TURF",
+      "ranks": [
+        "Ground Hand",
+        "Pole Saw Operator",
+        "Zone Certified",
+        "Crew Lead",
+        "Grounds Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "gk-chainsaw-start-and-limbing-on-the-ground",
+    "index": "gk-06",
+    "domain": "Grounds & Landscaping",
+    "trade": "Grounds tree crew member — AFSCME parks and grounds crew",
+    "category": "Grounds & Landscaping",
+    "certification": "ANSI B175 chainsaw safety specifications and ANSI Z133 safety requirements for arboricultural operations; OSHA 29 CFR 1910.132 personal protective equipment, 29 CFR 1910.133 eye and face protection, 29 CFR 1910.95 occupational noise exposure and 29 CFR 1910.138 hand protection; NIOSH guidance on chainsaw kickback and struck-by incidents; AFSCME parks and grounds member training",
+    "name": "Chainsaw Start & Limbing on the Ground",
+    "weather": "clear",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Chainsaw Start & Limbing on the Ground VR",
+    "tagline": "A downed log limbed on the ground: chaps and PPE on first, the log walked for a spring pole and buried debris, the saw started braced in its own order, the chain brake proven, and every cut made braced, two-handed and clear of anyone else nearby",
+    "accent": 13787164,
+    "accentCss": "#d2601c",
+    "parSeconds": 305,
+    "badge": {
+      "id": "brake-proven",
+      "name": "Brake Proven",
+      "note": "PPE on, the log walked for a spring pole, the saw started braced, the chain brake proven, and every cut kept two-handed and clear of the kickback zone"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Grounds Crew",
+      "currency": "TURF",
+      "ranks": [
+        "Ground Hand",
+        "Saw Operator",
+        "Chainsaw Certified",
+        "Crew Lead",
+        "Grounds Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "gk-bunker-renovation-and-drainage",
+    "index": "gk-07",
+    "domain": "Grounds & Landscaping",
+    "trade": "Sports-turf and golf course grounds crew — LIUNA grounds and landscaping crew",
+    "category": "Grounds & Landscaping",
+    "certification": "OSHA 29 CFR 1926 Subpart P Excavations, including the trench's own competent person inspection duties; OSHA 29 CFR 1910.132 personal protective equipment and 29 CFR 1926.21 safety training and education; NIOSH guidance on manual material handling; LIUNA grounds and landscaping crew training",
+    "name": "Bunker Renovation & Drainage",
+    "weather": "clear",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Bunker Renovation & Drainage VR",
+    "tagline": "A sand bunker rebuilt around a new drain line: the plan read, the locate confirmed, the trench line marked and the spoil kept back from the edge, a competent person's inspection confirmed, the pipe joined and graded, and the sand raked even under a grade string",
+    "accent": 13214571,
+    "accentCss": "#c9a36b",
+    "parSeconds": 310,
+    "badge": {
+      "id": "drain-proven",
+      "name": "Drain Proven",
+      "note": "Locate confirmed, the trench inspected by a competent person, the pipe graded, and the bunker finished to an even sand depth"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Grounds Crew",
+      "currency": "TURF",
+      "ranks": [
+        "Ground Hand",
+        "Bunker Crew",
+        "Drainage Certified",
+        "Crew Lead",
+        "Grounds Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "gk-greens-mowing-and-hole-changing",
+    "index": "gk-08",
+    "domain": "Grounds & Landscaping",
+    "trade": "Greenkeeper — SEIU grounds and building staff",
+    "category": "Grounds & Landscaping",
+    "certification": "ANSI B71 outdoor power equipment safety specifications for reel mowers; OSHA 29 CFR 1910.132 personal protective equipment, 29 CFR 1910.212 machine guarding and 29 CFR 1910.147 control of hazardous energy; NIOSH guidance on mower reel and cutting-unit incidents; SEIU grounds and building staff training",
+    "name": "Greens Mowing & Hole Changing",
+    "weather": "clear",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Greens Mowing & Hole Changing VR",
+    "tagline": "A putting green mowed and its cup moved: the green walked before the reel turns, the transport lever used crossing the collar, the cut height and bedknife clearance checked, the reel lifted for the cart path, and the new hole cored while the old one is filled and tamped",
+    "accent": 4168794,
+    "accentCss": "#3f9c5a",
+    "parSeconds": 300,
+    "badge": {
+      "id": "green-changed",
+      "name": "Green Changed",
+      "note": "Green walked, cut height and bedknife checked, the collar crossed on transport, and the new hole cored and cupped while the old one was filled"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Grounds Crew",
+      "currency": "TURF",
+      "ranks": [
+        "Ground Hand",
+        "Greens Mower",
+        "Greenkeeper Certified",
+        "Crew Lead",
+        "Grounds Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "gk-sports-field-line-marking-and-goal-anchoring",
+    "index": "gk-09",
+    "domain": "Grounds & Landscaping",
+    "trade": "Grounds sports-turf crew member — AFSCME parks and grounds crew",
+    "category": "Grounds & Landscaping",
+    "certification": "CPSC guidance on movable soccer goal safety — anchoring before use and never climbing or hanging on a goal; OSHA 29 CFR 1910.132 personal protective equipment, 29 CFR 1910.133 eye and face protection and 29 CFR 1910.1200 hazard communication; NIOSH guidance on manual material handling; AFSCME parks and grounds member training",
+    "name": "Sports-Field Line Marking & Goal Anchoring",
+    "weather": "clear",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Sports-Field Line Marking & Goal Anchoring VR",
+    "tagline": "A youth sports field striped and its goals anchored: the field walked before the liner rolls, the paint label read and the hopper calibrated, the lines run along a staged string at a steady rate, and every stake and sleeve the goal's own instructions call for actually set",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 300,
+    "badge": {
+      "id": "field-ready",
+      "name": "Field Ready",
+      "note": "Field walked, paint label read, lines run straight and steady, and the goal anchored to the manufacturer's own instructions"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Grounds Crew",
+      "currency": "TURF",
+      "ranks": [
+        "Ground Hand",
+        "Field Crew",
+        "Field Certified",
+        "Crew Lead",
+        "Grounds Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "gk-storm-cleanup-chipper-and-traffic-control",
+    "index": "gk-10",
+    "domain": "Grounds & Landscaping",
+    "trade": "Grounds storm-response crew member — LIUNA grounds and landscaping crew",
+    "category": "Grounds & Landscaping",
+    "certification": "ANSI Z133 safety requirements for arboricultural operations, including chippers used on a tree crew; Manual on Uniform Traffic Control Devices (MUTCD) for the roadside work zone; OSHA 29 CFR 1910.132 personal protective equipment, 29 CFR 1910.212 machine guarding and 29 CFR 1910.147 control of hazardous energy; LIUNA grounds and landscaping crew training",
+    "name": "Storm Cleanup: Chipper & Traffic Control",
+    "weather": "wind",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Storm Cleanup: Chipper & Traffic Control VR",
+    "tagline": "A roadside storm cleanup after the wind: the damage walked for a sagging line, the taper and signs set to the traffic-control plan, the chipper's own guard checked and its chute aimed off the lane, every branch fed from behind the line, and the machine locked out before any jam is cleared",
+    "accent": 14705706,
+    "accentCss": "#e0642a",
+    "parSeconds": 310,
+    "badge": {
+      "id": "shoulder-cleared",
+      "name": "Shoulder Cleared",
+      "note": "Taper set, the chipper guard checked, every branch fed from behind the line, and the shoulder cleared without a single unsafe act"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Grounds Crew",
+      "currency": "TURF",
+      "ranks": [
+        "Ground Hand",
+        "Storm Crew",
+        "Chipper Certified",
+        "Crew Lead",
+        "Grounds Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "gk-hardscape-paver-base-and-compaction",
+    "index": "gk-11",
+    "domain": "Grounds & Landscaping",
+    "trade": "Hardscape and grounds crew member — LIUNA grounds and landscaping crew",
+    "category": "Grounds & Landscaping",
+    "certification": "OSHA 29 CFR 1926 Subpart P Excavations, including the excavation's own competent person inspection duties; OSHA 29 CFR 1910.132 personal protective equipment, 29 CFR 1910.95 occupational noise exposure and 29 CFR 1910.212 machine guarding; NIOSH guidance on manual material handling; LIUNA grounds and landscaping crew training",
+    "name": "Hardscape Paver Base & Compaction",
+    "weather": "clear",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Hardscape Paver Base & Compaction VR",
+    "tagline": "A paver patio built from the ground up: the plan read, the locate confirmed, the base graded and compacted in checked lifts, pavers lifted as a team, the plate compactor run with feet clear, and the pattern laid along a string line with the edge restraint set",
+    "accent": 10125408,
+    "accentCss": "#9a8060",
+    "parSeconds": 310,
+    "badge": {
+      "id": "base-proven",
+      "name": "Base Proven",
+      "note": "Locate confirmed, the base compacted to a checked density, pavers lifted safely, and the pattern finished with edge restraint set on both sides"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Grounds Crew",
+      "currency": "TURF",
+      "ranks": [
+        "Ground Hand",
+        "Hardscape Crew",
+        "Paver Certified",
+        "Crew Lead",
+        "Grounds Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "gk-greenhouse-nursery-chemical-storage-and-eyewash",
+    "index": "gk-12",
+    "domain": "Grounds & Landscaping",
+    "trade": "Nursery and greenhouse grounds worker — SEIU grounds and building staff",
+    "category": "Grounds & Landscaping",
+    "certification": "OSHA 29 CFR 1910.1200 hazard communication, 29 CFR 1910.132 personal protective equipment, 29 CFR 1910.133 eye and face protection, 29 CFR 1910.134 respiratory protection and 29 CFR 1910.151 medical services and first aid; ANSI Z358 emergency eyewash and shower equipment; Federal Insecticide, Fungicide, and Rodenticide Act (FIFRA) pesticide storage requirements; SEIU grounds and building staff training",
+    "name": "Greenhouse & Nursery Chemical Storage and Eyewash",
+    "weather": "clear",
+    "indoor": null,
+    "district": "open-range",
+    "title": "SmartCiti.X~ Greenhouse & Nursery Chemical Storage and Eyewash VR",
+    "tagline": "A nursery chemical storage room kept the way the labels require: incompatible chemicals segregated, the eyewash path kept clear, the ventilation confirmed running, the eyewash station itself flow-tested, and every opened container relabelled",
+    "accent": 5232293,
+    "accentCss": "#4fd6a5",
+    "parSeconds": 305,
+    "badge": {
+      "id": "storage-secured",
+      "name": "Storage Secured",
+      "note": "Chemicals segregated, the eyewash path clear and flow-tested, the ventilation confirmed, and every container properly labelled"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Grounds Crew",
+      "currency": "TURF",
+      "ranks": [
+        "Ground Hand",
+        "Storage Tech",
+        "Storage Certified",
         "Crew Lead",
         "Grounds Certified"
       ],
