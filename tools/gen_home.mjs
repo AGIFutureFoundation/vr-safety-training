@@ -111,7 +111,7 @@ const LAYOUTS = {
   repo: {
     out: "index.html",
     app: { smartcity: "smartcity/index.html", trades: "trades/index.html", holodeck: "holodeck/index.html", instructor: "instructor/index.html", fairway: "fairway/index.html", bayworld: "bayworld/index.html" },
-    aside: { portal: "portal/index.html", verify: "verify/index.html", campus: "campus/index.html" },
+    aside: { atlas: "bayworld/atlas.html", portal: "portal/index.html", verify: "verify/index.html", campus: "campus/index.html" },
     doc: (name) => `../docs/${name}`,
     accessibility: "ACCESSIBILITY.md",
     catalog: "smartcity/catalog.json",
@@ -124,7 +124,7 @@ const LAYOUTS = {
     // The portal, the verifier and the Safety Campus page have no single-file
     // bundle, so in the flat layout they are named where they actually live
     // rather than linked to a file that is not in the folder.
-    aside: { portal: `${REPO}/tree/main/WebXR/portal`, verify: `${REPO}/tree/main/WebXR/verify`, campus: `${REPO}/tree/main/WebXR/campus` },
+    aside: { atlas: "atlas.html", portal: `${REPO}/tree/main/WebXR/portal`, verify: `${REPO}/tree/main/WebXR/verify`, campus: `${REPO}/tree/main/WebXR/campus` },
     doc: (name) => `${REPO}/blob/main/docs/${name}`,
     accessibility: `${REPO}/blob/main/WebXR/ACCESSIBILITY.md`,
     catalog: `${REPO}/blob/main/WebXR/smartcity/catalog.json`,
@@ -1034,7 +1034,8 @@ ${cards}
     <div class="apps">
 ${apps}
     </div>
-    <p class="aside">Also here: <a href="${layout.aside.portal}">the app map</a>,
+    <p class="aside">Also here: <a href="${layout.aside.atlas}">the Bay Atlas</a>, every Bay World site and landmark with its programmes over a map (a real-world one when you bring your own Mapbox token),
+    <a href="${layout.aside.portal}">the app map</a>,
     <a href="${layout.aside.verify}">the credential verifier</a> for an exported badge, and
     <a href="${layout.aside.campus}">Safety Campus</a>, the hazard-spotting web companion to the Unity headset build.</p>
     <p class="aside">Off by default: <button type="button" class="linkbtn" id="share-open">share your anonymised training engagement to help train agents and robots</button> —

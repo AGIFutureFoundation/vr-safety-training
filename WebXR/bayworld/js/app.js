@@ -28,12 +28,30 @@ const $ = (id) => document.getElementById(id);
 const bwStore = (() => { try { return window.localStorage; } catch { return null; } })();
 const PLACES = [...BW_SITES, ...BW_LANDMARKS];
 
+/** The Bay Atlas's deep link (docs/mapbox.md): `?site=<id>` or
+ *  `?landmark=<id>` names the place the shift starts beside — a few metres
+ *  off it, so the job-board prompt is up as soon as the world appears. An
+ *  id that names nothing is ignored and the shift starts at the depot. */
+export function bwStartPlaceFrom(search, sites = BW_SITES, landmarks = BW_LANDMARKS) {
+  let params = null;
+  try { params = new URLSearchParams(search || ""); } catch { return null; }
+  const site = params.get("site"), landmark = params.get("landmark");
+  if (site) return sites.find((s) => s.id === site) ?? null;
+  if (landmark) return landmarks.find((l) => l.id === landmark) ?? null;
+  return null;
+}
+const bwStartPlace = bwStartPlaceFrom(typeof window !== "undefined" ? window.location?.search : "");
+
 const bwApp = {
   screen: "menu",
   scene: null, camera: null, renderer: null, world: null,
   mode: "foot",              // "foot" | "vehicle"
   cameraMode: "chase",       // "chase" | "first"
-  player: { x: -40, z: -50, heading: 0, speed: 0 }, // beside the downtown motor pool (world.js's BW_DEPOT)
+  // Beside the downtown motor pool (world.js's BW_DEPOT), or beside the
+  // place the Bay Atlas deep-linked to.
+  player: bwStartPlace
+    ? { x: bwStartPlace.position[0] + 6, z: bwStartPlace.position[2] + 6, heading: 0, speed: 0 }
+    : { x: -40, z: -50, heading: 0, speed: 0 },
   vehicleId: null,
   vehicleState: null,
   hours: 9,                  // the day clock, 0-24
@@ -483,6 +501,7 @@ function bwStart() {
 }
 
 $("menu-start")?.addEventListener("click", bwStart);
+if (bwStartPlace) { const b = $("menu-start"); if (b) b.textContent = `Start the shift at ${bwStartPlace.name}`; }
 $("hud-radio-btn")?.addEventListener("click", bwOpenRadio);
 $("hud-map-btn")?.addEventListener("click", () => bwToggleMap());
 $("map-close")?.addEventListener("click", () => bwToggleMap(false));

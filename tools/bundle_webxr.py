@@ -391,10 +391,32 @@ APPS = {
             WEBXR / "bayworld/js/career.js",
             WEBXR / "bayworld/js/sim.js",
             WEBXR / "bayworld/js/map.js",
+            # Real ground under the city (docs/mapbox.md): bay-geo's fit and
+            # shared/mapbox.js's bayGroundTexture(), which world.js applies
+            # only when a viewer has supplied a Mapbox token.
+            SHARED / "bay-geo.js",
+            SHARED / "mapbox.js",
             WEBXR / "bayworld/js/world.js",
             WEBXR / "bayworld/js/app.js",
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
+    },
+    # The Bay Atlas (docs/mapbox.md): a second page in the Bay World folder
+    # ("dir"/"index" below), DOM-only — no three.js — over the shared Bay
+    # World data, bay-geo's fit and shared/mapbox.js. Mapbox GL itself is
+    # never bundled: mapbox.js inserts the cdnjs <script> at runtime, and only
+    # once a viewer has supplied a token.
+    "atlas": {
+        "dir": "bayworld",
+        "index": "atlas.html",
+        "out": "atlas.html",
+        "modules": [
+            SHARED / "bayworld-data.js",
+            SHARED / "bay-geo.js",
+            SHARED / "mapbox.js",
+            WEBXR / "bayworld/js/atlas.js",
+        ],
+        "entry": '<script type="module" src="./js/atlas.js"></script>',
     },
 }
 
@@ -413,7 +435,7 @@ SIBLING_APP_DIRS = [*APPS, "portal", "verify", "instructor", "flows"]
 AUTH_CONFIG = "auth-config.json"
 # The apps whose bundle reads the sign-in configuration, and therefore need a
 # copy of it beside the bundle. A deployment edits the copy it serves.
-AUTH_CONFIG_APPS = ["smartcity"]
+AUTH_CONFIG_APPS = ["smartcity", "bayworld", "atlas"]
 
 
 # Both quoting styles, because a cross-app link is written as a plain HTML
@@ -495,8 +517,10 @@ def top_level_names(source: str) -> set[str]:
 
 def build(app: str) -> int:
     cfg = APPS[app]
-    src = WEBXR / app
-    index = (src / "index.html").read_text()
+    # A second page in another app's folder (the Bay Atlas in bayworld/) names
+    # its folder and its page; everything else is WebXR/<app>/index.html.
+    src = WEBXR / cfg.get("dir", app)
+    index = (src / cfg.get("index", "index.html")).read_text()
     chunks: list[str] = []
     seen: dict[str, Path] = {}
     clashes: list[str] = []
@@ -526,7 +550,7 @@ def build(app: str) -> int:
         return 1
 
     if cfg["entry"] not in index:
-        print(f"[{app}] index.html no longer carries the expected module script tag", file=sys.stderr)
+        print(f"[{app}] {cfg.get('index', 'index.html')} no longer carries the expected module script tag", file=sys.stderr)
         return 1
 
     # Only an app that actually draws needs the three.js import at the head of
@@ -583,6 +607,7 @@ DIST_PAGES = {
     "arcade": "arcade.html",
     "fairway": "fairway.html",
     "bayworld": "bayworld.html",
+    "atlas": "atlas.html",
 }
 DIST_SHARED = [
     "auth.js", "identity.js", "records.js", "radio-quiz.js", "radio-quiz-data.js",
@@ -636,7 +661,7 @@ def build_combined() -> int:
             dest.write_bytes(page.read_bytes())
             copied += 1
     for app, page in DIST_PAGES.items():
-        src = WEBXR / app / "dist" / page
+        src = WEBXR / APPS[app].get("dir", app) / "dist" / page
         if not src.exists():
             print(f"[dist] {src.relative_to(ROOT)} has not been built yet", file=sys.stderr)
             return 1

@@ -23023,6 +23023,11 @@ function bwTerrain(cx, cz, w, d) {
   mesh.rotation.x = -Math.PI / 2;
   mesh.position.set(cx, 0, cz);
   mesh.receiveShadow = true;
+  // Tagged so bayworld/js/world.js can find the one ground slab and swap
+  // its paint for a satellite image when a Mapbox token exists
+  // (shared/mapbox.js's bayGroundTexture(), docs/mapbox.md). paintedMat()
+  // already marks the material ownMaterial, so mergeStatic() leaves it be.
+  mesh.userData.bayGround = true;
   return mesh;
 }
 

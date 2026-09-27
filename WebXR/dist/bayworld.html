@@ -177,12 +177,12 @@
   <div class="card" style="width:min(1100px,100%)">
     <p class="eyebrow">Bay World</p>
     <h2>Map</h2>
-    <p class="lead">Fast travel unlocks for a site once you have visited it once on foot or by road.</p>
+    <p class="lead">Fast travel unlocks for a site once you have visited it once on foot or by road. The <a href="./atlas.html" id="map-atlas-link" style="color:var(--accent)">Atlas</a> lists every site and landmark with its programmes, over a real-world map when you bring your own token.</p>
     <div class="map-layout">
       <canvas id="map-canvas" width="512" height="512"></canvas>
       <div id="map-sites"></div>
     </div>
-    <div class="row" style="margin-top:14px"><button class="btn ghost" id="map-close">Close (M)</button></div>
+    <div class="row" style="margin-top:14px"><button class="btn ghost" id="map-close">Close (M)</button><a class="btn ghost" href="./atlas.html" style="text-decoration:none">Atlas</a></div>
   </div>
 </div>
 
@@ -12893,6 +12893,11 @@ function bwTerrain(cx, cz, w, d) {
   mesh.rotation.x = -Math.PI / 2;
   mesh.position.set(cx, 0, cz);
   mesh.receiveShadow = true;
+  // Tagged so bayworld/js/world.js can find the one ground slab and swap
+  // its paint for a satellite image when a Mapbox token exists
+  // (shared/mapbox.js's bayGroundTexture(), docs/mapbox.md). paintedMat()
+  // already marks the material ownMaterial, so mergeStatic() leaves it be.
+  mesh.userData.bayGround = true;
   return mesh;
 }
 
@@ -19995,6 +20000,568 @@ function bwMapSites(size = 512, storage) {
 }
 
 
+/* ===== shared/bay-geo.js ===== */
+// Bay World ↔ the world: an approximate affine fit between Bay World's scene
+// metres (shared/bayworld-data.js's x/z field) and public longitude/latitude,
+// so a real-world map can be drawn under the Bay World data — the Bay Atlas
+// (WebXR/bayworld/atlas.html) and shared/mapbox.js both read this.
+//
+// Pure: no three.js, no DOM, no network. Everything here is derived from the
+// six-to-eight anchors below by least squares, so a headless checker
+// (tools/check_mapbox.mjs) can prove the round trip and the bounds with no
+// browser.
+//
+// The anchors pair a Bay World position with the *approximate* longitude and
+// latitude of the kind of public place that part of the world is inspired
+// by — a lakeside promenade, a downtown centre, a container port, a stadium
+// district, a hills lookout, a bridge approach. Each is rounded to three
+// decimals (about a hundred metres), marked `approximate: true`, and asserts
+// nothing else: no name, no address, no date, no ownership. Bay World is a
+// stylised 1600 m × 1100 m field, not a survey, and the fit that follows is
+// what makes the two line up "well enough for a map" rather than exactly —
+// bayGeoResidual() says how far off the anchors themselves land.
+
+/**
+ * `{ id, label, bay:[x, z], lonLat:[lon, lat], approximate: true }` — the
+ * Bay World position of a landmark or a zone centre in bayworld-data.js,
+ * and the approximate public coordinates of the kind of place it is
+ * inspired by. Order does not matter; the fit weights every anchor equally.
+ */
+const BAY_GEO_ANCHORS = [
+  { id: "lakeside-promenade", label: "a lakeside promenade", bay: [275, -47], lonLat: [-122.257, 37.803], approximate: true },
+  { id: "downtown-centre", label: "a downtown centre", bay: [0, 0], lonLat: [-122.272, 37.804], approximate: true },
+  { id: "uptown-strip", label: "an uptown theatre strip", bay: [-40, -230], lonLat: [-122.270, 37.809], approximate: true },
+  { id: "container-port", label: "a container port", bay: [-380, 350], lonLat: [-122.325, 37.797], approximate: true },
+  { id: "stadium-district", label: "a stadium district", bay: [600, 370], lonLat: [-122.201, 37.752], approximate: true },
+  { id: "market-district", label: "a market district", bay: [450, 260], lonLat: [-122.224, 37.775], approximate: true },
+  { id: "hills-lookout", label: "a hills lookout", bay: [650, -250], lonLat: [-122.183, 37.817], approximate: true },
+  { id: "bridge-approach", label: "a bridge approach", bay: [-630, -160], lonLat: [-122.312, 37.826], approximate: true },
+];
+
+// ------------------------------------------------------------- least squares
+
+/** Solve the 3×3 system m·v = rhs by Gaussian elimination with partial
+ *  pivoting. Returns null when the system is singular. */
+function bgSolve3(m, rhs) {
+  const a = m.map((row, i) => [...row, rhs[i]]);
+  for (let col = 0; col < 3; col++) {
+    let pivot = col;
+    for (let r = col + 1; r < 3; r++) if (Math.abs(a[r][col]) > Math.abs(a[pivot][col])) pivot = r;
+    if (Math.abs(a[pivot][col]) < 1e-12) return null;
+    if (pivot !== col) [a[col], a[pivot]] = [a[pivot], a[col]];
+    for (let r = 0; r < 3; r++) {
+      if (r === col) continue;
+      const f = a[r][col] / a[col][col];
+      for (let c = col; c < 4; c++) a[r][c] -= f * a[col][c];
+    }
+  }
+  return [a[0][3] / a[0][0], a[1][3] / a[1][1], a[2][3] / a[2][2]];
+}
+
+/** Least-squares `target ≈ p·x + q·z + r` over the anchors' bay positions:
+ *  the normal equations of the design matrix [x, z, 1]. */
+function bgFitAxis(anchors, target) {
+  const n = [[0, 0, 0], [0, 0, 0], [0, 0, 0]], rhs = [0, 0, 0];
+  for (const a of anchors) {
+    const row = [a.bay[0], a.bay[1], 1], y = target(a);
+    for (let i = 0; i < 3; i++) {
+      rhs[i] += row[i] * y;
+      for (let j = 0; j < 3; j++) n[i][j] += row[i] * row[j];
+    }
+  }
+  return bgSolve3(n, rhs);
+}
+
+/**
+ * The affine fit over `anchors`: `lon = a·x + b·z + c`, `lat = d·x + e·z + f`
+ * and its exact inverse. Returns `{ lon:[a,b,c], lat:[d,e,f], inverse:
+ * { xx, xz, zx, zz } }` — the inverse is the 2×2 matrix inverse of
+ * [[a,b],[d,e]], so geoToBay(bayToGeo(p)) is p to floating-point precision
+ * rather than a second, slightly different fit. Throws when fewer than three
+ * anchors are given or they are collinear (no affine fit exists).
+ */
+function bayGeoFit(anchors = BAY_GEO_ANCHORS) {
+  if (!Array.isArray(anchors) || anchors.length < 3) throw new Error("bayGeoFit needs at least three anchors");
+  const lon = bgFitAxis(anchors, (a) => a.lonLat[0]);
+  const lat = bgFitAxis(anchors, (a) => a.lonLat[1]);
+  if (!lon || !lat) throw new Error("bayGeoFit: the anchors are collinear");
+  const [a, b] = lon, [d, e] = lat;
+  const det = a * e - b * d;
+  if (Math.abs(det) < 1e-18) throw new Error("bayGeoFit: the fit is degenerate");
+  return { lon, lat, inverse: { xx: e / det, xz: -b / det, zx: -d / det, zz: a / det } };
+}
+
+let bgFitCache = null;
+function bgFit() { return (bgFitCache ??= bayGeoFit()); }
+
+// ------------------------------------------------------------------ mapping
+
+/** Bay World `[x, z]` (scene metres) → `[lon, lat]` (degrees). */
+function bayToGeo([x, z]) {
+  const { lon, lat } = bgFit();
+  return [lon[0] * x + lon[1] * z + lon[2], lat[0] * x + lat[1] * z + lat[2]];
+}
+
+/** `[lon, lat]` (degrees) → Bay World `[x, z]` (scene metres); the exact
+ *  inverse of bayToGeo(). A point outside the world maps outside BAY_BOUNDS
+ *  — nothing is clamped, so a caller can tell "off the map" from "at the
+ *  edge". */
+function geoToBay([lon, lat]) {
+  const f = bgFit();
+  const u = lon - f.lon[2], v = lat - f.lat[2];
+  return [f.inverse.xx * u + f.inverse.xz * v, f.inverse.zx * u + f.inverse.zz * v];
+}
+
+/**
+ * The lon/lat box that contains the whole of BAY_BOUNDS: the four corners of
+ * the field through bayToGeo(), then min/max — so a fit with any rotation in
+ * it still yields a box the world fits inside (the box is then a little
+ * larger than the world, which is what a static map image wants). Returns
+ * `{ minLon, minLat, maxLon, maxLat }`.
+ */
+function bayGeoBounds() {
+  const corners = [
+    [BAY_BOUNDS.minX, BAY_BOUNDS.minZ], [BAY_BOUNDS.maxX, BAY_BOUNDS.minZ],
+    [BAY_BOUNDS.minX, BAY_BOUNDS.maxZ], [BAY_BOUNDS.maxX, BAY_BOUNDS.maxZ],
+  ].map(bayToGeo);
+  return {
+    minLon: Math.min(...corners.map((c) => c[0])), maxLon: Math.max(...corners.map((c) => c[0])),
+    minLat: Math.min(...corners.map((c) => c[1])), maxLat: Math.max(...corners.map((c) => c[1])),
+  };
+}
+
+/** Whether `[lon, lat]` lies inside bayGeoBounds() (inclusive). */
+function bayGeoContains([lon, lat]) {
+  const b = bayGeoBounds();
+  return lon >= b.minLon && lon <= b.maxLon && lat >= b.minLat && lat <= b.maxLat;
+}
+
+/**
+ * How far each anchor's own public coordinates land from its Bay World
+ * position once pushed back through the fit, in scene metres: `{ max, mean,
+ * perAnchor:[{ id, metres }] }`. A diagnostic, not a promise — the anchors
+ * are approximate by design and Bay World is not to scale, so a residual of
+ * some tens of metres is the fit doing its job, not failing it.
+ */
+function bayGeoResidual(anchors = BAY_GEO_ANCHORS) {
+  const perAnchor = anchors.map((a) => {
+    const [x, z] = geoToBay(a.lonLat);
+    return { id: a.id, metres: Math.hypot(x - a.bay[0], z - a.bay[1]) };
+  });
+  const max = Math.max(...perAnchor.map((p) => p.metres));
+  const mean = perAnchor.reduce((s, p) => s + p.metres, 0) / (perAnchor.length || 1);
+  return { max, mean, perAnchor };
+}
+
+
+/* ===== shared/mapbox.js ===== */
+// Mapbox under the Bay (docs/mapbox.md): the token lookup, the lazy library
+// loader, a Mapbox GL map over the Bay World data (the Bay Atlas,
+// WebXR/bayworld/atlas.html) and a satellite ground texture for Bay World
+// itself. Positions come from shared/bay-geo.js's affine fit.
+//
+// The rules this module keeps, and tools/check_mapbox.mjs proves:
+//
+//   - No token ships. mapboxToken() reads `?mapbox=` on the launch URL (kept
+//     for the tab in sessionStorage), then localStorage's
+//     "smartciti.mapboxToken", then `mapboxToken` in the deployment's
+//     auth-config.json (WebXR/auth-config.json, null out of the box). A
+//     value that is not shaped like a Mapbox public token is dropped.
+//   - No request to any Mapbox host, and no library load, without a token.
+//     Every function here returns null (or resolves to null) before touching
+//     the network when there is none.
+//   - The library is never vendored: loadMapboxGl() inserts one <script>
+//     for the cdnjs copy at runtime and injects the essential stylesheet
+//     inline, so a static copy of these pages carries no third-party code
+//     and loads none until a viewer supplies a token.
+//   - No three.js import: bayGroundTexture() takes the three.js module the
+//     caller already loaded, so this file bundles into the DOM-only Bay Atlas
+//     without dragging a renderer in. Every absolute URL lives in the two
+//     constants below.
+
+/** The one library URL: Mapbox GL JS from cdnjs, pinned. */
+const MAPBOX_GL_URL = "https://cdnjs.cloudflare.com/ajax/libs/mapbox-gl/3.4.0/mapbox-gl.min.js";
+/** The one Mapbox API URL: the Static Images endpoint for a satellite view. */
+const MAPBOX_STATIC_BASE = "https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static";
+/** The style the atlas map opens with (a `mapbox://` style id is not a host). */
+const MAPBOX_STYLE = "mapbox://styles/mapbox/dark-v11";
+/** Where a token pasted into the atlas is kept, in this browser only. */
+const MAPBOX_TOKEN_KEY = "smartciti.mapboxToken";
+/** The launch-URL parameter that carries a token for one tab. */
+const MAPBOX_URL_PARAM = "mapbox";
+
+// A public token is "pk", a dot, then one or two base64url segments; nothing
+// else (a secret "sk." token must never reach a page, so it is refused too).
+const MB_TOKEN_RE = /^pk\.[A-Za-z0-9_-]{10,}(\.[A-Za-z0-9_-]{4,})?$/;
+
+/** The token if it is shaped like a Mapbox public token, else null. */
+function cleanMapboxToken(v) {
+  if (typeof v !== "string") return null;
+  const t = v.trim();
+  return t.length <= 512 && MB_TOKEN_RE.test(t) ? t : null;
+}
+
+// ------------------------------------------------------------------ storage
+
+function mbStore(name) {
+  try { const s = globalThis[name]; return s && typeof s.getItem === "function" ? s : null; } catch (_) { return null; }
+}
+function mbRead(store, key) { try { return store?.getItem(key) ?? null; } catch (_) { return null; } }
+function mbWrite(store, key, value) {
+  try { if (value == null) store?.removeItem?.(key); else store?.setItem?.(key, value); return true; } catch (_) { return false; }
+}
+
+/**
+ * The token this page may use, or null: `?mapbox=` on the launch URL (then
+ * remembered in sessionStorage for the tab), else sessionStorage, else
+ * localStorage, else `config.mapboxToken` — the parsed auth-config.json a
+ * caller already read with readMapboxConfig(). Synchronous and network-free;
+ * `opts.search/session/local/config` override the browser's own for tests.
+ */
+function mapboxToken(opts = {}) {
+  const search = opts.search ?? (typeof location !== "undefined" ? location.search : "");
+  const session = opts.session === undefined ? mbStore("sessionStorage") : opts.session;
+  const local = opts.local === undefined ? mbStore("localStorage") : opts.local;
+  let fromUrl = null;
+  try { fromUrl = cleanMapboxToken(new URLSearchParams(search || "").get(MAPBOX_URL_PARAM)); } catch (_) { fromUrl = null; }
+  if (fromUrl) { mbWrite(session, MAPBOX_TOKEN_KEY, fromUrl); return fromUrl; }
+  return cleanMapboxToken(mbRead(session, MAPBOX_TOKEN_KEY))
+    ?? cleanMapboxToken(mbRead(local, MAPBOX_TOKEN_KEY))
+    ?? cleanMapboxToken(opts.config?.mapboxToken)
+    ?? null;
+}
+
+/** Keep a pasted token in this browser (localStorage). Returns the cleaned
+ *  token, or null (and stores nothing) when it is not a public token. */
+function rememberMapboxToken(token, opts = {}) {
+  const local = opts.local === undefined ? mbStore("localStorage") : opts.local;
+  const clean = cleanMapboxToken(token);
+  if (clean) mbWrite(local, MAPBOX_TOKEN_KEY, clean);
+  return clean;
+}
+
+/** Forget a remembered token, in both storages. */
+function forgetMapboxToken(opts = {}) {
+  const local = opts.local === undefined ? mbStore("localStorage") : opts.local;
+  const session = opts.session === undefined ? mbStore("sessionStorage") : opts.session;
+  mbWrite(local, MAPBOX_TOKEN_KEY, null);
+  mbWrite(session, MAPBOX_TOKEN_KEY, null);
+  return true;
+}
+
+/**
+ * Read the deployment's auth-config.json (same-origin, beside the page, the
+ * same file shared/auth.js reads) for its `mapboxToken`. Resolves to
+ * `{ mapboxToken }` (cleaned, possibly null) or null when the file is missing
+ * or unreadable. Only runs in a browser (`location` exists) or with
+ * `opts.fetch` supplied — never from a headless checker by accident.
+ */
+async function readMapboxConfig(url = "./auth-config.json", opts = {}) {
+  const f = opts.fetch ?? (typeof location !== "undefined" && typeof globalThis.fetch === "function" ? (...a) => globalThis.fetch(...a) : null);
+  if (!f) return null;
+  try {
+    const res = await f(url, { cache: "no-cache" });
+    if (!res?.ok) return null;
+    const file = await res.json();
+    return file && typeof file === "object" ? { mapboxToken: cleanMapboxToken(file.mapboxToken) } : null;
+  } catch (_) { return null; }
+}
+
+// ------------------------------------------------------------------ library
+
+/**
+ * The essential part of Mapbox GL's stylesheet — the map canvas, markers,
+ * popups and controls — injected inline by loadMapboxGl() so no external
+ * stylesheet is ever linked. Icons the real sheet draws with data-URI images
+ * are replaced by text glyphs; the attribution and wordmark stay visible, as
+ * Mapbox's terms ask.
+ */
+const MAPBOX_GL_CSS = `
+.mapboxgl-map{position:relative;overflow:hidden;font:12px/20px system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+.mapboxgl-canvas{position:absolute;left:0;top:0}
+.mapboxgl-canvas-container.mapboxgl-interactive{cursor:grab}
+.mapboxgl-canvas-container.mapboxgl-interactive:active{cursor:grabbing}
+.mapboxgl-canvas-container.mapboxgl-touch-zoom-rotate,.mapboxgl-canvas-container.mapboxgl-touch-drag-pan{touch-action:none}
+.mapboxgl-marker{position:absolute;top:0;left:0;will-change:transform;opacity:1;transition:opacity .2s}
+.mapboxgl-popup{position:absolute;top:0;left:0;display:flex;will-change:transform;pointer-events:none;z-index:3}
+.mapboxgl-popup-anchor-top,.mapboxgl-popup-anchor-top-left,.mapboxgl-popup-anchor-top-right{flex-direction:column}
+.mapboxgl-popup-anchor-bottom,.mapboxgl-popup-anchor-bottom-left,.mapboxgl-popup-anchor-bottom-right{flex-direction:column-reverse}
+.mapboxgl-popup-anchor-left{flex-direction:row}
+.mapboxgl-popup-anchor-right{flex-direction:row-reverse}
+.mapboxgl-popup-tip{width:0;height:0;border:10px solid transparent;z-index:1}
+.mapboxgl-popup-anchor-top .mapboxgl-popup-tip{align-self:center;border-top:none;border-bottom-color:#0d1e2b}
+.mapboxgl-popup-anchor-top-left .mapboxgl-popup-tip{align-self:flex-start;border-top:none;border-left:none;border-bottom-color:#0d1e2b}
+.mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip{align-self:flex-end;border-top:none;border-right:none;border-bottom-color:#0d1e2b}
+.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip{align-self:center;border-bottom:none;border-top-color:#0d1e2b}
+.mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip{align-self:flex-start;border-bottom:none;border-left:none;border-top-color:#0d1e2b}
+.mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-tip{align-self:flex-end;border-bottom:none;border-right:none;border-top-color:#0d1e2b}
+.mapboxgl-popup-anchor-left .mapboxgl-popup-tip{align-self:center;border-left:none;border-right-color:#0d1e2b}
+.mapboxgl-popup-anchor-right .mapboxgl-popup-tip{align-self:center;border-right:none;border-left-color:#0d1e2b}
+.mapboxgl-popup-content{position:relative;background:#0d1e2b;color:#eaf6ff;border:1px solid rgba(140,200,230,.4);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.45);padding:12px 14px;pointer-events:auto;max-width:280px;font-size:13px;line-height:1.45}
+.mapboxgl-popup-content a{color:#4fd1ff}
+.mapboxgl-popup-close-button{position:absolute;right:2px;top:0;border:0;border-radius:0 8px 0 0;background:transparent;color:#9cc0d6;cursor:pointer;font-size:16px;line-height:1;padding:4px 7px}
+.mapboxgl-popup-close-button:hover{color:#fff}
+.mapboxgl-ctrl-top-left,.mapboxgl-ctrl-top-right,.mapboxgl-ctrl-bottom-left,.mapboxgl-ctrl-bottom-right{position:absolute;pointer-events:none;z-index:2}
+.mapboxgl-ctrl-top-left{top:0;left:0}.mapboxgl-ctrl-top-right{top:0;right:0}.mapboxgl-ctrl-bottom-left{bottom:0;left:0}.mapboxgl-ctrl-bottom-right{bottom:0;right:0}
+.mapboxgl-ctrl{clear:both;pointer-events:auto;transform:translate(0)}
+.mapboxgl-ctrl-top-left .mapboxgl-ctrl{margin:10px 0 0 10px;float:left}
+.mapboxgl-ctrl-top-right .mapboxgl-ctrl{margin:10px 10px 0 0;float:right}
+.mapboxgl-ctrl-bottom-left .mapboxgl-ctrl{margin:0 0 10px 10px;float:left}
+.mapboxgl-ctrl-bottom-right .mapboxgl-ctrl{margin:0 10px 10px 0;float:right}
+.mapboxgl-ctrl-group{background:#0d1e2b;border:1px solid rgba(140,200,230,.4);border-radius:6px;overflow:hidden}
+.mapboxgl-ctrl-group button{width:30px;height:30px;display:block;padding:0;border:0;background:transparent;color:#eaf6ff;cursor:pointer;font:700 18px/30px system-ui,sans-serif}
+.mapboxgl-ctrl-group button+button{border-top:1px solid rgba(140,200,230,.25)}
+.mapboxgl-ctrl-group button:hover{background:rgba(79,209,255,.18)}
+.mapboxgl-ctrl-group button:focus-visible{outline:2px solid #4fd1ff;outline-offset:-2px}
+.mapboxgl-ctrl-icon{display:block;width:100%;height:100%}
+.mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon::before{content:"+"}
+.mapboxgl-ctrl-zoom-out .mapboxgl-ctrl-icon::before{content:"\\2212"}
+.mapboxgl-ctrl-compass .mapboxgl-ctrl-icon::before{content:"N";font-size:13px}
+.mapboxgl-ctrl-attrib{padding:0 6px;background:rgba(6,14,22,.72);color:#9cc0d6;font-size:11px;line-height:18px;border-radius:4px}
+.mapboxgl-ctrl-attrib a{color:#dcf1ff;text-decoration:none}
+.mapboxgl-ctrl-attrib-button{display:none}
+.mapboxgl-ctrl-logo{display:block;width:auto;height:18px;padding:0 6px;color:#dcf1ff;font:700 11px/18px system-ui,sans-serif;text-decoration:none;background:rgba(6,14,22,.72);border-radius:4px}
+.mapboxgl-ctrl-logo::after{content:"Mapbox"}
+.mb-pin{width:16px;height:16px;border-radius:50%;border:2px solid #0a1420;background:#f2c14b;padding:0;cursor:pointer;box-shadow:0 0 0 2px rgba(255,255,255,.35)}
+.mb-pin.mb-pin-landmark{background:#a079ff;border-radius:3px;transform:rotate(45deg)}
+.mb-pin:focus-visible{outline:2px solid #4fd1ff;outline-offset:2px}
+.mb-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.mb-chip{display:inline-block;padding:1px 7px;border-radius:999px;border:1px solid rgba(79,209,255,.45);background:rgba(79,209,255,.12);color:#dcf1ff;font-size:11.5px;text-decoration:none}
+.mb-kind{color:#9cc0d6;font-size:12px;margin:1px 0 4px}
+`;
+
+let mbCssInjected = false;
+/** Insert MAPBOX_GL_CSS into the document once. Returns whether it is there. */
+function injectMapboxCss(doc = globalThis.document) {
+  if (mbCssInjected) return true;
+  if (!doc?.createElement) return false;
+  const style = doc.createElement("style");
+  style.setAttribute?.("data-mapbox-gl-css", "inline");
+  style.textContent = MAPBOX_GL_CSS;
+  (doc.head ?? doc.body ?? doc.documentElement)?.appendChild?.(style);
+  mbCssInjected = true;
+  return true;
+}
+
+function mbInsertScript(url, done, doc = globalThis.document) {
+  if (!doc?.createElement) { done(false); return; }
+  const s = doc.createElement("script");
+  s.src = url; s.async = true; s.crossOrigin = "anonymous";
+  s.onload = () => done(true);
+  s.onerror = () => done(false);
+  (doc.head ?? doc.body ?? doc.documentElement).appendChild(s);
+}
+
+let mbGlPending = null;
+/**
+ * Lazily load Mapbox GL JS from cdnjs — one <script>, inserted once — and
+ * inject the stylesheet above. Resolves to the `mapboxgl` global, or null:
+ * without a token (nothing is inserted at all), when the insertion fails
+ * (blocked host, offline), or when the script loaded but defined nothing.
+ * `opts.insert(url, done, doc)` replaces the DOM insertion for tests and
+ * for a host that wants to load the library its own way.
+ */
+function loadMapboxGl(opts = {}) {
+  const token = opts.token ?? mapboxToken();
+  if (!token) return Promise.resolve(null);
+  const g = globalThis;
+  if (g.mapboxgl?.Map) { injectMapboxCss(opts.doc); return Promise.resolve(g.mapboxgl); }
+  if (!mbGlPending) {
+    mbGlPending = new Promise((resolve) => {
+      let settled = false;
+      const done = (ok) => {
+        if (settled) return;
+        settled = true;
+        const lib = ok && g.mapboxgl?.Map ? g.mapboxgl : null;
+        if (!lib) mbGlPending = null; // a later call may try again (a token pasted after a failure)
+        resolve(lib);
+      };
+      try { (opts.insert ?? mbInsertScript)(MAPBOX_GL_URL, done, opts.doc); } catch (_) { done(false); }
+    }).then((lib) => { if (lib) injectMapboxCss(opts.doc); return lib; });
+  }
+  return mbGlPending;
+}
+
+// ---------------------------------------------------------------------- map
+
+function mbEscape(s) {
+  return String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+function mbHex(n) { return `#${((typeof n === "number" ? n : 0x4fd1ff) & 0xffffff).toString(16).padStart(6, "0")}`; }
+function mbCentre(zone) { return zone.centre ?? zone.center ?? [0, 0]; }
+function mbPosition(item) {
+  const p = item.position ?? [0, 0];
+  return p.length === 3 ? [p[0], p[2]] : [p[0], p[1]];
+}
+
+/** A zone's circle, as a closed lon/lat ring: points around the centre in
+ *  Bay metres, each through bayToGeo(), so the ring is the exact affine
+ *  image of the circle (an ellipse on the map when the fit is anisotropic —
+ *  which is the truth of it, not an artefact). */
+function mapboxZoneRing(zone, steps = 48) {
+  const [cx, cz] = mbCentre(zone), r = zone.radius ?? 100;
+  const ring = [];
+  for (let i = 0; i <= steps; i++) {
+    const a = (i / steps) * Math.PI * 2;
+    ring.push(bayToGeo([cx + Math.cos(a) * r, cz + Math.sin(a) * r]));
+  }
+  return ring;
+}
+
+/** The default popup: name, zone and kind, blurb, and one chip per
+ *  programme. A caller with real links passes `renderPopup` instead. */
+function mapboxDefaultPopup(item, kind, zoneName = "") {
+  const chips = (item.programmes ?? []).map((p) => `<span class="mb-chip">${mbEscape(p.replace(/-/g, " "))}</span>`).join("");
+  return `<b>${mbEscape(item.name)}</b><div class="mb-kind">${mbEscape(zoneName || item.zone || "")}${kind ? ` · ${mbEscape(kind)}` : ""}</div>`
+    + (item.blurb ? `<div>${mbEscape(item.blurb)}</div>` : "")
+    + (chips ? `<div class="mb-chips">${chips}</div>` : "");
+}
+
+/**
+ * A Mapbox GL map over the Bay: fitted to bayGeoBounds(), a marker per site
+ * and per landmark placed by bay-geo, a translucent circle per zone in its
+ * own accent, and a popup per marker (programme chips by default, or
+ * `opts.renderPopup(item, kind)`'s HTML). `opts.onSelect(item, kind)` fires
+ * when a marker is clicked. Resolves to `{ map, markers, destroy }`, or to
+ * null — without a token before anything is requested, or when the library
+ * could not be loaded. `opts.mapboxgl` and `opts.insert` are the test seams.
+ */
+async function createBayMap(container, opts = {}) {
+  const token = opts.token ?? mapboxToken();
+  if (!token || !container) return null;
+  const gl = opts.mapboxgl ?? await loadMapboxGl({ token, insert: opts.insert, doc: opts.doc });
+  if (!gl?.Map) return null;
+  gl.accessToken = token;
+  const b = bayGeoBounds();
+  const map = new gl.Map({
+    container, style: opts.style ?? MAPBOX_STYLE,
+    bounds: [[b.minLon, b.minLat], [b.maxLon, b.maxLat]], fitBoundsOptions: { padding: 28 },
+    attributionControl: true, cooperativeGestures: false,
+  });
+  if (gl.NavigationControl) map.addControl(new gl.NavigationControl({ visualizePitch: false }), "top-right");
+
+  const zones = opts.zones ?? [], landmarks = opts.landmarks ?? [], sites = opts.sites ?? [];
+  const zoneName = (id) => zones.find((z) => z.id === id)?.name ?? id ?? "";
+  const doc = opts.doc ?? globalThis.document;
+  const markers = [];
+  const place = (item, kind) => {
+    const el = doc?.createElement?.("button");
+    if (!el) return;
+    el.className = `mb-pin mb-pin-${kind}`;
+    el.type = "button";
+    el.setAttribute?.("aria-label", `${item.name} (${kind})`);
+    el.title = item.name;
+    el.addEventListener?.("click", () => opts.onSelect?.(item, kind));
+    const html = opts.renderPopup ? opts.renderPopup(item, kind) : mapboxDefaultPopup(item, kind, zoneName(item.zone));
+    const popup = gl.Popup ? new gl.Popup({ offset: 14, maxWidth: "280px" }).setHTML(html) : null;
+    const marker = new gl.Marker({ element: el, anchor: "center" }).setLngLat(bayToGeo(mbPosition(item)));
+    if (popup) marker.setPopup(popup);
+    marker.addTo(map);
+    markers.push({ marker, item, kind });
+  };
+  for (const l of landmarks) place(l, "landmark");
+  for (const s of sites) place(s, "site");
+
+  const features = zones.map((z) => ({
+    type: "Feature",
+    properties: { id: z.id, name: z.name, color: mbHex(z.palette?.accent ?? z.color) },
+    geometry: { type: "Polygon", coordinates: [mapboxZoneRing(z)] },
+  }));
+  const addZones = () => {
+    if (!features.length || map.getSource?.("bay-zones")) return;
+    map.addSource("bay-zones", { type: "geojson", data: { type: "FeatureCollection", features } });
+    map.addLayer({ id: "bay-zones-fill", type: "fill", source: "bay-zones", paint: { "fill-color": ["get", "color"], "fill-opacity": 0.14 } });
+    map.addLayer({ id: "bay-zones-line", type: "line", source: "bay-zones", paint: { "line-color": ["get", "color"], "line-width": 1.5, "line-opacity": 0.7 } });
+  };
+  if (map.isStyleLoaded?.()) addZones(); else map.on("load", addZones);
+
+  return {
+    map, markers,
+    destroy() { for (const m of markers) m.marker.remove?.(); map.remove?.(); },
+  };
+}
+
+// ------------------------------------------------------------------- ground
+
+function mbMercatorY(latDeg) { const phi = (latDeg * Math.PI) / 180; return Math.log(Math.tan(Math.PI / 4 + phi / 2)); }
+
+/** The static image's pixel size: the widest the endpoint allows on the
+ *  long side, the short side in the bounds' own Web Mercator aspect, so the
+ *  image is the box and nothing more (the endpoint fits the box inside the
+ *  requested frame, so a mismatched aspect would pad one axis). */
+function bayStaticImageSize(longSide = 1280) {
+  const b = bayGeoBounds();
+  const dx = ((b.maxLon - b.minLon) * Math.PI) / 180;
+  const dy = mbMercatorY(b.maxLat) - mbMercatorY(b.minLat);
+  const aspect = dx / dy;
+  const side = Math.max(1, Math.min(1280, Math.round(longSide)));
+  return aspect >= 1
+    ? { width: side, height: Math.max(1, Math.round(side / aspect)) }
+    : { width: Math.max(1, Math.round(side * aspect)), height: side };
+}
+
+/** The Static Images URL for a satellite view of bayGeoBounds(). Pure — it
+ *  builds a string and requests nothing; the token is required so no URL
+ *  without one can exist. */
+function bayStaticImageUrl(token, opts = {}) {
+  const clean = cleanMapboxToken(token);
+  if (!clean) return null;
+  const b = bayGeoBounds();
+  const { width, height } = bayStaticImageSize(opts.longSide);
+  const box = [b.minLon, b.minLat, b.maxLon, b.maxLat].map((v) => v.toFixed(6)).join(",");
+  return `${MAPBOX_STATIC_BASE}/[${box}]/${width}x${height}${opts.retina ? "@2x" : ""}?access_token=${encodeURIComponent(clean)}`;
+}
+
+/**
+ * The 3×3 uv transform (row-major, nine numbers for a three.js Matrix3's
+ * set()) that maps a Bay World ground plane's own uv square onto the static
+ * image of bayGeoBounds(). The plane is shared/bayworld.js's bwTerrain():
+ * a PlaneGeometry `w` by `d` centred at (cx, cz) and rotated flat, so its
+ * u runs +x and its v runs −z. Composed affine → affine → affine, so the
+ * texture lands exactly where the fit says the ground is, rotation and all.
+ */
+function bayGroundUvMatrix({ cx = 0, cz = 0, w, d } = {}) {
+  const fit = bayGeoFit();
+  const b = bayGeoBounds();
+  const dLon = b.maxLon - b.minLon || 1, dLat = b.maxLat - b.minLat || 1;
+  const [a, bb, c] = fit.lon, [dd, e, f] = fit.lat;
+  // x = cx − w/2 + u·w ; z = cz + d/2 − v·d
+  const x0 = cx - w / 2, z0 = cz + d / 2;
+  const s0 = (a * x0 + bb * z0 + c - b.minLon) / dLon, su = (a * w) / dLon, sv = (-bb * d) / dLon;
+  const t0 = (dd * x0 + e * z0 + f - b.minLat) / dLat, tu = (dd * w) / dLat, tv = (-e * d) / dLat;
+  return [su, sv, s0, tu, tv, t0, 0, 0, 1];
+}
+
+/**
+ * A satellite image of bayGeoBounds() as a texture for the Bay World ground,
+ * via `three.TextureLoader`. Returns null synchronously when there is no
+ * token (nothing is requested), else a promise that resolves to the texture,
+ * or to null if the image could not load — the caller keeps the procedural
+ * ground either way. `three` is the three.js module the caller already has.
+ */
+function bayGroundTexture(three, opts = {}) {
+  const token = opts.token ?? mapboxToken();
+  if (!token || typeof three?.TextureLoader !== "function") return null;
+  const url = bayStaticImageUrl(token, opts);
+  if (!url) return null;
+  return new Promise((resolve) => {
+    try {
+      const loader = new three.TextureLoader();
+      loader.setCrossOrigin?.("anonymous");
+      loader.load(url, (tex) => {
+        if (tex) {
+          if (three.SRGBColorSpace) tex.colorSpace = three.SRGBColorSpace;
+          if (three.ClampToEdgeWrapping !== undefined) { tex.wrapS = three.ClampToEdgeWrapping; tex.wrapT = three.ClampToEdgeWrapping; }
+          tex.anisotropy = opts.anisotropy ?? 4;
+          tex.needsUpdate = true;
+        }
+        resolve(tex ?? null);
+      }, undefined, () => resolve(null));
+    } catch (_) { resolve(null); }
+  });
+}
+
+
 /* ===== bayworld/js/world.js ===== */
 // Bay World — the three.js scene: the city (BAY1's own shared/bayworld.js),
 // the fleet (shared/fleet.js), pedestrians, weather (shared/weather.js) and
@@ -20007,6 +20574,7 @@ function bwMapSites(size = 512, storage) {
 // ../../shared/bayworld.js, never through city.js — the same way fairway/js/
 // world.js imports buildFairwayPark straight from shared/fairway.js: a
 // module that touches three.js never belongs on city.js's pure side.
+
 
 
 
@@ -20058,6 +20626,44 @@ function bwSignBoard(THREE, text) {
 // app's day clock is a continuous hour (sim.js's bwAdvanceClock()), so
 // bwHourBucket() below is the one place that turns a continuous hour into
 // the discrete bucket bayLighting() understands.
+/**
+ * Real ground under the city (docs/mapbox.md): when a Mapbox token exists,
+ * shared/mapbox.js's bayGroundTexture() fetches one satellite image of the
+ * world's lon/lat box and it is applied to the ground slab shared/bayworld.js
+ * tagged `userData.bayGround`, with the uv transform that lines the image up
+ * with bay-geo's fit. Without a token nothing is requested and the
+ * procedural grass stays — which is also what happens if the image never
+ * arrives. The deployment's auth-config.json is read only after the
+ * synchronous lookups (launch URL, this browser's storage) found nothing.
+ */
+function bwApplySatelliteGround(root, THREE, opts = {}) {
+  let ground = null;
+  root.traverse((o) => { if (!ground && o.userData?.bayGround) ground = o; });
+  if (!ground) return null;
+  const apply = (tex) => {
+    if (!tex || !ground.material) return false;
+    const p = ground.geometry?.parameters ?? {};
+    const m = bayGroundUvMatrix({
+      cx: ground.position.x, cz: ground.position.z,
+      w: p.width ?? BAY_BOUNDS.maxX - BAY_BOUNDS.minX, d: p.height ?? BAY_BOUNDS.maxZ - BAY_BOUNDS.minZ,
+    });
+    if (tex.matrix?.set) { tex.matrixAutoUpdate = false; tex.matrix.set(...m); }
+    const mat = ground.material;
+    mat.map = tex; mat.bumpMap = null; mat.roughnessMap = null;
+    mat.color?.setHex?.(0xffffff);
+    mat.needsUpdate = true;
+    ground.userData.bayGroundSatellite = true;
+    return true;
+  };
+  const pending = bayGroundTexture(THREE, opts.token ? { token: opts.token } : {});
+  if (pending) return pending.then(apply).catch(() => false);
+  return readMapboxConfig("./auth-config.json").then((cfg) => {
+    const token = mapboxToken({ config: cfg });
+    const late = token ? bayGroundTexture(THREE, { token }) : null;
+    return late ? late.then(apply).catch(() => false) : false;
+  }).catch(() => false);
+}
+
 function bwHourBucket(hours) {
   const h = ((hours % 24) + 24) % 24;
   if (h >= 6 && h < 18) return "day";
@@ -20086,6 +20692,9 @@ function bwBuildWorld(root, THREE, opts = {}) {
     if (o.isHemisphereLight && !hemi) hemi = o;
     if (o.isDirectionalLight && !sun) sun = o;
   });
+
+  // Satellite ground, only with a token (see bwApplySatelliteGround()).
+  const satelliteGround = bwApplySatelliteGround(root, THREE);
 
   const player = bwPersonFigure(THREE);
   root.add(player);
@@ -20178,7 +20787,7 @@ function bwBuildWorld(root, THREE, opts = {}) {
   }
 
   return {
-    city, player, vehicles, sun, hemi,
+    city, player, vehicles, sun, hemi, satelliteGround,
     bwSpawnTrafficMeshes, bwSpawnPedestrianMeshes, bwSetWeather, bwApplyLighting, placeCamera,
   };
 }
@@ -20196,12 +20805,30 @@ const $ = (id) => document.getElementById(id);
 const bwStore = (() => { try { return window.localStorage; } catch { return null; } })();
 const PLACES = [...BW_SITES, ...BW_LANDMARKS];
 
+/** The Bay Atlas's deep link (docs/mapbox.md): `?site=<id>` or
+ *  `?landmark=<id>` names the place the shift starts beside — a few metres
+ *  off it, so the job-board prompt is up as soon as the world appears. An
+ *  id that names nothing is ignored and the shift starts at the depot. */
+function bwStartPlaceFrom(search, sites = BW_SITES, landmarks = BW_LANDMARKS) {
+  let params = null;
+  try { params = new URLSearchParams(search || ""); } catch { return null; }
+  const site = params.get("site"), landmark = params.get("landmark");
+  if (site) return sites.find((s) => s.id === site) ?? null;
+  if (landmark) return landmarks.find((l) => l.id === landmark) ?? null;
+  return null;
+}
+const bwStartPlace = bwStartPlaceFrom(typeof window !== "undefined" ? window.location?.search : "");
+
 const bwApp = {
   screen: "menu",
   scene: null, camera: null, renderer: null, world: null,
   mode: "foot",              // "foot" | "vehicle"
   cameraMode: "chase",       // "chase" | "first"
-  player: { x: -40, z: -50, heading: 0, speed: 0 }, // beside the downtown motor pool (world.js's BW_DEPOT)
+  // Beside the downtown motor pool (world.js's BW_DEPOT), or beside the
+  // place the Bay Atlas deep-linked to.
+  player: bwStartPlace
+    ? { x: bwStartPlace.position[0] + 6, z: bwStartPlace.position[2] + 6, heading: 0, speed: 0 }
+    : { x: -40, z: -50, heading: 0, speed: 0 },
   vehicleId: null,
   vehicleState: null,
   hours: 9,                  // the day clock, 0-24
@@ -20651,6 +21278,7 @@ function bwStart() {
 }
 
 $("menu-start")?.addEventListener("click", bwStart);
+if (bwStartPlace) { const b = $("menu-start"); if (b) b.textContent = `Start the shift at ${bwStartPlace.name}`; }
 $("hud-radio-btn")?.addEventListener("click", bwOpenRadio);
 $("hud-map-btn")?.addEventListener("click", () => bwToggleMap());
 $("map-close")?.addEventListener("click", () => bwToggleMap(false));
