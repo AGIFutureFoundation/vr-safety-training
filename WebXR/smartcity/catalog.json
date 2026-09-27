@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 568
+      "stations": 576
     },
     "trades": {
       "entry": "trades/index.html",
@@ -107,7 +107,15 @@
         "av-pushback-tug-and-towbar-connection",
         "av-marshalling-and-wingwalker-signals",
         "ed-crossing-guard-intersection-control",
-        "ed-bus-pretrip-and-loading-zone"
+        "ed-bus-pretrip-and-loading-zone",
+        "ca-fatigue-and-duty-time-self-check",
+        "ca-flight-deck-crew-resource-management",
+        "ca-door-evacuation-drill",
+        "ca-cabin-decompression-and-oxygen-masks",
+        "ca-unruly-passenger-deescalation",
+        "ca-cabin-medical-event-response",
+        "ca-galley-and-cart-safety",
+        "ca-cabin-preflight-safety-check"
       ]
     },
     {
@@ -4904,6 +4912,67 @@
       "ladder": {
         "levels": 20,
         "lessons": 1693,
+        "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
+    },
+    {
+      "id": "airline-cabin-and-flight-crew",
+      "name": "Airline Cabin and Flight Crew — AFA-CWA and ALPA",
+      "union": "AFA-CWA and ALPA",
+      "certification": "AFA-CWA cabin-safety training and ALPA member professional-standards training; FAA 14 CFR Part 121 air carrier operations; OSHA 29 CFR 1910.151 medical services and first aid and 29 CFR 1910.1030 bloodborne pathogens; Cal/OSHA's workplace violence prevention standard, 8 CCR 3342, across eight distinct flight attendant and pilot jobs",
+      "summary": "Eight jobs an AFA-CWA flight attendant or an ALPA pilot actually rotates through: a cabin pre-flight safety check with the doors armed and cross-checked, the galley and its cart secured against turbulence, a cabin medical event supported without a single clinical guess, an unruly passenger de-escalated with distance and the captain's own word on anything further, a decompression drill run mask-on-first, a door evacuation held on commands and a blocked frame, a flight-deck crew resource management briefing built on sterile discipline and closed-loop callouts, and an honest fatigue self-check before ever signing in. Every station ends on a proof — a cross-check confirmed, a gauge read, a callout actually acknowledged — rather than on how routine the job felt going in.",
+      "accent": "#5a8fd8",
+      "stations": [
+        {
+          "app": "smartcity",
+          "id": "ca-cabin-preflight-safety-check",
+          "why": "Nothing about this door gets armed until the exits and the aisle are actually proven clear, and even then it only counts once the crew member across the aisle has cross-checked it — one person's own confirmation is never the whole story."
+        },
+        {
+          "app": "smartcity",
+          "id": "ca-galley-and-cart-safety",
+          "why": "A cart that isn't braked and latched between every push is a cart that moves on its own the instant the aircraft does, and the whole galley gets secured for descent the moment the sign says so, not whenever there's a free minute."
+        },
+        {
+          "app": "smartcity",
+          "id": "ca-cabin-medical-event-response",
+          "why": "Every clinical decision here belongs to the responding professional or to ground-based medical support, never to the crew member closest to the seat — the job is calling for help correctly, clearing space, and relaying exactly what's reported, nothing guessed at."
+        },
+        {
+          "app": "smartcity",
+          "id": "ca-unruly-passenger-deescalation",
+          "why": "Distance and a calm approach come first, the flight deck door gets reinforced the moment things move the wrong way, and whether restraint is ever used is the captain's decision alone, given explicitly, never assumed by whoever is standing closest."
+        },
+        {
+          "app": "smartcity",
+          "id": "ca-cabin-decompression-and-oxygen-masks",
+          "why": "This crew member's own mask goes on before a single other row gets touched, because a flight attendant who passes out helping someone else's seat has just made this cabin's problem worse, not better."
+        },
+        {
+          "app": "smartcity",
+          "id": "ca-door-evacuation-drill",
+          "why": "The slide gets confirmed before anyone is sent onto it, the same three commands never stop, and the door frame stays physically blocked so the flow through it never breaks for a dropped bag or a passenger frozen at the sill."
+        },
+        {
+          "app": "smartcity",
+          "id": "ca-flight-deck-crew-resource-management",
+          "why": "A callout that lands on silence hasn't actually been heard — the sterile phase, the challenge-and-response checklist and the closed-loop acknowledgment all exist so nothing in this flight deck is ever just one pilot's own assumption."
+        },
+        {
+          "app": "smartcity",
+          "id": "ca-fatigue-and-duty-time-self-check",
+          "why": "The no-fault fatigue line only works if it's actually used the moment the honest self-assessment calls for it — no schedule pressure, and no hour or duty limit this platform states, gets to override that honest answer."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1552,
         "tasks": 120,
         "atBar": 20,
         "partial": 0,
@@ -30052,7 +30121,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 266,
+      "meshes": 260,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -30712,7 +30781,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",
@@ -52120,6 +52189,662 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=gr-meat-dept-band-saw-and-grinder-lockout"
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-fatigue-and-duty-time-self-check",
+      "name": "Fatigue and Duty-Time Self-Check",
+      "title": "SmartCiti.X~ Fatigue and Duty-Time Self-Check VR",
+      "tagline": "An honest self-assessment before signing in, a rest facility actually fit to rest in, a no-fault fatigue call-in used without hesitation, and a handoff to relief crew that says so plainly if they aren't actually fit to fly — no hour or duty limit stated anywhere",
+      "category": "Mobility & Transit",
+      "domain": "Aviation",
+      "trade": "Flight attendant and airline pilot — AFA-CWA and ALPA crew",
+      "union": null,
+      "certification": "AFA-CWA and ALPA member fatigue-awareness training; the airline's own fatigue risk management policy under 14 CFR 121 — no duty-time limit, rest-period length or numeric fatigue score is stated here, every threshold runs per the airline's own policy",
+      "accent": "#7a8fa3",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "hold",
+        "turn",
+        "gauge",
+        "track"
+      ],
+      "badge": {
+        "id": "fit-for-duty",
+        "name": "Fit for Duty Certified",
+        "note": "An honest self-assessment, a rest facility actually checked, a no-fault fatigue call made without hesitation, and a relief handoff that told the truth"
+      },
+      "meshes": 117,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ca-8",
+      "flat": false,
+      "system": "Fit for Duty",
+      "currency": "REST",
+      "ranks": [
+        "New Crew Member",
+        "Line Qualified",
+        "Lead Crew",
+        "Check Instructor",
+        "Fit for Duty Certified"
+      ],
+      "awards": [
+        {
+          "id": "honest-selfcheck",
+          "name": "Honest Self-Check",
+          "note": "Completed the alertness self-assessment honestly before signing in"
+        },
+        {
+          "id": "no-fault-call",
+          "name": "No-Fault Call Made",
+          "note": "Called in fatigued without hesitation when the self-check called for it"
+        },
+        {
+          "id": "alarm-tested",
+          "name": "Alarm Tested",
+          "note": "Actually tested the wake alarm rather than trusting it untested"
+        },
+        {
+          "id": "clean-check",
+          "name": "Clean Check",
+          "note": "No corrections anywhere in the self-check"
+        },
+        {
+          "id": "steady-vigilance",
+          "name": "Steady Attention",
+          "note": "Held the vigilance check the full count, first try"
+        },
+        {
+          "id": "fast-check",
+          "name": "Fast Check",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ca-fatigue-and-duty-time-self-check"
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-flight-deck-crew-resource-management",
+      "name": "Flight Deck Crew Resource Management Briefing",
+      "title": "SmartCiti.X~ Flight Deck Crew Resource Management Briefing VR",
+      "tagline": "Threats and roles briefed before the engines start, the sterile flight deck held without exception, challenge-and-response checklist discipline where nothing is skipped silently, and a callout that isn't worth anything until it's actually acknowledged",
+      "category": "Mobility & Transit",
+      "domain": "Aviation",
+      "trade": "Airline pilot — ALPA flight crew",
+      "union": null,
+      "certification": "ALPA member professional-standards and safety training; the airline's own crew resource management and sterile-flight-deck procedure under 14 CFR 121, coordinated with the AFA-CWA cabin crew through the same closed-loop callouts this station teaches — no altitude, airspeed or clearance value is stated here, every threshold runs per the checklist",
+      "accent": "#5a8fd8",
+      "parSeconds": 340,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "find",
+        "select",
+        "turn",
+        "gauge",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "deck-disciplined",
+        "name": "Deck Disciplined",
+        "note": "The briefing given, the sterile phase held, the checklist run challenge-and-response, and every callout closed the loop before the flight deck moved on"
+      },
+      "meshes": 128,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ca-7",
+      "flat": false,
+      "system": "Deck Disciplined",
+      "currency": "CRM",
+      "ranks": [
+        "New First Officer",
+        "Line Qualified",
+        "Line Captain",
+        "Check Airman",
+        "Deck Disciplined Certified"
+      ],
+      "awards": [
+        {
+          "id": "briefing-complete",
+          "name": "Briefing Complete",
+          "note": "Threats and roles briefed before a single engine started"
+        },
+        {
+          "id": "sterile-held",
+          "name": "Sterile Held",
+          "note": "Declined the non-essential conversation during the sterile phase, first try"
+        },
+        {
+          "id": "loop-closed",
+          "name": "Loop Closed",
+          "note": "Every callout actually acknowledged, not just made"
+        },
+        {
+          "id": "clean-briefing",
+          "name": "Clean Briefing",
+          "note": "No corrections anywhere in the briefing"
+        },
+        {
+          "id": "steady-crosscheck",
+          "name": "Steady Crosscheck",
+          "note": "Held the instrument crosscheck the full count, first try"
+        },
+        {
+          "id": "fast-briefing",
+          "name": "Fast Briefing",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ca-flight-deck-crew-resource-management"
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-door-evacuation-drill",
+      "name": "Door Evacuation Drill",
+      "title": "SmartCiti.X~ Door Evacuation Drill VR",
+      "tagline": "Look before opening, confirm the slide before anyone goes onto it, the same short commands shouted over and over, and the door frame physically blocked so the flow through it never stops for a dropped bag or a frozen passenger",
+      "category": "Mobility & Transit",
+      "domain": "Aviation",
+      "trade": "Flight attendant — AFA-CWA cabin crew",
+      "union": null,
+      "certification": "AFA-CWA cabin-safety training; the airline's own emergency evacuation checklist and command set under 14 CFR 121; OSHA 29 CFR 1910.151 medical services and first aid for an evacuation injury this drill is built to prevent",
+      "accent": "#e0525f",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "hold",
+        "track",
+        "gauge"
+      ],
+      "badge": {
+        "id": "door-cleared",
+        "name": "Door Cleared",
+        "note": "Conditions assessed before opening, the slide confirmed, the commands never stopped, and the door frame held clear through the entire flow"
+      },
+      "meshes": 198,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ca-6",
+      "flat": false,
+      "system": "Door Cleared",
+      "currency": "EVAC",
+      "ranks": [
+        "New Flight Attendant",
+        "Line Qualified",
+        "Lead Flight Attendant",
+        "Purser",
+        "Door Cleared Certified"
+      ],
+      "awards": [
+        {
+          "id": "assessed-first",
+          "name": "Assessed First",
+          "note": "Looked outside and confirmed the slide before opening the door to the flow"
+        },
+        {
+          "id": "flow-held",
+          "name": "Flow Held",
+          "note": "Blocked the door frame and held the flow moving without a break"
+        },
+        {
+          "id": "bags-left-behind",
+          "name": "Bags Left Behind",
+          "note": "Every carry-on caught and left behind before the slide"
+        },
+        {
+          "id": "clean-drill",
+          "name": "Clean Drill",
+          "note": "No corrections anywhere in the drill"
+        },
+        {
+          "id": "fast-drill",
+          "name": "Fast Drill",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "evac-streak",
+          "name": "Command Streak",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ca-door-evacuation-drill"
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-cabin-decompression-and-oxygen-masks",
+      "name": "Cabin Decompression and Oxygen Mask Drill",
+      "title": "SmartCiti.X~ Cabin Decompression and Oxygen Mask Drill VR",
+      "tagline": "This crew member's own mask on first, every time, then the sweep down the aisle for the mask that never dropped, the child who needs a hand, and the loose item that turns into a projectile — no altitude or descent number this platform is not certain of",
+      "category": "Mobility & Transit",
+      "domain": "Aviation",
+      "trade": "Flight attendant — AFA-CWA cabin crew",
+      "union": null,
+      "certification": "AFA-CWA cabin-safety training; the airline's own rapid decompression and emergency descent checklist under 14 CFR 121; OSHA 29 CFR 1910.151 medical services and first aid for the oxygen equipment this drill covers",
+      "accent": "#4fb0d8",
+      "parSeconds": 340,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "hold",
+        "turn",
+        "gauge",
+        "track"
+      ],
+      "badge": {
+        "id": "cabin-repressurized",
+        "name": "Cabin Repressurized",
+        "note": "Own mask on first, every mask in the row confirmed, the loose items caught, and the cabin swept and logged once it was safe to move again"
+      },
+      "meshes": 207,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ca-5",
+      "flat": false,
+      "system": "Cabin Repressurized",
+      "currency": "O2",
+      "ranks": [
+        "New Flight Attendant",
+        "Line Qualified",
+        "Lead Flight Attendant",
+        "Purser",
+        "Cabin Repressurized Certified"
+      ],
+      "awards": [
+        {
+          "id": "own-mask-first",
+          "name": "Own Mask First",
+          "note": "Secured your own mask before touching anyone else's row"
+        },
+        {
+          "id": "row-swept",
+          "name": "Row Swept",
+          "note": "Every mask in the cabin confirmed before moving on"
+        },
+        {
+          "id": "backup-o2-delivered",
+          "name": "Backup O2 Delivered",
+          "note": "The portable bottle reached the row with the failed compartment"
+        },
+        {
+          "id": "clean-drill",
+          "name": "Clean Drill",
+          "note": "No corrections anywhere in the drill"
+        },
+        {
+          "id": "steady-watch",
+          "name": "Steady Watch",
+          "note": "Held the cabin-altitude watch the full count, first try"
+        },
+        {
+          "id": "fast-drill",
+          "name": "Fast Drill",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ca-cabin-decompression-and-oxygen-masks"
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-unruly-passenger-deescalation",
+      "name": "Unruly Passenger De-escalation",
+      "title": "SmartCiti.X~ Unruly Passenger De-escalation VR",
+      "tagline": "Distance kept, a calm scripted approach tried first, the flight deck door reinforced and the captain notified the moment things move the wrong way, and any restraint kit staged and never opened without the captain's own explicit authorization",
+      "category": "Mobility & Transit",
+      "domain": "Aviation",
+      "trade": "Flight attendant — AFA-CWA cabin crew",
+      "union": null,
+      "certification": "AFA-CWA cabin-safety training; the airline's own disruptive-passenger response procedure under 14 CFR 121; Cal/OSHA's workplace violence prevention standard, 8 CCR 3342, for the hazard scan and the honest incident record this station teaches — no physical restraint technique is taught here, only distance, notification and the captain's own authorization",
+      "accent": "#b85fa0",
+      "parSeconds": 340,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "turn",
+        "gauge",
+        "drag"
+      ],
+      "badge": {
+        "id": "cabin-deescalated",
+        "name": "Cabin De-escalated",
+        "note": "Distance kept, the calm approach tried, the flight deck secured and the captain notified, and nothing about restraint decided by anyone but the captain"
+      },
+      "meshes": 178,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ca-4",
+      "flat": false,
+      "system": "Cabin De-escalated",
+      "currency": "CALM",
+      "ranks": [
+        "New Flight Attendant",
+        "Line Qualified",
+        "Lead Flight Attendant",
+        "Purser",
+        "Cabin De-escalated Certified"
+      ],
+      "awards": [
+        {
+          "id": "distance-kept",
+          "name": "Distance Kept",
+          "note": "Noticed the cues and kept distance before anything else"
+        },
+        {
+          "id": "deck-secured",
+          "name": "Flight Deck Secured",
+          "note": "The flight deck door reinforced the moment it mattered"
+        },
+        {
+          "id": "captain-authorized",
+          "name": "Captain Authorized",
+          "note": "Nothing about restraint happened without the captain's own explicit word"
+        },
+        {
+          "id": "clean-response",
+          "name": "Clean Response",
+          "note": "No corrections anywhere in the response"
+        },
+        {
+          "id": "steady-hold",
+          "name": "Steady Hold",
+          "note": "Held position at the aisle the full count, first try"
+        },
+        {
+          "id": "fast-response",
+          "name": "Fast Response",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ca-unruly-passenger-deescalation"
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-cabin-medical-event-response",
+      "name": "Cabin Medical Event Response",
+      "title": "SmartCiti.X~ Cabin Medical Event Response VR",
+      "tagline": "Help called for the way the airline's own procedure spells out, the row cleared and calmed, the kit and equipment delivered to whoever is actually qualified to use them, and the ground-based medical support and the flight deck kept informed the whole time — every clinical call left to the professional trained to make it",
+      "category": "Mobility & Transit",
+      "domain": "Aviation",
+      "trade": "Flight attendant — AFA-CWA cabin crew",
+      "union": null,
+      "certification": "AFA-CWA cabin-safety training; the airline's own in-flight medical event procedure under 14 CFR 121; OSHA 29 CFR 1910.151 medical services and first aid and 29 CFR 1910.1030 bloodborne pathogens for the kit and the exposure precautions this station covers — no clinical or diagnostic decision is taught here",
+      "accent": "#d8564a",
+      "parSeconds": 340,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "drag",
+        "turn",
+        "gauge",
+        "hold"
+      ],
+      "badge": {
+        "id": "response-supported",
+        "name": "Response Supported",
+        "note": "Help called for correctly, the row cleared, the kit delivered, and the ground-based medical support and the flight deck kept informed — without a single clinical guess along the way"
+      },
+      "meshes": 207,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ca-3",
+      "flat": false,
+      "system": "Response Supported",
+      "currency": "AID",
+      "ranks": [
+        "New Flight Attendant",
+        "Line Qualified",
+        "Lead Flight Attendant",
+        "Purser",
+        "Response Supported Certified"
+      ],
+      "awards": [
+        {
+          "id": "help-called",
+          "name": "Help Called Correctly",
+          "note": "Called for medical help the way the airline's own procedure spells out, first try"
+        },
+        {
+          "id": "row-cleared",
+          "name": "Row Cleared",
+          "note": "The space around the passenger cleared before the kit ever arrived"
+        },
+        {
+          "id": "comms-held",
+          "name": "Comms Held",
+          "note": "Held the relay to ground medical support open the full count, first try"
+        },
+        {
+          "id": "clean-response",
+          "name": "Clean Response",
+          "note": "No corrections anywhere in the response"
+        },
+        {
+          "id": "fast-response",
+          "name": "Fast Response",
+          "note": "Complete inside 80% of par"
+        },
+        {
+          "id": "aid-streak",
+          "name": "Steady Support",
+          "note": "Nine correct actions in a row"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ca-cabin-medical-event-response"
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-galley-and-cart-safety",
+      "name": "Galley and Cart Safety",
+      "title": "SmartCiti.X~ Galley and Cart Safety VR",
+      "tagline": "The cart braked and latched between every push, hot liquid capped and never carried uncovered, a galley scanned for what turbulence would turn loose, and the whole galley secured for descent the moment the seatbelt sign says so",
+      "category": "Mobility & Transit",
+      "domain": "Aviation",
+      "trade": "Flight attendant — AFA-CWA cabin crew",
+      "union": null,
+      "certification": "AFA-CWA cabin-safety training; the airline's own galley and cart-service procedure under 14 CFR 121; OSHA 29 CFR 1910.151 medical services and first aid for a scald or a strain this station's securing habit is built to prevent",
+      "accent": "#d8a23b",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "gauge",
+        "turn",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "galley-secure",
+        "name": "Galley Secure",
+        "note": "The cart braked and stowed, hot liquid capped, the galley scanned clean, and everything secured for descent the moment the sign called for it"
+      },
+      "meshes": 146,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ca-2",
+      "flat": false,
+      "system": "Galley Secure",
+      "currency": "STOW",
+      "ranks": [
+        "New Flight Attendant",
+        "Line Qualified",
+        "Lead Flight Attendant",
+        "Purser",
+        "Galley Secure Certified"
+      ],
+      "awards": [
+        {
+          "id": "cart-braked",
+          "name": "Cart Braked",
+          "note": "The cart's wheel brake set and the restraint strap tension confirmed"
+        },
+        {
+          "id": "hot-liquid-capped",
+          "name": "Hot Liquid Capped",
+          "note": "Every hot-liquid container capped before it ever left the galley"
+        },
+        {
+          "id": "descent-secure",
+          "name": "Descent Secure Certified",
+          "note": "The whole galley latched and secured for descent, nothing left loose"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Service",
+          "note": "No corrections anywhere in the service"
+        },
+        {
+          "id": "steady-tray",
+          "name": "Steady Tray",
+          "note": "Carried the hot-liquid tray level the whole count, first try"
+        },
+        {
+          "id": "fast-service",
+          "name": "Fast Turn",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ca-galley-and-cart-safety"
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-cabin-preflight-safety-check",
+      "name": "Cabin Pre-Flight Safety Check",
+      "title": "SmartCiti.X~ Cabin Pre-Flight Safety Check VR",
+      "tagline": "Emergency equipment counted against its own placard, the door armed and cross-checked with the crew member across the aisle, the exits and aisle proven clear, and the cabin declared secure only once every one of those is actually true",
+      "category": "Mobility & Transit",
+      "domain": "Aviation",
+      "trade": "Flight attendant — AFA-CWA cabin crew",
+      "union": null,
+      "certification": "AFA-CWA cabin-safety training; the airline's own cabin-safety checklist and door-arming procedure under 14 CFR 121; OSHA 29 CFR 1910.151 medical services and first aid for the equipment this check counts",
+      "accent": "#2f8fdb",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "hold",
+        "turn",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "cabin-secure",
+        "name": "Cabin Secure",
+        "note": "Every emergency item counted, the door armed and cross-checked, the exits proven clear, and the flight deck told the cabin is ready — nothing assumed"
+      },
+      "meshes": 184,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ca-1",
+      "flat": false,
+      "system": "Cabin Secure",
+      "currency": "CHECK",
+      "ranks": [
+        "New Flight Attendant",
+        "Line Qualified",
+        "Lead Flight Attendant",
+        "Purser",
+        "Cabin Secure Certified"
+      ],
+      "awards": [
+        {
+          "id": "kit-counted",
+          "name": "Kit Counted",
+          "note": "Every emergency item verified against its own placard"
+        },
+        {
+          "id": "door-crosschecked",
+          "name": "Door Cross-Checked",
+          "note": "The door armed and the cross-check actually confirmed"
+        },
+        {
+          "id": "aisle-clear",
+          "name": "Aisle Clear Certified",
+          "note": "The exits and the aisle proven clear before the door was ever armed"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Turn",
+          "note": "No corrections anywhere in the check"
+        },
+        {
+          "id": "steady-watch",
+          "name": "Steady Watch",
+          "note": "Held the cabin-temperature check the full count, first try"
+        },
+        {
+          "id": "fast-check",
+          "name": "Fast Turn",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ca-cabin-preflight-safety-check"
     },
     {
       "app": "trades",

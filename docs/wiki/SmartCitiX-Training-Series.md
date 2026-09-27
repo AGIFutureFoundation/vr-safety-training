@@ -1,6 +1,6 @@
 # SmartCiti.X training series
 
-_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-27. 568 SmartCiti.X stations across 19 categories and 47 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
+_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-27. 576 SmartCiti.X stations across 19 categories and 48 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
 Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 50 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
@@ -53,6 +53,7 @@ Every station is a real union procedure sited generically, built on the shared e
 - [Grounds & Landscaping Crew](#grounds-and-landscaping)
 - [Pathway Edition — wojrc.org](#wojrc-pathway-edition)
 - [Grocery and Meatpacking — UFCW Store and Plant Floor](#grocery-and-meatpacking)
+- [Airline Cabin and Flight Crew — AFA-CWA and ALPA](#airline-cabin-and-flight-crew)
 
 <a id="hunters-point-bay-restoration"></a>
 ## Hunters Point Clean-up and Bay Restoration
@@ -1480,6 +1481,26 @@ Eight jobs a grocery and meatpacking crew actually rotates through: a meat depar
 | gr-6 | [Meatpacking Line Knife Work & PPE Rotation](../../WebXR/smartcity/index.html?sim=gr-meatpacking-line-knife-work-and-ppe-rotation) | Meatpacking line worker | indoor (plant) | 14 | 2 | — | The knife is honed and the cut-resistant PPE donned in order before the first cut, and the line's own rotation is taken on schedule instead of skipped for one more cycle. |
 | gr-7 | [Ammonia Leak Alarm Response, Cold Plant](../../WebXR/smartcity/index.html?sim=gr-ammonia-leak-alarm-response-cold-plant) | Grocery engineering / refrigeration technician | indoor (plant) | 13 | 2 | — | The alarm sends everyone out and mustered upwind, with nobody going back into the machine room until the plant's own plan gives the all-clear. |
 | gr-8 | [Pharmacy & Floral Chemical Handling and SDS](../../WebXR/smartcity/index.html?sim=gr-pharmacy-floral-chemical-handling-and-sds) | Pharmacy technician / floral clerk | indoor (clinic) | 14 | 2 | — | A chemical is checked against its own safety data sheet before it is stored, mixed to the label or cleaned up, with the eyewash proven clear the whole time. |
+
+<a id="airline-cabin-and-flight-crew"></a>
+## Airline Cabin and Flight Crew — AFA-CWA and ALPA
+
+**Union:** AFA-CWA and ALPA
+
+**Certifications and standards:** AFA-CWA cabin-safety training and ALPA member professional-standards training; FAA 14 CFR Part 121 air carrier operations; OSHA 29 CFR 1910.151 medical services and first aid and 29 CFR 1910.1030 bloodborne pathogens; Cal/OSHA's workplace violence prevention standard, 8 CCR 3342, across eight distinct flight attendant and pilot jobs
+
+Eight jobs an AFA-CWA flight attendant or an ALPA pilot actually rotates through: a cabin pre-flight safety check with the doors armed and cross-checked, the galley and its cart secured against turbulence, a cabin medical event supported without a single clinical guess, an unruly passenger de-escalated with distance and the captain's own word on anything further, a decompression drill run mask-on-first, a door evacuation held on commands and a blocked frame, a flight-deck crew resource management briefing built on sterile discipline and closed-loop callouts, and an honest fatigue self-check before ever signing in. Every station ends on a proof — a cross-check confirmed, a gauge read, a callout actually acknowledged — rather than on how routine the job felt going in.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| ca-1 | [Cabin Pre-Flight Safety Check](../../WebXR/smartcity/index.html?sim=ca-cabin-preflight-safety-check) | Flight attendant — AFA-CWA cabin crew | clear | 13 | 2 | — | Nothing about this door gets armed until the exits and the aisle are actually proven clear, and even then it only counts once the crew member across the aisle has cross-checked it — one person's own confirmation is never the whole story. |
+| ca-2 | [Galley and Cart Safety](../../WebXR/smartcity/index.html?sim=ca-galley-and-cart-safety) | Flight attendant — AFA-CWA cabin crew | clear | 12 | 2 | — | A cart that isn't braked and latched between every push is a cart that moves on its own the instant the aircraft does, and the whole galley gets secured for descent the moment the sign says so, not whenever there's a free minute. |
+| ca-3 | [Cabin Medical Event Response](../../WebXR/smartcity/index.html?sim=ca-cabin-medical-event-response) | Flight attendant — AFA-CWA cabin crew | clear | 13 | 2 | — | Every clinical decision here belongs to the responding professional or to ground-based medical support, never to the crew member closest to the seat — the job is calling for help correctly, clearing space, and relaying exactly what's reported, nothing guessed at. |
+| ca-4 | [Unruly Passenger De-escalation](../../WebXR/smartcity/index.html?sim=ca-unruly-passenger-deescalation) | Flight attendant — AFA-CWA cabin crew | clear | 13 | 2 | — | Distance and a calm approach come first, the flight deck door gets reinforced the moment things move the wrong way, and whether restraint is ever used is the captain's decision alone, given explicitly, never assumed by whoever is standing closest. |
+| ca-5 | [Cabin Decompression and Oxygen Mask Drill](../../WebXR/smartcity/index.html?sim=ca-cabin-decompression-and-oxygen-masks) | Flight attendant — AFA-CWA cabin crew | clear | 13 | 2 | — | This crew member's own mask goes on before a single other row gets touched, because a flight attendant who passes out helping someone else's seat has just made this cabin's problem worse, not better. |
+| ca-6 | [Door Evacuation Drill](../../WebXR/smartcity/index.html?sim=ca-door-evacuation-drill) | Flight attendant — AFA-CWA cabin crew | clear | 13 | 2 | — | The slide gets confirmed before anyone is sent onto it, the same three commands never stop, and the door frame stays physically blocked so the flow through it never breaks for a dropped bag or a passenger frozen at the sill. |
+| ca-7 | [Flight Deck Crew Resource Management Briefing](../../WebXR/smartcity/index.html?sim=ca-flight-deck-crew-resource-management) | Airline pilot — ALPA flight crew | clear | 13 | 2 | — | A callout that lands on silence hasn't actually been heard — the sterile phase, the challenge-and-response checklist and the closed-loop acknowledgment all exist so nothing in this flight deck is ever just one pilot's own assumption. |
+| ca-8 | [Fatigue and Duty-Time Self-Check](../../WebXR/smartcity/index.html?sim=ca-fatigue-and-duty-time-self-check) | Flight attendant and airline pilot — AFA-CWA and ALPA crew | clear | 13 | 2 | — | The no-fault fatigue line only works if it's actually used the moment the honest self-assessment calls for it — no schedule pressure, and no hour or duty limit this platform states, gets to override that honest answer. |
 
 ## Real-world environments
 

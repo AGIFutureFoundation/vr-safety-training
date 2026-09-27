@@ -4252,6 +4252,90 @@ export const SIDE_QUESTS = [
       "xp": 250,
       "badge": "Grocery and Meatpacking — UFCW Store and Plant Floor — Capstone"
     }
+  },
+  {
+    "id": "bw-side-airline-cabin-and-flight-crew-opener",
+    "title": "Airline Cabin and Flight Crew — AFA-CWA and ALPA — First Shift",
+    "giver": "the programme's training lead",
+    "site": "Airline Cabin and Flight Crew — AFA-CWA and ALPA",
+    "kind": "side",
+    "tier": 1,
+    "requires": null,
+    "programmeId": "airline-cabin-and-flight-crew",
+    "role": "opener",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Airline Cabin and Flight Crew — AFA-CWA and ALPA",
+        "text": "The training lead meets you at Airline Cabin and Flight Crew — AFA-CWA and ALPA and points you to the first bench."
+      },
+      {
+        "type": "station",
+        "target": "ca-cabin-preflight-safety-check",
+        "text": "Nothing about this door gets armed until the exits and the aisle are actually proven clear, and even then it only counts once the crew member across the aisle has cross-checked it — one person's own confirmation is never the whole story."
+      },
+      {
+        "type": "station",
+        "target": "ca-galley-and-cart-safety",
+        "text": "A cart that isn't braked and latched between every push is a cart that moves on its own the instant the aircraft does, and the whole galley gets secured for descent the moment the sign says so, not whenever there's a free minute."
+      },
+      {
+        "type": "station",
+        "target": "ca-cabin-medical-event-response",
+        "text": "Every clinical decision here belongs to the responding professional or to ground-based medical support, never to the crew member closest to the seat — the job is calling for help correctly, clearing space, and relaying exactly what's reported, nothing guessed at."
+      },
+      {
+        "type": "talk",
+        "target": "training-lead",
+        "text": "\"Eight jobs an AFA-CWA flight attendant or an ALPA pilot actually rotates through: a cabin pre-flight safety check with the doors armed and cross-checked, the galley and its cart secured against turbulence, a cabin medical event supported without a single clinical guess, an unruly passenger de-escalated with distance and the captain's own word on anything further, a decompression drill run mask-on-first, a door evacuation held on commands and a blocked frame, a flight-deck crew resource management briefing built on sterile discipline and closed-loop callouts, and an honest fatigue self-check before ever signing in. Every station ends on a proof — a cross-check confirmed, a gauge read, a callout actually acknowledged — rather than on how routine the job felt going in.\""
+      }
+    ],
+    "reward": {
+      "xp": 100,
+      "badge": "Airline Cabin and Flight Crew — AFA-CWA and ALPA — Opener"
+    }
+  },
+  {
+    "id": "bw-side-airline-cabin-and-flight-crew-capstone",
+    "title": "Airline Cabin and Flight Crew — AFA-CWA and ALPA — Capstone",
+    "giver": "the programme's certifying evaluator",
+    "site": "Airline Cabin and Flight Crew — AFA-CWA and ALPA",
+    "kind": "side",
+    "tier": 2,
+    "requires": "bw-side-airline-cabin-and-flight-crew-opener",
+    "programmeId": "airline-cabin-and-flight-crew",
+    "role": "capstone",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Airline Cabin and Flight Crew — AFA-CWA and ALPA",
+        "text": "The certifying evaluator is waiting at the last bench, sign-off sheet in hand."
+      },
+      {
+        "type": "station",
+        "target": "ca-door-evacuation-drill",
+        "text": "The slide gets confirmed before anyone is sent onto it, the same three commands never stop, and the door frame stays physically blocked so the flow through it never breaks for a dropped bag or a passenger frozen at the sill."
+      },
+      {
+        "type": "station",
+        "target": "ca-flight-deck-crew-resource-management",
+        "text": "A callout that lands on silence hasn't actually been heard — the sterile phase, the challenge-and-response checklist and the closed-loop acknowledgment all exist so nothing in this flight deck is ever just one pilot's own assumption."
+      },
+      {
+        "type": "station",
+        "target": "ca-fatigue-and-duty-time-self-check",
+        "text": "The no-fault fatigue line only works if it's actually used the moment the honest self-assessment calls for it — no schedule pressure, and no hour or duty limit this platform states, gets to override that honest answer."
+      },
+      {
+        "type": "talk",
+        "target": "certifying-evaluator",
+        "text": "\"Certified under: AFA-CWA cabin-safety training and ALPA member professional-standards training; FAA 14 CFR Part 121 air carrier operations; OSHA 29 CFR 1910.151 medical services and first aid and 29 CFR 1910.1030 bloodborne pathogens; Cal/OSHA's workplace violence prevention standard, 8 CCR 3342, across eight distinct flight attendant and pilot jobs\""
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": "Airline Cabin and Flight Crew — AFA-CWA and ALPA — Capstone"
+    }
   }
 ];
 

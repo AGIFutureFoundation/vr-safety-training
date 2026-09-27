@@ -209,6 +209,8 @@ export const STANDARDS = Object.fromEntries([
   S("ansi-b71-outdoor-power-equipment", "ANSI", "ANSI B71 series — safety specifications for outdoor power equipment (walk-behind and riding mowers, trimmers and blowers), published with the Outdoor Power Equipment Institute", ["Grounds & Landscaping"], "unverified"),
   S("ansi-z133-arboriculture", "ANSI", "ANSI Z133 — safety requirements for arboricultural operations, including chippers used on a tree crew", ["Grounds & Landscaping"], "unverified"),
   S("epa-fifra-pesticide-label", "EPA", "Federal Insecticide, Fungicide, and Rodenticide Act (FIFRA) — the pesticide product label as a legal document, and EPA's pesticide applicator and worker-protection requirements", ["Grounds & Landscaping"], "unverified"),
+  S("afa-cwa-training", "union", "AFA-CWA member education and cabin-safety training for flight attendants", ["Transit & Logistics"], "unverified"),
+  S("alpa-training", "union", "ALPA member professional-standards and safety training for airline pilots", ["Transit & Logistics"], "unverified"),
 ].map((s) => [s.id, { ...s, slug: standardSlug(s.body, s.title) }]));
 
 /** The body and title behind a standard id, or a placeholder for an unknown one. */
@@ -821,6 +823,17 @@ export const PROGRAMME_COMPETENCIES = [
     stations: [
       "gr-meat-dept-band-saw-and-grinder-lockout", "gr-deli-slicer-sanitation-and-allergen-line", "gr-produce-receiving-cold-chain-and-pallet-jack", "gr-night-stocking-baler-and-compactor-lockout",
       "gr-checkstand-ergonomics-and-robbery-prevention", "gr-meatpacking-line-knife-work-and-ppe-rotation", "gr-ammonia-leak-alarm-response-cold-plant", "gr-pharmacy-floral-chemical-handling-and-sds"
+    ],
+    require: 4,
+  },
+  {
+    id: "airline-cabin-and-flight-crew",
+    title: "Run eight distinct AFA-CWA flight attendant and ALPA pilot jobs from cabin pre-flight to a flight-deck CRM briefing",
+    kind: "programme",
+    standards: ["afa-cwa-training", "alpa-training", "faa-14-cfr-121", "calosha-8-ccr-3342"],
+    stations: [
+      "ca-cabin-preflight-safety-check", "ca-galley-and-cart-safety", "ca-cabin-medical-event-response", "ca-unruly-passenger-deescalation",
+      "ca-cabin-decompression-and-oxygen-masks", "ca-door-evacuation-drill", "ca-flight-deck-crew-resource-management", "ca-fatigue-and-duty-time-self-check"
     ],
     require: 4,
   },
