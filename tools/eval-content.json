@@ -3074,7 +3074,7 @@
         "scene": {
           "score": 0.9275,
           "meshes": 151,
-          "materials": 79,
+          "materials": 80,
           "interactables": 22
         },
         "originality": {
@@ -7857,7 +7857,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 265,
+          "meshes": 270,
           "materials": 83,
           "interactables": 28
         },
@@ -11614,6 +11614,110 @@
     },
     {
       "app": "smartcity",
+      "id": "me-fish-visual-census-and-data-sheet",
+      "name": "Fish Visual Census & Data Sheet",
+      "category": "Water & Environmental",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 378,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9800000000000001,
+          "meshes": 172,
+          "materials": 75,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.12383107088989459,
+          "nearest": "me-kelp-transect-survey-and-photo-quadrats",
+          "similarity": 0.3152337858220211
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "me-kelp-transect-survey-and-photo-quadrats",
+      "name": "Kelp Transect Survey & Photo Quadrats",
+      "category": "Water & Environmental",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 415,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 274,
+          "materials": 83,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.12383107088989459,
+          "nearest": "me-fish-visual-census-and-data-sheet",
+          "similarity": 0.3152337858220211
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "wp-graduation-and-alumni-mentors",
       "name": "Graduation and Alumni-Mentor Day",
       "category": "Community Environmental Justice",
@@ -14617,7 +14721,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 265,
+          "meshes": 249,
           "materials": 92,
           "interactables": 29
         },
@@ -14674,9 +14778,9 @@
           "interactables": 24
         },
         "originality": {
-          "score": 0.3859838274932617,
-          "nearest": "marsh-transect-survey",
-          "similarity": 0.2628032345013477
+          "score": 0.35384615384615403,
+          "nearest": "me-oyster-reef-monitoring-and-settlement-tiles",
+          "similarity": 0.2692307692307692
         }
       }
     },
@@ -19201,6 +19305,110 @@
           "score": 0.2552596537949403,
           "nearest": "cm-slab-screed-bull-float-and-trowel",
           "similarity": 0.28894806924101196
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "me-tidal-marsh-channel-restoration-day",
+      "name": "Tidal Marsh Channel Restoration Day",
+      "category": "Water & Environmental",
+      "steps": 12,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 400,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 259,
+          "materials": 93,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.4081005586592179,
+          "nearest": "living-shoreline",
+          "similarity": 0.25837988826815644
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "me-oyster-reef-monitoring-and-settlement-tiles",
+      "name": "Oyster Reef Monitoring & Settlement Tiles",
+      "category": "Water & Environmental",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 427,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 276,
+          "materials": 96,
+          "interactables": 28
+        },
+        "originality": {
+          "score": 0.35384615384615403,
+          "nearest": "oyster-reef-monitoring",
+          "similarity": 0.2692307692307692
         }
       }
     },
@@ -26065,6 +26273,214 @@
           "score": 0.6482200647249192,
           "nearest": "press-brake",
           "similarity": 0.21035598705501618
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "me-invasive-species-identification-and-reporting",
+      "name": "Invasive Species Identification & Reporting",
+      "category": "Water & Environmental",
+      "steps": 12,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 411,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 191,
+          "materials": 90,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.5750000000000001,
+          "nearest": "me-kelp-transect-survey-and-photo-quadrats",
+          "similarity": 0.225
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "me-shoreline-debris-and-microplastics-survey",
+      "name": "Shoreline Debris & Microplastics Survey",
+      "category": "Water & Environmental",
+      "steps": 12,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 369,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 9
+        },
+        "standards": {
+          "score": 1,
+          "cited": 11,
+          "inScope": 11,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 215,
+          "materials": 98,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.5418862690707351,
+          "nearest": "me-oyster-reef-monitoring-and-settlement-tiles",
+          "similarity": 0.231622746185853
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "me-water-column-sampling-from-a-small-boat",
+      "name": "Water Column Sampling From A Small Boat",
+      "category": "Water & Environmental",
+      "steps": 13,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 393,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 202,
+          "materials": 95,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.5736979166666668,
+          "nearest": "me-oyster-reef-monitoring-and-settlement-tiles",
+          "similarity": 0.22526041666666666
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "me-eelgrass-seed-collection-and-nursery",
+      "name": "Eelgrass Seed Collection & Nursery",
+      "category": "Water & Environmental",
+      "steps": 13,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 401,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 269,
+          "materials": 103,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.49973474801061024,
+          "nearest": "me-oyster-reef-monitoring-and-settlement-tiles",
+          "similarity": 0.24005305039787797
         }
       }
     },

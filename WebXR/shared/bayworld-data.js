@@ -260,7 +260,7 @@ export const BAY_SITES = [
   { id: "estuary-shoreline-park-trailhead", name: "Shoreline Park Trailhead", zone: "estuary-waterfront", position: [135, 300],
     programmes: ["hunters-point-bay-restoration", "hunters-point-can-we-live"], stations: ["rad-survey", "can-we-live-story", "air-sensor-install"] },
   { id: "estuary-research-dock", name: "Estuary Research Dock", zone: "estuary-waterfront", position: [68, 329],
-    programmes: ["ports-maritime-ecology"], stations: ["dock-crane", "container-lashing", "shore-power-hookup"] },
+    programmes: ["ports-maritime-ecology", "marine-ecology-and-restoration"], stations: ["dock-crane", "container-lashing", "shore-power-hookup", "me-water-column-sampling-from-a-small-boat", "me-fish-visual-census-and-data-sheet", "me-invasive-species-identification-and-reporting"] },
   { id: "estuary-marina-boatyard", name: "Marina Boatyard", zone: "estuary-waterfront", position: [104, 249],
     programmes: ["bay-restoration-maritime-underwater"], stations: ["br-dive-site-hazard-assessment-and-jsa", "br-surface-supplied-dive-station-setup"] },
   { id: "downtown-tower-site", name: "Downtown Tower Site", zone: "downtown", position: [40, 0],
@@ -340,7 +340,7 @@ export const BAY_SITES = [
   { id: "north-marina-pier", name: "North Marina Pier", zone: "north-shoreline", position: [-800, -640],
     programmes: ["bay-restoration-maritime-underwater", "ports-maritime-ecology"], stations: ["br-workboat-crane-lift-from-water", "br-vhf-and-navigation-in-a-work-zone", "spill-boom-deploy"] },
   { id: "north-shoreline-field-lab", name: "North Shoreline Field Lab", zone: "north-shoreline", position: [-735, -590],
-    programmes: ["air-quality-monitoring", "hunters-point-bay-restoration", "bay-restoration-maritime-underwater"], stations: ["air-monitor", "marsh-transect-survey", "eelgrass-transplant", "br-water-quality-sonde-calibration-and-deploy"] },
+    programmes: ["air-quality-monitoring", "hunters-point-bay-restoration", "bay-restoration-maritime-underwater", "marine-ecology-and-restoration"], stations: ["air-monitor", "marsh-transect-survey", "eelgrass-transplant", "br-water-quality-sonde-calibration-and-deploy", "me-eelgrass-seed-collection-and-nursery", "me-tidal-marsh-channel-restoration-day", "me-shoreline-debris-and-microplastics-survey"] },
   { id: "emery-distribution-center", name: "Emery Distribution Center", zone: "emery-crossing", position: [-640, -400],
     programmes: ["warehouse-and-logistics-automation", "job-readiness-edition"], stations: ["tw-conveyor-jam-clearing-and-loto", "tw-dock-leveler-and-trailer-restraint-check", "tdl-trailer-loading-and-dock-plate"] },
   { id: "emery-lab-campus", name: "Emery Lab Campus", zone: "emery-crossing", position: [-720, -350],
@@ -354,7 +354,7 @@ export const BAY_SITES = [
   { id: "ridge-reservoir-yard", name: "Ridge Reservoir Yard", zone: "upper-hills", position: [900, -495],
     programmes: ["water-and-gas-utility-crews", "energy-transition", "heavy-equipment-operators"], stations: ["ut-cathodic-protection-test-station-reading", "or-solar-farm-tracker-row-maintenance", "op-equipment-daily-walkaround-and-fluids"] },
   { id: "channel-buoy-tender-pier", name: "Channel Buoy Tender Pier", zone: "outer-bay", position: [-690, 485],
-    programmes: ["port-operations", "ports-maritime-ecology"], stations: ["mooring-line", "pilot-transfer", "spill-boom-deploy", "vessel-gangway-and-hatch-cover-safety"] },
+    programmes: ["port-operations", "ports-maritime-ecology", "marine-ecology-and-restoration"], stations: ["mooring-line", "pilot-transfer", "spill-boom-deploy", "vessel-gangway-and-hatch-cover-safety", "me-kelp-transect-survey-and-photo-quadrats", "me-oyster-reef-monitoring-and-settlement-tiles"] },
 ];
 
 /** Documented mesh budget, authored (before mergeStatic — see kit.js's

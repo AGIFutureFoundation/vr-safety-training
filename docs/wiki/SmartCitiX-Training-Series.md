@@ -1,6 +1,6 @@
 # SmartCiti.X training series
 
-_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-27. 597 SmartCiti.X stations across 19 categories and 51 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
+_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-27. 605 SmartCiti.X stations across 19 categories and 52 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
 Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 51 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
@@ -57,6 +57,7 @@ Every station is a real union procedure sited generically, built on the shared e
 - [Mill and Mine](#mill-and-mine)
 - [Screen & Media Crafts](#screen-and-media-crafts)
 - [Postal & Mail Processing Crew](#postal-and-mail-processing)
+- [Marine Ecology & Restoration — Survey and Restoration Crews](#marine-ecology-and-restoration)
 
 <a id="hunters-point-bay-restoration"></a>
 ## Hunters Point Clean-up and Bay Restoration
@@ -1561,6 +1562,26 @@ Six jobs across a route and a processing plant: a right-hand-drive delivery van 
 | ml-4 | [Flat Sorter Guarding & Lockout](../../WebXR/smartcity/index.html?sim=ml-flat-sorter-guarding-and-lockout) | Mail processing plant clerk — flat sorter guarding and lockout, APWU | indoor (plant) | 13 | 2 | 95 | A taped-over interlock and a missing access panel found before either is trusted, the sorter isolated and locked before the guard opens, and the interlock itself proven before the restart. |
 | ml-5 | [Mail Handler Forklift & Container Dock](../../WebXR/smartcity/index.html?sim=ml-mail-handler-forklift-and-container-dock) | Mail handler — forklift and container dock operations, NPMHU | indoor (plant) | 12 | 2 | 97 | A missing seatbelt and a cracked fork tine found cold, the belt fastened before the first move, and the dock read for a pedestrian in the travel path and a trailer nobody has chocked yet. |
 | ml-6 | [Parcel Sorter Conveyor Jam & LOTO](../../WebXR/smartcity/index.html?sim=ml-parcel-sorter-conveyor-jam-and-loto) | Mail processing plant clerk — parcel sorter conveyor jam and lockout, APWU | indoor (plant) | 14 | 2 | 95 | A defeated light curtain, a cardboard guard patch and a coworker's own loose drawstring all caught before any of them becomes the reason a hand meets a moving belt. |
+
+<a id="marine-ecology-and-restoration"></a>
+## Marine Ecology & Restoration — Survey and Restoration Crews
+
+**Union:** AFSCME and SEIU 1021 agency and nonprofit field staff, UPTE-CWA research technicians and LIUNA habitat crews, as training bodies
+
+**Certifications and standards:** Programme completion record; the field methods it rehearses answer to the permit and consultation conditions their own bodies set — BCDC, the Regional Water Quality Control Board's Section 401 certification, the Section 404 permit, USFWS and NOAA Fisheries consultation, CDFW oversight of collecting and handling — and, for the two diving stations, OSHA 29 CFR 1910.424 practice under the programme's own diving safety manual. No depth, gas or current limit is stated anywhere in the pack; those live in the dive plan
+
+Eight field methods a marine ecology and restoration crew runs on any survey or planting day: a kelp transect and its photo quadrats, a settlement-tile swap on a shellfish reef, seed collection and a flow-through nursery, water column sampling from a small boat, a hand-crew day opening a marsh channel, a fish visual census, a shoreline debris and microplastics survey, and the reporting method for a sighting that does not match the card. Every station teaches how a measurement is made repeatable and how a crew stays safe making it; none asserts a fact about any bay, species, count or date.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| 601 | [Kelp Transect Survey & Photo Quadrats](../../WebXR/smartcity/index.html?sim=me-kelp-transect-survey-and-photo-quadrats) | Scientific diver on a restoration monitoring crew, running a fixed kelp transect with a buddy beside them and the boat crew overhead | clear, bay-underwater | 13 | 2 | 96 | The fixed transect as the unit of monitoring: the same pins, bearing, frame and camera settings every season, swum at a pace that does not tear the canopy it counts. |
+| 602 | [Oyster Reef Monitoring & Settlement Tiles](../../WebXR/smartcity/index.html?sim=me-oyster-reef-monitoring-and-settlement-tiles) | Field technician on a shellfish-reef monitoring crew, swapping settlement tiles at low water from a skiff held by a tender | fog, Environmental Monitoring | 13 | 2 | 97 | A tile's identity and wetness kept from the rack to the lab, and the fresh rack set back on the same footing at the same mark before the flood. |
+| 603 | [Eelgrass Seed Collection & Nursery](../../WebXR/smartcity/index.html?sim=me-eelgrass-seed-collection-and-nursery) | Nursery technician on a seagrass restoration crew, collecting flowering shoots from a skiff and running the shore nursery's flow-through tanks | overcast, Environmental Monitoring | 13 | 2 | 98 | Collecting to a permit's share and keeping what was cut alive: shoots cut above the sheath, bags wet and cool, hung by their labels in a tank that never stops flowing. |
+| 604 | [Water Column Sampling From A Small Boat](../../WebXR/smartcity/index.html?sim=me-water-column-sampling-from-a-small-boat) | Sampling technician on a monitoring crew, working the afterdeck of a small workboat held on station by its skipper | wind, Environmental Monitoring | 13 | 2 | 98 | What makes a bottle of water evidence — the marks on the line, the rinses, the labels, the cold and the custody — on a low wet deck with the gate open. |
+| 605 | [Tidal Marsh Channel Restoration Day](../../WebXR/smartcity/index.html?sim=me-tidal-marsh-channel-restoration-day) | Hand-crew lead on a tidal marsh restoration, opening a channel by hand inside the permit's work window with a monitor watching the nesting buffer | clear, Environmental Monitoring | 12 | 2 | 97 | Working a marsh by hand inside three lines drawn before the crew arrived: the alignment, the buffer nobody crosses and the tide window the permit allows. |
+| 606 | [Fish Visual Census & Data Sheet](../../WebXR/smartcity/index.html?sim=me-fish-visual-census-and-data-sheet) | Census diver on a restoration monitoring crew, swimming a fixed belt transect with a buddy and writing the data sheet on the bottom | clear, bay-underwater | 13 | 2 | 96 | A count that means the same thing every season: one corridor, one pace, classes against a bar, counting only what crosses ahead, and the sheet written on the bottom. |
+| 607 | [Shoreline Debris & Microplastics Survey](../../WebXR/smartcity/index.html?sim=me-shoreline-debris-and-microplastics-survey) | Survey lead on a shoreline monitoring crew, running a debris transect and a sand quadrat with a second surveyor and a sharps kit | wind, Environmental Monitoring | 12 | 2 | 98 | A beach tallied before it is changed and a sand sample kept honest in the wind, with sharps to the kit by tongs and unknowns flagged for the call. |
+| 608 | [Invasive Species Identification & Reporting](../../WebXR/smartcity/index.html?sim=me-invasive-species-identification-and-reporting) | Monitoring technician on a harbour survey crew, documenting and reporting a sighting that does not match the reference card, with a coordinator on the radio | overcast, Environmental Monitoring | 12 | 2 | 98 | How a sighting becomes a record: photographed to protocol, positioned, sampled only as permitted and reported to the named body before anything is touched or said. |
 
 ## Real-world environments
 
