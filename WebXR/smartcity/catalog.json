@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 558
+      "stations": 559
     },
     "trades": {
       "entry": "trades/index.html",
@@ -69,6 +69,7 @@
         "track-access",
         "bus-depot-lift",
         "airport-ramp",
+        "ca-flight-deck-crew-resource-management",
         "ca-door-evacuation-drill",
         "ca-cabin-decompression-and-oxygen-masks",
         "ca-unruly-passenger-deescalation",
@@ -8738,6 +8739,88 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "ca-flight-deck-crew-resource-management",
+      "name": "Flight Deck Crew Resource Management Briefing",
+      "title": "SmartCiti.X~ Flight Deck Crew Resource Management Briefing VR",
+      "tagline": "Threats and roles briefed before the engines start, the sterile flight deck held without exception, challenge-and-response checklist discipline where nothing is skipped silently, and a callout that isn't worth anything until it's actually acknowledged",
+      "category": "Mobility & Transit",
+      "domain": "Aviation",
+      "trade": "Airline pilot — ALPA flight crew",
+      "union": null,
+      "certification": "ALPA member professional-standards and safety training; the airline's own crew resource management and sterile-flight-deck procedure under 14 CFR 121, coordinated with the AFA-CWA cabin crew through the same closed-loop callouts this station teaches — no altitude, airspeed or clearance value is stated here, every threshold runs per the checklist",
+      "accent": "#5a8fd8",
+      "parSeconds": 340,
+      "weather": "clear",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "sequence",
+        "find",
+        "select",
+        "turn",
+        "gauge",
+        "hold",
+        "track"
+      ],
+      "badge": {
+        "id": "deck-disciplined",
+        "name": "Deck Disciplined",
+        "note": "The briefing given, the sterile phase held, the checklist run challenge-and-response, and every callout closed the loop before the flight deck moved on"
+      },
+      "meshes": 128,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ca-7",
+      "flat": false,
+      "system": "Deck Disciplined",
+      "currency": "CRM",
+      "ranks": [
+        "New First Officer",
+        "Line Qualified",
+        "Line Captain",
+        "Check Airman",
+        "Deck Disciplined Certified"
+      ],
+      "awards": [
+        {
+          "id": "briefing-complete",
+          "name": "Briefing Complete",
+          "note": "Threats and roles briefed before a single engine started"
+        },
+        {
+          "id": "sterile-held",
+          "name": "Sterile Held",
+          "note": "Declined the non-essential conversation during the sterile phase, first try"
+        },
+        {
+          "id": "loop-closed",
+          "name": "Loop Closed",
+          "note": "Every callout actually acknowledged, not just made"
+        },
+        {
+          "id": "clean-briefing",
+          "name": "Clean Briefing",
+          "note": "No corrections anywhere in the briefing"
+        },
+        {
+          "id": "steady-crosscheck",
+          "name": "Steady Crosscheck",
+          "note": "Held the instrument crosscheck the full count, first try"
+        },
+        {
+          "id": "fast-briefing",
+          "name": "Fast Briefing",
+          "note": "Complete inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ca-flight-deck-crew-resource-management"
     },
     {
       "app": "smartcity",
@@ -29588,7 +29671,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 261,
+      "meshes": 262,
       "lights": 0,
       "overBudget": false,
       "index": "92",
