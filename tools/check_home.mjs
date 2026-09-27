@@ -238,7 +238,8 @@ await check("a station whose every field carries markup cannot change the page's
   const tags = (html) => (html.match(/<[a-zA-Z/][^>]*>/g) ?? []).length;
   eq(tags(dirty), tags(home), "the hostile fixture changed the number of tags in the page");
   eq((dirty.match(/<script/g) ?? []).length, (home.match(/<script/g) ?? []).length, "script tags in the page");
-  assert(!dirty.includes("<img"), "the hostile name produced a real <img> tag");
+  // The page's own <img> tags are the world captures; the fixture must add none.
+  eq((dirty.match(/<img/g) ?? []).length, (home.match(/<img/g) ?? []).length, "the hostile name produced a real <img> tag — <img> tags in the page");
   assert(dirty.includes("&lt;img src=x onerror=alert(1)&gt;"), "the hostile name was not escaped into text");
   assert(dirty.includes("Trade &amp; &quot;&gt;&lt;img"), "the ampersand and quote were not escaped");
   // And the two attribute-bound fields refuse rather than escape.
@@ -545,6 +546,209 @@ await check("a signed-in identity flows into Identity, is stored once, and signi
   eq(TrainingRecords.count(), 1, "signing out deleted records nobody asked it to delete");
   Auth.signOut({ clearRecords: true });
   eq(TrainingRecords.count(), 0, "sign-out did not clear the records when asked to");
+});
+
+// ------------------------------------------- 4. the front door (console MARQUEE)
+
+const HM_WORLDS = ["bayworld", "regatta", "underwater", "fairway", "atlas", "smartcity", "holodeck"];
+
+await check("the hero carries a canvas scene, one headline and the two actions", () => {
+  for (const [file, html, layout] of [["index.html", home, { go: "bayworld/index.html" }], ["home.html", flat, { go: "bayworld.html" }]]) {
+    assert(/<section class="hero" id="hero"[^>]*>\s*<canvas id="hm-hero-canvas" aria-hidden="true"><\/canvas>/.test(html), `${file}: the hero has no decorative canvas scene`);
+    eq((html.match(/<h1\b/g) ?? []).length, 1, `${file}: headlines on the page`);
+    assert(html.includes(`<a class="hm-act go" id="hm-start" href="${layout.go}">`) && />Start playing<\/a>/.test(html), `${file}: no "Start playing" action into Bay World`);
+    assert(html.includes('<a class="hm-act alt" id="hm-find" href="#finder">') && />Find your trade<\/a>/.test(html), `${file}: no "Find your trade" action into the finder`);
+  }
+  // Nothing from the network beyond what the page already loaded: the scene is
+  // drawn, not fetched.
+  const hero = /<section class="hero"[\s\S]*?<\/section>/.exec(home)[0];
+  assert(!/https?:/.test(hero), "the hero reaches for a network resource");
+});
+
+await check("reduced motion gets one still frame, and the scene pauses off-screen", () => {
+  const src = readFileSync(join(ROOT, "tools", "gen_home.mjs"), "utf8");
+  assert(home.includes('window.matchMedia("(prefers-reduced-motion: reduce)")'), "the hero never asks for prefers-reduced-motion");
+  assert(/if \(hmStill\(\)\) \{ cancelAnimationFrame\(raf\); raf = 0; hmDraw\(14\); return; \}/.test(home), "under reduced motion the hero does not stop at one still frame");
+  assert(/IntersectionObserver/.test(home) && /document\.hidden/.test(home), "the hero keeps animating off-screen or in a hidden tab");
+  assert(/@media \(prefers-reduced-motion:reduce\)/.test(src), "the stylesheet has no reduced-motion rule");
+});
+
+await check("seven world cards, each with a real capture inlined at no more than 60 KB", () => {
+  for (const [file, html] of [["index.html", home], ["home.html", flat]]) {
+    const grid = /<div class="worlds" id="worlds">([\s\S]*?)\n {4}<\/div>/.exec(html);
+    assert(grid, `${file}: no world grid`);
+    const imgs = [...grid[1].matchAll(/<img src="data:image\/jpeg;base64,([A-Za-z0-9+/=]+)" alt="In-game view of ([^"]+)"/g)];
+    eq(imgs.length, HM_WORLDS.length, `${file}: world cards with an inlined capture`);
+    for (const m of imgs) assert(Buffer.from(m[1], "base64").length <= 60 * 1024, `${file}: the ${m[2]} capture is over 60 KB`);
+  }
+  for (const id of HM_WORLDS) {
+    const f = join(WEBXR, "home", "img", `${id}.jpg`);
+    assert(existsSync(f), `WebXR/home/img/${id}.jpg is missing — run node tools/capture_home_thumbs.mjs`);
+    const b = readFileSync(f);
+    assert(b[0] === 0xff && b[1] === 0xd8, `WebXR/home/img/${id}.jpg is not a JPEG`);
+  }
+});
+
+await check("the programme finder: a card per programme with its union, station count, chip and one Start", () => {
+  const finder = /<section class="finder hm-sec" id="finder"[\s\S]*?<\/section>/.exec(home);
+  assert(finder, "no programme finder");
+  for (const id of ["hm-find-q", "hm-find-union", "hm-find-cat", "hm-find-world"]) assert(finder[0].includes(`id="${id}"`), `the finder has no #${id} filter`);
+  const cards = finder[0].match(/<article class="prog"[\s\S]*?<\/article>/g) ?? [];
+  eq(cards.length, catalog.curricula.length, "programme cards in the finder");
+  catalog.curricula.forEach((c, i) => {
+    const card = cards[i];
+    assert(card.includes(`style="--tint:${String(c.accent).toLowerCase()}"`), `${c.id}: the card does not carry the programme's colour`);
+    assert(card.includes(`<p class="prog-union">${escapeForHtml(c.union)}</p>`), `${c.id}: no union line`);
+    assert(card.includes(`>${c.stations.length} station`), `${c.id}: no station count`);
+    assert(card.includes(`data-pp-programme="${c.id}"`), `${c.id}: no progress chip`);
+    eq((card.match(/<a /g) ?? []).length, 1, `${c.id}: actions on the card`);
+    assert(card.includes(`?programme=${c.id}">Start<`), `${c.id}: the one action is not Start`);
+  });
+  assert(/pp\.ppProgressChip\(el, el\.getAttribute\("data-pp-programme"\)\)/.test(home), "the finder's chips are never filled from the passport");
+  const unions = gen.hmUnionTokens(catalog.curricula);
+  assert(unions.length >= 8, `only ${unions.length} union filters`);
+  for (const u of unions) assert(home.includes(`>${escapeForHtml(u.token)}<small>${u.count}</small></button>`), `the unions strip has no ${u.token}`);
+});
+
+await check("the continue strip is on the page with a first-visit state, and how it works is four steps", () => {
+  const cont = /<section class="continue hm-sec" id="continue"[^>]*>([\s\S]*?)<\/section>/.exec(home);
+  assert(cont && !/id="continue"[^>]*hidden/.test(home), "the continue strip is missing or hidden");
+  assert(/Continue where you left off/.test(cont[1]) && /first visit/.test(cont[1]), "the continue strip has no first-visit state");
+  assert(/<a class="btn primary" id="continue-link" href="bayworld\/index\.html">Start in Bay World<\/a>/.test(cont[1]), "the empty state offers no way in");
+  assert(!/smartcity\/index\.html\?sim=/.test(/const HM_LINKS[^\n]*/.exec(flat)?.[0] ?? ""), "the flat page resumes into the repository layout");
+  const steps = /<ol class="hm-steps">([\s\S]*?)<\/ol>/.exec(home);
+  assert(steps, "no how-it-works strip");
+  eq([...steps[1].matchAll(/<b>([^<]+)<\/b>/g)].map((m) => m[1]).join(" → "), "Play → Take a job → Pass the procedure → Earn the credential", "the how-it-works steps");
+  // Mobile-first order: hero, continue, how it works, worlds, finder, unions, then the roster.
+  const order = ['id="hero"', 'id="continue"', 'id="how"', 'id="worlds"', 'id="finder"', 'id="unions"', 'id="tracks"', 'id="catalog"'].map((k) => home.indexOf(k));
+  assert(order.every((v, i) => v > 0 && (i === 0 || v > order[i - 1])), `the sections are out of order: ${order.join(", ")}`);
+});
+
+// Headless: the flat page as it ships (WebXR/dist/index.html), at a 360 px
+// phone and a 1280 px desktop, animated and with reduced motion.
+await check("in a browser: no overlap, no sideways scroll, readable text, a live and a still hero, a working finder", async () => {
+  const { createServer } = await import("node:http");
+  const { statSync, mkdirSync } = await import("node:fs");
+  const { extname, normalize } = await import("node:path");
+  const PW = process.env.PLAYWRIGHT_MODULE || "/opt/node22/lib/node_modules/playwright/index.mjs";
+  const EXE = process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium";
+  const TYPES = { ".html": "text/html", ".js": "application/javascript", ".json": "application/json", ".css": "text/css", ".jpg": "image/jpeg" };
+  const server = createServer((req, res) => {
+    const path = normalize(decodeURIComponent(new URL(req.url, "http://x").pathname)).replace(/^([/\\])+/, "");
+    const file = join(WEBXR, path);
+    if (!file.startsWith(WEBXR) || !existsSync(file) || statSync(file).isDirectory()) { res.writeHead(404); res.end(); return; }
+    res.writeHead(200, { "content-type": TYPES[extname(file)] ?? "application/octet-stream" });
+    res.end(readFileSync(file));
+  });
+  await new Promise((r) => server.listen(0, "127.0.0.1", r));
+  const base = `http://127.0.0.1:${server.address().port}`;
+  let browser;
+  try {
+    const { chromium } = await import(PW);
+    browser = await chromium.launch({ executablePath: EXE, args: ["--no-sandbox"] });
+  } catch (e) { server.close(); throw new Error(`could not launch headless Chromium (${PW}, ${EXE}): ${String(e.message).split("\n")[0]}`); }
+  const problems = [];
+  try {
+    for (const size of [{ w: 360, h: 640, phone: true }, { w: 1280, h: 720, phone: false }]) {
+      for (const motion of ["no-preference", "reduce"]) {
+        const tag = `${size.w}px ${motion}`;
+        const context = await browser.newContext({ viewport: { width: size.w, height: size.h }, hasTouch: size.phone, isMobile: size.phone, reducedMotion: motion });
+        await context.route(/^https?:\/\/(?!127\.0\.0\.1)/, (r) => r.abort());
+        const page = await context.newPage();
+        const errors = [];
+        page.on("pageerror", (e) => errors.push(String(e.message).split("\n")[0]));
+        await page.goto(`${base}/dist/index.html`, { waitUntil: "load", timeout: 30000 });
+        await page.waitForTimeout(700);
+        const m = await page.evaluate(() => {
+          const box = (el) => { const r = el.getBoundingClientRect(); return { x: r.left, y: r.top + scrollY, w: r.width, h: r.height }; };
+          const secs = ["#hero", "#continue", "#how", "#worlds-sec", "#finder", "#unions", "#tracks", "#catalog"].map((s) => ({ s, el: document.querySelector(s) }));
+          const act = [...document.querySelectorAll(".hm-act")].map(box);
+          const small = [];
+          for (const el of document.querySelectorAll(".hero-lead, .hm-steps span, .app.world p, .prog-union, .prog-meta, .cont-line, .hm-sub, .hm-filters input, .hm-filters select, .hm-act, .prog-go")) {
+            const fs = parseFloat(getComputedStyle(el).fontSize);
+            if (fs < 15) small.push(`${el.className}:${fs}`);
+          }
+          const imgs = [...document.querySelectorAll("#worlds img")];
+          return {
+            hero: document.documentElement.dataset.hmHero, sideways: document.documentElement.scrollWidth - innerWidth,
+            secs: secs.map(({ s, el }) => el ? { s, ...box(el) } : { s, missing: true }), act,
+            actTargets: act.map((b) => b.h), small, imgsOk: imgs.length && imgs.every((i) => i.complete && i.naturalWidth > 0), imgs: imgs.length,
+            heroInView: act.every((b) => b.y + b.h <= innerHeight + 1),
+            guideCorner: [...document.querySelectorAll("body *")].filter((el) => { const cs = getComputedStyle(el); if (cs.position !== "fixed" || el.closest("[hidden]") || cs.display === "none") return false; const r = el.getBoundingClientRect(); return r.width > 0 && r.right > innerWidth - 84 && r.bottom > innerHeight - 84; }).map((el) => el.id || el.className),
+          };
+        });
+        if (process.env.HM_SHOTS && motion === "no-preference") {
+          mkdirSync(process.env.HM_SHOTS, { recursive: true });
+          await page.screenshot({ path: join(process.env.HM_SHOTS, `homepage-${size.w}.png`), fullPage: false });
+        }
+        if (m.hero !== (motion === "reduce" ? "still" : "live")) problems.push(`${tag}: the hero is ${m.hero}`);
+        if (m.sideways > 1) problems.push(`${tag}: the page scrolls sideways by ${m.sideways}px`);
+        for (const s of m.secs) if (s.missing) problems.push(`${tag}: ${s.s} missing`);
+        const secs = m.secs.filter((s) => !s.missing);
+        for (let i = 1; i < secs.length; i++) if (secs[i].y < secs[i - 1].y + secs[i - 1].h - 0.5) problems.push(`${tag}: ${secs[i].s} overlaps ${secs[i - 1].s}`);
+        if (m.act.length !== 2) problems.push(`${tag}: ${m.act.length} hero actions`);
+        else {
+          const [a, b] = m.act;
+          if (a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h) problems.push(`${tag}: the two actions overlap`);
+          if (m.actTargets.some((h) => h < 48)) problems.push(`${tag}: a hero action is under 48 px tall`);
+        }
+        if (!m.heroInView) problems.push(`${tag}: the two actions are not both on the first screen`);
+        if (m.small.length) problems.push(`${tag}: text under 15 px: ${m.small.slice(0, 4).join(", ")}`);
+        if (!m.imgsOk) problems.push(`${tag}: ${m.imgs} world images, not all decoded`);
+        if (m.guideCorner.length) problems.push(`${tag}: something fixed sits in the Guide's bottom-right corner: ${m.guideCorner.join(", ")}`);
+        if (motion === "no-preference" && !size.phone) {
+          const before = await page.evaluate(() => document.getElementById("hm-find-count").textContent);
+          await page.fill("#hm-find-q", "IBEW");
+          const after = await page.evaluate(() => ({ text: document.getElementById("hm-find-count").textContent, shown: document.querySelectorAll("#hm-progs .prog:not([hidden])").length }));
+          if (before === after.text || !/programmes match/.test(after.text) || after.shown < 1) problems.push(`${tag}: typing IBEW does not filter the finder (${after.text})`);
+          await page.fill("#hm-find-q", "");
+          await page.selectOption("#hm-find-world", "deep");
+          const deep = await page.evaluate(() => document.getElementById("hm-find-count").textContent);
+          if (!/programmes match/.test(deep)) problems.push(`${tag}: the world filter does nothing (${deep})`);
+          await page.click(".hm-union");
+          const pressed = await page.evaluate(() => document.querySelector(".hm-union").getAttribute("aria-pressed"));
+          if (pressed !== "true") problems.push(`${tag}: a union chip does not set the finder's union`);
+        }
+        const chips = await page.evaluate(() => document.querySelectorAll("#hm-progs .pp-chip:not([hidden])").length);
+        if (chips !== catalog_len()) problems.push(`${tag}: ${chips} progress chips filled`);
+        if (errors.length) problems.push(`${tag}: page error ${errors.slice(0, 2).join(" | ")}`);
+        await context.close();
+      }
+    }
+    // A returning learner: seed a last run (from a Bay World board) and a
+    // trades bench run, and the continue strip's links must resolve to real
+    // files in both layouts — the repository page and the flat dist copy.
+    const city = catalog.stations.find((s) => s.app === "smartcity");
+    const bench = catalog.stations.find((s) => s.app === "trades");
+    for (const [label, pagePath, dir] of [["repo", "/index.html", WEBXR], ["flat", "/dist/index.html", join(WEBXR, "dist")]]) {
+      for (const station of [city, bench]) {
+        const context = await browser.newContext({ viewport: { width: 360, height: 640 } });
+        await context.route(/^https?:\/\/(?!127\.0\.0\.1)/, (r) => r.abort());
+        const rec = [{ app: station.app, simId: station.id, simName: station.name, at: new Date().toISOString(), passed: true, stars: 2, source: "bayworld" }];
+        await context.addInitScript((r) => { try { localStorage.setItem("vr-training-records-v1", r); } catch { /* private */ } }, JSON.stringify(rec));
+        const page = await context.newPage();
+        await page.goto(`${base}${pagePath}`, { waitUntil: "load", timeout: 30000 });
+        await page.waitForTimeout(400);
+        const got = await page.evaluate(() => ({
+          state: document.getElementById("continue").dataset.state,
+          resume: document.getElementById("continue-link").getAttribute("href"),
+          back: document.getElementById("hm-cont-world").hidden ? null : document.getElementById("hm-cont-world").getAttribute("href"),
+          line: document.getElementById("continue-line").textContent,
+        }));
+        if (got.state !== "returning") problems.push(`${label} ${station.app}: the continue strip did not switch to the returning state`);
+        if (!got.line.includes(station.name)) problems.push(`${label} ${station.app}: the continue line does not name ${station.id}`);
+        for (const href of [got.resume, got.back]) {
+          if (!href) { problems.push(`${label} ${station.app}: a continue link is missing`); continue; }
+          if (!existsSync(resolve(dir, href.split(/[?#]/)[0]))) problems.push(`${label} ${station.app}: the continue link ${href} does not resolve to a file`);
+        }
+        const want = label === "flat" ? (station.app === "trades" ? "trade-skills-simulator.html?room=" : "smartcity-x.html?sim=") : (station.app === "trades" ? "trades/index.html?room=" : "smartcity/index.html?sim=");
+        if (got.resume !== `${want}${station.id}`) problems.push(`${label} ${station.app}: resume link is ${got.resume}, want ${want}${station.id}`);
+        await context.close();
+      }
+    }
+  } finally { await browser.close(); server.close(); }
+  function catalog_len() { return catalog.curricula.length; }
+  assert(problems.length === 0, problems.slice(0, 8).join("\n      "));
 });
 
 console.log(failures === 0 ? "\nAll homepage and sign-in checks pass." : `\n${failures} check(s) failed.`);

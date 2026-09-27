@@ -26,13 +26,17 @@
  * The palette tokens are the app's own, lifted from WebXR/smartcity/index.html
  * so the homepage and the simulators are visibly one product.
  */
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { tracksSection } from "./gen_tracks.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const WEBXR = join(ROOT, "WebXR");
+// Which programmes each world's job boards carry — read from the worlds' own
+// data, so the finder's "World" filter can never claim a board that is not there.
+const { BAY_SITES } = await import(pathToFileURL(join(WEBXR, "shared", "bayworld-data.js")).href);
+const { DEEP_SITES } = await import(pathToFileURL(join(WEBXR, "shared", "underwater-data.js")).href);
 // The Hard Hat Hunt counter's total (docs/easter-egg.md) — imported rather
 // than retyped, so a station added to or removed from the hunt can never
 // leave this page's footer counting against a stale number.
@@ -60,6 +64,61 @@ function tint(accent) {
   const s = String(accent ?? "");
   return /^#[0-9a-fA-F]{6}$/.test(s) ? s.toLowerCase() : "var(--accent)";
 }
+
+// ------------------------------------------------------------ world thumbnails
+
+/** Where tools/capture_home_thumbs.mjs writes the real in-game captures. */
+export const HM_IMG_DIR = join(WEBXR, "home", "img");
+export const HM_THUMB_MAX = 60 * 1024;
+
+/**
+ * A world's capture as a data URI, or null when it has not been captured yet.
+ * Inlined rather than linked: the published single-file build caps its file
+ * count, and a data URI costs no request.
+ */
+export function hmThumb(id) {
+  const file = join(HM_IMG_DIR, `${slug(id, "world id")}.jpg`);
+  if (!existsSync(file)) return null;
+  const buf = readFileSync(file);
+  if (buf.length > HM_THUMB_MAX) throw new Error(`${file} is ${buf.length} bytes — over the ${HM_THUMB_MAX}-byte cap; re-run tools/capture_home_thumbs.mjs`);
+  return `data:image/jpeg;base64,${buf.toString("base64")}`;
+}
+
+// ------------------------------------------------------------ programme finder
+
+/**
+ * The union bodies a learner can filter by: the short names (IBEW, LIUNA,
+ * UNITE HERE…) that recur across at least three programmes' union lines,
+ * most common first. Counted from the catalog, never written here.
+ */
+export function hmUnionTokens(curricula) {
+  const counts = new Map();
+  for (const c of curricula) {
+    const seen = new Set(hmTokensOf(c.union));
+    for (const t of seen) counts.set(t, (counts.get(t) ?? 0) + 1);
+  }
+  return [...counts.entries()].filter(([, n]) => n >= 3)
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, 18)
+    .map(([token, count]) => ({ token, count }));
+}
+
+function hmTokensOf(union) {
+  const s = String(union ?? "").replace(/UNITE HERE/g, "UNITE_HERE");
+  return [...new Set((s.match(/\b[A-Z][A-Z_]*[A-Z]\b/g) ?? []).map((t) => t.replace("_", " ")))];
+}
+
+/** The worlds whose boards launch at least one of a programme's stations. */
+function hmWorldsOf(c) {
+  const out = [];
+  const onBoard = (sites) => sites.some((s) => (s.programmes ?? []).includes(c.id));
+  if (onBoard(BAY_SITES)) out.push("bayworld");
+  if (onBoard(DEEP_SITES)) out.push("deep");
+  if ((c.stations ?? []).some((s) => s.app === "smartcity")) out.push("smartcity");
+  if ((c.stations ?? []).some((s) => s.app === "trades")) out.push("trades");
+  return out;
+}
+
+export const HM_WORLD_FILTERS = [["bayworld", "Bay World"], ["deep", "The Deep"], ["smartcity", "SmartCiti.X"], ["trades", "Trade Skills Simulator"]];
 
 // ----------------------------------------------------------- device profile
 
@@ -157,6 +216,7 @@ const CSS = `
     --cond:"Barlow Condensed", "Barlow", system-ui, sans-serif;
     --surface-card:linear-gradient(180deg, var(--panel-2), var(--panel));
     --gutter:16px;
+    --guide-space:84px;
   }
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%}
@@ -189,8 +249,13 @@ const CSS = `
   }
   .top-in{
     display:flex; gap:12px; align-items:center; justify-content:space-between;
-    min-height:54px; padding:8px var(--gutter); max-width:1120px; margin:0 auto;
+    min-height:54px; padding:8px var(--gutter) 8px 56px; max-width:1120px; margin:0 auto;
   }
+  /* The shared help button (shared/controls.js #ctl-nav) is fixed at the top
+     left; the bar's left padding keeps the brand line clear of it. */
+  .hm-nav{display:none; gap:18px; flex:0 0 auto}
+  .hm-nav a{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em; font-size:14px; color:var(--muted)}
+  .hm-nav a:hover{color:var(--text)}
   .brandline{
     font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.1em;
     font-size:12px; color:var(--muted); margin:0;
@@ -210,13 +275,92 @@ const CSS = `
   .btn.quiet{background:transparent}
   .linkbtn{background:none; border:0; padding:0; color:var(--accent-2); cursor:pointer; text-decoration:underline}
 
-  /* ---- hero ---- */
-  .hero{padding:30px 0 6px}
+  /* ---- hero: a live dusk scene behind one headline and two actions ---- */
+  .hero{position:relative; overflow:hidden; isolation:isolate; min-height:min(88vh,640px); display:flex; align-items:flex-end;
+    background:linear-gradient(180deg,#1a1440 0%,#5b2a6e 38%,#e0725a 58%,#0d2a3c 62%,#06121c 100%)}
+  #hm-hero-canvas{position:absolute; inset:0; width:100%; height:100%; z-index:-2; display:block}
+  .hero::after{content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
+    background:linear-gradient(180deg,rgba(5,10,16,.10) 0%,rgba(5,10,16,.0) 30%,rgba(5,10,16,.55) 62%,rgba(5,10,16,.92) 100%)}
+  .hero-in{width:100%; max-width:1120px; margin:0 auto; padding:88px var(--gutter) 28px}
+  .hero .eyebrow{color:#e9dcff; text-shadow:0 1px 6px rgba(0,0,0,.6)}
   .hero h1{
     font-family:var(--cond); font-weight:700; text-transform:uppercase; letter-spacing:.012em;
-    font-size:clamp(30px,8.4vw,60px); line-height:1.02; margin:12px 0 0; text-wrap:balance;
+    font-size:clamp(38px,11vw,76px); line-height:.98; margin:10px 0 0; text-wrap:balance;
+    text-shadow:0 2px 18px rgba(0,0,0,.55);
   }
-  .hero h1 em{font-style:normal; color:var(--accent)}
+  .hero h1 em{font-style:normal; color:var(--accent-2)}
+  .hero-lead{font-size:18px; line-height:1.5; color:#e6f1f8; max-width:48ch; margin:14px 0 0; text-shadow:0 1px 8px rgba(0,0,0,.7)}
+  .hm-actions{display:grid; gap:10px; margin:22px 0 0; grid-template-columns:1fr; max-width:520px}
+  .hm-act{display:flex; align-items:center; justify-content:center; gap:8px; min-height:52px; padding:12px 20px;
+    border-radius:12px; font-family:var(--cond); font-weight:700; text-transform:uppercase; letter-spacing:.08em; font-size:18px;
+    text-decoration:none !important; border:1px solid transparent}
+  .hm-act.go{background:linear-gradient(180deg,var(--accent-2),var(--accent)); color:var(--accent-ink); box-shadow:0 10px 30px rgba(79,209,255,.28)}
+  .hm-act.go:hover{filter:brightness(1.07)}
+  .hm-act.alt{background:rgba(8,16,26,.62); color:var(--text); border-color:rgba(237,246,251,.45); backdrop-filter:blur(6px)}
+  .hm-act.alt:hover{background:rgba(8,16,26,.82)}
+  .hm-act svg{width:20px; height:20px; flex:0 0 auto}
+  .hm-still-note{margin:12px 0 0; font-size:14px; color:#cfdde7}
+
+  /* ---- shared section furniture ---- */
+  .hm-sec{margin:44px 0 0; scroll-margin-top:70px}
+  .hm-sec > h2, .hm-h2{font-family:var(--cond); font-weight:700; text-transform:uppercase; letter-spacing:.04em;
+    font-size:clamp(24px,6.4vw,34px); line-height:1.05; margin:4px 0 0}
+  .hm-sec > .sub, .hm-sub{margin:8px 0 0; font-size:16px; color:var(--muted); max-width:68ch}
+
+  /* ---- how it works ---- */
+  .hm-steps{list-style:none; margin:16px 0 0; padding:0; display:grid; gap:10px; grid-template-columns:1fr; counter-reset:hm}
+  .hm-steps li{position:relative; padding:14px 14px 14px 60px; background:var(--surface-card); border:1px solid var(--edge); border-radius:var(--r-md); counter-increment:hm}
+  .hm-steps li::before{content:counter(hm); position:absolute; left:14px; top:14px; width:34px; height:34px; border-radius:50%;
+    display:grid; place-items:center; font:700 18px/1 var(--cond); color:var(--accent-ink); background:var(--step,var(--accent))}
+  .hm-steps b{display:block; font-family:var(--cond); font-weight:700; text-transform:uppercase; letter-spacing:.05em; font-size:19px}
+  .hm-steps span{display:block; margin-top:2px; font-size:16px; color:var(--muted)}
+
+  /* ---- world cards with real captures ---- */
+  .worlds{display:grid; gap:14px; margin:16px 0 0; grid-template-columns:1fr}
+  .app.world{padding:0; overflow:hidden; display:flex; flex-direction:column}
+  .app.world .shot{position:relative; aspect-ratio:16/9; background:linear-gradient(135deg,var(--tint,var(--accent)),var(--panel)); overflow:hidden}
+  .app.world .shot img{display:block; width:100%; height:100%; object-fit:cover; transition:transform .4s ease}
+  .app.world:hover .shot img{transform:scale(1.04)}
+  .app.world .body{padding:14px 16px 16px; display:flex; flex-direction:column; flex:1 1 auto}
+  .app.world p{font-size:16px}
+  .app.world .go{margin-top:auto; padding-top:12px; font-size:15px; color:var(--tint,var(--accent))}
+  .more-apps{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+
+  /* ---- continue strip ---- */
+  .continue{max-width:none}
+  .continue .cont-row{display:flex; flex-wrap:wrap; gap:10px; align-items:center}
+  .continue .btn{font-size:16px; padding:12px 18px; min-height:48px; display:inline-flex; align-items:center}
+  .hm-cont-progs{display:grid; gap:10px; margin:14px 0 0; grid-template-columns:1fr}
+  .hm-cont-prog{display:block; padding:10px 12px; background:var(--raised); border:1px solid var(--edge); border-left:3px solid var(--tint,var(--accent)); border-radius:var(--r-sm); color:inherit; font-size:16px}
+  .hm-cont-prog:hover{background:var(--raised-2); text-decoration:none}
+  .hm-cont-prog .pp-chip{color:var(--tint,var(--accent)); font-size:14px}
+
+  /* ---- programme finder ---- */
+  .finder{padding:18px 16px; background:var(--panel); border:1px solid var(--edge); border-radius:var(--r-lg)}
+  .hm-filters{display:grid; gap:12px; margin:16px 0 0; grid-template-columns:1fr}
+  .hm-filters label{display:block; font-size:14px; color:var(--muted)}
+  .hm-filters input, .hm-filters select{display:block; width:100%; margin-top:6px; min-height:48px; padding:11px 12px; font:16px var(--sans); color:var(--text);
+    background:var(--void); border:1px solid var(--edge-strong); border-radius:var(--r-sm)}
+  .hm-find-count{margin:12px 0 0; font-size:15px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .hm-progs{display:grid; gap:12px; margin:14px 0 0; grid-template-columns:1fr}
+  .prog{display:flex; flex-direction:column; padding:14px 16px 16px; background:var(--surface-card); border:1px solid var(--edge);
+    border-top:3px solid var(--tint,var(--accent)); border-radius:var(--r-md)}
+  .prog h3{font-family:var(--cond); font-weight:700; font-size:21px; letter-spacing:.015em; line-height:1.15; margin:0}
+  .prog .prog-union{margin:6px 0 0; font-size:15px; color:var(--tint,var(--accent)); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
+  .prog .prog-meta{margin:6px 0 0; font-size:15px; color:var(--muted)}
+  .prog .pp-chip{display:block; margin:10px 0 0; font-size:14px; color:var(--tint,var(--accent))}
+  .prog .pp-chip[hidden]{display:none}
+  .prog .prog-go{margin-top:auto; align-self:flex-start; min-height:48px; display:inline-flex; align-items:center; padding:10px 22px; font-size:16px}
+  .prog .prog-foot{margin-top:auto; padding-top:12px}
+  .hm-more{margin:14px 0 0; min-height:48px; font-size:16px; padding:10px 18px}
+
+  /* ---- unions strip ---- */
+  .hm-unions{display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 0}
+  .hm-union{min-height:44px; padding:8px 14px; border-radius:999px; background:var(--raised); border:1px solid var(--edge-strong);
+    font:600 16px/1.2 var(--cond); letter-spacing:.05em; color:var(--text); cursor:pointer}
+  .hm-union:hover, .hm-union[aria-pressed="true"]{background:rgba(79,209,255,.16); border-color:var(--accent)}
+  .hm-union small{font:500 14px var(--sans); color:var(--muted); margin-left:6px}
+  .hm-about{margin:44px 0 0}
   .lead{font-size:16.5px; color:var(--muted); max-width:66ch; margin:16px 0 0}
   .lead b{color:var(--text); font-weight:600}
   .devices{
@@ -231,8 +375,8 @@ const CSS = `
     margin:22px 0 0; padding:14px 16px; background:var(--panel); border:1px solid var(--edge);
     border-left:2px solid var(--good); border-radius:0 var(--r-md) var(--r-md) 0; max-width:78ch;
   }
-  .continue .cont-line{margin:4px 0 10px; font-size:14px; color:var(--text)}
-  .continue .cont-due{margin:10px 0 0; font-size:13px; color:var(--warn)}
+  .continue .cont-line{margin:4px 0 12px; font-size:17px; color:var(--text)}
+  .continue .cont-due{margin:10px 0 0; font-size:15px; color:var(--warn)}
 
   /* ---- app cards ---- */
   .apps{display:grid; gap:12px; margin:26px 0 0; grid-template-columns:1fr}
@@ -317,7 +461,11 @@ const CSS = `
 
   /* ---- footer ---- */
   footer{margin:52px 0 0; border-top:1px solid var(--edge); background:var(--panel)}
-  .foot{padding:26px var(--gutter) 40px; max-width:1120px; margin:0 auto}
+  /* The bottom-right corner is kept clear for COMPASS's floating Guide
+     button (shared/guide.js): nothing on this page is fixed there, and the
+     footer ends --guide-space above the viewport's bottom edge so the button
+     never sits on the last line. */
+  .foot{padding:26px var(--gutter) calc(40px + var(--guide-space)); max-width:1120px; margin:0 auto}
   .foot h2{font-family:var(--cond); font-weight:600; text-transform:uppercase; letter-spacing:.12em; font-size:12px; color:var(--dim); margin:0 0 10px}
   .foot ul{list-style:none; margin:0 0 18px; padding:0; display:grid; gap:8px; grid-template-columns:1fr}
   .foot li{font-size:14px}
@@ -395,11 +543,34 @@ const CSS = `
 
   @media (min-width:560px){
     .apps{grid-template-columns:1fr 1fr}
+    .hm-actions{grid-template-columns:auto auto; justify-content:start; max-width:none}
+    .hm-act{white-space:nowrap; padding:12px 28px}
+    .worlds, .more-apps, .hm-progs, .hm-cont-progs{grid-template-columns:1fr 1fr}
+    .hm-steps{grid-template-columns:1fr 1fr}
+    .hm-filters{grid-template-columns:1fr 1fr}
     .grid{grid-template-columns:1fr 1fr}
     .foot ul{grid-template-columns:1fr 1fr}
   }
   @media (min-width:900px){
-    .hero{padding:52px 0 10px}
+    .hero{min-height:620px}
+    .hero-in{padding:120px var(--gutter) 56px}
+    .hero::after{background:
+      linear-gradient(90deg,rgba(5,10,16,.72) 0%,rgba(5,10,16,.38) 50%,rgba(5,10,16,0) 78%),
+      linear-gradient(180deg,rgba(5,10,16,0) 72%,rgba(5,10,16,.9) 100%)}
+    .hm-nav{display:flex}
+    .worlds{grid-template-columns:repeat(4,1fr)}
+    .worlds .app.world:first-child{grid-column:span 2; grid-row:span 2}
+    .worlds .app.world:first-child .shot{aspect-ratio:auto; flex:1 1 auto; min-height:260px}
+    .worlds .app.world:first-child h2{font-size:30px}
+    .worlds .app.world:first-child .shot img{object-position:50% 20%}
+    .worlds .app.world:nth-child(6), .worlds .app.world:nth-child(7){grid-column:span 2}
+    .worlds .app.world:nth-child(6) .shot, .worlds .app.world:nth-child(7) .shot{aspect-ratio:21/9}
+    .more-apps{grid-template-columns:repeat(3,1fr)}
+    .hm-progs{grid-template-columns:repeat(3,1fr)}
+    .hm-cont-progs{grid-template-columns:repeat(3,1fr)}
+    .hm-steps{grid-template-columns:repeat(4,1fr)}
+    .hm-filters{grid-template-columns:2fr 1fr 1fr 1fr}
+    .finder{padding:24px}
     .apps{grid-template-columns:repeat(4,1fr)}
     .grid{grid-template-columns:repeat(3,1fr)}
     .foot ul{grid-template-columns:repeat(3,1fr)}
@@ -407,6 +578,7 @@ const CSS = `
   @media (prefers-reduced-motion:reduce){
     *{transition:none !important; animation:none !important}
     .app:hover{transform:none}
+    .app.world:hover .shot img{transform:none}
   }
 `;
 
@@ -828,89 +1000,308 @@ const SCRIPT = `
     render();
   }
 
-  // "Continue where you left off": the last station this browser actually
-  // trained and a consecutive-day streak, read straight from the training
-  // record's own localStorage key (WebXR/shared/records.js RECORDS_KEY) —
-  // never synced, never estimated — the same direct-read pattern as the hard
-  // hat counter above. "Due a refresher" mirrors shared/tracking.js's own
-  // rule (a station whose last CLEAN run — two or more stars, no unsafe
-  // action — is older than 90 days) without importing that module and its
-  // procedure-engine dependencies onto the homepage.
-  // The programme chips on the rail (docs/interop.md): each reads only the
-  // learner passport (shared/passport.js), lazily loaded like sign-in, so a
-  // station passed from any world's job board counts here too.
-  (function passportChips() {
-    var chips = document.querySelectorAll("[data-pp-programme]");
-    if (!chips.length) return;
-    import("./shared/passport.js").then(function (pp) {
-      for (var i = 0; i < chips.length; i++) {
-        var p = pp.ppProgramme(chips[i].getAttribute("data-pp-programme"));
-        if (p && p.passed) pp.ppProgressChip(chips[i], p.id);
+`;
+
+/**
+ * The homepage's second script: the hero scene, the programme finder, the
+ * unions strip and the continue strip. Every top-level name is prefixed hm…
+ * (the bundler concatenates modules into one scope). The links it builds are
+ * the layout's own, so the flat dist copy resumes into the flat bundles.
+ */
+function hmScript(layout) {
+  const links = {
+    smartcity: layout.app.smartcity, trades: layout.app.trades, holodeck: layout.app.holodeck,
+    bayworld: layout.app.bayworld, underwater: layout.app.underwater, regatta: layout.app.regatta, fairway: layout.app.fairway,
+  };
+  const names = { bayworld: "Bay World", underwater: "the Deep", regatta: "the Regatta", fairway: "Fairway Park", holodeck: "the Holodeck", trades: "Trade Skills", smartcity: "SmartCiti.X" };
+  return `
+  const HM_LINKS = ${JSON.stringify(links)};
+  const HM_WORLD_NAMES = ${JSON.stringify(names)};
+  const hmReduce = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : null;
+
+  // ---- the hero: Bay World's skyline at dusk, a yacht crossing, a diver's
+  // light below the surface. A 2D canvas, drawn from a seeded layout, about
+  // 30 frames a second while it is on screen and the tab is visible; under
+  // prefers-reduced-motion it draws one still frame and never animates.
+  (function hmHero() {
+    const cv = document.getElementById("hm-hero-canvas");
+    const hero = document.getElementById("hero");
+    const ctx = cv && cv.getContext ? cv.getContext("2d") : null;
+    if (!ctx) return;
+    let W = 1, H = 1, raf = 0, onScreen = true, last = 0;
+    let far = [], near = [], stars = [];
+    function hmRng(seed) { let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+    function hmLayout() {
+      const r = hero.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height));
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const rnd = hmRng(20260927), hz = H * 0.5;
+      far = []; near = []; stars = [];
+      for (let x = -10; x < W + 10;) { const w = 16 + rnd() * 40; far.push({ x, w, h: 14 + rnd() * H * 0.14 }); x += w + 1; }
+      for (let x = -10; x < W + 10;) {
+        const tower = x > W * 0.62 && x < W * 0.7 && !near.some((b) => b.tower);
+        const w = tower ? 30 : 22 + rnd() * 52, h = tower ? H * 0.36 : 24 + rnd() * H * 0.2;
+        const b = { x, w, h, tower, win: [] };
+        for (let wy = hz - h + 8; wy < hz - 5; wy += 8) for (let wx = x + 4; wx < x + w - 5; wx += 7) if (rnd() < 0.4) b.win.push([wx, wy, rnd()]);
+        near.push(b); x += w + 3 + rnd() * 12;
       }
-    }).catch(function () { /* no module server (file://): the rail stays as it is */ });
+      for (let i = 0; i < 80; i++) stars.push([rnd() * W, rnd() * hz * 0.6, rnd()]);
+    }
+    function hmDraw(t) {
+      const hz = H * 0.5, sea = H * 0.76, sunX = W * 0.28;
+      let g = ctx.createLinearGradient(0, 0, 0, hz);
+      g.addColorStop(0, "#120d33"); g.addColorStop(0.4, "#3a1d5c"); g.addColorStop(0.75, "#8c3a6a"); g.addColorStop(1, "#f28a5b");
+      ctx.fillStyle = g; ctx.fillRect(0, 0, W, hz);
+      g = ctx.createRadialGradient(sunX, hz, 0, sunX, hz, H * 0.42);
+      g.addColorStop(0, "rgba(255,196,120,.85)"); g.addColorStop(0.25, "rgba(255,140,90,.35)"); g.addColorStop(1, "rgba(255,120,90,0)");
+      ctx.fillStyle = g; ctx.fillRect(0, 0, W, hz);
+      for (const [x, y, s] of stars) { ctx.fillStyle = "rgba(255,255,255," + (0.25 + 0.3 * Math.sin(t * 0.7 + s * 40)).toFixed(3) + ")"; ctx.fillRect(x, y, 1.4, 1.4); }
+      ctx.fillStyle = "#35245a";
+      for (const b of far) ctx.fillRect(b.x, hz - b.h, b.w, b.h);
+      for (const b of near) {
+        ctx.fillStyle = "#140e28"; ctx.fillRect(b.x, hz - b.h, b.w, b.h);
+        for (const [wx, wy, s] of b.win) {
+          if (Math.sin(t * 0.25 + s * 60) <= -0.85) continue;
+          ctx.fillStyle = s < 0.2 ? "rgba(126,230,255,.8)" : "rgba(255,206,122," + (0.55 + s * 0.4).toFixed(2) + ")";
+          ctx.fillRect(wx, wy, 3, 4);
+        }
+        if (b.tower) {
+          ctx.fillStyle = "#140e28"; ctx.fillRect(b.x + b.w / 2 - 1.5, hz - b.h - 26, 3, 26);
+          const a = 0.35 + 0.65 * (0.5 + 0.5 * Math.sin(t * 2.1));
+          ctx.fillStyle = "rgba(255,80,80," + a.toFixed(2) + ")"; ctx.beginPath(); ctx.arc(b.x + b.w / 2, hz - b.h - 27, 3, 0, 7); ctx.fill();
+        }
+      }
+      g = ctx.createLinearGradient(0, hz, 0, sea);
+      g.addColorStop(0, "#5a2f63"); g.addColorStop(0.5, "#23284e"); g.addColorStop(1, "#0c2c40");
+      ctx.fillStyle = g; ctx.fillRect(0, hz, W, sea - hz);
+      for (let i = 0; i < 26; i++) {
+        const y = hz + 3 + i * (sea - hz) / 26, w = (60 - i * 1.6) * (0.7 + 0.3 * Math.sin(t * 1.3 + i));
+        ctx.fillStyle = "rgba(255,170,110," + (0.5 - i * 0.017).toFixed(3) + ")";
+        ctx.fillRect(sunX - w / 2 + Math.sin(t * 0.9 + i * 1.7) * 6, y, w, 1.6);
+      }
+      for (let i = 0; i < 40; i++) {
+        const b = near[(i * 7) % near.length]; if (!b || !b.win.length) continue;
+        const y = hz + 4 + ((i * 37) % Math.max(1, (sea - hz) * 0.6));
+        ctx.fillStyle = "rgba(255,206,122,.22)"; ctx.fillRect(b.x + (i % 5) * 5 + Math.sin(t * 1.6 + i) * 2, y, 6, 1.4);
+      }
+      // The yacht, left to right, with its wake.
+      const span = W + 260, yx = ((t * 26) % span) - 130, yy = hz + (sea - hz) * 0.42;
+      ctx.strokeStyle = "rgba(230,245,255,.35)"; ctx.lineWidth = 1.2;
+      for (let k = 1; k <= 5; k++) { ctx.beginPath(); ctx.moveTo(yx - 8, yy + 5); ctx.lineTo(yx - 8 - k * 26, yy + 5 + k * 2.2); ctx.stroke(); }
+      ctx.fillStyle = "#f4f7fb"; ctx.beginPath(); ctx.moveTo(yx - 34, yy); ctx.lineTo(yx + 40, yy); ctx.lineTo(yx + 30, yy + 8); ctx.lineTo(yx - 30, yy + 8); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = "#d9e3ee"; ctx.fillRect(yx - 18, yy - 9, 34, 9);
+      ctx.fillStyle = "#1c2a3c"; ctx.fillRect(yx - 14, yy - 7, 26, 3);
+      ctx.fillStyle = "rgba(126,230,255,.95)"; ctx.fillRect(yx + 36, yy + 1, 3, 2);
+      // Below the surface: the Deep, a diver's lamp and rising bubbles.
+      g = ctx.createLinearGradient(0, sea, 0, H);
+      g.addColorStop(0, "#0b4454"); g.addColorStop(1, "#02101a");
+      ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(0, sea);
+      for (let x = 0; x <= W; x += 12) ctx.lineTo(x, sea + Math.sin(x * 0.03 + t * 1.2) * 2.2);
+      ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.closePath(); ctx.fill();
+      const dx = W * 0.76 + Math.sin(t * 0.18) * W * 0.08, dy = sea + (H - sea) * 0.55 + Math.sin(t * 0.5) * 4;
+      const beam = ctx.createRadialGradient(dx, dy, 0, dx, dy, Math.min(W, H) * 0.5);
+      beam.addColorStop(0, "rgba(220,255,245,.55)"); beam.addColorStop(1, "rgba(120,230,220,0)");
+      ctx.fillStyle = beam; ctx.beginPath(); ctx.moveTo(dx, dy);
+      ctx.lineTo(dx - W * 0.28, dy + H * 0.3); ctx.lineTo(dx - W * 0.05, dy + H * 0.34); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = "#081820"; ctx.beginPath(); ctx.ellipse(dx + 12, dy, 16, 5, 0.1, 0, 7); ctx.fill();
+      ctx.fillStyle = "rgba(240,255,250,.95)"; ctx.beginPath(); ctx.arc(dx - 2, dy + 1, 2.6, 0, 7); ctx.fill();
+      ctx.strokeStyle = "rgba(200,245,255,.45)"; ctx.lineWidth = 1;
+      for (let i = 0; i < 7; i++) {
+        const rise = (t * 18 + i * 17) % Math.max(1, dy - sea);
+        ctx.beginPath(); ctx.arc(dx + 14 + Math.sin(t * 2 + i) * 3, dy - 4 - rise, 1.5 + (i % 3), 0, 7); ctx.stroke();
+      }
+    }
+    function hmStill() { return !!(hmReduce && hmReduce.matches); }
+    function hmFrame(now) {
+      raf = 0;
+      if (hmStill() || !onScreen || document.hidden) return;
+      if (now - last > 32) { last = now; hmDraw(now / 1000); }
+      raf = requestAnimationFrame(hmFrame);
+    }
+    function hmKick() {
+      document.documentElement.dataset.hmHero = hmStill() ? "still" : "live";
+      if (hmStill()) { cancelAnimationFrame(raf); raf = 0; hmDraw(14); return; }
+      if (!raf) raf = requestAnimationFrame(hmFrame);
+    }
+    hmLayout(); hmDraw(14); hmKick();
+    window.addEventListener("resize", () => { hmLayout(); hmDraw(hmStill() ? 14 : performance.now() / 1000); });
+    document.addEventListener("visibilitychange", hmKick);
+    if (hmReduce && hmReduce.addEventListener) hmReduce.addEventListener("change", hmKick);
+    if ("IntersectionObserver" in window) new IntersectionObserver((es) => { onScreen = es[0].isIntersecting; hmKick(); }).observe(hero);
   })();
 
-  (function continueStrip() {
-    var RECORDS_KEY = "vr-training-records-v1", REFRESHER_DAYS = 90, DAY_MS = 86400000;
-    var list;
+  // ---- the programme finder: text, union, category and world, nine cards at
+  // first so a phone is not a wall, then every match on request.
+  const hmQ = document.getElementById("hm-find-q");
+  const hmSelU = document.getElementById("hm-find-union");
+  const hmSelC = document.getElementById("hm-find-cat");
+  const hmSelW = document.getElementById("hm-find-world");
+  const hmCount = document.getElementById("hm-find-count");
+  const hmNone = document.getElementById("hm-find-none");
+  const hmMore = document.getElementById("hm-find-more");
+  const hmUnionBtns = [...document.querySelectorAll(".hm-union")];
+  const hmCards = [...document.querySelectorAll("#hm-progs .prog")].map((el) => ({
+    el, hay: el.textContent.toLowerCase().replace(/ +/g, " "),
+    cat: (el.dataset.cat || "").split(" "), u: (el.dataset.u || "").split(" "), w: (el.dataset.w || "").split(" "),
+  }));
+  const HM_FIRST = 9;
+  let hmAll = false;
+  function hmApply() {
+    const terms = hmQ.value.toLowerCase().trim().split(/ +/).filter(Boolean);
+    let matched = 0, shown = 0;
+    for (const c of hmCards) {
+      const ok = terms.every((t) => c.hay.includes(t)) && (!hmSelU.value || c.u.includes(hmSelU.value))
+        && (!hmSelC.value || c.cat.includes(hmSelC.value)) && (!hmSelW.value || c.w.includes(hmSelW.value));
+      if (ok) matched += 1;
+      const show = ok && (hmAll || matched <= HM_FIRST);
+      c.el.hidden = !show;
+      if (show) shown += 1;
+    }
+    const of = matched === hmCards.length ? hmCards.length + " programmes" : matched + " of " + hmCards.length + " programmes match";
+    hmCount.textContent = of + (shown < matched ? " — showing " + shown + "." : ".");
+    hmNone.hidden = matched !== 0;
+    hmMore.hidden = shown >= matched;
+    hmMore.textContent = "Show all " + matched + " programmes";
+    for (const b of hmUnionBtns) b.setAttribute("aria-pressed", String(!!hmSelU.value && b.dataset.u === hmSelU.value));
+  }
+  for (const el of [hmQ, hmSelU, hmSelC, hmSelW]) el.addEventListener(el === hmQ ? "input" : "change", () => { hmAll = false; hmApply(); });
+  hmMore.addEventListener("click", () => { hmAll = true; hmApply(); });
+  document.getElementById("hm-find-reset").addEventListener("click", () => {
+    hmQ.value = ""; hmSelU.value = ""; hmSelC.value = ""; hmSelW.value = ""; hmAll = false; hmApply(); hmQ.focus();
+  });
+  for (const b of hmUnionBtns) b.addEventListener("click", () => {
+    hmSelU.value = hmSelU.value === b.dataset.u ? "" : b.dataset.u;
+    hmAll = false; hmApply();
+    document.getElementById("finder").scrollIntoView({ behavior: hmReduce && hmReduce.matches ? "auto" : "smooth", block: "start" });
+  });
+  hmApply();
+
+  // ---- the continue strip, read straight from the training record's own
+  // localStorage key (shared/records.js RECORDS_KEY) — never synced, never
+  // estimated. A first visit keeps the friendly empty state the page ships
+  // with. "Due a refresher" mirrors shared/tracking.js's rule (a station whose
+  // last clean run is older than 90 days) without importing that module.
+  (function hmContinue() {
+    const RECORDS_KEY = "vr-training-records-v1", REFRESHER_DAYS = 90, DAY_MS = 86400000;
+    let list;
     try { list = JSON.parse(localStorage.getItem(RECORDS_KEY) || "[]"); } catch (_) { list = []; }
     if (!Array.isArray(list) || !list.length) return;
-    var last = list[list.length - 1];
-    var href = (last.app === "trades" ? "trades/index.html?room=" : "smartcity/index.html?sim=") + encodeURIComponent(last.simId || "");
-    var label = last.simName || last.simId || "a station";
-
-    var days = {};
-    for (var i = 0; i < list.length; i++) {
-      var at = String(list[i].at || "");
-      if (/^\\d{4}-\\d{2}-\\d{2}/.test(at)) days[at.slice(0, 10)] = true;
-    }
-    var dayKeys = Object.keys(days).sort();
-    var streakDays = 0;
+    const last = list[list.length - 1];
+    const href = (last.app === "trades" ? HM_LINKS.trades + "?room=" : HM_LINKS.smartcity + "?sim=") + encodeURIComponent(last.simId || "");
+    const label = last.simName || last.simId || "a station";
+    const days = {};
+    for (const r of list) { const at = String(r.at || ""); if (/^[0-9]{4}-[0-9]{2}-[0-9]{2}/.test(at)) days[at.slice(0, 10)] = true; }
+    const dayKeys = Object.keys(days).sort();
+    let streakDays = 0;
     if (dayKeys.length) {
       streakDays = 1;
-      var cursor = new Date(dayKeys[dayKeys.length - 1] + "T00:00:00.000Z");
-      for (;;) {
-        cursor.setUTCDate(cursor.getUTCDate() - 1);
-        if (days[cursor.toISOString().slice(0, 10)]) streakDays += 1; else break;
-      }
+      const cursor = new Date(dayKeys[dayKeys.length - 1] + "T00:00:00.000Z");
+      for (;;) { cursor.setUTCDate(cursor.getUTCDate() - 1); if (days[cursor.toISOString().slice(0, 10)]) streakDays += 1; else break; }
     }
-
-    var lastClean = {};
-    for (var j = 0; j < list.length; j++) {
-      var r = list[j];
+    const lastClean = {};
+    for (const r of list) {
       if (!r.passed || !r.simId) continue;
-      var prev = lastClean[r.simId];
-      if (!prev || String(r.at) > prev) lastClean[r.simId] = String(r.at);
+      if (!lastClean[r.simId] || String(r.at) > lastClean[r.simId]) lastClean[r.simId] = String(r.at);
     }
-    var now = Date.now(), dueCount = 0;
-    for (var stationId in lastClean) {
-      var ageDays = Math.floor((now - new Date(lastClean[stationId]).getTime()) / DAY_MS);
-      if (ageDays > REFRESHER_DAYS) dueCount += 1;
-    }
-
-    var line = document.getElementById("continue-line");
-    var text = "Last station: " + label;
+    let dueCount = 0;
+    for (const id in lastClean) if (Math.floor((Date.now() - new Date(lastClean[id]).getTime()) / DAY_MS) > REFRESHER_DAYS) dueCount += 1;
+    const src = last.source && HM_LINKS[last.source] && last.source !== last.app ? last.source : null;
+    let text = "Last station: " + label + (src ? " \\u00b7 from " + HM_WORLD_NAMES[src] : "");
     if (streakDays > 1) text += " \\u00b7 " + streakDays + "-day training streak";
-    line.textContent = text;
-    var link = document.getElementById("continue-link");
-    link.href = href;
-    link.textContent = "Resume " + label;
+    document.getElementById("continue-line").textContent = text;
+    const link = document.getElementById("continue-link");
+    link.href = href; link.textContent = "Resume " + label;
+    if (src) {
+      const back = document.getElementById("hm-cont-world");
+      back.href = HM_LINKS[src]; back.textContent = "Back to " + HM_WORLD_NAMES[src]; back.hidden = false;
+    }
     if (dueCount) {
-      var dueEl = document.getElementById("continue-due");
+      const dueEl = document.getElementById("continue-due");
       dueEl.hidden = false;
       dueEl.textContent = dueCount + " station" + (dueCount === 1 ? "" : "s") + " due a refresher (platform default: " + REFRESHER_DAYS + " days since the last clean run).";
     }
-    document.getElementById("continue").hidden = false;
+    document.getElementById("continue").dataset.state = "returning";
   })();
-`;
 
-function appCard(layout, { href, tint: t, count, name, blurb, go }) {
+  // ---- progress chips on every finder card and the programmes in progress
+  // on the continue strip: the learner passport (shared/passport.js, see
+  // docs/interop.md), loaded lazily, so a station passed from any world's
+  // job board counts here too. Without a module server (file://) the cards
+  // stay as they are.
+  import("./shared/passport.js").then((pp) => {
+    for (const el of document.querySelectorAll("#hm-progs [data-pp-programme]")) pp.ppProgressChip(el, el.getAttribute("data-pp-programme"));
+    const going = pp.ppProgrammeIds().map((id) => pp.ppProgramme(id)).filter((p) => p && p.passed > 0 && p.passed < p.total)
+      .sort((a, b) => b.passed / b.total - a.passed / a.total).slice(0, 3);
+    if (!going.length) return;
+    const box = document.getElementById("hm-cont-progs");
+    for (const p of going) {
+      const a = document.createElement("a");
+      a.className = "hm-cont-prog";
+      a.href = HM_LINKS.smartcity + "?programme=" + encodeURIComponent(p.id);
+      const card = document.querySelector('#hm-progs [data-pp-programme="' + String(p.id).replace(/[^a-z0-9-]/g, "") + '"]');
+      const prog = card ? card.closest(".prog") : null;
+      if (prog) a.style.setProperty("--tint", prog.style.getPropertyValue("--tint"));
+      const b = document.createElement("b"); b.textContent = p.name;
+      const chip = document.createElement("span");
+      a.append(b, chip);
+      pp.ppProgressChip(chip, p.id);
+      box.append(a);
+    }
+    box.hidden = false;
+  }).catch(() => { /* no module server (file://): the cards stay as they are */ });
+`;
+}
+
+function appCard(layout, { href, tint: t, count, name, blurb, go, shot }) {
+  if (shot) {
+    // A world card: the real in-game capture on top (tools/capture_home_thumbs.mjs),
+    // or the world's own tint as a gradient until one has been captured.
+    const src = hmThumb(shot);
+    const img = src
+      ? `<img src="${src}" alt="In-game view of ${esc(name)}" width="480" height="270" decoding="async">`
+      : "";
+    return `      <a class="app world" style="--tint:${t}" href="${href}">
+        <span class="shot">${img}</span>
+        <span class="body">
+          <span class="count">${esc(count)}</span>
+          <h2>${esc(name)}</h2>
+          <p>${esc(blurb)}</p>
+          <span class="go">${esc(go)}</span>
+        </span>
+      </a>`;
+  }
   return `      <a class="app" style="--tint:${t}" href="${href}">
         <span class="count">${esc(count)}</span>
         <h2>${esc(name)}</h2>
         <p>${esc(blurb)}</p>
         <span class="go">${esc(go)}</span>
       </a>`;
+}
+
+/**
+ * One programme in the finder. The filters read index lists and fixed world
+ * tokens from data attributes; every catalog string stays in a text position
+ * (the trades the programme covers ride along in a clipped span so the text
+ * search can find "welder" or "diver" without printing a wall of them).
+ */
+function hmProgrammeCard(layout, c, { catIndex, unionTokens, tradesOf, catNames }) {
+  const id = slug(c.id, "programme id");
+  const n = (c.stations ?? []).length;
+  const cats = [...new Set((c.stations ?? []).map((s) => catIndex.get(s.id)).filter((i) => i !== undefined))];
+  const tokens = hmTokensOf(c.union);
+  const us = unionTokens.map((u, i) => (tokens.includes(u.token) ? i : -1)).filter((i) => i >= 0);
+  const worlds = hmWorldsOf(c);
+  const catLine = cats.slice(0, 2).map((i) => catNames[i]).join(", ");
+  return `      <article class="prog" style="--tint:${tint(c.accent)}" data-cat="${cats.join(" ")}" data-u="${us.join(" ")}" data-w="${worlds.join(" ")}">
+        <h3>${esc(c.name)}</h3>
+        <p class="prog-union">${esc(c.union ?? "")}</p>
+        <p class="prog-meta">${n} station${n === 1 ? "" : "s"}${catLine ? ` · ${esc(catLine)}` : ""}</p>
+        <span class="pp-chip" data-pp-programme="${id}" hidden></span>
+        <span class="vh">${esc(tradesOf(c).join(" · "))}</span>
+        <span class="prog-foot"><a class="btn primary prog-go" href="${layout.app.smartcity}?programme=${id}">Start<span class="vh"> ${esc(c.name)}</span></a></span>
+      </article>`;
 }
 
 function stationCard(layout, station, ordinal) {
@@ -942,21 +1333,50 @@ export function renderHome(catalog, devicesMd, layoutName = "repo") {
   const ordinals = new Map();
   for (const s of stations) if (s.app === "trades") ordinals.set(s.id, (roomOrdinal += 1));
 
-  const apps = [
+  // The seven worlds, each with its real in-game capture, Bay World first
+  // (it is where "Start playing" goes); then the two tools that are not worlds.
+  const worlds = [
     appCard(layout, {
-      href: layout.app.smartcity, tint: "#4fd1ff", count: `${cityCount} stations`,
+      href: layout.app.bayworld, tint: "#4fd1ff", count: `${BAY_SITES.length} job sites`, shot: "bayworld",
+      name: "Bay World", go: "Enter Bay World",
+      blurb: "A free-roam open-world city: walk or drive anywhere, day turns to night, traffic keeps its lanes, and every job board on the map launches a real training station.",
+    }),
+    appCard(layout, {
+      href: layout.app.regatta, tint: "#4fd6a5", count: "12 yachts", shot: "regatta",
+      name: "Bay Regatta", go: "Cast off",
+      blurb: "Bay World's water: a fleet of twelve motor yachts, hosted events with a safety briefing before every cast-off, and three race courses scored on the marks, the no-wake zone, right of way and a clean docking.",
+    }),
+    appCard(layout, {
+      href: layout.app.underwater, tint: "#4fb3c8", count: `${DEEP_SITES.length} dive sites`, shot: "underwater",
+      name: "The Deep", go: "Dive in",
+      blurb: "The dive game under the bay: swim or pilot an ROV over a large seabed with a buddy on a line, an ascent line at every site and a reserve you watch rather than count, and every job board launches a real dive or restoration station.",
+    }),
+    appCard(layout, {
+      href: layout.app.fairway, tint: "#8cff5a", count: "Nine holes", shot: "fairway",
+      name: "Fairway Park", go: "Play Fairway Park",
+      blurb: "An original nine-hole course and an outdoor sports facility, played for real strokes and real scores — with a groundskeeper's log that scores course care right alongside them.",
+    }),
+    appCard(layout, {
+      href: layout.aside.atlas, tint: "#f2c14b", count: "Map", shot: "atlas",
+      name: "Bay Atlas", go: "Open the Atlas",
+      blurb: "Every Bay World site and landmark with its programmes over a map — a real-world one when you bring your own Mapbox token.",
+    }),
+    appCard(layout, {
+      href: layout.app.smartcity, tint: "#4fd1ff", count: `${cityCount} stations`, shot: "smartcity",
       name: "SmartCiti.X", go: "Enter SmartCiti.X",
       blurb: "Municipal and heavy-industrial procedures on one digital-twin plaza — isolation, entry, rigging, climbing, response and restoration, each station its own rank ladder and badge set.",
     }),
     appCard(layout, {
+      href: layout.app.holodeck, tint: "#a079ff", count: "Generator", shot: "holodeck",
+      name: "Holodeck", go: "Enter Holodeck",
+      blurb: "Describe a procedure and it builds one, or name a station from the roster and it loads that exact one, hazards and interruptions included.",
+    }),
+  ].join("\n");
+  const moreApps = [
+    appCard(layout, {
       href: layout.app.trades, tint: "#37d6c0", count: `${roomCount} rooms`,
       name: "Trade Skills Simulator", go: "Enter Trade Skills",
       blurb: "The bench version: one room per trade, the whole scene built around a single procedure with seeded hazards and graded skill gauges.",
-    }),
-    appCard(layout, {
-      href: layout.app.holodeck, tint: "#a079ff", count: "Generator",
-      name: "Holodeck", go: "Enter Holodeck",
-      blurb: "Describe a procedure and it builds one, or name a station from the roster and it loads that exact one, hazards and interruptions included.",
     }),
     appCard(layout, {
       href: layout.app.instructor, tint: "#f2c14b", count: "Live",
@@ -964,36 +1384,25 @@ export function renderHome(catalog, devicesMd, layoutName = "repo") {
       blurb: "The class as it runs: where each learner is, every unsafe action as it happens, and the commands an instructor can put in front of one of them.",
     }),
     appCard(layout, {
-      href: layout.app.fairway, tint: "#8cff5a", count: "Nine holes",
-      name: "Fairway Park", go: "Play Fairway Park",
-      blurb: "An original nine-hole course and an outdoor sports facility, played for real strokes and real scores — with a groundskeeper's log that scores course care right alongside them.",
-    }),
-    appCard(layout, {
-      href: layout.app.bayworld, tint: "#4fd1ff", count: "8 job sites",
-      name: "Bay World", go: "Enter Bay World",
-      blurb: "A free-roam open-world city: walk or drive anywhere, day turns to night, traffic keeps its lanes, and every job board on the map launches a real training station.",
-    }),
-    appCard(layout, {
-      href: layout.app.regatta, tint: "#4fd6a5", count: "12 yachts",
-      name: "Bay Regatta", go: "Cast off",
-      blurb: "Bay World's water: a fleet of twelve motor yachts, hosted events with a safety briefing before every cast-off, and three race courses scored on the marks, the no-wake zone, right of way and a clean docking.",
-    }),
-    appCard(layout, {
-      href: layout.app.underwater, tint: "#4fb3c8", count: "Dive",
-      name: "The Deep", go: "Dive in",
-      blurb: "The dive game under the bay: swim or pilot an ROV over a large seabed with a buddy on a line, an ascent line at every site and a reserve you watch rather than count, and every job board launches a real dive or restoration station.",
+      href: layout.aside.verify, tint: "#59c97b", count: "Credentials",
+      name: "Credential verifier", go: "Verify a badge",
+      blurb: "Check an exported badge or training record: who earned it, for which station, and that nothing in it was changed.",
     }),
   ].join("\n");
 
-  const rails = (catalog.curricula ?? []).map((c) => {
-    const id = slug(c.id, "programme id");
-    const n = (c.stations ?? []).length;
-    return `      <a class="chip" href="${layout.app.smartcity}?programme=${id}">
-        <b>${esc(c.name)}</b>
-        <span>${n} stations · ${esc(c.union ?? "")}</span>
-        <span class="pp-chip" data-pp-programme="${id}" hidden></span>
-      </a>`;
-  }).join("\n");
+  // The programme finder: one card per programme, filterable by text, union,
+  // category and world.
+  const curricula = catalog.curricula ?? [];
+  const catIndex = new Map();
+  categories.forEach((cat, i) => { for (const id of cat.stations ?? []) if (!catIndex.has(id)) catIndex.set(id, i); });
+  const catNames = categories.map((c) => c.name);
+  const unionTokens = hmUnionTokens(curricula);
+  const tradesOf = (c) => [...new Set((c.stations ?? []).map((s) => byId.get(`${s.app}:${s.id}`)?.trade).filter(Boolean))];
+  const progCards = curricula.map((c) => hmProgrammeCard(layout, c, { catIndex, unionTokens, tradesOf, catNames })).join("\n");
+  const unionOptions = unionTokens.map((u, i) => `<option value="${i}">${esc(u.token)}</option>`).join("");
+  const catOptions = categories.map((c, i) => `<option value="${i}">${esc(c.name)}</option>`).join("");
+  const worldOptions = HM_WORLD_FILTERS.map(([id, name]) => `<option value="${id}">${esc(name)}</option>`).join("");
+  const unionChips = unionTokens.map((u, i) => `      <button type="button" class="hm-union" data-u="${i}" aria-pressed="false">${esc(u.token)}<small>${u.count}</small></button>`).join("\n");
 
   const sections = categories.map((cat) => {
     const members = (cat.stations ?? []).map((id) => byId.get(`smartcity:${id}`) ?? byId.get(`trades:${id}`)).filter(Boolean);
@@ -1040,6 +1449,11 @@ ${cards}
 <header class="top">
   <div class="top-in">
     <p class="brandline">${esc(catalog.network ?? "Training simulators")}</p>
+    <nav class="hm-nav" aria-label="Sections">
+      <a href="#worlds">Worlds</a>
+      <a href="#finder">Programmes</a>
+      <a href="#catalog">Every station</a>
+    </nav>
     <div class="who">
       <span class="who-line" id="who" hidden></span>
       <button class="btn" id="signin" type="button" hidden>Sign in</button>
@@ -1048,49 +1462,103 @@ ${cards}
   </div>
 </header>
 
+<section class="hero" id="hero" aria-labelledby="hero-title">
+  <canvas id="hm-hero-canvas" aria-hidden="true"></canvas>
+  <div class="hero-in">
+    <p class="eyebrow">${stations.length} stations · ${categories.length} categories · ${curricula.length} programmes</p>
+    <h1 id="hero-title">Pick the job.<br><em>Train the procedure.</em></h1>
+    <p class="hero-lead">Walk a city at dusk, sail the bay, dive below it — and every job board you find opens a real, scored safety procedure from a real trade.</p>
+    <div class="hm-actions">
+      <a class="hm-act go" id="hm-start" href="${layout.app.bayworld}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" fill="currentColor"/></svg>Start playing</a>
+      <a class="hm-act alt" id="hm-find" href="#finder"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M15 15l5 5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Find your trade</a>
+    </div>
+  </div>
+</section>
+
 <main class="wrap">
-  <section class="hero">
-    <p class="eyebrow">${stations.length} stations · ${categories.length} categories · ${(catalog.curricula ?? []).length} programmes</p>
-    <h1>Pick the job.<br><em>Train the procedure.</em></h1>
-    <p class="lead">Three simulators share one procedure engine, one apprentice profile and one training record:
-    <b>SmartCiti.X</b>'s ${cityCount} municipal and industrial stations, the <b>Trade Skills Simulator</b>'s ${roomCount} benches,
-    and the <b>Holodeck</b>'s prompt-built procedures. Every station names the union and the certification the work really
-    needs, and scores what you touch and in what order — hazards, interruptions, holds and torque included.
-    Pick an app, follow a programme, or search the roster.</p>
-    <p class="devices">${esc(deviceLine(devicesMd))}</p>
-    <div class="apps">
-${apps}
+  <section class="continue hm-sec" id="continue" aria-labelledby="continue-title">
+    <p class="eyebrow" id="continue-title">Continue where you left off</p>
+    <p class="cont-line" id="continue-line">Nothing here yet — this is your first visit on this device. Finish any station and it waits for you here, with your programmes beside it.</p>
+    <div class="cont-row">
+      <a class="btn primary" id="continue-link" href="${layout.app.bayworld}">Start in Bay World</a>
+      <a class="btn" id="hm-cont-world" href="${layout.app.bayworld}" hidden></a>
+    </div>
+    <p class="cont-due" id="continue-due" hidden></p>
+    <div class="hm-cont-progs" id="hm-cont-progs" hidden></div>
+  </section>
+
+  <section class="hm-sec" id="how" aria-labelledby="how-title">
+    <p class="eyebrow">How it works</p>
+    <h2 id="how-title">Play. Take a job. Pass it. Earn it.</h2>
+    <ol class="hm-steps">
+      <li style="--step:#4fd1ff"><b>Play</b><span>Walk or drive Bay World, sail the Regatta, dive the Deep or play Fairway Park — on a phone, a laptop or a headset.</span></li>
+      <li style="--step:#f2c14b"><b>Take a job</b><span>Every job board on the map opens a real training station for a real trade, with its union named.</span></li>
+      <li style="--step:#8cff5a"><b>Pass the procedure</b><span>You are scored on what you touch and in what order — hazards, interruptions, holds and torque included.</span></li>
+      <li style="--step:#a079ff"><b>Earn the credential</b><span>Stars, badges and a passport record that counts across every world, and that you can export and have verified.</span></li>
+    </ol>
+  </section>
+
+  <section class="hm-sec" id="worlds-sec" aria-labelledby="worlds-title">
+    <p class="eyebrow">Seven worlds, one passport</p>
+    <h2 id="worlds-title">Choose a world</h2>
+    <p class="sub">Every picture here is a real capture from the game it opens.</p>
+    <div class="worlds" id="worlds">
+${worlds}
+    </div>
+    <div class="more-apps">
+${moreApps}
     </div>
     <p class="aside">Also here: <a href="${layout.aside.atlas}">the Bay Atlas</a>, every Bay World site and landmark with its programmes over a map (a real-world one when you bring your own Mapbox token),
     <a href="${layout.aside.portal}">the app map</a>,
     <a href="${layout.aside.verify}">the credential verifier</a> for an exported badge, and
     <a href="${layout.aside.campus}">Safety Campus</a>, the hazard-spotting web companion to the Unity headset build.</p>
+  </section>
+
+  <section class="finder hm-sec" id="finder" aria-labelledby="finder-title">
+    <p class="eyebrow">Programme finder</p>
+    <h2 id="finder-title" class="hm-h2">Find your trade</h2>
+    <p class="hm-sub">${curricula.length} programmes — the ordered blocks a hall runs. Each opens at the first station you have not yet passed, and your progress on this device shows on its card.</p>
+    <div class="hm-filters">
+      <label>Search<input id="hm-find-q" type="search" autocomplete="off" spellcheck="false" enterkeyhint="search" placeholder="Electrician, diver, crane, nurse, IBEW…"></label>
+      <label>Union<select id="hm-find-union"><option value="">Any union</option>${unionOptions}</select></label>
+      <label>Category<select id="hm-find-cat"><option value="">Any category</option>${catOptions}</select></label>
+      <label>World<select id="hm-find-world"><option value="">Any world</option>${worldOptions}</select></label>
+    </div>
+    <p class="hm-find-count" id="hm-find-count" role="status">${curricula.length} programmes.</p>
+    <div class="hm-progs" id="hm-progs">
+${progCards}
+    </div>
+    <p class="nohits" id="hm-find-none" hidden>No programme matches all of that. <button type="button" class="linkbtn" id="hm-find-reset">Show every programme</button></p>
+    <button type="button" class="btn hm-more" id="hm-find-more" hidden>Show all matching programmes</button>
+  </section>
+
+  <section class="hm-sec" id="unions" aria-labelledby="unions-title">
+    <p class="eyebrow">Unions and training bodies</p>
+    <h2 id="unions-title">Find your union</h2>
+    <p class="sub">The bodies named most often across the programmes. Pick one to see its programmes in the finder; the number is how many name it.</p>
+    <div class="hm-unions">
+${unionChips}
+    </div>
+  </section>
+
+  <section class="hm-about" aria-labelledby="about-title">
+    <p class="eyebrow" id="about-title">One engine underneath</p>
+    <p class="lead">Three simulators share one procedure engine, one apprentice profile and one training record:
+    <b>SmartCiti.X</b>'s ${cityCount} municipal and industrial stations, the <b>Trade Skills Simulator</b>'s ${roomCount} benches,
+    and the <b>Holodeck</b>'s prompt-built procedures. Every station names the union and the certification the work really
+    needs, and scores what you touch and in what order — hazards, interruptions, holds and torque included.
+    Pick a world, follow a programme, or search the roster below.</p>
+    <p class="devices">${esc(deviceLine(devicesMd))}</p>
     <p class="aside">Off by default: <button type="button" class="linkbtn" id="share-open">share your anonymised training engagement to help train agents and robots</button> —
     episode digests and roll-up scores only, never your name or free text, on the licence you choose, revocable any time.</p>
   </section>
 
-  <section class="continue" id="continue" hidden>
-    <p class="eyebrow">Continue where you left off</p>
-    <p class="cont-line" id="continue-line"></p>
-    <a class="btn primary" id="continue-link" href="#"></a>
-    <p class="cont-due" id="continue-due" hidden></p>
-  </section>
-
   <section class="find">
-    <label class="eyebrow" for="q">Search the roster</label>
+    <label class="eyebrow" for="q">Search every station</label>
     <input id="q" type="search" autocomplete="off" spellcheck="false" enterkeyhint="search"
       placeholder="Station, id, trade, category or standard — try confined space, IBEW, welding">
     <p class="count" id="count" role="status"></p>
     <p class="nohits" id="nohits" hidden>Nothing matches that. <button type="button" class="linkbtn" id="clear-q">Clear the search</button></p>
-  </section>
-
-  <section class="rails">
-    <h2>Programmes</h2>
-    <p class="sub">The ordered blocks a hall runs: each opens at the first station you have not yet passed, and crosses both
-    apps the way an apprenticeship does.</p>
-    <div class="rail">
-${rails}
-    </div>
   </section>
 
 ${tracksSection(catalog, layoutName)}
@@ -1197,6 +1665,7 @@ ${docs}
 </dialog>
 
 <script type="module">${SCRIPT}</script>
+<script type="module">${hmScript(layout)}</script>
 <script type="module">import { ctlMount } from "./shared/controls.js"; ctlMount({ world: "the homepage", home: false, except: { move: "A page, not a world: Tab walks the cards.", look: "Scroll the page.", interact: "Enter opens the focused card.", map: "Each world keeps its own map.", view: "—", quality: "Set inside each world." } });</script>
 </body>
 </html>
