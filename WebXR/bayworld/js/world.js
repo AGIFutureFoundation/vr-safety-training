@@ -15,6 +15,8 @@ import { sedan, pickup, boxTruck, semiTractor } from "../../shared/fleet.js";
 import { buildWeather, weatherFor } from "../../shared/weather.js";
 import { bayGroundTexture, bayGroundUvMatrix, mapboxToken, readMapboxConfig } from "../../shared/mapbox.js";
 import { BW_VEHICLES } from "./sim.js";
+import { buildSky, skyFor, skyState, advanceSky, skySetWeather, skyCompass } from "../../shared/sky.js";
+import { buildWildlife } from "../../shared/wildlife.js";
 
 const BW_EYE_HEIGHT = 1.62;
 const BW_VEHICLE_BUILDERS = { sedan, pickup, boxTruck, semiTractor };
@@ -22,6 +24,23 @@ const BW_VEHICLE_BUILDERS = { sedan, pickup, boxTruck, semiTractor };
  *  pool — "enter and exit at parked vehicles" starts here for every one of
  *  them, whether or not it is unlocked yet (an unseen vehicle just waits). */
 const BW_DEPOT = { x: -40, z: -40, spacing: 9 };
+
+/** Where the generic wildlife lives, by zone (shared/bayworld-data.js's own
+ *  zone ids), each over a plain rectangle of water or shore in metres: gulls
+ *  over the port basin, pelicans and a fish school over the outer bay's
+ *  water, the ray in its shipping channel, shorebirds on the island beach,
+ *  seals on a float and a kelp crab on the breakwater rock off the north
+ *  pier. Counts are WILDLIFE_BUDGET's own defaults — a scene budget, not a
+ *  census — and a one-zone build (`opts.zone`) keeps only its own entries. */
+const BW_WILDLIFE = [
+  { kind: "gulls", zone: "port", area: { x: -300, z: 450, w: 260, d: 180, y: -0.4 } },
+  { kind: "pelicans", zone: "outer-bay", area: { x: -1000, z: 380, w: 300, d: 200, y: -0.4 } },
+  { kind: "fish", zone: "outer-bay", area: { x: -1000, z: 300, w: 120, d: 80, y: -0.4 } },
+  { kind: "ray", zone: "outer-bay", area: { x: -1060, z: 520, w: 100, d: 60, y: -0.4 } },
+  { kind: "shorebirds", zone: "island-harbour", area: { x: 80, z: 722, w: 80, d: 6, y: 0 } },
+  { kind: "seals", zone: "north-shoreline", area: { x: -960, z: -690, w: 20, d: 20, y: -0.4 } },
+  { kind: "crab", zone: "north-shoreline", area: { x: -928, z: -646, w: 4, d: 4, y: -0.2 } },
+];
 
 function bwPersonFigure(THREE, { body = 0x3a6ea5, skin = 0xd8b090, cap = 0xf2c14b } = {}) {
   const g = new THREE.Group();
@@ -132,6 +151,18 @@ export function bwBuildWorld(root, THREE, opts = {}) {
   // Satellite ground, only with a token (see bwApplySatelliteGround()).
   const satelliteGround = bwApplySatelliteGround(root, THREE);
 
+  // The sky dome and the wildlife, built after buildBayWorld()'s own
+  // mergeStatic() so their moving parts stay their own objects. The dome
+  // follows the camera (bwStepSky() below); the wildlife loops in place.
+  const startWeather = weatherFor(opts.weather ?? "clear");
+  const sky = buildSky(root, { time: "day", weather: startWeather });
+  const wildlife = BW_WILDLIFE
+    .filter((w) => !opts.zone || w.zone === opts.zone)
+    .map((w) => buildWildlife(root, { zone: w.area, kind: w.kind }));
+  // The drift: this app's own clock (sim.js's bwAdvanceClock()) owns the
+  // hour, so dayRate is 0 and advanceSky() only walks the weather.
+  const skyDrift = skyState({ hours: 9, weather: startWeather, dayRate: 0, driftEvery: opts.driftEvery ?? 150 });
+
   const player = bwPersonFigure(THREE);
   root.add(player);
 
@@ -190,7 +221,30 @@ export function bwBuildWorld(root, THREE, opts = {}) {
     root.add(group);
     weather = { ...buildWeather(group, opts.scene ?? { fog: null }, wanted), group };
     weatherKind = wanted;
+    skySetWeather(skyDrift, wanted);
+    sky.set(skyDrift.hours, wanted);
     return weather;
+  }
+
+  /** One step of the live sky: the drift (a weather event rebuilds the
+   *  plaza-scale weather and re-tunes the dome), the dome following the
+   *  camera, the wildlife loops. Returns what the HUD shows: the weather
+   *  word, the wind and the compass point, and the recipe itself. */
+  let skyClock = 0;
+  function bwStepSky(dt, hours, scene, camera) {
+    skyClock += dt;
+    skyDrift.hours = hours;
+    for (const e of advanceSky(skyDrift, dt)) {
+      if (e.type === "weather") bwSetWeather(e.to);
+    }
+    const recipe = sky.set(hours, weatherKind ?? skyDrift.weather);
+    sky.animate(skyClock, dt, camera);
+    for (const w of wildlife) w.animate(skyClock, dt);
+    if (weather?.animate) weather.animate(skyClock, dt);
+    return {
+      weather: recipe.kind, label: recipe.label,
+      wind: recipe.wind, compass: skyCompass(recipe.wind.dir), visibility: recipe.visibility, recipe,
+    };
   }
 
   /** Applies bayLighting(bucket)'s recipe (see bwHourBucket()) to the same
@@ -202,9 +256,13 @@ export function bwBuildWorld(root, THREE, opts = {}) {
     if (hemi) { hemi.color?.setHex?.(L.hemi[0]); hemi.groundColor?.setHex?.(L.hemi[1]); hemi.intensity = L.hemiI; }
     if (sun) { sun.color?.setHex?.(L.key[0]); sun.intensity = L.key[1]; }
     if (scene) {
-      if (!scene.fog && THREE.FogExp2) scene.fog = new THREE.FogExp2(L.fog, 0.006);
-      if (scene.fog) scene.fog.color?.setHex?.(L.fog);
-      scene.background?.setHex?.(L.sky);
+      // The fog and the background come from the same recipe the dome, the
+      // HUD and every other open world read (shared/sky.js's skyFor()), so
+      // a foggy dusk here is the same foggy dusk on the fairway.
+      const S = skyFor(bucket, weatherKind ?? skyDrift.weather);
+      if (!scene.fog && THREE.FogExp2) scene.fog = new THREE.FogExp2(S.fog, S.fogDensity);
+      if (scene.fog) { scene.fog.color?.setHex?.(S.fog); if ("density" in scene.fog) scene.fog.density = S.fogDensity; }
+      scene.background?.setHex?.(S.sky);
     }
     return { bucket, isNight: bucket === "night", streetlightsOn: bucket !== "day", mast: L.mast };
   }
@@ -224,7 +282,7 @@ export function bwBuildWorld(root, THREE, opts = {}) {
   }
 
   return {
-    city, player, vehicles, sun, hemi, satelliteGround,
-    bwSpawnTrafficMeshes, bwSpawnPedestrianMeshes, bwSetWeather, bwApplyLighting, placeCamera,
+    city, player, vehicles, sun, hemi, satelliteGround, sky, wildlife, skyDrift,
+    bwSpawnTrafficMeshes, bwSpawnPedestrianMeshes, bwSetWeather, bwStepSky, bwApplyLighting, placeCamera,
   };
 }

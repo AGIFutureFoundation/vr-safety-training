@@ -413,6 +413,58 @@ const EGG_QUESTS = [
     "The marina's maintenance radio hums: 'Dusk run tonight — tell me what the tender crew check before slipping the painter.'"),
 ];
 
+// ========================================================== FIELD GUIDE
+// Eight wildlife-sighting eggs (docs/consoles/SKY.md, tools/briefs/sky-brief.md):
+// `method: "sight"` — found by standing near a shared/wildlife.js group whose
+// `userData.wildlife.kind` matches, at the map landmark the group lives by.
+// Each note is one generic, informative line about the kind of animal: no
+// count, no season, no claim about a real place, no figure of any sort
+// (tools/check_sky.mjs holds every line to that). They are kept apart from
+// EGG_QUESTS because those quote a station step verbatim and these do not.
+const FIELD_GUIDE_NOTES = {
+  gulls: "Gulls work the tide line and the wake of anything that stirs the water; the sound of one over a dock usually means the others are close behind.",
+  pelicans: "Pelicans fly low in a line with slow, deep wingbeats and fold into a plunge when they spot a fish beneath the surface.",
+  shorebirds: "Shorebirds run in short dashes along the wet sand where each wave pulls back, probing for what the water uncovered.",
+  seals: "Seals haul out on floats and low rocks to rest and warm up between dives, and slip back in quietly when something comes too close.",
+  fish: "A fish school moves as one body, turning and tightening together so that no single fish is easy to single out.",
+  ray: "A ray glides just above the bottom on its wing-like fins and settles into the sand when it stops, showing only its eyes and tail.",
+  crab: "A kelp crab clings to weed and rock with hooked legs and sidesteps into cover rather than swimming from anything that startles it.",
+  gullsPier: "Gulls on a pier rail are watching the anglers, not the water; bait left on the deck goes first, and a hooked bird is a real hazard.",
+};
+
+function fieldGuideEgg(id, landmark, wildlife, noteKey) {
+  const note = FIELD_GUIDE_NOTES[noteKey ?? wildlife];
+  return {
+    id: `bw-egg-fg-${id}`,
+    title: `Field Guide — ${landmark}`,
+    giver: "found, not given",
+    site: landmark,
+    kind: "egg",
+    tier: 0,
+    requires: null,
+    landmark,
+    method: "sight",
+    wildlife,
+    note,
+    steps: [
+      { type: "goto", target: landmark, text: `Walk to ${landmark} and watch the water and the shore for a while.` },
+      { type: "find", target: `bw-egg-fg-${id}`, text: `A Field Guide page fills in: "${note}"` },
+    ],
+    reward: { xp: 25, badge: "Field Guide" },
+  };
+}
+
+const FIELD_GUIDE_EGGS = [
+  fieldGuideEgg("gulls-port", "Harbor Gantry Cranes", "gulls"),
+  fieldGuideEgg("gulls-pier", "North Pier", "gulls", "gullsPier"),
+  fieldGuideEgg("pelicans-channel", "Channel Marker", "pelicans"),
+  fieldGuideEgg("shorebirds-beach", "Island Beach Esplanade", "shorebirds"),
+  fieldGuideEgg("seals-float", "North Pier", "seals"),
+  fieldGuideEgg("fish-school", "Channel Marker", "fish"),
+  fieldGuideEgg("ray-channel", "Channel Marker", "ray"),
+  fieldGuideEgg("crab-breakwater", "North Pier", "crab"),
+];
+
 // ========================================================= SIDE ACTIVITIES
 // Scored side activities that are not violence and not gambling. These are
 // not quests in BAY2's registerQuests() sense — they carry their own
@@ -473,6 +525,33 @@ const SIDE_ACTIVITIES = [
     },
   },
   {
+    // Catch-and-release at the north pier (tools/briefs/sky-brief.md). The
+    // rules are the habits a pier angler is scored on; the licence is "per
+    // the state's rules" and no size, bag or season figure is stated here
+    // (tools/check_sky.mjs holds this entry to no digits at all).
+    id: "bw-activity-pier-fishing",
+    title: "North Pier Catch and Release",
+    kind: "fishing",
+    site: "North Pier",
+    description: "Catch-and-release fishing from the north pier's rail: rig, cast, land and release, scored on the habits that keep the pier safe for the people and the fish.",
+    rules: [
+      "rig check before the first cast: knots pulled tight, hook point sharp, no frayed line",
+      "look and call behind before every cast, and cast only with the deck clear behind you",
+      "handle the hook with pliers, never with the line wrapped round a hand",
+      "wet hands before touching a fish, keep it over the water and release it quickly",
+      "carry the licence the state's rules ask for, and follow those rules for anything kept",
+    ],
+    scoring: {
+      time: false,
+      criteria: [
+        "rig checked before the first cast",
+        "area behind the cast confirmed clear every time",
+        "hook handled with pliers",
+        "every fish released with wet hands",
+      ],
+    },
+  },
+  {
     id: "bw-activity-hills-photo",
     title: "Skyline Lookout Photo Mode",
     kind: "photo",
@@ -491,8 +570,9 @@ const header = `/**
  *
  * The Bay World quest layer's data: the Job Readiness Edition's main story
  * arc, one opener and one capstone side quest per every other programme,
- * twenty-four easter-egg field notes at real Bay Area public landmarks,
- * and four scored side activities. See docs/bayworld-quests.md.
+ * the easter-egg field notes at generic public landmarks, the Field Guide's
+ * wildlife-sighting eggs, and the scored side activities. See
+ * docs/bayworld-quests.md.
  *
  * Quest shape (BAY2's WebXR/bayworld/ quest engine):
  *   { id, title, giver, site, kind: "main"|"side"|"egg",
@@ -511,6 +591,7 @@ const body = [
   `export const MAIN_QUESTS = ${JSON.stringify(MAIN_QUESTS, null, 2)};`,
   `export const SIDE_QUESTS = ${JSON.stringify(SIDE_QUESTS, null, 2)};`,
   `export const EGG_QUESTS = ${JSON.stringify(EGG_QUESTS, null, 2)};`,
+  `export const FIELD_GUIDE_EGGS = ${JSON.stringify(FIELD_GUIDE_EGGS, null, 2)};`,
   `export const SIDE_ACTIVITIES = ${JSON.stringify(SIDE_ACTIVITIES, null, 2)};`,
   `export const LANDMARK_NOTES = ${JSON.stringify(LANDMARK_NOTES, null, 2)};`,
 ].join("\n\n");
@@ -520,4 +601,5 @@ console.log(`wrote ${OUT_FILE}`);
 console.log(`  main quests:   ${MAIN_QUESTS.length}`);
 console.log(`  side quests:   ${SIDE_QUESTS.length} (${SIDE_PROGRAMMES.length} programmes × 2)`);
 console.log(`  egg quests:    ${EGG_QUESTS.length}`);
+console.log(`  field guide:   ${FIELD_GUIDE_EGGS.length}`);
 console.log(`  side activities: ${SIDE_ACTIVITIES.length}`);

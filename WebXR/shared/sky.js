@@ -41,7 +41,7 @@ const SKY_TIME = {
 const SKY_BANDS = Object.keys(SKY_TIME);
 
 /** The drift the open worlds run when nothing else sets the weather. */
-export const SKY_DRIFT = ["clear", "overcast", "fog", "wind", "clear"];
+export const SKY_DRIFT = ["clear", "overcast", "fog", "wind"]; // and round to clear again
 
 /** Continuous hour → the discrete band the recipe table understands. */
 export function skyTimeBucket(time) {

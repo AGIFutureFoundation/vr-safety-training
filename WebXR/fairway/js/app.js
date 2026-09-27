@@ -106,7 +106,7 @@ function fwInitScene() {
   const root = new THREE.Group();
   scene.add(root);
 
-  const world = fwBuildWorld(root, THREE);
+  const world = fwBuildWorld(root, THREE, { scene });
 
   window.addEventListener("resize", () => {
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -474,6 +474,7 @@ function fwFrame(now) {
   const dt = Math.min(0.05, (now - fwLast) / 1000);
   fwLast = now;
   fwPollPad(dt);
+  app.world?.stepSky?.(dt, app.camera);
 
   if (app.screen === "playing") fwTickPlaying(dt);
   else if (app.screen === "mg-playing") fwTickMinigame(dt);

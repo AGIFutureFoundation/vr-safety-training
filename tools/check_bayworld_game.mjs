@@ -152,6 +152,8 @@ await check("bwRoadAt and bwZoneAt classify sensibly, and every site sits within
 await check("the real city loads behind a three.js stub, at both detail levels and with a focus zone", async () => {
   const modules = [
     "shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/fleet.js", "shared/props.js", "shared/weather.js",
+    // The sky dome and the wildlife (docs/consoles/SKY.md): world.js builds both.
+    "shared/sky.js", "shared/wildlife.js",
     "smartcity/js/citykit.js",
     "shared/bayworld-data.js", "shared/bayworld.js",
     // The satellite-ground hook (docs/mapbox.md): world.js imports these two;

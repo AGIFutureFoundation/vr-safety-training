@@ -294,6 +294,10 @@ APPS = {
         "modules": [
             SHARED / "input.js",
             SHARED / "weather.js",
+            # The shared sky and wildlife (docs/consoles/SKY.md): sky.js reads
+            # weather.js's table, so it follows it; wildlife.js is standalone.
+            SHARED / "sky.js",
+            SHARED / "wildlife.js",
             SHARED / "records.js",
             SHARED / "kit.js",
             SHARED / "textures.js",
@@ -366,6 +370,10 @@ APPS = {
         "modules": [
             SHARED / "input.js",
             SHARED / "weather.js",
+            # The shared sky and wildlife (docs/consoles/SKY.md), after
+            # weather.js (sky.js reads its table) and before world.js.
+            SHARED / "sky.js",
+            SHARED / "wildlife.js",
             SHARED / "kit.js",
             SHARED / "textures.js",
             SHARED / "perf.js",
