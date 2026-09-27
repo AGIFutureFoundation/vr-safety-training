@@ -813,6 +813,17 @@ export const PROGRAMME_COMPETENCIES = [
     ],
     require: 6,
   },
+  {
+    id: "grocery-and-meatpacking",
+    title: "Lock out, guard and clean the machines and chemicals a grocery and meatpacking crew works across eight distinct jobs",
+    kind: "programme",
+    standards: ["osha-1910-147", "osha-1910-212", "osha-1910-1200", "fda-food-code"],
+    stations: [
+      "gr-meat-dept-band-saw-and-grinder-lockout", "gr-deli-slicer-sanitation-and-allergen-line", "gr-produce-receiving-cold-chain-and-pallet-jack", "gr-night-stocking-baler-and-compactor-lockout",
+      "gr-checkstand-ergonomics-and-robbery-prevention", "gr-meatpacking-line-knife-work-and-ppe-rotation", "gr-ammonia-leak-alarm-response-cold-plant", "gr-pharmacy-floral-chemical-handling-and-sds"
+    ],
+    require: 4,
+  },
 ];
 
 /**

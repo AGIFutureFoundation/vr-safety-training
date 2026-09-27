@@ -235,5 +235,10 @@ export const CAPSTONE_LIVERIES = [
     "programme": "wojrc-pathway-edition",
     "name": "Pathway Edition — wojrc.org",
     "accent": "#e0a23f"
+  },
+  {
+    "programme": "grocery-and-meatpacking",
+    "name": "Grocery and Meatpacking — UFCW Store and Plant Floor",
+    "accent": "#d8232a"
   }
 ];

@@ -1,6 +1,6 @@
 # SmartCiti.X training series
 
-_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-27. 560 SmartCiti.X stations across 19 categories and 46 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
+_Generated from `WebXR/smartcity/catalog.json` by `tools/gen_wiki.mjs` on 2026-09-27. 568 SmartCiti.X stations across 19 categories and 47 programmes; the Trade Skills rooms the programmes also draw on are listed in their own README._
 
 Every station is a real union procedure sited generically, built on the shared engine's eight step kinds (select, sequence, find, gauge, hold, track, turn, drag), with four scored hazards and two interruptions that must be noticed and answered while the hands are busy. Stations are driven end to end in a headless browser and pass 50 checkers before they ship; the content evaluation in `tools/eval_content.mjs` grades each one on variety, decisions, explanation, grounding, feedback, scene and originality.
 
@@ -52,6 +52,7 @@ Every station is a real union procedure sited generically, built on the shared e
 - [Education Support Staff — Custodial, Grounds, Transport and Classroom](#education-support-staff)
 - [Grounds & Landscaping Crew](#grounds-and-landscaping)
 - [Pathway Edition — wojrc.org](#wojrc-pathway-edition)
+- [Grocery and Meatpacking — UFCW Store and Plant Floor](#grocery-and-meatpacking)
 
 <a id="hunters-point-bay-restoration"></a>
 ## Hunters Point Clean-up and Bay Restoration
@@ -1459,6 +1460,26 @@ The participant's own journey through the programmes wojrc.org describes, statio
 <table>
 <tr><td width="50%"><img src="../screenshots/smartcity/forklift-dock_spawn.png" alt="Forklift Dock from the learner's spawn point" width="100%"><br><b>Forklift Dock</b> — Dock load-out: pre-shift inspection, belt on, trailer chocked and dock-locked before the plate, load against the capacity plate, forks under and mast back, low and steady, ramp in reverse, rack height, and the trailer that crept</td></tr>
 </table>
+
+<a id="grocery-and-meatpacking"></a>
+## Grocery and Meatpacking — UFCW Store and Plant Floor
+
+**Union:** UFCW — United Food and Commercial Workers International Union
+
+**Certifications and standards:** UFCW member training for retail food and meatpacking work, tested against OSHA 29 CFR 1910.147, 1910.212, 1910.138, 1910.132, 1910.133, 1910.1200, 1910.22, 1910.178, 1910.119 and 1910.38, ANSI/ISEA 105, ANSI/ITSDF B56.1, ANSI B11, ANSI/ISEA Z358.1, ASHRAE 15, ANSI/IIAR 2 and 6, the Revised NIOSH Lifting Equation, Cal/OSHA's workplace violence prevention plan (8 CCR 3342), the FDA Food Code, FDA 21 CFR 101, the California Retail Food Code, ServSafe, NFPA 101 and USDA's own inspection marks across eight distinct grocery and meatpacking jobs
+
+Eight jobs a grocery and meatpacking crew actually rotates through: a meat department's band saw and grinder both locked out and guarded on their own between-use clean, a deli slicer's allergen changeover proven by an ATP swab rather than a look, a produce delivery culled and segregated at the dock before it is driven to the walk-in on a pallet jack, a night stocking shift's jammed baler and loaded compactor both locked out before a hand goes near either chamber, a front-end checkstand set to fit the cashier with the store's own robbery plan known cold, a meatpacking line's knife work run on a honed edge, ordered PPE and a rotation actually taken on schedule, an ammonia alarm at the cold plant answered by evacuating and mustering upwind rather than investigating, and a pharmacy and floral chemical handled against its own safety data sheet before it is stored, mixed or cleaned up. Every station ends on a proof — a swab, a gauge, a signed log — rather than on how routine the job looked going in.
+
+| # | Station | Trade | Conditions | Steps | Interrupts | Eval | Why it is in the programme |
+|---|---|---|---|---|---|---|---|
+| gr-1 | [Meat Dept Band Saw & Grinder Lockout](../../WebXR/smartcity/index.html?sim=gr-meat-dept-band-saw-and-grinder-lockout) | Retail meat cutter | indoor (shop) | 15 | 2 | — | The band saw's own disconnect is proven dead with a tester before the guard ever comes off, and the grinder gets the same promise on its own cord before a hand goes anywhere near its hopper. |
+| gr-2 | [Deli Slicer Sanitation & Allergen Line](../../WebXR/smartcity/index.html?sim=gr-deli-slicer-sanitation-and-allergen-line) | Deli clerk | indoor (kitchen) | 14 | 2 | — | A declared-allergen changeover is proven with a swab reading, not a look, before the line's own placard is ever flipped back for the next order. |
+| gr-3 | [Produce Receiving, Cold Chain & Pallet Jack](../../WebXR/smartcity/index.html?sim=gr-produce-receiving-cold-chain-and-pallet-jack) | Receiving clerk / produce clerk | indoor (garage) | 14 | 2 | — | A produce delivery is culled and segregated at the dock before the accepted pallet is driven on the pallet jack to the walk-in without a single stop along the way. |
+| gr-4 | [Night Stocking Baler & Compactor Lockout](../../WebXR/smartcity/index.html?sim=gr-night-stocking-baler-and-compactor-lockout) | Night stocker / grocery clerk | indoor (garage) | 15 | 2 | — | A jammed baler is locked out before a hand ever reaches into its chamber, and the compactor gets the same lock before its gate opens on an inspection. |
+| gr-5 | [Checkstand Ergonomics & Robbery Prevention](../../WebXR/smartcity/index.html?sim=gr-checkstand-ergonomics-and-robbery-prevention) | Cashier / front-end clerk | indoor (shop) | 14 | 2 | — | The stand is set to the cashier's own height and every heavy case is called for help instead of twisted, with the store's own robbery plan known cold before it is ever needed. |
+| gr-6 | [Meatpacking Line Knife Work & PPE Rotation](../../WebXR/smartcity/index.html?sim=gr-meatpacking-line-knife-work-and-ppe-rotation) | Meatpacking line worker | indoor (plant) | 14 | 2 | — | The knife is honed and the cut-resistant PPE donned in order before the first cut, and the line's own rotation is taken on schedule instead of skipped for one more cycle. |
+| gr-7 | [Ammonia Leak Alarm Response, Cold Plant](../../WebXR/smartcity/index.html?sim=gr-ammonia-leak-alarm-response-cold-plant) | Grocery engineering / refrigeration technician | indoor (plant) | 13 | 2 | — | The alarm sends everyone out and mustered upwind, with nobody going back into the machine room until the plant's own plan gives the all-clear. |
+| gr-8 | [Pharmacy & Floral Chemical Handling and SDS](../../WebXR/smartcity/index.html?sim=gr-pharmacy-floral-chemical-handling-and-sds) | Pharmacy technician / floral clerk | indoor (clinic) | 14 | 2 | — | A chemical is checked against its own safety data sheet before it is stored, mixed to the label or cleaned up, with the eyewash proven clear the whole time. |
 
 ## Real-world environments
 

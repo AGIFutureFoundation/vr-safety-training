@@ -1157,6 +1157,25 @@ export const CURRICULA = [
       { app: "smartcity", id: "wellness-asking-for-help-and-resources", why: "Wellness: the week your own life goes sideways, each problem matched to its door and the crisis line told apart from the case manager." },
     ],
   },
+  {
+    id: "grocery-and-meatpacking",
+    name: "Grocery and Meatpacking — UFCW Store and Plant Floor",
+    union: "UFCW — United Food and Commercial Workers International Union",
+    certification: "UFCW member training for retail food and meatpacking work, tested against OSHA 29 CFR 1910.147, 1910.212, 1910.138, 1910.132, 1910.133, 1910.1200, 1910.22, 1910.178, 1910.119 and 1910.38, ANSI/ISEA 105, ANSI/ITSDF B56.1, ANSI B11, ANSI/ISEA Z358.1, ASHRAE 15, ANSI/IIAR 2 and 6, the Revised NIOSH Lifting Equation, Cal/OSHA's workplace violence prevention plan (8 CCR 3342), the FDA Food Code, FDA 21 CFR 101, the California Retail Food Code, ServSafe, NFPA 101 and USDA's own inspection marks across eight distinct grocery and meatpacking jobs",
+    guides: ["ufcw-training", "osha-1910-147", "osha-1910-212", "osha-1910-138", "osha-1910-132", "osha-1910-133", "osha-1910-1200", "osha-1910-22", "osha-1910-178", "osha-1910-119", "osha-1910-38", "ansi-isea-105", "ansi-b56-1", "ansi-b11", "ansi-z358-1", "ashrae-15", "iiar-2", "iiar-6", "niosh-lifting-equation", "cal-osha-3342", "fda-food-code", "fda-21-cfr-101", "calcode-retail-food", "servsafe-certification", "nfpa-101", "nsf-ansi-8", "usda-fsis-marks"],
+    summary: "Eight jobs a grocery and meatpacking crew actually rotates through: a meat department's band saw and grinder both locked out and guarded on their own between-use clean, a deli slicer's allergen changeover proven by an ATP swab rather than a look, a produce delivery culled and segregated at the dock before it is driven to the walk-in on a pallet jack, a night stocking shift's jammed baler and loaded compactor both locked out before a hand goes near either chamber, a front-end checkstand set to fit the cashier with the store's own robbery plan known cold, a meatpacking line's knife work run on a honed edge, ordered PPE and a rotation actually taken on schedule, an ammonia alarm at the cold plant answered by evacuating and mustering upwind rather than investigating, and a pharmacy and floral chemical handled against its own safety data sheet before it is stored, mixed or cleaned up. Every station ends on a proof — a swab, a gauge, a signed log — rather than on how routine the job looked going in.",
+    accent: "#d8232a",
+    stations: [
+      { app: "smartcity", id: "gr-meat-dept-band-saw-and-grinder-lockout", why: "The band saw's own disconnect is proven dead with a tester before the guard ever comes off, and the grinder gets the same promise on its own cord before a hand goes anywhere near its hopper." },
+      { app: "smartcity", id: "gr-deli-slicer-sanitation-and-allergen-line", why: "A declared-allergen changeover is proven with a swab reading, not a look, before the line's own placard is ever flipped back for the next order." },
+      { app: "smartcity", id: "gr-produce-receiving-cold-chain-and-pallet-jack", why: "A produce delivery is culled and segregated at the dock before the accepted pallet is driven on the pallet jack to the walk-in without a single stop along the way." },
+      { app: "smartcity", id: "gr-night-stocking-baler-and-compactor-lockout", why: "A jammed baler is locked out before a hand ever reaches into its chamber, and the compactor gets the same lock before its gate opens on an inspection." },
+      { app: "smartcity", id: "gr-checkstand-ergonomics-and-robbery-prevention", why: "The stand is set to the cashier's own height and every heavy case is called for help instead of twisted, with the store's own robbery plan known cold before it is ever needed." },
+      { app: "smartcity", id: "gr-meatpacking-line-knife-work-and-ppe-rotation", why: "The knife is honed and the cut-resistant PPE donned in order before the first cut, and the line's own rotation is taken on schedule instead of skipped for one more cycle." },
+      { app: "smartcity", id: "gr-ammonia-leak-alarm-response-cold-plant", why: "The alarm sends everyone out and mustered upwind, with nobody going back into the machine room until the plant's own plan gives the all-clear." },
+      { app: "smartcity", id: "gr-pharmacy-floral-chemical-handling-and-sds", why: "A chemical is checked against its own safety data sheet before it is stored, mixed to the label or cleaned up, with the eyewash proven clear the whole time." },
+    ],
+  },
 ];
 
 /**

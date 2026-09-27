@@ -217,7 +217,7 @@ export const BAY_SITES = [
   { id: "uptown-theatre-district", name: "Uptown Theatre District", zone: "uptown", position: [-68, -204],
     programmes: ["bartending-course"], stations: ["bar-well-setup", "id-check-underage"] },
   { id: "uptown-restaurant-row", name: "Uptown Restaurant Row", zone: "uptown", position: [-36, -275],
-    programmes: ["culinary-kitchen"], stations: ["kitchen", "knife-skills", "slicer-lockout"] },
+    programmes: ["grocery-and-meatpacking", "culinary-kitchen"], stations: ["kitchen", "knife-skills", "slicer-lockout"] },
   { id: "uptown-hotel-row", name: "Uptown Hotel Row", zone: "uptown", position: [-21, -206],
     programmes: ["hotel-workers"], stations: ["banquet-hot-hold", "housekeeping-room-turn", "laundry-plant-chemicals"] },
   { id: "lake-loop-boathouse", name: "Lake Loop Boathouse", zone: "lake", position: [289, -60],
