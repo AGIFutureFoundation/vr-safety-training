@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 600
+      "stations": 602
     },
     "trades": {
       "entry": "trades/index.html",
@@ -407,6 +407,8 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "yc-man-overboard-recovery-drill",
+        "yc-engine-room-pre-start-and-bilge-check",
         "yc-fuel-dock-transfer-and-spill-kit",
         "yc-line-handling-and-docking-in-crosswind",
         "yc-pre-departure-safety-briefing-and-guest-count",
@@ -9291,6 +9293,171 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "yc-man-overboard-recovery-drill",
+      "name": "Man Overboard Recovery Drill",
+      "title": "SmartCiti.X~ Man Overboard Recovery Drill VR",
+      "tagline": "A drill dummy off the quarter: the drill briefed, the spotter posted and never looking away, the ring thrown first, the button and the radio call in order, the bearing held through a swell that hides the casualty, the approach called from downwind while a guest heads for the swim platform, the propellers confirmed stopped, the sling snugged, the casualty brought up the platform, the ladder locked, every head counted again, the drill logged and the crew checked in",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Charter yacht deckhand in the recovery drill, IBU and SIU trained, with the mate as spotter and the captain at the helm",
+      "union": null,
+      "certification": "IBU and SIU deck training in person-overboard recovery; USCG lifesaving rules at 46 CFR 199 and 46 CFR 25 as the vessel's certificate applies them; 33 CFR 83 Inland Navigation Rules for the manoeuvre in the channel; marine VHF distress and urgency practice under 47 CFR 80; IMO STCW personal survival techniques; MEBA engineering watch on the engines through the recovery",
+      "accent": "#2b6f9e",
+      "parSeconds": 280,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "drag",
+        "sequence",
+        "hold",
+        "track",
+        "gauge",
+        "turn"
+      ],
+      "badge": {
+        "id": "never-lost-sight",
+        "name": "Never Lost Sight",
+        "note": "Throwable first, the spotter's arm never dropped, propellers stopped before anyone touched the platform, and both the swell and the guest answered"
+      },
+      "meshes": 220,
+      "lights": 0,
+      "overBudget": false,
+      "index": "yc-5",
+      "flat": false,
+      "system": "Recovery",
+      "currency": "KNOT",
+      "ranks": [
+        "Green Hand",
+        "Deckhand",
+        "Lead Deckhand",
+        "Recovery Lead",
+        "Recovery Certified"
+      ],
+      "awards": [
+        {
+          "id": "briefed",
+          "name": "Briefed",
+          "note": "The drill briefed before the dummy went over"
+        },
+        {
+          "id": "snug-not-tight",
+          "name": "Snug Not Tight",
+          "note": "Sling tension committed inside the band first time"
+        },
+        {
+          "id": "feet-dry",
+          "name": "Feet Dry",
+          "note": "Nobody went in, nobody on the platform with the shafts turning, the spotter never turned away"
+        },
+        {
+          "id": "clean-recovery",
+          "name": "Clean Recovery",
+          "note": "No corrections from the brief to the log"
+        },
+        {
+          "id": "steady-approach",
+          "name": "Steady Approach",
+          "note": "The approach called in band the whole way in"
+        },
+        {
+          "id": "first-pass",
+          "name": "First Pass",
+          "note": "Drill logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=yc-man-overboard-recovery-drill"
+    },
+    {
+      "app": "smartcity",
+      "id": "yc-engine-room-pre-start-and-bilge-check",
+      "name": "Engine Room Pre-Start & Bilge Check",
+      "title": "SmartCiti.X~ Engine Room Pre-Start & Bilge Check VR",
+      "tagline": "The first start of the day: the checklist read, muffs and gloves on, the belts and hoses walked for the cracked belt and the loose clamp, the bilge sniffed for vapour through a detector alarm, the blower run for the plan's time, the float switch lifted to prove the pump, the strainer cleared, the oil read on the stick, the valves opened in order, the raw water watched after the start as the filter drips, the generator's open panel tagged out, the engine log written and the engineer checked in",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Charter yacht deckhand-engineer at the pre-start, under the MEBA licensed engineer's checklist, with the IBU and SIU deck crew above",
+      "union": null,
+      "certification": "MEBA engineering watch practice from the Calhoon MEBA Engineering School as a training body; IBU and SIU deck training; NFPA 306 control of gas hazards on vessels for the bilge vapour check and the blower run; OSHA 29 CFR 1910.95 occupational noise exposure and 29 CFR 1910.147 the control of hazardous energy for the open generator panel; 46 CFR 25 equipment for uninspected vessels; IMO STCW engineering watch basics",
+      "accent": "#2b6f9e",
+      "parSeconds": 290,
+      "weather": "overcast",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "hold",
+        "turn",
+        "drag",
+        "gauge",
+        "track"
+      ],
+      "badge": {
+        "id": "blower-before-key",
+        "name": "Blower Before Key",
+        "note": "Vapour sniffed and the blower run before anything sparked, no hand near a belt, no rag on the manifold, and both the detector and the drip answered"
+      },
+      "meshes": 184,
+      "lights": 0,
+      "overBudget": false,
+      "index": "yc-4",
+      "flat": false,
+      "system": "Below Decks",
+      "currency": "HOUR",
+      "ranks": [
+        "Wiper",
+        "Oiler",
+        "Deckhand-Engineer",
+        "Watch Engineer",
+        "Below Decks Certified"
+      ],
+      "awards": [
+        {
+          "id": "list-first",
+          "name": "List First",
+          "note": "The checklist read before a valve moved"
+        },
+        {
+          "id": "on-the-stick",
+          "name": "On The Stick",
+          "note": "Oil level committed inside the band first time"
+        },
+        {
+          "id": "clear-of-the-belt",
+          "name": "Clear Of The Belt",
+          "note": "No hand near a belt, no rag on the manifold, no early start, no live panel touched"
+        },
+        {
+          "id": "clean-start",
+          "name": "Clean Start",
+          "note": "No corrections from the checklist to the log"
+        },
+        {
+          "id": "flow-watched",
+          "name": "Flow Watched",
+          "note": "Raw-water flow watched in band the whole way"
+        },
+        {
+          "id": "first-light",
+          "name": "First Light",
+          "note": "Engine log written inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=yc-engine-room-pre-start-and-bilge-check"
     },
     {
       "app": "smartcity",
@@ -30562,7 +30729,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 255,
+      "meshes": 260,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -31222,7 +31389,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 257,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",

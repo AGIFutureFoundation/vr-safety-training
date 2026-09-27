@@ -25480,5 +25480,89 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "yc-engine-room-pre-start-and-bilge-check",
+    "index": "yc-4",
+    "domain": "Maritime & Ports",
+    "trade": "Charter yacht deckhand-engineer at the pre-start, under the MEBA licensed engineer's checklist, with the IBU and SIU deck crew above",
+    "category": "Maritime & Ports",
+    "certification": "MEBA engineering watch practice from the Calhoon MEBA Engineering School as a training body; IBU and SIU deck training; NFPA 306 control of gas hazards on vessels for the bilge vapour check and the blower run; OSHA 29 CFR 1910.95 occupational noise exposure and 29 CFR 1910.147 the control of hazardous energy for the open generator panel; 46 CFR 25 equipment for uninspected vessels; IMO STCW engineering watch basics",
+    "name": "Engine Room Pre-Start & Bilge Check",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Engine Room Pre-Start & Bilge Check VR",
+    "tagline": "The first start of the day: the checklist read, muffs and gloves on, the belts and hoses walked for the cracked belt and the loose clamp, the bilge sniffed for vapour through a detector alarm, the blower run for the plan's time, the float switch lifted to prove the pump, the strainer cleared, the oil read on the stick, the valves opened in order, the raw water watched after the start as the filter drips, the generator's open panel tagged out, the engine log written and the engineer checked in",
+    "accent": 2846622,
+    "accentCss": "#2b6f9e",
+    "parSeconds": 290,
+    "badge": {
+      "id": "blower-before-key",
+      "name": "Blower Before Key",
+      "note": "Vapour sniffed and the blower run before anything sparked, no hand near a belt, no rag on the manifold, and both the detector and the drip answered"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Below Decks",
+      "currency": "HOUR",
+      "ranks": [
+        "Wiper",
+        "Oiler",
+        "Deckhand-Engineer",
+        "Watch Engineer",
+        "Below Decks Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "yc-man-overboard-recovery-drill",
+    "index": "yc-5",
+    "domain": "Maritime & Ports",
+    "trade": "Charter yacht deckhand in the recovery drill, IBU and SIU trained, with the mate as spotter and the captain at the helm",
+    "category": "Maritime & Ports",
+    "certification": "IBU and SIU deck training in person-overboard recovery; USCG lifesaving rules at 46 CFR 199 and 46 CFR 25 as the vessel's certificate applies them; 33 CFR 83 Inland Navigation Rules for the manoeuvre in the channel; marine VHF distress and urgency practice under 47 CFR 80; IMO STCW personal survival techniques; MEBA engineering watch on the engines through the recovery",
+    "name": "Man Overboard Recovery Drill",
+    "weather": "overcast",
+    "indoor": null,
+    "district": "Maritime & Ports",
+    "title": "SmartCiti.X~ Man Overboard Recovery Drill VR",
+    "tagline": "A drill dummy off the quarter: the drill briefed, the spotter posted and never looking away, the ring thrown first, the button and the radio call in order, the bearing held through a swell that hides the casualty, the approach called from downwind while a guest heads for the swim platform, the propellers confirmed stopped, the sling snugged, the casualty brought up the platform, the ladder locked, every head counted again, the drill logged and the crew checked in",
+    "accent": 2846622,
+    "accentCss": "#2b6f9e",
+    "parSeconds": 280,
+    "badge": {
+      "id": "never-lost-sight",
+      "name": "Never Lost Sight",
+      "note": "Throwable first, the spotter's arm never dropped, propellers stopped before anyone touched the platform, and both the swell and the guest answered"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Recovery",
+      "currency": "KNOT",
+      "ranks": [
+        "Green Hand",
+        "Deckhand",
+        "Lead Deckhand",
+        "Recovery Lead",
+        "Recovery Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
