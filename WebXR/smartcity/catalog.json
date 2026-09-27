@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 553
+      "stations": 554
     },
     "trades": {
       "entry": "trades/index.html",
@@ -361,6 +361,7 @@
         "stage-power",
         "chain-hoist",
         "fly-system",
+        "md-camera-dolly-and-crane-track",
         "md-set-safety-meeting-and-stunt-go-no-go",
         "stage-load-in-and-truss-rigging",
         "broadcast-truck",
@@ -8736,6 +8737,89 @@
     },
     {
       "app": "smartcity",
+      "id": "md-camera-dolly-and-crane-track",
+      "name": "Camera Dolly & Crane Track",
+      "title": "SmartCiti.X~ Camera Dolly & Crane Track VR",
+      "tagline": "A soundstage dolly track and jib crane before the reveal: the grip plot read, gloves and knee pads on, the assembled track swept for an unpinned joint and a missing wedge, the counterweight chart checked against today's lens package, the arm balanced on its sled, the swivel locked, the last joint clamped, the crew called clear, the dolly pushed through the shot at a held speed, sandbags loaded to the tray, the swing zone confirmed with a spotter, and the reveal panned — a gear cart crossing the live track and a slipping counterweight sled both answered off a control that isn't the one already in the learner's hand",
+      "category": "Entertainment & Live Events",
+      "domain": "Screen & Media Crafts",
+      "trade": "IATSE key grip, laying curved dolly track and balancing a counterweighted jib crane for a moving reveal shot",
+      "union": null,
+      "certification": "IATSE grip department training; ASME B30.5 mobile crane practice, applied to the jib arm's counterweighted boom; OSHA 29 CFR 1926.451 general fall-protection requirements for the counterweight sled; ANSI/ISEA 107 high-visibility apparel for the grip crew working trackside",
+      "accent": "#4fc3f7",
+      "parSeconds": 330,
+      "weather": "overcast",
+      "indoor": null,
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "find",
+        "gauge",
+        "turn",
+        "hold",
+        "track",
+        "drag"
+      ],
+      "badge": {
+        "id": "smooth-and-balanced",
+        "name": "Smooth and Balanced",
+        "note": "The track swept clean, the arm balanced before the swivel locked, the shot held smooth on the dolly, and the crossing cart and the slipping sled both answered off the right control"
+      },
+      "meshes": 168,
+      "lights": 0,
+      "overBudget": false,
+      "index": "709",
+      "flat": false,
+      "system": "Grip Truck",
+      "currency": "TRACK",
+      "ranks": [
+        "Loader",
+        "Set-Up Grip",
+        "Dolly Grip",
+        "Best Boy Grip",
+        "Key Grip Certified"
+      ],
+      "awards": [
+        {
+          "id": "balanced-first",
+          "name": "Balanced First",
+          "note": "Never locked the swivel before the arm read balanced on its sled"
+        },
+        {
+          "id": "cart-answered",
+          "name": "Cart Answered",
+          "note": "The crossing cart was held off the grip radio, not ignored"
+        },
+        {
+          "id": "never-under-the-dolly",
+          "name": "Never Under the Dolly",
+          "note": "Never reached under a moving dolly, never in the swing radius, never pulled an armed counterweight pin, never on ungritted track"
+        },
+        {
+          "id": "clean-lay",
+          "name": "Clean Lay",
+          "note": "No corrections from the plot to the closing log"
+        },
+        {
+          "id": "smooth-push",
+          "name": "Smooth Push",
+          "note": "The dolly held its speed band the whole push, first time"
+        },
+        {
+          "id": "rolling-on-time",
+          "name": "Rolling On Time",
+          "note": "Balanced and rolling inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=md-camera-dolly-and-crane-track"
+    },
+    {
+      "app": "smartcity",
       "id": "md-set-safety-meeting-and-stunt-go-no-go",
       "name": "Set Safety Meeting & Stunt Go/No-Go",
       "title": "SmartCiti.X~ Set Safety Meeting & Stunt Go/No-Go VR",
@@ -8768,7 +8852,7 @@
         "name": "Cleared for the Gag",
         "note": "The go/no-go board walked clean, the regulator proven before the key was armed, the walk-on cleared off the AD's channel, and the kinking hose bled before the line ever saw full pressure"
       },
-      "meshes": 211,
+      "meshes": 226,
       "lights": 0,
       "overBudget": false,
       "index": "708",
@@ -29834,7 +29918,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 272,
+      "meshes": 267,
       "lights": 0,
       "overBudget": false,
       "index": "100",
