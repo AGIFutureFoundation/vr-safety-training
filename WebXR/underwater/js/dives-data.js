@@ -117,7 +117,7 @@ export const DV_MAIN_DIVES = [
       {
         "type": "talk",
         "target": "transplant-lead",
-        "text": "\"The grid is the survey. Every shoot has a stake, every stake has a number, and the supervisor never gets in the water.\""
+        "text": "\"The grid is the survey. Every planting has a stake, every stake has a number, and the supervisor never gets in the water.\""
       },
       {
         "type": "station",
@@ -1484,7 +1484,7 @@ export const DV_LANDMARK_NOTES = {
   "The Marsh Mouth Bar": "A sand bar across the channel mouth that the ebb pours over.",
   "The Channel Stakes": "Stakes marking the marsh channel's line out into the bay.",
   "The Outfall Diffuser": "A capped diffuser pipe on a stone apron, sampled under the permit.",
-  "The Kelp Cathedral": "The tallest stand in the forest, light falling in shafts between the stipes.",
+  "The Kelp Cathedral": "The grandest stand in the forest, light falling in shafts between the stipes.",
   "The Holdfast Rock": "A boulder with holdfasts gripping every face of it.",
   "The Rock Arch": "A low arch of rock a diver swims beside, never through.",
   "The Reef Ball Rows": "Reef balls set on a grid, each one numbered on a tag.",

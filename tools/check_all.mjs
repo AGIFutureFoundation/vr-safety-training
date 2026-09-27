@@ -24,6 +24,7 @@ const CHECKERS = [
   "check_flowhub.mjs", "check_home.mjs", "check_districts.mjs", "check_ladders.mjs", "check_tracks.mjs", "check_signage.mjs", "check_fleet.mjs",
   "check_race.mjs", "check_arcade.mjs", "check_eggs.mjs", "check_eggs_app.mjs", "check_props.mjs", "check_textures.mjs", "check_fairway_game.mjs",
   "check_fairway.mjs", "check_bayworld_game.mjs", "check_bay_quests.mjs", "check_bayworld.mjs", "check_mapbox.mjs",
+  "check_underwater_game.mjs", "check_dive_quests.mjs",
 ];
 
 let failed = 0;

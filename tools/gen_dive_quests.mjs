@@ -111,7 +111,7 @@ const MAIN_DIVES = [
     id: "dv-main-02-meadow", title: "The Meadow Grid", giver: "the transplant lead", site: siteNamed("meadow-transplant-grid"), kind: "main", tier: 3, requires: "dv-main-01-shelf",
     steps: [
       { type: "goto", target: siteNamed("meadow-transplant-grid"), text: "Grass blades bend with the tide over a planting grid of numbered stakes." },
-      { type: "talk", target: "transplant-lead", text: "\"The grid is the survey. Every shoot has a stake, every stake has a number, and the supervisor never gets in the water.\"" },
+      { type: "talk", target: "transplant-lead", text: "\"The grid is the survey. Every planting has a stake, every stake has a number, and the supervisor never gets in the water.\"" },
       { type: "station", target: "eelgrass-transplant", text: hpw("eelgrass-transplant") },
       { type: "find", target: landmarkNamed("quadrat-grid"), text: "Find the quadrat grid's corner stake and note its tag." },
       { type: "talk", target: "transplant-lead", text: "\"Logged. The meadow's edge is the next line out — the reef field is past it.\"" },

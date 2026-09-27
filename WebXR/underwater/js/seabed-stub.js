@@ -86,7 +86,7 @@ export const DEEP_LANDMARKS = [
   { id: "marsh-mouth-bar", name: "The Marsh Mouth Bar", zone: "marsh-mouth", position: [420, -600], kind: "bar", blurb: "A sand bar across the channel mouth that the ebb pours over." },
   { id: "channel-mouth-stakes", name: "The Channel Stakes", zone: "marsh-mouth", position: [500, -520], kind: "post", blurb: "Stakes marking the marsh channel's line out into the bay." },
   { id: "outfall-diffuser", name: "The Outfall Diffuser", zone: "outfall-apron", position: [820, -500], kind: "pipe", blurb: "A capped diffuser pipe on a stone apron, sampled under the permit." },
-  { id: "kelp-cathedral", name: "The Kelp Cathedral", zone: "kelp-forest", position: [-780, -60], kind: "kelp", blurb: "The tallest stand in the forest, light falling in shafts between the stipes." },
+  { id: "kelp-cathedral", name: "The Kelp Cathedral", zone: "kelp-forest", position: [-780, -60], kind: "kelp", blurb: "The grandest stand in the forest, light falling in shafts between the stipes." },
   { id: "kelp-holdfast-rock", name: "The Holdfast Rock", zone: "kelp-forest", position: [-700, -160], kind: "rock", blurb: "A boulder with holdfasts gripping every face of it." },
   { id: "rock-arch", name: "The Rock Arch", zone: "kelp-forest", position: [-840, 20], kind: "rock", blurb: "A low arch of rock a diver swims beside, never through." },
   { id: "reef-ball-rows", name: "The Reef Ball Rows", zone: "reef-ball-field", position: [-320, -80], kind: "reef", blurb: "Reef balls set on a grid, each one numbered on a tag." },

@@ -110,7 +110,7 @@ export function deviceLine(devicesMd) {
 const LAYOUTS = {
   repo: {
     out: "index.html",
-    app: { smartcity: "smartcity/index.html", trades: "trades/index.html", holodeck: "holodeck/index.html", instructor: "instructor/index.html", fairway: "fairway/index.html", bayworld: "bayworld/index.html" },
+    app: { smartcity: "smartcity/index.html", trades: "trades/index.html", holodeck: "holodeck/index.html", instructor: "instructor/index.html", fairway: "fairway/index.html", bayworld: "bayworld/index.html", underwater: "underwater/underwater.html" },
     aside: { atlas: "bayworld/atlas.html", portal: "portal/index.html", verify: "verify/index.html", campus: "campus/index.html" },
     doc: (name) => `../docs/${name}`,
     accessibility: "ACCESSIBILITY.md",
@@ -120,7 +120,7 @@ const LAYOUTS = {
   },
   flat: {
     out: "home.html",
-    app: { smartcity: "smartcity-x.html", trades: "trade-skills-simulator.html", holodeck: "holodeck.html", instructor: "instructor-console.html", fairway: "fairway.html", bayworld: "bayworld.html" },
+    app: { smartcity: "smartcity-x.html", trades: "trade-skills-simulator.html", holodeck: "holodeck.html", instructor: "instructor-console.html", fairway: "fairway.html", bayworld: "bayworld.html", underwater: "underwater.html" },
     // The portal, the verifier and the Safety Campus page have no single-file
     // bundle, so in the flat layout they are named where they actually live
     // rather than linked to a file that is not in the folder.
@@ -956,6 +956,11 @@ export function renderHome(catalog, devicesMd, layoutName = "repo") {
       href: layout.app.bayworld, tint: "#4fd1ff", count: "8 job sites",
       name: "Bay World", go: "Enter Bay World",
       blurb: "A free-roam open-world city: walk or drive anywhere, day turns to night, traffic keeps its lanes, and every job board on the map launches a real training station.",
+    }),
+    appCard(layout, {
+      href: layout.app.underwater, tint: "#4fb3c8", count: "Dive",
+      name: "The Deep", go: "Dive in",
+      blurb: "The dive game under the bay: swim or pilot an ROV over a large seabed with a buddy on a line, an ascent line at every site and a reserve you watch rather than count, and every job board launches a real dive or restoration station.",
     }),
   ].join("\n");
 
