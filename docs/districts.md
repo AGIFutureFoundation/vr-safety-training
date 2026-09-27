@@ -71,6 +71,7 @@ Every station in these districts takes the platform's options — `?weather=` (w
 | ws-data-hall-busway-install-and-torque-signoff | `torque-mark-missing` | A red ring shows on a joint with no torque mark; the mark check becomes re-torquing that joint |
 | ws-raised-floor-tile-lift-and-cable-tray-safety | `damaged-pedestal` | A bent pedestal shows under the open tile; the reseat step becomes keeping the opening barricaded and reporting it |
 | ws-crah-alarm-response-in-a-live-hall | `crah-leak-detect` | Water shows under the unit and the leak lamp lights; the standby step becomes isolating the unit's chilled water |
+| ws-ocean-pod-retrieval-and-hatch-opening | `leak-detect` | The pod's leak lamp turns red; the hatch step becomes hanging the hold tag and reporting to the pod engineer |
 
 ## Budget and the gate
 

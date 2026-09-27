@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 631
+      "stations": 632
     },
     "trades": {
       "entry": "trades/index.html",
@@ -180,6 +180,7 @@
         "tower-climb",
         "cell-site-battery",
         "microwave-backhaul",
+        "ws-ocean-pod-retrieval-and-hatch-opening",
         "ws-crah-alarm-response-in-a-live-hall",
         "ws-raised-floor-tile-lift-and-cable-tray-safety",
         "ws-data-hall-busway-install-and-torque-signoff",
@@ -9523,6 +9524,89 @@
     },
     {
       "app": "smartcity",
+      "id": "ws-ocean-pod-retrieval-and-hatch-opening",
+      "name": "Ocean Pod Retrieval & Hatch Opening",
+      "title": "SmartCiti.X~ Ocean Pod Retrieval & Hatch Opening VR",
+      "tagline": "The sea state read against the lift plan, the diver out and counted before the hoist moves, the pod brought over the rail on tag lines, sea-fastened and isolated, and its leak lamp read before a hatch bolt turns",
+      "category": "Connectivity & Telecom",
+      "domain": "Connectivity",
+      "trade": "IBEW / IUOE marine data-centre crew",
+      "union": null,
+      "certification": "IBEW/NECA JATC training as a body for the pod's electrical isolation; 29 CFR 1910.147 for locking out the shore cable before the hatch; NFPA 70E and 29 CFR 1910.333 for the electrically safe work condition inside the pod; 29 CFR 1910.28 for the deck edge and 29 CFR 1910.132 for the deck PPE and flotation; the lift plan, the dive plan and the pod's operating procedure for every sea state, load, depth and diving limit",
+      "accent": "#3f9fc4",
+      "parSeconds": 330,
+      "weather": "wind",
+      "indoor": null,
+      "district": "ocean-data-center",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "gauge",
+        "sequence",
+        "find",
+        "hold",
+        "track",
+        "drag",
+        "turn"
+      ],
+      "badge": {
+        "id": "landed-isolated-opened",
+        "name": "Landed, Isolated, Opened",
+        "note": "The pod lifted to the plan, landed and fastened, its cable locked out and its leak lamp read before the hatch came off"
+      },
+      "meshes": 170,
+      "lights": 0,
+      "overBudget": false,
+      "index": "ws-08",
+      "flat": false,
+      "system": "Marine Data Authority",
+      "currency": "LIFTS",
+      "ranks": [
+        "Deckhand",
+        "Rigger",
+        "Pod Technician",
+        "Lift Supervisor",
+        "Marine Data Authority Certified"
+      ],
+      "awards": [
+        {
+          "id": "diver-counted",
+          "name": "Diver Counted",
+          "note": "The diver was out and accounted for before the hoist moved"
+        },
+        {
+          "id": "no-hands-in-the-bight",
+          "name": "No Hands in the Bight",
+          "note": "No unsafe action was recorded"
+        },
+        {
+          "id": "steady-taglines",
+          "name": "Steady Tag Lines",
+          "note": "Held the pod steady over the rail"
+        },
+        {
+          "id": "clean-recovery",
+          "name": "Clean Recovery",
+          "note": "No corrections from the plan to the log"
+        },
+        {
+          "id": "unbroken-hoist",
+          "name": "Unbroken Hoist",
+          "note": "The hoist ran without a break"
+        },
+        {
+          "id": "brisk-recovery",
+          "name": "Brisk Recovery",
+          "note": "Recovered and logged inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=ws-ocean-pod-retrieval-and-hatch-opening"
+    },
+    {
+      "app": "smartcity",
       "id": "ws-crah-alarm-response-in-a-live-hall",
       "name": "CRAH Alarm Response in a Live Hall",
       "title": "SmartCiti.X~ CRAH Alarm Response in a Live Hall VR",
@@ -9555,7 +9639,7 @@
         "name": "Hall Held",
         "note": "The hall kept cool on the standby unit while the failed one was isolated, proven dead and serviced"
       },
-      "meshes": 138,
+      "meshes": 152,
       "lights": 0,
       "overBudget": false,
       "index": "ws-07",
@@ -32033,7 +32117,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 248,
+      "meshes": 254,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -32693,7 +32777,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 262,
+      "meshes": 272,
       "lights": 0,
       "overBudget": false,
       "index": "100",

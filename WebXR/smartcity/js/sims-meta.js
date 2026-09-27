@@ -26782,5 +26782,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "ws-ocean-pod-retrieval-and-hatch-opening",
+    "index": "ws-08",
+    "domain": "Connectivity",
+    "trade": "IBEW / IUOE marine data-centre crew",
+    "category": "Connectivity & Telecom",
+    "certification": "IBEW/NECA JATC training as a body for the pod's electrical isolation; 29 CFR 1910.147 for locking out the shore cable before the hatch; NFPA 70E and 29 CFR 1910.333 for the electrically safe work condition inside the pod; 29 CFR 1910.28 for the deck edge and 29 CFR 1910.132 for the deck PPE and flotation; the lift plan, the dive plan and the pod's operating procedure for every sea state, load, depth and diving limit",
+    "name": "Ocean Pod Retrieval & Hatch Opening",
+    "weather": "wind",
+    "indoor": null,
+    "district": "ocean-data-center",
+    "title": "SmartCiti.X~ Ocean Pod Retrieval & Hatch Opening VR",
+    "tagline": "The sea state read against the lift plan, the diver out and counted before the hoist moves, the pod brought over the rail on tag lines, sea-fastened and isolated, and its leak lamp read before a hatch bolt turns",
+    "accent": 4169668,
+    "accentCss": "#3f9fc4",
+    "parSeconds": 330,
+    "badge": {
+      "id": "landed-isolated-opened",
+      "name": "Landed, Isolated, Opened",
+      "note": "The pod lifted to the plan, landed and fastened, its cable locked out and its leak lamp read before the hatch came off"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Marine Data Authority",
+      "currency": "LIFTS",
+      "ranks": [
+        "Deckhand",
+        "Rigger",
+        "Pod Technician",
+        "Lift Supervisor",
+        "Marine Data Authority Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
