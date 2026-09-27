@@ -128,7 +128,7 @@ function recordingDom() {
   globalThis.document = { createElement: () => ({ width: 0, height: 0, getContext: () => ctx }), baseURI: "" };
 }
 
-const SIGN_MODULES = ["shared/kit.js", "shared/textures.js", "shared/unions.js", "smartcity/js/curricula.js", "shared/signage.js"];
+const SIGN_MODULES = ["shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/unions.js", "smartcity/js/curricula.js", "shared/signage.js"];
 const S = await buildSuite(SIGN_MODULES,
   "export { unionSign, safetySign, jobsiteBoard, stationSignage, unionForStation, unionsNamed, hazardSignFor, signMeshCount, UNIONS, ANSI_HEADERS, PICTOGRAMS, BOARD_KINDS, HAZARD_BY_CATEGORY, CATEGORY_DEFAULT_UNION, SIGN_MESHES, STATION_MESH_BUDGET, THREE };", "signage");
 recordingDom();
@@ -209,7 +209,7 @@ const STAGE_STUB = THREE_STUB
   // three's Fog wraps a numeric colour in a Color; an interior stage passes one.
   + "\nexport class Fog { constructor(color,near,far){this.color=color&&color.isColor?color:new Color(color);this.near=near;this.far=far;} }\nexport class AmbientLight extends Obj3D { constructor(c,i){super();this.color=c;this.intensity=i;} }\n";
 if (!STAGE_STUB.includes("getHex()")) throw new Error("check_signage: the headless stub changed shape; update the Color replacement here");
-const STAGE_MODULES = ["shared/kit.js", "shared/textures.js", "shared/a11y.js", "shared/weather.js", "shared/unions.js", "smartcity/js/curricula.js", "shared/signage.js",
+const STAGE_MODULES = ["shared/kit.js", "shared/textures.js", "shared/perf.js", "shared/a11y.js", "shared/weather.js", "shared/unions.js", "smartcity/js/curricula.js", "shared/signage.js",
   "shared/fleet.js", "shared/props.js",
   "smartcity/js/citykit.js", "smartcity/js/ambient.js", "smartcity/js/apron.js", "smartcity/js/interiors.js", "smartcity/js/districts.js", "smartcity/js/stage.js"];
 installDomStubs();

@@ -1,5 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
-import { disposeTree, decal, repaint, box, cyl, torus, ball, group, mat, HUD, clamp, easeOut, celebrationBurst, GESTURE_HINTS } from "../../shared/kit.js";
+import { disposeTree, decal, repaint, box, cyl, torus, ball, group, mat, HUD, clamp, easeOut, celebrationBurst, GESTURE_HINTS, setActiveRenderer } from "../../shared/kit.js";
 import { Session, Progress, Sfx } from "../../shared/game.js";
 import { speak, speechSupported } from "../../shared/voice-assist.js";
 import { TrainingRecords } from "../../shared/records.js";
@@ -47,6 +47,9 @@ if (Lrs.pending()) Lrs.flush();
 const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.setSize(innerWidth, innerHeight);
+// See setActiveRenderer() in shared/kit.js: every canvas texture the asset
+// kit paints reads this renderer's real anisotropy ceiling through it.
+setActiveRenderer(renderer);
 const DEVICE_PROFILE = applyProfile(detectDevice(), { renderer });
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;

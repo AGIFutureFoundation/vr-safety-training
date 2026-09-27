@@ -14,6 +14,50 @@ const hasDom = typeof document !== "undefined";
 const params = typeof location !== "undefined" ? new URLSearchParams(location.search) : null;
 const enabled = !!params && params.get("perf") !== null && params.get("perf") !== "0";
 
+// ------------------------------------------------------------- quality tiers
+//
+// How big a canvas-painted texture should be, and whether a painted material
+// also gets the extra roughness/bump maps that come from painting a second
+// small canvas from the same noise. Picked once, cheaply, at module load, and
+// read by shared/textures.js and smartcity/js/citykit.js so every face
+// painter and every district shares the same answer instead of each module
+// guessing its own.
+//
+// `typeof HTMLCanvasElement !== "undefined"` is the headless tell: the
+// content checkers' stubbed `document.createElement("canvas")` (tools/lib/
+// headless.mjs) fakes a `getContext` well enough that painters never throw,
+// but it is not a real HTMLCanvasElement, so this reads false there — 256px
+// headless, the smallest tier, since nothing there is ever actually
+// rendered to a screen.
+const hasRealCanvas = typeof HTMLCanvasElement !== "undefined";
+
+function detectQuality() {
+  const q = params?.get("quality");
+  if (q === "low" || q === "high") return q;
+  try {
+    const ua = typeof navigator !== "undefined" ? navigator.userAgent : "";
+    // The standalone headset browsers (Quest, PICO) carry "Android" in their
+    // UA too — full desktop-class GPUs, so they stay in the high tier; only
+    // an actual phone/tablet browser drops to low.
+    if (/OculusBrowser|PICO/i.test(ua)) return "high";
+    if (/Mobi|Android|iPhone|iPad|iPod/i.test(ua)) return "low";
+  } catch { /* no navigator (headless) */ }
+  return "high";
+}
+
+/** "high" or "low". `?quality=` on the URL always wins; otherwise a mobile
+ *  browser (not a standalone VR headset's) picks low, everything else high.
+ *  Read by shared/textures.js to decide whether a painted material also
+ *  carries a bump/roughness map — see facePaint()/paintedMat() there. */
+export const QUALITY = detectQuality();
+
+/** The square pixel size a canvas face painter renders at when its caller
+ *  does not ask for a specific one: 1024 on desktop/VR, 512 on a mobile
+ *  browser or `?quality=low`, 256 with no real canvas to paint on at all
+ *  (the content checkers, or any other Node run). A caller always overrides
+ *  this with an explicit `{ px }`. */
+export const TEXTURE_RES = !hasRealCanvas ? 256 : (QUALITY === "low" ? 512 : 1024);
+
 const frames = new Float32Array(WINDOW);
 let head = 0, filled = 0, worst = 0;
 let calls = 0, triangles = 0, lastSample = 0;

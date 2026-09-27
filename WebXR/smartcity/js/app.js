@@ -1,5 +1,5 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
-import { disposeTree, decal, repaint, HUD, clamp, easeOut, celebrationBurst, GESTURE_HINTS } from "../../shared/kit.js";
+import { disposeTree, decal, repaint, HUD, clamp, easeOut, celebrationBurst, GESTURE_HINTS, setActiveRenderer } from "../../shared/kit.js";
 import { Session, Progress, Sfx, UNIVERSAL_AWARDS, placeVehicle, DRIVE_CHECK_NAMES } from "../../shared/game.js";
 import { speak, speechSupported } from "../../shared/voice-assist.js";
 import { TrainingRecords, toCSV, toXAPI, toOpenBadges, earnedCertifications, download } from "../../shared/records.js";
@@ -181,6 +181,10 @@ const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPr
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.setSize(innerWidth, innerHeight);
 renderer.setClearColor(0x000000, 0);
+// Registered once so every canvas texture the asset kit paints (shared/kit.js,
+// shared/textures.js) can read this renderer's real anisotropy ceiling instead
+// of a hardcoded guess. See setActiveRenderer() in shared/kit.js.
+setActiveRenderer(renderer);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 // The device in front of the learner's eye decides pixel ratio, shadows,

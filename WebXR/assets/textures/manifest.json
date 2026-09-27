@@ -1,0 +1,21 @@
+{
+  "licence": "Every painter in WebXR/shared/textures.js draws its face procedurally, from canvas fills, gradients and Math.random() — nothing here is generated or downloaded, and none of the sixteen tiles below ship a file. A deployment that later generates or licenses a real photographic or PBR tile for a painter may drop it at assets/textures/<id>.jpg and set that entry's `file` to the filename, with the tile's own `licence` and `provenance` recorded on the same entry — facePaint() then loads that file instead of drawing the canvas for that painter's id (see docs/textures.md, \"Drop-in tiles\"). tools/check_textures.mjs fails the build on an entry whose `file` is set without both, on a shipped file with no entry, and on an entry for a file that is not actually present.",
+  "tiles": {
+    "brick": { "file": null, "licence": null, "provenance": null },
+    "block": { "file": null, "licence": null, "provenance": null },
+    "concrete": { "file": null, "licence": null, "provenance": null },
+    "asphalt": { "file": null, "licence": null, "provenance": null },
+    "corrugated": { "file": null, "licence": null, "provenance": null },
+    "grating": { "file": null, "licence": null, "provenance": null },
+    "wood": { "file": null, "licence": null, "provenance": null },
+    "tile": { "file": null, "licence": null, "provenance": null },
+    "safety-stripe": { "file": null, "licence": null, "provenance": null },
+    "rust": { "file": null, "licence": null, "provenance": null },
+    "gravel": { "file": null, "licence": null, "provenance": null },
+    "turf": { "file": null, "licence": null, "provenance": null },
+    "sand": { "file": null, "licence": null, "provenance": null },
+    "hardwood-court": { "file": null, "licence": null, "provenance": null },
+    "plaster": { "file": null, "licence": null, "provenance": null },
+    "stainless": { "file": null, "licence": null, "provenance": null }
+  }
+}

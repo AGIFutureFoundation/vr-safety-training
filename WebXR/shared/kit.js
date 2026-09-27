@@ -34,6 +34,58 @@ export const GESTURE_HINTS = {
 
 const materialCache = new Map();
 
+// -------------------------------------------------------- renderer / texture quality
+//
+// The renderer doesn't exist yet when this module (and every canvas texture
+// it or shared/textures.js paints) first loads — an app builds its
+// THREE.WebGLRenderer in app.js, after importing the asset kit. So canvas
+// textures register with whichever renderer last called setActiveRenderer()
+// and read its real anisotropy ceiling lazily, at the point they're actually
+// finished being painted, rather than needing the renderer passed through
+// every box()/decal()/facePaint() call.
+//
+// globalThis, not a module-level `let`, for the same reason
+// setActiveContext() below uses it: a SmartCiti.X sim loaded through a real
+// dynamic import() is a second copy of this module with its own scope, and
+// both copies must see the one renderer the app actually created.
+const RENDERER_KEY = "__smartcitix_active_renderer";
+/** Called once by an app right after it creates its THREE.WebGLRenderer. */
+export function setActiveRenderer(renderer) {
+  try { globalThis[RENDERER_KEY] = renderer || null; } catch { /* no global object */ }
+}
+export function getActiveRenderer() {
+  try { return globalThis[RENDERER_KEY] || null; } catch { return null; }
+}
+/** The registered renderer's own anisotropy ceiling, or a safe default
+ *  before one exists (the headless checkers, or a texture painted before the
+ *  app's renderer is up) — 8 sits comfortably inside every WebGL
+ *  implementation's actual minimum. */
+function maxAnisotropy() {
+  try {
+    const cap = getActiveRenderer()?.capabilities?.getMaxAnisotropy?.();
+    return cap > 0 ? cap : 8;
+  } catch { return 8; }
+}
+/**
+ * Mipmaps + trilinear filtering + the renderer's real anisotropy ceiling —
+ * every canvas texture the kit paints (decal/repaint panels, the per-finish
+ * surface() maps, shared/textures.js's facePaint()/paintTexture(), a
+ * figure's dressMat()) runs its texture through this once, so a station's
+ * ground and facades stay crisp close up and don't shimmer at a distance
+ * without every call site repeating the same three property sets. Wrapped in
+ * a try because the headless checkers' texture stub has none of these
+ * properties as real setters — this must still be safe to call there.
+ */
+export function applyTextureQuality(tex, o = {}) {
+  try {
+    tex.generateMipmaps = o.mipmaps ?? true;
+    if (THREE.LinearMipmapLinearFilter !== undefined) tex.minFilter = THREE.LinearMipmapLinearFilter;
+    if (THREE.LinearFilter !== undefined) tex.magFilter = THREE.LinearFilter;
+    tex.anisotropy = maxAnisotropy();
+  } catch { /* headless texture stub */ }
+  return tex;
+}
+
 // ---------------------------------------------------------------- surfaces
 //
 // Every surface in the network used to be one flat colour, which is what made
@@ -153,7 +205,7 @@ export function surface(name) {
     const wrap = (c) => {
       const t = new THREE.CanvasTexture(c);
       t.wrapS = THREE.RepeatWrapping; t.wrapT = THREE.RepeatWrapping;
-      t.anisotropy = 4;
+      applyTextureQuality(t);
       return t;
     };
     const shadeMap = wrap(shadeCanvas);
@@ -443,7 +495,7 @@ export function decal(parent, w, h, x, y, z, draw, o = {}) {
   const g = canvas.getContext("2d");
   draw(g, canvas.width, canvas.height);
   const tex = new THREE.CanvasTexture(canvas);
-  tex.anisotropy = 4;
+  applyTextureQuality(tex);
   const material = new THREE.MeshStandardMaterial({
     map: tex, roughness: o.rough ?? 0.7, metalness: o.metal ?? 0,
     emissive: o.emissive ?? 0x000000, emissiveIntensity: o.ei ?? 1,
@@ -1274,7 +1326,7 @@ function dressMat(key, w, h, draw, o = {}) {
     tex = new THREE.CanvasTexture(canvas);
     if (THREE.RepeatWrapping !== undefined) tex.wrapS = THREE.RepeatWrapping;
     tex.offset?.set?.(0.5, 0);
-    tex.anisotropy = 4;
+    applyTextureQuality(tex);
     if (THREE.SRGBColorSpace !== undefined) tex.colorSpace = THREE.SRGBColorSpace;
   } catch (e) {
     tex = null;                       // headless: no canvas, so no paint

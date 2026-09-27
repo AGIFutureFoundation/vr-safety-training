@@ -192,7 +192,7 @@ const dir = mkdtempSync(join(tmpdir(), "fleet-"));
 process.on("exit", () => { try { rmSync(dir, { recursive: true, force: true }); } catch { /* scratch folder; best effort */ } });
 writeFileSync(join(dir, "three-mock.mjs"), THREE_STUB);
 const present = KITS.filter((k) => existsSync(join(WEBXR, k.file)));
-const parts = ["shared/kit.js", "shared/textures.js", ...present.map((k) => k.file)].map((rel) => strip(readFileSync(join(WEBXR, rel), "utf8")));
+const parts = ["shared/kit.js", "shared/textures.js", "shared/perf.js", ...present.map((k) => k.file)].map((rel) => strip(readFileSync(join(WEBXR, rel), "utf8")));
 const names = present.flatMap((k) => [k.budget, k.builders]);
 writeFileSync(join(dir, "suite.mjs"), `import * as THREE from "./three-mock.mjs";\nimport { __bounds } from "./three-mock.mjs";\n\n${parts.join("\n\n")}\n\nexport { THREE, __bounds, ${names.join(", ")} };`);
 const suite = await import(pathToFileURL(join(dir, "suite.mjs")).href);

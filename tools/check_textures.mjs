@@ -7,28 +7,47 @@
  * This checker holds it to:
  *
  *   - every painter draws against the same stubbed 2D context the other
- *     content checkers use, at every declared size, without throwing;
+ *     content checkers use, at every declared size — including 256, the
+ *     resolution TEXTURE_RES itself picks with no real canvas to paint on
+ *     (headless) — without throwing;
  *   - every painter tiles: rendered on a real (software) canvas, its left
  *     edge is close in average colour to its right edge, and its top edge
  *     close to its bottom, within a tolerance generous enough for the
- *     random grain/grime every painter also draws;
+ *     random grain/grime every painter also draws — including the
+ *     noiseWash()/edgeWear() passes every painter now layers on, exercised
+ *     for real here since this checker's own software context implements
+ *     enough of the canvas pixel API (getImageData/putImageData) for them;
  *   - facePaint()'s cache actually dedupes: the same (key, px, repeat)
  *     never draws its canvas twice, and a different key/px/repeat does;
+ *   - the resolution switch is honoured: an explicit `{ px }` draws at that
+ *     size, and with none given a painter draws at TEXTURE_RES, which is
+ *     256 in this headless run;
+ *   - the drop-in tile manifest (WebXR/assets/textures/manifest.json) has
+ *     exactly one entry per painter id, every entry carries exactly
+ *     `{file, licence, provenance}`, a non-null `file` also has a non-null
+ *     `licence` and `provenance` and an actually-present file, and no image
+ *     ships in that directory without a manifest entry naming it;
+ *   - loadTextureManifest()/externalTileFor() parse a fetched manifest and
+ *     resolve a painter id against it correctly (against a mocked fetch,
+ *     never the network);
  *   - palette() returns exactly the four keys { accent, ground, structure,
  *     trim } for every documented trade name, and falls back to
  *     `construction` for an unknown one rather than throwing.
  *
  *     node tools/check_textures.mjs
  */
-import { buildSuite } from "./lib/headless.mjs";
+import { readFileSync, readdirSync, existsSync } from "node:fs";
+import { join } from "node:path";
+import { buildSuite, ROOT, WEBXR } from "./lib/headless.mjs";
 
-const MODULES = ["shared/kit.js", "shared/textures.js"];
+const MODULES = ["shared/kit.js", "shared/textures.js", "shared/perf.js"];
 const HARNESS = `export {
   brickFace, blockFace, concreteFace, asphaltFace, corrugatedFace, gratingFace,
   woodGrainFace, tileFace, safetyStripeFace, rustFace, gravelFace, grassFace,
   sandFace, hardwoodCourtFace, plasterFace, stainlessFace,
-  facePaint, facePaintCacheSize, clearFacePaintCache, paintedMat,
-  palette, PALETTE_NAMES, THREE,
+  facePaint, facePaintCacheSize, clearFacePaintCache, paintedMat, paintTexture,
+  noiseWash, edgeWear, tileIdFor, PAINTER_TILE_IDS, loadTextureManifest, externalTileFor,
+  palette, PALETTE_NAMES, TEXTURE_RES, QUALITY, THREE,
 };`;
 const S = await buildSuite(MODULES, HARNESS, "textures");
 
@@ -141,6 +160,34 @@ class MiniCtx {
   strokeRect() {} save() {} restore() {} translate() {} rotate() {}
   set strokeStyle(_v) {} set lineWidth(_v) {} set font(_v) {} set textAlign(_v) {} set textBaseline(_v) {}
   set globalAlpha(_v) {} set lineCap(_v) {}
+  // Real pixel read/write, backed by the same RGBA buffer fillRect() paints
+  // into — enough for noiseWash()'s getImageData()-tint-putImageData() round
+  // trip to actually run against this harness, so the tiling test below
+  // exercises the noise pass for real rather than silently skipping it (the
+  // try/catch in noiseWash() would otherwise make this harness and the
+  // Proxy-stubbed one in tools/lib/headless.mjs indistinguishable).
+  createImageData(w, h) { return { width: w, height: h, data: new Uint8ClampedArray(w * h * 4) }; }
+  getImageData(x, y, w, h) {
+    const out = new Uint8ClampedArray(w * h * 4);
+    for (let yy = 0; yy < h; yy++) for (let xx = 0; xx < w; xx++) {
+      const tx = x + xx, ty = y + yy;
+      if (tx < 0 || ty < 0 || tx >= this.w || ty >= this.h) continue;
+      const so = (yy * w + xx) * 4, to = (ty * this.w + tx) * 4;
+      out[so] = this.data[to]; out[so + 1] = this.data[to + 1]; out[so + 2] = this.data[to + 2]; out[so + 3] = this.data[to + 3];
+    }
+    return { width: w, height: h, data: out };
+  }
+  // Matches real canvas semantics: putImageData replaces pixels outright,
+  // it does not alpha-composite against what was already there.
+  putImageData(img, x, y) {
+    const { width: iw, height: ih, data } = img;
+    for (let yy = 0; yy < ih; yy++) for (let xx = 0; xx < iw; xx++) {
+      const tx = x + xx, ty = y + yy;
+      if (tx < 0 || ty < 0 || tx >= this.w || ty >= this.h) continue;
+      const so = (yy * iw + xx) * 4, to = (ty * this.w + tx) * 4;
+      this.data[to] = data[so]; this.data[to + 1] = data[so + 1]; this.data[to + 2] = data[so + 2]; this.data[to + 3] = data[so + 3];
+    }
+  }
 }
 function render(draw, px, o = {}) {
   const ctx = new MiniCtx(px, px);
@@ -189,6 +236,106 @@ if (S.facePaintCacheSize() !== 2) fail("cache", `cache holds ${S.facePaintCacheS
 S.facePaint("dedupe-a", counted("a"), { px: 64, repeat: 4 });
 if (drawCounts.a !== 2) fail("cache", "a different repeat for the same key was served from the cache instead of drawn");
 
+// ------------------------------------------------------------- resolution
+//
+// TEXTURE_RES is what a painter renders at when nothing asks for a specific
+// size, and this checker's headless run has no real HTMLCanvasElement, so it
+// must read 256 — the smallest tier, since nothing here is ever actually
+// shown on a screen. An explicit `{ px }` always wins regardless of tier.
+if (S.TEXTURE_RES !== 256) fail("resolution", `TEXTURE_RES is ${S.TEXTURE_RES} in this headless run; expected 256 (no real HTMLCanvasElement here)`);
+{
+  let seenDefault = null;
+  S.facePaint("res-default", (g, w, h) => { seenDefault = [w, h]; g.fillStyle = "#888"; g.fillRect(0, 0, w, h); }, { repeat: 1 });
+  if (!seenDefault || seenDefault[0] !== S.TEXTURE_RES || seenDefault[1] !== S.TEXTURE_RES) {
+    fail("resolution", `facePaint() with no {px} drew at ${seenDefault}, expected ${S.TEXTURE_RES}x${S.TEXTURE_RES} (TEXTURE_RES)`);
+  }
+  let seenExplicit = null;
+  S.facePaint("res-explicit", (g, w, h) => { seenExplicit = [w, h]; g.fillStyle = "#888"; g.fillRect(0, 0, w, h); }, { px: 123, repeat: 1 });
+  if (!seenExplicit || seenExplicit[0] !== 123 || seenExplicit[1] !== 123) {
+    fail("resolution", `facePaint({px: 123}) drew at ${seenExplicit}, expected 123x123 — the resolution switch was not honoured`);
+  }
+  // Every painter/resolution pair renders once: two different pixel sizes
+  // for the same key are two different cache entries, not a collision.
+  const before = S.facePaintCacheSize();
+  S.facePaint("res-explicit", (g, w, h) => { g.fillStyle = "#888"; g.fillRect(0, 0, w, h); }, { px: 200, repeat: 1 });
+  if (S.facePaintCacheSize() !== before + 1) fail("resolution", "a different {px} for the same key was not a new cache entry");
+}
+
+// --------------------------------------------------------- drop-in tile slot
+//
+// 1. manifest.json on disk: exactly one entry per painter id, well-formed,
+//    honest about what actually ships (nothing, today).
+{
+  const dir = join(WEBXR, "assets/textures");
+  const manifestPath = join(dir, "manifest.json");
+  let manifest = null;
+  if (!existsSync(manifestPath)) fail("manifest", "WebXR/assets/textures/manifest.json is missing");
+  else {
+    try { manifest = JSON.parse(readFileSync(manifestPath, "utf8")); } catch (e) { fail("manifest", `manifest.json does not parse: ${e.message}`); }
+  }
+  const wantIds = [...S.PAINTER_TILE_IDS].sort();
+  if (NAMES.length !== wantIds.length) fail("manifest", `${NAMES.length} painters but ${wantIds.length} tile ids named in shared/textures.js — PAINTER_TILE_IDS is out of sync`);
+  for (const name of NAMES) {
+    if (!S.tileIdFor(PAINTERS[name])) fail("manifest", `tileIdFor() names no id for ${name} — add it to PAINTER_IDS in shared/textures.js`);
+  }
+  const referenced = new Set();
+  if (manifest) {
+    if (typeof manifest.licence !== "string" || !/licence|license/i.test(manifest.licence) || !/provenance/i.test(manifest.licence)) {
+      fail("manifest", "manifest.licence must state that a shipped file needs both a licence and its provenance recorded");
+    }
+    const keys = Object.keys(manifest.tiles ?? {}).sort();
+    if (JSON.stringify(keys) !== JSON.stringify(wantIds)) {
+      fail("manifest", `manifest.tiles must have exactly one entry per painter id (missing: ${wantIds.filter((k) => !keys.includes(k)).join(", ") || "none"}; extra: ${keys.filter((k) => !wantIds.includes(k)).join(", ") || "none"})`);
+    }
+    for (const [id, entry] of Object.entries(manifest.tiles ?? {})) {
+      const entryKeys = Object.keys(entry ?? {}).sort();
+      if (JSON.stringify(entryKeys) !== JSON.stringify(["file", "licence", "provenance"])) {
+        fail("manifest", `manifest.tiles.${id} must carry exactly {file, licence, provenance}, has {${entryKeys.join(", ")}}`);
+        continue;
+      }
+      if (entry.file !== null) {
+        if (typeof entry.file !== "string" || !entry.file) fail("manifest", `manifest.tiles.${id}.file must be null or a non-empty filename`);
+        else {
+          referenced.add(entry.file);
+          if (typeof entry.licence !== "string" || !entry.licence.trim()) fail("manifest", `manifest.tiles.${id} names a file but has no licence recorded`);
+          if (typeof entry.provenance !== "string" || !entry.provenance.trim()) fail("manifest", `manifest.tiles.${id} names a file but has no provenance recorded`);
+          if (!existsSync(join(dir, entry.file))) fail("manifest", `manifest.tiles.${id}.file "${entry.file}" is not present in WebXR/assets/textures/`);
+        }
+      }
+    }
+  }
+  // No image ships without a manifest entry naming it — the reverse check.
+  const shipped = existsSync(dir) ? readdirSync(dir).filter((f) => /\.(jpe?g|png|webp)$/i.test(f)) : [];
+  for (const file of shipped) {
+    if (!referenced.has(file)) fail("manifest", `${file} is present in WebXR/assets/textures/ but no manifest entry names it`);
+  }
+  if (existsSync(dir)) {
+    const allowed = new Set(["README.md", "manifest.json", ...shipped]);
+    for (const f of readdirSync(dir)) if (!allowed.has(f)) fail("manifest", `unexpected file WebXR/assets/textures/${f} — every shipped file needs a manifest entry and a reason`);
+  }
+}
+// 2. loadTextureManifest()/externalTileFor() against a mocked fetch — never
+//    the real network, and never the manifest actually shipped above.
+{
+  const url = "https://example.test/assets/textures/manifest.json";
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async (target) => (target === url
+    ? { ok: true, json: async () => ({ tiles: { brick: { file: "brick.jpg", licence: "CC0", provenance: "test fixture" } } }) }
+    : { ok: false });
+  try {
+    const manifest = await S.loadTextureManifest(url);
+    if (!manifest) fail("manifest-loader", "loadTextureManifest() did not resolve a manifest from a mocked fetch");
+    else {
+      const tile = S.externalTileFor(manifest, "brick");
+      if (!tile || tile.url !== "https://example.test/assets/textures/brick.jpg") fail("manifest-loader", `externalTileFor(manifest, "brick") resolved ${JSON.stringify(tile)}, expected the brick.jpg url`);
+      if (S.externalTileFor(manifest, "asphalt") !== null) fail("manifest-loader", "externalTileFor() returned a tile for an id the mocked manifest does not name");
+    }
+    if ((await S.loadTextureManifest("https://example.test/missing.json")) !== null) fail("manifest-loader", "loadTextureManifest() should resolve null for a 404");
+  } finally {
+    if (originalFetch) globalThis.fetch = originalFetch; else delete globalThis.fetch;
+  }
+}
+
 // ---------------------------------------------------------------- palette
 const REQUIRED_KEYS = ["accent", "ground", "structure", "trim"];
 for (const name of S.PALETTE_NAMES) {
@@ -214,5 +361,5 @@ if (S.palette("marine").accent === 0) fail("palette", "palette() hands back a li
 
 console.log(failures
   ? `\n${failures} texture problem(s) found.`
-  : `\nAll ${NAMES.length} face painters draw headless and tile within tolerance; the facePaint() cache dedupes; all ${S.PALETTE_NAMES.length} trade palettes carry their four keys.`);
+  : `\nAll ${NAMES.length} face painters draw headless at TEXTURE_RES (${S.TEXTURE_RES}) and tile within tolerance; the facePaint() cache dedupes per (key, px, repeat); the resolution switch and the drop-in tile manifest both check out; all ${S.PALETTE_NAMES.length} trade palettes carry their four keys.`);
 process.exit(failures ? 1 : 0);
