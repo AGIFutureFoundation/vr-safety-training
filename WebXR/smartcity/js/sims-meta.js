@@ -23464,5 +23464,341 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "wp-intake-and-pathway-planning",
+    "index": "708",
+    "domain": "Workforce readiness",
+    "trade": "Pathway Edition intake — choosing between the warehouse and Commercial Class A tracks with a coach",
+    "category": "Community Environmental Justice",
+    "certification": "Registered apprenticeship standards as a category — the written apprenticeship standard a sponsor registers with the U.S. Department of Labor or a State Apprenticeship Agency, which the coach explains as one of the tracks intake can lead toward; the OSHA Outreach Training Program's OSHA 10 course, named on the comparison board as part of what each track eventually asks for; the Consumer Financial Protection Bureau's (CFPB) consumer guidance, cited on the intake packet's benefits page; 29 CFR 1910.22 for the walking-working surfaces every office and every warehouse floor shares; 29 CFR 1910.151 for the medical-services context the dizzy applicant in the waiting area is handled inside; SAMHSA's guidance on help-seeking, for the coach's own check-in",
+    "name": "Intake and Pathway Planning",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Intake and Pathway Planning VR",
+    "tagline": "Sign in, bring the documents, read both tracks through, rate your own readiness honestly, sit the quiz without copying, confirm the track, and leave with a plan, an appointment and a signature",
+    "accent": 8366296,
+    "accentCss": "#7fa8d8",
+    "parSeconds": 310,
+    "badge": {
+      "id": "pathway-set",
+      "name": "Pathway Set",
+      "note": "Signed in under your own name, both tracks read and compared, the assessment honest, the track confirmed, and a plan signed with an appointment booked"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Intake Desk",
+      "currency": "STEP",
+      "ranks": [
+        "Walk-In",
+        "Assessed",
+        "Track Confirmed",
+        "Plan Signed",
+        "Intake Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "wp-mock-interview-and-resume",
+    "index": "709",
+    "domain": "Workforce readiness",
+    "trade": "Pathway Edition — a mock interview and a resume for a union apprenticeship application",
+    "category": "Community Environmental Justice",
+    "certification": "Registered apprenticeship standards as a category — the written apprenticeship standard the coordinator's notice on the wall is drawn from, since the resume and the interview both exist to get an application read against it; the OSHA Outreach Training Program's OSHA 10 card, one of the lines the resume has to carry; Teamsters (IBT) apprenticeship and driver training programmes, named on the posting board as one of the routes this resume could open; 29 CFR 1910.22 for the walking-working surfaces an interview room shares with every other office; 29 CFR 1910.151 for the first-aid posture a warm, crowded room can turn into a real need; SAMHSA's guidance on help-seeking, for the coach's own check-in at the end",
+    "name": "Mock Interview and Resume",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Mock Interview and Resume VR",
+    "tagline": "Build the resume section by section, sit a mock interview with your posture and eye contact held, answer the hardest question honestly, and leave with a resume printed, signed and filed with its reference",
+    "accent": 14197322,
+    "accentCss": "#d8a24a",
+    "parSeconds": 320,
+    "badge": {
+      "id": "resume-ready",
+      "name": "Resume Ready",
+      "note": "The resume built in order, the mock interview held with posture and eye contact through every interruption, the hard question answered honestly, and the packet printed, signed and filed"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Interview Room",
+      "currency": "PAGE",
+      "ranks": [
+        "Draft",
+        "Resume Built",
+        "Interview Sat",
+        "Packet Filed",
+        "Interview Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "wp-employer-meet-and-greet",
+    "index": "710",
+    "domain": "Workforce readiness",
+    "trade": "Pathway Edition — an employer meet-and-greet and a job-fair walk",
+    "category": "Community Environmental Justice",
+    "certification": "Registered apprenticeship standards as a category — what the coordinator's table on this floor is actually recruiting toward; the OSHA Outreach Training Program's OSHA 10 card, one of the first questions an employer table asks about; Teamsters (IBT) apprenticeship and driver training programmes, named on the union table's own sign; 29 CFR 1910.22 for the walking-working surfaces a crowded hall shares with every other floor; 29 CFR 1910.151 for the first-aid response a warm, packed room can turn into a real need; SAMHSA's guidance on help-seeking, for the coach's own debrief at the end of the floor",
+    "name": "Employer Meet-and-Greet",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Employer Meet-and-Greet VR",
+    "tagline": "Read the fair map, find the three tables that matter, rehearse the pitch, greet an employer at a steady volume, hold a real conversation with the coordinator, hand off the resume and swap contact information before the floor closes",
+    "accent": 14713674,
+    "accentCss": "#e0834a",
+    "parSeconds": 320,
+    "badge": {
+      "id": "floor-worked",
+      "name": "Floor Worked",
+      "note": "The map read, the right three tables found, the pitch rehearsed in order, both conversations held steady, the resume handed off and contact information swapped before the close"
+    },
+    "stepCount": 12,
+    "interruptCount": 2,
+    "game": {
+      "system": "Job Fair Floor",
+      "currency": "TABLE",
+      "ranks": [
+        "Walking In",
+        "Floor Mapped",
+        "Pitch Given",
+        "Contact Made",
+        "Job Fair Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "wp-warehouse-ride-along",
+    "index": "711",
+    "domain": "Warehouse & Distribution",
+    "trade": "Pathway Edition — a warehouse ride-along day beside a supervisor on a live pallet-jack route",
+    "category": "Mobility & Transit",
+    "certification": "OSHA 29 CFR 1910.178 powered industrial trucks, which covers motorized hand trucks and requires operator training and evaluation under paragraph (l); ANSI/ITSDF B56.1 for low-lift trucks like the walkie pallet jack this ride-along is driven on; 29 CFR 1910.22 walking-working surfaces for the aisles and the pedestrian lane a ride-along shares with everyone else on the floor; the Revised NIOSH Lifting Equation for the hand work around the pallet; ANSI/ISEA 107 for the high-visibility vest a ride-along wears from the first step onto the floor; Teamsters (IBT) warehouse locals' powered-truck training programmes, which this ride-along day is a first taste of",
+    "name": "Warehouse Ride-Along Day",
+    "weather": "clear",
+    "indoor": "garage",
+    "district": null,
+    "title": "SmartCiti.X~ Warehouse Ride-Along Day VR",
+    "tagline": "Report in, PPE checked in order, the route briefed, the truck pre-tripped, two legs driven at walking pace with the horn at every cross aisle, a load raised and held, and the truck squared and parked before the debrief",
+    "accent": 15769914,
+    "accentCss": "#f0a13a",
+    "parSeconds": 340,
+    "badge": {
+      "id": "ride-along-clean",
+      "name": "Ride-Along Clean",
+      "note": "PPE checked in order, the pre-trip found clean, both legs driven at walking pace with the horn sounded and the crossings answered, and the truck squared away"
+    },
+    "stepCount": 14,
+    "interruptCount": 2,
+    "game": {
+      "system": "Floor Ride-Along",
+      "currency": "AISLE",
+      "ranks": [
+        "Sideline",
+        "PPE Checked",
+        "Route Driven",
+        "Load Set",
+        "Ride-Along Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "wp-permit-study-and-knowledge-test",
+    "index": "712",
+    "domain": "Commercial Driving",
+    "trade": "Pathway Edition — a Class A permit study session and knowledge-test day",
+    "category": "Mobility & Transit",
+    "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose theory curriculum is exactly what this study session works through before the permit; 49 CFR 383 for the commercial driver's license knowledge and skills tests this day's test is the first of; the state CDL handbook, the actual book the study routine and the practice quiz are built from; CVSA roadside inspection practice, one of the general-knowledge topics the notes board checks for; 29 CFR 1910.151 for the first-aid response a testing room's own stress can turn into a real need; Teamsters (IBT) driver training programmes, which this permit is the first document toward",
+    "name": "Permit Study and Knowledge-Test Day",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Permit Study and Knowledge-Test Day VR",
+    "tagline": "Read the assigned chapter, work the study routine in order, hold the practice quiz honestly, find the gaps in your notes, bring the right documents to the window, sit the knowledge test without rushing, and book behind-the-wheel training next",
+    "accent": 6273264,
+    "accentCss": "#5fb8f0",
+    "parSeconds": 330,
+    "badge": {
+      "id": "permit-earned",
+      "name": "Permit Earned",
+      "note": "The chapter read, the study routine held in order, the practice quiz honest, the notes gaps found, the right documents brought, the test sat clean, and behind-the-wheel training booked"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Testing Window",
+      "currency": "CHAPTER",
+      "ranks": [
+        "Studying",
+        "Practice Passed",
+        "Test Sat",
+        "Permit Filed",
+        "Knowledge Test Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "wp-apprenticeship-enrollment-day",
+    "index": "713",
+    "domain": "Apprenticeship navigation",
+    "trade": "Pathway Edition — the apprenticeship enrolment paperwork day: documents, drug-test consent, the physical and the coordinator's checklist",
+    "category": "Community Environmental Justice",
+    "certification": "Registered apprenticeship standards as a category — the enrolment paperwork this whole day exists to complete, per the apprenticeship standard the applicant is being indentured under; the OSHA Outreach Training Program's OSHA 10 card, one of the documents the coordinator's checklist checks for; HIPAA's Privacy Rule, for what the physical's results may and may not be shared with anyone outside the clinician who performs it; 29 CFR 1910.151 for the medical-services context a workplace physical sits inside; 29 CFR 1910.22 for the walking-working surfaces every office and clinic waiting room shares; Teamsters (IBT) apprenticeship and training programmes, named on the coordinator's own checklist as the body running today's enrollment",
+    "name": "Apprenticeship Enrollment Day",
+    "weather": "clear",
+    "indoor": "clinic",
+    "district": null,
+    "title": "SmartCiti.X~ Apprenticeship Enrollment Day VR",
+    "tagline": "Gather the documents, sign the forms in the order that makes each one mean something, read the coordinator's checklist, understand the drug-test consent before you sign it, sit the physical without fidgeting, and file a complete packet",
+    "accent": 9072600,
+    "accentCss": "#8a6fd8",
+    "parSeconds": 340,
+    "badge": {
+      "id": "enrolled",
+      "name": "Enrolled",
+      "note": "Documents gathered, every form signed in order, the checklist read, the consent understood before it was signed, the physical sat through steadily, and a complete packet filed"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Coordinator's Office",
+      "currency": "FORM",
+      "ranks": [
+        "Offer Made",
+        "Documents Gathered",
+        "Forms Signed",
+        "Physical Sat",
+        "Enrollment Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "wp-first-paycheck-coaching",
+    "index": "714",
+    "domain": "Financial coaching",
+    "trade": "Pathway Edition — first-paycheck coaching at the wellness resource centre: budget, direct deposit, benefits enrollment",
+    "category": "Community Environmental Justice",
+    "certification": "The Consumer Financial Protection Bureau's (CFPB) consumer guidance on budgeting and building an emergency fund, which this session's budget and savings envelope are built from; the IRS's guidance for workers on Form W-4 and the Tax Withholding Estimator, read against the first stub at this same desk; HIPAA's Privacy Rule, for what a health-plan election on the benefits packet does and does not share outside the plan itself; 29 CFR 1910.22 for the walking-working surfaces the wellness centre shares with every other office; SAMHSA's guidance on help-seeking, for the coach's own check-in; Teamsters (IBT) benefit funds, named on the enrollment packet as one of the plans this pathway can lead to",
+    "name": "First-Paycheck Coaching",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ First-Paycheck Coaching VR",
+    "tagline": "Read the orientation packet, find the benefits items that need an election, set up direct deposit in order, build a budget for the real number, read the enrollment deadline correctly, move part of the check to savings, and ask a real benefits question",
+    "accent": 8373408,
+    "accentCss": "#7fc4a0",
+    "parSeconds": 330,
+    "badge": {
+      "id": "first-check-set",
+      "name": "First Check Set",
+      "note": "The packet read, the benefits items found, direct deposit set up in order, a budget built for the real number, savings moved and a benefits question actually asked"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Wellness Resource Centre",
+      "currency": "STUB",
+      "ranks": [
+        "First Check",
+        "Deposit Set",
+        "Budget Built",
+        "Benefits Elected",
+        "First-Paycheck Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
+  },
+  {
+    "id": "wp-graduation-and-alumni-mentors",
+    "index": "715",
+    "domain": "Workforce readiness",
+    "trade": "Pathway Edition — a graduation and alumni-mentor day",
+    "category": "Community Environmental Justice",
+    "certification": "Registered apprenticeship standards as a category — the credential this graduation actually marks progress toward; the OSHA Outreach Training Program's OSHA 10 card, named on the certificate table as one of the credentials this cohort is graduating with; Teamsters (IBT) apprenticeship and training programmes, whose local sponsors the alumni-mentor table on the floor; 29 CFR 1910.22 for the walking-working surfaces a crowded hall shares with every other floor; 29 CFR 1910.151 for the first-aid response a warm, packed room can turn into a real need; SAMHSA's guidance on help-seeking, for the coach's own closing check-in",
+    "name": "Graduation and Alumni-Mentor Day",
+    "weather": "clear",
+    "indoor": "service",
+    "district": null,
+    "title": "SmartCiti.X~ Graduation and Alumni-Mentor Day VR",
+    "tagline": "Check in, prep for the ceremony in order, hold through the remarks, find the alumni mentors on the floor, hold your composure, receive the certificate, have a real mentor conversation, and book the check-ins that keep the pathway going after today",
+    "accent": 15909195,
+    "accentCss": "#f2c14b",
+    "parSeconds": 340,
+    "badge": {
+      "id": "graduated",
+      "name": "Graduated",
+      "note": "Checked in, the ceremony prepped in order, the remarks held through, the mentors found, composure held for your name, the certificate received, a real mentor conversation had, and the check-ins booked"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Graduation Hall",
+      "currency": "COHORT",
+      "ranks": [
+        "Checked In",
+        "Ceremony Ready",
+        "Certificate Earned",
+        "Mentor Matched",
+        "Pathway Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];

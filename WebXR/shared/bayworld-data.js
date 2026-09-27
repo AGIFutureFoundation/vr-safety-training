@@ -190,7 +190,7 @@ export const BAY_ROADS = [
  */
 export const BAY_SITES = [
   { id: "port-container-terminal", name: "Port Container Terminal", zone: "port", position: [-340, 350],
-    programmes: ["port-operations", "rigging-lifting"], stations: ["mooring-line", "bunkering-watch", "crane-yard", "dock-crane"] },
+    programmes: ["wojrc-pathway-edition", "port-operations", "rigging-lifting"], stations: ["mooring-line", "bunkering-watch", "crane-yard", "dock-crane"] },
   { id: "port-rail-yard", name: "Port Rail Yard", zone: "port", position: [-416, 383],
     programmes: ["railroad-crafts"], stations: ["ra-roadway-worker-protection-and-job-briefing", "ra-tie-and-rail-replacement-with-track-machines"] },
   { id: "port-maintenance-shop", name: "Port Maintenance Shop", zone: "port", position: [-375, 293],

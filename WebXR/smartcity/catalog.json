@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 552
+      "stations": 560
     },
     "trades": {
       "entry": "trades/index.html",
@@ -69,6 +69,8 @@
         "track-access",
         "bus-depot-lift",
         "airport-ramp",
+        "wp-permit-study-and-knowledge-test",
+        "wp-warehouse-ride-along",
         "bus-yard-fuelling-and-brake-check",
         "tdl-cargo-securement-and-hours",
         "tdl-backing-and-docking",
@@ -464,6 +466,74 @@
       ]
     },
     {
+      "name": "Community Environmental Justice",
+      "stations": [
+        "wp-graduation-and-alumni-mentors",
+        "wp-first-paycheck-coaching",
+        "wp-apprenticeship-enrollment-day",
+        "wp-employer-meet-and-greet",
+        "wp-mock-interview-and-resume",
+        "wp-intake-and-pathway-planning",
+        "emergency-savings-and-predatory-lending",
+        "budget-with-irregular-income",
+        "pay-stub-and-withholding",
+        "debt-reduction-plan",
+        "credit-report-reading",
+        "first-period-evaluation",
+        "union-hall-and-dispatch",
+        "jobsite-orientation-and-osha-10",
+        "apprenticeship-application-and-test",
+        "apprenticeship-standards-reading",
+        "mentorship-and-succession",
+        "conflict-mediation-room",
+        "community-listening-session",
+        "crisis-communication-podium",
+        "ethics-and-conflict-of-interest",
+        "budget-tradeoff-hearing",
+        "coalition-building-table",
+        "constituent-service-desk",
+        "public-meeting-chair",
+        "civic-principles-briefing",
+        "wellness-asking-for-help-and-resources",
+        "wellness-substance-use-and-the-job",
+        "wellness-peer-support-conversation",
+        "wellness-shift-work-sleep-and-stress",
+        "trades-lineage-briefing",
+        "discharge-photo-doc",
+        "shoreline-sediment-grab",
+        "garden-soil-screen",
+        "community-soil-split",
+        "shelter-in-place-drill",
+        "youth-patrol-training",
+        "public-comment-prep",
+        "dust-plan-review",
+        "met-station-siting",
+        "haul-route-observation",
+        "fenceline-dust-monitor",
+        "odor-complaint-log",
+        "air-network-data-qa",
+        "sensor-colocation-check",
+        "air-sensor-install",
+        "decon-support-laborer",
+        "hazwoper-site-orientation",
+        "abatement-perimeter-awareness",
+        "retest-witnessing",
+        "parcel-status-walk",
+        "rad-meter-basics",
+        "smoke-day-outreach",
+        "results-return-visit",
+        "sample-kit-shipping",
+        "biomonitoring-consent",
+        "can-we-live-story",
+        "cv-difficult-conversation-across-difference",
+        "cv-grant-application-and-nonprofit-compliance",
+        "cv-restorative-justice-circle-facilitation",
+        "cv-neighborhood-emergency-block-captain",
+        "cv-voter-registration-drive-and-nonpartisan-conduct",
+        "cv-open-meeting-law-and-agenda-notice"
+      ]
+    },
+    {
       "name": "Youth Sports & Coaching",
       "stations": [
         "bb-dribble-moves-and-change-of-pace",
@@ -526,68 +596,6 @@
         "cafeteria-serving",
         "banquet-hot-hold",
         "ed-kitchen-receiving-and-warewash-sanitizing"
-      ]
-    },
-    {
-      "name": "Community Environmental Justice",
-      "stations": [
-        "emergency-savings-and-predatory-lending",
-        "budget-with-irregular-income",
-        "pay-stub-and-withholding",
-        "debt-reduction-plan",
-        "credit-report-reading",
-        "first-period-evaluation",
-        "union-hall-and-dispatch",
-        "jobsite-orientation-and-osha-10",
-        "apprenticeship-application-and-test",
-        "apprenticeship-standards-reading",
-        "mentorship-and-succession",
-        "conflict-mediation-room",
-        "community-listening-session",
-        "crisis-communication-podium",
-        "ethics-and-conflict-of-interest",
-        "budget-tradeoff-hearing",
-        "coalition-building-table",
-        "constituent-service-desk",
-        "public-meeting-chair",
-        "civic-principles-briefing",
-        "wellness-asking-for-help-and-resources",
-        "wellness-substance-use-and-the-job",
-        "wellness-peer-support-conversation",
-        "wellness-shift-work-sleep-and-stress",
-        "trades-lineage-briefing",
-        "discharge-photo-doc",
-        "shoreline-sediment-grab",
-        "garden-soil-screen",
-        "community-soil-split",
-        "shelter-in-place-drill",
-        "youth-patrol-training",
-        "public-comment-prep",
-        "dust-plan-review",
-        "met-station-siting",
-        "haul-route-observation",
-        "fenceline-dust-monitor",
-        "odor-complaint-log",
-        "air-network-data-qa",
-        "sensor-colocation-check",
-        "air-sensor-install",
-        "decon-support-laborer",
-        "hazwoper-site-orientation",
-        "abatement-perimeter-awareness",
-        "retest-witnessing",
-        "parcel-status-walk",
-        "rad-meter-basics",
-        "smoke-day-outreach",
-        "results-return-visit",
-        "sample-kit-shipping",
-        "biomonitoring-consent",
-        "can-we-live-story",
-        "cv-difficult-conversation-across-difference",
-        "cv-grant-application-and-nonprofit-compliance",
-        "cv-restorative-justice-circle-facilitation",
-        "cv-neighborhood-emergency-block-captain",
-        "cv-voter-registration-drive-and-nonpartisan-conduct",
-        "cv-open-meeting-law-and-agenda-notice"
       ]
     },
     {
@@ -4607,6 +4615,227 @@
         "levels": 20,
         "lessons": 1705,
         "tasks": 120,
+        "atBar": 20,
+        "partial": 0,
+        "stationsNeeded": 0,
+        "lessonBar": 75,
+        "note": "a lesson is one station step under one condition; see docs/ladders.md"
+      }
+    },
+    {
+      "id": "wojrc-pathway-edition",
+      "name": "Pathway Edition — wojrc.org",
+      "union": "Teamsters for warehouse and driving work, the building-trades apprenticeship programmes the pathway prepares people for, and SEIU/AFSCME for the public-benefit and wellness staff a participant meets along the way",
+      "certification": "Registered apprenticeship standards as a category, the OSHA Outreach Training Program's OSHA 10 course, FMCSA 49 CFR 380 Subpart F entry-level driver training with 49 CFR 383, 393 and 395, OSHA 29 CFR 1910.178 powered industrial trucks and ANSI/ITSDF B56.1, the Revised NIOSH Lifting Equation, HIPAA's Privacy Rule, CFPB and IRS consumer guidance, and SAMHSA's guidance on help-seeking — every credential and requirement stated only as the cited body publishes it, or as \"per the programme's requirements\" where this edition does not have a source for the organisation's own paperwork",
+      "summary": "The participant's own journey through the programmes wojrc.org describes, station by station: a coach helps you choose warehouse or Commercial Class A at intake, a resume and a mock interview get you ready to apply, a job fair puts you in front of the employers and the apprenticeship coordinator, a ride-along day and a permit study day try each track for real, an enrolment day signs the paperwork the programme's own requirements call for, a first paycheck is coached at the wellness resource centre, and a graduation day matches you with an alumni mentor. Those eight stations are followed by the job-readiness edition's own procedures, grouped here by the service they belong to — warehouse, Class A, apprenticeship, financial coaching and wellness — so the whole pathway reads as one line from a coach's first question to a signed mentor commitment. Only the sponsor's own words describe the organisation; everything else here is a procedure with its standard.",
+      "accent": "#e0a23f",
+      "stations": [
+        {
+          "app": "smartcity",
+          "id": "wp-intake-and-pathway-planning",
+          "why": "The pathway's first appointment: a coach helps an applicant choose warehouse or Commercial Class A from an honest self-assessment rather than a coin flip."
+        },
+        {
+          "app": "smartcity",
+          "id": "wp-mock-interview-and-resume",
+          "why": "Before any application goes in, a resume is built section by section and a mock interview is sat until the posture, the eye contact and the hardest question all hold steady."
+        },
+        {
+          "app": "smartcity",
+          "id": "wp-employer-meet-and-greet",
+          "why": "The job fair floor where the resume and the rehearsed pitch meet an actual employer table and the apprenticeship coordinator in person."
+        },
+        {
+          "app": "smartcity",
+          "id": "wp-warehouse-ride-along",
+          "why": "The warehouse track's first live day: a supervisor beside you on a real pallet-jack route, walking pace and the horn at every cross aisle."
+        },
+        {
+          "app": "smartcity",
+          "id": "wp-permit-study-and-knowledge-test",
+          "why": "The Class A track's first milestone: the manual studied honestly and the knowledge test sat without rushing, permit in hand at the end of it."
+        },
+        {
+          "app": "smartcity",
+          "id": "wp-apprenticeship-enrollment-day",
+          "why": "The paperwork day that turns an offer into an enrolment: documents, the drug-test consent actually understood before it is signed, a physical, and the coordinator's own checklist — every requirement stated only as the programme's own."
+        },
+        {
+          "app": "smartcity",
+          "id": "wp-first-paycheck-coaching",
+          "why": "The wellness resource centre's financial coaching desk the week the first check actually arrives: direct deposit, a budget for the real number, and a benefits election made before the window closes."
+        },
+        {
+          "app": "smartcity",
+          "id": "wp-graduation-and-alumni-mentors",
+          "why": "The pathway's last station: a certificate earned in front of the cohort, and an alumni mentor matched with real 30, 60 and 90-day check-ins booked before anyone leaves the hall."
+        },
+        {
+          "app": "smartcity",
+          "id": "forklift-dock",
+          "why": "Warehouse: the shared opener, where the forklift and the dock are where the training wojrc.org describes actually starts."
+        },
+        {
+          "app": "smartcity",
+          "id": "tdl-pallet-jack-and-racking",
+          "why": "Warehouse: the walkie pallet jack and the rack it feeds, inspected, rated and put away the standard's own way."
+        },
+        {
+          "app": "smartcity",
+          "id": "tdl-pick-pack-and-scan",
+          "why": "Warehouse: one pick wave from scanner to shipping label, with the forklift lane respected the whole way."
+        },
+        {
+          "app": "smartcity",
+          "id": "tdl-trailer-loading-and-dock-plate",
+          "why": "Warehouse: a dropped trailer loaded through a plate door that is rated, chocked and released the way the standard requires."
+        },
+        {
+          "app": "smartcity",
+          "id": "tdl-hazmat-labeling-and-segregation",
+          "why": "Warehouse: the hazmat cage at an outbound door, checked by the person whose signature goes on the shipper's certification."
+        },
+        {
+          "app": "smartcity",
+          "id": "tdl-lifting-and-ergonomics",
+          "why": "Warehouse: the manual handling under every warehouse job, scored the way the Revised NIOSH Lifting Equation actually scores it."
+        },
+        {
+          "app": "smartcity",
+          "id": "tdl-pretrip-inspection",
+          "why": "Class A: the pre-trip that entry-level driver training starts from, with every defect written up before the truck moves."
+        },
+        {
+          "app": "smartcity",
+          "id": "tdl-air-brake-test",
+          "why": "Class A: the in-cab air brake check a skills examiner watches, read against the manual's own figures."
+        },
+        {
+          "app": "smartcity",
+          "id": "tdl-coupling-and-uncoupling",
+          "why": "Class A: hooking and dropping a trailer the manual's way, so a high hook never leaves the yard."
+        },
+        {
+          "app": "smartcity",
+          "id": "tdl-backing-and-docking",
+          "why": "Class A: the alley dock that range training drills, with a spotter who stops the truck the moment they leave the mirror."
+        },
+        {
+          "app": "smartcity",
+          "id": "tdl-cargo-securement-and-hours",
+          "why": "Class A: a flatbed load secured by count and working load limit, driven inside an hours-of-service day the log can certify."
+        },
+        {
+          "app": "smartcity",
+          "id": "drive-city-route-and-turns",
+          "why": "Class A: the first time the learner drives the rig themselves, a block of right turns with the trailer behind."
+        },
+        {
+          "app": "smartcity",
+          "id": "drive-freeway-merge-and-following-distance",
+          "why": "Class A: up the ramp and into traffic at the wheel, with the handbook's own space cushion counted."
+        },
+        {
+          "app": "smartcity",
+          "id": "drive-mountain-grade-and-engine-brake",
+          "why": "Class A: a long downgrade driven on the engine, with a brake-fade warning answered the manual's way."
+        },
+        {
+          "app": "smartcity",
+          "id": "drive-night-fog-and-rail-crossing",
+          "why": "Class A: a placarded tank driven at night in fog, with the crossing stop 49 CFR 392 requires."
+        },
+        {
+          "app": "smartcity",
+          "id": "drive-backing-serpentine-and-alley-dock",
+          "why": "Class A: the yard station's own backing, driven, with the truck stopped the moment the spotter leaves the mirror."
+        },
+        {
+          "app": "smartcity",
+          "id": "drive-light-vehicle-fleet-and-forklift-course",
+          "why": "Class A: the two check-rides a terminal gives before the keys, a pool car and a forklift both driven load-low."
+        },
+        {
+          "app": "smartcity",
+          "id": "apprenticeship-standards-reading",
+          "why": "Apprenticeship: the briefing that opens the steps, reading a registered standard sourced and flat."
+        },
+        {
+          "app": "smartcity",
+          "id": "apprenticeship-application-and-test",
+          "why": "Apprenticeship: the way in, a recruitment notice read, the documents gathered, and an aptitude test sat at a steady pace."
+        },
+        {
+          "app": "smartcity",
+          "id": "jobsite-orientation-and-osha-10",
+          "why": "Apprenticeship: the first morning on site, with the OSHA 10 card understood as awareness and the orientation 29 CFR 1926.21 owes every new hand."
+        },
+        {
+          "app": "smartcity",
+          "id": "union-hall-and-dispatch",
+          "why": "Apprenticeship: the hall between jobs, a dispatch slip read for what it actually says before the morning is planned back from it."
+        },
+        {
+          "app": "smartcity",
+          "id": "first-period-evaluation",
+          "why": "Apprenticeship: the end of the first period, a guarded skills demonstration and the next rate read off the standard's own wage schedule."
+        },
+        {
+          "app": "smartcity",
+          "id": "trades-lineage-briefing",
+          "why": "Apprenticeship: the heritage opener, the trades as a lineage and a plain line around what this edition does and does not know."
+        },
+        {
+          "app": "smartcity",
+          "id": "credit-report-reading",
+          "why": "Financial coaching: the free report pulled from the right place, every line read and the errors disputed with both companies."
+        },
+        {
+          "app": "smartcity",
+          "id": "debt-reduction-plan",
+          "why": "Financial coaching: every debt on the table sorted highest rate first, with a finish date nothing gets to move."
+        },
+        {
+          "app": "smartcity",
+          "id": "pay-stub-and-withholding",
+          "why": "Financial coaching: the first stub read properly, the rate and the hours checked and the W-4 checked with the IRS's own estimator."
+        },
+        {
+          "app": "smartcity",
+          "id": "budget-with-irregular-income",
+          "why": "Financial coaching: construction pay budgeted on the lean month, with the good months feeding a buffer."
+        },
+        {
+          "app": "smartcity",
+          "id": "emergency-savings-and-predatory-lending",
+          "why": "Financial coaching: an emergency fund built automatically and every loan offer read by its APR before anything is signed."
+        },
+        {
+          "app": "smartcity",
+          "id": "wellness-shift-work-sleep-and-stress",
+          "why": "Wellness: the week the roster flips to nights, with a stress check rated honestly and a block of anchor sleep held."
+        },
+        {
+          "app": "smartcity",
+          "id": "wellness-peer-support-conversation",
+          "why": "Wellness: a cohort-mate who cannot keep doing this, met with the signs noticed first and a direct question asked plainly."
+        },
+        {
+          "app": "smartcity",
+          "id": "wellness-substance-use-and-the-job",
+          "why": "Wellness: four in the morning on the dock, the forklift key taken before the conversation and the doors named that do not cost the job."
+        },
+        {
+          "app": "smartcity",
+          "id": "wellness-asking-for-help-and-resources",
+          "why": "Wellness: the week your own life goes sideways, each problem matched to its door and the crisis line told apart from the case manager."
+        }
+      ],
+      "completionRule": "every station has a passing attempt (stars >= 2, no unsafe action)",
+      "ladder": {
+        "levels": 20,
+        "lessons": 1592,
+        "tasks": 126,
         "atBar": 20,
         "partial": 0,
         "stationsNeeded": 0,
@@ -8732,6 +8961,670 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "wp-graduation-and-alumni-mentors",
+      "name": "Graduation and Alumni-Mentor Day",
+      "title": "SmartCiti.X~ Graduation and Alumni-Mentor Day VR",
+      "tagline": "Check in, prep for the ceremony in order, hold through the remarks, find the alumni mentors on the floor, hold your composure, receive the certificate, have a real mentor conversation, and book the check-ins that keep the pathway going after today",
+      "category": "Community Environmental Justice",
+      "domain": "Workforce readiness",
+      "trade": "Pathway Edition — a graduation and alumni-mentor day",
+      "union": null,
+      "certification": "Registered apprenticeship standards as a category — the credential this graduation actually marks progress toward; the OSHA Outreach Training Program's OSHA 10 card, named on the certificate table as one of the credentials this cohort is graduating with; Teamsters (IBT) apprenticeship and training programmes, whose local sponsors the alumni-mentor table on the floor; 29 CFR 1910.22 for the walking-working surfaces a crowded hall shares with every other floor; 29 CFR 1910.151 for the first-aid response a warm, packed room can turn into a real need; SAMHSA's guidance on help-seeking, for the coach's own closing check-in",
+      "accent": "#f2c14b",
+      "parSeconds": 340,
+      "weather": "clear",
+      "indoor": "service",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "hold",
+        "find",
+        "gauge",
+        "track",
+        "drag",
+        "turn"
+      ],
+      "badge": {
+        "id": "graduated",
+        "name": "Graduated",
+        "note": "Checked in, the ceremony prepped in order, the remarks held through, the mentors found, composure held for your name, the certificate received, a real mentor conversation had, and the check-ins booked"
+      },
+      "meshes": 203,
+      "lights": 0,
+      "overBudget": false,
+      "index": "715",
+      "flat": false,
+      "system": "Graduation Hall",
+      "currency": "COHORT",
+      "ranks": [
+        "Checked In",
+        "Ceremony Ready",
+        "Certificate Earned",
+        "Mentor Matched",
+        "Pathway Certified"
+      ],
+      "awards": [
+        {
+          "id": "found-the-mentors",
+          "name": "Found The Mentors",
+          "note": "The ceremony prep held in order and the mentors found clean"
+        },
+        {
+          "id": "steady-crowd",
+          "name": "Steady Crowd",
+          "note": "No unsafe action anywhere on the floor"
+        },
+        {
+          "id": "held-composure",
+          "name": "Held Composure",
+          "note": "The composure track carried without a break"
+        },
+        {
+          "id": "clean-graduation",
+          "name": "Clean Graduation",
+          "note": "No corrections anywhere"
+        },
+        {
+          "id": "honest-readiness",
+          "name": "Honest Readiness",
+          "note": "The readiness gauge committed near the middle of the band"
+        },
+        {
+          "id": "on-schedule-day",
+          "name": "On-Schedule Day",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=wp-graduation-and-alumni-mentors"
+    },
+    {
+      "app": "smartcity",
+      "id": "wp-first-paycheck-coaching",
+      "name": "First-Paycheck Coaching",
+      "title": "SmartCiti.X~ First-Paycheck Coaching VR",
+      "tagline": "Read the orientation packet, find the benefits items that need an election, set up direct deposit in order, build a budget for the real number, read the enrollment deadline correctly, move part of the check to savings, and ask a real benefits question",
+      "category": "Community Environmental Justice",
+      "domain": "Financial coaching",
+      "trade": "Pathway Edition — first-paycheck coaching at the wellness resource centre: budget, direct deposit, benefits enrollment",
+      "union": null,
+      "certification": "The Consumer Financial Protection Bureau's (CFPB) consumer guidance on budgeting and building an emergency fund, which this session's budget and savings envelope are built from; the IRS's guidance for workers on Form W-4 and the Tax Withholding Estimator, read against the first stub at this same desk; HIPAA's Privacy Rule, for what a health-plan election on the benefits packet does and does not share outside the plan itself; 29 CFR 1910.22 for the walking-working surfaces the wellness centre shares with every other office; SAMHSA's guidance on help-seeking, for the coach's own check-in; Teamsters (IBT) benefit funds, named on the enrollment packet as one of the plans this pathway can lead to",
+      "accent": "#7fc4a0",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": "service",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "hold",
+        "find",
+        "sequence",
+        "gauge",
+        "track",
+        "drag",
+        "turn"
+      ],
+      "badge": {
+        "id": "first-check-set",
+        "name": "First Check Set",
+        "note": "The packet read, the benefits items found, direct deposit set up in order, a budget built for the real number, savings moved and a benefits question actually asked"
+      },
+      "meshes": 123,
+      "lights": 0,
+      "overBudget": false,
+      "index": "714",
+      "flat": false,
+      "system": "Wellness Resource Centre",
+      "currency": "STUB",
+      "ranks": [
+        "First Check",
+        "Deposit Set",
+        "Budget Built",
+        "Benefits Elected",
+        "First-Paycheck Certified"
+      ],
+      "awards": [
+        {
+          "id": "packet-read",
+          "name": "Packet Read",
+          "note": "The orientation packet held through and the benefits items found clean"
+        },
+        {
+          "id": "nothing-to-a-caller",
+          "name": "Nothing To A Caller",
+          "note": "No unsafe action anywhere in the session"
+        },
+        {
+          "id": "held-the-budget",
+          "name": "Held The Budget",
+          "note": "The budget track carried without a break"
+        },
+        {
+          "id": "clean-first-check",
+          "name": "Clean First Check",
+          "note": "No corrections anywhere"
+        },
+        {
+          "id": "honest-confidence",
+          "name": "Honest Confidence",
+          "note": "The confidence gauge committed near the middle of the band"
+        },
+        {
+          "id": "one-sitting-set",
+          "name": "One-Sitting Set",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=wp-first-paycheck-coaching"
+    },
+    {
+      "app": "smartcity",
+      "id": "wp-apprenticeship-enrollment-day",
+      "name": "Apprenticeship Enrollment Day",
+      "title": "SmartCiti.X~ Apprenticeship Enrollment Day VR",
+      "tagline": "Gather the documents, sign the forms in the order that makes each one mean something, read the coordinator's checklist, understand the drug-test consent before you sign it, sit the physical without fidgeting, and file a complete packet",
+      "category": "Community Environmental Justice",
+      "domain": "Apprenticeship navigation",
+      "trade": "Pathway Edition — the apprenticeship enrolment paperwork day: documents, drug-test consent, the physical and the coordinator's checklist",
+      "union": null,
+      "certification": "Registered apprenticeship standards as a category — the enrolment paperwork this whole day exists to complete, per the apprenticeship standard the applicant is being indentured under; the OSHA Outreach Training Program's OSHA 10 card, one of the documents the coordinator's checklist checks for; HIPAA's Privacy Rule, for what the physical's results may and may not be shared with anyone outside the clinician who performs it; 29 CFR 1910.151 for the medical-services context a workplace physical sits inside; 29 CFR 1910.22 for the walking-working surfaces every office and clinic waiting room shares; Teamsters (IBT) apprenticeship and training programmes, named on the coordinator's own checklist as the body running today's enrollment",
+      "accent": "#8a6fd8",
+      "parSeconds": 340,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "hold",
+        "gauge",
+        "track",
+        "turn",
+        "drag"
+      ],
+      "badge": {
+        "id": "enrolled",
+        "name": "Enrolled",
+        "note": "Documents gathered, every form signed in order, the checklist read, the consent understood before it was signed, the physical sat through steadily, and a complete packet filed"
+      },
+      "meshes": 143,
+      "lights": 0,
+      "overBudget": false,
+      "index": "713",
+      "flat": false,
+      "system": "Coordinator's Office",
+      "currency": "FORM",
+      "ranks": [
+        "Offer Made",
+        "Documents Gathered",
+        "Forms Signed",
+        "Physical Sat",
+        "Enrollment Certified"
+      ],
+      "awards": [
+        {
+          "id": "full-folder",
+          "name": "Full Folder",
+          "note": "Every document gathered and the checklist's own gaps found clean"
+        },
+        {
+          "id": "signed-informed",
+          "name": "Signed Informed",
+          "note": "No unsafe action anywhere in the run"
+        },
+        {
+          "id": "held-steady",
+          "name": "Held Steady",
+          "note": "The physical stillness track carried without a break"
+        },
+        {
+          "id": "clean-enrollment",
+          "name": "Clean Enrollment",
+          "note": "No corrections anywhere"
+        },
+        {
+          "id": "honest-concerns",
+          "name": "Honest Concerns",
+          "note": "The concerns gauge committed near the middle of the band"
+        },
+        {
+          "id": "one-visit-enrolled",
+          "name": "One-Visit Enrolled",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=wp-apprenticeship-enrollment-day"
+    },
+    {
+      "app": "smartcity",
+      "id": "wp-permit-study-and-knowledge-test",
+      "name": "Permit Study and Knowledge-Test Day",
+      "title": "SmartCiti.X~ Permit Study and Knowledge-Test Day VR",
+      "tagline": "Read the assigned chapter, work the study routine in order, hold the practice quiz honestly, find the gaps in your notes, bring the right documents to the window, sit the knowledge test without rushing, and book behind-the-wheel training next",
+      "category": "Mobility & Transit",
+      "domain": "Commercial Driving",
+      "trade": "Pathway Edition — a Class A permit study session and knowledge-test day",
+      "union": null,
+      "certification": "FMCSA 49 CFR 380 Subpart F entry-level driver training, whose theory curriculum is exactly what this study session works through before the permit; 49 CFR 383 for the commercial driver's license knowledge and skills tests this day's test is the first of; the state CDL handbook, the actual book the study routine and the practice quiz are built from; CVSA roadside inspection practice, one of the general-knowledge topics the notes board checks for; 29 CFR 1910.151 for the first-aid response a testing room's own stress can turn into a real need; Teamsters (IBT) driver training programmes, which this permit is the first document toward",
+      "accent": "#5fb8f0",
+      "parSeconds": 330,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "hold",
+        "sequence",
+        "track",
+        "find",
+        "gauge",
+        "turn",
+        "drag"
+      ],
+      "badge": {
+        "id": "permit-earned",
+        "name": "Permit Earned",
+        "note": "The chapter read, the study routine held in order, the practice quiz honest, the notes gaps found, the right documents brought, the test sat clean, and behind-the-wheel training booked"
+      },
+      "meshes": 132,
+      "lights": 0,
+      "overBudget": false,
+      "index": "712",
+      "flat": false,
+      "system": "Testing Window",
+      "currency": "CHAPTER",
+      "ranks": [
+        "Studying",
+        "Practice Passed",
+        "Test Sat",
+        "Permit Filed",
+        "Knowledge Test Certified"
+      ],
+      "awards": [
+        {
+          "id": "no-gaps",
+          "name": "No Gaps",
+          "note": "The chapter held through and the notes gaps found clean"
+        },
+        {
+          "id": "own-answers",
+          "name": "Own Answers",
+          "note": "No unsafe action anywhere in the run"
+        },
+        {
+          "id": "held-the-quiz",
+          "name": "Held The Quiz",
+          "note": "The practice quiz track carried without a break"
+        },
+        {
+          "id": "clean-test-day",
+          "name": "Clean Test Day",
+          "note": "No corrections anywhere"
+        },
+        {
+          "id": "steady-nerves",
+          "name": "Steady Nerves",
+          "note": "The confidence gauge committed near the middle of the band"
+        },
+        {
+          "id": "one-sitting-pass",
+          "name": "One-Sitting Pass",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=wp-permit-study-and-knowledge-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "wp-warehouse-ride-along",
+      "name": "Warehouse Ride-Along Day",
+      "title": "SmartCiti.X~ Warehouse Ride-Along Day VR",
+      "tagline": "Report in, PPE checked in order, the route briefed, the truck pre-tripped, two legs driven at walking pace with the horn at every cross aisle, a load raised and held, and the truck squared and parked before the debrief",
+      "category": "Mobility & Transit",
+      "domain": "Warehouse & Distribution",
+      "trade": "Pathway Edition — a warehouse ride-along day beside a supervisor on a live pallet-jack route",
+      "union": null,
+      "certification": "OSHA 29 CFR 1910.178 powered industrial trucks, which covers motorized hand trucks and requires operator training and evaluation under paragraph (l); ANSI/ITSDF B56.1 for low-lift trucks like the walkie pallet jack this ride-along is driven on; 29 CFR 1910.22 walking-working surfaces for the aisles and the pedestrian lane a ride-along shares with everyone else on the floor; the Revised NIOSH Lifting Equation for the hand work around the pallet; ANSI/ISEA 107 for the high-visibility vest a ride-along wears from the first step onto the floor; Teamsters (IBT) warehouse locals' powered-truck training programmes, which this ride-along day is a first taste of",
+      "accent": "#f0a13a",
+      "parSeconds": 340,
+      "weather": "clear",
+      "indoor": "garage",
+      "district": null,
+      "steps": 14,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "sequence",
+        "hold",
+        "find",
+        "drive",
+        "gauge",
+        "turn",
+        "drag"
+      ],
+      "badge": {
+        "id": "ride-along-clean",
+        "name": "Ride-Along Clean",
+        "note": "PPE checked in order, the pre-trip found clean, both legs driven at walking pace with the horn sounded and the crossings answered, and the truck squared away"
+      },
+      "meshes": 161,
+      "lights": 0,
+      "overBudget": false,
+      "index": "711",
+      "flat": false,
+      "system": "Floor Ride-Along",
+      "currency": "AISLE",
+      "ranks": [
+        "Sideline",
+        "PPE Checked",
+        "Route Driven",
+        "Load Set",
+        "Ride-Along Certified"
+      ],
+      "awards": [
+        {
+          "id": "clean-pretrip",
+          "name": "Clean Pre-Trip",
+          "note": "The pre-trip defects found without a hint"
+        },
+        {
+          "id": "off-the-forks",
+          "name": "Off The Forks",
+          "note": "Never rode the forks, blocked the exit, wore headphones on the floor or looked at a phone mid-instruction"
+        },
+        {
+          "id": "steady-legs",
+          "name": "Steady Legs",
+          "note": "Both driven legs held in lane and band the whole way"
+        },
+        {
+          "id": "clean-shift",
+          "name": "Clean Shift",
+          "note": "No corrections anywhere on the floor"
+        },
+        {
+          "id": "honest-comfort",
+          "name": "Honest Comfort",
+          "note": "The comfort gauge committed near the middle of the band"
+        },
+        {
+          "id": "full-shift-pace",
+          "name": "Full-Shift Pace",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=wp-warehouse-ride-along"
+    },
+    {
+      "app": "smartcity",
+      "id": "wp-employer-meet-and-greet",
+      "name": "Employer Meet-and-Greet",
+      "title": "SmartCiti.X~ Employer Meet-and-Greet VR",
+      "tagline": "Read the fair map, find the three tables that matter, rehearse the pitch, greet an employer at a steady volume, hold a real conversation with the coordinator, hand off the resume and swap contact information before the floor closes",
+      "category": "Community Environmental Justice",
+      "domain": "Workforce readiness",
+      "trade": "Pathway Edition — an employer meet-and-greet and a job-fair walk",
+      "union": null,
+      "certification": "Registered apprenticeship standards as a category — what the coordinator's table on this floor is actually recruiting toward; the OSHA Outreach Training Program's OSHA 10 card, one of the first questions an employer table asks about; Teamsters (IBT) apprenticeship and driver training programmes, named on the union table's own sign; 29 CFR 1910.22 for the walking-working surfaces a crowded hall shares with every other floor; 29 CFR 1910.151 for the first-aid response a warm, packed room can turn into a real need; SAMHSA's guidance on help-seeking, for the coach's own debrief at the end of the floor",
+      "accent": "#e0834a",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": "service",
+      "district": null,
+      "steps": 12,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "hold",
+        "find",
+        "sequence",
+        "gauge",
+        "track",
+        "drag",
+        "turn"
+      ],
+      "badge": {
+        "id": "floor-worked",
+        "name": "Floor Worked",
+        "note": "The map read, the right three tables found, the pitch rehearsed in order, both conversations held steady, the resume handed off and contact information swapped before the close"
+      },
+      "meshes": 187,
+      "lights": 0,
+      "overBudget": false,
+      "index": "710",
+      "flat": false,
+      "system": "Job Fair Floor",
+      "currency": "TABLE",
+      "ranks": [
+        "Walking In",
+        "Floor Mapped",
+        "Pitch Given",
+        "Contact Made",
+        "Job Fair Certified"
+      ],
+      "awards": [
+        {
+          "id": "three-tables",
+          "name": "Three Tables",
+          "note": "The map held through and the right three tables found clean"
+        },
+        {
+          "id": "worked-the-floor",
+          "name": "Worked The Floor",
+          "note": "No unsafe action anywhere on the floor"
+        },
+        {
+          "id": "held-the-room",
+          "name": "Held The Room",
+          "note": "The coordinator conversation carried without a break"
+        },
+        {
+          "id": "clean-floor",
+          "name": "Clean Floor",
+          "note": "No corrections anywhere"
+        },
+        {
+          "id": "steady-volume",
+          "name": "Steady Volume",
+          "note": "The volume gauge committed near the middle of the band"
+        },
+        {
+          "id": "worked-fast",
+          "name": "Worked Fast",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=wp-employer-meet-and-greet"
+    },
+    {
+      "app": "smartcity",
+      "id": "wp-mock-interview-and-resume",
+      "name": "Mock Interview and Resume",
+      "title": "SmartCiti.X~ Mock Interview and Resume VR",
+      "tagline": "Build the resume section by section, sit a mock interview with your posture and eye contact held, answer the hardest question honestly, and leave with a resume printed, signed and filed with its reference",
+      "category": "Community Environmental Justice",
+      "domain": "Workforce readiness",
+      "trade": "Pathway Edition — a mock interview and a resume for a union apprenticeship application",
+      "union": null,
+      "certification": "Registered apprenticeship standards as a category — the written apprenticeship standard the coordinator's notice on the wall is drawn from, since the resume and the interview both exist to get an application read against it; the OSHA Outreach Training Program's OSHA 10 card, one of the lines the resume has to carry; Teamsters (IBT) apprenticeship and driver training programmes, named on the posting board as one of the routes this resume could open; 29 CFR 1910.22 for the walking-working surfaces an interview room shares with every other office; 29 CFR 1910.151 for the first-aid posture a warm, crowded room can turn into a real need; SAMHSA's guidance on help-seeking, for the coach's own check-in at the end",
+      "accent": "#d8a24a",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "hold",
+        "find",
+        "sequence",
+        "gauge",
+        "track",
+        "turn",
+        "drag"
+      ],
+      "badge": {
+        "id": "resume-ready",
+        "name": "Resume Ready",
+        "note": "The resume built in order, the mock interview held with posture and eye contact through every interruption, the hard question answered honestly, and the packet printed, signed and filed"
+      },
+      "meshes": 128,
+      "lights": 0,
+      "overBudget": false,
+      "index": "709",
+      "flat": false,
+      "system": "Interview Room",
+      "currency": "PAGE",
+      "ranks": [
+        "Draft",
+        "Resume Built",
+        "Interview Sat",
+        "Packet Filed",
+        "Interview Certified"
+      ],
+      "awards": [
+        {
+          "id": "gaps-found",
+          "name": "Gaps Found",
+          "note": "Every gap in the draft resume found clean"
+        },
+        {
+          "id": "steady-room",
+          "name": "Steady Room",
+          "note": "No unsafe action anywhere in the run"
+        },
+        {
+          "id": "held-the-poise",
+          "name": "Held The Poise",
+          "note": "The poise track carried without a break"
+        },
+        {
+          "id": "clean-packet",
+          "name": "Clean Packet",
+          "note": "No corrections anywhere"
+        },
+        {
+          "id": "honest-answer",
+          "name": "Honest Answer",
+          "note": "The confidence gauge committed near the middle of the band"
+        },
+        {
+          "id": "one-sitting",
+          "name": "One Sitting",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=wp-mock-interview-and-resume"
+    },
+    {
+      "app": "smartcity",
+      "id": "wp-intake-and-pathway-planning",
+      "name": "Intake and Pathway Planning",
+      "title": "SmartCiti.X~ Intake and Pathway Planning VR",
+      "tagline": "Sign in, bring the documents, read both tracks through, rate your own readiness honestly, sit the quiz without copying, confirm the track, and leave with a plan, an appointment and a signature",
+      "category": "Community Environmental Justice",
+      "domain": "Workforce readiness",
+      "trade": "Pathway Edition intake — choosing between the warehouse and Commercial Class A tracks with a coach",
+      "union": null,
+      "certification": "Registered apprenticeship standards as a category — the written apprenticeship standard a sponsor registers with the U.S. Department of Labor or a State Apprenticeship Agency, which the coach explains as one of the tracks intake can lead toward; the OSHA Outreach Training Program's OSHA 10 course, named on the comparison board as part of what each track eventually asks for; the Consumer Financial Protection Bureau's (CFPB) consumer guidance, cited on the intake packet's benefits page; 29 CFR 1910.22 for the walking-working surfaces every office and every warehouse floor shares; 29 CFR 1910.151 for the medical-services context the dizzy applicant in the waiting area is handled inside; SAMHSA's guidance on help-seeking, for the coach's own check-in",
+      "accent": "#7fa8d8",
+      "parSeconds": 310,
+      "weather": "clear",
+      "indoor": "clinic",
+      "district": null,
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "hold",
+        "gauge",
+        "track",
+        "drag",
+        "sequence",
+        "turn"
+      ],
+      "badge": {
+        "id": "pathway-set",
+        "name": "Pathway Set",
+        "note": "Signed in under your own name, both tracks read and compared, the assessment honest, the track confirmed, and a plan signed with an appointment booked"
+      },
+      "meshes": 156,
+      "lights": 0,
+      "overBudget": false,
+      "index": "708",
+      "flat": false,
+      "system": "Intake Desk",
+      "currency": "STEP",
+      "ranks": [
+        "Walk-In",
+        "Assessed",
+        "Track Confirmed",
+        "Plan Signed",
+        "Intake Certified"
+      ],
+      "awards": [
+        {
+          "id": "read-both",
+          "name": "Read Both Tracks",
+          "note": "The comparison board held through and the documents found clean"
+        },
+        {
+          "id": "no-shortcuts",
+          "name": "No Shortcuts",
+          "note": "No unsafe action anywhere in the run"
+        },
+        {
+          "id": "own-words",
+          "name": "Own Words",
+          "note": "The readiness gauge committed near the middle of the band"
+        },
+        {
+          "id": "clean-intake",
+          "name": "Clean Intake",
+          "note": "No corrections anywhere"
+        },
+        {
+          "id": "steady-quiz",
+          "name": "Steady Quiz",
+          "note": "Every timed passage carried without a break"
+        },
+        {
+          "id": "one-visit",
+          "name": "One Visit",
+          "note": "Finished inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=wp-intake-and-pathway-planning"
     },
     {
       "app": "smartcity",
@@ -29090,7 +29983,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 256,
+      "meshes": 253,
       "lights": 0,
       "overBudget": false,
       "index": "92",
@@ -29750,7 +30643,7 @@
         "name": "Buffer Held",
         "note": "Every clump on the map treated at the label rate, the rail's buffer never crossed — first time"
       },
-      "meshes": 267,
+      "meshes": 252,
       "lights": 0,
       "overBudget": false,
       "index": "100",

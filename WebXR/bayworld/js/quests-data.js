@@ -4084,6 +4084,90 @@ export const SIDE_QUESTS = [
       "xp": 250,
       "badge": "Grounds & Landscaping Crew — Capstone"
     }
+  },
+  {
+    "id": "bw-side-wojrc-pathway-edition-opener",
+    "title": "Pathway Edition — wojrc.org — First Shift",
+    "giver": "the programme's training lead",
+    "site": "Pathway Edition — wojrc.org",
+    "kind": "side",
+    "tier": 1,
+    "requires": null,
+    "programmeId": "wojrc-pathway-edition",
+    "role": "opener",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Pathway Edition — wojrc.org",
+        "text": "The training lead meets you at Pathway Edition — wojrc.org and points you to the first bench."
+      },
+      {
+        "type": "station",
+        "target": "wp-intake-and-pathway-planning",
+        "text": "The pathway's first appointment: a coach helps an applicant choose warehouse or Commercial Class A from an honest self-assessment rather than a coin flip."
+      },
+      {
+        "type": "station",
+        "target": "wp-mock-interview-and-resume",
+        "text": "Before any application goes in, a resume is built section by section and a mock interview is sat until the posture, the eye contact and the hardest question all hold steady."
+      },
+      {
+        "type": "station",
+        "target": "wp-employer-meet-and-greet",
+        "text": "The job fair floor where the resume and the rehearsed pitch meet an actual employer table and the apprenticeship coordinator in person."
+      },
+      {
+        "type": "talk",
+        "target": "training-lead",
+        "text": "\"The participant's own journey through the programmes wojrc.org describes, station by station: a coach helps you choose warehouse or Commercial Class A at intake, a resume and a mock interview get you ready to apply, a job fair puts you in front of the employers and the apprenticeship coordinator, a ride-along day and a permit study day try each track for real, an enrolment day signs the paperwork the programme's own requirements call for, a first paycheck is coached at the wellness resource centre, and a graduation day matches you with an alumni mentor. Those eight stations are followed by the job-readiness edition's own procedures, grouped here by the service they belong to — warehouse, Class A, apprenticeship, financial coaching and wellness — so the whole pathway reads as one line from a coach's first question to a signed mentor commitment. Only the sponsor's own words describe the organisation; everything else here is a procedure with its standard.\""
+      }
+    ],
+    "reward": {
+      "xp": 100,
+      "badge": "Pathway Edition — wojrc.org — Opener"
+    }
+  },
+  {
+    "id": "bw-side-wojrc-pathway-edition-capstone",
+    "title": "Pathway Edition — wojrc.org — Capstone",
+    "giver": "the programme's certifying evaluator",
+    "site": "Pathway Edition — wojrc.org",
+    "kind": "side",
+    "tier": 2,
+    "requires": "bw-side-wojrc-pathway-edition-opener",
+    "programmeId": "wojrc-pathway-edition",
+    "role": "capstone",
+    "steps": [
+      {
+        "type": "goto",
+        "target": "Pathway Edition — wojrc.org",
+        "text": "The certifying evaluator is waiting at the last bench, sign-off sheet in hand."
+      },
+      {
+        "type": "station",
+        "target": "wellness-peer-support-conversation",
+        "text": "Wellness: a cohort-mate who cannot keep doing this, met with the signs noticed first and a direct question asked plainly."
+      },
+      {
+        "type": "station",
+        "target": "wellness-substance-use-and-the-job",
+        "text": "Wellness: four in the morning on the dock, the forklift key taken before the conversation and the doors named that do not cost the job."
+      },
+      {
+        "type": "station",
+        "target": "wellness-asking-for-help-and-resources",
+        "text": "Wellness: the week your own life goes sideways, each problem matched to its door and the crisis line told apart from the case manager."
+      },
+      {
+        "type": "talk",
+        "target": "certifying-evaluator",
+        "text": "\"Certified under: Registered apprenticeship standards as a category, the OSHA Outreach Training Program's OSHA 10 course, FMCSA 49 CFR 380 Subpart F entry-level driver training with 49 CFR 383, 393 and 395, OSHA 29 CFR 1910.178 powered industrial trucks and ANSI/ITSDF B56.1, the Revised NIOSH Lifting Equation, HIPAA's Privacy Rule, CFPB and IRS consumer guidance, and SAMHSA's guidance on help-seeking — every credential and requirement stated only as the cited body publishes it, or as \"per the programme's requirements\" where this edition does not have a source for the organisation's own paperwork\""
+      }
+    ],
+    "reward": {
+      "xp": 250,
+      "badge": "Pathway Edition — wojrc.org — Capstone"
+    }
   }
 ];
 
