@@ -18,14 +18,47 @@
     "corpusMean": 96,
     "proceduresScored": 525,
     "below90": [
-      { "id": "hunters-point", "score": 73 },
-      { "id": "can-we-live-story", "score": 73 },
-      { "id": "civic-principles-briefing", "score": 81 },
-      { "id": "trades-lineage-briefing", "score": 84 },
-      { "id": "apprenticeship-standards-reading", "score": 88 }
+      {
+        "id": "hunters-point",
+        "score": 73
+      },
+      {
+        "id": "can-we-live-story",
+        "score": 73
+      },
+      {
+        "id": "civic-principles-briefing",
+        "score": 81
+      },
+      {
+        "id": "trades-lineage-briefing",
+        "score": 84
+      },
+      {
+        "id": "apprenticeship-standards-reading",
+        "score": 88
+      }
     ],
-    "dimensions": ["variety", "decisions", "explanation", "grounding", "standards", "feedback", "scene", "originality"],
-    "weights": { "variety": 0.18, "decisions": 0.2, "explanation": 0.18, "grounding": 0.14, "standards": 0.14, "feedback": 0.15, "scene": 0.1, "originality": 0.05 },
+    "dimensions": [
+      "variety",
+      "decisions",
+      "explanation",
+      "grounding",
+      "standards",
+      "feedback",
+      "scene",
+      "originality"
+    ],
+    "weights": {
+      "variety": 0.18,
+      "decisions": 0.2,
+      "explanation": 0.18,
+      "grounding": 0.14,
+      "standards": 0.14,
+      "feedback": 0.15,
+      "scene": 0.1,
+      "originality": 0.05
+    },
     "source": "node tools/eval_content.mjs --json (writes tools/eval-content.json); tools/eval_content.mjs header and WEIGHTS constant"
   },
   "corpusTotals": {
@@ -74,25 +107,79 @@
     "runProfiles": 6,
     "userAgentRulesUnshadowed": 22,
     "urlOnlyDevices": 11,
-    "byClass": { "monocular": 8, "goggle": 9, "helmet": 3, "mr": 2, "vr": 11 },
+    "byClass": {
+      "monocular": 8,
+      "goggle": 9,
+      "helmet": 3,
+      "mr": 2,
+      "vr": 11
+    },
     "source": "node tools/check_devices.mjs"
   },
   "districts": {
     "count": 4,
-    "names": ["golden-gate-deck", "bay-underwater", "gym-court", "open-range"],
+    "names": [
+      "golden-gate-deck",
+      "bay-underwater",
+      "gym-court",
+      "open-range"
+    ],
     "meshBudgetCeilingPerDistrict": 120,
     "source": "node tools/check_districts.mjs"
   },
   "engine": {
-    "stepKinds": ["select", "sequence", "find", "gauge", "hold", "track", "turn", "drag", "drive"],
+    "stepKinds": [
+      "select",
+      "sequence",
+      "find",
+      "gauge",
+      "hold",
+      "track",
+      "turn",
+      "drag",
+      "drive"
+    ],
     "stepKindCount": 9,
-    "weatherKinds": ["clear", "overcast", "rain", "fog", "wind", "storm", "smoke", "heat-haze"],
+    "weatherKinds": [
+      "clear",
+      "overcast",
+      "rain",
+      "fog",
+      "wind",
+      "storm",
+      "smoke",
+      "heat-haze"
+    ],
     "weatherKindCount": 8,
-    "ambientEventKinds": ["weather-shift", "vehicle-pass", "crew-walkthrough", "radio-call", "dropped-tool", "mast-light"],
+    "ambientEventKinds": [
+      "weather-shift",
+      "vehicle-pass",
+      "crew-walkthrough",
+      "radio-call",
+      "dropped-tool",
+      "mast-light"
+    ],
     "ambientEventKindCount": 6,
-    "tradeOutfits": ["construction", "clinical", "marine", "kitchen", "office", "sport", "firefighter", "diver"],
+    "tradeOutfits": [
+      "construction",
+      "clinical",
+      "marine",
+      "kitchen",
+      "office",
+      "sport",
+      "firefighter",
+      "diver"
+    ],
     "tradeOutfitCount": 8,
-    "score": { "stepPoints": 100, "wrongStepPenalty": 25, "hazardPenalty": 50, "maxCombo": 2.0, "interruptPoints": 120, "interruptSpeedBonus": 60, "maxLevel": 33 },
+    "score": {
+      "stepPoints": 100,
+      "wrongStepPenalty": 25,
+      "hazardPenalty": 50,
+      "maxCombo": 2.0,
+      "interruptPoints": 120,
+      "interruptSpeedBonus": 60,
+      "maxLevel": 33
+    },
     "source": "WebXR/shared/game.js; WebXR/shared/weather.js WEATHER_KINDS; WebXR/shared/events.js AMBIENT_KINDS; WebXR/shared/kit.js OUTFITS; tools/eval_content.mjs KINDS constant"
   },
   "kitAndScenery": {
@@ -119,13 +206,41 @@
     "stationsSampled": 49,
     "qualityScore": 91,
     "subScores": {
-      "schemaValidity": { "value": 1.0, "weight": 30, "contribution": 30.0 },
-      "actionBalance": { "value": 0.70, "weight": 15, "contribution": 10.5 },
-      "hazardCoverage": { "value": 1.0, "weight": 10, "contribution": 10.0 },
-      "interruptionCoverage": { "value": 1.0, "weight": 10, "contribution": 10.0 },
-      "duplicateRate": { "value": 1.0, "weight": 15, "contribution": 15.0 },
-      "stationDiversity": { "value": 1.0, "weight": 10, "contribution": 10.0 },
-      "poseTrackPresence": { "value": 0.52, "weight": 10, "contribution": 5.2 }
+      "schemaValidity": {
+        "value": 1.0,
+        "weight": 30,
+        "contribution": 30.0
+      },
+      "actionBalance": {
+        "value": 0.7,
+        "weight": 15,
+        "contribution": 10.5
+      },
+      "hazardCoverage": {
+        "value": 1.0,
+        "weight": 10,
+        "contribution": 10.0
+      },
+      "interruptionCoverage": {
+        "value": 1.0,
+        "weight": 10,
+        "contribution": 10.0
+      },
+      "duplicateRate": {
+        "value": 1.0,
+        "weight": 15,
+        "contribution": 15.0
+      },
+      "stationDiversity": {
+        "value": 1.0,
+        "weight": 10,
+        "contribution": 10.0
+      },
+      "poseTrackPresence": {
+        "value": 0.52,
+        "weight": 10,
+        "contribution": 5.2
+      }
     },
     "source": "docs/robot-datasets.md (documented real run of node tools/export_dataset.mjs -> node tools/eval_dataset.mjs, not re-executed in this pass)"
   },
@@ -133,16 +248,43 @@
     "trainingStations": 39,
     "heldOutStations": 10,
     "epochs": 25,
-    "heldOutAccuracy": { "top1": 0.989, "top3": 1.0 },
+    "heldOutAccuracy": {
+      "top1": 0.989,
+      "top3": 1.0
+    },
     "replay": {
-      "learned": { "passRate": 0.10, "meanScore": 1170 },
-      "expert": { "passRate": 0.80, "meanScore": 3182 },
-      "novice": { "passRate": 0.0, "meanScore": 1704 }
+      "learned": {
+        "passRate": 0.1,
+        "meanScore": 1170
+      },
+      "expert": {
+        "passRate": 0.8,
+        "meanScore": 3182
+      },
+      "novice": {
+        "passRate": 0.0,
+        "meanScore": 1704
+      }
     },
     "source": "docs/robot-datasets.md (documented real run of node tools/train_baseline.mjs, not re-executed in this pass)"
   },
   "gitState": {
     "mergedBranch": "origin/claude/vr-ar-safety-training-wkwmve",
     "headCommitAtMerge": "ceb9b65"
+  },
+  "refreshed": "2026-09-27",
+  "note_since_draft": "Fairway Park district and game, grounds-and-landscaping programme, warehouse and education packs, and texture quality tiers landed after the paper's first draft; counts above are refreshed from the tree.",
+  "refreshedCounts": {
+    "asOf": "2026-09-27",
+    "procedures": 561,
+    "smartcityStations": 552,
+    "tradeRooms": 9,
+    "categories": 20,
+    "programmes": 45,
+    "checkers": 47,
+    "standards": 446,
+    "bodies": 95,
+    "ladderLevelsFull": "899/900",
+    "source": "WebXR/smartcity/catalog.json, tools/check_all.mjs, tools/standards.json, docs/ladders.md"
   }
 }
