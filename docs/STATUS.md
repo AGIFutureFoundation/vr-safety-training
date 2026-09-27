@@ -6,21 +6,36 @@ Updated: 2026-09-27. A dated log of what landed, wave by wave, over the last six
 
 | | Now | Where the number comes from |
 |---|---|---|
-| Procedures in the catalog | **606** — 597 SmartCiti.X stations and 9 Trade Skills rooms | `WebXR/smartcity/catalog.json` (`node tools/gen_catalog.mjs`) |
+| Procedures in the catalog | **630** — 621 SmartCiti.X stations and 9 Trade Skills rooms | `WebXR/smartcity/catalog.json` (`node tools/gen_catalog.mjs`) |
 | Categories | **20** — SmartCiti.X trade-union categories (now including Youth Sports & Coaching, Healthcare Support and Grounds & Landscaping) plus Trade Skills Simulator | `catalog.json` |
-| Training programmes | **51**, each a twenty-level ladder of 75-lesson levels (1019 of 1020 levels full; `docs/ladders.md`) | `catalog.json` → `curricula` (`WebXR/smartcity/js/curricula.js`) |
-| Checkers | **50**, all passing | the `CHECKERS` list in `tools/check_all.mjs`; its last line reads `All 50 checkers pass.` |
-| Content eval | corpus mean **96 / 100** over 606 procedures; every station at 90 or above except the flat, sourced briefings and three readings listed below | `node tools/eval_content.mjs --json` |
+| Training programmes | **54**, each a twenty-level ladder of 75-lesson levels (1079 of 1080 levels full; `docs/ladders.md`) | `catalog.json` → `curricula` (`WebXR/smartcity/js/curricula.js`) |
+| Checkers | **57**, all passing | the `CHECKERS` list in `tools/check_all.mjs`; its last line reads `All 57 checkers pass.` |
+| Content eval | corpus mean **96 / 100** over 630 procedures; every station at 90 or above except the flat, sourced briefings and three readings listed below | `node tools/eval_content.mjs --json` |
 | Standards registry | **509** entries across 95 bodies over the 20 categories | `tools/standards.json` (`node tools/check_standards.mjs --docs`) |
-| Competencies | **61** (51 programme, 10 core) | `node tools/check_competency.mjs` |
+| Competencies | **64** (54 programme, 10 core) | `node tools/check_competency.mjs` |
 | Device profiles | **33** head-worn devices in 6 run profiles | `node tools/check_devices.mjs` |
-| App | published artifact (private until shared), with the race, the arcade, the eggs, Fairway Park, Bay World and 51 track pages beside it | |
+| App | published artifact (private until shared), with the race, the arcade, the eggs, Fairway Park, Bay World, the Regatta, the Deep, the Bay Atlas and 54 track pages beside it | |
 
 Under 90 today: `hunters-point` 73, `can-we-live-story` 73, `civic-principles-briefing` 81, `trades-lineage-briefing` 84, `apprenticeship-standards-reading` 88 (flat, sourced briefings and readings — the eval's scene and variety dimensions do not apply to them and the rest is renormalised).
 
 How to read a score: `tools/eval_content.mjs` grades each procedure on variety of interaction, decision density, explanation depth, grounding in named bodies, **standards** (the share of cited authorities that resolve to a registry entry in scope for the station's category, less a penalty for citing out of scope), feedback coverage, scene and originality, and weights them into one number. It is the heartbeat between waves, not a gate; the gate is `node tools/check_all.mjs`.
 
 ---
+
+## Deep and Regatta run — the underwater world, the yacht fleet, sky and wildlife, two packs and the Unity bridge (2026-09-27, 18:20–19:50 UTC)
+
+Eight named consoles, each backing up into `docs/consoles/`, merged in this order through the gated chain:
+
+- **Unity content bridge** (`96899f2`): `tools/export_unity.mjs` writes every procedure, programme and world as deterministic JSON under `exports/unity/SmartCitiX/` with a UPM runtime package (`StationRunner.cs` runs the nine step kinds under `game.js`'s scoring, `TrainingRecord.cs` round-trips the record shape) and 89 builders as GLB; `check_unity_export.mjs`; `docs/unity.md`.
+- **The Deep** (`d710528`): `WebXR/shared/underwater-data.js` (a 2000 × 1400 m seabed with a continuous depth field, 14 zones, 25 landmarks, 32 dive sites, 17 connected dive lines) and `underwater.js` (builder and depth-band lighting); the `the-deep` scenic district; `check_underwater.mjs`; `docs/underwater.md`. No depth figure is ever shown as a limit.
+- **Sky, weather and wildlife** (`f552458`): `WebXR/shared/sky.js` (a procedural dome, day to night, a drifting weather cycle feeding wind and fog to the games) and `wildlife.js` (seven generic kinds with sightings); Bay World and Fairway Park use them; eight Field Guide eggs and the catch-and-release pier-fishing activity; `check_sky.mjs`.
+- **Bay Regatta** (`93a82a5`): `WebXR/shared/yacht-fleet.js` (twelve individually named yachts as variants of `motorYacht`, berthed at four marinas) and `WebXR/regatta/` (three courses, AI yachts, scoring on marks, no-wake zones and generic give-way, five hosted events with briefings paying into the Bay World career ledger); `check_regatta.mjs`. No gambling anywhere, enforced by the checker.
+- **The Deep dive game** (`25ac9eb`): `WebXR/underwater/` — swim or pilot a tethered ROV, a qualitative reserve bar, buddy and ascent lines, job boards into the real stations, a six-dive main arc, thirty side dives, 24 lantern eggs, four scored activities; `gen_dive_quests.mjs`, `check_underwater_game.mjs`, `check_dive_quests.mjs`.
+- **Marine ecology and restoration pack** (`0e75866`): eight `me-` stations (96–98) with the settlement tile rack and quadrat frame props.
+- **Commercial diving and scientific scuba pack** (`c0b05de`): eight `cd-` stations (94–96) with the diving stage prop and the ROV builder; no depth, gas, decompression, time or pressure figure anywhere.
+- **Game whitepaper** (`c73c523`): `docs/GAME-WHITEPAPER.md` with `docs/game-whitepaper-facts.json`.
+
+- **What failed first:** three list-shaped files conflicted on every pack merge (the checker list, the builder maps, the site anchors); the chain now unions them automatically, but one keep-both pass fused two home-page cards into one object and another dropped a function's closing brace in `props.js` — both caught by the gate, both fixed by hand. The Unity model export needs a real three.js, which the repo does not vendor as a package; the chain installs it in the scratchpad and points the exporter at it. Apify could not be reached from this environment (the egress policy denies the host), so the union-registry verification it was meant for remains open.
 
 ## Bay World run — the Pathway Edition, a free-roam Bay Area city and the 111-union registry (2026-09-27, 14:10–16:10 UTC)
 

@@ -6154,6 +6154,58 @@
     },
     {
       "app": "smartcity",
+      "id": "cd-rov-launch-recovery-and-tether-management",
+      "name": "ROV Launch, Recovery & Tether Management",
+      "category": "Maritime & Ports",
+      "steps": 15,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9166666666666666,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 398,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 10,
+          "inScope": 10,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 248,
+          "materials": 114,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.22062588904694175,
+          "nearest": "br-dive-tender-and-umbilical-management",
+          "similarity": 0.2958748221906117
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "track-access",
       "name": "Track Access",
       "category": "Mobility & Transit",
@@ -8065,7 +8117,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 270,
+          "meshes": 265,
           "materials": 83,
           "interactables": 28
         },
@@ -11510,6 +11562,162 @@
     },
     {
       "app": "smartcity",
+      "id": "cd-hydraulic-tools-and-suction-hazards-underwater",
+      "name": "Hydraulic Tools & Suction Hazards Underwater",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.875,
+          "distinct": 8,
+          "longestRun": 4
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 401,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 11,
+          "inScope": 11,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 220,
+          "materials": 117,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.4322946175637396,
+          "nearest": "cd-rov-launch-recovery-and-tether-management",
+          "similarity": 0.2535410764872521
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cd-low-visibility-and-night-dive-line-work",
+      "name": "Low-Visibility & Night Dive Line Work",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 386,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.8825,
+          "meshes": 133,
+          "materials": 66,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.3186186186186188,
+          "nearest": "br-underwater-debris-survey-and-mapping",
+          "similarity": 0.27627627627627627
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cd-pier-piling-inspection-and-wrap-repair",
+      "name": "Pier Piling Inspection & Wrap Repair",
+      "category": "Maritime & Ports",
+      "steps": 14,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 403,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 10,
+          "inScope": 10,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 0.9400000000000001,
+          "meshes": 156,
+          "materials": 78,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.33960113960113975,
+          "nearest": "mw-pier-pile-inspection-dive",
+          "similarity": 0.2720797720797721
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "press-brake",
       "name": "Press Brake",
       "category": "Manufacturing & Automation",
@@ -14929,7 +15137,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 258,
+          "meshes": 259,
           "materials": 92,
           "interactables": 29
         },
@@ -14986,9 +15194,9 @@
           "interactables": 24
         },
         "originality": {
-          "score": 0.3859838274932617,
-          "nearest": "marsh-transect-survey",
-          "similarity": 0.2628032345013477
+          "score": 0.35384615384615403,
+          "nearest": "me-oyster-reef-monitoring-and-settlement-tiles",
+          "similarity": 0.2692307692307692
         }
       }
     },
@@ -15821,6 +16029,58 @@
           "score": 0.39127516778523497,
           "nearest": "bs-bearing-replacement-and-jacking",
           "similarity": 0.26174496644295303
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-hyperbaric-chamber-standby",
+      "name": "Hyperbaric Chamber Standby",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 380,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 235,
+          "materials": 123,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.18988439306358407,
+          "nearest": "cd-decompression-chamber-operations-and-post-dive",
+          "similarity": 0.3020231213872832
         }
       }
     },
@@ -18997,6 +19257,318 @@
       }
     },
     {
+      "app": "smartcity",
+      "id": "me-fish-visual-census-and-data-sheet",
+      "name": "Fish Visual Census & Data Sheet",
+      "category": "Water & Environmental",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 378,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 0.9800000000000001,
+          "meshes": 172,
+          "materials": 75,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.12383107088989459,
+          "nearest": "me-kelp-transect-survey-and-photo-quadrats",
+          "similarity": 0.3152337858220211
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "me-kelp-transect-survey-and-photo-quadrats",
+      "name": "Kelp Transect Survey & Photo Quadrats",
+      "category": "Water & Environmental",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 415,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 274,
+          "materials": 83,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.12383107088989459,
+          "nearest": "me-fish-visual-census-and-data-sheet",
+          "similarity": 0.3152337858220211
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cd-dive-records-and-incident-review",
+      "name": "Dive Records & Incident Review",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.875,
+          "distinct": 8,
+          "longestRun": 4
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 388,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 205,
+          "materials": 110,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.6428191489361703,
+          "nearest": "cd-decompression-chamber-operations-and-post-dive",
+          "similarity": 0.21143617021276595
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cd-scientific-scuba-buddy-check-and-lost-buddy-drill",
+      "name": "Scientific Scuba: Buddy Check & Lost-Buddy Drill",
+      "category": "Maritime & Ports",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 402,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 202,
+          "materials": 107,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.3971350613915417,
+          "nearest": "me-kelp-transect-survey-and-photo-quadrats",
+          "similarity": 0.2605729877216917
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cd-decompression-chamber-operations-and-post-dive",
+      "name": "Decompression Chamber Operations & Post-Dive",
+      "category": "Maritime & Ports",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 419,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 10,
+          "inScope": 10,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 196,
+          "materials": 112,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.18988439306358407,
+          "nearest": "br-hyperbaric-chamber-standby",
+          "similarity": 0.3020231213872832
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "cd-underwater-wet-welding-and-cutting",
+      "name": "Underwater Wet Welding & Cutting — Surface Side",
+      "category": "Maritime & Ports",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 395,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 12,
+          "inScope": 12,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 216,
+          "materials": 117,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.28773181169757495,
+          "nearest": "mw-underwater-welding-and-cutting",
+          "similarity": 0.28245363766048504
+        }
+      }
+    },
+    {
       "app": "trades",
       "id": "paint-sprayer",
       "name": "Coatings Bay",
@@ -19926,9 +20498,9 @@
           "interactables": 23
         },
         "originality": {
-          "score": 0.3799410029498526,
-          "nearest": "mw-pier-pile-inspection-dive",
-          "similarity": 0.2640117994100295
+          "score": 0.28773181169757495,
+          "nearest": "cd-underwater-wet-welding-and-cutting",
+          "similarity": 0.28245363766048504
         }
       }
     },
@@ -23722,9 +24294,9 @@
           "interactables": 25
         },
         "originality": {
-          "score": 0.3363636363636366,
-          "nearest": "mw-diver-emergency-and-recovery",
-          "similarity": 0.2727272727272727
+          "score": 0.22062588904694175,
+          "nearest": "cd-rov-launch-recovery-and-tether-management",
+          "similarity": 0.2958748221906117
         }
       }
     },
@@ -26117,6 +26689,110 @@
           "score": 0.5139534883720931,
           "nearest": "ml-dog-and-hazard-awareness-on-route",
           "similarity": 0.2372093023255814
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "me-tidal-marsh-channel-restoration-day",
+      "name": "Tidal Marsh Channel Restoration Day",
+      "category": "Water & Environmental",
+      "steps": 12,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 400,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 259,
+          "materials": 93,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.4081005586592179,
+          "nearest": "living-shoreline",
+          "similarity": 0.25837988826815644
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "me-oyster-reef-monitoring-and-settlement-tiles",
+      "name": "Oyster Reef Monitoring & Settlement Tiles",
+      "category": "Water & Environmental",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 427,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 276,
+          "materials": 96,
+          "interactables": 28
+        },
+        "originality": {
+          "score": 0.35384615384615403,
+          "nearest": "oyster-reef-monitoring",
+          "similarity": 0.2692307692307692
         }
       }
     },
@@ -30802,58 +31478,6 @@
     },
     {
       "app": "smartcity",
-      "id": "br-hyperbaric-chamber-standby",
-      "name": "Hyperbaric Chamber Standby",
-      "category": "Maritime & Ports",
-      "steps": 13,
-      "score": 98,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 380,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 7
-        },
-        "standards": {
-          "score": 1,
-          "cited": 9,
-          "inScope": 9,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 11,
-          "got": 11
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 235,
-          "materials": 123,
-          "interactables": 23
-        },
-        "originality": {
-          "score": 0.4692307692307693,
-          "nearest": "mw-dive-supervisor-and-dive-plan",
-          "similarity": 0.24615384615384617
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "br-surface-supplied-dive-station-setup",
       "name": "Surface-Supplied Dive Station Setup",
       "category": "Maritime & Ports",
@@ -31473,6 +32097,214 @@
           "score": 0.5305084745762713,
           "nearest": "gk-tree-work-pole-saw-and-drop-zone",
           "similarity": 0.23389830508474577
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "me-invasive-species-identification-and-reporting",
+      "name": "Invasive Species Identification & Reporting",
+      "category": "Water & Environmental",
+      "steps": 12,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 411,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 191,
+          "materials": 90,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.5750000000000001,
+          "nearest": "me-kelp-transect-survey-and-photo-quadrats",
+          "similarity": 0.225
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "me-shoreline-debris-and-microplastics-survey",
+      "name": "Shoreline Debris & Microplastics Survey",
+      "category": "Water & Environmental",
+      "steps": 12,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 369,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 9
+        },
+        "standards": {
+          "score": 1,
+          "cited": 11,
+          "inScope": 11,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 215,
+          "materials": 98,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.5418862690707351,
+          "nearest": "me-oyster-reef-monitoring-and-settlement-tiles",
+          "similarity": 0.231622746185853
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "me-water-column-sampling-from-a-small-boat",
+      "name": "Water Column Sampling From A Small Boat",
+      "category": "Water & Environmental",
+      "steps": 13,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 393,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 202,
+          "materials": 95,
+          "interactables": 25
+        },
+        "originality": {
+          "score": 0.5663967611336033,
+          "nearest": "yc-man-overboard-recovery-drill",
+          "similarity": 0.22672064777327935
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "me-eelgrass-seed-collection-and-nursery",
+      "name": "Eelgrass Seed Collection & Nursery",
+      "category": "Water & Environmental",
+      "steps": 13,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 401,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 269,
+          "materials": 103,
+          "interactables": 26
+        },
+        "originality": {
+          "score": 0.49973474801061024,
+          "nearest": "me-oyster-reef-monitoring-and-settlement-tiles",
+          "similarity": 0.24005305039787797
         }
       }
     },

@@ -15,3 +15,7 @@ Every team keeps its own console under this folder (see `tools/briefs/console-br
 - 19:00 UTC · Sky, weather and wildlife (SKY) merged; the checker list is now resolved keep-both automatically; gate "All 54 checkers pass" · f552458.
 - 19:04 UTC · Bay Regatta (REGATTA) merged clean, gate "All 55 checkers pass" · 93a82a5.
 - 19:14 UTC · The Deep dive game (REEF) merged; the home generator's app map and cards and Bay World's map row conflicted with the regatta and were merged by hand (both links, both cards; the keep-both pass had fused two cards into one object, split back); the chain now reruns gen_home and gen_dive_quests; gate "All 58 checkers pass" · 25ac9eb · next: TENDER and KELP packs, SCRIBE's final refresh, promo footage.
+- 19:26 UTC · Marine ecology pack (KELP) merged, gate "All 58 checkers pass" · 0e75866.
+- 19:34 UTC · Commercial diving pack (TENDER) merged; the props merge had dropped a closing brace and duplicated builder names, the checker list carried one entry twice; all fixed, gate "All 57 checkers pass" · c0b05de.
+- 19:38 UTC · Game whitepaper (SCRIBE) merged, 6652 words, gate "All 57 checkers pass" · c73c523.
+- 19:45 UTC · Docs refreshed for the run's close: 630 procedures, 54 programmes, 57 checkers · next: republish version 31, promo, final report. Open: Apify verification of the union registry (host denied by the environment's network policy), the third screen-and-media station and two postal stations, Deep anchors for the cd- and me- packs beyond the comment-noted sites.
