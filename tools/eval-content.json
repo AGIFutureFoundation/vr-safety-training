@@ -6570,6 +6570,58 @@
     },
     {
       "app": "smartcity",
+      "id": "cd-low-visibility-and-night-dive-line-work",
+      "name": "Low-Visibility & Night Dive Line Work",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 386,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.8825,
+          "meshes": 133,
+          "materials": 66,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.3186186186186188,
+          "nearest": "br-underwater-debris-survey-and-mapping",
+          "similarity": 0.27627627627627627
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "cd-pier-piling-inspection-and-wrap-repair",
       "name": "Pier Piling Inspection & Wrap Repair",
       "category": "Maritime & Ports",
@@ -11718,6 +11770,58 @@
     },
     {
       "app": "smartcity",
+      "id": "cd-scientific-scuba-buddy-check-and-lost-buddy-drill",
+      "name": "Scientific Scuba: Buddy Check & Lost-Buddy Drill",
+      "category": "Maritime & Ports",
+      "steps": 14,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.95,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 402,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 4
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 202,
+          "materials": 107,
+          "interactables": 27
+        },
+        "originality": {
+          "score": 0.39723435225618636,
+          "nearest": "cd-low-visibility-and-night-dive-line-work",
+          "similarity": 0.26055312954876275
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "cd-decompression-chamber-operations-and-post-dive",
       "name": "Decompression Chamber Operations & Post-Dive",
       "category": "Maritime & Ports",
@@ -14825,7 +14929,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 264,
+          "meshes": 261,
           "materials": 92,
           "interactables": 29
         },
@@ -19461,58 +19565,6 @@
           "score": 0.2552596537949403,
           "nearest": "cm-slab-screed-bull-float-and-trowel",
           "similarity": 0.28894806924101196
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "cd-scientific-scuba-buddy-check-and-lost-buddy-drill",
-      "name": "Scientific Scuba: Buddy Check & Lost-Buddy Drill",
-      "category": "Maritime & Ports",
-      "steps": 14,
-      "score": 97,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 0.95,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 402,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 4
-        },
-        "standards": {
-          "score": 1,
-          "cited": 8,
-          "inScope": 8,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 11,
-          "got": 11
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 202,
-          "materials": 107,
-          "interactables": 27
-        },
-        "originality": {
-          "score": 0.4574850299401199,
-          "nearest": "mw-diver-emergency-and-recovery",
-          "similarity": 0.24850299401197604
         }
       }
     },

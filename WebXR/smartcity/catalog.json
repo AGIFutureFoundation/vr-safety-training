@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 602
+      "stations": 603
     },
     "trades": {
       "entry": "trades/index.html",
@@ -407,6 +407,7 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "cd-low-visibility-and-night-dive-line-work",
         "cd-scientific-scuba-buddy-check-and-lost-buddy-drill",
         "cd-decompression-chamber-operations-and-post-dive",
         "cd-rov-launch-recovery-and-tether-management",
@@ -9293,6 +9294,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "cd-low-visibility-and-night-dive-line-work",
+      "name": "Low-Visibility & Night Dive Line Work",
+      "title": "SmartCiti.X~ Low-Visibility & Night Dive Line Work VR",
+      "tagline": "A search you cannot see: the pattern and the signals read on the slate, the dim primary and the unclipped backup found at the stage, the primary and secondary tie-offs made in order, the guideline laid taut through a silt-out with a hand on the line, the circular sweep held by feel while the primary light dies and the backup comes on, the found frame marked, the OK given by light, the abort called, the arrows read home, the reel taken in on the way back to the downline, the log written",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers of the Carpenters commercial diver on a night search in low visibility with a buddy diver, the dive supervisor and the tender at the stage above",
+      "union": null,
+      "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T — 29 CFR 1910.421 pre-dive planning for the conditions and the briefing, 29 CFR 1910.422 procedures during the dive (communications, the tended diver, the termination of the dive), 29 CFR 1910.424 SCUBA diving where the search is on scuba with a buddy and 29 CFR 1910.425 the tended surface-supplied diver; ADCI consensus standards for night and low-visibility diving; USCG 46 CFR 197 Subpart B where the dive is from a vessel; visibility, distance, depth and time per the dive plan",
+      "accent": "#c9d84a",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": "bay-underwater",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "track",
+        "hold",
+        "drag",
+        "gauge",
+        "turn"
+      ],
+      "badge": {
+        "id": "hand-on-the-line",
+        "name": "Hand On The Line",
+        "note": "The guideline never let go of in the dark, the arrows read home, the abort called the moment the plan said"
+      },
+      "meshes": 133,
+      "lights": 0,
+      "overBudget": false,
+      "index": "721",
+      "flat": false,
+      "system": "Black Water",
+      "currency": "LINE ARROWS",
+      "ranks": [
+        "Tender",
+        "Diver",
+        "Night Diver",
+        "Search Diver",
+        "Line Work Certified"
+      ],
+      "awards": [
+        {
+          "id": "lights-checked",
+          "name": "Lights Checked",
+          "note": "The dim primary and the unclipped backup found at the stage"
+        },
+        {
+          "id": "arrows-home",
+          "name": "Arrows Home",
+          "note": "The line arrow read home inside the band first time"
+        },
+        {
+          "id": "never-let-go",
+          "name": "Never Let Go",
+          "note": "No hazard reached for from the slate to the log"
+        },
+        {
+          "id": "clean-search",
+          "name": "Clean Search",
+          "note": "No corrections from the slate to the check-in"
+        },
+        {
+          "id": "taut-line",
+          "name": "Taut Line",
+          "note": "The guideline laid in band the whole way out"
+        },
+        {
+          "id": "logged-quick",
+          "name": "Logged Quick",
+          "note": "Log written inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cd-low-visibility-and-night-dive-line-work"
     },
     {
       "app": "smartcity",
@@ -30730,7 +30814,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 257,
+      "meshes": 265,
       "lights": 0,
       "overBudget": false,
       "index": "92",

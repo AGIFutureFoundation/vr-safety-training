@@ -25564,5 +25564,47 @@ export const SIMS_META = [
         6500
       ]
     }
+  },
+  {
+    "id": "cd-low-visibility-and-night-dive-line-work",
+    "index": "721",
+    "domain": "Maritime & Ports",
+    "trade": "Pile Drivers of the Carpenters commercial diver on a night search in low visibility with a buddy diver, the dive supervisor and the tender at the stage above",
+    "category": "Maritime & Ports",
+    "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T — 29 CFR 1910.421 pre-dive planning for the conditions and the briefing, 29 CFR 1910.422 procedures during the dive (communications, the tended diver, the termination of the dive), 29 CFR 1910.424 SCUBA diving where the search is on scuba with a buddy and 29 CFR 1910.425 the tended surface-supplied diver; ADCI consensus standards for night and low-visibility diving; USCG 46 CFR 197 Subpart B where the dive is from a vessel; visibility, distance, depth and time per the dive plan",
+    "name": "Low-Visibility & Night Dive Line Work",
+    "weather": "clear",
+    "indoor": null,
+    "district": "bay-underwater",
+    "title": "SmartCiti.X~ Low-Visibility & Night Dive Line Work VR",
+    "tagline": "A search you cannot see: the pattern and the signals read on the slate, the dim primary and the unclipped backup found at the stage, the primary and secondary tie-offs made in order, the guideline laid taut through a silt-out with a hand on the line, the circular sweep held by feel while the primary light dies and the backup comes on, the found frame marked, the OK given by light, the abort called, the arrows read home, the reel taken in on the way back to the downline, the log written",
+    "accent": 13228106,
+    "accentCss": "#c9d84a",
+    "parSeconds": 320,
+    "badge": {
+      "id": "hand-on-the-line",
+      "name": "Hand On The Line",
+      "note": "The guideline never let go of in the dark, the arrows read home, the abort called the moment the plan said"
+    },
+    "stepCount": 13,
+    "interruptCount": 2,
+    "game": {
+      "system": "Black Water",
+      "currency": "LINE ARROWS",
+      "ranks": [
+        "Tender",
+        "Diver",
+        "Night Diver",
+        "Search Diver",
+        "Line Work Certified"
+      ],
+      "rankAt": [
+        0,
+        900,
+        2200,
+        4000,
+        6500
+      ]
+    }
   }
 ];
