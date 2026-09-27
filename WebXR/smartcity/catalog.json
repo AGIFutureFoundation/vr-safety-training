@@ -11,7 +11,7 @@
         "ar",
         "vr"
       ],
-      "stations": 604
+      "stations": 605
     },
     "trades": {
       "entry": "trades/index.html",
@@ -407,6 +407,7 @@
         "container-lashing",
         "mooring-line",
         "bunkering-watch",
+        "cd-dive-records-and-incident-review",
         "cd-hydraulic-tools-and-suction-hazards-underwater",
         "cd-low-visibility-and-night-dive-line-work",
         "cd-scientific-scuba-buddy-check-and-lost-buddy-drill",
@@ -9295,6 +9296,89 @@
       ],
       "sources": [],
       "deepLink": "smartcity/index.html?sim=backflow-test"
+    },
+    {
+      "app": "smartcity",
+      "id": "cd-dive-records-and-incident-review",
+      "name": "Dive Records & Incident Review",
+      "title": "SmartCiti.X~ Dive Records & Incident Review VR",
+      "tagline": "The dive on paper: the record's fields read from the manual, the blank times and the missing signature found, the dive record then the daily log then the equipment log in order, the slate copied line by line while a client asks for a copy without the incident, the record filed for retention, the diver's account heard without interruption until a voice is raised, the timeline built, the cause found in the conditions, the manual turned to the procedure it amends, the action written with an owner, the assessment recorded, the action posted and the crew checked in",
+      "category": "Maritime & Ports",
+      "domain": "Maritime & Ports",
+      "trade": "Pile Drivers of the Carpenters diver-tender completing the dive record and the daily log and running an incident debrief with the dive supervisor, the diver, the standby diver and a client representative",
+      "union": null,
+      "certification": "Pile Drivers apprenticeship under the Carpenters (UBC) International Training Fund; OSHA 29 CFR 1910 Subpart T — 29 CFR 1910.440 recordkeeping (the record of each dive, the decompression procedure assessment where a diver showed symptoms, and the retention of both), 29 CFR 1910.420 the safe practices manual the record's fields come from, 29 CFR 1910.423 post-dive procedures and 29 CFR 1910.421 the planning the next dive inherits; ADCI consensus standards for dive logs and incident reporting; USCG 46 CFR 197 Subpart B for the vessel's own record where the dive was from a vessel; every time and depth on the record comes from the slate and the tables, never from memory",
+      "accent": "#b8a0e0",
+      "parSeconds": 320,
+      "weather": "clear",
+      "indoor": null,
+      "district": "Maritime & Ports",
+      "steps": 13,
+      "hazards": 4,
+      "interrupts": 2,
+      "stepKinds": [
+        "select",
+        "find",
+        "sequence",
+        "track",
+        "drag",
+        "hold",
+        "gauge",
+        "turn"
+      ],
+      "badge": {
+        "id": "written-as-it-was",
+        "name": "Written As It Was",
+        "note": "Every time from the slate, nothing backdated, nothing left out for anyone, and a cause that named a condition rather than a person"
+      },
+      "meshes": 205,
+      "lights": 0,
+      "overBudget": false,
+      "index": "723",
+      "flat": false,
+      "system": "Paper Trail",
+      "currency": "SIGNED LINES",
+      "ranks": [
+        "Tender",
+        "Record Keeper",
+        "Log Keeper",
+        "Debrief Lead",
+        "Records Certified"
+      ],
+      "awards": [
+        {
+          "id": "gaps-found",
+          "name": "Gaps Found",
+          "note": "The blank times and the missing signature found before filing"
+        },
+        {
+          "id": "in-sequence",
+          "name": "In Sequence",
+          "note": "The timeline committed in the right order first time"
+        },
+        {
+          "id": "no-blame",
+          "name": "No Blame",
+          "note": "No hazard reached for from the brief to the check-in"
+        },
+        {
+          "id": "clean-paper",
+          "name": "Clean Paper",
+          "note": "No corrections from the brief to the check-in"
+        },
+        {
+          "id": "slate-to-record",
+          "name": "Slate To Record",
+          "note": "The times copied in band the whole way"
+        },
+        {
+          "id": "posted-quick",
+          "name": "Posted Quick",
+          "note": "Action posted inside 80% of par"
+        }
+      ],
+      "sources": [],
+      "deepLink": "smartcity/index.html?sim=cd-dive-records-and-incident-review"
     },
     {
       "app": "smartcity",
@@ -30898,7 +30982,7 @@
         "name": "Transect Closed",
         "note": "Every quadrat covered, elevation shot, and the channel edge read before a flushed bird or the tide stopped the line — first time"
       },
-      "meshes": 264,
+      "meshes": 256,
       "lights": 0,
       "overBudget": false,
       "index": "92",

@@ -6610,7 +6610,7 @@
         "scene": {
           "score": 1,
           "meshes": 220,
-          "materials": 116,
+          "materials": 117,
           "interactables": 23
         },
         "originality": {
@@ -8065,7 +8065,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 265,
+          "meshes": 270,
           "materials": 83,
           "interactables": 28
         },
@@ -11822,6 +11822,58 @@
     },
     {
       "app": "smartcity",
+      "id": "cd-dive-records-and-incident-review",
+      "name": "Dive Records & Incident Review",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.875,
+          "distinct": 8,
+          "longestRun": 4
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 388,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 5
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 205,
+          "materials": 110,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.6428191489361703,
+          "nearest": "cd-decompression-chamber-operations-and-post-dive",
+          "similarity": 0.21143617021276595
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "cd-scientific-scuba-buddy-check-and-lost-buddy-drill",
       "name": "Scientific Scuba: Buddy Check & Lost-Buddy Drill",
       "category": "Maritime & Ports",
@@ -14981,7 +15033,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 262,
+          "meshes": 265,
           "materials": 92,
           "interactables": 29
         },
