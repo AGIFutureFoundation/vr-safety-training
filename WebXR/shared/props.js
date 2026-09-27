@@ -1,10 +1,10 @@
 import * as THREE from "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js";
-import { box, cyl, ball, torus, lathe, group, mat, gradientFill, noiseTexture, grimeOverlay } from "./kit.js";
+import { box, cyl, ball, torus, lathe, group, mat, hose, gradientFill, noiseTexture, grimeOverlay } from "./kit.js";
 import {
   FL, flHex, flCss, flShade, flPaint, flCanvasMat, flPanel, flRod, flStrut, flSide,
   flRig, flDone, flLivery, flLiveryMat, flDoorMat, flTreadMat,
 } from "./fleet.js";
-import { corrugatedFace, concreteFace, rustFace } from "./textures.js";
+import { corrugatedFace, concreteFace, rustFace, woodGrainFace } from "./textures.js";
 
 // Shared site-dressing kit — the clutter that makes a district read as a real
 // jobsite or a real street rather than an empty horizon: barricades, a light
@@ -526,6 +526,52 @@ export function pickToLightShelf(parent, x, y, z, opts = {}) {
 
 // ------------------------------------------------------------------ budget
 
+// --------------------------------------------------------- marina berth
+
+/**
+ * Marina finger dock with its services: a timber-decked float on two piles,
+ * two cleats, a shore-power pedestal with its breaker lever and lamp, a
+ * fire-extinguisher box, a spill-kit cabinet and a fuel-dock pump with its
+ * hose and a length of absorbent boom staged beside it. 2.2 m × 12 m, deck
+ * at 0.45 m, pile tops at 2.2 m. The dock runs along Z; the berth (the
+ * yacht) lies on the +X side. Parts: cleats, pedestal, breaker, pedestalLamp,
+ * extinguisherBox, spillKit, fuelPump, fuelHose, boom.
+ */
+export function marinaBerth(parent, x, y, z, opts = {}) {
+  const rig = prRig(parent, x, y, z, opts, "marinaBerth");
+  const S = rig.shell;
+  const deck = flCanvasMat("berth|deck", 512, 512, (g, w, h) => {
+    woodGrainFace(g, w, h, { planks: 10, tones: [0x8a7a62, 0x7c6d57, 0x958468] });
+    grimeOverlay(g, w, h, { blotches: 4, streaks: 3, alpha: 0.14 });
+  }, { rough: 0.9, metal: 0.02, repeat: [1, 6] });
+  const m = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.28, 12), deck);
+  m.position.set(0, 0.31, 0); m.castShadow = true; m.receiveShadow = true; S.add(m);
+  for (const zz of [-4.5, 4.5]) cyl(S, 0.16, 0.16, 2.2, -0.95, 1.1, zz, 0x3a2f26, { rough: 0.95, seg: 10 });
+  const cl = rig.part("cleats", 0.85, 0.45, 0);
+  for (const zz of [-3.6, 3.6]) box(cl, 0.12, 0.09, 0.34, 0, 0.05, zz, ...FL.steel);
+  // Shore-power pedestal: the post, the breaker lever on its face, the lamp head.
+  const ped = rig.part("pedestal", -0.7, 0.45, 1.2);
+  box(ped, 0.3, 1.05, 0.3, 0, 0.53, 0, 0x2f4f6f, { rough: 0.55, metal: 0.3, finish: "painted" });
+  const brk = rig.part("breaker", 0.16, 0.7, 0, ped);
+  box(brk, 0.05, 0.16, 0.06, 0, 0, 0, ...FL.red);
+  const lamp = rig.part("pedestalLamp", 0, 1.12, 0, ped);
+  cyl(lamp, 0.08, 0.1, 0.12, 0, 0, 0, ...FL.lamp, { seg: 10 });
+  // Fire-extinguisher box and the spill-kit cabinet on the shore end.
+  const ext = rig.part("extinguisherBox", -0.75, 0.45, -1.4);
+  box(ext, 0.3, 0.7, 0.25, 0, 0.55, 0, 0xd8322c, { rough: 0.5, finish: "painted" });
+  const sk = rig.part("spillKit", -0.72, 0.45, -3.0);
+  box(sk, 0.55, 0.9, 0.4, 0, 0.45, 0, 0xf2c14b, { rough: 0.6, finish: "painted" });
+  // Fuel-dock pump, its hose over the dock edge, and the boom staged along the shore edge.
+  const pump = rig.part("fuelPump", -0.65, 0.45, 4.2);
+  box(pump, 0.5, 1.3, 0.4, 0, 0.65, 0, 0xdfe3e6, { rough: 0.45, metal: 0.2, finish: "painted" });
+  const hs = rig.part("fuelHose", 0, 0.45, 4.2);
+  hose(hs, [[-0.4, 1.0, 0.1], [0.3, 0.7, 0.4], [1.0, 0.1, 0.5]], 0.03, 0x15181c, { steps: 8, rough: 0.8 });
+  const bm = rig.part("boom", -0.9, 0.55, 2.6);
+  flRod(bm, 0.11, 2.2, 0, 0, 0, "z", 0xf2c14b, { rough: 0.85, seg: 10 });
+  return flDone(rig, { footprint: PROPS_BUDGET.marinaBerth.footprint, deckY: 0.45 });
+}
+
+
 /**
  * Declared mesh count (after mergeStatic), footprint [width X, height Y,
  * length Z] in metres and required named parts per builder. Every entry is
@@ -562,6 +608,7 @@ export const PROPS_BUDGET = {
   aircraftJack: { build: "aircraftJack", meshes: 5, footprint: [0.78, 1.2, 0.8], parts: ["ram", "saddle"], note: "tripod aircraft jack, ram extended" },
   palletRackBay: { build: "palletRackBay", meshes: 5, footprint: [2.62, 4.22, 1.18], parts: [], note: "selective pallet-rack bay, two loaded levels and a rating plaque" },
   coldRoomDoor: { build: "coldRoomDoor", meshes: 5, footprint: [1.98, 2.68, 0.28], parts: ["door"], note: "insulated cold-storage doorway with a PVC strip curtain" },
+  marinaBerth: { build: "marinaBerth", meshes: 11, footprint: [2.21, 2.2, 12], parts: ["cleats", "pedestal", "breaker", "pedestalLamp", "extinguisherBox", "spillKit", "fuelPump", "fuelHose", "boom"], note: "marina finger dock on piles with cleats, a shore-power pedestal and breaker, an extinguisher box, a spill-kit cabinet and a fuel-dock pump with boom" },
   pickToLightShelf: { build: "pickToLightShelf", meshes: 6, footprint: [1.6, 2.44, 0.51], parts: ["lights"], note: "pick-to-light shelf module, three LED pick strips" },
 };
 
@@ -570,5 +617,5 @@ export const PROPS_BUILDERS = {
   jerseyBarrier, waterBarrier, coneCluster, lightMast, portableToilet, siteOffice, dumpster,
   scaffoldTower, palletStack, cableSpool, fireHydrant, bollardRow, parkBench, streetTree,
   shrubBed, fencePanel, fencePanelGate, shippingContainer, fuelTank, generatorSkid,
-  counterweightStack, picnicTable, aircraftJack, palletRackBay, coldRoomDoor, pickToLightShelf,
+  counterweightStack, picnicTable, aircraftJack, palletRackBay, coldRoomDoor, pickToLightShelf, marinaBerth,
 };

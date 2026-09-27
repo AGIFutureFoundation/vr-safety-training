@@ -182,6 +182,10 @@ export const STANDARDS = Object.fromEntries([
   S("nrc-10-cfr-20", "NRC", "10 CFR 20 Standards for protection against radiation", ["Hazmat & Environmental"]),
   S("usace-section-404", "US Army Corps of Engineers", "Clean Water Act Section 404 permit programme", ["Water & Environmental"]),
   S("uscg-33-cfr-156-150", "USCG", "33 CFR 156 Oil and hazardous material transfer operations", ["Maritime"]),
+  S("uscg-33-cfr-83", "USCG", "33 CFR Part 83 Inland Navigation Rules", ["Maritime & Ports"]),
+  S("uscg-46-cfr-25", "USCG", "46 CFR Part 25 Requirements for uninspected vessels, including lifesaving and fire-fighting equipment", ["Maritime & Ports"], "unverified"),
+  S("nfpa-306", "NFPA", "NFPA 306 Control of Gas Hazards on Vessels", ["Maritime & Ports"]),
+  S("uscg-33-cfr-155", "USCG", "33 CFR Part 155 Oil or hazardous material pollution prevention regulations for vessels", ["Maritime & Ports"]),
   S("imo-csm", "IMO", "Cargo Securing Manual requirements", ["Maritime"], "unverified"),
   S("carb-at-berth", "CARB", "At-Berth Regulation for ocean-going vessels", ["Maritime"], "unverified"),
   S("fra-49-cfr-214", "FRA", "49 CFR 214 Subpart C Roadway worker protection", ["Transit & Logistics"]),
@@ -878,6 +882,17 @@ export const PROGRAMME_COMPETENCIES = [
       "ml-mail-handler-forklift-and-container-dock", "ml-parcel-sorter-conveyor-jam-and-loto"
     ],
     require: 3,
+  },
+  {
+    id: "yacht-and-charter-crew",
+    title: "Count, moor, fuel, start, recover, fight fire, launch and connect a charter yacht as her deck, steward and engineering crew",
+    kind: "programme",
+    standards: ["uscg-46-cfr-25", "uscg-33-cfr-83", "uscg-33-cfr-155", "nfpa-306", "osha-1910-147"],
+    stations: [
+      "yc-pre-departure-safety-briefing-and-guest-count", "yc-line-handling-and-docking-in-crosswind", "yc-fuel-dock-transfer-and-spill-kit", "yc-engine-room-pre-start-and-bilge-check",
+      "yc-man-overboard-recovery-drill", "yc-galley-fire-and-fixed-system", "yc-tender-launch-and-guest-transfer", "yc-shore-power-connection-and-in-water-electrical-safety"
+    ],
+    require: 4,
   },
 ];
 

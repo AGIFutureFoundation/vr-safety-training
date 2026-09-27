@@ -1058,6 +1058,58 @@
     },
     {
       "app": "smartcity",
+      "id": "mooring-line",
+      "name": "Mooring Line",
+      "category": "Maritime & Ports",
+      "steps": 10,
+      "score": 92,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 325,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 0.8333333333333334,
+          "cited": 6,
+          "inScope": 5,
+          "outOfScope": 0,
+          "unregistered": 1
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 0.7229545454545454,
+          "meshes": 101,
+          "materials": 58,
+          "interactables": 17
+        },
+        "originality": {
+          "score": 0.4850467289719627,
+          "nearest": "yc-line-handling-and-docking-in-crosswind",
+          "similarity": 0.24299065420560748
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "dental-radiography-fmx",
       "name": "Full-Mouth Radiographic Series",
       "category": "Dental & Oral Health",
@@ -1466,9 +1518,9 @@
           "interactables": 31
         },
         "originality": {
-          "score": 0.5199181446111869,
-          "nearest": "vessel-gangway-and-hatch-cover-safety",
-          "similarity": 0.23601637107776263
+          "score": 0.5032305433186491,
+          "nearest": "yc-man-overboard-recovery-drill",
+          "similarity": 0.2393538913362702
         }
       }
     },
@@ -2046,58 +2098,6 @@
     },
     {
       "app": "smartcity",
-      "id": "mooring-line",
-      "name": "Mooring Line",
-      "category": "Maritime & Ports",
-      "steps": 10,
-      "score": 93,
-      "d": {
-        "variety": {
-          "score": 0.9375,
-          "distinct": 7,
-          "longestRun": 3
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 325,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 8
-        },
-        "standards": {
-          "score": 0.8333333333333334,
-          "cited": 6,
-          "inScope": 5,
-          "outOfScope": 0,
-          "unregistered": 1
-        },
-        "feedback": {
-          "score": 1,
-          "want": 9,
-          "got": 9
-        },
-        "scene": {
-          "score": 0.7229545454545454,
-          "meshes": 101,
-          "materials": 58,
-          "interactables": 17
-        },
-        "originality": {
-          "score": 0.6040114613180516,
-          "nearest": "mw-ferry-deckhand-and-passenger-safety",
-          "similarity": 0.2191977077363897
-        }
-      }
-    },
-    {
-      "app": "smartcity",
       "id": "bus-depot-lift",
       "name": "Bus Depot Lift",
       "category": "Mobility & Transit",
@@ -2197,6 +2197,58 @@
           "score": 0.7091463414634147,
           "nearest": "av-lavatory-and-potable-water-separation",
           "similarity": 0.19817073170731708
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "yc-man-overboard-recovery-drill",
+      "name": "Man Overboard Recovery Drill",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 93,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 7,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.8884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 461,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9840909090909091,
+          "meshes": 220,
+          "materials": 104,
+          "interactables": 21
+        },
+        "originality": {
+          "score": 0.1948604992657857,
+          "nearest": "br-cold-water-immersion-and-mob-recovery",
+          "similarity": 0.3010279001468429
         }
       }
     },
@@ -3074,7 +3126,7 @@
         "scene": {
           "score": 0.9275,
           "meshes": 151,
-          "materials": 79,
+          "materials": 80,
           "interactables": 22
         },
         "originality": {
@@ -3861,6 +3913,58 @@
           "score": 0.3488439306358382,
           "nearest": "wp-permit-study-and-knowledge-test",
           "similarity": 0.2702312138728324
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "br-cold-water-immersion-and-mob-recovery",
+      "name": "Cold Water Immersion & MOB Recovery",
+      "category": "Maritime & Ports",
+      "steps": 14,
+      "score": 94,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 349,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 0.8333333333333334,
+          "cited": 9,
+          "inScope": 8,
+          "outOfScope": 1,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 198,
+          "materials": 101,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.1948604992657857,
+          "nearest": "yc-man-overboard-recovery-drill",
+          "similarity": 0.3010279001468429
         }
       }
     },
@@ -6513,6 +6617,110 @@
           "score": 0.5364779874213838,
           "nearest": "pl-fire-sprinkler-riser-and-flow-test",
           "similarity": 0.23270440251572327
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "yc-tender-launch-and-guest-transfer",
+      "name": "Tender Launch & Guest Transfer",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 442,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 251,
+          "materials": 116,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.1955089820359282,
+          "nearest": "yc-line-handling-and-docking-in-crosswind",
+          "similarity": 0.3008982035928144
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "yc-line-handling-and-docking-in-crosswind",
+      "name": "Line Handling & Docking In A Crosswind",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 95,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 468,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 7,
+          "inScope": 7,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 219,
+          "materials": 96,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.1955089820359282,
+          "nearest": "yc-tender-launch-and-guest-transfer",
+          "similarity": 0.3008982035928144
         }
       }
     },
@@ -11614,6 +11822,162 @@
     },
     {
       "app": "smartcity",
+      "id": "yc-galley-fire-and-fixed-system",
+      "name": "Galley Fire & Fixed System",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 455,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 0.9425,
+          "meshes": 157,
+          "materials": 84,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.3695278969957083,
+          "nearest": "yc-fuel-dock-transfer-and-spill-kit",
+          "similarity": 0.26609442060085836
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "yc-engine-room-pre-start-and-bilge-check",
+      "name": "Engine Room Pre-Start & Bilge Check",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 459,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 184,
+          "materials": 92,
+          "interactables": 24
+        },
+        "originality": {
+          "score": 0.39422572178477694,
+          "nearest": "yc-fuel-dock-transfer-and-spill-kit",
+          "similarity": 0.26115485564304464
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "yc-fuel-dock-transfer-and-spill-kit",
+      "name": "Fuel Dock Transfer & Spill Kit",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 96,
+      "d": {
+        "variety": {
+          "score": 0.9375,
+          "distinct": 8,
+          "longestRun": 3
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 450,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 1,
+          "cited": 10,
+          "inScope": 10,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 9,
+          "got": 9
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 220,
+          "materials": 108,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.3102941176470589,
+          "nearest": "mw-oil-transfer-watch-and-boom",
+          "similarity": 0.27794117647058825
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "wp-graduation-and-alumni-mentors",
       "name": "Graduation and Alumni-Mentor Day",
       "category": "Community Environmental Justice",
@@ -12181,58 +12545,6 @@
           "score": 0,
           "nearest": "bb-reset-routine-after-a-miss",
           "similarity": 0.45511811023622045
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "br-cold-water-immersion-and-mob-recovery",
-      "name": "Cold Water Immersion & MOB Recovery",
-      "category": "Maritime & Ports",
-      "steps": 14,
-      "score": 96,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 349,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 7
-        },
-        "standards": {
-          "score": 0.8333333333333334,
-          "cited": 9,
-          "inScope": 8,
-          "outOfScope": 1,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 12,
-          "got": 12
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 198,
-          "materials": 101,
-          "interactables": 23
-        },
-        "originality": {
-          "score": 0.48065395095367863,
-          "nearest": "br-boom-towing-between-two-vessels",
-          "similarity": 0.2438692098092643
         }
       }
     },
@@ -14617,7 +14929,7 @@
         },
         "scene": {
           "score": 1,
-          "meshes": 265,
+          "meshes": 254,
           "materials": 92,
           "interactables": 29
         },
@@ -19206,6 +19518,58 @@
     },
     {
       "app": "smartcity",
+      "id": "yc-pre-departure-safety-briefing-and-guest-count",
+      "name": "Pre-Departure Safety Briefing & Guest Count",
+      "category": "Maritime & Ports",
+      "steps": 12,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 494,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 7
+        },
+        "standards": {
+          "score": 1,
+          "cited": 9,
+          "inScope": 9,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 306,
+          "materials": 140,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.2908440629470674,
+          "nearest": "yc-tender-launch-and-guest-transfer",
+          "similarity": 0.28183118741058655
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "cs-non-entry-retrieval-and-tripod",
       "name": "Non-Entry Retrieval & Tripod",
       "category": "Water & Environmental",
@@ -19570,6 +19934,58 @@
     },
     {
       "app": "smartcity",
+      "id": "mw-oil-transfer-watch-and-boom",
+      "name": "Oil Transfer Watch & Boom",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 385,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 12,
+          "got": 12
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 218,
+          "materials": 110,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.3102941176470589,
+          "nearest": "yc-fuel-dock-transfer-and-spill-kit",
+          "similarity": 0.27794117647058825
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "mw-workboat-towing-and-line-handling",
       "name": "Workboat Towing & Line Handling",
       "category": "Maritime & Ports",
@@ -19614,9 +20030,61 @@
           "interactables": 23
         },
         "originality": {
-          "score": 0.35937072503419987,
-          "nearest": "br-boom-towing-between-two-vessels",
-          "similarity": 0.26812585499316005
+          "score": 0.2857142857142858,
+          "nearest": "yc-line-handling-and-docking-in-crosswind",
+          "similarity": 0.28285714285714286
+        }
+      }
+    },
+    {
+      "app": "smartcity",
+      "id": "mw-ferry-deckhand-and-passenger-safety",
+      "name": "Ferry Deckhand & Passenger Safety",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 97,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 1,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 422,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 6
+        },
+        "standards": {
+          "score": 1,
+          "cited": 6,
+          "inScope": 6,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 11,
+          "got": 11
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 242,
+          "materials": 113,
+          "interactables": 22
+        },
+        "originality": {
+          "score": 0.33574351978171907,
+          "nearest": "yc-line-handling-and-docking-in-crosswind",
+          "similarity": 0.2728512960436562
         }
       }
     },
@@ -26070,6 +26538,58 @@
     },
     {
       "app": "smartcity",
+      "id": "yc-shore-power-connection-and-in-water-electrical-safety",
+      "name": "Shore Power Connection & In-Water Electrical Safety",
+      "category": "Maritime & Ports",
+      "steps": 13,
+      "score": 98,
+      "d": {
+        "variety": {
+          "score": 1,
+          "distinct": 8,
+          "longestRun": 2
+        },
+        "decisions": {
+          "score": 0.9884615384615384,
+          "hazards": 4,
+          "interrupts": 2
+        },
+        "explanation": {
+          "score": 1,
+          "medianWhy": 442,
+          "thin": 0
+        },
+        "grounding": {
+          "score": 1,
+          "authorities": 8
+        },
+        "standards": {
+          "score": 1,
+          "cited": 8,
+          "inScope": 8,
+          "outOfScope": 0,
+          "unregistered": 0
+        },
+        "feedback": {
+          "score": 1,
+          "want": 10,
+          "got": 10
+        },
+        "scene": {
+          "score": 1,
+          "meshes": 257,
+          "materials": 118,
+          "interactables": 23
+        },
+        "originality": {
+          "score": 0.5008130081300813,
+          "nearest": "yc-fuel-dock-transfer-and-spill-kit",
+          "similarity": 0.23983739837398374
+        }
+      }
+    },
+    {
+      "app": "smartcity",
       "id": "cs-permit-entry-and-attendant-duties",
       "name": "Permit Entry & Attendant Duties",
       "category": "Water & Environmental",
@@ -26322,113 +26842,9 @@
           "interactables": 22
         },
         "originality": {
-          "score": 0.5196286472148542,
-          "nearest": "br-workboat-crane-lift-from-water",
-          "similarity": 0.23607427055702918
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "mw-oil-transfer-watch-and-boom",
-      "name": "Oil Transfer Watch & Boom",
-      "category": "Maritime & Ports",
-      "steps": 13,
-      "score": 98,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 385,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 6
-        },
-        "standards": {
-          "score": 1,
-          "cited": 6,
-          "inScope": 6,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 12,
-          "got": 12
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 218,
-          "materials": 110,
-          "interactables": 23
-        },
-        "originality": {
-          "score": 0.511881188118812,
-          "nearest": "bunkering-watch",
-          "similarity": 0.2376237623762376
-        }
-      }
-    },
-    {
-      "app": "smartcity",
-      "id": "mw-ferry-deckhand-and-passenger-safety",
-      "name": "Ferry Deckhand & Passenger Safety",
-      "category": "Maritime & Ports",
-      "steps": 13,
-      "score": 98,
-      "d": {
-        "variety": {
-          "score": 1,
-          "distinct": 8,
-          "longestRun": 2
-        },
-        "decisions": {
-          "score": 1,
-          "hazards": 4,
-          "interrupts": 2
-        },
-        "explanation": {
-          "score": 1,
-          "medianWhy": 422,
-          "thin": 0
-        },
-        "grounding": {
-          "score": 1,
-          "authorities": 6
-        },
-        "standards": {
-          "score": 1,
-          "cited": 6,
-          "inScope": 6,
-          "outOfScope": 0,
-          "unregistered": 0
-        },
-        "feedback": {
-          "score": 1,
-          "want": 11,
-          "got": 11
-        },
-        "scene": {
-          "score": 1,
-          "meshes": 242,
-          "materials": 113,
-          "interactables": 22
-        },
-        "originality": {
-          "score": 0.4598425196850395,
-          "nearest": "mw-workboat-towing-and-line-handling",
-          "similarity": 0.24803149606299213
+          "score": 0.48000000000000015,
+          "nearest": "yc-tender-launch-and-guest-transfer",
+          "similarity": 0.244
         }
       }
     },

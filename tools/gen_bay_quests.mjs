@@ -312,6 +312,7 @@ const LANDMARK_NOTES = {
   "Alameda Point": "A former base site at the tip of the island's shoreline.",
   "Alameda Marina": "A small-craft marina on the estuary side of the island.",
   "Emeryville Marina": "A small-craft marina on the bay shoreline.",
+  "Estuary Marina": "A small-craft marina with floating docks along the estuary.",
   "Berkeley Marina": "A marina along the bay shoreline to the north.",
   "Berkeley Pier": "A long fishing pier reaching out over the bay.",
   "Redwood Regional Park": "A regional park of forested hillside trails.",
@@ -405,6 +406,11 @@ const EGG_QUESTS = [
     "OSHA's control-of-hazardous-energy rule at 29 CFR 1910.147 is built on one idea: the only person who can restore an isolation is the person who locked it."),
   eggFromStep("hood-pathclear", "Lake Merritt", "goto", "smartcity", "hood-suppression", "path-clear",
     "A pull station three seconds away by sightline and ten seconds away around a stack of totes is a pull station that costs a kitchen the difference between a scorched hood and a working fire — NFPA 96 calls for it visible and reachable for exactly that reason, and reachable is something you confirm standing there, not something you assume from memory."),
+  eggFromStep("cleat-hitch", "Estuary Marina", "goto", "smartcity", "yc-line-handling-and-docking-in-crosswind", "stern-hitch",
+    "A cleat hitch holds because the load goes round the base of the cleat first and the figure-eights take the strain off the hitch; a line dropped straight into a hitch with no turn under it slips under load or jams so hard it cannot be cast off in a hurry."),
+  eggFromStep("tender-light", "Estuary Marina", "radio", "smartcity", "yc-tender-launch-and-guest-transfer", "nav-light-check",
+    "A tender running back to the yacht at dusk without a light is invisible to every other vessel in the anchorage and outside the navigation rules that let those vessels avoid her; the light is checked in daylight because a dead lamp is discovered alongside a platform, not in the channel.",
+    "The marina's maintenance radio hums: 'Dusk run tonight — tell me what the tender crew check before slipping the painter.'"),
 ];
 
 // ========================================================= SIDE ACTIVITIES
@@ -446,6 +452,25 @@ const SIDE_ACTIVITIES = [
     site: "Port of Oakland",
     description: "Spot marked equipment faults and hazard flags placed around the yard before the timer runs out.",
     scoring: { time: true, correctSpotPoints: 10, falseCallPenalty: 5 },
+  },
+  {
+    id: "bw-activity-harbor-cruise",
+    title: "Harbor Cruise",
+    kind: "cruise",
+    vessel: "motor yacht",
+    site: "Estuary Marina",
+    route: { from: "Estuary Marina", to: "Estuary Marina" },
+    description: "Take the charter yacht off her berth, out along the estuary and back to the same berth, scored on the same crew habits the yacht and charter crew stations teach.",
+    scoring: {
+      time: false,
+      criteria: [
+        "guest count read back to the captain before a line moves",
+        "lines and fenders stowed before leaving the marina",
+        "no-wake speed held inside the marina",
+        "wake watch kept on the estuary for other vessels and the shoreline",
+        "a clean return to the berth: spring first, engines confirmed stopped before the gangway",
+      ],
+    },
   },
   {
     id: "bw-activity-hills-photo",

@@ -4,7 +4,7 @@ Three shared kits replace the vehicles, plant and tools stations used to draw in
 
 | Kit | File | Builders |
 |---|---|---|
-| Fleet | `WebXR/shared/fleet.js` | tractors (day cab, sleeper), five trailers, a coupled tractor-trailer, box truck, pickup, sedan, cargo van, ambulance, fire engine, bucket truck, transit bus, school bus, forklift, yard hustler, workboat |
+| Fleet | `WebXR/shared/fleet.js` | tractors (day cab, sleeper), five trailers, a coupled tractor-trailer, box truck, pickup, sedan, cargo van, ambulance, fire engine, bucket truck, transit bus, school bus, forklift, yard hustler, workboat, motor yacht, yacht tender |
 | Equipment | `WebXR/shared/equipment.js` | excavator, amphibious excavator, backhoe, skid steer, dump truck, mobile crane, aerial boom lift, scissor lift, compactor, generator trailer, light tower, concrete pump, crane spreader, dozer, wheel loader, grader, crawler crane, pile driving rig |
 | Tool kit | `WebXR/shared/toolkit.js` | drill, angle grinder, impact wrench, torque wrench, multimeter, four-gas meter, radio, flashlight, tape measure, level, hammer, wrench set, hard-hat lamp, chock, tag line, tie-down strap, glad-hand gauge, tyre gauge, creeper, hose reel |
 
@@ -96,6 +96,8 @@ Vehicles. `FLEET_BUDGET` / `FLEET_BUILDERS`. Every vehicle takes `opts.livery` a
 | <img src="screenshots/fleet/forkliftCounterbalance.jpg" width="200" alt="forkliftCounterbalance"> | **forkliftCounterbalance** — 5,000 lb LPG counterbalance. `forkliftCounterbalance(parent, x, y, z)` | 21 / 60 | 1.12 × 2.28 × 3.57 | mast, innerMast, carriage, forks, overheadGuard, counterweight, lpgTank, seat, controls, beacon, wheels, lights |
 | <img src="screenshots/fleet/yardHustler.jpg" width="200" alt="yardHustler"> | **yardHustler** — terminal tractor, lifting fifth wheel. `yardHustler(parent, x, y, z)` | 19 / 39 | 2.91 × 3.43 × 5.61 | doorL, doorRear, mirrorL, mirrorR, wheels, fifthWheel, gladHandService, gladHandEmergency, beacon, lights |
 | <img src="screenshots/fleet/workboat.jpg" width="200" alt="workboat"> | **workboat** — 7.6 m aluminium workboat. `workboat(parent, x, y, z)` | 16 / 43 | 3.15 × 3.45 × 8.18 | wheelhouseDoor, outboards, davit, navLights, portLight, starboardLight, mastheadLight |
+| (gallery pending) | **motorYacht** — 24 m motor yacht: flared bow, swim platform, saloon deckhouse, flybridge with helm and radar arch, side-deck rails, cleats at bow, spring and stern, fuel fill, shore-power inlet, engine-room hatch, tender in a davit, navigation lights. `motorYacht(parent, x, y, z)`; float it at y = −1.2 | 35 / 73 | 6.72 × 8.01 × 24.23 | saloonDoor, helm, bowCleats, springCleats, sternCleats, fuelFill, shorePowerInlet, engineHatch, davit, tender, fenders, lifeRing, navLights, portLight, starboardLight, mastheadLight, sternLight |
+| (gallery pending) | **yachtTender** — 4.2 m rigid inflatable tender with a console, an outboard and a kill-cord. `yachtTender(parent, x, y, z)`; float it at y = −0.25 | 15 / 17 | 1.89 × 1.52 × 4.55 | outboard, killCord, console, bowEye, sternCleat, fuelTank, navLight |
 | <img src="screenshots/fleet/spudBarge.jpg" width="200" alt="spudBarge"> | **spudBarge** — 12.2 m sectional spud barge with spill coaming, sump, spuds and bitts. `deckBarge(parent, x, y, z)`; float it at y = −0.6 | 20 / 31 | 6.38 × 6.72 × 12.2 | spuds, bitts, coaming, sump, navLights, portLight, starboardLight |
 
 ## Equipment — `WebXR/shared/equipment.js`
