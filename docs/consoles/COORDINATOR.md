@@ -25,3 +25,5 @@ Every team keeps its own console under this folder (see `tools/briefs/console-br
 - 21:40 UTC · Investor workbook committed (LibreOffice Calc was missing from the environment and was installed to recalculate it; 112 formulas, zero errors) · 4caeeb9.
 - 21:47 UTC · PALETTE merged (twenty patterns, palettes, texture cache; harbour water restored, a lake added, terrain mirroring fixed; low tier 8.84 MP in Bay World), gate "All 59 checkers pass" · 37fbb9d.
 - 21:48 UTC · Interop run opened: UI and controls review (LENS), cross-app passport and round trips (RELAY), three open stations and the Deep anchors (LOOM), the port quays (TIDE) · next: merge hand-backs, republish, report.
+- 22:16 UTC · TIDE merged: five quays, every site on ground, berths and courses on water; the texture-clone fault that stopped the renderer drawing ground, water and hulls fixed; gate "All 59 checkers pass" · 9a94841.
+- 22:21 UTC · RELAY merged: the learner passport, the round trip from every world's job board, programme chips, source app in every export; gate "All 60 checkers pass" · 34430a1 · next: LENS, LOOM; republish.
