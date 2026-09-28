@@ -95,7 +95,15 @@ export function lkRenderStations(ul, ids, linkFor, { done = () => false } = {}) 
 export const LK_ASSET_WORLDS = Object.freeze({
   bayworld: { page: "index.html", runner: "../smartcity/index.html" },
   underwater: { page: "underwater.html", runner: "../smartcity/dist/smartcity-x.html" },
+  // The New Orleans parishes (console PARISH): one page, `?parish=<id>`, sites deep-linked as `?parish=<id>&site=<site>`.
+  parishes: { page: "parishes.html", runner: "../smartcity/index.html" },
 });
+
+/** A parish page's deep link to one parish (and one of its sites), relative to a world's own folder. */
+export function lkParishLink(parishId, siteId = null, page = "../parishes/parishes.html") {
+  if (!parishId) throw new Error("lkParishLink needs a parish id");
+  return `${page}?parish=${encodeURIComponent(parishId)}${siteId ? `&site=${encodeURIComponent(siteId)}` : ""}`;
+}
 
 /** A programme's overview in SmartCiti.X (`?programme=<id>`), the Atlas's own form. */
 export function lkProgrammeLink(id, { runner = "../smartcity/index.html", from = null } = {}) {

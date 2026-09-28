@@ -671,6 +671,53 @@ APPS = {
         ],
         "entry": '<script type="module" src="./js/app.js"></script>',
     },
+    # The New Orleans parishes (WebXR/parishes, page parishes.html?parish=<id>,
+    # console PARISH): one streamed 4096 m delta world per parish on the shared
+    # parish schema. shared/np-geo.js and np-parish.js are the pure engine,
+    # np-data-<parish>.js the maps, np-parishes.js the registry, np-world.js
+    # the three.js builder. mapbox.js (with bay-geo.js and bayworld-data.js it
+    # imports) supplies only the viewer's token for the satellite ground.
+    "parishes": {
+        "index": "parishes.html",
+        "out": "parishes.html",
+        "modules": [
+            SHARED / "profiles.js",
+            SHARED / "input.js",
+            SHARED / "weather.js",
+            SHARED / "sky.js",
+            SHARED / "wildlife.js",
+            SHARED / "kit.js",
+            SHARED / "textures.js",
+            SHARED / "records.js",
+            SHARED / "perf.js",
+            SHARED / "touch.js",
+            SHARED / "bayworld-data.js",
+            SHARED / "bay-geo.js",
+            SHARED / "mapbox.js",
+            SHARED / "np-geo.js",
+            SHARED / "np-parish.js",
+            SHARED / "np-data-orleans.js",
+            SHARED / "np-parishes.js",
+            SHARED / "np-world.js",
+            SHARED / "game.js",
+            SHARED / "competency.js",
+            SHARED / "identity.js",
+            SHARED / "passport-programmes.js",
+            SHARED / "passport.js",
+            SHARED / "links.js",
+            SHARED / "gate-names-data.js",
+            SHARED / "skill-gates.js",
+            SHARED / "side-games-data.js",
+            SHARED / "side-game-mechanics.js",
+            SHARED / "skill-gates-ui.js",
+            WEBXR / "parishes/js/state.js",
+            SHARED / "auth.js",
+            SHARED / "account.js",
+            SHARED / "controls.js",
+            WEBXR / "parishes/js/app.js",
+        ],
+        "entry": '<script type="module" src="./js/app.js"></script>',
+    },
     # The Bay Atlas (docs/mapbox.md): a second page in the Bay World folder
     # ("dir"/"index" below), DOM-only — no three.js — over the shared Bay
     # World data, bay-geo's fit and shared/mapbox.js. Mapbox GL itself is
@@ -1059,6 +1106,7 @@ DIST_PAGES = {
     "underwater": "underwater.html",
     "redwood": "redwood.html",
     "summit": "summit.html",
+    "parishes": "parishes.html",
 }
 DIST_SHARED = [
     # The shared control grammar and help overlay (docs/ui-review.md), imported
