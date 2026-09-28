@@ -131,9 +131,10 @@ export function kwPlacements(parish, { tier = "high" } = {}) {
           const lv = kwNearestLevee(parish, sx, sz);
           if (!lv || lv.d > 500) continue;
           const L = npPolyLength(lv.levee.pts) || 1;
-          const at = (off) => npPolyPointAt(lv.levee.pts, Math.min(1, Math.max(0, lv.t + off / L)));
-          if (kit === "floodgate") { const p = at(0); if (!kwOpenWater(parish, p.x, p.z)) put(kit, p.x, p.z, ground(p.x, p.z), p.yaw, `levee near ${s.id}`); }
-          else for (const off of [-30, -18, 18, 30]) { const p = at(off); if (!kwOpenWater(parish, p.x, p.z)) put(kit, p.x, p.z, ground(p.x, p.z), p.yaw, `levee near ${s.id}`); }
+          const at = (off) => { const q = npPolyPointAt(lv.levee.pts, Math.min(1, Math.max(0, lv.t + off / L))); return { x: Math.round(q.x * 10) / 10, z: Math.round(q.z * 10) / 10, yaw: q.yaw }; };
+          const onCrest = (p) => !kwOpenWater(parish, p.x, p.z) && npLeveeRise(parish, p.x, p.z) > 0.5;
+          if (kit === "floodgate") { const p = at(0); if (onCrest(p)) put(kit, p.x, p.z, ground(p.x, p.z), p.yaw, `levee near ${s.id}`); }
+          else for (const off of [-30, -18, 18, 30]) { const p = at(off); if (onCrest(p)) put(kit, p.x, p.z, ground(p.x, p.z), p.yaw, `levee near ${s.id}`); }
         } else if (kit === "shrimpBoat" || kit === "oysterLugger") {
           const w = kwNearestWater(parish, sx, sz);
           if (!w) continue;
@@ -209,7 +210,7 @@ export function kwPlacements(parish, { tier = "high" } = {}) {
         if (!KW_PARADE_CHARACTERS.has(npDistrictAt(parish, p.x, p.z)?.character)) continue;
         for (const side of [1, -1]) {
           const x = p.x + Math.cos(p.yaw) * (width / 2 + 1.2) * side, z = p.z - Math.sin(p.yaw) * (width / 2 + 1.2) * side;
-          if (!npWaterAt(parish, x, z) && npLeveeRise(parish, x, z) < 0.2 && put("paradeBarriers", x, z, ground(x, z), p.yaw + Math.PI / 2, "parade route")) placed++;
+          if (!npWaterAt(parish, x, z) && npLeveeRise(parish, x, z) < 0.2 && npCoverAt(parish, x, z) !== "road" && put("paradeBarriers", x, z, ground(x, z), p.yaw + Math.PI / 2, "parade route")) placed++;
         }
       }
       if (placed) paradeDone = true;
