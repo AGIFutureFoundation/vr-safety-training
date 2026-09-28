@@ -19,7 +19,7 @@
 // nothing is ever sent to an endpoint that was not configured. This file
 // makes no request of its own. Every top-level name starts with `gt`.
 
-import { Auth, makeAuthEnv, cleanConfigUrl, EMPTY_AUTH_CONFIG } from "./auth.js";
+import { Auth, makeAuthEnv, cleanConfigUrl, EMPTY_AUTH_CONFIG, enterpriseAllows } from "./auth.js";
 import { trT } from "./i18n.js";
 import { cnMount } from "./cinema.js";
 import { gtIsDemo, gtEnterDemo, gtLeaveDemo, gtDemoRuns, gtCarryDemo, gtProfile, gtStorage } from "./profiles.js";
@@ -121,11 +121,21 @@ async function gtRun(providerId, opts = {}) {
   return res;
 }
 
+/** The privacy page beside the homepage (WebXR/privacy.html): the Home chip's folder, file name swapped. */
+export function gtPrivacyHref(homeHref = null) {
+  const h = String(homeHref ?? document.querySelector("#ctl-nav .home-chip, .home-chip")?.getAttribute("href") ?? "").split(/[?#]/)[0];
+  if (!h || h.startsWith("#")) return "privacy.html";
+  return h.endsWith("/") ? `${h}privacy.html` : h.replace(/[^/]*$/, "privacy.html");
+}
+
 function gtSignInView(panel) {
   const cfg = Auth.config ?? {};
   const env = gtState.env ?? {};
+  // The organisation layer (docs/enterprise.md): a deployment may switch methods off.
+  const allow = (m) => enterpriseAllows(cfg, m);
+  if (cfg.enterprise?.organisation) panel.append(gtEl("p", { class: "gt-line", id: "gt-org", text: `Training for ${cfg.enterprise.organisation}.` }));
   // 1. Google — its own button when configured, a plain disabled line otherwise.
-  if (cfg.googleClientId) {
+  if (!allow("google")) { /* switched off by the deployment */ } else if (cfg.googleClientId) {
     const mount = gtEl("div", { id: "gt-google" });
     panel.append(gtEl("p", { class: "gt-line", text: trT("acct.google", null, "Continue with Google") }), mount);
     if (!gtState.googleStarted) { gtState.googleStarted = true; gtRun("google", { mount }).finally(() => { gtState.googleStarted = false; }); }
@@ -134,7 +144,7 @@ function gtSignInView(panel) {
       trT("acct.google"), gtEl("small", { text: trT("acct.googleOff") })));
   }
   // 2. MetaMask — Sign-In with Ethereum through window.ethereum.
-  if (env.ethereum?.request) {
+  if (!allow("wallet")) { /* switched off */ } else if (env.ethereum?.request) {
     panel.append(gtEl("button", { type: "button", class: "gt-opt", "data-provider": "wallet", on: { click: () => gtRun("wallet") } },
       trT("acct.wallet", null, "Connect MetaMask"), gtEl("small", { text: trT("acct.walletNote") })));
   } else {
@@ -150,9 +160,9 @@ function gtSignInView(panel) {
     disabled: !cfg.emailEndpoint && !passkeyOk,
     on: { click: () => gtRun(cfg.emailEndpoint ? "email" : "passkey", { email: input.value, name: input.value }) } },
   trT("acct.email", null, "E-mail me a link"), gtEl("small", { text: trT(cfg.emailEndpoint ? "acct.emailNote" : (passkeyOk ? "acct.passkeyNote" : "acct.noPasskey")) }));
-  panel.append(input, mailBtn);
+  if (allow(cfg.emailEndpoint ? "email" : "passkey")) panel.append(input, mailBtn);
   // 4. The free demo.
-  panel.append(gtEl("button", { type: "button", class: "gt-opt", "data-provider": "demo",
+  if (allow("demo")) panel.append(gtEl("button", { type: "button", class: "gt-opt", "data-provider": "demo",
     on: { click: () => { gtEnterDemo(); gtRenderChip(); gtClose(); } } },
   trT("acct.demoBtn", null, "Try the free demo — no sign-in"), gtEl("small", { text: trT("acct.demoNote") })));
 }
@@ -231,6 +241,9 @@ function gtRender(view = null) {
     const cos = Array.isArray(led.cosmetics) ? led.cosmetics : [];
     if (cos.length) panel.append(gtEl("p", { class: "gt-line", id: "gt-cosmetics" }, `Cosmetics earned in side games: ${cos.length} — ${cos.join(" · ")}`));
   } catch (_) { /* no ledger yet */ }
+  // What is stored where (WebXR/privacy.html, docs/enterprise.md).
+  panel.append(gtEl("p", { class: "gt-line", id: "gt-privacy-line" }, "Nothing about you leaves this device without your say. ",
+    gtEl("a", { href: gtPrivacyHref(), id: "gt-privacy", text: "What is stored where" }), "."));
   panel.append(gtEl("p", { class: "gt-msg", id: "gt-msg", role: "status" }));
   panel.append(gtEl("div", { class: "gt-row" }, gtEl("button", { type: "button", id: "gt-close", on: { click: () => gtClose() } }, trT("common.close"))));
 }

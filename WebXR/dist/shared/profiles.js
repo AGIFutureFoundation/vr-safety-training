@@ -40,6 +40,8 @@ export const GT_PROFILE_KEYS = [
   // The treasure ledger (shared/treasures.js, docs/treasures.md).
   "vr-treasures-v1",
   "redwood-career-v1",
+  // The organisation layer (shared/org.js, docs/enterprise.md): organisations, cohorts, members, audit.
+  "vr-org-v1",
 ];
 
 function gtLocal() { try { return globalThis.localStorage ?? null; } catch (_) { return null; } }

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What is stored where</title>
+<meta name="description" content="The privacy page of the training platform: what each store holds, where it lives (this browser only), what the free demo keeps, what an export contains, and what an organisation's cohort view can and cannot see.">
+<style>
+  :root { --bg: #0b1520; --panel: #101e2b; --line: #2c4458; --ink: #eef5fa; --muted: #b6c8d6; --accent: #4fd1ff; --ok: #6fdc9a; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 900px; margin: 0 auto; padding: 72px 16px 96px; }
+  h1 { margin: 0 0 6px; font-size: clamp(26px, 5vw, 36px); }
+  h2 { margin: 30px 0 10px; font-size: 21px; color: var(--accent); }
+  p.lead { margin: 0 0 18px; color: var(--muted); max-width: 66ch; }
+  table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+  th, td { text-align: left; vertical-align: top; padding: 9px 10px; border-bottom: 1px solid var(--line); }
+  th { color: var(--muted); font-weight: 600; font-size: 12.5px; letter-spacing: .06em; text-transform: uppercase; }
+  code { font: 13px ui-monospace, Menlo, Consolas, monospace; color: #cfe6f5; background: #0a121b; padding: 1px 5px; border-radius: 5px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin: 10px 0; }
+  .card h3 { margin: 0 0 6px; font-size: 17px; }
+  ul { padding-left: 20px; }
+  li { margin: 4px 0; }
+  a { color: var(--accent); }
+  .note { margin-top: 28px; font-size: 14px; color: var(--muted); }
+  .wrap { overflow: auto; }
+  #pv-account { min-height: 36px; border-radius: 8px; border: 1px solid #6a8296; background: #1b2a38; color: #fff; font: 600 14px system-ui, sans-serif; padding: 0 12px; cursor: pointer; }
+</style>
+</head>
+<body>
+<main>
+  <h1>What is stored where</h1>
+  <p class="lead">These pages are static files. There is no server behind them, so there is nowhere for your progress to go unless you send it. Everything below lives in the browser you are reading this in, and nothing about you leaves this device without your explicit action — an export you download, a share you press, or a sharing consent you turn on.</p>
+
+  <h2>One rule</h2>
+  <div class="card">
+    <h3>Nothing leaves this device without your opt-in</h3>
+    <ul>
+      <li>No page here makes a network request about you. The only files read unprompted are the page's own scripts, its catalogue and <code>auth-config.json</code> beside the homepage, all same-origin.</li>
+      <li>Sign-in providers are contacted only when a deployment configured them, and only when you press their button (<a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/sign-in.md">docs/sign-in.md</a>). With nothing configured, no provider is ever contacted.</li>
+      <li>An export is a file handed to you. You decide where it goes.</li>
+    </ul>
+  </div>
+
+  <h2>Who the stores belong to</h2>
+  <div class="wrap"><table>
+    <tr><th>State</th><th>Where progress is kept</th><th>What happens to it</th></tr>
+    <tr><td>Not signed in ("This device")</td><td><code>localStorage</code>, the original keys</td><td>Stays until you clear it. The first sign-in on this device records it once as the "This device" profile — in place, never moved, never deleted.</td></tr>
+    <tr><td>Signed in</td><td><code>localStorage</code>, every key suffixed <code>::id-&lt;digest&gt;</code></td><td>The digest is a salted fold of your learner id; no e-mail address, wallet address or provider subject is ever part of a key. Signing out hides it; another person on the same device sees their own.</td></tr>
+    <tr><td>Free demo</td><td><code>sessionStorage</code>, suffixed <code>::demo</code></td><td>Ends with the tab. Nothing is written to <code>localStorage</code>. Signing in offers to keep the demo runs — an explicit button, off unless pressed.</td></tr>
+  </table></div>
+
+  <h2>The stores</h2>
+  <div class="wrap"><table>
+    <tr><th>Key</th><th>Holds</th><th>Leaves the device</th></tr>
+    <tr><td><code>vr-training-records-v1</code></td><td>One entry per finished attempt: station, category, score, stars, corrections, unsafe actions, time against par, pass or fail, the crew tag you typed. No biometrics, no free text beyond that tag.</td><td>Only in an export you download (CSV, xAPI, Open Badges, transcript).</td></tr>
+    <tr><td><code>vr-passport-v1</code></td><td>Which world an award came from, which job boards are done, which returns were paid.</td><td>Only in an export.</td></tr>
+    <tr><td><code>vr-training-episodes-v1</code></td><td>The optional step-by-step episode log for robot-training datasets; the crew tag is folded to a digest before it is written.</td><td>Only through the consent-gated share (<a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/wallets-and-sharing.md">docs/wallets-and-sharing.md</a>).</td></tr>
+    <tr><td><code>bayworld-career-v1</code>, <code>underwater-career-v1</code>, <code>redwood-career-v1</code>, the quest and dive stores</td><td>Each world's reputation, credits, quest steps and activities.</td><td>Never.</td></tr>
+    <tr><td><code>vr-treasures-v1</code></td><td>Which treasures you have found.</td><td>Never.</td></tr>
+    <tr><td><code>vr-training-signoffs-v1</code></td><td>Instructor attestations typed on this device: a name, a date, a note.</td><td>Only in a transcript export.</td></tr>
+    <tr><td><code>vr-training-auth-v1</code></td><td>The signed-in session: display name, provider, the id the provider returned. Removed on sign-out.</td><td>Posted only to the host page a deployment configured as <code>homePage</code>, never to anyone else.</td></tr>
+    <tr><td><code>vr-org-v1</code></td><td>The organisation layer (<a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/enterprise.md">docs/enterprise.md</a>): organisations, cohorts, members with a display name and a role, your progress-sharing consent (off by default), a data-minimised progress snapshot when it is on, and this device's audit log of coordinator actions.</td><td>Only in a cohort file a coordinator exports, and then only the snapshots of members who turned sharing on.</td></tr>
+    <tr><td><code>holodeck-lang-v1</code>, <code>vr-training-profile-salt-v1</code>, <code>vr-training-profiles-v1</code></td><td>Your language, the random salt the digests use, the "This device" adoption note.</td><td>Never.</td></tr>
+  </table></div>
+
+  <h2>What an organisation can see</h2>
+  <div class="card">
+    <h3>Cohorts, consent and the coordinator</h3>
+    <ul>
+      <li>You join a cohort with an invite code and a display name you type — initials are fine. Nobody is added to a cohort by an identity they did not type themselves.</li>
+      <li>Your progress is shared with the cohort's coordinator only after you turn sharing on, and only as a snapshot per station: best stars, unsafe actions, interruptions handled and missed, number of attempts, the date of the last attempt. No debrief text, no crew tag, no sign-in id.</li>
+      <li>Turning sharing off removes the snapshot from this device's store. A file already exported is the coordinator's copy, as any file you hand over would be.</li>
+      <li>Every export, import and role change a coordinator makes is written to an audit log kept on that device and shown in the instructor console.</li>
+      <li>A completion certificate is a page rendered from that snapshot and marked "prototype — not a credential". It is not a licence, a card or a certification.</li>
+    </ul>
+  </div>
+
+  <h2>Deployment settings</h2>
+  <p class="lead">A deployment for one organisation may fill in the <code>enterprise</code> block of <code>auth-config.json</code>: the organisation's name, which sign-in methods are offered, a default language, which worlds and programmes are enabled, and a data-retention note it writes for itself. Nothing in that block is read from a link, and single sign-on remains a configuration point on the host page — no identity provider is built into these files. See <a href="https://github.com/AGIFutureFoundation/vr-safety-training/blob/main/docs/enterprise.md">docs/enterprise.md</a>.</p>
+
+  <p class="note">Clearing this browser's site data removes every store above. Inside the sign-in dialog, <em>Sign out and clear my records</em> removes only the signed-in person's records. <button type="button" id="pv-account">Sign in / switch profile</button> <a href="./index.html">Back to the homepage</a>.</p>
+</main>
+<script type="module">import { ctlMount } from "./shared/controls.js"; ctlMount({ world: "the privacy page", home: "./index.html", except: { move: "A page, not a world: Tab walks the links.", look: "Scroll the page.", interact: "Enter follows the focused link.", map: "—", view: "—", quality: "Set inside each world." } });</script>
+<script type="module">import { gdMount } from "./shared/guide.js"; gdMount({ root: "./" });</script>
+<script type="module">document.getElementById("pv-account").addEventListener("click", () => document.getElementById("gt-account")?.click());</script>
+</body>
+</html>

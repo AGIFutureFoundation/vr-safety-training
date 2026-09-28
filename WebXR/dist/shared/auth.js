@@ -116,6 +116,38 @@ export function cleanChainId(v) {
   return Number.isInteger(n) && n > 0 && n < 1e12 ? n : null;
 }
 
+/** The sign-in methods a deployment may restrict itself to (docs/enterprise.md). */
+export const ENTERPRISE_METHODS = ["google", "microsoft", "wallet", "email", "passkey", "demo"];
+/** The worlds a deployment may enable; null in the block means all of them. */
+export const ENTERPRISE_WORLDS = ["bayworld", "regatta", "underwater", "summit", "fairway", "redwood", "atlas", "smartcity", "holodeck"];
+
+function authIdList(v, allowed) {
+  if (!Array.isArray(v)) return null;
+  const out = [...new Set(v.map((x) => authText(x, 80)).filter((x) => /^[a-z0-9-]{1,80}$/.test(x) && (!allowed || allowed.includes(x))))];
+  return out.length ? out : null;
+}
+
+/**
+ * The `enterprise` block of auth-config.json (docs/enterprise.md): who this
+ * deployment trains for and what it switches off. Only ever read from the
+ * file, never from the launch URL — a link must not be able to rename the
+ * organisation or re-enable a method the deployment turned off. Nothing here
+ * names an identity vendor; `sso` is a note the deployment writes for itself.
+ */
+export function cleanEnterprise(raw) {
+  const e = raw && typeof raw === "object" ? raw : {};
+  const lang = authText(e.defaultLanguage, 8).toLowerCase();
+  return {
+    organisation: authText(e.organisation, 80) || null,
+    signInMethods: authIdList(e.signInMethods, ENTERPRISE_METHODS),
+    defaultLanguage: /^[a-z]{2}(-[a-z]{2})?$/.test(lang) ? lang : null,
+    worlds: authIdList(e.worlds, ENTERPRISE_WORLDS),
+    programmes: authIdList(e.programmes, null),
+    dataRetention: authText(e.dataRetention, 400) || null,
+    sso: authText(e.sso?.note ?? e.sso, 400) || null,
+  };
+}
+
 /**
  * The deployment's configuration: the file's values, then the launch URL's
  * overrides. Anything that does not clean is dropped, so a malformed value
@@ -140,7 +172,15 @@ export function parseAuthConfig(file = null, search = "") {
     // Where a signed-in identity and its token are posted, and the only origin
     // this page will ever post to (identity.js enforces that).
     homePage: cleanOrigin(pick("learner_home") ?? pick("homePage")),
+    // The organisation layer's block, from the file only (docs/enterprise.md).
+    enterprise: cleanEnterprise(file?.enterprise),
   };
+}
+
+/** True when the deployment allows this sign-in method (all are allowed until the block lists some). */
+export function enterpriseAllows(config, method) {
+  const list = config?.enterprise?.signInMethods;
+  return !Array.isArray(list) || list.includes(method);
 }
 
 /** What a deployment that configured nothing gets. */

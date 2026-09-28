@@ -14,6 +14,11 @@ import { ppProgressChip, ppExport } from "../../shared/passport.js";
 // generic padding list (tools/gen_bingo_hazards.mjs).
 import { mountInstructorEggs } from "../../shared/eggs-app.js";
 import { STATION_HAZARDS } from "../../shared/bingo-hazards-data.js";
+// The organisation layer's Cohorts view (shared/org.js, docs/enterprise.md)
+// and the deployment's enterprise block it and the programme picker honour.
+import { enMountCohortView, enSetEnterprise, enEnabledProgrammes } from "./cohort.js";
+import { Auth } from "../../shared/auth.js";
+import { PP_PROGRAMMES } from "../../shared/passport-programmes.js";
 
 // The instructor console. It owns no simulation and no records: it listens to
 // the sessions it can hear — other tabs on this machine over a
@@ -357,7 +362,9 @@ function fillPickers() {
   }
   const programme = $("programme");
   if (!programme.options.length && catalog?.programmes?.length) {
-    for (const p of catalog.programmes) {
+    // A deployment that enables some programmes only (docs/enterprise.md) offers those.
+    const enabled = new Set(enEnabledProgrammes(Auth.config?.enterprise));
+    for (const p of catalog.programmes.filter((x) => enabled.has(x.id) || !(x.id in PP_PROGRAMMES))) {
       const opt = el("option", null, p.name);
       opt.value = p.id;
       programme.append(opt);
@@ -557,7 +564,7 @@ fetch("../flows/index.json")
 // ---------------------------------------------------------------------- views
 
 function render() {
-  for (const [name, tab, panel] of [["live", "tab-live", "view-live"], ["roster", "tab-roster", "view-roster"], ["log", "tab-log", "view-log"]]) {
+  for (const [name, tab, panel] of [["live", "tab-live", "view-live"], ["roster", "tab-roster", "view-roster"], ["log", "tab-log", "view-log"], ["cohort", "tab-cohort", "view-cohort"]]) {
     $(tab).setAttribute("aria-selected", String(view === name));
     $(panel).hidden = view !== name;
   }
@@ -571,6 +578,7 @@ function setView(next) { view = next; render(); }
 $("tab-live").addEventListener("click", () => setView("live"));
 $("tab-roster").addEventListener("click", () => setView("roster"));
 $("tab-log").addEventListener("click", () => setView("log"));
+$("tab-cohort").addEventListener("click", () => setView("cohort"));
 
 $("send").addEventListener("click", () => {
   const text = $("note").value.trim();
@@ -636,6 +644,23 @@ setInterval(render, 1000);
 render();
 
 mountInstructorEggs({ getRoster: () => roster, stationHazards: STATION_HAZARDS });
+
+// The Cohorts view (docs/enterprise.md). The enterprise block arrives once
+// the account chip has read auth-config.json (controls.js mounts it below);
+// until then the view runs with no deployment restrictions.
+enMountCohortView($("en-root"), { toast });
+function enApplyDeployment() {
+  const e = Auth.config?.enterprise ?? null;
+  enSetEnterprise(e);
+  const line = $("en-deployment");
+  if (e?.organisation) {
+    line.hidden = false;
+    line.textContent = `Deployment: ${e.organisation}${e.programmes ? ` · ${e.programmes.length} programme(s) enabled` : ""}${e.defaultLanguage ? ` · default language ${e.defaultLanguage}` : ""}`;
+  }
+  if (e?.programmes && catalog) { $("programme").replaceChildren(); fillPickers(); }
+}
+addEventListener("gt:profile", enApplyDeployment);
+setTimeout(enApplyDeployment, 1500);
 
 // The shared control grammar and help overlay (shared/controls.js, docs/ui-review.md).
 // The Guide (shared/guide.js): the floating help button and its question panel.

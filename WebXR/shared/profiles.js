@@ -42,6 +42,8 @@ export const GT_PROFILE_KEYS = [
   "redwood-career-v1",
   // The learner's own avatar style (shared/crew.js's CT_AVATAR_KEY), picked on the account chip.
   "vr-avatar-style-v1",
+  // The organisation layer (shared/org.js, docs/enterprise.md): organisations, cohorts, members, audit.
+  "vr-org-v1",
 ];
 
 function gtLocal() { try { return globalThis.localStorage ?? null; } catch (_) { return null; } }

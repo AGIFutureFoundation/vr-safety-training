@@ -255,6 +255,10 @@ APPS = {
             SHARED / "identity.js",
             SHARED / "passport-programmes.js",
             SHARED / "passport.js",
+            # The organisation layer (docs/enterprise.md): cohorts, members, audit,
+            # certificates — after profiles, records and the programme catalogue.
+            SHARED / "org.js",
+            WEBXR / "instructor/js/cohort.js",
             # The account chip controls.js mounts (shared/account.js) and what it reads.
             SHARED / "auth.js",
             SHARED / "account.js",
@@ -1168,6 +1172,9 @@ def build_combined() -> int:
     copied += 1
     # The Treasure Map sits beside the homepage in both layouts, reading ./shared/.
     (DIST / "treasures.html").write_text((WEBXR / "treasures.html").read_text())
+    copied += 1
+    # The privacy page (docs/enterprise.md), linked from the sign-in dialog and the footer.
+    (DIST / "privacy.html").write_text((WEBXR / "privacy.html").read_text())
     copied += 1
     for name in DIST_SHARED:
         (DIST / "shared").mkdir(parents=True, exist_ok=True)

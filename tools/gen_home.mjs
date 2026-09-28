@@ -768,10 +768,42 @@ const SCRIPT = `
     showWho();
   });
 
+  // The organisation layer's deployment block (docs/enterprise.md, the
+  // "enterprise" block of auth-config.json): the organisation's name on the
+  // brand line, only the enabled worlds and programmes shown, and the
+  // deployment's default language until the visitor picks one. Read from the
+  // configuration file only, never from the launch URL. (This script is
+  // written inside a template literal: no backticks here.)
+  function hmApplyEnterprise(e) {
+    if (!e || typeof e !== "object") return;
+    if (e.organisation) { const b = document.querySelector(".brandline"); if (b) b.textContent = b.textContent + " · " + e.organisation; }
+    if (Array.isArray(e.worlds)) {
+      for (const a of document.querySelectorAll(".app.world")) {
+        const h = a.getAttribute("href") || "";
+        // The Atlas lives under bayworld/ in the repo layout, so it is tested first.
+        const id = /atlas/.test(h) ? "atlas" : (/(bayworld|regatta|underwater|summit|fairway|redwood|smartcity|holodeck)/.exec(h) || [])[1];
+        if (id && !e.worlds.includes(id)) a.style.display = "none";
+      }
+    }
+    if (Array.isArray(e.programmes)) {
+      for (const p of document.querySelectorAll(".prog")) {
+        const id = (p.querySelector("[data-tr^='prog.']")?.getAttribute("data-tr") || "").split(".")[1];
+        if (id && !e.programmes.includes(id)) p.style.display = "none";
+      }
+    }
+    if (e.defaultLanguage) {
+      let saved = null;
+      try { saved = localStorage.getItem("holodeck-lang-v1"); } catch (_) { saved = null; }
+      if (!saved && !/[?&]lang=/.test(location.search)) import("./shared/i18n.js").then((m) => m.trSet(e.defaultLanguage, { remember: false })).catch(() => {});
+    }
+    document.documentElement.dataset.hmEnterprise = e.organisation ? "named" : "public";
+  }
+
   import("./shared/auth.js").then(async (mod) => {
     const env = mod.makeAuthEnv();
     await mod.Auth.loadConfig(env);
     mod.Auth.load();
+    hmApplyEnterprise(mod.Auth.config?.enterprise);
     Auth = {
       available: () => mod.availableProviders(mod.Auth.config, env),
       signIn: (id, opts) => mod.Auth.signIn(id, opts),
@@ -1447,6 +1479,9 @@ ${cards}
     ["Standards and authorities", layout.doc("standards/README.md")],
     ["Instructor console", layout.doc("instructor-console.md")],
     ["Sign-in options", layout.doc("sign-in.md")],
+    // The privacy page sits beside the homepage in both layouts (docs/enterprise.md).
+    ["Privacy — what is stored where", "privacy.html"],
+    ["Organisations and cohorts", layout.doc("enterprise.md")],
     ["Wallets and sharing", layout.doc("wallets-and-sharing.md")],
     ["Agent protocols", layout.doc("agent-protocols.md")],
   ].map(([label, href]) => `        <li><a href="${href}">${esc(label)}</a></li>`).join("\n");
